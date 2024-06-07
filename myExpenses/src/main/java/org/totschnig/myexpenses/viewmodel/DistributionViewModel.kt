@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -13,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -94,18 +96,37 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-    private val incomeTypePrefKey = booleanPreferencesKey("distributionType")
+    private val incomeFlagPrefKey = booleanPreferencesKey("distributionShowIncome")
+    private val expenseFlagPrefKey = booleanPreferencesKey("distributionShowExpense")
     override val aggregateNeutralPrefKey = booleanPreferencesKey("distributionAggregateNeutral")
 
-    val incomeType: Flow<Boolean> by lazy {
-        dataStore.data.map { preferences ->
-            preferences[incomeTypePrefKey] ?: false
+
+    val typeFlags: Flow<Pair<Boolean, Boolean>> by lazy {
+        dataStore.data.map { preferences: Preferences ->
+            val showIncome =  preferences[incomeFlagPrefKey] ?: false
+            val showExpense = if (!showIncome) true else preferences[expenseFlagPrefKey] ?: true
+            showIncome to showExpense
         }
     }
 
-    suspend fun persistIncomeType(incomeType: Boolean) {
+    /**
+     * @param toggleIncome if true toggle income, if false toggle expense
+     * makes sure that at least one type is active
+     */
+    suspend fun toggleTypeFlag(toggleIncome: Boolean) {
+        val currentTypeFlags = typeFlags.first()
         dataStore.edit { preference ->
-            preference[incomeTypePrefKey] = incomeType
+            if (toggleIncome) {
+                preference[incomeFlagPrefKey] = !currentTypeFlags.first
+                if (!currentTypeFlags.second) {
+                    preference[expenseFlagPrefKey] = true
+                }
+            } else {
+                preference[expenseFlagPrefKey] = !currentTypeFlags.second
+                if (!currentTypeFlags.first) {
+                    preference[incomeFlagPrefKey] = true
+                }
+            }
         }
     }
 
@@ -114,7 +135,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     val categoryTreeForDistribution by lazy {
         combine(
             _accountInfo.filterNotNull(),
-            incomeType,
+            typeFlags,
             aggregateNeutral,
             groupingInfoFlow.filterNotNull(),
             _whereFilter
@@ -123,7 +144,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping, whereFilter) ->
             categoryTreeWithSum(
                 accountInfo = accountInfo,
-                incomeType = incomeType,
+                typeFlags = incomeType,
                 aggregateNeutral = aggregateNeutral,
                 groupingInfo = grouping,
                 keepCriteria = { it.sum != 0L },

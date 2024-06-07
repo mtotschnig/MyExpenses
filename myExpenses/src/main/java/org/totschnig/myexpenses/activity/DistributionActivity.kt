@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -130,32 +128,28 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             viewModel.grouping
         )
         lifecycleScope.launch {
-            val currentIncomeType = viewModel.incomeType.first()
-            val typeMenu = menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!
-            typeOptions.entries.firstOrNull { it.value == currentIncomeType }?.let {
-                typeMenu.findItem(it.key).isChecked = true
+            val typeFlags = viewModel.typeFlags.first()
+            with (menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!) {
+                findItem(typeOptions.first).isChecked = typeFlags.first
+                findItem(typeOptions.second).isChecked = typeFlags.second
+                findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
             }
-            typeMenu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
         }
         return true
     }
 
-    private val typeOptions = mapOf(
-        R.id.FILTER_EXPENSE_COMMAND to false,
-        R.id.FILTER_INCOME_COMMAND to true,
-    )
+    private val typeOptions =  R.id.FILTER_INCOME_COMMAND to R.id.FILTER_EXPENSE_COMMAND
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (handleGrouping(item)) return true
-        typeOptions[item.itemId]?.let {
+    override fun onOptionsItemSelected(item: MenuItem) = when {
+        handleGrouping(item) -> true
+        item.itemId == typeOptions.first || item.itemId == typeOptions.second -> {
             lifecycleScope.launch {
-                viewModel.persistIncomeType(it)
-                invalidateOptionsMenu()
-                reset()
+                viewModel.toggleTypeFlag(item.itemId == typeOptions.first)
             }
-            return true
+            true
         }
-        return super.onOptionsItemSelected(item)
+
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun handleGrouping(item: MenuItem): Boolean {
@@ -240,7 +234,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                     }
                 }
-                val incomeType = viewModel.incomeType.collectAsState(initial = false)
+                //TODO
+                val incomeType = viewModel.typeFlags.collectAsState(initial = false)
                 val chartCategoryTree = remember {
                     derivedStateOf {
                         //expansionState does not reflect updates to the data, that is why we just use it
@@ -417,7 +412,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         lifecycleScope.launch {
                                             showTransactions(
                                                 category,
-                                                viewModel.incomeType.first()
+                                                //TODO
+                                                //viewModel.typeFlags.first()
                                             )
                                         }
                                     }

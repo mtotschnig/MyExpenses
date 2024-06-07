@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.GroupingInfo
-import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -136,7 +135,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 val (accountInfo, aggregateNeutral, allocatedOnly, grouping, whereFilter) = tuple
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
-                    incomeType = false,
+                    typeFlags = false to true,
                     aggregateNeutral = aggregateNeutral,
                     groupingInfo = grouping,
                     whereFilter = whereFilter,

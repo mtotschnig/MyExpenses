@@ -22,14 +22,14 @@
         android:title="@string/type"
         app:showAsAction="ifRoom">
         <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@id/FILTER_EXPENSE_COMMAND"
-                    android:title="@string/expense" />
-                <item
-                    android:id="@id/FILTER_INCOME_COMMAND"
-                    android:title="@string/income" />
-            </group>
+            <item
+                android:id="@id/FILTER_EXPENSE_COMMAND"
+                android:checkable="true"
+                android:title="@string/expense" />
+            <item
+                android:id="@id/FILTER_INCOME_COMMAND"
+                android:checkable="true"
+                android:title="@string/income" />
             <item
                 android:id="@id/AGGREGATE_COMMAND"
                 android:checkable="true"
