@@ -167,8 +167,8 @@ versions:
           chữ)'
         en: 'FinTS: ING-DiBa. Print: Configuration (Paper format, Orientation, Font
           size)'
-      - github: https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171
-        mastodon: https://mastodon.social/@myexpenses/112514030317651128
+      - github: 143#column-19888171
+        mastodon: 112514030317651128
   -   - 3.8.4
       - '2014-05-17'
       - bg: Опростена настройка на архивиране в облака
@@ -188,8 +188,8 @@ versions:
         tr: Bulut yedekleme için kurulum basitleştirildi
         vi: Đơn giản hóa thiết lập sao lưu đám mây
         en: Simplified setup of cloud backup
-      - github: https://github.com/mtotschnig/MyExpenses/projects/142#column-19861846
-        mastodon: https://mastodon.social/@myexpenses/112449360780010906
+      - github: 142#column-19861846
+        mastodon: 112449360780010906
   -   - 3.8.3
       - '2014-04-29'
       - bg: Бюджетиране 4.0
@@ -209,8 +209,8 @@ versions:
         tr: Bütçeleme 4.0
         vi: Ngân quỹ 4.0
         en: Budgeting 4.0
-      - github: https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840
-        mastodon: https://mastodon.social/@myexpenses/112343594355860132
+      - github: 140#column-19850840
+        mastodon: 112343594355860132
   -   - 3.8.2
       - '2014-04-15'
       - bg: 'Търсене: Подобрения в потребителския интерфейс. Конфигуриране на уйджет
@@ -259,8 +259,8 @@ versions:
           tôi”.'
         en: 'Search: Refinement of the user interface. Account widget configuration:
           Buttons. “Scan receipt” feature can be called from widget “My accounts”.'
-      - github: https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847
-        mastodon: https://mastodon.social/@myexpenses/112277216301034271
+      - github: 139#column-19841847
+        mastodon: 112277216301034271
   -
     - 3.8.1
     - "2024-04-06"

@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryInfo
 
 @RunWith(AndroidJUnit4::class)
-class RepositoryTest : BaseTestWithRepository() {
+class RepositoryCategoryTest : BaseTestWithRepository() {
 
     @Test
     fun findCategory() {
