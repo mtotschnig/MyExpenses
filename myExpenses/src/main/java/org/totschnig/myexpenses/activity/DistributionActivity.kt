@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -87,6 +88,7 @@ import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import timber.log.Timber
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.sign
@@ -163,11 +165,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         return false
     }
 
-    private fun setChartData(inner: Boolean, categories: List<Category>) {
-        (if (inner)
-            if (::innerChart.isInitialized) innerChart else null
-        else
-            if (::chart.isInitialized) chart else null)?.let {
+    private fun setChartData(chart: PieChart, categories: List<Category>) {
+        chart.let {
             it.data = PieData(PieDataSet(categories.map { category ->
                 PieEntry(
                     abs(category.aggregateSum.toFloat()),
@@ -258,30 +257,44 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 )
             }
         }
-        val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
-        val expansionMode = ExpansionMode.Single(expansionState)
-        val accountInfo = viewModel.accountInfo.collectAsState(null)
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                categoryTree.value === Category.LOADING -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .size(96.dp)
-                            .align(Alignment.Center)
-                    )
+            if (categoryState.value === Category.LOADING) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(96.dp)
+                        .align(Alignment.Center)
+                )
+            } else {
+                val incomeTree = categoryTree.value.children.first()
+                val expenseTree = categoryTree.value.children[1]
+                LaunchedEffect(categoryTree.value) {
+                    if (::chart.isInitialized) {
+                        setChartData(chart, incomeTree.children)
+                    }
+                    if (::innerChart.isInitialized) {
+                        setChartData(innerChart, expenseTree.children)
+                    }
                 }
-
-                categoryTree.value.children.isEmpty() -> {
+                LaunchedEffect(categoryTree.value, selectionState.value?.id) {
+                    if (::chart.isInitialized) {
+                        onSelectionChanged(chart, incomeTree)
+                    }
+                    if (::innerChart.isInitialized) {
+                        onSelectionChanged(innerChart, expenseTree)
+                    }
+                }
+                val choiceMode = ChoiceMode.SingleChoiceMode(selectionState, mainOnly = true, selectTree = true)
+                val expansionMode = ExpansionMode.DefaultCollapsed(
+                    rememberMutableStateListOf()
+                )
+                val accountInfo = viewModel.accountInfo.collectAsState(null)
+                if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = stringResource(id = R.string.no_mapped_transactions),
                         textAlign = TextAlign.Center
                     )
-                }
-
-                else -> {
-                    val incomeTree = categoryTree.value.children.first()
-                    val expenseTree = categoryTree.value.children[1]
+                } else {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
@@ -289,28 +302,29 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                         LayoutHelper(
                             data = {
-                                Column(modifier = it) {
-                                    RenderTree(
-                                        tree = incomeTree,
-                                        choiceMode = choiceMode,
-                                        expansionMode = expansionMode,
-                                        accountInfo = accountInfo.value
-                                    )
-                                    RenderTree(
-                                        tree = expenseTree,
-                                        choiceMode = choiceMode,
-                                        expansionMode = expansionMode,
-                                        accountInfo = accountInfo.value
-                                    )
-                                }
+                                RenderTree(
+                                    modifier = it,
+                                    tree = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode,
+                                    accountInfo = accountInfo.value
+                                )
                             }, chart = {
+                                val ratio = if (sums.first > 0L && sums.second < 0L)
+                                    sums.first.toFloat() / -sums.second else 1f
+                                val angles = if (ratio > 1f) 360f to 360f / ratio else
+                                    360f * ratio to 360f
+                                Timber.d("ratio: %f", ratio)
+                                Timber.d("angles: %s", angles)
                                 Box(modifier = it) {
                                     RenderChart(
                                         modifier = Modifier
-                                            .fillMaxSize(1f)
-                                            .aspectRatio(1f),
+                                            .fillMaxSize(0.95f)
+                                            .aspectRatio(1f)
+                                            .align(Alignment.Center),
                                         false,
-                                        categories = incomeTree
+                                        categories = incomeTree,
+                                        angle = angles.first
                                     )
                                     RenderChart(
                                         modifier = Modifier
@@ -318,7 +332,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                             .aspectRatio(1f)
                                             .align(Alignment.Center),
                                         true,
-                                        categories = expenseTree
+                                        categories = expenseTree,
+                                        angle = angles.second
                                     )
                                 }
                             }
@@ -327,6 +342,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     }
                 }
             }
+        }
+    }
+
+    private fun onSelectionChanged(chart: PieChart, tree: Category) {
+        val position = tree.children.indexOf(selectionState.value)
+        if (position > -1) {
+            chart.highlightValue(position.toFloat(), 0)
+        } else {
+            chart.highlightValue(null)
         }
     }
 
@@ -361,16 +385,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             }
         }
         LaunchedEffect(chartCategoryTree.value) {
-            setChartData(false, chartCategoryTree.value.children)
+            if (::chart.isInitialized) {
+                setChartData(chart, chartCategoryTree.value.children)
+            }
         }
 
         LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
             if (::chart.isInitialized) {
-                val position =
-                    chartCategoryTree.value.children.indexOf(selectionState.value)
-                if (position > -1) {
-                    chart.highlightValue(position.toFloat(), 0)
-                }
+                onSelectionChanged(chart, chartCategoryTree.value)
             }
         }
         val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
@@ -633,7 +655,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     fun RenderChart(
         modifier: Modifier,
         inner: Boolean,
-        categories: Category
+        categories: Category,
+        angle: Float = 360f
     ) {
         AndroidView(
             modifier = modifier,
@@ -664,24 +687,27 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     setCenterTextSizePixels(
                         UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
                     )
-                    setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                        override fun onValueSelected(e: Entry, highlight: Highlight) {
-                            val index = highlight.x.toInt()
-                            selectionState.value = categories.children.getOrNull(index)
-                            this@apply.setCenterText(index)
-                        }
-
-                        override fun onNothingSelected() {
-                            selectionState.value = null
-                        }
-                    })
                     setUsePercentValues(true)
                     holeRadius = if (inner) 75f else 85f
                     legend.isEnabled = false
                     description.isEnabled = false
-                    setChartData(inner, categories.children)
+                }
+            }) {
+            it.maxAngle = angle
+            it.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry, highlight: Highlight) {
+                    val index = highlight.x.toInt()
+                    selectionState.value = categories.children.getOrNull(index)
+                    it.setCenterText(index)
+                }
+
+                override fun onNothingSelected() {
+                    selectionState.value = null
                 }
             })
+            it.notifyDataSetChanged()
+            it.invalidate()
+        }
     }
 
     private fun PieChart.setCenterText(position: Int) {
