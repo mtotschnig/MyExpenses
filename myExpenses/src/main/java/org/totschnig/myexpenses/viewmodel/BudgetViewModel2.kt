@@ -135,7 +135,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 val (accountInfo, aggregateNeutral, allocatedOnly, grouping, whereFilter) = tuple
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
-                    typeFlags = false to true,
+                    isIncome = false,
                     aggregateNeutral = aggregateNeutral,
                     groupingInfo = grouping,
                     whereFilter = whereFilter,

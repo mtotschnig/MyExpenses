@@ -365,7 +365,8 @@ sealed class ChoiceMode(
      * if true, selecting a category highlights the tree (including children), if false children are
      * not highlighted
      */
-    private val selectTree: Boolean, val isSelectable: (Long) -> Boolean = { true }
+    private val selectTree: Boolean,
+    val isSelectable: (Long) -> Boolean = { true }
 ) {
     fun isTreeSelected(id: Long) = selectTree && isSelected(id)
     fun isNodeSelected(id: Long) = !selectTree && isSelected(id)

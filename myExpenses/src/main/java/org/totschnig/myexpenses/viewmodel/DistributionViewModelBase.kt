@@ -158,7 +158,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     fun categoryTreeWithSum(
         accountInfo: T,
-        typeFlags: Pair<Boolean, Boolean>,
+        isIncome: Boolean,
         aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
         whereFilter: WhereFilter = WhereFilter.empty(),
@@ -179,8 +179,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             additionalSelectionArgs = whereFilter.getSelectionArgs(true),
             queryParameter = queryParameter + buildMap {
-                //TODO
-                put(KEY_TYPE, typeFlags.toString())
+                put(KEY_TYPE, isIncome.toString())
                 put(
                     TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
                     aggregateNeutral.toString()

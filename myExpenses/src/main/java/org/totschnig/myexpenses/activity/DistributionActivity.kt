@@ -129,22 +129,23 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         )
         lifecycleScope.launch {
             val typeFlags = viewModel.typeFlags.first()
-            with (menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!) {
-                findItem(typeOptions.first).isChecked = typeFlags.first
-                findItem(typeOptions.second).isChecked = typeFlags.second
-                findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
+            with(menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!) {
+                findItem(R.id.FILTER_INCOME_COMMAND).isChecked = typeFlags.first
+                findItem(R.id.FILTER_EXPENSE_COMMAND).isChecked = typeFlags.second
+                with(findItem(R.id.AGGREGATE_COMMAND)) {
+                    isEnabled = !(typeFlags.first && typeFlags.second)
+                    isChecked = viewModel.aggregateNeutral.first()
+                }
             }
         }
         return true
     }
 
-    private val typeOptions =  R.id.FILTER_INCOME_COMMAND to R.id.FILTER_EXPENSE_COMMAND
-
     override fun onOptionsItemSelected(item: MenuItem) = when {
         handleGrouping(item) -> true
-        item.itemId == typeOptions.first || item.itemId == typeOptions.second -> {
+        item.itemId == R.id.FILTER_INCOME_COMMAND || item.itemId == R.id.FILTER_EXPENSE_COMMAND -> {
             lifecycleScope.launch {
-                viewModel.toggleTypeFlag(item.itemId == typeOptions.first)
+                viewModel.toggleTypeFlag(item.itemId == R.id.FILTER_INCOME_COMMAND)
             }
             true
         }
@@ -166,7 +167,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         (if (inner)
             if (::innerChart.isInitialized) innerChart else null
         else
-            if (::chart.isInitialized) this.chart else null)?.let {
+            if (::chart.isInitialized) chart else null)?.let {
             it.data = PieData(PieDataSet(categories.map { category ->
                 PieEntry(
                     abs(category.aggregateSum.toFloat()),
@@ -218,128 +219,220 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
         binding.composeView.setContent {
             AppTheme {
-                val isDark = isSystemInDarkTheme()
-                val categoryState =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING)
-                val categoryTree = remember {
-                    derivedStateOf {
-                        if (showChart.value) categoryState.value.withSubColors {
-                            getSubColors(it, isDark)
-                        } else {
-                            categoryState.value.copy(children = categoryState.value.children.map {
-                                it.copy(
-                                    color = null
-                                )
-                            })
-                        }
-                    }
-                }
-                //TODO
-                val incomeType = viewModel.typeFlags.collectAsState(initial = false)
-                val chartCategoryTree = remember {
-                    derivedStateOf {
-                        //expansionState does not reflect updates to the data, that is why we just use it
-                        //to walk down the updated tree and find the expanded category
-                        var result = categoryTree.value
-                        expansionState.forEach { expanded ->
-                            result = result.children.find { it.id == expanded.id } ?: result
-                        }
-                        result.copy(children = result.children.filter { category ->
-                            when (category.aggregateSum.sign) {
-                                1 -> true
-                                else -> false
-                            } == incomeType.value
-                        })
 
+                val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
+                val (showIncome, showExpense) = typeFlags.value
+                when {
+                    showIncome && showExpense -> {
+                        RenderCombined(whereFilter)
                     }
-                }
-                LaunchedEffect(chartCategoryTree.value) {
-                    setChartData(false, chartCategoryTree.value.children)
-                }
 
-                LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
-                    if (::chart.isInitialized) {
-                        val position =
-                            chartCategoryTree.value.children.indexOf(selectionState.value)
-                        if (position > -1) {
-                            chart.highlightValue(position.toFloat(), 0)
-                        }
-                    }
-                }
-                val choiceMode =
-                    ChoiceMode.SingleChoiceMode(selectionState) { id -> chartCategoryTree.value.children.any { it.id == id } }
-                val expansionMode = object : ExpansionMode.Single(expansionState) {
-                    override fun toggle(category: Category) {
-                        super.toggle(category)
-                        // when we collapse a category, we want it to be selected;
-                        // when we expand, the first child should be selected
-                        if (isExpanded(category.id)) {
-                            selectionState.value = category.children.firstOrNull()
-                        } else {
-                            selectionState.value = category
-                        }
-                    }
-                }
-                val accountInfo = viewModel.accountInfo.collectAsState(null)
-                Box(modifier = Modifier.fillMaxSize()) {
-                    when {
-                        categoryTree.value === Category.LOADING -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .size(96.dp)
-                                    .align(Alignment.Center)
-                            )
-                        }
-
-                        categoryTree.value.children.isEmpty() -> {
-                            Text(
-                                modifier = Modifier.align(Alignment.Center),
-                                text = stringResource(id = R.string.no_mapped_transactions),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-
-                        else -> {
-                            val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                            Column {
-                                if (whereFilter != null) {
-                                    FilterCard(whereFilter)
-                                }
-                                LayoutHelper(
-                                    data = {
-                                        RenderTree(
-                                            modifier = it,
-                                            tree = categoryTree.value,
-                                            choiceMode = choiceMode,
-                                            expansionMode = expansionMode,
-                                            accountInfo = accountInfo.value
-                                        )
-                                    }, chart = {
-                                        Box(modifier = it) {
-                                            RenderChart(
-                                                modifier = Modifier
-                                                    .fillMaxSize(1f).aspectRatio(1f),
-                                                false,
-                                                categories = chartCategoryTree
-                                            )
-                                            RenderChart(
-                                                modifier = Modifier
-                                                    .fillMaxSize(0.75f).aspectRatio(1f)
-                                                    .align(Alignment.Center),
-                                                true,
-                                                categories = chartCategoryTree
-                                            )
-                                        }
-                                    }
-                                )
-                                RenderSumLine(accountInfo.value, sums)
-                            }
-                        }
-                    }
+                    !showIncome && !showExpense -> throw IllegalStateException()
+                    else -> RenderSingle(showIncome, whereFilter)
                 }
             }
         }
         setupGestureDetector()
+    }
+
+    private fun Category.prepareColors(showChart: Boolean, isDark: Boolean) =
+        when {
+            showChart -> withSubColors { getSubColors(it, isDark) }
+            else -> copy(children = children.map { it.copy(color = null) })
+        }
+
+    @Composable
+    private fun RenderCombined(whereFilter: WhereFilter?) {
+        val isDark = isSystemInDarkTheme()
+        val categoryState =
+            viewModel.combinedCategoryTree.collectAsState(initial = Category.LOADING)
+        val categoryTree = remember {
+            derivedStateOf {
+                categoryState.value.copy(
+                    children = categoryState.value.children.map {
+                        it.prepareColors(
+                            showChart.value,
+                            isDark
+                        )
+                    }
+                )
+            }
+        }
+        val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
+        val expansionMode = ExpansionMode.Single(expansionState)
+        val accountInfo = viewModel.accountInfo.collectAsState(null)
+        Box(modifier = Modifier.fillMaxSize()) {
+            when {
+                categoryTree.value === Category.LOADING -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+                categoryTree.value.children.isEmpty() -> {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = stringResource(id = R.string.no_mapped_transactions),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                else -> {
+                    val incomeTree = categoryTree.value.children.first()
+                    val expenseTree = categoryTree.value.children[1]
+                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
+                        }
+                        LayoutHelper(
+                            data = {
+                                Column(modifier = it) {
+                                    RenderTree(
+                                        tree = incomeTree,
+                                        choiceMode = choiceMode,
+                                        expansionMode = expansionMode,
+                                        accountInfo = accountInfo.value
+                                    )
+                                    RenderTree(
+                                        tree = expenseTree,
+                                        choiceMode = choiceMode,
+                                        expansionMode = expansionMode,
+                                        accountInfo = accountInfo.value
+                                    )
+                                }
+                            }, chart = {
+                                Box(modifier = it) {
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .fillMaxSize(1f)
+                                            .aspectRatio(1f),
+                                        false,
+                                        categories = incomeTree
+                                    )
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .fillMaxSize(0.75f)
+                                            .aspectRatio(1f)
+                                            .align(Alignment.Center),
+                                        true,
+                                        categories = expenseTree
+                                    )
+                                }
+                            }
+                        )
+                        RenderSumLine(accountInfo.value, sums)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter?) {
+        val isDark = isSystemInDarkTheme()
+        val categoryState =
+            (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
+                .collectAsState(initial = Category.LOADING)
+
+        val categoryTree = remember {
+            derivedStateOf {
+                categoryState.value.prepareColors(showChart.value, isDark)
+            }
+        }
+
+        val chartCategoryTree = remember(showIncome) {
+            derivedStateOf {
+                //expansionState does not reflect updates to the data, that is why we just use it
+                //to walk down the updated tree and find the expanded category
+                var result = categoryTree.value
+                expansionState.forEach { expanded ->
+                    result = result.children.find { it.id == expanded.id } ?: result
+                }
+                result.copy(children = result.children.filter { category ->
+                    when (category.aggregateSum.sign) {
+                        1 -> true
+                        else -> false
+                    } == showIncome
+                })
+
+            }
+        }
+        LaunchedEffect(chartCategoryTree.value) {
+            setChartData(false, chartCategoryTree.value.children)
+        }
+
+        LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
+            if (::chart.isInitialized) {
+                val position =
+                    chartCategoryTree.value.children.indexOf(selectionState.value)
+                if (position > -1) {
+                    chart.highlightValue(position.toFloat(), 0)
+                }
+            }
+        }
+        val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
+        val expansionMode = object : ExpansionMode.Single(expansionState) {
+            override fun toggle(category: Category) {
+                super.toggle(category)
+                // when we collapse a category, we want it to be selected;
+                // when we expand, the first child should be selected
+                if (isExpanded(category.id)) {
+                    selectionState.value = category.children.firstOrNull()
+                } else {
+                    selectionState.value = category
+                }
+            }
+        }
+        val accountInfo = viewModel.accountInfo.collectAsState(null)
+        Box(modifier = Modifier.fillMaxSize()) {
+            when {
+                categoryTree.value === Category.LOADING -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+                categoryTree.value.children.isEmpty() -> {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = stringResource(id = R.string.no_mapped_transactions),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                else -> {
+                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
+                        }
+                        LayoutHelper(
+                            data = {
+                                RenderTree(
+                                    modifier = it,
+                                    tree = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode,
+                                    accountInfo = accountInfo.value
+                                )
+                            }, chart = {
+                                RenderChart(
+                                    modifier = it,
+                                    false,
+                                    categories = chartCategoryTree.value
+                                )
+                            }
+                        )
+                        RenderSumLine(accountInfo.value, sums)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupGestureDetector() {
@@ -386,7 +479,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     @Composable
     fun RenderTree(
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
         tree: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
@@ -540,7 +633,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     fun RenderChart(
         modifier: Modifier,
         inner: Boolean,
-        categories: State<Category>
+        categories: Category
     ) {
         AndroidView(
             modifier = modifier,
@@ -574,7 +667,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                         override fun onValueSelected(e: Entry, highlight: Highlight) {
                             val index = highlight.x.toInt()
-                            selectionState.value = categories.value.children.getOrNull(index)
+                            selectionState.value = categories.children.getOrNull(index)
                             this@apply.setCenterText(index)
                         }
 
@@ -586,7 +679,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     holeRadius = if (inner) 75f else 85f
                     legend.isEnabled = false
                     description.isEnabled = false
-                    setChartData(inner, categories.value.children)
+                    setChartData(inner, categories.children)
                 }
             })
     }
