@@ -204,14 +204,17 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 }
                             }
                         }
-                        ChoiceMode.SingleChoiceMode(selectionStateForMapping, parentSelectionOnTap.value)
+                        ChoiceMode.SingleChoiceMode(
+                            selectionStateForMapping,
+                            parentSelectionOnTap.value
+                        )
                     }
 
                     Action.MANAGE, Action.SELECT_FILTER -> {
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                when(viewModel.dialogState) {
+                when (viewModel.dialogState) {
                     is CategoryViewModel.Edit -> CategoryEdit(
                         dialogState = viewModel.dialogState as CategoryViewModel.Edit,
                         onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
@@ -223,6 +226,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                         onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
                         onMerge = viewModel::mergeCategories
                     )
+
                     else -> {}
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
@@ -283,7 +287,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     }
                                     val preExpanded = remember {
                                         if (preSelected?.isEmpty() == false)
-                                        state.data.getExpandedForSelected(preSelected) else emptyList()
+                                            state.data.getExpandedForSelected(preSelected) else emptyList()
                                     }
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
@@ -302,20 +306,18 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             rememberMutableStateListOf(preExpanded)
                                         ),
                                         menuGenerator = remember {
-                                            {
+                                            { cat, _ ->
                                                 if (action == Action.SELECT_FILTER) null else Menu(
                                                     listOfNotNull(
                                                         if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
                                                             select("SELECT_CATEGORY") {
-                                                                doSingleSelection(
-                                                                    it
-                                                                )
+                                                                doSingleSelection(cat)
                                                             }
                                                         } else null,
-                                                        edit("EDIT_CATEGORY") { editCat(it) },
+                                                        edit("EDIT_CATEGORY") { editCat(cat) },
                                                         delete("DELETE_CATEGORY") {
                                                             when {
-                                                                it.flatten().map { it.id }
+                                                                cat.flatten().map { it.id }
                                                                     .contains(protectionInfo?.id) -> {
                                                                     showSnackBar(
                                                                         resources.getQuantityString(
@@ -327,10 +329,10 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                                 }
 
                                                                 checkDefaultTransferCategory(
-                                                                    listOf(it)
+                                                                    listOf(cat)
                                                                 ) -> {
                                                                     viewModel.deleteCategories(
-                                                                        listOf(it)
+                                                                        listOf(cat)
                                                                     )
                                                                 }
                                                             }
@@ -340,20 +342,20 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             label = R.string.subcategory,
                                                             command = "CREATE_SUBCATEGORY"
                                                         ) {
-                                                            if (it.level > 1) {
+                                                            if (cat.level > 1) {
                                                                 contribFeatureRequested(
                                                                     ContribFeature.CATEGORY_TREE,
-                                                                    R.id.CREATE_SUB_COMMAND to it
+                                                                    R.id.CREATE_SUB_COMMAND to cat
                                                                 )
                                                             } else {
-                                                                createCat(it)
+                                                                createCat(cat)
                                                             }
                                                         },
                                                         MenuEntry(
                                                             icon = myiconpack.ArrowsAlt,
                                                             label = R.string.menu_move,
                                                             command = "MOVE_CATEGORY"
-                                                        ) { showMoveTargetDialog(it) }
+                                                        ) { showMoveTargetDialog(cat) }
                                                     )
                                                 )
                                             }
@@ -475,7 +477,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectedCategories.size >=2 &&
+                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectedCategories.size >= 2 &&
                             selectedCategories.all { it.typeFlags == selectedCategories.first().typeFlags }
                     return true
                 }

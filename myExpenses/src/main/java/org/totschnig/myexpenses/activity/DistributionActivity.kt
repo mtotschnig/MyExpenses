@@ -29,7 +29,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -166,8 +165,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     private fun setChartData(chart: PieChart, categories: List<Category>) {
-        chart.let {
-            it.data = PieData(PieDataSet(categories.map { category ->
+        with(chart) {
+            data = PieData(PieDataSet(categories.map { category ->
                 PieEntry(
                     abs(category.aggregateSum.toFloat()),
                     category.label
@@ -182,7 +181,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             }).apply {
                 setValueFormatter(PercentFormatter())
             }
-            it.invalidate()
+            invalidate()
         }
         selectionState.value = categories.firstOrNull()
     }
@@ -258,15 +257,24 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             }
         }
         Box(modifier = Modifier.fillMaxSize()) {
-            if (categoryState.value === Category.LOADING) {
+            val accountInfo = viewModel.accountInfo.collectAsState(null).value
+            if (categoryState.value === Category.LOADING || accountInfo == null) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .size(96.dp)
                         .align(Alignment.Center)
                 )
             } else {
-                val incomeTree = categoryTree.value.children.first()
-                val expenseTree = categoryTree.value.children[1]
+                val incomeTree = remember {
+                    derivedStateOf {
+                        categoryTree.value.children.first().filterChildren(true)
+                    }
+                }.value
+                val expenseTree = remember {
+                    derivedStateOf {
+                        categoryTree.value.children[1].filterChildren(false)
+                    }
+                }.value
                 LaunchedEffect(categoryTree.value) {
                     if (::chart.isInitialized) {
                         setChartData(chart, incomeTree.children)
@@ -283,11 +291,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         onSelectionChanged(innerChart, expenseTree)
                     }
                 }
-                val choiceMode = ChoiceMode.SingleChoiceMode(selectionState, mainOnly = true, selectTree = true)
+                val choiceMode =
+                    ChoiceMode.SingleChoiceMode(selectionState, mainOnly = true, selectTree = true)
                 val expansionMode = ExpansionMode.DefaultCollapsed(
                     rememberMutableStateListOf()
                 )
-                val accountInfo = viewModel.accountInfo.collectAsState(null)
                 if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -307,7 +315,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     tree = categoryTree.value,
                                     choiceMode = choiceMode,
                                     expansionMode = expansionMode,
-                                    accountInfo = accountInfo.value
+                                    accountInfo = accountInfo
                                 )
                             }, chart = {
                                 val ratio = if (sums.first > 0L && sums.second < 0L)
@@ -324,7 +332,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                             .align(Alignment.Center),
                                         false,
                                         categories = incomeTree,
-                                        angle = angles.first
+                                        angle = angles.first,
+                                        isCombined = true
                                     )
                                     RenderChart(
                                         modifier = Modifier
@@ -333,12 +342,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                             .align(Alignment.Center),
                                         true,
                                         categories = expenseTree,
-                                        angle = angles.second
+                                        angle = angles.second,
+                                        isCombined = true
                                     )
                                 }
                             }
                         )
-                        RenderSumLine(accountInfo.value, sums)
+                        RenderSumLine(accountInfo, sums)
                     }
                 }
             }
@@ -353,6 +363,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             chart.highlightValue(null)
         }
     }
+
+    private fun Category.filterChildren(showIncome: Boolean) = copy(
+        children = children.filter { category ->
+            when (category.aggregateSum.sign) {
+                1 -> true
+                else -> false
+            } == showIncome
+        })
 
     @Composable
     private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter?) {
@@ -375,12 +393,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 expansionState.forEach { expanded ->
                     result = result.children.find { it.id == expanded.id } ?: result
                 }
-                result.copy(children = result.children.filter { category ->
-                    when (category.aggregateSum.sign) {
-                        1 -> true
-                        else -> false
-                    } == showIncome
-                })
+                result.filterChildren(showIncome)
 
             }
         }
@@ -408,10 +421,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 }
             }
         }
-        val accountInfo = viewModel.accountInfo.collectAsState(null)
+        val accountInfo = viewModel.accountInfo.collectAsState(null).value
         Box(modifier = Modifier.fillMaxSize()) {
             when {
-                categoryTree.value === Category.LOADING -> {
+                categoryTree.value === Category.LOADING || accountInfo == null -> {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(96.dp)
@@ -440,7 +453,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     tree = categoryTree.value,
                                     choiceMode = choiceMode,
                                     expansionMode = expansionMode,
-                                    accountInfo = accountInfo.value
+                                    accountInfo = accountInfo
                                 )
                             }, chart = {
                                 RenderChart(
@@ -450,7 +463,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 )
                             }
                         )
-                        RenderSumLine(accountInfo.value, sums)
+                        RenderSumLine(accountInfo, sums)
                     }
                 }
             }
@@ -505,35 +518,32 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         tree: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
-        accountInfo: DistributionAccountInfo?
+        accountInfo: DistributionAccountInfo
     ) {
         Category(
             modifier = modifier,
             category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = accountInfo?.currencyUnit,
+            sumCurrency = accountInfo.currencyUnit,
             menuGenerator = remember {
-                { category ->
+                { category, section ->
                     org.totschnig.myexpenses.compose.Menu(
                         buildList {
-                            if (accountInfo != null) {
-                                add(
-                                    MenuEntry(
-                                        Icons.AutoMirrored.Filled.List,
-                                        R.string.menu_show_transactions,
-                                        "SHOW_TRANSACTIONS"
-                                    ) {
-                                        lifecycleScope.launch {
-                                            showTransactions(
-                                                category,
-                                                //TODO
-                                                //viewModel.typeFlags.first()
-                                            )
-                                        }
+                            add(
+                                MenuEntry(
+                                    Icons.AutoMirrored.Filled.List,
+                                    R.string.menu_show_transactions,
+                                    "SHOW_TRANSACTIONS"
+                                ) {
+                                    lifecycleScope.launch {
+                                        showTransactions(
+                                            category,
+                                            section == 0
+                                        )
                                     }
-                                )
-                            }
+                                }
+                            )
                             if (category.level == 1 && category.color != null)
                                 add(
                                     MenuEntry(
@@ -562,93 +572,91 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     @Composable
     fun RenderSumLine(
-        accountInfo: DistributionAccountInfo?,
+        accountInfo: DistributionAccountInfo,
         sums: Pair<Long, Long>
     ) {
-        accountInfo?.let { account ->
-            val showTotal = viewModel.showTotal.collectAsState(initial = false)
-            val accountFormatter = LocalCurrencyFormatter.current
-            val income = Money(accountInfo.currencyUnit, sums.first)
-            val expense = Money(accountInfo.currencyUnit, sums.second)
-            HorizontalDivider(
-                modifier = Modifier.padding(top = 4.dp),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Row(modifier = Modifier
-                .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
-                .clickable {
-                    lifecycleScope.launch {
-                        viewModel.persistShowTotal(!showTotal.value)
-                    }
-                }) {
-                CompositionLocalProvider(
-                    LocalTextStyle provides TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = TEXT_SIZE_MEDIUM_SP.sp
+        val showTotal = viewModel.showTotal.collectAsState(initial = false)
+        val accountFormatter = LocalCurrencyFormatter.current
+        val income = Money(accountInfo.currencyUnit, sums.first)
+        val expense = Money(accountInfo.currencyUnit, sums.second)
+        HorizontalDivider(
+            modifier = Modifier.padding(top = 4.dp),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Row(modifier = Modifier
+            .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
+            .clickable {
+                lifecycleScope.launch {
+                    viewModel.persistShowTotal(!showTotal.value)
+                }
+            }) {
+            CompositionLocalProvider(
+                LocalTextStyle provides TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = TEXT_SIZE_MEDIUM_SP.sp
+                )
+            ) {
+                Text("∑ :")
+                if (showTotal.value) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = buildString {
+                            val configure: (DecimalFormat) -> Unit = {
+                                it.positivePrefix = "+ "
+                                it.negativePrefix = " - "
+                            }
+                            append(
+                                accountFormatter.formatCurrency(
+                                    income.amountMajor,
+                                    accountInfo.currencyUnit,
+                                    configure
+                                )
+                            )
+                            append(
+                                accountFormatter.formatCurrency(
+                                    expense.amountMajor,
+                                    accountInfo.currencyUnit,
+                                    configure
+                                )
+                            )
+                            append(" = ")
+                            append(
+                                accountFormatter.convAmount(
+                                    sums.first + sums.second,
+                                    accountInfo.currencyUnit
+                                )
+                            )
+                        },
+                        textAlign = TextAlign.Center
                     )
-                ) {
-                    Text("∑ :")
-                    if (showTotal.value) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = buildString {
-                                val configure: (DecimalFormat) -> Unit = {
-                                    it.positivePrefix = "+ "
-                                    it.negativePrefix = " - "
-                                }
-                                append(
-                                    accountFormatter.formatCurrency(
-                                        income.amountMajor,
-                                        account.currencyUnit,
-                                        configure
-                                    )
-                                )
-                                append(
-                                    accountFormatter.formatCurrency(
-                                        expense.amountMajor,
-                                        account.currencyUnit,
-                                        configure
-                                    )
-                                )
-                                append(" = ")
-                                append(
-                                    accountFormatter.convAmount(
-                                        sums.first + sums.second,
-                                        account.currencyUnit
-                                    )
-                                )
-                            },
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        val configure: (DecimalFormat) -> Unit = {
-                            it.positivePrefix = "+"
-                            it.negativePrefix = "-"
-                        }
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = accountFormatter.formatCurrency(
-                                income.amountMajor,
-                                account.currencyUnit,
-                                configure
-                            ),
-                            textAlign = TextAlign.End
-                        )
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = accountFormatter.formatCurrency(
-                                expense.amountMajor,
-                                account.currencyUnit,
-                                configure
-                            ),
-                            textAlign = TextAlign.End
-                        )
+                } else {
+                    val configure: (DecimalFormat) -> Unit = {
+                        it.positivePrefix = "+"
+                        it.negativePrefix = "-"
                     }
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            income.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            expense.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
                 }
             }
-            HorizontalDivider(thickness = 4.dp, color = Color(account.color))
         }
+        HorizontalDivider(thickness = 4.dp, color = Color(accountInfo.color))
     }
 
     @Composable
@@ -656,7 +664,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         modifier: Modifier,
         inner: Boolean,
         categories: Category,
-        angle: Float = 360f
+        angle: Float = 360f,
+        isCombined: Boolean = false
     ) {
         AndroidView(
             modifier = modifier,
@@ -664,7 +673,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 requireChart(ctx, inner).apply {
                     isRotationEnabled = PieRadarChartBase.ROTATION_INSIDE_ONLY
                     description.isEnabled = false
-                    //setExtraOffsets(20f, 0f, 20f, 0f)
                     renderer = SelectivePieChartRenderer(
                         this,
                         object : SelectivePieChartRenderer.Selector {
@@ -698,7 +706,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 override fun onValueSelected(e: Entry, highlight: Highlight) {
                     val index = highlight.x.toInt()
                     selectionState.value = categories.children.getOrNull(index)
-                    it.setCenterText(index)
+                    it.setCenterText(index, if (isCombined) innerChart else chart)
                 }
 
                 override fun onNothingSelected() {
@@ -710,14 +718,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
     }
 
-    private fun PieChart.setCenterText(position: Int) {
+    private fun PieChart.setCenterText(position: Int, target: PieChart) {
         val entry = data.dataSet.getEntryForIndex(position)
         val description = entry.label
         val value = data.dataSet.valueFormatter.getFormattedValue(
             entry.value / data.yValueSum * 100f,
             entry, position, null
         )
-        centerText = """
+
+        target.centerText = """
             $description
             $value
             """.trimIndent()

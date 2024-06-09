@@ -80,9 +80,9 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         viewModelScope.launch {
             dataStore.data.map {
                 enumValueOrDefault(it[getGroupingPrefKey(accountId)], defaultGrouping)
-            }.distinctUntilChanged().collect {
-                setGrouping(it)
             }
+                .distinctUntilChanged()
+                .collect { setGrouping(it) }
         }
 
         _whereFilter.update { whereFilter ?: WhereFilter.empty() }

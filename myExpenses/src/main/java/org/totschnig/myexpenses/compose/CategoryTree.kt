@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -63,25 +62,25 @@ fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: (Category) -> Menu? = { null },
+    menuGenerator: (Category, Int?) -> Menu? = { _,_ -> null },
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
     withRoot: Boolean = false,
     startPadding: Dp = 0.dp,
     sumCurrency: CurrencyUnit? = null,
-    withTypeColors: Boolean = true
+    withTypeColors: Boolean = true,
+    section: Int? = null
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
 
     Column(
-        modifier = modifier.conditional(choiceMode.isTreeSelected(category.id)) {
-            padding(2.dp)
-                .clip(RoundedCornerShape(15.dp))
-                .background(activatedBackgroundColor)
-        }.conditional(choiceMode.mainOnly && category.level == 1) {
-            clickable { choiceMode.toggleSelection(selectedAncestor, category) }
-        }
+        modifier = modifier
+            .conditional(choiceMode.isTreeSelected(category.id)) {
+                padding(2.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(activatedBackgroundColor)
+            }
     ) {
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
@@ -91,7 +90,7 @@ fun Category(
                 category = category,
                 expansionMode = expansionMode,
                 choiceMode = choiceMode,
-                menuGenerator = menuGenerator,
+                menuGenerator = { menuGenerator(it, section) },
                 startPadding = startPadding,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
@@ -111,12 +110,13 @@ fun Category(
                             expansionMode = expansionMode,
                             menuGenerator = menuGenerator,
                             selectedAncestor = selectedAncestor
-                                ?: if (choiceMode.isSelected(category.id)) category else null,
+                                ?: if (choiceMode.mainOnly || choiceMode.isSelected(category.id)) category else null,
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree,
                             startPadding = subTreePadding,
                             sumCurrency = sumCurrency,
-                            withTypeColors = withTypeColors
+                            withTypeColors = withTypeColors,
+                            section = section
                         )
                     }
                 }
@@ -146,7 +146,8 @@ fun Category(
                                     excludedSubTree = excludedSubTree,
                                     startPadding = subTreePadding,
                                     sumCurrency = sumCurrency,
-                                    withTypeColors = withTypeColors
+                                    withTypeColors = withTypeColors,
+                                    section = index1
                                 )
                                 HorizontalDivider(thickness = if (index2 == category1.children.lastIndex && index1 != filteredChildren.lastIndex) 2.dp else 1.dp)
                             }
@@ -161,7 +162,8 @@ fun Category(
                                 excludedSubTree = excludedSubTree,
                                 startPadding = subTreePadding,
                                 sumCurrency = sumCurrency,
-                                withTypeColors = withTypeColors
+                                withTypeColors = withTypeColors,
+                                section = section
                             )
                             HorizontalDivider()
                         }
@@ -192,35 +194,33 @@ fun CategoryRenderer(
         modifier = Modifier
             .height(48.dp)
             .fillMaxWidth()
-            .conditional(!choiceMode.mainOnly && choiceMode.isSelectable(category.id)) {
+            .conditional(choiceMode.isSelectable(category.id)) {
                 if (menu == null) {
                     clickable(onClick = onToggleSelection)
-                } else {
-                    when (choiceMode) {
-                        is ChoiceMode.MultiChoiceMode -> Modifier
-                            .combinedClickable(
-                                onLongClick = onToggleSelection,
-                                onClick = {
-                                    if (choiceMode.selectionState.size == 0) {
-                                        showMenu.value = true
-                                    } else {
-                                        onToggleSelection()
-                                    }
+                } else when (choiceMode) {
+                    is ChoiceMode.MultiChoiceMode ->
+                        combinedClickable(
+                            onLongClick = onToggleSelection,
+                            onClick = {
+                                if (choiceMode.selectionState.size == 0) {
+                                    showMenu.value = true
+                                } else {
+                                    onToggleSelection()
                                 }
-                            )
+                            }
+                        )
 
-                        is ChoiceMode.SingleChoiceMode -> Modifier
-                            .combinedClickable(
-                                onLongClick = { showMenu.value = true },
-                                onClick = {
-                                    if (choiceMode.selectParentOnClick || category.children.isEmpty()) {
-                                        onToggleSelection.invoke()
-                                    } else {
-                                        expansionMode.toggle(category)
-                                    }
+                    is ChoiceMode.SingleChoiceMode ->
+                        combinedClickable(
+                            onLongClick = { showMenu.value = true },
+                            onClick = {
+                                if (choiceMode.selectParentOnClick || category.children.isEmpty()) {
+                                    onToggleSelection()
+                                } else {
+                                    expansionMode.toggle(category)
                                 }
-                            )
-                    }
+                            }
+                        )
                 }
             }
             .conditional(choiceMode.isNodeSelected(category.id)) {
@@ -420,7 +420,9 @@ sealed class ChoiceMode(
     ) : ChoiceMode(selectTree, mainOnly, isSelectable) {
         override fun isSelected(id: Long) = selectionState.value?.id == id
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
-            selectionState.value = if (selectionState.value == category) null else category
+            (selectedAncestor?.takeIf { mainOnly } ?: category).let {
+                selectionState.value = if (selectionState.value == it) null else it
+            }
         }
     }
 
