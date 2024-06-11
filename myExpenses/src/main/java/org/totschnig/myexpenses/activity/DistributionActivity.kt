@@ -147,6 +147,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         item.itemId == R.id.FILTER_INCOME_COMMAND || item.itemId == R.id.FILTER_EXPENSE_COMMAND -> {
             lifecycleScope.launch {
                 viewModel.toggleTypeFlag(item.itemId == R.id.FILTER_INCOME_COMMAND)
+                invalidateOptionsMenu()
             }
             true
         }
