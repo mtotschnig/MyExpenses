@@ -14,7 +14,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -329,7 +328,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     RenderChart(
                                         modifier = Modifier
                                             .fillMaxSize(0.95f)
-                                            .aspectRatio(1f)
                                             .align(Alignment.Center),
                                         false,
                                         categories = incomeTree,
@@ -339,7 +337,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     RenderChart(
                                         modifier = Modifier
                                             .fillMaxSize(0.75f)
-                                            .aspectRatio(1f)
                                             .align(Alignment.Center),
                                         true,
                                         categories = expenseTree,
