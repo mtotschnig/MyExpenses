@@ -35,7 +35,7 @@ ext {
     roomVersion = "2.6.1"
     archLifecycleVersion = '2.8.1'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.7.1"
+    fragmentVersion = "1.8.0"
     coroutines = '1.8.1'
     mockitoVersion = '5.12.0'
     retrofitVersion = '2.11.0'
@@ -62,7 +62,7 @@ ext {
     barista = "4.3.0"
     googleHttp = "1.44.1"
     //composeDevBom = "dev.chrisbanes.compose:compose-bom:2024.05.00-alpha02"
-    composeBom = "androidx.compose:compose-bom:2024.05.00"
+    composeBom = "androidx.compose:compose-bom:2024.06.00"
     activityCompose = "1.9.0"
     workManager = "2.9.0"
 }

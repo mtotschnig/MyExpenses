@@ -2,17 +2,13 @@ package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onIdle
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model2.Party
 
-
+// fails on Nexus 7 emulator Portrait
 class ExpenseEditPayeeTest: BaseExpenseEditTest() {
 
     private lateinit var party: Party
