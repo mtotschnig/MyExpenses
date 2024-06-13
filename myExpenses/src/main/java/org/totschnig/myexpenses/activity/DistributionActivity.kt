@@ -693,8 +693,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     setCenterTextSizePixels(
                         UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
                     )
+                    setCenterTextColor(textColorSecondary.defaultColor)
                     setUsePercentValues(true)
                     holeRadius = if (inner) 75f else 85f
+                    setHoleColor(android.graphics.Color.TRANSPARENT)
                     legend.isEnabled = false
                     description.isEnabled = false
                 }
