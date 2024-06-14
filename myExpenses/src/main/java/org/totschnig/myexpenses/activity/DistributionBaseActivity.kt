@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
+import kotlin.math.absoluteValue
 
 abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
     ProtectedFragmentActivity() {
@@ -159,7 +160,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                 TransactionListViewModel.LoadingInfo(
                     accountId = accountInfo.accountId,
                     currency = accountInfo.currencyUnit,
-                    catId = category.id,
+                    catId = category.id.absoluteValue,
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,
                     groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),

@@ -197,7 +197,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     }
                 }
             },
-            keepCriteria = keepCriteria
+            keepCriteria = keepCriteria,
+            idMapper = { if (isIncome) it else -it }
         ).mapNotNull {
             when (it) {
                 is LoadingState.Empty -> Category.EMPTY
