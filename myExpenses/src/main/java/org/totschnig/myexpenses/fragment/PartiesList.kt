@@ -94,6 +94,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
     val manageParties: ManageParties
         get() = (activity as ManageParties)
 
+    private fun toggleShowDuplicates(partyId: Long) {
+        viewModel.expandedItem = if (viewModel.expandedItem == partyId) null else partyId
+        resetAdapter()
+    }
+
     inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -120,6 +125,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 } else {
                     isVisible = true
                     setImageResource(if (viewModel.expandedItem == party.id) R.drawable.ic_expand_less else R.drawable.ic_expand_more)
+                    contentDescription = getString(
+                        if (viewModel.expandedItem == party.id) R.string.content_description_collapse else R.string.show_duplicates
+                    )
+                    setOnClickListener {
+                        toggleShowDuplicates(party.id)
+                    }
                 }
             }
             binding.Debt.isVisible = party.hasOpenDebts()
@@ -193,13 +204,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     .setIcon(R.drawable.ic_menu_edit)
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
-                if (party.duplicates.isNotEmpty()) {
-                    with(menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE,
-                        getString(R.string.show_duplicates))) {
-                        isCheckable = true
-                        isChecked = viewModel.expandedItem == party.id
-                    }
-                }
                 if (party.isDuplicate) {
                     menu.add(Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
                         getString(R.string.remove_from_group))
@@ -274,10 +278,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 putExtra(KEY_PAYEEID, party.id)
                                 putExtra(KEY_PAYEE_NAME, party.name)
                             })
-                        }
-                        SHOW_DUPLICATES_COMMAND -> {
-                            viewModel.expandedItem = if (viewModel.expandedItem == party.id) null else party.id
-                            resetAdapter()
                         }
                         REMOVE_FROM_GROUP_COMMAND -> {
                             viewModel.removeDuplicateFromGroup(party.id)
@@ -462,7 +462,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.MERGE_COMMAND)?.let {
-            it.setEnabledAndVisible(adapter.itemCount > 1)
+            it.setEnabledAndVisible(adapter.currentList.count { !it.isDuplicate } > 1)
             it.isChecked = mergeMode
         }
         prepareSearch(menu, viewModel.filter)
@@ -547,7 +547,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DELETE_COMMAND = -3
         const val NEW_DEBT_COMMAND = -4
         const val DEBT_SUB_MENU = -5
-        const val SHOW_DUPLICATES_COMMAND = -6
         const val REMOVE_FROM_GROUP_COMMAND = -7
         const val STATE_CHECK_STATES = "checkStates"
 

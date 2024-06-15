@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         tools:visibility="visible"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:ignore="ContentDescription" />
 
     <TextView
         app:layout_constraintTop_toTopOf="parent"
