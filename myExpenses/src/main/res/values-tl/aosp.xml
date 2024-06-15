@@ -21,4 +21,15 @@
     <string name="password">"Password"</string>
     <string name="frequency">"Frequency"</string>
     <string name="no_data">"Walang data"</string>
+    <string name="color_component_title">"Pumili ng kulay"</string>
+    <string name="filter">"Filter"</string>
+    <string name="tags">"Mga Tag"</string>
+    <string name="languages">"Mga Wika"</string>
+    <string name="full_screen">"Full screen"</string>
+    <string name="start_date">"Petsa ng pagsisimula"</string>
+    <string name="end_date">"Petsa ng pagtatapos"</string>
+    <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Privacy"</string>
+    <string name="title_font_size">"Laki ng font"</string>
+    <string name="system_default">"Default ng system"</string>
 </resources>

@@ -14,8 +14,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
 
-
-const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
 const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
 const val EXTRA_START_FROM_WIDGET = "startFromWidget"
@@ -51,27 +49,12 @@ abstract class AbstractListWidget(
         val instance = AppWidgetManager.getInstance(context)
         val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
         when (intent.action) {
-            WIDGET_LIST_DATA_CHANGED -> {
+            WIDGET_LIST_DATA_CHANGED ->
                 appWidgetIds?.let { instance.notifyAppWidgetViewDataChanged(it, R.id.list) }
-            }
 
-            WIDGET_CONTEXT_CHANGED -> {
-                appWidgetIds?.let { onUpdate(context, instance, it) }
-            }
-
-            WIDGET_CLICK -> {
-                handleWidgetClick(context, intent)
-            }
-
-            else -> {
-                super.onReceive(context, intent)
-            }
+            else -> super.onReceive(context, intent)
         }
     }
-
-    abstract fun handleWidgetClick(context: Context, intent: Intent)
-
-    fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
     override suspend fun updateWidgetDo(
         context: Context,

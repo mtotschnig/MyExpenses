@@ -100,6 +100,7 @@
                             android:contentDescription="@string/menu_original_amount"
                             app:withCurrencySelection="true"
                             app:withExchangeRate="true"
+                            app:downStreamDependency="@id/Amount"
                             app:withTypeSwitch="false" />
 
                     </TableRow>
@@ -138,6 +139,7 @@
                             style="@style/FormField"
                             app:alternateLayout="true"
                             app:withExchangeRate="true"
+                            app:upStreamDependency="@id/Amount"
                             app:withTypeSwitch="false" />
                     </TableRow>
 

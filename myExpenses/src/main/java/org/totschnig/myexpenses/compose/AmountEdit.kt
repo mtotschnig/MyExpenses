@@ -122,7 +122,7 @@ fun DenseTextField(
 
 @Preview
 @Composable
-fun AmountEditPreview() {
+private fun AmountEditPreview() {
     var value by remember {
         mutableStateOf(BigDecimal.TEN)
     }

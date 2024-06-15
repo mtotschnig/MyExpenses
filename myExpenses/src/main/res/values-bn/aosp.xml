@@ -23,4 +23,19 @@
     <string name="frequency">"পুনরাবৃত্তির হার"</string>
     <string name="required">"প্রয়োজনীয়"</string>
     <string name="no_data">"কোনও ডেটা নেই"</string>
+    <string name="color_component_title">"রঙ বেছে নিন"</string>
+    <string name="backups">"ব্যাকআপ"</string>
+    <string name="filter">"ফিল্টার"</string>
+    <string name="languages">"ভাষা"</string>
+    <string name="chart">"ছক"</string>
+    <string name="full_screen">"ফুল স্ক্রিন"</string>
+    <string name="start_date">"শুরুর তারিখ"</string>
+    <string name="end_date">"সমাপ্তির তারিখ"</string>
+    <string name="cloud_storage">"ক্লাউড স্টোরেজ"</string>
+    <string name="privacy_header">"গোপনীয়তা"</string>
+    <string name="orientation">"স্থিতিবিন্যাস"</string>
+    <string name="portrait">"লম্বালম্বি"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"ফন্ট সাইজ"</string>
+    <string name="system_default">"সিস্টেম ডিফল্ট"</string>
 </resources>

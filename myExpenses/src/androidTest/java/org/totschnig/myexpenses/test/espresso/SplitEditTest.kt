@@ -138,6 +138,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedTransactions(0)
     }
 
+    //flaky
     @Test
     fun loadCancelRotateCleanup() {
         launchEdit()

@@ -524,7 +524,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         .getAppWidgetIds(ComponentName(context, BudgetWidget::class.java))
                         .map { widgetId ->
                             repository.getGrouping(
-                                BudgetWidgetConfigure.loadSelectionPrefLegacy(
+                                BudgetWidgetConfigure.loadBudgetId(
                                     context,
                                     widgetId
                                 )
@@ -537,6 +537,12 @@ class UpgradeHandlerViewModel(application: Application) :
                             }
                             BudgetWidgetUpdateWorker.enqueueSelf(context, grouping)
                         }
+                }
+
+                if (fromVersion < 738) {
+                    if (prefHandler.getString(PrefKey.PRINT_FOOTER_RIGHT, null) == "{@page}") {
+                        prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
+                    }
                 }
 
             } catch (e: Exception) {

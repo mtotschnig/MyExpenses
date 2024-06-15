@@ -23,4 +23,15 @@
     <string name="password">"Geslo"</string>
     <string name="frequency">"Frekvenca"</string>
     <string name="no_data">"Ni podatkov"</string>
+    <string name="color_component_title">"Izbira barve"</string>
+    <string name="filter">"Filtriranje"</string>
+    <string name="tags">"Oznake"</string>
+    <string name="languages">"Jeziki"</string>
+    <string name="full_screen">"Celotni zaslon"</string>
+    <string name="start_date">"Datum začetka"</string>
+    <string name="end_date">"Datum zaključka"</string>
+    <string name="cloud_storage">"Shramba v oblaku"</string>
+    <string name="privacy_header">"Zasebnost"</string>
+    <string name="title_font_size">"Velikost pisave"</string>
+    <string name="system_default">"Sistemsko privzeto"</string>
 </resources>

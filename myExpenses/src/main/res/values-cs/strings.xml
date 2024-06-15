@@ -301,7 +301,6 @@
     <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
     <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
     <string name="pref_ui_home_screen_shortcuts">Zástupci na domovské obrazovce</string>
-    <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Jazyk</string>
     <string name="pref_ui_theme_dark">Tmavý</string>
@@ -449,11 +448,9 @@
     <string name="restore_calendar_handling_ignore">Neobnovovat plány</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendář %s nastavený v záložním archivu lokálně neexistuje. Obnova byla přerušena.</string>
     <string name="restore_not_possible_local_calendar_missing">Aktuální plánovací kalendář není k dispozici.</string>
-    <string name="menu_distribution_show_pie_char">Zobrazit výsečový graf</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Staré obrázky</string>
     <string name="pref_manage_stale_images_summary">Spravujte obrázky, které zbyly po odstraněných transakcích</string>
-    <string name="image_deleted">Obrázek byl smazán</string>
     <string name="transaction_deleted">Transakce byla smazána</string>
     <string name="account_deleted">Účet byl smazán</string>
     <string name="dialog_export_applied_to_filter">V potaz budou brány pouze transakce shodující se s aktuálním filtrem.</string>
@@ -485,8 +482,6 @@
     <string name="pref_auto_backup_time_title">Čas automatické zálohy</string>
     <string name="calendar_permission_required">Aplikace <i>{app_name}</i> potřebuje oprávnění k přístupu do vašeho kalendáře, aby mohla vytvářet plány pro budoucí a opakující se transakce.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Udělit přístup</string>
-    <string name="switch_on_text">Zapnuto</string>
-    <string name="switch_off_text">Vypnuto</string>
     <string name="menu_move">Přesun</string>
     <string name="dialog_title_select_target">Zvolte cíl</string>
     <string name="transform_subcategory_to_main">Změnit na hlavní kategorii</string>
@@ -555,7 +550,6 @@
     <string name="all_extended_key_features">Všechny funkce Rozšířeného klíče</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Upgradovat</string>
-    <string name="pref_backup_cloud_title">Ukládat na synchronizačním back-endu</string>
     <string name="pref_backup_cloud_summary">Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.</string>
     <string name="auto_backup_cloud_success">Záložní soubor %1$s byl úspěšně uložen do rozhraní backend %2$s.</string>
     <string name="currency_symbol">Symbol měny</string>
@@ -583,8 +577,6 @@
     <string name="onboarding_get_started">Začít</string>
     <string name="onboarding_more_options">Další možnosti</string>
     <string name="onboarding_restore_from_cloud">Obnovit z cloudové synchronizace</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Zálohy</string>
     <string name="onboarding_restore_from_local">Obnovit místní zálohovací soubor</string>
     <string name="contributed_by">Přispěno %s</string>
     <string name="pref_sync_notification_summary">Upozornit na průběh synchronizace</string>
@@ -612,7 +604,6 @@
     <string name="extend_validity">Prodloužit platnost</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Probíhá načítání dat ze vzdáleného rozhraní backend. Může to nějakou dobu trvat.</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="menu_sort_direction">Směr řazení</string>
     <string name="never">nikdy</string>
     <string name="always">vždy</string>
     <string name="auto_fill_account_from_aggregate_only">Pouze při začínání ze souhrnného účtu.</string>
@@ -661,7 +652,6 @@
     <string name="licence_expires_today">Váš profesionální klíč dnes vyprší.</string>
     <string name="licence_expired_yesterday">Váš profesionální klíč včera vypršel.</string>
     <string name="licence_has_expired_n_days">Platnost vašeho profesionálního klíče vypršela před %d dny.</string>
-    <string name="pref_category_title_privacy">Soukromí</string>
     <string name="gdpr_consent_button_no">Zaplaťte si verzi bez reklam</string>
     <string name="sort_order">Pořadí řazení</string>
     <string name="navigation_drawer_accounts_title">Spravovat účty</string>
@@ -757,8 +747,6 @@
     <string name="discover_feature_expense_income_switch">Pro zaznamenání příjmu použijte tento přepínač.</string>
     <string name="menu_create_budget">Nový rozpočet</string>
     <string name="budget_onetime">Jednorázový</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <string name="no_budgets">Definujte svůj první rozpočet klepnutím na tlačítko +.</string>
     <string name="budget_date_end_after_start">Datum konce rozpočtu musí být později, než datum jeho začátku.</string>
     <string name="menu_budget_allocated_only">Zobrazit pouze kategorie s přidělením</string>
@@ -768,7 +756,6 @@
     <string name="budget_filter_all_states">Status vše</string>
     <string name="budget_filter_all_tags">Všechny štítky</string>
     <string name="budget_filter_all_accounts">Všechny účty</string>
-    <string name="budget_form_label_filter">Filtr</string>
     <string name="dialog_title_warning_delete_budget">Chcete odstranit rozpočet?</string>
     <string name="warning_delete_budget">Rozpočet „%1$s“ bude smazán.</string>
     <string name="menu_edit_budget">Upravit rozpočet</string>
@@ -794,7 +781,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Klonované transakce si zachovávají původní datum</string>
     <string name="tags_create_or_select">Vytvořte nebo vyberte štítky</string>
-    <string name="tags">Štítky</string>
     <string name="pref_manage_tags_summary">Přidávejte, upravujte a odstraňujte štítky.</string>
     <string name="dialog_title_warning_delete_tag">Chcete štítek odstranit?</string>
     <string name="menu_edit_tag">Upravit štítek</string>
@@ -846,7 +832,6 @@
     <string name="scan_result_no_payee">Příjemce platby nenalezen</string>
     <string name="pref_feature_uninstall_title">Požádat o odinstalování funkcí a jazyků</string>
     <string name="pref_feature_uninstall_summary">Obchod Play se nakonec pokusí tyto moduly odebrat na pozadí.</string>
-    <string name="pref_feature_uninstall_languages_title">Jazyky</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Vyberte prosím licenční balíček.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

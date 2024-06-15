@@ -1,0 +1,5 @@
+• Ara: Kullanıcı arayüzü iyileştirildi
+• Hesap widget'i yapılandırması: Buttons
+• “Makbuz tara” özelliği, “Hesaplarım” widget'ından çağrılabilir.
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

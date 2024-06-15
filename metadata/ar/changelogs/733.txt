@@ -1,0 +1,4 @@
+• إصلاح الأخطاء
+• FinTS: رفع مستوي ثبات البرنامج
+
+https://github.com/mtotschnig/MyExpenses/projects/141#column-19856783

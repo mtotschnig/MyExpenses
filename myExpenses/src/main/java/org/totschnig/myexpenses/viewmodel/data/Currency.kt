@@ -16,27 +16,19 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
         else -> 1
     }
 
-    override fun toString(): String {
-        return displayName
-    }
+    override fun toString() = displayName
 
-    override fun hashCode(): Int {
-        return code.hashCode()
-    }
+    override fun hashCode() = code.hashCode()
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Currency) return false
-
-        if (code != other.code) return false
-
-        return true
+    override fun equals(other: Any?) = when {
+        this === other -> true
+        other !is Currency -> false
+        code != other.code -> false
+        else -> true
     }
 
     companion object {
-        fun create(code: String, context: Context): Currency {
-            return create(code, Utils.localeFromContext(context))
-        }
+        fun create(code: String, context: Context) = create(code, Utils.localeFromContext(context))
 
         fun create(code: String, locale: Locale) = Currency(code, findDisplayName(code, locale))
 
@@ -47,16 +39,14 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
             return Currency(code, label ?: findDisplayName(code, locale), usages)
         }
 
-        private fun findDisplayName(code: String, locale: Locale): String {
+        private fun findDisplayName(code: String, locale: Locale) = try {
+            java.util.Currency.getInstance(code).getDisplayName(locale)
+        } catch (ignored: IllegalArgumentException) {
             try {
-                return java.util.Currency.getInstance(code).getDisplayName(locale)
+                CurrencyEnum.valueOf(code).description
             } catch (ignored: IllegalArgumentException) {
+                code
             }
-            try {
-                return CurrencyEnum.valueOf(code).description
-            } catch (ignored: IllegalArgumentException) {
-            }
-            return code
         }
     }
 }

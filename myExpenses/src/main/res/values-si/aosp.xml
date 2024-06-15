@@ -87,4 +87,20 @@
     <string name="required">"අවශ්‍යයි"</string>
     <string name="quality">"තත්ත්වය"</string>
     <string name="no_data">"දත්ත නැත"</string>
+    <string name="color_component_title">"වර්ණය තෝරා ගන්න"</string>
+    <string name="backups">"උපස්ථ කිරීම්"</string>
+    <string name="filter">"පෙරහන"</string>
+    <string name="tags">"ටැගයන්"</string>
+    <string name="languages">"භාෂා"</string>
+    <string name="chart">"ප්‍රස්තාරය"</string>
+    <string name="full_screen">"පූර්ණ තිරය"</string>
+    <string name="start_date">"ආරම්භක දිනය"</string>
+    <string name="end_date">"අවසන් වන දිනය"</string>
+    <string name="cloud_storage">"ක්ලවුඩ් ආචයනය"</string>
+    <string name="privacy_header">"පෞද්ගලිකත්වය"</string>
+    <string name="orientation">"දිශානතිය"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">"තිරස්"</string>
+    <string name="title_font_size">"අකුරු ප්‍රමාණය"</string>
+    <string name="system_default">"පද්ධති පෙරනිමිය"</string>
 </resources>

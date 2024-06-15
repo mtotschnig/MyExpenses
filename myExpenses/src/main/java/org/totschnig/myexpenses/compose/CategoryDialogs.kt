@@ -279,6 +279,6 @@ private fun ButtonRow(
 
 @Preview(widthDp = 200)
 @Composable
-fun PreviewDialog() {
+private fun PreviewDialog() {
     CategoryEdit(dialogState = CategoryViewModel.Edit())
 }

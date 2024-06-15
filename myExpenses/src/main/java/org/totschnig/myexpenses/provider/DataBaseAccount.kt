@@ -24,16 +24,14 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     val isAggregate get() = isAggregate(id)
 
     fun uriForTransactionList(
-        mergeTransfers: Boolean = true,
         shortenComment: Boolean = false,
         extended: Boolean = true
-    ): Uri = uriBuilderForTransactionList(mergeTransfers, shortenComment, extended).build()
+    ): Uri = uriBuilderForTransactionList(shortenComment, extended).build()
 
     fun uriBuilderForTransactionList(
-        mergeTransfers: Boolean = true,
         shortenComment: Boolean = false,
         extended: Boolean = true
-    ) = uriBuilderForTransactionList(id, currency, mergeTransfers, shortenComment, extended)
+    ) = uriBuilderForTransactionList(id, currency, shortenComment, extended)
 
     companion object {
 
@@ -52,7 +50,6 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         fun uriBuilderForTransactionList(
             id: Long,
             currency: String,
-            mergeTransfers: Boolean = false,
             shortenComment: Boolean = false,
             extended: Boolean = true
         ): Uri.Builder = when {
@@ -60,8 +57,12 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
                 appendQueryParameter(KEY_ACCOUNTID, id.toString())
             }
 
-            isHomeAggregate(id) -> uriForTransactionListHome(mergeTransfers, shortenComment, extended)
-            else -> uriForTransactionListAggregate(mergeTransfers, shortenComment, extended).apply {
+            isHomeAggregate(id) -> uriBuilderForTransactionList(
+                shortenComment,
+                extended
+            )
+
+            else -> uriBuilderForTransactionList(shortenComment, extended).apply {
                 appendQueryParameter(KEY_CURRENCY, currency)
             }
         }
@@ -82,33 +83,5 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
                         )
                     }
                 }
-
-        private fun uriForTransactionListHome(
-            mergeTransfers: Boolean,
-            shortenComment: Boolean,
-            extended: Boolean
-        ): Uri.Builder =
-            uriWithMergeTransfers(mergeTransfers, true, shortenComment, extended)
-
-        private fun uriForTransactionListAggregate(
-            mergeTransfers: Boolean,
-            shortenComment: Boolean,
-            extended: Boolean
-        ): Uri.Builder =
-            uriWithMergeTransfers(mergeTransfers, false, shortenComment, extended)
-
-        private fun uriWithMergeTransfers(
-            mergeTransfers: Boolean,
-            forHome: Boolean,
-            shortenComment: Boolean,
-            extended: Boolean
-        ) =
-            uriBuilderForTransactionList(shortenComment, extended).apply {
-                if (mergeTransfers)
-                    appendQueryParameter(
-                        TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS,
-                        if (forHome) "2" else "1"
-                    )
-            }
     }
 }

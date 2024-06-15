@@ -28,7 +28,7 @@ class TestApp : MyApplication() {
     lateinit var fixture: Fixture
 
     var currentTime: Instant = Instant.EPOCH
-    private val clock: Clock = object: Clock() {
+    private val clock: Clock = object : Clock() {
         override fun getZone(): ZoneId {
             return ZoneId.systemDefault()
         }

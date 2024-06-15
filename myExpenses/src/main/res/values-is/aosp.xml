@@ -33,4 +33,19 @@
     <string name="required">"Nauðsynlegt"</string>
     <string name="quality">"Gæði"</string>
     <string name="no_data">"Engin gögn"</string>
+    <string name="color_component_title">"Velja lit"</string>
+    <string name="backups">"Afritun"</string>
+    <string name="filter">"Sía"</string>
+    <string name="languages">"Tungumál"</string>
+    <string name="chart">"Línurit"</string>
+    <string name="full_screen">"Allur skjárinn"</string>
+    <string name="start_date">"Upphafsdagur"</string>
+    <string name="end_date">"Lokadagur"</string>
+    <string name="cloud_storage">"Skýjageymsla"</string>
+    <string name="privacy_header">"Persónuvernd"</string>
+    <string name="orientation">"Stefna"</string>
+    <string name="portrait">"Lóðrétt"</string>
+    <string name="landscape">"Lárétt"</string>
+    <string name="title_font_size">"Leturstærð"</string>
+    <string name="system_default">"Sjálfgildi kerfis"</string>
 </resources>

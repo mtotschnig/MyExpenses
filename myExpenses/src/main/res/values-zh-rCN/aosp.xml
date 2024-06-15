@@ -99,4 +99,20 @@
     <string name="file_format">"文件格式"</string>
     <string name="quality">"质量"</string>
     <string name="no_data">"无数据"</string>
+    <string name="color_component_title">"选择颜色"</string>
+    <string name="backups">"备份"</string>
+    <string name="filter">"过滤器"</string>
+    <string name="tags">"标签"</string>
+    <string name="languages">"语言"</string>
+    <string name="chart">"图表"</string>
+    <string name="full_screen">"全屏"</string>
+    <string name="start_date">"开始日期"</string>
+    <string name="end_date">"结束日期"</string>
+    <string name="cloud_storage">"云端存储"</string>
+    <string name="privacy_header">"隐私"</string>
+    <string name="orientation">"方向"</string>
+    <string name="portrait">"纵向"</string>
+    <string name="landscape">"横向"</string>
+    <string name="title_font_size">"字体大小"</string>
+    <string name="system_default">"系统默认设置"</string>
 </resources>

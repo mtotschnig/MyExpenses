@@ -52,7 +52,7 @@
     <string name="account_type_liability_plural">Schuldenrekeningen</string>
     <string name="date_format">Datumindeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
-    <string name="extended_key">Uitgebreide sleutel</string>
+    <string name="extended_key">Uitgebreide Sleutel</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mailondersteuning</b> met gegarandeerd antwoord binnen twee werkdagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stemrecht op <b>ontwikkelingsroutekaart</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Geschiedenis grafiek</string>
@@ -165,7 +165,6 @@
     <string name="pref_planning_calendar_summary">Selecteer de kalender waar plannen voor toekomstige en terugkerende transacties worden opgeslagen</string>
     <string name="pref_security_question_summary">Hiermee kun je de app ontgrendelen als je het wachtwoord bent vergeten.</string>
     <string name="qif_parse_failure_found_multiple_accounts">Meerdere rekeningen gevonden in %s-bestand.</string>
-    <string name="pref_ui_language_default">Systeemstandaard</string>
     <string name="pref_ui_theme_title">Thema</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Nieuwe transactie succesvol opgeslagen vanuit sjabloon.</item>
@@ -373,7 +372,6 @@
     <string name="import_source_file">Bestand</string>
     <string name="restore_calendar_handling">Verwerking van kalendergegevens</string>
     <string name="restore_calendar_handling_configured">Herstel plannen naar de momenteel geconfigureerde kalender</string>
-    <string name="menu_distribution_show_pie_char">Toon cirkeldiagram</string>
     <string name="pref_auto_backup_title">Automatische back-up</string>
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
     <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
@@ -471,7 +469,6 @@
     <string name="split_transaction_group_success">%1$d transacties zijn met succes gegroepeerd in één gesplitste transactie.</string>
     <string name="licence_expires_n_days">Je professionele sleutel verloopt over %d dagen.</string>
     <string name="licence_expired_yesterday">Je professionele sleutel is gisteren verlopen.</string>
-    <string name="pref_category_title_privacy">Privacy</string>
     <string name="navigation_drawer_accounts_title">Rekeningen beheren</string>
     <string name="pref_translation_title">Vertaling</string>
     <string name="content_description_collapse">Inklappen</string>
@@ -501,7 +498,6 @@
     <string name="object_sealed">Object verwijst naar een afgesloten rekening.</string>
     <string name="pref_exchange_rate_provider_summary">Selecteer provider om wisselkoersen te downloaden</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Gebruik deze schakelknop om inkomsten vast te leggen.</string>
-    <string name="budget_duration_to">Naar</string>
     <string name="budget_filter_all_states">Alle statussen</string>
     <string name="budget_filter_all_tags">Alle tags</string>
     <string name="warning_delete_budget">Budget \"%1$s\" wordt verwijderd.</string>
@@ -579,7 +575,6 @@
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
     <string name="scan_result_no_amount">Geen bedrag gevonden</string>
-    <string name="pref_feature_uninstall_languages_title">Talen</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>
     <string name="pref_tesseract_language_title">Taal voor Tesseract</string>
     <string name="account_widget_configuration_sum">Type getoonde som</string>
@@ -591,10 +586,7 @@
     <string name="paypal_callback_info">Je transactie is voltooid en er is een ontvangstbewijs voor je aankoop naar je gemaild. Je kunt inloggen op je rekening op www.paypal.com om de details van deze transactie te bekijken.</string>
     <string name="search_amount">Zoek op bedrag</string>
     <string name="csv_import_delimiter_semicolon">Puntkomma</string>
-    <string name="image_deleted">Afbeelding is verwijderd</string>
-    <string name="switch_off_text">Uit</string>
     <string name="donate_button_invoice">Factuur</string>
-    <string name="menu_sort_direction">Sorteer volgorde</string>
     <string name="pref_sync_changes_immediately_summary">Schrijf lokale wijzigingen onmiddellijk naar de backend</string>
     <string name="credit_limit">Kredietlimiet</string>
     <string name="sub_budget_exceeded_error_1_2">Het volledige bedrag dat is toegewezen aan de hoofdcategorie is toegewezen aan andere subcategorieën.</string>
@@ -673,7 +665,6 @@
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudsynchronisatie</string>
     <string name="all_contrib_key_features">Alle functies van Contribute Key</string>
-    <string name="pref_backup_cloud_title">Opslaan op synchronisatie-backend</string>
     <string name="currency_symbol">Valutasymbool</string>
     <string name="number_of_fraction_digits">Aantal breukcijfers</string>
     <string name="sync_database_error">Er is een databasefout opgetreden tijdens de synchronisatie.</string>
@@ -702,7 +693,6 @@
     <string name="translated_by">Vertaald door</string>
     <string name="pref_category_exchange_rates">Wisselkoersen</string>
     <string name="menu_create_budget">Nieuw budget</string>
-    <string name="budget_duration_from">Van</string>
     <string name="menu_budget_allocated_only">Toon alleen categorieën met toewijzing</string>
     <string name="budget_filter_all_methods">Alle methodes</string>
     <string name="menu_edit_budget">Budget bewerken</string>
@@ -733,7 +723,6 @@
     <string name="restore_calendar_handling_ignore">Plannen niet herstellen</string>
     <string name="restore_calendar_handling_backup">Herstel plannen naar de agenda die is ingesteld in de back-up, indien beschikbaar</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
-    <string name="switch_on_text">Aan</string>
     <string name="pref_tracking_summary">Sta ons toe anonieme gegevens over gebruikspatronen te verzamelen die ons helpen bij het plannen van verbeteringen.</string>
     <string name="pref_tracking_title">Verzameling van gebruiksgegevens</string>
     <string name="unmapped">Niet toegewezen</string>
@@ -760,7 +749,6 @@
     <string name="hint_url">URL</string>
     <string name="csv_import_delimiter_tab">Tabblad</string>
     <string name="plan_instance_state_applied">toegepast</string>
-    <string name="onboarding_restore_from_cloud_backup">Back-ups</string>
     <string name="contributed_by">Bijgedragen door %s</string>
     <string name="pref_sync_notification_summary">Informeren over synchronisatievoortgang</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Overstappen naar een maandabonnement</string>
@@ -788,7 +776,6 @@
     <string name="remapping_result">De geselecteerde transacties zijn opnieuw toegewezen.</string>
     <string name="remap_account">Alle geselecteerde transacties worden toegewezen aan rekening %s.</string>
     <string name="pref_manage_tags_summary">Tags toevoegen, bewerken en verwijderen.</string>
-    <string name="tags">Tags</string>
     <string name="dialog_title_warning_delete_tag">Tag verwijderen\?</string>
     <string name="menu_edit_tag">Tag bewerken</string>
     <string name="pref_planner_manual_time_title">Tijd voor handmatig toegepaste geplande transactie</string>
@@ -810,7 +797,6 @@
     <string name="licence_key">Licentiesleutel</string>
     <string name="dialog_title_new_currency">Nieuwe munteenheid</string>
     <string name="currency_code_already_definded">Valutacode is al gedefinieerd.</string>
-    <string name="budget_form_label_filter">Filteren</string>
     <string name="remap_category">Alle geselecteerde transacties worden toegewezen aan categorie %s.</string>
     <string name="plan_automatic_without_amount_hint">Plan zonder bedrag mag niet worden opgeslagen met automatische planuitvoering</string>
     <string name="menu_save_and_new_content_description">Sla de gegevens op, laat het formulier openstaan voor het aanmaken van een nieuwe transactie met dezelfde gegevens.</string>

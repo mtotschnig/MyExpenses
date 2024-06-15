@@ -195,6 +195,13 @@ sealed class MenuItem(
         isEnabledByDefault = false
     )
 
+    data object Restore : MenuItem(
+        R.id.RESTORE_COMMAND,
+        R.string.pref_restore_title,
+        R.drawable.settings_backup_restore,
+        isEnabledByDefault = false
+    )
+
     @GenSealedEnum
     companion object {
         val defaultConfiguration = values.filter { it.isEnabledByDefault }

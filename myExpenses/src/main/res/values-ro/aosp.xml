@@ -94,4 +94,20 @@
     <string name="required">"Necesar"</string>
     <string name="quality">"Calitate"</string>
     <string name="no_data">"Fără date"</string>
+    <string name="color_component_title">"Alege culoarea"</string>
+    <string name="backups">"Copii de siguranță"</string>
+    <string name="filter">"Filtru"</string>
+    <string name="tags">"Etichete"</string>
+    <string name="languages">"Limbi"</string>
+    <string name="chart">"Diagramă"</string>
+    <string name="full_screen">"Ecran complet"</string>
+    <string name="start_date">"Dată de începere"</string>
+    <string name="end_date">"Dată de încheiere"</string>
+    <string name="cloud_storage">"Stocare în cloud"</string>
+    <string name="privacy_header">"Confidențialitate"</string>
+    <string name="orientation">"Orientare"</string>
+    <string name="portrait">"Portret"</string>
+    <string name="landscape">"Peisaj"</string>
+    <string name="title_font_size">"Dimensiunea fontului"</string>
+    <string name="system_default">"Prestabilit de sistem"</string>
 </resources>

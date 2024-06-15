@@ -475,7 +475,7 @@ interface SelectionHandler {
 @OptIn(ExperimentalLayoutApi::class)
 @Preview(locale = "ar")
 @Composable
-fun RowRTL() {
+private fun RowRTL() {
     Column {
         Row {
             Text("1")
@@ -492,7 +492,7 @@ fun RowRTL() {
 
 @Preview(locale = "ar")
 @Composable
-fun Header() {
+private fun Header() {
     val amount = Money(CurrencyUnit.DebugInstance, 1234)
     val headerRow = HeaderRow(
         2022, 11, amount, amount, amount, amount, amount, amount, LocalDate.now()

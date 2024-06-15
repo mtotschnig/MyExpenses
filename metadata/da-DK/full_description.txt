@@ -1,0 +1,27 @@
+<i>Mine udgifter</i> er dit ultimative værktøj til ubesværet udgiftssporing og økonomisk styring lige ved hånden!
+
+Nøglefunktioner:
+
+     • <b>Besværet udgiftssporing</b>: Hold øje med dine udgifter og indtægter problemfrit, uanset om du er på din smartphone eller tablet.
+     • <b>Fleksibel kontostyring</b>: Administrer ubesværet flere konti, inklusive overførsler mellem forskellige valutaer.
+     • <b>Strømlinet økonomisk planlægning</b>: Opsæt nemt planer for tilbagevendende transaktioner.
+     • <b>Sømløs datastyring</b>: Eksporter og importer nemt data ved hjælp af QIF- og CSV-formater.
+     • <b>Forbedret sikkerhed</b>: Beskyt dine data med adgangskode eller enhedslåseskærmssikkerhed.
+     • <b>Tilpasset oplevelse</b>: Skræddersy appen til dine præferencer med tilpassede temaer og skriftstørrelser.
+     • <b>Kontokontoafstemning</b>: Sammenlign nemt transaktionsstatus med dine kontoudtog for nøjagtig økonomisk sporing.
+     • <b>Hurtig dataindtastning</b>: Nyd bekvem adgang med widgets og genveje til startskærmen.
+     • <b>Kraftfuld dataanalyse</b>: Filtrer dine data baseret på forskellige kriterier og visualiser distribution og historiske tendenser med dynamiske grafer.
+
+Lås op for premium-funktioner:
+
+     • <i>Bidragsnøgle</i>: Sig farvel til annoncer, og lås op for ubegrænsede konti, tilbagevendende transaktionsplaner og mere.
+     • <i>Udvidet nøgle</i>: Nyd skysynkronisering, automatiserede sikkerhedskopier og sofistikeret CSV-import.
+     • <i>Professionel nøgle</i>: Tag din økonomistyring til næste niveau med budgetværktøjer, kvitteringsscanning og e-mailsupport.
+
+<i>Mine udgifter</i> kræver følgende <u>tilladelser</u>:
+
+     • <i>Kalender</i>: Planer for fremtidige og tilbagevendende transaktioner gemmes enten i en særlig lokal kalender eller i en hvilken som helst anden kalender, du tildeler.
+     • <i>Internet</i>: Anonym brugssporing, nedbrudsrapporter, skysynkronisering.
+     • <i>Konti</i>: Synkronisering på tværs af enheder via skytjenester.
+
+Tag kontrol over din økonomi som aldrig før ved at bruge <i>Mine udgifter</i>!

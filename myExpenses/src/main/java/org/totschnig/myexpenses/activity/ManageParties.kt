@@ -22,6 +22,8 @@ import org.totschnig.myexpenses.databinding.ManagePartiesBinding
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
+const val HELP_VARIANT_MERGE_MODE = "mergeMode"
+
 class ManageParties : DebtActivity() {
     override val debtViewModel: DebtViewModel by viewModels()
     private lateinit var listFragment: PartiesList

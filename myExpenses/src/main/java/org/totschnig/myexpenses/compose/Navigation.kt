@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
@@ -182,7 +183,7 @@ private fun EntryListRenderer(
                         testTag(it)
                     },
                     text = {
-                        Row {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             EntryContent(entry, offset)
                         }
                     },
@@ -228,8 +229,8 @@ private fun EntryListRenderer(
 
 @Preview
 @Composable
-fun Entry() {
-    Row {
+private fun Entry() {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         EntryContent(
             MenuEntry(
                 icon = Icons.Filled.Edit,
@@ -241,7 +242,7 @@ fun Entry() {
 
 @Preview
 @Composable
-fun Overflow() {
+private fun Overflow() {
     fun emptyEntry(label: Int) = MenuEntry(label = UiText.StringResource(label), command = "") {}
     OverFlowMenu(
         menu = Menu(

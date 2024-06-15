@@ -12,19 +12,21 @@
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
+package org.totschnig.myexpenses.activity
 
-package org.totschnig.myexpenses.activity;
+import android.os.Bundle
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.fragment.StaleImagesList
 
-import android.os.Bundle;
+class ManageStaleImages : ProtectedFragmentActivity() {
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.manage_stale_images)
+        setupToolbar()
+        title = "Stale images"
+    }
 
-import org.totschnig.myexpenses.R;
-
-public class ManageStaleImages extends ProtectedFragmentActivity  {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.manage_stale_images);
-    setupToolbar();
-    setTitle("Stale images");
-  }
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        (supportFragmentManager.findFragmentById(R.id.stale_images_list) as StaleImagesList).saveImageDo()
+    }
 }

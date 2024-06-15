@@ -56,20 +56,22 @@
             android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off"
             android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
             android:title="@string/pref_protection_enable_data_entry_from_widget_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_protection_enable_budget_widget_key"
+            android:summaryOff="@string/pref_checkbox_disabled"
+            android:summaryOn="@string/pref_checkbox_enabled"
+            android:title="@string/widget_title_budget" />
     </PreferenceCategory>
-    <org.totschnig.myexpenses.preference.SimplePasswordPreference
-        android:key="@string/pref_security_export_password_key"
-        android:summary="@string/pref_security_export_passphrase_summary"
-        android:title="@string/pref_security_export_passphrase_title"
-        my:allowDividerAbove="true" />
     <Preference
         android:key="@string/pref_encrypt_database_info_key"
         android:selectable="false"
         android:summary="@string/database_is_encrypted"
-        my:isPreferenceVisible="false" />
+        my:isPreferenceVisible="false"
+        my:allowDividerAbove="true" />
     <PreferenceCategory
         android:key="@string/pref_category_privacy_key"
-        android:title="@string/pref_category_title_privacy">
+        android:title="@string/privacy_header">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_tracking_key"
@@ -94,7 +96,7 @@
         <Preference
             my:isPreferenceVisible="false"
             android:key="@string/pref_ad_consent_key"
-            android:title="@string/pref_category_title_privacy" />
+            android:title="@string/privacy_header" />
         <Preference
             android:key="@string/pref_no_ads_key"
             android:title="@string/gdpr_consent_button_no" />

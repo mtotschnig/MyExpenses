@@ -27,8 +27,8 @@ class CriteriaTest {
         val roundTrip = AccountCriterion.fromStringExtra(AccountCriterion("Bank", 1L).toString())
         assertThat(roundTrip!!.label).isEqualTo("Bank")
         assertThat(roundTrip.values).asList().containsExactly( 1L)
-        assertThat(roundTrip.getSelection(false)).isEqualTo("account_id IN (?) OR transfer_account IN (?)")
-        assertThat(roundTrip.selectionArgs).asList().containsExactly("1","1")
+        assertThat(roundTrip.getSelection(false)).isEqualTo("account_id IN (?)")
+        assertThat(roundTrip.selectionArgs).asList().containsExactly("1")
     }
 
     @Test

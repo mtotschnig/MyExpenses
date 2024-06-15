@@ -18,20 +18,20 @@ class PartyTest : BaseTestWithRepository() {
     @Before
     fun setupPayee() {
         party = repository.createParty(Party(name = "N.N."))
-        assertThat(party.id).isGreaterThan(0)
+        assertThat(party.id).isGreaterThan(0L)
     }
 
     @Test
     fun requireNewPayee() {
         val id = repository.requireParty("X")
-        assertThat(id).isGreaterThan(0)
+        assertThat(id).isGreaterThan(0L)
         assertThat(id).isNotEqualTo(party.id)
     }
 
     @Test
     fun requireNewPayeeWithSpace() {
         val id = repository.requireParty(" X ")
-        assertThat(id).isGreaterThan(0)
+        assertThat(id).isGreaterThan(0L)
         assertThat(id).isNotEqualTo(party.id)
         assertThat(id).isEqualTo(repository.requireParty("X"))
     }

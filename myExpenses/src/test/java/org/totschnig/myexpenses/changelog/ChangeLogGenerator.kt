@@ -3,10 +3,12 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import com.google.common.truth.Truth
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.VersionDialogFragment.Companion.resolveMoreInfo
 import org.totschnig.myexpenses.ui.ContextHelper.wrap
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
@@ -16,47 +18,63 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Locale
-
-
-const val CURRENT_VERSION = "728;3.8.2"
-const val VERSION_DATE = "2014-04-15"
-
-val versionInfo = VersionInfo(CURRENT_VERSION)
+import kotlin.io.path.exists
 
 @RunWith(RobolectricTestRunner::class)
 @Ignore("This is only run on demand in order to generate ChangeLog!")
 class ChangeLogGenerator {
 
+    val context: Application
+        get() = ApplicationProvider.getApplicationContext()
+
+    private val versionInfo: VersionInfo
+        get() = VersionInfo(context.resources.getStringArray(R.array.versions).first())
+
     @Test
     fun generateChangeLogPlay() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
+            "en-US",
             "ar",
             "bg",
-            "cs",
-            "de",
-            "el",
-            "es",
-            "fr",
+            "ca",
+            "cs-CZ",
+            "da-DK",
+            "de-DE",
+            "el-GR",
+            "es-ES",
+            "eu-ES",
+            "fr-FR",
             "hr",
-            "hu",
-            "it",
-            "iw",
-            "nl",
-            "pl",
-            "pt",
+            "hu-HU",
+            "it-IT",
+            "iw-IL",
+            "ja-JP",
+            "km-KH",
+            "kn-IN",
+            "ko-KR",
+            "ms",
+            "nl-NL",
+            "pl-PL",
+            "pt-BR",
+            "pt-PT",
             "ro",
-            "tr",
+            "ru-RU",
+            "si-LK",
+            "ta-IN",
+            "te-IN",
+            "tr-TR",
             "vi",
-            "en"
+            "zh-CN",
+            "zh-TW"
         )
         print(
             buildString {
                 allLanguages.forEach { language ->
                     appendLine("<$language>")
-                    versionInfo.getChanges(wrap(context, Locale(language)))!!.forEach {
-                        appendLine("• $it")
-                    }
+                    versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
+                        .forEach {
+                            appendLine("• $it")
+                        }
                     appendLine("</$language>")
                 }
             }
@@ -87,34 +105,40 @@ class ChangeLogGenerator {
             "en-US"
         )
         allLanguages.forEach { language ->
-            Files.newOutputStream(
-                Paths.get(System.getProperty("user.dir")).parent.resolve(
-                    Path.of("metadata", language, "changelogs", "${versionInfo.code}.txt")
-                )
-            ).bufferedWriter().use { writer ->
+            val path = Paths.get(System.getProperty("user.dir")).parent.resolve(
+                Path.of("metadata", language, "changelogs", "${versionInfo.code}.txt")
+            )
+            Truth.assertWithMessage("Changelog language $language, version ${versionInfo.code} exists")
+                .that(path.exists()).isFalse()
+            Files.newOutputStream(path).bufferedWriter().use { writer ->
                 writer.write(
                     buildString {
-                        versionInfo.getChanges(wrap(context, Locale(language)))!!.forEach {
-                            appendLine("• $it")
-                        }
+                        versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
+                            .forEach { appendLine("• $it") }
                         appendLine()
                         appendLine(context.githubUrl(versionInfo))
+                        appendLine(context.mastodonUrl(versionInfo))
                     }
                 )
             }
         }
     }
 
-    private fun Context.githubUrl(versionInfo: VersionInfo) =
-        "https://github.com/mtotschnig/MyExpenses/projects/" +
+    private fun Context.githubLink(versionInfo: VersionInfo) =
         getString(resolveMoreInfo("project_board_", versionInfo)!!)
 
-    private fun Context.mastodonUrl(versionInfo: VersionInfo) =
-        "https://mastodon.social/@myexpenses/" +
+    private fun Context.mastodonLink(versionInfo: VersionInfo) =
         getString(resolveMoreInfo("version_more_info_", versionInfo)!!)
+
+    private fun Context.githubUrl(versionInfo: VersionInfo) =
+        "https://github.com/mtotschnig/MyExpenses/projects/${githubLink(versionInfo)}"
+
+    private fun Context.mastodonUrl(versionInfo: VersionInfo) =
+        "https://mastodon.social/@myexpenses/${mastodonLink(versionInfo)}"
 
     @Test
     fun generateChangeLogYaml() {
+        val versionDate = "2014-04-15"
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
             "bg",
@@ -146,7 +170,7 @@ class ChangeLogGenerator {
 
         val data = listOf(listOf(
             versionInfo.name,
-            VERSION_DATE,
+            versionDate,
             buildMap {
                 allLanguages.forEach { language ->
                     put(
@@ -156,8 +180,8 @@ class ChangeLogGenerator {
                 }
             },
             buildMap {
-                put("github", context.githubUrl(versionInfo))
-                put("mastodon", context.mastodonUrl(versionInfo))
+                put("github", context.githubLink(versionInfo))
+                put("mastodon", context.mastodonLink(versionInfo))
             }
         ))
         print(yaml.dump(data))

@@ -98,4 +98,20 @@
     <string name="quality">"Kwaliteit"</string>
     <string name="buttons">"Knoppen"</string>
     <string name="no_data">"Geen gegevens"</string>
+    <string name="color_component_title">"Kleur kiezen"</string>
+    <string name="backups">"Reservekopieën"</string>
+    <string name="filter">"Filteren"</string>
+    <string name="tags">Tags</string>
+    <string name="languages">"Talen"</string>
+    <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Volledig scherm"</string>
+    <string name="start_date">"Startdatum"</string>
+    <string name="end_date">"Einddatum"</string>
+    <string name="cloud_storage">"Cloudopslag"</string>
+    <string name="privacy_header">"Privacy"</string>
+    <string name="orientation">"Oriëntatie"</string>
+    <string name="portrait">"Staand"</string>
+    <string name="landscape">"Liggend"</string>
+    <string name="title_font_size">"Lettergrootte"</string>
+    <string name="system_default">"Systeemstandaard"</string>
 </resources>

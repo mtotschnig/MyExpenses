@@ -89,4 +89,20 @@
     <string name="required">"ទាមទារ"</string>
     <string name="quality">"គុណភាព"</string>
     <string name="no_data">"គ្មាន​ទិន្នន័យទេ"</string>
+    <string name="color_component_title">"ជ្រើសរើសពណ៌"</string>
+    <string name="backups">"ព័ត៌មាន​បម្រុង"</string>
+    <string name="filter">"តម្រង"</string>
+    <string name="tags">"ស្លាក"</string>
+    <string name="languages">"ភាសា"</string>
+    <string name="chart">"គំនូស​តាង"</string>
+    <string name="full_screen">"អេក្រង់ពេញ"</string>
+    <string name="start_date">"កាលបរិច្ឆេទ​ចាប់ផ្ដើម"</string>
+    <string name="end_date">"កាលបរិច្ឆេទ​បញ្ចប់"</string>
+    <string name="cloud_storage">"ទំហំ​ផ្ទុក​លើ​ពពក"</string>
+    <string name="privacy_header">"ឯកជនភាព"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">"ផ្ដេក"</string>
+    <string name="title_font_size">"ទំហំពុម្ពអក្សរ"</string>
+    <string name="system_default">"លំនាំ​ដើម​ប្រព័ន្ធ"</string>
 </resources>

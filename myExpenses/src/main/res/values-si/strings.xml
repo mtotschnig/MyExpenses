@@ -228,7 +228,6 @@
     <string name="pref_shortcut_summary">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන්න </string>
     <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
     <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
-    <string name="pref_ui_language_default">මුල් පද්ධතිය </string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">භාෂාව</string>
     <string name="pref_ui_theme_dark">අඳුරු </string>
@@ -315,8 +314,6 @@
     <string name="menu_create_folder">නව ගොනුව </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>
     <string name="widget_title_templates">මගේ අච්චු </string>
-    <string name="switch_on_text">සක්‍රියයි</string>
-    <string name="switch_off_text">අක්‍රියයි</string>
     <string name="preferences_week_start_day_title">සතිය ආරම්භ වන්නේ</string>
     <string name="content_description_calculator">ගණකයන්ත්‍රය</string>
     <string name="template">අච්චුව </string>
@@ -325,8 +322,6 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">සංකේතනය කර ඇත</string>
     <string name="translated_by">පරිවර්තනය</string>
-    <string name="budget_duration_from">සිට</string>
-    <string name="budget_duration_to">දක්වා</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">ලක්ෂණ</string>
     <string name="menu_save_and_new_content_description">දත්ත සුරක්ෂිත කර, එම දත්ත යොදා ගෙන නව ගනුදෙනුවක් සෑදීමට පෝරමය විවෘතව තබන්න.</string>

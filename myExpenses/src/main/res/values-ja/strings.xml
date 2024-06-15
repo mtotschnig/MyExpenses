@@ -290,7 +290,6 @@
     <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
     <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
     <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
-    <string name="pref_ui_language_default">システム デフォルト</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">言語</string>
     <string name="pref_ui_theme_dark">ダーク</string>
@@ -426,11 +425,9 @@
     <string name="restore_calendar_handling_ignore">計画を復元しない</string>
     <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
     <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
-    <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">古くなった画像</string>
     <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
-    <string name="image_deleted">写真が削除されました</string>
     <string name="transaction_deleted">取引が削除されました</string>
     <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
     <string name="export_handle_deleted_create_helper">ヘルパー取引を作成</string>
@@ -461,8 +458,6 @@
     <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
     <string name="calendar_permission_required"><i>{app_name}</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
-    <string name="switch_on_text">ON</string>
-    <string name="switch_off_text">OFF</string>
     <string name="menu_move">移動</string>
     <string name="dialog_title_select_target">対象を選択</string>
     <string name="transform_subcategory_to_main">主分類に変換</string>
@@ -531,7 +526,6 @@
     <string name="all_extended_key_features">拡張キーのすべての機能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">アップグレード</string>
-    <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
     <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
     <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
     <string name="currency_symbol">通貨記号</string>
@@ -559,8 +553,6 @@
     <string name="onboarding_get_started">始めましょう</string>
     <string name="onboarding_more_options">他のオプション</string>
     <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
     <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
     <string name="contributed_by">貢献者 %s</string>
     <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
@@ -588,7 +580,6 @@
     <string name="extend_validity">有効期限を延長する</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
     <string name="donate_button_invoice">請求書</string>
-    <string name="menu_sort_direction">ソートの向き</string>
     <string name="never">しない</string>
     <string name="always">常に</string>
     <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
@@ -634,7 +625,6 @@
     <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです。</string>
     <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
     <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
-    <string name="pref_category_title_privacy">プライバシー</string>
     <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
     <string name="sort_order">ソート順</string>
     <string name="navigation_drawer_accounts_title">勘定の管理</string>
@@ -730,8 +720,6 @@
     <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
     <string name="menu_create_budget">新しい予算</string>
     <string name="budget_onetime">１回限り</string>
-    <string name="budget_duration_from">開始</string>
-    <string name="budget_duration_to">終了</string>
     <string name="no_budgets">+ ボタンをタップして最初の予算を定義します。</string>
     <string name="budget_date_end_after_start">予算の終了日は、開始日より後にする必要があります。</string>
     <string name="menu_budget_allocated_only">割り当てられた分類のみを表示</string>
@@ -740,7 +728,6 @@
     <string name="budget_filter_all_methods">すべての方法</string>
     <string name="budget_filter_all_states">すべての状態</string>
     <string name="budget_filter_all_tags">すべてのタグ</string>
-    <string name="budget_form_label_filter">フィルター</string>
     <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
     <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
     <string name="menu_edit_budget">予算を編集</string>
@@ -766,7 +753,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
     <string name="tags_create_or_select">タグの作成または選択</string>
-    <string name="tags">タグ</string>
     <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
     <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
     <string name="menu_edit_tag">タグを編集</string>

@@ -25,4 +25,20 @@
     <string name="required">"Okudingekayo"</string>
     <string name="quality">"Ikhethelo"</string>
     <string name="no_data">"Ayikho idatha"</string>
+    <string name="color_component_title">"Khetha umbala"</string>
+    <string name="backups">"Okugcinwe ngemuva"</string>
+    <string name="filter">"Hlunga"</string>
+    <string name="tags">"Amamaki"</string>
+    <string name="languages">"Izilimi"</string>
+    <string name="chart">"Ishathi"</string>
+    <string name="full_screen">"Iskrini esigcwele"</string>
+    <string name="start_date">"Qala idethi"</string>
+    <string name="end_date">"Idethi yokugcina"</string>
+    <string name="cloud_storage">"Isitoreji se-Cloud"</string>
+    <string name="privacy_header">"Ubumfihlo"</string>
+    <string name="orientation">"Isimo sekhasi"</string>
+    <string name="portrait">"Iphepha elimile"</string>
+    <string name="landscape">"Iphepha elivumile"</string>
+    <string name="title_font_size">"Usayizi wefonti"</string>
+    <string name="system_default">"Okuzenzakalelayo kwesistimu"</string>
 </resources>

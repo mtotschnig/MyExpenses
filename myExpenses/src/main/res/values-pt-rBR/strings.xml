@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">Adicionar o atalho ao ecrã inicial.</string>
     <string name="pref_ui_fontsize_title">Tamanho da fonte</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos do ecrã inicial</string>
-    <string name="pref_ui_language_default">Padrão do sistema</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
     <string name="pref_ui_theme_dark">Escuro</string>
@@ -442,11 +441,9 @@
     <string name="restore_calendar_handling_ignore">Não restaurar os planos</string>
     <string name="restore_not_possible_target_calendar_missing">A agenda %s definida no arquivo de backup não existe localmente. A restauração foi cancelada.</string>
     <string name="restore_not_possible_local_calendar_missing">A agenda de planejamento atual não está disponível.</string>
-    <string name="menu_distribution_show_pie_char">Exibir gráfico de pizza</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
     <string name="pref_manage_stale_images_summary">Gerir imagens que sobraram de transações apagadas</string>
-    <string name="image_deleted">A Imagem foi apagada</string>
     <string name="transaction_deleted">A transação foi apagada</string>
     <string name="account_deleted">A conta foi excluída</string>
     <string name="dialog_export_applied_to_filter">Serão consideradas somente as transações correspondentes ao filtro atual.</string>
@@ -478,8 +475,6 @@
     <string name="pref_auto_backup_time_title">Horário do backup automático</string>
     <string name="calendar_permission_required"><i>{app_name}</i> precisa de permissão para acessar sua agenda, à fim de criar planos para transações futuras e recorrentes.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
-    <string name="switch_on_text">On</string>
-    <string name="switch_off_text">Desativado</string>
     <string name="menu_move">Mover</string>
     <string name="dialog_title_select_target">Selecione o destino</string>
     <string name="transform_subcategory_to_main">Transformar em categoria principal</string>
@@ -548,7 +543,6 @@
     <string name="all_extended_key_features">Todos os recursos da chave Estendida</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Atualizar</string>
-    <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
     <string name="currency_symbol">Símbolo da moeda</string>
@@ -576,8 +570,6 @@
     <string name="onboarding_get_started">Começar</string>
     <string name="onboarding_more_options">Mais opções</string>
     <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Backups</string>
     <string name="onboarding_restore_from_local">Restaurar ficheiro de backup local</string>
     <string name="contributed_by">Contribuído por %s</string>
     <string name="pref_sync_notification_summary">Notificar sobre o progresso da sincronização</string>
@@ -605,7 +597,6 @@
     <string name="extend_validity">Estender a validade</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do destino remoto. Isso pode demorar algum tempo.</string>
     <string name="donate_button_invoice">Fatura</string>
-    <string name="menu_sort_direction">Sentido da ordenação</string>
     <string name="never">nunca</string>
     <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
@@ -653,7 +644,6 @@
     <string name="licence_expires_today">A sua chave profissional expira hoje.</string>
     <string name="licence_expired_yesterday">A sua chave profissional expirou ontem.</string>
     <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás.</string>
-    <string name="pref_category_title_privacy">Privacidade</string>
     <string name="gdpr_consent_button_no">Pagar pela versão sem anúncios</string>
     <string name="sort_order">Ordem de classificação</string>
     <string name="navigation_drawer_accounts_title">Gerir contas</string>
@@ -749,8 +739,6 @@
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="budget_onetime">Único</string>
-    <string name="budget_duration_from">De</string>
-    <string name="budget_duration_to">Até</string>
     <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
     <string name="budget_date_end_after_start">A data de término do orçamento deve ser posterior à data de início.</string>
     <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>
@@ -760,7 +748,6 @@
     <string name="budget_filter_all_states">Todos os estados</string>
     <string name="budget_filter_all_tags">Todas as etiquetas</string>
     <string name="budget_filter_all_accounts">Todas as contas</string>
-    <string name="budget_form_label_filter">Filtrar</string>
     <string name="dialog_title_warning_delete_budget">Apagar o orçamento\?</string>
     <string name="warning_delete_budget">O orçamento \"%1$s\" será apagado.</string>
     <string name="menu_edit_budget">Editar o orçamento</string>
@@ -786,7 +773,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">As transações clonadas mantêm a data original</string>
     <string name="tags_create_or_select">Criar ou selecionar etiquetas</string>
-    <string name="tags">Etiquetas</string>
     <string name="pref_manage_tags_summary">Adicione, edite, apague etiquetas.</string>
     <string name="dialog_title_warning_delete_tag">Apagar a etiqueta\?</string>
     <string name="menu_edit_tag">Editar a etiqueta</string>
@@ -837,7 +823,6 @@
     <string name="scan_result_no_payee">Não foi encontrado nenhum beneficiário</string>
     <string name="pref_feature_uninstall_title">Solicitar desinstalação de recursos e idiomas</string>
     <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
-    <string name="pref_feature_uninstall_languages_title">idiomas</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, selecione uma licença.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

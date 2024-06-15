@@ -240,7 +240,6 @@
     <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
     <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
     <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
-    <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">ភាសា</string>
     <string name="pref_ui_theme_dark">ងងឹត</string>
@@ -329,8 +328,6 @@
     <string name="comparison_operator_lesser_than">តិចជាង</string>
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">រវាង</string>
-    <string name="switch_on_text">បើក</string>
-    <string name="switch_off_text">បិទ</string>
     <string name="menu_move">រំកិល</string>
     <string name="preferences_week_start_day_title">សប្ដាហ៍​ចាប់ផ្ដើម​នៅ</string>
     <string name="content_description_calculator">ម៉ាស៊ីនគិតលេខ</string>
@@ -339,8 +336,6 @@
     <string name="professional_key">គន្លឹះវិជ្ជាជីវៈ</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
-    <string name="budget_duration_from">ពី</string>
-    <string name="budget_duration_to">ទៅ</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">លក្ខណៈសំខាន់</string>
     <string name="pref_translation_title">ការបកប្រែ</string>

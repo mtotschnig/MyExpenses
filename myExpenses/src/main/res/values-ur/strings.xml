@@ -251,7 +251,6 @@
     <string name="pref_shortcut_not_added">کوئی ہوم اسکرین دستیاب نہیں ہے جو شارٹ کٹس کو قبول کرتی ہو.</string>
     <string name="pref_shortcut_summary">ہوم اسکرین میں شارٹ کٹ شامل کریں.</string>
     <string name="pref_ui_fontsize_title">حرف کا سائز</string>
-    <string name="pref_ui_language_default">سسٹم ڈیفالٹ</string>
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">اندھیرا</string>
     <string name="qif_parse_failure_found_multiple_accounts">%s فائل میں متعدد اکاؤنٹس ملے.</string>
@@ -390,7 +389,6 @@
     <string name="restore_calendar_handling_configured">فی الحال کنفیگر کردہ کیلنڈر پر پلانز کو بحال کریں</string>
     <string name="restore_calendar_handling_backup">اگر دستیاب ہو تو بیک اپ میں سیٹ کیلنڈر کے منصوبوں کو بحال کریں</string>
     <string name="pref_manage_stale_images_summary">حذف شدہ لین دین سے بچ جانے والی تصاویر کا نظم کریں</string>
-    <string name="image_deleted">تصویر کو حذف کر دیا گیا ہے</string>
     <string name="transaction_deleted">لین دین کو حذف کر دیا گیا ہے</string>
     <string name="account_deleted">اکاؤنٹ حذف کر دیا گیا ہے</string>
     <string name="dialog_export_applied_to_filter">صرف موجودہ فلٹر سے مماثل لین دین پر غور کیا جائے گا.</string>
@@ -411,7 +409,6 @@
     <string name="pref_auto_backup_title">آٹو بیک اپ</string>
     <string name="pref_auto_backup_time_title">آٹو بیک اپ کا وقت</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">رسائی فراہم کریں</string>
-    <string name="switch_on_text">پر</string>
     <string name="content_description_calculator">کیلکولیٹر</string>
     <string name="search_transfer">منتقلی کی تلاش کریں</string>
     <string name="pref_sort_order_next_instance">اگلی مثال</string>
@@ -437,7 +434,6 @@
     <string name="template">سانچے</string>
     <string name="all_contrib_key_features">کنٹریب کلید کی تمام خصوصیات</string>
     <string name="upgrade_now">اپ گریڈ</string>
-    <string name="pref_backup_cloud_title">سنکرونائزیشن بیک اینڈ پر اسٹور کریں</string>
     <string name="auto_backup_cloud_success">بیک اپ فائل %1$s کامیابی سے بیک اینڈ %2$s پر محفوظ ہو گئی ہے.</string>
     <string name="currency_symbol">کرنسی کی علامت</string>
     <string name="number_of_fraction_digits">فریکشن ہندسوں کی تعداد</string>
@@ -489,7 +485,6 @@
     <string name="licence_expires_tomorrow">آپ کی پیشہ ورانہ کلید کل ختم ہو جائے گی.</string>
     <string name="licence_expires_today">آپ کی پیشہ ورانہ کلید آج ختم ہو رہی ہے.</string>
     <string name="licence_expired_yesterday">آپ کی پیشہ ورانہ کلید کل ختم ہو گئی ہے.</string>
-    <string name="pref_category_title_privacy">‍رازداری</string>
     <string name="dialog_title_edit_budget">بجٹ میں ترمیم کریں</string>
     <string name="budget_table_header_budgeted">بجٹ</string>
     <string name="budget_table_header_allocated">مختص</string>
@@ -525,8 +520,6 @@
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>
     <string name="dialog_multi_tag_append">موجودہ ٹیگز میں نئے ٹیگز شامل کریں</string>
-    <string name="budget_duration_from">سے</string>
-    <string name="budget_duration_to">کو</string>
     <string name="budget_date_end_after_start">بجٹ کی اختتامی تاریخ اس کے آغاز کی تاریخ کے بعد آنی چاہیے.</string>
     <string name="menu_budget_allocated_only">مختص کے ساتھ صرف زمرے دکھائیں</string>
     <string name="budget_filter_all_categories">تمام زمرے</string>
@@ -534,7 +527,6 @@
     <string name="budget_filter_all_states">تمام حیثیت</string>
     <string name="budget_filter_all_tags">تمام ٹیگز</string>
     <string name="budget_filter_all_accounts">تمام اکاؤنٹس</string>
-    <string name="budget_form_label_filter">فلٹر</string>
     <string name="dialog_title_warning_delete_budget">بجٹ حذف کریں؟</string>
     <string name="warning_delete_budget">بجٹ \"%1$s\" حذف کر دیا جائے گا.</string>
     <string name="menu_edit_budget">بجٹ میں ترمیم کریں</string>
@@ -556,7 +548,6 @@
     <string name="scan_result_no_payee">کوئی وصول کنندہ نہیں ملا</string>
     <string name="pref_feature_uninstall_title">خصوصیات اور زبانوں کی انسٹالیشن کی درخواست کریں</string>
     <string name="pref_feature_uninstall_summary">Play Store آخر کار پس منظر میں ان ماڈیولز کو ہٹانے کی کوشش کرتا ہے.</string>
-    <string name="pref_feature_uninstall_languages_title">زبانیں</string>
     <string name="select_package">براہ کرم لائسنس پیکج منتخب کریں.</string>
     <string name="advance_exexcution_in_days">پیشگی عملدرآمد (دنوں میں)</string>
     <string name="warning_balance_account_delete">اگر آپ آگے بڑھتے ہیں، تو اس اکاؤنٹ کے تمام مصالحت شدہ لین دین کو ڈیٹا بیس سے حذف کر دیا جائے گا اور آپ انہیں بحال نہیں کر سکیں گے.</string>
@@ -606,7 +597,6 @@
     <string name="restore_calendar_handling_ignore">منصوبوں کو بحال نہ کریں</string>
     <string name="restore_not_possible_target_calendar_missing">بیک اپ آرکائیو میں سیٹ کردہ کیلنڈر %s مقامی طور پر موجود نہیں ہے۔ بحالی کو روک دیا گیا ہے.</string>
     <string name="restore_not_possible_local_calendar_missing">موجودہ منصوبہ بندی کیلنڈر دستیاب نہیں ہے.</string>
-    <string name="menu_distribution_show_pie_char">پائی چارٹ دکھائیں</string>
     <string name="pref_manage_stale_images_title">باسی تصاویر</string>
     <string name="menu_show_transactions">لین دین دکھائیں</string>
     <string name="cvs_import_set_first_line_as_header">کیا پہلی لائن کو ہیڈر لائن سمجھا جانا چاہئے؟</string>
@@ -614,7 +604,6 @@
     <string name="csv_import_delimiter_semicolon">سیمی کالون</string>
     <string name="csv_import_delimiter_tab">ٹیب</string>
     <string name="csv_import_no_mapping_found_for_amount">براہ کرم ایک کالم کو رقم، آمدنی یا اخراجات کے مطابق بنائیں.</string>
-    <string name="switch_off_text">بند</string>
     <string name="transform_subcategory_to_main">طریقہ منتخب کرنا</string>
     <string name="preferences_week_start_day_title">ہفتہ شروع ہو رہا ہے</string>
     <string name="preferences_month_start_date_title">مہینہ شروع ہوتا ہے</string>
@@ -663,7 +652,6 @@
     <string name="extend_validity">میعاد میں توسیع کریں</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">ریموٹ بیک اینڈ سے ڈیٹا لانا. اس میں کچھ وقت لگ سکتا ہے.</string>
     <string name="donate_button_invoice">رسید</string>
-    <string name="menu_sort_direction">سمت ترتیب دیں</string>
     <string name="valid_until">%s تک</string>
     <string name="extend_until">‭%2$s کے لیے %1$s تک توسیع کریں</string>
     <string name="extended_upgrade_goodie_github">اضافی %d مہینے ان صارفین کو ایک بار دیے جاتے ہیں جو پہلے سے ہی توسیعی لائسنس کے مالک ہیں</string>
@@ -717,7 +705,6 @@
     <string name="pref_clone_with_current_date_summary_on">کلون شدہ لین دین کی موجودہ تاریخ ہے</string>
     <string name="pref_clone_with_current_date_summary_off">کلون شدہ لین دین کی اصل تاریخ ہوتی ہے</string>
     <string name="tags_create_or_select">ٹیگز بنائیں یا منتخب کریں</string>
-    <string name="tags">ٹیگز</string>
     <string name="remap_empty_list">کوئی آئٹم نہیں ملا، جسے تمام منتخب لین دین میں نقشہ بنایا جا سکے.</string>
     <string name="pref_planner_manual_time_current">درخواست کا وقت</string>
     <string name="title_scan_receipt_feature">اسکین رسید</string>
@@ -748,7 +735,6 @@
     <string name="pref_backup_cloud_summary">ڈیوائس پر مقامی اسٹوریج کے علاوہ، بیک اپ فائل کو ریموٹ بیک اینڈ پر کاپی کیا جا سکتا ہے.</string>
     <string name="warning_synchronization_folder_usage">یہ فولڈر مختلف آلات پر {app_name} کی تنصیبات کے درمیان ڈیٹا کو ہم آہنگ کرنے کے لیے استعمال ہوتا ہے. براہ کرم اس کے کسی بھی مواد کو دستی طور پر تبدیل نہ کریں.</string>
     <string name="synchronization_end_success">%1$d ریموٹ تبدیلیاں مقامی ڈیٹا بیس میں لکھی گئیں. %2$d مقامی تبدیلیاں ریموٹ بیک اینڈ پر لکھی گئیں.</string>
-    <string name="onboarding_restore_from_cloud_backup">بیک اپس</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">کلاؤڈ سنکرونائزیشن</string>
     <string name="all_extended_key_features">توسیعی کلید کی تمام خصوصیات</string>
     <string name="warning_auto_backup_deactivated">آٹو بیک اپ کو غیر فعال کر دیا گیا ہے. آپ مسئلہ کو حل کرنے کے بعد سیٹنگز سے اسے دوبارہ آن کر سکتے ہیں (مثلاً بیک اپ کے لیے ایک مختلف فولڈر کا انتخاب کرنا).</string>

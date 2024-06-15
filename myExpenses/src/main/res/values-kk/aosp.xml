@@ -31,4 +31,17 @@
     <string name="required">"Қажет"</string>
     <string name="quality">"Сапасы"</string>
     <string name="no_data">"Ешқандай дерек жоқ."</string>
+    <string name="color_component_title">"Түс таңдау"</string>
+    <string name="backups">"Қор көшірмелері"</string>
+    <string name="filter">"Сүзгі"</string>
+    <string name="languages">"Тілдер"</string>
+    <string name="chart">"Диаграмма"</string>
+    <string name="full_screen">"Толық экран"</string>
+    <string name="cloud_storage">"Бұлт жады"</string>
+    <string name="privacy_header">"Құпиялық"</string>
+    <string name="orientation">"Бағдары"</string>
+    <string name="portrait">"Кітаптық"</string>
+    <string name="landscape">"Альбомдық"</string>
+    <string name="title_font_size">"Қаріп өлшемі"</string>
+    <string name="system_default">"Жүйенің әдепкі параметрі"</string>
 </resources>

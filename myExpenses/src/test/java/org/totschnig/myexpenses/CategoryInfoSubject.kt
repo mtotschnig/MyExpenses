@@ -26,8 +26,8 @@ class CategoryInfoSubject private constructor(
             return Truth.assertAbout(FACTORY).that(cursor)
         }
 
-        private val FACTORY = Factory { failureMetadata: FailureMetadata, subject: CategoryInfo ->
-            CategoryInfoSubject(failureMetadata, subject)
+        private val FACTORY = Factory { failureMetadata: FailureMetadata, subject: CategoryInfo? ->
+            CategoryInfoSubject(failureMetadata, subject!!)
         }
     }
 }

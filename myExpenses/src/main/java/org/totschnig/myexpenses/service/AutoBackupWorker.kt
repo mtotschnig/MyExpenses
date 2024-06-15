@@ -75,8 +75,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         Timber.w("now doWork $WORK_NAME")
-        val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
-        doBackup(applicationContext, prefHandler, syncAccount).onSuccess { (_, oldBackups) ->
+        doBackup(applicationContext, prefHandler, true).onSuccess { (_, oldBackups) ->
             if (oldBackups.isNotEmpty()) {
                 val requireConfirmation =
                     prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)

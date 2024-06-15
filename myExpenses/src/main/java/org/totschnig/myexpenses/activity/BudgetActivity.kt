@@ -1,28 +1,48 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -36,6 +56,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
+import org.totschnig.myexpenses.compose.breakPoint
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -44,14 +65,23 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.setEnabledAndVisible
+import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
+import timber.log.Timber
 import java.math.BigDecimal
+import kotlin.math.pow
+
 
 class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
     companion object {
@@ -63,6 +93,13 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override val viewModel: BudgetViewModel2 by viewModels()
     private lateinit var sortDelegate: SortDelegate
     private var hasRollovers: Boolean? = null
+    private lateinit var chart: RadarChart
+
+    override val showChartPrefKey = PrefKey.BUDGEt_SHOW_CHART
+
+    override val showChartDefault = false
+
+    private val showFilter = mutableStateOf(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,14 +113,14 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         sortDelegate = SortDelegate(
             defaultSortOrder = Sort.ALLOCATED,
             prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
-            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT),
+            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT, Sort.AVAILABLE),
             prefHandler = prefHandler,
             collate = collate
         )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
-        val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
-        val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
+        val budgetId: Long = intent.getLongExtra(KEY_ROWID, 0)
+        val groupingYear = intent.getIntExtra(KEY_YEAR, 0)
+        val groupingSecond = intent.getIntExtra(KEY_SECOND_GROUP, 0)
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
 
         lifecycleScope.launch {
@@ -95,70 +132,43 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         binding.composeView.setContent {
             AppTheme {
-                val category =
-                    viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
-                val budget = viewModel.accountInfo.collectAsState(null).value
                 val sort = viewModel.sortOrder.collectAsState()
-                val whereFilter = viewModel.whereFilter.collectAsState().value
+                val category =
+                    viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING)
+                val budget = viewModel.accountInfo.collectAsState(null).value
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (category === Category.LOADING || budget == null) {
+                    if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .size(96.dp)
                                 .align(Alignment.Center)
                         )
                     } else {
-                        hasRollovers = category.hasRolloverNext
-                        Column {
-                            AndroidView(
-                                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
-                                factory = { ChipGroup(it) },
-                                update = { chipGroup ->
-                                    chipGroup.addChipsBulk(buildList {
-                                        add(budget.label(this@BudgetActivity))
-                                        whereFilter.criteria.forEach {
-                                            add(it.prettyPrint(this@BudgetActivity))
-                                        }
-                                    })
+                        val sortedData = remember {
+                            derivedStateOf {
+                                when (sort.value) {
+                                    Sort.SPENT -> category.value.sortChildrenBySumRecursive()
+                                    Sort.ALLOCATED -> category.value.sortChildrenByBudgetRecursive()
+                                    Sort.AVAILABLE -> category.value.sortChildrenByAvailableRecursive()
+                                    else -> category.value
                                 }
-
-                            )
-
-                            Budget(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .testTag(TEST_TAG_BUDGET_ROOT),
-                                category = category.copy(
-                                    sum = viewModel.sum.collectAsState().value,
-                                ).let {
-                                    when (sort.value) {
-                                        Sort.SPENT -> it.sortChildrenBySumRecursive()
-                                        Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
-                                        else -> it
-                                    }
-                                },
-                                expansionMode = ExpansionMode.DefaultCollapsed(
-                                    rememberMutableStateListOf()
-                                ),
-                                currency = budget.currencyUnit,
-                                onBudgetEdit = { cat, parent ->
-                                    showEditBudgetDialog(
-                                        cat,
-                                        parent,
-                                        budget.currencyUnit,
-                                        budget.grouping != Grouping.NONE
+                            }
+                        }
+                        LaunchedEffect(sortedData.value, showChart.value) {
+                            setChartData(sortedData.value, budget.currencyUnit.fractionDigits)
+                        }
+                        hasRollovers = category.value.hasRolloverNext
+                        Column(verticalArrangement = Arrangement.Center) {
+                            RenderFilters(budget)
+                            LayoutHelper(
+                                data = {
+                                    RenderBudget(it, sortedData.value, budget, sort.value)
+                                }, chart = {
+                                    RenderChart(
+                                        it,
+                                        sortedData.value
                                     )
-                                },
-                                onShowTransactions = {
-                                    lifecycleScope.launch {
-                                        showTransactions(it)
-                                    }
-                                },
-                                hasRolloverNext = category.hasRolloverNext,
-                                editRollOver = if (viewModel.duringRollOverEdit) {
-                                    viewModel.editRollOverMap
-                                } else null
-                            )
+                                })
                             val editRollOverInValid = viewModel.editRollOverInValid
                             LaunchedEffect(editRollOverInValid) {
                                 invalidateOptionsMenu()
@@ -181,6 +191,122 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         )
     }
 
+    override fun onToggleFullScreen(fullScreen: Boolean) {
+        super.onToggleFullScreen(fullScreen)
+        showFilter.value = !fullScreen
+    }
+
+    private fun requireChart(context: Context) = RadarChart(context).also { chart = it }
+
+    @Composable
+    fun RenderFilters(budget: Budget) {
+        if (showFilter.value) {
+            val whereFilter = viewModel.whereFilter.collectAsState().value
+            AndroidView(
+                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
+                factory = { ChipGroup(it) },
+                update = { chipGroup ->
+                    chipGroup.addChipsBulk(buildList {
+                        add(budget.label(this@BudgetActivity))
+                        whereFilter.criteria.forEach {
+                            add(it.prettyPrint(this@BudgetActivity))
+                        }
+                    })
+                }
+            )
+        }
+    }
+
+    @Composable
+    fun RenderBudget(
+        modifier: Modifier,
+        category: Category,
+        budget: Budget,
+        sort: Sort
+    ) {
+        BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
+            val narrowScreen = maxWidth.value < breakPoint.value
+            Timber.d("narrowScreen : %b (%f)", narrowScreen, maxWidth.value)
+
+            Budget(
+                category = category.copy(
+                    sum = viewModel.sum.collectAsState().value,
+                ),
+                expansionMode = ExpansionMode.DefaultCollapsed(
+                    rememberMutableStateListOf()
+                ),
+                currency = budget.currencyUnit,
+                onBudgetEdit = { cat, parent ->
+                    showEditBudgetDialog(
+                        cat,
+                        parent,
+                        budget.currencyUnit,
+                        budget.grouping != Grouping.NONE
+                    )
+                },
+                onShowTransactions = {
+                    lifecycleScope.launch {
+                        showTransactions(it)
+                    }
+                },
+                hasRolloverNext = category.hasRolloverNext,
+                editRollOver = if (viewModel.duringRollOverEdit) {
+                    viewModel.editRollOverMap
+                } else null,
+                narrowScreen = narrowScreen,
+                showChart = showChart.value,
+                currentSort = sort,
+                onChangeSort = {
+                    prefHandler.putString(sortDelegate.prefKey, it.name)
+                    viewModel.setSortOrder(it)
+                }
+            )
+        }
+    }
+
+    @Composable
+    fun RenderChart(modifier: Modifier, category: Category) {
+        if (category.children.count { it.budget.totalAllocated > 0 } >= 3)
+            AndroidView(
+                modifier = modifier,
+                factory = { ctx ->
+                    requireChart(ctx).apply {
+
+                        description.isEnabled = false
+
+                        webLineWidth = 1f
+                        webColor = Color.LTGRAY
+                        webLineWidthInner = 1f
+                        webColorInner = Color.LTGRAY
+
+                        animateXY(1400, 1400, Easing.EaseInOutQuad)
+
+                        with(xAxis) {
+                            setTextSize(9f)
+                            yOffset = 0f
+                            xOffset = 0f
+                            textColor = textColorSecondary.defaultColor
+                        }
+
+
+                        with(yAxis) {
+                            setLabelCount(5, false)
+                            setTextSize(9f)
+                            textColor = textColorSecondary.defaultColor
+                            setAxisMinimum(0f)
+                        }
+                        legend.isEnabled = false
+                    }
+                }
+            )
+        else
+            Text(
+                stringResource(R.string.not_enough_data),
+                modifier.wrapContentHeight(),
+                textAlign = TextAlign.Center
+            )
+    }
+
     private fun showEditBudgetDialog(
         category: Category,
         parentItem: Category?,
@@ -196,7 +322,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {
-                putLong(DatabaseConstants.KEY_CATID, category.id)
+                putLong(KEY_CATID, category.id)
             }
             simpleFormDialog.extra(bundle)
             val allocated: Long = parentItem?.children?.sumOf { it.budget.totalAllocated }
@@ -229,7 +355,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     )
                     if (withOneTimeCheck)
                         add(
-                            Check.box(DatabaseConstants.KEY_ONE_TIME)
+                            Check.box(KEY_ONE_TIME)
                                 .label(
                                     getString(
                                         R.string.budget_only_current_period,
@@ -250,13 +376,13 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
                         budget.currencyUnit,
-                        (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal)
+                        extras.getSerializable(KEY_AMOUNT) as BigDecimal
                     )
                     viewModel.updateBudget(
                         budget.id,
-                        extras.getLong(DatabaseConstants.KEY_CATID),
+                        extras.getLong(KEY_CATID),
                         amount,
-                        extras.getBoolean(DatabaseConstants.KEY_ONE_TIME)
+                        extras.getBoolean(KEY_ONE_TIME)
                     )
                     return true
                 }
@@ -309,7 +435,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             R.id.EDIT_COMMAND -> {
                 viewModel.accountInfo.value?.let {
                     startActivity(Intent(this, BudgetEdit::class.java).apply {
-                        putExtra(DatabaseConstants.KEY_ROWID, it.id)
+                        putExtra(KEY_ROWID, it.id)
                     })
                 }
                 true
@@ -401,7 +527,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         if (viewModel.duringRollOverEdit) {
             menu.findItem(R.id.ROLLOVER_EDIT_SAVE).isEnabled = !viewModel.editRollOverInValid
         } else {
-            sortDelegate.onPrepareOptionsMenu(menu)
             super.onPrepareOptionsMenu(menu)
             menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
                 it.isChecked = viewModel.allocatedOnly
@@ -420,10 +545,62 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-        if (sortDelegate.onOptionsItemSelected(item)) {
-            invalidateOptionsMenu()
-            viewModel.setSortOrder(sortDelegate.currentSortOrder)
-            true
-        } else super.onOptionsItemSelected(item)
+    private fun setChartData(category: Category, fractionDigits: Int) {
+        if ((::chart.isInitialized)) {
+            val factor = 10.0.pow(fractionDigits).toFloat()
+            val labels = mutableListOf<String>()
+            val allocated = mutableListOf<RadarEntry>()
+            val spent = mutableListOf<RadarEntry>()
+            val categories = category.children.filter {
+                it.budget.totalAllocated > 0
+            }
+            if (categories.size < 3) return
+            categories.forEach {
+                labels.add(it.label)
+                allocated.add(RadarEntry(it.budget.totalAllocated / factor))
+                spent.add(RadarEntry(-it.aggregateSum.toFloat() / factor))
+            }
+            with(chart) {
+                xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
+                    labels[value.toInt() % labels.size]
+                }
+                setData(RadarData(buildList<RadarDataSet> {
+                    add(
+                        RadarDataSet(
+                            allocated,
+                            getString(R.string.budget_table_header_allocated)
+                        ).apply {
+                            setColor(ResourcesCompat.getColor(resources, R.color.colorIncome, null))
+                            setLineWidth(2f)
+                            isDrawHighlightCircleEnabled = true
+                            setDrawHighlightIndicators(false)
+                        })
+                    add(RadarDataSet(spent, getString(R.string.budget_table_header_spent)).apply {
+                        setColor(ResourcesCompat.getColor(resources, R.color.colorExpense, null))
+                        setLineWidth(2f)
+                        isDrawHighlightCircleEnabled = true
+                        setDrawHighlightIndicators(false)
+                    })
+                }).apply {
+                    setValueTextSize(8f)
+                    setDrawValues(false)
+                    setValueTextColor(Color.WHITE)
+                })
+                invalidate()
+            }
+        }
+    }
 }
+
+/*
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun RadarChart() {
+    Mdc3Theme {
+        Surface(modifier = Modifier.size(200.dp)) {
+            RenderChart(modifier = Modifier)
+        }
+    }
+}
+*/

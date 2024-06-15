@@ -3,16 +3,19 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import arrow.core.Tuple5
+import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -24,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
 class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle) :
@@ -76,9 +80,9 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         viewModelScope.launch {
             dataStore.data.map {
                 enumValueOrDefault(it[getGroupingPrefKey(accountId)], defaultGrouping)
-            }.collect {
-                setGrouping(it)
             }
+                .distinctUntilChanged()
+                .collect { setGrouping(it) }
         }
 
         _whereFilter.update { whereFilter ?: WhereFilter.empty() }
@@ -94,41 +98,78 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-    private val incomeTypePrefKey = booleanPreferencesKey("distributionType")
+    private val incomeFlagPrefKey = booleanPreferencesKey("distributionShowIncome")
+    private val expenseFlagPrefKey = booleanPreferencesKey("distributionShowExpense")
     override val aggregateNeutralPrefKey = booleanPreferencesKey("distributionAggregateNeutral")
 
-    val incomeType: Flow<Boolean> by lazy {
-        dataStore.data.map { preferences ->
-            preferences[incomeTypePrefKey] ?: false
+
+    val typeFlags: Flow<Pair<Boolean, Boolean>> by lazy {
+        dataStore.data.map { preferences: Preferences ->
+            val showIncome = preferences[incomeFlagPrefKey] ?: false
+            val showExpense = if (!showIncome) true else preferences[expenseFlagPrefKey] ?: true
+            showIncome to showExpense
         }
     }
 
-    suspend fun persistIncomeType(incomeType: Boolean) {
+    /**
+     * @param toggleIncome if true toggle income, if false toggle expense
+     * makes sure that at least one type is active
+     */
+    suspend fun toggleTypeFlag(toggleIncome: Boolean) {
+        val (showIncome, showExpense) = typeFlags.first()
         dataStore.edit { preference ->
-            preference[incomeTypePrefKey] = incomeType
+            if (toggleIncome) {
+                preference[incomeFlagPrefKey] = !showIncome
+                if (!showExpense) {
+                    preference[expenseFlagPrefKey] = true
+                }
+            } else {
+                preference[expenseFlagPrefKey] = !showExpense
+                if (!showIncome) {
+                    preference[incomeFlagPrefKey] = true
+                }
+            }
+        }
+    }
+
+    val shouldAggregateNeutral: Flow<Boolean> by lazy {
+        combine(aggregateNeutral, typeFlags) { aggregateNeutral, typeFlags ->
+            aggregateNeutral && !(typeFlags.first && typeFlags.second)
+        }
+    }
+
+
+    val categoryTreeForExpenses by lazy { categoryFlow(false) }
+    val categoryTreeForIncome by lazy { categoryFlow(true) }
+
+    val combinedCategoryTree by lazy {
+        combine(categoryTreeForIncome, categoryTreeForExpenses) { income, expense ->
+            if (income == Category.LOADING || expense == Category.LOADING)
+                Category.LOADING
+            else
+                Category(
+                    children = listOf(income, expense)
+                )
         }
     }
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForDistribution by lazy {
-        combine(
-            _accountInfo.filterNotNull(),
-            incomeType,
-            aggregateNeutral,
-            groupingInfoFlow.filterNotNull(),
-            _whereFilter
-        ) { accountInfo, incomeType, aggregateNeutral, grouping, whereFilter ->
-            Tuple5(accountInfo, incomeType, aggregateNeutral, grouping, whereFilter)
-        }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping, whereFilter) ->
-            categoryTreeWithSum(
-                accountInfo = accountInfo,
-                incomeType = incomeType,
-                aggregateNeutral = aggregateNeutral,
-                groupingInfo = grouping,
-                keepCriteria = { it.sum != 0L },
-                whereFilter = whereFilter
-            )
-        }.map { it.sortChildrenBySumRecursive() }
-    }
+    private fun categoryFlow(isIncome: Boolean) = combine(
+        _accountInfo.filterNotNull(),
+        shouldAggregateNeutral,
+        groupingInfoFlow.filterNotNull(),
+        _whereFilter
+    ) { accountInfo, aggregateNeutral, grouping, whereFilter ->
+        Tuple4(accountInfo, aggregateNeutral, grouping, whereFilter)
+    }.flatMapLatest { (accountInfo, aggregateNeutral, grouping, whereFilter) ->
+        categoryTreeWithSum(
+            accountInfo = accountInfo,
+            isIncome = isIncome,
+            aggregateNeutral = aggregateNeutral,
+            groupingInfo = grouping,
+            keepCriteria = { it.sum != 0L },
+            whereFilter = whereFilter
+        )
+    }.map { it.sortChildrenBySumRecursive() }
 }

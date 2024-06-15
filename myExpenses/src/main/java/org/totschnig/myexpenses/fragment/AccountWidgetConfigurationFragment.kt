@@ -112,6 +112,7 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
             accountPreference.key = selectionKey(appWidgetId)
             preferenceScreen.getPreference(1).key = sumKey(appWidgetId)
             with(buttonsPreference) {
+                title = "${getString(R.string.sort_order)} (${getString(R.string.buttons)})"
                 summaryProvider = SummaryProvider<SimpleValuePreference> { preference ->
                     preference.value.split(",")
                         .joinToString { getString(Button.valueOf(it).label) }

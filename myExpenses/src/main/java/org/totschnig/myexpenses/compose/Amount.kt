@@ -107,6 +107,6 @@ fun ColoredAmountText(
 
 @Preview
 @Composable
-fun AmountPreview() {
+private fun AmountPreview() {
     ColoredAmountText(money = Money(CurrencyUnit.DebugInstance, 8000), withBorder = true)
 }

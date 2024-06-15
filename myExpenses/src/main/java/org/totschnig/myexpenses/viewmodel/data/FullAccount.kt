@@ -103,7 +103,7 @@ data class FullAccount(
                 id = cursor.getLong(KEY_ROWID),
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getStringOrNull(KEY_DESCRIPTION),
-                currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY)),
+                currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
                 _color = cursor.getInt(KEY_COLOR),
                 type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
                 sealed = cursor.getInt(KEY_SEALED) == 1,

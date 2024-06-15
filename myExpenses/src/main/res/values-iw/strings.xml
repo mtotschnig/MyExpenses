@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
     <string name="pref_ui_fontsize_title">גוגל גופן</string>
     <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
-    <string name="pref_ui_language_default">ברירת מחדל של המערכת</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">שפה</string>
     <string name="pref_ui_theme_dark">חשוך</string>
@@ -442,11 +441,9 @@
     <string name="restore_calendar_handling_ignore">אל תשחזר תוכניות</string>
     <string name="restore_not_possible_target_calendar_missing">היומן %s המוגדר בארכיון הגיבוי אינו קיים באופן מקומי. השחזור בוטל.</string>
     <string name="restore_not_possible_local_calendar_missing">לוח התכנון הנוכחי אינו זמין.</string>
-    <string name="menu_distribution_show_pie_char">הצג תרשים עוגה</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">תמונות לא ברורות</string>
     <string name="pref_manage_stale_images_summary">ניהול תמונות שנותרו מעסקאות שנמחקו</string>
-    <string name="image_deleted">תמונה נמחקה</string>
     <string name="transaction_deleted">עסקה נמחקה</string>
     <string name="account_deleted">החשבון נמחק</string>
     <string name="dialog_export_applied_to_filter">רק עסקאות התואמות את המסנן הנוכחי ייחשבו.</string>
@@ -478,8 +475,6 @@
     <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
     <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
-    <string name="switch_on_text">פעיל</string>
-    <string name="switch_off_text">מופסק</string>
     <string name="menu_move">העבר</string>
     <string name="dialog_title_select_target">בחר מטרה</string>
     <string name="transform_subcategory_to_main">הפוך לקטגוריה הראשית</string>
@@ -548,7 +543,6 @@
     <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">שדרג</string>
-    <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="currency_symbol">סמל המטבע</string>
@@ -576,8 +570,6 @@
     <string name="onboarding_get_started">להתחיל</string>
     <string name="onboarding_more_options">אפשרויות נוספות</string>
     <string name="onboarding_restore_from_cloud">שחזר מסנכרון ענן</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">גיבויים</string>
     <string name="onboarding_restore_from_local">שחזור קובץ גיבוי מקומי</string>
     <string name="contributed_by">נתרם על ידי %s</string>
     <string name="pref_sync_notification_summary">הודע על התקדמות הסנכרון</string>
@@ -605,7 +597,6 @@
     <string name="extend_validity">הארכת תוקף</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
     <string name="donate_button_invoice">חשבונית</string>
-    <string name="menu_sort_direction">כיוון מיון</string>
     <string name="never">לעולם לא</string>
     <string name="always">תמיד</string>
     <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>
@@ -653,7 +644,6 @@
     <string name="licence_expires_today">המפתח המקצועי שלך יפוג היום.</string>
     <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך.</string>
     <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים.</string>
-    <string name="pref_category_title_privacy">פרטיות</string>
     <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
     <string name="sort_order">סדר המיון</string>
     <string name="navigation_drawer_accounts_title">נהל חשבונות</string>
@@ -751,8 +741,6 @@
     <string name="discover_feature_expense_income_switch">השתמש בלחצן זה כדי לרשום הכנסה.</string>
     <string name="menu_create_budget">תקציב חדש</string>
     <string name="budget_onetime">חד פעמי</string>
-    <string name="budget_duration_from">מקור</string>
-    <string name="budget_duration_to">אל</string>
     <string name="no_budgets">הגדר את התקציב הראשון שלך על ידי לחיצה על כפתור +.</string>
     <string name="budget_date_end_after_start">תאריך הסיום של התקציב חייב להגיע לאחר תאריך ההתחלה שלו.</string>
     <string name="menu_budget_allocated_only">הצג רק קטגוריות עם הקצאה</string>
@@ -762,7 +750,6 @@
     <string name="budget_filter_all_states">כל המדינות</string>
     <string name="budget_filter_all_tags">כל התגים</string>
     <string name="budget_filter_all_accounts">כל החשבונות</string>
-    <string name="budget_form_label_filter">מסנן</string>
     <string name="dialog_title_warning_delete_budget">האם למחוק חשבון?</string>
     <string name="warning_delete_budget">התקציב „%1$s” יימחק.</string>
     <string name="menu_edit_budget">עריכת תקציב</string>
@@ -788,7 +775,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">עסקאות משובצות שומרות על התאריך המקורי</string>
     <string name="tags_create_or_select">צור או בחר תג</string>
-    <string name="tags">תגים</string>
     <string name="pref_manage_tags_summary">הוספה, עריכה, מחיקה של תגים.</string>
     <string name="dialog_title_warning_delete_tag">למחוק תג\?</string>
     <string name="menu_edit_tag">עריכת תג</string>
@@ -839,7 +825,6 @@
     <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
     <string name="pref_feature_uninstall_title">בקשת הסרה של יכולות ושפות</string>
     <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
-    <string name="pref_feature_uninstall_languages_title">שפות</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">אנא בחר חבילת רישיון.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

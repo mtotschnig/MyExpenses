@@ -80,6 +80,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
+    themeArray.recycle();
   }
 
   @Override
@@ -259,7 +260,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
       if (target instanceof AmountInput) {
-        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
+        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false, false);
       } else {
         showSnackBar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
       }

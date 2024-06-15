@@ -91,6 +91,7 @@
                         style="@style/FormField"
                         app:withCurrencySelection="true" />
                 </TableRow>
+
                 <TableRow
                     android:id="@+id/EquivalentAmountRow"
                     android:visibility="gone">
@@ -105,9 +106,11 @@
                         android:id="@+id/EquivalentAmount"
                         style="@style/FormField"
                         app:alternateLayout="true"
+                        app:upStreamDependency="@id/Amount"
                         app:withExchangeRate="true"
                         app:withTypeSwitch="false" />
                 </TableRow>
+
                 <TableRow>
 
                     <TextView
@@ -126,5 +129,7 @@
         </ScrollView>
     </LinearLayout>
 
-    <include android:id="@+id/fab" layout="@layout/floating_action_button" />
+    <include
+        android:id="@+id/fab"
+        layout="@layout/floating_action_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -27,4 +27,20 @@
     <string name="file_format">"Failo formatas"</string>
     <string name="quality">"Spalva"</string>
     <string name="no_data">"Nėra jokių duomenų"</string>
+    <string name="color_component_title">"Pasirinkite spalvą"</string>
+    <string name="backups">"Atsarginės kopijos"</string>
+    <string name="filter">"Filtruoti"</string>
+    <string name="tags">"Žymos"</string>
+    <string name="languages">"Kalbos"</string>
+    <string name="chart">"Diagrama"</string>
+    <string name="full_screen">"Visas ekranas"</string>
+    <string name="start_date">"Pradžios data"</string>
+    <string name="end_date">"Pabaigos data"</string>
+    <string name="cloud_storage">"Saugykla debesyje"</string>
+    <string name="privacy_header">"Privatumas"</string>
+    <string name="orientation">"Padėtis"</string>
+    <string name="portrait">"Stačias"</string>
+    <string name="landscape">"Gulsčias"</string>
+    <string name="title_font_size">"Šrifto dydis"</string>
+    <string name="system_default">"Numatytoji sistemos vertė"</string>
 </resources>

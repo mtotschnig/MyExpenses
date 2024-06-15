@@ -25,4 +25,20 @@
     <string name="frequency">"تعداد دفعات اجرا"</string>
     <string name="quality">"کیفیت"</string>
     <string name="no_data">"داده‌ای وجود ندارد"</string>
+    <string name="color_component_title">"انتخاب رنگ"</string>
+    <string name="backups">"پشتیبان‌ها"</string>
+    <string name="filter">"فیلتر"</string>
+    <string name="tags">"نشان‌ها"</string>
+    <string name="languages">"زبان‌ها"</string>
+    <string name="chart">"نمودار"</string>
+    <string name="full_screen">"تمام‌صفحه"</string>
+    <string name="start_date">"تاریخ شروع"</string>
+    <string name="end_date">"تاریخ پایان"</string>
+    <string name="cloud_storage">"فضای ذخیره‌سازی ابری"</string>
+    <string name="privacy_header">"حریم خصوصی"</string>
+    <string name="orientation">"جهت"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"اندازه قلم"</string>
+    <string name="system_default">"پیش‌فرض سیستم"</string>
 </resources>

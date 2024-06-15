@@ -83,4 +83,14 @@
     <string name="frequency">"فریکوئنسی"</string>
     <string name="required">"مطلوب ہے"</string>
     <string name="no_data">"کوئی ڈیٹا نہیں ہے"</string>
+    <string name="color_component_title">"رنگ منتخب کریں"</string>
+    <string name="backups">"محفوظ نقل (متبادل)"</string>
+    <string name="filter">"فلٹر"</string>
+    <string name="tags">ٹیگز</string>
+    <string name="languages">"زبانیں"</string>
+    <string name="full_screen">"پوری اسکرین"</string>
+    <string name="cloud_storage">"کلاؤڈ اسٹوریج"</string>
+    <string name="privacy_header">"رازداری"</string>
+    <string name="title_font_size">"فونٹ سائز"</string>
+    <string name="system_default">"سسٹم ڈیفالٹ"</string>
 </resources>

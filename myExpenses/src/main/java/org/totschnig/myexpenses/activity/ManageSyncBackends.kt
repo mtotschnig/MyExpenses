@@ -33,7 +33,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.extras?.let {
-                    viewModel.reconfigure(it).observe(this) { success ->
+                    syncViewModel.reconfigure(it).observe(this) { success ->
                         if (success) {
                             listFragment.reloadAccountList()
                         } else {
@@ -49,7 +49,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             reconfigure.launch(
                 Intent(this, it.setupActivityClass).apply {
                     action = ACTION_RECONFIGURE
-                    putExtras(viewModel.getReconfigurationData(syncAccount))
+                    putExtras(syncViewModel.getReconfigurationData(syncAccount))
                 }
             )
         }
@@ -89,18 +89,24 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             R.id.SYNC_UNLINK_COMMAND -> {
                 listFragment.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
             }
+
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    if (viewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
+                    val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
+                    if (syncViewModel.removeBackend(accountName)) {
                         listFragment.reloadAccountList()
+                        if (prefHandler.cloudStorage == accountName) {
+                            prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
+                        }
                     }
                 } else {
                     CrashHandler.report(IllegalStateException("Remove backend not supported on API 21"))
                 }
             }
+
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
-                viewModel.syncLinkLocal(
+                syncViewModel.syncLinkLocal(
                     accountName = account.syncAccountName!!,
                     uuid = account.uuid!!
                 ).observe(this) { result ->
@@ -111,12 +117,13 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     }
                 }
             }
+
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
                 if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
                     incomingAccountDeleted = true
                 }
-                viewModel.syncLinkRemote(account).observe(this) { result ->
+                syncViewModel.syncLinkRemote(account).observe(this) { result ->
                     result.onFailure {
                         if (it is AccountSealedException) {
                             showSnackBar(R.string.object_sealed_debt)
@@ -177,6 +184,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     .show(supportFragmentManager, "SYNC_LINK_LOCAL")
                 return true
             }
+
             R.id.SYNC_LINK_COMMAND_REMOTE -> {
                 val b = Bundle()
                 b.putString(
@@ -200,6 +208,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     .show(supportFragmentManager, "SYNC_LINK_REMOTE")
                 return true
             }
+
             else -> return false
         }
     }
@@ -224,7 +233,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 listFragment.getAccountForSync(
                     (item.menuInfo as ExpandableListContextMenuInfo).packedPosition
                 )?.let { account ->
-                    viewModel.save(account).observe(this) {
+                    syncViewModel.save(account).observe(this) {
                         it.onFailure {
                             showSnackBar(
                                 String.format(

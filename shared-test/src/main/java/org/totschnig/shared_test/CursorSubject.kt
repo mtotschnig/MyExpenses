@@ -5,7 +5,7 @@ import com.google.common.truth.FailureMetadata
 import com.google.common.truth.IntegerSubject
 import com.google.common.truth.Subject
 import com.google.common.truth.Subject.Factory
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertAbout
 
 class CursorSubject private constructor(
     failureMetadata: FailureMetadata,
@@ -31,7 +31,8 @@ class CursorSubject private constructor(
     }
 
     fun hasString(columnName: String, expected: String) {
-        check("hasString").that(actual.getString(actual.getColumnIndexOrThrow(columnName))).isEqualTo(expected)
+        check("hasString").that(actual.getString(actual.getColumnIndexOrThrow(columnName)))
+            .isEqualTo(expected)
     }
 
     fun hasString(columnIndex: Int, expected: String) {
@@ -39,7 +40,8 @@ class CursorSubject private constructor(
     }
 
     fun hasLong(columnName: String, expected: Long) {
-        check("hasLong").that(actual.getLong(actual.getColumnIndexOrThrow(columnName))).isEqualTo(expected)
+        check("hasLong").that(actual.getLong(actual.getColumnIndexOrThrow(columnName)))
+            .isEqualTo(expected)
     }
 
     fun hasLong(columnIndex: Int, expected: Long) {
@@ -67,11 +69,11 @@ class CursorSubject private constructor(
             this!!.use { assertThat(it).assertions() }
 
         fun assertThat(cursor: Cursor): CursorSubject {
-            return Truth.assertAbout(CURSOR_FACTORY).that(cursor)
+            return assertAbout(CURSOR_FACTORY).that(cursor)
         }
 
-        private val CURSOR_FACTORY = Factory { failureMetadata: FailureMetadata, subject: Cursor ->
-            CursorSubject(failureMetadata, subject)
+        private val CURSOR_FACTORY: Factory<CursorSubject, Cursor> = Factory {
+            failureMetadata: FailureMetadata, subject: Cursor? -> CursorSubject(failureMetadata, subject!!)
         }
     }
 }

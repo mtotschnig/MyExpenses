@@ -34,7 +34,7 @@
     <string name="account_type_liability_plural">Nợ</string>
     <string name="already_defined">%1$s đã được tạo trước đó</string>
     <string name="amount">Số lượng</string>
-    <string name="app_name">My Expenses</string>
+    <string name="app_name">Quản lý chi tiêu</string>
     <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
     <string name="category">Phân loại</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
@@ -49,8 +49,8 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Biểu đồ thời gian</string>
     <string name="licence_status_free">Miễn phí</string>
-    <string name="contrib_key">Bản Contrib</string>
-    <string name="extended_key">Bản Extended</string>
+    <string name="contrib_key">Khóa đóng góp</string>
+    <string name="extended_key">Khóa mở rộng</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Yêu cầu %1$s.</string>
     <string name="currency">Tiền tệ</string>
@@ -286,7 +286,6 @@
     <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
     <string name="pref_ui_fontsize_title">Cỡ phông</string>
     <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
-    <string name="pref_ui_language_default">Mặc định hệ thống</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Ngôn ngữ</string>
     <string name="pref_ui_theme_dark">Tối</string>
@@ -419,11 +418,9 @@
     <string name="restore_calendar_handling_ignore">Không khôi phục các kế hoạch</string>
     <string name="restore_not_possible_target_calendar_missing">Lịch %s đặt trong bản sao lưu không tồn tại. Việc khôi phục đã bị ngừng.</string>
     <string name="restore_not_possible_local_calendar_missing">Lịch kế hoạch hiện tại không sẵn có.</string>
-    <string name="menu_distribution_show_pie_char">Hiện biểu đồ tròn</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
     <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>
-    <string name="image_deleted">Ảnh đã bị xoá</string>
     <string name="transaction_deleted">Giao dịch đã bị xoá</string>
     <string name="dialog_export_applied_to_filter">Chỉ các giao dịch khớp bộ lọc hiện tại sẽ được tính đến</string>
     <string name="export_handle_deleted_create_helper">Tạo giao dịch hỗ trợ</string>
@@ -454,8 +451,6 @@
     <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
     <string name="calendar_permission_required"><i>{app_name}</i> cần sự cho phép của bạn để truy cập vào lịch, từ đó tạo các kế hoạch cho giao dịch trong tương lai và giao dịch lặp lại.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
-    <string name="switch_on_text">Bật</string>
-    <string name="switch_off_text">Tắt</string>
     <string name="menu_move">Di chuyển</string>
     <string name="dialog_title_select_target">Chọn mục tiêu</string>
     <string name="transform_subcategory_to_main">Chuyển đổi thành danh mục chính</string>
@@ -522,7 +517,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
     <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
     <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
-    <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
     <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
     <string name="currency_symbol">Ký hiệu tiền tệ</string>
     <string name="number_of_fraction_digits">Số chữ số thập phân</string>
@@ -563,7 +557,7 @@
     <string name="licence_removal_information">Nếu bạn không còn cần tính năng trả phí trên thiết bị này, bạn có thể gỡ bỏ khoá bản quyền. Điều này sẽ cho phép bạn đăng ký bản quyền cho một thiết bị khác. Khoá này có thể được dùng để kích hoạt tới %d thiết bị.</string>
     <string name="progress_removing_licence">Đang gỡ bỏ bản quyền</string>
     <string name="licence_removal_success">Khoá bản quyền đã được xoá khỏi thiết bị này.</string>
-    <string name="professional_key">Khoá Cao cấp</string>
+    <string name="professional_key">Chìa khóa chuyên nghiệp</string>
     <string name="n_months">%d tháng</string>
     <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
     <string name="valid_until">Cho tới %s</string>
@@ -575,7 +569,6 @@
     <string name="extend_validity">Gia hạn tính hợp lệ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
     <string name="donate_button_invoice">Hoá đơn</string>
-    <string name="menu_sort_direction">Chiều sắp xếp</string>
     <string name="never">không bao giờ</string>
     <string name="always">luôn luôn</string>
     <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>
@@ -615,7 +608,6 @@
     <string name="licence_expires_today">Khoá cao cấp của bạn hết hạn hôm nay.</string>
     <string name="licence_expired_yesterday">Khoá cao cấp của bạn đã hết hạn trong ngày hôm qua.</string>
     <string name="licence_has_expired_n_days">Khoá cao cấp của bạn đã hết hạn %d ngày trước.</string>
-    <string name="pref_category_title_privacy">Riêng tư</string>
     <string name="gdpr_consent_button_no">Mua bản không quảng cáo</string>
     <string name="sort_order">Thứ tự sắp xếp</string>
     <string name="navigation_drawer_accounts_title">Quản lý tài khoản</string>
@@ -665,8 +657,6 @@
     <string name="content_description_closed">Đã đóng</string>
     <string name="translated_by">Dịch bởi </string>
     <string name="menu_create_budget">Quỹ mới</string>
-    <string name="budget_duration_from">Từ</string>
-    <string name="budget_duration_to">Đến</string>
     <string name="menu_edit_budget">Sửa quỹ</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Tính năng</string>

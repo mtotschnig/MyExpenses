@@ -261,7 +261,6 @@
     <string name="pref_shortcut_summary">Dodaj prečac na početnom ekranu.</string>
     <string name="pref_ui_fontsize_title">Veličina fonta</string>
     <string name="pref_ui_home_screen_shortcuts">Prečaci na početnom ekranu</string>
-    <string name="pref_ui_language_default">Standard sustava</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Jezik</string>
     <string name="pref_ui_theme_dark">Tamna</string>
@@ -383,8 +382,6 @@
     <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
     <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
-    <string name="switch_on_text">Uključeno</string>
-    <string name="switch_off_text">Isključeno</string>
     <string name="preferences_week_start_day_title">Tjedan počinje u</string>
     <string name="content_description_calculator">Kalkulator</string>
     <string name="template">Predložak</string>
@@ -393,8 +390,6 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Šifrirano</string>
     <string name="translated_by">Prijevod:</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkcije</string>
     <string name="pref_translation_title">Prijevod</string>
@@ -405,7 +400,6 @@
     <string name="pref_value_date_summary">Dozvoli postavljanje datuma vrijednosti uz datuma uknjiženja. Vrijeme transakcije će se sakriti. Ova se postavka ne primjenjuje na gotovinske račune.</string>
     <string name="roadmap_vote">Glas u planu razvoja</string>
     <string name="contrib_feature_roadmap_voting_label">Pravo glasanja u <b>planiranju razvoja</b></string>
-    <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
     <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
@@ -455,7 +449,6 @@
     <string name="auto_fill_account_from_aggregate_only">Samo kad se počne iz kumuliranog računa.</string>
     <string name="always">uvijek</string>
     <string name="never">nikada</string>
-    <string name="menu_sort_direction">Smjer razvrstavanja</string>
     <string name="donate_button_invoice">Račun</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Dohvaćanje podataka s udaljenog pozadinskog sustava. To može potrajati.</string>
     <string name="extend_validity">Produlji valjanost</string>
@@ -481,7 +474,6 @@
     <string name="pref_sync_notification_summary">Obavijesti o napretku sinkronizacije</string>
     <string name="contributed_by">Doprinositelj: %s</string>
     <string name="onboarding_restore_from_local">Obnovi lokalnu datoteku sigurnosne kopije</string>
-    <string name="onboarding_restore_from_cloud_backup">Sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud">Obnovi putem sinkronizacije iz oblaka</string>
     <string name="onboarding_more_options">Daljnje opcije</string>
     <string name="onboarding_get_started">Započni</string>
@@ -509,7 +501,6 @@
     <string name="currency_symbol">Oznaka valute</string>
     <string name="auto_backup_cloud_success">Datoteka sigurnosne kopije %1$s uspješno je spremljena na pozadinskom sustavu %2$s.</string>
     <string name="pref_backup_cloud_summary">Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.</string>
-    <string name="pref_backup_cloud_title">Spremi na pozadinski sustav sinkronizacije</string>
     <string name="upgrade_now">Nadogradi</string>
     <string name="all_extended_key_features">Sve funkcije za prošireni ključ</string>
     <string name="all_contrib_key_features">Sve funkcije za ključ doprinositelja</string>
@@ -597,7 +588,6 @@
     <string name="dialog_export_applied_to_filter">Razmatrat će se samo transakcije koje odgovaraju trenutačnom filtru.</string>
     <string name="account_deleted">Račun je izbrisan</string>
     <string name="transaction_deleted">Transakcija je izbrisana</string>
-    <string name="image_deleted">Slika je izbrisana</string>
     <string name="pref_manage_stale_images_summary">Upravljaj slikama koje su preostale od izbrisanih transakcija</string>
     <string name="pref_manage_stale_images_title">Stara slika</string>
     <string name="licence_validation_premium">Premium funkcije su otključane.</string>
@@ -647,7 +637,6 @@
     <string name="warning_balance_account_delete">Ako nastaviš, sve usklađene transakcije ovog računa će se nepovratno izbrisati iz baze podataka.</string>
     <string name="advance_exexcution_in_days">Prijevremeno izvršavanje (u danima)</string>
     <string name="select_package">Odaberi paket licence.</string>
-    <string name="pref_feature_uninstall_languages_title">Jezici</string>
     <string name="pref_feature_uninstall_summary">Play Store pokušava na kraju ukloniti te module u pozadini.</string>
     <string name="pref_feature_uninstall_title">Zatraži deinstaliranje funkcija i jezika</string>
     <string name="scan_result_no_payee">Nijedan primalac nije pronađen</string>
@@ -684,7 +673,6 @@
     <string name="menu_edit_tag">Uredi oznaku</string>
     <string name="dialog_title_warning_delete_tag">Izbrisati oznaku\?</string>
     <string name="pref_manage_tags_summary">Dodaj, uredi ili izbriši oznake.</string>
-    <string name="tags">Oznake</string>
     <string name="tags_create_or_select">Stvori ili odaberi oznake</string>
     <string name="pref_clone_with_current_date_summary_off">Kopije transakcije zadržavaju trenutačni datum</string>
     <string name="pref_clone_with_current_date_summary_on">Kopije transakcije imaju trenutačni datum</string>
@@ -704,7 +692,6 @@
     <string name="menu_edit_budget">Uredi proračun</string>
     <string name="warning_delete_budget">Proračun „%1$s” će se izbrisati.</string>
     <string name="dialog_title_warning_delete_budget">Izbrisati proračun\?</string>
-    <string name="budget_form_label_filter">Filtar</string>
     <string name="budget_filter_all_accounts">Svi računi</string>
     <string name="budget_filter_all_tags">Sve oznake</string>
     <string name="budget_filter_all_states">Sva stanja</string>
@@ -787,7 +774,6 @@
     <string name="navigation_drawer_accounts_title">Upravljaj računima</string>
     <string name="sort_order">Redoslijed razvrstavanja</string>
     <string name="gdpr_consent_button_no">Plati za verziju bez oglasa</string>
-    <string name="pref_category_title_privacy">Privatnost</string>
     <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istog primaoca/platišu\? Može se promijeniti u postavkama.</string>
     <string name="comparison_operator_date_after">nakon</string>
     <string name="comparison_operator_date_before">prije</string>
@@ -942,4 +928,13 @@
     <string name="pref_sync_now_all_summary">%s sinkronizira sve račune za isti pozadinski sustav</string>
     <string name="menu_unlink_transfer">Rastavi prijenos na dijelove</string>
     <string name="warning_unlink_transfer">Odabrani prijenos će se rastaviti na dijelove: zamijenit će se normalnim transakcijama na oba računa.</string>
+    <string name="subcategories_merged_recursively">Ako bilo koja od sjedinjenih kategorija ima potkategorije s istom oznakom, one će se najprije sjediniti, rekurzivno.</string>
+    <string name="merge_categories_dialog_title">Sjedini kategorije</string>
+    <string name="warning_transform_to_transfer">Odabrana transakcija će se zamijenti prijenosom od %1$s na %2$s.</string>
+    <string name="merge_categories_prompt">Odaberi kategoriju koju želiš zadržati</string>
+    <string name="pref_csv_export_category_separator_summary">Znak odjeljivanja razina hijerarhije kategorija</string>
+    <string name="remap_date">Za sve odabrane transakcije će se datum postaviti na %s.</string>
+    <string name="menu_transform_to_transfer">Konvertiraj u prijenos</string>
+    <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za 2024. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
+    <string name="not_enough_data">Nema dovoljno podataka</string>
 </resources>

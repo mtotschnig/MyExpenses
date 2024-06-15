@@ -288,14 +288,13 @@
     <string name="pref_security_question_summary">உங்கள் கடவுச்சொல்லை மறந்துவிட்டால், செயலியைத் திறக்க உங்களை அனுமதிக்கும்.</string>
     <string name="pref_security_question_title">பாதுகாப்பு கேள்வி</string>
     <string name="pref_send_feedback_title">கருத்தினை அனுப்பவும்</string>
-    <string name="pref_share_target_summary">உரிய செயலிகளின் (மின்னஞ்சல், டிராப்பாக்ஸ், கூகுள் டாக்ஸ், ...) இடையே தேர்வு செய்ய விரும்பினால் காலியாக விடவும் அல்லது ஆதரிக்கப்படும் திட்டங்களில் ஒன்றின்படி உரலி வழங்கவும்</string>
+    <string name="pref_share_target_summary">உரிய செயலிகளின் (மின்னஞ்சல், டிராப்பாக்ஸ், கூகுள் டாக்ஸ், …) இடையே தேர்வு செய்ய விரும்பினால் காலியாக விடவும் அல்லது ஆதரிக்கப்படும் திட்டங்களில் ஒன்றின்படி உரலி வழங்கவும்</string>
     <string name="pref_share_target_title">பதிவேற்ற உரலி</string>
     <string name="pref_shortcut_added">முகப்பு திரைக்கு குறுக்குவழி சேர்க்கப்பட்டது</string>
     <string name="pref_shortcut_not_added">குறுக்குவழிகளை ஏற்றுக்கொள்வதற்கான எந்த முகப்பு திரைகளும் கிடைக்கவில்லை.</string>
     <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
     <string name="pref_ui_fontsize_title">எழுத்துரு அளவு</string>
     <string name="pref_ui_home_screen_shortcuts">முகப்பு திரை குறுக்குவழிகள்</string>
-    <string name="pref_ui_language_default">கருவி இயல்புநிலை</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">மொழி</string>
     <string name="pref_ui_theme_dark">இருட்டு</string>
@@ -435,11 +434,9 @@
     <string name="restore_calendar_handling_ignore">திட்டங்களை மீட்டமைக்க வேண்டாம்</string>
     <string name="restore_not_possible_target_calendar_missing">காப்புப்பிரதியில் அமைக்கப்பட்டுள்ள நாட்காட்டி %s கருவியில் இல்லை. மீட்டெடுப்பு ரத்து செய்யப்பட்டது.</string>
     <string name="restore_not_possible_local_calendar_missing">தற்போதைய திட்டமிடல் நாட்காட்டி கிடைக்கவில்லை.</string>
-    <string name="menu_distribution_show_pie_char">பை விளக்கப்படத்தை காட்டு</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">நாள்பட்ட படங்கள்</string>
     <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
-    <string name="image_deleted">படம் நீக்கப்பட்டது</string>
     <string name="transaction_deleted">பரிவர்த்தனை நீக்கப்பட்டது</string>
     <string name="account_deleted">கணக்கு நீக்கப்பட்டது</string>
     <string name="dialog_export_applied_to_filter">தற்போதைய வடிப்பான் மூலம் பொருந்திய பரிவர்த்தனைகள் மட்டுமே கருதப்படும்.</string>
@@ -471,8 +468,6 @@
     <string name="pref_auto_backup_time_title">தன்னியக்க காப்புப்பிரதி காலப்பொழுது</string>
     <string name="calendar_permission_required"><i> {app_name} </i> -க்கு எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் உருவாக்க, உங்களுடைய நாட்காட்டியை அணுக அனுமதி தேவை.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">அனுமதி வழங்கு</string>
-    <string name="switch_on_text">இயக்கு</string>
-    <string name="switch_off_text">அணைக்கப்பட்டுள்ளது</string>
     <string name="menu_move">நகர்த்து</string>
     <string name="dialog_title_select_target">இலக்கைத் தேர்ந்தெடுக்கவும்</string>
     <string name="transform_subcategory_to_main">முக்கிய வகையாக மாற்றவும்</string>
@@ -541,7 +536,6 @@
     <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">மேம்படுத்து</string>
-    <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
     <string name="currency_symbol">நாணய சின்னம்</string>
@@ -569,8 +563,6 @@
     <string name="onboarding_get_started">தொடங்குக</string>
     <string name="onboarding_more_options">மேலும் விருப்பங்கள்</string>
     <string name="onboarding_restore_from_cloud">மேகக்கணினி ஒத்திசைவிலிருந்து மீட்டமை</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">காப்புப்பிரதிகள்</string>
     <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
     <string name="contributed_by">%s-ஆல் பங்களிக்கப்பட்டது</string>
     <string name="pref_sync_notification_summary">ஒத்திசைவின் முன்னேற்றம் பற்றி தெரிவிக்கவும்</string>
@@ -598,7 +590,6 @@
     <string name="extend_validity">செல்லுபடியாகும் காலத்தை நீட்டு</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">தொலை பின்தளத்தில் இருந்து தரவைப் பெறுகிறது. இதற்கு சிறிது நேரம் ஆகலாம்.</string>
     <string name="donate_button_invoice">விலைப்பட்டியல்</string>
-    <string name="menu_sort_direction">வரிசைப்படுத்தும் திசை</string>
     <string name="never">எப்போதும் இல்லை</string>
     <string name="always">எப்பொழுதும்</string>
     <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>
@@ -645,7 +636,6 @@
     <string name="licence_expires_today">உங்கள் நிபுணத்துவ திறவுகோல் இன்று காலாவதியாகிறது.</string>
     <string name="licence_expired_yesterday">உங்கள் நிபுணத்துவ திறவுகோல் நேற்று காலாவதியாகிவிட்டது.</string>
     <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது.</string>
-    <string name="pref_category_title_privacy">தனியுரிமை</string>
     <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
     <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
     <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
@@ -741,8 +731,6 @@
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
     <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
     <string name="budget_onetime">ஒரு முறை</string>
-    <string name="budget_duration_from">இருந்து</string>
-    <string name="budget_duration_to">வரை</string>
     <string name="no_budgets">+ பொத்தானைத் தட்டுவதன் மூலம் உங்கள் முதல் வரவு செலவுத் திட்டத்தை வரையறுக்கவும்.</string>
     <string name="budget_date_end_after_start">பட்ஜெட்டின் இறுதி தேதி அதன் தொடக்க தேதிக்கு பின் வர வேண்டும்.</string>
     <string name="menu_budget_allocated_only">ஒதுக்கீட்டைக் கொண்ட வகைகளை மட்டும் காட்டு</string>
@@ -752,7 +740,6 @@
     <string name="budget_filter_all_states">அனைத்து நிலைகள்</string>
     <string name="budget_filter_all_tags">அனைத்து குறிச்சொற்களும்</string>
     <string name="budget_filter_all_accounts">அனைத்து கணக்குகளும்</string>
-    <string name="budget_form_label_filter">வடிப்பான்</string>
     <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
     <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
     <string name="menu_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
@@ -778,7 +765,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் அசல் தேதியை தக்கவைத்துக் கொள்ளும்</string>
     <string name="tags_create_or_select">குறிச்சொற்களை உருவாக்கவும் அல்லது தேர்ந்தெடுக்கவும்</string>
-    <string name="tags">குறிச்சொற்கள்</string>
     <string name="pref_manage_tags_summary">குறிச்சொற்களைச் சேர்க்கவும், திருத்தவும், நீக்கவும்.</string>
     <string name="dialog_title_warning_delete_tag">குறிச்சொல்லை நீக்கவா?</string>
     <string name="menu_edit_tag">குறிச்சொல்லைத் திருத்து</string>
@@ -828,7 +814,6 @@
     <string name="scan_result_no_payee">பணம் பெறுபவர் எவரும் கிடைக்கவில்லை</string>
     <string name="pref_feature_uninstall_title">அம்சங்கள் மற்றும் மொழிகளை நீக்குவதற்கு கோரு</string>
     <string name="pref_feature_uninstall_summary">பின்னணியில் அந்த நிரல்கூறுகளை அகற்ற Play ஸ்டோர் முயற்சிக்கிறது.</string>
-    <string name="pref_feature_uninstall_languages_title">மொழிகள்</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">உரிமத் தொகுப்பு ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -924,4 +909,6 @@
     <string name="budget_deleted">வரவு செலவுத் திட்டம் அழிக்கப்பட்டது</string>
     <string name="search_account">கணக்கைத் தேடு</string>
     <string name="budget_table_header_overspent">வரம்பு மீறிய செலவு</string>
+    <string name="contrib_feature_category_tree_label">வகைக் கிளைப்படம்</string>
+    <string name="budget_widget_configuration">வரவு செலவு திட்டத்தை தேர்வு செய்யவும்</string>
 </resources>

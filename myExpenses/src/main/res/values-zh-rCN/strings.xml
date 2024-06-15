@@ -292,7 +292,6 @@
     <string name="pref_shortcut_summary">将快捷方式添加到主屏幕</string>
     <string name="pref_ui_fontsize_title">字体大小</string>
     <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
-    <string name="pref_ui_language_default">应用程序系统默认</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">语言</string>
     <string name="pref_ui_theme_dark">深色</string>
@@ -428,11 +427,9 @@
     <string name="restore_calendar_handling_ignore">不要还原计划</string>
     <string name="restore_not_possible_target_calendar_missing">备份中设置的日历%s在本地不存在。还原动作已被中止。</string>
     <string name="restore_not_possible_local_calendar_missing">当前的收支计划日历无法使用。</string>
-    <string name="menu_distribution_show_pie_char">显示饼状图</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陈旧图像</string>
     <string name="pref_manage_stale_images_summary">管理已删除交易后，所留下的图片</string>
-    <string name="image_deleted">图片已被删除</string>
     <string name="transaction_deleted">交易已删除</string>
     <string name="account_deleted">账户已被删除</string>
     <string name="dialog_export_applied_to_filter">只有与当前筛选器相匹配的交易才会被考虑。</string>
@@ -464,8 +461,6 @@
     <string name="pref_auto_backup_time_title">自动备份的时间</string>
     <string name="calendar_permission_required"><i>{app_name}</i>需要获得访问日历的权限，才能为将来和定期的交易创建计划。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
-    <string name="switch_on_text">开启</string>
-    <string name="switch_off_text">关闭</string>
     <string name="menu_move">移动</string>
     <string name="dialog_title_select_target">选择目标</string>
     <string name="transform_subcategory_to_main">转换为主类别</string>
@@ -534,7 +529,6 @@
     <string name="all_extended_key_features">扩展版密钥的所有功能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">升级</string>
-    <string name="pref_backup_cloud_title">存储在同步后端</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
     <string name="currency_symbol">货币符号</string>
@@ -562,8 +556,6 @@
     <string name="onboarding_get_started">开始吧</string>
     <string name="onboarding_more_options">更多的选择</string>
     <string name="onboarding_restore_from_cloud">从云同步还原</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">备份文件</string>
     <string name="onboarding_restore_from_local">恢复本地备份文件</string>
     <string name="contributed_by">由%s贡献</string>
     <string name="pref_sync_notification_summary">通知同步进度</string>
@@ -591,7 +583,6 @@
     <string name="extend_validity">延长有效期</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">从远程后端获取数据中。这可能要花点时间。</string>
     <string name="donate_button_invoice">发票</string>
-    <string name="menu_sort_direction">排序方向</string>
     <string name="never">从不</string>
     <string name="always">总是</string>
     <string name="auto_fill_account_from_aggregate_only">仅当从汇总账户启动时。</string>
@@ -637,7 +628,6 @@
     <string name="licence_expires_today">您的\"专业版密钥(Professional Key)\"今天到期。</string>
     <string name="licence_expired_yesterday">您的\"专业版密钥(Professional Key)\"已在昨天过期。</string>
     <string name="licence_has_expired_n_days">您的\"专业版密钥(Professional Key)\"已在%d天前过期。</string>
-    <string name="pref_category_title_privacy">隐私</string>
     <string name="gdpr_consent_button_no">支付无广告版本</string>
     <string name="sort_order">排序顺序</string>
     <string name="navigation_drawer_accounts_title">管理账户</string>
@@ -733,8 +723,6 @@
     <string name="discover_feature_expense_income_switch">可以使用此开关钮切换记录支出或收入。</string>
     <string name="menu_create_budget">新建预算</string>
     <string name="budget_onetime">一次性</string>
-    <string name="budget_duration_from">从</string>
-    <string name="budget_duration_to">到</string>
     <string name="no_budgets">点击 + 按钮定义您的第一笔预算。</string>
     <string name="budget_date_end_after_start">预算的结束日期必须晚于开始日期。</string>
     <string name="menu_budget_allocated_only">仅显示已分配的类别</string>
@@ -744,7 +732,6 @@
     <string name="budget_filter_all_states">所有的状态</string>
     <string name="budget_filter_all_tags">所有的标签</string>
     <string name="budget_filter_all_accounts">所有的账户</string>
-    <string name="budget_form_label_filter">筛选条件</string>
     <string name="dialog_title_warning_delete_budget">删除预算？</string>
     <string name="warning_delete_budget">预算“ %1$s”将被删除。</string>
     <string name="menu_edit_budget">编辑预算</string>
@@ -770,7 +757,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">复制的交易保留原本日期</string>
     <string name="tags_create_or_select">创建或选择标签</string>
-    <string name="tags">标签</string>
     <string name="pref_manage_tags_summary">添加，编辑或删除标签。</string>
     <string name="dialog_title_warning_delete_tag">删除标签？</string>
     <string name="menu_edit_tag">编辑标签</string>
@@ -819,7 +805,6 @@
     <string name="scan_result_no_payee">找不到收款人</string>
     <string name="pref_feature_uninstall_title">要求卸载\"功能\"和\"语言\"</string>
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
-    <string name="pref_feature_uninstall_languages_title">语言</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">请选择一个许可证包。</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

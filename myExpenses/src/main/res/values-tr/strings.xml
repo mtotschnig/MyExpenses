@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
     <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
     <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
-    <string name="pref_ui_language_default">Sistem varsayılanı</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Dil</string>
     <string name="pref_ui_theme_dark">Karanlık</string>
@@ -435,11 +434,9 @@
     <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
     <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivinde ayarlanan %s takvimi yerel olarak kullanılabilir değil. Geri yükleme iptal edildi.</string>
     <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
-    <string name="menu_distribution_show_pie_char">Grafiği göster</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Eski resimler</string>
     <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
-    <string name="image_deleted">Resim silinmiştir</string>
     <string name="transaction_deleted">Muamele silinmiştir</string>
     <string name="account_deleted">Hesap silindi</string>
     <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
@@ -471,8 +468,6 @@
     <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
     <string name="calendar_permission_required">&lt;i&gt;{app_name}&lt;/i&gt;, gelecekteki ve yinelenen işlemlere yönelik planlar oluşturmak üzere takviminize erişmek için izne ihtiyaç duyuyor.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
-    <string name="switch_on_text">Açık</string>
-    <string name="switch_off_text">Kapalı</string>
     <string name="menu_move">Taşı</string>
     <string name="dialog_title_select_target">Hedef seç</string>
     <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
@@ -541,7 +536,6 @@
     <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Yükselt</string>
-    <string name="pref_backup_cloud_title">Eşzamanlama arka ucunda sakla</string>
     <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="currency_symbol">Para birimi sembolü</string>
@@ -569,8 +563,6 @@
     <string name="onboarding_get_started">Başlarken</string>
     <string name="onboarding_more_options">Daha fazla seçenek</string>
     <string name="onboarding_restore_from_cloud">Bulut eşzamanlamasından geri yükle</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
     <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
     <string name="contributed_by">Katkıda bulunan: %s</string>
     <string name="pref_sync_notification_summary">Eşzamanlama ilerlemesi hakkında bildirim göster</string>
@@ -598,7 +590,6 @@
     <string name="extend_validity">Geçerliliği uzat</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
     <string name="donate_button_invoice">Fatura</string>
-    <string name="menu_sort_direction">Sıralama yönü</string>
     <string name="never">asla</string>
     <string name="always">daima</string>
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
@@ -645,7 +636,6 @@
     <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor.</string>
     <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
     <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
-    <string name="pref_category_title_privacy">Gizlilik</string>
     <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
@@ -741,8 +731,6 @@
     <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için bu geçiş düğmesini kullanın.</string>
     <string name="menu_create_budget">Yeni bütçe</string>
     <string name="budget_onetime">Bir kerelik</string>
-    <string name="budget_duration_from">Şundan</string>
-    <string name="budget_duration_to">Şuna</string>
     <string name="no_budgets">İlk bütçenizi + düğmesine dokunarak tanımlayın.</string>
     <string name="budget_date_end_after_start">Bütçenin bitiş tarihi, başlangıç tarihinden sonra gelmelidir.</string>
     <string name="menu_budget_allocated_only">Sadece tahsisi bulunan kategorileri göster</string>
@@ -752,7 +740,6 @@
     <string name="budget_filter_all_states">Tüm durumlar</string>
     <string name="budget_filter_all_tags">Tüm etiketler</string>
     <string name="budget_filter_all_accounts">Tüm hesaplar</string>
-    <string name="budget_form_label_filter">Filtre</string>
     <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
     <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
     <string name="menu_edit_budget">Bütçeyi düzenle</string>
@@ -778,7 +765,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
     <string name="tags_create_or_select">Etiket oluştur veya seç</string>
-    <string name="tags">Etiketler</string>
     <string name="pref_manage_tags_summary">Etiket ilave et, düzenle veya sil.</string>
     <string name="dialog_title_warning_delete_tag">Etiket silinsin mi?</string>
     <string name="menu_edit_tag">Etiket düzenle</string>
@@ -828,7 +814,6 @@
     <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
     <string name="pref_feature_uninstall_title">İşlev ve lisanların kurulumunun kaldırılmasını talep et</string>
     <string name="pref_feature_uninstall_summary">Play Store bu modülleri arka planda kaldırmaya çalışacaktır.</string>
-    <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Lütfen bir lisans paketi seçin.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -1011,4 +996,5 @@
     <string name="merge_categories_dialog_title">Kategorileri Birleştir</string>
     <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
     <string name="pref_csv_export_category_separator_summary">Kategori hiyerarşisinin seviyeleri arasındaki ayırıcı</string>
+    <string name="not_enough_data">Yeterli veri yok</string>
 </resources>

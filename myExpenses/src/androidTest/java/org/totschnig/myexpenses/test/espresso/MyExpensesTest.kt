@@ -47,7 +47,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
-import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
+import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
 
 class MyExpensesTest : BaseMyExpensesTest() {

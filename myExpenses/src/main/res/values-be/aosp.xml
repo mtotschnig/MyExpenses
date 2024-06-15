@@ -21,4 +21,19 @@
     <string name="required">"Патрабуецца"</string>
     <string name="quality">"Якасць"</string>
     <string name="no_data">"Няма даных"</string>
+    <string name="color_component_title">"Выберыце колер"</string>
+    <string name="backups">"Backups"</string>
+    <string name="filter">"Фільтр"</string>
+    <string name="languages">"Мовы"</string>
+    <string name="chart">"Дыяграма"</string>
+    <string name="full_screen">"Поўнаэкранны рэжым"</string>
+    <string name="start_date">"Дата пачатку"</string>
+    <string name="end_date">"Дата заканчэння"</string>
+    <string name="cloud_storage">"Воблачнае сховішча"</string>
+    <string name="privacy_header">"Прыватнасць"</string>
+    <string name="orientation">"Арыентацыя"</string>
+    <string name="portrait">"Кніга"</string>
+    <string name="landscape">"Альбом"</string>
+    <string name="title_font_size">"Памер шрыфту"</string>
+    <string name="system_default">"Стандартная сістэмная налада"</string>
 </resources>

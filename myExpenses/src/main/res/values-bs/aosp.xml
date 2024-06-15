@@ -21,4 +21,19 @@
     <string name="required">"Zahtijevano"</string>
     <string name="quality">"Kvalitet"</string>
     <string name="no_data">"Nema podataka"</string>
+    <string name="color_component_title">"Odaberite boju"</string>
+    <string name="backups">"Sigurnosne kopije"</string>
+    <string name="filter">"Filtrirajte"</string>
+    <string name="languages">"Jezici"</string>
+    <string name="chart">"Grafik"</string>
+    <string name="full_screen">"Cijeli ekran"</string>
+    <string name="start_date">"Datum početka"</string>
+    <string name="end_date">"Datum završetka"</string>
+    <string name="cloud_storage">"Pohrana u oblaku"</string>
+    <string name="privacy_header">"Privatnost"</string>
+    <string name="orientation">"Orijentacija"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"Veličina fonta"</string>
+    <string name="system_default">"Sistemski zadano"</string>
 </resources>

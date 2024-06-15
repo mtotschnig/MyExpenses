@@ -34,4 +34,20 @@
     <string name="required">"Vaadittu"</string>
     <string name="quality">"Laatu"</string>
     <string name="no_data">"Ei dataa"</string>
+    <string name="color_component_title">"Valitse väri"</string>
+    <string name="backups">"Varmuuskopiot"</string>
+    <string name="filter">"Suodatin"</string>
+    <string name="tags">"Tunnisteet"</string>
+    <string name="languages">"Kielet"</string>
+    <string name="chart">"Kaavio"</string>
+    <string name="full_screen">"Koko näyttö"</string>
+    <string name="start_date">"Aloituspäivä"</string>
+    <string name="end_date">"Päättymispäivä"</string>
+    <string name="cloud_storage">"Pilvitallennus"</string>
+    <string name="privacy_header">"Yksityisyys"</string>
+    <string name="orientation">"Suunta"</string>
+    <string name="portrait">"Pysty"</string>
+    <string name="landscape">"Vaaka"</string>
+    <string name="title_font_size">"Fontin koko"</string>
+    <string name="system_default">"Järjestelmän oletusarvo"</string>
 </resources>

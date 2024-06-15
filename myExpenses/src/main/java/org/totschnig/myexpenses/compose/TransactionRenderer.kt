@@ -341,11 +341,11 @@ abstract class ItemRenderer(
         style: TextStyle = LocalTextStyle.current,
         showOriginalAmount: Boolean = false
     ) {
-        val displayAmount = if(showOriginalAmount) originalAmount!! else amount
+        val displayAmount = if (showOriginalAmount) originalAmount!! else amount
         ColoredAmountText(
-            money = if (isTransferAggregate) displayAmount.negate() else displayAmount,
+            money = if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount,
             style = style,
-            type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
+            type = type.takeIf { it == FLAG_NEUTRAL } ?: when (colorSource) {
                 ColorSource.TYPE -> type
                 ColorSource.TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
                 ColorSource.SIGN -> null
@@ -460,9 +460,6 @@ class NewTransactionRenderer(
     override fun Modifier.height() = this.heightIn(min = 48.dp)
 }
 
-val Transaction2.isTransferAggregate
-    get() = isTransfer && accountLabel != null
-
 enum class RenderType {
     Legacy, New
 }
@@ -476,14 +473,14 @@ fun Modifier.tagBorder(color: Color) =
 
 @Preview
 @Composable
-fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         .Render(transaction)
 }
 
 @Preview
 @Composable
-fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
         DateTimeFormatter.ofPattern("EEE") to 40.dp,
         withOriginalAmount = true

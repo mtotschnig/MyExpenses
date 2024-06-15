@@ -309,7 +309,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
 
     private fun getLocaleDisplayName(localeString: String) =
         if (localeString == "default") {
-            requireContext().getString(R.string.pref_ui_language_default)
+            requireContext().getString(R.string.system_default)
         } else {
             val locale = Locale.forLanguageTag(localeString)
             locale.getDisplayName(locale)

@@ -27,7 +27,7 @@
             android:title="@string/bottom_center"
             my:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="{@page}"
+            android:defaultValue="{page}"
             android:key="@string/pref_print_footer_right_key"
             android:title="@string/bottom_right"
             my:useSimpleSummaryProvider="true" />
@@ -43,4 +43,17 @@
         android:title="@string/paper_format"
         my:allowDividerAbove="true"
         my:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:defaultValue="PORTRAIT"
+        android:entries="@array/pref_print_paper_orientation_entries"
+        android:entryValues="@array/pref_print_paper_orientation_values"
+        android:key="@string/pref_print_paper_orientation_key"
+        android:title="@string/orientation"
+        my:useSimpleSummaryProvider="true" />
+    <org.totschnig.myexpenses.preference.FloatSeekBarPreference
+        android:defaultValue="12.0"
+        android:key="@string/pref_print_font_size_key"
+        android:title="@string/title_font_size"
+        my:minValue="5.0"
+        my:maxValue="20.0" />
 </PreferenceScreen>

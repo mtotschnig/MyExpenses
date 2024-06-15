@@ -104,4 +104,20 @@
     <string name="quality">"Kvalita"</string>
     <string name="buttons">"Tlačítka"</string>
     <string name="no_data">"Žádná data"</string>
+    <string name="color_component_title">"Vybrat barvu"</string>
+    <string name="backups">"Zálohy"</string>
+    <string name="filter">"Filtr"</string>
+    <string name="tags">Štítky</string>
+    <string name="languages">"Jazyky"</string>
+    <string name="chart">"Graf"</string>
+    <string name="full_screen">"Celá obrazovka"</string>
+    <string name="start_date">"Datum zahájení"</string>
+    <string name="end_date">"Datum ukončení"</string>
+    <string name="cloud_storage">"Cloudové úložiště"</string>
+    <string name="privacy_header">"Ochrana soukromí"</string>
+    <string name="orientation">"Orientace"</string>
+    <string name="portrait">"Na výšku"</string>
+    <string name="landscape">"Na šířku"</string>
+    <string name="title_font_size">"Velikost písma"</string>
+    <string name="system_default">"Výchozí nastavení systému"</string>
 </resources>

@@ -102,4 +102,20 @@
     <string name="quality">"Qualité"</string>
     <string name="buttons">"Boutons"</string>
     <string name="no_data">"Aucune donnée"</string>
+    <string name="color_component_title">"Choisir une couleur"</string>
+    <string name="backups">"Sauvegardes"</string>
+    <string name="filter">"Filtre"</string>
+    <string name="tags">Étiquettes</string>
+    <string name="languages">"Langues"</string>
+    <string name="chart">"Diagramme"</string>
+    <string name="full_screen">"Tout l'écran"</string>
+    <string name="start_date">"Date de début"</string>
+    <string name="end_date">"Date de fin"</string>
+    <string name="cloud_storage">"Stockage cloud"</string>
+    <string name="privacy_header">"Confidentialité"</string>
+    <string name="orientation">"Orientation"</string>
+    <string name="portrait">"Portrait"</string>
+    <string name="landscape">"Paysage"</string>
+    <string name="title_font_size">"Taille de la police"</string>
+    <string name="system_default">"Paramètre système par défaut"</string>
 </resources>

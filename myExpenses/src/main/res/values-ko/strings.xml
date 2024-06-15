@@ -271,7 +271,6 @@
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
     <string name="pref_ui_fontsize_title">글자 크기 증가</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
-    <string name="pref_ui_language_default">시스템 기본값</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">언어</string>
     <string name="pref_ui_theme_dark">어두운 테마</string>
@@ -395,11 +394,9 @@
     <string name="restore_calendar_handling_ignore">재무 계획 복원하지 않기</string>
     <string name="restore_not_possible_target_calendar_missing">백업에 설정된 %s 캘린더가 저장소에 존재하지 않습니다. 복원이 중단되었습니다.</string>
     <string name="restore_not_possible_local_calendar_missing">현재의 계획 캘린더가 존재하지 않습니다.</string>
-    <string name="menu_distribution_show_pie_char">파이 그래프 표시</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">오래된 이미지</string>
     <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>
-    <string name="image_deleted">사진이 삭제되었습니다</string>
     <string name="dialog_export_applied_to_filter">현재의 필터와 일치하는 거래 내역만이 고려됩니다.</string>
     <string name="export_handle_deleted_create_helper">보조 거래 내역 생성</string>
     <string name="export_handle_deleted_update_balance">개시 잔고 업데이트</string>
@@ -429,8 +426,6 @@
     <string name="pref_auto_backup_time_title">자동 백업 시간</string>
     <string name="calendar_permission_required"><i>{app_name}</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
-    <string name="switch_on_text">사용</string>
-    <string name="switch_off_text">사용 안함</string>
     <string name="menu_move">옮기기</string>
     <string name="dialog_title_select_target">목적지 선택</string>
     <string name="transform_subcategory_to_main">기본 범주로 변환하기</string>
@@ -443,8 +438,6 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">암호화</string>
     <string name="translated_by">번역</string>
-    <string name="budget_duration_from">From</string>
-    <string name="budget_duration_to">To</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">기능들</string>
     <string name="pref_translation_title">번역</string>

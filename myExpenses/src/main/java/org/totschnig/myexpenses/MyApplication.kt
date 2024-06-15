@@ -189,11 +189,9 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         crashHandler.onAttachBaseContext(this)
     }
 
-    protected open fun buildAppComponent(): AppComponent {
-        return DaggerAppComponent.builder()
-            .applicationContext(this)
-            .build()
-    }
+    protected open fun buildAppComponent(): AppComponent = DaggerAppComponent.builder()
+        .applicationContext(this)
+        .build()
 
     private fun plantTree(tag: String) {
         Timber.plant(TagFilterFileLoggingTree(this, tag))

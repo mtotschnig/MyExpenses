@@ -102,4 +102,20 @@
     <string name="file_format">"Формат файлу"</string>
     <string name="quality">"Якість"</string>
     <string name="no_data">"Немає даних"</string>
+    <string name="color_component_title">"Виберіть колір"</string>
+    <string name="backups">"Резервні копії"</string>
+    <string name="filter">"Фільтр"</string>
+    <string name="tags">Мітки</string>
+    <string name="languages">"Мови"</string>
+    <string name="chart">"Діаграма"</string>
+    <string name="full_screen">"На весь екран"</string>
+    <string name="start_date">"Дата початку"</string>
+    <string name="end_date">"Дата завершення"</string>
+    <string name="cloud_storage">"Хмарні сховища"</string>
+    <string name="privacy_header">"Конфіденційність"</string>
+    <string name="orientation">"Орієнтація"</string>
+    <string name="portrait">"Книжкова"</string>
+    <string name="landscape">"Альбомна"</string>
+    <string name="title_font_size">"Розмір шрифту"</string>
+    <string name="system_default">"Налаштування системи за умовчанням"</string>
 </resources>

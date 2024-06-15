@@ -113,7 +113,6 @@
     <string name="menu_ManageCategories_sort_help_text">వర్గం జాబితాను శీర్షిక ద్వారా (అక్షరక్రమంగా), ఉపయోగాల పౌన తరచుదనం పున్యం ద్వారా లేదా చివరిసారిగా లావాదేవీకి మ్యాప్ చేయబడినప్పుడు క్రమబద్ధీకరించవచ్చు.</string>
     <string name="menu_ManageCategories_search_help_text">మీ ప్రశ్నకు సరిపోయే ప్రధాన మరియు ఉప వర్గాలు మాత్రమే ప్రదర్శించబడతాయి.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">లావాదేవీ జాబితాను ఫిల్టర్ చేయడానికి ఎంచుకున్న వర్గాలు ఉపయోగించబడతాయి.</string>
-    <string name="menu_distribution_show_pie_char_help_text">పై చార్ట్ యొక్క దృశ్యమానతను టోగుల్ చేయండి.</string>
     <string name="menu_categories_export_help_text">వర్గాలు QIF ఫైల్‌కు ఎగుమతి చేయబడతాయి.</string>
     <string name="menu_categories_setup_default_help_text">డిఫాల్ట్ వర్గాల సమితి దిగుమతి అవుతుంది.</string>
     <string name="menu_forward_help_text">తదుపరి సమూహానికి నావిగేట్ చేయండి. కుడి నుండి ఎడమకు స్వైప్ సంజ్ఞ ద్వారా కూడా చేయవచ్చు.</string>

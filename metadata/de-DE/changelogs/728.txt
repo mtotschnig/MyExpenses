@@ -1,0 +1,5 @@
+• Suche: Verfeinerung der Benutzeroberfläche
+• Konfiguration des Konten-Widgets: Schaltflächen
+• Die Funktion „Quittung scannen“ kann vom Widget „Meine Konten“ aufgerufen werden.
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

@@ -1,0 +1,27 @@
+<i>Moje výdaje</i> je váš dokonalý nástroj pro snadné sledování výdajů a finanční správu, přímo na dosah ruky!
+
+Klíčové vlastnosti:
+
+     • <b>Sledování výdajů bez námahy</b>: Mějte přehled o svých výdajích a příjmech bez problémů, ať už používáte chytrý telefon nebo tablet.
+     • <b>Flexibilní správa účtů</b>: Snadná správa více účtů, včetně převodů mezi různými měnami.
+     • <b>Zjednodušené finanční plánování</b>: Snadné nastavení plánů pro opakující se transakce.
+     • <b>Bezproblémová správa dat</b>: Snadno exportujte a importujte data pomocí formátů QIF a CSV.
+     • <b>Vylepšené zabezpečení</b>: Chraňte svá data pomocí hesla nebo zabezpečení obrazovky uzamčení zařízení.
+     • <b>Přizpůsobitelné prostředí</b>: Přizpůsobte aplikaci svým preferencím pomocí přizpůsobitelných motivů a velikostí písma.
+     • <b>Odsouhlasení bankovních výpisů</b>: Snadno porovnejte stav transakce s bankovními výpisy pro přesné finanční sledování.
+     • <b>Rychlé zadávání dat</b>: Užijte si pohodlný přístup pomocí widgetů a zástupců na domovské obrazovce.
+     • <b>Výkonná analýza dat</b>: Filtrujte svá data na základě různých kritérií a vizualizujte distribuci a historické trendy pomocí dynamických grafů.
+
+Odemkněte prémiové funkce:
+
+     • <i>Klíč Contrib</i>: Rozlučte se s reklamami a odemkněte neomezený počet účtů, plány opakujících se transakcí a další.
+     • <i>Rozšířený klíč</i>: Užijte si cloudovou synchronizaci, automatické zálohování a sofistikované importy CSV.
+     • <i>Professional Key</i>: Posuňte své finanční řízení na další úroveň pomocí nástrojů pro rozpočtování, skenování účtenek a e-mailové podpory.
+
+<i>Moje výdaje</i> vyžaduje následující <u>oprávnění</u>:
+
+     • <i>Kalendář</i>: Plány pro budoucí a opakující se transakce jsou uloženy buď ve speciálním místním kalendáři, nebo v jakémkoli jiném kalendáři, který přiřadíte.
+     • <i>Internet</i>: Anonymní sledování využití, zprávy o selhání, synchronizace v cloudu.
+     • <i>Účty</i>: Synchronizace mezi zařízeními prostřednictvím cloudových služeb.
+
+Získejte kontrolu nad svými financemi jako nikdy předtím pomocí <i>Moje výdaje</i>!

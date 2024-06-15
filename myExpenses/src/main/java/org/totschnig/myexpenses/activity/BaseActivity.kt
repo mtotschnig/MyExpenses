@@ -47,6 +47,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
@@ -78,6 +79,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -104,6 +106,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -148,7 +151,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     private var _focusAfterRestoreInstanceState: Pair<Int, Int>? = null
 
-    var scheduledRestart = false
+    private var scheduledRestart = false
     private var confirmCredentialResult: Boolean? = null
 
     lateinit var toolbar: Toolbar
@@ -614,13 +617,32 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-        if (dialogTag == DIALOG_INACTIVE_BACKEND && which == OnDialogResultListener.BUTTON_POSITIVE) {
-            GenericAccountService.activateSync(
-                extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
-                prefHandler
-            )
-            true
-        } else false
+        when (dialogTag) {
+            DIALOG_INACTIVE_BACKEND -> {
+                if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+                    GenericAccountService.activateSync(
+                        extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
+                        prefHandler
+                    )
+                }
+                true
+            }
+
+            DIALOG_TAG_OCR_DISAMBIGUATE -> {
+                startEditFromOcrResult(
+                    BundleCompat.getParcelable(extras, KEY_OCR_RESULT, OcrResult::class.java)!!
+                        .selectCandidates(
+                            extras.getInt(DatabaseConstants.KEY_AMOUNT),
+                            extras.getInt(DatabaseConstants.KEY_DATE),
+                            extras.getInt(DatabaseConstants.KEY_PAYEE_NAME)
+                        ),
+                    BundleCompat.getParcelable(extras, KEY_URI, Uri::class.java)!!
+                )
+                true
+            }
+
+            else -> false
+        }
 
     open fun hideWindow() {
         findViewById<View>(android.R.id.content).visibility = View.GONE
@@ -872,7 +894,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 if (throwable is ActivityNotFoundException)
                     getString(R.string.image_capture_not_installed)
                 else throwable.safeMessage,
-            callback = imageCaptureErrorDismissCallback
+                callback = imageCaptureErrorDismissCallback
             )
             true
         } else false
@@ -954,8 +976,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                             }
                         )
                     addCallback(object : Snackbar.Callback() {
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            snackBar = null
+                        override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+                            if (snackBar == transientBottomBar) {
+                                snackBar = null
+                            }
                         }
                     })
                     show()
@@ -996,7 +1020,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun dismissSnackBar() {
         snackBar?.dismiss()
-        snackBar = null
     }
 
     @IdRes
@@ -1396,8 +1419,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun checkGdprConsent(forceShow: Boolean) {
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            adHandlerFactory.gdprConsent(this@BaseActivity, forceShow)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                adHandlerFactory.gdprConsent(this@BaseActivity, forceShow)
+            }
         }
     }
 
@@ -1438,10 +1463,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.amountCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_amount))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.amount),
-                                    it.amountCandidates[0]
-                                )
+                                "${getString(R.string.amount)}: ${it.amountCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_AMOUNT)
@@ -1452,10 +1474,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.dateCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_date))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.date),
-                                    displayDateCandidate(it.dateCandidates[0])
-                                )
+                                "${getString(R.string.date)}: ${it.dateCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_DATE)
@@ -1469,10 +1488,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.payeeCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_payee))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.payee),
-                                    it.payeeCandidates[0].name
-                                )
+                                "${getString(R.string.payee)}: ${it.payeeCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_PAYEE_NAME)
@@ -1489,7 +1505,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
             }
         }.onFailure {
-            CrashHandler.report(it)
+            report(it)
             Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
         }
     }

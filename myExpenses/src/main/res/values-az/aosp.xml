@@ -23,4 +23,15 @@
     <string name="password">"Parol"</string>
     <string name="frequency">"Tezlik"</string>
     <string name="no_data">"Məlumat yoxdur"</string>
+    <string name="color_component_title">"Rəng seçin"</string>
+    <string name="filter">"Filtr"</string>
+    <string name="tags">"Teqlər"</string>
+    <string name="languages">"Dillər"</string>
+    <string name="full_screen">"Tam ekran"</string>
+    <string name="start_date">"Başlama tarixi"</string>
+    <string name="end_date">"Bitmə tarixi"</string>
+    <string name="cloud_storage">"Bulud Yaddaşı"</string>
+    <string name="privacy_header">"Məxfilik"</string>
+    <string name="title_font_size">"Şrift ölçüsü"</string>
+    <string name="system_default">"Sistem defoltu"</string>
 </resources>

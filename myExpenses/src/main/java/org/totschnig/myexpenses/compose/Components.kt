@@ -26,7 +26,7 @@ fun ButtonRow(modifier: Modifier = Modifier, content: @Composable RowScope.() ->
 
 @Preview
 @Composable
-fun ButtonRowDemo() {
+private fun ButtonRowDemo() {
     ButtonRow(modifier = Modifier.width(150.dp)) {
         Button(onClick = { }) {
             Text("Cancel")

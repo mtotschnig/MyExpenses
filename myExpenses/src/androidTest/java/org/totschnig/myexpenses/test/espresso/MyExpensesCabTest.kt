@@ -50,9 +50,12 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -100L)
         op0.save(contentResolver)
-        op0Id =op0.id
-        for (i in 2 .. initialOpCount) {
-            repository.addAttachments(op0.id, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
+        op0Id = op0.id
+        for (i in 2..initialOpCount) {
+            repository.addAttachments(
+                op0.id,
+                listOf(Uri.parse("file:///android_asset/screenshot.jpg"))
+            )
             op0.amount = Money(homeCurrency, -100L * i)
             op0.date -= 10000
             op0.saveAsNew(contentResolver)
@@ -122,7 +125,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private fun doDelete(useCab: Boolean, cancel: Boolean) {
         assertListSize(origListSize)
         triggerDelete(useCab)
-        onView(withText(if (cancel) android.R.string.cancel else  R.string.menu_delete))
+        onView(withText(if (cancel) android.R.string.cancel else R.string.menu_delete))
             .inRoot(isDialog())
             .perform(click())
         assertListSize(if (cancel) origListSize else origListSize - 1)
@@ -180,7 +183,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         onView(withText(R.string.menu_split_transaction))
             .perform(click())
-        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst().assertTextContains(getString(R.string.split_transaction))
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
+            .assertTextContains(getString(R.string.split_transaction))
     }
 
     @Test
@@ -208,7 +212,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         launch(initialOpCount = 1)
         val transferAccount = buildAccount("Test account 2")
         clickContextItem(R.string.menu_transform_to_transfer)
-        composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2")).performClick()
+        composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2"))
+            .performClick()
         onView(withId(android.R.id.button1)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
         val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency)
@@ -228,8 +233,20 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         launch(account.id)
         clickContextItem(R.string.menu_unlink_transfer)
         onView(withId(android.R.id.button1)).perform(click())
-        assertThat(Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency).isTransfer).isFalse()
-        assertThat(Transaction.getInstanceFromDb(contentResolver, transferPeer, homeCurrency).isTransfer).isFalse()
+        assertThat(
+            Transaction.getInstanceFromDb(
+                contentResolver,
+                op0Id,
+                homeCurrency
+            ).isTransfer
+        ).isFalse()
+        assertThat(
+            Transaction.getInstanceFromDb(
+                contentResolver,
+                transferPeer,
+                homeCurrency
+            ).isTransfer
+        ).isFalse()
     }
 
     @Test

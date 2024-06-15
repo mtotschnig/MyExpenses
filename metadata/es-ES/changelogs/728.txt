@@ -1,0 +1,5 @@
+• Búsqueda: Interfaz de usuario mejorada
+• Configuración del widget de cuenta: Botones
+• La función «Escanear recibo» se puede llamar desde el widget «Mis cuentas».
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
@@ -36,19 +37,30 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
+import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
+import org.totschnig.myexpenses.widget.BudgetWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
+import timber.log.Timber
 import java.io.Serializable
+import javax.inject.Inject
 
-class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
+class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
+
+    @Inject
+    lateinit var configurator: Configurator
 
     @State
     var resultCode: Int = RESULT_OK
@@ -90,6 +102,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (configurator[USE_SET_DECOR_PADDING_WORKAROUND, false]) {
+            Timber.i("Using DECOR_PADDING_WORKAROUND")
+            window.decorView
+        }
         injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
@@ -106,6 +122,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 .commit()
         }
         observeLicenceApiResult()
+    }
+
+    override fun injectDependencies() {
+        injector.inject(this)
     }
 
     override fun setTitle(title: CharSequence?) {
@@ -165,9 +185,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             R.id.DELETE_CALENDAR_COMMAND -> {
                 //noinspection MissingPermission
                 viewModel?.deleteLocalCalendar()?.observe(this) {
-                    when(it) {
+                    when (it) {
                         1 -> twoPanePreference.getDetailFragment<PreferencesAdvancedFragment>()
                             ?.configureDeleteCalendarPreference(false)
+
                         else -> {
                             val message = if (it == 0) "Deletion of local calendar failed" else
                                 "PANIC: DeleteLocalCalendar returned $it"
@@ -254,26 +275,25 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 updateAllWidgets()
             }
 
-            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
-                currencyFormatter.invalidate(contentResolver)
-            }
+            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> currencyFormatter.invalidate(contentResolver)
 
-            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
+            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) ->
                 updateWidgetsForClass(AccountWidget::class.java)
-            }
 
-            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
+            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) ->
                 updateWidgetsForClass(TemplateWidget::class.java)
-            }
 
-            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                enqueuePlanner(false)
-            }
+            getKey(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) ->
+                updateWidgetsForClass(BudgetWidget::class.java)
+
+            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> enqueuePlanner(false)
 
             getKey(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER) -> {
                 contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
                 contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
             }
+
+            getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()
         }
     }
 
@@ -289,12 +309,14 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
         when (feature) {
-            Feature.OCR, Feature.MLKIT, Feature.TESSERACT -> {
-                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
-            }
-            Feature.WEBUI -> {
-                twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
-            }
+            Feature.OCR, Feature.MLKIT, Feature.TESSERACT ->
+                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
+                    ?.configureOcrEnginePrefs()
+
+            Feature.WEBUI ->
+                twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()
+                    ?.bindToWebUiService()
+
             else -> {}
         }
     }
@@ -323,6 +345,11 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         }
     }
 
+    override fun onReceiveSyncAccountData(data: SyncViewModel.SyncAccountData) {
+        twoPanePreference.getDetailFragment<PreferencesBackupRestoreFragment>()
+            ?.loadSyncAccountData(data.accountName)
+    }
+
     override fun onResumeFragments() {
         super.onResumeFragments()
         initialPrefToShow?.let {
@@ -336,6 +363,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
             }
+
             else -> super.contribFeatureCalled(feature, tag)
         }
     }
@@ -397,6 +425,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         super.onWebUiActivated()
         resultCode = RESULT_INVALIDATE_OPTIONS_MENU
     }
+
+    override val createAccountTaskShouldQueryRemoteAccounts = false
+    override val offerEncryption = false
 
     companion object {
         fun getIntent(context: Context, initialScreen: String? = null) =

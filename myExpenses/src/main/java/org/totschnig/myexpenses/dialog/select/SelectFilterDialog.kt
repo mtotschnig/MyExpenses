@@ -18,7 +18,7 @@ abstract class SelectFilterDialog<T : IdCriterion>(
     protected abstract fun makeCriteria(label: String, vararg ids: Long): T
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
-        requireArguments().criterion(typeParameterClass)?.let { criterion ->
+        arguments?.criterion(typeParameterClass)?.let { criterion ->
             if (criterion.values.isEmpty()) {
                 dataViewModel.selectionState.addToSelection(NULL_ITEM_ID)
             } else {

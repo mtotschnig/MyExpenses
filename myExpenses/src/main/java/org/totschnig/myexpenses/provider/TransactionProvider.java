@@ -316,10 +316,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
 
   public static final String QUERY_PARAMETER_CALLER_IS_IN_BULK = "caller_is_in_bulk";
-  /**
-   * "1" for currency aggregate, "2" for grand total
-   */
-  public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_JULIAN_START = "withJulianStart";
@@ -439,14 +435,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder((extended ? VIEW_EXTENDED : VIEW_COMMITTED));
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.distinct();
-        }
-        String mergeTransfers = uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS);
-        if (mergeTransfers != null) {
-          String keepTransferPartCriterion = mergeTransfers.equals("1") ?
-                  "NOT(" + IS_SAME_CURRENCY + ") OR " + KEY_AMOUNT + " < 0" :
-                  grandTotalAccountKeepTransferPartCriterion(getHomeCurrency());
-          String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + keepTransferPartCriterion;
-          selection += " AND (" + mergeTransferSelection + ")";
         }
         break;
       }
@@ -1028,7 +1016,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case BANKS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
-        newUri = DEBTS_URI + "/" + id;
+        newUri = BANKS_URI + "/" + id;
       }
       // Currently not needed, until we implement Custom attributes
 /*      case ATTRIBUTES -> {
@@ -1244,6 +1232,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(DEBTS_URI, false);
       } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
+      } else if (uriMatch == BANK_ID) {
+        notifyChange(ACCOUNTS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }

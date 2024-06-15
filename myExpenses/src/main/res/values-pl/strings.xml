@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
     <string name="pref_ui_fontsize_title">Wielkość kroju pisma</string>
     <string name="pref_ui_home_screen_shortcuts">Skróty</string>
-    <string name="pref_ui_language_default">Domyślne systemowe</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Język</string>
     <string name="pref_ui_theme_dark">Ciemny</string>
@@ -439,11 +438,9 @@
     <string name="restore_calendar_handling_ignore">Nie przywracaj planów</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendarz %s ustawiony w archiwum kopii zapasowej nie istnieje lokalnie. Przywracanie zostało przerwane.</string>
     <string name="restore_not_possible_local_calendar_missing">Obecny kalendarz planowania nie jest dostępny.</string>
-    <string name="menu_distribution_show_pie_char">Pokaż wykres kołowy</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale obrazy</string>
     <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
-    <string name="image_deleted">Obrazek został usunięty</string>
     <string name="transaction_deleted">Transakcja została usunięta</string>
     <string name="account_deleted">Konto zostało usunięte</string>
     <string name="dialog_export_applied_to_filter">Tylko transakcje dopasowane do obecnego filtra będą brane pod uwagę.</string>
@@ -475,8 +472,6 @@
     <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
     <string name="calendar_permission_required"><i>{app_name}</i> potrzebuje uprawnień dostępu do Twojego kalendarza, aby tworzyć plany dla przyszłych i cyklicznych transakcji.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Udziel dostęp</string>
-    <string name="switch_on_text">Wł.</string>
-    <string name="switch_off_text">Wył.</string>
     <string name="menu_move">Przenieś</string>
     <string name="dialog_title_select_target">Wybierz cel</string>
     <string name="transform_subcategory_to_main">Przekształć w główną kategorię</string>
@@ -545,7 +540,6 @@
     <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Aktualizuj</string>
-    <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>
@@ -571,8 +565,6 @@
     <string name="onboarding_get_started">Zacznij</string>
     <string name="onboarding_more_options">Więcej opcji</string>
     <string name="onboarding_restore_from_cloud">Przywróć z synchronizowanej chmury</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Kopie zapasowe</string>
     <string name="onboarding_restore_from_local">Przywróć lokalną kopię</string>
     <string name="contributed_by">Wniesione przez %s</string>
     <string name="pref_sync_notification_summary">Powiadamiaj o postępie synchronizacji</string>
@@ -600,7 +592,6 @@
     <string name="extend_validity">Przedłuż ważność</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="menu_sort_direction">Kierunek sortowania</string>
     <string name="never">nigdy</string>
     <string name="always">zawsze</string>
     <string name="sync_auth_exception">Autoryzacja się nie powiodła.</string>
@@ -642,7 +633,6 @@
     <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj.</string>
     <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj.</string>
     <string name="licence_has_expired_n_days">Twój klucz profesjonalny wygasł %d dni temu.</string>
-    <string name="pref_category_title_privacy">Prywatność</string>
     <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
     <string name="sort_order">Kolejność sortowania</string>
     <string name="navigation_drawer_accounts_title">Zarządzaj kontami</string>
@@ -699,8 +689,6 @@
     <string name="warning_no_account">Przynajmniej jedno konto musi zostać założone, aby móc dodać pierwszą transakcję.</string>
     <string name="pref_category_exchange_rates">Kursy wymiany</string>
     <string name="menu_create_budget">Nowy budżet</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <string name="budget_filter_all_categories">Wszystkie kategorie</string>
     <string name="menu_edit_budget">Edycja budżetu</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
@@ -795,7 +783,6 @@
     <string name="dialog_multi_tag_append">Dodawanie nowych tagów do istniejących tagów</string>
     <string name="remapping_result">Wybrane transakcje zostały ponownie zmapowane.</string>
     <string name="pref_group_header_show_details_summary">Pokaż sumy szczegółów w nagłówku grupy</string>
-    <string name="tags">Tagi</string>
     <string name="pref_security_export_passphrase_title">Hasło do kopii zapasowych</string>
     <string name="icon">Ikona</string>
     <string name="budget_deleted">Budżet został usunięty</string>
@@ -849,7 +836,6 @@
     <string name="maximum_size">Maksymalna wielkość</string>
     <string name="pref_ocr_total_indicators_summary">Lista ciągów, które identyfikują łączną wartość na paragonie. Umieść każdą wartość w nowym wierszu. Pozostaw puste, aby przywrócić wartość domyślną.</string>
     <string name="menu_reopen">Otwórz ponownie</string>
-    <string name="pref_feature_uninstall_languages_title">Języki</string>
     <string name="pref_clone_with_current_date_summary_on">Sklonowane transakcje mają bieżącą datę</string>
     <string name="content_description_closed">Zamknięte</string>
     <string name="tags_create_or_select">Tworzenie lub wybieranie tagów</string>
@@ -975,7 +961,6 @@
     <string name="hint_auto_fill">Czy dane powinny być wypełniane automatycznie od ostatniej transakcji dla tego samego odbiorcy/płatnika? Zawsze możesz zmienić to zachowanie w ustawieniach.</string>
     <string name="feature_downloaded">Funkcja %s została zainstalowana.</string>
     <string name="select_all_list_too_large">Polecenie %s jest niedostępne, ponieważ lista jest tylko częściowo załadowana. Użyj funkcji wyszukiwania, aby zmniejszyć rozmiar listy.</string>
-    <string name="budget_form_label_filter">Filtr</string>
     <string name="button_scan">Skanowanie</string>
     <string name="pref_exchange_rate_provider_title">Dostawca kursów wymiany walut</string>
     <string name="content_description_remove_icon">Usuń ikonę</string>

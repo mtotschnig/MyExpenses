@@ -102,4 +102,20 @@
     <string name="quality">"Calidad"</string>
     <string name="buttons">"Botones"</string>
     <string name="no_data">"No hay datos"</string>
+    <string name="color_component_title">"Elegir color"</string>
+    <string name="backups">"Copias de respaldo"</string>
+    <string name="filter">"Filtro"</string>
+    <string name="tags">"Etiquetas"</string>
+    <string name="languages">"Idiomas"</string>
+    <string name="chart">"Gráfico"</string>
+    <string name="full_screen">"Pantalla completa"</string>
+    <string name="start_date">"Fecha de inicio"</string>
+    <string name="end_date">"Fecha de finalización"</string>
+    <string name="cloud_storage">"Almacenamiento en la nube"</string>
+    <string name="privacy_header">"Privacidad"</string>
+    <string name="orientation">"Orientación"</string>
+    <string name="portrait">"Vertical"</string>
+    <string name="landscape">"Horizontal"</string>
+    <string name="title_font_size">"Tamaño de fuente"</string>
+    <string name="system_default">"Predeterminado del sistema"</string>
 </resources>

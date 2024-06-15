@@ -300,7 +300,6 @@
     <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
     <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлыки домашнего экрана</string>
-    <string name="pref_ui_language_default">По умолчанию</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Язык</string>
     <string name="pref_ui_theme_dark">Тёмная</string>
@@ -448,11 +447,9 @@
     <string name="restore_calendar_handling_ignore">Не восстанавливайте планы </string>
     <string name="restore_not_possible_target_calendar_missing">Календарь %s, установленный в архиве резервных копий, не существует локально. Восстановление было прервано.</string>
     <string name="restore_not_possible_local_calendar_missing">Текущий календарь планирования недоступен.</string>
-    <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Устаревшие изображения</string>
     <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
-    <string name="image_deleted">Изображение было удалено</string>
     <string name="transaction_deleted">Транзакция была удалена</string>
     <string name="dialog_export_applied_to_filter">Только операции, соответствующие текущему фильтру, будут рассматриваться.</string>
     <string name="export_handle_deleted_create_helper">Создать вспомогательную транзакцию</string>
@@ -483,8 +480,6 @@
     <string name="pref_auto_backup_time_title">Время автоматического резервного копирования</string>
     <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
-    <string name="switch_on_text">ВКЛ</string>
-    <string name="switch_off_text">ВЫКЛ</string>
     <string name="menu_move">Переместить</string>
     <string name="dialog_title_select_target">Выберите цель</string>
     <string name="transform_subcategory_to_main">Превратить в основную категорию</string>
@@ -553,7 +548,6 @@
     <string name="all_extended_key_features">Все возможности Extended-ключа</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Обновить</string>
-    <string name="pref_backup_cloud_title">Хранить на сервере синхронизации</string>
     <string name="pref_backup_cloud_summary">В дополнение к локальному хранению на устройстве, файл резервной копии может быть скопирован на удаленный сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="currency_symbol">Символ валюты</string>
@@ -581,8 +575,6 @@
     <string name="onboarding_get_started">Начало</string>
     <string name="onboarding_more_options">Больше опций</string>
     <string name="onboarding_restore_from_cloud">Восстановить из облака</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Резервные копии</string>
     <string name="onboarding_restore_from_local">Восстановить из локального файла</string>
     <string name="contributed_by">Вклад внесен %s</string>
     <string name="pref_sync_notification_summary">Уведомить о состоянии синхронизации</string>
@@ -610,7 +602,6 @@
     <string name="extend_validity">Продлить действительность</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Получение данных с удаленного сервера. Это может занять некоторое время.</string>
     <string name="donate_button_invoice">Счёт-фактура</string>
-    <string name="menu_sort_direction">Направление сортировки</string>
     <string name="never">Никогда</string>
     <string name="always">Всегда</string>
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>
@@ -659,7 +650,6 @@
     <string name="licence_expires_today">Ваш тариф \"профессиональный\" заканчивается сегодня.</string>
     <string name="licence_expired_yesterday">Ваш тариф \"профессиональный\" закончился вчера.</string>
     <string name="licence_has_expired_n_days">Срок действия вашего профессионального ключа истек %d дней назад.</string>
-    <string name="pref_category_title_privacy">Конфиденциальность</string>
     <string name="gdpr_consent_button_no">Оплатить за версию без рекламы</string>
     <string name="sort_order">Направление сортировки</string>
     <string name="navigation_drawer_accounts_title">Управление счетами</string>
@@ -755,8 +745,6 @@
     <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
     <string name="menu_create_budget">Новый бюджет</string>
     <string name="budget_onetime">Одноразовый </string>
-    <string name="budget_duration_from">С</string>
-    <string name="budget_duration_to">До</string>
     <string name="no_budgets">Определите свой первый бюджет, нажав кнопку +.</string>
     <string name="budget_date_end_after_start">Дата окончания бюджета должна следовать после даты начала.</string>
     <string name="menu_budget_allocated_only">Показавать только категории с распределением</string>
@@ -765,7 +753,6 @@
     <string name="budget_filter_all_methods">Все методы</string>
     <string name="budget_filter_all_states">Все статусы</string>
     <string name="budget_filter_all_tags">Все теги</string>
-    <string name="budget_form_label_filter">Фильтр</string>
     <string name="dialog_title_warning_delete_budget">Удалить бюджет?</string>
     <string name="warning_delete_budget">Бюджет \"%1$s\" будет удален.</string>
     <string name="menu_edit_budget">Изменить бюджет</string>
@@ -791,7 +778,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонированные операции сохраняют исходную дату</string>
     <string name="tags_create_or_select">Создать или выбрать теги</string>
-    <string name="tags">Теги</string>
     <string name="pref_manage_tags_summary">Добавить, изменить, удалить теги.</string>
     <string name="dialog_title_warning_delete_tag">Удалить тег?</string>
     <string name="menu_edit_tag">Изменить тег</string>
@@ -843,7 +829,6 @@
     <string name="advance_exexcution_in_days">Досрочное исполнение (в днях)</string>
     <string name="discover_feature_fab_long_press">Нажмите и удерживайте плавающую кнопку действия, чтобы напрямую открыть форму для переводов, разделения транзакций или дохода.</string>
     <string name="select_package">Пожалуйста, выберите пакет лицензий.</string>
-    <string name="pref_feature_uninstall_languages_title">Языки</string>
     <string name="scan_result_no_payee">Получатель платежа не найден</string>
     <string name="scan_result_no_date">Дата не найдена</string>
     <string name="scan_result_multiple_candidates_dialog_title">Найдено несколько кандидатов. Пожалуйста, выберите:</string>

@@ -24,4 +24,19 @@
     <string name="required">"જરુરી"</string>
     <string name="quality">"ગુણવત્તા"</string>
     <string name="no_data">"કોઈ ડેટા નથી"</string>
+    <string name="color_component_title">"રંગ પસંદ કરો"</string>
+    <string name="backups">"બૅકઅપ"</string>
+    <string name="filter">"ફિલ્ટર કરો"</string>
+    <string name="languages">"ભાષાઓ"</string>
+    <string name="chart">"આલેખ"</string>
+    <string name="full_screen">"પૂર્ણ સ્ક્રીન"</string>
+    <string name="start_date">"પ્રારંભ તારીખ"</string>
+    <string name="end_date">"સમાપ્તિ તારીખ"</string>
+    <string name="cloud_storage">"ક્લાઉડ સ્ટોરેજ"</string>
+    <string name="privacy_header">"પ્રાઇવસી"</string>
+    <string name="orientation">"દિશા"</string>
+    <string name="portrait">"છબી"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"ફૉન્ટનું કદ"</string>
+    <string name="system_default">"સિસ્ટમ ડિફૉલ્ટ"</string>
 </resources>

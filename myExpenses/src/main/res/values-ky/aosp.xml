@@ -20,4 +20,12 @@
     <string name="password">"Сырсөз"</string>
     <string name="frequency">"Жыштык"</string>
     <string name="no_data">"Эч нерсе жок"</string>
+    <string name="color_component_title">"Түс тандоо"</string>
+    <string name="filter">"Чыпкалоо"</string>
+    <string name="languages">"Тилдер"</string>
+    <string name="full_screen">"Толук экран"</string>
+    <string name="cloud_storage">"Булуттагы сактагыч"</string>
+    <string name="privacy_header">"Купуялык"</string>
+    <string name="title_font_size">"Арип өлчөмү"</string>
+    <string name="system_default">"Системанын демейки параметрлери"</string>
 </resources>

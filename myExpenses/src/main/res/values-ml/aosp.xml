@@ -24,4 +24,19 @@
     <string name="required">"ആവശ്യമായ"</string>
     <string name="quality">"നിലവാരം"</string>
     <string name="no_data">"ഡാറ്റയൊന്നുമില്ല"</string>
+    <string name="color_component_title">"വര്‍ണം തിരഞ്ഞെടുക്കുക"</string>
+    <string name="backups">"ബാക്കപ്"</string>
+    <string name="filter">"ഫിൽട്ടർ ചെയ്യുക"</string>
+    <string name="languages">"ഭാഷകൾ"</string>
+    <string name="chart">"ചാര്‍ട്ട്"</string>
+    <string name="full_screen">"പൂര്‍ണ്ണ സ്ക്രീന്‍"</string>
+    <string name="start_date">"ആരംഭിക്കുന്ന തീയതി"</string>
+    <string name="end_date">"അവസാനിക്കുന്ന തീയതി"</string>
+    <string name="cloud_storage">"ക്ലൗഡ് സ്റ്റോറേജ്"</string>
+    <string name="privacy_header">"സ്വകാര്യത"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">"ഛായാചിത്രം"</string>
+    <string name="landscape">"ലാന്ഡ്സ്കേപ്"</string>
+    <string name="title_font_size">"ഫോണ്ട് വലുപ്പം"</string>
+    <string name="system_default">"സിസ്‌റ്റം ഡിഫോൾട്ട്"</string>
 </resources>

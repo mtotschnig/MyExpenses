@@ -97,4 +97,20 @@
     <string name="required">"Cần thiết"</string>
     <string name="quality">"Chất lượng"</string>
     <string name="no_data">"Không có dữ liệu"</string>
+    <string name="color_component_title">"Chọn màu"</string>
+    <string name="backups">"Bản sao lưu"</string>
+    <string name="filter">"Bộ lọc"</string>
+    <string name="tags">"Thẻ"</string>
+    <string name="languages">"Ngôn ngữ"</string>
+    <string name="chart">"Đồ thị"</string>
+    <string name="full_screen">"Toàn màn hình"</string>
+    <string name="start_date">"Ngày bắt đầu"</string>
+    <string name="end_date">"Ngày kết thúc"</string>
+    <string name="cloud_storage">"Bộ nhớ trên đám mây"</string>
+    <string name="privacy_header">"Quyền riêng tư"</string>
+    <string name="orientation">"Hướng"</string>
+    <string name="portrait">"Nằm dọc"</string>
+    <string name="landscape">"Nằm ngang"</string>
+    <string name="title_font_size">"Kích thước phông chữ"</string>
+    <string name="system_default">"Theo chế độ mặc định của hệ thống"</string>
 </resources>

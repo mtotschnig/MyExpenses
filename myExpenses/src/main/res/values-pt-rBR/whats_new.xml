@@ -17,4 +17,7 @@
     <string name="whats_new_376_2">A interface do usuário da Web pode ser controlada na tela principal.</string>
     <string name="whats_new_376_1">Clone várias transações com nova data.</string>
     <string name="whats_new_378">Os gráficos respeitam o filtro de pesquisa.</string>
+    <string name="whats_new_382">O recurso %1$s pode ser chamado a partir do widget %2$s.</string>
+    <string name="whats_new_384">Configuração simplificada do backup em nuvem</string>
+    <string name="whats_new_386">A distribuição por despesas e a distribuição por receita podem ser mostradas juntas no gráfico de rosquinhas de anel duplo.</string>
 </resources>

@@ -1002,11 +1002,11 @@ abstract class BaseTransactionDatabase(
     }
 
     fun createOrRefreshCategoryMainCategoryUniqueLabel(db: SupportSQLiteDatabase) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
-            db.execSQL("DROP INDEX if exists categories_label")
-            db.execSQL(CATEGORY_LABEL_INDEX_CREATE)
-        } else {
-            with(db) {
+        with(db) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
+                execSQL("DROP INDEX if exists categories_label")
+                execSQL(CATEGORY_LABEL_INDEX_CREATE)
+            } else {
                 execSQL("DROP TRIGGER IF EXISTS category_label_unique_insert")
                 execSQL("DROP TRIGGER IF EXISTS category_label_unique_update")
                 execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_INSERT)

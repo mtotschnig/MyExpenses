@@ -1,45 +1,27 @@
-Le mie spese tiene traccia delle tue spese e delle tue entrate, direttamente sul tuo smartphone e sul tuo tablet.
+<i>Le mie spese</i> è il tuo strumento definitivo per monitorare facilmente le spese e gestire le finanze, a portata di mano!
 
-- Fino a cinque conti con <b> trasferimenti </b> (anche tra valute diverse)
-- Numero illimitato di <b> modelli </b> e fino a tre piani per le transazioni <b> ricorrenti </b>
-- <b> Esporta </b> in QIF e CSV. <b> Importa </b> da QIF
-- I dati possono essere protetti da <b> password </b> o dal <b> blocco schermo </b> del dispositivo
-- <b> Tema </b>(scuro e chiaro) e <b> dimensione caratteri </b> possono essere personalizzati
-- <b>Riconciliazione</b>: Confronta facilmente lo stato delle transazioni con il tuo estratto conto
-- <b> Widget </b> per la schermata principale e <b> scorciatoie </b> per l'inserimento rapido dei dati
+Caratteristiche principali:
 
-Le funzionalità premium sono sbloccate con l'acquisto di una delle seguenti licenze:
+     • <b>Monitoraggio delle spese semplice</b>: tieni sotto controllo le tue spese e le tue entrate senza problemi, sia che tu sia sul tuo smartphone o tablet.
+     • <b>Gestione flessibile dei conti</b>: gestisci facilmente più conti, inclusi i trasferimenti tra valute diverse.
+     • <b>Pianificazione finanziaria semplificata</b>: imposta facilmente piani per transazioni ricorrenti.
+     • <b>Gestione perfetta dei dati</b>: esporta e importa facilmente i dati utilizzando i formati QIF e CSV.
+     • <b>Sicurezza avanzata</b>: proteggi i tuoi dati con la password o la sicurezza della schermata di blocco del dispositivo.
+     • <b>Esperienza personalizzabile</b>: personalizza l'app in base alle tue preferenze con temi e dimensioni dei caratteri personalizzabili.
+     • <b>Riconciliazione estratto conto bancario</b>: confronta facilmente lo stato delle transazioni con gli estratti conto bancari per un monitoraggio finanziario accurato.
+     • <b>Inserimento rapido dei dati</b>: goditi un comodo accesso con i widget e le scorciatoie della schermata iniziale.
+     • <b>Potente analisi dei dati</b>: filtra i tuoi dati in base a vari criteri e visualizza la distribuzione e le tendenze storiche con grafici dinamici.
 
-<b>Licenza Contributore</b>
+Sblocca funzionalità premium:
 
-- <b>Nessun annuncio</b>
-- Numero illimitato di <b>conti</b>
-- Numero illimitato di piani per le transazioni <b> ricorrenti </b>
-- <b> Grafico a torta </b>: visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)
-- <b> Transazione frazionata </b>: una singola transazione può essere suddivisa in più parti (categorie e trasferimenti)
-- <b> Esporta </b>l'elenco delle transazioni in un file PDF
-- <b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona dalla galleria
-
-<b>Licenza Funzionalità Estese</b>
-
-- Tutte le funzionalità della Licenza Contributore
-- <b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi (Webdav, Dropbox)
-- <b> Backup automatici </b> giornalieri con caricamento opzionale sul cloud
-- <b> Importazione CSV </b> sofisticata e personalizzabile (applicazioni per fogli di calcolo)
-
-<b>Licenza Professionale</b>
-
-- Tutte le funzionalità della Licenza Funzionalità Estese
-- <b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale.
-- <b> Grafico storico </b> (flusso di cassa)
-- <b>Scansiona gli scontrini</b> : estrai automaticamente l'importo, la data ed il beneficiario
-- <b>Interfaccia utente Web</b>
-- Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
-- <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
-- Votare direttamente sulla <b>roadmap di sviluppo</b>
+     • <i>Licenza Contributore</i>: dì addio alla pubblicità e sblocca account illimitati, piani di transazioni ricorrenti e altro ancora.
+     • <i>Chiave estesa</i>: goditi la sincronizzazione cloud, i backup automatizzati e le sofisticate importazioni CSV.
+     • <i>Chiave professionale</i>: porta la tua gestione finanziaria a un livello superiore con strumenti di budget, scansione di ricevute e supporto via email.
 
 <i>Le mie spese</i> richiede le seguenti <u>autorizzazioni</u>:
 
-- <i>Calendario</i>: Piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
-- <i>Internet</i>: Convalida della licenza, Sincronizzazione cloud.
-- <i>Conti</i>: Sincronizzare tra dispositivi attraverso i servizi cloud.
+     • <i>Calendario</i>: i piani per le transazioni future e ricorrenti vengono archiviati in uno speciale calendario locale o in qualsiasi altro calendario assegnato da te.
+     • <i>Internet</i>: monitoraggio anonimo dell'utilizzo, rapporti sugli arresti anomali, sincronizzazione cloud.
+     • <i>Account</i>: sincronizzazione tra dispositivi tramite servizi cloud.
+
+Prendi il controllo delle tue finanze come mai prima d'ora utilizzando <i>Le mie spese</i>!

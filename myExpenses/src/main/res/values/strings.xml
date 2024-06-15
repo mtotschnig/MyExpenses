@@ -305,7 +305,6 @@
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
-    <string name="pref_ui_language_default">System default</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Language</string>
     <string name="pref_ui_theme_dark">Dark</string>
@@ -447,11 +446,9 @@
     <string name="restore_calendar_handling_ignore">Do not restore plans</string>
     <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
     <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
-    <string name="menu_distribution_show_pie_char">Show pie chart</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
-    <string name="image_deleted">Picture has been deleted</string>
     <string name="transaction_deleted">Transaction has been deleted</string>
     <string name="account_deleted">Account has been deleted</string>
     <string name="budget_deleted">Budget has been deleted</string>
@@ -485,8 +482,6 @@
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="calendar_permission_required"><i>{app_name}</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Grant access</string>
-    <string name="switch_on_text">On</string>
-    <string name="switch_off_text">Off</string>
     <string name="menu_move">Move</string>
     <string name="dialog_title_select_target">Select target</string>
     <string name="transform_subcategory_to_main">Transform to main category</string>
@@ -555,7 +550,6 @@
     <string name="all_extended_key_features">All features of Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Upgrade</string>
-    <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="currency_symbol">Currency symbol</string>
@@ -583,8 +577,6 @@
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_more_options">More Options</string>
     <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Backups</string>
     <string name="onboarding_restore_from_local">Restore local backup file</string>
     <string name="contributed_by">Contributed by %s</string>
     <string name="pref_sync_notification_summary">Notify about synchronization progress</string>
@@ -612,7 +604,6 @@
     <string name="extend_validity">Extend validity</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
     <string name="donate_button_invoice">Invoice</string>
-    <string name="menu_sort_direction">Sort direction</string>
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
@@ -659,7 +650,6 @@
     <string name="licence_expires_today">Your professional key expires today.</string>
     <string name="licence_expired_yesterday">Your professional key has expired yesterday.</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Your professional key has expired %d days ago.</string>
-    <string name="pref_category_title_privacy">Privacy</string>
     <string name="gdpr_consent_button_no">Pay for the ad-free version</string>
     <string name="sort_order">Sort order</string>
     <string name="navigation_drawer_accounts_title">Manage accounts</string>
@@ -759,8 +749,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
-    <string name="budget_duration_from">From</string>
-    <string name="budget_duration_to">To</string>
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
     <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
     <string name="menu_budget_allocated_only">Show only categories with allocation</string>
@@ -770,7 +758,6 @@
     <string name="budget_filter_all_states">All status</string>
     <string name="budget_filter_all_tags">All tags</string>
     <string name="budget_filter_all_accounts">All accounts</string>
-    <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
     <string name="menu_edit_budget">Edit budget</string>
@@ -796,7 +783,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
     <string name="tags_create_or_select">Create or select tags</string>
-    <string name="tags">Tags</string>
     <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
     <string name="dialog_title_warning_delete_tag">Delete tag?</string>
     <string name="menu_edit_tag">Edit tag</string>
@@ -846,7 +832,6 @@
     <string name="scan_result_no_payee">No payee found</string>
     <string name="pref_feature_uninstall_title">Request deinstallation of features and languages</string>
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
-    <string name="pref_feature_uninstall_languages_title">Languages</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -1055,4 +1040,6 @@
     <string name="subcategories_merged_recursively">If any of the merged categories have subcategories with the same label, those will be merged first, recursively.</string>
     <string name="merge_categories_prompt">Select the category that you want to keep</string>
     <string name="pref_csv_export_category_separator_summary">Separator between levels of category hierarchy</string>
+    <!-- This message is shown on the Budget Screen, when there are not enough categories with allocated budgets for the selected time period. -->
+    <string name="not_enough_data">Not enough data</string>
 </resources>

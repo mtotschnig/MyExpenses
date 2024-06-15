@@ -98,4 +98,20 @@
     <string name="required">"必要"</string>
     <string name="quality">"品質"</string>
     <string name="no_data">"沒有資料"</string>
+    <string name="color_component_title">"選擇顏色"</string>
+    <string name="backups">"備份"</string>
+    <string name="filter">"篩選器"</string>
+    <string name="tags">"標記"</string>
+    <string name="languages">"語言"</string>
+    <string name="chart">"圖表"</string>
+    <string name="full_screen">"整個螢幕"</string>
+    <string name="start_date">"開始日期"</string>
+    <string name="end_date">"結束日期"</string>
+    <string name="cloud_storage">"雲端儲存空間"</string>
+    <string name="privacy_header">"隱私權"</string>
+    <string name="orientation">"方向"</string>
+    <string name="portrait">"縱向"</string>
+    <string name="landscape">"橫向"</string>
+    <string name="title_font_size">"字型大小"</string>
+    <string name="system_default">"系統預設"</string>
 </resources>

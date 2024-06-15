@@ -25,4 +25,17 @@
     <string name="required">"Kërkohet"</string>
     <string name="quality">"Cilësia"</string>
     <string name="no_data">"Nuk ka të dhëna"</string>
+    <string name="color_component_title">"Zgjidh ngjyrën"</string>
+    <string name="backups">"Ruajtjet e sigurta"</string>
+    <string name="filter">"Filtro"</string>
+    <string name="languages">"Gjuhët"</string>
+    <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Ekrani i plotë"</string>
+    <string name="cloud_storage">"Hapësira ruajtëse në renë kompjuterike"</string>
+    <string name="privacy_header">"Privatësia"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"Madhësia e shkrimit"</string>
+    <string name="system_default">"Parazgjedhja e sistemit"</string>
 </resources>

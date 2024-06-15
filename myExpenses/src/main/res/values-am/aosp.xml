@@ -33,4 +33,20 @@
     <string name="file_format">"የ ፋይል አቀራረብ"</string>
     <string name="quality">"ጥራት"</string>
     <string name="no_data">"ውሂብ የለም"</string>
+    <string name="color_component_title">"ቀለም ይምረጡ"</string>
+    <string name="backups">"ተተኪዎች"</string>
+    <string name="filter">"አጣራ"</string>
+    <string name="tags">"መለያዎች"</string>
+    <string name="languages">"ቋንቋዎች"</string>
+    <string name="chart">"ቻርት"</string>
+    <string name="full_screen">"ሙሉ ማያ ገጽ"</string>
+    <string name="start_date">"የመጀመሪያ ቀን"</string>
+    <string name="end_date">"የመጨረሻ ቀን"</string>
+    <string name="cloud_storage">"የደመና ማከማቻ"</string>
+    <string name="privacy_header">"ግላዊነት"</string>
+    <string name="orientation">"አቀማመጥ"</string>
+    <string name="portrait">"ምስል"</string>
+    <string name="landscape">"በ መሬት አቀማመጥ"</string>
+    <string name="title_font_size">"የቁምፊ መጠን"</string>
+    <string name="system_default">"የሥርዓት ነባሪ"</string>
 </resources>

@@ -244,7 +244,6 @@
     <string name="time">Tid</string>
     <string name="pref_ui_theme_dark">Mörkt</string>
     <string name="parse_error_other_exception">Ett fel inträffade: %1$s</string>
-    <string name="pref_ui_language_default">Systemstandard</string>
     <string name="pm_cheque">Check</string>
     <string name="save_transaction_template_deleted">Mallen har tagits bort</string>
     <string name="parse_error_file_not_found">Kunde inte hitta filen %1$s</string>

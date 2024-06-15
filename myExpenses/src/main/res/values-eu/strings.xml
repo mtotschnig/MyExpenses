@@ -293,7 +293,6 @@
     <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
     <string name="pref_ui_fontsize_title">Testuaren tamaina</string>
     <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
-    <string name="pref_ui_language_default">Sistemako lehenetsia</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Hizkuntza</string>
     <string name="pref_ui_theme_dark">Iluna</string>
@@ -431,11 +430,9 @@
     <string name="restore_calendar_handling_ignore">Ez berreskuratu planak</string>
     <string name="restore_not_possible_target_calendar_missing">Babeskopian ezarritako %s egutegia ez dago zure gailuan. Berreskuratzea bertan behera utzi da.</string>
     <string name="restore_not_possible_local_calendar_missing">Oraingo planifikazio egutegia ez dago erabilgarri.</string>
-    <string name="menu_distribution_show_pie_char">Erakutsi tarta diagrama</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Irudi soilak</string>
     <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>
-    <string name="image_deleted">Irudia ezabatu da</string>
     <string name="transaction_deleted">Transakzioa ezabatu da</string>
     <string name="dialog_export_applied_to_filter">Oraingo iragazkiarekin bat datozen transakzioak besterik ez dira aintzat hartuko.</string>
     <string name="export_handle_deleted_create_helper">Sortu transakzio laguntzailea</string>
@@ -466,8 +463,6 @@
     <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
     <string name="calendar_permission_required"><i>{app_name}</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Baimena eman</string>
-    <string name="switch_on_text">Bai</string>
-    <string name="switch_off_text">Ez</string>
     <string name="menu_move">Mugitu</string>
     <string name="dialog_title_select_target">Aukeratu helburua</string>
     <string name="transform_subcategory_to_main">Bihurtu kategoria nagusi</string>
@@ -537,7 +532,6 @@
     <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Eguneratu</string>
-    <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="currency_symbol">Moneta-ikurra</string>
@@ -563,8 +557,6 @@
     <string name="onboarding_get_started">Hasi erabiltzen</string>
     <string name="onboarding_more_options">Aukera gehiago</string>
     <string name="onboarding_restore_from_cloud">Leheneratu hodeiko sinkronizaziotik</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Babeskopiak</string>
     <string name="onboarding_restore_from_local">Leheneratu babeskopia fitxategi lokala</string>
     <string name="contributed_by">%s-(r)en laguntzaz</string>
     <string name="pref_sync_notification_summary">Jakinarazi sinkronizazioaren aurreratzeari buruz</string>
@@ -599,7 +591,6 @@
     <string name="licence_expires_tomorrow">Zure gako profesionala bihar bertan behera geratuko da.</string>
     <string name="licence_expires_today">Zure gako profesionala gaur bertan behera geratuko da.</string>
     <string name="licence_has_expired_n_days">Zure gako profesionala duela%d egun bertan behera geratu zen</string>
-    <string name="pref_category_title_privacy">Pribatutasuna</string>
     <string name="gdpr_consent_button_no">Ordaindu iragarkiak ez ikusteko</string>
     <string name="sort_order">Sailkatze ordena</string>
     <string name="navigation_drawer_accounts_title">Kudeatu kontuak</string>
@@ -615,8 +606,6 @@
     <string name="menu_close">Itxi</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">enkriptatutako</string>
-    <string name="budget_duration_from">Nork</string>
-    <string name="budget_duration_to">Nori</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Ezaugarriak</string>
     <string name="menu_save_and_new_content_description">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>

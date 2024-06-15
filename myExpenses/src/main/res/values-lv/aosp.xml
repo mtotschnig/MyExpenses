@@ -26,4 +26,20 @@
     <string name="required">"Pieprasīts"</string>
     <string name="quality">"Kvalitāte"</string>
     <string name="no_data">"Nav datu"</string>
+    <string name="color_component_title">"Krāsas izvēle"</string>
+    <string name="backups">"Rezerves kopijas"</string>
+    <string name="filter">"Filtrs"</string>
+    <string name="tags">"Atzīmes"</string>
+    <string name="languages">"Valodas"</string>
+    <string name="chart">"Diagramma"</string>
+    <string name="full_screen">"Pilnekrāna režīms"</string>
+    <string name="start_date">"Sākuma datums"</string>
+    <string name="end_date">"Beigu datums"</string>
+    <string name="cloud_storage">"Mākoņa krātuves"</string>
+    <string name="privacy_header">"Konfidencialitāte"</string>
+    <string name="orientation">"Orientācija"</string>
+    <string name="portrait">"Portrets"</string>
+    <string name="landscape">"Ainava"</string>
+    <string name="title_font_size">"Fonta lielums"</string>
+    <string name="system_default">"Sistēmas noklusējums"</string>
 </resources>

@@ -93,4 +93,20 @@
     <string name="required">"נדרש"</string>
     <string name="quality">"איכות"</string>
     <string name="no_data">"אין נתונים"</string>
+    <string name="color_component_title">"בחירת צבע"</string>
+    <string name="backups">"גיבויים"</string>
+    <string name="filter">"סינון"</string>
+    <string name="tags">"תגים"</string>
+    <string name="languages">"שפות"</string>
+    <string name="chart">"תרשים"</string>
+    <string name="full_screen">"מסך מלא"</string>
+    <string name="start_date">"תאריך התחלה"</string>
+    <string name="end_date">"תאריך סיום"</string>
+    <string name="cloud_storage">"אחסון בענן"</string>
+    <string name="privacy_header">"פרטיות"</string>
+    <string name="orientation">"כיווניות"</string>
+    <string name="portrait">"לאורך"</string>
+    <string name="landscape">"לרוחב"</string>
+    <string name="title_font_size">"גודל גופן"</string>
+    <string name="system_default">"ברירת המחדל של המערכת"</string>
 </resources>

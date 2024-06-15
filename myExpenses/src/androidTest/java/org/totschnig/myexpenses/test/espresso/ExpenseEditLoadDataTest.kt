@@ -10,11 +10,15 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import org.assertj.core.api.Assertions
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +32,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.*
 import org.totschnig.myexpenses.testutils.toolbarTitle
+import org.totschnig.myexpenses.testutils.withIdAndAncestor
+import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.ui.AmountInput
+import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.util.*
@@ -47,7 +54,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Before
     fun fixture() {
         //IdlingRegistry.getInstance().register(getIdlingResource());
-        foreignCurrency = CurrencyUnit(Currency.getInstance("USD"))
+        foreignCurrency = CurrencyUnit(Currency.getInstance("AUD"))
+        check(foreignCurrency.code != homeCurrency.code)
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
         transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
@@ -59,6 +67,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             save(contentResolver)
         }
     }
+
+    private val foreignAccount: Account
+        get() = Account(
+            label = "Test account 2",
+            currency = foreignCurrency.code,
+        ).createIn(repository)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
         putExtra(DatabaseConstants.KEY_ROWID, id)
@@ -78,6 +92,44 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     @Test
+    fun shouldPopulateWithOriginalAmount() {
+        val transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
+            amount = Money(homeCurrency, 500L)
+            originalAmount = Money(foreignCurrency, 1000)
+            save(contentResolver)
+        }
+        load(transaction.id).use {
+            checkAmount(5)
+            onView(withId(R.id.OriginalAmountRow)).check(matches(isDisplayed()))
+            checkAmount(10, R.id.OriginalAmount)
+            onView(withIdAndAncestor(R.id.ExchangeRateEdit1, R.id.OriginalAmount))
+                .check(matches(withText("%.1f".format(0.5))))
+            onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.OriginalAmount))
+                .check(matches(withText("2")))
+            onView(withIdAndAncestor(R.id.AmountCurrency, R.id.OriginalAmount))
+                .check(matches(withSpinnerText(create(foreignCurrency.code, app).toString())))
+        }
+    }
+
+    @Test
+    fun shouldPopulateWithEquivalentAmount() {
+        val transaction = Transaction.getNewInstance(foreignAccount.id, foreignCurrency).apply {
+            amount = Money(foreignCurrency, 500L)
+            equivalentAmount = Money(homeCurrency, 1000)
+            save(contentResolver)
+        }
+        load(transaction.id).use {
+            checkAmount(5)
+            onView(withId(R.id.EquivalentAmountRow)).check(matches(isDisplayed()))
+            checkAmount(10, R.id.EquivalentAmount)
+            onView(withIdAndAncestor(R.id.ExchangeRateEdit1, R.id.EquivalentAmount))
+                .check(matches(withText("2")))
+            onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.EquivalentAmount))
+                .check(matches(withText("%.1f".format(0.5))))
+        }
+    }
+
+    @Test
     fun shouldKeepStatusAndUuidAfterSave() {
         load(transaction.id).use {
             val uuid = transaction.uuid
@@ -92,10 +144,6 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
-        val foreignAccount = Account(
-            label ="Test account 2",
-            currency = foreignCurrency.code,
-        ).createIn(repository)
         val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
             Money(homeCurrency, 100L), Money(
@@ -125,9 +173,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         return DecimalFormat("0.##").format(amount.toDouble())
     }
 
-    private fun launchAndWait(i: Intent) = ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
-        testScenario = it
-    }
+    private fun launchAndWait(i: Intent) =
+        ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
+            testScenario = it
+        }
 
     @Test
     fun shouldPopulateWithTransferAndPrepareForm() {
@@ -158,21 +207,21 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val account2Spinner = if (loadFromPeer) R.id.Account else R.id.TransferAccount
         onView(withId(account1Spinner)).check(
             matches(
-                CoreMatchers.allOf(
-                    ViewMatchers.withSpinnerText(
+                allOf(
+                    withSpinnerText(
                         account1.label
                     ),
-                    ViewMatchers.withParent(ViewMatchers.hasDescendant(withText(R.string.transfer_from_account)))
+                    withParent(hasDescendant(withText(R.string.transfer_from_account)))
                 )
             )
         )
         onView(withId(account2Spinner)).check(
             matches(
-                CoreMatchers.allOf(
-                    ViewMatchers.withSpinnerText(
+                allOf(
+                    withSpinnerText(
                         account2.label
                     ),
-                    ViewMatchers.withParent(ViewMatchers.hasDescendant(withText(R.string.transfer_to_account)))
+                    withParent(hasDescendant(withText(R.string.transfer_to_account)))
                 )
             )
         )
@@ -238,7 +287,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction = SplitTransaction.getNewInstance(contentResolver, account1.id, homeCurrency)
+        val splitTransaction: Transaction =
+            SplitTransaction.getNewInstance(contentResolver, account1.id, homeCurrency)
         splitTransaction.status = DatabaseConstants.STATUS_NONE
         splitTransaction.save(contentResolver, true)
         load(splitTransaction.id).use {
@@ -287,7 +337,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     private fun buildSplitTemplate(): Long {
         val template =
-            Template.getTypedNewInstance(contentResolver, Transactions.TYPE_SPLIT, account1.id, homeCurrency, false, null)
+            Template.getTypedNewInstance(
+                contentResolver,
+                Transactions.TYPE_SPLIT,
+                account1.id,
+                homeCurrency,
+                false,
+                null
+            )
         template!!.save(contentResolver, true)
         val part = Template.getTypedNewInstance(
             contentResolver,
@@ -380,7 +437,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         }).use {
             onView(withId(R.id.Account)).check(
                 matches(
-                    ViewMatchers.withSpinnerText(
+                    withSpinnerText(
                         account1.label
                     )
                 )

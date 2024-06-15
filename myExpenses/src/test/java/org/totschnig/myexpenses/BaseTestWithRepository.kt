@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.Currency
 
-open class BaseTestWithRepository {
+abstract class BaseTestWithRepository {
     val currencyContext: CurrencyContext =
         mock(CurrencyContext::class.java).also { currencyContext ->
             `when`(currencyContext[ArgumentMatchers.anyString()]).thenAnswer {

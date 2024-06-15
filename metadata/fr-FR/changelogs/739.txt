@@ -1,0 +1,4 @@
+• FinTS: ING-DiBa
+• Imprimer: Configuration (Format de papier, Orientation, Taille de la police)
+
+https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171

@@ -35,4 +35,20 @@
     <string name="file_format">"Filformat"</string>
     <string name="quality">"Kvalité"</string>
     <string name="no_data">"Ingen data"</string>
+    <string name="color_component_title">"Välj färg"</string>
+    <string name="backups">"Säkerhetskopior"</string>
+    <string name="filter">"Filter"</string>
+    <string name="tags">"Taggar"</string>
+    <string name="languages">"Språk"</string>
+    <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Hela skärmen"</string>
+    <string name="start_date">"Startdatum"</string>
+    <string name="end_date">"Slutdatum"</string>
+    <string name="cloud_storage">"Molnlagring"</string>
+    <string name="privacy_header">"Integritet"</string>
+    <string name="orientation">"Orientering"</string>
+    <string name="portrait">"Stående"</string>
+    <string name="landscape">"Liggande"</string>
+    <string name="title_font_size">"Teckenstorlek"</string>
+    <string name="system_default">"Systemets standardinställning"</string>
 </resources>

@@ -62,7 +62,7 @@
     <string name="menu_forward_help_text">Weiter zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
     <string name="menu_categories_setup_default_help_text">Eine Reihe von Standardkategorien werden importiert.</string>
     <string name="menu_categories_export_help_text">Kategorien werden in QIF-Datei exportiert.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Schalten Sie die Sichtbarkeit des Kreisdiagramms an oder aus.</string>
+    <string name="menu_chart_help_text">Schalten Sie die Sichtbarkeit des Diagramms an oder aus.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Die ausgewählten Kategorien werden zum Filtern der Buchungsliste verwendet.</string>
     <string name="menu_ManageCategories_search_help_text">Nur Haupt und Unter-Kategorien, die Ihrer Abfrage entsprechen, werden angezeigt.</string>
     <string name="menu_ManageCategories_sort_help_text">Die Kategorienliste kann nach Titel (alphabetisch) sortiert werden, nach der Häufigkeit der Verwendung oder nach dem Zeitpunkt, an dem zuletzt eine Buchung zugeordnet wurde.</string>

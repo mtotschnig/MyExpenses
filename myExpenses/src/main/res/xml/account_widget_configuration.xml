@@ -10,7 +10,5 @@
         android:entryValues="@array/account_widget_configuration_sum_values"
         android:title="@string/account_widget_configuration_sum"
         my:useSimpleSummaryProvider="true" />
-    <org.totschnig.myexpenses.preference.SimpleValuePreference
-        android:title="@string/buttons"
-        />
+    <org.totschnig.myexpenses.preference.SimpleValuePreference />
 </androidx.preference.PreferenceScreen>

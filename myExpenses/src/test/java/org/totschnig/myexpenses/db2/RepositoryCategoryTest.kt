@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryInfo
 
 @RunWith(AndroidJUnit4::class)
-class RepositoryTest : BaseTestWithRepository() {
+class RepositoryCategoryTest : BaseTestWithRepository() {
 
     @Test
     fun findCategory() {
@@ -23,8 +23,8 @@ class RepositoryTest : BaseTestWithRepository() {
 
         val testedId = repository.findCategory(labelUnderTest)
         val testedStrippedId = repository.findCategory(labelUnderTestStripped)
-        assertThat(testedId).isGreaterThan(0)
-        assertThat(testedStrippedId).isGreaterThan(0)
+        assertThat(testedId).isGreaterThan(0L)
+        assertThat(testedStrippedId).isGreaterThan(0L)
         assertThat(testedId).isEqualTo(testedStrippedId)
     }
 
@@ -36,9 +36,9 @@ class RepositoryTest : BaseTestWithRepository() {
         val subId = repository.saveCategory(sub)!!
         val subsub = Category(label = "SubSub", parentId = subId)
         repository.saveCategory(subsub)
-        assertThat(repository.findCategory(parent.label)).isGreaterThan(0)
-        assertThat(repository.findCategory(sub.label, parentId)).isGreaterThan(0)
-        assertThat(repository.findCategory(subsub.label, subId)).isGreaterThan(0)
+        assertThat(repository.findCategory(parent.label)).isGreaterThan(0L)
+        assertThat(repository.findCategory(sub.label, parentId)).isGreaterThan(0L)
+        assertThat(repository.findCategory(subsub.label, subId)).isGreaterThan(0L)
     }
 
     @Test

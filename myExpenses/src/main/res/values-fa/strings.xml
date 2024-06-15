@@ -249,7 +249,6 @@
     <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
     <string name="pref_ui_fontsize_title">اندازهٔ فونت</string>
     <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
-    <string name="pref_ui_language_default">پیش‌فرض سیستم</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">تاریک</string>
@@ -335,8 +334,6 @@
     <string name="import_source_file">فایل</string>
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
-    <string name="menu_distribution_show_pie_char">نمایش نمودار دایره‌ای</string>
-    <string name="image_deleted">تصویر حذف شده‌است</string>
     <string name="transaction_deleted">تراکنش حذف شده‌است</string>
     <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>
     <string name="export_handle_deleted_create_helper">ایجاد تراکنش کمک‌کننده</string>
@@ -356,8 +353,6 @@
     <string name="pref_auto_backup_title">بک‌آپ‌ گیری خودکار</string>
     <string name="pref_auto_backup_summary">از پایگاه داده روزانه و در زمان مشخص بک‌آپ بگیر (فقط در صورتی که داده‌ها تغییر یافته‌اند).</string>
     <string name="pref_auto_backup_time_title">زمان بک‌آپ خودکار</string>
-    <string name="switch_on_text">روشن</string>
-    <string name="switch_off_text">خاموش</string>
     <string name="menu_move">انتقال</string>
     <string name="dialog_title_select_target">انتخاب هدف</string>
     <string name="preferences_week_start_day_title">روز شروع هفته</string>
@@ -441,13 +436,9 @@
     <string name="pref_debug_title">اشکال‌زدایی</string>
     <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
-    <string name="budget_duration_from">از</string>
-    <string name="budget_duration_to">به</string>
-    <string name="budget_form_label_filter">فیلتر</string>
     <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
     <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
     <string name="menu_edit_budget">ویرایش بودجه</string>
-    <string name="tags">برچسب</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">حالت اسکن</string>
     <!-- Button that triggers the scan operation -->
@@ -621,11 +612,9 @@
     <string name="pref_webdav_timeout_title">وقفه WebDAV (در ثانیه)</string>
     <string name="onboarding_restore_from_cloud">بازیابی از همگام سازی با سرور</string>
     <string name="link_account_failure_3">تناقض را می توان به صورت دستی از منوی زمینه ورودی حل کرد.</string>
-    <string name="onboarding_restore_from_cloud_backup">پشتیبان گیری</string>
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
     <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
     <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>
-    <string name="pref_backup_cloud_title">ذخیره در همگام سازی سرور</string>
     <string name="pref_backup_cloud_summary">علاوه بر فضای ذخیره سازی محلی روی دستگاه، فایل پشتیبان را می توان در یک سرور کپی کرد.</string>
     <string name="auto_backup_cloud_success">فایل پشتیبان %1$s با موفقیت در سرور %2$s ذخیره شد.</string>
     <string name="onboarding_restore_from_local">فایل پشتیبان محلی را بازیابی کنید</string>
@@ -653,7 +642,6 @@
     <string name="clear_all_filters">پاک کردن تمام فیلترها</string>
     <string name="menu_create_template_for_split">قالب چند‌بخشی جدید</string>
     <string name="credit_limit">محدودیت اعتبار</string>
-    <string name="pref_category_title_privacy">حریم خصوصی</string>
     <string name="sort_order">ترتیب چینش</string>
     <string name="budget_exceeded_error_1_2">تمام بودجه شما به دسته‌های دیگر اختصاص یافته است.</string>
     <string name="pref_sync_changes_immediately_summary">ارسال تغییرات محلی بلافاصله به سرور</string>
@@ -678,7 +666,6 @@
     <string name="menu_original_amount">مقدار اصلی</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">دریافت اطلاعات از سرور. ممکن است کمی طول بکشد.</string>
     <string name="licence_removal_success">لایسنس با موفقیت از این دستگاه حذف شد.</string>
-    <string name="menu_sort_direction">جهت مرتب سازی</string>
     <string name="pref_home_currency_title">ارز اصلی</string>
     <string name="warning_device_lock_screen_not_set_up_2">به «تنظیمات -&gt; امنیت -&gt; قفل صفحه» بروید و یک قفل تنظیم کنید</string>
     <plurals name="delete_success">

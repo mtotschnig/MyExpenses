@@ -102,4 +102,20 @@
     <string name="quality">"Kvalitet"</string>
     <string name="buttons">"Knappper"</string>
     <string name="no_data">"Ingen data"</string>
+    <string name="color_component_title">"Vælg farve"</string>
+    <string name="backups">"Sikkerhedskopier"</string>
+    <string name="filter">"Filter"</string>
+    <string name="tags">Etiketter</string>
+    <string name="languages">"Sprog"</string>
+    <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Fuld skærm"</string>
+    <string name="start_date">"Startdato"</string>
+    <string name="end_date">"Slutdato"</string>
+    <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Privatliv"</string>
+    <string name="orientation">"Papirretning"</string>
+    <string name="portrait">"Stående"</string>
+    <string name="landscape">"Liggende"</string>
+    <string name="title_font_size">"Skriftstørrelse"</string>
+    <string name="system_default">"Systemstandard"</string>
 </resources>

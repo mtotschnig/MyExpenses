@@ -1,0 +1,7 @@
+Budżetowanie 4.0 - Nowa funkcjonalność:
+* Wizualizuj wyniki budżetu za pomocą wykresu radarowego;
+* Wyświetlaj tabelę budżetu na pełnym ekranie;
+* Szybko zmień kolejność sortowania.
+Widget budżetu na ekranie startowym umożliwia teraz nawigację pomiędzy bieżącym stanem budżetu a przeszłymi okresami.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840

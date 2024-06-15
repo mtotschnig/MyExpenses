@@ -1,0 +1,4 @@
+• FinTS: ING-DiBa
+• Stampa: Configurazione (Formato foglio, Orientazione, Dimensioni carattere)
+
+https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171

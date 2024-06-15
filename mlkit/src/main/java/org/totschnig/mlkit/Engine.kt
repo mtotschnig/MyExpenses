@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Script
 import org.totschnig.myexpenses.feature.getUserConfiguredMlkitScript
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.isDebugAsset
 import org.totschnig.myexpenses.util.getDisplayNameForScript
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
@@ -57,7 +58,7 @@ object Engine : org.totschnig.ocr.MlkitEngine {
         withContext(Dispatchers.Default) {
             initialize(context)
             val image =
-                if (BuildConfig.DEBUG && uri.scheme == "file" && uri.pathSegments.getOrNull(0) == "android_asset")
+                if (uri.isDebugAsset)
                     InputImage.fromBitmap(
                         BitmapFactory.decodeStream(context.assets.open(uri.pathSegments[1])),
                         0

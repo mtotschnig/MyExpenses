@@ -4,51 +4,23 @@ import android.content.ContentResolver
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import timber.log.Timber
 import java.util.*
 
-abstract class CrashHandler {
-    private var currentBreadCrumb: String? = null
-
-    open fun onAttachBaseContext(application: MyApplication) {}
-    open suspend fun setupLogging(context: Context) {}
-    open fun putCustomData(key: String, value: String) {}
-    open fun setEnabled(enabled: Boolean) {}
-
-    open fun setKeys(context: Context) {
-        putCustomData("Distribution", getVersionInfo(context))
-        context.packageManager.getInstallerPackageName(context.packageName)?.let {
-            putCustomData(
-                "Installer",
-                it
-            )
-        }
-        putCustomData("Locale", Locale.getDefault().toString())
-    }
-
-    fun setUserEmail(value: String?) {
-        if (value != null) {
-            putCustomData("UserEmail", value)
-        }
-    }
-
-    @Synchronized
-    fun addBreadcrumb(breadcrumb: String) {
-        Timber.i("Breadcrumb: %s", breadcrumb)
-        currentBreadCrumb =
-            (if (currentBreadCrumb == null) "" else currentBreadCrumb!!.substring(
-                Math.max(0, currentBreadCrumb!!.length - 500)
-            ) + "->$breadcrumb").also {
-                putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, it)
-            }
-    }
-
-    open fun initProcess(context: Context, syncService: Boolean) {}
+interface CrashHandler {
+    fun onAttachBaseContext(application: MyApplication) {}
+    suspend fun setupLogging(context: Context) {}
+    fun putCustomData(key: String, value: String) {}
+    fun setEnabled(enabled: Boolean) {}
+    fun setUserEmail(email: String?) {}
+    fun addBreadcrumb(breadcrumb: String) {}
+    fun initProcess(context: Context, syncService: Boolean) {}
 
     companion object {
-        private const val CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb"
         @JvmStatic
         fun reportWithDbSchema(contentResolver: ContentResolver, e: Throwable) {
             report(e, DbUtils.getSchemaDetails(contentResolver))
@@ -93,6 +65,45 @@ abstract class CrashHandler {
             Timber.e(e)
         }
 
-        var NO_OP: CrashHandler = object : CrashHandler() {}
+        val NO_OP: CrashHandler = object : CrashHandler {}
     }
+}
+
+abstract class BaseCrashHandler(val prefHandler: PrefHandler): CrashHandler {
+    private var currentBreadCrumb: String? = null
+
+    open fun setKeys(context: Context) {
+        putCustomData("Distribution", getVersionInfo(context))
+        context.packageManager.getInstallerPackageName(context.packageName)?.let {
+            putCustomData("Installer", it)
+        }
+        putCustomData("Locale", Locale.getDefault().toString())
+        putCustomData("Protection", when {
+            prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) -> "Legacy"
+            prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false) -> "Device"
+            else -> "None"
+        })
+    }
+
+    override fun setUserEmail(email: String?) {
+        if (email != null) {
+            putCustomData("UserEmail", email)
+        }
+    }
+
+    @Synchronized
+    override fun addBreadcrumb(breadcrumb: String) {
+        Timber.i("Breadcrumb: %s", breadcrumb)
+        currentBreadCrumb =
+            (if (currentBreadCrumb == null) "" else currentBreadCrumb!!.substring(
+                0.coerceAtLeast(currentBreadCrumb!!.length - 500)
+            ) + "->$breadcrumb").also {
+                putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, it)
+            }
+    }
+
+    companion object {
+        private const val CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb"
+    }
+
 }

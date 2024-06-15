@@ -17,4 +17,7 @@
     <string name="whats_new_376_2">L\'interfaccia utente Web può essere controllata dalla schermata principale.</string>
     <string name="whats_new_376_1">Clona più transazioni con una nuova data.</string>
     <string name="whats_new_378">I grafici rispettano il filtro di ricerca.</string>
+    <string name="whats_new_382">La funzione %1$s può essere richiamata dal widget %2$s.</string>
+    <string name="whats_new_384">Configurazione semplificata del backup su cloud</string>
+    <string name="whats_new_386">La distribuzione per spese e la distribuzione per reddito possono essere mostrate insieme nel grafico a ciambella a doppio anello.</string>
 </resources>

@@ -127,8 +127,7 @@ open class Repository @Inject constructor(
 
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(DatabaseConstants.KEY_CURRENCY)
-        val currencyUnit = if (currency == DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE)
-            currencyContext.homeCurrencyUnit else currencyContext[currency]
+        val currencyUnit = currencyContext[currency]
         val budgetId = cursor.getLong(DatabaseConstants.KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)
         val grouping = cursor.getEnum(DatabaseConstants.KEY_GROUPING, Grouping.NONE)

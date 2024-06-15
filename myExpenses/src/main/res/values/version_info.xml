@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>730;3.8.2</item>
+        <item>742;3.8.6</item>
+        <item>739;3.8.5</item>
+        <item>737;3.8.4</item>
+        <item>735;3.8.3</item>
+        <item>731;3.8.2</item>
         <item>727;3.8.1</item>
         <item>725;3.8.0</item>
         <item>723;3.7.9</item>
@@ -88,6 +92,10 @@
     <string name="version_more_info_380">112191054511340968</string>
     <string name="version_more_info_381">112219195196862569</string>
     <string name="version_more_info_382">112277216301034271</string>
+    <string name="version_more_info_383">112343594355860132</string>
+    <string name="version_more_info_384">112449360780010906</string>
+    <string name="version_more_info_385">112514030317651128</string>
+    <string name="version_more_info_386">112611283595024791</string>
 
     <!-- Github -->
     <string name="project_board_341">69#column-18649612</string>
@@ -132,6 +140,10 @@
     <string name="project_board_380">137#column-19814542</string>
     <string name="project_board_381">138#column-19833828</string>
     <string name="project_board_382">139#column-19841847</string>
+    <string name="project_board_383">140#column-19850840</string>
+    <string name="project_board_384">142#column-19861846</string>
+    <string name="project_board_385">143#column-19888171</string>
+    <string name="project_board_386">1</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -181,5 +193,11 @@
     </string-array>
     <string-array name="whats_new_380">
         <item>@string/merge_categories_dialog_title</item>
+    </string-array>
+    <string-array name="whats_new_384">
+        <item>@string/whats_new_384</item>
+    </string-array>
+    <string-array name="whats_new_386">
+        <item>@string/whats_new_386</item>
     </string-array>
 </resources>

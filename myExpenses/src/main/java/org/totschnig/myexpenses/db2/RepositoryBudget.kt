@@ -20,15 +20,18 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getLocalDate
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
-import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
@@ -53,7 +56,7 @@ fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppe
 fun budgetAllocationQueryUri(
     budgetId: Long,
     categoryId: Long,
-    groupingInfo: DistributionViewModelBase.GroupingInfo
+    groupingInfo: GroupingInfo
 ): Uri = budgetAllocationQueryUri(
     budgetId,
     categoryId,
@@ -81,7 +84,8 @@ fun budgetAllocationQueryUri(
 
 fun Repository.sumLoaderForBudget(
     budget: Budget,
-    aggregateNeutral: Boolean
+    aggregateNeutral: Boolean,
+    period: Pair<Int, Int>?
 ): Triple<Uri, String, Array<String>?> {
     val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
     budget.queryParameter?.let {
@@ -93,7 +97,8 @@ fun Repository.sumLoaderForBudget(
     )
     val filterPersistence =
         FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false)
-    var filterClause = buildDateFilterClause(budget)
+    var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
+        dateFilterClause(budget.grouping, period.first, period.second)
     val selectionArgs: Array<String>? = if (!filterPersistence.whereFilter.isEmpty) {
         filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
             DatabaseConstants.VIEW_WITH_ACCOUNT
@@ -103,7 +108,7 @@ fun Repository.sumLoaderForBudget(
     return Triple(sumBuilder.build(), filterClause, selectionArgs)
 }
 
-private fun buildDateFilterClause(budget: Budget): String {
+private fun buildDateFilterClauseCurrentPeriod(budget: Budget): String {
     val year = "${DatabaseConstants.YEAR} = ${DatabaseConstants.THIS_YEAR}"
     return when (budget.grouping) {
         Grouping.YEAR -> year
@@ -114,6 +119,17 @@ private fun buildDateFilterClause(budget: Budget): String {
     }
 }
 
+fun dateFilterClause(grouping: Grouping, year: Int, second: Int): String {
+    val yearExpression = "${DatabaseConstants.YEAR} = $year"
+    return when (grouping) {
+        Grouping.YEAR -> yearExpression
+        Grouping.DAY -> "$yearExpression AND $DAY = $second"
+        Grouping.WEEK -> "${getYearOfWeekStart()} = $year AND ${getWeek()} = $second"
+        Grouping.MONTH -> "${getYearOfMonthStart()} = $year AND ${getMonth()} = $second"
+        else -> throw IllegalArgumentException()
+    }
+}
+
 fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
     ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
     arrayOf(KEY_GROUPING), null, null, null
@@ -121,113 +137,108 @@ fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
     if (it.moveToFirst()) it.getEnumOrNull<Grouping>(0) else null
 }
 
-suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = contentResolver.query(
-    TransactionProvider.BUDGETS_URI,
-    BudgetViewModel.PROJECTION,
-    "${BudgetViewModel.q(DatabaseConstants.KEY_ROWID)} = ?",
-    arrayOf(budgetId.toString()),
-    null
-)?.use { cursor ->
-    if (!cursor.moveToFirst()) return null
-    val budget = budgetCreatorFunction(cursor)
-    val grouping = budget.grouping
-    val groupingInfo = if (grouping == Grouping.NONE) BudgetPeriod(
-        year = 0,
-        second = 0,
-        duration = BudgetDuration(
-            start = cursor.getLocalDate(KEY_START),
-            end = cursor.getLocalDate(KEY_END)
-        ),
-        description = budget.durationPrettyPrint()
-    ) else with(DateInfo.load(contentResolver)) {
-        val weekStartDay = prefHandler.weekStartAsDayOfWeek
-        val today = LocalDate.ofYearDay(year, day)
-        val weekStart = today.with(TemporalAdjusters.previousOrSame(weekStartDay))
-        val year = when (grouping) {
-            Grouping.WEEK -> yearOfWeekStart
-            Grouping.MONTH -> yearOfMonthStart
-            else -> year
-        }
-        val second = when (grouping) {
-            Grouping.DAY -> day
-            Grouping.WEEK -> week
-            Grouping.MONTH -> month
-            else -> 0
-        }
-        BudgetPeriod(
-            year = year,
-            second = second,
-            duration = when (grouping) {
-                Grouping.DAY -> {
-                    today.dayOfWeek
-                    with(today) {
-                        BudgetDuration(this, this)
+suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>?) =
+    contentResolver.query(
+        TransactionProvider.BUDGETS_URI,
+        BudgetViewModel.PROJECTION,
+        "${BudgetViewModel.q(DatabaseConstants.KEY_ROWID)} = ?",
+        arrayOf(budgetId.toString()),
+        null
+    )?.use { cursor ->
+        if (!cursor.moveToFirst()) return null
+        val budget = budgetCreatorFunction(cursor)
+        val grouping = budget.grouping
+        val groupingInfo = if (grouping == Grouping.NONE) BudgetPeriod(
+            year = 0,
+            second = 0,
+            duration = BudgetDuration(
+                start = cursor.getLocalDate(KEY_START),
+                end = cursor.getLocalDate(KEY_END)
+            ),
+            description = budget.durationPrettyPrint()
+        ) else {
+            val dateInfo = DateInfo.load(contentResolver)
+            val info = period?.let { GroupingInfo(grouping, it.first, it.second) }
+                ?: GroupingNavigator.current(grouping, dateInfo)
+            val weekStartDay = prefHandler.weekStartAsDayOfWeek
+            val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
+            val weekStart = today.with(TemporalAdjusters.previousOrSame(weekStartDay))
+
+            BudgetPeriod(
+                year = info.year,
+                second = info.second,
+                duration = when (grouping) {
+                    Grouping.DAY -> {
+                        today.dayOfWeek
+                        with(today) {
+                            BudgetDuration(this, this)
+                        }
                     }
-                }
 
-                Grouping.WEEK -> {
-                    BudgetDuration(
-                        weekStart,
-                        Grouping.getWeekEndFromStart(weekStart)
+                    Grouping.WEEK -> {
+                        BudgetDuration(
+                            weekStart,
+                            Grouping.getWeekEndFromStart(weekStart)
+                        )
+                    }
+
+                    Grouping.MONTH -> with(
+                        Grouping.getMonthRange(
+                            info.year,
+                            info.second,
+                            prefHandler.monthStart
+                        )
+                    ) {
+                        BudgetDuration(this.first, this.second)
+                    }
+
+                    Grouping.YEAR -> BudgetDuration(
+                        LocalDate.ofYearDay(info.year, 1),
+                        LocalDate.of(info.year, 12, 31)
                     )
-                }
 
-                Grouping.MONTH -> with(
-                    Grouping.getMonthRange(
-                        yearOfMonthStart,
-                        month,
-                        prefHandler.monthStart
-                    )
-                ) {
-                    BudgetDuration(this.first, this.second)
-                }
-
-                Grouping.YEAR -> BudgetDuration(
-                    LocalDate.ofYearDay(year, 1),
-                    LocalDate.of(year, 12, 31)
+                    else -> throw IllegalStateException()
+                },
+                description = grouping.getDisplayTitle(
+                    context,
+                    info.year,
+                    info.second,
+                    dateInfo,
+                    weekStart,
+                    true
                 )
-
-                else -> throw IllegalStateException()
-            },
-            description = grouping.getDisplayTitle(
-                context,
-                year,
-                second,
-                this,
-                weekStart,
-                true
             )
+        }
+        val totalDays =
+            ChronoUnit.DAYS.between(groupingInfo.duration.start, groupingInfo.duration.end) + 1
+        val currentDay = ChronoUnit.DAYS.between(groupingInfo.duration.start, LocalDate.now()) + 1
+        val allocated = contentResolver.query(
+            budgetAllocationQueryUri(
+                budgetId, 0, grouping, groupingInfo.year.toString(), groupingInfo.second.toString()
+            ), null, null, null, null
+        ).use {
+            if (it?.moveToFirst() != true) 0 else BudgetAllocation.fromCursor(it).totalAllocated
+        }
+        val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] ?: false
+        val (sumUri, sumSelection, sumSelectionArguments) =
+            sumLoaderForBudget(budget, aggregateNeutral, period)
+        val spent = contentResolver.query(
+            sumUri,
+            arrayOf(KEY_SUM_EXPENSES),
+            sumSelection,
+            sumSelectionArguments,
+            null
+        ).use {
+            if (it?.moveToFirst() != true) 0 else it.getLong(0)
+        }
+
+        BudgetProgress(
+            budget.title,
+            budget.currencyUnit,
+            groupingInfo,
+            allocated,
+            -spent,
+            totalDays,
+            currentDay
         )
     }
-    val totalDays =
-        ChronoUnit.DAYS.between(groupingInfo.duration.start, groupingInfo.duration.end) + 1
-    val currentDay = ChronoUnit.DAYS.between(groupingInfo.duration.start, LocalDate.now()) + 1
-    val allocated = contentResolver.query(
-        budgetAllocationQueryUri(
-            budgetId, 0, grouping, groupingInfo.year.toString(), groupingInfo.second.toString()
-        ), null, null, null, null
-    ).use {
-        if (it?.moveToFirst() != true) 0 else BudgetAllocation.fromCursor(it).totalAllocated
-    }
-    val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] ?: false
-    val (sumUri, sumSelection, sumSelectionArguments) = sumLoaderForBudget(budget, aggregateNeutral)
-    val spent = contentResolver.query(
-        sumUri,
-        arrayOf(KEY_SUM_EXPENSES),
-        sumSelection,
-        sumSelectionArguments,
-        null
-    ).use {
-        if (it?.moveToFirst() != true) 0 else it.getLong(0)
-    }
-
-    BudgetProgress(
-        budget.title,
-        budget.currencyUnit,
-        groupingInfo.description,
-        allocated,
-        -spent,
-        totalDays,
-        currentDay
-    )
-}

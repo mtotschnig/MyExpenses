@@ -27,4 +27,20 @@
     <string name="required">"სავალდებულოა"</string>
     <string name="quality">"ხ~არისხი"</string>
     <string name="no_data">"მონაცემები არ არის"</string>
+    <string name="color_component_title">"აირჩიეთ ფერი"</string>
+    <string name="backups">"სამარქაფო ასლები"</string>
+    <string name="filter">"ფილტრი"</string>
+    <string name="tags">"თეგები"</string>
+    <string name="languages">"ენები"</string>
+    <string name="chart">"გრაფიკები"</string>
+    <string name="full_screen">"სრული ეკრანი"</string>
+    <string name="start_date">"დაწყების თარიღი"</string>
+    <string name="end_date">"თარიღის დამატება"</string>
+    <string name="cloud_storage">"ღრუბლოვანი საცავი"</string>
+    <string name="privacy_header">"კონფიდენციალურობა"</string>
+    <string name="orientation">"ორიენტაცია"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"შრიფტის ზომა"</string>
+    <string name="system_default">"სისტემის ნაგულისხმევი"</string>
 </resources>

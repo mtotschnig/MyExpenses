@@ -79,7 +79,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.*
@@ -99,14 +98,15 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
+import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -128,13 +128,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -251,7 +249,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val accountGrouping: MutableState<AccountGrouping> =
         mutableStateOf(AccountGrouping.TYPE)
 
-    lateinit var accountSort: Sort
+    private lateinit var accountSort: Sort
 
     private var actionMode: ActionMode? = null
 
@@ -1296,7 +1294,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
-    fun createRowDo(type: Int, isIncome: Boolean) {
+    private fun createRowDo(type: Int, isIncome: Boolean) {
         createRowIntent(type, isIncome)?.let { startEdit(it) }
     }
 
@@ -1320,17 +1318,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
 
                 DIALOG_TAG_SORTING -> handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
-                DIALOG_TAG_OCR_DISAMBIGUATE -> {
-                    startEditFromOcrResult(
-                        extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
-                            extras.getInt(KEY_AMOUNT),
-                            extras.getInt(KEY_DATE),
-                            extras.getInt(KEY_PAYEE_NAME)
-                        ),
-                        extras.getParcelable(KEY_URI)!!
-                    )
-                    true
-                }
 
                 DIALOG_TAG_NEW_BALANCE -> {
                     createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
@@ -1527,13 +1514,87 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it) }
+
             R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
+
             R.id.HIDE_ACCOUNT_COMMAND -> currentAccount?.let {
                 viewModel.setAccountVisibility(true, it.id)
             }
 
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
+
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
+
+            R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
+
+            R.id.HELP_COMMAND_DRAWER -> startActivity(Intent(this, Help::class.java).apply {
+                putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer")
+            })
+
+            R.id.MANAGE_TEMPLATES_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    ManageTemplates::class.java
+                )
+            )
+
+            R.id.SHARE_COMMAND -> startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    Utils.getTellAFriendMessage(this@BaseMyExpenses).toString()
+                )
+                setType("text/plain")
+            }, getResources().getText(R.string.menu_share)))
+
+            R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
+
+            R.id.OPEN_PDF_COMMAND -> startActivity(Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(
+                    ensureContentUri(Uri.parse(tag as String), this@BaseMyExpenses),
+                    "application/pdf"
+                )
+                setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }, R.string.no_app_handling_pdf_available)
+
+            R.id.SORT_COMMAND -> MenuDialog.build()
+                .menu(this, R.menu.accounts_sort)
+                .choiceIdPreset(accountSort.commandId.toLong())
+                .title(R.string.display_options_sort_list_by)
+                .show(this, DIALOG_TAG_SORTING)
+
+            R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
+
+            R.id.HIDDEN_ACCOUNTS_COMMAND -> SelectHiddenAccountDialogFragment.newInstance().show(
+                supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
+            )
+
+            R.id.OCR_FAQ_COMMAND -> startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR")
+
+            R.id.BACKUP_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    setAction(BackupRestoreActivity.ACTION_BACKUP)
+                })
+
+
+            R.id.RESTORE_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    setAction(BackupRestoreActivity.ACTION_RESTORE)
+                })
+
+            R.id.MANAGE_PARTIES_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    ManageParties::class.java
+                ).apply {
+                    setAction(Action.MANAGE.name)
+                })
+
             else -> return false
         }
         return true

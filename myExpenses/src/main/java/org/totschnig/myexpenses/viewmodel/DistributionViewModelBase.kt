@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.os.Parcelable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -29,7 +28,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
@@ -38,7 +36,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -52,15 +49,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongIfExistsOr0
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
-import java.util.Locale
 
 private const val KEY_GROUPING_INFO = "groupingInfo"
 
@@ -97,114 +94,44 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             groupingInfo = GroupingInfo(grouping, 0, 0)
         } else {
             viewModelScope.launch {
-                groupingInfo = with(dateInfo.first()) {
-                    GroupingInfo(
-                        grouping = grouping,
-                        year = when (grouping) {
-                            Grouping.WEEK -> yearOfWeekStart
-                            Grouping.MONTH -> yearOfMonthStart
-                            else -> year
-                        },
-                        second = when (grouping) {
-                            Grouping.DAY -> day
-                            Grouping.WEEK -> week
-                            Grouping.MONTH -> month
-                            else -> 0
-                        }
-                    )
-                }
+                groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())
             }
         }
     }
 
-    fun GroupingInfo.next(dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = second + 1
-        val overflow = nextSecond > dateInfo.maxValue
-        return copy(
-            year = if (overflow) year + 1 else year,
-            second = if (overflow) grouping.minValue else nextSecond
-        )
+    suspend fun nextGrouping() = groupingInfo?.let {
+        GroupingNavigator.next(
+            it
+        ) { dateInfoExtra.filterNotNull().first() }
     }
 
-    fun GroupingInfo.previous(dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = second - 1
-        val underflow = nextSecond < grouping.minValue
-        return copy(
-            year = if (underflow) year - 1 else year,
-            second = if (underflow) dateInfo.maxValue else nextSecond
-        )
+    private suspend fun previousGrouping() = groupingInfo?.let {
+        GroupingNavigator.previous(
+            it
+        ) { dateInfoExtra.filterNotNull().first() }
     }
 
     fun forward() {
-        groupingInfo?.let { info ->
-            if (info.grouping == Grouping.YEAR) {
-                groupingInfo = info.copy(year = info.year + 1)
-            } else {
-                viewModelScope.launch {
-                    val dateInfo = dateInfoExtra.filterNotNull().first()
-                    groupingInfo = info.next(dateInfo)
-                }
-            }
+        viewModelScope.launch {
+            groupingInfo = nextGrouping()
         }
     }
 
     fun backward() {
-        groupingInfo?.let { info ->
-            if (info.grouping == Grouping.YEAR) {
-                groupingInfo = info.copy(year = info.year - 1)
-            } else {
-                viewModelScope.launch {
-                    val dateInfo = dateInfoExtra.filterNotNull().first()
-                    groupingInfo = info.previous(dateInfo)
-                }
-            }
+        viewModelScope.launch {
+            groupingInfo = previousGrouping()
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val dateInfoExtra: StateFlow<DateInfoExtra?> =
-        groupingInfoFlow.filterNotNull().flatMapLatest { grouping ->
-            //if we are at the beginning of the year we are interested in the max of the previous year
-            val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
-            val maxValueExpression = when (grouping.grouping) {
-                Grouping.DAY -> String.format(
-                    Locale.US,
-                    "strftime('%%j','%d-12-31')",
-                    maxYearToLookUp
-                )
+    private val dateInfoExtra: StateFlow<DateInfoExtra?> =
+        groupingInfoFlow.filterNotNull().map { grouping ->
+            when (grouping.grouping) {
+                Grouping.DAY, Grouping.WEEK -> withContext(Dispatchers.IO) {
+                    DateInfoExtra.load(contentResolver, grouping)
+                }
 
-                Grouping.WEEK -> DbUtils.maximumWeekExpression(maxYearToLookUp)
-                Grouping.MONTH -> "11"
-                else -> "0"
-            }
-            val projectionList = buildList {
-                add("$maxValueExpression AS $KEY_MAX_VALUE")
-                if (grouping.grouping == Grouping.WEEK) {
-                    //we want to find out the week range when we are given a week number
-                    //we find out the first day in the year, which is the beginning of week "0" and then
-                    //add (weekNumber)*7 days to get at the beginning of the week
-                    add(
-                        DbUtils.weekStartFromGroupSqlExpression(
-                            grouping.year,
-                            grouping.second
-                        )
-                    )
-                }
-            }
-            contentResolver.observeQuery(
-                uri = TransactionProvider.DUAL_URI,
-                projection = projectionList.toTypedArray(),
-                selection = null,
-                selectionArgs = null,
-                sortOrder = null,
-                notifyForDescendants = false
-            ).mapNotNull { query ->
-                withContext(Dispatchers.IO) {
-                    query.run()?.use { cursor ->
-                        cursor.moveToFirst()
-                        DateInfoExtra.fromCursor(cursor)
-                    }
-                }
+                Grouping.MONTH -> DateInfoExtra(11, null)
+                else -> DateInfoExtra(0, null)
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
@@ -231,7 +158,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     fun categoryTreeWithSum(
         accountInfo: T,
-        incomeType: Boolean,
+        isIncome: Boolean,
         aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
         whereFilter: WhereFilter = WhereFilter.empty(),
@@ -252,7 +179,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             additionalSelectionArgs = whereFilter.getSelectionArgs(true),
             queryParameter = queryParameter + buildMap {
-                put(KEY_TYPE, incomeType.toString())
+                put(KEY_TYPE, isIncome.toString())
                 put(
                     TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
                     aggregateNeutral.toString()
@@ -270,7 +197,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     }
                 }
             },
-            keepCriteria = keepCriteria
+            keepCriteria = keepCriteria,
+            idMapper = { if (isIncome) it else -it }
         ).mapNotNull {
             when (it) {
                 is LoadingState.Empty -> Category.EMPTY
@@ -375,11 +303,4 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             preference[aggregateNeutralPrefKey] = aggregateNeutral
         }
     }
-
-    @Parcelize
-    data class GroupingInfo(
-        val grouping: Grouping = Grouping.NONE,
-        val year: Int = -1,
-        val second: Int = -1
-    ) : Parcelable
 }

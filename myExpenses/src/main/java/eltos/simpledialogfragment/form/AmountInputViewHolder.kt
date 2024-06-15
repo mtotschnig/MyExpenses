@@ -10,6 +10,7 @@ import eltos.simpledialogfragment.form.SimpleFormDialog.DialogActions
 import eltos.simpledialogfragment.form.SimpleFormDialog.FocusActions
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Money.Companion.convertBigDecimal
+import org.totschnig.myexpenses.ui.MyTextWatcher
 
 internal class AmountInputViewHolder(field: AmountInput) : FormElementViewHolder<AmountInput>(field) {
     private lateinit var inputLayout: TextInputLayout
@@ -39,16 +40,7 @@ internal class AmountInputViewHolder(field: AmountInput) : FormElementViewHolder
         }
         // Positive button state for single element forms
         if (actions.isOnlyFocusableElement) {
-            amountInput.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            amountInput.addTextChangedListener(object : MyTextWatcher() {
                 override fun afterTextChanged(s: Editable) {
                     actions.updatePosButtonState()
                 }

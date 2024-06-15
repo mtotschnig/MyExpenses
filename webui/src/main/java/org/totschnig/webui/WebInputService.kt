@@ -128,6 +128,13 @@ class WebInputService : LifecycleService(), IWebInputService {
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(this)
         wrappedContext = (application as MyApplication).wrapContext(this)
+        val notification: Notification =
+            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                this,
+                getString(R.string.title_webui),
+                "Starting ..."
+            ).build()
+        startForeground(NOTIFICATION_WEB_UI, notification)
     }
 
     override fun onBind(intent: Intent): IBinder {

@@ -1,0 +1,7 @@
+Budgeting 4.0 - Nuove funzionalità:
+* Visualizza la performance del tuo budget con un grafico radar;
+* Visualizza la tabella del tuo budget a schermo intero;
+* Cambia rapidamente l'ordinamento.
+Il widget del budget nella schermata di avvio ora ti consente di navigare tra lo stato attuale del tuo budget e i periodi di tempo passati.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840

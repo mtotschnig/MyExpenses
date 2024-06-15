@@ -104,4 +104,20 @@
     <string name="file_format">تنسيق الملف</string>
     <string name="quality">"الجودة"</string>
     <string name="no_data">"ما مِن بيانات"</string>
+    <string name="color_component_title">"اختيار اللون"</string>
+    <string name="backups">"نسخ احتياطية"</string>
+    <string name="filter">"فلتر"</string>
+    <string name="tags">"العلامات"</string>
+    <string name="languages">"اللغات"</string>
+    <string name="chart">"المخطط البياني"</string>
+    <string name="full_screen">"ملء الشاشة"</string>
+    <string name="start_date">"تاريخ البدء"</string>
+    <string name="end_date">"تاريخ الانتهاء"</string>
+    <string name="cloud_storage">"تخزين في السحابة الإلكترونية"</string>
+    <string name="privacy_header">"الخصوصية"</string>
+    <string name="orientation">"الاتجاه"</string>
+    <string name="portrait">"بالطول"</string>
+    <string name="landscape">"بالعرض"</string>
+    <string name="title_font_size">"حجم الخط"</string>
+    <string name="system_default">"الإعداد التلقائي للنظام"</string>
 </resources>

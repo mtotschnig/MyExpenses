@@ -318,6 +318,11 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="WidgetActionButton.Navigation">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
     <style name="AccountWidgetPreview" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="widgetLine1">@string/default_account_name</item>
         <item name="widgetNote">$1,000.00</item>

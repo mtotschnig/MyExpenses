@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
     <string name="pref_ui_fontsize_title">Taille de police</string>
     <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
-    <string name="pref_ui_language_default">Défaut du système</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Langue</string>
     <string name="pref_ui_theme_dark">Sombre</string>
@@ -442,11 +441,9 @@
     <string name="restore_calendar_handling_ignore">Ne pas restaurer les échéances</string>
     <string name="restore_not_possible_target_calendar_missing">Le calendrier %s situé dans l\'archive de sauvegarde n\'existe pas localement. La restauration a été abandonnée.</string>
     <string name="restore_not_possible_local_calendar_missing">Le calendrier actuel d\'échéances n\'est pas disponible.</string>
-    <string name="menu_distribution_show_pie_char">Voir le graphique en secteurs</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Images non utilisées</string>
     <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>
-    <string name="image_deleted">La photo a été supprimée</string>
     <string name="transaction_deleted">L\'opération a été supprimée</string>
     <string name="account_deleted">Le compte a été supprimé</string>
     <string name="dialog_export_applied_to_filter">Seules les transactions qui correspondent au filtre actuel seront pris en considération.</string>
@@ -478,8 +475,6 @@
     <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
     <string name="calendar_permission_required"><i>{app_name}</i> requiert votre permission d\'accéder à votre calendrier, dans le but de créer des échéances futures et périodiques.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Autoriser l\'accès</string>
-    <string name="switch_on_text">Activé</string>
-    <string name="switch_off_text">Désactivé</string>
     <string name="menu_move">Déplacer</string>
     <string name="dialog_title_select_target">Sélectionner la cible</string>
     <string name="transform_subcategory_to_main">Transformer en catégorie principale</string>
@@ -548,7 +543,6 @@
     <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Mettre à jour</string>
-    <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
     <string name="currency_symbol">Symbole de devise</string>
@@ -576,8 +570,6 @@
     <string name="onboarding_get_started">Commencer</string>
     <string name="onboarding_more_options">Plus d\'options</string>
     <string name="onboarding_restore_from_cloud">Restaurer à partir de la synchronisation distante</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Sauvegardes</string>
     <string name="onboarding_restore_from_local">Restaurer le fichier de sauvegarde local</string>
     <string name="contributed_by">Contribution de %s</string>
     <string name="pref_sync_notification_summary">Notifier sur la progression de la synchronisation</string>
@@ -605,7 +597,6 @@
     <string name="extend_validity">Prolonger la validité</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un serveur distant. Cela peut prendre un certain temps.</string>
     <string name="donate_button_invoice">Facture</string>
-    <string name="menu_sort_direction">Direction de tri</string>
     <string name="never">jamais</string>
     <string name="always">toujours</string>
     <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
@@ -653,7 +644,6 @@
     <string name="licence_expires_today">Votre clé professionnelle expire aujourd\'hui.</string>
     <string name="licence_expired_yesterday">Votre clé professionnelle a expiré hier.</string>
     <string name="licence_has_expired_n_days">Votre clé professionnelle a expiré il y a %d jours.</string>
-    <string name="pref_category_title_privacy">Données privées</string>
     <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
     <string name="sort_order">Ordre de tri</string>
     <string name="navigation_drawer_accounts_title">Gestion des comptes</string>
@@ -749,8 +739,6 @@
     <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
     <string name="menu_create_budget">Nouveau budget</string>
     <string name="budget_onetime">Une fois</string>
-    <string name="budget_duration_from">À partir</string>
-    <string name="budget_duration_to">Au</string>
     <string name="no_budgets">Définissez votre premier budget en appuyant sur le bouton +.</string>
     <string name="budget_date_end_after_start">La date de fin du budget doit être postérieure à sa date de début.</string>
     <string name="menu_budget_allocated_only">Afficher uniquement les catégories avec allocation</string>
@@ -760,7 +748,6 @@
     <string name="budget_filter_all_states">Tous les états</string>
     <string name="budget_filter_all_tags">Toutes les étiquettes</string>
     <string name="budget_filter_all_accounts">Tous les comptes</string>
-    <string name="budget_form_label_filter">Filtre</string>
     <string name="dialog_title_warning_delete_budget">Supprimer le budget \?</string>
     <string name="warning_delete_budget">Le budget « %1$s » sera supprimé.</string>
     <string name="menu_edit_budget">Modifier le budget</string>
@@ -786,7 +773,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Les opérations clonées conservent la date d\'origine</string>
     <string name="tags_create_or_select">Créer ou sélectionner des étiquettes</string>
-    <string name="tags">Étiquettes</string>
     <string name="pref_manage_tags_summary">Ajouter, modifier, supprimer des étiquettes.</string>
     <string name="dialog_title_warning_delete_tag">Supprimer l\'étiquette ?</string>
     <string name="menu_edit_tag">Modifier l\'étiquette</string>
@@ -837,7 +823,6 @@
     <string name="scan_result_no_payee">Aucun tiers trouvé</string>
     <string name="pref_feature_uninstall_title">Demander la désinstallation des fonctionnalités et des langues</string>
     <string name="pref_feature_uninstall_summary">Play Store essaie finalement de supprimer ces modules en arrière-plan.</string>
-    <string name="pref_feature_uninstall_languages_title">Langues</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Veuillez sélectionner un package de licence.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -1024,4 +1009,5 @@
     <string name="merge_categories_dialog_title">Fusionner les catégories</string>
     <string name="subcategories_merged_recursively">Si l’une des catégories fusionnées a des sous-catégories avec le même label, celles-ci seront fusionnées en premier, récursivement.</string>
     <string name="pref_csv_export_category_separator_summary">Séparateur entre les niveaux de la hiérarchie des catégories</string>
+    <string name="not_enough_data">Pas assez de données</string>
 </resources>

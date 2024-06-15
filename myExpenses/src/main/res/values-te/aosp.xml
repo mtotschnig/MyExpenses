@@ -86,4 +86,20 @@
     <string name="required">"అవరసమైనది"</string>
     <string name="quality">"గుణమును"</string>
     <string name="no_data">"డేటా లేదు"</string>
+    <string name="color_component_title">"రంగును ఎంచుకోండి"</string>
+    <string name="backups">"దాచిపెట్టు"</string>
+    <string name="filter">"ఫిల్టర్ చేయి"</string>
+    <string name="tags">టాగ్లు</string>
+    <string name="languages">"భాషలు"</string>
+    <string name="chart">"పటము"</string>
+    <string name="full_screen">"ఫుల్ స్క్రీన్"</string>
+    <string name="start_date">"ప్రారంభ తేదీ"</string>
+    <string name="end_date">"ముగింపు తేదీ"</string>
+    <string name="cloud_storage">"క్లౌడ్ స్టోరేజ్"</string>
+    <string name="privacy_header">"గోప్యత"</string>
+    <string name="orientation">"తీరు"</string>
+    <string name="portrait">"చిత్రపటం"</string>
+    <string name="landscape">"చిత్రపటం"</string>
+    <string name="title_font_size">"ఫాంట్ సైజ్‌"</string>
+    <string name="system_default">"సిస్టమ్ ఆటోమేటిక్ సెట్టింగ్"</string>
 </resources>

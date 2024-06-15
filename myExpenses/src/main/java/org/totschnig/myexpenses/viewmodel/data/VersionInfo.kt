@@ -136,11 +136,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             )
 
             "381" -> arrayOf(
-                "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${
-                    t(
-                        R.string.header_footer
-                    )
-                })"
+                // @formatter:off
+                "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.header_footer)})"
+                // @formatter:on
             )
 
             "382" -> arrayOf(
@@ -150,8 +148,18 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                     R.string.whats_new_382,
                     ctx.localizedQuote(t(R.string.title_scan_receipt_feature)),
                     ctx.localizedQuote(t(R.string.widget_title_accounts))
-                ),
+                )
+            )
 
+            "383" -> arrayOf(
+                "${t(R.string.menu_budget)} 4.0"
+            )
+
+            "385" -> arrayOf(
+                "FinTS: ING-DiBa",
+                // @formatter:off
+                "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.orientation)}, ${t(R.string.title_font_size)})"
+                // @formatter:on
                 )
 
             else -> {

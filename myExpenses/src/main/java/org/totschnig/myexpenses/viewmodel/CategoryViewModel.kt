@@ -223,7 +223,8 @@ open class CategoryViewModel(
         additionalSelectionArgs: Array<String>? = null,
         queryParameter: Map<String, String> = emptyMap(),
         keepCriteria: ((Category) -> Boolean)? = null,
-        withColors: Boolean = true
+        withColors: Boolean = true,
+        idMapper: (Long) -> Long = { it }
     ): Flow<LoadingState.Result> {
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
@@ -232,7 +233,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToResult(keepCriteria, withColors)
+        ).mapToResult(keepCriteria, withColors, idMapper)
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
@@ -246,7 +247,8 @@ open class CategoryViewModel(
 
     private fun Flow<Query>.mapToResult(
         keepCriteria: ((Category) -> Boolean)?,
-        withColors: Boolean
+        withColors: Boolean,
+        idMapper: (Long) -> Long
     ): Flow<LoadingState.Result> = mapNotNull { query ->
         withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
@@ -260,7 +262,8 @@ open class CategoryViewModel(
                             withColors,
                             cursor,
                             null,
-                            1
+                            1,
+                            idMapper
                         )
                     ).pruneNonMatching(keepCriteria)?.let {
                         LoadingState.Data(data = it)
@@ -610,7 +613,8 @@ open class CategoryViewModel(
             withColors: Boolean,
             cursor: Cursor,
             parentId: Long?,
-            level: Int
+            level: Int,
+            idMapper: (Long) -> Long = { it }
         ): List<Category> =
             buildList {
                 if (!cursor.isBeforeFirst) {
@@ -636,7 +640,7 @@ open class CategoryViewModel(
                             cursor.moveToNext()
                             add(
                                 Category(
-                                    nextId,
+                                    idMapper(nextId),
                                     parentId,
                                     nextLevel,
                                     nextLabel,
@@ -645,7 +649,8 @@ open class CategoryViewModel(
                                         withColors,
                                         cursor,
                                         nextId,
-                                        level + 1
+                                        level + 1,
+                                        idMapper
                                     ),
                                     nextIsMatching,
                                     nextColor,

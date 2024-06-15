@@ -32,4 +32,20 @@
     <string name="required">"Պահանջված"</string>
     <string name="quality">"Որակ"</string>
     <string name="no_data">"Տվյալներ չկան"</string>
+    <string name="color_component_title">"Ընտրեք գույնը"</string>
+    <string name="backups">"Պահուստային պատճեններ"</string>
+    <string name="filter">"Զտեք"</string>
+    <string name="tags">"Պիտակներ"</string>
+    <string name="languages">"Լեզուներ"</string>
+    <string name="chart">"Գծապատկեր"</string>
+    <string name="full_screen">"Լիաէկրան"</string>
+    <string name="start_date">"Մեկնարկի ամսաթիվը"</string>
+    <string name="end_date">"Ավարտի ամսաթիվը"</string>
+    <string name="cloud_storage">"Ամպային տարածք"</string>
+    <string name="privacy_header">"Գաղտնիություն"</string>
+    <string name="orientation">"Կողմնորոշում"</string>
+    <string name="portrait">"Դիմանկար"</string>
+    <string name="landscape">"Բնանկար"</string>
+    <string name="title_font_size">"Տառաչափ"</string>
+    <string name="system_default">"Կանխադրված"</string>
 </resources>

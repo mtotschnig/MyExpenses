@@ -1,5 +1,6 @@
 package org.totschnig.fints
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,10 +18,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -58,7 +55,6 @@ fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
     onDone: (BankingCredentials) -> Unit
 ) {
-    HbciVersionSelection(bankingCredentials)
     val credentials = bankingCredentials.value
     credentials.bank?.let { Text(it.bankName) } ?: run {
         OutlinedTextField(
@@ -193,7 +189,11 @@ fun SecMechDialog(
     submitSecMech: (Pair<String, Boolean>?) -> Unit
 ) {
     options?.let {
-        SelectionDialog(options = options.map { it.id to it.name }, submit = submitSecMech)
+        SelectionDialog(
+            title = R.string.sec_mech_selection_prompt,
+            options = options.map { it.id to it.name },
+            submit = submitSecMech
+        )
     }
 }
 
@@ -203,12 +203,17 @@ fun TanMediaDialog(
     submitMedia: (Pair<String, Boolean>?) -> Unit
 ) {
     options?.let {
-        SelectionDialog(options = options.map { it to it }, submit = submitMedia)
+        SelectionDialog(
+            title = R.string.tan_medium_selection_prompt,
+            options = options.map { it to it },
+            submit = submitMedia
+        )
     }
 }
 
 @Composable
 private fun SelectionDialog(
+    @StringRes title: Int,
     options: List<Pair<String, String>>,
     submit: (Pair<String, Boolean>?) -> Unit
 ) {
@@ -227,7 +232,7 @@ private fun SelectionDialog(
         },
         text = {
             Column(Modifier.selectableGroup()) {
-                Text(stringResource(R.string.tan_medium_selection_prompt))
+                Text(stringResource(title))
                 options.forEach { option ->
                     Row(
                         Modifier
@@ -275,43 +280,6 @@ fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HbciVersionSelection(
-    credentials: MutableState<BankingCredentials>
-) {
-
-    var expanded by remember { mutableStateOf(false) }
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-    ) {
-        OutlinedTextField(
-            modifier = Modifier.menuAnchor(),
-            readOnly = true,
-            value = credentials.value.hbciVersion.getName(),
-            onValueChange = {},
-            label = { Text("HBCI-Version") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            SUPPORTED_HBCI_VERSIONS.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(selectionOption.getName()) },
-                    onClick = {
-                        credentials.value = credentials.value.copy(hbciVersion = selectionOption)
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
 fun Loading(text: String? = "Loading") {
@@ -336,6 +304,6 @@ fun Error(errorMessage: String?) {
 
 @Preview
 @Composable
-fun TanMediaPreview() {
+private fun TanMediaPreview() {
     TanMediaDialog(options = listOf("pushTan", "Pixel"), submitMedia = {})
 }

@@ -215,10 +215,10 @@ public class Utils {
   }
 
   @Nullable
-  public static Currency getInstance(@Nullable String strCurrency, PrefHandler prefHandler) {
+  public static Currency getInstance(@Nullable String strCurrency) {
     if (strCurrency != null) {
       if (strCurrency.equals(AGGREGATE_HOME_CURRENCY_CODE)) {
-        strCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY,"EUR");
+        throw new IllegalArgumentException("AGGREGATE_HOME_CURRENCY_CODE needs to be resolved upfront");
       }
       try {
         return Currency.getInstance(strCurrency);

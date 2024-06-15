@@ -26,4 +26,20 @@
     <string name="required">"Шаардлагатай"</string>
     <string name="quality">"Чанар"</string>
     <string name="no_data">"Өгөгдөл байхгүй байна"</string>
+    <string name="color_component_title">"Өнгө сонгох"</string>
+    <string name="backups">"Нөөцүүд"</string>
+    <string name="filter">"Шүүлтүүр"</string>
+    <string name="tags">"Шошго"</string>
+    <string name="languages">"Хэл"</string>
+    <string name="chart">"Диаграмм"</string>
+    <string name="full_screen">"Бүтэн дэлгэц"</string>
+    <string name="start_date">"Эхлэх огноо"</string>
+    <string name="end_date">"Дуусах огноо"</string>
+    <string name="cloud_storage">"Үүлэн хадгалах сан"</string>
+    <string name="privacy_header">"Нууцлал"</string>
+    <string name="orientation">"Хандлага"</string>
+    <string name="portrait">"Босоо хэлбэр"</string>
+    <string name="landscape">"Хөндлөн"</string>
+    <string name="title_font_size">"Фонтын хэмжээ"</string>
+    <string name="system_default">"Системийн өгөгдмөл"</string>
 </resources>

@@ -3,10 +3,17 @@ package org.totschnig.myexpenses.model
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.util.enumValueOrNull
 
-enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
+enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     USAGES(R.id.SORT_USAGES_COMMAND),
     LAST_USED(R.id.SORT_LAST_USED_COMMAND),
     AMOUNT(R.id.SORT_AMOUNT_COMMAND),
@@ -14,18 +21,19 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     LABEL(R.id.SORT_LABEL_COMMAND, false),
     CUSTOM(R.id.SORT_CUSTOM_COMMAND, false),
     NEXT_INSTANCE(R.id.SORT_NEXT_INSTANCE_COMMAND),
-    ALLOCATED(R.id.SORT_ALLOCATED_COMMAND),
-    SPENT(R.id.SORT_SPENT_COMMAND);
+    ACCOUNT(R.id.SORT_ACCOUNT_COMMAND, false),
+    ALLOCATED(0),
+    SPENT(0),
+    AVAILABLE(0);
 
     private fun toDatabaseColumn(collate: String) = when (this) {
-        USAGES -> DatabaseConstants.KEY_USAGES
-        LAST_USED -> DatabaseConstants.KEY_LAST_USED
-        AMOUNT -> "abs(${DatabaseConstants.KEY_AMOUNT})"
-        TITLE -> DatabaseConstants.KEY_TITLE + " COLLATE $collate"
-        LABEL -> DatabaseConstants.KEY_LABEL + " COLLATE $collate"
-        CUSTOM -> DatabaseConstants.KEY_SORT_KEY
-        ALLOCATED -> DatabaseConstants.KEY_BUDGET
-        SPENT -> "-${DatabaseConstants.KEY_SUM}"
+        USAGES -> KEY_USAGES
+        LAST_USED -> KEY_LAST_USED
+        AMOUNT -> "abs($KEY_AMOUNT)"
+        TITLE -> "$KEY_TITLE COLLATE $collate"
+        LABEL -> "$KEY_LABEL COLLATE $collate"
+        ACCOUNT -> "$KEY_ACCOUNT_LABEL COLLATE $collate"
+        CUSTOM -> KEY_SORT_KEY
         else -> null
     }
 
@@ -40,15 +48,13 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     }
 
     companion object {
-        private val categorySort = arrayOf(LABEL, USAGES, LAST_USED)
-        private val templateSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT)
-        private val templateWithPlansSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT, NEXT_INSTANCE)
-        private val budgetSort = arrayOf(LABEL, ALLOCATED, SPENT)
+        private val templateSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT, ACCOUNT)
+        private val templateWithPlansSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT, ACCOUNT, NEXT_INSTANCE)
         private val accountSort = arrayOf(LABEL, USAGES, LAST_USED, CUSTOM)
 
         @JvmStatic
         fun fromCommandId(id: Int): Sort? {
-            for (sort in values()) {
+            for (sort in entries) {
                 if (sort.commandId == id) return sort
             }
             return null
@@ -89,7 +95,7 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
             preferredOrderByRestricted(prefKey, prefHandler, defaultSort, accountSort, collate)
 
         //returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy
-        fun preferredOrderByRestricted(
+        private fun preferredOrderByRestricted(
             prefKey: PrefKey,
             prefHandler: PrefHandler,
             defaultSort: Sort,

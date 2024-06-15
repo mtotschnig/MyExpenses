@@ -1,0 +1,7 @@
+Budgetierung 4.0 – Neue Funktionalität:
+* Visualisieren Sie die Leistung Ihres Budgets mit einem Radardiagramm.
+* Zeigen Sie Ihre Budgettabelle im Vollbildmodus an.
+* Ändern Sie schnell die Sortierreihenfolge.
+Mit dem Budget-Widget auf dem Startbildschirm können Sie jetzt zwischen dem aktuellen Status Ihres Budgets und vergangenen Zeiträumen navigieren.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840

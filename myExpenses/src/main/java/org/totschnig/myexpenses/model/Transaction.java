@@ -696,7 +696,9 @@ public class Transaction extends Model implements ITransaction {
   }
 
   public void updateFromResult(ContentProviderResult[] result) {
-    setId(ContentUris.parseId(result[0].uri));
+    if (getId() == 0) {
+        setId(ContentUris.parseId(result[0].uri));
+    }
   }
 
   void addCommitOperations(Uri uri, ArrayList<ContentProviderOperation> ops) {

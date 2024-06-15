@@ -134,6 +134,133 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.8.5
+      - '2014-05-28'
+      - bg: 'FinTS: ING-DiBa. Печат: Конфигурация (Формат на хартията, Ориентация,
+          Размер на шрифта)'
+        cs: 'FinTS: ING-DiBa. Tisk: Konfigurace (Formát papíru, Orientace, Velikost
+          písma)'
+        de: 'FinTS: ING-DiBa. Drucken: Konfiguration (Papierformat, Ausrichtung, Schriftgröße)'
+        el: 'FinTS: ING-DiBa. Εκτύπωση: Διαμόρφωση (Μορφή χαρτιού, Προσανατολισμός,
+          Μέγεθος γραμματοσειράς)'
+        es: 'FinTS: ING-DiBa. Imprimir: Ajustes (Formato de papel, Orientación, Tamaño
+          de fuente)'
+        fr: 'FinTS: ING-DiBa. Imprimer: Configuration (Format de papier, Orientation,
+          Taille de la police)'
+        hr: 'FinTS: ING-DiBa. Ispis: Konfiguracija (Oblik papira, Usmjeravanje, Veličina
+          fonta)'
+        hu: 'FinTS: ING-DiBa. Nyomtatás: Beállítások (Papírformátum, Tájolás, Betűméret)'
+        it: 'FinTS: ING-DiBa. Stampa: Configurazione (Formato foglio, Orientazione,
+          Dimensioni carattere)'
+        iw: 'FinTS: ING-DiBa. הדפס: תצורה (עיצוב הדף, כיווניות, גודל גופן)'
+        nl: 'FinTS: ING-DiBa. Afdrukken: Configuratie (Papierinstellingen, Oriëntatie,
+          Lettergrootte)'
+        pl: 'FinTS: ING-DiBa. Drukuj: Konfiguracja (Format papieru, Orientacja, Rozmiar
+          czcionki)'
+        pt: 'FinTS: ING-DiBa. Imprimir: Configuração (Formato do papel, Orientação,
+          Tamanho da fonte)'
+        ro: 'FinTS: ING-DiBa. Printați: Configurare (Format de hârtie, Orientare,
+          Dimensiunea fontului)'
+        tr: 'FinTS: ING-DiBa. Yazdır: Yapılandırma (Sayfa Biçimi, Yönlendirme, Yazı
+          tipi boyutu)'
+        vi: 'FinTS: ING-DiBa. In: Cấu hình (Định dạng giấy, Hướng, Kích thước phông
+          chữ)'
+        en: 'FinTS: ING-DiBa. Print: Configuration (Paper format, Orientation, Font
+          size)'
+      - github: 143#column-19888171
+        mastodon: 112514030317651128
+  -   - 3.8.4
+      - '2014-05-17'
+      - bg: Опростена настройка на архивиране в облака
+        cs: Zjednodušené nastavení zálohování do cloudu
+        de: Vereinfachte Einrichtung von Cloud-Backups
+        el: Απλοποιημένη ρύθμιση της δημιουργίας αντιγράφων ασφαλείας στο cloud
+        es: Configuración simplificada de la copia de seguridad en la nube
+        fr: Configuration simplifiée de la sauvegarde dans le cloud
+        hr: Pojednostavljeno postavljanje sigurnosnog kopiranja u oblaku
+        hu: A felhőalapú biztonsági mentés egyszerűsített beállítása
+        it: Configurazione semplificata del backup su cloud
+        iw: הגדרה פשוטה יותר של גיבוי בענן
+        nl: Vereenvoudigde installatie van cloudback-up
+        pl: Uproszczona konfiguracja kopii zapasowej w chmurze
+        pt: Configuração simplificada do backup em nuvem
+        ro: Configurare simplificată a backupului în cloud
+        tr: Bulut yedekleme için kurulum basitleştirildi
+        vi: Đơn giản hóa thiết lập sao lưu đám mây
+        en: Simplified setup of cloud backup
+      - github: 142#column-19861846
+        mastodon: 112449360780010906
+  -   - 3.8.3
+      - '2014-04-29'
+      - bg: Бюджетиране 4.0
+        cs: Rozpočty 4.0
+        de: Budgetierung 4.0
+        el: Προϋπολογισμός 4.0
+        es: Presupuestar 4.0
+        fr: Budgétisation 4.0
+        hr: Izrada proračuna 4.0
+        hu: Költségvetés 4.0
+        it: Bilancio 4.0
+        iw: תקצוב 4.0
+        nl: Budgettering 4.0
+        pl: Przydzielanie budżetu 4.0
+        pt: Orçamento 4.0
+        ro: Bugetare 4.0
+        tr: Bütçeleme 4.0
+        vi: Ngân quỹ 4.0
+        en: Budgeting 4.0
+      - github: 140#column-19850840
+        mastodon: 112343594355860132
+  -   - 3.8.2
+      - '2014-04-15'
+      - bg: 'Търсене: Подобрения в потребителския интерфейс. Конфигуриране на уйджет
+          за сметка: Бутони. „Сканиране на касова бележка“ feature can be called from
+          widget „Моите сметки“.'
+        cs: 'Vyhledávání: Zdokonalení uživatelského rozhraní. Konfigurace widgetu
+          účtu: Tlačítka. „Skenovat fakturu“ feature can be called from widget „Moje
+          účty“.'
+        de: 'Suche: Verfeinerung der Benutzeroberfläche. Konfiguration des Konten-Widgets:
+          Schaltflächen. Die Funktion „Quittung scannen“ kann vom Widget „Meine Konten“
+          aufgerufen werden.'
+        el: 'Αναζήτηση: Βελτίωση του περιβάλλοντος εργασίας χρήστη. Διαμόρφωση widget
+          λογαριασμού: Πλήκτρα. «Σάρωση απόδειξης» feature can be called from widget
+          «Οι λογαριασμοί μου».'
+        es: 'Búsqueda: Interfaz de usuario mejorada. Configuración del widget de cuenta:
+          Botones. La función «Escanear recibo» puede llamar desde el widget «Mis
+          cuentas».'
+        fr: 'Recherche: Raffinement de l''interface utilisateur. Configuration du
+          widget "Mes comptes": Boutons. La fonctionnalité «Scanner le reçu» peut
+          être appelée à partir du widget «Mes comptes».'
+        hr: 'Pretraži: Poboljšanje korisničkog sučelja. Konfiguracija widgeta računa:
+          Buttons. Funkcija „Snimi račun“ se može pozvati putem widgeta „Moji računi“.'
+        hu: 'Keresés: A felhasználói felület finomítása. Fiók widget beállítása: Gombok.
+          „Nyugta beolvasása” feature can be called from widget „Saját fiókok”.'
+        it: 'Ricerca: Miglioramento dell''interfaccia utente. Configurazione del widget
+          del conto: Pulsanti. La funzione «Scansiona lo scontrino» può essere richiamata
+          dal widget «I miei conti».'
+        iw: 'חיפוש: חידוד ממשק המשתמש. תצורת יישומון חשבון: Buttons. ”סריקת קבלה”
+          feature can be called from widget ”החשבונות שלי”.'
+        nl: 'Zoeken: Verfijning van de gebruikersinterface. Configuratie van rekeningwidget:
+          Knoppen. ‘Scan ontvangstbewijs’ feature can be called from widget ‘Mijn
+          rekeningen’.'
+        pl: 'Wyszukiwanie: Udoskonalenie interfejsu użytkownika. Konfiguracja widżetu
+          konta: Przyciski. „Zeskanuj paragon” feature can be called from widget „Moje
+          konta”.'
+        pt: 'Pesquisar: Melhorias na interface do usuário. Configuração do widget
+          de conta: Botões. O recurso “Digitalizar recibo” pode ser chamado a partir
+          do widget “Minhas contas”.'
+        ro: 'Căutați: Perfecționarea interfeței cu utilizatorul. Account widget configuration:
+          Buttons. „Scanați chitanța” feature can be called from widget „Conturile
+          mele”.'
+        tr: 'Ara: Kullanıcı arayüzü iyileştirildi. Hesap widget''i yapılandırması:
+          Buttons. “Makbuz tara” özelliği, “Hesaplarım” widget''ından çağrılabilir.'
+        vi: 'Tìm kiếm: Cải tiến giao diện người dùng. Account widget configuration:
+          Buttons. “Quét biên lai” feature can be called from widget “Tài khoản của
+          tôi”.'
+        en: 'Search: Refinement of the user interface. Account widget configuration:
+          Buttons. “Scan receipt” feature can be called from widget “My accounts”.'
+      - github: 139#column-19841847
+        mastodon: 112277216301034271
   -
     - 3.8.1
     - "2024-04-06"

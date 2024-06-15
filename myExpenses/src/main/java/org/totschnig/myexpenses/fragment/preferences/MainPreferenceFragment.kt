@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.format.Formatter
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.*
 import com.evernote.android.state.State
@@ -12,8 +14,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MoreInfoDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import timber.log.Timber
 import java.util.Locale
 
@@ -67,6 +71,18 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         savedInstanceState?.let {
             StateSaver.restoreInstanceState(this, it)
         }
+        viewModel.appDirInfo.observe(this) { result ->
+            val pref = requirePreference<Preference>(PrefKey.APP_DIR)
+            result.onSuccess { appDirInfo ->
+                pref.summary = if (appDirInfo.isWriteable) {
+                    appDirInfo.displayName
+                } else {
+                    getString(R.string.app_dir_not_accessible, appDirInfo.documentFile.uri)
+                }
+            }.onFailure {
+                pref.setSummary(R.string.io_error_appdir_null)
+            }
+        }
     }
 
     override fun onResume() {
@@ -108,6 +124,8 @@ class MainPreferenceFragment : BasePreferenceFragment(),
                 }
             }
         }
+
+        loadAppDirSummary()
     }
 
 
@@ -185,9 +203,62 @@ class MainPreferenceFragment : BasePreferenceFragment(),
             true
         }
 
+        matches(preference, PrefKey.APP_DIR) -> {
+            val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
+            if (appDirInfo?.isDefault == false) {
+                (preference as PopupMenuPreference).showPopupMenu(
+                    getString(R.string.checkbox_is_default), getString(R.string.select)
+                ) {
+                    when (it.itemId) {
+                        0 -> {
+                            prefHandler.putString(PrefKey.APP_DIR, null)
+                            loadAppDirSummary()
+                            viewModel.loadAppData()
+                            true
+                        }
+
+                        1 -> {
+                            pickAppDir(appDirInfo)
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+            } else {
+                pickAppDir(appDirInfo)
+            }
+            true
+        }
+
         super.onPreferenceTreeClick(preference) -> true
 
         handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
         else -> false
+    }
+
+    private fun loadAppDirSummary() {
+        viewModel.loadAppDirInfo()
+    }
+
+    private val pickFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+        if (it != null) {
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+            prefHandler.putString(PrefKey.APP_DIR, it.toString())
+            loadAppDirSummary()
+        }
+    }
+
+    private fun pickAppDir(appDirInfo: SettingsViewModel.AppDirInfo?) {
+        try {
+            pickFolder.launch(appDirInfo?.documentFile?.uri)
+        } catch (e: ActivityNotFoundException) {
+            preferenceActivity.showSnackBar(
+                "No activity found for picking application directory."
+            )
+        }
     }
 }

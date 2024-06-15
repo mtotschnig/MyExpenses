@@ -101,4 +101,20 @@
     <string name="quality">"Ποιότητα"</string>
     <string name="buttons">"Πλήκτρα"</string>
     <string name="no_data">"Δεν υπάρχουν δεδομένα"</string>
+    <string name="color_component_title">"Επιλογή χρώματος"</string>
+    <string name="backups">"Αντίγραφα ασφαλείας"</string>
+    <string name="filter">"Φίλτρο"</string>
+    <string name="tags">"Ετικέτες"</string>
+    <string name="languages">"Γλώσσες"</string>
+    <string name="chart">"Διάγραμμα"</string>
+    <string name="full_screen">"Πλήρης οθόνη"</string>
+    <string name="start_date">"Ημερομηνία έναρξης"</string>
+    <string name="end_date">"Ημερομηνία λήξης"</string>
+    <string name="cloud_storage">"Αποθηκευτικός χώρος cloud"</string>
+    <string name="privacy_header">"Απόρρητο"</string>
+    <string name="orientation">"Προσανατολισμός"</string>
+    <string name="portrait">"Κάθετα"</string>
+    <string name="landscape">"Οριζόντια"</string>
+    <string name="title_font_size">"Μέγεθος γραμματοσειράς"</string>
+    <string name="system_default">"Προεπιλογή συστήματος"</string>
 </resources>

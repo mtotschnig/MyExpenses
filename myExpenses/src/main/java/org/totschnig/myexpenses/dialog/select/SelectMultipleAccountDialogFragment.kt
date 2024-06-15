@@ -19,19 +19,20 @@ class SelectMultipleAccountDialogFragment :
     override val dialogTitle: Int
         get() = R.string.search_account
     override val selection: String?
-        get() = if (arguments == null) null else "$KEY_CURRENCY = ?"
+        get() = if (currencyFromArguments == null) null else "$KEY_CURRENCY = ?"
     override val selectionArgs: Array<String>?
-        get() = arguments?.let { arrayOf(it.getString(KEY_CURRENCY)!!) }
-
+        get() = currencyFromArguments?.let { arrayOf(it) }
+    private val currencyFromArguments: String?
+        get() = requireArguments().getString(KEY_CURRENCY)
 
     companion object {
-        fun newInstance(currencyCode: String, criterion: AccountCriterion?) =
+        fun newInstance(currencyCode: String?, criterion: AccountCriterion?) =
             SelectMultipleAccountDialogFragment().apply {
-                if (currencyCode != AGGREGATE_HOME_CURRENCY_CODE) {
-                    arguments = Bundle(1).apply {
-                        putString(KEY_CURRENCY, currencyCode)
-                        putParcelable(KEY_CRITERION, criterion)
+                arguments = Bundle().apply {
+                    currencyCode?.let {
+                        putString(KEY_CURRENCY, it)
                     }
+                    putParcelable(KEY_CRITERION, criterion)
                 }
             }
     }

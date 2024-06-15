@@ -85,4 +85,15 @@
     <string name="password">"Kata laluan"</string>
     <string name="frequency">"Frekuensi"</string>
     <string name="no_data">"Tiada data"</string>
+    <string name="color_component_title">"Pilih warna"</string>
+    <string name="filter">"Tapis"</string>
+    <string name="tags">"Tanda nama"</string>
+    <string name="languages">"Bahasa"</string>
+    <string name="full_screen">"Skrin penuh"</string>
+    <string name="start_date">"Tarikh mula"</string>
+    <string name="end_date">"Tarikh akhir"</string>
+    <string name="cloud_storage">"Storan Awan"</string>
+    <string name="privacy_header">"Privasi"</string>
+    <string name="title_font_size">"Saiz fon"</string>
+    <string name="system_default">"Lalai sistem"</string>
 </resources>

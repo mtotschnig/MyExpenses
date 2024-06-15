@@ -294,7 +294,6 @@
     <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
     <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
     <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
-    <string name="pref_ui_language_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">ಭಾಷೆ</string>
     <string name="pref_ui_theme_dark">ಕಪ್ಪು</string>
@@ -434,11 +433,9 @@
     <string name="restore_calendar_handling_ignore">ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಬೇಡಿ</string>
     <string name="restore_not_possible_target_calendar_missing">ಬ್ಯಾಕಪ್ ಆರ್ಕೈವ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ %s ಸ್ಥಳೀಯವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ಮರುಸ್ಥಾಪನೆಯನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.</string>
     <string name="restore_not_possible_local_calendar_missing">ಪ್ರಸ್ತುತ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-    <string name="menu_distribution_show_pie_char">ಪೈ ಚಾರ್ಟ್ ತೋರಿಸಿ</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
     <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
-    <string name="image_deleted">ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="transaction_deleted">ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="dialog_export_applied_to_filter">ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="export_handle_deleted_create_helper">ಸಹಾಯಕ ವ್ಯವಹಾರವನ್ನು ರಚಿಸಿ</string>
@@ -469,8 +466,6 @@
     <string name="pref_auto_backup_time_title">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಸಮಯ</string>
     <string name="calendar_permission_required">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳ ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು <i>{app_name}</i> ಗೆ ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್ ಪ್ರವೇಶಿಸಲು ಅನುಮತಿ ಅಗತ್ಯವಿದೆ.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">ಪ್ರವೇಶವನ್ನು ನೀಡಿ</string>
-    <string name="switch_on_text">ಆನ್</string>
-    <string name="switch_off_text">ಆರಿಸಿ</string>
     <string name="menu_move">ಸರಿಸಿ</string>
     <string name="dialog_title_select_target">ಗುರಿ ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="transform_subcategory_to_main">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ಪರಿವರ್ತನೆ</string>
@@ -539,7 +534,6 @@
     <string name="all_extended_key_features">ವಿಸ್ತೃತ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
-    <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
     <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
     <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
     <string name="currency_symbol">ಕರೆನ್ಸಿ ಚಿಹ್ನೆ</string>
@@ -567,8 +561,6 @@
     <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
     <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
     <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
     <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
@@ -596,7 +588,6 @@
     <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.</string>
     <string name="donate_button_invoice">ಸರಕುಪಟ್ಟಿ</string>
-    <string name="menu_sort_direction">ವಿಂಗಡಣೆ ನಿರ್ದೇಶನ</string>
     <string name="never">ಎಂದಿಗೂ</string>
     <string name="always">ಯಾವಾಗಲೂ</string>
     <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
@@ -643,7 +634,6 @@
     <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
     <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
     <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
-    <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
     <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
     <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
     <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
@@ -738,8 +728,6 @@
     <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
     <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
     <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
-    <string name="budget_duration_from">ಇಂದ</string>
-    <string name="budget_duration_to">ಗೆ</string>
     <string name="no_budgets">+ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊದಲ ಬಜೆಟ್ ಅನ್ನು ವಿವರಿಸಿ.</string>
     <string name="budget_date_end_after_start">ಬಜೆಟ್ನ ಅಂತಿಮ ದಿನಾಂಕವು ಅದರ ಪ್ರಾರಂಭದ ದಿನಾಂಕದ ನಂತರ ಬರಬೇಕು.</string>
     <string name="menu_budget_allocated_only">ಹಂಚಿಕೆಯೊಂದಿಗೆ ವರ್ಗಗಳನ್ನು ಮಾತ್ರ ತೋರಿಸಿ</string>
@@ -748,7 +736,6 @@
     <string name="budget_filter_all_methods">ಎಲ್ಲಾ ವಿಧಾನಗಳು</string>
     <string name="budget_filter_all_states">ಎಲ್ಲಾ ಸ್ಥಿತಿ</string>
     <string name="budget_filter_all_tags">ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳು</string>
-    <string name="budget_form_label_filter">ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
     <string name="dialog_title_warning_delete_budget">ಬಜೆಟ್ ಅಳಿಸುವುದೇ?</string>
     <string name="warning_delete_budget">ಬಜೆಟ್ \"%1$s\" ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
@@ -774,7 +761,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಮೂಲ ದಿನಾಂಕವನ್ನು ಇಡುತ್ತವೆ</string>
     <string name="tags_create_or_select">ಟ್ಯಾಗ್‌ಗಳನ್ನು ರಚಿಸಿ ಅಥವಾ ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="tags">ಟ್ಯಾಗ್ಗಳು</string>
     <string name="pref_manage_tags_summary">ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
     <string name="dialog_title_warning_delete_tag">ಟ್ಯಾಗ್ ಅಳಿಸುವುದೇ?</string>
     <string name="menu_edit_tag">ಟ್ಯಾಗ್ ಸಂಪಾದಿಸಿ</string>
@@ -798,7 +784,6 @@
     <string name="advance_exexcution_in_days">ಮುಂಗಡ ಮರಣದಂಡನೆ (ದಿನಗಳಲ್ಲಿ)</string>
     <string name="discover_feature_fab_long_press">ವರ್ಗಾವಣೆ, ವಿಭಜಿತ ವಹಿವಾಟು ಅಥವಾ ಆದಾಯಕ್ಕಾಗಿ ಫಾರ್ಮ್ ಅನ್ನು ನೇರವಾಗಿ ತೆರೆಯಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ.</string>
     <string name="select_package">ದಯವಿಟ್ಟು ಪರವಾನಗಿ ಪ್ಯಾಕೇಜ್ ಆಯ್ಕೆಮಾಡಿ.</string>
-    <string name="pref_feature_uninstall_languages_title">ಭಾಷೆಗಳು</string>
     <string name="pref_feature_uninstall_summary">ಪ್ಲೇ ಸ್ಟೋರ್ ಅಂತಿಮವಾಗಿ ಆ ಮಾಡ್ಯೂಲ್‌ಗಳನ್ನು ಹಿನ್ನೆಲೆಯಲ್ಲಿ ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ.</string>
     <string name="pref_ocr_time_formats_title">ಸಮಯ ಸ್ವರೂಪಗಳು</string>
     <string name="pref_feature_uninstall_title">ವೈಶಿಷ್ಟ್ಯಗಳು ಮತ್ತು ಭಾಷೆಗಳ ಅಸ್ಥಾಪನೆಯನ್ನು ವಿನಂತಿಸಿ</string>

@@ -102,4 +102,20 @@
     <string name="quality">"Qualitat"</string>
     <string name="buttons">"Botons"</string>
     <string name="no_data">"No hi ha dades"</string>
+    <string name="color_component_title">"Selecciona un color"</string>
+    <string name="backups">"Còpies de seguretat"</string>
+    <string name="filter">"Filtra"</string>
+    <string name="tags">"Etiquetes"</string>
+    <string name="languages">"Idiomes"</string>
+    <string name="chart">"Diagrama"</string>
+    <string name="full_screen">"Pantalla completa"</string>
+    <string name="start_date">"Data d'inici"</string>
+    <string name="end_date">"Data de finalització"</string>
+    <string name="cloud_storage">"Emmagatzematge al núvol"</string>
+    <string name="privacy_header">"Privadesa"</string>
+    <string name="orientation">"Orientació"</string>
+    <string name="portrait">"Vertical"</string>
+    <string name="landscape">"Horitzontal"</string>
+    <string name="title_font_size">"Cos de font"</string>
+    <string name="system_default">"Valor predeterminat del sistema"</string>
 </resources>

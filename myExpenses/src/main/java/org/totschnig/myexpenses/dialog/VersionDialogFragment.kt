@@ -96,7 +96,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                                 VersionInfoButton(
                                     version = version,
                                     resPrefix = "project_board_",
-                                    baseUri = "https://github.com/mtotschnig/MyExpenses/projects/",
+                                    baseUri = if (version.code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/mtotschnig/projects/",
                                     drawableRes = R.drawable.ic_github,
                                     contentDescription = "Github"
                                 )

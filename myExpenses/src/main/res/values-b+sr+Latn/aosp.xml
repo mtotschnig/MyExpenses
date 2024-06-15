@@ -20,4 +20,19 @@
     <string name="frequency">"Učestalost"</string>
     <string name="required">"Potreban"</string>
     <string name="no_data">"Nema podataka"</string>
+    <string name="color_component_title">"Odaberite boju"</string>
+    <string name="backups">"Rezervne kopije"</string>
+    <string name="filter">"Filter"</string>
+    <string name="languages">"Jezici"</string>
+    <string name="chart">"Grafik"</string>
+    <string name="full_screen">"Ceo ekran"</string>
+    <string name="start_date">"Datum početka"</string>
+    <string name="end_date">"Datum završetka"</string>
+    <string name="cloud_storage">"Prostor u klaudu"</string>
+    <string name="privacy_header">"Privatnost"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"Veličina fonta"</string>
+    <string name="system_default">"Podrazumevani sistemski"</string>
 </resources>

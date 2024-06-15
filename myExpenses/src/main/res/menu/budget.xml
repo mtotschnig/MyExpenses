@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@id/BACK_COMMAND"
-        android:icon="@drawable/ic_menu_back"
-        android:title="@string/menu_back"
-        app:showAsAction="always"/>
-    <item
-        android:id="@id/FORWARD_COMMAND"
-        android:icon="@drawable/ic_menu_forward"
-        android:title="@string/menu_forward"
-        app:showAsAction="always"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/EDIT_COMMAND"
         android:icon="@drawable/ic_menu_edit"
-        app:showAsAction="ifRoom"
-        android:title="@string/menu_edit">
-    </item>
+        android:orderInCategory="7"
+        android:title="@string/menu_edit"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@id/SORT_COMMAND"
-        android:title="@string/display_options_sort_list_by"
-        android:icon="@drawable/ic_menu_sort"
+        android:id="@id/ROLLOVER_COMMAND"
+        android:orderInCategory="8"
+        android:enabled="false"
+        android:title="@string/budget_table_header_rollover"
         app:showAsAction="ifRoom">
         <menu>
-            <group android:checkableBehavior="single">
-                <item android:id="@id/SORT_LABEL_COMMAND" android:title="@string/label"/>
-                <item android:id="@id/SORT_ALLOCATED_COMMAND" android:title="@string/budget_table_header_allocated" />
-                <item android:id="@id/SORT_SPENT_COMMAND" android:title="@string/budget_table_header_spent" />
-            </group>
-        </menu>
-    </item>
-    <item android:id="@id/ROLLOVER_COMMAND" android:title="@string/budget_table_header_rollover" app:showAsAction="ifRoom" android:enabled="false">
-        <menu>
-            <item android:id="@id/ROLLOVER_TOTAL" android:title="@string/menu_aggregates"/>
-            <item android:id="@id/ROLLOVER_CATEGORIES" android:title="@string/pref_manage_categories_title"/>
-            <item android:id="@id/ROLLOVER_EDIT" android:title="@string/menu_edit"/>
-            <item android:id="@id/ROLLOVER_CLEAR" android:title="@string/menu_delete"/>
+            <item
+                android:id="@id/ROLLOVER_TOTAL"
+                android:title="@string/menu_aggregates" />
+            <item
+                android:id="@id/ROLLOVER_CATEGORIES"
+                android:title="@string/pref_manage_categories_title" />
+            <item
+                android:id="@id/ROLLOVER_EDIT"
+                android:title="@string/menu_edit" />
+            <item
+                android:id="@id/ROLLOVER_CLEAR"
+                android:title="@string/menu_delete" />
         </menu>
     </item>
     <item
         android:id="@id/MANAGE_CATEGORIES_COMMAND"
         android:title="@string/menu_manage_categories"
-        app:showAsAction="never"/>
+        android:orderInCategory="9"
+        app:showAsAction="never" />
     <item
-        android:checkable="true"
         android:id="@id/AGGREGATE_COMMAND"
-        android:title="Aggregate neutral categories" />
+        android:orderInCategory="10"
+        android:checkable="true"
+        android:title="@string/menu_aggregate_neutral_categories" />
     <item
         android:id="@id/BUDGET_ALLOCATED_ONLY"
+        android:orderInCategory="11"
         android:checkable="true"
         android:title="@string/menu_budget_allocated_only"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@id/DELETE_COMMAND"
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"
-        app:showAsAction="never"
-        android:title="@string/menu_delete">
-    </item>
+        android:title="@string/menu_delete"
+        app:showAsAction="never" />
 </menu>

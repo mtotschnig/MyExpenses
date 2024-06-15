@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
+import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import javax.inject.Named
@@ -27,25 +28,44 @@ open class UiModule {
 
     @Provides
     @Singleton
-    open fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory =
-           try {
-               Class.forName("org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory")
-                       .getConstructor(Context::class.java, PrefHandler::class.java, String::class.java, LicenceHandler::class.java)
-                       .newInstance(application, prefHandler, userCountry, licenceHandler) as AdHandlerFactory
-           } catch (e: Exception) {
-               object : AdHandlerFactory {}
-    }
+    open fun provideAdHandlerFactory(
+        application: MyApplication,
+        prefHandler: PrefHandler,
+        @Named(AppComponent.USER_COUNTRY) userCountry: String,
+        licenceHandler: LicenceHandler,
+        configurator: Configurator
+    ): AdHandlerFactory =
+        try {
+            Class.forName("org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory")
+                .getConstructor(
+                    Context::class.java,
+                    PrefHandler::class.java,
+                    String::class.java,
+                    LicenceHandler::class.java,
+                    Configurator::class.java
+                )
+                .newInstance(
+                    application,
+                    prefHandler,
+                    userCountry,
+                    licenceHandler,
+                    configurator
+                ) as AdHandlerFactory
+        } catch (e: Exception) {
+            object : AdHandlerFactory {}
+        }
 
     @Provides
     @Singleton
-    open fun provideDiscoveryHelper(prefHandler: PrefHandler): IDiscoveryHelper = DiscoveryHelper(prefHandler)
+    open fun provideDiscoveryHelper(prefHandler: PrefHandler): IDiscoveryHelper =
+        DiscoveryHelper(prefHandler)
 
     @Provides
     @Singleton
     open fun provideReviewManager(prefHandler: PrefHandler): ReviewManager = try {
         Class.forName("org.totschnig.myexpenses.util.distrib.PlatformReviewManager")
-                .getConstructor(PrefHandler::class.java)
-                .newInstance(prefHandler) as ReviewManager
+            .getConstructor(PrefHandler::class.java)
+            .newInstance(prefHandler) as ReviewManager
     } catch (e: Exception) {
         object : ReviewManager {
             override fun onEditTransactionResult(activity: FragmentActivity) {

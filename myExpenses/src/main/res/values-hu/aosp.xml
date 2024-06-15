@@ -103,4 +103,20 @@
     <string name="quality">"Minőség"</string>
     <string name="buttons">"Gombok"</string>
     <string name="no_data">"Nincs adat"</string>
+    <string name="color_component_title">"Színválasztás"</string>
+    <string name="backups">"Biztonsági mentések"</string>
+    <string name="filter">"Szűrő"</string>
+    <string name="tags">"Címkék"</string>
+    <string name="languages">"Nyelvek"</string>
+    <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Teljes képernyő"</string>
+    <string name="start_date">"Kezdés dátuma"</string>
+    <string name="end_date">"Befejezés dátuma"</string>
+    <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Adatvédelem"</string>
+    <string name="orientation">"Tájolás"</string>
+    <string name="portrait">"Álló"</string>
+    <string name="landscape">"Fekvő"</string>
+    <string name="title_font_size">"Betűméret"</string>
+    <string name="system_default">"Rendszerbeállítás"</string>
 </resources>

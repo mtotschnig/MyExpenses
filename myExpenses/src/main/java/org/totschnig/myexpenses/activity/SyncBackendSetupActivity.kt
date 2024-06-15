@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
-import android.view.SubMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
@@ -19,19 +18,18 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.BackendService.Companion.allAvailable
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
-import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_QUERY_LOCAL_ACCOUNTS
-import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
 
 abstract class SyncBackendSetupActivity : RestoreActivity(),
     OnDialogResultListener {
 
     private lateinit var backendProviders: List<BackendService>
-    protected val viewModel: SyncViewModel by viewModels()
+    protected val syncViewModel: SyncViewModel by viewModels()
     private var isResumed = false
 
     @State
@@ -40,7 +38,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backendProviders = BackendService.allAvailable(this)
-        injector.inject(viewModel)
+        injector.inject(syncViewModel)
     }
 
     override fun onResume() {
@@ -94,9 +92,13 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     }
 
     private fun startSetupDo() {
-        getBackendServiceById(selectedFactoryId)?.instantiate()?.getOrNull()?.setupActivityClass?.let {
-            startSetup.launch(Intent(this, it))
-        }
+        getBackendServiceById(selectedFactoryId)
+            ?.instantiate()
+            ?.getOrNull()
+            ?.setupActivityClass
+            ?.let {
+                startSetup.launch(Intent(this, it))
+            }
         selectedFactoryId = 0
     }
 
@@ -127,32 +129,38 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         authToken: String?,
         bundle: Bundle?
     ) {
-        val args = Bundle()
-        args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName)
-        args.putString(AccountManager.KEY_PASSWORD, password)
-        args.putString(AccountManager.KEY_AUTHTOKEN, authToken)
-        args.putParcelable(AccountManager.KEY_USERDATA, bundle)
-        args.putBoolean(
-            KEY_RETURN_BACKUPS,
-            createAccountTaskShouldReturnBackups
-        )
-        args.putBoolean(
-            KEY_QUERY_LOCAL_ACCOUNTS,
-            createAccountTaskShouldQueryLocalAccounts
-        )
-        SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
-            .fields(
-                Input.password(GenericAccountService.KEY_PASSWORD_ENCRYPTION).required()
-                    .hint(R.string.input_label_passphrase)
-            )
-            .extra(args)
-            .neut(R.string.button_label_no_encryption)
-            .show(this, DIALOG_TAG_PASSWORD)
+        val args = Bundle().apply {
+            putString(AccountManager.KEY_ACCOUNT_NAME, accountName)
+            putString(AccountManager.KEY_PASSWORD, password)
+            putString(AccountManager.KEY_AUTHTOKEN, authToken)
+            putParcelable(AccountManager.KEY_USERDATA, bundle)
+        }
+        if (offerEncryption) {
+            SimpleFormDialog
+                .build()
+                .msg(R.string.passphrase_for_synchronization)
+                .fields(
+                    Input
+                        .password(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
+                        .required()
+                        .hint(R.string.input_label_passphrase)
+                )
+                .extra(args)
+                .neut(R.string.button_label_no_encryption)
+                .show(this, DIALOG_TAG_PASSWORD)
+        } else {
+            createAccountDo(args)
+        }
     }
 
     private fun createAccountDo(args: Bundle) {
         showLoadingSnackBar()
-        viewModel.createSyncAccount(args).observe(this) { result ->
+        syncViewModel.createSyncAccount(
+            args,
+            createAccountTaskShouldQueryLocalAccounts,
+            createAccountTaskShouldReturnBackups,
+            createAccountTaskShouldQueryRemoteAccounts
+        ).observe(this) { result ->
             result.onSuccess {
                 dismissSnackBar()
                 recordUsage(ContribFeature.SYNCHRONIZATION)
@@ -173,7 +181,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
     fun fetchAccountData(accountName: String) {
         showLoadingSnackBar()
-        viewModel.fetchAccountData(accountName).observe(this) { result ->
+        syncViewModel.fetchAccountData(accountName).observe(this) { result ->
             dismissSnackBar()
             result.onSuccess {
                 onReceiveSyncAccountData(it)
@@ -189,31 +197,30 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
     protected open val createAccountTaskShouldReturnBackups = false
 
-    protected open val createAccountTaskShouldQueryLocalAccounts= true
+    protected open val createAccountTaskShouldQueryLocalAccounts = true
 
-    fun addSyncProviderMenuEntries(subMenu: SubMenu) {
-        for (factory in backendProviders) {
+    protected open val createAccountTaskShouldQueryRemoteAccounts = true
+
+    /**
+     * When the backend is setup from Backup / Restore preference screen, the account specific encryption
+     * is not relevant, since encryption of backups is configured by a global setting
+     */
+    protected open val offerEncryption = true
+
+    fun addSyncProviderMenuEntries(subMenu: Menu) {
+        for (factory in allAvailable(this)) {
             subMenu.add(Menu.NONE, factory.id, Menu.NONE, factory.label)
         }
     }
 
-    fun getBackendServiceById(id: Int): BackendService? {
-        return try {
-            getBackendServiceByIdOrThrow(id)
-        } catch (e: IllegalStateException) {
-            null
-        }
+    fun getBackendServiceById(id: Int) = try {
+        getBackendServiceByIdOrThrow(id)
+    } catch (e: NoSuchElementException) {
+        null
     }
 
-    @Throws(IllegalStateException::class)
-    fun getBackendServiceByIdOrThrow(id: Int): BackendService {
-        for (backendService in backendProviders) {
-            if (backendService.id == id) {
-                return backendService
-            }
-        }
-        throw IllegalStateException()
-    }
+    @Throws(NoSuchElementException::class)
+    fun getBackendServiceByIdOrThrow(id: Int) = allAvailable(this).first { it.id == id }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         when {
@@ -228,6 +235,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
                 createAccountDo(extras)
                 true
             }
+
             else -> false
         }
 

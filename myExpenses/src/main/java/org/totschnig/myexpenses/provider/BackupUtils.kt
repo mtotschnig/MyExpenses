@@ -5,7 +5,6 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -26,9 +25,10 @@ const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 fun doBackup(
     context: Context,
     prefHandler: PrefHandler,
-    withSync: String?
+    withSync: Boolean
 ): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
+    val cloudStorage = if (withSync) prefHandler.cloudStorage else null
     return AppDirHelper.checkAppDir(context).mapCatching { appDir ->
         val backupFile =
             requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
@@ -37,7 +37,7 @@ fun doBackup(
         backup(cacheDir, context, prefHandler).getOrThrow()
         try {
             ZipUtils.zipBackup(context, cacheDir, backupFile, password)
-            sync(context.contentResolver, withSync, backupFile)
+            sync(context.contentResolver, cloudStorage, backupFile)
             backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: Exception) {
             CrashHandler.report(e)
@@ -67,7 +67,7 @@ fun listOldBackups(appDir: DocumentFile, prefHandler: PrefHandler): List<Documen
 }
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {
-    backend?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }?.let {
+    backend?.let {
         var backupFileName = backupFile.name
         if (backupFileName == null) {
             CrashHandler.report(Exception("Could not get name from uri ${backupFile.uri}"))

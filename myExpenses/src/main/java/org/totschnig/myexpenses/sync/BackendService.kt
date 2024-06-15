@@ -38,7 +38,7 @@ enum class BackendService(
         "OneDrive",
         Feature.ONEDRIVE
     ) {
-        //theoretically OneDrive would work on N with our work of azure-core. But if a future AGP
+        //theoretically OneDrive would work on N with our fork of azure-core. But if a future AGP
         //version allowed us to switch back to upstream azure-core, we would then have to drop support
         //for N.
         override fun isAvailable(context: Context) = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
@@ -61,7 +61,8 @@ enum class BackendService(
     } else true
 
     fun instantiate(): Result<SyncBackendProviderFactory> = kotlin.runCatching {
-        Class.forName(className).newInstance() as SyncBackendProviderFactory
+        Class.forName(className).getDeclaredConstructor()
+            .newInstance() as SyncBackendProviderFactory
     }.onFailure {
         CrashHandler.report(it)
     }
@@ -77,5 +78,6 @@ enum class BackendService(
         }
 
         fun allAvailable(context: Context) = entries.filter { it.isAvailable(context) }
+
     }
 }

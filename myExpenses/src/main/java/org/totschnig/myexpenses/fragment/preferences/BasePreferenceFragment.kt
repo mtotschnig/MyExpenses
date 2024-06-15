@@ -119,15 +119,15 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         val key = preference.key
         if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD)) {
             if ((preference as ListPreference).entries.size == 1) {
+
                 preferenceActivity.showSnackBar(R.string.no_sync_backends)
                 return
             }
         }
         val fragment = when {
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)
-            preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(
-                key
-            )
+            preference is SimplePasswordPreference ->
+                SimplePasswordDialogFragmentCompat.newInstance(key)
 
             matches(preference, PrefKey.MANAGE_APP_DIR_FILES) ->
                 MultiSelectListPreferenceDialogFragment2.newInstance(key)
@@ -240,5 +240,5 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
 
     val protectionTitle: String
-        get() = getString(R.string.security_settings_title) + " / " + getString(R.string.pref_category_title_privacy)
+        get() = getString(R.string.security_settings_title) + " / " + getString(R.string.privacy_header)
 }

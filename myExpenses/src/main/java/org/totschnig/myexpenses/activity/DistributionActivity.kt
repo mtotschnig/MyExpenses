@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.GestureDetector
@@ -15,7 +14,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,15 +28,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -51,6 +46,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.PieRadarChartBase
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -71,6 +67,7 @@ import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -89,6 +86,7 @@ import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import timber.log.Timber
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.sign
@@ -97,10 +95,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     OnDialogResultListener {
     override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
-    private val showChart = mutableStateOf(false)
+    private lateinit var innerChart: PieChart
     private var mDetector: GestureDetector? = null
 
+    override val showChartPrefKey = PrefKey.DISTRIBUTION_SHOW_CHART
+
+    override val showChartDefault = true
+
     private val subColorMap = SparseArray<List<Int>>()
+
     private fun getSubColors(color: Int, isDark: Boolean): List<Int> {
         return subColorMap.get(color)
             ?: (if (isDark) ColorUtils.getTints(color) else ColorUtils.getShades(color)).also {
@@ -109,9 +112,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.distribution, menu)
         menuInflater.inflate(R.menu.grouping, menu.findItem(R.id.GROUPING_COMMAND).subMenu)
-        super.onCreateOptionsMenu(menu)
         return true
     }
 
@@ -124,36 +127,31 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             menu.findItem(R.id.GROUPING_COMMAND).subMenu,
             viewModel.grouping
         )
-        menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
-            it.isChecked = showChart.value
-        }
         lifecycleScope.launch {
-            val currentIncomeType = viewModel.incomeType.first()
-            val typeMenu = menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!
-            typeOptions.entries.firstOrNull { it.value == currentIncomeType }?.let {
-                typeMenu.findItem(it.key).isChecked = true
+            val typeFlags = viewModel.typeFlags.first()
+            with(menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!) {
+                findItem(R.id.FILTER_INCOME_COMMAND).isChecked = typeFlags.first
+                findItem(R.id.FILTER_EXPENSE_COMMAND).isChecked = typeFlags.second
+                with(findItem(R.id.AGGREGATE_COMMAND)) {
+                    isEnabled = !(typeFlags.first && typeFlags.second)
+                    isChecked = viewModel.aggregateNeutral.first()
+                }
             }
-            typeMenu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
         }
         return true
     }
 
-    private val typeOptions = mapOf(
-        R.id.FILTER_EXPENSE_COMMAND to false,
-        R.id.FILTER_INCOME_COMMAND to true,
-    )
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (handleGrouping(item)) return true
-        typeOptions[item.itemId]?.let {
+    override fun onOptionsItemSelected(item: MenuItem) = when {
+        handleGrouping(item) -> true
+        item.itemId == R.id.FILTER_INCOME_COMMAND || item.itemId == R.id.FILTER_EXPENSE_COMMAND -> {
             lifecycleScope.launch {
-                viewModel.persistIncomeType(it)
+                viewModel.toggleTypeFlag(item.itemId == R.id.FILTER_INCOME_COMMAND)
                 invalidateOptionsMenu()
-                reset()
             }
-            return true
+            true
         }
-        return super.onOptionsItemSelected(item)
+
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun handleGrouping(item: MenuItem): Boolean {
@@ -166,23 +164,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         return false
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?) =
-        if (super.dispatchCommand(command, tag)) {
-            true
-        } else when (command) {
-            R.id.TOGGLE_CHART_COMMAND -> {
-                showChart.value = tag as Boolean
-                prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart.value)
-                invalidateOptionsMenu()
-                true
-            }
-
-            else -> false
-        }
-
-    private fun setChartData(categories: List<Category>) {
-        if ((::chart.isInitialized)) {
-            chart.data = PieData(PieDataSet(categories.map { category ->
+    private fun setChartData(chart: PieChart, categories: List<Category>) {
+        with(chart) {
+            data = PieData(PieDataSet(categories.map { category ->
                 PieEntry(
                     abs(category.aggregateSum.toFloat()),
                     category.label
@@ -197,7 +181,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             }).apply {
                 setValueFormatter(PercentFormatter())
             }
-            chart.invalidate()
+            invalidate()
         }
         selectionState.value = categories.firstOrNull()
     }
@@ -205,7 +189,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = setupView()
-        showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         injector.inject(viewModel)
 
         val whereFilter = intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
@@ -234,142 +217,255 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
         binding.composeView.setContent {
             AppTheme {
-                val isDark = isSystemInDarkTheme()
-                val configuration = LocalConfiguration.current
-                val categoryState =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING)
-                val categoryTree = remember {
-                    derivedStateOf {
-                        if (showChart.value) categoryState.value.withSubColors {
-                            getSubColors(it, isDark)
-                        } else {
-                            categoryState.value.copy(children = categoryState.value.children.map {
-                                it.copy(
-                                    color = null
-                                )
-                            })
-                        }
-                    }
-                }
-                val incomeType = viewModel.incomeType.collectAsState(initial = false)
-                val chartCategoryTree = remember {
-                    derivedStateOf {
-                        //expansionState does not reflect updates to the data, that is why we just use it
-                        //to walk down the updated tree and find the expanded category
-                        var result = categoryTree.value
-                        expansionState.forEach { expanded ->
-                            result = result.children.find { it.id == expanded.id } ?: result
-                        }
-                        result.copy(children = result.children.filter { category ->
-                            when (category.aggregateSum.sign) {
-                                1 -> true
-                                else -> false
-                            } == incomeType.value
-                        })
 
+                val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
+                val (showIncome, showExpense) = typeFlags.value
+                when {
+                    showIncome && showExpense -> {
+                        RenderCombined(whereFilter)
                     }
-                }
-                LaunchedEffect(chartCategoryTree.value) {
-                    setChartData(chartCategoryTree.value.children)
-                }
 
-                LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
-                    if (::chart.isInitialized) {
-                        val position =
-                            chartCategoryTree.value.children.indexOf(selectionState.value)
-                        if (position > -1) {
-                            chart.highlightValue(position.toFloat(), 0)
-                        }
-                    }
-                }
-                val choiceMode =
-                    ChoiceMode.SingleChoiceMode(selectionState) { id -> chartCategoryTree.value.children.any { it.id == id } }
-                val expansionMode = object : ExpansionMode.Single(expansionState) {
-                    override fun toggle(category: Category) {
-                        super.toggle(category)
-                        // when we collapse a category, we want it to be selected;
-                        // when we expand, the first child should be selected
-                        if (isExpanded(category.id)) {
-                            selectionState.value = category.children.firstOrNull()
-                        } else {
-                            selectionState.value = category
-                        }
-                    }
-                }
-                val accountInfo = viewModel.accountInfo.collectAsState(null)
-                Box(modifier = Modifier.fillMaxSize()) {
-                    when {
-                        categoryTree.value === Category.LOADING -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .size(96.dp)
-                                    .align(Alignment.Center)
-                            )
-                        }
-
-                        categoryTree.value.children.isEmpty() -> {
-                            Text(
-                                modifier = Modifier.align(Alignment.Center),
-                                text = stringResource(id = R.string.no_mapped_transactions),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-
-                        else -> {
-                            val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                            when (configuration.orientation) {
-                                Configuration.ORIENTATION_LANDSCAPE -> {
-                                    Column {
-                                        if (whereFilter != null) {
-                                            FilterCard(whereFilter)
-                                        }
-                                        Row(modifier = Modifier.weight(1f)) {
-                                            RenderTree(
-                                                modifier = Modifier.weight(0.5f),
-                                                tree = categoryTree.value,
-                                                choiceMode = choiceMode,
-                                                expansionMode = expansionMode,
-                                                accountInfo = accountInfo.value
-                                            )
-                                            RenderChart(
-                                                modifier = Modifier
-                                                    .weight(0.5f)
-                                                    .fillMaxHeight(),
-                                                categories = chartCategoryTree
-                                            )
-                                        }
-                                        RenderSumLine(accountInfo.value, sums)
-                                    }
-                                }
-
-                                else -> {
-                                    Column {
-                                        if (whereFilter != null) {
-                                            FilterCard(whereFilter)
-                                        }
-                                        RenderTree(
-                                            modifier = Modifier.weight(0.5f),
-                                            tree = categoryTree.value,
-                                            choiceMode = choiceMode,
-                                            expansionMode = expansionMode,
-                                            accountInfo = accountInfo.value
-                                        )
-                                        RenderChart(
-                                            modifier = Modifier
-                                                .weight(0.5f)
-                                                .fillMaxSize(),
-                                            categories = chartCategoryTree
-                                        )
-                                        RenderSumLine(accountInfo.value, sums)
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    !showIncome && !showExpense -> throw IllegalStateException()
+                    else -> RenderSingle(showIncome, whereFilter)
                 }
             }
         }
         setupGestureDetector()
+    }
+
+    private fun Category.prepareColors(showChart: Boolean, isDark: Boolean) =
+        when {
+            showChart -> withSubColors { getSubColors(it, isDark) }
+            else -> copy(children = children.map { it.copy(color = null) })
+        }
+
+    @Composable
+    private fun RenderCombined(whereFilter: WhereFilter?) {
+        val isDark = isSystemInDarkTheme()
+        val categoryState =
+            viewModel.combinedCategoryTree.collectAsState(initial = Category.LOADING)
+        val categoryTree = remember {
+            derivedStateOf {
+                categoryState.value.copy(
+                    children = categoryState.value.children.map {
+                        it.prepareColors(
+                            showChart.value,
+                            isDark
+                        )
+                    }
+                )
+            }
+        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            val accountInfo = viewModel.accountInfo.collectAsState(null).value
+            if (categoryState.value === Category.LOADING || accountInfo == null) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(96.dp)
+                        .align(Alignment.Center)
+                )
+            } else {
+                val incomeTree = remember {
+                    derivedStateOf {
+                        categoryTree.value.children.first().filterChildren(true)
+                    }
+                }.value
+                val expenseTree = remember {
+                    derivedStateOf {
+                        categoryTree.value.children[1].filterChildren(false)
+                    }
+                }.value
+                LaunchedEffect(categoryTree.value) {
+                    if (::chart.isInitialized) {
+                        setChartData(chart, incomeTree.children)
+                    }
+                    if (::innerChart.isInitialized) {
+                        setChartData(innerChart, expenseTree.children)
+                    }
+                }
+                LaunchedEffect(categoryTree.value, selectionState.value?.id) {
+                    if (::chart.isInitialized) {
+                        onSelectionChanged(chart, incomeTree)
+                    }
+                    if (::innerChart.isInitialized) {
+                        onSelectionChanged(innerChart, expenseTree)
+                    }
+                }
+                val choiceMode =
+                    ChoiceMode.SingleChoiceMode(selectionState, mainOnly = true, selectTree = true)
+                val expansionMode = ExpansionMode.DefaultCollapsed(
+                    rememberMutableStateListOf()
+                )
+                if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = stringResource(id = R.string.no_mapped_transactions),
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
+                        }
+                        LayoutHelper(
+                            data = {
+                                RenderTree(
+                                    modifier = it,
+                                    tree = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode,
+                                    accountInfo = accountInfo
+                                )
+                            }, chart = {
+                                val ratio = if (sums.first > 0L && sums.second < 0L)
+                                    sums.first.toFloat() / -sums.second else 1f
+                                val angles = if (ratio > 1f) 360f to 360f / ratio else
+                                    360f * ratio to 360f
+                                Timber.d("ratio: %f", ratio)
+                                Timber.d("angles: %s", angles)
+                                Box(modifier = it) {
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .fillMaxSize(0.95f)
+                                            .align(Alignment.Center),
+                                        false,
+                                        categories = incomeTree,
+                                        angle = angles.first,
+                                        isCombined = true
+                                    )
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .fillMaxSize(0.75f)
+                                            .align(Alignment.Center),
+                                        true,
+                                        categories = expenseTree,
+                                        angle = angles.second,
+                                        isCombined = true
+                                    )
+                                }
+                            }
+                        )
+                        RenderSumLine(accountInfo, sums)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onSelectionChanged(chart: PieChart, tree: Category) {
+        val position = tree.children.indexOf(selectionState.value)
+        if (position > -1) {
+            chart.highlightValue(position.toFloat(), 0)
+        } else {
+            chart.highlightValue(null)
+        }
+    }
+
+    private fun Category.filterChildren(showIncome: Boolean) = copy(
+        children = children.filter { category ->
+            when (category.aggregateSum.sign) {
+                1 -> true
+                else -> false
+            } == showIncome
+        })
+
+    @Composable
+    private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter?) {
+        val isDark = isSystemInDarkTheme()
+        val categoryState =
+            (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
+                .collectAsState(initial = Category.LOADING)
+
+        val categoryTree = remember {
+            derivedStateOf {
+                categoryState.value.prepareColors(showChart.value, isDark)
+            }
+        }
+
+        val chartCategoryTree = remember(showIncome) {
+            derivedStateOf {
+                //expansionState does not reflect updates to the data, that is why we just use it
+                //to walk down the updated tree and find the expanded category
+                var result = categoryTree.value
+                expansionState.forEach { expanded ->
+                    result = result.children.find { it.id == expanded.id } ?: result
+                }
+                result.filterChildren(showIncome)
+
+            }
+        }
+        LaunchedEffect(chartCategoryTree.value) {
+            if (::chart.isInitialized) {
+                setChartData(chart, chartCategoryTree.value.children)
+            }
+        }
+
+        LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
+            if (::chart.isInitialized) {
+                onSelectionChanged(chart, chartCategoryTree.value)
+            }
+        }
+        val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
+        val expansionMode = object : ExpansionMode.Single(expansionState) {
+            override fun toggle(category: Category) {
+                super.toggle(category)
+                // when we collapse a category, we want it to be selected;
+                // when we expand, the first child should be selected
+                if (isExpanded(category.id)) {
+                    selectionState.value = category.children.firstOrNull()
+                } else {
+                    selectionState.value = category
+                }
+            }
+        }
+        val accountInfo = viewModel.accountInfo.collectAsState(null).value
+        Box(modifier = Modifier.fillMaxSize()) {
+            when {
+                categoryTree.value === Category.LOADING || accountInfo == null -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+                categoryTree.value.children.isEmpty() -> {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = stringResource(id = R.string.no_mapped_transactions),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                else -> {
+                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
+                        }
+                        LayoutHelper(
+                            data = {
+                                RenderTree(
+                                    modifier = it,
+                                    tree = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode,
+                                    accountInfo = accountInfo
+                                )
+                            }, chart = {
+                                RenderChart(
+                                    modifier = it,
+                                    false,
+                                    categories = chartCategoryTree.value
+                                )
+                            }
+                        )
+                        RenderSumLine(accountInfo, sums)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupGestureDetector() {
@@ -416,38 +512,36 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     @Composable
     fun RenderTree(
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
         tree: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
-        accountInfo: DistributionAccountInfo?
+        accountInfo: DistributionAccountInfo
     ) {
         Category(
             modifier = modifier,
             category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = accountInfo?.currencyUnit,
+            sumCurrency = accountInfo.currencyUnit,
             menuGenerator = remember {
-                { category ->
+                { category, section ->
                     org.totschnig.myexpenses.compose.Menu(
                         buildList {
-                            if (accountInfo != null) {
-                                add(
-                                    MenuEntry(
-                                        Icons.AutoMirrored.Filled.List,
-                                        R.string.menu_show_transactions,
-                                        "SHOW_TRANSACTIONS"
-                                    ) {
-                                        lifecycleScope.launch {
-                                            showTransactions(
-                                                category,
-                                                viewModel.incomeType.first()
-                                            )
-                                        }
+                            add(
+                                MenuEntry(
+                                    Icons.AutoMirrored.Filled.List,
+                                    R.string.menu_show_transactions,
+                                    "SHOW_TRANSACTIONS"
+                                ) {
+                                    lifecycleScope.launch {
+                                        showTransactions(
+                                            category,
+                                            section == 0
+                                        )
                                     }
-                                )
-                            }
+                                }
+                            )
                             if (category.level == 1 && category.color != null)
                                 add(
                                     MenuEntry(
@@ -466,162 +560,173 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         )
     }
 
-    private fun requireChart(context: Context) {
-        chart = PieChart(context)
+    private fun requireChart(context: Context, inner: Boolean) = PieChart(context).also {
+        if (inner) {
+            innerChart = it
+        } else {
+            chart = it
+        }
     }
 
     @Composable
     fun RenderSumLine(
-        accountInfo: DistributionAccountInfo?,
+        accountInfo: DistributionAccountInfo,
         sums: Pair<Long, Long>
     ) {
-        accountInfo?.let { account ->
-            val showTotal = viewModel.showTotal.collectAsState(initial = false)
-            val accountFormatter = LocalCurrencyFormatter.current
-            val income = Money(accountInfo.currencyUnit, sums.first)
-            val expense = Money(accountInfo.currencyUnit, sums.second)
-            HorizontalDivider(
-                modifier = Modifier.padding(top = 4.dp),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Row(modifier = Modifier
-                .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
-                .clickable {
-                    lifecycleScope.launch {
-                        viewModel.persistShowTotal(!showTotal.value)
-                    }
-                }) {
-                CompositionLocalProvider(
-                    LocalTextStyle provides TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = TEXT_SIZE_MEDIUM_SP.sp
+        val showTotal = viewModel.showTotal.collectAsState(initial = false)
+        val accountFormatter = LocalCurrencyFormatter.current
+        val income = Money(accountInfo.currencyUnit, sums.first)
+        val expense = Money(accountInfo.currencyUnit, sums.second)
+        HorizontalDivider(
+            modifier = Modifier.padding(top = 4.dp),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Row(modifier = Modifier
+            .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
+            .clickable {
+                lifecycleScope.launch {
+                    viewModel.persistShowTotal(!showTotal.value)
+                }
+            }) {
+            CompositionLocalProvider(
+                LocalTextStyle provides TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = TEXT_SIZE_MEDIUM_SP.sp
+                )
+            ) {
+                Text("∑ :")
+                if (showTotal.value) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = buildString {
+                            val configure: (DecimalFormat) -> Unit = {
+                                it.positivePrefix = "+ "
+                                it.negativePrefix = " - "
+                            }
+                            append(
+                                accountFormatter.formatCurrency(
+                                    income.amountMajor,
+                                    accountInfo.currencyUnit,
+                                    configure
+                                )
+                            )
+                            append(
+                                accountFormatter.formatCurrency(
+                                    expense.amountMajor,
+                                    accountInfo.currencyUnit,
+                                    configure
+                                )
+                            )
+                            append(" = ")
+                            append(
+                                accountFormatter.convAmount(
+                                    sums.first + sums.second,
+                                    accountInfo.currencyUnit
+                                )
+                            )
+                        },
+                        textAlign = TextAlign.Center
                     )
-                ) {
-                    Text("∑ :")
-                    if (showTotal.value) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = buildString {
-                                val configure: (DecimalFormat) -> Unit = {
-                                    it.positivePrefix = "+ "
-                                    it.negativePrefix = " - "
-                                }
-                                append(
-                                    accountFormatter.formatCurrency(
-                                        income.amountMajor,
-                                        account.currencyUnit,
-                                        configure
-                                    )
-                                )
-                                append(
-                                    accountFormatter.formatCurrency(
-                                        expense.amountMajor,
-                                        account.currencyUnit,
-                                        configure
-                                    )
-                                )
-                                append(" = ")
-                                append(
-                                    accountFormatter.convAmount(
-                                        sums.first + sums.second,
-                                        account.currencyUnit
-                                    )
-                                )
-                            },
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        val configure: (DecimalFormat) -> Unit = {
-                            it.positivePrefix = "+"
-                            it.negativePrefix = "-"
-                        }
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = accountFormatter.formatCurrency(
-                                income.amountMajor,
-                                account.currencyUnit,
-                                configure
-                            ),
-                            textAlign = TextAlign.End
-                        )
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = accountFormatter.formatCurrency(
-                                expense.amountMajor,
-                                account.currencyUnit,
-                                configure
-                            ),
-                            textAlign = TextAlign.End
-                        )
+                } else {
+                    val configure: (DecimalFormat) -> Unit = {
+                        it.positivePrefix = "+"
+                        it.negativePrefix = "-"
                     }
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            income.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            expense.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
                 }
             }
-            HorizontalDivider(thickness = 4.dp, color = Color(account.color))
         }
+        HorizontalDivider(thickness = 4.dp, color = Color(accountInfo.color))
     }
 
     @Composable
     fun RenderChart(
         modifier: Modifier,
-        categories: State<Category>
+        inner: Boolean,
+        categories: Category,
+        angle: Float = 360f,
+        isCombined: Boolean = false
     ) {
-        if (showChart.value)
-            AndroidView(
-                modifier = modifier,
-                factory = { ctx ->
-                    requireChart(ctx)
-                    chart.apply {
-                        description.isEnabled = false
-                        setExtraOffsets(20f, 0f, 20f, 0f)
-                        renderer = SelectivePieChartRenderer(
-                            this,
-                            object : SelectivePieChartRenderer.Selector {
-                                var lastValueGreaterThanOne = true
-                                override fun shouldDrawEntry(
-                                    index: Int,
-                                    pieEntry: PieEntry,
-                                    value: Float
-                                ): Boolean {
-                                    val greaterThanOne = value > 1f
-                                    val shouldDraw = greaterThanOne || lastValueGreaterThanOne
-                                    lastValueGreaterThanOne = greaterThanOne
-                                    return shouldDraw
-                                }
-                            }).apply {
-                            paintEntryLabels.color = textColorSecondary.defaultColor
-                            paintEntryLabels.textSize =
-                                UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
-                        }
-                        setCenterTextSizePixels(
-                            UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
-                        )
-                        setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                            override fun onValueSelected(e: Entry, highlight: Highlight) {
-                                val index = highlight.x.toInt()
-                                selectionState.value = categories.value.children.getOrNull(index)
-                                this@apply.setCenterText(index)
+        AndroidView(
+            modifier = modifier,
+            factory = { ctx ->
+                requireChart(ctx, inner).apply {
+                    isRotationEnabled = PieRadarChartBase.ROTATION_INSIDE_ONLY
+                    description.isEnabled = false
+                    renderer = SelectivePieChartRenderer(
+                        this,
+                        object : SelectivePieChartRenderer.Selector {
+                            var lastValueGreaterThanOne = true
+                            override fun shouldDrawEntry(
+                                index: Int,
+                                pieEntry: PieEntry,
+                                value: Float
+                            ): Boolean {
+                                val greaterThanOne = value > 1f
+                                val shouldDraw = greaterThanOne || lastValueGreaterThanOne
+                                lastValueGreaterThanOne = greaterThanOne
+                                return shouldDraw
                             }
-
-                            override fun onNothingSelected() {
-                                selectionState.value = null
-                            }
-                        })
-                        setUsePercentValues(true)
-                        legend.isEnabled = false
-                        setChartData(categories.value.children)
+                        }).apply {
+                        paintEntryLabels.color = textColorSecondary.defaultColor
+                        paintEntryLabels.textSize =
+                            UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
                     }
-                })
+                    setCenterTextSizePixels(
+                        UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
+                    )
+                    setCenterTextColor(textColorSecondary.defaultColor)
+                    setUsePercentValues(true)
+                    holeRadius = if (inner) 75f else 85f
+                    setHoleColor(android.graphics.Color.TRANSPARENT)
+                    legend.isEnabled = false
+                    description.isEnabled = false
+                }
+            }) {
+            it.maxAngle = angle
+            it.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry, highlight: Highlight) {
+                    val index = highlight.x.toInt()
+                    selectionState.value = categories.children.getOrNull(index)
+                    it.setCenterText(index, if (isCombined) innerChart else chart)
+                }
+
+                override fun onNothingSelected() {
+                    selectionState.value = null
+                }
+            })
+            it.notifyDataSetChanged()
+            it.invalidate()
+        }
     }
 
-    private fun PieChart.setCenterText(position: Int) {
+    private fun PieChart.setCenterText(position: Int, target: PieChart) {
         val entry = data.dataSet.getEntryForIndex(position)
         val description = entry.label
         val value = data.dataSet.valueFormatter.getFormattedValue(
             entry.value / data.yValueSum * 100f,
             entry, position, null
         )
-        centerText = """
+
+        target.centerText = """
             $description
             $value
             """.trimIndent()

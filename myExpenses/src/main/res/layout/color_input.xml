@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colorInput"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:id="@+id/colorInput"
     tools:showIn="@layout/one_account">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -15,6 +15,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:contentDescription="@string/color_component_title"
         android:focusable="true" />
 
     <ImageView
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/menu_edit"
+        android:contentDescription="@string/color_component_title"
         android:focusable="true"
         app:srcCompat="@drawable/ic_menu_edit" />
 </LinearLayout>

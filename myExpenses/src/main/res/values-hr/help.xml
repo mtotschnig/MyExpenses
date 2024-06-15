@@ -65,7 +65,6 @@
     <string name="help_WebUI_info_1">Pozovi prikazani URL u podnaslovu putem web preglednika na tvom računalu.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Otvara dijalog za stvaranje nove potkategorije ispod odabrane kategorije. Potkategorije se mogu smjestiti na proizvoljnu razinu.</string>
     <string name="cab_ManageCategories_move_help_text">Bilo koja kategorija (zajedno sa svojim potkategorijama) može se premjestiti u novu nadređenu kategoriju. Potkategorije se mogu promijeniti u glavne kategorije.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Uključi/isključi vidljivost kružnog dijagrama.</string>
     <string name="menu_ManageCategories_search_help_text">Prikazat će se samo glavne kategorije i potkategorije koje odgovaraju tvom upitu.</string>
     <string name="menu_ManageCategories_sort_help_text">Popis kategorija može se razvrstati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu mapiranja transakcije.</string>
     <string name="cab_ManageCategories_color_help_text">Glavnim kategorijama možeš dodijeliti boju. Ova će se boja koristiti za predstavljanje kategorije u dijagramima. Podkategorije će koristiti nijanse boje glavne kategorije.</string>
@@ -160,4 +159,15 @@
     <string name="form_MethodEdit_account_types_help_text">Odaberi vrste računa za koje se ovaj način primijenjuje.</string>
     <string name="help_NavigationDrawer_info">Popis računa omogućuje jednostavnu navigaciju između računa pritiskom na unos.</string>
     <string name="menu_NavigationDrawer_sort_help_text">Popis računa može se poredati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu kada je za njega stvorena transakcija.</string>
+    <string name="cab_remove_help_text">Ukloni odabrani pozadinski sustav.</string>
+    <string name="cab_ManageCategories_merge_help_text">Kategorije iste vrste mogu se sjediniti.</string>
+    <string name="help_ManageSyncBackends_drive">Odaberi bilo koju mapu koju posjeduješ ili koja se s tobom dijeli.</string>
+    <string name="cab_sync_now_help_text">Pokreni trenutnu sinkronizaciju s odabranim pozadinskim sustavom.</string>
+    <string name="cab_sync_unlink_help_text">Odabrani račun se više neće sinkronizirati u pozadinski sustav</string>
+    <string name="menu_HistoryActivity_grouping_help_text">Promijeni prikaz na dnevno, tjedno, mjesečno ili godišnje grupiranje tvojih podataka o novčanom toku.</string>
+    <string name="form_BudgetEdit_filter_help_text">Budžeti se mogu filtrirati prema kategorijama, strankama, metodama ili stanjima. U obzir se uzimaju samo transakcije koje odgovaraju ovim filtrima.</string>
+    <string name="cab_remap_help_text">Koristi naredbe u ovom podizborniku, ako želiš promijeniti zadano svojstvo (račun, kategorija, platiša/primalac ili način plaćanja) za sve odabrane transakcije.</string>
+    <string name="menu_chart_help_text">Uključi/Isključi vidljivost dijagrama.</string>
+    <string name="help_HistoryActivity_info">Ovaj ekran prikazuje tvoj novčani tok, kako se tvoji troškovi i prihodi razvijaju tijekom godina, mjeseci, tjedana ili dana.</string>
+    <string name="help_ManageTags_select_filter_info">Označi ili odznači oznake za filtriranje popisa transakcija dodirom na oznake.</string>
 </resources>

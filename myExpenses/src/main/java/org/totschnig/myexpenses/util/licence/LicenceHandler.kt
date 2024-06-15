@@ -481,12 +481,14 @@ open class LicenceHandler(
                             text = stringResource(id = R.string.thank_you),
                             style = MaterialTheme.typography.titleSmall
                         )
-                        Text(
-                            prefHandler.getString(
-                                PrefKey.LICENCE_EMAIL,
-                                ""
-                            ) + ": " + prefHandler.getString(PrefKey.NEW_LICENCE, "")
-                        )
+                        if(hasOurLicence) {
+                            Text(
+                                prefHandler.getString(
+                                    PrefKey.LICENCE_EMAIL,
+                                    ""
+                                ) + ": " + prefHandler.getString(PrefKey.NEW_LICENCE, "")
+                            )
+                        }
                         Text(prettyPrintStatus(context)!!)
                         if (isPro) {
                             getProLicenceStatus(context)?.let { Text(it) }

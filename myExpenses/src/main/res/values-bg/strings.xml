@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
     <string name="pref_ui_fontsize_title">Размер на шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
-    <string name="pref_ui_language_default">От системата</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Език</string>
     <string name="pref_ui_theme_dark">Тъмна</string>
@@ -435,11 +434,9 @@
     <string name="restore_calendar_handling_ignore">Не възстановявай планове</string>
     <string name="restore_not_possible_target_calendar_missing">Календарът %s, записан в архива, не съществува локално. Възстановяването е отменено.</string>
     <string name="restore_not_possible_local_calendar_missing">Не е посочен текущ план календар.</string>
-    <string name="menu_distribution_show_pie_char">Покажи графиката</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ненужни изображения</string>
     <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>
-    <string name="image_deleted">Изображението е изтрито</string>
     <string name="transaction_deleted">Транзакцията е изтрита</string>
     <string name="account_deleted">Сметката е изтрита</string>
     <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър.</string>
@@ -471,8 +468,6 @@
     <string name="pref_auto_backup_time_title">Време за автоматично архивиране</string>
     <string name="calendar_permission_required"><i>{app_name}</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
-    <string name="switch_on_text">Включено</string>
-    <string name="switch_off_text">Изключено</string>
     <string name="menu_move">Премести</string>
     <string name="dialog_title_select_target">Избери приемната категория</string>
     <string name="transform_subcategory_to_main">Преобразувай в главна категория</string>
@@ -541,7 +536,6 @@
     <string name="all_extended_key_features">Всички възможности на Разширен вариант</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Надстрой</string>
-    <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
     <string name="currency_symbol">Знак за валута</string>
@@ -569,8 +563,6 @@
     <string name="onboarding_get_started">Да започваме</string>
     <string name="onboarding_more_options">Още опции</string>
     <string name="onboarding_restore_from_cloud">Възстановяване от облачната синхронизация</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Архиви</string>
     <string name="onboarding_restore_from_local">Възстановяване от локален архивен файл</string>
     <string name="contributed_by">Принос чрез %s</string>
     <string name="pref_sync_notification_summary">Уведомяване за хода на синхронизацията</string>
@@ -598,7 +590,6 @@
     <string name="extend_validity">Удължаване на валидността</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечното хранилище. Това може да отнеме известно време.</string>
     <string name="donate_button_invoice">Фактура</string>
-    <string name="menu_sort_direction">Посока на сортиране</string>
     <string name="never">никога</string>
     <string name="always">винаги</string>
     <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
@@ -645,7 +636,6 @@
     <string name="licence_expires_today">Професионалният Ви ключ изтича днес.</string>
     <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера.</string>
     <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни.</string>
-    <string name="pref_category_title_privacy">Поверителност</string>
     <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>
     <string name="sort_order">Подреди по</string>
     <string name="navigation_drawer_accounts_title">Управление на сметки</string>
@@ -741,8 +731,6 @@
     <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>
     <string name="menu_create_budget">Нов бюджет</string>
     <string name="budget_onetime">Еднократно</string>
-    <string name="budget_duration_from">От</string>
-    <string name="budget_duration_to">До</string>
     <string name="no_budgets">Дефинирайте първия си бюджет, като докоснете бутона +.</string>
     <string name="budget_date_end_after_start">Крайната дата на бюджета трябва да бъде след началната му дата.</string>
     <string name="menu_budget_allocated_only">Показвай само категории с разпределение</string>
@@ -752,7 +740,6 @@
     <string name="budget_filter_all_states">Всички държави</string>
     <string name="budget_filter_all_tags">Всички маркери</string>
     <string name="budget_filter_all_accounts">Всички сметки</string>
-    <string name="budget_form_label_filter">Филтър</string>
     <string name="dialog_title_warning_delete_budget">Да се изтрие ли бюджетът?</string>
     <string name="warning_delete_budget">Бюджетът „%1$s“ ще бъде изтрит.</string>
     <string name="menu_edit_budget">Редактиране на бюджет</string>
@@ -778,7 +765,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонирай транзакциите с първоначалната им дата</string>
     <string name="tags_create_or_select">Създаване или избор на маркери</string>
-    <string name="tags">Маркери</string>
     <string name="pref_manage_tags_summary">Добавяне, редактиране, изтриване на маркери.</string>
     <string name="dialog_title_warning_delete_tag">Да се изтрие ли маркерът?</string>
     <string name="menu_edit_tag">Редактиране на маркер</string>
@@ -828,7 +814,6 @@
     <string name="scan_result_no_payee">Не е намерен получател/платец</string>
     <string name="pref_feature_uninstall_title">Заявка за деинсталиране на функции и езици</string>
     <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
-    <string name="pref_feature_uninstall_languages_title">Езици</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Моля, изберете лицензен пакет.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

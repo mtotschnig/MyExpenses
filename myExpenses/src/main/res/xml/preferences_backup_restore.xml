@@ -19,8 +19,9 @@
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
     <PreferenceCategory android:layout="@layout/preference_category_empty"
+        android:key="category_main"
         my:allowDividerAbove="false"
-        my:initialExpandedChildrenCount="2">
+        my:initialExpandedChildrenCount="3">
         <Preference
             android:summary="@string/pref_backup_summary"
             android:title="@string/menu_backup">
@@ -40,16 +41,27 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
 
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            my:useSimpleSummaryProvider="true"
+            my:isPreferenceVisible="false"
+            android:title="@string/cloud_storage" />
+
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
+            android:key="@string/pref_auto_backup_cloud_setup_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/cloud_storage" />
+
         <EditTextPreference
             android:defaultValue="myexpenses-backup"
             android:key="@string/pref_backup_file_prefix_key"
             android:title="@string/pref_backup_file_prefix_title"
             my:useSimpleSummaryProvider="true" />
 
-        <org.totschnig.myexpenses.preference.AccountPreference
-            android:key="@string/pref_auto_backup_cloud_key"
-            android:summary="@string/pref_backup_cloud_summary"
-            android:title="@string/pref_backup_cloud_title" />
+        <org.totschnig.myexpenses.preference.SimplePasswordPreference
+            android:key="@string/pref_security_export_password_key"
+            android:summary="@string/pref_security_export_passphrase_summary"
+            android:title="@string/pref_security_export_passphrase_title" />
 
     </PreferenceCategory>
 

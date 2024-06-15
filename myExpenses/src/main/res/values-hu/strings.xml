@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz.</string>
     <string name="pref_ui_fontsize_title">Betűméret nagyítása</string>
     <string name="pref_ui_home_screen_shortcuts">Kezdőképernyő parancsikonok</string>
-    <string name="pref_ui_language_default">Rendszer alapbeállítás0</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Nyelv</string>
     <string name="pref_ui_theme_dark">Sötét</string>
@@ -435,11 +434,9 @@
     <string name="restore_calendar_handling_ignore">Ne állítsa vissza a terveket</string>
     <string name="restore_not_possible_target_calendar_missing">A biztonsági mentési archívumban beállított %s naptár nem létezik helyileg. A visszaállítás megszakadt.</string>
     <string name="restore_not_possible_local_calendar_missing">A jelenlegi tervezőnaptár nem érhető el.</string>
-    <string name="menu_distribution_show_pie_char">Tortadiagram mutatása</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Elavult képek</string>
     <string name="pref_manage_stale_images_summary">A törölt tranzakciókból maradt képek kezelése</string>
-    <string name="image_deleted">A képet töröltük</string>
     <string name="transaction_deleted">A tranzakció törlésre került</string>
     <string name="account_deleted">A fiókot töröltük</string>
     <string name="dialog_export_applied_to_filter">Csak az aktuális szűrőnek megfelelő tranzakciók lesznek figyelembe véve.</string>
@@ -471,8 +468,6 @@
     <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>
     <string name="calendar_permission_required">A(z) <i> {app_name}-nek </i> engedélyre van szüksége, hogy hozzáférjen a naptárhoz, a jövőbeli és ismétlődő tranzakciós tervek létrehozásához.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Hozzáférés megadása</string>
-    <string name="switch_on_text">Be</string>
-    <string name="switch_off_text">Ki</string>
     <string name="menu_move">Mozgat</string>
     <string name="dialog_title_select_target">Válasszon célt</string>
     <string name="transform_subcategory_to_main">Átalakítás fő kategóriára</string>
@@ -541,7 +536,6 @@
     <string name="all_extended_key_features">A Bővített kulcs összes funkciója</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Frissítés</string>
-    <string name="pref_backup_cloud_title">Tárolás a szinkronizálási háttérrendszeren</string>
     <string name="pref_backup_cloud_summary">A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.</string>
     <string name="auto_backup_cloud_success">%1$s biztonsági mentés sikeresen tárolva a(z) %2$s háttérrendszeren.</string>
     <string name="currency_symbol">Pénznem jele</string>
@@ -569,8 +563,6 @@
     <string name="onboarding_get_started">Első lépések</string>
     <string name="onboarding_more_options">További lehetőségek</string>
     <string name="onboarding_restore_from_cloud">Visszaállítás a felhőalapú szinkronizálásból</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Biztonsági mentések</string>
     <string name="onboarding_restore_from_local">Helyi biztonsági mentés visszaállítása</string>
     <string name="contributed_by">%s közreműködésével</string>
     <string name="pref_sync_notification_summary">Értesítés a szinkronizálás állapotáról</string>
@@ -599,7 +591,6 @@
     <string name="extend_validity">Érvényesség meghosszabbítása</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Adatok betöltése távoli háttérrendszerről. Ez eltarthat egy darabig.</string>
     <string name="donate_button_invoice">Számla</string>
-    <string name="menu_sort_direction">Rendezési irány</string>
     <string name="never">soha</string>
     <string name="always">mindig</string>
     <string name="auto_fill_account_from_aggregate_only">Csak ha összevont számláról van indítva.</string>
@@ -646,7 +637,6 @@
     <string name="licence_expires_today">Az ön Professional kulcsa ma lejár.</string>
     <string name="licence_expired_yesterday">Professzionális kulcsa tegnap lejárt.</string>
     <string name="licence_has_expired_n_days">Professzionális kulcsa %d napja lejárt.</string>
-    <string name="pref_category_title_privacy">Adatvédelem</string>
     <string name="gdpr_consent_button_no">Fizessen a reklámmentes verzióért</string>
     <string name="sort_order">Rendezési sorrend</string>
     <string name="navigation_drawer_accounts_title">Fiókok kezelése</string>
@@ -743,8 +733,6 @@
     <string name="discover_feature_expense_income_switch">Ezzel a váltógombbal rögzítheti a jövedelmet.</string>
     <string name="menu_create_budget">Új költségvetés</string>
     <string name="budget_onetime">Egyszeri</string>
-    <string name="budget_duration_from">Tól től</string>
-    <string name="budget_duration_to">Amíg</string>
     <string name="no_budgets">Határozza meg első költségvetését a + gombra kattintva.</string>
     <string name="budget_date_end_after_start">A költségvetés lejárati dátuma a kezdési dátum után kell legyen.</string>
     <string name="menu_budget_allocated_only">Csak hozzárendeléses kategóriák mutatása</string>
@@ -754,7 +742,6 @@
     <string name="budget_filter_all_states">Minden állapot</string>
     <string name="budget_filter_all_tags">Minden címke</string>
     <string name="budget_filter_all_accounts">Minden fiók</string>
-    <string name="budget_form_label_filter">Szűrés</string>
     <string name="dialog_title_warning_delete_budget">Törli a költségvetést?</string>
     <string name="warning_delete_budget">A(z) \"%1$s\" költségvetés törlődik.</string>
     <string name="menu_edit_budget">Költségvetés szerkesztése</string>
@@ -780,7 +767,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">A klónozott tranzakciók megtartják az eredeti dátumot.</string>
     <string name="tags_create_or_select">Címkék létrehozása vagy kiválasztása</string>
-    <string name="tags">Címkék</string>
     <string name="pref_manage_tags_summary">Adjon hozzá, módosítson, töröljön címkéket.</string>
     <string name="dialog_title_warning_delete_tag">Törli a címkét?</string>
     <string name="menu_edit_tag">Címke szerkesztése</string>
@@ -830,7 +816,6 @@
     <string name="scan_result_no_payee">Nincs kedvezményezett</string>
     <string name="pref_feature_uninstall_title">Kérje a funkciók és a nyelvek eltávolítását</string>
     <string name="pref_feature_uninstall_summary">A Play Store végül megpróbálja eltávolítani ezeket a modulokat a háttérből.</string>
-    <string name="pref_feature_uninstall_languages_title">Nyelvek</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Válasszon egy licenccsomagot.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
