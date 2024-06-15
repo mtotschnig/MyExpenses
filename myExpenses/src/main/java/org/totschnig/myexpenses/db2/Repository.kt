@@ -12,7 +12,6 @@ import androidx.datastore.preferences.core.Preferences
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -86,11 +85,13 @@ open class Repository @Inject constructor(
 
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
-        loadAttachmentIds(id).forEach {
-            ops.add(
-                ContentProviderOperation.newDelete(TRANSACTION_ATTACHMENT_SINGLE_URI(id, it))
-                    .build()
-            )
+        if (!markAsVoid) {
+            loadAttachmentIds(id).forEach {
+                ops.add(
+                    ContentProviderOperation.newDelete(TRANSACTION_ATTACHMENT_SINGLE_URI(id, it))
+                        .build()
+                )
+            }
         }
         ops.add(
             ContentProviderOperation.newDelete(
