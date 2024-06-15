@@ -164,6 +164,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         whereFilter: WhereFilter = WhereFilter.empty(),
         keepCriteria: ((Category) -> Boolean)? = null,
         queryParameter: Map<String, String> = emptyMap(),
+        idMapper: (Long) -> Long = { it }
     ): Flow<Category> =
         categoryTree(
             selection = buildFilterClause(groupingInfo, whereFilter, VIEW_WITH_ACCOUNT),
@@ -198,7 +199,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 }
             },
             keepCriteria = keepCriteria,
-            idMapper = { if (isIncome) it else -it }
+            idMapper = idMapper
         ).mapNotNull {
             when (it) {
                 is LoadingState.Empty -> Category.EMPTY
