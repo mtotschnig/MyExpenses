@@ -1,0 +1,4 @@
+• Разпределението по разходи и разпределението по приходи могат да бъдат показани заедно в диаграма с понички с двоен пръстен.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

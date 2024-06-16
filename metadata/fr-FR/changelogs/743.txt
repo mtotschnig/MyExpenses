@@ -1,0 +1,4 @@
+• La répartition par dépenses et la répartition par revenu peuvent être affichées ensemble dans un graphique à double anneau.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

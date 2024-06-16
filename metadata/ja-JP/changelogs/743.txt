@@ -1,0 +1,4 @@
+• Distribution per expenses and distribution per income can be shown together in double-ring donut chart.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

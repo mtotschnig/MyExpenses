@@ -1,0 +1,4 @@
+• ניתן להציג התפלגות לפי הוצאות והתפלגות לפי הכנסה ביחד בטבלת טבעות כפולות.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

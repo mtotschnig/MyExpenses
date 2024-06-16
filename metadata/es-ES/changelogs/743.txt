@@ -1,0 +1,4 @@
+• La distribución por gastos y la distribución por ingresos se pueden mostrar juntas en un gráfico de anillo doble.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791
