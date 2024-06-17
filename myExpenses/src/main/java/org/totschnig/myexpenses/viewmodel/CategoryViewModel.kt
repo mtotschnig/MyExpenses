@@ -280,7 +280,7 @@ open class CategoryViewModel(
                     id = edit.category?.id?.takeIf { it != 0L },
                     label = label,
                     icon = icon,
-                    parentId = edit.parent?.id,
+                    parentId = edit.parent?.id ?: edit.category?.parentId,
                     type = typeFlags
                 )
                 dialogState = edit.copy(saving = true)
@@ -646,7 +646,7 @@ open class CategoryViewModel(
                                     nextLabel,
                                     nextPath,
                                     ingest(
-                                        withColors,
+                                        false,
                                         cursor,
                                         nextId,
                                         level + 1,
