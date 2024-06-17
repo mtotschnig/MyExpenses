@@ -1,0 +1,4 @@
+• يمكن عرض التوزيع لكل مصروفات والتوزيع لكل دخل معا في مخطط دونات مزدوج الحلقة.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

@@ -1,0 +1,4 @@
+• Gider başına dağıtım ve gelir başına dağıtım çift halkalı simit grafiğinde birlikte gösterilebilir.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

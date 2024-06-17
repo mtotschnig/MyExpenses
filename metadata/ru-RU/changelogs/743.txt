@@ -1,0 +1,4 @@
+• Распределение по расходам и распределение по доходам можно показать вместе на кольцевой диаграмме с двойным кольцом.
+
+https://github.com/mtotschnig/MyExpenses/projects/1
+https://mastodon.social/@myexpenses/112611283595024791

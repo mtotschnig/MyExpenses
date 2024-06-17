@@ -169,7 +169,8 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             aggregateNeutral = aggregateNeutral,
             groupingInfo = grouping,
             keepCriteria = { it.sum != 0L },
-            whereFilter = whereFilter
+            whereFilter = whereFilter,
+            idMapper = { if (isIncome) it else -it }
         )
     }.map { it.sortChildrenBySumRecursive() }
 }
