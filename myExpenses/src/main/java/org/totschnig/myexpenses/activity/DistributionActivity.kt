@@ -755,7 +755,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             .cancelable(false)
             .neut()
             .extra(Bundle().apply {
-                putLong(KEY_ROWID, id)
+                putLong(KEY_ROWID, id.absoluteValue)
             }).apply {
                 color?.let { colorPreset(it) }
             }
