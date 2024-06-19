@@ -91,6 +91,7 @@ data class Transaction2(
     val id: Long,
     val _date: Long,
     val _valueDate: Long = _date,
+    val currency: String? = null,
     val amount: Money,
     val originalAmount: Money? = null,
     val parentId: Long? = null,
@@ -122,9 +123,6 @@ data class Transaction2(
     val type: Byte = FLAG_NEUTRAL,
     val isSameCurrency: Boolean = true
 ) : Parcelable {
-
-    val currency: CurrencyUnit
-        get() = amount.currencyUnit
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
@@ -235,12 +233,14 @@ data class Transaction2(
             tags: Map<String, Pair<String, Int?>>,
             accountCurrency: CurrencyUnit? = null
         ): Transaction2 {
+            val currency = cursor.getStringOrNull(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
-            val money = Money(accountCurrency ?: currencyContext[cursor.getString(KEY_CURRENCY)], amountRaw)
+            val money = Money(accountCurrency ?: currencyContext[currency!!], amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
+                currency = currency,
                 amount = money,
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
