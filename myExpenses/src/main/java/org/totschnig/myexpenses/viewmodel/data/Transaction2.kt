@@ -233,7 +233,7 @@ data class Transaction2(
             tags: Map<String, Pair<String, Int?>>,
             accountCurrency: CurrencyUnit? = null
         ): Transaction2 {
-            val currency = cursor.getStringOrNull(KEY_CURRENCY)
+            val currency = cursor.getStringIfExists(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(accountCurrency ?: currencyContext[currency!!], amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
