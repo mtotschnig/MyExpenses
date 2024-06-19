@@ -51,7 +51,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -82,13 +82,16 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import timber.log.Timber
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.sign
 
 class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
@@ -109,6 +112,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             ?: (if (isDark) ColorUtils.getTints(color) else ColorUtils.getShades(color)).also {
                 subColorMap.put(color, it)
             }
+    }
+
+    private val localizedPercentFormat: NumberFormat by lazy {
+        NumberFormat.getPercentInstance(getLocale()).also {
+            it.setMinimumFractionDigits(1)
+        }
+    }
+
+    private val percentFormatter = IValueFormatter { value, _, _, _ ->
+        localizedPercentFormat.format(value/100)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -179,7 +192,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 valueLinePart2Length = 0.1f
                 valueLineColor = textColorSecondary.defaultColor
             }).apply {
-                setValueFormatter(PercentFormatter())
+                setValueFormatter(percentFormatter)
             }
             invalidate()
         }
@@ -619,12 +632,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 )
                             )
                             append(" = ")
+                            val delta = sums.first + sums.second
                             append(
                                 accountFormatter.convAmount(
-                                    sums.first + sums.second,
+                                    delta,
                                     accountInfo.currencyUnit
                                 )
                             )
+                            if (delta != 0L && sums.first != 0L) {
+                                append(" (${localizedPercentFormat.format(delta.absoluteValue / sums.first.toFloat())})")
+                            }
                         },
                         textAlign = TextAlign.Center
                     )

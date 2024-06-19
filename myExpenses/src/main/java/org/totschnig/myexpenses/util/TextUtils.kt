@@ -10,11 +10,11 @@ import android.text.style.ForegroundColorSpan
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.ConfigurationCompat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import java.util.*
+import java.util.EnumSet
+import java.util.Locale
 
 object TextUtils {
     @JvmStatic
