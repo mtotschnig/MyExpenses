@@ -619,8 +619,8 @@ open class CategoryViewModel(
             buildList {
                 if (!cursor.isBeforeFirst) {
                     while (!cursor.isAfterLast) {
-                        val nextParent = cursor.getLongOrNull(KEY_PARENTID)
-                        val nextId = cursor.getLong(KEY_ROWID)
+                        val nextParent = cursor.getLongOrNull(KEY_PARENTID)?.let(idMapper)
+                        val nextId = idMapper(cursor.getLong(KEY_ROWID))
                         val nextLabel = cursor.getString(KEY_LABEL)
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
@@ -640,7 +640,7 @@ open class CategoryViewModel(
                             cursor.moveToNext()
                             add(
                                 Category(
-                                    idMapper(nextId),
+                                    nextId,
                                     parentId,
                                     nextLevel,
                                     nextLabel,
