@@ -624,16 +624,16 @@ open class MyExpensesViewModel(
                     newUpdate.withSelection(selection, null)
                 } else {
                     var selection = "$KEY_ROWID = ?"
-                    val isCategoryUpdate = column == KEY_CATID
-                    if (isCategoryUpdate) {
+                    val updateTransferPeer = column == KEY_CATID  || column == KEY_DATE
+                    if (updateTransferPeer) {
                         selection += " OR $KEY_TRANSFER_PEER = ?"
                     }
                     newUpdate.withSelection(
                         selection,
-                        arrayOfNulls(if (isCategoryUpdate) 2 else 1)
+                        arrayOfNulls(if (updateTransferPeer) 2 else 1)
                     )//replaced by back reference
                         .withSelectionBackReference(0, 0)
-                    if (isCategoryUpdate) {
+                    if (updateTransferPeer) {
                         newUpdate.withSelectionBackReference(1, 0)
                     }
                 }
@@ -667,7 +667,7 @@ open class MyExpensesViewModel(
                 if (column == KEY_ACCOUNTID) {
                     selection += " OR $KEY_PARENTID IN ($list)"
                 }
-                if (column == KEY_CATID) {
+                if (column == KEY_CATID || column == KEY_DATE) {
                     selection += " OR $KEY_TRANSFER_PEER IN ($list)"
                 }
                 contentResolver.update(
