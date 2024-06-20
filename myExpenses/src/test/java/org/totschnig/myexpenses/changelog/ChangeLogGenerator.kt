@@ -131,7 +131,7 @@ class ChangeLogGenerator {
         getString(resolveMoreInfo("version_more_info_", versionInfo)!!)
 
     private fun Context.githubUrl(versionInfo: VersionInfo) =
-        "https://github.com/mtotschnig/MyExpenses/projects/${githubLink(versionInfo)}"
+        "https://github.com/users/mtotschnig/projects/${githubLink(versionInfo)}"
 
     private fun Context.mastodonUrl(versionInfo: VersionInfo) =
         "https://mastodon.social/@myexpenses/${mastodonLink(versionInfo)}"
