@@ -588,7 +588,7 @@ fun Context.maybeRepairRequerySchema(prefHandler: PrefHandler) {
     if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
             PrefKey.CURRENT_VERSION,
             -1
-        ) in 557..588
+        ) <= 588
     ) {
         maybeRepairRequerySchema(getDatabasePath("data").path)
         prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
