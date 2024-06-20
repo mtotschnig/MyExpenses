@@ -147,9 +147,8 @@ open class TransactionPagingSource(
                     }
                 //if the two halves of a transfer are split between two pages, we
                 //drop the half at the end of the list, and reduce the offset for the next load by 1
-                val dropHalfTransfer = with(mergeResult.last()) {
-                    transferPeer != null && type != FLAG_NEUTRAL
-                }
+                val dropHalfTransfer = mergeResult.lastOrNull()?.let {
+                    it.transferPeer != null && it.type != FLAG_NEUTRAL } ?: false
                 dropHalfTransfer to if (dropHalfTransfer) mergeResult.dropLast(1) else mergeResult
             } else false to origList
 
