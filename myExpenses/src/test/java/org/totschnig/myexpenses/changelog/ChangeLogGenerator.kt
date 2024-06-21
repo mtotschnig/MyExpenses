@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -108,7 +108,7 @@ class ChangeLogGenerator {
             val path = Paths.get(System.getProperty("user.dir")).parent.resolve(
                 Path.of("metadata", language, "changelogs", "${versionInfo.code}.txt")
             )
-            Truth.assertWithMessage("Changelog language $language, version ${versionInfo.code} exists")
+            assertWithMessage("Changelog language $language, version ${versionInfo.code} exists")
                 .that(path.exists()).isFalse()
             Files.newOutputStream(path).bufferedWriter().use { writer ->
                 writer.write(
@@ -117,7 +117,9 @@ class ChangeLogGenerator {
                             .forEach { appendLine("• $it") }
                         appendLine()
                         appendLine(context.githubUrl(versionInfo))
-                        appendLine(context.mastodonUrl(versionInfo))
+                        context.mastodonUrl(versionInfo)?.let {
+                            appendLine(it)
+                        }
                     }
                 )
             }
@@ -125,16 +127,18 @@ class ChangeLogGenerator {
     }
 
     private fun Context.githubLink(versionInfo: VersionInfo) =
-        getString(resolveMoreInfo("project_board_", versionInfo)!!)
+        resolveMoreInfo("project_board_", versionInfo)?.let { getString(it) }
 
     private fun Context.mastodonLink(versionInfo: VersionInfo) =
-        getString(resolveMoreInfo("version_more_info_", versionInfo)!!)
+        resolveMoreInfo("version_more_info_", versionInfo)?.let { getString(it) }
 
     private fun Context.githubUrl(versionInfo: VersionInfo) =
-        "https://github.com/users/mtotschnig/projects/${githubLink(versionInfo)}"
+        "https://github.com/users/mtotschnig/projects/${githubLink(versionInfo)!!}"
 
     private fun Context.mastodonUrl(versionInfo: VersionInfo) =
-        "https://mastodon.social/@myexpenses/${mastodonLink(versionInfo)}"
+        mastodonLink(versionInfo)?.let {
+            "https://mastodon.social/@myexpenses/$it"
+        }
 
     @Test
     fun generateChangeLogYaml() {
@@ -180,8 +184,8 @@ class ChangeLogGenerator {
                 }
             },
             buildMap {
-                put("github", context.githubLink(versionInfo))
-                put("mastodon", context.mastodonLink(versionInfo))
+                put("github", context.githubLink(versionInfo)!!)
+                put("mastodon", context.mastodonLink(versionInfo)!!)
             }
         ))
         print(yaml.dump(data))
