@@ -1059,7 +1059,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_TRANSFORM_TO_TRANSFER) {
+    if (uriMatch == TRANSACTIONS) {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       //notifyChange(UNCOMMITTED_URI, false);
@@ -1074,6 +1074,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(DEBTS_URI, false);
     } else if (uriMatch == TRANSACTION_ATTACHMENTS) {
       notifyChange(TRANSACTIONS_URI, false);
+    } else if (uriMatch == TRANSACTION_TRANSFORM_TO_TRANSFER) {
+      notifyChange(TRANSACTIONS_URI, false);
+      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
