@@ -105,6 +105,7 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.KEY_IS_INCOME
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
@@ -774,13 +775,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             TRANSFORM_TO_TRANSFER_REQUEST,
             this
         ) { _, bundle ->
+            val isIncome = bundle.getBoolean(KEY_IS_INCOME)
+            val target = bundle.getString(KEY_LABEL)
+            val from = if (isIncome) target else currentAccount!!.label
+            val to = if (isIncome) currentAccount!!.label else target
             showConfirmationDialog(
                 "TRANSFORM_TRANSFER",
-                getString(
-                    R.string.warning_transform_to_transfer,
-                    currentAccount!!.label,
-                    bundle.getString(KEY_LABEL)
-                ),
+                getString(R.string.warning_transform_to_transfer, from, to),
                 R.id.TRANSFORM_TO_TRANSFER_COMMAND
             ) {
                 putAll(bundle)
