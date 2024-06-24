@@ -609,21 +609,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     @Synchronized
-    fun backup(context: Context, backupDir: File): Result<Unit> {
-        val currentDb = File(helper.readableDatabase.path!!)
+    fun backup(context: Context, backupDir: File, lenientMode: Boolean): Result<Unit> {
+        val currentDb = context.getDatabasePath(helper.databaseName)
         return (if (prefHandler.encryptDatabase) {
             _helper?.close()
             _helper = null
             decrypt(currentDb, backupDir)
         } else {
-            helper.readableDatabase.beginTransaction()
-            try {
-                backupDb(
-                    currentDb,
-                    backupDir
-                )
-            } finally {
-                helper.readableDatabase.endTransaction()
+            if (lenientMode) {
+                backupDb(currentDb, backupDir)
+            }
+            else {
+                helper.readableDatabase.beginTransaction()
+                try {
+                    backupDb(currentDb, backupDir)
+                } finally {
+                    helper.readableDatabase.endTransaction()
+                }
             }
         })
             .mapCatching {

@@ -20,10 +20,11 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         get() = arguments?.getString(KEY_INITIAL_SCREEN)
 
     override fun selectInitialDetailPreference(headerFragment: PreferenceFragmentCompat) =
-        (initialScreen?.let {
-            headerFragment.preferenceScreen.findPreference<Preference>(it)
-        } ?: super.selectInitialDetailPreference(headerFragment))
-            ?.also { (headerFragment as MainPreferenceFragment).highlightedKey = it.key }
+        if ((requireActivity() as PreferenceActivity).calledFromSystemSettings) null else
+            (initialScreen?.let {
+                headerFragment.preferenceScreen.findPreference<Preference>(it)
+            } ?: super.selectInitialDetailPreference(headerFragment))
+                ?.also { (headerFragment as MainPreferenceFragment).highlightedKey = it.key }
 
     @SuppressLint("MissingSuperCall")
     override fun onPreferenceStartFragment(

@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
@@ -167,6 +166,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                         )
                     }
                 }.onFailure {
+                    CrashHandler.report(it)
                     showDismissibleSnackBar(it.safeMessage, onDismissed)
                 }
                 is BackupState.Purged -> backupState.result.onSuccess {
@@ -296,7 +296,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.BACKUP_COMMAND -> {
                 prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
-                backupViewModel.doBackup(checked)
+                backupViewModel.doBackup(checked, intent.getBooleanExtra(EXTRA_LENIENT_MODE, false))
             }
             R.id.RESTORE_COMMAND -> {
                 doRestore(args)
@@ -339,5 +339,9 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         private const val DIALOG_TAG_PASSWORD = "PASSWORD"
         const val ACTION_BACKUP = "BACKUP"
         const val ACTION_RESTORE = "RESTORE"
+        // if this extra is passed in, backups will be done even if database cannot be opened
+        // This should allow to back up data, even if app crashes on start due to a database upgrade failure
+        // by starting settings screen from system settings
+        const val EXTRA_LENIENT_MODE = "LENIENT_MODE"
     }
 }

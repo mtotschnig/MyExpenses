@@ -5,11 +5,9 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.text.Collator
@@ -26,7 +24,7 @@ open class CurrencyViewModel(application: Application) :
             .map { it.sorted() }
 
     val currenciesFromEnum: List<Currency>
-        get() = CurrencyEnum.values()
+        get() = CurrencyEnum.entries
             .map { Currency.create(it.name, userPreferredLocale) }
             .sorted()
 

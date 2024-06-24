@@ -23,6 +23,7 @@
         my:allowDividerAbove="false"
         my:initialExpandedChildrenCount="3">
         <Preference
+            android:key="@string/pref_backup_key"
             android:summary="@string/pref_backup_summary"
             android:title="@string/menu_backup">
             <intent

@@ -18,6 +18,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     SHARE_TARGET(R.string.pref_share_target_key),
     UI_THEME(R.string.pref_ui_theme_key),
     UI_FONT_SIZE(R.string.pref_ui_fontsize_key),
+    BACKUP(R.string.pref_backup_key),
     RESTORE(R.string.pref_restore_key),
     IMPORT_QIF(R.string.pref_import_qif_key),
     IMPORT_CSV(R.string.pref_import_csv_key),

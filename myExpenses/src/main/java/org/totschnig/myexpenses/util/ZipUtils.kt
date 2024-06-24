@@ -31,7 +31,8 @@ object ZipUtils {
         context: Context,
         cacheDir: File?,
         destZipFile: DocumentFile,
-        password: String?
+        password: String?,
+        lenientMode: Boolean
     ) {
         val resolver = context.contentResolver
         val out = resolver.openOutputStream(destZipFile.uri)
@@ -42,14 +43,18 @@ object ZipUtils {
         )
         addFileToZip("", getBackupDbFile(cacheDir), zip)
         addFileToZip("", getBackupPrefFile(cacheDir), zip)
-        resolver
-            .query(
-                TransactionProvider.ATTACHMENTS_URI,
-                arrayOf(KEY_ROWID, KEY_URI),
-                null,
-                null,
-                null
-            )?.use {
+        try {
+            resolver
+                .query(
+                    TransactionProvider.ATTACHMENTS_URI,
+                    arrayOf(KEY_ROWID, KEY_URI),
+                    null,
+                    null,
+                    null
+                )
+        } catch (e: Exception) {
+            if (lenientMode) null else throw e
+        }?.use {
                 it.asSequence.forEach { cursor ->
                     val rowId = cursor.getLong(0)
                     val uri = Uri.parse(cursor.getString(1))

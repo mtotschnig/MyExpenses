@@ -36,7 +36,7 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
         return backupState
     }
 
-    fun doBackup(withSync: Boolean) {
+    fun doBackup(withSync: Boolean, lenientMode: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             backupState.postValue(BackupState.Running)
             backupState.postValue(
@@ -44,7 +44,8 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                     doBackup(
                         getApplication(),
                         prefHandler,
-                        withSync
+                        withSync,
+                        lenientMode
                     ).mapCatching { (backupFile, oldBackups) ->
                         val requireConfirmation =
                             prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)

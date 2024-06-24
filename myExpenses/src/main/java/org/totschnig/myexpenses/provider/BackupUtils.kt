@@ -25,7 +25,8 @@ const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 fun doBackup(
     context: Context,
     prefHandler: PrefHandler,
-    withSync: Boolean
+    withSync: Boolean,
+    lenientMode: Boolean = false
 ): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
     val cloudStorage = if (withSync) prefHandler.cloudStorage else null
@@ -34,10 +35,14 @@ fun doBackup(
             requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
                 ?: throw localizedThrowable(context, R.string.io_error_backupdir_null)
         val cacheDir = AppDirHelper.newWorkingDirectory(context, "backup").getOrThrow()
-        backup(cacheDir, context, prefHandler).getOrThrow()
+        backup(cacheDir, context, prefHandler, lenientMode).getOrThrow()
         try {
-            ZipUtils.zipBackup(context, cacheDir, backupFile, password)
-            sync(context.contentResolver, cloudStorage, backupFile)
+            ZipUtils.zipBackup(context, cacheDir, backupFile, password, lenientMode)
+            try {
+                sync(context.contentResolver, cloudStorage, backupFile)
+            } catch (e: Exception) {
+                if (!lenientMode) throw e
+            }
             backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: Exception) {
             CrashHandler.report(e)

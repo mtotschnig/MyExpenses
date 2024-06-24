@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_OK
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PopupMenuPreference
@@ -56,6 +57,13 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.RESTORE) -> {
             restore.launch(preference.intent)
+            true
+        }
+        matches(preference, PrefKey.BACKUP) -> {
+            preference.intent?.also {
+                it.putExtra(BackupRestoreActivity.EXTRA_LENIENT_MODE, preferenceActivity.calledFromSystemSettings)
+                startActivity(it)
+            }
             true
         }
 
