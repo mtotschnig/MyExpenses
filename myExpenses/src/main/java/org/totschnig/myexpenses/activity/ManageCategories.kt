@@ -438,10 +438,12 @@ class ManageCategories : ProtectedFragmentActivity(),
         actionMode?.title = size.toString()
     }
 
+    private fun selectedCategories(selectionState: SnapshotStateList<Long>) =
+        (viewModel.categoryTree.value as? LoadingState.Data)?.let { state ->
+            state.data.flatten().filter { selectionState.contains(it.id) }
+        }
+
     private fun startActionMode(selectionState: SnapshotStateList<Long>) {
-        val selectedCategories = (viewModel.categoryTree.value as? LoadingState.Data)?.let {
-            it.data.flatten().filter { selectionState.contains(it.id) }
-        } ?: return
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -477,8 +479,10 @@ class ManageCategories : ProtectedFragmentActivity(),
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectedCategories.size >= 2 &&
-                            selectedCategories.all { it.typeFlags == selectedCategories.first().typeFlags }
+                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible =
+                        selectedCategories(selectionState)?.let { list ->
+                            list.size >= 2 && list.all { it.typeFlags == list.first().typeFlags }
+                        } == true
                     return true
                 }
 
@@ -487,8 +491,10 @@ class ManageCategories : ProtectedFragmentActivity(),
                     item: MenuItem
                 ): Boolean = when (item.itemId) {
                     R.id.DELETE_COMMAND -> {
-                        if (checkDefaultTransferCategory(selectedCategories)) {
-                            viewModel.deleteCategories(selectedCategories)
+                        selectedCategories(selectionState)?.let { list ->
+                            if (checkDefaultTransferCategory(list)) {
+                                viewModel.deleteCategories(list)
+                            }
                         }
                         true
                     }
@@ -499,7 +505,9 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     R.id.MERGE_COMMAND -> {
-                        viewModel.dialogState = CategoryViewModel.Merge(selectedCategories)
+                        selectedCategories(selectionState)?.let { list ->
+                            viewModel.dialogState = CategoryViewModel.Merge(list)
+                        }
                         true
                     }
 
@@ -554,19 +562,19 @@ class ManageCategories : ProtectedFragmentActivity(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.deleteResult.collect { result ->
-                    result?.onSuccess {
-                        when (it) {
+                    result?.onSuccess { deleteResult ->
+                        when (deleteResult) {
                             is OperationComplete -> {
                                 finishActionMode()
                                 //noinspection BuildListAdds
                                 val messages = buildList {
-                                    mapToMessage(it.deleted, R.plurals.delete_success)
+                                    mapToMessage(deleteResult.deleted, R.plurals.delete_success)
                                     mapToMessage(
-                                        it.mappedToTransactions,
+                                        deleteResult.mappedToTransactions,
                                         R.plurals.not_deletable_mapped_transactions
                                     )
                                     mapToMessage(
-                                        it.mappedToTemplates,
+                                        deleteResult.mappedToTemplates,
                                         R.plurals.not_deletable_mapped_templates
                                     )
                                 }
@@ -578,18 +586,18 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                             is OperationPending -> {
                                 val messages = buildList {
-                                    if (it.hasDescendants > 0) {
+                                    if (deleteResult.hasDescendants > 0) {
                                         mapToMessage(
-                                            it.hasDescendants,
+                                            deleteResult.hasDescendants,
                                             R.plurals.warning_delete_main_category
                                         )
                                     }
-                                    if (it.mappedToBudgets > 0) {
+                                    if (deleteResult.mappedToBudgets > 0) {
                                         add(getString(R.string.warning_delete_category_with_budget))
                                     }
                                     add(getString(R.string.continue_confirmation))
                                 }
-                                val labels = it.categories.joinToString { it.label }
+                                val labels = deleteResult.categories.joinToString { it.label }
                                 MessageDialogFragment.newInstance(
                                     getString(R.string.dialog_title_warning_delete_category) +
                                             " ($labels)",
@@ -597,7 +605,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     MessageDialogFragment.Button(
                                         R.string.response_yes,
                                         R.id.DELETE_COMMAND_DO,
-                                        it.categories.map { it.id }.toTypedArray()
+                                        deleteResult.categories.map { it.id }.toTypedArray()
                                     ),
                                     null,
                                     MessageDialogFragment.Button(

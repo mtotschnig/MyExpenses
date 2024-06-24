@@ -6,14 +6,25 @@ import android.content.ContentValues
 import android.content.Intent
 import android.widget.Button
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.internal.matcher.HelperMatchers
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.containsString
@@ -26,14 +37,18 @@ import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
-import java.util.*
+import java.util.Currency
 
 class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
@@ -168,6 +183,20 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI,
                 "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString()))).isEqualTo(1)
+        }
+    }
+
+    @Test
+    fun shouldMergeCategories() {
+        baseFixture()
+        launch().use {
+            listNode.onChildren().onFirst()
+                .performTouchInput { longClick() }
+            listNode.onChildren()[1].performClick()
+            clickMenuItem(R.id.MERGE_COMMAND, true)
+            composeTestRule.onNodeWithText(getString(R.string.menu_merge)).performClick()
+            assertTextAtPosition("TestCategory", 0)
+            listNode.assert(hasRowCount(1))
         }
     }
 
