@@ -8,9 +8,25 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<merge>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/cancel_button"/>
+    <Button
+        android:id="@+id/bCancel"
+        style="@style/CalculatorButtonBase"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:text="@android:string/cancel"
+        app:autoSizeTextType="uniform" />
 
-    <include layout="@layout/ok_button"/>
+    <Button
+        android:id="@+id/bOK"
+        style="@style/CalculatorButtonBase"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@android:string/ok"
+        app:autoSizeTextType="uniform" />
 </merge>

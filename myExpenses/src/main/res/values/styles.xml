@@ -163,7 +163,10 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/calculator_button_layout_margin</item>
+        <item name="android:layout_marginTop">@dimen/calculator_button_layout_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/calculator_button_layout_margin_vertical</item>
+        <item name="android:layout_marginStart">@dimen/calculator_button_layout_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/calculator_button_layout_margin_horizontal</item>
     </style>
 
     <style name="CalculatorButton" parent="CalculatorButtonBase">

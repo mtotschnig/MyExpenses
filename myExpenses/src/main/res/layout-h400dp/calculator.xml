@@ -15,7 +15,9 @@
     android:orientation="vertical"
     android:padding="3dp">
 
-    <include android:id="@+id/result_pane" layout="@layout/calculator_result" />
+    <include
+        android:id="@+id/result_pane"
+        layout="@layout/calculator_result" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,19 +25,19 @@
         android:layout_gravity="center">
 
         <Button
-            tools:text="7"
             android:id="@+id/b7"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="7" />
 
         <Button
-            tools:text="8"
             android:id="@+id/b8"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="8" />
 
         <Button
-            tools:text="9"
             android:id="@+id/b9"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="9" />
 
         <Button
             android:id="@+id/bAdd"
@@ -52,19 +54,19 @@
         android:layout_gravity="center">
 
         <Button
-            tools:text="4"
             android:id="@+id/b4"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="4" />
 
         <Button
-            tools:text="5"
             android:id="@+id/b5"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="5" />
 
         <Button
-            tools:text="6"
             android:id="@+id/b6"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="6" />
 
         <Button
             android:id="@+id/bSubtract"
@@ -81,19 +83,19 @@
         android:layout_gravity="center">
 
         <Button
-            tools:text="1"
             android:id="@+id/b1"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="1" />
 
         <Button
-            tools:text="2"
             android:id="@+id/b2"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="2" />
 
         <Button
-            tools:text="3"
             android:id="@+id/b3"
-            style="@style/CalculatorButton" />
+            style="@style/CalculatorButton"
+            tools:text="3" />
 
         <Button
             android:id="@+id/bMultiply"
@@ -136,6 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/ok_cancel_buttons" />
+        <include
+            layout="@layout/ok_cancel_buttons" />
     </LinearLayout>
 </LinearLayout>

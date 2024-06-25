@@ -14,7 +14,9 @@
     android:orientation="vertical"
     android:padding="3dp">
 
-    <include android:id="@+id/result_pane"  layout="@layout/calculator_result" />
+    <include
+        android:id="@+id/result_pane"
+        layout="@layout/calculator_result" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -111,7 +113,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/ok_cancel_buttons" />
+        <include
+            layout="@layout/ok_cancel_buttons" />
 
         <Button
             android:id="@+id/bDivide"

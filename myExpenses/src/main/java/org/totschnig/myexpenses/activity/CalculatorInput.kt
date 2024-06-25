@@ -8,12 +8,11 @@ import android.view.ContextMenu.ContextMenuInfo
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.CalculatorBinding
+import org.totschnig.myexpenses.databinding.OkCancelButtonsBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
@@ -29,7 +28,7 @@ Originally based on Financisto's Calculator
  */
 class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     private lateinit var binding: CalculatorBinding
-    private var tvOp: TextView? = null
+    private lateinit var okCancelButtonsBinding: OkCancelButtonsBinding
 
     private var stack = Stack<String>()
     private var result: String? = "0"
@@ -39,6 +38,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CalculatorBinding.inflate(layoutInflater)
+        okCancelButtonsBinding = OkCancelButtonsBinding.bind(binding.root)
         setContentView(binding.root)
 
         arrayOf(
@@ -88,25 +88,19 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             } ?: false
         }
         setDisplay("0")
-        tvOp = findViewById<View>(R.id.op) as TextView
-        var b = findViewById<View>(R.id.bOK) as Button
-        b.setOnClickListener {
+
+        okCancelButtonsBinding.bOK.setOnClickListener {
             if (!isInEquals) {
                 doEqualsChar()
             }
             close()
         }
-        b = findViewById<View>(R.id.bCancel) as Button
-        b.setOnClickListener {
+        okCancelButtonsBinding.bCancel.setOnClickListener {
             setResult(RESULT_CANCELED)
             finish()
         }
-        val intent = intent
-        if (intent != null) {
-            val amount = intent.getSerializableExtra(DatabaseConstants.KEY_AMOUNT) as BigDecimal?
-            if (amount != null) {
-                setDisplay(amount.toPlainString())
-            }
+        (intent?.getSerializableExtra(DatabaseConstants.KEY_AMOUNT) as? BigDecimal)?.let {
+            setDisplay(it.toPlainString())
         }
     }
 
@@ -184,7 +178,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
 
     private fun resetAll() {
         setDisplay("0")
-        tvOp!!.text = ""
+        binding.resultPane.op.text = ""
         lastOp = 0
         isRestart = true
         stack.clear()
@@ -248,7 +242,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         stack.push(result)
         doLastOp()
         lastOp = op
-        tvOp!!.text = lastOpLabel
+        binding.resultPane.op.text = lastOpLabel
     }
 
     private val lastOpLabel: String
@@ -307,7 +301,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             BigDecimal(result).divide(HUNDRED).multiply(BigDecimal(stack.peek()))
                 .toPlainString()
         )
-        tvOp!!.text = ""
+        binding.resultPane.op.text = ""
     }
 
     private fun doEqualsChar() {
@@ -319,7 +313,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             stack.push(result)
         }
         doLastOp()
-        tvOp!!.text = ""
+        binding.resultPane.op.text = ""
     }
 
     private fun close() {
@@ -345,7 +339,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         isInEquals = savedInstanceState.getBoolean("isInEquals")
         stack = Stack()
         stack.addAll(savedInstanceState.getSerializable("stack") as Array<String>)
-        if (lastOp != 0 && !isInEquals) tvOp!!.text = lastOpLabel
+        if (lastOp != 0 && !isInEquals) binding.resultPane.op.text = lastOpLabel
         setDisplay(result)
     }
 

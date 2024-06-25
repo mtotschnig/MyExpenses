@@ -2,7 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="calculator_button_min">47dp</dimen>
     <dimen name="calculator_button_text_size">18sp</dimen>
-    <dimen name="calculator_button_layout_margin">0dp</dimen>
+    <dimen name="calculator_button_layout_margin_vertical">0dp</dimen>
+    <dimen name="calculator_button_layout_margin_horizontal">3dp</dimen>
     <dimen name="general_padding">12dp</dimen>
     <dimen name="padding_main_screen">12dp</dimen>
     <dimen name="padding_form">16dp</dimen>
