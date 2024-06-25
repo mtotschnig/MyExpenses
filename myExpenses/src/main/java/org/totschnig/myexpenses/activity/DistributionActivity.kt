@@ -82,6 +82,7 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
@@ -615,7 +616,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         text = buildString {
                             val configure: (DecimalFormat) -> Unit = {
                                 it.positivePrefix = "+ "
-                                it.negativePrefix = " - "
+                                it.negativePrefix = "- "
                             }
                             append(
                                 accountFormatter.formatCurrency(
@@ -624,6 +625,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     configure
                                 )
                             )
+                            append(" ")
                             append(
                                 accountFormatter.formatCurrency(
                                     expense.amountMajor,
@@ -634,9 +636,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             append(" = ")
                             val delta = sums.first + sums.second
                             append(
-                                accountFormatter.convAmount(
-                                    delta,
-                                    accountInfo.currencyUnit
+                                accountFormatter.formatMoney(
+                                    Money(accountInfo.currencyUnit, delta),
+                                    configure
                                 )
                             )
                             if (delta != 0L && sums.first != 0L) {
