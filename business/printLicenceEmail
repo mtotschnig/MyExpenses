@@ -5,7 +5,8 @@ cat << EOF
    Request key for EMAIL
    -p PACKAGE     Use package instead of Contrib
    -l LANG     Use LANG instead of the one from environment
-   -s Use staging environment
+   -t (test) Use staging environment
+   -s (silent) Skip mailing
    EMAIL
 EOF
 }
@@ -20,14 +21,17 @@ package=Contrib
 type=Licence
 lang=en_US
 endpoint=https://licencedb.myexpenses.mobi/users
+silent=0
 
-while getopts "p:l:s" opt; do
+while getopts "p:l:ts" opt; do
     case "$opt" in
         p) package=$OPTARG
            ;;
         l) lang=$OPTARG
            ;;
-        s) endpoint=http://127.0.0.1:3000/users
+        t) endpoint=http://127.0.0.1:3000/users
+           ;;
+        s) silent=1
            ;;
         '?')
             show_help >&2
@@ -59,7 +63,7 @@ then
   type=AddOn
 fi
 
-mapfile -t HTTP < <(curl -H "Authorization: Token $TOKEN" -H "Accept-Language: $lang" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package -d type=$type)
+mapfile -t HTTP < <(curl -H "Authorization: Token $TOKEN" -H "Accept-Language: $lang" --silent --write-out "\n%{http_code}" -X POST $endpoint --data-urlencode email=$email -d package=$package -d type=$type -d silent=$silent)
 
 status=${HTTP[-1]}
 
