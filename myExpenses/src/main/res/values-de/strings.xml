@@ -237,8 +237,8 @@
     <string name="pm_creditcard">Kreditkarte</string>
     <string name="pm_deposit">Einzahlung</string>
     <string name="pm_directdebit">Abbuchung</string>
-    <string name="pm_type_credit">Einnahmen</string>
-    <string name="pm_type_debit">Ausgaben</string>
+    <string name="pm_type_credit">Gutschrift</string>
+    <string name="pm_type_debit">Lastschrift</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Ordner für Datensicherungen und Exporte</string>
     <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
