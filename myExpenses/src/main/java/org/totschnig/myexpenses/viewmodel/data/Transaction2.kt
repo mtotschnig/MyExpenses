@@ -84,6 +84,7 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
+import kotlin.math.max
 
 @Parcelize
 @Immutable
@@ -287,3 +288,15 @@ data class Transaction2(
         }
     }
 }
+
+fun Iterable<Transaction2>.mergeTransfers(account: DataBaseAccount, homeCurrency: String): List<Transaction2> {
+    require(account.isAggregate)
+    return groupBy { max(it.id, it.transferPeer ?: 0) }
+        .map { (_, list) ->
+            if (list.size == 1) list.first() else
+                (if (!account.isHomeAggregate) list.first() else
+                    list.firstOrNull { it.currency == homeCurrency }
+                        ?: list.first()).copy(type = FLAG_NEUTRAL)
+        }
+}
+

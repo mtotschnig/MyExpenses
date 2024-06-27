@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.PdfPageEventHelper
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.CENTER
@@ -60,6 +61,7 @@ import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -299,15 +301,19 @@ object PdfPrinter {
         var prevHeaderId = 0
         var currentHeaderId: Int
         val tagMap = context.contentResolver.tagMap
-        transactionCursor.moveToFirst()
-        while (transactionCursor.position < transactionCursor.count) {
-            //could use /with/ scoping function with Kotlin 2.0.
-            val transaction = Transaction2.fromCursor(
-                currencyContext = currencyContext,
-                cursor = transactionCursor,
-                tags = tagMap
+        for (transaction in transactionCursor.asSequence.map {
+            Transaction2.fromCursor(
+                currencyContext,
+                it,
+                tagMap,
+                accountCurrency = account.currencyUnit
             )
-
+        }.asIterable().let {
+            if (account.isAggregate) it.mergeTransfers(
+                account,
+                currencyContext.homeCurrencyString
+            ) else it
+        }) {
             currentHeaderId = account.grouping.calculateGroupId(transaction)
             if (currentHeaderId != prevHeaderId) {
                 if (table != null) {
@@ -512,14 +518,21 @@ object PdfPrinter {
             val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
                 if (transaction.amount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
 
-            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), fontType)
+            cell = helper.printToCell(
+                currencyFormatter.formatMoney(
+                    if (transaction.type == FLAG_NEUTRAL) transaction.amount.absolute() else transaction.amount
+                ), fontType
+            )
             cell.horizontalAlignment = Element.ALIGN_RIGHT
             table.addCell(cell)
             val emptyCell = helper.emptyCell()
             if (withOriginalAmount) {
                 table.addCell(
                     transaction.originalAmount?.let {
-                        helper.printToCell(currencyFormatter.formatMoney(it), fontType)
+                        helper.printToCell(
+                            currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) transaction.amount.absolute() else transaction.amount),
+                            fontType
+                        )
                     }?.apply { horizontalAlignment = Element.ALIGN_RIGHT } ?: emptyCell
                 )
             }
@@ -560,7 +573,6 @@ object PdfPrinter {
                     table.addCell(emptyCell)
                 }
             }
-            transactionCursor.moveToNext()
         }
         // now add all this to the document
         document.add(table)

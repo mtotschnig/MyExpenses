@@ -27,10 +27,10 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
-import kotlin.math.max
 
 open class TransactionPagingSource(
     val context: Context,
@@ -138,13 +138,7 @@ open class TransactionPagingSource(
                 }
             } ?: emptyList()
             val (dropHalfTransfer, mergedList) = if (account.isAggregate) {
-                val mergeResult = origList.groupBy { max(it.id, it.transferPeer ?: 0) }
-                    .map { (_, list) ->
-                        if (list.size == 1) list.first() else
-                            (if (!account.isHomeAggregate) list.first() else
-                                list.firstOrNull { it.currency == currencyContext.homeCurrencyString }
-                                    ?: list.first()).copy(type = FLAG_NEUTRAL)
-                    }
+                val mergeResult = origList.mergeTransfers(account, currencyContext.homeCurrencyString)
                 //if the two halves of a transfer are split between two pages, we
                 //drop the half at the end of the list, and reduce the offset for the next load by 1
                 val dropHalfTransfer = mergeResult.lastOrNull()?.let {
