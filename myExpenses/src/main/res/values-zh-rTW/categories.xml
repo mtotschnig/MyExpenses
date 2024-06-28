@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">其他收入</string>
@@ -123,7 +123,7 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_1">銀行收費</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_2">貸款/抵押</string>
+    <string name="Sub_13_2">貸款／抵押</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_3">財務費用(Finance Charges)</string>
     <!-- Subcategory under "Financial expenses" -->
@@ -207,7 +207,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_14">博物館/展覽</string>
     <!-- Main category -->
-    <string name="Main_18">貸款/抵押</string>
+    <string name="Main_18">貸款／抵押</string>
     <!-- Subcategory under "Loan/Mortgage" -->
     <string name="Sub_18_1">資本</string>
     <!-- Main category -->
