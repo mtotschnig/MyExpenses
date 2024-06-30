@@ -68,6 +68,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
+    lv.setNestedScrollingEnabled(true);
     return v;
   }
 

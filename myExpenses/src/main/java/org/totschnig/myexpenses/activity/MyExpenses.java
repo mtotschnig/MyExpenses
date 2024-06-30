@@ -71,6 +71,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (navigationMenuView != null) {
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
+    floatingActionButton = binding.fab.CREATECOMMAND;
     updateFab();
     setupFabSubMenu();
     if (!isScanMode()) {

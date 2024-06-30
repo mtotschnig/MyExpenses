@@ -65,7 +65,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -475,9 +474,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             contribFeatureRequested(ContribFeature.WEB_UI, false)
         }
     }
-
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

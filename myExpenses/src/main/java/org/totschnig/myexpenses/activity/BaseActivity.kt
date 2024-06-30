@@ -50,6 +50,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -80,6 +82,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
+import org.totschnig.myexpenses.databinding.ActivityWithFragmentBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -169,18 +172,18 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    val floatingActionButton: FloatingActionButton
-        get() = _floatingActionButton!!
+    lateinit var floatingActionButton: FloatingActionButton
 
 
     fun configureFloatingActionButton() {
-        _floatingActionButton?.apply {
+        with(floatingActionButton) {
             fabDescription?.let { contentDescription = getString(it) }
             fabIcon?.let { setImageResource(it) }
         }
     }
 
-    open val _floatingActionButton: FloatingActionButton? = null
+    private val withFloatingActionButton: Boolean
+        get() = ::floatingActionButton.isInitialized
 
     @StringRes
     open val fabDescription: Int? = null
@@ -535,9 +538,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        configureFloatingActionButton()
-        _floatingActionButton?.let {
-            it.setOnClickListener {
+        if (withFloatingActionButton) {
+            configureFloatingActionButton()
+            floatingActionButton.setOnClickListener {
                 onFabClicked()
             }
         }
@@ -1118,8 +1121,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        _floatingActionButton?.let {
-            it.isEnabled = true
+        if (withFloatingActionButton) {
+            floatingActionButton.isEnabled = true
         }
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
@@ -1237,8 +1240,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     private fun disableFab() {
-        _floatingActionButton?.let {
-            it.isEnabled = false
+        if (withFloatingActionButton) {
+            floatingActionButton.isEnabled = false
         }
     }
 
@@ -1455,8 +1458,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     .autofocus(false)
                     .neg(android.R.string.cancel)
                     .extra(Bundle().apply {
-                        putParcelable(ExpenseEdit.KEY_OCR_RESULT, it)
-                        putParcelable(DatabaseConstants.KEY_URI, scanUri)
+                        putParcelable(KEY_OCR_RESULT, it)
+                        putParcelable(KEY_URI, scanUri)
                     })
                     .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                     .fields(
@@ -1517,8 +1520,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     open fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
         recordUsage(ContribFeature.OCR)
         editIntent?.apply {
-            putExtra(ExpenseEdit.KEY_OCR_RESULT, result)
-            putExtra(DatabaseConstants.KEY_URI, scanUri)
+            putExtra(KEY_OCR_RESULT, result)
+            putExtra(KEY_URI, scanUri)
         }?.let { startEdit(it) }
     }
 
@@ -1527,6 +1530,30 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open fun startEdit(intent: Intent) {
         startActivityForResult(intent, EDIT_REQUEST)
+    }
+
+    protected fun setupWithFragment(
+        doInstantiate: Boolean,
+        withFab: Boolean = true,
+        instantiate: (() -> Fragment)
+    ) {
+        ActivityWithFragmentBinding.inflate(layoutInflater).also {
+            if (doInstantiate) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        instantiate()
+                    )
+                    .commit()
+            }
+            if (withFab) {
+                floatingActionButton = it.fab.CREATECOMMAND.also {
+                    it.isVisible = true
+                }
+            }
+            setContentView(it.root)
+        }
     }
 
 

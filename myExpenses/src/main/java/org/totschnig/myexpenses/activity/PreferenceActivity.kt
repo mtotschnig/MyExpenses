@@ -19,7 +19,6 @@ import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
@@ -66,7 +65,6 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
     @State
     var resultCode: Int = RESULT_OK
 
-    lateinit var binding: SettingsBinding
     val viewModel: SettingsViewModel?
         get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
             ?.viewModel
@@ -113,19 +111,11 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         }
         injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
-        binding = SettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupWithFragment(savedInstanceState == null) {
+            TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
+        }
         setupToolbar()
         title = getString(R.string.settings_label)
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(
-                    binding.fragmentContainer.id,
-                    TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
-                )
-                .commit()
-        }
         observeLicenceApiResult()
     }
 
@@ -140,7 +130,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
     override fun onCreateOptionsMenu(menu: Menu) = false
 
     val twoPanePreference: TwoPanePreference
-        get() = binding.fragmentContainer.getFragment()
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as TwoPanePreference
 
     override fun doHome() {
         if (!twoPanePreference.doHome()) {

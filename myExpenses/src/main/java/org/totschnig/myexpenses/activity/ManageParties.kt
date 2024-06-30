@@ -16,9 +16,7 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.databinding.ManagePartiesBinding
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
@@ -26,18 +24,15 @@ const val HELP_VARIANT_MERGE_MODE = "mergeMode"
 
 class ManageParties : DebtActivity() {
     override val debtViewModel: DebtViewModel by viewModels()
-    private lateinit var listFragment: PartiesList
-    private lateinit var binding: ManagePartiesBinding
+    private val listFragment: PartiesList
+        get() =  supportFragmentManager.findFragmentById(R.id.fragment_container) as PartiesList
 
     fun setFabEnabled(enabled: Boolean) {
         floatingActionButton.isEnabled = enabled
     }
 
     val mergeMode: Boolean
-        get() = if (::listFragment.isInitialized) listFragment.mergeMode else false
-
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
+        get() = listFragment.mergeMode
 
     override val fabDescription: Int
         get() = when {
@@ -55,8 +50,9 @@ class ManageParties : DebtActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ManagePartiesBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupWithFragment(savedInstanceState == null) {
+            PartiesList()
+        }
         setupToolbar()
         val title = when (intent.asAction) {
             Action.MANAGE -> {
@@ -76,7 +72,6 @@ class ManageParties : DebtActivity() {
             }
         }
         if (title != 0) supportActionBar!!.setTitle(title)
-        listFragment = supportFragmentManager.findFragmentById(R.id.parties_list) as PartiesList
     }
 
     override val fabActionName = "CREATE_PARTY"

@@ -21,12 +21,14 @@ import org.totschnig.myexpenses.fragment.StaleImagesList
 class ManageStaleImages : ProtectedFragmentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.manage_stale_images)
+        setupWithFragment(savedInstanceState == null) {
+            StaleImagesList()
+        }
         setupToolbar()
         title = "Stale images"
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        (supportFragmentManager.findFragmentById(R.id.stale_images_list) as StaleImagesList).saveImageDo()
+        (supportFragmentManager.findFragmentById(R.id.fragment_container) as StaleImagesList).saveImageDo()
     }
 }

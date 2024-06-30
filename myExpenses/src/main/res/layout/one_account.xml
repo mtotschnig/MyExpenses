@@ -15,184 +15,185 @@
  -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/edit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:importantForAutofill="noExcludeDescendants"
-        android:orientation="vertical"
-        tools:targetApi="o">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/toolbar" />
-
-        <ScrollView
+        <TableLayout
+            android:id="@+id/Table"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_form"
+            android:paddingBottom="@dimen/fab_related_bottom_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
 
-            <TableLayout
-                android:id="@+id/Table"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/padding_form"
-                android:paddingBottom="@dimen/fab_related_bottom_padding"
-                android:shrinkColumns="1"
-                android:stretchColumns="1">
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/LabelLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Label"
+                    android:text="@string/label" />
 
-                    <TextView
-                        android:id="@+id/LabelLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Label"
-                        android:text="@string/label" />
+                <EditText
+                    android:id="@+id/Label"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords" />
+            </TableRow>
 
-                    <EditText
-                        android:id="@+id/Label"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/DescriptionLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Description"
+                    android:text="@string/description" />
 
-                    <TextView
-                        android:id="@+id/DescriptionLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Description"
-                        android:text="@string/description" />
+                <EditText
+                    android:id="@+id/Description"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences" />
+            </TableRow>
 
-                    <EditText
-                        android:id="@+id/Description"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapSentences" />
-                </TableRow>
+            <TableRow android:id="@+id/AmountRow">
 
-                <TableRow android:id="@+id/AmountRow">
+                <TextView
+                    android:id="@+id/AmountLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@id/AmountEditText"
+                    android:text="@string/opening_balance" />
 
-                    <TextView
-                        android:id="@+id/AmountLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
-                        android:text="@string/opening_balance" />
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Amount"
+                    style="@style/FormField"
+                    android:contentDescription="@string/opening_balance" />
+            </TableRow>
 
-                    <org.totschnig.myexpenses.ui.AmountInput
-                        android:id="@+id/Amount"
-                        style="@style/FormField"
-                        android:contentDescription="@string/opening_balance" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/CurrencyLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Currency"
+                    android:text="@string/currency" />
 
-                    <TextView
-                        android:id="@+id/CurrencyLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Currency"
-                        android:text="@string/currency" />
+                <Spinner
+                    android:id="@+id/Currency"
+                    style="@style/FormField" />
+            </TableRow>
 
-                    <Spinner
-                        android:id="@+id/Currency"
-                        style="@style/FormField" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/AccountTypeLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/AccountType"
+                    android:text="@string/type" />
 
-                    <TextView
-                        android:id="@+id/AccountTypeLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/AccountType"
-                        android:text="@string/type" />
+                <Spinner
+                    android:id="@+id/AccountType"
+                    style="@style/FormField" />
+            </TableRow>
 
-                    <Spinner
-                        android:id="@+id/AccountType"
-                        style="@style/FormField" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/ColorLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/ColorIndicator"
-                        android:text="@string/color" />
-
-                    <include
-                        android:id="@+id/colorInput"
-                        style="@style/FormField"
-                        layout="@layout/color_input" />
-                </TableRow>
+                <TextView
+                    android:id="@+id/ColorLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/ColorIndicator"
+                    android:text="@string/color" />
 
                 <include
-                    android:id="@+id/TagRow"
-                    layout="@layout/tag_row" />
+                    android:id="@+id/colorInput"
+                    style="@style/FormField"
+                    layout="@layout/color_input" />
+            </TableRow>
 
-                <TableRow>
+            <include
+                android:id="@+id/TagRow"
+                layout="@layout/tag_row" />
 
-                    <TextView
-                        android:id="@+id/SyncLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Sync"
-                        android:text="@string/synchronization" />
+            <TableRow>
 
-                    <LinearLayout
-                        style="@style/FormField"
-                        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SyncLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Sync"
+                    android:text="@string/synchronization" />
 
-                        <Spinner
-                            android:id="@+id/Sync"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+                <LinearLayout
+                    style="@style/FormField"
+                    android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/SyncUnlink"
-                            style="?actionButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/menu_sync_unlink"
-                            android:focusable="true"
-                            android:visibility="gone"
-                            app:srcCompat="@drawable/ic_action_sync_unlink" />
+                    <Spinner
+                        android:id="@+id/Sync"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-                        <ImageView
-                            android:id="@+id/SyncHelp"
-                            style="?actionButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/menu_help"
-                            android:focusable="true"
-                            app:srcCompat="@drawable/ic_menu_help" />
-                    </LinearLayout>
-                </TableRow>
+                    <ImageView
+                        android:id="@+id/SyncUnlink"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/menu_sync_unlink"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_action_sync_unlink" />
 
-                <include
-                    android:id="@+id/ERR"
-                    layout="@layout/exchange_rate_row" />
+                    <ImageView
+                        android:id="@+id/SyncHelp"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/menu_help"
+                        android:focusable="true"
+                        app:srcCompat="@drawable/ic_menu_help" />
+                </LinearLayout>
+            </TableRow>
 
-                <TableRow>
+            <include
+                android:id="@+id/ERR"
+                layout="@layout/exchange_rate_row" />
 
-                    <TextView
-                        android:id="@+id/CriterionLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
-                        android:text="@string/goal_or_limit" />
+            <TableRow>
 
-                    <org.totschnig.myexpenses.ui.AmountInput
-                        android:id="@+id/Criterion"
-                        style="@style/FormField"
-                        android:contentDescription="@string/goal_or_limit" />
+                <TextView
+                    android:id="@+id/CriterionLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@id/AmountEditText"
+                    android:text="@string/goal_or_limit" />
 
-                </TableRow>
-            </TableLayout>
-        </ScrollView>
-    </LinearLayout>
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Criterion"
+                    style="@style/FormField"
+                    android:contentDescription="@string/goal_or_limit" />
 
-    <include android:id="@+id/fab" layout="@layout/floating_action_button" />
+            </TableRow>
+        </TableLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/fab"
+        layout="@layout/floating_action_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

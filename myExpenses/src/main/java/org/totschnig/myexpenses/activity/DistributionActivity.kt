@@ -34,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -532,8 +534,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo
     ) {
+        val nestedScrollInterop = rememberNestedScrollInteropConnection()
         Category(
-            modifier = modifier,
+            modifier = modifier.nestedScroll(nestedScrollInterop),
             category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,

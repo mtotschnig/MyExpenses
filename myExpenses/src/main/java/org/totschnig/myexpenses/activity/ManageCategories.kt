@@ -10,27 +10,38 @@ import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -39,19 +50,26 @@ import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
-import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
+import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.checkMenuIcon
+import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
@@ -64,7 +82,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
     private var actionMode: ActionMode? = null
     private val viewModel: CategoryViewModel by viewModels()
-    private lateinit var binding: ActivityComposeFabBinding
+    private lateinit var binding: ActivityComposeBinding
     private lateinit var sortDelegate: SortDelegate
     private lateinit var choiceMode: ChoiceMode
     private val parentSelectionOnTap: MutableState<Boolean> = mutableStateOf(false)
@@ -140,15 +158,13 @@ class ManageCategories : ProtectedFragmentActivity(),
                 R.string.menu_create_main_cat else null
         }
 
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val action = intent.asAction
         super.onCreate(savedInstanceState)
-        binding = ActivityComposeFabBinding.inflate(layoutInflater)
+        binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar(true)
+        binding.fab.CREATECOMMAND.isVisible = true
         injector.inject(viewModel)
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
@@ -289,7 +305,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                                         if (preSelected?.isEmpty() == false)
                                             state.data.getExpandedForSelected(preSelected) else emptyList()
                                     }
+                                    val nestedScrollInterop = rememberNestedScrollInteropConnection()
                                     Category(
+                                        modifier = Modifier.conditional(typeFlags == null) {
+                                            nestedScroll(nestedScrollInterop)
+                                        },
                                         category = if (action == Action.SELECT_FILTER)
                                             state.data.copy(children = buildList {
                                                 add(

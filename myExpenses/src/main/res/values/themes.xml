@@ -18,7 +18,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
@@ -43,7 +42,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="EditDialogBase" parent="Theme.Material3.DayNight.DialogWhenLarge">
-        <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -78,7 +76,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
-        <item name="colorPrimaryDark">@color/toolbarBackground</item>
+        <item name="colorPrimaryDark">?colorSurface</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>

@@ -15,9 +15,7 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWithTabsBinding.inflate(
-            layoutInflater
-        )
+        binding = ActivityWithTabsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)

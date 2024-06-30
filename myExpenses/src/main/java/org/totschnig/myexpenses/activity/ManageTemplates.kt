@@ -20,10 +20,8 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.databinding.ManageTemplatesBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.ContribFeature
@@ -40,15 +38,16 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
     var calledFromCalendarWithId = NOT_CALLED
         private set
 
-    private lateinit var mListFragment: TemplatesList
+    private val mListFragment
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as TemplatesList
 
-    private lateinit var binding: ManageTemplatesBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHelpVariant(HELP_VARIANT_TEMPLATES, true)
-        binding = ManageTemplatesBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupWithFragment(savedInstanceState == null) {
+            TemplatesList()
+        }
         setupToolbar()
         title = getString(R.string.menu_manage_plans)
         val uriString = intent.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI)
@@ -64,16 +63,11 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
                 CrashHandler.report(e)
             }
         }
-        mListFragment =
-            supportFragmentManager.findFragmentById(R.id.templates_list) as TemplatesList
     }
 
     override val fabDescription = R.string.menu_create_template
 
     override val fabActionName = "CREATE_TEMPLATE"
-
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
 
     override fun onFabClicked() {
         super.onFabClicked()

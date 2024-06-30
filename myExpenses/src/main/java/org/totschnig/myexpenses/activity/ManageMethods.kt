@@ -17,9 +17,8 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.databinding.ManageMethodsBinding
+import org.totschnig.myexpenses.fragment.MethodList
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.MethodViewModel
 
@@ -27,13 +26,12 @@ class ManageMethods : ProtectedFragmentActivity() {
 
     private val viewModel by viewModels<MethodViewModel>()
 
-    private lateinit var binding: ManageMethodsBinding
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
-        binding = ManageMethodsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupWithFragment(savedInstanceState == null) {
+            MethodList()
+        }
         setupToolbar()
         setTitle(R.string.pref_manage_methods_title)
     }
@@ -41,9 +39,6 @@ class ManageMethods : ProtectedFragmentActivity() {
     override val fabDescription = R.string.menu_create_method
 
     override val fabActionName = "CREATE_METHOD"
-
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
 
     override fun onFabClicked() {
         super.onFabClicked()

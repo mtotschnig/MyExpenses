@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.databinding.ActivityTagsBinding
 import org.totschnig.myexpenses.fragment.TagList
 
 class ManageTags: ProtectedFragmentActivity() {
-    private lateinit var binding: ActivityTagsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTagsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupWithFragment(savedInstanceState == null) {
+            TagList()
+        }
         setupToolbar(true)
         val action = intent.asAction
         setTitle(when(action) {
@@ -37,21 +35,21 @@ class ManageTags: ProtectedFragmentActivity() {
         })
     }
 
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
-
     override val fabDescription = R.string.confirm
     override val fabIcon = R.drawable.ic_menu_done
 
     override val fabActionName = "TAG_CONFIRM"
 
+    val tagList: TagList
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as TagList
+
     override fun onFabClicked() {
         super.onFabClicked()
-        (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).confirm()
+        tagList.confirm()
     }
 
     override fun doHome() {
-        setResult(FragmentActivity.RESULT_CANCELED, (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).cancelIntent())
+        setResult(FragmentActivity.RESULT_CANCELED, tagList.cancelIntent())
         finish()
     }
 }

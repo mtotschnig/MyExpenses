@@ -59,7 +59,9 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     var incomingAccountDeleted = false
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.manage_sync_backends)
+        setupWithFragment(savedInstanceState == null, false) {
+            SyncBackendList()
+        }
         setupToolbar()
         setTitle(R.string.pref_manage_sync_backends_title)
         if (savedInstanceState == null) {
@@ -225,7 +227,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     }
 
     private val listFragment: SyncBackendList
-        get() = supportFragmentManager.findFragmentById(R.id.backend_list) as SyncBackendList
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as SyncBackendList
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.SYNC_DOWNLOAD_COMMAND) {

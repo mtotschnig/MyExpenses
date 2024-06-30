@@ -53,7 +53,6 @@
     <color name="caldroid_red_border">#FFC6292D</color>
     <color name="caldroid_state_date_prev_next_month">@color/caldroid_white</color>
     <color name="future_background">#11000000</color>
-    <color name="toolbarBackground">#FFFFFF</color>
     <color name="activatedBackground">@color/material_grey_300</color>
     <color name="activatedBackgroundPlanner">@color/material_grey_400</color>
 

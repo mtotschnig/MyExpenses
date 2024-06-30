@@ -25,7 +25,6 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneMethodBinding
@@ -77,6 +76,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
             setDirty()
             configureIcon()
         }
+        floatingActionButton = binding.fab.CREATECOMMAND
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -84,9 +84,6 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
         setupListeners()
         configureIcon()
     }
-
-    override val _floatingActionButton: FloatingActionButton
-        get() = binding.fab.CREATECOMMAND
 
     override val fabActionName = "SAVE_METHOD"
 
@@ -114,7 +111,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
     }
 
     private fun setUpAccountTypeGrid(isValid: (AccountType) -> Boolean) {
-        AccountType.values().forEach { accountType ->
+        AccountType.entries.forEach { accountType ->
             binding.AccountTypeGrid.addView(AppCompatCheckBox(this).apply {
                 setText(accountType.toStringRes())
                 tag = accountType
@@ -151,7 +148,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
                         icon = icon,
                         type = typeSpinner.selectedItemPosition - 1,
                         isNumbered = binding.IsNumbered.isChecked,
-                        accountTypes = AccountType.values().filter {
+                        accountTypes = AccountType.entries.filter {
                             binding.AccountTypeGrid.findViewWithTag<CheckBox>(it).isChecked
                         },
                         preDefinedPaymentMethod = preDefined
