@@ -19,115 +19,117 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_expense_edit" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/edit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/toolbar" />
-
-        <ScrollView
+        <TableLayout
+            android:id="@+id/Table"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_form"
+            android:paddingBottom="@dimen/fab_related_bottom_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
 
-            <TableLayout
-                android:id="@+id/Table"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/padding_form"
-                android:paddingBottom="@dimen/fab_related_bottom_padding"
-                android:shrinkColumns="1"
-                android:stretchColumns="1">
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/LabelLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Label"
+                    android:text="@string/label" />
 
-                    <TextView
-                        android:id="@+id/LabelLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Label"
-                        android:text="@string/label" />
+                <EditText
+                    android:id="@+id/Label"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    tools:targetApi="o" />
+            </TableRow>
 
-                    <EditText
-                        android:id="@+id/Label"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
-                        android:inputType="textCapWords"
-                        android:maxLines="1"
-                        tools:targetApi="o" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/DescriptionLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Label"
+                    android:text="@string/description" />
 
-                    <TextView
-                        android:id="@+id/DescriptionLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Label"
-                        android:text="@string/description" />
+                <EditText
+                    android:id="@+id/Description"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    tools:targetApi="o" />
+            </TableRow>
 
-                    <EditText
-                        android:id="@+id/Description"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
-                        android:inputType="textCapSentences"
-                        android:maxLines="1"
-                        tools:targetApi="o" />
-                </TableRow>
+            <TableRow android:id="@+id/AmountRow">
 
-                <TableRow android:id="@+id/AmountRow">
+                <TextView
+                    android:id="@+id/AmountLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@id/AmountEditText"
+                    android:text="@string/amount"
+                    tools:ignore="LabelFor" />
 
-                    <TextView
-                        android:id="@+id/AmountLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
-                        android:text="@string/amount"
-                        tools:ignore="LabelFor" />
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Amount"
+                    style="@style/FormField"
+                    app:withCurrencySelection="true" />
+            </TableRow>
 
-                    <org.totschnig.myexpenses.ui.AmountInput
-                        android:id="@+id/Amount"
-                        style="@style/FormField"
-                        app:withCurrencySelection="true" />
-                </TableRow>
+            <TableRow
+                android:id="@+id/EquivalentAmountRow"
+                android:visibility="gone">
 
-                <TableRow
-                    android:id="@+id/EquivalentAmountRow"
-                    android:visibility="gone">
+                <TextView
+                    android:id="@+id/EquivalentAmountLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@id/AmountEditText"
+                    android:text="@string/menu_equivalent_amount" />
 
-                    <TextView
-                        android:id="@+id/EquivalentAmountLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
-                        android:text="@string/menu_equivalent_amount" />
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/EquivalentAmount"
+                    style="@style/FormField"
+                    app:alternateLayout="true"
+                    app:upStreamDependency="@id/Amount"
+                    app:withExchangeRate="true"
+                    app:withTypeSwitch="false" />
+            </TableRow>
 
-                    <org.totschnig.myexpenses.ui.AmountInput
-                        android:id="@+id/EquivalentAmount"
-                        style="@style/FormField"
-                        app:alternateLayout="true"
-                        app:upStreamDependency="@id/Amount"
-                        app:withExchangeRate="true"
-                        app:withTypeSwitch="false" />
-                </TableRow>
+            <TableRow>
 
-                <TableRow>
+                <TextView
+                    style="@style/FormLabel"
+                    android:labelFor="@id/DateButton"
+                    android:text="@string/date"
+                    tools:ignore="LabelFor" />
 
-                    <TextView
-                        style="@style/FormLabel"
-                        android:labelFor="@id/DateButton"
-                        android:text="@string/date"
-                        tools:ignore="LabelFor" />
+                <org.totschnig.myexpenses.ui.DateButton
+                    android:id="@+id/DateButton"
+                    style="@style/SmallButton.FormField"
+                    android:contentDescription="@string/date" />
+            </TableRow>
 
-                    <org.totschnig.myexpenses.ui.DateButton
-                        android:id="@+id/DateButton"
-                        style="@style/SmallButton.FormField"
-                        android:contentDescription="@string/date" />
-                </TableRow>
-
-            </TableLayout>
-        </ScrollView>
-    </LinearLayout>
+        </TableLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/fab"

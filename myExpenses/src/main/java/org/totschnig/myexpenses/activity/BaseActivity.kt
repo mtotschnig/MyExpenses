@@ -440,17 +440,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
 
         StateSaver.restoreInstanceState(this, savedInstanceState)
-        contentColor.takeIf { it != 0 }?.also {
-            DynamicColors.applyToActivityIfAvailable(
-                this,
-                DynamicColorsOptions.Builder()
-                    .setContentBasedSource(it)
-                    .setOnAppliedCallback {
-                        harmonizeColors()
-                    }
-                    .build()
-            )
-        } ?: run { harmonizeColors() }
+        DynamicColors.applyToActivityIfAvailable(
+            this,
+            DynamicColorsOptions.Builder().apply {
+                contentColor?.takeIf { it != 0 }?.let { setContentBasedSource(it) }
+            }
+                .setOnAppliedCallback {
+                    harmonizeColors()
+                }
+                .build()
+        )
 
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {

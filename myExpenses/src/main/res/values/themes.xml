@@ -43,6 +43,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="EditDialogBase" parent="Theme.Material3.DayNight.DialogWhenLarge">
+        <item name="colorPrimaryDark">?colorSurface</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

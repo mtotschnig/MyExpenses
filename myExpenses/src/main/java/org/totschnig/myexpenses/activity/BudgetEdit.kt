@@ -149,6 +149,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         super.onCreate(savedInstanceState)
         binding = OneBudgetBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        floatingActionButton = binding.fab.CREATECOMMAND
         setupToolbarWithClose()
         injector.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L

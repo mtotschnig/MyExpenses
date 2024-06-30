@@ -50,8 +50,8 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = OneDebtBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+        floatingActionButton = binding.fab.CREATECOMMAND
         setupToolbarWithClose()
         with((application as MyApplication).appComponent) {
             inject(viewModel)

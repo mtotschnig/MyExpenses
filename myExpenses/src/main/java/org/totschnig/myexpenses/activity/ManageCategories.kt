@@ -162,9 +162,9 @@ class ManageCategories : ProtectedFragmentActivity(),
         val action = intent.asAction
         super.onCreate(savedInstanceState)
         binding = ActivityComposeBinding.inflate(layoutInflater)
+        floatingActionButton = binding.fab.CREATECOMMAND
         setContentView(binding.root)
         setupToolbar(true)
-        binding.fab.CREATECOMMAND.isVisible = true
         injector.inject(viewModel)
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
@@ -178,9 +178,7 @@ class ManageCategories : ProtectedFragmentActivity(),
         }
         setHelpVariant(helpVariant, true)
         if (title != 0) supportActionBar!!.setTitle(title)
-        if (action == Action.SELECT_FILTER) {
-            floatingActionButton.visibility = View.GONE
-        }
+        floatingActionButton.isVisible = action != Action.SELECT_FILTER
         sortDelegate = SortDelegate(
             defaultSortOrder = viewModel.defaultSort,
             prefKey = PrefKey.SORT_ORDER_CATEGORIES,
@@ -307,9 +305,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     }
                                     val nestedScrollInterop = rememberNestedScrollInteropConnection()
                                     Category(
-                                        modifier = Modifier.conditional(typeFlags == null) {
-                                            nestedScroll(nestedScrollInterop)
-                                        },
+                                        modifier = Modifier.nestedScroll(nestedScrollInterop),
                                         category = if (action == Action.SELECT_FILTER)
                                             state.data.copy(children = buildList {
                                                 add(

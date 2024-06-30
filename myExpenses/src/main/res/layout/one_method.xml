@@ -19,18 +19,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar" layout="@layout/toolbar_expense_edit" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/edit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/toolbar" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TableLayout
                 android:id="@+id/Table"
@@ -135,8 +137,7 @@
                     </LinearLayout>
                 </TableRow>
             </TableLayout>
-        </ScrollView>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <include android:id="@+id/fab" layout="@layout/floating_action_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
