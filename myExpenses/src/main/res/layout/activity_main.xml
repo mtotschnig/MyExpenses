@@ -8,26 +8,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- The main content view -->
-        <LinearLayout
-            android:clipChildren="false"
-            android:clipToPadding="false"
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/toolbar" />
-
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/fragment_container"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <include android:id="@+id/viewPagerMain" layout="@layout/viewpager_main" />
+                <include layout="@layout/toolbar" />
 
-                <include android:id="@+id/fab" layout="@layout/floating_action_button" />
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-        </LinearLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <include
+                android:id="@+id/viewPagerMain"
+                layout="@layout/viewpager_main" />
+
+            <include
+                android:id="@+id/fab"
+                layout="@layout/floating_action_button" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <!-- The navigation drawer -->
-        <include android:id="@+id/accountPanel" layout="@layout/account_list" />
+        <include
+            android:id="@+id/accountPanel"
+            layout="@layout/account_list" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </FrameLayout>

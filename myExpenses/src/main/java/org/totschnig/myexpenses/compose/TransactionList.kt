@@ -29,8 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -195,8 +197,9 @@ fun TransactionList(
                 defaultValue = showSumDetails,
                 showSumDetails
             )
+            val nestedScrollInterop = rememberNestedScrollInteropConnection()
             LazyColumn(
-                modifier = modifier
+                modifier = modifier.nestedScroll(nestedScrollInterop)
                     .testTag(TEST_TAG_LIST)
                     .semantics {
                         collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)

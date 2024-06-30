@@ -18,6 +18,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">?colorSurface</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
