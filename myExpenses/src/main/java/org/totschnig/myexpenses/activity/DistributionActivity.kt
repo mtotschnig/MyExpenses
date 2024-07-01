@@ -124,7 +124,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     private val percentFormatter = IValueFormatter { value, _, _, _ ->
-        localizedPercentFormat.format(value/100)
+        localizedPercentFormat.format(value / 100)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -470,11 +470,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     accountInfo = accountInfo
                                 )
                             }, chart = {
-                                RenderChart(
-                                    modifier = it,
-                                    false,
-                                    categories = chartCategoryTree.value
-                                )
+                                Box(modifier = it) {
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .fillMaxSize(0.85f)
+                                            .align(Alignment.Center),
+                                        false,
+                                        categories = chartCategoryTree.value
+                                    )
+                                }
                             }
                         )
                         RenderSumLine(accountInfo, sums)

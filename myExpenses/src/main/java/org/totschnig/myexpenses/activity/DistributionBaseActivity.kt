@@ -63,7 +63,8 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         if (resources.getBoolean(R.bool.allowFullScreen)) {
             window.decorView.setOnApplyWindowInsetsListener { v, insets ->
                 if (insets.isVisible(WindowInsets.Type.navigationBars())
-                    || insets.isVisible(WindowInsets.Type.statusBars())) {
+                    || insets.isVisible(WindowInsets.Type.statusBars())
+                ) {
                     if (supportFragmentManager.fragments.isEmpty()) {
                         onToggleFullScreen(false)
                     }
@@ -188,17 +189,20 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                         chart(
                             Modifier
                                 .weight(0.4f)
-                                .fillMaxSize())
+                                .fillMaxSize()
+                        )
                     }
                 }
             }
+
             else -> {
                 data(Modifier.weight(0.5f))
                 if (showChart.value) {
                     chart(
                         Modifier
                             .weight(0.5f)
-                            .fillMaxSize())
+                            .fillMaxSize()
+                    )
                 }
             }
         }
