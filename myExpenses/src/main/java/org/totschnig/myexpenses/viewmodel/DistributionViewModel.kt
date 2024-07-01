@@ -33,16 +33,22 @@ import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModelBase<DistributionAccountInfo>(application, savedStateHandle) {
 
-    private val showTotalPrefKey = booleanPreferencesKey("distributionShowTotal")
+    enum class SumLineBehaviour {
+        WithoutTotal, PercentageTotal, PercentageExpense
+    }
 
-    val showTotal
-        get() = dataStore.data.map { preferences ->
-            preferences[showTotalPrefKey] ?: false
-        }
+    private val sumLineBehaviourPrefKey = stringPreferencesKey("sumLineBehaviour")
 
-    suspend fun persistShowTotal(showAll: Boolean) {
-        dataStore.edit { preference ->
-            preference[showTotalPrefKey] = showAll
+    private val Preferences.sumLineBehaviour
+        get() = enumValueOrDefault(this[sumLineBehaviourPrefKey], SumLineBehaviour.WithoutTotal)
+
+    val sumLineBehaviour
+        get() = dataStore.data.map { it.sumLineBehaviour }
+
+    suspend fun cycleSumLineBehaviour() {
+        dataStore.edit {
+            it[sumLineBehaviourPrefKey] =
+                SumLineBehaviour.entries[(it.sumLineBehaviour.ordinal + 1) % SumLineBehaviour.entries.size].name
         }
     }
 

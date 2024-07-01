@@ -594,7 +594,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         accountInfo: DistributionAccountInfo,
         sums: Pair<Long, Long>
     ) {
-        val showTotal = viewModel.showTotal.collectAsState(initial = false)
+        val sumLineBehaviour = viewModel.sumLineBehaviour.collectAsState(initial = DistributionViewModel.SumLineBehaviour.WithoutTotal)
         val accountFormatter = LocalCurrencyFormatter.current
         val income = Money(accountInfo.currencyUnit, sums.first)
         val expense = Money(accountInfo.currencyUnit, sums.second)
@@ -607,7 +607,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
             .clickable {
                 lifecycleScope.launch {
-                    viewModel.persistShowTotal(!showTotal.value)
+                    viewModel.cycleSumLineBehaviour()
                 }
             }) {
             CompositionLocalProvider(
@@ -617,7 +617,30 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 )
             ) {
                 Text("∑ :")
-                if (showTotal.value) {
+                if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.WithoutTotal) {
+                    val configure: (DecimalFormat) -> Unit = {
+                        it.positivePrefix = "+"
+                        it.negativePrefix = "-"
+                    }
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            income.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = accountFormatter.formatCurrency(
+                            expense.amountMajor,
+                            accountInfo.currencyUnit,
+                            configure
+                        ),
+                        textAlign = TextAlign.End
+                    )
+                } else {
                     Text(
                         modifier = Modifier.weight(1f),
                         text = buildString {
@@ -640,6 +663,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     configure
                                 )
                             )
+                            if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageExpense
+                                && sums.first != 0L && sums.second != 0L
+                                ) {
+                                append(" (${localizedPercentFormat.format(sums.second / sums.first.toFloat())})")
+                            }
                             append(" = ")
                             val delta = sums.first + sums.second
                             append(
@@ -648,34 +676,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     configure
                                 )
                             )
-                            if (delta != 0L && sums.first != 0L) {
+                            if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageTotal
+                                && delta != 0L && sums.first != 0L) {
                                 append(" (${localizedPercentFormat.format(delta.absoluteValue / sums.first.toFloat())})")
                             }
                         },
                         textAlign = TextAlign.Center
-                    )
-                } else {
-                    val configure: (DecimalFormat) -> Unit = {
-                        it.positivePrefix = "+"
-                        it.negativePrefix = "-"
-                    }
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = accountFormatter.formatCurrency(
-                            income.amountMajor,
-                            accountInfo.currencyUnit,
-                            configure
-                        ),
-                        textAlign = TextAlign.End
-                    )
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = accountFormatter.formatCurrency(
-                            expense.amountMajor,
-                            accountInfo.currencyUnit,
-                            configure
-                        ),
-                        textAlign = TextAlign.End
                     )
                 }
             }
