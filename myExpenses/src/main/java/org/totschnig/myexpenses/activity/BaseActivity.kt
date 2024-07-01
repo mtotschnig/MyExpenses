@@ -176,13 +176,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
 
     fun configureFloatingActionButton() {
+        require(hasFloatingActionButton)
         with(floatingActionButton) {
             fabDescription?.let { contentDescription = getString(it) }
             fabIcon?.let { setImageResource(it) }
         }
     }
 
-    private val withFloatingActionButton: Boolean
+    private val hasFloatingActionButton: Boolean
         get() = ::floatingActionButton.isInitialized
 
     @StringRes
@@ -537,7 +538,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (withFloatingActionButton) {
+        if (hasFloatingActionButton) {
             configureFloatingActionButton()
             floatingActionButton.setOnClickListener {
                 onFabClicked()
@@ -1120,7 +1121,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (withFloatingActionButton) {
+        if (hasFloatingActionButton) {
             floatingActionButton.isEnabled = true
         }
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
@@ -1239,7 +1240,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     private fun disableFab() {
-        if (withFloatingActionButton) {
+        if (hasFloatingActionButton) {
             floatingActionButton.isEnabled = false
         }
     }
