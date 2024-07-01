@@ -124,7 +124,7 @@ fun Repository.ensureCategory(categoryInfo: CategoryInfo, parentId: Long?) =
         parentId?.let { putLong(KEY_PARENTID, it) }
     })!!.getSerializable(KEY_RESULT) as Pair<Long, Boolean>
 
-fun Repository.getCategoryPath(id: Long)= contentResolver.query(
+fun Repository.getCategoryPath(id: Long) = contentResolver.query(
     ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
     null, null, null, null
 )?.use { cursor ->

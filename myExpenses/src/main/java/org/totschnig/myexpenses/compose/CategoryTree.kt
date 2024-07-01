@@ -221,6 +221,8 @@ fun CategoryRenderer(
                                 }
                             }
                         )
+
+                    else -> Modifier
                 }
             }
             .conditional(choiceMode.isNodeSelected(category.id)) {
@@ -426,10 +428,10 @@ sealed class ChoiceMode(
         }
     }
 
-    /*    object NoChoice : ChoiceMode(false) {
+        data object NoChoice : ChoiceMode(false, isSelectable = { false }) {
             override fun isSelected(id: Long) = false
 
             override fun toggleSelection(selectedAncestor: Category?, category: Category) {}
-        }*/
+        }
 }
 

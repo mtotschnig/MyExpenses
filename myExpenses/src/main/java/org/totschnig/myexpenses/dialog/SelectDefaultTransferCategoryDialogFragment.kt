@@ -13,6 +13,7 @@ class SelectDefaultTransferCategoryDialogFragment: SelectCategoryBaseDialogFragm
 
     override val withRoot: Int
         get() = R.string.unmapped
+
     override fun actionButtonLabel(selection: Category?) = getString(R.string.select)
 
     override fun onActionButtonClick(value: Category) {

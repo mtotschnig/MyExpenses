@@ -355,6 +355,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
+  public static final String METHOD_SETUP_CATEGORIES_DRY_RUN = "setup_categories_dry_run";
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
@@ -1531,6 +1532,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         Bundle result = new Bundle(1);
         result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
+        return result;
+      }
+      case METHOD_SETUP_CATEGORIES_DRY_RUN ->  {
+        Bundle result = new Bundle(1);
+        result.putParcelable(KEY_RESULT, MoreDbUtilsKt.getImportableCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         return result;
       }
       case METHOD_RESET_EQUIVALENT_AMOUNTS -> {

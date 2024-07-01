@@ -19,6 +19,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.DEFAULT_CATEGORY_PATH_SEPARATOR
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
@@ -29,7 +30,48 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -40,6 +82,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
@@ -284,6 +327,47 @@ val expenseCategories = arrayOf(
     Triple(R.array.Cat_E_17, R.array.Cat_E_17_Icons, R.array.Cat_E_17_Uuids)
 )
 
+fun getImportableCategories(
+    database: SupportSQLiteDatabase,
+    resources: Resources
+) = Category(children = (incomeCategories + expenseCategories)
+    .mapIndexedNotNull { indexMain, (categoriesResId, _, uuidResId) ->
+        val categories = resources.getStringArray(categoriesResId)
+        val uuids = resources.getStringArray(uuidResId)
+        if (categories.size != uuids.size) {
+            CrashHandler.report(Exception("Inconsistent category definitions"))
+            null
+        } else {
+            val mainLabel = categories[0]
+            val mainUUid = uuids[0]
+            val catIdMain = database.findMainCategory(mainLabel)
+                ?: database.findCategoryByUuid(mainUUid)
+            val mainPath = if (catIdMain == null) mainLabel else
+                database.query(categoryPathFromLeave(catIdMain.toString())).use { cursor ->
+                    cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
+                }.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
+            val subCategories = categories.drop(1).zip(uuids.drop(1))
+                .mapIndexedNotNull { indexSub, (subLabel, subUuid) ->
+                    if ((catIdMain?.let { main ->
+                            database.findSubCategory(main, subLabel)
+                        } ?: database.findCategoryByUuid(subUuid)) == null) {
+                        Category(
+                            id = indexMain * 100L + indexSub  +1,
+                            parentId = indexMain.toLong(),
+                            label = subLabel,
+                            level = 2
+                        )
+                    } else null
+                }
+            if (catIdMain != null && subCategories.isEmpty()) null else Category(
+                id = indexMain.toLong() * 100L,
+                label = mainPath,
+                children = subCategories,
+                level = 1
+            )
+        }
+    })
+
 private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
     resources: Resources,
@@ -379,7 +463,7 @@ private fun setupCategoriesInternal(
 fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> {
     val expense = setupCategoriesInternal(database, resources, expenseCategories, FLAG_EXPENSE)
     val income = setupCategoriesInternal(database, resources, incomeCategories, FLAG_INCOME)
-    return expense.first + income.first to expense.second + expense.second
+    return expense.first + income.first to expense.second + income.second
 }
 
 fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: Resources) {
@@ -572,7 +656,12 @@ fun computeWhere(vararg parts: CharSequence?) = parts
     .takeIf { it.isNotEmpty() }
     ?.joinToString(" AND ")
 
-fun backup(backupDir: File, context: Context, prefHandler: PrefHandler, lenientMode: Boolean): Result<Unit> {
+fun backup(
+    backupDir: File,
+    context: Context,
+    prefHandler: PrefHandler,
+    lenientMode: Boolean
+): Result<Unit> {
     try {
         cacheEventData(context, prefHandler)
         cacheSyncState(context)
@@ -581,7 +670,11 @@ fun backup(backupDir: File, context: Context, prefHandler: PrefHandler, lenientM
     }
     return with(context.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!) {
         try {
-            (localContentProvider as BaseTransactionProvider).backup(context, backupDir, lenientMode)
+            (localContentProvider as BaseTransactionProvider).backup(
+                context,
+                backupDir,
+                lenientMode
+            )
         } finally {
             release()
         }

@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.os.BundleCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
@@ -479,6 +481,17 @@ open class CategoryViewModel(
             _moveResult.update {
                 repository.moveCategory(source, target)
             }
+        }
+    }
+
+    fun checkImportableCategories(): LiveData<Category> = liveData(context = coroutineContext()) {
+        contentResolver.call(
+            TransactionProvider.DUAL_URI,
+            TransactionProvider.METHOD_SETUP_CATEGORIES_DRY_RUN,
+            null,
+            null
+        )!!.let {
+            emit(BundleCompat.getParcelable(it, TransactionProvider.KEY_RESULT, Category::class.java)!!)
         }
     }
 

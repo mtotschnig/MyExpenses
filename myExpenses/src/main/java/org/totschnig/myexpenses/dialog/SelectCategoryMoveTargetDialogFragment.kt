@@ -21,7 +21,7 @@ class SelectCategoryMoveTargetDialogFragment: SelectCategoryBaseDialogFragment()
     override fun actionButtonLabel(selection: Category?) = if (selection?.id == 0L)
          selection.label
      else
-         "Move ${source.label} to ${selection?.label ?: "?"}"
+         "${getString(R.string.menu_move)} (${source.label} -> ${selection?.label ?: "?"})"
 
     override fun onActionButtonClick(value: Category) {
         viewModel.moveCategory(

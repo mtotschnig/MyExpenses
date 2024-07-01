@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
@@ -51,6 +50,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.injector
@@ -198,6 +198,10 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeSyncResult()
         observeMergeResult()
         val preSelected = this.preSelected
+        supportFragmentManager.setFragmentResultListener(SetupCategoriesConfirmDialogFragment.IMPORT_OK, this) { _,_ ->
+            showSnackBarIndefinite(R.string.menu_categories_setup_default)
+            viewModel.importCats()
+        }
         binding.composeView.setContent {
             val selectionState = rememberMutableStateListOf(preSelected ?: emptyList())
             AppTheme {
@@ -277,7 +281,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     ) {
                                         Text(text = stringResource(id = R.string.no_categories))
                                         if (!state.hasUnfiltered) {
-                                            Button(onClick = { importCats() }) {
+                                            Button(onClick = { checkImportableCategories() }) {
                                                 Column(horizontalAlignment = CenterHorizontally) {
                                                     Icon(
                                                         imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
@@ -745,7 +749,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             }
 
             R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
-                importCats()
+                checkImportableCategories()
                 true
             }
 
@@ -778,9 +782,12 @@ class ManageCategories : ProtectedFragmentActivity(),
     private val protectionInfo: ProtectionInfo?
         get() = intent.getParcelableExtra(KEY_PROTECTION_INFO)
 
-    private fun importCats() {
-        showSnackBarIndefinite(R.string.menu_categories_setup_default)
-        viewModel.importCats()
+    private fun checkImportableCategories() {
+        viewModel.checkImportableCategories().observe(this) {
+            SetupCategoriesConfirmDialogFragment.newInstance(it).show(
+                supportFragmentManager, "CONFIRM"
+            )
+        }
     }
 
     private fun exportCats(encoding: String) {
