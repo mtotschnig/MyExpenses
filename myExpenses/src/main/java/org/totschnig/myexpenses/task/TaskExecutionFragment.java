@@ -50,10 +50,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_WITH_CATEGORIES = "withCategories";
   public static final String KEY_FILE_PATH = "filePath";
 
-  public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
-  public static final int TASK_UPDATE_SORT_KEY = 27;
-  public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_REPAIR_PLAN = 41;
 
   /**

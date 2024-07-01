@@ -329,7 +329,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val STALE_IMAGES_ID = 37
         protected const val TRANSACTION_UNDELETE = 38
         protected const val TRANSACTIONS_LASTEXCHANGE = 39
-        protected const val ACCOUNTS_SWAP_SORT_KEY = 40
         protected const val MAPPED_TRANSFER_ACCOUNTS = 41
         protected const val CHANGES = 42
         protected const val SETTINGS = 43

@@ -53,25 +53,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     ContentResolver cr = context.getContentResolver();
     ContentValues values;
     switch (mTaskId) {
-      case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
-        return Plan.getInstanceFromDb(cr, (Long) ids[0]);
-      case TaskExecutionFragment.TASK_SWAP_SORT_KEY:
-        cr.update(
-            TransactionProvider.ACCOUNTS_URI
-                .buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_SWAP_SORT_KEY)
-                .appendPath((String) ids[0])
-                .appendPath((String) ids[1])
-                .build(),
-            null, null, null);
-        return null;
-      case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
-        values = new ContentValues();
-        values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
-        cr.update(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
-            values, null, null);
-        return null;
       case TaskExecutionFragment.TASK_REPAIR_PLAN:
         String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
         if (calendarId.equals("-1")) {

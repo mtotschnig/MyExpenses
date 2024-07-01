@@ -293,7 +293,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
-  public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
@@ -1354,14 +1353,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         List<String> segments = uri.getPathSegments();
         count = updateFractionDigits(db, segments.get(2), Integer.parseInt(segments.get(3)));
       }
-      case ACCOUNTS_SWAP_SORT_KEY -> {
-        String sortKey1 = uri.getPathSegments().get(2);
-        String sortKey2 = uri.getPathSegments().get(3);
-        db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY + " = CASE " + KEY_SORT_KEY +
-                        " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
-                new String[]{sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2});
-        count = 2;
-      }
       case CHANGES -> {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           initChangeLog(db, uri.getQueryParameter(KEY_ACCOUNTID));
@@ -1638,7 +1629,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
     URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/" + URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
     URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
