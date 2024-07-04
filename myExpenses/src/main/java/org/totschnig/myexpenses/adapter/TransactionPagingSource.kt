@@ -153,7 +153,8 @@ open class TransactionPagingSource(
             return LoadResult.Page(
                 data = mergedList,
                 prevKey = prevKey,
-                nextKey = nextKey
+                nextKey = nextKey,
+                itemsBefore = position.coerceAtLeast(0)
             )
         } finally {
             onLoadFinished()
