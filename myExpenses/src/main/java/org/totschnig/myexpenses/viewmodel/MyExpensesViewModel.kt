@@ -11,6 +11,7 @@ import android.os.Parcelable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
@@ -407,9 +408,10 @@ open class MyExpensesViewModel(
             ).map { it }
                 .mapToListWithExtra {
                     BudgetRow(
-                        Grouping.groupId(it.getInt(0), it.getInt(1)),
-                        it.getLong(2) + it.getLong(3),
-                        it.getInt(4) == 1
+                        headerId = Grouping.groupId(it.getInt(0), it.getInt(1)),
+                        amount = it.getLongOrNull(2),
+                        rollOverPrevious = it.getLongOrNull(3),
+                        oneTime = it.getInt(4) == 1
                     )
                 }.map {
                     BudgetData(it.first.getLong(KEY_BUDGETID), it.second)

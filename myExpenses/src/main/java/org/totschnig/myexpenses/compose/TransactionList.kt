@@ -135,6 +135,7 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer
 ) {
+    Timber.i("budget for all: $budgetData")
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
         expansionHandler.collapsedIds.collectAsState(initial = null).value
@@ -191,7 +192,10 @@ fun TransactionList(
                         "Scroll to current date result: %d",
                         scrollToCurrentDateResultIndex.intValue
                     )
-                    listState.scrollToItem(scrollToCurrentDateResultIndex.intValue, -headerCorrection)
+                    listState.scrollToItem(
+                        scrollToCurrentDateResultIndex.intValue,
+                        -headerCorrection
+                    )
                     scrollToCurrentDate.value = false
                 }
             }
@@ -201,7 +205,8 @@ fun TransactionList(
             )
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
             LazyColumn(
-                modifier = modifier.nestedScroll(nestedScrollInterop)
+                modifier = modifier
+                    .nestedScroll(nestedScrollInterop)
                     .testTag(TEST_TAG_LIST)
                     .semantics {
                         collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
@@ -220,13 +225,15 @@ fun TransactionList(
                             when (headerData) {
                                 is HeaderData -> {
                                     headerData.groups[headerId]?.let { headerRow ->
-                                        // reimplement DbConstants.budgetColumn outside of Database
                                         val budget = budgetData.value?.let { data ->
-                                            (data.data.find { it.headerId == headerId }
-                                                ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
-                                                data.budgetId to it.amount
-                                            }
+                                            val amount =
+                                                (data.data.find { it.headerId == headerId && it.amount != null }
+                                                    ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId && it.amount != null })?.amount
+                                                    ?: 0L
+                                            val rollOverPrevious = data.data.find { it.headerId == headerId }?.rollOverPrevious ?: 0L
+                                            data.budgetId to amount + rollOverPrevious
                                         }
+                                        Timber.i("budget for $headerId: ${budget?.second}")
                                         HeaderRenderer(
                                             account = headerData.account,
                                             headerId = headerId,
@@ -339,7 +346,9 @@ fun HeaderData(
                 )
             )
         FlowRow(
-            modifier = Modifier.testTag(TEST_TAG_GROUP_SUMMARY).fillMaxWidth(),
+            modifier = Modifier
+                .testTag(TEST_TAG_GROUP_SUMMARY)
+                .fillMaxWidth(),
             horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
         ) {
             if (!showOnlyDelta) {
@@ -360,12 +369,15 @@ fun HeaderData(
             if (!showOnlyDelta) {
                 Text(
                     modifier = Modifier.amountSemantics(headerRow.interimBalance),
-                    text = " = " + amountFormatter.formatMoney(headerRow.interimBalance))
+                    text = " = " + amountFormatter.formatMoney(headerRow.interimBalance)
+                )
             }
         }
         if (showSumDetails) {
             FlowRow(
-                modifier = Modifier.testTag(TEST_TAG_GROUP_SUMS).fillMaxWidth(),
+                modifier = Modifier
+                    .testTag(TEST_TAG_GROUP_SUMS)
+                    .fillMaxWidth(),
                 horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
             ) {
                 Text(
@@ -380,7 +392,8 @@ fun HeaderData(
                     }
                 }
                 Text(
-                    modifier = Modifier.amountSemantics(headerRow.expenseSum)
+                    modifier = Modifier
+                        .amountSemantics(headerRow.expenseSum)
                         .padding(horizontal = generalPadding),
                     text = "⊖ " + amountFormatter.formatMoney(
                         headerRow.expenseSum,
@@ -413,9 +426,10 @@ fun HeaderRenderer(
     updateShowSumDetails: (Boolean) -> Unit = {}
 ) {
 
-    Box(modifier = Modifier
-        .headerSemantics(headerId)
-        .background(MaterialTheme.colorScheme.background)
+    Box(
+        modifier = Modifier
+            .headerSemantics(headerId)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         GroupDivider()
         toggle?.let {

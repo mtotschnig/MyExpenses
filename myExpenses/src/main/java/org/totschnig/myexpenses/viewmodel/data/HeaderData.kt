@@ -18,18 +18,24 @@ sealed interface HeaderDataResult {
     val account: PageAccount
     fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
 }
-data class HeaderDataEmpty(override val account: PageAccount): HeaderDataResult
-data class HeaderDataError(override val account: PageAccount): HeaderDataResult
+
+data class HeaderDataEmpty(override val account: PageAccount) : HeaderDataResult
+data class HeaderDataError(override val account: PageAccount) : HeaderDataResult
 
 data class HeaderData(
     override val account: PageAccount,
     val groups: Map<Int, HeaderRow>,
     val dateInfo: DateInfo,
     val isFiltered: Boolean
-): HeaderDataResult {
+) : HeaderDataResult {
 
     companion object {
-        fun fromSequence(openingBalance: Long, grouping: Grouping, currency: CurrencyUnit, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
+        fun fromSequence(
+            openingBalance: Long,
+            grouping: Grouping,
+            currency: CurrencyUnit,
+            sequence: Sequence<Cursor>
+        ): Map<Int, HeaderRow> =
             buildMap {
                 var previousBalance = openingBalance
                 for (cursor in sequence) {
@@ -96,4 +102,9 @@ data class HeaderRow(
 
 data class BudgetData(val budgetId: Long, val data: List<BudgetRow>)
 
-data class BudgetRow(val headerId: Int, val amount: Long, val oneTime: Boolean)
+data class BudgetRow(
+    val headerId: Int,
+    val amount: Long?,
+    val rollOverPrevious: Long?,
+    val oneTime: Boolean
+)
