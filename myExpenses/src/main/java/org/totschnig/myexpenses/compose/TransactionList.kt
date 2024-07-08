@@ -41,7 +41,9 @@ import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices.TABLET
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -428,7 +430,7 @@ fun HeaderRenderer(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DonutInABox(
                     modifier = Modifier
-                        .padding(mainScreenPadding)
+                        .padding(horizontal = mainScreenPadding)
                         .clickable { onBudgetClick(budget.first, headerId) }
                         .size(42.dp),
                     progress = progress,
@@ -516,6 +518,37 @@ private fun Header() {
         headerRow = headerRow,
         dateInfo = DateInfo.EMPTY,
         budget = null,
+        isExpanded = true,
+        toggle = { },
+        onBudgetClick = { _, _ -> },
+        showSumDetails = true,
+        showOnlyDelta = false
+    )
+}
+
+@Preview(name = "Tablet", device = TABLET, locale = "en")
+@Composable
+private fun HeaderWithBudgetProgress() {
+    val amount = Money(CurrencyUnit.DebugInstance, 1234)
+    val headerRow = HeaderRow(
+        2022, 11, amount, amount, amount, amount, amount, amount, LocalDate.now()
+    )
+    HeaderRenderer(
+        account = PageAccount(
+            1,
+            AccountType.CASH,
+            DatabaseConstants.KEY_DATE,
+            SortDirection.DESC,
+            Grouping.NONE,
+            CurrencyUnit.DebugInstance,
+            false,
+            1234,
+            0
+        ),
+        headerId = 2022001,
+        headerRow = headerRow,
+        dateInfo = DateInfo.EMPTY,
+        budget = 1L to 75L,
         isExpanded = true,
         toggle = { },
         onBudgetClick = { _, _ -> },
