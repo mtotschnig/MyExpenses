@@ -38,9 +38,9 @@ class AmountCriterion(
 
     init {
         if(type) {
-            require(values.all { it > 0 })
+            require(values.all { it >= 0 })
         } else {
-            require(values.all { it < 0 })
+            require(values.all { it <= 0 })
         }
     }
 
