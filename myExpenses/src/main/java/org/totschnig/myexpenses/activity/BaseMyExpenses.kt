@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -114,6 +115,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
@@ -136,10 +138,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -1037,6 +1044,117 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                             }
                                         }
                                     }
+                                    add(SubMenuEntry(
+                                        icon = Icons.Filled.Search,
+                                        label = R.string.filter,
+                                        subMenu = Menu(
+                                            buildList {
+                                                if (transaction.catId != null) {
+                                                    add(MenuEntry(
+                                                        label = UiText.StringValue(
+                                                            transaction.categoryPath!!
+                                                        ),
+                                                        command = "FILTER_FOR_CATEGORY"
+                                                    ) {
+                                                        addFilterCriterion(
+                                                            CategoryCriterion(
+                                                                transaction.categoryPath,
+                                                                transaction.catId
+                                                            )
+                                                        )
+                                                    }
+                                                    )
+                                                }
+                                                if (transaction.payeeId != null) {
+                                                    add(
+                                                        MenuEntry(
+                                                            label = UiText.StringValue(
+                                                                transaction.payee!!
+                                                            ),
+                                                            command = "FILTER_FOR_PAYEE"
+                                                        ) {
+                                                            addFilterCriterion(
+                                                                PayeeCriterion(
+                                                                    transaction.payee,
+                                                                    transaction.payeeId
+                                                                )
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                                if (transaction.methodId != null) {
+                                                    val label =
+                                                        transaction.methodLabel!!.translateIfPredefined(
+                                                            this@BaseMyExpenses
+                                                        )
+                                                    add(
+                                                        MenuEntry(
+                                                            label = UiText.StringValue(label),
+                                                            command = "FILTER_FOR_METHOD"
+                                                        ) {
+                                                            addFilterCriterion(
+                                                                MethodCriterion(
+                                                                    label,
+                                                                    transaction.methodId
+                                                                )
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                                if (transaction.tagList.isNotEmpty()) {
+                                                    val label =
+                                                        transaction.tagList.joinToString { it.second }
+                                                    add(
+                                                        MenuEntry(
+                                                            label = UiText.StringValue(label),
+                                                            command = "FILTER_FOR_METHOD"
+                                                        ) {
+                                                            addFilterCriterion(
+                                                                TagCriterion(
+                                                                    label,
+                                                                    transaction.tagList.map { it.first }
+                                                                        .toTypedArray()
+                                                                )
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                                add(
+                                                    MenuEntry(
+                                                        label = UiText.StringValue(
+                                                            currencyFormatter.formatMoney(
+                                                                transaction.amount
+                                                            )
+                                                        ),
+                                                        command = "FILTER_FOR_AMOUNT"
+                                                    ) {
+                                                        addFilterCriterion(
+                                                            AmountCriterion(
+                                                                operation = WhereFilter.Operation.EQ,
+                                                                values = arrayOf(transaction.amount.amountMinor),
+                                                                currency = transaction.amount.currencyUnit.code,
+                                                                type = transaction.amount.amountMinor > 0
+                                                            )
+                                                        )
+                                                    }
+                                                )
+                                                if (!transaction.comment.isNullOrEmpty()) {
+                                                    add(
+                                                        MenuEntry(
+                                                            label = UiText.StringValue(
+                                                                transaction.comment
+                                                            ),
+                                                            command = "FILTER_FOR_AMOUNT"
+                                                        ) {
+                                                            addFilterCriterion(
+                                                                CommentCriterion(transaction.comment)
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    ))
                                 }
                             )
                         }
@@ -2183,11 +2301,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
         }
         return result
-    }
-
-    fun addFilterCriterion(c: Criterion<*>, accountId: Long) {
-        invalidateOptionsMenu()
-        viewModel.filterPersistence.getValue(accountId).addCriteria(c)
     }
 
     fun addFilterCriterion(c: Criterion<*>) {

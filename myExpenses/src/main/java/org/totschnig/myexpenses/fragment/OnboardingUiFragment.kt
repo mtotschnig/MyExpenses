@@ -147,8 +147,12 @@ class OnboardingUiFragment : OnboardingFragment() {
                 month = 0,
                 day = 0,
                 week = 0,
-                tagList = listOf(stringResource(id = R.string.testData_tag_project) to
+                tagList = listOf(
+                    Triple(
+                        1,
+                        stringResource(id = R.string.testData_tag_project),
                         ResourcesCompat.getColor(resources, R.color.appDefault, null)
+                    )
                 )
             )
             AppTheme {
@@ -156,7 +160,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                     val renderer = viewModel.renderer.collectAsState(initial = RenderType.New).value
                     val withCategoryIcon =
                         viewModel.withCategoryIcon.collectAsState(initial = true).value
-                    RowCenter{
+                    RowCenter {
                         Checkbox(checked = renderer == RenderType.Legacy,
                             onCheckedChange = {
                                 viewModel.setRenderer(it)
@@ -183,6 +187,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                                 withCategoryIcon
                             )
                         }
+
                         else -> {
                             NewTransactionRenderer(
                                 DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),

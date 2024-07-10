@@ -36,6 +36,14 @@ class AmountCriterion(
     val type: Boolean,
 ) : Criterion<Long>() {
 
+    init {
+        if(type) {
+            require(values.all { it > 0 })
+        } else {
+            require(values.all { it < 0 })
+        }
+    }
+
     @IgnoredOnParcel
     override val id = R.id.FILTER_AMOUNT_COMMAND
 

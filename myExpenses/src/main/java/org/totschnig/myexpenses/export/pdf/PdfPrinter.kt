@@ -557,7 +557,7 @@ object PdfPrinter {
                 if (hasTags) {
                     //TODO make use of color
                     cell = helper.printToCell(
-                        transaction.tagList.joinToString { it.first },
+                        transaction.tagList.joinToString { it.second },
                         FontType.BOLD
                     )
                     if (isVoid) {

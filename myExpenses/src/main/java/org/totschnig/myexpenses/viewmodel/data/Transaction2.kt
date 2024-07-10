@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -99,6 +100,7 @@ data class Transaction2(
     val comment: String? = null,
     val catId: Long? = null,
     val categoryPath: String? = null,
+    val payeeId: Long? = null,
     val payee: String? = null,
     val transferPeer: Long? = null,
     val transferAccount: Long? = null,
@@ -114,7 +116,7 @@ data class Transaction2(
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: AccountType? = AccountType.CASH,
-    val tagList: List<Pair<String, Int?>> = emptyList(),
+    val tagList: List<Triple<Long, String, Int?>> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
@@ -191,6 +193,7 @@ data class Transaction2(
                 KEY_CATID,
                 KEY_PATH,
                 TRANSFER_ACCOUNT_LABEL,
+                KEY_PAYEEID,
                 KEY_PAYEE_NAME,
                 KEY_TRANSFER_PEER,
                 KEY_TRANSFER_ACCOUNT,
@@ -257,6 +260,7 @@ data class Transaction2(
                 transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
+                payeeId = cursor.getLongOrNull(KEY_PAYEEID),
                 crStatus = enumValueOrDefault(
                     cursor.getString(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED
@@ -267,8 +271,8 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull {
-                    tags[it]
+                tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
+                    tags[id]?.let { Triple(id.toLong(), it.first, it.second) }
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),

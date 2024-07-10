@@ -162,17 +162,17 @@ abstract class ItemRenderer(
                     append(COMMENT_SEPARATOR)
                 }
                 list.forEachIndexed { index, pair ->
-                    if (pair.second == null) {
-                        append(pair.first)
+                    if (pair.third == null) {
+                        append(pair.second)
                     } else {
-                        val userColor = Color(pair.second!!)
+                        val userColor = Color(pair.third!!)
                         withStyle(
                             style = SpanStyle(
                                 background = userColor,
                                 color = if (userColor.luminance() > 0.5) Color.Black else Color.White,
                             )
                         ) {
-                            append(pair.first)
+                            append(pair.second)
                         }
                     }
                     if (index < list.size - 1) {
@@ -440,7 +440,7 @@ class NewTransactionRenderer(
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    transaction.tagList.forEach { (label, color) ->
+                    transaction.tagList.forEach { (_, label, color) ->
                         InlineChip(text = label, color = color?.let { Color(it) })
                     }
                 }
@@ -519,8 +519,8 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             day = 1,
             week = 1,
             tagList = listOf(
-                "Hund" to android.graphics.Color.RED,
-                "Katz" to android.graphics.Color.GREEN
+                Triple(1, "Hund", android.graphics.Color.RED),
+                Triple(2,"Katz", android.graphics.Color.GREEN)
             )
         ),
         Transaction2(
@@ -536,8 +536,8 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             day = 1,
             week = 1,
             tagList = listOf(
-                "Hund" to android.graphics.Color.RED,
-                "Katz" to android.graphics.Color.GREEN
+                Triple(1, "Hund", android.graphics.Color.RED),
+                Triple(2,"Katz", android.graphics.Color.GREEN)
             ),
             accountType = AccountType.BANK
         )
