@@ -23,9 +23,9 @@ import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
 import org.kapott.hbci.exceptions.HBCI_Exception
 import org.kapott.hbci.manager.BankInfo
+import org.kapott.hbci.manager.Feature
 import org.kapott.hbci.manager.HBCIHandler
 import org.kapott.hbci.manager.HBCIUtils
-import org.kapott.hbci.manager.HBCIVersion
 import org.kapott.hbci.manager.MatrixCode
 import org.kapott.hbci.manager.QRCode
 import org.kapott.hbci.passport.AbstractHBCIPassport
@@ -219,7 +219,12 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         HBCIUtils.setParam("client.passport.default", "PinTan")
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
         return HBCIUtils.getBankInfo(bankingCredentials.blz)
-            ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }
+            ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }?.also {
+                if (it.name.contains("Commerzbank", ignoreCase = true)) {
+                    Feature.INIT_FLIP_USER_INST.isEnabled = false
+                    Feature.SYNC_SEPAINFO.isEnabled = false
+                }
+            }
     }
 
     private fun buildPassportFile(info: BankInfo, user: String) =
