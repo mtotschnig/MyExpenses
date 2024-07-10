@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/padding_form"
     android:orientation="vertical">
 
     <EditText
@@ -28,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="@string/help_ManageTags_manage_info" />
+        android:text="@string/help_ManageTags_manage_info"
+        android:visibility="gone" />
 
 </LinearLayout>
