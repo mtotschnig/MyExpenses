@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.espresso.Espresso.onView
@@ -35,6 +36,7 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
         Espresso.openActionBarOverflowMenu()
         onView(withText(R.string.menu_categories_setup_default))
             .perform(click())
+        composeTestRule.onNodeWithText(getString(R.string.menu_import)).performClick()
         assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isGreaterThan(origDataSize)
     }
 

@@ -1049,7 +1049,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         label = R.string.filter,
                                         subMenu = Menu(
                                             buildList {
-                                                if (transaction.catId != null) {
+                                                if (transaction.catId != null && !transaction.isSplit) {
                                                     add(MenuEntry(
                                                         label = UiText.StringValue(
                                                             transaction.categoryPath!!

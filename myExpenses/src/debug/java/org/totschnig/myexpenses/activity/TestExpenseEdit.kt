@@ -26,4 +26,6 @@ class TestExpenseEdit: ExpenseEdit() {
             activityIsRecreated = false
         }
     }
+
+    override fun maybeRepairRequerySchema() {}
 }

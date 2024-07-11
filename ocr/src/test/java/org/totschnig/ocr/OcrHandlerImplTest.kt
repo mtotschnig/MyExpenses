@@ -20,7 +20,7 @@ class OcrHandlerImplTest(private val country: String?, private val expectedLangu
 
     companion object {
         @JvmStatic
-        @Parameterized.Parameters(name="locale for {0} should be {1}")
+        @Parameterized.Parameters(name="locale_for_{0}_should_be_{1}")
         fun data() = listOf(
             arrayOf(null, Locale.getDefault().language),
             arrayOf("AE", "ar"),

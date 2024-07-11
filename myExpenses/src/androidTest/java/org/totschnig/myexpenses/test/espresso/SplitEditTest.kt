@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -17,7 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
+import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers
@@ -207,7 +206,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         launchEdit()
         onView(withId(R.id.list)).check(matches(hasChildCount(2)))
         closeSoftKeyboard()
-        scrollTo(R.id.list)
+        BaristaScrollInteractions.scrollTo(R.id.list)
         onView(withId(R.id.list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(

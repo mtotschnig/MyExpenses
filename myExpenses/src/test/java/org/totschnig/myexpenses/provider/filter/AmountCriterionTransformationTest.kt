@@ -36,7 +36,7 @@ class AmountCriterionTransformationTest(
         const val CURRENCY = "EUR"
 
         @JvmStatic
-        @Parameterized.Parameters(name = "input={0}, {1}, {2}, {3} -> {4}")
+        @Parameterized.Parameters(name = "input={0},{1},{2},{3}->{4}")
         fun data() = listOf(
             arrayOf(
                 WhereFilter.Operation.EQ, true, 100L, null,

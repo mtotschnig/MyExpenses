@@ -8,6 +8,7 @@ import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -203,8 +204,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         }
         openCab(null)
         onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(doesNotExist())
-        //context menu should only have the details entry
-        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).assert(hasChildCount(1))
+        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(0).assert(hasText(getString(R.string.details)))
+        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(1).assert(hasText(getString(R.string.filter)))
     }
 
     @Test

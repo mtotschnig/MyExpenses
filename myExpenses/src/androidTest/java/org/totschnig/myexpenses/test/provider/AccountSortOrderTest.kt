@@ -20,7 +20,7 @@ class AccountSortOrderTest(private val sortOrder: String, private val expectedDa
     companion object {
         val currency: String = Utils.getSaveDefault().currencyCode
         @JvmStatic
-        @Parameterized.Parameters(name = "with sort order {0} should return {1}")
+        @Parameterized.Parameters
         fun data() = listOf(
             arrayOf(KEY_LABEL, listOf("Account 0", "Account 1", "Account 2", currency)),
             arrayOf("$KEY_USAGES DESC", listOf("Account 1", "Account 2", "Account 0", currency)),
