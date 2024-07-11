@@ -305,6 +305,7 @@ dependencies {
 
 
     debugImplementation("androidx.fragment:fragment-testing-manifest:$fragmentVersion")
+    testImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
     androidTestImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
     androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
