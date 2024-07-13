@@ -631,6 +631,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         })
 
                     } catch (e: Exception) {
+                        report(e)
                         throw HBCI_Exception(e)
                     }
 
@@ -645,6 +646,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                             tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
                         })
                     } catch (e: Exception) {
+                        report(e)
                         throw HBCI_Exception(e)
                     }
 
@@ -668,7 +670,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        throw HBCI_Exception("Flicker not yet implemented. Please contact support@myexpenses.mobi !")
+                        throwAndReport(HBCI_Exception("Flicker not yet implemented. Please contact support@myexpenses.mobi !"))
                     } else {
                         _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {
@@ -708,6 +710,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         override fun status(passport: HBCIPassport, statusTag: Int, o: Array<Any?>?) {
             log("status:$statusTag")
         }
+    }
+
+    private fun throwAndReport(throwable: Throwable) {
+        report(throwable)
+        throw throwable
     }
 
     private fun report(throwable: Throwable) {
