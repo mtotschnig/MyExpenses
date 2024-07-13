@@ -209,4 +209,5 @@
     <string name="menu_show_all_help_text">Els deutes que s\'hagin tancat o pagat (el seu saldo és 0), només es mostraran, si aquesta opció està marcada.</string>
     <string name="menu_type_filter_help_text">Quan aquesta opció està activada, podeu seleccionar només mostrar les categories de despeses, ingressos o transferències.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Les operacions assignades a categories d\'ingressos es compten sempre com a ingressos, les operacions assignades a categories de despeses es compten sempre com a despeses. Aquesta opció permet configurar com es compten les operacions assignades a categories neutres: per defecte si són positives representen un ingrés, si són negatives una despesa. Però si aquesta opció està activada, sempre s\'inclouen tant en les quantitats dels teus ingressos com en la despesa.</string>
+    <string name="cab_MyExpenses_filter_help_text">Cerca transaccions amb les mateixes propietats.</string>
 </resources>
