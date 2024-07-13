@@ -207,4 +207,5 @@
     <string name="form_tags_help_text">Ikona + umożliwia wybór istniejących tagów i tworzenie nowych. Ikona x na każdym tagu pozwala usunąć mapowanie między transakcją a tagiem.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Transakcje zmapowane do kategorii przychodów są zawsze liczone jako przychody, a transakcje zmapowane do kategorii wydatków są zawsze liczone jako wydatki. Ta opcja pozwala skonfigurować sposób liczenia transakcji zmapowanych do kategorii neutralnych: Domyślnie, jeśli są dodatnie, stanowią przychód, jeśli są ujemne - wydatek. Ale jeśli ta opcja jest aktywna, są one zawsze uwzględniane zarówno w sumach przychodów, jak i wydatków.</string>
     <string name="help_WebUI_info_3">Można ustawić hasło w celu ochrony dostępu. W oknie dialogowym wyświetlanym przez przeglądarkę internetową uwzględniane jest tylko hasło, nazwa użytkownika jest ignorowana.</string>
+    <string name="cab_MyExpenses_filter_help_text">Wyszukaj transakcje o tych samych właściwościach.</string>
 </resources>
