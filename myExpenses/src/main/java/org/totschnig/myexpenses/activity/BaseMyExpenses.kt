@@ -792,6 +792,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
+    override val snackBarContainerId = R.id.main_content
+
     private fun editAccount(account: FullAccount) {
         startActivityForResult(Intent(this, AccountEdit::class.java).apply {
             putExtra(KEY_ROWID, account.id)

@@ -10,7 +10,7 @@
         <!-- The main content view -->
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/fragment_container"
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
