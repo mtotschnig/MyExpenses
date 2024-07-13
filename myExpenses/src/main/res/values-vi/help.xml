@@ -35,4 +35,5 @@
     <string name="help_AccountEdit_title">Mẫu đơn cho các tài khoản</string>
     <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
     <string name="help_ManageTemplates_plans_title">Kế hoạch xem lịch</string>
+    <string name="cab_MyExpenses_filter_help_text">Tìm kiếm các giao dịch có cùng thuộc tính.</string>
 </resources>
