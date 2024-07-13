@@ -197,4 +197,5 @@
     <string name="help_WebUI_info_1">从电脑上的网页浏览器调用副标题中显示的链接。</string>
     <string name="cab_MyExpenses_select_help_text">可以通过选择此命令或长按列表条目来启动多选。</string>
     <string name="help_ManageSyncBackends_saf">此选项允许通过 Android 的文件选择器对话框选择文件夹。如果您安装了支持选择用于存储内容的文件夹的云存储应用（如 NextCloud），这将非常有用</string>
+    <string name="cab_MyExpenses_filter_help_text">搜索具有相同属性的交易。</string>
 </resources>
