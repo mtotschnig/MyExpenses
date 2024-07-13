@@ -128,13 +128,16 @@ class WebInputService : LifecycleService(), IWebInputService {
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(this)
         wrappedContext = (application as MyApplication).wrapContext(this)
-        val notification: Notification =
+        //This shows the notification also if we bind to the service from WebUiViewModel.
+        //unfortunately I am not aware of any means to distinguish between being created in the context
+        //bindService or startService
+/*        val notification: Notification =
             NotificationBuilderWrapper.defaultBigTextStyleBuilder(
                 this,
                 getString(R.string.title_webui),
                 "Starting ..."
             ).build()
-        startForeground(NOTIFICATION_WEB_UI, notification)
+        startForeground(NOTIFICATION_WEB_UI, notification)*/
     }
 
     override fun onBind(intent: Intent): IBinder {
