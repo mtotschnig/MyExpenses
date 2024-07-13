@@ -170,4 +170,5 @@
     <string name="menu_chart_help_text">Uključi/Isključi vidljivost dijagrama.</string>
     <string name="help_HistoryActivity_info">Ovaj ekran prikazuje tvoj novčani tok, kako se tvoji troškovi i prihodi razvijaju tijekom godina, mjeseci, tjedana ili dana.</string>
     <string name="help_ManageTags_select_filter_info">Označi ili odznači oznake za filtriranje popisa transakcija dodirom na oznake.</string>
+    <string name="cab_MyExpenses_filter_help_text">Tražite transakcije s istim svojstvima.</string>
 </resources>
