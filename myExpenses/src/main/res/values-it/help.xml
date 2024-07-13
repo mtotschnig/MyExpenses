@@ -195,4 +195,5 @@
     <string name="help_Budget_spent_click">Fare clic sugli importi spesi elenca tutte le transazioni pertinenti al bilancio attuale e alla categoria corrispondente.</string>
     <string name="form_split_parts_heading_help_text_2">Il campo dell\'importo verrà aggiornato automaticamente con la somma delle parti, a meno che non si inserisca manualmente un importo, nel qual caso verrà mostrata la differenza tra la somma delle parti e l\'importo complessivo.</string>
     <string name="menu_BudgetActivity_rollover_categories">Il restante per ogni categoria viene trasferito, e il corrispettivo stanziato nel periodo successivo sarà conseguentemente modificato.</string>
+    <string name="cab_MyExpenses_filter_help_text">Cercare transazioni con le stesse proprietà.</string>
 </resources>
