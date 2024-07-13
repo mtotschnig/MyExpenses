@@ -205,4 +205,5 @@
     <string name="debt_help_overflow">Para cada dívida, utilize o menu no canto superior direito para editá-la, fechá-la, excluí-la ou compartilhá-la. As dívidas em moeda estrangeira podem, opcionalmente, ser listadas com valores equivalentes na moeda nacional.</string>
     <string name="help_DebtOverview_info">Clique em uma entrada para expandir/recolher.</string>
     <string name="menu_show_all_help_text">As dívidas que foram fechadas ou pagas (com saldo igual a 0) serão exibidas somente se esta opção estiver selecionada.</string>
+    <string name="cab_MyExpenses_filter_help_text">Pesquise transações com as mesmas propriedades.</string>
 </resources>
