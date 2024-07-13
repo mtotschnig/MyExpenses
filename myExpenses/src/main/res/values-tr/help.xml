@@ -210,4 +210,5 @@
     <string name="help_ManageTags_context_menu_info">Bir etiketi düzenlemek, renk atamak veya silmek için &lt;img src=more&gt; simgesine dokunun.</string>
     <string name="cab_ManageCategories_merge_help_text">Aynı türdeki kategoriler birleştirilebilir.</string>
     <string name="menu_chart_help_text">Grafiğin görünürlüğünü değiştirin.</string>
+    <string name="cab_MyExpenses_filter_help_text">Aynı özelliklere sahip muameleleri arayın.</string>
 </resources>
