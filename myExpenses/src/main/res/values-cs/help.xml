@@ -27,4 +27,5 @@
     <string name="help_AccountEdit_title">Formulář pro účty</string>
     <string name="help_MethodEdit_title">Formulář pro metodu platby</string>
     <string name="help_ManageTemplates_plans_title">Zobrazení kalendáře plánu</string>
+    <string name="cab_MyExpenses_filter_help_text">Hledejte transakce se stejnými vlastnostmi.</string>
 </resources>
