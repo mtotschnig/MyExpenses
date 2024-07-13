@@ -16,4 +16,5 @@
     <string name="help_AccountEdit_title">Számlák űrlapja</string>
     <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
     <string name="help_ManageTemplates_plans_title">Terv naptár nézet</string>
+    <string name="cab_MyExpenses_filter_help_text">Azonos tulajdonságokkal rendelkező tranzakciók keresése.</string>
 </resources>
