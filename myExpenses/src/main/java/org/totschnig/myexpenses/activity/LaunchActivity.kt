@@ -100,9 +100,11 @@ abstract class LaunchActivity : IapActivity() {
         checkGdprConsent(false)
     }
 
-    override fun onLicenceStatusSet(newStatus: String?) {
-        if (newStatus != null) {
+    override fun onLicenceStatusSet(success: Boolean, newStatus: String?) {
+        if (success) {
             showSnackBar(getString(R.string.licence_validation_premium) + " (" + newStatus + ")")
+        } else if (newStatus != null) {
+          showSnackBar(newStatus)
         } else {
             showSnackBar(R.string.licence_validation_failure)
         }

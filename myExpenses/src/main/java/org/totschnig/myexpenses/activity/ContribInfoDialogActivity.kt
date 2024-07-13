@@ -186,8 +186,8 @@ class ContribInfoDialogActivity : IapActivity() {
         return result
     }
 
-    override fun onLicenceStatusSet(newStatus: String?) {
-        if (newStatus != null) {
+    override fun onLicenceStatusSet(success: Boolean, newStatus: String?) {
+        if (success) {
             Timber.d("Purchase is premium upgrade. Congratulating user.")
             showMessage(
                 String.format(
@@ -195,6 +195,8 @@ class ContribInfoDialogActivity : IapActivity() {
                     newStatus, getString(R.string.thank_you)
                 )
             )
+        } else if (newStatus != null) {
+            showMessage(newStatus)
         } else {
             complain("Validation of purchase failed")
         }
