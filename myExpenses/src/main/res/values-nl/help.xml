@@ -208,4 +208,5 @@
     <string name="menu_aggregate_neutral_categories_help_text">Transacties die zijn toegewezen aan inkomenscategorieën worden altijd geteld als inkomsten, transacties die zijn toegewezen aan uitgavencategorieën worden altijd geteld als uitgaven. Met deze optie kun je configureren hoe transacties die aan neutrale categorieën zijn toegewezen, worden geteld: als ze positief zijn, vertegenwoordigen ze standaard een inkomen, als ze negatief zijn een uitgave. Maar als deze optie is geactiveerd, worden ze altijd opgenomen in zowel de som van je inkomsten als uitgaven.</string>
     <string name="help_ManageParties_mergeMode_info_1">Selecteer de dubbele partijen die je wilt samenvoegen.</string>
     <string name="help_ManageTags_context_menu_info">Tik op het pictogram &lt;img src=more&gt; om een tag te bewerken, er een kleur aan toe te wijzen of deze te verwijderen.</string>
+    <string name="cab_MyExpenses_filter_help_text">Zoek naar transacties met dezelfde property\'s.</string>
 </resources>
