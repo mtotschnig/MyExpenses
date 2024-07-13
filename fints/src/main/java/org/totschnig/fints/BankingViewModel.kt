@@ -668,7 +668,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        report(Exception("Flicker not yet implemented"))
+                        throw HBCI_Exception("Flicker not yet implemented. Please contact support@myexpenses.mobi !")
                     } else {
                         _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {
