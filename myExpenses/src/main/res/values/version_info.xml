@@ -203,6 +203,6 @@
         <item>@string/whats_new_386</item>
     </string-array>
     <string-array name="whats_new_387">
-        <item>@string/whats_new_387</item>
+        <item>@string/cab_MyExpenses_filter_help_text</item>
     </string-array>
 </resources>

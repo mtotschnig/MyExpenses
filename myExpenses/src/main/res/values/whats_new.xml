@@ -21,6 +21,4 @@
     <string name="whats_new_382">%1$s feature can be called from widget %2$s.</string>
     <string name="whats_new_384">Simplified setup of cloud backup</string>
     <string name="whats_new_386">Distribution per expenses and distribution per income can be shown together in double-ring donut chart.</string>
-    <!-- Changelog version 3.8.7  -->
-    <string name="whats_new_387">Quickly add filter for similar transactions.</string>
 </resources>
