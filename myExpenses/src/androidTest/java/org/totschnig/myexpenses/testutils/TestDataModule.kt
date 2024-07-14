@@ -12,7 +12,8 @@ import java.util.UUID
 object TestDataModule: DataModule() {
     private val randomDataName: String = UUID.randomUUID().toString()
 
-    override val databaseName: String = randomDataName
+    override val databaseName = randomDataName
+    override val uiSettingsName = super.uiSettingsName + "- " + randomDataName
 
     override fun providePrefHandler(context: MyApplication, sharedPreferences: SharedPreferences): PrefHandler {
         return TestPrefHandler(context, sharedPreferences, randomDataName)

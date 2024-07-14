@@ -62,7 +62,7 @@ fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: (Category, Int?) -> Menu? = { _,_ -> null },
+    menuGenerator: (Category) -> Menu? = { null },
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -90,7 +90,7 @@ fun Category(
                 category = category,
                 expansionMode = expansionMode,
                 choiceMode = choiceMode,
-                menuGenerator = { menuGenerator(it, section) },
+                menuGenerator = menuGenerator,
                 startPadding = startPadding,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)

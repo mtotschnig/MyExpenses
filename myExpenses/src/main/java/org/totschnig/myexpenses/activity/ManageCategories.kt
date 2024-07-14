@@ -326,7 +326,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             rememberMutableStateListOf(preExpanded)
                                         ),
                                         menuGenerator = remember {
-                                            { cat, _ ->
+                                            { cat ->
                                                 if (action == Action.SELECT_FILTER) null else Menu(
                                                     listOfNotNull(
                                                         if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {

@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
@@ -236,8 +237,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         }
     }
 
-    protected fun writeCategory(label: String, parentId: Long? = null) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
+    protected fun writeCategory(label: String, parentId: Long? = null, type: Byte = FLAG_EXPENSE) =
+        repository.saveCategory(Category(label = label, parentId = parentId, type = type))!!
 
     fun unlock() {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)

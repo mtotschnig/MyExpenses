@@ -45,6 +45,8 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
 
     open val databaseName = "data"
 
+    open val uiSettingsName = "UI-Settings"
+
     @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
@@ -69,7 +71,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     @Provides
     fun providePreferencesDataStore(appContext: MyApplication): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
-            produceFile = { appContext.preferencesDataStoreFile("UI-Settings") }
+            produceFile = { appContext.preferencesDataStoreFile(uiSettingsName) }
         )
     }
 

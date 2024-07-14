@@ -83,7 +83,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.UiUtils
@@ -546,7 +545,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             expansionMode = expansionMode,
             sumCurrency = accountInfo.currencyUnit,
             menuGenerator = remember {
-                { category, section ->
+                { category ->
                     org.totschnig.myexpenses.compose.Menu(
                         buildList {
                             add(
@@ -558,7 +557,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     lifecycleScope.launch {
                                         showTransactions(
                                             category,
-                                            section == 0
+                                            category.id.sign > 0
                                         )
                                     }
                                 }

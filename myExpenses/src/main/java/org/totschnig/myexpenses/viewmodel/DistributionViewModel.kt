@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -104,15 +105,17 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-    private val incomeFlagPrefKey = booleanPreferencesKey("distributionShowIncome")
-    private val expenseFlagPrefKey = booleanPreferencesKey("distributionShowExpense")
+    private val incomeFlagPrefKey = booleanPreferencesKey(SHOW_INCOME_KEY)
+    private val expenseFlagPrefKey = booleanPreferencesKey(SHOW_EXPENSE_KEY)
     override val aggregateNeutralPrefKey = booleanPreferencesKey("distributionAggregateNeutral")
 
 
     val typeFlags: Flow<Pair<Boolean, Boolean>> by lazy {
         dataStore.data.map { preferences: Preferences ->
-            val showIncome = preferences[incomeFlagPrefKey] ?: false
-            val showExpense = if (!showIncome) true else preferences[expenseFlagPrefKey] ?: true
+            val showIncome = preferences[incomeFlagPrefKey]
+                ?: savedStateHandle.get<Boolean>(SHOW_INCOME_KEY) ?: false
+            val showExpense = if (!showIncome) true else preferences[expenseFlagPrefKey]
+                ?: savedStateHandle.get<Boolean>(SHOW_EXPENSE_KEY) ?: true
             showIncome to showExpense
         }
     }
@@ -179,4 +182,11 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             idMapper = { if (isIncome) it else -it }
         )
     }.map { it.sortChildrenBySumRecursive() }
+
+    companion object {
+        @VisibleForTesting
+        const val SHOW_EXPENSE_KEY = "distributionShowExpense"
+        @VisibleForTesting
+        const val SHOW_INCOME_KEY = "distributionShowIncome"
+    }
 }
