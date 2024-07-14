@@ -208,5 +208,5 @@
     <string name="menu_aggregate_neutral_categories_help_text">העברות שממופות לקטגוריות הכנסה נחשבות כהכנסה, קטגוריות שממופות לקטגוריות הוצאה תמיד נחשבות כהוצאה. ניתן להגדיר עם אפשרות זו כיצד העברות שממופות לקטגוריות נייטרליות נחשבות: כברירת מחדל אם הן חיוביות הן מייצגות הכנסה, אם הן שליליות הן מייצגות הוצאה. אך אם האפשרות הזאת מופעלת, הן תמיד נכללות בשני הסיכומים של ההכנסה וההוצאה שלך.</string>
     <string name="help_ManageParties_mergeMode_info_1">נא לבחור את הגופים הכפולים למיזוג.</string>
     <string name="help_ManageTags_context_menu_info">יש לגעת בסמל &lt;img src=more&gt; כדי לערוך, להקצות צבע או למחוק תגית.</string>
-    <string name="cab_MyExpenses_filter_help_text">חפש עסקאות עם אותם נכסים.</string>
+    <string name="cab_MyExpenses_filter_help_text">חיפוש עסקאות עם אותם נכסים.</string>
 </resources>
