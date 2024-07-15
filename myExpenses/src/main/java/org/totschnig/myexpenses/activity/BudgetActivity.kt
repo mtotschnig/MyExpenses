@@ -136,6 +136,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING)
                 val budget = viewModel.accountInfo.collectAsState(null).value
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -144,6 +145,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 .align(Alignment.Center)
                         )
                     } else {
+                        val currencyUnit = currencyContext[budget.currency]
                         val sortedData = remember {
                             derivedStateOf {
                                 when (sort.value) {
@@ -155,14 +157,14 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             }
                         }
                         LaunchedEffect(sortedData.value, showChart.value) {
-                            setChartData(sortedData.value, budget.currencyUnit.fractionDigits)
+                            setChartData(sortedData.value, currencyUnit.fractionDigits)
                         }
                         hasRollovers = category.value.hasRolloverNext
                         Column(verticalArrangement = Arrangement.Center) {
                             RenderFilters(budget)
                             LayoutHelper(
                                 data = {
-                                    RenderBudget(it, sortedData.value, budget, sort.value)
+                                    RenderBudget(it, sortedData.value, budget, currencyUnit, sort.value)
                                 }, chart = {
                                     RenderChart(
                                         it,
@@ -222,6 +224,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         modifier: Modifier,
         category: Category,
         budget: Budget,
+        currencyUnit: CurrencyUnit,
         sort: Sort
     ) {
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
@@ -235,12 +238,12 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 expansionMode = ExpansionMode.DefaultCollapsed(
                     rememberMutableStateListOf()
                 ),
-                currency = budget.currencyUnit,
+                currency = currencyUnit,
                 onBudgetEdit = { cat, parent ->
                     showEditBudgetDialog(
                         cat,
                         parent,
-                        budget.currencyUnit,
+                        currencyUnit,
                         budget.grouping != Grouping.NONE
                     )
                 },
@@ -375,7 +378,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
-                        budget.currencyUnit,
+                        currencyContext[budget.currency],
                         extras.getSerializable(KEY_AMOUNT) as BigDecimal
                     )
                     viewModel.updateBudget(

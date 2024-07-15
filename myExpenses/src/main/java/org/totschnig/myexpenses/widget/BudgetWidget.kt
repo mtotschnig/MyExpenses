@@ -203,7 +203,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     setViewVisibility(R.id.todayMarkerContainer, View.GONE)
                 }
                 fun amountFormatted(amount: Long) =
-                    currencyFormatter.convAmount(amount, budgetInfo.currency)
+                    currencyFormatter.convAmount(amount, currencyContext[budgetInfo.currency])
                 if (summaryVisibility == View.VISIBLE) {
                     val perDayVisibility =
                         if (budgetInfo.totalDays > 1 && budgetInfo.currentDay != 0L) View.VISIBLE else View.GONE

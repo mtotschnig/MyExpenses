@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -26,11 +25,43 @@ import java.time.format.FormatStyle
 
 
 data class Budget(
-    val id: Long, override val accountId: Long, val title: String, val description: String?,
-    override val currencyUnit: CurrencyUnit, val grouping: Grouping, override val color: Int,
-    val start: LocalDate?, val end: LocalDate?, val accountName: String?, val default: Boolean) : DistributionAccountInfo {
-    constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(
-            id, accountId, title, description, currency, grouping, color, start?.let { LocalDate.parse(it) }, end?.let { LocalDate.parse(it) }, accountName, default)
+    val id: Long,
+    override val accountId: Long,
+    val title: String,
+    val description: String?,
+    override val currency: String,
+    val grouping: Grouping,
+    override val color: Int,
+    val start: LocalDate?,
+    val end: LocalDate?,
+    val accountName: String?,
+    val default: Boolean
+) : DistributionAccountInfo {
+    constructor(
+        id: Long,
+        accountId: Long,
+        title: String,
+        description: String?,
+        currency: String,
+        grouping: Grouping,
+        color: Int,
+        start: String?,
+        end: String?,
+        accountName: String?,
+        default: Boolean
+    ) : this(
+        id,
+        accountId,
+        title,
+        description,
+        currency,
+        grouping,
+        color,
+        start?.let { LocalDate.parse(it) },
+        end?.let { LocalDate.parse(it) },
+        accountName,
+        default
+    )
 
     init {
         when (grouping) {
@@ -40,8 +71,8 @@ data class Budget(
     }
 
     override fun label(context: Context) = accountName
-            ?: if (accountId == HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
-            else currencyUnit.code
+        ?: if (accountId == HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
+        else currency
 
     /**
      * @param budget We add the initial budget to the content values,
@@ -57,7 +88,7 @@ data class Budget(
             put(KEY_ACCOUNTID, accountId)
             putNull(KEY_CURRENCY)
         } else {
-            put(KEY_CURRENCY, currencyUnit.code)
+            put(KEY_CURRENCY, currency)
             putNull(KEY_ACCOUNTID)
         }
         if (grouping == Grouping.NONE) {
@@ -70,12 +101,13 @@ data class Budget(
         budget?.let {
             put(KEY_BUDGET, it)
         }
-        put(KEY_IS_DEFAULT, if (default)  "1" else "0")
+        put(KEY_IS_DEFAULT, if (default) "1" else "0")
     }
 
     private fun startIso(): String = start!!.format(ISO_LOCAL_DATE)
     private fun endIso(): String = end!!.format(ISO_LOCAL_DATE)
-    fun durationAsSqlFilter() = "$KEY_DATE BETWEEN ${start!!.toStartOfDayEpoch()}  AND ${end!!.toEndOfDayEpoch()}"
+    fun durationAsSqlFilter() =
+        "$KEY_DATE BETWEEN ${start!!.toStartOfDayEpoch()}  AND ${end!!.toEndOfDayEpoch()}"
 
     fun durationPrettyPrint(): String {
         val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)

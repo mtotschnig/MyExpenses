@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.activity.BudgetActivity
 import org.totschnig.myexpenses.databinding.BudgetListRowBinding
 import org.totschnig.myexpenses.databinding.BudgetsBinding
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -44,6 +45,9 @@ class BudgetList : Fragment() {
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -150,7 +154,7 @@ class BudgetList : Fragment() {
                         viewModel.loadBudgetAmounts(position, budget)
                         0L to 0L
                     }
-                    budgetSummary.bind(budget, -spent, allocated, currencyFormatter)
+                    budgetSummary.bind(budget, currencyContext[budget.currency],  -spent, allocated, currencyFormatter)
 
                     filter.addChipsBulk(buildList {
                         add(budget.label(requireContext()))

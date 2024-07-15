@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.BudgetSummaryBinding
 import org.totschnig.myexpenses.databinding.BudgetTotalTableBinding
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -22,13 +23,19 @@ class BudgetSummary @JvmOverloads constructor(
     private val binding = BudgetSummaryBinding.inflate(LayoutInflater.from(context), this)
     private val tableBinding = BudgetTotalTableBinding.bind(binding.root)
 
-    fun bind(budget: Budget, spent: Long, allocated: Long, currencyFormatter: ICurrencyFormatter) {
+    fun bind(
+        budget: Budget,
+        currencyUnit: CurrencyUnit,
+        spent: Long,
+        allocated: Long,
+        currencyFormatter: ICurrencyFormatter
+    ) {
         binding.budgetProgressTotal.finishedStrokeColor = budget.color
         binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
-        tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, allocated))
-        tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, -spent))
+        tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(currencyUnit, allocated))
+        tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(currencyUnit, -spent))
         val available = allocated - spent
-        tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, available))
+        tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(currencyUnit, available))
         val onBudget = available >= 0
         tableBinding.totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget))
         tableBinding.totalAvailable.setTextColor(context.resources.getColor(if (onBudget) R.color.colorIncome else R.color.colorExpense))

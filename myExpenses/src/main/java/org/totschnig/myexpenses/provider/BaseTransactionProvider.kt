@@ -763,7 +763,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val (accountSelection, accountSelectionArg) = when {
             accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
             accountId == HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AGGREGATE_HOME_CURRENCY_CODE
-            else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to accountId
+            else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to -accountId
         }
         return db.query(
             TABLE_BUDGETS,

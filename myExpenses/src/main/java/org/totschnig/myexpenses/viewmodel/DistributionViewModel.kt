@@ -79,7 +79,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                     val label = it.getString(0)
                     override val accountId = accountId
                     override fun label(context: Context) = label
-                    override val currencyUnit = currencyContext[it.getString(1)]
+                    override val currency = it.getString(1)
                     override val color = if (isAggregate) -1 else it.getInt(2)
                 })
             }

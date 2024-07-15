@@ -8,9 +8,5 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 
 interface DistributionAccountInfo: IAccount {
     fun label(context: Context): String
-    val currencyUnit: CurrencyUnit
     val color: Int
-
-    override val currency: String
-        get() = currencyUnit.code
 }

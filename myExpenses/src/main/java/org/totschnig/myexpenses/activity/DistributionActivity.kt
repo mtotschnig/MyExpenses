@@ -543,7 +543,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = accountInfo.currencyUnit,
+            sumCurrency = currencyContext[accountInfo.currency],
             menuGenerator = remember {
                 { category ->
                     org.totschnig.myexpenses.compose.Menu(
@@ -595,8 +595,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     ) {
         val sumLineBehaviour = viewModel.sumLineBehaviour.collectAsState(initial = DistributionViewModel.SumLineBehaviour.WithoutTotal)
         val accountFormatter = LocalCurrencyFormatter.current
-        val income = Money(accountInfo.currencyUnit, sums.first)
-        val expense = Money(accountInfo.currencyUnit, sums.second)
+        val currencyUnit = currencyContext[accountInfo.currency]
+        val income = Money(currencyUnit, sums.first)
+        val expense = Money(currencyUnit, sums.second)
         HorizontalDivider(
             modifier = Modifier.padding(top = 4.dp),
             thickness = 1.dp,
@@ -625,7 +626,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         modifier = Modifier.weight(1f),
                         text = accountFormatter.formatCurrency(
                             income.amountMajor,
-                            accountInfo.currencyUnit,
+                            currencyUnit,
                             configure
                         ),
                         textAlign = TextAlign.End
@@ -634,7 +635,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         modifier = Modifier.weight(1f),
                         text = accountFormatter.formatCurrency(
                             expense.amountMajor,
-                            accountInfo.currencyUnit,
+                            currencyUnit,
                             configure
                         ),
                         textAlign = TextAlign.End
@@ -650,7 +651,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             append(
                                 accountFormatter.formatCurrency(
                                     income.amountMajor,
-                                    accountInfo.currencyUnit,
+                                    currencyUnit,
                                     configure
                                 )
                             )
@@ -658,7 +659,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             append(
                                 accountFormatter.formatCurrency(
                                     expense.amountMajor,
-                                    accountInfo.currencyUnit,
+                                    currencyUnit,
                                     configure
                                 )
                             )
@@ -671,7 +672,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             val delta = sums.first + sums.second
                             append(
                                 accountFormatter.formatMoney(
-                                    Money(accountInfo.currencyUnit, delta),
+                                    Money(currencyUnit, delta),
                                     configure
                                 )
                             )

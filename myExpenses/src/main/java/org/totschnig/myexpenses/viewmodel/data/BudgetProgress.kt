@@ -5,7 +5,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 
 data class BudgetProgress(
     val title: String,
-    val currency: CurrencyUnit,
+    val currency: String,
     val groupInfo: BudgetPeriod,
     val allocated: Long,
     val spent: Long,

@@ -160,7 +160,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
                     accountId = accountInfo.accountId,
-                    currency = accountInfo.currencyUnit,
+                    currency = currencyContext[accountInfo.currency],
                     catId = category.id.absoluteValue,
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,

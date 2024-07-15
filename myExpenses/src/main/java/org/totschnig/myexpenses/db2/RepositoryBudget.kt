@@ -234,7 +234,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
 
         BudgetProgress(
             budget.title,
-            budget.currencyUnit,
+            budget.currency,
             groupingInfo,
             allocated,
             -spent,

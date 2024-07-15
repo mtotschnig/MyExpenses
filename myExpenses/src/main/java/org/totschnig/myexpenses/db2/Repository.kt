@@ -128,7 +128,6 @@ open class Repository @Inject constructor(
 
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(DatabaseConstants.KEY_CURRENCY)
-        val currencyUnit = currencyContext[currency]
         val budgetId = cursor.getLong(DatabaseConstants.KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)
         val grouping = cursor.getEnum(DatabaseConstants.KEY_GROUPING, Grouping.NONE)
@@ -137,7 +136,7 @@ open class Repository @Inject constructor(
             accountId = accountId,
             title = cursor.getString(DatabaseConstants.KEY_TITLE),
             description = cursor.getString(DatabaseConstants.KEY_DESCRIPTION),
-            currency = currencyUnit,
+            currency = currency,
             grouping = grouping,
             color = cursor.getInt(DatabaseConstants.KEY_COLOR),
             start = if (grouping == Grouping.NONE) cursor.getString(DatabaseConstants.KEY_START) else null,
