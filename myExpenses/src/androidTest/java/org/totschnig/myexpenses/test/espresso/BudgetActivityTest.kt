@@ -73,7 +73,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
                 account.id,
                 "TestBudget",
                 "DESCRIPTION",
-                homeCurrency,
+                homeCurrency.code,
                 Grouping.MONTH,
                 -1,
                 null as LocalDate?,

@@ -311,7 +311,7 @@ class Fixture(inst: Instrumentation) {
             account1.id,
             appContext.getString(R.string.testData_account1Description),
             "DESCRIPTION",
-            defaultCurrency,
+            defaultCurrency.code,
             Grouping.MONTH,
             -1,
             null as LocalDate?,

@@ -84,7 +84,15 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private fun fixtureWithMappedTemplate() {
         baseFixture()
-        with(Template(contentResolver, account.id, homeCurrency, Transactions.TYPE_TRANSACTION, null)) {
+        with(
+            Template(
+                contentResolver,
+                account.id,
+                homeCurrency,
+                Transactions.TYPE_TRANSACTION,
+                null
+            )
+        ) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save(contentResolver)
@@ -93,18 +101,44 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private fun fixtureWithMappedBudget() {
         baseFixture()
-        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", homeCurrency, Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
-        val budgetId = ContentUris.parseId(contentResolver.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues(200000L))!!)
+        val budget = Budget(
+            0L,
+            account.id,
+            "TITLE",
+            "DESCRIPTION",
+            homeCurrency.code,
+            Grouping.MONTH,
+            -1,
+            null as LocalDate?,
+            null as LocalDate?,
+            account.label,
+            true
+        )
+        val budgetId = ContentUris.parseId(
+            contentResolver.insert(
+                TransactionProvider.BUDGETS_URI,
+                budget.toContentValues(200000L)
+            )!!
+        )
         setCategoryBudget(budgetId, categoryId, 50000)
     }
 
-    private fun setCategoryBudget(budgetId: Long, categoryId: Long, @Suppress("SameParameterValue") amount: Long) {
+    private fun setCategoryBudget(
+        budgetId: Long,
+        categoryId: Long,
+        @Suppress("SameParameterValue") amount: Long
+    ) {
         with(ContentValues(1)) {
             put(DatabaseConstants.KEY_BUDGET, amount)
             put(DatabaseConstants.KEY_YEAR, 2022)
             put(DatabaseConstants.KEY_SECOND_GROUP, 7)
-            contentResolver.update(appendId(appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId), categoryId).build(),
-                    this, null, null)
+            contentResolver.update(
+                appendId(
+                    appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId),
+                    categoryId
+                ).build(),
+                this, null, null
+            )
         }
     }
 
@@ -131,8 +165,15 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         launch().use {
             callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(getQuantityString(
-                    R.plurals.not_deletable_mapped_transactions, 1, 1))))
+                .check(
+                    matches(
+                        withText(
+                            getQuantityString(
+                                R.plurals.not_deletable_mapped_transactions, 1, 1
+                            )
+                        )
+                    )
+                )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
     }
@@ -143,8 +184,15 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         launch().use {
             callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(getQuantityString(
-                    R.plurals.not_deletable_mapped_templates, 1, 1))))
+                .check(
+                    matches(
+                        withText(
+                            getQuantityString(
+                                R.plurals.not_deletable_mapped_templates, 1, 1
+                            )
+                        )
+                    )
+                )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
     }
@@ -154,13 +202,15 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         fixtureWithMappedBudget()
         launch().use {
             callDelete(false)
-            onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(matches(isDisplayed()))
+            onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(
+                matches(isDisplayed())
+            )
             onView(withText(R.string.response_no)).perform(click())
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
     }
 
-    private fun callDelete(withConfirmation: Boolean = true, position: Int = 0)  {
+    private fun callDelete(withConfirmation: Boolean = true, position: Int = 0) {
         clickContextItem(R.string.menu_delete, position = position)
         if (withConfirmation) {
             onView(
@@ -181,8 +231,12 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             composeTestRule.onNodeWithTag(TEST_TAG_EDIT_TEXT)
                 .performTextInput("Subcategory")
             composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
-            assertThat(repository.count(TransactionProvider.CATEGORIES_URI,
-                "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString()))).isEqualTo(1)
+            assertThat(
+                repository.count(
+                    TransactionProvider.CATEGORIES_URI,
+                    "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString())
+                )
+            ).isEqualTo(1)
         }
     }
 
