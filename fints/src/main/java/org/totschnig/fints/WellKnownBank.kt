@@ -16,7 +16,9 @@ enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, val blz: St
     DEUTSCHE_BANK(R.drawable.deutsche_bank, Color.rgb(0, 24, 168)),
     POSTBANK(R.drawable.postbank, Color.rgb(255, 204, 0)),
     LIGA(R.drawable.liga, Color.rgb(2, 41, 164), "75090300"),
-    RENAULT(R.drawable.renault, Color.rgb(128, 128, 128), "30520037")
+    RENAULT(R.drawable.renault, Color.rgb(128, 128, 128), "30520037"),
+    MLP(R.drawable.mlp, Color.rgb(190,182,170),"67230000"),
+    DIREKT1822(R.drawable.direkt1822_96, Color.rgb(0, 58,107),"50050222")
 }
 
 val Bank.asWellKnown: WellKnownBank?
