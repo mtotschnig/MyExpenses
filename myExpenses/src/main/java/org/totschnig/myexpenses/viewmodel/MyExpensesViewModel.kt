@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -167,6 +168,13 @@ open class MyExpensesViewModel(
         dataStore.edit { preference ->
             preference[showStatusHandlePrefKey] = showStatus
         }
+    }
+
+    val listState = LazyListState(0, 0)
+
+    suspend fun scrollToAccountIfNeeded(position: Int, key: Long) {
+        if (!listState.layoutInfo.visibleItemsInfo.any { it.key == key })
+            listState.animateScrollToItem(position)
     }
 
     fun expansionHandlerForTransactionGroups(account: PageAccount) =

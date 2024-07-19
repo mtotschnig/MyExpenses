@@ -646,8 +646,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             toolbar.isVisible = true
                         }
                         LaunchedEffect(data) {
-                            if (data.none { it.id == selectedAccountId }) {
+                            val selectedIndex = data.indexOfFirst { it.id == selectedAccountId }
+                            if (selectedIndex == -1) {
                                 selectedAccountId = data.firstOrNull()?.id ?: 0L
+                            } else {
+                                viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId)
                             }
                         }
                         AccountList(
@@ -675,6 +678,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             onToggleExcludeFromTotals = {
                                 toggleExcludeFromTotals(it)
                             },
+                            listState = viewModel.listState,
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
                             bankIcon = { modifier, id ->
@@ -847,6 +851,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }
                     LaunchedEffect(pagerState.settledPage) {
                         selectedAccountId = accountData[pagerState.settledPage].id
+                        viewModel.scrollToAccountIfNeeded(pagerState.currentPage, selectedAccountId)
                     }
                     HorizontalPager(
                         modifier = Modifier
