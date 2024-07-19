@@ -88,6 +88,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -544,17 +545,16 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   }
 
 /*  private void insertTestData(SupportSQLiteDatabase db, int countGroup, int countChild) {
-    int dayInSeconds = 60 * 60 * 24;
-    long date = System.currentTimeMillis() / 1000 + dayInSeconds * 500;
     int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
+      LocalDateTime date = LocalDateTime.now().plusDays(25);
       AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.BANK, 0);
       long testAccountId = db.insert(DatabaseConstants.TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
         long catId = j % categories;
         long payeeId = db.insert(DatabaseConstants.TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
-        date -= dayInSeconds;
-        TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, new Date(date * 1000), "Transaction " + j, payeeId, null, catId);
+        date = date.minusDays(1);
+        TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, CrStatus.UNRECONCILED);
         db.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
             CONFLICT_NONE,

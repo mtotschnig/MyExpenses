@@ -14,12 +14,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import java.util.Date
+import org.totschnig.myexpenses.util.toEpoch
+import java.time.LocalDateTime
 
 data class TransactionInfo(
     val accountId: Long,
     val amount: Long,
-    val date: Date = Date(),
+    val date: LocalDateTime = LocalDateTime.now(),
     val comment: String = "",
     val payeeId: Long? = null,
     val debtId: Long? = null,
@@ -28,7 +29,7 @@ data class TransactionInfo(
     val crStatus: CrStatus = CrStatus.UNRECONCILED
 ) {
     val dateAsLong: Long
-        get() = date.time / 1000
+        get() = date.toEpoch()
     val contentValues: ContentValues
         get() = ContentValues().apply {
             put(KEY_COMMENT, comment)

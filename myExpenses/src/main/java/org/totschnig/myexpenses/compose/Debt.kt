@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
-import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
@@ -299,7 +299,7 @@ private fun SingleDebtPreview() {
         payeeId = -1L,
         amount = 4000,
         currency = CurrencyUnit.DebugInstance,
-        date = localDate2Epoch(LocalDate.now()),
+        date = LocalDate.now().toEpoch(),
         payeeName = "Joe Doe"
     )
     val transactions = listOf(

@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.DebtOverViewViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
@@ -158,7 +158,7 @@ private fun DebtListPreview() {
                             payeeId = 1,
                             amount = 4000,
                             currency = CurrencyUnit.DebugInstance,
-                            date = localDate2Epoch(LocalDate.now()),
+                            date = LocalDate.now().toEpoch(),
                             payeeName = "Joe Doe",
                             sum = 3000
                         ),
@@ -169,7 +169,7 @@ private fun DebtListPreview() {
                             payeeId = 2,
                             amount = -500,
                             currency = CurrencyUnit.DebugInstance,
-                            date = localDate2Epoch(LocalDate.now()),
+                            date = LocalDate.now().toEpoch(),
                             payeeName = "Klara Masterful",
                             sum = -200
                         )

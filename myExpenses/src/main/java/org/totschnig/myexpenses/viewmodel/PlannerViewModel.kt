@@ -20,7 +20,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -29,7 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.getDateTimeFormatter
-import org.totschnig.myexpenses.util.localDateTime2EpochMillis
+import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
@@ -69,9 +68,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             return Month(prevYear, prevMonth)
         }
 
-        fun startMillis() = localDateTime2EpochMillis(startDate().atTime(LocalTime.MIN))
+        fun startMillis() = startDate().atTime(LocalTime.MIN).toEpochMillis()
 
-        fun endMillis() = localDateTime2EpochMillis(endDate().atTime(LocalTime.MAX))
+        fun endMillis() = endDate().atTime(LocalTime.MAX).toEpochMillis()
 
         fun endDate(): LocalDate = startDate().with(TemporalAdjusters.lastDayOfMonth())
 

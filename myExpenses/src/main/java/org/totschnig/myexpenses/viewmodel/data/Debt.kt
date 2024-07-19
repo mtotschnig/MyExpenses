@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.util.toEpoch
 import java.time.LocalDate
 import kotlin.math.sign
 
@@ -55,7 +55,7 @@ data class Debt(
         payeeId,
         amount,
         currency,
-        localDate2Epoch(date),
+        date.toEpoch(),
         equivalentAmount = equivalentAmount
     )
 

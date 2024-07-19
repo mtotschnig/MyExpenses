@@ -38,14 +38,13 @@ import org.totschnig.myexpenses.util.PermissionHelper.hasCalendarPermission
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.localDateTime2EpochMillis
+import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -139,8 +138,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     @SuppressLint("InlinedApi")
     override suspend fun doWork(): Result {
         val nowZDT = ZonedDateTime.now()
-        val beginningOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MIN))
-        val endOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MAX))
+        val beginningOfDay = nowZDT.toLocalDate().atTime(LocalTime.MIN).toEpochMillis()
+        val endOfDay = nowZDT.toLocalDate().atTime(LocalTime.MAX).toEpochMillis()
         val nowMillis = nowZDT.toEpochSecond() * 1000
         val lastExecution = prefHandler.getLong(
             PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,

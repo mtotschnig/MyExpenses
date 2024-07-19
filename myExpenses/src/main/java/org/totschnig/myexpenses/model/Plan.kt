@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.localDateTime2EpochMillis
+import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.io.Serializable
@@ -51,7 +51,7 @@ class Plan private constructor(
         description: String
     ) : this(
         id,
-        localDateTime2EpochMillis(localDate.atTime(LocalTime.of(12, 0))),
+        localDate.atTime(LocalTime.of(12, 0)).toEpochMillis(),
         rRule,
         title,
         description

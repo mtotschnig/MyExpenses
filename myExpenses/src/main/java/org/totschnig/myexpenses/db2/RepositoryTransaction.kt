@@ -36,8 +36,7 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.joinArrays
-import org.totschnig.myexpenses.util.localDate2Epoch
-import org.totschnig.myexpenses.util.localDateTime2Epoch
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -53,9 +52,9 @@ private fun Repository.toContentValues(transaction: Transaction) = with(transact
             ).amountMinor
         )
         put(KEY_DATE, time?.let {
-            localDateTime2Epoch(LocalDateTime.of(date, time))
-        } ?: localDate2Epoch(date))
-        put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
+            LocalDateTime.of(date, time).toEpoch()
+        } ?: date.toEpoch())
+        put(KEY_VALUE_DATE, valueDate.toEpoch())
         party.takeIf { it > 0 }?.let { put(KEY_PAYEEID, it) }
         put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
         category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }

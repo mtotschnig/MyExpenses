@@ -43,7 +43,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices.TABLET
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -59,7 +58,7 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.localDateTime2Epoch
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
@@ -88,12 +87,9 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     var (index, visibleIndex) = startIndex
     var lastHeader: Int? = null
     val limit = when (sortDirection) {
-        SortDirection.ASC -> localDateTime2Epoch(
-            LocalDateTime.now().truncatedTo(ChronoUnit.DAYS)
-        ) //startOfToday
-        SortDirection.DESC -> localDateTime2Epoch(
-            LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1)
-        ) //endOfToday
+        SortDirection.ASC -> LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).toEpoch() //startOfToday
+        SortDirection.DESC -> LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1)
+            .toEpoch() //endOfToday
     }
     while (index < itemCount) {
         val transaction2 = get(index) ?: return null to true

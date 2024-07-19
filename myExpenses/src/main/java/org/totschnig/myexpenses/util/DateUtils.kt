@@ -30,14 +30,13 @@ fun epoch2ZonedDateTime(epoch: Long): ZonedDateTime = ZonedDateTime.ofInstant(
     Instant.ofEpochSecond(epoch), ZoneId.systemDefault()
 )
 
-fun localDateTime2Epoch(localDateTime: LocalDateTime) =
-    ZonedDateTime.of(localDateTime, ZoneId.systemDefault()).toEpochSecond()
+fun LocalDateTime.toEpoch() =
+    ZonedDateTime.of(this, ZoneId.systemDefault()).toEpochSecond()
 
-fun localDate2Epoch(localDate: LocalDate) =
-    ZonedDateTime.of(localDate, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
+fun LocalDate.toEpoch() =
+    ZonedDateTime.of(this, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
 
-fun localDateTime2EpochMillis(localDateTime: LocalDateTime) =
-    localDateTime2Epoch(localDateTime) * 1000
+fun LocalDateTime.toEpochMillis() = toEpoch() * 1000
 
 fun getDateTimeFormatter(context: Context, shortYear: Boolean = false): DateTimeFormatter = ((
         if (shortYear)
@@ -54,8 +53,8 @@ fun getDateTimeFormatter(context: Context, shortYear: Boolean = false): DateTime
         }
     } ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
 
-fun LocalDate.toStartOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MIN))
-fun LocalDate.toEndOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MAX))
+fun LocalDate.toStartOfDayEpoch(): Long = atTime(LocalTime.MIN).toEpoch()
+fun LocalDate.toEndOfDayEpoch(): Long = atTime(LocalTime.MAX).toEpoch()
 
 @SuppressLint("SimpleDateFormat")
 fun validateDateFormat(context: Context, dateFormat: String) = when {
