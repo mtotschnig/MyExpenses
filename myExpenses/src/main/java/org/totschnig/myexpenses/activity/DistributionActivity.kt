@@ -209,11 +209,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val whereFilter = intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
             WhereFilter(it)
         }
-        viewModel.initWithAccount(
-            intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
-            intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
-            whereFilter
-        )
+        if (savedInstanceState == null) {
+            viewModel.initWithAccount(
+                intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
+                intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
+                whereFilter
+            )
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -231,17 +233,18 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
 
         binding.composeView.setContent {
-            AppTheme {
 
+            AppTheme {
+                fun clearFilter() { viewModel.clearFilter() }
                 val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
                 val (showIncome, showExpense) = typeFlags.value
                 when {
                     showIncome && showExpense -> {
-                        RenderCombined(whereFilter)
+                        RenderCombined(viewModel.whereFilter.collectAsState().value, ::clearFilter)
                     }
 
                     !showIncome && !showExpense -> throw IllegalStateException()
-                    else -> RenderSingle(showIncome, whereFilter)
+                    else -> RenderSingle(showIncome, viewModel.whereFilter.collectAsState().value, ::clearFilter)
                 }
             }
         }
@@ -255,7 +258,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
 
     @Composable
-    private fun RenderCombined(whereFilter: WhereFilter?) {
+    private fun RenderCombined(whereFilter: WhereFilter, clearFilter: () -> Unit) {
         val isDark = isSystemInDarkTheme()
         val categoryState =
             viewModel.combinedCategoryTree.collectAsState(initial = Category.LOADING)
@@ -320,8 +323,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 } else {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
-                        if (whereFilter != null) {
-                            FilterCard(whereFilter)
+                        if (!whereFilter.isEmpty) {
+                            FilterCard(whereFilter, clearFilter)
                         }
                         LayoutHelper(
                             data = {
@@ -386,13 +389,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         })
 
     @Composable
-    private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter?) {
+    private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter, clearFilter: () -> Unit) {
         val isDark = isSystemInDarkTheme()
         val categoryState =
             (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
                 .collectAsState(initial = Category.LOADING)
 
-        val categoryTree = remember {
+        val categoryTree = remember(whereFilter) {
             derivedStateOf {
                 categoryState.value.prepareColors(showChart.value, isDark)
             }
@@ -456,8 +459,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 else -> {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
-                        if (whereFilter != null) {
-                            FilterCard(whereFilter)
+                        if (!whereFilter.isEmpty) {
+                            FilterCard(whereFilter, clearFilter)
                         }
                         LayoutHelper(
                             data = {

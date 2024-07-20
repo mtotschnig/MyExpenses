@@ -183,6 +183,11 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         )
     }.map { it.sortChildrenBySumRecursive() }
 
+
+    fun clearFilter() {
+        _whereFilter.update { WhereFilter.empty() }
+    }
+
     companion object {
         @VisibleForTesting
         const val SHOW_EXPENSE_KEY = "distributionShowExpense"
