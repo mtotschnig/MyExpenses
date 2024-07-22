@@ -142,7 +142,7 @@ class ChangeLogGenerator {
 
     @Test
     fun generateChangeLogYaml() {
-        val versionDate = "2014-04-15"
+        val versionDate = "2024-06-14"
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
             "bg",
@@ -184,7 +184,7 @@ class ChangeLogGenerator {
                 }
             },
             buildMap {
-                put("github", context.githubLink(versionInfo)!!)
+                put("github2", context.githubLink(versionInfo)!!)
                 put("mastodon", context.mastodonLink(versionInfo)!!)
             }
         ))

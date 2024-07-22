@@ -134,6 +134,64 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.8.7
+      - '2024-07-19'
+      - bg: Търсене на сделки с едни и същи имоти.
+        cs: Hledejte transakce se stejnými vlastnostmi.
+        de: Suche nach Transaktionen mit gleichen Eigenschaften.
+        el: Αναζητήστε συναλλαγές με τα ίδια ακίνητα.
+        es: Buscar transacciones con las mismas propiedades.
+        fr: Recherchez des transactions avec les mêmes propriétés.
+        hr: Tražite transakcije s istim svojstvima.
+        hu: Azonos tulajdonságokkal rendelkező tranzakciók keresése.
+        it: Cercare transazioni con le stesse proprietà.
+        iw: חיפוש עסקאות עם אותם נכסים.
+        nl: Zoek naar transacties met dezelfde property's.
+        pl: Wyszukaj transakcje o tych samych właściwościach.
+        pt: Pesquise transações com as mesmas propriedades.
+        ro: Căutați tranzacții cu aceleași proprietăți.
+        tr: Aynı özelliklere sahip muameleleri arayın.
+        vi: Tìm kiếm các giao dịch có cùng thuộc tính.
+        en: Search for transactions with same properties.
+      - github2: '3'
+        mastodon: '112780201819204851'
+  -   - 3.8.6
+      - '2024-06-14'
+      - bg: Разпределението по разходи и разпределението по приходи могат да бъдат
+          показани заедно в диаграма с понички с двоен пръстен.
+        cs: Rozdělení na výdaje a rozdělení na příjem lze společně zobrazit na dvoukroužkovém
+          prstencovém grafu.
+        de: Die Verteilung pro Ausgaben und die Verteilung pro Einkommen können zusammen
+          in einem Doppelring-Donut-Diagramm dargestellt werden.
+        el: Η διανομή ανά έξοδα και η διανομή ανά εισόδημα μπορούν να εμφανιστούν
+          μαζί στο γράφημα ντόνατ με διπλό δακτύλιο.
+        es: La distribución por gastos y la distribución por ingresos pueden mostrarse
+          juntas en un gráfico de doble anillo.
+        fr: La répartition par dépenses et la répartition par revenu peuvent être
+          affichées ensemble dans un graphique à double anneau.
+        hr: Distribucija po troškovima i distribucija po prihodu mogu se prikazati
+          zajedno u dvostrukom kružnom dijagramu.
+        hu: A kiadások szerinti eloszlás és a jövedelemenkénti eloszlás együtt mutatható
+          be a kettős gyűrűs fánkdiagramon.
+        it: La distribuzione per spese e la distribuzione per reddito possono essere
+          mostrate insieme nel grafico a ciambella a doppio anello.
+        iw: ניתן להציג התפלגות לפי הוצאות והתפלגות לפי הכנסה ביחד בטבלת טבעות כפולות.
+        nl: De verdeling per uitgaven en de verdeling per inkomen kunnen samen worden
+          weergegeven in een ringdiagram met dubbele ringen.
+        pl: Rozkład na wydatki i rozkład na dochód można przedstawić razem na wykresie
+          pierścieniowym z dwoma pierścieniami.
+        pt: A distribuição por despesas e a distribuição por receita podem ser mostradas
+          juntas no gráfico de rosquinhas de anel duplo.
+        ro: Distribuția pe cheltuieli și distribuția pe venit pot fi afișate împreună
+          în diagrama gogoși cu inel dublu.
+        tr: Gider başına dağıtım ve gelir başına dağıtım çift halkalı simit grafiğinde
+          birlikte gösterilebilir.
+        vi: Phân phối cho mỗi chi phí và phân phối trên mỗi thu nhập có thể được hiển
+          thị cùng nhau trong biểu đồ bánh rán hai vòng.
+        en: Distribution per expenses and distribution per income can be shown together
+          in double-ring donut chart.
+      - github2: '1'
+        mastodon: '112611283595024791'
   -   - 3.8.5
       - '2014-05-28'
       - bg: 'FinTS: ING-DiBa. Печат: Конфигурация (Формат на хартията, Ориентация,

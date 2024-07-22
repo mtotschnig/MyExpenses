@@ -17,7 +17,12 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
@@ -25,9 +30,6 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.util.Date
 
 @RunWith(RobolectricTestRunner::class)
 class GroupQueryTest : BaseTestWithRepository() {
@@ -159,12 +161,7 @@ class GroupQueryTest : BaseTestWithRepository() {
             TransactionProvider.TRANSACTIONS_URI, TransactionInfo(
                 accountId = testAccountId,
                 amount = 12345,
-                date = Date.from(
-                    ZonedDateTime.of(
-                        LocalDateTime.of(2024, 1, 1, 12, 0),
-                        ZoneId.systemDefault()
-                    ).toInstant()
-                ),
+                date = LocalDateTime.of(2024, 1, 1, 12, 0),
                 crStatus = CrStatus.VOID
             ).contentValues
         )
