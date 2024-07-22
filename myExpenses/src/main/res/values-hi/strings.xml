@@ -202,7 +202,6 @@
     <string name="pref_restore_title">पुनर्स्थापित</string>
     <string name="pref_security_question_title">सुरक्षा प्रश्न</string>
     <string name="pref_send_feedback_title">प्रतिक्रिया भेजें</string>
-    <string name="pref_ui_fontsize_title">फ़ॉन्ट आकार</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">भाषा</string>
     <string name="pref_ui_theme_title">थीम</string>

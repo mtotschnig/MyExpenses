@@ -41,4 +41,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"اندازه قلم"</string>
     <string name="system_default">"پیش‌فرض سیستم"</string>
+    <string name="never">"هرگز"</string>
+    <string name="always">"همیشه"</string>
 </resources>

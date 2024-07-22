@@ -108,4 +108,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"எழுத்து அளவு"</string>
     <string name="system_default">"சிஸ்டத்தின் இயல்பு"</string>
+    <string name="never">"ஒருபோதும் வேண்டாம்"</string>
+    <string name="always">"எப்போதும்"</string>
 </resources>

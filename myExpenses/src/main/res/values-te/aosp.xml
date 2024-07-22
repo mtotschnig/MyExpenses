@@ -102,4 +102,6 @@
     <string name="landscape">"చిత్రపటం"</string>
     <string name="title_font_size">"ఫాంట్ సైజ్‌"</string>
     <string name="system_default">"సిస్టమ్ ఆటోమేటిక్ సెట్టింగ్"</string>
+    <string name="never">"ఎప్పటికీ వద్దు"</string>
+    <string name="always">"ఎల్లప్పుడూ"</string>
 </resources>

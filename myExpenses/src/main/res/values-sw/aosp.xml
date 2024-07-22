@@ -32,4 +32,6 @@
     <string name="privacy_header">"Faragha"</string>
     <string name="title_font_size">"Ukubwa wa fonti"</string>
     <string name="system_default">"Chaguomsingi la mfumo"</string>
+    <string name="never">"Isiwahi"</string>
+    <string name="always">"Kila wakati"</string>
 </resources>

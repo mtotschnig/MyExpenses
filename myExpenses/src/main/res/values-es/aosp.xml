@@ -118,4 +118,6 @@
     <string name="landscape">"Horizontal"</string>
     <string name="title_font_size">"Tamaño de fuente"</string>
     <string name="system_default">"Predeterminado del sistema"</string>
+    <string name="never">"Nunca"</string>
+    <string name="always">"Siempre"</string>
 </resources>

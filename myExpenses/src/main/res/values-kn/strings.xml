@@ -292,7 +292,6 @@
     <string name="pref_shortcut_added">ಶಾರ್ಟ್ಕಟ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್ಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
     <string name="pref_shortcut_not_added">ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಯಾವುದೇ ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
-    <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
     <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">ಭಾಷೆ</string>
@@ -588,8 +587,6 @@
     <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.</string>
     <string name="donate_button_invoice">ಸರಕುಪಟ್ಟಿ</string>
-    <string name="never">ಎಂದಿಗೂ</string>
-    <string name="always">ಯಾವಾಗಲೂ</string>
     <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
     <string name="sync_auth_exception">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ.</string>
     <string name="sync_login_again">ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
@@ -651,7 +648,6 @@
     <string name="saving_goal">ಗುರಿ ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="credit_limit">ಸಾಲದ ಮಿತಿ</string>
     <string name="clear_all_filters">ಎಲ್ಲಾ ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
-    <string name="pref_scroll_to_current_date_summary">ಅಪ್ಲಿಕೇಶನ್ ಪ್ರಾರಂಭವಾದ ನಂತರ, ವ್ಯವಹಾರ ಪಟ್ಟಿಯನ್ನು ಪ್ರಸ್ತುತ ದಿನಾಂಕಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ</string>
     <string name="professional_key_fallback_info">ವೃತ್ತಿಪರ ಕೀಗೆ ಚಂದಾದಾರಿಕೆ ಕನಿಷ್ಠ ಒಂದು ವರ್ಷ ಸಕ್ರಿಯವಾಗಿದೆ ಮತ್ತು ನವೀಕರಿಸಲಾಗಿಲ್ಲ, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅನಿಯಮಿತ ವಿಸ್ತೃತ ಕೀ ಆಗಿ ಪರಿವರ್ತನೆಗೊಳ್ಳುತ್ತದೆ.</string>
     <string name="menu_budget">ಬಜೆಟ್</string>
     <string name="dialog_title_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>

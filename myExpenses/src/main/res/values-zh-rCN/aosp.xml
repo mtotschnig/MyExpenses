@@ -115,4 +115,6 @@
     <string name="landscape">"横向"</string>
     <string name="title_font_size">"字体大小"</string>
     <string name="system_default">"系统默认设置"</string>
+    <string name="never">"一律不"</string>
+    <string name="always">"一律检查"</string>
 </resources>

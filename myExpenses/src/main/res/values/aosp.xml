@@ -211,4 +211,8 @@
     <string name="title_font_size">"Font size"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri preference_of_system_locale_summary  | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preference_of_system_locale_summary/system_default/' | aosp_helper -->
     <string name="system_default">"System default"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri screensaver_settings_summary_never | sed 's/ msgid="[[:digit:]]*"//' | sed 's/screensaver_settings_summary_never/never/' | aosp_helper -->
+    <string name="never">"Never"</string>
+    <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -ri system_hdcp_checking_always | sed 's/ msgid="[[:digit:]]*"//' | sed 's/system_hdcp_checking_always/always/' | aosp_helper -->
+    <string name="always">"Always"</string>
 </resources>

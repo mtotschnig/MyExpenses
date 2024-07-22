@@ -259,7 +259,6 @@
     <string name="pref_shortcut_added">Prečac je dodan na početni ekran</string>
     <string name="pref_shortcut_not_added">Nema početnog ekrana koji prihvaća prečace.</string>
     <string name="pref_shortcut_summary">Dodaj prečac na početnom ekranu.</string>
-    <string name="pref_ui_fontsize_title">Veličina fonta</string>
     <string name="pref_ui_home_screen_shortcuts">Prečaci na početnom ekranu</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Jezik</string>
@@ -447,8 +446,6 @@
     <string name="sync_auth_exception">Neuspjela autorizacija.</string>
     <string name="sync_login_again">Prijavi se ponovo.</string>
     <string name="auto_fill_account_from_aggregate_only">Samo kad se počne iz kumuliranog računa.</string>
-    <string name="always">uvijek</string>
-    <string name="never">nikada</string>
     <string name="donate_button_invoice">Račun</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Dohvaćanje podataka s udaljenog pozadinskog sustava. To može potrajati.</string>
     <string name="extend_validity">Produlji valjanost</string>
@@ -761,7 +758,6 @@
     <string name="dialog_title_edit_budget">Uredi proračun</string>
     <string name="menu_budget">Izrada proračuna</string>
     <string name="professional_key_fallback_info">Pretplata na profesionalni ključ koji je aktivan najmanje godinu dana i koji nije obnovljen, automatski će se pretvoriti u neograničeni prošireni ključ.</string>
-    <string name="pref_scroll_to_current_date_summary">Nakon pokretanja programa pomakni popis transakcija na trenutačni datum</string>
     <string name="clear_all_filters">Isprazni sve filtre</string>
     <string name="credit_limit">Kreditno ograničenje</string>
     <string name="saving_goal">Cilj štednje</string>

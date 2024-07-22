@@ -157,7 +157,6 @@
     <string name="pref_restore_title">Restaurar</string>
     <string name="pref_security_question_title">Pregunta de seguridade</string>
     <string name="pref_send_feedback_title">Enviar comentarios (feedback)</string>
-    <string name="pref_ui_fontsize_title">Tamaño da fonte</string>
     <string name="pref_ui_home_screen_shortcuts">Atallos da pantalla de inicio</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>

@@ -247,7 +247,6 @@
     <string name="pref_shortcut_added">میانبر به صفحهٔ اصلی اضافه شد</string>
     <string name="pref_shortcut_not_added">صفحه اصلی شما از میانبر پشتیبانی نمی‌کند</string>
     <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
-    <string name="pref_ui_fontsize_title">اندازهٔ فونت</string>
     <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">زبان</string>
@@ -399,8 +398,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">تا %1$s تمدید کنید برای %2$s</string>
     <string name="donate_button_invoice">فاکتور</string>
-    <string name="never">هرگز</string>
-    <string name="always">هميشه </string>
     <string name="auto_fill_account_from_aggregate_only">فقط وقتی از حساب جمع شروع می شود.</string>
     <string name="sync_auth_exception">مجوز ناموفق بود.</string>
     <string name="sync_login_again"> لطفا دوباره وارد شوید.</string>
@@ -648,7 +645,6 @@
     <string name="menu_ungroup_split_transaction">تجزیه کردن</string>
     <string name="split_transaction_one_success">تراکنش با موفقیت به چندبخشی تبدیل شد.</string>
     <string name="split_transaction_not_possible">تنها تراکنش‌هایی که حساب، دریافت‌کننده و وضعیت یکسانی دارند را می توان در یک تراکنش چندبخشی گروه‌بندی کرد.</string>
-    <string name="pref_scroll_to_current_date_summary">پس از اجرای برنامه، لیست تراکنش به تاریخ فعلی پیمایش شود</string>
     <string name="budget_table_header_allocated">اختصاص داده شده</string>
     <string name="budget_allocated_amount">مبلغ اختصاص داده شده</string>
     <string name="plan_custom_recurrence_info">لطفاً ابتدا قالب را ذخیره کنید. سپس برنامه در برنامهٔ تقویم باز خواهد شد و می‌توانید یک تکرارشوندهٔ سفارشی بسازید.</string>

@@ -35,4 +35,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"Veličina fonta"</string>
     <string name="system_default">"Podrazumevani sistemski"</string>
+    <string name="never">"Nikada"</string>
+    <string name="always">"Uvek"</string>
 </resources>

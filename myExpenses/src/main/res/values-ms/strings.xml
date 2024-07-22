@@ -288,7 +288,6 @@
     <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
     <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
     <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
-    <string name="pref_ui_fontsize_title">Tingkatkan saiz fon</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Bahasa</string>
@@ -578,8 +577,6 @@
     <string name="extend_validity">Lanjutkan pengesahan</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Mendapatkan data dari bahagian belakang jauh. Ia mengambil sedikit masa.</string>
     <string name="donate_button_invoice">Invois</string>
-    <string name="never">tidak sesekali</string>
-    <string name="always">sentiasa</string>
     <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>
     <string name="sync_auth_exception">Pengesahihan gagal.</string>
     <string name="sync_login_again">Sila daftar masuk sekali lagi.</string>
@@ -640,7 +637,6 @@
     <string name="saving_goal">Matlamat simpanan</string>
     <string name="credit_limit">Had kredit</string>
     <string name="clear_all_filters">Kosongkan semua penapis</string>
-    <string name="pref_scroll_to_current_date_summary">Ketika apl mula, tatal senarai transaksi dengan tarikh semasa</string>
     <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
     <string name="menu_budget">Pembelanjawan</string>
     <string name="dialog_title_edit_budget">Sunting bajet</string>

@@ -269,7 +269,6 @@
     <string name="pref_shortcut_added">홈 스크린에 바로가기가 추가되었습니다.</string>
     <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
-    <string name="pref_ui_fontsize_title">글자 크기 증가</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">언어</string>

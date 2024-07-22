@@ -51,4 +51,6 @@
     <string name="landscape">"Rõhtpaigutus"</string>
     <string name="title_font_size">"Fondi suurus"</string>
     <string name="system_default">"Süsteemi vaikeseade"</string>
+    <string name="never">"Mitte kunagi"</string>
+    <string name="always">"Alati"</string>
 </resources>

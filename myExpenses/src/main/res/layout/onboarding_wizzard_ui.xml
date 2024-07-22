@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@id/font_size"
-        android:text="@string/pref_ui_fontsize_title" />
+        android:text="@string/title_font_size" />
 
     <SeekBar
         android:id="@+id/font_size"

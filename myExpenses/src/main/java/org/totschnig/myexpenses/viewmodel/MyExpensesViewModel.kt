@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
@@ -148,6 +149,8 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.util.Locale
+
+enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
 open class MyExpensesViewModel(
     application: Application,
@@ -229,6 +232,13 @@ open class MyExpensesViewModel(
     @OptIn(SavedStateHandleSaveableApi::class)
     var selectedAccountId by savedStateHandle.saveable {
         mutableLongStateOf(0L)
+    }
+
+    fun selectAccount(accountId: Long) {
+        selectedAccountId = accountId
+        if (scrollToCurrentDatePreference == ScrollToCurrentDate.AccountOpen) {
+            scrollToCurrentDate.getValue(accountId).value = true
+        }
     }
 
     @OptIn(SavedStateHandleSaveableApi::class)
@@ -347,7 +357,7 @@ open class MyExpensesViewModel(
 
     protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
         contentResolver.tagMapFlow
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
     }
 
     open fun buildTransactionPagingSource(account: PageAccount) =
@@ -373,10 +383,14 @@ open class MyExpensesViewModel(
 
     val scrollToCurrentDate: Map<Long, MutableState<Boolean>> =
         lazyMap {
-            mutableStateOf(
-                prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)
-            )
+            mutableStateOf(scrollToCurrentDatePreference != ScrollToCurrentDate.Never)
         }
+
+    val scrollToCurrentDatePreference
+        get() = prefHandler.enumValueOrDefault(
+            PrefKey.SCROLL_TO_CURRENT_DATE,
+            ScrollToCurrentDate.Never
+        )
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()
@@ -496,18 +510,20 @@ open class MyExpensesViewModel(
         })
     }
 
-    fun transformToTransfer(transactionId: Long, transferAccount: Long) = liveData(context = coroutineContext()) {
-        emit(runCatching {
-            check(
-                contentResolver.insert(
-                    ContentUris.appendId(
-                        ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId)
-                            .appendPath(URI_SEGMENT_TRANSFORM_TO_TRANSFER), transferAccount)
-                        .build(), null
-                ) != null
-            )
-        })
-    }
+    fun transformToTransfer(transactionId: Long, transferAccount: Long) =
+        liveData(context = coroutineContext()) {
+            emit(runCatching {
+                check(
+                    contentResolver.insert(
+                        ContentUris.appendId(
+                            ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId)
+                                .appendPath(URI_SEGMENT_TRANSFORM_TO_TRANSFER), transferAccount
+                        )
+                            .build(), null
+                    ) != null
+                )
+            })
+        }
 
     fun deleteAccounts(accountIds: LongArray): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
@@ -634,7 +650,7 @@ open class MyExpensesViewModel(
                     newUpdate.withSelection(selection, null)
                 } else {
                     var selection = "$KEY_ROWID = ?"
-                    val updateTransferPeer = column == KEY_CATID  || column == KEY_DATE
+                    val updateTransferPeer = column == KEY_CATID || column == KEY_DATE
                     if (updateTransferPeer) {
                         selection += " OR $KEY_TRANSFER_PEER = ?"
                     }

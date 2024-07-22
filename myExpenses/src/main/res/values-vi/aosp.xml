@@ -113,4 +113,6 @@
     <string name="landscape">"Nằm ngang"</string>
     <string name="title_font_size">"Kích thước phông chữ"</string>
     <string name="system_default">"Theo chế độ mặc định của hệ thống"</string>
+    <string name="never">"Không bao giờ"</string>
+    <string name="always">"Luôn luôn"</string>
 </resources>

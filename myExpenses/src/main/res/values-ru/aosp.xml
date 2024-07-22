@@ -119,4 +119,6 @@
     <string name="landscape">"Альбомная"</string>
     <string name="title_font_size">"Размер шрифта"</string>
     <string name="system_default">"Системные настройки по умолчанию"</string>
+    <string name="never">"Никогда"</string>
+    <string name="always">"Всегда"</string>
 </resources>

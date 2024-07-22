@@ -40,4 +40,6 @@
     <string name="landscape">"ແນວນອນ"</string>
     <string name="title_font_size">"ຂະໜາດຕົວອັກສອນ"</string>
     <string name="system_default">"ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ"</string>
+    <string name="never">"ບໍ່ມີກຳນົດ"</string>
+    <string name="always">"​ທຸກ​ເທື່ອ"</string>
 </resources>

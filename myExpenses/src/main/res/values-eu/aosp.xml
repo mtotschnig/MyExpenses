@@ -115,4 +115,6 @@
     <string name="landscape">"Horizontala"</string>
     <string name="title_font_size">"Letra-tamaina"</string>
     <string name="system_default">"Sistemaren balio lehenetsia"</string>
+    <string name="never">"Inoiz ez"</string>
+    <string name="always">"Beti"</string>
 </resources>

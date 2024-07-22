@@ -48,4 +48,6 @@
     <string name="landscape">"Landskap"</string>
     <string name="title_font_size">"Lettertipegrootte"</string>
     <string name="system_default">"Stelselverstek"</string>
+    <string name="never">"Nooit"</string>
+    <string name="always">"Altyd"</string>
 </resources>

@@ -48,4 +48,6 @@
     <string name="landscape">"Lárétt"</string>
     <string name="title_font_size">"Leturstærð"</string>
     <string name="system_default">"Sjálfgildi kerfis"</string>
+    <string name="never">"Aldrei"</string>
+    <string name="always">"Alltaf"</string>
 </resources>

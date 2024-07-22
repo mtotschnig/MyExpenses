@@ -120,4 +120,6 @@
     <string name="landscape">"Orientacja pozioma"</string>
     <string name="title_font_size">"Rozmiar czcionki"</string>
     <string name="system_default">"Ustawienie domyślne systemu"</string>
+    <string name="never">"Nigdy"</string>
+    <string name="always">"Zawsze"</string>
 </resources>

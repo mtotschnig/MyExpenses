@@ -93,4 +93,6 @@
     <string name="privacy_header">"رازداری"</string>
     <string name="title_font_size">"فونٹ سائز"</string>
     <string name="system_default">"سسٹم ڈیفالٹ"</string>
+    <string name="never">"کبھی نہیں"</string>
+    <string name="always">"ہمیشہ"</string>
 </resources>

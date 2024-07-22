@@ -296,7 +296,6 @@
     <string name="pref_shortcut_added">נוסף קיצור דרך למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
-    <string name="pref_ui_fontsize_title">גוגל גופן</string>
     <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">שפה</string>
@@ -597,8 +596,6 @@
     <string name="extend_validity">הארכת תוקף</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
     <string name="donate_button_invoice">חשבונית</string>
-    <string name="never">לעולם לא</string>
-    <string name="always">תמיד</string>
     <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>
     <string name="sync_auth_exception">ההרשאה נכשלה.</string>
     <string name="sync_login_again">היכנס שוב.</string>
@@ -661,7 +658,6 @@
     <string name="saving_goal">מטרת חיסכון</string>
     <string name="credit_limit">מסגרת אשראי</string>
     <string name="clear_all_filters">בטל את כל המסננים</string>
-    <string name="pref_scroll_to_current_date_summary">בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי</string>
     <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
     <string name="menu_budget">תקצוב</string>
     <string name="dialog_title_edit_budget">ערוך תקציב</string>

@@ -114,4 +114,6 @@
     <string name="landscape">"Liggend"</string>
     <string name="title_font_size">"Lettergrootte"</string>
     <string name="system_default">"Systeemstandaard"</string>
+    <string name="never">"Nooit"</string>
+    <string name="always">"Altijd"</string>
 </resources>

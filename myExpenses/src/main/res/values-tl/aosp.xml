@@ -32,4 +32,6 @@
     <string name="privacy_header">"Privacy"</string>
     <string name="title_font_size">"Laki ng font"</string>
     <string name="system_default">"Default ng system"</string>
+    <string name="never">"Hindi kailanman"</string>
+    <string name="always">"Palagi"</string>
 </resources>

@@ -276,7 +276,6 @@
     <string name="pref_shortcut_added">O atalho foi adicionado à tela inicial</string>
     <string name="pref_shortcut_not_added">Não existe nenhuma tela disponível que aceite atalhos.</string>
     <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
-    <string name="pref_ui_fontsize_title">Tamanho da fonte</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
@@ -702,7 +701,6 @@
     <string name="dialog_title_edit_budget">Editar o orçamento</string>
     <string name="menu_budget">Orçamento</string>
     <string name="professional_key_fallback_info">Uma assinatura da Chave Profissional que esteve ativa por pelo menos um ano e não foi renovada será automaticamente transformada em uma Chave Estendida ilimitada.</string>
-    <string name="pref_scroll_to_current_date_summary">Ao iniciar o aplicativo, role a lista de transações até a data atual</string>
     <string name="clear_all_filters">Limpar todos os filtros</string>
     <string name="credit_limit">Limite de crédito</string>
     <string name="saving_goal">Meta de poupança</string>
@@ -755,8 +753,6 @@
     <string name="sync_auth_exception">Falha na autorização.</string>
     <string name="sync_login_again">Por favor, autentique-se novamente.</string>
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
-    <string name="always">sempre</string>
-    <string name="never">nunca</string>
     <string name="donate_button_invoice">Fatura</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do destino remoto. Isso pode demorar algum tempo.</string>
     <string name="extend_validity">Estender a validade</string>

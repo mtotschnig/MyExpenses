@@ -298,7 +298,6 @@
     <string name="pref_shortcut_added">Ярлык добавлен на домашний экран</string>
     <string name="pref_shortcut_not_added">Нет домашнего экрана, который принимает ярлыки.</string>
     <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
-    <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлыки домашнего экрана</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Язык</string>
@@ -602,8 +601,6 @@
     <string name="extend_validity">Продлить действительность</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Получение данных с удаленного сервера. Это может занять некоторое время.</string>
     <string name="donate_button_invoice">Счёт-фактура</string>
-    <string name="never">Никогда</string>
-    <string name="always">Всегда</string>
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>
     <string name="sync_auth_exception">Авторизация провалена.</string>
     <string name="sync_login_again">Пожалуйста, представьтесь повторно.</string>
@@ -667,7 +664,6 @@
     <string name="saving_goal">Сохранение цели</string>
     <string name="credit_limit">Кредитный лимит</string>
     <string name="clear_all_filters">Очистите все фильтры</string>
-    <string name="pref_scroll_to_current_date_summary">После запуска приложения прокручивать список операций до текущей даты</string>
     <string name="professional_key_fallback_info">Подписка на Профессиональный ключ, действующая не менее одного года и которая не продлена, будет автоматически преобразована в неограниченный продленный ключ.</string>
     <string name="menu_budget">Бюджетирование</string>
     <string name="dialog_title_edit_budget">Изменить бюджет</string>

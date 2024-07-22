@@ -120,4 +120,6 @@
     <string name="landscape">"Na šířku"</string>
     <string name="title_font_size">"Velikost písma"</string>
     <string name="system_default">"Výchozí nastavení systému"</string>
+    <string name="never">"Nikdy"</string>
+    <string name="always">"Vždy"</string>
 </resources>

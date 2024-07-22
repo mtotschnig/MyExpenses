@@ -293,7 +293,6 @@
     <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
     <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
     <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
-    <string name="pref_ui_fontsize_title">Wielkość kroju pisma</string>
     <string name="pref_ui_home_screen_shortcuts">Skróty</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Język</string>
@@ -592,8 +591,6 @@
     <string name="extend_validity">Przedłuż ważność</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="never">nigdy</string>
-    <string name="always">zawsze</string>
     <string name="sync_auth_exception">Autoryzacja się nie powiodła.</string>
     <string name="sync_login_again">Zaloguj się proszę ponowie.</string>
     <plurals name="delete_success">
@@ -649,7 +646,6 @@
     <string name="saving_goal">Cel oszczędzania</string>
     <string name="credit_limit">Limit kredytu</string>
     <string name="clear_all_filters">Wyczyść wszystkie filtry</string>
-    <string name="pref_scroll_to_current_date_summary">Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty</string>
     <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>
     <string name="menu_budget">Przydzielanie budżetu</string>
     <string name="dialog_title_edit_budget">Edycja budżetu</string>

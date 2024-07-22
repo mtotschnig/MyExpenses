@@ -118,4 +118,6 @@
     <string name="landscape">"Paysage"</string>
     <string name="title_font_size">"Taille de la police"</string>
     <string name="system_default">"Paramètre système par défaut"</string>
+    <string name="never">"Jamais"</string>
+    <string name="always">"Toujours"</string>
 </resources>

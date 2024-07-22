@@ -96,4 +96,6 @@
     <string name="privacy_header">"私隱"</string>
     <string name="title_font_size">"字型大小"</string>
     <string name="system_default">"系統預設"</string>
+    <string name="never">"永不"</string>
+    <string name="always">"一律檢查"</string>
 </resources>

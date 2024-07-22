@@ -50,4 +50,6 @@
     <string name="landscape">"Na šírku"</string>
     <string name="title_font_size">"Veľkosť písma"</string>
     <string name="system_default">"Predvolené systémom"</string>
+    <string name="never">"Nikdy"</string>
+    <string name="always">"Vždy"</string>
 </resources>

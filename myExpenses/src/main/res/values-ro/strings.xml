@@ -278,7 +278,6 @@
     <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
     <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
     <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
-    <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
     <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Limba</string>

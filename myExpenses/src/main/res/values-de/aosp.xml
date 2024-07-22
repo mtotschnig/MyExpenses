@@ -117,4 +117,6 @@
     <string name="landscape">"Querformat"</string>
     <string name="title_font_size">"Schriftgröße"</string>
     <string name="system_default">"Standardeinstellung des Systems"</string>
+    <string name="never">"Nie"</string>
+    <string name="always">"Immer"</string>
 </resources>

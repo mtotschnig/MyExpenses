@@ -96,4 +96,6 @@
     <string name="privacy_header">"Privasi"</string>
     <string name="title_font_size">"Saiz fon"</string>
     <string name="system_default">"Lalai sistem"</string>
+    <string name="never">"Jangan sekali-kali"</string>
+    <string name="always">"Sentiasa"</string>
 </resources>

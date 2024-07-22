@@ -31,13 +31,11 @@
     <string name="bug_fixes">Perbaikan bug</string>
     <string name="ui_refinement">Perbaikan tampilan antar muka</string>
     <string name="backup_save_to_sync_backend">Simpan ke %s</string>
-    <string name="never">tidak pernah</string>
     <string name="menu_history_show_balance">Tampilkan saldo</string>
     <string name="menu_history_totals">Tampilkan total</string>
     <string name="history_chart_in_label">Pendapatan</string>
     <string name="history_chart_out_label">Pengeluaran</string>
     <string name="menu_history">Riwayat</string>
-    <string name="always">selalu</string>
     <string name="extend_until">Perpanjang hingga %1$s untuk %2$s</string>
     <string name="valid_until">Sampai %s</string>
     <string name="licence_key">Kunci Lisensi</string>

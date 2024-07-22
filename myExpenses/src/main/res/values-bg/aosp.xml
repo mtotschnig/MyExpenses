@@ -119,4 +119,6 @@
     <string name="landscape">"Пейзаж"</string>
     <string name="title_font_size">"Размер на шрифта"</string>
     <string name="system_default">"Стандартно за системата"</string>
+    <string name="never">"Никога"</string>
+    <string name="always">"Винаги"</string>
 </resources>

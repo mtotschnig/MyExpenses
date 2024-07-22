@@ -36,4 +36,6 @@
     <string name="landscape">"Пејзаж"</string>
     <string name="title_font_size">"Големина на фонт"</string>
     <string name="system_default">"Стандардно за системот"</string>
+    <string name="never">"Никогаш"</string>
+    <string name="always">"Секогаш"</string>
 </resources>

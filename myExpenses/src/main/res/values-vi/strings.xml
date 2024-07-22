@@ -284,7 +284,6 @@
     <string name="pref_shortcut_added">Phím tắt đã được thêm vào màn hình chính</string>
     <string name="pref_shortcut_not_added">Không có màn hình chính nào có sẵn mà chấp nhận phím tắt.</string>
     <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
-    <string name="pref_ui_fontsize_title">Cỡ phông</string>
     <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Ngôn ngữ</string>
@@ -569,8 +568,6 @@
     <string name="extend_validity">Gia hạn tính hợp lệ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
     <string name="donate_button_invoice">Hoá đơn</string>
-    <string name="never">không bao giờ</string>
-    <string name="always">luôn luôn</string>
     <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>
     <string name="sync_auth_exception">Không thể uỷ quyền.</string>
     <string name="sync_login_again">Vui lòng đăng nhập lại.</string>

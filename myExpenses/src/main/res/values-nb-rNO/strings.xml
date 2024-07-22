@@ -155,7 +155,6 @@
     <string name="pref_ui_theme_light">Lys</string>
     <string name="pref_ui_theme_dark">Mørk</string>
     <string name="pref_ui_language_title">Språk</string>
-    <string name="pref_ui_fontsize_title">Skriftstørrelse</string>
     <string name="pref_send_feedback_title">Send tilbakemelding</string>
     <string name="pref_security_question_title">Sikkerhetsspørsmål</string>
     <string name="pref_restore_title">Gjenopprett</string>

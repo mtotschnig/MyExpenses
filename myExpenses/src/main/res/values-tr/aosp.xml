@@ -116,4 +116,6 @@
     <string name="landscape">"Yatay"</string>
     <string name="title_font_size">"Yazı tipi boyutu"</string>
     <string name="system_default">"Sistem varsayılanı"</string>
+    <string name="never">"Hiçbir zaman"</string>
+    <string name="always">"Her zaman"</string>
 </resources>

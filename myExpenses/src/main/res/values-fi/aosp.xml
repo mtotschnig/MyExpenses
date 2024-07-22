@@ -50,4 +50,6 @@
     <string name="landscape">"Vaaka"</string>
     <string name="title_font_size">"Fontin koko"</string>
     <string name="system_default">"Järjestelmän oletusarvo"</string>
+    <string name="never">"Ei koskaan"</string>
+    <string name="always">"Aina"</string>
 </resources>

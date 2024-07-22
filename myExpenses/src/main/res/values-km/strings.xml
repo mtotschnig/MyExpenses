@@ -238,7 +238,6 @@
     <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
     <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
     <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
-    <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
     <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">ភាសា</string>

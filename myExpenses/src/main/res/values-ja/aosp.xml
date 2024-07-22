@@ -115,4 +115,6 @@
     <string name="landscape">"横書き"</string>
     <string name="title_font_size">"フォントサイズ"</string>
     <string name="system_default">"システムのデフォルト"</string>
+    <string name="never">"なし"</string>
+    <string name="always">"常に使用する"</string>
 </resources>

@@ -34,4 +34,6 @@
     <string name="privacy_header">"Məxfilik"</string>
     <string name="title_font_size">"Şrift ölçüsü"</string>
     <string name="system_default">"Sistem defoltu"</string>
+    <string name="never">"Heç vaxt"</string>
+    <string name="always">"Həmişə"</string>
 </resources>

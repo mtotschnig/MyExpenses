@@ -110,4 +110,6 @@
     <string name="landscape">"Položeno"</string>
     <string name="title_font_size">"Veličina fonta"</string>
     <string name="system_default">"Zadane postavke sustava"</string>
+    <string name="never">"Nikada"</string>
+    <string name="always">"Uvijek"</string>
 </resources>

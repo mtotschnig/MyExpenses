@@ -293,7 +293,6 @@
     <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
     <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
     <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
-    <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
     <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Dil</string>
@@ -590,8 +589,6 @@
     <string name="extend_validity">Geçerliliği uzat</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
     <string name="donate_button_invoice">Fatura</string>
-    <string name="never">asla</string>
-    <string name="always">daima</string>
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
     <string name="sync_auth_exception">İzin verme başarısız oldu.</string>
     <string name="sync_login_again">Lütfen tekrar giriş yapın.</string>
@@ -653,7 +650,6 @@
     <string name="saving_goal">Tasarruf hedefi </string>
     <string name="credit_limit">Kredi limiti</string>
     <string name="clear_all_filters">Tüm filtreleri temizle</string>
-    <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
     <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
     <string name="menu_budget">Bütçeleme</string>
     <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>

@@ -262,7 +262,6 @@
     <string name="pref_shortcut_added">Genvej blev føjet til Startskærm</string>
     <string name="pref_shortcut_not_added">Ingen tilgængelig Startskærm, der accepterer genveje.</string>
     <string name="pref_shortcut_summary">Føj genvej til Startskærm.</string>
-    <string name="pref_ui_fontsize_title">Skriftstørrelse</string>
     <string name="pref_ui_home_screen_shortcuts">Genveje til Startskærm</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Sprog</string>
@@ -541,7 +540,6 @@
     <string name="warning_cannot_move_split_transaction">Denne opdelte transaktion kan ikke flyttes til kontoen %1$s, fordi der er overførselsdele, der henviser til denne konto.</string>
     <string name="dialog_sync_link">En konto med UUID\'en %s findes både i den lokale database og på den eksterne backend. Når du forbinder begge, skal du beslutte, om du først vil uploade lokale data til den eksterne backend eller hente fjerndata til den lokale database.</string>
     <string name="auto_fill_account_from_aggregate_only">Kun ved start fra en samlet konto.</string>
-    <string name="always">altid</string>
     <string name="sync_io_exception_syncing">Fejl under synkronisering af ændringer med serveren.</string>
     <string name="synchronization_end_success_none">Ingen ændringer at synkronisere.</string>
     <string name="gdpr_consent_button_no">Betal for den reklamefri version</string>
@@ -573,7 +571,6 @@
     <string name="onboarding_get_started">Kom i gang</string>
     <string name="licence_validation_error_expired">Licens er udløbet</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Henter data fra ekstern backend. Dette kan tage noget tid.</string>
-    <string name="never">aldrig</string>
     <string name="sync_auth_exception">Godkendelse mislykkedes.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Sikker enhedslåseskærm er ikke indstillet.</string>
     <string name="menu_history_totals">Vis totaler</string>
@@ -632,7 +629,6 @@
     <string name="wifi_not_connected">Enheden er ikke forbundet til Wi-Fi. Synkronisering er udskudt.</string>
     <string name="content_description_collapse">Minimér</string>
     <string name="saving_goal">Sparemål</string>
-    <string name="pref_scroll_to_current_date_summary">Ved opstart af appen skal transaktionslisten rulles til den aktuelle dato</string>
     <string name="budget_table_header_allocated">Tildelt</string>
     <string name="budget_exceeded_error_1_1">Alle undtagen %s af dit budget er blevet tildelt andre kategorier.</string>
     <string name="budget_exceeded_error_1_2">Hele dit budget er blevet tildelt andre kategorier.</string>

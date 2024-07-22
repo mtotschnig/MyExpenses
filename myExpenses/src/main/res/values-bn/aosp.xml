@@ -38,4 +38,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"ফন্ট সাইজ"</string>
     <string name="system_default">"সিস্টেম ডিফল্ট"</string>
+    <string name="never">"কখনই নয়"</string>
+    <string name="always">"সবসময়"</string>
 </resources>

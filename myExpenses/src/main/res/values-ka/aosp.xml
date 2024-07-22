@@ -43,4 +43,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"შრიფტის ზომა"</string>
     <string name="system_default">"სისტემის ნაგულისხმევი"</string>
+    <string name="never">"არასოდეს"</string>
+    <string name="always">"ყოველთვის"</string>
 </resources>

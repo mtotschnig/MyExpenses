@@ -79,6 +79,13 @@ class UpgradeHandlerViewModel(application: Application) :
         fromVersion: Int,
         toVersion: Int
     ) {
+        //first check changes that need to run synchronously because they are needed when data is loaded and rendered
+        if (fromVersion < 749) {
+            prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
+                if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false))
+                    ScrollToCurrentDate.AppLaunch.name else ScrollToCurrentDate.Never.name
+            )
+        }
         viewModelScope.launch(context = coroutineContext()) {
             try {
                 if (fromVersion < 19) {
@@ -544,7 +551,6 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
                     }
                 }
-
             } catch (e: Exception) {
                 throw Exception("upgrade from $fromVersion to $toVersion failed", e)
             }

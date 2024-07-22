@@ -38,4 +38,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"Madhësia e shkrimit"</string>
     <string name="system_default">"Parazgjedhja e sistemit"</string>
+    <string name="never">"Asnjëherë"</string>
+    <string name="always">"Gjithmonë"</string>
 </resources>

@@ -51,4 +51,6 @@
     <string name="landscape">"Liggande"</string>
     <string name="title_font_size">"Teckenstorlek"</string>
     <string name="system_default">"Systemets standardinställning"</string>
+    <string name="never">"Aldrig"</string>
+    <string name="always">"Alltid"</string>
 </resources>

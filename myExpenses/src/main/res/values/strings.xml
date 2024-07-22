@@ -303,7 +303,6 @@
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
-    <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Language</string>
@@ -604,8 +603,6 @@
     <string name="extend_validity">Extend validity</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
     <string name="donate_button_invoice">Invoice</string>
-    <string name="never">never</string>
-    <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
     <string name="sync_auth_exception">Authorization failed.</string>
     <string name="sync_login_again">Please log in again.</string>
@@ -667,7 +664,9 @@
     <string name="saving_goal">Saving goal</string>
     <string name="credit_limit">Credit limit</string>
     <string name="clear_all_filters">Clear all filters</string>
-    <string name="pref_scroll_to_current_date_summary">Upon app start, scroll transaction list to current date</string>
+    <string name="pref_scroll_to_current_date_title">Scroll transaction list to current date</string>
+    <string name="pref_scroll_to_current_date_app_launch">only when app launches</string>
+    <string name="pref_scroll_to_current_date_account_open">every time account is opened</string>
     <string name="professional_key_fallback_info">A subscription to the Professional Key that has been active for at least one year and is not renewed, will be automatically transformed into an unlimited Extended Key.</string>
     <string name="menu_budget">Budgeting</string>
     <string name="dialog_title_edit_budget">Edit budget</string>

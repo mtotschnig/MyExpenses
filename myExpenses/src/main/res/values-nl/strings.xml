@@ -306,7 +306,6 @@
     <string name="pref_shortcut_added">Snelkoppeling is toegevoegd aan het startscherm</string>
     <string name="pref_shortcut_not_added">Geen startscherm beschikbaar dat snelkoppelingen accepteert.</string>
     <string name="pref_shortcut_summary">Voeg de snelkoppeling toe aan het startscherm.</string>
-    <string name="pref_ui_fontsize_title">Tekstgrootte</string>
     <string name="time">Tijd</string>
     <string name="title">Titel</string>
     <string name="warning_delete_reconciled">Als je afgestemde transacties verwijdert, wijkt je administratie af van het bankafschrift.</string>
@@ -474,7 +473,6 @@
     <string name="content_description_collapse">Inklappen</string>
     <string name="goal_or_limit">Doel/ Limiet</string>
     <string name="saving_goal">Doel opslaan</string>
-    <string name="pref_scroll_to_current_date_summary">Blader bij het starten van de app met de transactielijst naar de huidige datum</string>
     <string name="dialog_title_edit_budget">Budget bewerken</string>
     <string name="budget_table_header_budgeted">Begroot</string>
     <string name="budget_table_header_spent">Besteed</string>
@@ -754,8 +752,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Overstappen naar een maandabonnement</string>
     <string name="extend_validity">Geldigheid verlengen</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Gegevens ophalen uit een externe backend. Dit kan enige tijd duren.</string>
-    <string name="never">nooit</string>
-    <string name="always">altijd</string>
     <string name="home_currency_change_warning">Als je uw thuis valuta wijzigt, gaan equivalente bedragen en wisselkoersen verloren en moeten deze opnieuw worden gedefinieerd.</string>
     <string name="pref_transaction_time_summary">Toestaan om de exacte transactietijd in te stellen.</string>
     <string name="pref_value_date_summary">Toestaan om valutadatum in te stellen naast de boekingsdatum. De transactietijd wordt verborgen. Deze instelling wordt niet toegepast op geldrekeningen.</string>

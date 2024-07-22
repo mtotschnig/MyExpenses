@@ -288,7 +288,6 @@
     <string name="pref_shortcut_added">Ярлик було додано до Головного Екрана</string>
     <string name="pref_shortcut_not_added">Немає Головного Екрану, який би підтримув ярлики.</string>
     <string name="pref_shortcut_summary">Додайте ярлик до Головного Екрана.</string>
-    <string name="pref_ui_fontsize_title">Розмір шрифту</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлики на Головному Екрані</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Мова</string>
@@ -587,8 +586,6 @@
     <string name="extend_validity">Подовжити термін дії</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Отримання даних з віддаленого сервера. Це може зайняти деякий час.</string>
     <string name="donate_button_invoice">Рахунок (інвойс)</string>
-    <string name="never">ніколи</string>
-    <string name="always">завжди</string>
     <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>
     <string name="sync_auth_exception">Помилка авторизації.</string>
     <string name="sync_login_again">Спробуйте знову.</string>
@@ -651,7 +648,6 @@
     <string name="saving_goal">Ціль заощадження</string>
     <string name="credit_limit">Кредитний ліміт</string>
     <string name="clear_all_filters">Очистити всі фільтри</string>
-    <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список транзакцій до поточної дати</string>
     <string name="professional_key_fallback_info">Підписку на Професійну версію, яка була активною протягом принаймні одного року та не була поновлена, буде автоматично перетворено в необмежену Розширену версію.</string>
     <string name="menu_budget">Бюджетування</string>
     <string name="dialog_title_edit_budget">Редагувати бюджет</string>

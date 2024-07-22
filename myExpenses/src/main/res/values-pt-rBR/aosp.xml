@@ -111,4 +111,6 @@
     <string name="landscape">"Paisagem"</string>
     <string name="title_font_size">"Tamanho da fonte"</string>
     <string name="system_default">"Padrão do sistema"</string>
+    <string name="never">"Nunca"</string>
+    <string name="always">"Sempre"</string>
 </resources>

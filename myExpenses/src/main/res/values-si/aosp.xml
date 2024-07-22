@@ -103,4 +103,6 @@
     <string name="landscape">"තිරස්"</string>
     <string name="title_font_size">"අකුරු ප්‍රමාණය"</string>
     <string name="system_default">"පද්ධති පෙරනිමිය"</string>
+    <string name="never">"කවදාවත් නෑ"</string>
+    <string name="always">"සැමවිටම"</string>
 </resources>

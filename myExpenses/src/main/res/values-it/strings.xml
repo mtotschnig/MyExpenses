@@ -297,7 +297,6 @@
     <string name="pref_shortcut_added">Il collegamento è stato aggiunto alla schermata principale</string>
     <string name="pref_shortcut_not_added">Non è disponibile nessuna schermata principale che accetti collegamenti.</string>
     <string name="pref_shortcut_summary">Aggiungi il collegamento alla schermata principale.</string>
-    <string name="pref_ui_fontsize_title">Aumenta le dimensioni del carattere</string>
     <string name="pref_ui_home_screen_shortcuts">Collegamenti sulla schermata principale</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Lingua</string>
@@ -595,8 +594,6 @@
     <string name="extend_validity">Estendere la validità</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Recupero dei dati dal back-end remoto. Questo potrebbe richiedere del tempo.</string>
     <string name="donate_button_invoice">Fattura</string>
-    <string name="never">mai</string>
-    <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Solo se avviato da un conto aggregato.</string>
     <string name="sync_auth_exception">Autorizzazione fallita.</string>
     <string name="sync_login_again">Per favore esegui nuovamente l\'accesso.</string>
@@ -658,7 +655,6 @@
     <string name="saving_goal">Obiettivo risparmio</string>
     <string name="credit_limit">Limite di credito</string>
     <string name="clear_all_filters">Cancella tutti i filtri</string>
-    <string name="pref_scroll_to_current_date_summary">All\'avvio dell\'app, scorrere l\'elenco delle transazioni sulla data corrente</string>
     <string name="professional_key_fallback_info">Una sottoscrizione alla Licenza Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Licenza Funzionalità Estese illimitata.</string>
     <string name="menu_budget">Bilancio</string>
     <string name="dialog_title_edit_budget">Modifica il budget</string>

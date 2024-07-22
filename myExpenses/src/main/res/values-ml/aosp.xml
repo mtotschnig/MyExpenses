@@ -39,4 +39,6 @@
     <string name="landscape">"ലാന്ഡ്സ്കേപ്"</string>
     <string name="title_font_size">"ഫോണ്ട് വലുപ്പം"</string>
     <string name="system_default">"സിസ്‌റ്റം ഡിഫോൾട്ട്"</string>
+    <string name="never">"ഒരിക്കലും വേണ്ട"</string>
+    <string name="always">"എല്ലായ്പ്പോഴും"</string>
 </resources>

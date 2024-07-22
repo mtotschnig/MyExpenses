@@ -208,7 +208,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     var selectedAccountId: Long
         get() = viewModel.selectedAccountId
         set(value) {
-            viewModel.selectedAccountId = value
+            viewModel.selectAccount(value)
         }
 
     private val accountForNewTransaction: FullAccount?
@@ -500,6 +500,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         setupToolbar(false)
         toolbar.isVisible = false
         if (savedInstanceState == null) {
+            newVersionCheck()
+            //voteReminderCheck();
             selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         }
 

@@ -226,7 +226,6 @@
     <string name="pref_shortcut_added">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන ලදී </string>
     <string name="pref_shortcut_not_added">කෙටිමාර්ග භාවිතා කළහැකි  ප්‍රධාන තිර නොමැත </string>
     <string name="pref_shortcut_summary">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන්න </string>
-    <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
     <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">භාෂාව</string>

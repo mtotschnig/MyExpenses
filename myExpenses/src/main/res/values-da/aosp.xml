@@ -118,4 +118,6 @@
     <string name="landscape">"Liggende"</string>
     <string name="title_font_size">"Skriftstørrelse"</string>
     <string name="system_default">"Systemstandard"</string>
+    <string name="never">"Aldrig"</string>
+    <string name="always">"Altid"</string>
 </resources>

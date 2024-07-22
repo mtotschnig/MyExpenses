@@ -291,7 +291,6 @@
     <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
     <string name="pref_shortcut_not_added">Δεν υπάρχει διαθέσιμη αρχική οθόνη που να δέχεται συντομεύσεις.</string>
     <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη.</string>
-    <string name="pref_ui_fontsize_title">Αύξηση μεγέθους γραμματοσειράς</string>
     <string name="pref_ui_home_screen_shortcuts">Συντομεύσεις αρχικής οθόνης</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Γλώσσα</string>
@@ -570,8 +569,6 @@
     <string name="extend_validity">Επέκταση ισχύος</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Λήψη δεδομένων από απομακρυσμένο σύστημα υποστήριξης. Αυτό μπορεί να διαρκέσει λίγο.</string>
     <string name="donate_button_invoice">Τιμολόγιο</string>
-    <string name="never">ποτέ</string>
-    <string name="always">πάντα</string>
     <string name="auto_fill_account_from_aggregate_only">Μόνο όταν ξεκινούν από συνολικό λογαριασμό.</string>
     <string name="sync_auth_exception">Η εξουσιοδότηση απέτυχε.</string>
     <string name="sync_login_again">Συνδεθείτε ξανά.</string>
@@ -749,7 +746,6 @@
     <string name="debt">Χρέος</string>
     <string name="title_activity_debt_overview">Επισκόπηση χρέους</string>
     <string name="budget_exceeded_error_1_2">Όλος ο προϋπολογισμός σας έχει διατεθεί σε άλλες κατηγορίες.</string>
-    <string name="pref_scroll_to_current_date_summary">Κατά την έναρξη της εφαρμογής, μεταβείτε στη λίστα συναλλαγών στην τρέχουσα ημερομηνία</string>
     <string name="dialog_title_purge_backups">Εκκαθάριση παλιών αντιγράφων ασφαλείας</string>
     <string name="menu_reconfigure">Επαναδιαμόρφωση</string>
     <string name="dialog_contrib_trial_info">Η τρέχουσα κατάσταση άδειας χρήσης (%1$s) σάς επιτρέπει να δοκιμάσετε το %2$s για %3$d ημέρες (μέχρι τις %4$s).</string>

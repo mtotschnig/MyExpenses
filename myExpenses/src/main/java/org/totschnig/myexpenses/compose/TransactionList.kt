@@ -147,7 +147,7 @@ fun TransactionList(
         }
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
-        val scrollToCurrentDateStartIndex = remember {
+        val scrollToCurrentDateStartIndex = remember(scrollToCurrentDate.value) {
             mutableStateOf(if (scrollToCurrentDate.value) 0 to 0 else null)
         }
         val scrollToCurrentDateResultIndex = remember {
@@ -300,7 +300,7 @@ fun TransactionList(
             Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Text(
                     text = listOf(
-                        stringResource(id = R.string.pref_scroll_to_current_date_summary),
+                        stringResource(id = R.string.pref_scroll_to_current_date_title),
                         stringResource(id = R.string.loading),
                         "(${scrollToCurrentDateStartIndex.value?.first})"
                     ).joinToString("\n"), textAlign = TextAlign.Center

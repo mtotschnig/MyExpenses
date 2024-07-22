@@ -34,4 +34,6 @@
     <string name="privacy_header">"Zasebnost"</string>
     <string name="title_font_size">"Velikost pisave"</string>
     <string name="system_default">"Sistemsko privzeto"</string>
+    <string name="never">"Nikoli"</string>
+    <string name="always">"Vedno"</string>
 </resources>

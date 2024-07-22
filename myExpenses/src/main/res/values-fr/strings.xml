@@ -296,7 +296,6 @@
     <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
     <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
     <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
-    <string name="pref_ui_fontsize_title">Taille de police</string>
     <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Langue</string>
@@ -597,8 +596,6 @@
     <string name="extend_validity">Prolonger la validité</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un serveur distant. Cela peut prendre un certain temps.</string>
     <string name="donate_button_invoice">Facture</string>
-    <string name="never">jamais</string>
-    <string name="always">toujours</string>
     <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
     <string name="sync_auth_exception">L\'autorisation a échoué.</string>
     <string name="sync_login_again">Veuillez vous reconnecter.</string>
@@ -661,7 +658,6 @@
     <string name="saving_goal">Objectif d\'économie</string>
     <string name="credit_limit">Limite de crédit</string>
     <string name="clear_all_filters">Effacer tous les filtres</string>
-    <string name="pref_scroll_to_current_date_summary">Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle</string>
     <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
     <string name="menu_budget">Budgétisation</string>
     <string name="dialog_title_edit_budget">Modifier le budget</string>

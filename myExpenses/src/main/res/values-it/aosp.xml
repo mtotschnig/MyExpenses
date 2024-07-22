@@ -117,4 +117,6 @@
     <string name="landscape">"Orizzontale"</string>
     <string name="title_font_size">"Dimensioni carattere"</string>
     <string name="system_default">"Predefinita di sistema"</string>
+    <string name="never">"Mai"</string>
+    <string name="always">"Sempre"</string>
 </resources>

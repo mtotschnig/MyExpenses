@@ -291,7 +291,6 @@
     <string name="pref_shortcut_added">Laster-bidea hasiera pantailara gehitu da</string>
     <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
     <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
-    <string name="pref_ui_fontsize_title">Testuaren tamaina</string>
     <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Hizkuntza</string>
@@ -579,8 +578,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Aldatu hileroko harpidetzara</string>
     <string name="extend_validity">Luzatu balio-epea</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="never">inoiz ez</string>
-    <string name="always">beti</string>
     <string name="menu_history_show_balance">Erakutsi balantzea</string>
     <string name="menu_history">Historia</string>
     <string name="menu_history_totals">Erakutsi guztizkoak</string>

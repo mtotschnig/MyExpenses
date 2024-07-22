@@ -41,4 +41,6 @@
     <string name="landscape">"Iphepha elivumile"</string>
     <string name="title_font_size">"Usayizi wefonti"</string>
     <string name="system_default">"Okuzenzakalelayo kwesistimu"</string>
+    <string name="never">"Akusoze"</string>
+    <string name="always">"Njalo"</string>
 </resources>

@@ -114,4 +114,6 @@
     <string name="landscape">"橫向"</string>
     <string name="title_font_size">"字型大小"</string>
     <string name="system_default">"系統預設"</string>
+    <string name="never">"永遠不要"</string>
+    <string name="always">"一律啟用"</string>
 </resources>

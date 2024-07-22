@@ -48,4 +48,6 @@
     <string name="landscape">"Բնանկար"</string>
     <string name="title_font_size">"Տառաչափ"</string>
     <string name="system_default">"Կանխադրված"</string>
+    <string name="never">"Երբեք"</string>
+    <string name="always">"Միշտ"</string>
 </resources>

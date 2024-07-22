@@ -29,7 +29,7 @@
     <org.totschnig.myexpenses.preference.FontSizeDialogPreference
         android:defaultValue="0"
         android:key="@string/pref_ui_fontsize_key"
-        android:title="@string/pref_ui_fontsize_title" />
+        android:title="@string/title_font_size" />
 
     <ListPreference
         android:defaultValue="default"
@@ -122,11 +122,13 @@
             android:title="@string/pref_transaction_amount_color_source_title"
             my:useSimpleSummaryProvider="true" />
 
-        <SwitchPreferenceCompat
+        <ListPreference
             android:defaultValue="false"
+            android:entries="@array/pref_scroll_to_current_date_entries"
+            android:entryValues="@array/pref_scroll_to_current_date_values"
             android:key="@string/pref_scroll_to_current_date_key"
-            android:title="@string/today"
-            android:summary="@string/pref_scroll_to_current_date_summary" />
+            android:title="@string/pref_scroll_to_current_date_title"
+            my:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"

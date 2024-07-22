@@ -305,7 +305,6 @@
     <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية</string>
     <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
     <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
-    <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
     <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">اللغة</string>
@@ -617,8 +616,6 @@
     <string name="extend_validity">مدد الصلاحية</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">جارِ إحضار البيانات من الخلفية البعيدة. هذا قد يستغرق بعض الوقت.</string>
     <string name="donate_button_invoice">فاتورة</string>
-    <string name="never">أبداً</string>
-    <string name="always">دائماً</string>
     <string name="auto_fill_account_from_aggregate_only">فقط عندما تبدأ من الحساب الكلي.</string>
     <string name="sync_auth_exception">تعذَّر التخويل.</string>
     <string name="sync_login_again">الرجاء تسجيل الدخول مرةً أخرى.</string>
@@ -684,7 +681,6 @@
     <string name="saving_goal">هدف الإدخار</string>
     <string name="credit_limit">سقف الائتمان</string>
     <string name="clear_all_filters">مسح كل عوامل التصفية</string>
-    <string name="pref_scroll_to_current_date_summary">عند بدء التطبيق، قم بتمرير قائمة المعاملات إلى التاريخ الحالي</string>
     <string name="professional_key_fallback_info">سيتم تحويل الاشتراك في المفتاح المهني الذي كان نشطاً لمدة عام واحد على الأقل ولم يتم تجديده، تلقائياً إلى مفتاح ممتد غير محدود.</string>
     <string name="menu_budget">وضع الميزانية</string>
     <string name="dialog_title_edit_budget">تحرير الميزانية</string>

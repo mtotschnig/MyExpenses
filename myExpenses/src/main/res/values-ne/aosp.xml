@@ -41,4 +41,6 @@
     <string name="landscape">"ल्यान्डस्केप"</string>
     <string name="title_font_size">"फन्टको आकार"</string>
     <string name="system_default">"सिस्टम डिफल्ट"</string>
+    <string name="never">"कहिल्यै पनि होइन"</string>
+    <string name="always">"सधैं"</string>
 </resources>

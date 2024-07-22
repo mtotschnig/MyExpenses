@@ -50,4 +50,6 @@
     <string name="landscape">"แนวนอน"</string>
     <string name="title_font_size">"ขนาดอักษร"</string>
     <string name="system_default">"ค่าเริ่มต้นของระบบ"</string>
+    <string name="never">"ไม่เลย"</string>
+    <string name="always">"ทุกครั้ง"</string>
 </resources>

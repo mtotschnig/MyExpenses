@@ -293,7 +293,6 @@
     <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
     <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
-    <string name="pref_ui_fontsize_title">Размер на шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Език</string>
@@ -590,8 +589,6 @@
     <string name="extend_validity">Удължаване на валидността</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечното хранилище. Това може да отнеме известно време.</string>
     <string name="donate_button_invoice">Фактура</string>
-    <string name="never">никога</string>
-    <string name="always">винаги</string>
     <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
     <string name="sync_auth_exception">остъпът е отказан.</string>
     <string name="sync_login_again">Моля, влезте отново.</string>
@@ -653,7 +650,6 @@
     <string name="saving_goal">Цел за спестяване</string>
     <string name="credit_limit">Кредитен лимит</string>
     <string name="clear_all_filters">Премахни филтрите</string>
-    <string name="pref_scroll_to_current_date_summary">При стартиране на приложението превърти списъка с транзакции до текущата дата</string>
     <string name="professional_key_fallback_info">Абонамент за Професионален ключ, който е бил активен най-малко една година и не е подновен, ще бъде автоматично преобразуван в неограничен Разширен ключ.</string>
     <string name="menu_budget">Бюджетиране</string>
     <string name="dialog_title_edit_budget">Редактиране на бюджет</string>

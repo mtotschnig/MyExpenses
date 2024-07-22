@@ -39,4 +39,6 @@
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"စာလုံးအရွယ်အစား"</string>
     <string name="system_default">"စနစ်မူရင်း"</string>
+    <string name="never">"ဘယ်တော့မှ"</string>
+    <string name="always">"အမြဲတမ်း"</string>
 </resources>

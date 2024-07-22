@@ -27,4 +27,6 @@
     <string name="privacy_header">"ਪਰਦੇਦਾਰੀ"</string>
     <string name="title_font_size">"ਫੌਂਟ ਦਾ ਆਕਾਰ"</string>
     <string name="system_default">"ਸਿਸਟਮ ਪੂਰਵ-ਨਿਰਧਾਰਿਤ"</string>
+    <string name="never">"ਕਦੇ ਵੀ ਨਹੀਂ"</string>
+    <string name="always">"ਹਮੇਸ਼ਾ"</string>
 </resources>

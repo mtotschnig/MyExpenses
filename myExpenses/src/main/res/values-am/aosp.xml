@@ -49,4 +49,6 @@
     <string name="landscape">"በ መሬት አቀማመጥ"</string>
     <string name="title_font_size">"የቁምፊ መጠን"</string>
     <string name="system_default">"የሥርዓት ነባሪ"</string>
+    <string name="never">"በጭራሽ"</string>
+    <string name="always">"ሁልጊዜ"</string>
 </resources>

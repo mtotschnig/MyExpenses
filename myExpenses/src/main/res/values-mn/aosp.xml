@@ -42,4 +42,6 @@
     <string name="landscape">"Хөндлөн"</string>
     <string name="title_font_size">"Фонтын хэмжээ"</string>
     <string name="system_default">"Системийн өгөгдмөл"</string>
+    <string name="never">"Хэзээ ч үгүй"</string>
+    <string name="always">"Байнга"</string>
 </resources>

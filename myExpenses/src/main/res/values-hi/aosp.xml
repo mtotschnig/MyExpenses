@@ -41,4 +41,6 @@
     <string name="landscape">"भूदृश्य"</string>
     <string name="title_font_size">"फ़ॉन्ट साइज़"</string>
     <string name="system_default">"सिस्टम डिफ़ॉल्ट"</string>
+    <string name="never">"कभी नहीं"</string>
+    <string name="always">"हमेशा"</string>
 </resources>

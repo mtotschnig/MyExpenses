@@ -299,7 +299,6 @@
     <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
     <string name="pref_shortcut_not_added">Není k dispozici žádná domovská obrazovka, která by přijímala zástupce.</string>
     <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
-    <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
     <string name="pref_ui_home_screen_shortcuts">Zástupci na domovské obrazovce</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Jazyk</string>
@@ -604,8 +603,6 @@
     <string name="extend_validity">Prodloužit platnost</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Probíhá načítání dat ze vzdáleného rozhraní backend. Může to nějakou dobu trvat.</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="never">nikdy</string>
-    <string name="always">vždy</string>
     <string name="auto_fill_account_from_aggregate_only">Pouze při začínání ze souhrnného účtu.</string>
     <string name="sync_auth_exception">Autorizace se nezdařila.</string>
     <string name="sync_login_again">Přihlaste se prosím znovu.</string>
@@ -669,7 +666,6 @@
     <string name="saving_goal">Ukládání cíle</string>
     <string name="credit_limit">Kreditní limit</string>
     <string name="clear_all_filters">Vymazat všechny filtry</string>
-    <string name="pref_scroll_to_current_date_summary">Po startu aplikace posunout seznam transakcí na aktuální datum</string>
     <string name="professional_key_fallback_info">Předplatné profesionálního klíče, které je aktivní alespoň jeden rok a není obnoveno, bude automaticky převedeno na neomezený rozšířený klíč.</string>
     <string name="menu_budget">Rozpočty</string>
     <string name="dialog_title_edit_budget">Upravit rozpočet</string>

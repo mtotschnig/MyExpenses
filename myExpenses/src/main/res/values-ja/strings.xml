@@ -288,7 +288,6 @@
     <string name="pref_shortcut_added">ホーム画面にショートカットが追加されました</string>
     <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
     <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
-    <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
     <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">言語</string>
@@ -580,8 +579,6 @@
     <string name="extend_validity">有効期限を延長する</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
     <string name="donate_button_invoice">請求書</string>
-    <string name="never">しない</string>
-    <string name="always">常に</string>
     <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
     <string name="sync_auth_exception">認証に失敗しました。</string>
     <string name="sync_login_again">もう一度ログインしてください。</string>
@@ -642,7 +639,6 @@
     <string name="saving_goal">貯蓄目標</string>
     <string name="credit_limit">クレジット限度</string>
     <string name="clear_all_filters">すべてのフィルターをクリア</string>
-    <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
     <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
     <string name="menu_budget">予算作成</string>
     <string name="dialog_title_edit_budget">予算を編集</string>

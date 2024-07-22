@@ -109,4 +109,6 @@
     <string name="landscape">"가로(~A)"</string>
     <string name="title_font_size">"글꼴 크기"</string>
     <string name="system_default">"시스템 기본값"</string>
+    <string name="never">"사용 안함"</string>
+    <string name="always">"항상"</string>
 </resources>

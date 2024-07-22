@@ -5,17 +5,6 @@
 <resources>
     <string name="customize">Customise</string>
     <string name="license_title">"Licence"</string>
-    <string name="do_not_show_again">Do not show this again</string>
     <string name="color">"Colour"</string>
-    <string name="frequency">"Frequency"</string>
-    <string name="no_data">"No data"</string>
     <string name="color_component_title">"Choose colour"</string>
-    <string name="filter">"Filter"</string>
-    <string name="tags">"Tags"</string>
-    <string name="languages">"Languages"</string>
-    <string name="full_screen">"Full screen"</string>
-    <string name="start_date">"Start date"</string>
-    <string name="end_date">"End date"</string>
-    <string name="cloud_storage">"Cloud storage"</string>
-    <string name="system_default">"System default"</string>
 </resources>

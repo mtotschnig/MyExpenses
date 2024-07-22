@@ -44,4 +44,6 @@
     <string name="landscape">"Альбомдық"</string>
     <string name="title_font_size">"Қаріп өлшемі"</string>
     <string name="system_default">"Жүйенің әдепкі параметрі"</string>
+    <string name="never">"Ешқашан"</string>
+    <string name="always">"Әрқашан"</string>
 </resources>

@@ -233,7 +233,6 @@
     <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
     <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
     <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
-    <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
     <string name="pref_ui_theme_dark">Fosc</string>
@@ -489,8 +488,6 @@
     <string name="extend_until">Prolongui fins a %1$s per %2$s</string>
     <string name="licence_key">Clau de llicència</string>
     <string name="valid_until">Fins a %s</string>
-    <string name="never">mai</string>
-    <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Només quan es comenci amb un compte agregat.</string>
     <string name="feature_deprecated">Descartat</string>
     <string name="menu_original_amount">Quantitat original</string>
@@ -648,7 +645,6 @@
     <string name="saving_goal">Objectiu d\'estalvi</string>
     <string name="credit_limit">Límit de crèdit</string>
     <string name="clear_all_filters">Neteja tots els filtres</string>
-    <string name="pref_scroll_to_current_date_summary">Quan s\'iniciï l\'aplicació, llisca fins a la data actual</string>
     <string name="professional_key_fallback_info">Una susbscripció a Clau Professional que hagi estat activa com a mínim un any i no es renovi es convertirà actualment en una Clau Extesa il·limitada.</string>
     <string name="budget_exceeded_error_2">Incrementa la quantitat pressupostada o retira diners d\'altres categories.</string>
     <string name="sub_budget_exceeded_error_1_1">Tot excepte %s de la quantitat assignada a la categoria principal ha estat assignat a altres subcategories.</string>
