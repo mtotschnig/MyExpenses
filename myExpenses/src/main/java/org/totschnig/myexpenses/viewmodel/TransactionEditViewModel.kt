@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
@@ -67,8 +68,10 @@ import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
@@ -83,7 +86,6 @@ import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.math.pow
@@ -139,6 +141,23 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         emit(Plan.getInstanceFromDb(contentResolver, planId))
     }
 
+    fun currentBalance(accountId: Long) = liveData(context = coroutineContext()) {
+        emit(
+            contentResolver.query(
+                ACCOUNTS_FULL_URI,
+                null,
+                "$KEY_ROWID = ?",
+                arrayOf(accountId.toString()),
+                null
+            )?.use {
+                if (it.moveToFirst())
+                    Money(currencyContext[it.getString(KEY_CURRENCY)], it.getLong(KEY_CURRENT_BALANCE))
+                else null
+            }
+        )
+    }
+
+
     fun loadMethods(isIncome: Boolean, type: AccountType) {
         loadMethodJob?.cancel()
         viewModelScope.launch {
@@ -170,16 +189,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         )
     }
 
-    fun save(transaction: ITransaction): LiveData<Result<Long>> =
+    fun save(transaction: ITransaction): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            emit(kotlin.runCatching {
-                val existingTemplateMaybeUpdateShortcut =
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
-                val result =
-                    transaction.save(contentResolver, plannerUtils, true)
-                        ?.let { ContentUris.parseId(it) }
-                        ?: throw Throwable("Error while saving transaction")
-                if (existingTemplateMaybeUpdateShortcut) {
+            emit(runCatching {
+
+                transaction.save(contentResolver, plannerUtils, true)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
                     if (
                         ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
                             .any {
@@ -206,7 +222,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     transaction.id,
                     (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
                 )
-                result
             })
         }
 

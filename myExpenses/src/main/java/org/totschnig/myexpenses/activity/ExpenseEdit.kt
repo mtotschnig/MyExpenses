@@ -121,6 +121,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -293,7 +294,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     fun updateContentColor(color: Int) {
         this.color = color
         if (canUseContentColor) {
-            tintSystemUi(UiUtils.getColor(this, com.google.android.material.R.attr.colorPrimaryContainer))
+            tintSystemUi(
+                UiUtils.getColor(
+                    this,
+                    com.google.android.material.R.attr.colorPrimaryContainer
+                )
+            )
         } else {
             tintSystemUiAndFab(color)
         }
@@ -1040,7 +1046,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0 , R.string.category).isCheckable = true
+            menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0, R.string.category).isCheckable = true
         } else {
             if (!isSplitPart) {
                 menu.add(
@@ -1181,6 +1187,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     return true
                 }
             }
+
             R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
                 createAccountForTransfer.launch(createAccountIntent)
             }
@@ -1221,10 +1228,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
             }
             putExtra(KEY_COLOR, color)
-            putExtra(KEY_TYPE_FILTER, if (delegate is TransferDelegate) FLAG_TRANSFER
-            else delegate.isIncome.asCategoryType)
+            putExtra(
+                KEY_TYPE_FILTER, if (delegate is TransferDelegate) FLAG_TRANSFER
+                else delegate.isIncome.asCategoryType
+            )
         }, SELECT_CATEGORY_REQUEST)
     }
+
+    val wasStartedFromWidget: Boolean
+        get() = intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)
 
     override fun saveState() {
         if (::delegate.isInitialized) {
@@ -1236,7 +1248,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.save(transaction).observe(this) {
                     onSaved(it, transaction)
                 }
-                if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
+                if (wasStartedFromWidget) {
                     when (operationType) {
                         TYPE_TRANSACTION -> prefHandler.putLong(
                             PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,
@@ -1395,7 +1407,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun onSaved(result: Result<Long>, transaction: ITransaction) {
+    private fun onSaved(result: Result<Unit>, transaction: ITransaction) {
         result.onSuccess {
             if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
@@ -1417,8 +1429,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    setResult(RESULT_OK, backwardCanceledTagsIntent())
-                    finish()
+                    if (wasStartedFromWidget) {
+                        viewModel.currentBalance(transaction.accountId).observe(this) {
+                            it?.let { balance ->
+                                Toast.makeText(
+                                    this,
+                                    getString(R.string.new_balance) + " : " + currencyFormatter.formatMoney(balance),
+                                    Toast.LENGTH_LONG).show()
+                            }
+                            finish()
+                        }
+                    } else {
+                        setResult(RESULT_OK, backwardCanceledTagsIntent())
+                        finish()
+                    }
                     //no need to call super after finish
                     return
                 }
@@ -1678,7 +1702,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         const val KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE = "parentOriginalAmountExchangeRate"
 
         const val ACTION_CREATE_FROM_TEMPLATE = "CREATE_FROM_TEMPLATE"
-        const val ACTION_CREATE_TEMPLATE_FROM_TRANSACTION= "TEMPLATE_FROM_TRANSACTION"
+        const val ACTION_CREATE_TEMPLATE_FROM_TRANSACTION = "TEMPLATE_FROM_TRANSACTION"
     }
 
     fun loadActiveTags(id: Long) {
