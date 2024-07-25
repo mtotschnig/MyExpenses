@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">لغو تغییرات؟</string>
     <string name="dialog_command_disabled_balance">بدون تراکنش واضح برای وفق دادن.</string>
     <string name="dialog_command_disabled_insert_transfer">تراکنشهای انتقال نیاز به حساب دوم دارند</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">امتحان کردن</string>
     <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> به صورت متن‌باز ارائه شده است.</string>
     <string name="dialog_contrib_text_2">لطفاً با ارتقاء <i>{app_name}</i> به برنامه کمک کنید و به ویژگی‌های زیر دسترسی نامحدود پیدا کنید:</string>
@@ -388,8 +386,6 @@
     <string name="contrib_feature_synchronization_label">همگام‌سازی ابری</string>
     <string name="all_contrib_key_features">کلیهٔ قابلیت‌های لایسنس مشارکت</string>
     <string name="all_extended_key_features">کلیهٔ قابلیت‌های لایسنس توسعه یافته</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">ارتقاء</string>
     <string name="currency_symbol">نماد واحد پول</string>
     <string name="pref_tracking_summary">اجازه دهید تا داده‌های الگوی مصرف به صورت ناشناس جمع‌آوری شود تا بتوانیم برای بهبود برنامه از آن‌ها کمک بگیریم.</string>
     <string name="picture">تصویر</string>
@@ -429,7 +425,6 @@
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">بسته شده</string>
     <string name="translated_by">ترجمه شده بوسیله</string>
-    <string name="icon">آیکون</string>
     <string name="pref_debug_title">اشکال‌زدایی</string>
     <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>

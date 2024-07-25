@@ -372,7 +372,6 @@
     <string name="contrib_feature_category_tree_label">Arbre de categories</string>
     <string name="default_account_name">Llibre de Pressupost</string>
     <string name="dialog_confirm_discard_changes">Invalidar canvis\?</string>
-    <string name="dialog_contrib_no">Provar</string>
     <string name="dialog_contrib_reminder_remove_limitation">Elimina aquesta limitació i tingues accés a més funcions millorant <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_2">Siusplau contribuïu millorant <i>{app_name}</i> i obtingueu accés sense límits a les següents funcions:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">L\'estat de la vostra llicència (%2$s) us permet crear %1$d comptes.</string>
@@ -589,7 +588,6 @@
     <string name="dialog_sync_link">Un compte amb l\'UUID %s existeix simultàniament a la base de dades locals i al servidor remot. Quan les uneixi ha de decidir si vol o bé pujar les dades locals al servidor remot o bé descarregar les dades del servidor remot a la base de dades local.</string>
     <string name="dialog_command_sync_link_local">Puja des de base de dades local</string>
     <string name="dialog_synced_to_other">Un compte amb l\'UUID %s ja existeix a la base de dades local i està connectat a un servei remot diferent.</string>
-    <string name="upgrade_now">Millora</string>
     <string name="sync_error_will_try_again_later">Provi-ho més tard.</string>
     <string name="pref_backup_cloud_summary">Addicionalment a l\'emmagatzematge local del dispositiu, una còpia de seguretat es pot desar al sistema de servei.</string>
     <string name="auto_backup_cloud_success">La còpia de segueretat de l\'arxiu %1$s s\'ha desat corectament al sistema de servei %2$s.</string>
@@ -668,7 +666,6 @@
     <string name="pref_exchange_rate_provider_title">Proveïdor de tipus de canvi</string>
     <string name="sub_budget_under_allocated_error">%s ha estat assignat a subcategories. Llevat que vulgui retirar-ne diners, ha d\'assignar al menys aquesta quantitat a la categoria principal.</string>
     <string name="content_description_closed">Tancat</string>
-    <string name="icon">Icona</string>
     <string name="synchronization_select_folder_dialog_title">Seleccioni una carpeta existent o crei\'n una de nova</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Utilitzi el botó per registrar els ingressos.</string>
     <string name="sub_budget_exceeded_error_1_2">Tota la quantitat assignada a la categoria principal ha estat assignada a altres subcategories.</string>

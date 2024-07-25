@@ -119,4 +119,6 @@
     <string name="system_default">"Predefinita di sistema"</string>
     <string name="never">"Mai"</string>
     <string name="always">"Sempre"</string>
+    <string name="button_try">"Prova"</string>
+    <string name="icon">"Icona"</string>
 </resources>

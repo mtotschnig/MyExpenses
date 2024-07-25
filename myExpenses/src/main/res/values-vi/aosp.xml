@@ -115,4 +115,6 @@
     <string name="system_default">"Theo chế độ mặc định của hệ thống"</string>
     <string name="never">"Không bao giờ"</string>
     <string name="always">"Luôn luôn"</string>
+    <string name="button_try">"Dùng thử"</string>
+    <string name="icon">"Biểu tượng"</string>
 </resources>

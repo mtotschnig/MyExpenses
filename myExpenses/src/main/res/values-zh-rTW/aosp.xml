@@ -116,4 +116,6 @@
     <string name="system_default">"系統預設"</string>
     <string name="never">"永遠不要"</string>
     <string name="always">"一律啟用"</string>
+    <string name="button_try">"立即體驗"</string>
+    <string name="icon">"圖示"</string>
 </resources>

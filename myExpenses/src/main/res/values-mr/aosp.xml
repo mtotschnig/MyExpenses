@@ -41,4 +41,6 @@
     <string name="system_default">"सिस्टीम डीफॉल्ट"</string>
     <string name="never">"कधीही नाही"</string>
     <string name="always">"नेहमी"</string>
+    <string name="button_try">"हे वापरून पहा"</string>
+    <string name="icon">"आयकन"</string>
 </resources>

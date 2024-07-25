@@ -121,4 +121,6 @@
     <string name="system_default">"Rendszerbeállítás"</string>
     <string name="never">"Soha"</string>
     <string name="always">"Mindig"</string>
+    <string name="button_try">"Kipróbálom"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

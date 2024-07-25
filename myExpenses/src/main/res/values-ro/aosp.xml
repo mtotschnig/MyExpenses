@@ -112,4 +112,6 @@
     <string name="system_default">"Prestabilit de sistem"</string>
     <string name="never">"Niciodată"</string>
     <string name="always">"Întotdeauna"</string>
+    <string name="button_try">"Încearcă"</string>
+    <string name="icon">"Pictogramă"</string>
 </resources>

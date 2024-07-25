@@ -43,4 +43,6 @@
     <string name="system_default">"Okuzenzakalelayo kwesistimu"</string>
     <string name="never">"Akusoze"</string>
     <string name="always">"Njalo"</string>
+    <string name="button_try">"Kuzame"</string>
+    <string name="icon">"Isithonjana"</string>
 </resources>

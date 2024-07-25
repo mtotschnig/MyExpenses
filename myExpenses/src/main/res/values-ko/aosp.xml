@@ -111,4 +111,6 @@
     <string name="system_default">"시스템 기본값"</string>
     <string name="never">"사용 안함"</string>
     <string name="always">"항상"</string>
+    <string name="button_try">"사용해 보기"</string>
+    <string name="icon">"아이콘"</string>
 </resources>

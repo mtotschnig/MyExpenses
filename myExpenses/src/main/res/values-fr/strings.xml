@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
     <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
     <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert requièrent un deuxième compte.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Essayer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> vous est offert open source.</string>
     <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de &lt;i&gt;{app_name}&lt;/i&gt; et vous aurez accès sans restriction aux caractéristiques suivantes :</string>
@@ -540,8 +538,6 @@
     <string name="contrib_feature_synchronization_label">Synchronisation dans le cloud</string>
     <string name="all_contrib_key_features">Toutes les fonctions de la Clé Contrib</string>
     <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Mettre à jour</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
     <string name="currency_symbol">Symbole de devise</string>
@@ -718,7 +714,6 @@
     <string name="warning_no_account">Au moins un compte doit être visible et ouvert pour créer de nouvelles opérations.</string>
     <string name="content_description_dates_are_linked">La date d\'enregistrement et la date de valeur sont mises à jour ensemble</string>
     <string name="content_description_dates_are_not_linked">La date d\'enregistrement et la date de valeur ne sont pas mises à jour ensemble</string>
-    <string name="icon">Icône</string>
     <string name="pref_debug_title">Déboguer</string>
     <string name="roadmap_vote">Vote sur la feuille de route</string>
     <string name="warning_account_for_transaction_is_closed">Au moins une des transactions sélectionnées ne peut pas être modifiée :</string>

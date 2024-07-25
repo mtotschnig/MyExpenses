@@ -34,4 +34,6 @@
     <string name="system_default">"Chaguomsingi la mfumo"</string>
     <string name="never">"Isiwahi"</string>
     <string name="always">"Kila wakati"</string>
+    <string name="button_try">"Jaribu"</string>
+    <string name="icon">"Aikoni"</string>
 </resources>

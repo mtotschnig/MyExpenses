@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸುತ್ತದೆ?</string>
     <string name="dialog_command_disabled_balance">ಯಾವುದೇ ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಮಾಡಿಕೊಳ್ಳಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="dialog_command_disabled_insert_transfer">ವರ್ಗಾವಣೆ ವಹಿವಾಟುಗಳಿಗೆ ಎರಡನೇ ಖಾತೆಯ ಅಗತ್ಯವಿದೆ.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">ಪ್ರಯತ್ನಿಸಿ</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> ಅನ್ನು ಮುಕ್ತ ಮೂಲವಾಗಿ ನೀಡಲಾಗುತ್ತದೆ.</string>
     <string name="dialog_contrib_text_2">ದಯವಿಟ್ಟು <i>{app_name} ಅನ್ನು</i> ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಕೊಡುಗೆ ನೀಡಿ ಮತ್ತು ಈ ಕೆಳಗಿನ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅನಿಯಂತ್ರಿತ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ:</string>
@@ -531,8 +529,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
     <string name="all_contrib_key_features">ಕೊಡುಗೆ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
     <string name="all_extended_key_features">ವಿಸ್ತೃತ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
     <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
     <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
     <string name="currency_symbol">ಕರೆನ್ಸಿ ಚಿಹ್ನೆ</string>
@@ -708,7 +704,6 @@
     <string name="warning_no_account">ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ರಚಿಸಲು ಕನಿಷ್ಠ ಒಂದು ಖಾತೆಯಾದರೂ ಗೋಚರಿಸಬೇಕು ಮತ್ತು ತೆರೆಯಬೇಕು.</string>
     <string name="content_description_dates_are_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ</string>
     <string name="content_description_dates_are_not_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-    <string name="icon">ಐಕಾನ್</string>
     <string name="pref_debug_title">ಡೀಬಗ್ ಮಾಡಿ</string>
     <string name="roadmap_vote">ಮಾರ್ಗಸೂಚಿ ಮತ</string>
     <string name="warning_account_for_transaction_is_closed">ಆಯ್ದ ವಹಿವಾಟುಗಳಲ್ಲಿ ಒಂದನ್ನು ಸಂಪಾದಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ:</string>

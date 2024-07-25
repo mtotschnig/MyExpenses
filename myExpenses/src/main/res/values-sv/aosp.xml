@@ -53,4 +53,6 @@
     <string name="system_default">"Systemets standardinställning"</string>
     <string name="never">"Aldrig"</string>
     <string name="always">"Alltid"</string>
+    <string name="button_try">"Prova nu"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

@@ -43,4 +43,6 @@
     <string name="system_default">"सिस्टम डिफ़ॉल्ट"</string>
     <string name="never">"कभी नहीं"</string>
     <string name="always">"हमेशा"</string>
+    <string name="button_try">"इसे आज़माएं"</string>
+    <string name="icon">"आइकॉन"</string>
 </resources>

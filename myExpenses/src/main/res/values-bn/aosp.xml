@@ -40,4 +40,6 @@
     <string name="system_default">"সিস্টেম ডিফল্ট"</string>
     <string name="never">"কখনই নয়"</string>
     <string name="always">"সবসময়"</string>
+    <string name="button_try">"এটি ব্যবহার করে দেখুন"</string>
+    <string name="icon">"আইকন"</string>
 </resources>

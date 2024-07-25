@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
     <string name="dialog_command_disabled_balance">Žádné zúčtované transakce k odsouhlasení.</string>
     <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Vyzkoušet</string>
     <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> je nabízena jako open source software.</string>
     <string name="dialog_contrib_text_2">Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:</string>
@@ -547,8 +545,6 @@
     <string name="contrib_feature_synchronization_label">Cloudová synchronizace</string>
     <string name="all_contrib_key_features">Všechny funkce přispěvatelského klíče</string>
     <string name="all_extended_key_features">Všechny funkce Rozšířeného klíče</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Upgradovat</string>
     <string name="pref_backup_cloud_summary">Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.</string>
     <string name="auto_backup_cloud_success">Záložní soubor %1$s byl úspěšně uložen do rozhraní backend %2$s.</string>
     <string name="currency_symbol">Symbol měny</string>
@@ -726,7 +722,6 @@
     <string name="warning_no_account">Aby bylo možné vytvářet nové transakce, musí být viditelný a otevřený alespoň jeden účet. </string>
     <string name="content_description_dates_are_linked">Datum rezervace a datum hodnoty jsou aktualizovány společně</string>
     <string name="content_description_dates_are_not_linked">Datum rezervace a datum hodnoty nejsou aktualizovány společně</string>
-    <string name="icon">ikona</string>
     <string name="pref_debug_title">Ladění</string>
     <string name="roadmap_vote">Hlasování o plánovaných součástech</string>
     <string name="warning_account_for_transaction_is_closed">Nejméně jednu z vybraných transakcí nelze upravit:</string>

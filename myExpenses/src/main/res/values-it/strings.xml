@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
     <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
     <string name="dialog_command_disabled_insert_transfer">Le operazioni di bonifico richiedono un secondo conto.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Prova</string>
     <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione e accedere ad altre funzionalità aggiornando <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> è offerta open source.</string>
     <string name="dialog_contrib_text_2">Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l\'accesso illimitato alle seguenti caratteristiche:</string>
@@ -538,8 +536,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione con il cloud</string>
     <string name="all_contrib_key_features">Tutte le funzionalità della Licenza Contributore</string>
     <string name="all_extended_key_features">Tutte le funzionalità della Licenza Funzionalità Estese</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Acquista una licenza</string>
     <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
     <string name="currency_symbol">Simbolo di valuta</string>
@@ -715,7 +711,6 @@
     <string name="warning_no_account">Almeno un conto deve essere visibile e aperto per poter creare nuove transazioni.</string>
     <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
     <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>
-    <string name="icon">Icona</string>
     <string name="pref_debug_title">Debug</string>
     <string name="roadmap_vote">Voto sulla Roadmap</string>
     <string name="warning_account_for_transaction_is_closed">Almeno una delle transazioni selezionate non può essere modificata:</string>

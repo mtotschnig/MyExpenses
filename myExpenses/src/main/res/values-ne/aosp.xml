@@ -43,4 +43,6 @@
     <string name="system_default">"सिस्टम डिफल्ट"</string>
     <string name="never">"कहिल्यै पनि होइन"</string>
     <string name="always">"सधैं"</string>
+    <string name="button_try">"प्रयोग गरी हेर्नुहोस्"</string>
+    <string name="icon">"आइकन"</string>
 </resources>

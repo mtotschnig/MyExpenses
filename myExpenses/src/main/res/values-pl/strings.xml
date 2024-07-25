@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
     <string name="dialog_command_disabled_balance">Brak rozliczonych transakcji do uzgodnienia.</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Próbuj</string>
     <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> jest oferowany otwartoźródłowo.</string>
     <string name="dialog_contrib_text_2">Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:</string>
@@ -537,8 +535,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronizacja w chmurze</string>
     <string name="all_contrib_key_features">Wszystkie funkcje Contrib Key</string>
     <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Aktualizuj</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>
@@ -780,7 +776,6 @@
     <string name="remapping_result">Wybrane transakcje zostały ponownie zmapowane.</string>
     <string name="pref_group_header_show_details_summary">Pokaż sumy szczegółów w nagłówku grupy</string>
     <string name="pref_security_export_passphrase_title">Hasło do kopii zapasowych</string>
-    <string name="icon">Ikona</string>
     <string name="budget_deleted">Budżet został usunięty</string>
     <string name="debt_owes_me">%s jest mi winien</string>
     <string name="pref_manage_tags_summary">Dodawaj, edytuj, usuwaj tagi.</string>

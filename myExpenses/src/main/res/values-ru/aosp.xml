@@ -121,4 +121,6 @@
     <string name="system_default">"Системные настройки по умолчанию"</string>
     <string name="never">"Никогда"</string>
     <string name="always">"Всегда"</string>
+    <string name="button_try">"Попробовать"</string>
+    <string name="icon">"Значок"</string>
 </resources>

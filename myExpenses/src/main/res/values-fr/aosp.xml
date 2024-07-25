@@ -120,4 +120,6 @@
     <string name="system_default">"Paramètre système par défaut"</string>
     <string name="never">"Jamais"</string>
     <string name="always">"Toujours"</string>
+    <string name="button_try">"Essayer"</string>
+    <string name="icon">"Icône"</string>
 </resources>

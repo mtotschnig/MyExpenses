@@ -107,4 +107,6 @@
     <string name="system_default">"លំនាំ​ដើម​ប្រព័ន្ធ"</string>
     <string name="never">"កុំឲ្យសោះ"</string>
     <string name="always">"ជានិច្ច"</string>
+    <string name="button_try">"សាកល្បង"</string>
+    <string name="icon">"រូបតំណាង"</string>
 </resources>

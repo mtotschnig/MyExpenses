@@ -215,4 +215,8 @@
     <string name="never">"Never"</string>
     <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -ri system_hdcp_checking_always | sed 's/ msgid="[[:digit:]]*"//' | sed 's/system_hdcp_checking_always/always/' | aosp_helper -->
     <string name="always">"Always"</string>
+    <!-- opt/extra/AOSP/packages/modules/AdServices/adservices/apk$ grep -ri notificationUI_right_control_button_ga_text_eu\" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/notificationUI_right_control_button_ga_text_eu/button_try/' | aosp_helper -->
+    <string name="button_try">"Try"</string>
+    <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri preview_name_icon | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preview_name_//' | aosp_helper -->
+    <string name="icon">"Symbol"</string>
 </resources>

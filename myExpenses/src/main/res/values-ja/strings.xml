@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
     <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
     <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">試してみる</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
@@ -523,8 +521,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
     <string name="all_contrib_key_features">貢献キーのすべての機能</string>
     <string name="all_extended_key_features">拡張キーのすべての機能</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">アップグレード</string>
     <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
     <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
     <string name="currency_symbol">通貨記号</string>
@@ -699,7 +695,6 @@
     <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
     <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
     <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
-    <string name="icon">アイコン</string>
     <string name="pref_debug_title">デバッグ</string>
     <string name="roadmap_vote">ロードマップの投票</string>
     <string name="warning_account_for_transaction_is_closed">選択された取引に編集できないものがあります:</string>

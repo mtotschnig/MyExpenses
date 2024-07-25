@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">放弃更改？</string>
     <string name="dialog_command_disabled_balance">没有已结算或已入帐的交易需要去对帐。</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二个账户才可以互相转账。</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">试用高级功能</string>
     <string name="dialog_contrib_reminder_remove_limitation">移除这个限制并访问更多功能，方法是升级 <i>{app_name}</i>。</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供开放源代码。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
@@ -526,8 +524,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
     <string name="all_contrib_key_features">贡献版密钥的所有功能</string>
     <string name="all_extended_key_features">扩展版密钥的所有功能</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">升级</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
     <string name="currency_symbol">货币符号</string>
@@ -702,7 +698,6 @@
     <string name="warning_no_account">为了创建新交易，请至少开设一个非隐藏的账户。</string>
     <string name="content_description_dates_are_linked">账面交易日期(booking date)和生效日期(value date)会一起更新</string>
     <string name="content_description_dates_are_not_linked">账面交易日期(booking date)和生效日期(value date)不会一起更新</string>
-    <string name="icon">图标</string>
     <string name="pref_debug_title">程序调试 (除错)</string>
     <string name="roadmap_vote">程序开发蓝图投票</string>
     <string name="warning_account_for_transaction_is_closed">至少一个所选交易无法编辑：</string>

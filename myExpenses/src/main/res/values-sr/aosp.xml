@@ -33,4 +33,6 @@
     <string name="system_default">"Подразумевани системски"</string>
     <string name="never">"Никада"</string>
     <string name="always">"Увек"</string>
+    <string name="button_try">"Испробај"</string>
+    <string name="icon">"Икона"</string>
 </resources>

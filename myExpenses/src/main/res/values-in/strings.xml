@@ -10,7 +10,6 @@
     <string name="dialog_password_change_password">Ganti kata sandi</string>
     <string name="dialog_contrib_text_1"><i>([app_name]</i> ditawarkan open source.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Hapus batasan ini dan akses lebih banyak fitur dengan memutakhirkan <i>{app_name}</i>.</string>
-    <string name="dialog_contrib_no">Coba</string>
     <string name="description">Deskripsi</string>
     <string name="default_account_name">Buku Anggaran</string>
     <string name="decimal_separator">Pemisah desimal</string>

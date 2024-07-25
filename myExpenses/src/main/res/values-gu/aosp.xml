@@ -41,4 +41,6 @@
     <string name="system_default">"સિસ્ટમ ડિફૉલ્ટ"</string>
     <string name="never">"ક્યારેય નહીં"</string>
     <string name="always">"હંમેશાં"</string>
+    <string name="button_try">"તેને અજમાવી જુઓ"</string>
+    <string name="icon">"આઇકન"</string>
 </resources>

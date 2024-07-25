@@ -260,8 +260,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         builder.setView(dialogView)
             .setIcon(R.mipmap.ic_launcher_alt)
             .setPositiveButton(feature?.let {
-                if (licenceHandler.hasTrialAccessTo(it)) R.string.dialog_contrib_no else null
-            } ?: R.string.upgrade_now, null
+                if (licenceHandler.hasTrialAccessTo(it)) R.string.button_try else null
+            } ?: R.string.buy, null
             )
 
         if (licenceHandler.needsKeyEntry && !licenceHandler.hasValidKey()) {
@@ -418,8 +418,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
                 if (feature == null) {
                     CrashHandler.throwOrReport("trialButton selected without feature")
                 }
-                R.string.dialog_contrib_no
-            } else R.string.upgrade_now
+                R.string.button_try
+            } else R.string.buy
         )
     }
 

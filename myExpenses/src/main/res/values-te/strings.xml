@@ -3,7 +3,6 @@
     <string name="warning_account_for_transaction_is_closed">ఎంచుకున్న లావాదేవీలలో కనీసం ఒకదాన్ని సవరించలేము:</string>
     <string name="roadmap_vote">రోడ్‌మ్యాప్ ఓటు</string>
     <string name="pref_debug_title">డీబగ్</string>
-    <string name="icon">ఐకాన్</string>
     <string name="content_description_dates_are_not_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడవు</string>
     <string name="content_description_dates_are_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడతాయి</string>
     <string name="warning_no_account">క్రొత్త లావాదేవీలను సృష్టించడానికి కనీసం ఒక ఖాతా కనిపించాలి మరియు తెరవాలి.</string>
@@ -145,7 +144,6 @@
     <string name="currency_symbol">కరెన్సీ చిహ్నం</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
-    <string name="upgrade_now">అప్‌గ్రేడ్ చేయండి</string>
     <string name="all_extended_key_features">విస్తరించిన కీ యొక్క అన్ని లక్షణాలు</string>
     <string name="all_contrib_key_features">కాంట్రిబ్ కీ యొక్క అన్ని లక్షణాలు</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">క్లౌడ్ సమకాలీకరణ</string>
@@ -501,7 +499,6 @@
     <string name="dialog_contrib_text_2">దయచేసి <i> {app_name} </i> అప్‌గ్రేడ్ చేయడం ద్వారా సహకరించండి మరియు ఈ క్రింది లక్షణాలకు అనియంత్రిత ప్రాప్యతను పొందండి:</string>
     <string name="dialog_contrib_text_1"><i> {app_name} </i> ఓపెన్ సోర్స్ అందించబడుతుంది.</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i> {app_name} </i> ని అప్‌గ్రేడ్ చేయడం ద్వారా ఈ పరిమితిని తొలగించి మరిన్ని ఫీచర్‌లను యాక్సెస్ చేయండి.</string>
-    <string name="dialog_contrib_no">ప్రయత్నించండి</string>
     <string name="dialog_command_disabled_insert_transfer">బదిలీ లావాదేవీలకు రెండవ ఖాతా అవసరం.</string>
     <string name="dialog_command_disabled_balance">రాజీపడటానికి క్లియర్ చేసిన లావాదేవీలు లేవు.</string>
     <string name="dialog_confirm_discard_changes">మార్పులను విస్మరించు\?</string>

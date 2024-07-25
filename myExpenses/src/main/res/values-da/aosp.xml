@@ -120,4 +120,6 @@
     <string name="system_default">"Systemstandard"</string>
     <string name="never">"Aldrig"</string>
     <string name="always">"Altid"</string>
+    <string name="button_try">"Prøv det"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

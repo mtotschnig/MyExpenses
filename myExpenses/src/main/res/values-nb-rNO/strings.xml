@@ -15,7 +15,6 @@
     <string name="budget_filter_all_parties">Alle parter</string>
     <string name="budget_filter_all_categories">Alle kategorier</string>
     <string name="menu_create_budget">Nytt budsjett</string>
-    <string name="icon">Ikon</string>
     <string name="translated_by">Oversatt av</string>
     <string name="content_description_closed">Lukket</string>
     <string name="content_description_encrypted">Kryptert</string>
@@ -55,7 +54,6 @@
     <string name="pref_webdav_timeout_title">WebDAV-tidsavbrudd (i sekunder)</string>
     <string name="synchronization_end_success_none">Ingen endringer å synkronisere.</string>
     <string name="currency_symbol">Valutasymbol</string>
-    <string name="upgrade_now">Oppgrader</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sky-synkronisering</string>
     <string name="template">Mal</string>
     <string name="progress_dialog_checking_sync_backend">Bekrefter bakende</string>
@@ -265,7 +263,6 @@
     <string name="dialog_export_not_yet_exported">Kun eksporter overføringer som ikke er eksportert enda</string>
     <string name="dialog_export_delete">Slett eksporterte overføringer</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nåværende lisensstatus (%2$s) lar deg opprette %1$d planer.</string>
-    <string name="dialog_contrib_no">Prøv</string>
     <string name="dialog_confirm_discard_changes">Forkast endringer\?</string>
     <string name="description">Beskrivelse</string>
     <string name="number_format_illegal">Ugyldig nummerformat</string>

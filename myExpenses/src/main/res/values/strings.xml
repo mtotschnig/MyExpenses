@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Discard changes?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Try</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
@@ -548,7 +546,7 @@
     <string name="all_contrib_key_features">All features of Contrib Key</string>
     <string name="all_extended_key_features">All features of Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Upgrade</string>
+    <string name="buy">Buy</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="currency_symbol">Currency symbol</string>
@@ -730,7 +728,6 @@
     <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
     <string name="content_description_dates_are_linked">Booking date and value date are updated together</string>
     <string name="content_description_dates_are_not_linked">Booking date and value date are not updated together</string>
-    <string name="icon">Icon</string>
     <string name="pref_debug_title">Debug</string>
     <string name="roadmap_vote">Roadmap Vote</string>
     <string name="warning_account_for_transaction_is_closed">At least one of the selected transactions can not be edited:</string>

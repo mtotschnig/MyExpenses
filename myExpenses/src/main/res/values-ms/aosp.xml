@@ -98,4 +98,6 @@
     <string name="system_default">"Lalai sistem"</string>
     <string name="never">"Jangan sekali-kali"</string>
     <string name="always">"Sentiasa"</string>
+    <string name="button_try">"Cubalah"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

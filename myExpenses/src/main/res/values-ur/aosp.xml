@@ -95,4 +95,6 @@
     <string name="system_default">"سسٹم ڈیفالٹ"</string>
     <string name="never">"کبھی نہیں"</string>
     <string name="always">"ہمیشہ"</string>
+    <string name="button_try">"اسے آزمائیں"</string>
+    <string name="icon">"آئیکن"</string>
 </resources>

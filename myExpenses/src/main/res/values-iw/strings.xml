@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
     <string name="dialog_command_disabled_balance">אין עסקאות מסולקות cleared שיש ליישב reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">התנסות</string>
     <string name="dialog_contrib_reminder_remove_limitation">שדרוג <i>{app_name}</i> יסיר את המגבלה הזאת ויעניק גישה ליכולות נוספות.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> מוצעת במסגרת קוד פתוח.</string>
     <string name="dialog_contrib_text_2">נא לתרום על ידי שדרוג <i>{app_name}</i>, תוענק לך גישה בלתי מוגבלת ליכולות הבאות:</string>
@@ -540,8 +538,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
     <string name="all_contrib_key_features">כל היכולות של מפתח תורם</string>
     <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">שדרג</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="currency_symbol">סמל המטבע</string>
@@ -720,7 +716,6 @@
     <string name="warning_no_account">לפחות חשבון אחד חייב להיות גלוי ופתוח כדי ליצור עסקאות חדשות.</string>
     <string name="content_description_dates_are_linked">תאריך ההזמנה ותאריך הערך מתעדכנים יחד</string>
     <string name="content_description_dates_are_not_linked">תאריך ההזמנה ותאריך הערך אינם מעודכנים יחד</string>
-    <string name="icon">סמל</string>
     <string name="pref_debug_title">ניקוי באגים</string>
     <string name="roadmap_vote">הצבעה על מפת דרכים</string>
     <string name="warning_account_for_transaction_is_closed">לא ניתן לערוך לפחות אחת מהעסקאות שנבחרו:</string>

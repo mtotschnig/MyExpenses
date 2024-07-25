@@ -42,4 +42,6 @@
     <string name="system_default">"ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ"</string>
     <string name="never">"ບໍ່ມີກຳນົດ"</string>
     <string name="always">"​ທຸກ​ເທື່ອ"</string>
+    <string name="button_try">"ລອງໃຊ້ມັນເບິ່ງ"</string>
+    <string name="icon">"ໄອຄອນ"</string>
 </resources>

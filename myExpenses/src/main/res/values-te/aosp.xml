@@ -104,4 +104,6 @@
     <string name="system_default">"సిస్టమ్ ఆటోమేటిక్ సెట్టింగ్"</string>
     <string name="never">"ఎప్పటికీ వద్దు"</string>
     <string name="always">"ఎల్లప్పుడూ"</string>
+    <string name="button_try">"దీన్ని ట్రై చేయండి"</string>
+    <string name="icon">"చిహ్నం"</string>
 </resources>

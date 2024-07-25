@@ -119,4 +119,6 @@
     <string name="system_default">"Standardeinstellung des Systems"</string>
     <string name="never">"Nie"</string>
     <string name="always">"Immer"</string>
+    <string name="button_try">"Ausprobieren"</string>
+    <string name="icon">"Symbol"</string>
 </resources>

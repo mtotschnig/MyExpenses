@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Elveti a változásokat?</string>
     <string name="dialog_command_disabled_balance">Nincs kiegyenlíthető törölt tranzakció.</string>
     <string name="dialog_command_disabled_insert_transfer">Az átutalási tranzakciókhoz egy második fiók szükséges.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Kipróbálás</string>
     <string name="dialog_contrib_reminder_remove_limitation">A(z) <i>{app_name}</i> alkalmazás előfizetésének bővítésével megszüntetheti ezt a korlátozást, és több funkciót használhat.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> nyitott forráskódú.</string>
     <string name="dialog_contrib_text_2">Kérjük támogasson a(z) <i>{app_name}</i> bővítésével, és korlátlanul használhatja a következő funkciókat:</string>
@@ -533,8 +531,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Felhő szinkronizálás</string>
     <string name="all_contrib_key_features">A Contrib kulcs összes funkciója</string>
     <string name="all_extended_key_features">A Bővített kulcs összes funkciója</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Frissítés</string>
     <string name="pref_backup_cloud_summary">A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.</string>
     <string name="auto_backup_cloud_success">%1$s biztonsági mentés sikeresen tárolva a(z) %2$s háttérrendszeren.</string>
     <string name="currency_symbol">Pénznem jele</string>
@@ -712,7 +708,6 @@
     <string name="warning_no_account">Legalább egy számlának láthatónak és nyitottnak kell lennie új tranzakciók létrehozásához.</string>
     <string name="content_description_dates_are_linked">A foglalás és az érték dátuma együtt van frissítve</string>
     <string name="content_description_dates_are_not_linked">A foglalási dátum és az érték dátuma nem frissül együtt</string>
-    <string name="icon">Ikon</string>
     <string name="pref_debug_title">Hibakeresés</string>
     <string name="roadmap_vote">Ütemterv szavazás</string>
     <string name="warning_account_for_transaction_is_closed">A kiválasztott tranzakciók közül legalább egy nem szerkeszthető:</string>

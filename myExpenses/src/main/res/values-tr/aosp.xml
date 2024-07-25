@@ -118,4 +118,6 @@
     <string name="system_default">"Sistem varsayılanı"</string>
     <string name="never">"Hiçbir zaman"</string>
     <string name="always">"Her zaman"</string>
+    <string name="button_try">"Deneyin"</string>
+    <string name="icon">"Simge"</string>
 </resources>

@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
     <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
     <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Ausprobieren</string>
     <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wird Ihnen mit offenem Quellcode angeboten.</string>
     <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
@@ -533,8 +531,6 @@
     <string name="contrib_feature_synchronization_label">Cloud-Synchronisierung</string>
     <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
     <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Lizenz kaufen</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="currency_symbol">Währungssymbol</string>
@@ -710,7 +706,6 @@
     <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
     <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
     <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>
-    <string name="icon">Symbol</string>
     <string name="pref_debug_title">Debuggen</string>
     <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
     <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Buchungen kann nicht bearbeitet werden:</string>

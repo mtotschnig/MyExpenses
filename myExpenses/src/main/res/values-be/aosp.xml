@@ -38,4 +38,6 @@
     <string name="system_default">"Стандартная сістэмная налада"</string>
     <string name="never">"Ніколі"</string>
     <string name="always">"Заўсёды"</string>
+    <string name="button_try">"Паспрабаваць"</string>
+    <string name="icon">"Значок"</string>
 </resources>

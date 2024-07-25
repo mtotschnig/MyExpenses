@@ -105,4 +105,6 @@
     <string name="system_default">"පද්ධති පෙරනිමිය"</string>
     <string name="never">"කවදාවත් නෑ"</string>
     <string name="always">"සැමවිටම"</string>
+    <string name="button_try">"එය අත්හදා බලන්න"</string>
+    <string name="icon">"නිරූපකය"</string>
 </resources>

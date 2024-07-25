@@ -122,4 +122,6 @@
     <string name="system_default">"Ustawienie domyślne systemu"</string>
     <string name="never">"Nigdy"</string>
     <string name="always">"Zawsze"</string>
+    <string name="button_try">"Wypróbuj"</string>
+    <string name="icon">"Ikona"</string>
 </resources>

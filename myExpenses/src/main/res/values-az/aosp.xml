@@ -36,4 +36,6 @@
     <string name="system_default">"Sistem defoltu"</string>
     <string name="never">"Heç vaxt"</string>
     <string name="always">"Həmişə"</string>
+    <string name="button_try">"Sınayın"</string>
+    <string name="icon">"İkona"</string>
 </resources>

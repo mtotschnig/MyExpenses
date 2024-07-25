@@ -51,4 +51,6 @@
     <string name="system_default">"የሥርዓት ነባሪ"</string>
     <string name="never">"በጭራሽ"</string>
     <string name="always">"ሁልጊዜ"</string>
+    <string name="button_try">"ይሞክሩት"</string>
+    <string name="icon">"አዶ"</string>
 </resources>

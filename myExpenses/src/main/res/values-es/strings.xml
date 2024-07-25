@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">¿Descartar cambios?</string>
     <string name="dialog_command_disabled_balance">Ninguna transacción despejada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">Las transacciones de transferencia requieren una segunda cuenta.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Intentar</string>
     <string name="dialog_contrib_reminder_remove_limitation">Elimine esta limitación y acceda a más características actualizando <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> es de código abierto.</string>
     <string name="dialog_contrib_text_2">Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:</string>
@@ -540,8 +538,6 @@
     <string name="contrib_feature_synchronization_label">Sincronización en la nube</string>
     <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
     <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Actualizar</string>
     <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
     <string name="auto_backup_cloud_success">El respaldo del archivo %1$s ha sido guardado correctamente en %2$s.</string>
     <string name="currency_symbol">Símbolo de moneda</string>
@@ -718,7 +714,6 @@
     <string name="warning_no_account">Al menos una cuenta tiene que estar visible y abierta para poder crear nuevas transacciones.</string>
     <string name="content_description_dates_are_linked">Las fechas de reserva y su valor se actualizan de forma conjunta</string>
     <string name="content_description_dates_are_not_linked">Las fechas de reserva y su valor no se actualizan de forma conjunta</string>
-    <string name="icon">Icono</string>
     <string name="pref_debug_title">Depurar</string>
     <string name="roadmap_vote">Votar hoja de ruta</string>
     <string name="warning_account_for_transaction_is_closed">Al menos una de las transacciones seleccionadas no puede editarse:</string>

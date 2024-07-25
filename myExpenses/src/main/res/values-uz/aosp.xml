@@ -37,4 +37,6 @@
     <string name="system_default">"Tizim standarti"</string>
     <string name="never">"Hech qachon"</string>
     <string name="always">"Har doim"</string>
+    <string name="button_try">"Sinab koʻring"</string>
+    <string name="icon">"Ikonka"</string>
 </resources>

@@ -26,7 +26,6 @@
     <string name="menu_create_transfer">Ny överföring</string>
     <string name="contrib_feature_ad_free_label">Inga annonser</string>
     <string name="menu_cancel_plan_instance">Avbryt</string>
-    <string name="dialog_contrib_no">Prova</string>
     <string name="description">Beskrivning</string>
     <string name="contrib_feature_csv_import_label">CSV-importering</string>
     <string name="menu_delete">Ta bort</string>

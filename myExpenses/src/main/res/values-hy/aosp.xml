@@ -50,4 +50,6 @@
     <string name="system_default">"Կանխադրված"</string>
     <string name="never">"Երբեք"</string>
     <string name="always">"Միշտ"</string>
+    <string name="button_try">"Փորձել"</string>
+    <string name="icon">"Պատկերակ"</string>
 </resources>

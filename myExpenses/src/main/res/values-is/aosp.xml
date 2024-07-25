@@ -50,4 +50,6 @@
     <string name="system_default">"Sjálfgildi kerfis"</string>
     <string name="never">"Aldrei"</string>
     <string name="always">"Alltaf"</string>
+    <string name="button_try">"Prófa"</string>
+    <string name="icon">"Tákn"</string>
 </resources>

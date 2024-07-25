@@ -122,4 +122,6 @@
     <string name="system_default">"الإعداد التلقائي للنظام"</string>
     <string name="never">"عدم التشغيل أبدًا"</string>
     <string name="always">"دائمًا"</string>
+    <string name="button_try">"تجربتها الآن"</string>
+    <string name="icon">"الرمز"</string>
 </resources>

@@ -41,4 +41,6 @@
     <string name="system_default">"സിസ്‌റ്റം ഡിഫോൾട്ട്"</string>
     <string name="never">"ഒരിക്കലും വേണ്ട"</string>
     <string name="always">"എല്ലായ്പ്പോഴും"</string>
+    <string name="button_try">"ഇത് പരീക്ഷിച്ചുനോക്കൂ"</string>
+    <string name="icon">"ഐക്കൺ"</string>
 </resources>

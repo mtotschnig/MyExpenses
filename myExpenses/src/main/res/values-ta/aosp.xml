@@ -110,4 +110,6 @@
     <string name="system_default">"சிஸ்டத்தின் இயல்பு"</string>
     <string name="never">"ஒருபோதும் வேண்டாம்"</string>
     <string name="always">"எப்போதும்"</string>
+    <string name="button_try">"இதை முயல்க"</string>
+    <string name="icon">"ஐகான்"</string>
 </resources>

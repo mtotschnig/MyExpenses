@@ -44,4 +44,6 @@
     <string name="system_default">"Sistēmas noklusējums"</string>
     <string name="never">"Nekad"</string>
     <string name="always">"Vienmēr"</string>
+    <string name="button_try">"Izmēģināt"</string>
+    <string name="icon">"Ikona"</string>
 </resources>

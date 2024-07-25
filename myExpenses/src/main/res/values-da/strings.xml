@@ -453,7 +453,6 @@
     <string name="contrib_feature_roadmap_voting_label">Stemmeret på <b>udviklingsplan</b></string>
     <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%1$s) lader dig prøve %2$s i %3$d dage (indtil %4$s).</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Med din nuværende licensstatus (%1$s) vises denne dialog ved hvert brug.</string>
-    <string name="dialog_contrib_no">Prøv</string>
     <string name="button_label_close">Luk</string>
     <string name="no_calendar_app_installed">Ingen app til redigering af kalenderbegivenhed.</string>
     <plurals name="dialog_title_warning_delete_account">
@@ -582,7 +581,6 @@
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Den valgte mappe svarer til en konto på en eksisterende backend. Du skal vælge dens overordnede mappe for at genbruge denne backend.</string>
     <string name="link_account_failure_2">En konto med samme UUID eksisterer allerede på den eksterne backend.</string>
     <string name="progress_dialog_checking_sync_backend">Bekræfter backend</string>
-    <string name="upgrade_now">Opgradér</string>
     <string name="pref_backup_cloud_summary">Ud over lokal lagring på enheden kan sikkerhedskopifilen kopieres til en ekstern backend.</string>
     <string name="auto_backup_cloud_success">Sikkerhedskopifilen %1$s blev gemt på backenden %2$s.</string>
     <string name="number_of_fraction_digits">Antal decimaler</string>
@@ -737,7 +735,6 @@
     <string name="reset_equivalent_amounts_success">Tilsvarende beløb blev nulstillet</string>
     <string name="new_balance">Ny saldo</string>
     <string name="title_webui">Webbrugergrænseflade</string>
-    <string name="icon">Ikon</string>
     <string name="translated_by">Oversat af</string>
     <string name="pref_exchange_rate_provider_title">Valutakursudbyder</string>
     <string name="menu_create_budget">Nyt budget</string>

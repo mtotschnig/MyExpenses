@@ -53,4 +53,6 @@
     <string name="system_default">"Default sistem"</string>
     <string name="never">"Tidak pernah"</string>
     <string name="always">"Selalu"</string>
+    <string name="button_try">"Cobalah"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

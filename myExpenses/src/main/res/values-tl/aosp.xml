@@ -34,4 +34,6 @@
     <string name="system_default">"Default ng system"</string>
     <string name="never">"Hindi kailanman"</string>
     <string name="always">"Palagi"</string>
+    <string name="button_try">"Subukan ito"</string>
+    <string name="icon">"Icon"</string>
 </resources>

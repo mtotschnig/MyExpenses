@@ -30,4 +30,6 @@
     <string name="system_default">"Системанын демейки параметрлери"</string>
     <string name="never">"Эч качан"</string>
     <string name="always">"Ар дайым"</string>
+    <string name="button_try">"Байкап көрүңүз"</string>
+    <string name="icon">"Сүрөтчө"</string>
 </resources>

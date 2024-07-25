@@ -44,7 +44,6 @@
     <string name="dialog_confirm_discard_changes">تبدیلیاں مسترد کریں؟</string>
     <string name="dialog_command_disabled_balance">مصالحت کے لیے کوئی کلیئر شدہ لین دین نہیں۔</string>
     <string name="dialog_command_disabled_insert_transfer">ٹرانسفر ٹرانزیکشنز کے لیے دوسرا اکاؤنٹ درکار ہوتا ہے۔</string>
-    <string name="dialog_contrib_no">کوشش کریں</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> کو اوپن سورس پیش کیا جاتا ہے۔</string>
     <string name="dialog_contrib_text_2">براہ کرم <i>{app_name}</i> کو اپ گریڈ کرکے تعاون کریں اور درج ذیل خصوصیات تک غیر محدود رسائی حاصل کریں:</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">آپ کی موجودہ لائسنس کی حیثیت (%2$s) آپ کو %1$d منصوبے بنانے کی اجازت دیتی ہے۔</string>
@@ -432,7 +431,6 @@
     <string name="progress_dialog_checking_sync_backend">بیک اینڈ کی تصدیق ہو رہی ہے</string>
     <string name="template">سانچے</string>
     <string name="all_contrib_key_features">کنٹریب کلید کی تمام خصوصیات</string>
-    <string name="upgrade_now">اپ گریڈ</string>
     <string name="auto_backup_cloud_success">بیک اپ فائل %1$s کامیابی سے بیک اینڈ %2$s پر محفوظ ہو گئی ہے.</string>
     <string name="currency_symbol">کرنسی کی علامت</string>
     <string name="number_of_fraction_digits">فریکشن ہندسوں کی تعداد</string>
@@ -504,7 +502,6 @@
     <string name="translated_by">کی طرف سے ترجمہ</string>
     <string name="warning_no_account">نئی ٹرانزیکشنز بنانے کے لیے کم از کم ایک اکاؤنٹ کھلا اور ظاہر ہونا چاہیے.</string>
     <string name="content_description_dates_are_not_linked">بکنگ کی تاریخ اور قیمت کی تاریخ ایک ساتھ اپ ڈیٹ نہیں کی جاتی ہے</string>
-    <string name="icon">آئیکن</string>
     <string name="pref_debug_title">ڈیبگ</string>
     <string name="roadmap_vote">روڈ میپ ووٹ</string>
     <string name="object_sealed">آبجیکٹ سے مراد بند اکاؤنٹ ہے.</string>

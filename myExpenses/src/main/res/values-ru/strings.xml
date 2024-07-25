@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Отменить изменения\?</string>
     <string name="dialog_command_disabled_balance">Отсутствуют подтвержденные операций для согласования.</string>
     <string name="dialog_command_disabled_insert_transfer">Для переводов требуется второй счет.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Испытать</string>
     <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> с открытым исходным кодом.</string>
     <string name="dialog_contrib_text_2">Пожалуйста, внесите вклад расширив <i>{app_name}</i> и получите неограниченный доступ к следующим возможностях:</string>
@@ -545,8 +543,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
     <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
     <string name="all_extended_key_features">Все возможности Extended-ключа</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Обновить</string>
     <string name="pref_backup_cloud_summary">В дополнение к локальному хранению на устройстве, файл резервной копии может быть скопирован на удаленный сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="currency_symbol">Символ валюты</string>
@@ -724,7 +720,6 @@
     <string name="warning_no_account">Как минимум один счёт должен быть видимым и открыт для создания новых транзакций.</string>
     <string name="content_description_dates_are_linked">Дата бронирования и дата стоимости обновятся вместе</string>
     <string name="content_description_dates_are_not_linked">Дата бронирования и дата стоимости не обновятся вместе</string>
-    <string name="icon">Значок</string>
     <string name="pref_debug_title">Отладка</string>
     <string name="roadmap_vote">Дорожная карта и голосование</string>
     <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>

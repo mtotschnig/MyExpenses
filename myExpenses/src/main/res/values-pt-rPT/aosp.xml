@@ -80,4 +80,6 @@
     <string name="system_default">"Predefinição do sistema"</string>
     <string name="never">"Nunca"</string>
     <string name="always">"Sempre"</string>
+    <string name="button_try">"Experimentar"</string>
+    <string name="icon">"Ícone"</string>
 </resources>

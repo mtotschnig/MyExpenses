@@ -43,4 +43,6 @@
     <string name="system_default">"پیش‌فرض سیستم"</string>
     <string name="never">"هرگز"</string>
     <string name="always">"همیشه"</string>
+    <string name="button_try">"امتحان کنید"</string>
+    <string name="icon">"نماد"</string>
 </resources>

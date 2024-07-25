@@ -112,4 +112,6 @@
     <string name="system_default">"Zadane postavke sustava"</string>
     <string name="never">"Nikada"</string>
     <string name="always">"Uvijek"</string>
+    <string name="button_try">"Isprobajte"</string>
+    <string name="icon">"Ikona"</string>
 </resources>

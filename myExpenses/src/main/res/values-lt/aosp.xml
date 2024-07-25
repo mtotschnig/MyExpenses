@@ -45,4 +45,6 @@
     <string name="system_default">"Numatytoji sistemos vertė"</string>
     <string name="never">"Niekada"</string>
     <string name="always">"Visada"</string>
+    <string name="button_try">"Išbandyti"</string>
+    <string name="icon">"Piktograma"</string>
 </resources>

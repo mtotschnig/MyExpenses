@@ -109,4 +109,6 @@
     <string name="system_default">"ಸಿಸ್ಟಂ ಡೀಫಾಲ್ಟ್"</string>
     <string name="never">"ಎಂದಿಗೂ ಬೇಡ"</string>
     <string name="always">"ಯಾವಾಗಲೂ"</string>
+    <string name="button_try">"ಇದನ್ನು ಬಳಸಿ ನೋಡಿ"</string>
+    <string name="icon">"ಐಕಾನ್‌"</string>
 </resources>

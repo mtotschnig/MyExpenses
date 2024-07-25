@@ -38,4 +38,6 @@
     <string name="system_default">"Стандардно за системот"</string>
     <string name="never">"Никогаш"</string>
     <string name="always">"Секогаш"</string>
+    <string name="button_try">"Пробајте"</string>
+    <string name="icon">"Икона"</string>
 </resources>

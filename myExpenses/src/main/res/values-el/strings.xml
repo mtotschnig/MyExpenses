@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Απόρριψη αλλαγών;</string>
     <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
     <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Δοκιμή</string>
     <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> είναι ανοικτού κώδικα.</string>
     <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες:</string>
@@ -521,8 +519,6 @@
     <string name="contrib_feature_synchronization_label">Συγχρονισμός σύννεφου</string>
     <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
     <string name="all_extended_key_features">Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Αναβάθμιση</string>
     <string name="currency_symbol">Σύμβολο Νομίσματος</string>
     <string name="number_of_fraction_digits">Αριθμός κλασματικών ψηφίων</string>
     <string name="warning_auto_backup_deactivated">Η αυτόματη δημιουργία αντιγράφων ασφαλείας έχει απενεργοποιηθεί. Μπορείτε να το ενεργοποιήσετε ξανά από τις ρυθμίσεις μετά την επίλυση του προβλήματος (π.χ. επιλέγοντας διαφορετικό φάκελο για αντίγραφα ασφαλείας).</string>
@@ -656,7 +652,6 @@
     <string name="translated_by">Μεταφράστηκε από</string>
     <string name="content_description_dates_are_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας ενημερώνονται μαζί</string>
     <string name="content_description_dates_are_not_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας δεν ενημερώνονται μαζί</string>
-    <string name="icon">Εικονίδιο</string>
     <string name="pref_debug_title">Εντοπισμός σφαλμάτων</string>
     <string name="pref_category_exchange_rates">Συναλλαγματικές ισοτιμίες</string>
     <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>

@@ -45,4 +45,6 @@
     <string name="system_default">"სისტემის ნაგულისხმევი"</string>
     <string name="never">"არასოდეს"</string>
     <string name="always">"ყოველთვის"</string>
+    <string name="button_try">"გამოცადეთ"</string>
+    <string name="icon">"ხატულა"</string>
 </resources>

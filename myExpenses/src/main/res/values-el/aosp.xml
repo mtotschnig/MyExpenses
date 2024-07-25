@@ -119,4 +119,6 @@
     <string name="system_default">"Προεπιλογή συστήματος"</string>
     <string name="never">"Ποτέ"</string>
     <string name="always">"Πάντα"</string>
+    <string name="button_try">"Δοκιμάστε το"</string>
+    <string name="icon">"Εικονίδιο"</string>
 </resources>

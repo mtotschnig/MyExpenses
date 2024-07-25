@@ -498,7 +498,6 @@
     <string name="currency_symbol">Oznaka valute</string>
     <string name="auto_backup_cloud_success">Datoteka sigurnosne kopije %1$s uspješno je spremljena na pozadinskom sustavu %2$s.</string>
     <string name="pref_backup_cloud_summary">Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.</string>
-    <string name="upgrade_now">Nadogradi</string>
     <string name="all_extended_key_features">Sve funkcije za prošireni ključ</string>
     <string name="all_contrib_key_features">Sve funkcije za ključ doprinositelja</string>
     <string name="progress_dialog_checking_sync_backend">Provjeravanje pozadinskog sustava</string>
@@ -593,7 +592,6 @@
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) ti dozvoljava stvaranje %1$d plana.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) ti dozvoljava stvaranje %1$d računa.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ukloni ovo ograničenje i pristupi dodatnim funkcijama nadogradnjom programa <i>{app_name}</i>.</string>
-    <string name="dialog_contrib_no">Probaj</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcije prijenosa trebaju drugi račun.</string>
     <string name="dialog_confirm_discard_changes">Odbaciti promjene\?</string>
     <string name="licence_status_free">Besplatno</string>
@@ -712,7 +710,6 @@
     <string name="object_sealed">Predmet se odnosi na zatvoreni račun.</string>
     <string name="warning_account_for_transaction_is_closed">Barem jedna od odabranih transakcija se ne može urediti:</string>
     <string name="pref_debug_title">Otklanjanje grešaka</string>
-    <string name="icon">Ikona</string>
     <string name="content_description_dates_are_not_linked">Datum uknjiženja i datum vrijednosti se ne aktualiziraju zajedno</string>
     <string name="content_description_dates_are_linked">Datum uknjiženja i datum vrijednosti se aktualiziraju zajedno</string>
     <string name="warning_no_account">Za izradu nove transakcije barem jedan račun mora biti vidljiv i otvoren.</string>

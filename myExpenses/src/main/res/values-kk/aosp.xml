@@ -46,4 +46,6 @@
     <string name="system_default">"Жүйенің әдепкі параметрі"</string>
     <string name="never">"Ешқашан"</string>
     <string name="always">"Әрқашан"</string>
+    <string name="button_try">"Байқап көру"</string>
+    <string name="icon">"Белгіше"</string>
 </resources>

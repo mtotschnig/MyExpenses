@@ -52,4 +52,6 @@
     <string name="system_default">"Järjestelmän oletusarvo"</string>
     <string name="never">"Ei koskaan"</string>
     <string name="always">"Aina"</string>
+    <string name="button_try">"Kokeile"</string>
+    <string name="icon">"Kuvake"</string>
 </resources>

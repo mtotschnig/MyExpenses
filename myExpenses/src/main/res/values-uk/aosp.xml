@@ -120,4 +120,6 @@
     <string name="system_default">"Налаштування системи за умовчанням"</string>
     <string name="never">"Ніколи"</string>
     <string name="always">"Завжди"</string>
+    <string name="button_try">"Спробувати"</string>
+    <string name="icon">"Значок"</string>
 </resources>

@@ -117,4 +117,6 @@
     <string name="system_default">"系统默认设置"</string>
     <string name="never">"一律不"</string>
     <string name="always">"一律检查"</string>
+    <string name="button_try">"试试看"</string>
+    <string name="icon">"图标"</string>
 </resources>

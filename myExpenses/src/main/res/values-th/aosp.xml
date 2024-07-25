@@ -52,4 +52,6 @@
     <string name="system_default">"ค่าเริ่มต้นของระบบ"</string>
     <string name="never">"ไม่เลย"</string>
     <string name="always">"ทุกครั้ง"</string>
+    <string name="button_try">"ลองใช้งาน"</string>
+    <string name="icon">"ไอคอน"</string>
 </resources>

@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
     <string name="dialog_command_disabled_balance">لا توجد معاملات تمت تسويتها.</string>
     <string name="dialog_command_disabled_insert_transfer">تتطلب معاملات التحويل حساباً ثانياً.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">للتجربة</string>
     <string name="dialog_contrib_reminder_remove_limitation">قم بإزالة هذا القيد والوصول إلى المزيد من الميزات عن طريق ترقية <i> {app_name}</i>.</string>
     <string name="dialog_contrib_text_1">إن <i>{app_name}</i> مفتوح المصدر.</string>
     <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
@@ -560,8 +558,6 @@
     <string name="contrib_feature_synchronization_label">تزامن سحابي</string>
     <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
     <string name="all_extended_key_features">جميع ميزات المفتاح الممتد</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">ترقية</string>
     <string name="pref_backup_cloud_summary">بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.</string>
     <string name="auto_backup_cloud_success">تم تخزين ملف النسخ الاحتياطي %1$s بنجاح على الواجهة الخلفية %2$s.</string>
     <string name="currency_symbol">رمز العملة</string>
@@ -741,7 +737,6 @@
     <string name="warning_no_account">يجب أن يكون حساب واحد على الأقل مرئياً ومفتوحاً من أجل إنشاء معاملات جديدة.</string>
     <string name="content_description_dates_are_linked">يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
     <string name="content_description_dates_are_not_linked">لا يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
-    <string name="icon">أيقونة</string>
     <string name="pref_debug_title">تصحيح الأخطاء</string>
     <string name="roadmap_vote">التصويت على خارطة الطريق</string>
     <string name="warning_account_for_transaction_is_closed">لا يمكن تحرير واحدة على الأقل من المعاملات المحددة:</string>

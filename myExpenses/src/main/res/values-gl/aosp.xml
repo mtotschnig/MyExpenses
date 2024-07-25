@@ -51,4 +51,6 @@
     <string name="system_default">"Aplicación predeterminada do sistema"</string>
     <string name="never">"Nunca"</string>
     <string name="always">"Sempre"</string>
+    <string name="button_try">"Probar"</string>
+    <string name="icon">"Icona"</string>
 </resources>

@@ -113,4 +113,5 @@
     <string name="system_default">"Padrão do sistema"</string>
     <string name="never">"Nunca"</string>
     <string name="always">"Sempre"</string>
+    <string name="button_try">"Fazer um teste"</string>
 </resources>

@@ -37,4 +37,6 @@
     <string name="system_default">"Podrazumevani sistemski"</string>
     <string name="never">"Nikada"</string>
     <string name="always">"Uvek"</string>
+    <string name="button_try">"Isprobaj"</string>
+    <string name="icon">"Ikona"</string>
 </resources>

@@ -53,4 +53,6 @@
     <string name="system_default">"Süsteemi vaikeseade"</string>
     <string name="never">"Mitte kunagi"</string>
     <string name="always">"Alati"</string>
+    <string name="button_try">"Proovige"</string>
+    <string name="icon">"Ikoon"</string>
 </resources>

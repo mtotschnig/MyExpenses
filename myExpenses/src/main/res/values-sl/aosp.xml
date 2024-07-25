@@ -36,4 +36,6 @@
     <string name="system_default">"Sistemsko privzeto"</string>
     <string name="never">"Nikoli"</string>
     <string name="always">"Vedno"</string>
+    <string name="button_try">"Preizkusite"</string>
+    <string name="icon">"Ikona"</string>
 </resources>

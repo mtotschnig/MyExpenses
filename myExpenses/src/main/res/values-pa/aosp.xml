@@ -29,4 +29,6 @@
     <string name="system_default">"ਸਿਸਟਮ ਪੂਰਵ-ਨਿਰਧਾਰਿਤ"</string>
     <string name="never">"ਕਦੇ ਵੀ ਨਹੀਂ"</string>
     <string name="always">"ਹਮੇਸ਼ਾ"</string>
+    <string name="button_try">"ਇਸਨੂੰ ਅਜ਼ਮਾਓ"</string>
+    <string name="icon">"ਪ੍ਰਤੀਕ"</string>
 </resources>

@@ -99,7 +99,6 @@
     <string name="date">Datum</string>
     <string name="dialog_confirm_discard_changes">Wijzigingen weggooien?</string>
     <string name="dialog_balance_delete">Verwerkte transacties verwijderen</string>
-    <string name="dialog_contrib_no">Probeer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Verwijder deze beperking en krijg toegang tot meer functies door <i>{app_name}</i> te upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wordt open source aangeboden.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%2$s) kun je %1$d plannen maken.</string>
@@ -402,7 +401,6 @@
     <string name="warning_synchronization_folder_usage">Deze map wordt gebruikt voor het synchroniseren van gegevens tussen installaties van {app_name} op verschillende apparaten. Wijzig de inhoud niet handmatig.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">De map die je hebt geselecteerd, komt overeen met één rekening van een bestaande backend. Je moet de bovenliggende map selecteren om deze backend opnieuw te gebruiken.</string>
     <string name="warning_auto_backup_deactivated">Automatische back-up is gedeactiveerd. Je kunt het opnieuw inschakelen via de instellingen nadat je het probleem hebt opgelost (bijv. door een andere map voor back-ups te selecteren).</string>
-    <string name="upgrade_now">Upgraden</string>
     <string name="auto_backup_cloud_success">Back-upbestand %1$s is met succes opgeslagen op backend %2$s.</string>
     <string name="sync_io_exception_locking">Externe backend is vergrendeld of kan niet worden vergrendeld.</string>
     <string name="synchronization_end_success">%1$d wijzigingen op afstand zijn weggeschreven naar de lokale database. %2$d lokale wijzigingen zijn weggeschreven naar de externe backend.</string>
@@ -547,7 +545,6 @@
     <string name="auto_fill_account_from_aggregate_only">Alleen wanneer gestart vanaf een samengestelde rekening.</string>
     <string name="menu_history_transfers">Inclusief transfers</string>
     <string name="licence_expires_today">Je professionele sleutel verloopt vandaag.</string>
-    <string name="icon">Icoon</string>
     <string name="no_budgets">Bepaal je eerste budget door op de knop + te tikken.</string>
     <string name="menu_remap">Opnieuw toewijzen</string>
     <string name="pref_clone_with_current_date_summary_on">Gekloonde transacties hebben de huidige datum</string>

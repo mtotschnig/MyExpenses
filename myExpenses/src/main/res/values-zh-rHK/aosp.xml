@@ -98,4 +98,6 @@
     <string name="system_default">"系統預設"</string>
     <string name="never">"永不"</string>
     <string name="always">"一律檢查"</string>
+    <string name="button_try">"立即試用"</string>
+    <string name="icon">"圖示"</string>
 </resources>

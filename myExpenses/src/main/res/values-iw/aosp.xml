@@ -111,4 +111,6 @@
     <string name="system_default">"ברירת המחדל של המערכת"</string>
     <string name="never">"אף פעם"</string>
     <string name="always">"תמיד"</string>
+    <string name="button_try">"אני רוצה לנסות"</string>
+    <string name="icon">"סמל"</string>
 </resources>

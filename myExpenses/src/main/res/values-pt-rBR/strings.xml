@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Descartar as alterações?</string>
     <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">As transferências de transações requerem uma segunda conta.</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Tentar</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido com o código aberto.</string>
     <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
@@ -540,8 +538,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
     <string name="all_contrib_key_features">Todas os recursos da chave Contrib</string>
     <string name="all_extended_key_features">Todos os recursos da chave Estendida</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Atualizar</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
     <string name="currency_symbol">Símbolo da moeda</string>

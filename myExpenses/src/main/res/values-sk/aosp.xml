@@ -52,4 +52,6 @@
     <string name="system_default">"Predvolené systémom"</string>
     <string name="never">"Nikdy"</string>
     <string name="always">"Vždy"</string>
+    <string name="button_try">"Vyskúšať"</string>
+    <string name="icon">"Ikony"</string>
 </resources>

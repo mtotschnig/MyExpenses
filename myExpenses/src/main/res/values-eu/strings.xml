@@ -66,8 +66,6 @@
     <string name="dialog_confirm_discard_changes">Baztertu aldaketak?</string>
     <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
     <string name="dialog_command_disabled_insert_transfer">Transferentzia transakzioek bigarren kontu bat behar dute</string>
-    <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">Probatu</string>
     <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> doan eta libre eskaintzen da.</string>
     <string name="dialog_contrib_text_2">Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:</string>
@@ -529,8 +527,7 @@
     <string name="contrib_feature_synchronization_label">Sinkronizazioa hodeian</string>
     <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
     <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
-    <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Eguneratu</string>
+
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="currency_symbol">Moneta-ikurra</string>

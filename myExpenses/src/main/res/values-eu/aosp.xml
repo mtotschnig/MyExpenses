@@ -117,4 +117,6 @@
     <string name="system_default">"Sistemaren balio lehenetsia"</string>
     <string name="never">"Inoiz ez"</string>
     <string name="always">"Beti"</string>
+    <string name="button_try">"Probatu"</string>
+    <string name="icon">"Ikonoa"</string>
 </resources>

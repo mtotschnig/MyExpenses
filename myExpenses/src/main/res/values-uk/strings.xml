@@ -732,7 +732,6 @@
         <item quantity="many">Видалити %1$d рахунків\?</item>
         <item quantity="other">Видалити %1$d рахунків\?</item>
     </plurals>
-    <string name="icon">Значок</string>
     <string name="budget_filter_all_accounts">Усі рахунки</string>
     <string name="app_restart_required">Нова конфігурація вимагає перезапуску програми, щоб вступити в силу.</string>
     <string name="menu_save_and_new_content_description">Збережіть дані, залиште форму відкритою для створення нової транзакції з тими самими даними.</string>
@@ -741,7 +740,6 @@
     <string name="image_capture_not_installed">Не знайдено жодної програми камери.</string>
     <string name="remap_category">Усі вибрані транзакції буде віднесено до категорії %s.</string>
     <string name="search_tag">Пошук за тегом</string>
-    <string name="dialog_contrib_no">Спробувати</string>
     <string name="warning_account_for_transaction_is_closed">Принаймні одна з обраних транзакцій не може бути відредагована:</string>
     <string name="language_download_requested">Переклади для мови %s запитуються в Play Store</string>
     <string name="dialog_multi_tag_replace">Замініть існуючі теги на нові</string>
@@ -770,7 +768,6 @@
     <string name="dialog_title_warning_delete_category">Видалити категорію\?</string>
     <string name="select_payee">Виберіть платника/отримувача</string>
     <string name="account_deleted">Рахунок видалено</string>
-    <string name="upgrade_now">Оновлення</string>
     <string name="account_widget_configuration_sum">Тип відображуваної суми</string>
     <string name="auto_fill_focus">Зверніть увагу на одержувача</string>
     <string name="warning_plan_instance_delete">Транзакцію, створену на вибрану дату, буде видалено.</string>

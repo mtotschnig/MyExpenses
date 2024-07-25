@@ -52,4 +52,6 @@
     <string name="system_default">"Systemstandard"</string>
     <string name="never">"Aldri"</string>
     <string name="always">"Alltid"</string>
+    <string name="button_try">"Prøv nå"</string>
+    <string name="icon">"Ikon"</string>
 </resources>

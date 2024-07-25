@@ -536,7 +536,6 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
-    <string name="upgrade_now">Atualizar</string>
     <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
     <string name="description_webdav_trust_certificate">O site usa um certificado que não é confiável para o Android.</string>
     <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador\? Esse comportamento pode ser alterado nas configurações.</string>
@@ -652,7 +651,6 @@
     <string name="warning_account_for_transaction_is_closed">Pelo menos uma das transações selecionadas não pode ser editada:</string>
     <string name="roadmap_vote">Votar no roteiro</string>
     <string name="pref_debug_title">Depurar</string>
-    <string name="icon">Ícone</string>
     <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas</string>
     <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas</string>
     <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
@@ -782,7 +780,6 @@
     <string name="sync_success_reset_account_data">Os dados remotos para a conta %s foram excluídos.</string>
     <string name="sync_error_will_try_again_later">Tentarei novamente mais tarde.</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
-    <string name="dialog_contrib_no">Tentar</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Diagrama histórico</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Direito de voto no <b>roteiro de desenvolvimento</b></string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis</string>

@@ -170,7 +170,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
                 matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())
+            onView(ViewMatchers.withText(R.string.button_try)).perform(ViewActions.scrollTo(), ViewActions.click())
         }
     }
 
