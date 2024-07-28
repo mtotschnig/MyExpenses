@@ -58,4 +58,5 @@
     <string name="reset_all">"Lähtesta kõik"</string>
     <string name="remove">"Eemalda"</string>
     <string name="currency_symbol">"Rahaühiku tähis"</string>
+    <string name="onboarding_get_started">"Alustage"</string>
 </resources>

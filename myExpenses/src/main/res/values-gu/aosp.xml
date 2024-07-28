@@ -46,4 +46,5 @@
     <string name="reset_all">"તમામને રીસેટ કરો"</string>
     <string name="remove">"કાઢી નાખો"</string>
     <string name="currency_symbol">"ચલણ સંજ્ઞા"</string>
+    <string name="onboarding_get_started">"શરૂ કરો"</string>
 </resources>

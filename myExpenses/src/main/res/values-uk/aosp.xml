@@ -125,4 +125,5 @@
     <string name="reset_all">"Скинути для всіх"</string>
     <string name="remove">"Вилучити"</string>
     <string name="currency_symbol">"Символ грошової одиниці"</string>
+    <string name="onboarding_get_started">"Почати"</string>
 </resources>

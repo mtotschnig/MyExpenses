@@ -127,4 +127,5 @@
     <string name="reset_all">"Zresetuj wszystko"</string>
     <string name="remove">"Usuń"</string>
     <string name="currency_symbol">"Symbol waluty"</string>
+    <string name="onboarding_get_started">"Rozpocznij"</string>
 </resources>

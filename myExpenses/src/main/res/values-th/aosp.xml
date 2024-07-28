@@ -57,4 +57,5 @@
     <string name="reset_all">"รีเซ็ตทั้งหมด"</string>
     <string name="remove">"นำออก"</string>
     <string name="currency_symbol">"สัญลักษณ์สกุลเงิน"</string>
+    <string name="onboarding_get_started">"เริ่มต้นใช้งาน"</string>
 </resources>

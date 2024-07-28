@@ -122,4 +122,5 @@
     <string name="reset_all">"すべてリセット"</string>
     <string name="remove">"削除"</string>
     <string name="currency_symbol">"通貨記号"</string>
+    <string name="onboarding_get_started">"使ってみる"</string>
 </resources>

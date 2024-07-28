@@ -51,4 +51,5 @@
     <string name="reset_all">"Барлығын бастапқы күйге қайтару"</string>
     <string name="remove">"Өшіру"</string>
     <string name="currency_symbol">"Валюта таңбасы"</string>
+    <string name="onboarding_get_started">"Бастау"</string>
 </resources>

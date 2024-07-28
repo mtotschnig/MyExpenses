@@ -117,4 +117,5 @@
     <string name="reset_all">"Resetează tot"</string>
     <string name="remove">"Elimină"</string>
     <string name="currency_symbol">"Simbol valutar"</string>
+    <string name="onboarding_get_started">"Începe"</string>
 </resources>

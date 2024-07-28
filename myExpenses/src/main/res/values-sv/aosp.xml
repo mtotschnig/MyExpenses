@@ -58,4 +58,5 @@
     <string name="reset_all">"Återställ alla"</string>
     <string name="remove">"Ta bort"</string>
     <string name="currency_symbol">"Valutasymbol"</string>
+    <string name="onboarding_get_started">"Kom igång"</string>
 </resources>

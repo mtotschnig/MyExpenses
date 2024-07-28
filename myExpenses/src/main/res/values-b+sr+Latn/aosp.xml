@@ -42,4 +42,5 @@
     <string name="reset_all">"Resetuj sve"</string>
     <string name="remove">"Ukloni"</string>
     <string name="currency_symbol">"Simbol valute"</string>
+    <string name="onboarding_get_started">"Započnite"</string>
 </resources>

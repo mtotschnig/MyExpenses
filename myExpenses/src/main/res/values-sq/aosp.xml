@@ -45,4 +45,5 @@
     <string name="reset_all">"Rivendosi të gjitha"</string>
     <string name="remove">"Hiq"</string>
     <string name="currency_symbol">"Simbol monedhe"</string>
+    <string name="onboarding_get_started">"Fillo"</string>
 </resources>

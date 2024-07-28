@@ -121,4 +121,5 @@
     <string name="reset_all">"Alles resetten"</string>
     <string name="remove">"Verwijderen"</string>
     <string name="currency_symbol">"Valutasymbool"</string>
+    <string name="onboarding_get_started">"Aan de slag"</string>
 </resources>

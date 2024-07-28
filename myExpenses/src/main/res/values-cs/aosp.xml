@@ -127,4 +127,5 @@
     <string name="reset_all">"Resetovat vše"</string>
     <string name="remove">"Odstranit"</string>
     <string name="currency_symbol">"Symbol měny"</string>
+    <string name="onboarding_get_started">"Začít"</string>
 </resources>

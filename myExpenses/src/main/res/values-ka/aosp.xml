@@ -50,4 +50,5 @@
     <string name="reset_all">"ყველას გადაყენება"</string>
     <string name="remove">"წაშლა"</string>
     <string name="currency_symbol">"ვალუტის სიმბოლო"</string>
+    <string name="onboarding_get_started">"დაწყება"</string>
 </resources>

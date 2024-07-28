@@ -57,4 +57,5 @@
     <string name="reset_all">"Resetovať všetky"</string>
     <string name="remove">"Odstrániť"</string>
     <string name="currency_symbol">"Symbol meny"</string>
+    <string name="onboarding_get_started">"Začíname"</string>
 </resources>

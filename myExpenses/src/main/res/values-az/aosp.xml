@@ -40,4 +40,5 @@
     <string name="icon">"İkona"</string>
     <string name="reset_all">"Hamısını sıfırlayın"</string>
     <string name="remove">"Silin"</string>
+    <string name="onboarding_get_started">"Başlayın"</string>
 </resources>

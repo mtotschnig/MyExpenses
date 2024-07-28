@@ -46,4 +46,5 @@
     <string name="reset_all">"အားလုံး ပြင်ဆင်သတ်မှတ်ရန်"</string>
     <string name="remove">"ဖယ်ရှားရန်"</string>
     <string name="currency_symbol">"ငွေကြေးသင်္ကေတ"</string>
+    <string name="onboarding_get_started">"စတင်ရန်"</string>
 </resources>

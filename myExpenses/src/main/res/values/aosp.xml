@@ -225,4 +225,6 @@
     <string name="remove">"Remove"</string>
     <!-- LibreOffice extensions/messages.po FG24h-->
     <string name="currency_symbol">"Currency symbol"</string>
+    <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -r "onboarding_get_started_button_text" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/button_text//'  | aosp_helper -->
+    <string name="onboarding_get_started">"Get started"</string>
 </resources>

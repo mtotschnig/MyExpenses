@@ -48,4 +48,5 @@
     <string name="reset_all">"सभी को रीसेट करें"</string>
     <string name="remove">"हटाएं"</string>
     <string name="currency_symbol">"मुद्रा संकेत"</string>
+    <string name="onboarding_get_started">"शुरू करें"</string>
 </resources>

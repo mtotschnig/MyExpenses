@@ -45,4 +45,5 @@
     <string name="reset_all">"সবকটি রিসেট করুন"</string>
     <string name="remove">"সরিয়ে দিন"</string>
     <string name="currency_symbol">"মুদ্রা চিহ্ন"</string>
+    <string name="onboarding_get_started">"শুরু করুন"</string>
 </resources>

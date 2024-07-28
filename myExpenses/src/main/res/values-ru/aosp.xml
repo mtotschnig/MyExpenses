@@ -126,4 +126,5 @@
     <string name="reset_all">"Вернуть все"</string>
     <string name="remove">"Удалить"</string>
     <string name="currency_symbol">"Символ валюты"</string>
+    <string name="onboarding_get_started">"Начать"</string>
 </resources>

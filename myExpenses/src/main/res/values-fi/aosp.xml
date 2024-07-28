@@ -57,4 +57,5 @@
     <string name="reset_all">"Palauta kaikki alkutilaan"</string>
     <string name="remove">"Poista"</string>
     <string name="currency_symbol">"Valuuttasymboli"</string>
+    <string name="onboarding_get_started">"Aloita"</string>
 </resources>

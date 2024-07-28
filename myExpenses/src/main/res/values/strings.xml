@@ -568,8 +568,6 @@
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Sync state could not be restored for %d accounts.</string>
     <string name="onboarding_ui_title">{app_name} adapts to your preference</string>
     <string name="onboarding_data_title">Let\'s set up your first account</string>
-    <string name="onboarding_get_started">Get started</string>
-    <string name="onboarding_more_options">More Options</string>
     <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
     <string name="onboarding_restore_from_local">Restore local backup file</string>
     <string name="contributed_by">Contributed by %s</string>

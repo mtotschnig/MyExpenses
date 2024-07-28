@@ -34,4 +34,5 @@
     <string name="icon">"Сүрөтчө"</string>
     <string name="reset_all">"Баарын баштапкы абалга келтирүү"</string>
     <string name="remove">"Өчүрүү"</string>
+    <string name="onboarding_get_started">"Баштадык"</string>
 </resources>

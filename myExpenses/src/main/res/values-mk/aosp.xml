@@ -43,4 +43,5 @@
     <string name="reset_all">"Ресетирај ги сите"</string>
     <string name="remove">"Отстрани"</string>
     <string name="currency_symbol">"Симбол за валутата"</string>
+    <string name="onboarding_get_started">"Започнете"</string>
 </resources>

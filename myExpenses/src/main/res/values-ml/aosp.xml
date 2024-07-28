@@ -46,4 +46,5 @@
     <string name="reset_all">"എല്ലാം റീസെറ്റ് ചെയ്യുക"</string>
     <string name="remove">"നീക്കം ചെയ്യൂ"</string>
     <string name="currency_symbol">"കറന്സി ചിഹ്നം"</string>
+    <string name="onboarding_get_started">"ആരംഭിക്കുക"</string>
 </resources>

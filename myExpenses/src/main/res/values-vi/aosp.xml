@@ -120,4 +120,5 @@
     <string name="reset_all">"Đặt lại tất cả"</string>
     <string name="remove">"Xoá"</string>
     <string name="currency_symbol">"Ký hiệu tiền tệ"</string>
+    <string name="onboarding_get_started">"Bắt đầu"</string>
 </resources>

@@ -126,4 +126,5 @@
     <string name="reset_all">"Az összes visszaállítása"</string>
     <string name="remove">"Eltávolítás"</string>
     <string name="currency_symbol">"Pénznem szimbóluma"</string>
+    <string name="onboarding_get_started">"Kezdő lépések"</string>
 </resources>

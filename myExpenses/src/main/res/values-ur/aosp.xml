@@ -100,4 +100,5 @@
     <string name="reset_all">"تمام ری سیٹ کریں"</string>
     <string name="remove">"ہٹائیں"</string>
     <string name="currency_symbol">"کرنسی کی علامت"</string>
+    <string name="onboarding_get_started">"شروع کریں"</string>
 </resources>

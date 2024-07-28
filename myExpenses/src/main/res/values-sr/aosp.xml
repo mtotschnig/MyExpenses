@@ -38,4 +38,5 @@
     <string name="reset_all">"Ресетуј све"</string>
     <string name="remove">"Уклони"</string>
     <string name="currency_symbol">"Симбол валуте"</string>
+    <string name="onboarding_get_started">"Започните"</string>
 </resources>
