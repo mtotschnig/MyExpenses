@@ -483,4 +483,55 @@
     <string name="dialog_contrib_trial_info_play">Această încercare gratuită nu va niciodata converti la niciun tip de abonament.</string>
     <string name="dialog_contrib_subscription_info_play">Acest abonament are efect imediat, este facturat lunar sau anual și poate fi anulat oricând.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Îmbunătățiri ale stabilității</string>
+    <string name="no_calendar_app_installed">Nu a fost găsită nicio aplicație pentru editarea evenimentului din calendar.</string>
+    <string name="pref_manage_stale_images_title">Imagini vechi</string>
+    <string name="contrib_feature_split_template_label">Număr nelimitat de șabloane divizate</string>
+    <string name="contrib_feature_distribution_label">Diagramă circulară (Distribuție pe categorie)</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Starea actuală a licenței (%2$s) vă permite să creați conturi %1$d .</string>
+    <string name="move_category_success">O categorie a fost mutată cu succes.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Dacă sumele nu sunt actualizate, acestea vor fi afișate ca înmulțite cu %d după modificare.</string>
+    <string name="menu_undelete_transaction">Anulați ștergerea</string>
+    <string name="image_capture_not_installed">Nu s-a găsit nicio aplicație pentru fotografiere.</string>
+    <string name="no_accounts">Fără conturi.</string>
+    <string name="search_tag">Căutați etichetă</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Înregistrările %d au fost eliminate.</string>
+    <string name="contrib_feature_pro_support_label"><b>Suport prin e-mail</b> cu răspuns garantat în 2 zile lucrătoare</string>
+    <string name="contrib_feature_roadmap_voting_label">Dreptul de vot asupra foii <b>dezvoltare</b></string>
+    <string name="contrib_feature_history_label">Diagrama istoricului</string>
+    <string name="dialog_command_disabled_insert_transfer">Tranzacțiile de transfer necesită un al doilea cont.</string>
+    <string name="pref_auto_fill_summary">Completați datele din ultima tranzacție pentru același beneficiar/plătitor</string>
+    <string name="warning_change_fraction_digits_1">Sumele din baza de date trebuie actualizate pentru a corespunde noului număr de fracții.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Dacă sumele nu sunt actualizate, acestea vor fi afișate împărțite la %d după modificare.</string>
+    <string name="app_dir_not_compatible_with_nougat">URI-ul configurat în prezent pentru backup și exporturi (%1$s) nu este acceptat cu Android Nougat. Vă rugăm să selectați din nou un dosar.</string>
+    <string name="select_payee">Selectați plătitorul/beneficiarul</string>
+    <string name="content_description_calculator_clear_button">Resetează tot</string>
+    <string name="hint_auto_fill">Ar trebui să fie completate automat datele din ultima tranzacție pentru același beneficiar/plătitor? Puteți schimba oricând acest comportament din setări.</string>
+    <string name="dialog_contrib_text_2">Contribuiți prin actualizarea <i>{app_name}</i> și obțineți acces nerestricționat la următoarele funcții:</string>
+    <string name="warning_change_fraction_digits_3">Dacă sumele sunt actualizate, veți pierde informațiile despre partea lor fracțională.</string>
+    <string name="account_deleted">Contul a fost șters</string>
+    <string name="dialog_export_applied_to_filter">Vor fi luate în considerare numai tranzacțiile corelate cu filtrul curent.</string>
+    <string name="export_handle_deleted_create_helper">Creați o tranzacție de ajutor</string>
+    <string name="csv_import_subcategory_requires_category">Dacă mapați subcategoria, trebuie să mapați și categoria.</string>
+    <string name="cvs_import_set_first_line_as_header">Prima linie trebuie tratată ca o linie de antet?</string>
+    <string name="csv_import_no_mapping_found_for_amount">Vă rugăm să mapați o coloană fie la sumă, la venituri sau la cheltuieli.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> are nevoie de permisiune pentru a vă accesa calendarul, pentru a crea planuri pentru tranzacții viitoare și recurente.</string>
+    <string name="progress_dialog_updating_split_parts">Actualizarea părților divizate</string>
+    <string name="io_error_unable_to_create_file">Imposibil de creat fișierul %1$s în folderul %2$s</string>
+    <string name="contrib_feature_category_tree_label">Arborele categoriilor</string>
+    <string name="warning_delete_category_with_budget">Pentru cel puțin o categorie selectată, există alocări bugetare, care vor fi, de asemenea, șterse.</string>
+    <string name="warning_reset_account_matched">Dacă continuați, tranzacțiile corelate cu filtrul curent vor fi șterse din baza de date și nu vor putea fi restaurate.</string>
+    <string name="mark_void_instead_of_delete">Nu ștergeți tranzacția, marcați în schimb ca nulă.</string>
+    <string name="menu_parse">Analiza</string>
+    <string name="pref_custom_decimal_format_summary">Dacă nu sunteți mulțumit de formatul implicit pentru setările regionale, adaptați-l la nevoile dvs. Lăsați gol pentru a restabili formatul implicit.</string>
+    <string name="slash_forbidden_in_filename">/ caracterul nu este permis în numele fișierelor</string>
+    <string name="move_category_failure">O categorie nu a fost mutată, deoarece aceeași etichetă există deja la țintă.</string>
+    <string name="pref_manage_sync_backends_summary">Adăugați backend-uri pentru sincronizarea conturilor (%s).</string>
+    <string name="dialog_title_warning_delete_category">Ștergeți categoria?</string>
+    <string name="app_dir_not_accessible">Folderul selectat în prezent pentru copii de rezervă și exporturi (%1$s) nu este accesibil. Vă rugăm să selectați altul.</string>
+    <string name="budget_deleted">Bugetul a fost eliminat</string>
+    <string name="warning_cannot_move_split_transaction">Această tranzacție divizată nu poate fi mutată în cont %1$s deoarece există părți de transfer care se referă la această cont.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Eliminați această limitare și accesați mai multe caracteristici actualizând <i>{app_name}</i>.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Starea actuală a licenței (%2$s) vă permite să creați planuri %1$d.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Starea actuală a licenței (%1$s) vă permite să creați 1 șablon divizat.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Cu starea actuală a licenței (%1$s), acest dialog va fi afișat la fiecare utilizare.</string>
 </resources>
