@@ -524,7 +524,6 @@
     <string name="all_extended_key_features">扩展版密钥的所有功能</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
-    <string name="currency_symbol">货币符号</string>
     <string name="number_of_fraction_digits">小数位数</string>
     <string name="warning_auto_backup_deactivated">自动备份已停用。解决问题后（例如 : 选择其他文件夹进行备份），您可以从设置中再次将其打开。</string>
     <string name="pref_tracking_summary">允许我们收集有关使用模式的匿名数据，以帮助我们计划改进。</string>

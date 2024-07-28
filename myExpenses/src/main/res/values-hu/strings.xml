@@ -531,7 +531,6 @@
     <string name="all_extended_key_features">A Bővített kulcs összes funkciója</string>
     <string name="pref_backup_cloud_summary">A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.</string>
     <string name="auto_backup_cloud_success">%1$s biztonsági mentés sikeresen tárolva a(z) %2$s háttérrendszeren.</string>
-    <string name="currency_symbol">Pénznem jele</string>
     <string name="number_of_fraction_digits">Törtrészjegyek száma</string>
     <string name="warning_auto_backup_deactivated">Az automatikus biztonsági mentés inaktív lett. A probléma megoldása után (pl. más mappát választ a mentésekhez) a beállításokban újra bekapcsolhatja.</string>
     <string name="pref_tracking_summary">Engedélyezze, hogy névtelen adatokat gyűjtsünk a használati mintákról, és ezzel segítse a fejlesztések tervezését.</string>

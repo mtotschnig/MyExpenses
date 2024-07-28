@@ -53,7 +53,6 @@
     <string name="onboarding_get_started">La oss begynne</string>
     <string name="pref_webdav_timeout_title">WebDAV-tidsavbrudd (i sekunder)</string>
     <string name="synchronization_end_success_none">Ingen endringer å synkronisere.</string>
-    <string name="currency_symbol">Valutasymbol</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sky-synkronisering</string>
     <string name="template">Mal</string>
     <string name="progress_dialog_checking_sync_backend">Bekrefter bakende</string>

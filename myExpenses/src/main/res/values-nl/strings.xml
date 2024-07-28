@@ -658,7 +658,6 @@
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudsynchronisatie</string>
     <string name="all_contrib_key_features">Alle functies van Contribute Key</string>
-    <string name="currency_symbol">Valutasymbool</string>
     <string name="number_of_fraction_digits">Aantal breukcijfers</string>
     <string name="sync_database_error">Er is een databasefout opgetreden tijdens de synchronisatie.</string>
     <string name="sync_error_will_try_again_later">Zal het later opnieuw proberen.</string>

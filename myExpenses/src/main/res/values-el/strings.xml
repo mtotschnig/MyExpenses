@@ -517,7 +517,6 @@
     <string name="contrib_feature_synchronization_label">Συγχρονισμός σύννεφου</string>
     <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
     <string name="all_extended_key_features">Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού</string>
-    <string name="currency_symbol">Σύμβολο Νομίσματος</string>
     <string name="number_of_fraction_digits">Αριθμός κλασματικών ψηφίων</string>
     <string name="warning_auto_backup_deactivated">Η αυτόματη δημιουργία αντιγράφων ασφαλείας έχει απενεργοποιηθεί. Μπορείτε να το ενεργοποιήσετε ξανά από τις ρυθμίσεις μετά την επίλυση του προβλήματος (π.χ. επιλέγοντας διαφορετικό φάκελο για αντίγραφα ασφαλείας).</string>
     <string name="pref_tracking_summary">Επιτρέψτε μας να συλλέγουμε ανώνυμα δεδομένα σχετικά με μοτίβα χρήσης που μας βοηθούν να σχεδιάζουμε βελτιώσεις.</string>

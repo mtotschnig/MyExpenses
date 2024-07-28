@@ -515,7 +515,6 @@
     <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
     <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
     <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
-    <string name="currency_symbol">Ký hiệu tiền tệ</string>
     <string name="number_of_fraction_digits">Số chữ số thập phân</string>
     <string name="warning_auto_backup_deactivated">Chức năng tự động sao lưu đã bị vô hiệu hoá. Bạn có thể bật lại nó từ màn hình cài đặt sau khi xử lý xong vấn đề (như là chọn một thư mục khác để sao lưu).</string>
     <string name="pref_tracking_summary">Cho phép chúng tôi thu thập dữ liệu ẩn danh về thói quen sử dụng, giúp chúng tôi cải tiến ứng dụng.</string>

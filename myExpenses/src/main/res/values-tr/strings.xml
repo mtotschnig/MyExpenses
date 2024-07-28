@@ -531,7 +531,6 @@
     <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
     <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
-    <string name="currency_symbol">Para birimi sembolü</string>
     <string name="number_of_fraction_digits">Kesir basamakları sayısı</string>
     <string name="warning_auto_backup_deactivated">Otomatik yedekleme devre dışıdır. Problemi çözdükten sonra (yani yedeklemeler için yeni bir klasör seçtikten sonra) onu ayarlarda tekrar etkinleştirebilirsiniz.</string>
     <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>

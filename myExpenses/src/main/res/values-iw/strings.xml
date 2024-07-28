@@ -538,7 +538,6 @@
     <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
-    <string name="currency_symbol">סמל המטבע</string>
     <string name="number_of_fraction_digits">מספר ספרות עשרוניות</string>
     <string name="warning_auto_backup_deactivated">הגיבוי האוטומטי הושבת. תוכל להפעיל אותו שוב מההגדרות לאחר פתרון הבעיה (למשל, בחירת תיקיה אחרת לגיבויים).</string>
     <string name="pref_tracking_summary">אפשר לנו לאסוף נתונים אנונימיים על דפוסי שימוש המסייעים לנו לתכנן שיפורים.</string>

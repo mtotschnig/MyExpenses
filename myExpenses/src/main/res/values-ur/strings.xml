@@ -431,7 +431,6 @@
     <string name="template">سانچے</string>
     <string name="all_contrib_key_features">کنٹریب کلید کی تمام خصوصیات</string>
     <string name="auto_backup_cloud_success">بیک اپ فائل %1$s کامیابی سے بیک اینڈ %2$s پر محفوظ ہو گئی ہے.</string>
-    <string name="currency_symbol">کرنسی کی علامت</string>
     <string name="number_of_fraction_digits">فریکشن ہندسوں کی تعداد</string>
     <string name="pref_tracking_summary">ہمیں استعمال کے نمونوں کے بارے میں گمنام ڈیٹا اکٹھا کرنے کی اجازت دیں جو ہمیں بہتری کی منصوبہ بندی میں مدد کرتا ہے.</string>
     <string name="pref_tracking_title">استعمال کا ڈیٹا اکٹھا کرنا</string>

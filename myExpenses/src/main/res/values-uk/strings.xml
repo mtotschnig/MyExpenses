@@ -532,7 +532,6 @@
     <string name="all_extended_key_features">Всі можливості розширеної версії</string>
     <string name="pref_backup_cloud_summary">На додаток до локального збереження на пристрої, файл резервної копії може бути скопійований на віддалений сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервної копії %1$s було успішно збережено на сервері %2$s.</string>
-    <string name="currency_symbol">Символ валюти</string>
     <string name="number_of_fraction_digits">Кількість знаків після коми</string>
     <string name="warning_auto_backup_deactivated">Автоматичне резервне копіювання було вимкнено. Ви можете знову ввімкнути його з налаштувань після вирішення проблеми (наприклад, вибравши іншу теку для резервного копіювання).</string>
     <string name="pref_tracking_summary">Дозвольте нам збирати анонімні дані про моделі використання, які допомагають нам планувати покращення.</string>

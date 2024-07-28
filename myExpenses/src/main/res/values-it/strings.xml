@@ -536,7 +536,6 @@
     <string name="all_extended_key_features">Tutte le funzionalità della Licenza Funzionalità Estese</string>
     <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
-    <string name="currency_symbol">Simbolo di valuta</string>
     <string name="number_of_fraction_digits">Numero di decimali</string>
     <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi attivarlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
     <string name="pref_tracking_summary">Acconsenti alla raccolta di dati anonimi sull\'utilizzo che ci aiuteranno a progettare miglioramenti.</string>

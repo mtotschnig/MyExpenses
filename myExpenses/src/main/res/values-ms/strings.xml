@@ -519,7 +519,6 @@
     <string name="all_extended_key_features">Semua fitur Kunci Lanjutan</string>
     <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
     <string name="auto_backup_cloud_success">Fail sandar %1$s berjaya disimpan dalam bahagian belakang %2$s.</string>
-    <string name="currency_symbol">Simbol matawang</string>
     <string name="number_of_fraction_digits">Bilangan digit pecahan</string>
     <string name="warning_auto_backup_deactivated">Auto-sandar telah dinyahaktifkan. Anda boleh hidupkannya kembali melalui tetapan selepas masalah selesai. (iaitu memilih folder lain untuk penyandaran).</string>
     <string name="pref_tracking_summary">Benarkan kami mengutip data awanama berkenaan pola penggunaan yang mana ia dapat membantu kami merancang penambahbaikan.</string>
