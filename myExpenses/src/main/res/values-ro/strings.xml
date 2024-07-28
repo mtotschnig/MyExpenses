@@ -571,4 +571,25 @@
     <string name="dialog_confirm_sync_link_local">Datele de la distanță pentru acest cont vor fi șterse. Asigurați-vă că nu sunt conectate alte dispozitive la acesta.</string>
     <string name="warning_synchronization_folder_usage">Acest folder este utilizat pentru sincronizarea datelor între instalările {app_name} pe diferite dispozitive. Vă rugăm să nu modificați manual conținutul acestuia.</string>
     <string name="dialog_confirm_sync_remove_backend">Backend-ul la distanță %s va fi eliminat. Acest lucru nu va afecta datele stocate local sau de la distanță, dar starea sincronizării se pierde.</string>
+    <string name="number_of_fraction_digits">Numărul de fracții</string>
+    <string name="pref_webdav_timeout_title">Timeout WebDAV (în secunde)</string>
+    <string name="sync_success_reset_account_data">Datele de la distanță pentru contul %s au fost șterse.</string>
+    <string name="sync_io_exception_locking">Backend-ul de la distanță este blocat sau nu poate fi blocat.</string>
+    <string name="synchronization_start">Se începe sincronizarea pentru contul %s.</string>
+    <string name="synchronization_end_success_none">Nu există modificări de sincronizat.</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Starea de sincronizare nu a putut fi restabilită pentru conturile %d .</string>
+    <string name="onboarding_data_title">Să creăm primul cont</string>
+    <string name="sync_io_exception_syncing">Eroare la sincronizarea modificărilor cu serverul.</string>
+    <string name="warning_auto_backup_deactivated">Backup-ul automat a fost dezactivat. Puteți să-l porniți din nou din setări după rezolvarea problemei (de exemplu, selectarea unui folder diferit pentru copii de rezervă).</string>
+    <string name="sync_io_error_cannot_connect">Nu se poate conecta la backend-ul de sincronizare.</string>
+    <string name="sync_io_exception_reset_account_data">Eroare la resetarea cont la distanță.</string>
+    <string name="sync_error_will_try_again_later">Voi încerca din nou mai târziu.</string>
+    <string name="sync_io_exception_setup_remote_account">Eroare la configurarea cont la distanță.</string>
+    <string name="sync_io_exception_unlocking">Eroare la eliminarea blocării din backend-ul la distanță.</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d modificări de la distanță au fost scrise în baza de date locală. %2$d modificările locale au fost scrise în backend la distanță.</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Starea de sincronizare a fost restabilită pentru conturile %d.</string>
+    <string name="onboarding_ui_title">{app_name} se adaptează preferințelor dvs</string>
+    <string name="pref_tracking_summary">Permiteți-ne să colectăm date anonime despre modelele de utilizare care ne ajută să planificăm îmbunătățiri.</string>
+    <string name="pref_tracking_title">Colectarea datelor de utilizare</string>
+    <string name="sync_database_error">A apărut o eroare a bazei de date în timpul sincronizării.</string>
 </resources>
