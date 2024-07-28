@@ -559,4 +559,16 @@
     <string name="search_account">Căutați cont</string>
     <string name="menu_sync_link">Începeți sincronizarea</string>
     <string name="dialog_synced_to_other">Un cont cu %s uuid există deja în baza de date locală și este legat de un backend la distanță diferit.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Dosarul pe care l-ați selectat corespunde unui cont al unui backend existent. Trebuie să selectați folderul părinte pentru a reutiliza acest backend.</string>
+    <string name="link_account_failure_2">Un cont cu același uuid există deja pe backend-ul de la distanță.</string>
+    <string name="link_account_failure_3">Conflictul poate fi rezolvat manual din meniul contextual al intrării.</string>
+    <string name="progress_dialog_checking_sync_backend">Verificarea backend-ului</string>
+    <string name="pref_backup_cloud_summary">Pe lângă stocarea locală pe dispozitiv, fișierul de rezervă poate fi copiat pe un backend de la distanță.</string>
+    <string name="auto_backup_cloud_success">Fișierul de rezervă %1$s a fost stocat cu succes pe backend %2$s.</string>
+    <string name="dialog_confirm_sync_link_remote">Datele locale pentru acest cont vor fi șterse.</string>
+    <string name="warning_trial_limit_reached">Perioada de încercare pentru funcția de testare %s s-a încheiat.</string>
+    <string name="buy">Cumpără</string>
+    <string name="dialog_confirm_sync_link_local">Datele de la distanță pentru acest cont vor fi șterse. Asigurați-vă că nu sunt conectate alte dispozitive la acesta.</string>
+    <string name="warning_synchronization_folder_usage">Acest folder este utilizat pentru sincronizarea datelor între instalările {app_name} pe diferite dispozitive. Vă rugăm să nu modificați manual conținutul acestuia.</string>
+    <string name="dialog_confirm_sync_remove_backend">Backend-ul la distanță %s va fi eliminat. Acest lucru nu va afecta datele stocate local sau de la distanță, dar starea sincronizării se pierde.</string>
 </resources>
