@@ -122,4 +122,5 @@
     <string name="icon">"Simge"</string>
     <string name="reset_all">"Tümünü sıfırla"</string>
     <string name="remove">"Kaldır"</string>
+    <string name="currency_symbol">"Para birimi sembolü"</string>
 </resources>

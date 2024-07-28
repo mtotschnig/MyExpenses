@@ -121,4 +121,5 @@
     <string name="icon">"Ikonoa"</string>
     <string name="reset_all">"Berrezarri guztiak"</string>
     <string name="remove">"Kendu"</string>
+    <string name="currency_symbol">"Moneta-ikurra"</string>
 </resources>

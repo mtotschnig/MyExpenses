@@ -47,4 +47,5 @@
     <string name="icon">"Isithonjana"</string>
     <string name="reset_all">"Setha kabusha konke"</string>
     <string name="remove">"Susa"</string>
+    <string name="currency_symbol">"Uphawu lwamagama emali"</string>
 </resources>

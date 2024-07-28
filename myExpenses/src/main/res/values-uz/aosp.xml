@@ -41,4 +41,5 @@
     <string name="icon">"Ikonka"</string>
     <string name="reset_all">"Hammasini tiklash"</string>
     <string name="remove">"Olib tashlash"</string>
+    <string name="currency_symbol">"Pul belgisi"</string>
 </resources>

@@ -124,4 +124,5 @@
     <string name="icon">"Icono"</string>
     <string name="reset_all">"Restablecer todo"</string>
     <string name="remove">"Quitar"</string>
+    <string name="currency_symbol">"Símbolo monetario"</string>
 </resources>

@@ -116,4 +116,5 @@
     <string name="icon">"Ikona"</string>
     <string name="reset_all">"Vrati sve na zadano"</string>
     <string name="remove">"Ukloni"</string>
+    <string name="currency_symbol">"Simboli valuta"</string>
 </resources>

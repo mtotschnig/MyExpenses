@@ -115,4 +115,5 @@
     <string name="icon">"아이콘"</string>
     <string name="reset_all">"모두 재설정"</string>
     <string name="remove">"삭제"</string>
+    <string name="currency_symbol">"통화 기호"</string>
 </resources>

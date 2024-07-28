@@ -116,4 +116,5 @@
     <string name="button_try">"Fazer um teste"</string>
     <string name="reset_all">"Redefinir tudo"</string>
     <string name="remove">"Remover"</string>
+    <string name="currency_symbol">"Símbolo monetário"</string>
 </resources>

@@ -223,4 +223,6 @@
     <string name="reset_all">"Reset all"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "\"remove\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="remove">"Remove"</string>
+    <!-- LibreOffice extensions/messages.po FG24h-->
+    <string name="currency_symbol">"Currency symbol"</string>
 </resources>

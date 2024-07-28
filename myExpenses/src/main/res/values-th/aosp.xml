@@ -56,4 +56,5 @@
     <string name="icon">"ไอคอน"</string>
     <string name="reset_all">"รีเซ็ตทั้งหมด"</string>
     <string name="remove">"นำออก"</string>
+    <string name="currency_symbol">"สัญลักษณ์สกุลเงิน"</string>
 </resources>

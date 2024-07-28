@@ -48,4 +48,5 @@
     <string name="icon">"Дүрс тэмдэг"</string>
     <string name="reset_all">"Бүгдийг шинэчлэх"</string>
     <string name="remove">"Хасах"</string>
+    <string name="currency_symbol">"Мөнгөний тэмдэгт"</string>
 </resources>

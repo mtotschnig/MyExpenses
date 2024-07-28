@@ -54,4 +54,5 @@
     <string name="icon">"Ikoon"</string>
     <string name="reset_all">"Stel alles terug"</string>
     <string name="remove">"Verwyder"</string>
+    <string name="currency_symbol">"Geldsimbool"</string>
 </resources>

@@ -124,4 +124,5 @@
     <string name="icon">"Icona"</string>
     <string name="reset_all">"Restableix-ho tot"</string>
     <string name="remove">"Suprimeix"</string>
+    <string name="currency_symbol">"Símbol de moneda"</string>
 </resources>

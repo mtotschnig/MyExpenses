@@ -56,4 +56,5 @@
     <string name="icon">"Ikony"</string>
     <string name="reset_all">"Resetovať všetky"</string>
     <string name="remove">"Odstrániť"</string>
+    <string name="currency_symbol">"Symbol meny"</string>
 </resources>

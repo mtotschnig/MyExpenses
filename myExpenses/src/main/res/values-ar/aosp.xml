@@ -126,4 +126,5 @@
     <string name="icon">"الرمز"</string>
     <string name="reset_all">"إعادة ضبط الكل"</string>
     <string name="remove">"إزالة"</string>
+    <string name="currency_symbol">"رمز العملة"</string>
 </resources>

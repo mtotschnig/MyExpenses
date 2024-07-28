@@ -84,4 +84,5 @@
     <string name="icon">"Ícone"</string>
     <string name="reset_all">"Repor tudo"</string>
     <string name="remove">"Remover"</string>
+    <string name="currency_symbol">"Símbolo monetário"</string>
 </resources>

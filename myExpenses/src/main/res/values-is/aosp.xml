@@ -54,4 +54,5 @@
     <string name="icon">"Tákn"</string>
     <string name="reset_all">"Endurstilla allt"</string>
     <string name="remove">"Fjarlægja"</string>
+    <string name="currency_symbol">"Gjaldmiðilstákn"</string>
 </resources>

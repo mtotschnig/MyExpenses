@@ -109,4 +109,5 @@
     <string name="icon">"නිරූපකය"</string>
     <string name="reset_all">"සියල්ල යළි සකසන්න"</string>
     <string name="remove">"ඉවත් කරන්න"</string>
+    <string name="currency_symbol">"මුදල් සංකේතය"</string>
 </resources>

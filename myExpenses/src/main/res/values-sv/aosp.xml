@@ -57,4 +57,5 @@
     <string name="icon">"Ikon"</string>
     <string name="reset_all">"Återställ alla"</string>
     <string name="remove">"Ta bort"</string>
+    <string name="currency_symbol">"Valutasymbol"</string>
 </resources>

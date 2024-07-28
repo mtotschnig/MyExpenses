@@ -120,4 +120,5 @@
     <string name="icon">"圖示"</string>
     <string name="reset_all">"全部重設"</string>
     <string name="remove">"移除"</string>
+    <string name="currency_symbol">"貨幣符號"</string>
 </resources>

@@ -125,4 +125,5 @@
     <string name="icon">"Икона"</string>
     <string name="reset_all">"Нулиране на всички"</string>
     <string name="remove">"Премахване"</string>
+    <string name="currency_symbol">"Валутен символ"</string>
 </resources>

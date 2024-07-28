@@ -123,4 +123,5 @@
     <string name="icon">"Εικονίδιο"</string>
     <string name="reset_all">"Επαναφορά όλων"</string>
     <string name="remove">"Κατάργηση"</string>
+    <string name="currency_symbol">"Σύμβολο νομίσματος"</string>
 </resources>

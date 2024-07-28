@@ -50,4 +50,5 @@
     <string name="icon">"Белгіше"</string>
     <string name="reset_all">"Барлығын бастапқы күйге қайтару"</string>
     <string name="remove">"Өшіру"</string>
+    <string name="currency_symbol">"Валюта таңбасы"</string>
 </resources>

@@ -108,4 +108,5 @@
     <string name="icon">"చిహ్నం"</string>
     <string name="reset_all">"అన్నింటిని రీసెట్ చేయండి"</string>
     <string name="remove">"తీసివేయండి"</string>
+    <string name="currency_symbol">"ద్రవ్య  చిహ్నం"</string>
 </resources>

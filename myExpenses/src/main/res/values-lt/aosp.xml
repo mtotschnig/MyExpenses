@@ -49,4 +49,5 @@
     <string name="icon">"Piktograma"</string>
     <string name="reset_all">"Nustatyti viską iš naujo"</string>
     <string name="remove">"Pašalinti"</string>
+    <string name="currency_symbol">"Valiutos simbolis"</string>
 </resources>
