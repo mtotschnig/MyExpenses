@@ -988,4 +988,8 @@
     <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
     <string name="pref_csv_export_category_separator_summary">Kategori hiyerarşisinin seviyeleri arasındaki ayırıcı</string>
     <string name="not_enough_data">Yeterli veri yok</string>
+    <string name="buy">Satın al</string>
+    <string name="pref_scroll_to_current_date_title">Muamele listesini geçerli tarihe kaydır</string>
+    <string name="pref_scroll_to_current_date_account_open">hesaba her gittiğinizde</string>
+    <string name="pref_scroll_to_current_date_app_launch">yalnızca uygulama başlatıldığında</string>
 </resources>
