@@ -47,4 +47,5 @@
     <string name="always">"Visada"</string>
     <string name="button_try">"Išbandyti"</string>
     <string name="icon">"Piktograma"</string>
+    <string name="reset_all">"Nustatyti viską iš naujo"</string>
 </resources>

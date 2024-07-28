@@ -219,4 +219,6 @@
     <string name="button_try">"Try"</string>
     <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri preview_name_icon | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preview_name_//' | aosp_helper -->
     <string name="icon">"Symbol"</string>
+    <!--  /opt/extra/AOSP/packages/apps/Settings$ grep -ri "modifier_keys_reset_title" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/modifier_keys_reset_title/reset_all/' | aosp_helper-->
+    <string name="reset_all">"Reset all"</string>
 </resources>

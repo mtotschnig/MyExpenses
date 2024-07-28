@@ -119,4 +119,5 @@
     <string name="always">"Beti"</string>
     <string name="button_try">"Probatu"</string>
     <string name="icon">"Ikonoa"</string>
+    <string name="reset_all">"Berrezarri guztiak"</string>
 </resources>

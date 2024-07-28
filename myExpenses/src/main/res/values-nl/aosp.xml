@@ -118,4 +118,5 @@
     <string name="always">"Altijd"</string>
     <string name="button_try">"Nu proberen"</string>
     <string name="icon">"Icoon"</string>
+    <string name="reset_all">"Alles resetten"</string>
 </resources>

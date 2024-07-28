@@ -55,4 +55,5 @@
     <string name="always">"Alltid"</string>
     <string name="button_try">"Prova nu"</string>
     <string name="icon">"Ikon"</string>
+    <string name="reset_all">"Återställ alla"</string>
 </resources>

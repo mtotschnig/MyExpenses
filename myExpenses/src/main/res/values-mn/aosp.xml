@@ -46,4 +46,5 @@
     <string name="always">"Байнга"</string>
     <string name="button_try">"Үүнийг туршиж үзэх"</string>
     <string name="icon">"Дүрс тэмдэг"</string>
+    <string name="reset_all">"Бүгдийг шинэчлэх"</string>
 </resources>

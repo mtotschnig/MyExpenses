@@ -123,4 +123,5 @@
     <string name="always">"Mindig"</string>
     <string name="button_try">"Kipróbálom"</string>
     <string name="icon">"Ikon"</string>
+    <string name="reset_all">"Az összes visszaállítása"</string>
 </resources>

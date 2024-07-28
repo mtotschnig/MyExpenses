@@ -124,4 +124,5 @@
     <string name="always">"Vždy"</string>
     <string name="button_try">"Vyzkoušet"</string>
     <string name="icon">"Ikona"</string>
+    <string name="reset_all">"Resetovat vše"</string>
 </resources>

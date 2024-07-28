@@ -52,4 +52,5 @@
     <string name="always">"Alltaf"</string>
     <string name="button_try">"Prófa"</string>
     <string name="icon">"Tákn"</string>
+    <string name="reset_all">"Endurstilla allt"</string>
 </resources>

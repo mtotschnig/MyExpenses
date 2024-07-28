@@ -118,4 +118,5 @@
     <string name="always">"一律啟用"</string>
     <string name="button_try">"立即體驗"</string>
     <string name="icon">"圖示"</string>
+    <string name="reset_all">"全部重設"</string>
 </resources>

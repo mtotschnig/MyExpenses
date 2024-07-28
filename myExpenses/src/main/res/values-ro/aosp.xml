@@ -114,4 +114,5 @@
     <string name="always">"Întotdeauna"</string>
     <string name="button_try">"Încearcă"</string>
     <string name="icon">"Pictogramă"</string>
+    <string name="reset_all">"Resetează tot"</string>
 </resources>

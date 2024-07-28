@@ -55,4 +55,5 @@
     <string name="always">"Alati"</string>
     <string name="button_try">"Proovige"</string>
     <string name="icon">"Ikoon"</string>
+    <string name="reset_all">"Lähtesta kõik"</string>
 </resources>

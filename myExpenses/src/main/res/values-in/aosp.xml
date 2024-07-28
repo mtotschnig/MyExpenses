@@ -55,4 +55,5 @@
     <string name="always">"Selalu"</string>
     <string name="button_try">"Cobalah"</string>
     <string name="icon">"Ikon"</string>
+    <string name="reset_all">"Reset semua"</string>
 </resources>

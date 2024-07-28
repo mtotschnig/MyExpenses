@@ -52,4 +52,5 @@
     <string name="always">"Միշտ"</string>
     <string name="button_try">"Փորձել"</string>
     <string name="icon">"Պատկերակ"</string>
+    <string name="reset_all">"Վերականգնել բոլորը"</string>
 </resources>

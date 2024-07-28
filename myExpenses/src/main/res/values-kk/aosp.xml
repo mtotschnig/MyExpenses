@@ -48,4 +48,5 @@
     <string name="always">"Әрқашан"</string>
     <string name="button_try">"Байқап көру"</string>
     <string name="icon">"Белгіше"</string>
+    <string name="reset_all">"Барлығын бастапқы күйге қайтару"</string>
 </resources>

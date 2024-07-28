@@ -53,4 +53,5 @@
     <string name="always">"ሁልጊዜ"</string>
     <string name="button_try">"ይሞክሩት"</string>
     <string name="icon">"አዶ"</string>
+    <string name="reset_all">"ሁሉንም ዳግም አስጀምር"</string>
 </resources>

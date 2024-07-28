@@ -45,4 +45,5 @@
     <string name="always">"हमेशा"</string>
     <string name="button_try">"इसे आज़माएं"</string>
     <string name="icon">"आइकॉन"</string>
+    <string name="reset_all">"सभी को रीसेट करें"</string>
 </resources>

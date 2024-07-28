@@ -47,4 +47,5 @@
     <string name="always">"ყოველთვის"</string>
     <string name="button_try">"გამოცადეთ"</string>
     <string name="icon">"ხატულა"</string>
+    <string name="reset_all">"ყველას გადაყენება"</string>
 </resources>

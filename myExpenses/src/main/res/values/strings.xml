@@ -500,7 +500,6 @@
     <string name="plan_instance_state_applied">applied</string>
     <string name="progress_dialog_updating_split_parts">Updating split parts</string>
     <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
-    <string name="content_description_calculator_clear_button">Reset all</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
     <string name="search_transfer">Search for transfer</string>

@@ -122,4 +122,5 @@
     <string name="always">"Siempre"</string>
     <string name="button_try">"Probar"</string>
     <string name="icon">"Icono"</string>
+    <string name="reset_all">"Restablecer todo"</string>
 </resources>

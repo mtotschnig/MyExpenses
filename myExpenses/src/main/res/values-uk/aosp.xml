@@ -122,4 +122,5 @@
     <string name="always">"Завжди"</string>
     <string name="button_try">"Спробувати"</string>
     <string name="icon">"Значок"</string>
+    <string name="reset_all">"Скинути для всіх"</string>
 </resources>

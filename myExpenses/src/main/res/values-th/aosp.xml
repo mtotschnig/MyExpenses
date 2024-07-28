@@ -54,4 +54,5 @@
     <string name="always">"ทุกครั้ง"</string>
     <string name="button_try">"ลองใช้งาน"</string>
     <string name="icon">"ไอคอน"</string>
+    <string name="reset_all">"รีเซ็ตทั้งหมด"</string>
 </resources>

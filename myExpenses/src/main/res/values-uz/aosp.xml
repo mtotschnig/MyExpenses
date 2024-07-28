@@ -39,4 +39,5 @@
     <string name="always">"Har doim"</string>
     <string name="button_try">"Sinab koʻring"</string>
     <string name="icon">"Ikonka"</string>
+    <string name="reset_all">"Hammasini tiklash"</string>
 </resources>

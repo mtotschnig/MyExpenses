@@ -38,4 +38,5 @@
     <string name="always">"Vedno"</string>
     <string name="button_try">"Preizkusite"</string>
     <string name="icon">"Ikona"</string>
+    <string name="reset_all">"Ponastavi vse"</string>
 </resources>

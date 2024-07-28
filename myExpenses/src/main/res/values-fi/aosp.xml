@@ -54,4 +54,5 @@
     <string name="always">"Aina"</string>
     <string name="button_try">"Kokeile"</string>
     <string name="icon">"Kuvake"</string>
+    <string name="reset_all">"Palauta kaikki alkutilaan"</string>
 </resources>

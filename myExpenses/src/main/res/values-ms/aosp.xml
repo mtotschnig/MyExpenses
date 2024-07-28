@@ -100,4 +100,5 @@
     <string name="always">"Sentiasa"</string>
     <string name="button_try">"Cubalah"</string>
     <string name="icon">"Ikon"</string>
+    <string name="reset_all">"Tetapkan semula semua"</string>
 </resources>

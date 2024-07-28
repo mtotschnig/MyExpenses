@@ -124,4 +124,5 @@
     <string name="always">"دائمًا"</string>
     <string name="button_try">"تجربتها الآن"</string>
     <string name="icon">"الرمز"</string>
+    <string name="reset_all">"إعادة ضبط الكل"</string>
 </resources>

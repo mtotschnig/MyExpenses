@@ -122,4 +122,5 @@
     <string name="always">"Toujours"</string>
     <string name="button_try">"Essayer"</string>
     <string name="icon">"Icône"</string>
+    <string name="reset_all">"Tout réinitialiser"</string>
 </resources>

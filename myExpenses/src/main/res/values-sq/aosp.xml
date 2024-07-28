@@ -42,4 +42,5 @@
     <string name="always">"Gjithmonë"</string>
     <string name="button_try">"Provoje"</string>
     <string name="icon">"Ikona"</string>
+    <string name="reset_all">"Rivendosi të gjitha"</string>
 </resources>

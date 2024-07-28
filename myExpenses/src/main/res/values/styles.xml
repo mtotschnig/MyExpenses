@@ -201,9 +201,7 @@
         <item name="android:textColor">#f26522</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">C</item>
-        <item name="android:contentDescription">
-            @string/content_description_calculator_clear_button
-        </item>
+        <item name="android:contentDescription">@string/reset_all</item>
     </style>
 
     <style name="CalculatorButton.Delete">

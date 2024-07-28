@@ -42,4 +42,5 @@
     <string name="always">"সবসময়"</string>
     <string name="button_try">"এটি ব্যবহার করে দেখুন"</string>
     <string name="icon">"আইকন"</string>
+    <string name="reset_all">"সবকটি রিসেট করুন"</string>
 </resources>

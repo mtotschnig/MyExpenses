@@ -54,4 +54,5 @@
     <string name="always">"Vždy"</string>
     <string name="button_try">"Vyskúšať"</string>
     <string name="icon">"Ikony"</string>
+    <string name="reset_all">"Resetovať všetky"</string>
 </resources>

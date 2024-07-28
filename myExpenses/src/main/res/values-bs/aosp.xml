@@ -40,4 +40,5 @@
     <string name="always">"Uvijek"</string>
     <string name="button_try">"Isprobajte"</string>
     <string name="icon">"Ikona"</string>
+    <string name="reset_all">"Vrati sve na zadano"</string>
 </resources>
