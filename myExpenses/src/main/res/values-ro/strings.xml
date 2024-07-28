@@ -533,4 +533,30 @@
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Starea actuală a licenței (%2$s) vă permite să creați planuri %1$d.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Starea actuală a licenței (%1$s) vă permite să creați 1 șablon divizat.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Cu starea actuală a licenței (%1$s), acest dialog va fi afișat la fiecare utilizare.</string>
+    <string name="menu_create_sync_backend">Noul backend de sincronizare</string>
+    <string name="crash_dialog_title">{app_name} s-a blocat</string>
+    <string name="crash_dialog_comment_prompt">Puteți adăuga comentariile dvs. despre problemă mai jos:</string>
+    <string name="description_webdav_trust_certificate">Site-ul web utilizează un certificat, care nu este de încredere pentru Android.</string>
+    <string name="validate_error_webdav_invalid_certificate">Nu se putea avea încredere în certificat. Pare invalid.</string>
+    <string name="pref_sync_frequency_summary">Cât de des trebuie sincronizate datele (în ore)</string>
+    <string name="dialog_sync_link">Un cont cu uuid %s există atât în baza de date locală, cât și pe backend-ul de la distanță. Când le conectați pe ambele, trebuie să decideți dacă, inițial, doriți să încărcați date locale în backend-ul de la distanță sau să descărcați date de la distanță în baza de date locală.</string>
+    <string name="dialog_command_sync_link_remote">Descărcați de la distanță</string>
+    <string name="validate_error_not_empty">Nu trebuie să fie goală</string>
+    <string name="paypal_callback_info">Tranzacția dvs. a fost finalizată și o chitanță pentru achiziția dvs. v-a fost trimisă prin e-mail. Vă puteți conecta în contul dvs. la www.paypal.com pentru a vedea detaliile acestei tranzacții.</string>
+    <string name="label_trust_certificate">Autorizați acest certificat</string>
+    <string name="description_webdav_url">Vă rugăm să introduceți adresa URL a unui folder special de pe serverul dvs. WebDAV. {app_name} își va stoca datele în acest dosar, nu va atinge nimic din afara acestuia.</string>
+    <string name="url_not_valid">Adresa URL nu este validă</string>
+    <string name="menu_sync_unlink">Opriți sincronizarea</string>
+    <string name="validate_error_webdav_not_compliant">URL-ul nu indică spre o resursă WebDAV.</string>
+    <string name="menu_sync_download">Descărcați și sincronizați</string>
+    <string name="crash_dialog_text">A apărut o eroare neașteptată forțând aplicația să se oprească. Vă rugăm să ne ajutați să remediem acest lucru trimițându-ne date de eroare, tot ce trebuie să faceți este să faceți clic pe OK.</string>
+    <string name="content_description_calculator_delete_button">Ștergeți ultima cifră</string>
+    <string name="dialog_confirm_sync_unlink">Dacă deconectați acest cont de la %s, starea de sincronizare se pierde. Legarea lor din nou mai târziu, necesită o sincronizare completă pentru a fi executată din nou.</string>
+    <string name="dialog_command_sync_link_local">Încărcați din local</string>
+    <string name="no_sync_backends">Fără backend-uri de sincronizare</string>
+    <string name="validate_error_webdav_404">URL-ul nu există pe server.</string>
+    <string name="search_transfer">Caută transfer</string>
+    <string name="search_account">Căutați cont</string>
+    <string name="menu_sync_link">Începeți sincronizarea</string>
+    <string name="dialog_synced_to_other">Un cont cu %s uuid există deja în baza de date locală și este legat de un backend la distanță diferit.</string>
 </resources>
