@@ -592,4 +592,41 @@
     <string name="pref_tracking_summary">Permiteți-ne să colectăm date anonime despre modelele de utilizare care ne ajută să planificăm îmbunătățiri.</string>
     <string name="pref_tracking_title">Colectarea datelor de utilizare</string>
     <string name="sync_database_error">A apărut o eroare a bazei de date în timpul sincronizării.</string>
+    <string name="sync_auth_exception">Autorizatia a esuat.</string>
+    <string name="progress_removing_licence">Eliminarea licenței</string>
+    <string name="plan_custom_recurrence_info">Vă rugăm să salvați mai întâi șablonul. Planul va fi apoi deschis în aplicația calendar, unde puteți seta o recurență personalizată.</string>
+    <string name="licence_key">Cheie de licență</string>
+    <string name="licence_removal_success">Cheia de licență a fost eliberată cu succes de pe acest dispozitiv.</string>
+    <string name="extend_validity">Prelungiți valabilitatea</string>
+    <string name="pref_debug_logging_summary">Scrieți informațiile de depanare în jurnalul de sistem</string>
+    <string name="menu_create_template_for_split">Șablon de scindare nou</string>
+    <string name="pref_protection_device_lock_screen_title">Ecran de blocare a dispozitivului</string>
+    <string name="pref_warning_only_one_protection">Înainte de a putea utiliza protecția prin %1$s, trebuie să dezactivați protecția prin %2$s.</string>
+    <string name="extend_until">Se prelungește până la %1$s pentru %2$s</string>
+    <string name="onboarding_restore_from_local">Restaurați fișierul de rezervă local</string>
+    <string name="licence_validation_error_device_limit_exceeded">Limita dispozitivului a fost depășită. Vă rugăm să eliminați licența de pe un alt dispozitiv.</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">Dacă nu mai aveți nevoie de funcționalitate premium pe acest dispozitiv, puteți elimina cheia de licență. Acest lucru eliberează cheia pentru activare pe încă un alt dispozitiv. Cheia poate fi activată pe până la %d dispozitive.</string>
+    <string name="feature_deprecated">Învechit</string>
+    <string name="progress_validating_licence">Validarea licenței</string>
+    <string name="licence_validation_error_expired">Licența a expirat</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d luni</string>
+    <string name="eu_vat_info">Pentru rezidentii Uniunii Europene preturile afisate nu contin TVA.</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">O singură dată se acordă %d luni suplimentare utilizatorilor care dețin deja licența extinsă</string>
+    <string name="onboarding_restore_from_cloud">Restaurați din sincronizarea în cloud</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Treceți la abonamentul anual</string>
+    <string name="sync_login_again">Te rog Logheaza te din nou.</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Treceți la abonamentul lunar</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Preluarea datelor din backend-ul la distanță. Acest lucru poate dura ceva timp.</string>
+    <string name="donate_button_invoice">Factură</string>
+    <string name="auto_fill_account_from_aggregate_only">Numai atunci când este pornit de la cont agregate.</string>
+    <string name="button_validate">Validează</string>
+    <string name="contributed_by">A contribuit %s</string>
+    <string name="pref_sync_notification_summary">Notificare despre progresul sincronizării</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Ecranul securizat de blocare a dispozitivului nu a fost configurat.</string>
+    <plurals name="delete_success">
+        <item quantity="one">Un obiect a fost șters cu succes.</item>
+        <item quantity="few">%d obiecte au fost șterse cu succes.</item>
+        <item quantity="other">%d de obiecte au fost șterse cu succes.</item>
+    </plurals>
+    <string name="valid_until">Până %s</string>
 </resources>
