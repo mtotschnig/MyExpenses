@@ -493,7 +493,6 @@
     <string name="plan_instance_state_applied">aplicado</string>
     <string name="progress_dialog_updating_split_parts">Actualización de partes divididas</string>
     <string name="warning_cannot_move_split_transaction">Esta transacción dividida no se pudo mover a la cuenta %1$s porque hay partes de transferencias referidas a esta cuenta.</string>
-    <string name="content_description_calculator_clear_button">Restablecer todo</string>
     <string name="content_description_calculator_delete_button">Borrar el último dígito</string>
     <string name="paypal_callback_info">La transacción se ha completado y el recibo de compra ha sido enviado a su correo electrónico. Puede iniciar sesión en su cuenta en www.paypal.com para ver los detalles de la transacción.</string>
     <string name="search_transfer">Búsqueda para transferencia</string>

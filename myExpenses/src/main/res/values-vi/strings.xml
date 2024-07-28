@@ -471,7 +471,6 @@
     <string name="plan_instance_state_applied">được áp dụng</string>
     <string name="progress_dialog_updating_split_parts">Đang cập nhật các phần bị tách</string>
     <string name="warning_cannot_move_split_transaction">Giao dịch chia tách này không thể được dời tới tài khoản %1$s bởi vì có một khoản chuyển đã chỉ tới tài khoản này.</string>
-    <string name="content_description_calculator_clear_button">Đặt lại</string>
     <string name="content_description_calculator_delete_button">Xoá chữ số cuối cùng</string>
     <string name="paypal_callback_info">Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này.</string>
     <string name="search_transfer">Tìm các khoản chuyển</string>

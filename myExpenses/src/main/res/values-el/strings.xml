@@ -482,7 +482,6 @@
     <string name="plan_instance_state_applied">εφαρμοσμένο</string>
     <string name="progress_dialog_updating_split_parts">Ενημέρωση διεσπασμένων μερών</string>
     <string name="warning_cannot_move_split_transaction">Αυτή η διασπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s επειδή υπάρχουν τμήματα μεταφοράς που αναφέρονται σε αυτόν το λογαριασμό.</string>
-    <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
     <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
     <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
     <string name="search_transfer">Αναζήτηση για μεταφορά</string>

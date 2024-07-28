@@ -513,7 +513,6 @@
     <string name="plan_instance_state_applied">تم التطبيق</string>
     <string name="progress_dialog_updating_split_parts">تحديث الأجزاء المنقسمة</string>
     <string name="warning_cannot_move_split_transaction">لا يمكن نقل هذه المعاملة المجزأة إلى الحساب %1$s نظراً لوجود أجزاء نقل تشير إلى هذا الحساب.</string>
-    <string name="content_description_calculator_clear_button">إعادة ضبط الجميع</string>
     <string name="content_description_calculator_delete_button">احذف الرقم الأخير</string>
     <string name="paypal_callback_info">تم إتمام معاملتك، وتم إرسال إيصال الشراء عبر البريد الإلكتروني إليك. يمكنك تسجيل الدخول إلى حسابك على www.paypal.com لعرض تفاصيل هذه المعاملة.</string>
     <string name="search_transfer">البحث عن التحويل</string>

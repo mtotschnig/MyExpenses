@@ -480,7 +480,6 @@
     <string name="plan_instance_state_applied">已套用</string>
     <string name="progress_dialog_updating_split_parts">正在更新分割款項</string>
     <string name="warning_cannot_move_split_transaction">此分割交易無法移動到帳戶%1$s中，因為有部分轉帳已經引用到此帳戶。</string>
-    <string name="content_description_calculator_clear_button">全部重設</string>
     <string name="content_description_calculator_delete_button">刪除上一個數字</string>
     <string name="paypal_callback_info">您的交易已經完成，購買收據已經通過電子郵件發送給您。您可以從www.paypal.com登入您的帳戶以查看該交易的詳細資訊。</string>
     <string name="search_transfer">以轉帳項目來搜尋</string>

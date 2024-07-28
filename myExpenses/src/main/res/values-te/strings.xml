@@ -187,7 +187,6 @@
     <string name="search_transfer">బదిలీ కోసం శోధించండి</string>
     <string name="paypal_callback_info">మీ లావాదేవీ పూర్తయింది మరియు మీ కొనుగోలు కోసం రశీదు మీకు ఇమెయిల్ చేయబడింది. ఈ లావాదేవీ వివరాలను చూడటానికి మీరు www.paypal.com లోని మీ ఖాతాలోకి లాగిన్ అవ్వవచ్చు.</string>
     <string name="content_description_calculator_delete_button">చివరి అంకెను తొలగించండి</string>
-    <string name="content_description_calculator_clear_button">అన్నీ రీసెట్ చేయండి</string>
     <string name="warning_cannot_move_split_transaction">ఈ విభజన లావాదేవీని %1$s ఖాతాకు తరలించలేము ఎందుకంటే ఈ ఖాతాను సూచించే బదిలీ భాగాలు ఉన్నాయి.</string>
     <string name="progress_dialog_updating_split_parts">స్ప్లిట్ భాగాలను నవీకరిస్తోంది</string>
     <string name="plan_instance_state_applied">వర్తించబడింది</string>

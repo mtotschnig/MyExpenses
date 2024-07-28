@@ -493,7 +493,6 @@
     <string name="plan_instance_state_applied">הוחל</string>
     <string name="progress_dialog_updating_split_parts">מעדכן חלקים מפוצלים</string>
     <string name="warning_cannot_move_split_transaction">לא ניתן להעביר את העסקה המפוצלת הזו לחשבון %1$s משום שישנם חלקי העברה המתייחסים לחשבון זה.</string>
-    <string name="content_description_calculator_clear_button">אפס הכול</string>
     <string name="content_description_calculator_delete_button">מחק את הסיפרה האחרונה</string>
     <string name="paypal_callback_info">העסקה שלך הושלמה, וקבלה עבור הרכישה שלך נשלחה אליך בדוא\"ל. תוכל להיכנס לחשבון שלך בכתובת www.paypal.com כדי להציג פרטים על עסקה זו.</string>
     <string name="search_transfer">חפש עסקה</string>

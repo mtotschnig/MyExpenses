@@ -491,7 +491,6 @@
     <string name="plan_instance_state_applied">applicato</string>
     <string name="progress_dialog_updating_split_parts">Aggiornamento degli importi frazionati</string>
     <string name="warning_cannot_move_split_transaction">Questa operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
-    <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
     <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
     <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto le è stata inviata per e-mail. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
     <string name="search_transfer">Ricerca per il trasferimento</string>

@@ -94,7 +94,6 @@
     <string name="validate_error_webdav_not_compliant">URL tidak mengarah ke sumber WebDAV.</string>
     <string name="validate_error_webdav_invalid_certificate">Sertifikat ini tampaknya tidak valid dan tidak bisa dipercaya.</string>
     <string name="search_transfer">Cari untuk transfer</string>
-    <string name="content_description_calculator_clear_button">Setel ulang semua</string>
     <string name="synchronization">Sinkronisasi</string>
     <string name="hint_url">URL</string>
     <string name="synchronization_none">Tidak ada sinkronisasi</string>

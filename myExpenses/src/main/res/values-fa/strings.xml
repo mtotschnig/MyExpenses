@@ -366,7 +366,6 @@
     <string name="plan_instance_state_cancelled">لغو شده</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">اعمال شد</string>
-    <string name="content_description_calculator_clear_button">ریست کردن همه</string>
     <string name="crash_dialog_title">{app_name} بسته شد</string>
     <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
     <string name="synchronization">همگام‌سازی</string>

@@ -67,7 +67,6 @@
     <string name="synchronization_none">Ingen synkronisering</string>
     <string name="synchronization">Synkronisering</string>
     <string name="content_description_calculator_delete_button">Slett siste siffer</string>
-    <string name="content_description_calculator_clear_button">Tilbakestill alle</string>
     <string name="plan_instance_state_applied">anvendt</string>
     <string name="plan_instance_state_cancelled">avbrutt</string>
     <string name="plan_instance_state_open">åpen</string>

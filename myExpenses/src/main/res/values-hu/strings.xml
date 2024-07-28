@@ -486,7 +486,6 @@
     <string name="plan_instance_state_applied">alkalmazva</string>
     <string name="progress_dialog_updating_split_parts">Az osztott részek frissítése</string>
     <string name="warning_cannot_move_split_transaction">A felosztott tranzakció nem helyeztető át %1$s fiókra, mert az átutalás egyes részei erre a fiókra hivatkoznak.</string>
-    <string name="content_description_calculator_clear_button">Az összes visszaállítása</string>
     <string name="content_description_calculator_delete_button">Törölje az utolsó számjegyet</string>
     <string name="paypal_callback_info">Az ön tranzakciója befejeződött, és a vásárlási nyugtát elküldtük önnek e-mailben. A tranzakció részleteinek megtekintéséhez bejelentkezhet fiókjába a www.paypal.com oldalon.</string>
     <string name="search_transfer">Átutalás keresése:</string>

@@ -500,7 +500,6 @@
     <string name="plan_instance_state_applied">použito</string>
     <string name="progress_dialog_updating_split_parts">Aktualizace rozdělených součástí</string>
     <string name="warning_cannot_move_split_transaction">Tuto rozdělenou transakci nelze přesunout na účet %1$s, protože některé části přenosu odkazují na tento účet.</string>
-    <string name="content_description_calculator_clear_button">Obnovit vše</string>
     <string name="content_description_calculator_delete_button">Odstranit poslední číslici</string>
     <string name="paypal_callback_info">Vaše transakce byla dokončena. Potvrzení o nákupu vám bylo zasláno e-mailem. Můžete se přihlásit ke svému účtu na adrese www.paypal.com a zobrazit podrobnosti o této transakci.</string>
     <string name="search_transfer">Hledat převod</string>

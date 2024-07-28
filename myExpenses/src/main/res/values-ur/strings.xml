@@ -613,7 +613,6 @@
     <string name="plan_instance_state_applied">لاگو</string>
     <string name="progress_dialog_updating_split_parts">تقسیم شدہ حصوں کو اپ ڈیٹ کرنا</string>
     <string name="warning_cannot_move_split_transaction">اس تقسیم شدہ ٹرانزیکشن کو اکاؤنٹ %1$s میں منتقل نہیں کیا جا سکتا ہے کیونکہ اس اکاؤنٹ کا حوالہ دینے والے ٹرانسفر پارٹس ہیں.</string>
-    <string name="content_description_calculator_clear_button">تمام ری سیٹ کرو</string>
     <string name="content_description_calculator_delete_button">آخری ہندسہ حذف کریں</string>
     <string name="hint_url">URL</string>
     <string name="plan_instance_state_cancelled">منسوخ</string>

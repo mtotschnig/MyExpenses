@@ -486,7 +486,6 @@
     <string name="plan_instance_state_applied">uygulandı</string>
     <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
     <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
-    <string name="content_description_calculator_clear_button">Sıfırla tümünü</string>
     <string name="content_description_calculator_delete_button">Son rakamı sil</string>
     <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
     <string name="search_transfer">Transfer için ara</string>

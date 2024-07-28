@@ -484,7 +484,6 @@
     <string name="plan_instance_state_applied">ಅನ್ವಯಿಸಲಾಗಿದೆ</string>
     <string name="progress_dialog_updating_split_parts">ವಿಭಜಿತ ಭಾಗಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="warning_cannot_move_split_transaction">ಈ ವಿಭಜಿತ ವಹಿವಾಟನ್ನು %1$s ಖಾತೆಗೆ ಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ ಏಕೆಂದರೆ ಈ ಖಾತೆಯನ್ನು ಉಲ್ಲೇಖಿಸುವ ವರ್ಗಾವಣೆ ಭಾಗಗಳಿವೆ.</string>
-    <string name="content_description_calculator_clear_button">ಎಲ್ಲಾ ಮರುಹೊಂದಿಸಿ</string>
     <string name="content_description_calculator_delete_button">ಕೊನೆಯ ಅಂಕಿಯನ್ನು ಅಳಿಸಿ</string>
     <string name="paypal_callback_info">ನಿಮ್ಮ ವಹಿವಾಟು ಪೂರ್ಣಗೊಂಡಿದೆ, ಮತ್ತು ನಿಮ್ಮ ಖರೀದಿಗೆ ರಶೀದಿಯನ್ನು ನಿಮಗೆ ಇಮೇಲ್ ಮಾಡಲಾಗಿದೆ. ಈ ವಹಿವಾಟಿನ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನೀವು www.paypal.com ನಲ್ಲಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಲಾಗ್ ಇನ್ ಮಾಡಬಹುದು.</string>
     <string name="search_transfer">ವರ್ಗಾವಣೆಗಾಗಿ ಹುಡುಕಿ</string>

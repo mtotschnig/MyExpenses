@@ -504,7 +504,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Dacă sumele nu sunt actualizate, acestea vor fi afișate împărțite la %d după modificare.</string>
     <string name="app_dir_not_compatible_with_nougat">URI-ul configurat în prezent pentru backup și exporturi (%1$s) nu este acceptat cu Android Nougat. Vă rugăm să selectați din nou un dosar.</string>
     <string name="select_payee">Selectați plătitorul/beneficiarul</string>
-    <string name="content_description_calculator_clear_button">Resetează tot</string>
     <string name="hint_auto_fill">Ar trebui să fie completate automat datele din ultima tranzacție pentru același beneficiar/plătitor? Puteți schimba oricând acest comportament din setări.</string>
     <string name="dialog_contrib_text_2">Contribuiți prin actualizarea <i>{app_name}</i> și obțineți acces nerestricționat la următoarele funcții:</string>
     <string name="warning_change_fraction_digits_3">Dacă sumele sunt actualizate, veți pierde informațiile despre partea lor fracțională.</string>

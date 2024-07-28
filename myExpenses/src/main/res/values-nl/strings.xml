@@ -648,7 +648,6 @@
     <string name="pref_sort_order_custom">Aangepast</string>
     <string name="content_description_calculator">Rekenmachine</string>
     <string name="warning_cannot_move_split_transaction">Deze gesplitste transactie kan niet worden verplaatst naar rekening %1$s omdat er overboekingen zijn die verwijzen naar deze rekening.</string>
-    <string name="content_description_calculator_clear_button">Alles resetten</string>
     <string name="content_description_calculator_delete_button">Verwijder laatste cijfer</string>
     <string name="pref_sort_order_next_instance">Volgende instantie</string>
     <string name="crash_dialog_title">{app_name} is gecrasht</string>

@@ -481,7 +481,6 @@
     <string name="plan_instance_state_applied">aplikatuta</string>
     <string name="progress_dialog_updating_split_parts">Banatutako parteak eguneratzen</string>
     <string name="warning_cannot_move_split_transaction">Banatutako transakzio hau ezin da %1$s kontura mugitu kontu honi erreferentzia egiten dioten transferentzia parteak daudelako.</string>
-    <string name="content_description_calculator_clear_button">Berrezarri guztia</string>
     <string name="content_description_calculator_delete_button">Ezabatu azken digitoa</string>
     <string name="paypal_callback_info">Zure transakzioa burutu da, eta zure erosketaren egiaztagiri bat bidali da zure e-postara. Zure kontura sartu zaitezke www.paypal.com helbidean eta transakzioaren xehetasunak ikusi.</string>
     <string name="search_transfer">Bilatu transferentzia</string>
@@ -527,7 +526,6 @@
     <string name="contrib_feature_synchronization_label">Sinkronizazioa hodeian</string>
     <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
     <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
-
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="currency_symbol">Moneta-ikurra</string>

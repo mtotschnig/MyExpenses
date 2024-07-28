@@ -486,7 +486,6 @@
     <string name="plan_instance_state_applied">приложен</string>
     <string name="progress_dialog_updating_split_parts">Обновяване на разпределяните части</string>
     <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части.</string>
-    <string name="content_description_calculator_clear_button">Нулирай всичко</string>
     <string name="content_description_calculator_delete_button">Изтрии последната цифра</string>
     <string name="paypal_callback_info">Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.</string>
     <string name="search_transfer">Търсене на превод</string>

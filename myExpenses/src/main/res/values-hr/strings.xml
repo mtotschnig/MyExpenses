@@ -537,7 +537,6 @@
     <string name="search_transfer">Traži prijenos</string>
     <string name="paypal_callback_info">Tvoja je transakcija gotova, a račun za kupnju poslan ti je putem emaila. Za prikaz detalja ove transakcije prijavi se na svoj račun na www.paypal.com.</string>
     <string name="content_description_calculator_delete_button">Izbriši zadnju znamenku</string>
-    <string name="content_description_calculator_clear_button">Obnovi sve</string>
     <string name="warning_cannot_move_split_transaction">Ova se višedjelna transakcija ne može premjestiti na račun %1$s, jer postoje dijelovi prijenosa koji se odnose na ovaj račun.</string>
     <string name="progress_dialog_updating_split_parts">Aktualiziranje dijelova višedjelne transakcije</string>
     <string name="plan_instance_state_applied">primijenjeno</string>

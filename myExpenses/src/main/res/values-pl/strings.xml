@@ -490,7 +490,6 @@
     <string name="plan_instance_state_applied">stosowany</string>
     <string name="progress_dialog_updating_split_parts">Aktualizacja części podzielonych</string>
     <string name="warning_cannot_move_split_transaction">Ta dzielona transakcja nie może zostać przeniesiona na konto %1$s, ponieważ istnieją części transferu, które odnoszą się do tego konta.</string>
-    <string name="content_description_calculator_clear_button">Resetuj wszystko</string>
     <string name="content_description_calculator_delete_button">Usuń ostatnią cyfrę</string>
     <string name="paypal_callback_info">Twoja transakcja została zakończona i otrzymałeś wiadomość e-mail z potwierdzeniem zakupu. Możesz zalogować się na swoje konto na stronie www.paypal.com, aby wyświetlić szczegóły tej transakcji.</string>
     <string name="search_transfer">Wyszukaj przelew</string>

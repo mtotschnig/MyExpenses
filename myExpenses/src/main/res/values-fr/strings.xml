@@ -493,7 +493,6 @@
     <string name="plan_instance_state_applied">appliqué</string>
     <string name="progress_dialog_updating_split_parts">Mise à jour des ventilations</string>
     <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car il existe des ventilations de transfert vers ce même compte.</string>
-    <string name="content_description_calculator_clear_button">Réinitialiser tous</string>
     <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
     <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.</string>
     <string name="search_transfer">Recherche de transfert</string>

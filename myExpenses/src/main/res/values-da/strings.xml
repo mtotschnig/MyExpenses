@@ -500,7 +500,6 @@
     <string name="plan_instance_state_open">åben</string>
     <string name="plan_instance_state_applied">anvendt</string>
     <string name="progress_dialog_updating_split_parts">Opdaterer opdelte dele</string>
-    <string name="content_description_calculator_clear_button">Nulstil alt</string>
     <string name="content_description_calculator_delete_button">Slet sidste ciffer</string>
     <string name="paypal_callback_info">Din transaktion blev fuldført, og en kvittering for dit køb er blevet sendt til din e-mail. Du kan logge ind på din konto på www.paypal.com for at se detaljer om denne transaktion.</string>
     <string name="search_transfer">Søg efter overførsel</string>

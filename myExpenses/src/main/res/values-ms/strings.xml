@@ -474,7 +474,6 @@
     <string name="plan_instance_state_applied">dilaksanakan</string>
     <string name="progress_dialog_updating_split_parts">Mengemaskini bahagian pengasingan</string>
     <string name="warning_cannot_move_split_transaction">Transaksi pengasingan ini tidak dapat dialih ke akaun %1$s kerana terdapat bahagian pemindahan yang merujuk pada akaun ini.</string>
-    <string name="content_description_calculator_clear_button">Tetap semula semua</string>
     <string name="content_description_calculator_delete_button">Padam digit terakhir</string>
     <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
     <string name="search_transfer">Gelintar pemindahan</string>

@@ -479,7 +479,6 @@
     <string name="plan_instance_state_applied">已应用</string>
     <string name="progress_dialog_updating_split_parts">更新拆分款项中</string>
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到账户%1$s中，因为有部分转账已经引用到此账户。</string>
-    <string name="content_description_calculator_clear_button">重置所有</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
     <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的账户以查看该交易的详细信息。</string>
     <string name="search_transfer">搜索转账</string>

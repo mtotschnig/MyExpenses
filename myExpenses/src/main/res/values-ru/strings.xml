@@ -498,7 +498,6 @@
     <string name="plan_instance_state_applied">принятый</string>
     <string name="progress_dialog_updating_split_parts">Обновление частей</string>
     <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку имеются другие состовляюшие, которые имеют отношение к этому счету.</string>
-    <string name="content_description_calculator_clear_button">Сбросить все</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
     <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
     <string name="search_transfer">Поиск перевода</string>

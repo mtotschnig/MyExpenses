@@ -13,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources>
+ --><resources>
     <string name="account">Conta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
@@ -230,7 +229,6 @@
     <string name="content_description_calculator">Calculadora</string>
     <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_open">abrir</string>
-    <string name="content_description_calculator_clear_button">Restablecer todo</string>
     <string name="content_description_calculator_delete_button">Borrar último díxito</string>
     <string name="template">Modelo</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->

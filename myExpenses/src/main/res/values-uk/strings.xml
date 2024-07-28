@@ -487,7 +487,6 @@
     <string name="plan_instance_state_applied">застосований</string>
     <string name="progress_dialog_updating_split_parts">Оновлення частин поділу</string>
     <string name="warning_cannot_move_split_transaction">Ця розділена транзакція не може бути переміщена до рахунку %1$s, оскільки є частини переказу, які стосуються поточного рахунку.</string>
-    <string name="content_description_calculator_clear_button">Скинути все</string>
     <string name="content_description_calculator_delete_button">Видалити останню цифру</string>
     <string name="paypal_callback_info">Ваша транзакція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
     <string name="search_transfer">Шукати переказ</string>
