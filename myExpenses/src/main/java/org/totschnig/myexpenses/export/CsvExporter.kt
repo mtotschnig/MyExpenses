@@ -96,7 +96,7 @@ class CsvExporter(
             add(context.getString(R.string.method))
             add(context.getString(R.string.status))
             add(context.getString(R.string.reference_number))
-            add(context.getString(R.string.picture))
+            add(context.getString(R.string.attachments))
             add(context.getString(R.string.tags))
             if (withOriginalAndEquivalentAmounts) {
                 add(context.getString(R.string.menu_original_amount))
