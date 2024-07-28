@@ -422,7 +422,6 @@
     <string name="dialog_command_sync_link_remote">ریموٹ سے ڈاؤن لوڈ کریں</string>
     <string name="dialog_command_sync_link_local">مقامی سے اپ لوڈ کریں</string>
     <string name="dialog_synced_to_other">uuid %s کے ساتھ ایک اکاؤنٹ پہلے سے ہی مقامی ڈیٹا بیس میں موجود ہے اور ایک مختلف ریموٹ بیک اینڈ سے منسلک ہے.</string>
-    <string name="menu_remove">ہٹا دیں</string>
     <string name="dialog_confirm_sync_remove_backend">ریموٹ بیک اینڈ %s کو ہٹا دیا جائے گا۔ یہ مقامی طور پر یا دور سے ذخیرہ کردہ ڈیٹا کو متاثر نہیں کرے گا، لیکن مطابقت پذیری کی حیثیت ختم ہو جاتی ہے۔</string>
     <string name="dialog_confirm_sync_link_remote">اس اکاؤنٹ کا مقامی ڈیٹا حذف کر دیا جائے گا.</string>
     <string name="warning_trial_limit_reached">ٹیسٹنگ فیچر %s کے لیے آزمائشی مدت ختم ہو گئی ہے.</string>

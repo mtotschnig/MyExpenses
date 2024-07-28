@@ -528,7 +528,6 @@
     <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>
     <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
     <string name="dialog_synced_to_other">Счет с uuid %s уже существует в локальной базе данных, и привязан к другой удаленной базе данных.</string>
-    <string name="menu_remove">Удалить</string>
     <string name="dialog_confirm_sync_remove_backend">Удаленный сервер %s будет удален. Это не повлияет на данные, хранящиеся локально или удаленно, но состояние синхронизации потеряется.</string>
     <string name="dialog_confirm_sync_link_local">Удаленные данные для этого счета будут удалены. Убедитесь, что другие устройства не связаны с ним.</string>
     <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>

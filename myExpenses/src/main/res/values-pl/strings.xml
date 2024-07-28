@@ -520,7 +520,6 @@
     <string name="dialog_command_sync_link_remote">Pobierz zdalnie</string>
     <string name="dialog_command_sync_link_local">Prześlij z lokalnego</string>
     <string name="dialog_synced_to_other">Konto z uuid %s już istnieje w lokalnej bazie danych i jest połączone z innym zdalnym zapleczem.</string>
-    <string name="menu_remove">Usuń</string>
     <string name="dialog_confirm_sync_remove_backend">Zdalny serwer %s zostanie usunięty. Nie wpłynie to na dane przechowywane lokalnie lub zdalnie, ale status synchronizacji zostanie utracony.</string>
     <string name="dialog_confirm_sync_link_local">Zdalne dane dla tego konta zostaną usunięte. Upewnij się, że żadne inne urządzenia nie są z nim połączone.</string>
     <string name="dialog_confirm_sync_link_remote">Dane lokalne dla tego konta zostaną usunięte.</string>

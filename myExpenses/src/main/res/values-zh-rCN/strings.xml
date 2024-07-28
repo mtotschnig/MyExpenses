@@ -509,7 +509,6 @@
     <string name="dialog_command_sync_link_remote">从远程下载</string>
     <string name="dialog_command_sync_link_local">从本地上载</string>
     <string name="dialog_synced_to_other">具有uuid %s的账户已存在于本地数据库中，并且已链接到其他远程后端。</string>
-    <string name="menu_remove">移除</string>
     <string name="dialog_confirm_sync_remove_backend">远程后端%s将被移除。这不会影响本地或远程存储的数据，但是同步状态会丢失。</string>
     <string name="dialog_confirm_sync_link_local">该账户的远程数据将被删除。请确保没有其他设备与它相链接。</string>
     <string name="dialog_confirm_sync_link_remote">该账户的本地数据将被删除。</string>

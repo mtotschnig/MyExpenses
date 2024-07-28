@@ -530,7 +530,6 @@
     <string name="dialog_command_sync_link_remote">Stáhnout ze vzdáleného zdroje</string>
     <string name="dialog_command_sync_link_local">Nahrát z místního</string>
     <string name="dialog_synced_to_other">Účet s uuid %s již v místní databázi existuje a je propojen s jiným vzdáleným rozhraním backend.</string>
-    <string name="menu_remove">Odebrat</string>
     <string name="dialog_confirm_sync_remove_backend">Vzdálený backend %s bude odebrán. Neovlivní to data uložená lokálně ani vzdáleně, ale dojde ke ztrátě statusu synchronizace.</string>
     <string name="dialog_confirm_sync_link_local">Vzdálené údaje o tomto účtu budou smazány. Zajistěte, aby s ním nebyla propojena žádná další zařízení.</string>
     <string name="dialog_confirm_sync_link_remote">Místní data tohoto účtu budou smazána.</string>

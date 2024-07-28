@@ -85,7 +85,6 @@
     <string name="menu_sync_link">Mulai menyinkronkan</string>
     <string name="menu_sync_unlink">Berhenti menyinkronkan</string>
     <string name="url_not_valid">URL tidak valid</string>
-    <string name="menu_remove">Hapus</string>
     <string name="template">Templat</string>
     <string name="validate_error_not_empty">Tidak boleh kosong</string>
     <string name="dialog_command_sync_link_remote">Unduh dari remote</string>

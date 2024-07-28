@@ -514,7 +514,6 @@
     <string name="dialog_command_sync_link_remote">ರಿಮೋಟ್‌ನಿಂದ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
     <string name="dialog_command_sync_link_local">ಸ್ಥಳೀಯದಿಂದ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
     <string name="dialog_synced_to_other">ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ uuid %s ನೊಂದಿಗೆ ಖಾತೆಯು ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ ಮತ್ತು ಅದನ್ನು ಬೇರೆ ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="menu_remove">ತೆಗೆದುಹಾಕಿ</string>
     <string name="dialog_confirm_sync_remove_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ %s ಅನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ. ಇದು ಸ್ಥಳೀಯವಾಗಿ ಅಥವಾ ದೂರದಿಂದಲೇ ಸಂಗ್ರಹವಾಗಿರುವ ಡೇಟಾದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ, ಆದರೆ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ.</string>
     <string name="dialog_confirm_sync_link_local">ಈ ಖಾತೆಯ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಬೇರೆ ಯಾವುದೇ ಸಾಧನಗಳು ಇದಕ್ಕೆ ಲಿಂಕ್ ಆಗಿಲ್ಲ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.</string>
     <string name="dialog_confirm_sync_link_remote">ಈ ಖಾತೆಯ ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>

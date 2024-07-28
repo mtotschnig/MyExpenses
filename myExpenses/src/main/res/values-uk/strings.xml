@@ -517,7 +517,6 @@
     <string name="dialog_command_sync_link_remote">Завантажити з віддаленого сервера</string>
     <string name="dialog_command_sync_link_local">Вивантажити з локальних даних</string>
     <string name="dialog_synced_to_other">Рахунок з uuid %s вже існує в локальній базі даних, і прив\'язаний до іншої віддаленої бази даних.</string>
-    <string name="menu_remove">Вилучити</string>
     <string name="dialog_confirm_sync_remove_backend">Віддалений сервер %s буде видалено. Це не вплине на дані, що зберігаються локально або віддалено, але стан синхронізації втратиться.</string>
     <string name="dialog_confirm_sync_link_local">Віддалені дані для цього рахунку буде видалено. Переконайтеся, що з ним не пов\'язані інші пристрої.</string>
     <string name="dialog_confirm_sync_link_remote">Локальні дані для цього рахунку буде видалено.</string>

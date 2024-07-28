@@ -157,7 +157,6 @@
     <string name="dialog_confirm_sync_link_remote">ఈ ఖాతా కోసం స్థానిక డేటా తొలగించబడుతుంది.</string>
     <string name="dialog_confirm_sync_link_local">ఈ ఖాతా కోసం రిమోట్ డేటా తొలగించబడుతుంది. ఇతర పరికరాలు దీనికి లింక్ చేయబడలేదని నిర్ధారించుకోండి.</string>
     <string name="dialog_confirm_sync_remove_backend">రిమోట్ బ్యాకెండ్ %s తీసివేయబడుతుంది. ఇది స్థానికంగా లేదా రిమోట్‌గా నిల్వ చేసిన డేటాను ప్రభావితం చేయదు, కానీ సమకాలీకరణ స్థితి కోల్పోతుంది.</string>
-    <string name="menu_remove">తొలగించండి</string>
     <string name="dialog_synced_to_other">Uuid %s తో ఖాతా ఇప్పటికే స్థానిక డేటాబేస్లో ఉంది మరియు వేరే రిమోట్ బ్యాకెండ్కు అనుసంధానించబడింది.</string>
     <string name="dialog_command_sync_link_local">స్థానిక నుండి అప్‌లోడ్ చేయండి</string>
     <string name="dialog_command_sync_link_remote">రిమోట్ నుండి డౌన్‌లోడ్ చేయండి</string>

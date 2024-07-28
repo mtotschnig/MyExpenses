@@ -543,7 +543,6 @@
     <string name="dialog_command_sync_link_remote">التنزيل عن بعد</string>
     <string name="dialog_command_sync_link_local">تحميل من المستوى المحلي</string>
     <string name="dialog_synced_to_other">حساب بالمعرف الفريد العالمي %s موجود بالفعل في قاعدة البيانات المحلية ومرتبط بخلفية بعيدة مختلفة.</string>
-    <string name="menu_remove">إزالة</string>
     <string name="dialog_confirm_sync_remove_backend">ستتم إزالة الواجهة الخلفية البعيدة %s. لن يؤثر ذلك على البيانات المخزنة محلياً أو عن بُعد، ولكن حالة المزامنة سوف تُفقد.</string>
     <string name="dialog_confirm_sync_link_local">سيتم حذف البيانات البعيدة لهذا الحساب. تأكد من عدم وجود أجهزة أخرى مرتبطة به.</string>
     <string name="dialog_confirm_sync_link_remote">سيتم حذف البيانات المحلية لهذا الحساب.</string>

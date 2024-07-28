@@ -508,7 +508,6 @@
     <string name="dialog_confirm_sync_unlink">Αν αποσυνδέσετε αυτόν τον λογαριασμό από το %s, η κατάσταση συγχρονισμού θα χαθεί. Η σύνδεσή τους ξανά αργότερα, απαιτεί ένα πλήρη συγχρονισμό να εκτελεστεί ξανά.</string>
     <string name="dialog_command_sync_link_remote">Λήψη από απομακρυσμένο</string>
     <string name="dialog_command_sync_link_local">Μεταφόρτωση από τοπικό</string>
-    <string name="menu_remove">Αφαίρεση</string>
     <string name="dialog_confirm_sync_link_local">Τα απομακρυσμένα δεδομένα για αυτόν το λογαριασμό θα διαγραφούν. Βεβαιωθείτε ότι δεν υπάρχουν άλλες συσκευές που συνδέονται με αυτά.</string>
     <string name="dialog_confirm_sync_link_remote">Τα τοπικά δεδομένα για αυτόν το λογαριασμό θα διαγραφούν.</string>
     <string name="warning_trial_limit_reached">Η δοκιμαστική περίοδος για τον έλεγχο της λειτουργία %s έχει λήξει.</string>

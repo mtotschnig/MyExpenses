@@ -516,7 +516,6 @@
     <string name="dialog_command_sync_link_remote">Uzaktan indir</string>
     <string name="dialog_command_sync_link_local">Yerelden gönder</string>
     <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veri tabanında mevcuttur ve uzaktaki başka bir arka uca bağlıdır.</string>
-    <string name="menu_remove">Kaldır</string>
     <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşzamanlama durumu kaybolacaktır.</string>
     <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir aygıtın ona bağlı olmadığından emin olun.</string>
     <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>

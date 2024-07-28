@@ -510,7 +510,6 @@
     <string name="dialog_command_sync_link_remote">從遠端下載</string>
     <string name="dialog_command_sync_link_local">從本機上傳</string>
     <string name="dialog_synced_to_other">具有通用唯一識別碼UUID %s的帳戶已存在於本機資料庫中，並且已連結到其他遠程後端。</string>
-    <string name="menu_remove">移除</string>
     <string name="dialog_confirm_sync_remove_backend">遠程後端%s將被移除。這不會影響本機或遠端存儲的資料，但是會失去同步狀態。</string>
     <string name="dialog_confirm_sync_link_local">該帳戶的遠端資料將被刪除。請確保沒有其他裝置與它相連結。</string>
     <string name="dialog_confirm_sync_link_remote">該帳戶在本機的資料將被刪除。</string>

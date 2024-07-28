@@ -389,7 +389,6 @@
     <string name="export_handle_deleted_create_helper">Crea transacció d\'ajuda</string>
     <string name="export_handle_deleted_update_balance">Actualitza saldo inicial</string>
     <string name="validate_error_webdav_not_compliant">L\'URL no condueix a cap recurs WebDAV.</string>
-    <string name="menu_remove">Elimina</string>
     <string name="dialog_confirm_sync_link_remote">Les dades locals d\'aquest compte s\'eliminaran.</string>
     <string name="progress_removing_licence">Suprimint llicència</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Definiu un nombre entre %1$d i %2$d</string>

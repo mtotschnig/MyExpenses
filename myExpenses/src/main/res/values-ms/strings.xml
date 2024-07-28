@@ -504,7 +504,6 @@
     <string name="dialog_command_sync_link_remote">Muat turun dari jauh</string>
     <string name="dialog_command_sync_link_local">Muat naik dari setempat</string>
     <string name="dialog_synced_to_other">Satu akaun dengan uuid %s telah wujud dalam pangkalan data setempat dan dipaut dengan bahagian belakang jauh yang lain.</string>
-    <string name="menu_remove">Buang</string>
     <string name="dialog_confirm_sync_remove_backend">Bahagian belakang jauh %s akan dibuang. Ia tidak mempengaruhi data yang disimpan secara setempat atau jauh, tetapi status penyegerakan akan hilang.</string>
     <string name="dialog_confirm_sync_link_local">Data jauh untuk akaun ini akan dipadamkan. Pastikan tiada peranti dipaut padanya.</string>
     <string name="dialog_confirm_sync_link_remote">Data setempat untuk akaun ini akan dipadamkan.</string>

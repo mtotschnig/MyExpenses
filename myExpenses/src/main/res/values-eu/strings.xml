@@ -512,7 +512,6 @@
     <string name="dialog_command_sync_link_remote">Deskargatu urruneko helbidetik</string>
     <string name="dialog_command_sync_link_local">Igo tokiko biltegitik</string>
     <string name="dialog_synced_to_other">%s UUIDa duen kontu bat dagoeneko datu-base lokalean dago eta urruneko atzealdeko batera dago estekatuta.</string>
-    <string name="menu_remove">Kendu</string>
     <string name="dialog_confirm_sync_remove_backend">%s urruneko atzealdekoa kendu egingo da. Honek ez dio eragingo lokalean edo urrunean biltegiratutako datuei, baina sinkronizazioaren egoera galduko litzateke.</string>
     <string name="dialog_confirm_sync_link_local">Kontu honetako urruneko datuak ezabatuak izango dira. Ziurtatu beste gailurik ez dagoela berari estekatuta.</string>
     <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>

@@ -506,7 +506,6 @@
     <string name="dialog_command_sync_link_remote">リモートからダウンロード</string>
     <string name="dialog_command_sync_link_local">ローカルからアップロード</string>
     <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
-    <string name="menu_remove">削除</string>
     <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。</string>
     <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
     <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>

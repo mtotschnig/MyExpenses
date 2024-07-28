@@ -523,7 +523,6 @@
     <string name="dialog_command_sync_link_remote">Baixar do servidor remoto</string>
     <string name="dialog_command_sync_link_local">Enviar do banco de dados local</string>
     <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um destino remoto diferente.</string>
-    <string name="menu_remove">Remover</string>
     <string name="dialog_confirm_sync_remove_backend">O destino remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o estado da sincronização será perdido.</string>
     <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão apagados. Certifique-se de que nenhum outro aparelho encontra-se lhe associado.</string>
     <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão apagados.</string>

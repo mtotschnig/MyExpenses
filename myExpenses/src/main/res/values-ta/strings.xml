@@ -516,7 +516,6 @@
     <string name="dialog_command_sync_link_remote">தொலைநிலையில் இருந்து பதிவிறக்கு</string>
     <string name="dialog_command_sync_link_local">உள் தரவுத்தளத்திலிருந்து பதிவேற்று</string>
     <string name="dialog_synced_to_other">%s uuid கொண்ட ஒரு கணக்கு ஏற்கனவே உள் தரவுத்தளத்தில் உள்ளது மேலும் அது வேறு தொலை பின்தளத்துடன் இணைக்கப்பட்டுள்ளது.</string>
-    <string name="menu_remove">அகற்று</string>
     <string name="dialog_confirm_sync_remove_backend">தொலைநிலை பின்தளம் %s அகற்றப்படும். இது உள்ளே அல்லது தொலைநிலையில் சேமிக்கப்பட்ட தரவை பாதிக்காது, ஆனால் ஒத்திசைவு நிலை இழக்கப்படும்.</string>
     <string name="dialog_confirm_sync_link_local">இந்த கணக்கிற்கான தொலைநிலை தரவு நீக்கப்படும். வேறு எந்த கருவியும் அதனுடன் இணைக்கப்படவில்லை என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
     <string name="dialog_confirm_sync_link_remote">இந்த கணக்கிற்கான உள் தரவு நீக்கப்படும்.</string>

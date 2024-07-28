@@ -523,7 +523,6 @@
     <string name="dialog_command_sync_link_remote">הורד מרחוק</string>
     <string name="dialog_command_sync_link_local">העלה ממקומי</string>
     <string name="dialog_synced_to_other">חשבון עם uuid %sכבר קיים במסד הנתונים המקומי והוא מקושר ל- backend מרוחק אחר.</string>
-    <string name="menu_remove">הסר</string>
     <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד.</string>
     <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
     <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>

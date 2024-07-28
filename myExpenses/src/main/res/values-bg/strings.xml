@@ -516,7 +516,6 @@
     <string name="dialog_command_sync_link_remote">Зареди от отдалечената</string>
     <string name="dialog_command_sync_link_local">Изпрати локалните</string>
     <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено хранилище.</string>
-    <string name="menu_remove">Премахни</string>
     <string name="dialog_confirm_sync_remove_backend">Отдалеченото хранилище %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране.</string>
     <string name="dialog_confirm_sync_link_local">Отдалечените данни за тази сметка ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
     <string name="dialog_confirm_sync_link_remote">Локалните данни за тази сметка ще бъдат изтрити.</string>

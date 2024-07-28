@@ -501,7 +501,6 @@
     <string name="dialog_command_sync_link_remote">Tải xuống từ bên ng</string>
     <string name="dialog_command_sync_link_local">Tải lên từ nội bộ</string>
     <string name="dialog_synced_to_other">Một tài khoản với UUID %s đã tồn tại trong CSDL nội bộ và nó cũng được liên kết với một backend từ xa khác.</string>
-    <string name="menu_remove">Xoá</string>
     <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng.</string>
     <string name="dialog_confirm_sync_link_local">Những dữ liệu từ xa của tài khoản này sẽ bị xoá. Đảm bảo rằng không có thiết bị nào khác được liên kết với tài khoản này.</string>
     <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
