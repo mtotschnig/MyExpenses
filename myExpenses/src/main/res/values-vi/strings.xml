@@ -535,8 +535,6 @@
     <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
     <string name="onboarding_ui_title">{app_name} được thay đổi cho phù hợp với cài đặt của bạn</string>
     <string name="onboarding_data_title">Hãy thiết lập tài khoản đầu tiên của bạn</string>
-    <string name="onboarding_get_started">Bắt đầu</string>
-    <string name="onboarding_more_options">Nhiều tuỳ chọn hơn</string>
     <string name="onboarding_restore_from_cloud">Khôi phục từ bản đồng bộ trực tuyến</string>
     <string name="onboarding_restore_from_local">Khôi phục từ tập tin sao lưu trong máy</string>
     <string name="contributed_by">Đóng góp bởi %s</string>

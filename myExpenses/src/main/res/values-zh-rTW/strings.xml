@@ -546,8 +546,6 @@
     <string name="sync_state_could_not_be_restored">無法為%d帳戶恢復同步狀態。</string>
     <string name="onboarding_ui_title">{app_name} 適應您的偏好</string>
     <string name="onboarding_data_title">讓我們建立您的第一個帳戶</string>
-    <string name="onboarding_get_started">開始使用</string>
-    <string name="onboarding_more_options">更多的選擇</string>
     <string name="onboarding_restore_from_cloud">可從同步的雲端設備還原</string>
     <string name="onboarding_restore_from_local">從本機備份檔案來復原</string>
     <string name="contributed_by">由%s貢獻</string>

@@ -420,7 +420,6 @@
     <string name="progress_dialog_checking_sync_backend">Verificant sistema de servei</string>
     <string name="sync_io_error_cannot_connect">Impossible connectar amb la sincronització a sistema de servei.</string>
     <string name="synchronization_end_success_none">No hi ha canvis per sincronitzar.</string>
-    <string name="onboarding_more_options">Més opcions</string>
     <string name="onboarding_restore_from_local">Restaurar des de còpia de seguretat local</string>
     <string name="contributed_by">Contribució de %s</string>
     <string name="plan_custom_recurrence_info">Siuplau desi la plantilla. abans. S\'obrirà el projecte a l\'aplicació de calendari on podrà configurar una reaparició personalitzada.</string>
@@ -615,7 +614,6 @@
     </plurals>
     <string name="move_category_success">Una categoria s\'ha desplaçat amb èxit.</string>
     <string name="move_category_failure">Una categoria no s\'ha desplaçat, atès que la mateixa etiqueat ja existeix al destí.</string>
-    <string name="onboarding_get_started">Comencem</string>
     <string name="pref_home_currency_title">Divisa local</string>
     <string name="budget_table_header_budgeted">Pressupostat</string>
     <string name="navigation_drawer_accounts_title">Gestionar comptes</string>

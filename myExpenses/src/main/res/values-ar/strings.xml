@@ -579,8 +579,6 @@
     <string name="sync_state_could_not_be_restored">تعذر استعادة حالة المزامنة لحسابات %d.</string>
     <string name="onboarding_ui_title">يتكيف {app_name} مع تفضيلاتك</string>
     <string name="onboarding_data_title">دعنا ننشئ حسابك الأول</string>
-    <string name="onboarding_get_started">البدء</string>
-    <string name="onboarding_more_options">المزيد من الخيارات</string>
     <string name="onboarding_restore_from_cloud">استعادة من المزامنة السحابية</string>
     <string name="onboarding_restore_from_local">استعادة ملف النسخ الاحتياطي المحلي</string>
     <string name="contributed_by">تمت المساهمة بواسطة %s</string>

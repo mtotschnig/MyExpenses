@@ -444,7 +444,6 @@
     <string name="sync_io_error_cannot_connect">Kan geen verbinding maken met synchronisatie-backend.</string>
     <string name="pref_webdav_timeout_title">WebDAV-time-out (in seconden)</string>
     <string name="onboarding_ui_title">{app_name} past zich aan je voorkeur aan</string>
-    <string name="onboarding_more_options">Meer Opties</string>
     <string name="onboarding_restore_from_cloud">Herstel vanuit cloudsynchronisatie</string>
     <string name="onboarding_restore_from_local">Herstel lokaal back-upbestand</string>
     <string name="plan_custom_recurrence_info">Sla eerst het sjabloon op. Het plan wordt vervolgens geopend in de kalender-app, waar je een aangepast herhalingspatroon kunt instellen.</string>
@@ -540,7 +539,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records zijn verwijderd.</string>
     <string name="synchronization_none">Geen synchronisatie</string>
     <string name="dialog_confirm_sync_remove_backend">Externe backend %s wordt verwijderd. Dit heeft geen invloed op gegevens die lokaal of op afstand zijn opgeslagen, maar de synchronisatiestatus gaat verloren.</string>
-    <string name="onboarding_get_started">Aan de slag</string>
     <string name="pref_debug_logging_summary">Schrijf foutopsporingsinformatie in het systeemlogboek</string>
     <string name="auto_fill_account_from_aggregate_only">Alleen wanneer gestart vanaf een samengestelde rekening.</string>
     <string name="menu_history_transfers">Inclusief transfers</string>

@@ -552,8 +552,6 @@
     <string name="sync_state_could_not_be_restored">%d fióknál nem sikerült visszaállítani a szinkronizálási állapotot.</string>
     <string name="onboarding_ui_title">{app_name} alkalmazkodik az ön preferenciájához</string>
     <string name="onboarding_data_title">Hadd állítsuk be az első fiókját</string>
-    <string name="onboarding_get_started">Első lépések</string>
-    <string name="onboarding_more_options">További lehetőségek</string>
     <string name="onboarding_restore_from_cloud">Visszaállítás a felhőalapú szinkronizálásból</string>
     <string name="onboarding_restore_from_local">Helyi biztonsági mentés visszaállítása</string>
     <string name="contributed_by">%s közreműködésével</string>

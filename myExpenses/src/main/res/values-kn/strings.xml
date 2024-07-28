@@ -550,8 +550,6 @@
     <string name="sync_state_could_not_be_restored">%d ಖಾತೆಗಳಿಗಾಗಿ ಸಿಂಕ್ ಸ್ಥಿತಿಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
     <string name="onboarding_ui_title">{app_name} ನಿಮ್ಮ ಆದ್ಯತೆಗೆ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ</string>
     <string name="onboarding_data_title">ನಿಮ್ಮ ಮೊದಲ ಖಾತೆಯನ್ನು ಹೊಂದಿಸೋಣ</string>
-    <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
-    <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
     <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>

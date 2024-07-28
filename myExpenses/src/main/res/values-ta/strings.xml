@@ -552,8 +552,6 @@
     <string name="sync_state_could_not_be_restored">%d கணக்குகளுக்குக்கான ஒத்திசைவு நிலையை மீட்டமைக்க முடியவில்லை.</string>
     <string name="onboarding_ui_title">{app_name} உங்கள் விருப்பத்திற்கு ஏற்ப, மாறிக் கொள்ளும்</string>
     <string name="onboarding_data_title">உங்கள் முதல் கணக்கை அமைப்போம்</string>
-    <string name="onboarding_get_started">தொடங்குக</string>
-    <string name="onboarding_more_options">மேலும் விருப்பங்கள்</string>
     <string name="onboarding_restore_from_cloud">மேகக்கணினி ஒத்திசைவிலிருந்து மீட்டமை</string>
     <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
     <string name="contributed_by">%s-ஆல் பங்களிக்கப்பட்டது</string>

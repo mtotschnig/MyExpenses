@@ -557,8 +557,6 @@
     <string name="sync_state_could_not_be_restored">Lo stato di sincronizzazione non può essere ripristinato per %dconti.</string>
     <string name="onboarding_ui_title">{app_name} si adatta alle tue preferenze</string>
     <string name="onboarding_data_title">Lasciaci impostare il tuo primo conto</string>
-    <string name="onboarding_get_started">Iniziare</string>
-    <string name="onboarding_more_options">Più opzioni</string>
     <string name="onboarding_restore_from_cloud">Ripristino dal cloud</string>
     <string name="onboarding_restore_from_local">Ripristina il file di backup locale</string>
     <string name="contributed_by">Contribuito da %s</string>

@@ -446,7 +446,6 @@
     <string name="sync_state_restored">%d اکاؤنٹس کے لیے مطابقت پذیری کی حالت بحال کر دی گئی.</string>
     <string name="onboarding_ui_title">{app_name} آپ کی ترجیح کے مطابق ہوتا ہے</string>
     <string name="onboarding_data_title">آئیے آپ کا پہلا اکاؤنٹ ترتیب دیں</string>
-    <string name="onboarding_get_started">شروع کرنے کے</string>
     <string name="onboarding_restore_from_cloud">کلاؤڈ سنکرونائزیشن سے بحال کریں</string>
     <string name="onboarding_restore_from_local">مقامی بیک اپ فائل کو بحال کریں</string>
     <string name="contributed_by">%s کے ذریعے تعاون کیا گیا</string>
@@ -729,7 +728,6 @@
     <string name="all_extended_key_features">توسیعی کلید کی تمام خصوصیات</string>
     <string name="warning_auto_backup_deactivated">آٹو بیک اپ کو غیر فعال کر دیا گیا ہے. آپ مسئلہ کو حل کرنے کے بعد سیٹنگز سے اسے دوبارہ آن کر سکتے ہیں (مثلاً بیک اپ کے لیے ایک مختلف فولڈر کا انتخاب کرنا).</string>
     <string name="synchronization_start">اکاؤنٹ %s کے لیے مطابقت پذیری شروع ہو رہی ہے.</string>
-    <string name="onboarding_more_options">مزید زرائے</string>
     <string name="pref_warning_only_one_protection">اس سے پہلے کہ آپ %1$s تک تحفظ استعمال کر سکیں، آپ کو %2$s تک تحفظ کو بند کرنا چاہیے.</string>
     <string name="professional_key_fallback_info">پروفیشنل کلید کی رکنیت جو کم از کم ایک سال سے فعال ہے اور اس کی تجدید نہیں ہوئی ہے، خود بخود ایک لامحدود توسیعی کلید میں تبدیل ہو جائے گی.</string>
     <string name="history_chart_in_label">آمدنی</string>

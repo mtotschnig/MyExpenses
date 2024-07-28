@@ -525,8 +525,6 @@
     <string name="sync_state_could_not_be_restored">Não foi possível restaurar o estado de sincronização de %d contas.</string>
     <string name="onboarding_ui_title">{app_name} adapta-se às suas preferências</string>
     <string name="onboarding_data_title">Permita-nos configurar a sua primeira conta</string>
-    <string name="onboarding_get_started">Começar</string>
-    <string name="onboarding_more_options">Mais opções</string>
     <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
     <string name="onboarding_restore_from_local">Restaurar ficheiro de backup local</string>
     <string name="pref_category_exchange_rates">Taxas de câmbio</string>

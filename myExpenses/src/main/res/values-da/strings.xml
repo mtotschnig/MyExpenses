@@ -564,7 +564,6 @@
     <string name="currency_still_used">Valutaen er i brug og kan ikke slettes.</string>
     <string name="pref_tracking_summary">Lad os indsamle anonyme data om brugsmønstre, som hjælper os med at planlægge forbedringer.</string>
     <string name="sync_io_exception_setup_remote_account">Fejl under opsætning af fjernkonto.</string>
-    <string name="onboarding_get_started">Kom i gang</string>
     <string name="licence_validation_error_expired">Licens er udløbet</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Henter data fra ekstern backend. Dette kan tage noget tid.</string>
     <string name="sync_auth_exception">Godkendelse mislykkedes.</string>
@@ -594,7 +593,6 @@
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringsstatus kunne ikke gendannes for %d konti.</string>
     <string name="onboarding_ui_title">{app_name} tilpasser sig dine præferencer</string>
     <string name="onboarding_data_title">Lad os opsætte din første konto</string>
-    <string name="onboarding_more_options">Flere muligheder</string>
     <string name="licence_validation_error_device_limit_exceeded">Enhedsgrænse overskredet. Fjern venligst licensen fra en anden enhed.</string>
     <string name="button_validate">Bekræft</string>
     <string name="licence_removal_information" tools:ignore="PluralsCandidate">Hvis du ikke længere har brug for premiumfunktioner på denne enhed, kan du fjerne licensnøglen. Dette frigører nøglen til aktivering på en anden enhed. Nøglen kan aktiveres på op til %d enheder.</string>

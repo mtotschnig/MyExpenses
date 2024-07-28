@@ -472,8 +472,6 @@
     <string name="contributed_by">Doprinositelj: %s</string>
     <string name="onboarding_restore_from_local">Obnovi lokalnu datoteku sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud">Obnovi putem sinkronizacije iz oblaka</string>
-    <string name="onboarding_more_options">Daljnje opcije</string>
-    <string name="onboarding_get_started">Započni</string>
     <string name="onboarding_data_title">Postavi prvi račun</string>
     <string name="onboarding_ui_title">{app_name} se prilagođava tvojim željama</string>
     <string name="sync_state_could_not_be_restored">Nije moguće obnoviti stanje sinkronizacije za %d računa.</string>

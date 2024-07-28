@@ -118,8 +118,6 @@
     <string name="contributed_by">%s తోడ్పడింది</string>
     <string name="onboarding_restore_from_local">స్థానిక బ్యాకప్ ఫైల్‌ను పునరుద్ధరించండి</string>
     <string name="onboarding_restore_from_cloud">క్లౌడ్ సమకాలీకరణ నుండి పునరుద్ధరించండి</string>
-    <string name="onboarding_more_options">మరిన్ని ఎంపికలు</string>
-    <string name="onboarding_get_started">ప్రారంభించడానికి</string>
     <string name="onboarding_data_title">మీ మొదటి ఖాతాను సెటప్ చేద్దాం</string>
     <string name="onboarding_ui_title">{app_name} మీ ప్రాధాన్యతకు అనుగుణంగా ఉంటుంది</string>
     <string name="sync_state_could_not_be_restored">%d ఖాతాల కోసం సమకాలీకరణ స్థితిని పునరుద్ధరించడం సాధ్యం కాలేదు.</string>

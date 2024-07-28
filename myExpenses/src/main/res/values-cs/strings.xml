@@ -566,8 +566,6 @@
     <string name="sync_state_could_not_be_restored">U %d účtů se nepovedlo obnovit status synchronizace.</string>
     <string name="onboarding_ui_title">Aplikace {app_name} se přizpůsobí vašim preferencím</string>
     <string name="onboarding_data_title">Dovolte nám nastavit váš první účet</string>
-    <string name="onboarding_get_started">Začít</string>
-    <string name="onboarding_more_options">Další možnosti</string>
     <string name="onboarding_restore_from_cloud">Obnovit z cloudové synchronizace</string>
     <string name="onboarding_restore_from_local">Obnovit místní zálohovací soubor</string>
     <string name="contributed_by">Přispěno %s</string>
