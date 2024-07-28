@@ -192,8 +192,8 @@
     </string-array>
     <string-array name="pref_scroll_to_current_date_entries">
         <item>@string/never</item>
-        <item>only when app launches</item>
-        <item>every time account is opened</item>
+        <item>@string/pref_scroll_to_current_date_app_launch</item>
+        <item>@string/pref_scroll_to_current_date_account_open</item>
     </string-array>
 
     <string-array name="template_default_action_entries">
