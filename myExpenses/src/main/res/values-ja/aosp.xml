@@ -120,4 +120,5 @@
     <string name="button_try">"試してみる"</string>
     <string name="icon">"アイコン"</string>
     <string name="reset_all">"すべてリセット"</string>
+    <string name="remove">"削除"</string>
 </resources>

@@ -64,7 +64,7 @@ class PreferencesContribFragment : Fragment() {
                             )
                             putInt(
                                 ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                                R.string.menu_remove
+                                R.string.remove
                             )
                             putInt(
                                 ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,

@@ -28,7 +28,7 @@ class ConfirmTagDialogFragment : BaseDialogFragment() {
                 )
                 .setNegativeButton(android.R.string.cancel, null)
             if (isEmpty) {
-                it.setPositiveButton(R.string.menu_remove) { _: DialogInterface, _: Int ->
+                it.setPositiveButton(R.string.remove) { _: DialogInterface, _: Int ->
                     confirm(
                         true
                     )

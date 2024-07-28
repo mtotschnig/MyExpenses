@@ -53,4 +53,5 @@
     <string name="button_try">"Probeer dit"</string>
     <string name="icon">"Ikoon"</string>
     <string name="reset_all">"Stel alles terug"</string>
+    <string name="remove">"Verwyder"</string>
 </resources>

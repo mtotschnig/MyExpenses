@@ -46,4 +46,5 @@
     <string name="button_try">"امتحان کنید"</string>
     <string name="icon">"نماد"</string>
     <string name="reset_all">"بازنشانی همه"</string>
+    <string name="remove">"حذف"</string>
 </resources>

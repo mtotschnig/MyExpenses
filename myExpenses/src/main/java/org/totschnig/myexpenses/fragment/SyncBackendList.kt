@@ -149,7 +149,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
             if (isSyncAvailable) {
                 menu.add(Menu.NONE, R.id.SYNC_COMMAND, 0, R.string.menu_sync_now)
             }
-            menu.add(Menu.NONE, R.id.SYNC_REMOVE_BACKEND_COMMAND, 0, R.string.menu_remove)
+            menu.add(Menu.NONE, R.id.SYNC_REMOVE_BACKEND_COMMAND, 0, R.string.remove)
             if (syncBackendAdapter.isEncrypted(packedPosition)) {
                 menu.add(Menu.NONE, R.id.SHOW_PASSWORD_COMMAND, 0, R.string.input_label_passphrase)
             }
@@ -234,7 +234,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                         )
                         putInt(
                             ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                            R.string.menu_remove
+                            R.string.remove
                         )
                         putInt(
                             ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,

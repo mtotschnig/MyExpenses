@@ -45,4 +45,5 @@
     <string name="button_try">"ລອງໃຊ້ມັນເບິ່ງ"</string>
     <string name="icon">"ໄອຄອນ"</string>
     <string name="reset_all">"ຣີເຊັດທັງໝົດ"</string>
+    <string name="remove">"ລຶບອອກ"</string>
 </resources>

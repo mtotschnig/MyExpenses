@@ -123,4 +123,5 @@
     <string name="button_try">"Prova-ho"</string>
     <string name="icon">"Icona"</string>
     <string name="reset_all">"Restableix-ho tot"</string>
+    <string name="remove">"Suprimeix"</string>
 </resources>

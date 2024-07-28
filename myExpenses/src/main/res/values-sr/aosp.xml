@@ -36,4 +36,5 @@
     <string name="button_try">"Испробај"</string>
     <string name="icon">"Икона"</string>
     <string name="reset_all">"Ресетуј све"</string>
+    <string name="remove">"Уклони"</string>
 </resources>

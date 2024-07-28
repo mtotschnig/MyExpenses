@@ -114,4 +114,5 @@
     <string name="button_try">"사용해 보기"</string>
     <string name="icon">"아이콘"</string>
     <string name="reset_all">"모두 재설정"</string>
+    <string name="remove">"삭제"</string>
 </resources>

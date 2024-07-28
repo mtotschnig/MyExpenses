@@ -2,5 +2,4 @@
 <resources>
     <string name="cloud_storage">"Stockage infonuagique"</string>
     <string name="title_font_size">"Taille de police"</string>
-    <string name="reset_all">"Tout réinitialiser"</string>
 </resources>

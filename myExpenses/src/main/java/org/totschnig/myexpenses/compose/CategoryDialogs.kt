@@ -127,7 +127,7 @@ fun CategoryEdit(
                     ButtonRow(
                         onCancel = { showIconSelection = false },
                         positiveButton = if (icon != null)
-                            Triple(R.string.menu_remove, true) {
+                            Triple(R.string.remove, true) {
                                 icon = null
                                 showIconSelection = false
                             } else null

@@ -130,13 +130,13 @@
         <MultiSelectListPreference
             android:key="@string/pref_feature_uninstall_features_key"
             android:persistent="false"
-            android:positiveButtonText="@string/menu_remove"
+            android:positiveButtonText="@string/remove"
             android:title="@string/pref_category_title_features" />
 
         <MultiSelectListPreference
             android:key="@string/pref_feature_uninstall_languages_key"
             android:persistent="false"
-            android:positiveButtonText="@string/menu_remove"
+            android:positiveButtonText="@string/remove"
             android:title="@string/languages" />
     </PreferenceCategory>
 </PreferenceScreen>

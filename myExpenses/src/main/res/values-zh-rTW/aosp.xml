@@ -119,4 +119,5 @@
     <string name="button_try">"立即體驗"</string>
     <string name="icon">"圖示"</string>
     <string name="reset_all">"全部重設"</string>
+    <string name="remove">"移除"</string>
 </resources>

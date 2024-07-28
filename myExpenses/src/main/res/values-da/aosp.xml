@@ -123,4 +123,5 @@
     <string name="button_try">"Prøv det"</string>
     <string name="icon">"Ikon"</string>
     <string name="reset_all">"Nulstil alle"</string>
+    <string name="remove">"Fjern"</string>
 </resources>

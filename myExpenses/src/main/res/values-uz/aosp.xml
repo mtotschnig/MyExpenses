@@ -40,4 +40,5 @@
     <string name="button_try">"Sinab koʻring"</string>
     <string name="icon">"Ikonka"</string>
     <string name="reset_all">"Hammasini tiklash"</string>
+    <string name="remove">"Olib tashlash"</string>
 </resources>

@@ -41,4 +41,5 @@
     <string name="button_try">"Паспрабаваць"</string>
     <string name="icon">"Значок"</string>
     <string name="reset_all">"Скінуць усе"</string>
+    <string name="remove">"Выдаліць"</string>
 </resources>

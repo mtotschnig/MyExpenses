@@ -39,4 +39,5 @@
     <string name="button_try">"Sınayın"</string>
     <string name="icon">"İkona"</string>
     <string name="reset_all">"Hamısını sıfırlayın"</string>
+    <string name="remove">"Silin"</string>
 </resources>

@@ -37,4 +37,5 @@
     <string name="button_try">"Subukan ito"</string>
     <string name="icon">"Icon"</string>
     <string name="reset_all">"I-reset lahat"</string>
+    <string name="remove">"Alisin"</string>
 </resources>

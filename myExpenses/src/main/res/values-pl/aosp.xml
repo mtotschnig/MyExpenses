@@ -125,4 +125,5 @@
     <string name="button_try">"Wypróbuj"</string>
     <string name="icon">"Ikona"</string>
     <string name="reset_all">"Zresetuj wszystko"</string>
+    <string name="remove">"Usuń"</string>
 </resources>

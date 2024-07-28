@@ -40,4 +40,5 @@
     <string name="button_try">"Isprobaj"</string>
     <string name="icon">"Ikona"</string>
     <string name="reset_all">"Resetuj sve"</string>
+    <string name="remove">"Ukloni"</string>
 </resources>

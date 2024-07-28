@@ -55,4 +55,5 @@
     <string name="button_try">"Prøv nå"</string>
     <string name="icon">"Ikon"</string>
     <string name="reset_all">"Tilbakestill alle"</string>
+    <string name="remove">"Fjern"</string>
 </resources>

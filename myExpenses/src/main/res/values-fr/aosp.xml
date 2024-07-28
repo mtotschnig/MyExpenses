@@ -123,4 +123,5 @@
     <string name="button_try">"Essayer"</string>
     <string name="icon">"Icône"</string>
     <string name="reset_all">"Tout réinitialiser"</string>
+    <string name="remove">"Retirer"</string>
 </resources>

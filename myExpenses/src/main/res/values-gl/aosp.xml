@@ -54,4 +54,5 @@
     <string name="button_try">"Probar"</string>
     <string name="icon">"Icona"</string>
     <string name="reset_all">"Restablecer todo"</string>
+    <string name="remove">"Quitar"</string>
 </resources>

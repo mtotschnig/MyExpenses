@@ -47,4 +47,5 @@
     <string name="button_try">"Izmēģināt"</string>
     <string name="icon">"Ikona"</string>
     <string name="reset_all">"Atiestatīt visus"</string>
+    <string name="remove">"Noņemt"</string>
 </resources>

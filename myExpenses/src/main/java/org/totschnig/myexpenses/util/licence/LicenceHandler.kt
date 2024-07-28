@@ -511,7 +511,7 @@ open class LicenceHandler(
                                 Text(stringResource(id = R.string.button_validate))
                             }
                             Button(onClick = removeLicence) {
-                                Text(stringResource(id = R.string.menu_remove))
+                                Text(stringResource(id = R.string.remove))
                             }
                         }
                         subscriptionManagementLink?.let {
