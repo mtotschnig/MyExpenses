@@ -714,7 +714,6 @@
     <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
     <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas</string>
     <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas</string>
-    <string name="icon">Ícone</string>
     <string name="pref_debug_title">Depurar</string>
     <string name="roadmap_vote">Votar no roteiro</string>
     <string name="warning_account_for_transaction_is_closed">Pelo menos uma das transações selecionadas não pode ser editada:</string>
