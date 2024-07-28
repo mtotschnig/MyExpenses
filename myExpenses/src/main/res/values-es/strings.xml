@@ -999,4 +999,8 @@
     <string name="subcategories_merged_recursively">Si alguna de las categorías fusionadas tiene subcategorías con la misma etiqueta, éstas se fusionarán primero, de forma recursiva.</string>
     <string name="pref_csv_export_category_separator_summary">Separador entre los niveles de la jerarquía de las categorías</string>
     <string name="not_enough_data">No hay suficientes datos</string>
+    <string name="pref_scroll_to_current_date_account_open">Cada vez que navegas a la cuenta</string>
+    <string name="buy">Comprar</string>
+    <string name="pref_scroll_to_current_date_title">Desplazarse por la lista de transacciones hasta la fecha actual</string>
+    <string name="pref_scroll_to_current_date_app_launch">solo cuando se inicia la aplicación</string>
 </resources>
