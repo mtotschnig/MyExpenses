@@ -210,4 +210,5 @@
     <string name="help_WebUI_info_3">Du kan indstille en adgangskode for at beskytte adgangen. Når dialogboksen vises af webbrowseren, medtages kun adgangskoden, mens brugernavnet ignoreres.</string>
     <string name="help_WebUI_info_4">Når transaktioner for den valgte konto vises, bruger webbrugergrænsefladen de samme filtre, som du har indstillet med appen på Android-enheden.</string>
     <string name="debt_help_overflow">For hver gæld kan du bruge menuen i øverste højre hjørne til at redigere, lukke, slette eller dele den. Udenlandske valutagæld kan eventuelt vises med tilsvarende beløb i hjemmevalutaen.</string>
+    <string name="cab_MyExpenses_filter_help_text">Søg efter transaktioner med samme egenskaber.</string>
 </resources>
