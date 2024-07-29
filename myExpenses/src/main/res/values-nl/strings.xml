@@ -405,7 +405,6 @@
     <string name="sync_io_exception_locking">Externe backend is vergrendeld of kan niet worden vergrendeld.</string>
     <string name="synchronization_end_success">%1$d wijzigingen op afstand zijn weggeschreven naar de lokale database. %2$d lokale wijzigingen zijn weggeschreven naar de externe backend.</string>
     <string name="menu_create_template_for_split">Nieuw gesplitst sjabloon</string>
-    <string name="picture">Afbeelding</string>
     <string name="licence_removal_information">Indien je geen premium functionaliteit meer nodig heeft op dit apparaat, kun je de licentiesleutel verwijderen. Hierdoor wordt de sleutel vrijgemaakt voor activering op nog een ander apparaat. De sleutel kan op maximaal %d apparaten worden geactiveerd.</string>
     <string name="warning_ungroup_split_transactions">De geselecteerde gesplitste transacties worden gedegroepeerd, d.w.z. hun gesplitste delen worden normale transacties.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transacties succesvol geïmporteerd in rekening %2$s</string>

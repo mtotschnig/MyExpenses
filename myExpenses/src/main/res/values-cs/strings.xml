@@ -572,7 +572,6 @@
     <string name="pref_sync_notification_summary">Upozornit na průběh synchronizace</string>
     <string name="pref_debug_logging_summary">Zápis informací ladění do systémového protokolu</string>
     <string name="plan_custom_recurrence_info">Nejprve si uložte šablonu. Plán se poté otevře v aplikaci kalendáře, kde můžete nastavit vlastní opakování.</string>
-    <string name="picture">Obrázek</string>
     <string name="menu_create_template_for_split">Nová rozdělená šablona</string>
     <string name="progress_validating_licence">Ověřování licence</string>
     <string name="licence_validation_error_expired">Licence vypršela</string>

@@ -385,7 +385,6 @@
     <string name="all_contrib_key_features">کلیهٔ قابلیت‌های لایسنس مشارکت</string>
     <string name="all_extended_key_features">کلیهٔ قابلیت‌های لایسنس توسعه یافته</string>
     <string name="pref_tracking_summary">اجازه دهید تا داده‌های الگوی مصرف به صورت ناشناس جمع‌آوری شود تا بتوانیم برای بهبود برنامه از آن‌ها کمک بگیریم.</string>
-    <string name="picture">تصویر</string>
     <string name="professional_key">لایسنس حرفه ای</string>
     <string name="valid_until">تا %s</string>
     <!-- %1$s date, %2$s price  -->

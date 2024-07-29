@@ -552,7 +552,6 @@
     <string name="pref_sync_notification_summary">通知有關同步的進度</string>
     <string name="pref_debug_logging_summary">將偵錯資訊寫入系統日誌</string>
     <string name="plan_custom_recurrence_info">請您先將範本存檔。然後，該計畫將可以在日曆的應用程式中打開，您便能在其中自訂重複週期。</string>
-    <string name="picture">圖片</string>
     <string name="menu_create_template_for_split">新增分割款項用的範本</string>
     <string name="progress_validating_licence">正在驗證許可證</string>
     <string name="licence_validation_error_expired">許可證已過期</string>

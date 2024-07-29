@@ -635,7 +635,6 @@
     <string name="professional_key">پیشہ ورانہ کلید</string>
     <string name="n_months">%d ماہ</string>
     <string name="eu_vat_info">یورپی یونین کے رہائشیوں کے لیے ظاہر کردہ قیمتوں میں VAT شامل نہیں ہے.</string>
-    <string name="picture">تصویر</string>
     <string name="menu_create_template_for_split">نیا تقسیم ٹیمپلیٹ</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">سالانہ سبسکرپشن پر سوئچ کریں</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">ماہانہ رکنیت پر سوئچ کریں</string>

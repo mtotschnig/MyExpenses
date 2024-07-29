@@ -465,7 +465,6 @@
     <string name="licence_validation_error_expired">Licenca je istekla</string>
     <string name="progress_validating_licence">Provjeravanje valjanosti licence</string>
     <string name="menu_create_template_for_split">Predložak za novu višedjelnu transakciju</string>
-    <string name="picture">Slika</string>
     <string name="plan_custom_recurrence_info">Najprije spremi predložak. Nakon toga će se otvoriti plan u programu kalendara gdje možeš postaviti prilagođeno ponavljanje.</string>
     <string name="pref_debug_logging_summary">Piši podatke o otklanjanju grešaka u dnevnik sustava</string>
     <string name="pref_sync_notification_summary">Obavijesti o napretku sinkronizacije</string>

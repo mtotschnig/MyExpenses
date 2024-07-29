@@ -48,7 +48,6 @@
     <string name="button_validate">Bekreft</string>
     <string name="licence_validation_error_expired">Utløpt lisens</string>
     <string name="progress_validating_licence">Bekrefter lisens …</string>
-    <string name="picture">Bilde</string>
     <string name="pref_webdav_timeout_title">WebDAV-tidsavbrudd (i sekunder)</string>
     <string name="synchronization_end_success_none">Ingen endringer å synkronisere.</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sky-synkronisering</string>
