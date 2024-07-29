@@ -673,7 +673,6 @@
     <string name="sync_backend_wrong_passphrase">தொலை பின்தளம் வேறு கடவுச்சொற்றொடரைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தெரிகிறது.</string>
     <string name="sync_backend_is_not_encrypted">தொலை பின்தளம் மறையாக்கப்படவில்லை.</string>
     <string name="warning_backup_protected">இந்த ஆவணக்கிடங்கு உங்கள் கடவுச்சொற்றொடரால் பாதுகாக்கப்படும்.</string>
-    <string name="dialog_title_backup_protected">காப்புப்பிரதி (மறையாக்கப்பட்டது)</string>
     <string name="input_label_passphrase">கடவுச்சொற்றொடர்</string>
     <string name="button_label_no_encryption">மறையாக்கம் இல்லாமல்</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

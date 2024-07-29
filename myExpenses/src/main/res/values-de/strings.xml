@@ -673,7 +673,6 @@
     <string name="sync_backend_wrong_passphrase">Das Backend scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
     <string name="sync_backend_is_not_encrypted">Das Backend ist nicht verschlüsselt.</string>
     <string name="warning_backup_protected">Das Archiv wird durch Ihre Passphrase geschützt.</string>
-    <string name="dialog_title_backup_protected">Datensicherung (verschlüsselt)</string>
     <string name="input_label_passphrase">Passwortsatz</string>
     <string name="button_label_no_encryption">Ohne Verschlüsselung</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

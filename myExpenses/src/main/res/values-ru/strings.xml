@@ -687,7 +687,6 @@
     <string name="sync_backend_wrong_passphrase">Удаленный сервер кажется зашифрован с другой парольной фразой.</string>
     <string name="sync_backend_is_not_encrypted">Удаленный сервер не зашифрован.</string>
     <string name="warning_backup_protected">Архив будет защищен вашей парольной фразой.</string>
-    <string name="dialog_title_backup_protected">Резервное копирование (в зашифрованном виде)</string>
     <string name="input_label_passphrase">Парольная фраза </string>
     <string name="button_label_no_encryption">Без шифрования</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

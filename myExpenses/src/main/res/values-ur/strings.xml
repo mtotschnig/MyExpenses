@@ -485,7 +485,6 @@
     <string name="backup_wrong_password">بیک اپ فائل ایک مختلف پاس فریز کے ساتھ خفیہ کردہ معلوم ہوتی ہے.</string>
     <string name="sync_backend_wrong_passphrase">ریموٹ بیک اینڈ ایک مختلف پاس فریز کے ساتھ خفیہ کردہ لگتا ہے.</string>
     <string name="warning_backup_protected">آرکائیو کو آپ کے پاس فریز کے ذریعے محفوظ کیا جائے گا.</string>
-    <string name="dialog_title_backup_protected">بیک اپ (انکرپٹڈ)</string>
     <string name="input_label_passphrase">‍پاس فریز</string>
     <string name="button_label_no_encryption">خفیہ کاری کے بغیر</string>
     <string name="joining_or">یا</string>

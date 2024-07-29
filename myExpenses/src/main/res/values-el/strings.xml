@@ -621,7 +621,6 @@
     <string name="dialog_title_new_currency">Νέο νόμισμα</string>
     <string name="currency_still_used">Το νόμισμα χρησιμοποιείται, δεν μπορεί να διαγραφεί.</string>
     <string name="pref_security_export_passphrase_title">Φράση πρόσβασης για αντίγραφα ασφαλείας</string>
-    <string name="dialog_title_backup_protected">Δημιουργία αντιγράφου ασφαλείας (κρυπτογραφημένο)</string>
     <string name="input_label_passphrase">Φράση Πρόσβασης</string>
     <string name="button_label_no_encryption">Χωρίς κρυπτογράφηση</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

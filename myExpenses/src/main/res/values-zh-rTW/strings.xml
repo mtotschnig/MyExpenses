@@ -666,7 +666,6 @@
     <string name="sync_backend_wrong_passphrase">遠程後端似乎使用不同的加密密碼(Passphrase)。</string>
     <string name="sync_backend_is_not_encrypted">遠程後端未加密。</string>
     <string name="warning_backup_protected">儲存的檔案將受到您的複雜密碼(Passphrase)保護。</string>
-    <string name="dialog_title_backup_protected">備份(加密的)</string>
     <string name="input_label_passphrase">複雜密碼(Passphrase)</string>
     <string name="button_label_no_encryption">沒有加密</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

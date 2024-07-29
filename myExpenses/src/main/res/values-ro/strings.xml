@@ -698,7 +698,6 @@
     <string name="currency_code_already_definded">Codul monedei este deja definit.</string>
     <string name="sync_backend_wrong_passphrase">Backend-ul la distanță pare criptat cu o frază de acces diferită.</string>
     <string name="warning_backup_protected">Arhiva va fi protejată de fraza de acces.</string>
-    <string name="dialog_title_backup_protected">Backup (criptat)</string>
     <string name="budget_exceeded_error_2">Măriți suma bugetată sau eliminați bani din alte categorii.</string>
     <string name="pref_security_export_passphrase_summary">Backup-urile vor fi criptate cu această expresie de acces</string>
     <string name="unmapped_filter_only_single">Filtrul „Nemapat” nu poate fi inclus în selecția multiplă</string>

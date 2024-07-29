@@ -689,7 +689,6 @@
     <string name="sync_backend_wrong_passphrase">Vzdálený backend je zřejmě šifrován jinou přístupovou frází.</string>
     <string name="sync_backend_is_not_encrypted">Vzdálený backend není šifrovaný.</string>
     <string name="warning_backup_protected">Archiv bude chráněn vaším heslem.</string>
-    <string name="dialog_title_backup_protected">Záloha (šifrováno)</string>
     <string name="input_label_passphrase">Heslo</string>
     <string name="button_label_no_encryption">Bez šifrování</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

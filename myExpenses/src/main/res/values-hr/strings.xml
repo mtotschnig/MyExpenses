@@ -717,7 +717,6 @@
     <string name="joining_or">ili</string>
     <string name="button_label_no_encryption">Bez šifriranja</string>
     <string name="input_label_passphrase">Dugačka lozinka</string>
-    <string name="dialog_title_backup_protected">Sigurnosna kopija (šifrirana)</string>
     <string name="warning_backup_protected">Arhiva će biti zaštićena tvojom dugačkom lozinkom.</string>
     <string name="sync_backend_is_not_encrypted">Udaljeni pozadinski sustav nije šifriran.</string>
     <string name="sync_backend_wrong_passphrase">Čini se da je udaljeni pozadinski sustav šifriran s jednom drugom dugačkom lozinkom.</string>

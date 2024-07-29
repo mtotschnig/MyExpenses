@@ -675,7 +675,6 @@
     <string name="sync_backend_wrong_passphrase">Úgy tűnik a távoli háttérrendszer más jelszóval van titkosítva.</string>
     <string name="sync_backend_is_not_encrypted">A távoli háttérrendszer nem titkosított.</string>
     <string name="warning_backup_protected">Az archívumot a jelszava fogja védi.</string>
-    <string name="dialog_title_backup_protected">Biztonsági mentés (titkosított)</string>
     <string name="input_label_passphrase">Jelszó</string>
     <string name="button_label_no_encryption">Titkosítás nélkül</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

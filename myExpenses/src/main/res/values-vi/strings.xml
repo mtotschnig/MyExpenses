@@ -624,7 +624,6 @@
     <string name="dialog_title_new_currency">Tiền tệ mới</string>
     <string name="currency_code_already_definded">Mã tiền tệ hiện tại đã có sẵn.</string>
     <string name="currency_still_used">Tiền tệ đang được sử dụng, không thể xóa được.</string>
-    <string name="dialog_title_backup_protected">Sao lưu (có mã hóa)</string>
     <string name="input_label_passphrase">Mật mã</string>
     <string name="button_label_no_encryption">Không mã hóa</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

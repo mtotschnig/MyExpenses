@@ -704,7 +704,6 @@
     <string name="sync_backend_wrong_passphrase">تبدو الخلفية البعيدة مشفرة بعبارة مرور مختلفة.</string>
     <string name="sync_backend_is_not_encrypted">الواجهة الخلفية البعيدة غير مشفرة.</string>
     <string name="warning_backup_protected">سيتم حماية الأرشيف بعبارة المرور الخاصة بك.</string>
-    <string name="dialog_title_backup_protected">نسخة احتياطية (مشفرة)</string>
     <string name="input_label_passphrase">عبارة المرور</string>
     <string name="button_label_no_encryption">بدون تشفير</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

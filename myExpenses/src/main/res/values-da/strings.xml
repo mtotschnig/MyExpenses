@@ -702,7 +702,6 @@
     <string name="remap_category">Alle de valgte transaktioner knyttes til kategorien %s.</string>
     <string name="pref_feature_uninstall_title">Anmod om afinstallation af funktioner og sprog</string>
     <string name="sync_backend_is_not_encrypted">Den eksterne backend er ikke krypteret.</string>
-    <string name="dialog_title_backup_protected">Sikkerhedskopi (krypteret)</string>
     <string name="button_label_no_encryption">Uden kryptering</string>
     <string name="warning_backup_protected">Arkivet vil blive beskyttet af din adgangssætning.</string>
     <string name="menu_close">Luk</string>

@@ -681,7 +681,6 @@
     <string name="sync_backend_wrong_passphrase">El servicio remoto parece estar encriptado con una frase de contraseña diferente.</string>
     <string name="sync_backend_is_not_encrypted">El servicio remoto no está encriptado.</string>
     <string name="warning_backup_protected">Se protegerá el archivo con su frase de contraseña.</string>
-    <string name="dialog_title_backup_protected">Copia de seguridad (encriptada)</string>
     <string name="input_label_passphrase">Frase de contraseña</string>
     <string name="button_label_no_encryption">Sin encriptación</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

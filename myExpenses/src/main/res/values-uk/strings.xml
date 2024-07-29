@@ -674,7 +674,6 @@
     <string name="sync_backend_is_encrypted">Віддалений сервер зашифровано. Потрібно вказати фразу-пароль.</string>
     <string name="sync_backend_wrong_passphrase">Віддалений сервер зашифровано іншим паролем.</string>
     <string name="warning_backup_protected">Архів буде захищено вашою фразою-паролем.</string>
-    <string name="dialog_title_backup_protected">Резервна копія (зашифрована)</string>
     <string name="input_label_passphrase">Пароль</string>
     <string name="button_label_no_encryption">Без шифрування</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->

@@ -662,7 +662,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Utilitzi el botó per registrar els ingressos.</string>
     <string name="sub_budget_exceeded_error_1_2">Tota la quantitat assignada a la categoria principal ha estat assignada a altres subcategories.</string>
     <string name="warning_backup_protected">L\'arxiu es protegirà amb la seva contrasenya.</string>
-    <string name="dialog_title_backup_protected">Còpia de seguretat (encriptada)</string>
     <string name="menu_hide">Amaga</string>
     <string name="input_label_passphrase">Contrasenya</string>
     <string name="content_description_clear_method">Elimina procés</string>

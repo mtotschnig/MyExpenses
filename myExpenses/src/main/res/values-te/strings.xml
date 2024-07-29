@@ -18,7 +18,6 @@
     <string name="joining_or">లేదా</string>
     <string name="button_label_no_encryption">గుప్తీకరణ లేకుండా</string>
     <string name="input_label_passphrase">పాస్ఫ్రేజ్</string>
-    <string name="dialog_title_backup_protected">బ్యాకప్ (గుప్తీకరించబడింది)</string>
     <string name="warning_backup_protected">మీ పాస్‌ఫ్రేజ్ ద్వారా ఆర్కైవ్ రక్షించబడుతుంది.</string>
     <string name="sync_backend_is_not_encrypted">రిమోట్ బ్యాకెండ్ గుప్తీకరించబడలేదు.</string>
     <string name="sync_backend_wrong_passphrase">రిమోట్ బ్యాకెండ్ వేరే పాస్‌ఫ్రేజ్‌తో గుప్తీకరించబడింది.</string>

@@ -654,7 +654,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Filtr \'Bez mapowania\' nie może być użyty przy wielokrotnym wyborze.</string>
-    <string name="dialog_title_backup_protected">Backup (zaszyfrowany)</string>
     <string name="button_label_no_encryption">Bez szyfrowania</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">lub</string>

@@ -649,7 +649,6 @@
     <string name="sync_backend_is_encrypted">Bahagian belakang jauh disulitkan. Anda perlu nyatakan satu frasa laluan.</string>
     <string name="sync_backend_wrong_passphrase">Bahagian belakang jauh nampaknya telah disulitkan dengan frasa laluan yang lain.</string>
     <string name="warning_backup_protected">Arkib akan dilindungi dengan frasa laluan anda.</string>
-    <string name="dialog_title_backup_protected">Sandar (tersulit)</string>
     <string name="input_label_passphrase">Frasa Laluan</string>
     <string name="button_label_no_encryption">Tanpa penyulitan</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
