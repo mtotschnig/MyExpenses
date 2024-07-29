@@ -1537,7 +1537,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         withFab: Boolean = true,
         instantiate: (() -> Fragment)
     ) {
-        ActivityWithFragmentBinding.inflate(layoutInflater).also {
+        ActivityWithFragmentBinding.inflate(layoutInflater).apply {
             if (doInstantiate) {
                 supportFragmentManager
                     .beginTransaction()
@@ -1548,11 +1548,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     .commit()
             }
             if (withFab) {
-                floatingActionButton = it.fab.CREATECOMMAND.also {
+                floatingActionButton = fab.CREATECOMMAND.also {
                     it.isVisible = true
                 }
             }
-            setContentView(it.root)
+            setContentView(root)
         }
     }
 
