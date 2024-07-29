@@ -111,7 +111,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         }
         injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
-        setupWithFragment(savedInstanceState == null) {
+        setupWithFragment(savedInstanceState == null, false) {
             TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
         }
         setupToolbar()
