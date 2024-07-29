@@ -629,4 +629,38 @@
         <item quantity="other">%d de obiecte au fost șterse cu succes.</item>
     </plurals>
     <string name="valid_until">Până %s</string>
+    <string name="grand_total">Totalul mare</string>
+    <string name="warning_split_transactions">Tranzacțiile selectate vor fi grupate într-o singură tranzacție divizată. Informațiile privind data acestora se vor pierde, adică vor fi înlocuite cu media lor.</string>
+    <string name="booking_date">Data rezervării</string>
+    <string name="navigation_drawer_accounts_title">Administrați conturile</string>
+    <string name="pref_sync_wifi_only_summary">Sincronizați numai când este conectat la Wi-Fi</string>
+    <string name="menu_equivalent_amount">Suma echivalentă</string>
+    <string name="licence_expired_yesterday">Cheia profesională a expirat ieri.</string>
+    <string name="pref_sync_changes_immediately_summary">Scrieți imediat modificările locale în backend</string>
+    <string name="wifi_not_connected">Dispozitivul nu este conectat la Wi-Fi. Sincronizarea este amânată.</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Cheia profesională a expirat acum %d zile.</string>
+    <string name="history_chart_out_label">Cheltuieli</string>
+    <string name="warning_ungroup_split_transactions">Tranzacțiile divizate selectate vor fi negrupate, adică părțile lor divizate vor deveni tranzacții normale.</string>
+    <string name="split_transaction_one_success">Tranzacția s-a transformat cu succes în divizare.</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d tranzacții au fost grupate cu succes într-o singură tranzacție divizată.</string>
+    <string name="pref_transaction_time_summary">Permiteți setarea exactă a orei tranzacției.</string>
+    <string name="gdpr_consent_button_no">Plătiți pentru versiunea fără anunțuri</string>
+    <string name="sort_order">Ordine de sortare</string>
+    <string name="menu_history_transfers">Includeți transferuri</string>
+    <string name="menu_history">Istorie</string>
+    <string name="pref_home_currency_title">Moneda națională</string>
+    <string name="ungroup_split_transaction_success">Tranzacția divizată a fost degrupată cu succes.</string>
+    <string name="licence_expires_tomorrow">Cheia profesională va expira mâine.</string>
+    <string name="menu_ungroup_split_transaction">Anularea divizării grupului</string>
+    <string name="home_currency_change_warning">Dacă vă schimbați moneda de origine, sumele echivalente și ratele de schimb se vor pierde și vor trebui definite din nou.</string>
+    <string name="split_transaction_not_possible">Numai tranzacțiile care au același cont, beneficiar și statut pot fi grupate într-o singură tranzacție.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Accesați %s pentru a configura un ecran de blocare.</string>
+    <string name="menu_history_show_balance">Afișați echilibrul</string>
+    <string name="history_chart_in_label">Venit</string>
+    <string name="menu_history_totals">Afișează totalurile</string>
+    <string name="menu_original_amount">Suma inițială</string>
+    <string name="pref_value_date_summary">Permiteți setarea datei valorii în plus față de data rezervării. Timpul tranzacției va fi ascuns. Această setare nu se aplică conturilor de numerar.</string>
+    <string name="value_date">Data valutei</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Cheia dvs. profesională va expira în %d zile.</string>
+    <string name="licence_expires_today">Cheia profesională expiră astăzi.</string>
 </resources>
