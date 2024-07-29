@@ -604,7 +604,7 @@
     <string name="pref_protection_device_lock_screen_title">Экран блокировки устройства</string>
     <string name="pref_warning_only_one_protection">Прежде чем вы сможете использовать защиту с помощью %1$s, вы должны отключить защиту с помощью %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Безопасный экран блокировки устройства не настроен.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Перейдите в «Настройки -&gt; Безопасность -&gt; Блокировка экрана», чтобы настроить экран блокировки.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Перейдите в %s, чтобы настроить экран блокировки.</string>
     <string name="menu_history_show_balance">Отобразить баланс</string>
     <string name="menu_history_transfers">Включать переводы</string>
     <string name="menu_history">История</string>

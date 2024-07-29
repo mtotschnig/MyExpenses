@@ -588,7 +588,7 @@
     <string name="pref_protection_device_lock_screen_title">ಸಾಧನ ಲಾಕ್ ಪರದೆ</string>
     <string name="pref_warning_only_one_protection">ನೀವು %1$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಬಳಸುವ ಮೊದಲು, ನೀವು %2$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಬೇಕು.</string>
     <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು \'ಸೆಟ್ಟಿಂಗ್‌ಗಳು -&gt; ಭದ್ರತೆ -&gt; ಸ್ಕ್ರೀನ್‌ಲಾಕ್\' ಗೆ ಹೋಗಿ.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು %s ಗೆ ಹೋಗಿ.</string>
     <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
     <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
     <string name="menu_history">ಇತಿಹಾಸ</string>

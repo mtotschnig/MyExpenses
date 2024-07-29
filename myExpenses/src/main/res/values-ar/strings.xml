@@ -621,7 +621,7 @@
     <string name="pref_protection_device_lock_screen_title">شاشة قفل الجهاز</string>
     <string name="pref_warning_only_one_protection">قبل أن تتمكن من استخدام الحماية بنسبة %1$s، يجب إيقاف تشغيل الحماية بنسبة %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">لم يتم إعداد شاشة تأمين الجهاز الآمن.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"الإعدادات -&gt; الأمان -&gt; قفل الشاشة\" لإعداد شاشة القفل.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"%s" لإعداد شاشة القفل.</string>
     <string name="menu_history_show_balance">إظهار الرصيد</string>
     <string name="menu_history_transfers">تضمين التحويلات</string>
     <string name="menu_history">السجل</string>

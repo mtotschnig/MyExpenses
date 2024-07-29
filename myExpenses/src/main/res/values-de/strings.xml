@@ -590,7 +590,7 @@
     <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
     <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre, um einen Sperrbildschirm einzurichten.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu %s, um einen Sperrbildschirm einzurichten.</string>
     <string name="menu_history_show_balance">Saldo anzeigen</string>
     <string name="menu_history_transfers">Umbuchungen einschließen</string>
     <string name="menu_history">Verlauf</string>

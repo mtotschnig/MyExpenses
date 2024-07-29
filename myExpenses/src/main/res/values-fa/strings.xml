@@ -652,7 +652,7 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">دریافت اطلاعات از سرور. ممکن است کمی طول بکشد.</string>
     <string name="licence_removal_success">لایسنس با موفقیت از این دستگاه حذف شد.</string>
     <string name="pref_home_currency_title">ارز اصلی</string>
-    <string name="warning_device_lock_screen_not_set_up_2">به «تنظیمات -&gt; امنیت -&gt; قفل صفحه» بروید و یک قفل تنظیم کنید</string>
+    <string name="warning_device_lock_screen_not_set_up_2">به %s بروید و یک قفل تنظیم کنید</string>
     <plurals name="delete_success">
         <item quantity="one">یک شئ با موفقیت حذف شد.</item>
         <item quantity="other">%d شئ با موفقیت حذف شد.</item>

@@ -595,7 +595,7 @@
     <string name="pref_protection_device_lock_screen_title">Schermata di blocco del dispositivo</string>
     <string name="pref_warning_only_one_protection">Prima di poter utilizzare la protezione con %1$s, è necessario disattivare la protezione con %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La schermata di blocco del dispositivo sicuro non è stata configurata.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vai a Impostazioni -&gt; Sicurezza -&gt; Blocco schermo per impostare una schermata di blocco.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Vai a %s per impostare una schermata di blocco.</string>
     <string name="menu_history_show_balance">Mostra equilibrio</string>
     <string name="menu_history_transfers">Includi trasferimenti</string>
     <string name="menu_history">Storico</string>

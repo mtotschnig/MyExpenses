@@ -497,7 +497,7 @@
     <string name="csv_import_delimiter_tab">Tabulador</string>
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vagi a \"Configuració -&gt; Seguretat -&gt; Bloqueig de pantalla\" per a establir el bloqueig de pantalla.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Vagi a %s per a establir el bloqueig de pantalla.</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
     <string name="import_accounts_success">%1$d comptes importats amb èxit.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opreacions importades amb èxit al compte %2$s</string>

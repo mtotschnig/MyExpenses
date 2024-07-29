@@ -591,7 +591,7 @@
     <string name="pref_protection_device_lock_screen_title">Eszköz zárolási képernyője</string>
     <string name="pref_warning_only_one_protection">Mielőtt használhatná a(z) %1$s általi védelmet, ki kell kapcsolnia a(z) %2$s általi védelmet.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Nincs beállítva biztonságos zárolási képernyő a készüléken.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a „Beállítások -&gt; Biztonság -&gt; Képernyőzár” menüpontra.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a %s menüpontra.</string>
     <string name="menu_history_show_balance">Egyenleg mutatása</string>
     <string name="menu_history_transfers">Tartalmazza az átutalásokat</string>
     <string name="menu_history">Előzmények</string>

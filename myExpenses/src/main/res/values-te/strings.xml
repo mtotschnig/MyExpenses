@@ -78,7 +78,7 @@
     <string name="menu_history">చరిత్ర</string>
     <string name="menu_history_transfers">బదిలీలను చేర్చండి</string>
     <string name="menu_history_show_balance">బ్యాలెన్స్ చూపించు</string>
-    <string name="warning_device_lock_screen_not_set_up_2">లాక్ స్క్రీన్‌ను సెటప్ చేయడానికి \'సెట్టింగ్‌లు -&gt; భద్రత -&gt; స్క్రీన్‌లాక్\' కు వెళ్లండి.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">లాక్ స్క్రీన్‌ను సెటప్ చేయడానికి %s కు వెళ్లండి.</string>
     <string name="warning_device_lock_screen_not_set_up_1">సురక్షిత పరికర లాక్ స్క్రీన్ సెటప్ చేయబడలేదు.</string>
     <string name="pref_warning_only_one_protection">మీరు %1$s ద్వారా రక్షణను ఉపయోగించే ముందు, మీరు %2$s ద్వారా రక్షణను ఆపివేయాలి.</string>
     <string name="pref_protection_device_lock_screen_title">పరికర లాక్ స్క్రీన్</string>

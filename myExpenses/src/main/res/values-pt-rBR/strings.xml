@@ -598,7 +598,7 @@
     <string name="pref_protection_device_lock_screen_title">Ecrã de bloqueio do aparelho</string>
     <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">O ecrã de bloqueio de segurança do aparelho não foi configurado.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vá para \'Configurações -&gt; Segurança -&gt; Ecrã de bloqueio\' para definir um ecrã de bloqueio.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Vá para %s para definir um ecrã de bloqueio.</string>
     <string name="menu_history_show_balance">Exibir saldo</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history">Histórico</string>

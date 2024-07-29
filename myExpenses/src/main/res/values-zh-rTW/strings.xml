@@ -583,7 +583,7 @@
     <string name="pref_protection_device_lock_screen_title">採用裝置的螢幕鎖定功能</string>
     <string name="pref_warning_only_one_protection">使用%1$s保護之前，您必須透過%2$s關閉保護。</string>
     <string name="warning_device_lock_screen_not_set_up_1">尚未設定裝置的螢幕鎖定功能。</string>
-    <string name="warning_device_lock_screen_not_set_up_2">請到本機裝置的 \"設定\" -&gt; \"安全性\" -&gt; \"鎖定螢幕\" 裡去設定一個螢幕鎖定 </string>
+    <string name="warning_device_lock_screen_not_set_up_2">請到本機裝置的 %s 裡去設定一個螢幕鎖定 </string>
     <string name="menu_history_show_balance">顯示收支結餘</string>
     <string name="menu_history_transfers">包括轉帳</string>
     <string name="menu_history">收支歷史紀錄</string>

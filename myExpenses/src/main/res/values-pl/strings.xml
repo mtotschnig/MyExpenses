@@ -592,7 +592,7 @@
     <string name="feature_deprecated">Wycofano</string>
     <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
     <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do  \'Ustawienia -&gt; Bezpieczeństwo -&gt; Blokada Ekranu\' w celu ustawienia blokady ekranu.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do %s w celu ustawienia blokady ekranu.</string>
     <string name="menu_history_show_balance">Pokaż bilans</string>
     <string name="menu_history_transfers">Uwzględnij transfery</string>
     <string name="menu_history">Historia</string>

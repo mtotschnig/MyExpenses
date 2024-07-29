@@ -598,7 +598,6 @@
     <string name="pref_protection_device_lock_screen_title">מסך נעילת מכשיר</string>
     <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">יש לגשת להגדרות -&gt; אבטחה -&gt; נעילת מסך כדי להגדיר מסך נעילה.</string>
     <string name="menu_history_show_balance">הצגת היתרה</string>
     <string name="menu_history_transfers">לכלול העברות</string>
     <string name="menu_history">היסטוריה</string>

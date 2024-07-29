@@ -606,7 +606,7 @@
     <string name="pref_protection_device_lock_screen_title">Zamykací obrazovka zařízení</string>
     <string name="pref_warning_only_one_protection">Než použijete ochranu %1$s, musíte vypnout ochranu %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Není nastaven bezpečný zámek obrazovky.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do Nastavení -&gt; Zabezpečení -&gt; Zámek obrazovky.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do %s.</string>
     <string name="menu_history_show_balance">Ukázat zůstatek</string>
     <string name="menu_history_transfers">Zahrnout převody</string>
     <string name="menu_history">Historie</string>

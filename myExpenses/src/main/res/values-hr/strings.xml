@@ -433,7 +433,7 @@
     <string name="menu_history">Povijest</string>
     <string name="menu_history_transfers">Uključi prijenose</string>
     <string name="menu_history_show_balance">Prikaži saldo</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Za postavljanje zaključano ekrana, idi na „Postavke -&gt; Sigurnost -&gt; Zaključavanje ekrana”.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Za postavljanje zaključano ekrana, idi na %s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Zaključavanje ekrana uređaja nije postavljeno.</string>
     <string name="pref_warning_only_one_protection">Za korištenje zaštite od %1$s, moraš isključiti zaštitu od %2$s.</string>
     <string name="pref_protection_device_lock_screen_title">Zaključavanje ekrana uređaja</string>

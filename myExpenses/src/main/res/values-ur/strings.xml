@@ -460,7 +460,6 @@
     </plurals>
     <string name="pref_protection_device_lock_screen_title">ڈیوائس لاک اسکرین</string>
     <string name="warning_device_lock_screen_not_set_up_1">محفوظ آلے کی لاک اسکرین کو سیٹ اپ نہیں کیا گیا ہے.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">لاک اسکرین کو ترتیب دینے کے لیے \'سیٹنگز -&gt; سیکیورٹی -&gt; اسکرین لاک\' پر جائیں.</string>
     <string name="menu_history_show_balance">توازن دکھائیں</string>
     <string name="menu_history_transfers">منتقلی شامل کریں</string>
     <string name="menu_history">تاریخ</string>

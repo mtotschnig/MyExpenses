@@ -129,6 +129,7 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.localizedQuote
 import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -689,12 +690,19 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open fun showDeviceLockScreenWarning() {
         showSnackBar(
-            concatResStrings(
-                this,
-                " ",
-                R.string.warning_device_lock_screen_not_set_up_1,
-                R.string.warning_device_lock_screen_not_set_up_2
-            )
+            getString(R.string.warning_device_lock_screen_not_set_up_1) + " " +
+                    getString(
+                        R.string.warning_device_lock_screen_not_set_up_2,
+                        localizedQuote(
+                            concatResStrings(
+                                this,
+                                " -> ",
+                                R.string.settings_label,
+                                R.string.security_settings_title,
+                                R.string.screen_lock
+                            )
+                        )
+                    )
         )
     }
 

@@ -570,7 +570,7 @@
     <string name="pref_protection_device_lock_screen_title">Οθόνη κλειδώματος συσκευής</string>
     <string name="pref_warning_only_one_protection">Για να μπορέσετε να χρησιμοποιήσετε την προστασία από %1$s, πρέπει να απενεργοποιήσετε την προστασία από %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Η ασφαλής οθόνη κλειδώματος συσκευής δεν έχει ρυθμιστεί.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα \"Ρυθμίσεις -&gt; Ασφάλεια -&gt; Προστασία\" για να ρυθμίσετε την οθόνη κλειδώματος.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα %s για να ρυθμίσετε την οθόνη κλειδώματος.</string>
     <string name="menu_history_show_balance">Εμφάνιση υπολοίπου</string>
     <string name="menu_history_transfers">Συμπερίληψη μεταφορών</string>
     <string name="menu_history">Ιστορικό</string>

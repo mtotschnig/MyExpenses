@@ -734,7 +734,7 @@
     <string name="menu_history">Histórico</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history_show_balance">Exibir saldo</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vá para \'Configurações -&gt; Segurança -&gt; Tela de bloqueio\' para definir uma tela de bloqueio.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Vá para %s para definir uma tela de bloqueio.</string>
     <string name="warning_device_lock_screen_not_set_up_1">A tela de bloqueio de segurança do dispositivo não foi configurada.</string>
     <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
     <string name="pref_protection_device_lock_screen_title">Tela de bloqueio do dispositivo</string>

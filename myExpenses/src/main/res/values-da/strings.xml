@@ -551,7 +551,7 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Skift til månedligt abonnement</string>
     <string name="budget_table_header_budgeted">Budgetteret</string>
     <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gå til \'Indstillinger -&gt; Sikkerhed -&gt; Skærmlås\' for at indstille en låseskærm.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gå til %s for at indstille en låseskærm.</string>
     <string name="credit_limit">Kreditgrænse</string>
     <string name="content_description_expand">Udvid</string>
     <string name="goal_or_limit">Mål / Grænse</string>
