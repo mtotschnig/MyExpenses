@@ -128,4 +128,6 @@
     <string name="remove">"Odstranit"</string>
     <string name="currency_symbol">"Symbol měny"</string>
     <string name="onboarding_get_started">"Začít"</string>
+    <string name="collapse">"Sbalit"</string>
+    <string name="expand">"Rozbalit"</string>
 </resources>

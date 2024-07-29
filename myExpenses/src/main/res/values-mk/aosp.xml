@@ -44,4 +44,6 @@
     <string name="remove">"Отстрани"</string>
     <string name="currency_symbol">"Симбол за валутата"</string>
     <string name="onboarding_get_started">"Започнете"</string>
+    <string name="collapse">"Собери"</string>
+    <string name="expand">"Прошири"</string>
 </resources>

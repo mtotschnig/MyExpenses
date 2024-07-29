@@ -126,4 +126,6 @@
     <string name="remove">"Вилучити"</string>
     <string name="currency_symbol">"Символ грошової одиниці"</string>
     <string name="onboarding_get_started">"Почати"</string>
+    <string name="collapse">"Згорнути"</string>
+    <string name="expand">"Розгорнути"</string>
 </resources>

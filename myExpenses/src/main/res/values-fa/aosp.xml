@@ -48,4 +48,6 @@
     <string name="reset_all">"بازنشانی همه"</string>
     <string name="remove">"حذف"</string>
     <string name="onboarding_get_started">"شروع"</string>
+    <string name="collapse">"کوچک کردن"</string>
+    <string name="expand">"بزرگ کردن"</string>
 </resources>

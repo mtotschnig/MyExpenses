@@ -49,4 +49,6 @@
     <string name="remove">"Susa"</string>
     <string name="currency_symbol">"Uphawu lwamagama emali"</string>
     <string name="onboarding_get_started">"Qala"</string>
+    <string name="collapse">"Goqa"</string>
+    <string name="expand">"Nweba"</string>
 </resources>

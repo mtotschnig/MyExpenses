@@ -123,4 +123,6 @@
     <string name="remove">"削除"</string>
     <string name="currency_symbol">"通貨記号"</string>
     <string name="onboarding_get_started">"使ってみる"</string>
+    <string name="collapse">"折りたたむ"</string>
+    <string name="expand">"展開"</string>
 </resources>

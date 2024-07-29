@@ -123,4 +123,6 @@
     <string name="remove">"Kendu"</string>
     <string name="currency_symbol">"Moneta-ikurra"</string>
     <string name="onboarding_get_started">"Hasi erabiltzen"</string>
+    <string name="collapse">"Tolestu"</string>
+    <string name="expand">"Zabaldu"</string>
 </resources>

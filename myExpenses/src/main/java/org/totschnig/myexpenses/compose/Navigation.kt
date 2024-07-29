@@ -204,8 +204,8 @@ private fun EntryListRenderer(
                             Icon(
                                 imageVector = if (subMenuVisible) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
                                 contentDescription = stringResource(
-                                    if (subMenuVisible) R.string.content_description_collapse
-                                    else R.string.content_description_expand
+                                    if (subMenuVisible) R.string.collapse
+                                    else R.string.expand
                                 ),
                                 modifier = Modifier
                                     .size(24.dp)

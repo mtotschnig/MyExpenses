@@ -115,4 +115,6 @@
     <string name="remove">"ತೆಗೆದುಹಾಕಿ"</string>
     <string name="currency_symbol">"ಚಲಾಯಿತ ನಾಣ್ಯ ಚಿನ್ಹೆ"</string>
     <string name="onboarding_get_started">"ಪ್ರಾರಂಭಿಸಿ"</string>
+    <string name="collapse">"ಸಂಕುಚಿಸು"</string>
+    <string name="expand">"ವಿಸ್ತರಿಸು"</string>
 </resources>

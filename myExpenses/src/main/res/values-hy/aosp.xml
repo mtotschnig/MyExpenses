@@ -56,4 +56,6 @@
     <string name="remove">"Հեռացնել"</string>
     <string name="currency_symbol">"Արտարժույթի նիշ"</string>
     <string name="onboarding_get_started">"Սկսել"</string>
+    <string name="collapse">"Կոծկել"</string>
+    <string name="expand">"Ընդարձակել"</string>
 </resources>

@@ -117,4 +117,6 @@
     <string name="remove">"삭제"</string>
     <string name="currency_symbol">"통화 기호"</string>
     <string name="onboarding_get_started">"시작하기"</string>
+    <string name="collapse">"접기"</string>
+    <string name="expand">"펼치기"</string>
 </resources>

@@ -317,8 +317,8 @@ private fun BudgetCategoryRenderer(
                         imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                         contentDescription = stringResource(
                             id = if (isExpanded)
-                                R.string.content_description_collapse else
-                                R.string.content_description_expand
+                                R.string.collapse else
+                                R.string.expand
                         )
                     )
                 }

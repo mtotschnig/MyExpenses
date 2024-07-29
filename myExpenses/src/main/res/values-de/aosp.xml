@@ -125,4 +125,6 @@
     <string name="remove">"Entfernen"</string>
     <string name="currency_symbol">"Währungssymbol"</string>
     <string name="onboarding_get_started">"Jetzt starten"</string>
+    <string name="collapse">"Minimieren"</string>
+    <string name="expand">"Maximieren"</string>
 </resources>

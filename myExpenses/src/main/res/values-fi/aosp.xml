@@ -58,4 +58,6 @@
     <string name="remove">"Poista"</string>
     <string name="currency_symbol">"Valuuttasymboli"</string>
     <string name="onboarding_get_started">"Aloita"</string>
+    <string name="collapse">"Kutista"</string>
+    <string name="expand">"Laajenna"</string>
 </resources>

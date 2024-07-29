@@ -56,4 +56,6 @@
     <string name="remove">"Verwyder"</string>
     <string name="currency_symbol">"Geldsimbool"</string>
     <string name="onboarding_get_started">"Begin hier"</string>
+    <string name="collapse">"Vou in"</string>
+    <string name="expand">"Vou uit"</string>
 </resources>

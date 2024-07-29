@@ -44,4 +44,6 @@
     <string name="remove">"Ukloni"</string>
     <string name="currency_symbol">"Simbol valute"</string>
     <string name="onboarding_get_started">"Započnite"</string>
+    <string name="collapse">"Suzi"</string>
+    <string name="expand">"Proširi"</string>
 </resources>

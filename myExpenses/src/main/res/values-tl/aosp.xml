@@ -39,4 +39,6 @@
     <string name="reset_all">"I-reset lahat"</string>
     <string name="remove">"Alisin"</string>
     <string name="onboarding_get_started">"Magsimula"</string>
+    <string name="collapse">"I-collapse"</string>
+    <string name="expand">"Palawakin"</string>
 </resources>

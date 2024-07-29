@@ -47,4 +47,6 @@
     <string name="remove">"કાઢી નાખો"</string>
     <string name="currency_symbol">"ચલણ સંજ્ઞા"</string>
     <string name="onboarding_get_started">"શરૂ કરો"</string>
+    <string name="collapse">"સંકુચિત કરો"</string>
+    <string name="expand">"વિસ્તૃત કરો"</string>
 </resources>

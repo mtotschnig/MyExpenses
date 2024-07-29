@@ -41,4 +41,6 @@
     <string name="reset_all">"Ponastavi vse"</string>
     <string name="remove">"Odstrani"</string>
     <string name="onboarding_get_started">"Začnite"</string>
+    <string name="collapse">"Strni"</string>
+    <string name="expand">"Razširi"</string>
 </resources>

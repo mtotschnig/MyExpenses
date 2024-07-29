@@ -111,4 +111,6 @@
     <string name="remove">"ඉවත් කරන්න"</string>
     <string name="currency_symbol">"මුදල් සංකේතය"</string>
     <string name="onboarding_get_started">"පටන් ගන්න"</string>
+    <string name="collapse">"හකුළන්න"</string>
+    <string name="expand">"දිග හරින්න"</string>
 </resources>

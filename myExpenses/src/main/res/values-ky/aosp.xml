@@ -35,4 +35,6 @@
     <string name="reset_all">"Баарын баштапкы абалга келтирүү"</string>
     <string name="remove">"Өчүрүү"</string>
     <string name="onboarding_get_started">"Баштадык"</string>
+    <string name="collapse">"Жыйыштыруу"</string>
+    <string name="expand">"Жайып көрсөтүү"</string>
 </resources>

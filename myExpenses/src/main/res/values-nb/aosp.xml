@@ -58,4 +58,6 @@
     <string name="remove">"Fjern"</string>
     <string name="currency_symbol">"Valutasymbol"</string>
     <string name="onboarding_get_started">"Kom i gang"</string>
+    <string name="collapse">"Skjul"</string>
+    <string name="expand">"Vis"</string>
 </resources>

@@ -117,4 +117,6 @@
     <string name="reset_all">"Redefinir tudo"</string>
     <string name="remove">"Remover"</string>
     <string name="currency_symbol">"Símbolo monetário"</string>
+    <string name="collapse">"Recolher"</string>
+    <string name="expand">"Abrir"</string>
 </resources>

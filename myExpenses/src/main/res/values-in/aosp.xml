@@ -59,4 +59,6 @@
     <string name="remove">"Hapus"</string>
     <string name="currency_symbol">"Simbol mata uang"</string>
     <string name="onboarding_get_started">"Mulai"</string>
+    <string name="collapse">"Ciutkan"</string>
+    <string name="expand">"Luaskan"</string>
 </resources>

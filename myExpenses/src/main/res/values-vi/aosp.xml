@@ -121,4 +121,6 @@
     <string name="remove">"Xoá"</string>
     <string name="currency_symbol">"Ký hiệu tiền tệ"</string>
     <string name="onboarding_get_started">"Bắt đầu"</string>
+    <string name="collapse">"Thu gọn"</string>
+    <string name="expand">"Mở rộng"</string>
 </resources>

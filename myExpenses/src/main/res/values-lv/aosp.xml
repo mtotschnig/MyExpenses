@@ -50,4 +50,6 @@
     <string name="remove">"Noņemt"</string>
     <string name="currency_symbol">"Valūtas simbols"</string>
     <string name="onboarding_get_started">"Sākt darbu"</string>
+    <string name="collapse">"Sakļaut"</string>
+    <string name="expand">"Izvērst"</string>
 </resources>

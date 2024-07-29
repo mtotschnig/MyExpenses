@@ -113,4 +113,6 @@
     <string name="remove">"ដកចេញ"</string>
     <string name="currency_symbol">"និមិត្ត​​សញ្ញា​​​រូបិយ​វត្ថុ​"</string>
     <string name="onboarding_get_started">"ចាប់ផ្ដើម"</string>
+    <string name="collapse">"លាក់"</string>
+    <string name="expand">"ពង្រីក"</string>
 </resources>

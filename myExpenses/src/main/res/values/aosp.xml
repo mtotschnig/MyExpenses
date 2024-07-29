@@ -227,4 +227,8 @@
     <string name="currency_symbol">"Currency symbol"</string>
     <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -r "onboarding_get_started_button_text" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/button_text//'  | aosp_helper -->
     <string name="onboarding_get_started">"Get started"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri "collapse_fields_description" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_fields_description//' | aosp_helper -->
+    <string name="collapse">"Collapse"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri "expand_fields_description" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_fields_description//' | aosp_helper -->
+    <string name="expand">"Expand"</string>
 </resources>

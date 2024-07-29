@@ -43,4 +43,6 @@
     <string name="remove">"Olib tashlash"</string>
     <string name="currency_symbol">"Pul belgisi"</string>
     <string name="onboarding_get_started">"Boshlash"</string>
+    <string name="collapse">"Berkitish"</string>
+    <string name="expand">"Ko‘rsatish"</string>
 </resources>

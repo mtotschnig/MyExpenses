@@ -118,4 +118,6 @@
     <string name="remove">"Elimină"</string>
     <string name="currency_symbol">"Simbol valutar"</string>
     <string name="onboarding_get_started">"Începe"</string>
+    <string name="collapse">"Restrângeți"</string>
+    <string name="expand">"Extindeți"</string>
 </resources>

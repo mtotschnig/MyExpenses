@@ -128,4 +128,6 @@
     <string name="remove">"Usuń"</string>
     <string name="currency_symbol">"Symbol waluty"</string>
     <string name="onboarding_get_started">"Rozpocznij"</string>
+    <string name="collapse">"Zwiń"</string>
+    <string name="expand">"Rozwiń"</string>
 </resources>

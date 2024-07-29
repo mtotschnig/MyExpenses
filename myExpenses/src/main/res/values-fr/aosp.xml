@@ -126,4 +126,6 @@
     <string name="remove">"Retirer"</string>
     <string name="currency_symbol">"Symbole monétaire"</string>
     <string name="onboarding_get_started">"Commencer"</string>
+    <string name="collapse">"Réduire"</string>
+    <string name="expand">"Développer"</string>
 </resources>

@@ -34,4 +34,6 @@
     <string name="reset_all">"ਸਭ ਰੀਸੈੱਟ ਕਰੋ"</string>
     <string name="remove">"ਹਟਾਓ"</string>
     <string name="onboarding_get_started">"ਸ਼ੁਰੂਆਤ ਕਰੋ"</string>
+    <string name="collapse">"ਸਮੇਟੋ"</string>
+    <string name="expand">"ਵਿਸਤਾਰ ਕਰੋ"</string>
 </resources>

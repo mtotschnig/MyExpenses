@@ -58,4 +58,6 @@
     <string name="remove">"Odstrániť"</string>
     <string name="currency_symbol">"Symbol meny"</string>
     <string name="onboarding_get_started">"Začíname"</string>
+    <string name="collapse">"Zbaliť"</string>
+    <string name="expand">"Rozbaliť"</string>
 </resources>

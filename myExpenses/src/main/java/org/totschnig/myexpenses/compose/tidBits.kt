@@ -51,8 +51,8 @@ fun ExpansionHandle(
             modifier = Modifier.rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,
             contentDescription = stringResource(
-                id = if (isExpanded) R.string.content_description_collapse
-                else R.string.content_description_expand
+                id = if (isExpanded) R.string.collapse
+                else R.string.expand
             )
         )
     }

@@ -56,4 +56,6 @@
     <string name="remove">"Fjarlægja"</string>
     <string name="currency_symbol">"Gjaldmiðilstákn"</string>
     <string name="onboarding_get_started">"Byrja"</string>
+    <string name="collapse">"Minnka"</string>
+    <string name="expand">"Stækka"</string>
 </resources>

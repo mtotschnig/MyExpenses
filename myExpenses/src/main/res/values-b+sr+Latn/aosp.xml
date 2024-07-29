@@ -43,4 +43,6 @@
     <string name="remove">"Ukloni"</string>
     <string name="currency_symbol">"Simbol valute"</string>
     <string name="onboarding_get_started">"Započnite"</string>
+    <string name="collapse">"Skupite"</string>
+    <string name="expand">"Proširite"</string>
 </resources>

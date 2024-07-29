@@ -46,4 +46,6 @@
     <string name="remove">"Hiq"</string>
     <string name="currency_symbol">"Simbol monedhe"</string>
     <string name="onboarding_get_started">"Fillo"</string>
+    <string name="collapse">"Palos"</string>
+    <string name="expand">"Zgjero"</string>
 </resources>

@@ -128,4 +128,6 @@
     <string name="remove">"إزالة"</string>
     <string name="currency_symbol">"رمز العملة"</string>
     <string name="onboarding_get_started">"البدء"</string>
+    <string name="collapse">"تصغير"</string>
+    <string name="expand">"توسيع"</string>
 </resources>

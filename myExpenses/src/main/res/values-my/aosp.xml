@@ -47,4 +47,6 @@
     <string name="remove">"ဖယ်ရှားရန်"</string>
     <string name="currency_symbol">"ငွေကြေးသင်္ကေတ"</string>
     <string name="onboarding_get_started">"စတင်ရန်"</string>
+    <string name="collapse">"ချုံ့ပြရန်"</string>
+    <string name="expand">"ချဲ့ကြည့်ရန်"</string>
 </resources>

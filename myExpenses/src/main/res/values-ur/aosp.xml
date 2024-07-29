@@ -101,4 +101,6 @@
     <string name="remove">"ہٹائیں"</string>
     <string name="currency_symbol">"کرنسی کی علامت"</string>
     <string name="onboarding_get_started">"شروع کریں"</string>
+    <string name="collapse">"سکیڑیں"</string>
+    <string name="expand">"پھیلائیں"</string>
 </resources>

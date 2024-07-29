@@ -49,4 +49,6 @@
     <string name="remove">"हटाउनुहोस्"</string>
     <string name="currency_symbol">"मुद्रा प्रतीक"</string>
     <string name="onboarding_get_started">"सुरु गर्नुहोस्"</string>
+    <string name="collapse">"संक्षिप्त गर्नुहोस्"</string>
+    <string name="expand">"विस्तृत गर्नुहोस्"</string>
 </resources>

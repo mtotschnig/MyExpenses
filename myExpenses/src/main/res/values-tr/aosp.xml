@@ -124,4 +124,6 @@
     <string name="remove">"Kaldır"</string>
     <string name="currency_symbol">"Para birimi sembolü"</string>
     <string name="onboarding_get_started">"Başla"</string>
+    <string name="collapse">"Daraltır"</string>
+    <string name="expand">"Genişletir"</string>
 </resources>

@@ -122,4 +122,6 @@
     <string name="remove">"Verwijderen"</string>
     <string name="currency_symbol">"Valutasymbool"</string>
     <string name="onboarding_get_started">"Aan de slag"</string>
+    <string name="collapse">"Samenvouwen"</string>
+    <string name="expand">"Uitvouwen"</string>
 </resources>

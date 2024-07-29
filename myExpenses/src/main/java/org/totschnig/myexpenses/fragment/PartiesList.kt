@@ -126,7 +126,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     isVisible = true
                     setImageResource(if (viewModel.expandedItem == party.id) R.drawable.ic_expand_less else R.drawable.ic_expand_more)
                     contentDescription = getString(
-                        if (viewModel.expandedItem == party.id) R.string.content_description_collapse else R.string.show_duplicates
+                        if (viewModel.expandedItem == party.id) R.string.collapse else R.string.show_duplicates
                     )
                     setOnClickListener {
                         toggleShowDuplicates(party.id)

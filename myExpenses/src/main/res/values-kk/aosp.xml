@@ -52,4 +52,6 @@
     <string name="remove">"Өшіру"</string>
     <string name="currency_symbol">"Валюта таңбасы"</string>
     <string name="onboarding_get_started">"Бастау"</string>
+    <string name="collapse">"Жию"</string>
+    <string name="expand">"Жаю"</string>
 </resources>

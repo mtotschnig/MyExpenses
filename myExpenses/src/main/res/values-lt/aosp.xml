@@ -51,4 +51,6 @@
     <string name="remove">"Pašalinti"</string>
     <string name="currency_symbol">"Valiutos simbolis"</string>
     <string name="onboarding_get_started">"Pradėti"</string>
+    <string name="collapse">"Sutraukti"</string>
+    <string name="expand">"Išskleisti"</string>
 </resources>

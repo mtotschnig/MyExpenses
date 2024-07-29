@@ -50,4 +50,6 @@
     <string name="remove">"Хасах"</string>
     <string name="currency_symbol">"Мөнгөний тэмдэгт"</string>
     <string name="onboarding_get_started">"Эхлүүлэх"</string>
+    <string name="collapse">"Хумих"</string>
+    <string name="expand">"Дэлгэх"</string>
 </resources>

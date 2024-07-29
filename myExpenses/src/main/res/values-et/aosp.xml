@@ -59,4 +59,6 @@
     <string name="remove">"Eemalda"</string>
     <string name="currency_symbol">"Rahaühiku tähis"</string>
     <string name="onboarding_get_started">"Alustage"</string>
+    <string name="collapse">"Ahendamine"</string>
+    <string name="expand">"Laiendamine"</string>
 </resources>

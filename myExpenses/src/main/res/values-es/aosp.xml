@@ -126,4 +126,6 @@
     <string name="remove">"Quitar"</string>
     <string name="currency_symbol">"Símbolo monetario"</string>
     <string name="onboarding_get_started">"Empezar"</string>
+    <string name="collapse">"Ocultar"</string>
+    <string name="expand">"Mostrar"</string>
 </resources>

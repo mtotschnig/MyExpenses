@@ -41,4 +41,6 @@
     <string name="reset_all">"Hamısını sıfırlayın"</string>
     <string name="remove">"Silin"</string>
     <string name="onboarding_get_started">"Başlayın"</string>
+    <string name="collapse">"Yığcamlaşdırın"</string>
+    <string name="expand">"Genişləndirin"</string>
 </resources>

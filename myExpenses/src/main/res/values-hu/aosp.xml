@@ -127,4 +127,6 @@
     <string name="remove">"Eltávolítás"</string>
     <string name="currency_symbol">"Pénznem szimbóluma"</string>
     <string name="onboarding_get_started">"Kezdő lépések"</string>
+    <string name="collapse">"Összecsukás"</string>
+    <string name="expand">"Kibontás"</string>
 </resources>

@@ -123,4 +123,6 @@
     <string name="remove">"移除"</string>
     <string name="currency_symbol">"货币符号"</string>
     <string name="onboarding_get_started">"开始使用"</string>
+    <string name="collapse">"收起"</string>
+    <string name="expand">"展开"</string>
 </resources>

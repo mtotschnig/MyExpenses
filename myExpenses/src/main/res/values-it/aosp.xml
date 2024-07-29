@@ -125,4 +125,6 @@
     <string name="remove">"Rimuovi"</string>
     <string name="currency_symbol">"Simbolo valuta"</string>
     <string name="onboarding_get_started">"Inizia"</string>
+    <string name="collapse">"Comprimi"</string>
+    <string name="expand">"Espandi"</string>
 </resources>

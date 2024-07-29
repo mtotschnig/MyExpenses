@@ -116,4 +116,6 @@
     <string name="remove">"அகற்று"</string>
     <string name="currency_symbol">"நாணய சின்னம்"</string>
     <string name="onboarding_get_started">"தொடங்கும்"</string>
+    <string name="collapse">"சுருக்கும்"</string>
+    <string name="expand">"விரிக்கும்"</string>
 </resources>

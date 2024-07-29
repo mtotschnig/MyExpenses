@@ -48,4 +48,6 @@
     <string name="remove">"ລຶບອອກ"</string>
     <string name="currency_symbol">"ເຄື່ອງໝາຍສະກຸນເງີນ"</string>
     <string name="onboarding_get_started">"ເລີ່ມຕົ້ນການນຳໃຊ້"</string>
+    <string name="collapse">"ຫຍໍ້ລົງ"</string>
+    <string name="expand">"ຂະຫຍາຍ"</string>
 </resources>

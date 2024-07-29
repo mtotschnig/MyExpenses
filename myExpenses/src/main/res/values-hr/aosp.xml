@@ -118,4 +118,6 @@
     <string name="remove">"Ukloni"</string>
     <string name="currency_symbol">"Simboli valuta"</string>
     <string name="onboarding_get_started">"Početak"</string>
+    <string name="collapse">"Sažmi"</string>
+    <string name="expand">"Proširi"</string>
 </resources>

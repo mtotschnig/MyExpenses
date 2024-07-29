@@ -39,6 +39,6 @@ class ExpansionHandle @JvmOverloads constructor(
     }
 
     private fun updateContentDescription() {
-        contentDescription = resources.getString(if (rotation == ROTATION_EXPANDED) R.string.content_description_collapse else R.string.content_description_expand)
+        contentDescription = resources.getString(if (rotation == ROTATION_EXPANDED) R.string.collapse else R.string.expand)
     }
 }

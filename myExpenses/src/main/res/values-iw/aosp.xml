@@ -117,4 +117,6 @@
     <string name="remove">"הסרה"</string>
     <string name="currency_symbol">"סימן מטבע"</string>
     <string name="onboarding_get_started">"קדימה, מתחילים"</string>
+    <string name="collapse">"כווץ"</string>
+    <string name="expand">"הרחב"</string>
 </resources>

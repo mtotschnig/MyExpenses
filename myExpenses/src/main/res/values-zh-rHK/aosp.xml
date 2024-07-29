@@ -103,4 +103,6 @@
     <string name="reset_all">"全部重設"</string>
     <string name="remove">"移除"</string>
     <string name="onboarding_get_started">"開始使用"</string>
+    <string name="collapse">"收合"</string>
+    <string name="expand">"展開"</string>
 </resources>

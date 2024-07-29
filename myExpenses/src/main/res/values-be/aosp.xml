@@ -44,4 +44,6 @@
     <string name="remove">"Выдаліць"</string>
     <string name="currency_symbol">"Сімвал грошаў"</string>
     <string name="onboarding_get_started">"Пачаць"</string>
+    <string name="collapse">"Згарнуць"</string>
+    <string name="expand">"Разгарнуць"</string>
 </resources>

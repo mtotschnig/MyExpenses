@@ -59,4 +59,6 @@
     <string name="remove">"Ta bort"</string>
     <string name="currency_symbol">"Valutasymbol"</string>
     <string name="onboarding_get_started">"Kom igång"</string>
+    <string name="collapse">"Komprimera"</string>
+    <string name="expand">"Expandera"</string>
 </resources>

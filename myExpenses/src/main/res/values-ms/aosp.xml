@@ -103,4 +103,6 @@
     <string name="reset_all">"Tetapkan semula semua"</string>
     <string name="remove">"Alih keluar"</string>
     <string name="onboarding_get_started">"Mulakan"</string>
+    <string name="collapse">"Runtuhkan"</string>
+    <string name="expand">"Kembangkan"</string>
 </resources>

@@ -39,4 +39,6 @@
     <string name="reset_all">"Badilisha vyote"</string>
     <string name="remove">"Ondoa"</string>
     <string name="onboarding_get_started">"Anza"</string>
+    <string name="collapse">"Kunja"</string>
+    <string name="expand">"Panua"</string>
 </resources>
