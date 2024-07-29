@@ -709,7 +709,7 @@
     <string name="debt_lend_additional">Tôi cho mượn %s.</string>
     <string name="debt_borrow_additional">Tôi mượn %s.</string>
     <string name="contact_us">Liên hệ với chúng tôi</string>
-    <string name="unmapped_filter_only_single">Bộ lọc 'Chưa ánh xạ' không thể được đưa vào nhiều lựa chọn</string>
+    <string name="unmapped_filter_only_single">Bộ lọc \'Chưa ánh xạ\' không thể được đưa vào nhiều lựa chọn</string>
     <string name="warning_backup_protected">Kho lưu trữ sẽ được bảo vệ bằng cụm mật khẩu của bạn.</string>
     <string name="pref_category_exchange_rates">Tỷ giá hối đoái</string>
     <string name="synchronization_select_folder_dialog_title">Chọn một thư mục hiện có hoặc tạo một thư mục mới</string>
