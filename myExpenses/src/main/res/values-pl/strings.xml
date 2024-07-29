@@ -627,10 +627,6 @@
     <string name="wifi_not_connected">Urządzenie nie jest podłączone do sieci Wi-Fi. Synchronizacja odłożona w czasie.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Tłumaczenie</string>
-    <!-- Content description for accessibility on image that allows to collapse content  -->
-    <string name="content_description_collapse">Złóż</string>
-    <!-- Content description for accessibility on image that allows to expand content  -->
-    <string name="content_description_expand">Rozszerz</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->
     <string name="goal_or_limit">Cel / Limit</string>
     <string name="saving_goal">Cel oszczędzania</string>

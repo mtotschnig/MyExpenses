@@ -29,8 +29,6 @@
     <string name="budget_table_header_budgeted">Budsjettert</string>
     <string name="dialog_title_edit_budget">Rediger budsjett</string>
     <string name="saving_goal">Lagrer mål</string>
-    <string name="content_description_expand">Utvid</string>
-    <string name="content_description_collapse">Fold sammen</string>
     <string name="pref_translation_title">Oversettelse</string>
     <string name="pref_sync_wifi_only_summary">Kun synkroniser på Wi-Fi</string>
     <string name="navigation_drawer_accounts_title">Håndter kontoer</string>

@@ -553,7 +553,6 @@
     <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
     <string name="warning_device_lock_screen_not_set_up_2">Gå til %s for at indstille en låseskærm.</string>
     <string name="credit_limit">Kreditgrænse</string>
-    <string name="content_description_expand">Udvid</string>
     <string name="goal_or_limit">Mål / Grænse</string>
     <string name="split_transaction_one_success">Transaktion blev omdannet til en opdeling.</string>
     <string name="clear_all_filters">Ryd alle filtre</string>
@@ -619,7 +618,6 @@
     <string name="pref_sync_wifi_only_summary">Synkronisér kun på Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Skriv lokale ændringer med det samme til backend</string>
     <string name="wifi_not_connected">Enheden er ikke forbundet til Wi-Fi. Synkronisering er udskudt.</string>
-    <string name="content_description_collapse">Minimér</string>
     <string name="saving_goal">Sparemål</string>
     <string name="budget_table_header_allocated">Tildelt</string>
     <string name="budget_exceeded_error_1_1">Alle undtagen %s af dit budget er blevet tildelt andre kategorier.</string>

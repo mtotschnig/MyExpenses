@@ -466,7 +466,6 @@
     <string name="licence_expired_yesterday">Je professionele sleutel is gisteren verlopen.</string>
     <string name="navigation_drawer_accounts_title">Rekeningen beheren</string>
     <string name="pref_translation_title">Vertaling</string>
-    <string name="content_description_collapse">Inklappen</string>
     <string name="goal_or_limit">Doel/ Limiet</string>
     <string name="saving_goal">Doel opslaan</string>
     <string name="dialog_title_edit_budget">Budget bewerken</string>
@@ -747,7 +746,6 @@
     <string name="pref_transaction_time_summary">Toestaan om de exacte transactietijd in te stellen.</string>
     <string name="pref_value_date_summary">Toestaan om valutadatum in te stellen naast de boekingsdatum. De transactietijd wordt verborgen. Deze instelling wordt niet toegepast op geldrekeningen.</string>
     <string name="sort_order">Sorteervolgorde</string>
-    <string name="content_description_expand">Uitvouwen</string>
     <string name="clear_all_filters">Wis alle filters</string>
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
     <string name="currency_code">Code</string>

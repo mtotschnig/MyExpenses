@@ -624,10 +624,6 @@
     <string name="wifi_not_connected">裝置未連接到無線網路Wi-Fi。資料同步已被推遲。</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">翻譯</string>
-    <!-- Content description for accessibility on image that allows to collapse content  -->
-    <string name="content_description_collapse">收摺</string>
-    <!-- Content description for accessibility on image that allows to expand content  -->
-    <string name="content_description_expand">展開</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->
     <string name="goal_or_limit">儲蓄目標/信用額度</string>
     <string name="saving_goal">儲蓄目標</string>
