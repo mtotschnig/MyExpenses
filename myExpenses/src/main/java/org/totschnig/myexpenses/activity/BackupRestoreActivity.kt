@@ -81,10 +81,17 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                         }
                         message.append(getString(R.string.continue_confirmation))
                         ConfirmationDialogFragment.newInstance(Bundle().apply {
-                            putInt(
-                                ConfirmationDialogFragment.KEY_TITLE,
-                                if (isProtected) R.string.dialog_title_backup_protected else R.string.menu_backup
-                            )
+                            if (isProtected) {
+                                putString(
+                                    ConfirmationDialogFragment.KEY_TITLE_STRING,
+                                    "${getString(R.string.menu_backup)} (${getString(R.string.encrypted)})"
+                                )
+                            } else {
+                                putInt(
+                                    ConfirmationDialogFragment.KEY_TITLE,
+                                    R.string.menu_backup
+                                )
+                            }
                             putString(
                                 ConfirmationDialogFragment.KEY_MESSAGE,
                                 message.toString()

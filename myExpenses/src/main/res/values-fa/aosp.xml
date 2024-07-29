@@ -50,4 +50,5 @@
     <string name="onboarding_get_started">"شروع"</string>
     <string name="collapse">"کوچک کردن"</string>
     <string name="expand">"بزرگ کردن"</string>
+    <string name="encrypted">"رمزگذاری‌شده"</string>
 </resources>

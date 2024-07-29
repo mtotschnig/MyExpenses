@@ -129,4 +129,5 @@
     <string name="onboarding_get_started">"Kezdő lépések"</string>
     <string name="collapse">"Összecsukás"</string>
     <string name="expand">"Kibontás"</string>
+    <string name="encrypted">"Titkosítva"</string>
 </resources>

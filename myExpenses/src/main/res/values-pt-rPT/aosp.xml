@@ -88,4 +88,5 @@
     <string name="onboarding_get_started">"Começar"</string>
     <string name="collapse">"Reduzir"</string>
     <string name="expand">"Expandir"</string>
+    <string name="encrypted">"Encriptado"</string>
 </resources>

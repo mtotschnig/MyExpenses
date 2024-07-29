@@ -127,4 +127,5 @@
     <string name="onboarding_get_started">"Έναρξη"</string>
     <string name="collapse">"Σύμπτυξη"</string>
     <string name="expand">"Ανάπτυξη"</string>
+    <string name="encrypted">"Κρυπτογραφημένο"</string>
 </resources>

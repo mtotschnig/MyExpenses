@@ -54,4 +54,5 @@
     <string name="onboarding_get_started">"Бастау"</string>
     <string name="collapse">"Жию"</string>
     <string name="expand">"Жаю"</string>
+    <string name="encrypted">"Шифрланған"</string>
 </resources>

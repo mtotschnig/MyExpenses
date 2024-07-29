@@ -120,4 +120,5 @@
     <string name="onboarding_get_started">"Începe"</string>
     <string name="collapse">"Restrângeți"</string>
     <string name="expand">"Extindeți"</string>
+    <string name="encrypted">"Criptat"</string>
 </resources>

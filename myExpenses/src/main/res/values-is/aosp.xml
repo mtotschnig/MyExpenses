@@ -58,4 +58,5 @@
     <string name="onboarding_get_started">"Byrja"</string>
     <string name="collapse">"Minnka"</string>
     <string name="expand">"Stækka"</string>
+    <string name="encrypted">"Dulkóðað"</string>
 </resources>

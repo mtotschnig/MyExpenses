@@ -124,4 +124,5 @@
     <string name="onboarding_get_started">"開始使用"</string>
     <string name="collapse">"收合"</string>
     <string name="expand">"展開"</string>
+    <string name="encrypted">"已加密"</string>
 </resources>

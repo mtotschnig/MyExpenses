@@ -130,4 +130,5 @@
     <string name="onboarding_get_started">"البدء"</string>
     <string name="collapse">"تصغير"</string>
     <string name="expand">"توسيع"</string>
+    <string name="encrypted">"مشفّر"</string>
 </resources>

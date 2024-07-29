@@ -45,4 +45,5 @@
     <string name="onboarding_get_started">"Boshlash"</string>
     <string name="collapse">"Berkitish"</string>
     <string name="expand">"Ko‘rsatish"</string>
+    <string name="encrypted">"Shifrlangan"</string>
 </resources>

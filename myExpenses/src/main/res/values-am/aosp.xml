@@ -59,4 +59,5 @@
     <string name="onboarding_get_started">"ይጀምሩ"</string>
     <string name="collapse">"ይሰብስቡ"</string>
     <string name="expand">"ይዘርጉ"</string>
+    <string name="encrypted">"ተመሥጥሯል"</string>
 </resources>

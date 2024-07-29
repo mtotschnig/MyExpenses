@@ -120,4 +120,5 @@
     <string name="onboarding_get_started">"Početak"</string>
     <string name="collapse">"Sažmi"</string>
     <string name="expand">"Proširi"</string>
+    <string name="encrypted">"Šifrirano"</string>
 </resources>

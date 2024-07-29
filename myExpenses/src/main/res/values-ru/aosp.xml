@@ -129,4 +129,5 @@
     <string name="onboarding_get_started">"Начать"</string>
     <string name="collapse">"Скрыть"</string>
     <string name="expand">"Показать"</string>
+    <string name="encrypted">"Зашифровано"</string>
 </resources>

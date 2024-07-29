@@ -53,4 +53,5 @@
     <string name="onboarding_get_started">"Pradėti"</string>
     <string name="collapse">"Sutraukti"</string>
     <string name="expand">"Išskleisti"</string>
+    <string name="encrypted">"Šifruota"</string>
 </resources>

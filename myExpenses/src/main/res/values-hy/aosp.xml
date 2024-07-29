@@ -58,4 +58,5 @@
     <string name="onboarding_get_started">"Սկսել"</string>
     <string name="collapse">"Կոծկել"</string>
     <string name="expand">"Ընդարձակել"</string>
+    <string name="encrypted">"Գաղտնագրված է"</string>
 </resources>

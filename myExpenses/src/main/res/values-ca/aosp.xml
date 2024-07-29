@@ -128,4 +128,5 @@
     <string name="onboarding_get_started">"Comença"</string>
     <string name="collapse">"Replega"</string>
     <string name="expand">"Desplega"</string>
+    <string name="encrypted">"Encriptat"</string>
 </resources>

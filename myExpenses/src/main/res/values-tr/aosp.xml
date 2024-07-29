@@ -126,4 +126,5 @@
     <string name="onboarding_get_started">"Başla"</string>
     <string name="collapse">"Daraltır"</string>
     <string name="expand">"Genişletir"</string>
+    <string name="encrypted">"Şifreli"</string>
 </resources>

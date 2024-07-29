@@ -123,4 +123,5 @@
     <string name="onboarding_get_started">"Bắt đầu"</string>
     <string name="collapse">"Thu gọn"</string>
     <string name="expand">"Mở rộng"</string>
+    <string name="encrypted">"Đã mã hoá"</string>
 </resources>

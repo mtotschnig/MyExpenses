@@ -125,4 +125,5 @@
     <string name="onboarding_get_started">"Hasi erabiltzen"</string>
     <string name="collapse">"Tolestu"</string>
     <string name="expand">"Zabaldu"</string>
+    <string name="encrypted">"Enkriptatuta"</string>
 </resources>

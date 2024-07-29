@@ -124,4 +124,5 @@
     <string name="onboarding_get_started">"Aan de slag"</string>
     <string name="collapse">"Samenvouwen"</string>
     <string name="expand">"Uitvouwen"</string>
+    <string name="encrypted">"Versleuteld"</string>
 </resources>

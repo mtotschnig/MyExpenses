@@ -61,4 +61,5 @@
     <string name="onboarding_get_started">"Alustage"</string>
     <string name="collapse">"Ahendamine"</string>
     <string name="expand">"Laiendamine"</string>
+    <string name="encrypted">"Krüpteeritud"</string>
 </resources>

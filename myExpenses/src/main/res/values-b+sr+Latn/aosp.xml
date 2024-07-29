@@ -45,4 +45,5 @@
     <string name="onboarding_get_started">"Započnite"</string>
     <string name="collapse">"Skupite"</string>
     <string name="expand">"Proširite"</string>
+    <string name="encrypted">"Šifrovano"</string>
 </resources>

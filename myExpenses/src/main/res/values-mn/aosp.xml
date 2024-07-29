@@ -52,4 +52,5 @@
     <string name="onboarding_get_started">"Эхлүүлэх"</string>
     <string name="collapse">"Хумих"</string>
     <string name="expand">"Дэлгэх"</string>
+    <string name="encrypted">"Шифрлэсэн"</string>
 </resources>

@@ -41,4 +41,5 @@
     <string name="onboarding_get_started">"Magsimula"</string>
     <string name="collapse">"I-collapse"</string>
     <string name="expand">"Palawakin"</string>
+    <string name="encrypted">"Naka-encrypt"</string>
 </resources>

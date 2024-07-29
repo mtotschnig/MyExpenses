@@ -127,4 +127,5 @@
     <string name="onboarding_get_started">"Jetzt starten"</string>
     <string name="collapse">"Minimieren"</string>
     <string name="expand">"Maximieren"</string>
+    <string name="encrypted">"Verschlüsselt"</string>
 </resources>

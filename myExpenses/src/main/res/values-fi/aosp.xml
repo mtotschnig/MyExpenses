@@ -60,4 +60,5 @@
     <string name="onboarding_get_started">"Aloita"</string>
     <string name="collapse">"Kutista"</string>
     <string name="expand">"Laajenna"</string>
+    <string name="encrypted">"Salattu"</string>
 </resources>

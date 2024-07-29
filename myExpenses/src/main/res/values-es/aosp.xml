@@ -128,4 +128,5 @@
     <string name="onboarding_get_started">"Empezar"</string>
     <string name="collapse">"Ocultar"</string>
     <string name="expand">"Mostrar"</string>
+    <string name="encrypted">"Cifrado"</string>
 </resources>

@@ -46,4 +46,5 @@
     <string name="onboarding_get_started">"Пачаць"</string>
     <string name="collapse">"Згарнуць"</string>
     <string name="expand">"Разгарнуць"</string>
+    <string name="encrypted">"Зашыфравана"</string>
 </resources>

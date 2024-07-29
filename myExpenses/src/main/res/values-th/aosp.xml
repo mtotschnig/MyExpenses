@@ -60,4 +60,5 @@
     <string name="onboarding_get_started">"เริ่มต้นใช้งาน"</string>
     <string name="collapse">"ยุบ"</string>
     <string name="expand">"ขยาย"</string>
+    <string name="encrypted">"เข้ารหัสแล้ว"</string>
 </resources>

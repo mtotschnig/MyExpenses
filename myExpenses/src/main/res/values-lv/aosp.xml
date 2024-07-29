@@ -52,4 +52,5 @@
     <string name="onboarding_get_started">"Sākt darbu"</string>
     <string name="collapse">"Sakļaut"</string>
     <string name="expand">"Izvērst"</string>
+    <string name="encrypted">"Šifrēts"</string>
 </resources>

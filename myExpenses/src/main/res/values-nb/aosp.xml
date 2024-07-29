@@ -60,4 +60,5 @@
     <string name="onboarding_get_started">"Kom i gang"</string>
     <string name="collapse">"Skjul"</string>
     <string name="expand">"Vis"</string>
+    <string name="encrypted">"Kryptert"</string>
 </resources>

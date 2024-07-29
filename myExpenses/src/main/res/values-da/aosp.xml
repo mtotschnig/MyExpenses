@@ -128,4 +128,5 @@
     <string name="onboarding_get_started">"Kom godt i gang"</string>
     <string name="collapse">"Skjul"</string>
     <string name="expand">"Udvid"</string>
+    <string name="encrypted">"Krypteret"</string>
 </resources>

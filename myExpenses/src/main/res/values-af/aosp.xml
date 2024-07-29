@@ -58,4 +58,5 @@
     <string name="onboarding_get_started">"Begin hier"</string>
     <string name="collapse">"Vou in"</string>
     <string name="expand">"Vou uit"</string>
+    <string name="encrypted">"Geënkripteer"</string>
 </resources>

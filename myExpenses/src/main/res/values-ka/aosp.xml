@@ -53,4 +53,5 @@
     <string name="onboarding_get_started">"დაწყება"</string>
     <string name="collapse">"ჩაკეცვა"</string>
     <string name="expand">"გაფართოება"</string>
+    <string name="encrypted">"დაშიფრული"</string>
 </resources>

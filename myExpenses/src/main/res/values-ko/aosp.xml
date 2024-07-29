@@ -119,4 +119,5 @@
     <string name="onboarding_get_started">"시작하기"</string>
     <string name="collapse">"접기"</string>
     <string name="expand">"펼치기"</string>
+    <string name="encrypted">"암호화됨"</string>
 </resources>

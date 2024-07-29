@@ -127,4 +127,5 @@
     <string name="onboarding_get_started">"Inizia"</string>
     <string name="collapse">"Comprimi"</string>
     <string name="expand">"Espandi"</string>
+    <string name="encrypted">"Crittografia attiva"</string>
 </resources>

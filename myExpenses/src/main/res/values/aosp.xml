@@ -231,4 +231,6 @@
     <string name="collapse">"Collapse"</string>
     <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri "expand_fields_description" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_fields_description//' | aosp_helper -->
     <string name="expand">"Expand"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "encrypted_summary" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_summary//'  | aosp_helper -->
+    <string name="encrypted">"Encrypted"</string>
 </resources>

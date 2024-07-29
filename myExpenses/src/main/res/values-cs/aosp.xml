@@ -130,4 +130,5 @@
     <string name="onboarding_get_started">"Začít"</string>
     <string name="collapse">"Sbalit"</string>
     <string name="expand">"Rozbalit"</string>
+    <string name="encrypted">"Šifrováno"</string>
 </resources>

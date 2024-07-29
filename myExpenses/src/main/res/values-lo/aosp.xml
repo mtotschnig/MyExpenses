@@ -50,4 +50,5 @@
     <string name="onboarding_get_started">"ເລີ່ມຕົ້ນການນຳໃຊ້"</string>
     <string name="collapse">"ຫຍໍ້ລົງ"</string>
     <string name="expand">"ຂະຫຍາຍ"</string>
+    <string name="encrypted">"ເຂົ້າລະຫັດແລ້ວ"</string>
 </resources>

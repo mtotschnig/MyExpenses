@@ -46,4 +46,5 @@
     <string name="onboarding_get_started">"Започнете"</string>
     <string name="collapse">"Собери"</string>
     <string name="expand">"Прошири"</string>
+    <string name="encrypted">"Шифрирано"</string>
 </resources>

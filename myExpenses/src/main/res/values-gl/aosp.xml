@@ -59,4 +59,5 @@
     <string name="onboarding_get_started">"Comezar"</string>
     <string name="collapse">"Contraer"</string>
     <string name="expand">"Despregar"</string>
+    <string name="encrypted">"Encriptouse"</string>
 </resources>

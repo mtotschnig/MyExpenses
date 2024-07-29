@@ -129,4 +129,5 @@
     <string name="onboarding_get_started">"Начало"</string>
     <string name="collapse">"Свиване"</string>
     <string name="expand">"Разгъване"</string>
+    <string name="encrypted">"Шифровано"</string>
 </resources>

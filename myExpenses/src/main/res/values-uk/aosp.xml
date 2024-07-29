@@ -128,4 +128,5 @@
     <string name="onboarding_get_started">"Почати"</string>
     <string name="collapse">"Згорнути"</string>
     <string name="expand">"Розгорнути"</string>
+    <string name="encrypted">"Зашифровано"</string>
 </resources>
