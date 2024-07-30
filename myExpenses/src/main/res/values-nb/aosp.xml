@@ -63,4 +63,5 @@
     <string name="encrypted">"Kryptert"</string>
     <string name="hide">"Skjul"</string>
     <string name="show">"Vis"</string>
+    <string name="debug">"Feilsøk"</string>
 </resources>

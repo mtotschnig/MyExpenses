@@ -122,4 +122,5 @@
     <string name="encrypted">"ההצפנה פועלת"</string>
     <string name="hide">"הסתרה"</string>
     <string name="show">"הצגה"</string>
+    <string name="debug">"ניפוי באגים"</string>
 </resources>

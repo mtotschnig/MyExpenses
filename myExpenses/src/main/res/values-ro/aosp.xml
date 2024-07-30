@@ -123,4 +123,5 @@
     <string name="encrypted">"Criptat"</string>
     <string name="hide">"Ascunde"</string>
     <string name="show">"Afișează"</string>
+    <string name="debug">"Remediați erorile"</string>
 </resources>

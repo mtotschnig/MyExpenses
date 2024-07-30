@@ -90,7 +90,7 @@
 
     <PreferenceCategory
         android:key="@string/pref_debug_key"
-        android:title="@string/pref_debug_title">
+        android:title="@string/debug">
 
         <SwitchPreferenceCompat
             android:key="@string/pref_debug_logging_key"

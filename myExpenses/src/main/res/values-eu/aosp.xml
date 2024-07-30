@@ -128,4 +128,5 @@
     <string name="encrypted">"Enkriptatuta"</string>
     <string name="hide">"Ezkutatu"</string>
     <string name="show">"Erakutsi"</string>
+    <string name="debug">"Araztu"</string>
 </resources>

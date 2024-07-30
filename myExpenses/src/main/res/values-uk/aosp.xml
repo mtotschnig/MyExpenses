@@ -131,4 +131,5 @@
     <string name="encrypted">"Зашифровано"</string>
     <string name="hide">"Сховати"</string>
     <string name="show">"Показати"</string>
+    <string name="debug">"Налагодження"</string>
 </resources>

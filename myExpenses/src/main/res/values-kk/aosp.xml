@@ -57,4 +57,5 @@
     <string name="encrypted">"Шифрланған"</string>
     <string name="hide">"Жасыру"</string>
     <string name="show">"Көрсету"</string>
+    <string name="debug">"Күйін келтіру"</string>
 </resources>

@@ -56,4 +56,5 @@
     <string name="encrypted">"დაშიფრული"</string>
     <string name="hide">"დამალვა"</string>
     <string name="show">"ჩვენება"</string>
+    <string name="debug">"გამართვა"</string>
 </resources>

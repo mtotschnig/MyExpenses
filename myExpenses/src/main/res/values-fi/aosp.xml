@@ -63,4 +63,5 @@
     <string name="encrypted">"Salattu"</string>
     <string name="hide">"Piilota"</string>
     <string name="show">"Näytä"</string>
+    <string name="debug">"Vianetsintä"</string>
 </resources>

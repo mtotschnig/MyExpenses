@@ -133,4 +133,5 @@
     <string name="encrypted">"Zaszyfrowano"</string>
     <string name="hide">"Ukryj"</string>
     <string name="show">"Pokaż"</string>
+    <string name="debug">"Debuguj"</string>
 </resources>

@@ -128,4 +128,5 @@
     <string name="encrypted">"已加密"</string>
     <string name="hide">"隐藏"</string>
     <string name="show">"显示"</string>
+    <string name="debug">"调试"</string>
 </resources>

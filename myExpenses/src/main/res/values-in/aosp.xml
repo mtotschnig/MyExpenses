@@ -64,4 +64,5 @@
     <string name="encrypted">"Dienkripsi"</string>
     <string name="hide">"Sembunyikan"</string>
     <string name="show">"Lihat"</string>
+    <string name="debug">"Debug"</string>
 </resources>

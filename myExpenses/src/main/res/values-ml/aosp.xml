@@ -52,4 +52,5 @@
     <string name="encrypted">"എൻക്രിപ്റ്റ് ചെയ്‌തു"</string>
     <string name="hide">"മറയ്ക്കുക"</string>
     <string name="show">"കാണിക്കുക"</string>
+    <string name="debug">"ഡീബഗ്"</string>
 </resources>

@@ -120,4 +120,5 @@
     <string name="encrypted">"ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ"</string>
     <string name="hide">"ಮರೆಮಾಡು"</string>
     <string name="show">"ತೋರಿಸು"</string>
+    <string name="debug">"ಡೀಬಗ್ ಮಾಡು"</string>
 </resources>

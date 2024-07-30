@@ -91,4 +91,5 @@
     <string name="encrypted">"Encriptado"</string>
     <string name="hide">"Ocultar"</string>
     <string name="show">"Mostrar"</string>
+    <string name="debug">"Depurar"</string>
 </resources>

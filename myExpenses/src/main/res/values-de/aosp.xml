@@ -130,4 +130,5 @@
     <string name="encrypted">"Verschlüsselt"</string>
     <string name="hide">"Ausblenden"</string>
     <string name="show">"Anzeigen"</string>
+    <string name="debug">"Debuggen"</string>
 </resources>

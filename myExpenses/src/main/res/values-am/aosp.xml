@@ -62,4 +62,5 @@
     <string name="encrypted">"ተመሥጥሯል"</string>
     <string name="hide">"ደብቅ"</string>
     <string name="show">"አሳይ"</string>
+    <string name="debug">"አርም"</string>
 </resources>

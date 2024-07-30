@@ -56,4 +56,5 @@
     <string name="encrypted">"Šifruota"</string>
     <string name="hide">"Slėpti"</string>
     <string name="show">"Rodyti"</string>
+    <string name="debug">"Derinti"</string>
 </resources>

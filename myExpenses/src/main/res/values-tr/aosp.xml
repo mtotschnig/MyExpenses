@@ -129,4 +129,5 @@
     <string name="encrypted">"Şifreli"</string>
     <string name="hide">"Gizle"</string>
     <string name="show">"Göster"</string>
+    <string name="debug">"Hata ayıkla"</string>
 </resources>

@@ -44,4 +44,5 @@
     <string name="encrypted">"Imesimbwa kwa njia fiche"</string>
     <string name="hide">"Ficha"</string>
     <string name="show">"Onyesha"</string>
+    <string name="debug">"Tatua"</string>
 </resources>

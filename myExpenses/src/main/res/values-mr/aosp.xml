@@ -52,4 +52,5 @@
     <string name="encrypted">"एंक्रिप्ट केले"</string>
     <string name="hide">"लपवा"</string>
     <string name="show">"दर्शवा"</string>
+    <string name="debug">"डीबग करणे"</string>
 </resources>

@@ -131,4 +131,5 @@
     <string name="encrypted">"Encriptat"</string>
     <string name="hide">"Amaga"</string>
     <string name="show">"Mostra"</string>
+    <string name="debug">"Depura"</string>
 </resources>

@@ -128,4 +128,5 @@
     <string name="encrypted">"暗号化されています"</string>
     <string name="hide">"非表示"</string>
     <string name="show">"表示"</string>
+    <string name="debug">"デバッグ"</string>
 </resources>

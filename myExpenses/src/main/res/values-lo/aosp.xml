@@ -53,4 +53,5 @@
     <string name="encrypted">"ເຂົ້າລະຫັດແລ້ວ"</string>
     <string name="hide">"ເຊື່ອງ"</string>
     <string name="show">"ສະແດງ"</string>
+    <string name="debug">"ດີບັ໊ກ"</string>
 </resources>

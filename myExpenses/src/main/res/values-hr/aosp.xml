@@ -123,4 +123,5 @@
     <string name="encrypted">"Šifrirano"</string>
     <string name="hide">"Sakrij"</string>
     <string name="show">"Prikaži"</string>
+    <string name="debug">"Otkloni pogreške"</string>
 </resources>

@@ -39,4 +39,5 @@
     <string name="encrypted">"ਇਨਕ੍ਰਿਪਟਡ"</string>
     <string name="hide">"ਲੁਕਾਓ"</string>
     <string name="show">" ਦਿਖਾਓ"</string>
+    <string name="debug">"ਡੀਬਗ ਕਰੋ"</string>
 </resources>

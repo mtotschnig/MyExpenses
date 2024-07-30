@@ -133,4 +133,5 @@
     <string name="encrypted">"مشفّر"</string>
     <string name="hide">"إخفاء"</string>
     <string name="show">"إظهار"</string>
+    <string name="debug">"تصحيح الأخطاء"</string>
 </resources>

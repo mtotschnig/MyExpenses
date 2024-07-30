@@ -63,4 +63,5 @@
     <string name="encrypted">"เข้ารหัสแล้ว"</string>
     <string name="hide">"ซ่อน"</string>
     <string name="show">"แสดง"</string>
+    <string name="debug">"แก้ไขข้อบกพร่อง"</string>
 </resources>

@@ -237,4 +237,6 @@
     <string name="hide">"Hide"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "condition_expand_show" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/condition_expand_//'  | aosp_helper -->
     <string name="show">"Show"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Messaging$ grep -r "action_debug_options" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/action_debug_options/debug/'  | aosp_helper -->
+    <string name="debug">"Debug"</string>
 </resources>

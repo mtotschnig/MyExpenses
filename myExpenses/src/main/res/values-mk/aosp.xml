@@ -49,4 +49,5 @@
     <string name="encrypted">"Шифрирано"</string>
     <string name="hide">"Сокриј"</string>
     <string name="show">"Прикажи"</string>
+    <string name="debug">"Отстрани грешка"</string>
 </resources>

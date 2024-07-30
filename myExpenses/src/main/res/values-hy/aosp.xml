@@ -61,4 +61,5 @@
     <string name="encrypted">"Գաղտնագրված է"</string>
     <string name="hide">"Թաքցնել"</string>
     <string name="show">"Ցույց տալ"</string>
+    <string name="debug">"Կարգաբերել"</string>
 </resources>

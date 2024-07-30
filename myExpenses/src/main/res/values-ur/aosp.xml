@@ -106,4 +106,5 @@
     <string name="encrypted">"مرموز کردہ"</string>
     <string name="hide">"چھپائیں"</string>
     <string name="show">"دکھائیں"</string>
+    <string name="debug">"ڈیبگ کریں"</string>
 </resources>

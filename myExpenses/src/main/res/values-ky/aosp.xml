@@ -40,4 +40,5 @@
     <string name="encrypted">"Шифрленген"</string>
     <string name="hide">"Жашыруу"</string>
     <string name="show">"Көрсөтүү"</string>
+    <string name="debug">"Мүчүлүштүктөрдү таап оңдоо"</string>
 </resources>

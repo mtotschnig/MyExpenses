@@ -132,4 +132,5 @@
     <string name="encrypted">"Titkosítva"</string>
     <string name="hide">"Elrejtés"</string>
     <string name="show">"Megjelenítés"</string>
+    <string name="debug">"Hibakeresés"</string>
 </resources>

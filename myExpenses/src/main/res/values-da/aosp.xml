@@ -131,4 +131,5 @@
     <string name="encrypted">"Krypteret"</string>
     <string name="hide">"Skjul"</string>
     <string name="show">"Vis"</string>
+    <string name="debug">"Fejlretning"</string>
 </resources>

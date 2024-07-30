@@ -52,4 +52,5 @@
     <string name="encrypted">"એન્ક્રિપ્ટેડ"</string>
     <string name="hide">"છુપાવો"</string>
     <string name="show">"બતાવો"</string>
+    <string name="debug">"ડીબગ"</string>
 </resources>

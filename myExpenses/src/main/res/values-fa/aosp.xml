@@ -53,4 +53,5 @@
     <string name="encrypted">"رمزگذاری‌شده"</string>
     <string name="hide">"پنهان کردن"</string>
     <string name="show">"نمایش"</string>
+    <string name="debug">"اشکال‌زدایی"</string>
 </resources>

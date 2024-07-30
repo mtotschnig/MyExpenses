@@ -116,4 +116,5 @@
     <string name="encrypted">"සංකේතිත"</string>
     <string name="hide">"සඟවන්න"</string>
     <string name="show">"පෙන්වන්න"</string>
+    <string name="debug">"නිදොස්කරණය"</string>
 </resources>

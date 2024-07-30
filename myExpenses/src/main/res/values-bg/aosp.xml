@@ -132,4 +132,5 @@
     <string name="encrypted">"Шифровано"</string>
     <string name="hide">"Скриване"</string>
     <string name="show">"Показване"</string>
+    <string name="debug">"Отстраняване на грешки"</string>
 </resources>

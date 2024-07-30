@@ -55,4 +55,5 @@
     <string name="encrypted">"Šifrēts"</string>
     <string name="hide">"Paslēpt"</string>
     <string name="show">"Rādīt"</string>
+    <string name="debug">"Atkļūdot"</string>
 </resources>

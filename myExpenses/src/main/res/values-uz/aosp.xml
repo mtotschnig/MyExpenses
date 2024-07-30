@@ -48,4 +48,5 @@
     <string name="encrypted">"Shifrlangan"</string>
     <string name="hide">"Berkitish"</string>
     <string name="show">"Ko‘rsatish"</string>
+    <string name="debug">"Tuzatish"</string>
 </resources>

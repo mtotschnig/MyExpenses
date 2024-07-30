@@ -54,4 +54,5 @@
     <string name="encrypted">"एन्क्रिप्ट (सुरक्षित) किया गया है"</string>
     <string name="hide">"छिपाएं"</string>
     <string name="show">"दिखाएं"</string>
+    <string name="debug">"डीबग"</string>
 </resources>

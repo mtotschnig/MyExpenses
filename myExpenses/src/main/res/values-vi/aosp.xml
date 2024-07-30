@@ -126,4 +126,5 @@
     <string name="encrypted">"Đã mã hoá"</string>
     <string name="hide">"Ẩn"</string>
     <string name="show">"Hiển thị"</string>
+    <string name="debug">"Gỡ lỗi"</string>
 </resources>
