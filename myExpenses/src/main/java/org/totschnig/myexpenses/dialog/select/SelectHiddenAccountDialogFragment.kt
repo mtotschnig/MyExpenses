@@ -59,7 +59,7 @@ class SelectHiddenAccountDialogFragment : SelectMultipleDialogFragment(false) {
     override val selection: String
         get() = DatabaseConstants.KEY_HIDDEN + " = 1"
     override val positiveButton: Int
-        get() = R.string.button_label_show
+        get() = R.string.show
     override val neutralButton: Int
         get() = R.string.menu_delete
     override val negativeButton: Int

@@ -233,4 +233,8 @@
     <string name="expand">"Expand"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "encrypted_summary" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_summary//'  | aosp_helper -->
     <string name="encrypted">"Encrypted"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "condition_expand_hide" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/condition_expand_//'  | aosp_helper -->
+    <string name="hide">"Hide"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "condition_expand_show" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/condition_expand_//'  | aosp_helper -->
+    <string name="show">"Show"</string>
 </resources>

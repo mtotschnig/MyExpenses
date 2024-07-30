@@ -59,4 +59,6 @@
     <string name="collapse">"Minnka"</string>
     <string name="expand">"Stækka"</string>
     <string name="encrypted">"Dulkóðað"</string>
+    <string name="hide">"Fela"</string>
+    <string name="show">"Sýna"</string>
 </resources>

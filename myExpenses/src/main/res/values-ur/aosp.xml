@@ -104,4 +104,6 @@
     <string name="collapse">"سکیڑیں"</string>
     <string name="expand">"پھیلائیں"</string>
     <string name="encrypted">"مرموز کردہ"</string>
+    <string name="hide">"چھپائیں"</string>
+    <string name="show">"دکھائیں"</string>
 </resources>

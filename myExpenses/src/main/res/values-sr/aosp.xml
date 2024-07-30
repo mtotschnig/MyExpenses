@@ -42,4 +42,6 @@
     <string name="collapse">"Скупите"</string>
     <string name="expand">"Проширите"</string>
     <string name="encrypted">"Шифровано"</string>
+    <string name="hide">"Сакриј"</string>
+    <string name="show">"Прикажи"</string>
 </resources>

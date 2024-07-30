@@ -61,4 +61,6 @@
     <string name="collapse">"Kutista"</string>
     <string name="expand">"Laajenna"</string>
     <string name="encrypted">"Salattu"</string>
+    <string name="hide">"Piilota"</string>
+    <string name="show">"Näytä"</string>
 </resources>

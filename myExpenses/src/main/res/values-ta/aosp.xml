@@ -119,4 +119,6 @@
     <string name="collapse">"சுருக்கும்"</string>
     <string name="expand">"விரிக்கும்"</string>
     <string name="encrypted">"என்க்ரிப்ட் செய்யப்பட்டது"</string>
+    <string name="hide">"மறை"</string>
+    <string name="show">"காட்டு"</string>
 </resources>

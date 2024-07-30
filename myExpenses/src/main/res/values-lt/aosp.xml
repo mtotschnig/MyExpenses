@@ -54,4 +54,6 @@
     <string name="collapse">"Sutraukti"</string>
     <string name="expand">"Išskleisti"</string>
     <string name="encrypted">"Šifruota"</string>
+    <string name="hide">"Slėpti"</string>
+    <string name="show">"Rodyti"</string>
 </resources>

@@ -124,4 +124,6 @@
     <string name="collapse">"Thu gọn"</string>
     <string name="expand">"Mở rộng"</string>
     <string name="encrypted">"Đã mã hoá"</string>
+    <string name="hide">"Ẩn"</string>
+    <string name="show">"Hiển thị"</string>
 </resources>

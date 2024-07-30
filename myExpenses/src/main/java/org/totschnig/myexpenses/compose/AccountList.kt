@@ -283,7 +283,7 @@ fun AccountCard(
                         add(delete("DELETE_ACCOUNT") { onDelete(account) })
                         add(MenuEntry(
                             icon = Icons.Filled.VisibilityOff,
-                            label = R.string.menu_hide,
+                            label = R.string.hide,
                             command = "HIDE_COMMAND"
                         ) {
                             onHide(account.id)

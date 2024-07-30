@@ -121,4 +121,6 @@
     <string name="collapse">"Restrângeți"</string>
     <string name="expand">"Extindeți"</string>
     <string name="encrypted">"Criptat"</string>
+    <string name="hide">"Ascunde"</string>
+    <string name="show">"Afișează"</string>
 </resources>

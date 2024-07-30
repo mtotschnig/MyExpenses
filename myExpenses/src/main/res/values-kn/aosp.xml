@@ -118,4 +118,6 @@
     <string name="collapse">"ಸಂಕುಚಿಸು"</string>
     <string name="expand">"ವಿಸ್ತರಿಸು"</string>
     <string name="encrypted">"ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ"</string>
+    <string name="hide">"ಮರೆಮಾಡು"</string>
+    <string name="show">"ತೋರಿಸು"</string>
 </resources>

@@ -59,4 +59,6 @@
     <string name="collapse">"Vou in"</string>
     <string name="expand">"Vou uit"</string>
     <string name="encrypted">"Geënkripteer"</string>
+    <string name="hide">"Versteek"</string>
+    <string name="show">"Wys"</string>
 </resources>

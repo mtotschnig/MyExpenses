@@ -60,4 +60,6 @@
     <string name="collapse">"ይሰብስቡ"</string>
     <string name="expand">"ይዘርጉ"</string>
     <string name="encrypted">"ተመሥጥሯል"</string>
+    <string name="hide">"ደብቅ"</string>
+    <string name="show">"አሳይ"</string>
 </resources>

@@ -113,4 +113,6 @@
     <string name="collapse">"కుదిస్తుంది"</string>
     <string name="expand">"విస్తరింపజేస్తుంది"</string>
     <string name="encrypted">"ఎన్‌క్రిప్ట్ చేయబడింది"</string>
+    <string name="hide">"దాస్తుంది"</string>
+    <string name="show">"చూపుతుంది"</string>
 </resources>

@@ -47,4 +47,6 @@
     <string name="collapse">"Згарнуць"</string>
     <string name="expand">"Разгарнуць"</string>
     <string name="encrypted">"Зашыфравана"</string>
+    <string name="hide">"Схаваць"</string>
+    <string name="show">"Паказаць"</string>
 </resources>

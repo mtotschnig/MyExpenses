@@ -42,4 +42,6 @@
     <string name="collapse">"Kunja"</string>
     <string name="expand">"Panua"</string>
     <string name="encrypted">"Imesimbwa kwa njia fiche"</string>
+    <string name="hide">"Ficha"</string>
+    <string name="show">"Onyesha"</string>
 </resources>

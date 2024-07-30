@@ -62,4 +62,6 @@
     <string name="collapse">"Ahendamine"</string>
     <string name="expand">"Laiendamine"</string>
     <string name="encrypted">"Krüpteeritud"</string>
+    <string name="hide">"Peida"</string>
+    <string name="show">"Kuva"</string>
 </resources>

@@ -120,4 +120,6 @@
     <string name="collapse">"כווץ"</string>
     <string name="expand">"הרחב"</string>
     <string name="encrypted">"ההצפנה פועלת"</string>
+    <string name="hide">"הסתרה"</string>
+    <string name="show">"הצגה"</string>
 </resources>

@@ -49,4 +49,6 @@
     <string name="collapse">"সঙ্কুচিত করুন"</string>
     <string name="expand">"প্রসারিত করুন"</string>
     <string name="encrypted">"এনক্রিপটেড"</string>
+    <string name="hide">"লুকান"</string>
+    <string name="show">"দেখান"</string>
 </resources>

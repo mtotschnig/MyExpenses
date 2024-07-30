@@ -47,4 +47,6 @@
     <string name="collapse">"Собери"</string>
     <string name="expand">"Прошири"</string>
     <string name="encrypted">"Шифрирано"</string>
+    <string name="hide">"Сокриј"</string>
+    <string name="show">"Прикажи"</string>
 </resources>

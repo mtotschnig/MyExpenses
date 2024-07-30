@@ -131,4 +131,6 @@
     <string name="collapse">"Zwiń"</string>
     <string name="expand">"Rozwiń"</string>
     <string name="encrypted">"Zaszyfrowano"</string>
+    <string name="hide">"Ukryj"</string>
+    <string name="show">"Pokaż"</string>
 </resources>

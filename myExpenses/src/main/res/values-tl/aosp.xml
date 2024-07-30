@@ -42,4 +42,6 @@
     <string name="collapse">"I-collapse"</string>
     <string name="expand">"Palawakin"</string>
     <string name="encrypted">"Naka-encrypt"</string>
+    <string name="hide">"Itago"</string>
+    <string name="show">"Ipakita"</string>
 </resources>

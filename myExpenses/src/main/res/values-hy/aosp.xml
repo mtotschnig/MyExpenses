@@ -59,4 +59,6 @@
     <string name="collapse">"Կոծկել"</string>
     <string name="expand">"Ընդարձակել"</string>
     <string name="encrypted">"Գաղտնագրված է"</string>
+    <string name="hide">"Թաքցնել"</string>
+    <string name="show">"Ցույց տալ"</string>
 </resources>

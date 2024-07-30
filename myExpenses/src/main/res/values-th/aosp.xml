@@ -61,4 +61,6 @@
     <string name="collapse">"ยุบ"</string>
     <string name="expand">"ขยาย"</string>
     <string name="encrypted">"เข้ารหัสแล้ว"</string>
+    <string name="hide">"ซ่อน"</string>
+    <string name="show">"แสดง"</string>
 </resources>

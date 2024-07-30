@@ -129,4 +129,6 @@
     <string name="collapse">"Replega"</string>
     <string name="expand">"Desplega"</string>
     <string name="encrypted">"Encriptat"</string>
+    <string name="hide">"Amaga"</string>
+    <string name="show">"Mostra"</string>
 </resources>

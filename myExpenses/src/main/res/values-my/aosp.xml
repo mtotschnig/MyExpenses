@@ -50,4 +50,6 @@
     <string name="collapse">"ချုံ့ပြရန်"</string>
     <string name="expand">"ချဲ့ကြည့်ရန်"</string>
     <string name="encrypted">"အသွင်ဝှက်ထားသည်"</string>
+    <string name="hide">"ဝှက်ပါ"</string>
+    <string name="show">"ပြပါ"</string>
 </resources>

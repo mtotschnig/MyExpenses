@@ -126,4 +126,6 @@
     <string name="collapse">"Tolestu"</string>
     <string name="expand">"Zabaldu"</string>
     <string name="encrypted">"Enkriptatuta"</string>
+    <string name="hide">"Ezkutatu"</string>
+    <string name="show">"Erakutsi"</string>
 </resources>

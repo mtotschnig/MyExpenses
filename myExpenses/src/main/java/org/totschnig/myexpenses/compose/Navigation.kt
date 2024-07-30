@@ -249,7 +249,7 @@ private fun Overflow() {
             entries = listOf(
                 emptyEntry(R.string.menu_learn_more),
                 SubMenuEntry(
-                    label = R.string.menu_hide, subMenu = Menu(
+                    label = R.string.hide, subMenu = Menu(
                         entries = listOf(
                             MenuEntry(
                                 icon = Icons.Filled.Edit,

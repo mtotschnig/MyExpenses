@@ -128,4 +128,6 @@
     <string name="collapse">"Comprimi"</string>
     <string name="expand">"Espandi"</string>
     <string name="encrypted">"Crittografia attiva"</string>
+    <string name="hide">"Nascondi"</string>
+    <string name="show">"Mostra"</string>
 </resources>

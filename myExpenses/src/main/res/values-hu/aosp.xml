@@ -130,4 +130,6 @@
     <string name="collapse">"Összecsukás"</string>
     <string name="expand">"Kibontás"</string>
     <string name="encrypted">"Titkosítva"</string>
+    <string name="hide">"Elrejtés"</string>
+    <string name="show">"Megjelenítés"</string>
 </resources>

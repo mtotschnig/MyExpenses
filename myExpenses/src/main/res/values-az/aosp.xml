@@ -44,4 +44,6 @@
     <string name="collapse">"Yığcamlaşdırın"</string>
     <string name="expand">"Genişləndirin"</string>
     <string name="encrypted">"Şifrəli"</string>
+    <string name="hide">"Gizlədin"</string>
+    <string name="show">"Göstərin"</string>
 </resources>

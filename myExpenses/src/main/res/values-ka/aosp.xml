@@ -54,4 +54,6 @@
     <string name="collapse">"ჩაკეცვა"</string>
     <string name="expand">"გაფართოება"</string>
     <string name="encrypted">"დაშიფრული"</string>
+    <string name="hide">"დამალვა"</string>
+    <string name="show">"ჩვენება"</string>
 </resources>

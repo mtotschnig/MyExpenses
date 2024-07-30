@@ -51,4 +51,6 @@
     <string name="collapse">"کوچک کردن"</string>
     <string name="expand">"بزرگ کردن"</string>
     <string name="encrypted">"رمزگذاری‌شده"</string>
+    <string name="hide">"پنهان کردن"</string>
+    <string name="show">"نمایش"</string>
 </resources>

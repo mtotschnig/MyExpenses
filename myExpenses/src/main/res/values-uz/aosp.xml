@@ -46,4 +46,6 @@
     <string name="collapse">"Berkitish"</string>
     <string name="expand">"Ko‘rsatish"</string>
     <string name="encrypted">"Shifrlangan"</string>
+    <string name="hide">"Berkitish"</string>
+    <string name="show">"Ko‘rsatish"</string>
 </resources>

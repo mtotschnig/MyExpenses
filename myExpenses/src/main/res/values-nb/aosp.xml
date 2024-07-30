@@ -61,4 +61,6 @@
     <string name="collapse">"Skjul"</string>
     <string name="expand">"Vis"</string>
     <string name="encrypted">"Kryptert"</string>
+    <string name="hide">"Skjul"</string>
+    <string name="show">"Vis"</string>
 </resources>

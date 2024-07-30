@@ -53,4 +53,6 @@
     <string name="collapse">"Хумих"</string>
     <string name="expand">"Дэлгэх"</string>
     <string name="encrypted">"Шифрлэсэн"</string>
+    <string name="hide">"Нуух"</string>
+    <string name="show">"Харуулах"</string>
 </resources>

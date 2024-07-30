@@ -60,4 +60,6 @@
     <string name="collapse">"Contraer"</string>
     <string name="expand">"Despregar"</string>
     <string name="encrypted">"Encriptouse"</string>
+    <string name="hide">"Ocultar"</string>
+    <string name="show">"Mostrar"</string>
 </resources>

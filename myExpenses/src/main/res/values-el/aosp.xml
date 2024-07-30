@@ -128,4 +128,6 @@
     <string name="collapse">"Σύμπτυξη"</string>
     <string name="expand">"Ανάπτυξη"</string>
     <string name="encrypted">"Κρυπτογραφημένο"</string>
+    <string name="hide">"Απόκρυψη"</string>
+    <string name="show">"Εμφάνιση"</string>
 </resources>

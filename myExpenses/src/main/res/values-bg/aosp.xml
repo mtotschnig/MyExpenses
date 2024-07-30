@@ -130,4 +130,6 @@
     <string name="collapse">"Свиване"</string>
     <string name="expand">"Разгъване"</string>
     <string name="encrypted">"Шифровано"</string>
+    <string name="hide">"Скриване"</string>
+    <string name="show">"Показване"</string>
 </resources>

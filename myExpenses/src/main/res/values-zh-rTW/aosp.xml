@@ -125,4 +125,6 @@
     <string name="collapse">"收合"</string>
     <string name="expand">"展開"</string>
     <string name="encrypted">"已加密"</string>
+    <string name="hide">"隱藏"</string>
+    <string name="show">"顯示"</string>
 </resources>

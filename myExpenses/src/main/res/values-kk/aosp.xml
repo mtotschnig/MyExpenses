@@ -55,4 +55,6 @@
     <string name="collapse">"Жию"</string>
     <string name="expand">"Жаю"</string>
     <string name="encrypted">"Шифрланған"</string>
+    <string name="hide">"Жасыру"</string>
+    <string name="show">"Көрсету"</string>
 </resources>

@@ -120,4 +120,6 @@
     <string name="collapse">"Recolher"</string>
     <string name="expand">"Abrir"</string>
     <string name="encrypted">"Criptografado"</string>
+    <string name="hide">"Ocultar"</string>
+    <string name="show">"Mostrar"</string>
 </resources>

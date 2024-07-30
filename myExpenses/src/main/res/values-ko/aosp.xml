@@ -120,4 +120,6 @@
     <string name="collapse">"접기"</string>
     <string name="expand">"펼치기"</string>
     <string name="encrypted">"암호화됨"</string>
+    <string name="hide">"숨기기"</string>
+    <string name="show">"표시"</string>
 </resources>

@@ -44,4 +44,6 @@
     <string name="collapse">"Strni"</string>
     <string name="expand">"Razširi"</string>
     <string name="encrypted">"Šifrirano"</string>
+    <string name="hide">"Skrivanje"</string>
+    <string name="show">"Prikaz"</string>
 </resources>

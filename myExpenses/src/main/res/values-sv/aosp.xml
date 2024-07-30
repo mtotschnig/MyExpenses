@@ -62,4 +62,6 @@
     <string name="collapse">"Komprimera"</string>
     <string name="expand">"Expandera"</string>
     <string name="encrypted">"Krypterad"</string>
+    <string name="hide">"Dölj"</string>
+    <string name="show">"Visa"</string>
 </resources>

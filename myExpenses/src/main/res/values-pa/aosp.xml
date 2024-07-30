@@ -37,4 +37,6 @@
     <string name="collapse">"ਸਮੇਟੋ"</string>
     <string name="expand">"ਵਿਸਤਾਰ ਕਰੋ"</string>
     <string name="encrypted">"ਇਨਕ੍ਰਿਪਟਡ"</string>
+    <string name="hide">"ਲੁਕਾਓ"</string>
+    <string name="show">" ਦਿਖਾਓ"</string>
 </resources>

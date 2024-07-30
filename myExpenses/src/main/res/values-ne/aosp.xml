@@ -52,4 +52,6 @@
     <string name="collapse">"संक्षिप्त गर्नुहोस्"</string>
     <string name="expand">"विस्तृत गर्नुहोस्"</string>
     <string name="encrypted">"इन्क्रिप्ट गरिएको छ"</string>
+    <string name="hide">"लुकाउनुहोस्"</string>
+    <string name="show">"देखाउनुहोस्"</string>
 </resources>

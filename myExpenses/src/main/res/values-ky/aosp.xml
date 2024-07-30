@@ -38,4 +38,6 @@
     <string name="collapse">"Жыйыштыруу"</string>
     <string name="expand">"Жайып көрсөтүү"</string>
     <string name="encrypted">"Шифрленген"</string>
+    <string name="hide">"Жашыруу"</string>
+    <string name="show">"Көрсөтүү"</string>
 </resources>

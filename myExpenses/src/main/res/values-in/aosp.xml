@@ -62,4 +62,6 @@
     <string name="collapse">"Ciutkan"</string>
     <string name="expand">"Luaskan"</string>
     <string name="encrypted">"Dienkripsi"</string>
+    <string name="hide">"Sembunyikan"</string>
+    <string name="show">"Lihat"</string>
 </resources>

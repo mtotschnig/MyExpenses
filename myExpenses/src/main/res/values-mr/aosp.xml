@@ -50,4 +50,6 @@
     <string name="collapse">"संकुचित करा"</string>
     <string name="expand">"विस्तृत करा"</string>
     <string name="encrypted">"एंक्रिप्ट केले"</string>
+    <string name="hide">"लपवा"</string>
+    <string name="show">"दर्शवा"</string>
 </resources>

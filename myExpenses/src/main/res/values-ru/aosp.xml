@@ -130,4 +130,6 @@
     <string name="collapse">"Скрыть"</string>
     <string name="expand">"Показать"</string>
     <string name="encrypted">"Зашифровано"</string>
+    <string name="hide">"Скрыть"</string>
+    <string name="show">"Показать"</string>
 </resources>

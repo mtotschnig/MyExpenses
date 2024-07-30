@@ -131,4 +131,6 @@
     <string name="collapse">"تصغير"</string>
     <string name="expand">"توسيع"</string>
     <string name="encrypted">"مشفّر"</string>
+    <string name="hide">"إخفاء"</string>
+    <string name="show">"إظهار"</string>
 </resources>

@@ -126,4 +126,6 @@
     <string name="collapse">"收起"</string>
     <string name="expand">"展开"</string>
     <string name="encrypted">"已加密"</string>
+    <string name="hide">"隐藏"</string>
+    <string name="show">"显示"</string>
 </resources>

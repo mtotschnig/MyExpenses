@@ -49,4 +49,6 @@
     <string name="collapse">"Palos"</string>
     <string name="expand">"Zgjero"</string>
     <string name="encrypted">"Enkriptuar"</string>
+    <string name="hide">"Fshih"</string>
+    <string name="show">"Shfaq"</string>
 </resources>

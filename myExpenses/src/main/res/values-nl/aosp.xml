@@ -125,4 +125,6 @@
     <string name="collapse">"Samenvouwen"</string>
     <string name="expand">"Uitvouwen"</string>
     <string name="encrypted">"Versleuteld"</string>
+    <string name="hide">"Verbergen"</string>
+    <string name="show">"Tonen"</string>
 </resources>

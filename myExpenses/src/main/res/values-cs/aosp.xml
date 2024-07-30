@@ -131,4 +131,6 @@
     <string name="collapse">"Sbalit"</string>
     <string name="expand">"Rozbalit"</string>
     <string name="encrypted">"Šifrováno"</string>
+    <string name="hide">"Skrýt"</string>
+    <string name="show">"Zobrazit"</string>
 </resources>

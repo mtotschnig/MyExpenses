@@ -129,4 +129,6 @@
     <string name="collapse">"Згорнути"</string>
     <string name="expand">"Розгорнути"</string>
     <string name="encrypted">"Зашифровано"</string>
+    <string name="hide">"Сховати"</string>
+    <string name="show">"Показати"</string>
 </resources>

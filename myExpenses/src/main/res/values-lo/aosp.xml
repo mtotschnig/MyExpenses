@@ -51,4 +51,6 @@
     <string name="collapse">"ຫຍໍ້ລົງ"</string>
     <string name="expand">"ຂະຫຍາຍ"</string>
     <string name="encrypted">"ເຂົ້າລະຫັດແລ້ວ"</string>
+    <string name="hide">"ເຊື່ອງ"</string>
+    <string name="show">"ສະແດງ"</string>
 </resources>

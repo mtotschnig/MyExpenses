@@ -53,4 +53,6 @@
     <string name="collapse">"Sakļaut"</string>
     <string name="expand">"Izvērst"</string>
     <string name="encrypted">"Šifrēts"</string>
+    <string name="hide">"Paslēpt"</string>
+    <string name="show">"Rādīt"</string>
 </resources>

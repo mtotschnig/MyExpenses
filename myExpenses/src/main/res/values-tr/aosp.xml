@@ -127,4 +127,6 @@
     <string name="collapse">"Daraltır"</string>
     <string name="expand">"Genişletir"</string>
     <string name="encrypted">"Şifreli"</string>
+    <string name="hide">"Gizle"</string>
+    <string name="show">"Göster"</string>
 </resources>

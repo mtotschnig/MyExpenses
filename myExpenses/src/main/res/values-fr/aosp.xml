@@ -129,4 +129,6 @@
     <string name="collapse">"Réduire"</string>
     <string name="expand">"Développer"</string>
     <string name="encrypted">"Chiffré"</string>
+    <string name="hide">"Masquer"</string>
+    <string name="show">"Afficher"</string>
 </resources>

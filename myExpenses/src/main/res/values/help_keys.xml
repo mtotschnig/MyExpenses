@@ -64,4 +64,5 @@
     <string name="menu_sort_direction">@string/display_options_sort_list_by</string>
     <string name="menu_filter">@string/filter</string>
     <string name="menu_remove">@string/remove</string>
+    <string name="menu_hide">@string/hide</string>
 </resources>

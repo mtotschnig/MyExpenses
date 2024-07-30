@@ -47,4 +47,6 @@
     <string name="collapse">"Suzi"</string>
     <string name="expand">"Proširi"</string>
     <string name="encrypted">"Šifrirano"</string>
+    <string name="hide">"Sakrij"</string>
+    <string name="show">"Prikaži"</string>
 </resources>

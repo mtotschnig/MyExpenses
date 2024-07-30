@@ -114,4 +114,6 @@
     <string name="collapse">"හකුළන්න"</string>
     <string name="expand">"දිග හරින්න"</string>
     <string name="encrypted">"සංකේතිත"</string>
+    <string name="hide">"සඟවන්න"</string>
+    <string name="show">"පෙන්වන්න"</string>
 </resources>

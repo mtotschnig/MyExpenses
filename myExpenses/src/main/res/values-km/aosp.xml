@@ -116,4 +116,6 @@
     <string name="collapse">"លាក់"</string>
     <string name="expand">"ពង្រីក"</string>
     <string name="encrypted">"បាន​អ៊ីនគ្រីប"</string>
+    <string name="hide">"លាក់"</string>
+    <string name="show">"បង្ហាញ"</string>
 </resources>

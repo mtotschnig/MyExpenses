@@ -128,4 +128,6 @@
     <string name="collapse">"Minimieren"</string>
     <string name="expand">"Maximieren"</string>
     <string name="encrypted">"Verschlüsselt"</string>
+    <string name="hide">"Ausblenden"</string>
+    <string name="show">"Anzeigen"</string>
 </resources>
