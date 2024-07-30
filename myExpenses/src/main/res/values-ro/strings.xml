@@ -909,4 +909,24 @@
     <string name="debt_I_owe">Îi datorez %s</string>
     <string name="merge_parties_strategy_group">Duplicatele sunt grupate ca persoane dependente.</string>
     <string name="remapping_result">Tranzacțiile selectate au fost remapate.</string>
+    <string name="warning_transform_to_transfer">Tranzacția selectată va fi înlocuită cu un transfer de la %1$s la %2$s.</string>
+    <string name="remap_date">Pentru toate tranzacțiile selectate, data va fi setată la %s.</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">sunt considerate cheltuieli/venituri</string>
+    <string name="warning_unlink_transfer">Transferul selectat va fi deconectat: Acesta va fi înlocuit cu tranzacții normale în ambele conturi.</string>
+    <string name="pref_transaction_amount_color_source_title">Culori pentru cantități</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Tranzacții nemapate</string>
+    <string name="contact_us">Contactați-ne</string>
+    <string name="warning_delete_default_transfer_category">Categoria %s este configurată ca o categorie de transfer implicită și nu trebuie ștearsă.</string>
+    <string name="merge_categories_dialog_title">Îmbinați categoriile</string>
+    <string name="default_transfer_category">Categoria de transfer implicită</string>
+    <string name="menu_unlink_transfer">Deconectați transferul</string>
+    <string name="menu_transform_to_transfer">Transformați în transfer</string>
+    <string name="roadmap_intro">Votul pentru foaia de parcurs 2024 este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
+    <string name="merge_categories_prompt">Selectați categoria pe care doriți să o păstrați</string>
+    <string name="pref_csv_export_category_separator_summary">Separator între nivelurile ierarhiei categoriilor</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">sunt considerate drept transfer</string>
+    <string name="menu_aggregate_neutral_categories">Categorii neutre agregate</string>
+    <string name="subcategories_merged_recursively">Dacă oricare dintre categoriile fuzionate are subcategorii cu aceeași etichetă, acestea vor fi îmbinate mai întâi, recursiv.</string>
+    <string name="pref_sync_now_all_summary">%s sincronizează toate conturile pentru același back-end</string>
+    <string name="not_enough_data">Nu sunt suficiente date</string>
 </resources>
