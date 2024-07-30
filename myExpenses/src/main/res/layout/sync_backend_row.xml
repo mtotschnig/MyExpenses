@@ -19,6 +19,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/content_description_encrypted"
+        android:contentDescription="@string/encrypted"
         app:srcCompat="@drawable/ic_lock" />
 </RelativeLayout>

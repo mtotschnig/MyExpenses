@@ -66,7 +66,7 @@ class Fixture(inst: Instrumentation) {
     }
 
     val syncAccount1 by lazy {
-        "Drive - " + appContext.getString(R.string.content_description_encrypted)
+        "Drive - " + appContext.getString(R.string.encrypted)
     }
 
     val syncAccount2 by lazy {

@@ -706,8 +706,6 @@
     <string name="menu_reopen">Reopen</string>
     <!-- Menu entry for opening a list of all hidden accounts. -->
     <string name="menu_hidden_accounts">Hidden accounts</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">Encrypted</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Closed</string>
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
