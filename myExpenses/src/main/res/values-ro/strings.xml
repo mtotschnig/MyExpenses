@@ -704,4 +704,11 @@
     <string name="button_label_no_encryption">Fără criptare</string>
     <string name="input_label_passphrase">Frază parola</string>
     <string name="joining_or">sau</string>
+    <string name="content_description_dates_are_not_linked">Data rezervării și data valutei nu sunt actualizate împreună</string>
+    <string name="warning_synced_account_cannot_be_closed">Un cont care este legat la un backend de sincronizare nu poate fi închis</string>
+    <string name="menu_reopen">Redeschide</string>
+    <string name="warning_no_account">Cel puțin un cont trebuie să fie vizibil și deschis pentru a crea noi tranzacții.</string>
+    <string name="menu_hidden_accounts">Conturi ascunse</string>
+    <string name="content_description_closed">Inchisa</string>
+    <string name="content_description_dates_are_linked">Data rezervării și data valutei sunt actualizate împreună</string>
 </resources>
