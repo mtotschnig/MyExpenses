@@ -418,8 +418,6 @@
     <string name="content_description_calculator">Lommeregner</string>
     <string name="contrib_feature_synchronization_label">Cloud-synkronisering</string>
     <string name="professional_key">Professionel Nøgle</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">Krypteret</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktioner</string>
     <string name="pref_translation_title">Oversættelse</string>
@@ -693,7 +691,6 @@
     <string name="dialog_title_warning_delete_tag">Slet etiket?</string>
     <string name="feature_download_requested">Funktionen %s er anmodet om fra Play Butik.</string>
     <string name="content_description_dates_are_linked">Bogførings- og værdidato opdateres sammen</string>
-    <string name="menu_hide">Skjul</string>
     <string name="single_feature_info">Du kan også købe ubegrænset adgang til netop denne funktion.</string>
     <string name="content_description_dates_are_not_linked">Bogførings- og værdidato opdateres ikke sammen</string>
     <string name="remapping_result">De valgte transaktioner blev omknyttet.</string>
@@ -745,7 +742,6 @@
     <string name="contrib_feature_split_template_label">Ubegrænset antal opdelingsskabeloner</string>
     <string name="menu_reopen">Genåbn</string>
     <string name="menu_hidden_accounts">Skjulte konti</string>
-    <string name="button_label_show">Vis</string>
     <string name="content_description_download_exchange_rate">Hent valutakurs</string>
     <string name="no_budgets">Angiv dit første budget ved at trykke på + knappen.</string>
     <string name="budget_date_end_after_start">Budgettets slutdato skal ligge efter dets startdato.</string>

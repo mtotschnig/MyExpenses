@@ -386,8 +386,6 @@
     <string name="template">Predložak</string>
     <string name="contrib_feature_synchronization_label">Sinkronizacija u oblaku</string>
     <string name="professional_key">Profesionalni ključ</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">Šifrirano</string>
     <string name="translated_by">Prijevod:</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkcije</string>
@@ -709,11 +707,9 @@
     <string name="warning_no_account">Za izradu nove transakcije barem jedan račun mora biti vidljiv i otvoren.</string>
     <string name="warning_synced_account_cannot_be_closed">Račun koji je povezan s pozadinskim sustavom sinkronizacije ne može se zatvoriti</string>
     <string name="content_description_closed">Zatvoreno</string>
-    <string name="button_label_show">Prikaži</string>
     <string name="menu_hidden_accounts">Skriveni računi</string>
     <string name="menu_reopen">Otvori ponovo</string>
     <string name="menu_close">Zatvori</string>
-    <string name="menu_hide">Sakrij</string>
     <string name="joining_or">ili</string>
     <string name="button_label_no_encryption">Bez šifriranja</string>
     <string name="input_label_passphrase">Dugačka lozinka</string>

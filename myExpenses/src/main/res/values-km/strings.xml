@@ -333,8 +333,6 @@
     <string name="template">ទិន្ន​ន័យ​គំរូ</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ធ្វើសមកាលកម្មពពក</string>
     <string name="professional_key">គន្លឹះវិជ្ជាជីវៈ</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">លក្ខណៈសំខាន់</string>
     <string name="pref_translation_title">ការបកប្រែ</string>

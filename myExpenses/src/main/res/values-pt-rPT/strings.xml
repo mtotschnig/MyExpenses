@@ -652,12 +652,9 @@
     <string name="translated_by">Traduzido por</string>
     <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um destino de sincronização não pode ser encerrada</string>
     <string name="content_description_closed">Encerrada</string>
-    <string name="content_description_encrypted">Criptografado</string>
-    <string name="button_label_show">Exibir</string>
     <string name="menu_hidden_accounts">Contas ocultas</string>
     <string name="menu_reopen">Reabrir</string>
     <string name="menu_close">Encerrar</string>
-    <string name="menu_hide">Ocultar</string>
     <string name="joining_or">ou</string>
     <string name="button_label_no_encryption">Sem criptografia</string>
     <string name="input_label_passphrase">Senha</string>

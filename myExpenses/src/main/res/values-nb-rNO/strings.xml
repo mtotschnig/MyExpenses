@@ -17,8 +17,6 @@
     <string name="menu_create_budget">Nytt budsjett</string>
     <string name="translated_by">Oversatt av</string>
     <string name="content_description_closed">Lukket</string>
-    <string name="content_description_encrypted">Kryptert</string>
-    <string name="button_label_show">Vis</string>
     <string name="menu_hidden_accounts">Skjulte kontoer</string>
     <string name="menu_reopen">Gjenåpne</string>
     <string name="menu_close">Lukk</string>

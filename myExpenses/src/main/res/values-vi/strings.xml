@@ -628,17 +628,12 @@
     <string name="button_label_no_encryption">Không mã hóa</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">hoặc</string>
-    <string name="menu_hide">Ẩn</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Đóng</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Mở lại</string>
     <!-- Menu entry for opening a list of all hidden accounts. -->
     <string name="menu_hidden_accounts">Tài khoản bị ẩn</string>
-    <!-- Action of showing an account again that had previously been hidden. -->
-    <string name="button_label_show">Hiện</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">Đã mã hóa</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Đã đóng</string>
     <string name="translated_by">Dịch bởi </string>

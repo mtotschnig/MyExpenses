@@ -488,10 +488,7 @@
     <string name="input_label_passphrase">‍پاس فریز</string>
     <string name="button_label_no_encryption">خفیہ کاری کے بغیر</string>
     <string name="joining_or">یا</string>
-    <string name="menu_hide">چھپائیں</string>
     <string name="menu_reopen">دوبارہ کھولیں</string>
-    <string name="button_label_show">دکھائیں</string>
-    <string name="content_description_encrypted">خفیہ کردہ</string>
     <string name="content_description_closed">بند</string>
     <string name="warning_synced_account_cannot_be_closed">ایک اکاؤنٹ جو مطابقت پذیری کے پس منظر سے منسلک ہے بند نہیں کیا جا سکتا</string>
     <string name="translated_by">کی طرف سے ترجمہ</string>

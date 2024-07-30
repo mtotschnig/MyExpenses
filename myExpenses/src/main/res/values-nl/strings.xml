@@ -587,7 +587,6 @@
     <string name="passphrase_for_synchronization">Voer een wachtwoordzin in als je wilt dat synchronisatiegegevens op deze backend worden gecodeerd.</string>
     <string name="sync_backend_is_not_encrypted">Externe backend is niet versleuteld.</string>
     <string name="joining_or">of</string>
-    <string name="button_label_show">Tonen</string>
     <string name="warning_no_account">Er moet ten minste één rekening zichtbaar en geopend zijn om nieuwe transacties te kunnen aanmaken.</string>
     <string name="pref_debug_title">Foutopsporing</string>
     <string name="exchange_rate_not_supported">De geconfigureerde wisselkoersprovider biedt niet de koers %1$s : %2$s. Je kunt proberen een andere te selecteren in de instellingen.</string>
@@ -748,9 +747,7 @@
     <string name="clear_all_filters">Wis alle filters</string>
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
     <string name="currency_code">Code</string>
-    <string name="menu_hide">Verbergen</string>
     <string name="content_description_closed">Gesloten</string>
-    <string name="content_description_encrypted">Versleuteld</string>
     <string name="pref_plan_executor_time_title">Meldingstijd planner</string>
     <string name="synchronization_select_folder_dialog_title">Selecteer een bestaande map of maak een nieuwe aan</string>
     <string name="budget_filter_all_accounts">Alle rekeningen</string>

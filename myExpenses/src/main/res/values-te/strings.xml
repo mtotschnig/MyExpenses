@@ -9,12 +9,9 @@
     <string name="translated_by">అనువాదించినవారు</string>
     <string name="warning_synced_account_cannot_be_closed">సమకాలీకరణ బ్యాకెండ్‌తో అనుసంధానించబడిన ఖాతా మూసివేయబడదు</string>
     <string name="content_description_closed">మూసివేయబడింది</string>
-    <string name="content_description_encrypted">గుప్తీకరించబడింది</string>
-    <string name="button_label_show">చూపించు</string>
     <string name="menu_hidden_accounts">దాచిన ఖాతాలు</string>
     <string name="menu_reopen">తిరిగి తెరవండి</string>
     <string name="menu_close">దగ్గరగా</string>
-    <string name="menu_hide">దాచు</string>
     <string name="joining_or">లేదా</string>
     <string name="button_label_no_encryption">గుప్తీకరణ లేకుండా</string>
     <string name="input_label_passphrase">పాస్ఫ్రేజ్</string>

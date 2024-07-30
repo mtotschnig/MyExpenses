@@ -670,17 +670,12 @@
     <string name="button_label_no_encryption">沒有加密</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">或</string>
-    <string name="menu_hide">隱藏</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">關閉</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">重新開啟關閉的帳戶</string>
     <!-- Menu entry for opening a list of all hidden accounts. -->
     <string name="menu_hidden_accounts">隱藏的帳戶</string>
-    <!-- Action of showing an account again that had previously been hidden. -->
-    <string name="button_label_show">顯示</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">已加密</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">已關閉</string>
     <string name="warning_synced_account_cannot_be_closed">連接到同步後端的帳戶無法關閉</string>

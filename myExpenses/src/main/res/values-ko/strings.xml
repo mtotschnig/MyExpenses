@@ -434,8 +434,6 @@
     <string name="all_contrib_key_features">Contrib Key의 모든 기능</string>
     <string name="all_extended_key_features">확장 키의 모든 기능</string>
     <string name="professional_key">프로페셔널 키</string>
-    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
-    <string name="content_description_encrypted">암호화</string>
     <string name="translated_by">번역</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">기능들</string>
