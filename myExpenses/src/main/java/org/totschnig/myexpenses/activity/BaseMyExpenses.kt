@@ -1141,8 +1141,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                             AmountCriterion(
                                                                 operation = WhereFilter.Operation.EQ,
                                                                 values = arrayOf(transaction.amount.amountMinor),
-                                                                currency = transaction.amount.currencyUnit.code,
-                                                                type = transaction.amount.amountMinor > 0
+                                                                currency = transaction.amount.currencyUnit.code
                                                             )
                                                         )
                                                     }

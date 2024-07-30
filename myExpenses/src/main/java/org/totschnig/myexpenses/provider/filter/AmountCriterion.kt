@@ -33,16 +33,10 @@ class AmountCriterion(
     override val operation: Operation,
     override val values: Array<Long>,
     private val currency: String,
-    val type: Boolean,
 ) : Criterion<Long>() {
 
-    init {
-        if(type) {
-            require(values.all { it >= 0 })
-        } else {
-            require(values.all { it <= 0 })
-        }
-    }
+    val type: Boolean
+        get() = values.all { it >= 0 }
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_AMOUNT_COMMAND
@@ -78,8 +72,9 @@ class AmountCriterion(
     }
 
     override fun toString(): String {
+        //_ is due to legacy format where we stored type in extra field
         var result =
-            operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + (if (type) "1" else "0") + EXTRA_SEPARATOR + values[0]
+            operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + "_" + EXTRA_SEPARATOR + values[0]
         if (operation == Operation.BTW) {
             result += EXTRA_SEPARATOR + values[1]
         }
@@ -117,7 +112,7 @@ class AmountCriterion(
             value2: Long?
         ): AmountCriterion {
             val criteriaInfo = transformForStorage(operation, type, value1, value2)
-            return AmountCriterion(criteriaInfo.first, criteriaInfo.second, currency, type)
+            return AmountCriterion(criteriaInfo.first, criteriaInfo.second, currency)
         }
 
         private fun transformForStorage(
@@ -158,7 +153,6 @@ class AmountCriterion(
                 AmountCriterion(
                     operation = Operation.valueOf(values[0]),
                     currency = values[1],
-                    type = values[2] == "1",
                     values = if (Operation.valueOf(values[0]) == Operation.BTW)
                         arrayOf(values[3].toLong(), values[4].toLong())
                     else
