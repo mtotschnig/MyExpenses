@@ -869,7 +869,6 @@
     <string name="pref_debug_logging_share_summary">Del logfiler</string>
     <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indtægter og udgifter</string>
     <string name="redesign">Redesign</string>
-    <string name="pref_debug_title">Fejlfinding</string>
     <string name="roadmap_vote">Udviklingsplan Afstemning</string>
     <string name="object_sealed">Objekt henviser til en lukket konto.</string>
     <string name="budget_filter_all_tags">Alle etiketter</string>

@@ -682,7 +682,6 @@
     <string name="warning_no_account">为了创建新交易，请至少开设一个非隐藏的账户。</string>
     <string name="content_description_dates_are_linked">账面交易日期(booking date)和生效日期(value date)会一起更新</string>
     <string name="content_description_dates_are_not_linked">账面交易日期(booking date)和生效日期(value date)不会一起更新</string>
-    <string name="pref_debug_title">程序调试 (除错)</string>
     <string name="roadmap_vote">程序开发蓝图投票</string>
     <string name="warning_account_for_transaction_is_closed">至少一个所选交易无法编辑：</string>
     <string name="object_sealed">对象是指已关闭的账户。</string>

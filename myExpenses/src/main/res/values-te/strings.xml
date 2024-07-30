@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="warning_account_for_transaction_is_closed">ఎంచుకున్న లావాదేవీలలో కనీసం ఒకదాన్ని సవరించలేము:</string>
     <string name="roadmap_vote">రోడ్‌మ్యాప్ ఓటు</string>
-    <string name="pref_debug_title">డీబగ్</string>
     <string name="content_description_dates_are_not_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడవు</string>
     <string name="content_description_dates_are_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడతాయి</string>
     <string name="warning_no_account">క్రొత్త లావాదేవీలను సృష్టించడానికి కనీసం ఒక ఖాతా కనిపించాలి మరియు తెరవాలి.</string>

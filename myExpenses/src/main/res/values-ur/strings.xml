@@ -494,7 +494,6 @@
     <string name="translated_by">کی طرف سے ترجمہ</string>
     <string name="warning_no_account">نئی ٹرانزیکشنز بنانے کے لیے کم از کم ایک اکاؤنٹ کھلا اور ظاہر ہونا چاہیے.</string>
     <string name="content_description_dates_are_not_linked">بکنگ کی تاریخ اور قیمت کی تاریخ ایک ساتھ اپ ڈیٹ نہیں کی جاتی ہے</string>
-    <string name="pref_debug_title">ڈیبگ</string>
     <string name="roadmap_vote">روڈ میپ ووٹ</string>
     <string name="object_sealed">آبجیکٹ سے مراد بند اکاؤنٹ ہے.</string>
     <string name="content_description_download_exchange_rate">تبادلے کی شرح ڈاؤن لوڈ کریں</string>

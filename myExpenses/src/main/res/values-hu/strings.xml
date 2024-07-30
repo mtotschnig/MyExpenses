@@ -692,7 +692,6 @@
     <string name="warning_no_account">Legalább egy számlának láthatónak és nyitottnak kell lennie új tranzakciók létrehozásához.</string>
     <string name="content_description_dates_are_linked">A foglalás és az érték dátuma együtt van frissítve</string>
     <string name="content_description_dates_are_not_linked">A foglalási dátum és az érték dátuma nem frissül együtt</string>
-    <string name="pref_debug_title">Hibakeresés</string>
     <string name="roadmap_vote">Ütemterv szavazás</string>
     <string name="warning_account_for_transaction_is_closed">A kiválasztott tranzakciók közül legalább egy nem szerkeszthető:</string>
     <string name="object_sealed">Az objektum egy lezárt számlára utal.</string>

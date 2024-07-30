@@ -699,7 +699,6 @@
     <string name="warning_no_account">לפחות חשבון אחד חייב להיות גלוי ופתוח כדי ליצור עסקאות חדשות.</string>
     <string name="content_description_dates_are_linked">תאריך ההזמנה ותאריך הערך מתעדכנים יחד</string>
     <string name="content_description_dates_are_not_linked">תאריך ההזמנה ותאריך הערך אינם מעודכנים יחד</string>
-    <string name="pref_debug_title">ניקוי באגים</string>
     <string name="roadmap_vote">הצבעה על מפת דרכים</string>
     <string name="warning_account_for_transaction_is_closed">לא ניתן לערוך לפחות אחת מהעסקאות שנבחרו:</string>
     <string name="object_sealed">אובייקט מתייחס לחשבון סגור.</string>

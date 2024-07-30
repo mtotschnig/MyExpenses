@@ -704,7 +704,6 @@
     <string name="warning_no_account">Как минимум один счёт должен быть видимым и открыт для создания новых транзакций.</string>
     <string name="content_description_dates_are_linked">Дата бронирования и дата стоимости обновятся вместе</string>
     <string name="content_description_dates_are_not_linked">Дата бронирования и дата стоимости не обновятся вместе</string>
-    <string name="pref_debug_title">Отладка</string>
     <string name="roadmap_vote">Дорожная карта и голосование</string>
     <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>
     <string name="object_sealed">Объект относится к закрытому счету.</string>

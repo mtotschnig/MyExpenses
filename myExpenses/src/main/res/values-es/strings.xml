@@ -698,7 +698,6 @@
     <string name="warning_no_account">Al menos una cuenta tiene que estar visible y abierta para poder crear nuevas transacciones.</string>
     <string name="content_description_dates_are_linked">Las fechas de reserva y su valor se actualizan de forma conjunta</string>
     <string name="content_description_dates_are_not_linked">Las fechas de reserva y su valor no se actualizan de forma conjunta</string>
-    <string name="pref_debug_title">Depurar</string>
     <string name="roadmap_vote">Votar hoja de ruta</string>
     <string name="warning_account_for_transaction_is_closed">Al menos una de las transacciones seleccionadas no puede editarse:</string>
     <string name="object_sealed">El objeto hace referencia a una cuenta cerrada.</string>

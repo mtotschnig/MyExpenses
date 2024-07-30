@@ -683,7 +683,6 @@
     <string name="warning_no_account">為了創建新交易，請至少開設一個非隱藏性的帳戶。</string>
     <string name="content_description_dates_are_linked">帳面交易日期(booking date)和生效日期(value date)會一起更新</string>
     <string name="content_description_dates_are_not_linked">帳面交易日期(booking date)和生效日期(value date)不會一起更新</string>
-    <string name="pref_debug_title">偵錯工具</string>
     <string name="roadmap_vote">程式開發藍圖投票</string>
     <string name="warning_account_for_transaction_is_closed">至少有一個選定的交易無法編輯:</string>
     <string name="object_sealed">物件是指已關閉的帳戶。</string>

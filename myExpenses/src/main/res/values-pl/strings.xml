@@ -735,7 +735,6 @@
     <string name="budget_filter_all_tags">Wszystkie tagi</string>
     <string name="remove_from_group">Usuń z grupy</string>
     <string name="warning_plan_instance_delete">Transakcja utworzona dla wybranej daty zostanie usunięta.</string>
-    <string name="pref_debug_title">Debugowanie</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Dotknij i przytrzymaj pływający przycisk akcji, aby bezpośrednio otworzyć formularz przelewów, podzielonych transakcji lub dochodu.</string>
     <string name="pref_clone_with_current_date_summary_off">Sklonowane transakcje zachowują oryginalną datę</string>
     <string name="pref_exchange_rates_api_key_summary">Zarejestruj bezpłatne konto na %s i podaj swój identyfikator aplikacji</string>

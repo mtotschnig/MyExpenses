@@ -679,7 +679,6 @@
     <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
     <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
     <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
-    <string name="pref_debug_title">デバッグ</string>
     <string name="roadmap_vote">ロードマップの投票</string>
     <string name="warning_account_for_transaction_is_closed">選択された取引に編集できないものがあります:</string>
     <string name="object_sealed">オブジェクトが閉じた勘定を参照しています。</string>

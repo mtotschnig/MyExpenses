@@ -690,7 +690,6 @@
     <string name="warning_no_account">За да се създават нови транзакции трябва поне една сметка трябва да е видима и отворена.</string>
     <string name="content_description_dates_are_linked">Датата на резервиране и вальорът да се актуализират заедно</string>
     <string name="content_description_dates_are_not_linked">Датата на резервация и вальорът да не се актуализират заедно</string>
-    <string name="pref_debug_title">Отстраняване на програмни грешки</string>
     <string name="roadmap_vote">Гласуване в картата за развитие</string>
     <string name="warning_account_for_transaction_is_closed">Поне една от избраните транзакции не може да се редактира:</string>
     <string name="object_sealed">Обектът се отнася за затворена сметка.</string>

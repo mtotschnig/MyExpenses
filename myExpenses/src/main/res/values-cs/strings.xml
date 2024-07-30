@@ -706,7 +706,6 @@
     <string name="warning_no_account">Aby bylo možné vytvářet nové transakce, musí být viditelný a otevřený alespoň jeden účet. </string>
     <string name="content_description_dates_are_linked">Datum rezervace a datum hodnoty jsou aktualizovány společně</string>
     <string name="content_description_dates_are_not_linked">Datum rezervace a datum hodnoty nejsou aktualizovány společně</string>
-    <string name="pref_debug_title">Ladění</string>
     <string name="roadmap_vote">Hlasování o plánovaných součástech</string>
     <string name="warning_account_for_transaction_is_closed">Nejméně jednu z vybraných transakcí nelze upravit:</string>
     <string name="object_sealed">Předmět se vztahuje k uzavřenému účtu.</string>

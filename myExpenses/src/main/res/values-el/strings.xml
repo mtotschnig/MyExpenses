@@ -636,7 +636,6 @@
     <string name="translated_by">Μεταφράστηκε από</string>
     <string name="content_description_dates_are_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας ενημερώνονται μαζί</string>
     <string name="content_description_dates_are_not_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας δεν ενημερώνονται μαζί</string>
-    <string name="pref_debug_title">Εντοπισμός σφαλμάτων</string>
     <string name="pref_category_exchange_rates">Συναλλαγματικές ισοτιμίες</string>
     <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>
     <string name="budget_filter_all_methods">Όλοι οι μέθοδοι</string>

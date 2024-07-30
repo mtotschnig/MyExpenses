@@ -690,7 +690,6 @@
     <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
     <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
     <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
-    <string name="pref_debug_title">Hata ayıklama</string>
     <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
     <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez:</string>
     <string name="object_sealed">Nesne kapalı bir hesaba atıfta bulunmaktadır.</string>

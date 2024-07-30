@@ -690,7 +690,6 @@
     <string name="warning_no_account">புதிய பரிவர்த்தனைகளை உருவாக்க குறைந்தபட்சம் ஒரு கணக்காவது மறைக்கபடாமலோ அல்லது மூடப்படாமலோ இருக்க வேண்டும்.</string>
     <string name="content_description_dates_are_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படுகிறது</string>
     <string name="content_description_dates_are_not_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படவில்லை</string>
-    <string name="pref_debug_title">பிழைதிருத்து</string>
     <string name="roadmap_vote">திட்ட வாக்களிப்பு</string>
     <string name="warning_account_for_transaction_is_closed">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளில் குறைந்தபட்சம் ஒன்றையாவது தொகுக்க முடியவில்லை:</string>
     <string name="object_sealed">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>

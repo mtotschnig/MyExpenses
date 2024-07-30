@@ -695,7 +695,6 @@
     <string name="warning_no_account">Almeno un conto deve essere visibile e aperto per poter creare nuove transazioni.</string>
     <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
     <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>
-    <string name="pref_debug_title">Debug</string>
     <string name="roadmap_vote">Voto sulla Roadmap</string>
     <string name="warning_account_for_transaction_is_closed">Almeno una delle transazioni selezionate non può essere modificata:</string>
     <string name="object_sealed">L\'oggetto fa riferimento ad un account chiuso.</string>

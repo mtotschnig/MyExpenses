@@ -665,7 +665,6 @@
     <string name="passphrase_for_synchronization">Introdueixi contrasenya si vol que la sincronització de dades en aquest sistema de servei s\'encripti.</string>
     <string name="menu_reopen">Reobre</string>
     <string name="exchange_rate_not_supported">El proveïdor de tipus de canvi configurat no proveeix el tipus %1$s:%2$s. Pot provar de seleccionar-ne un de diferent a la configuració.</string>
-    <string name="pref_debug_title">Depurar</string>
     <string name="no_budgets">Defineixi el seu primer pressupost tocant el botó +.</string>
     <string name="currency_still_used">Divisa utilitzada actualment, no es pot eliminar.</string>
     <string name="unmapped">Sense assignar</string>

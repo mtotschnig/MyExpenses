@@ -721,7 +721,6 @@
     <string name="warning_no_account">يجب أن يكون حساب واحد على الأقل مرئياً ومفتوحاً من أجل إنشاء معاملات جديدة.</string>
     <string name="content_description_dates_are_linked">يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
     <string name="content_description_dates_are_not_linked">لا يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
-    <string name="pref_debug_title">تصحيح الأخطاء</string>
     <string name="roadmap_vote">التصويت على خارطة الطريق</string>
     <string name="warning_account_for_transaction_is_closed">لا يمكن تحرير واحدة على الأقل من المعاملات المحددة:</string>
     <string name="object_sealed">يشير العنصر إلى حساب مغلق.</string>

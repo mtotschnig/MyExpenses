@@ -688,7 +688,6 @@
     <string name="warning_no_account">ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ರಚಿಸಲು ಕನಿಷ್ಠ ಒಂದು ಖಾತೆಯಾದರೂ ಗೋಚರಿಸಬೇಕು ಮತ್ತು ತೆರೆಯಬೇಕು.</string>
     <string name="content_description_dates_are_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ</string>
     <string name="content_description_dates_are_not_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-    <string name="pref_debug_title">ಡೀಬಗ್ ಮಾಡಿ</string>
     <string name="roadmap_vote">ಮಾರ್ಗಸೂಚಿ ಮತ</string>
     <string name="warning_account_for_transaction_is_closed">ಆಯ್ದ ವಹಿವಾಟುಗಳಲ್ಲಿ ಒಂದನ್ನು ಸಂಪಾದಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ:</string>
     <string name="object_sealed">ವಸ್ತು ಮುಚ್ಚಿದ ಖಾತೆಯನ್ನು ಸೂಚಿಸುತ್ತದೆ.</string>

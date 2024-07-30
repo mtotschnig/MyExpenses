@@ -701,7 +701,6 @@
     <string name="content_description_download_exchange_rate">Preuzmi tečaj</string>
     <string name="object_sealed">Predmet se odnosi na zatvoreni račun.</string>
     <string name="warning_account_for_transaction_is_closed">Barem jedna od odabranih transakcija se ne može urediti:</string>
-    <string name="pref_debug_title">Otklanjanje grešaka</string>
     <string name="content_description_dates_are_not_linked">Datum uknjiženja i datum vrijednosti se ne aktualiziraju zajedno</string>
     <string name="content_description_dates_are_linked">Datum uknjiženja i datum vrijednosti se aktualiziraju zajedno</string>
     <string name="warning_no_account">Za izradu nove transakcije barem jedan račun mora biti vidljiv i otvoren.</string>

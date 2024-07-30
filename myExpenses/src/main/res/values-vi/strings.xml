@@ -658,7 +658,6 @@
     <string name="dialog_contrib_trial_info">Trạng thái giấy phép hiện tại của bạn (%1$s) cho phép bạn dùng thử %2$s trong %3$d ngày (cho đến %4$s).</string>
     <string name="dialog_contrib_trial_info_play">Bản dùng thử miễn phí này sẽ không bao giờ chuyển đổi sang bất kỳ loại đăng ký nào.</string>
     <string name="dialog_contrib_subscription_info_play">Đăng ký này có hiệu lực ngay lập tức, được lập hóa đơn hàng tháng hoặc hàng năm và có thể bị hủy bất kỳ lúc nào.</string>
-    <string name="pref_debug_title">Gỡ lỗi Bug</string>
     <string name="button_relink_update_date">Ngày liên kết lại và cập nhật</string>
     <string name="search_tag">Tìm kiếm thẻ</string>
     <string name="object_sealed_debt">Đối tượng đề cập đến một khoản nợ đã đóng.</string>
