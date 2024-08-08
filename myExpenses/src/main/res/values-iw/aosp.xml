@@ -17,7 +17,6 @@
     <string name="stop">"עצור"</string>
     <string name="style">"סגנון"</string>
     <string name="loading">"טוען…"</string>
-    <string name="no_network">"אין חיבור לרשת."</string>
     <string name="button_label_continue">המשך</string>
     <string name="autofill">"מילוי אוטומטי"</string>
     <string name="discard">"מחק"</string>
@@ -123,4 +122,5 @@
     <string name="hide">"הסתרה"</string>
     <string name="show">"הצגה"</string>
     <string name="debug">"ניפוי באגים"</string>
+    <string name="wifi_not_connected">"‏רשת ה-Wi-Fi לא מחוברת לאינטרנט"</string>
 </resources>

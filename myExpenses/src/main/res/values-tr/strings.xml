@@ -628,7 +628,7 @@
     <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
     <string name="pref_sync_wifi_only_summary">Yalnızca Wi-Fi üzerindeyken eşzamanla</string>
     <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
-    <string name="wifi_not_connected">Aygıt Wi-Fi\'ye bağlı değil. Eşzamanlama ertelendi.</string>
+    <string name="synchronization_postponed">Eşzamanlama ertelendi.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Çeviri</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

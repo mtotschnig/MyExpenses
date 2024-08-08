@@ -694,7 +694,7 @@
     <string name="saving_goal">Meta de poupança</string>
     <string name="goal_or_limit">Meta / Limite</string>
     <string name="pref_translation_title">Tradução</string>
-    <string name="wifi_not_connected">O dispositivo não está conectado a uma rede wi-fi. A sincronização foi adiada.</string>
+    <string name="synchronization_postponed">A sincronização foi adiada.</string>
     <string name="pref_sync_changes_immediately_summary">Escreve as alterações locais imediatamente no destino</string>
     <string name="pref_sync_wifi_only_summary">Sincronizar somente via wi-fi</string>
     <string name="navigation_drawer_accounts_title">Gerenciar contas</string>

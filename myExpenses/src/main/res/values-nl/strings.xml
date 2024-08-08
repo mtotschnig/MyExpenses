@@ -553,7 +553,7 @@
     <string name="valid_until">Tot %s</string>
     <string name="history_chart_in_label">Omzet</string>
     <string name="booking_date">Boekingsdatum</string>
-    <string name="wifi_not_connected">Apparaat is niet verbonden met wifi. Synchronisatie is uitgesteld.</string>
+    <string name="synchronization_postponed">Synchronisatie is uitgesteld.</string>
     <string name="content_description_clear_method">Duidelijke methode</string>
     <string name="pref_ocr_time_formats_title">Tijdsindelingen</string>
     <string name="pref_ocr_date_formats_title">Datumformaten</string>

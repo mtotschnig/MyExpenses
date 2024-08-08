@@ -631,7 +631,7 @@
     <string name="sort_order">Ordre de classificació</string>
     <string name="licence_expires_today">La vostra clau professional expira avui.</string>
     <string name="licence_expired_yesterday">La vostra clau professional va expirar ahir.</string>
-    <string name="wifi_not_connected">Dispositiu no connectat a la Wi-Fi. Sincronització posposada.</string>
+    <string name="synchronization_postponed">Sincronització posposada.</string>
     <string name="saving_goal">Objectiu d\'estalvi</string>
     <string name="credit_limit">Límit de crèdit</string>
     <string name="clear_all_filters">Neteja tots els filtres</string>

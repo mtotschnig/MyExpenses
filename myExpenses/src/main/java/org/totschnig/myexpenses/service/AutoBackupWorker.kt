@@ -23,7 +23,7 @@ abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerPa
 
     override val notificationId = NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP
     override val channelId: String = NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP
-    override val notificationTitleResId = R.string.contrib_feature_auto_backup_label
+    override val notificationTitleResId = R.string.pref_auto_backup_title
 }
 
 class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :

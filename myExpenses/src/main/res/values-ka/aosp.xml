@@ -57,4 +57,5 @@
     <string name="hide">"დამალვა"</string>
     <string name="show">"ჩვენება"</string>
     <string name="debug">"გამართვა"</string>
+    <string name="wifi_not_connected">"Wi-Fi არ არის დაკავშირებული ინტერნეტთან"</string>
 </resources>

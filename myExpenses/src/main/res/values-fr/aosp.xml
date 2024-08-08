@@ -17,7 +17,6 @@
     <string name="stop">"Arrêter"</string>
     <string name="style">"Style"</string>
     <string name="loading">"Chargement…"</string>
-    <string name="no_network">"Aucune connexion réseau."</string>
     <string name="button_label_continue">Continuer</string>
     <string name="autofill">"Saisie automatique"</string>
     <string name="discard">"Supprimer"</string>
@@ -132,4 +131,5 @@
     <string name="hide">"Masquer"</string>
     <string name="show">"Afficher"</string>
     <string name="debug">"Déboguer"</string>
+    <string name="wifi_not_connected">"Le réseau Wi‑Fi n'est pas connecté à Internet"</string>
 </resources>

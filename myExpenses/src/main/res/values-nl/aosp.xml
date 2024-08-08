@@ -13,7 +13,6 @@
     <string name="stop">"Stoppen"</string>
     <string name="style">"Stijl"</string>
     <string name="loading">"Laden…"</string>
-    <string name="no_network">Er is geen netwerkverbinding.</string>
     <string name="button_label_continue">Doorgaan</string>
     <string name="autofill">Autom. aanvullen</string>
     <string name="discard">Ongedaan maken</string>
@@ -128,4 +127,5 @@
     <string name="hide">"Verbergen"</string>
     <string name="show">"Tonen"</string>
     <string name="debug">"Fouten opsporen"</string>
+    <string name="wifi_not_connected">"Wifi heeft geen verbinding met internet"</string>
 </resources>

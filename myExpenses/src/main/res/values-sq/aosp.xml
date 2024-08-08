@@ -52,4 +52,5 @@
     <string name="hide">"Fshih"</string>
     <string name="show">"Shfaq"</string>
     <string name="debug">"Korrigjo"</string>
+    <string name="wifi_not_connected">"Wi-Fi nuk është i lidhur me internetin"</string>
 </resources>

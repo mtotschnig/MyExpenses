@@ -18,8 +18,6 @@
     <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
     <string name="saving">Saving…</string>
     <string name="license_title">License</string>
-    <!-- name="vpn_no_network" -->
-    <string name="no_network">There is no network connection.</string>
     <!-- name="encryption_continue_button" -->
     <string name="button_label_continue">Continue</string>
     <string name="permissions_label">Permissions</string>
@@ -239,4 +237,6 @@
     <string name="show">"Show"</string>
     <!-- /opt/extra/AOSP/packages/apps/Messaging$ grep -r "action_debug_options" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/action_debug_options/debug/'  | aosp_helper -->
     <string name="debug">"Debug"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r lost_internet_access_title | sed 's/ msgid="[[:digit:]]*"//' | sed 's/lost_internet_access_title/wifi_not_connected/'  | aosp_helper -->
+    <string name="wifi_not_connected">"Wi\u2011Fi is not connected to the internet"</string>
 </resources>

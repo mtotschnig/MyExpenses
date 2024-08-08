@@ -17,7 +17,6 @@
     <string name="stop">"중지"</string>
     <string name="style">"종류"</string>
     <string name="loading">"로드 중…"</string>
-    <string name="no_network">"네트워크에 연결되어 있지 않습니다."</string>
     <string name="button_label_continue">계속</string>
     <string name="autofill">"자동완성"</string>
     <string name="discard">"취소"</string>
@@ -123,4 +122,5 @@
     <string name="hide">"숨기기"</string>
     <string name="show">"표시"</string>
     <string name="debug">"디버그"</string>
+    <string name="wifi_not_connected">"Wi‑Fi가 인터넷에 연결되어 있지 않음"</string>
 </resources>

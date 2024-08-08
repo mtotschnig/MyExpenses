@@ -630,7 +630,7 @@
     <string name="sort_order">Порядок сортування</string>
     <string name="navigation_drawer_accounts_title">Керувати рахунками</string>
     <string name="pref_sync_wifi_only_summary">Синхронізувати лише під час використання Wi-Fi</string>
-    <string name="wifi_not_connected">Пристрій не підключено до Wi-Fi. Синхронізацію призупинено.</string>
+    <string name="synchronization_postponed">Синхронізацію призупинено.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Переклад</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

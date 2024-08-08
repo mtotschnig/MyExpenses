@@ -16,7 +16,6 @@
     <string name="stop">"Διακοπή"</string>
     <string name="style">"Στυλ"</string>
     <string name="loading">"Φόρτωση…"</string>
-    <string name="no_network">"Δεν υπάρχει σύνδεση δικτύου."</string>
     <string name="button_label_continue">Συνέχεια</string>
     <string name="autofill">"Αυτόματη συμπλήρωση"</string>
     <string name="discard">"Απόρριψη"</string>
@@ -131,4 +130,5 @@
     <string name="hide">"Απόκρυψη"</string>
     <string name="show">"Εμφάνιση"</string>
     <string name="debug">"Εντοπισμός σφαλμάτων"</string>
+    <string name="wifi_not_connected">"Το Wi‑Fi δεν είναι συνδεδεμένο στο διαδίκτυο"</string>
 </resources>

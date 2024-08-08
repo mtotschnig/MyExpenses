@@ -45,4 +45,5 @@
     <string name="hide">"Ficha"</string>
     <string name="show">"Onyesha"</string>
     <string name="debug">"Tatua"</string>
+    <string name="wifi_not_connected">"Muunganisho wa Wi-Fi umekatika"</string>
 </resources>

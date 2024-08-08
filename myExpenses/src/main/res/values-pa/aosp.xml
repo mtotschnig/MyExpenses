@@ -40,4 +40,5 @@
     <string name="hide">"ਲੁਕਾਓ"</string>
     <string name="show">" ਦਿਖਾਓ"</string>
     <string name="debug">"ਡੀਬਗ ਕਰੋ"</string>
+    <string name="wifi_not_connected">"ਵਾਈ-ਫਾਈ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਹੈ"</string>
 </resources>

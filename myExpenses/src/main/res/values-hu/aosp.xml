@@ -17,7 +17,6 @@
     <string name="stop">"Leállítás"</string>
     <string name="style">"Stílus"</string>
     <string name="loading">"Betöltés…"</string>
-    <string name="no_network">"Nincs hálózati kapcsolat."</string>
     <string name="button_label_continue">Tovább</string>
     <string name="autofill">"Automatikus kitöltés"</string>
     <string name="discard">"Elvetés"</string>
@@ -133,4 +132,5 @@
     <string name="hide">"Elrejtés"</string>
     <string name="show">"Megjelenítés"</string>
     <string name="debug">"Hibakeresés"</string>
+    <string name="wifi_not_connected">"A Wi‑Fi-hálózat nem kapcsolódik az internethez"</string>
 </resources>

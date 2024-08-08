@@ -17,7 +17,6 @@
     <string name="stop">"Стоп"</string>
     <string name="style">"Стиль"</string>
     <string name="loading">"Загрузка…"</string>
-    <string name="no_network">"Нет подключения к сети."</string>
     <string name="button_label_continue">Продолжить</string>
     <string name="autofill">"Автозаполнение"</string>
     <string name="discard">"Отменить"</string>
@@ -133,4 +132,5 @@
     <string name="hide">"Скрыть"</string>
     <string name="show">"Показать"</string>
     <string name="debug">"Выполнить отладку"</string>
+    <string name="wifi_not_connected">"В сети Wi-Fi нет доступа к Интернету"</string>
 </resources>

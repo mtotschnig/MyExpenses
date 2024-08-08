@@ -615,7 +615,7 @@
     <string name="navigation_drawer_accounts_title">Administrér konti</string>
     <string name="pref_sync_wifi_only_summary">Synkronisér kun på Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Skriv lokale ændringer med det samme til backend</string>
-    <string name="wifi_not_connected">Enheden er ikke forbundet til Wi-Fi. Synkronisering er udskudt.</string>
+    <string name="synchronization_postponed">Synkronisering er udskudt.</string>
     <string name="saving_goal">Sparemål</string>
     <string name="budget_table_header_allocated">Tildelt</string>
     <string name="budget_exceeded_error_1_1">Alle undtagen %s af dit budget er blevet tildelt andre kategorier.</string>

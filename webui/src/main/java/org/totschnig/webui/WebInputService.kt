@@ -160,7 +160,9 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private fun getProtocol(useHttps: Boolean): String = if (useHttps) "https" else "http"
 
-    private fun getAddress(useHttps: Boolean): String = "${getProtocol(useHttps)}://${getWifiIpAddress(this)}:$port"
+    private fun getAddress(useHttps: Boolean) = getWifiIpAddress(this)?.let {
+        "${getProtocol(useHttps)}://$it:$port"
+    } ?: "Listening on port $port"
 
 
     private fun readTextFromAssets(fileName: String) = assets.open(fileName).bufferedReader()

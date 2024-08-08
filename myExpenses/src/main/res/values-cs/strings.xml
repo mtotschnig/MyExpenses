@@ -644,7 +644,7 @@
     <string name="navigation_drawer_accounts_title">Spravovat účty</string>
     <string name="pref_sync_wifi_only_summary">Synchronizovat pouze při připojení k síti Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Okamžitě zapsat místní změny na back-end</string>
-    <string name="wifi_not_connected">Zařízení není připojeno k Wi-Fi. Synchronizace je odložena.</string>
+    <string name="synchronization_postponed">Synchronizace je odložena.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Překlad</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

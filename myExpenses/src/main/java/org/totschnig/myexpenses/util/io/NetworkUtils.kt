@@ -18,6 +18,7 @@ import timber.log.Timber
 import java.io.File
 import java.net.Inet4Address
 
+
 const val MIME_TYPE_OCTET_STREAM = "application/octet-stream"
 
 fun isConnectedWifi(context: Context) = getConnectionType(context) == 2
@@ -27,14 +28,14 @@ fun getConnectionType(context: Context) =
     // Returns connection type. 0: none; 1: mobile data; 2: wifi; 3: vpn
     (context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.let {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            getConnectionType23(it)
+            it.getConnectionType23()
         else
-            getConnectionTypeLegacy(it)
+            it.getConnectionTypeLegacy()
     } ?: 0
 
 @RequiresApi(Build.VERSION_CODES.M)
-private fun getConnectionType23(cm: ConnectivityManager): Int =
-    cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+private fun ConnectivityManager.getConnectionType23(): Int =
+    getNetworkCapabilities(activeNetwork)?.run {
         when {
             hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> 2
             hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> 1
@@ -44,15 +45,15 @@ private fun getConnectionType23(cm: ConnectivityManager): Int =
     } ?: 0
 
 @Suppress("DEPRECATION")
-private fun getConnectionTypeLegacy(cm: ConnectivityManager) =
-    when (cm.activeNetworkInfo?.type) {
+private fun ConnectivityManager.getConnectionTypeLegacy() =
+    when (activeNetworkInfo?.type) {
         ConnectivityManager.TYPE_WIFI -> 2
         ConnectivityManager.TYPE_MOBILE -> 1
         ConnectivityManager.TYPE_VPN -> 3
         else -> 0
     }
 
-fun getWifiIpAddress(context: Context): String =
+fun getWifiIpAddress(context: Context): String? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         getWifiIpAddress23(context)
     else
@@ -62,15 +63,15 @@ fun getWifiIpAddress(context: Context): String =
 private fun getWifiIpAddress23(context: Context) =
     (context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.let { cm ->
         cm.getLinkProperties(cm.activeNetwork)?.linkAddresses?.find { it.address is Inet4Address }?.address?.hostAddress
-    } ?: ""
+    }
 
 @Suppress("DEPRECATION")
 private fun getWifiIpAddressLegacy(context: Context) =
-    (context.applicationContext.getSystemService(Service.WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let {
-        Formatter.formatIpAddress(
-            it
-        )
-    }
+    (context.applicationContext.getSystemService(Service.WIFI_SERVICE) as WifiManager)
+        .connectionInfo
+        .ipAddress
+        .takeIf { it != 0 }
+        ?.let { Formatter.formatIpAddress(it) }
 
 fun calculateSize(contentResolver: ContentResolver, uri: Uri): Long {
     val size: Long

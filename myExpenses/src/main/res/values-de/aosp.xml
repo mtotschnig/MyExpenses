@@ -16,7 +16,6 @@
     <string name="stop">"Anhalten"</string>
     <string name="style">"Design"</string>
     <string name="loading">"Wird geladen…"</string>
-    <string name="no_network">"Es ist keine Netzwerkverbindung verfügbar."</string>
     <string name="button_label_continue">Weiter</string>
     <string name="autofill">"AutoFill"</string>
     <string name="discard">"Verwerfen"</string>
@@ -131,4 +130,5 @@
     <string name="hide">"Ausblenden"</string>
     <string name="show">"Anzeigen"</string>
     <string name="debug">"Debuggen"</string>
+    <string name="wifi_not_connected">"Keine Internetverbindung über WLAN vorhanden"</string>
 </resources>

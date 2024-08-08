@@ -626,7 +626,7 @@
     <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
     <string name="pref_sync_wifi_only_summary">ವೈ-ಫೈನಲ್ಲಿರುವಾಗ ಮಾತ್ರ ಸಿಂಕ್ ಮಾಡಿ</string>
     <string name="pref_sync_changes_immediately_summary">ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ತಕ್ಷಣ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಿರಿ</string>
-    <string name="wifi_not_connected">ಸಾಧನವು Wi-Fi ಗೆ ಸಂಪರ್ಕಗೊಂಡಿಲ್ಲ. ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಮುಂದೂಡಲ್ಪಟ್ಟಿದೆ.</string>
+    <string name="synchronization_postponed">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಮುಂದೂಡಲ್ಪಟ್ಟಿದೆ.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">ಅನುವಾದ</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

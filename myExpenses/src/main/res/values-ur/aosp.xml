@@ -13,7 +13,6 @@
     <string name="stop">"روکیں"</string>
     <string name="style">"طرز"</string>
     <string name="loading">"لوڈ ہو رہا ہے…"</string>
-    <string name="no_network">"کوئی نیٹ ورک کنکشن موجود نہیں ہے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"</string>
     <string name="button_label_continue">"جاری رکھیں"</string>
     <string name="autofill">"آٹوفل"</string>
     <string name="discard">"مسترد کریں"</string>
@@ -107,4 +106,5 @@
     <string name="hide">"چھپائیں"</string>
     <string name="show">"دکھائیں"</string>
     <string name="debug">"ڈیبگ کریں"</string>
+    <string name="wifi_not_connected">"‏Wi-Fi انٹرنیٹ سے منسلک نہیں ہے"</string>
 </resources>

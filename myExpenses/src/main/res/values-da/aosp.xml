@@ -17,7 +17,6 @@
     <string name="stop">"Stop"</string>
     <string name="style">"Urtype"</string>
     <string name="loading">"Indlæser…"</string>
-    <string name="no_network">"Der er ingen netværksforbindelse."</string>
     <string name="button_label_continue">Fortsæt</string>
     <string name="autofill">"Autofyld"</string>
     <string name="discard">"Kassér"</string>
@@ -132,4 +131,5 @@
     <string name="hide">"Skjul"</string>
     <string name="show">"Vis"</string>
     <string name="debug">"Fejlretning"</string>
+    <string name="wifi_not_connected">"Der er ikke internetadgang via Wi-Fi"</string>
 </resources>

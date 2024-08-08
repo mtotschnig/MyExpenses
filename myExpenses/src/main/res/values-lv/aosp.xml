@@ -56,4 +56,5 @@
     <string name="hide">"Paslēpt"</string>
     <string name="show">"Rādīt"</string>
     <string name="debug">"Atkļūdot"</string>
+    <string name="wifi_not_connected">"Wi‑Fi nav savienots ar internetu."</string>
 </resources>

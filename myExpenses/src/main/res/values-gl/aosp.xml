@@ -63,4 +63,5 @@
     <string name="hide">"Ocultar"</string>
     <string name="show">"Mostrar"</string>
     <string name="debug">"Depurar"</string>
+    <string name="wifi_not_connected">"A wifi non está conectada a Internet"</string>
 </resources>

@@ -38,7 +38,7 @@
     <string name="budget_under_allocated_error">%s ఇప్పటికే వర్గాలకు కేటాయించబడ్డాయి. మీరు వారి నుండి డబ్బును తొలగించకపోతే, మీరు కనీసం ఆ మొత్తాన్ని బడ్జెట్ చేయాలి.</string>
     <string name="budget_exceeded_error_2">బడ్జెట్ మొత్తాన్ని పెంచండి లేదా ఇతర వర్గాల నుండి డబ్బును తొలగించండి.</string>
     <string name="pref_translation_title">అనువాదం</string>
-    <string name="wifi_not_connected">పరికరం Wi-Fi కి కనెక్ట్ కాలేదు. సమకాలీకరణ వాయిదా పడింది.</string>
+    <string name="synchronization_postponed">సమకాలీకరణ వాయిదా పడింది.</string>
     <string name="pref_sync_changes_immediately_summary">స్థానిక మార్పులను వెంటనే బ్యాకెండ్‌కు వ్రాయండి</string>
     <string name="pref_sync_wifi_only_summary">Wi-Fi లో ఉన్నప్పుడు మాత్రమే సమకాలీకరించండి</string>
     <string name="navigation_drawer_accounts_title">ఖాతాలను నిర్వహించండి</string>

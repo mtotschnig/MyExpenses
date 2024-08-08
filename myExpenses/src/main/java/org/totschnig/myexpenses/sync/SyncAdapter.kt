@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.isConnectedWifi
@@ -103,7 +104,7 @@ class SyncAdapter @JvmOverloads constructor(
         if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
             !isConnectedWifi(context)
         ) {
-            val message = context.getString(R.string.wifi_not_connected)
+            val message = concatResStrings(context, " ", R.string.wifi_not_connected, R.string.synchronization_postponed)
             log().i(message)
             if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
                 maybeNotifyUser(notificationTitle, message, account)

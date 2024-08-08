@@ -64,4 +64,5 @@
     <string name="hide">"Piilota"</string>
     <string name="show">"Näytä"</string>
     <string name="debug">"Vianetsintä"</string>
+    <string name="wifi_not_connected">"Wi-Fi-yhteyttä ei voi muodostaa."</string>
 </resources>

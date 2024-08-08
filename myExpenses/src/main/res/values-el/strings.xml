@@ -686,7 +686,7 @@
     <string name="pref_feature_uninstall_summary">Το Play Store προσπαθεί να αφαιρέσει αυτές τις ενότητες στο παρασκήνιο.</string>
     <string name="account_deleted">Ο λογαριασμός έχει διαγραφεί</string>
     <string name="licence_has_expired_n_days">Το επαγγελματικό σας κλειδί έχει λήξει πριν από %d ημέρες.</string>
-    <string name="wifi_not_connected">Η συσκευή δεν είναι συνδεδεμένη σε Wi-Fi. Ο συγχρονισμός αναβάλλεται.</string>
+    <string name="synchronization_postponed">Ο συγχρονισμός αναβάλλεται.</string>
     <string name="budget_exceeded_error_2">Αυξήστε το προϋπολογισμένο ποσό ή καταργήστε χρήματα από άλλες κατηγορίες.</string>
     <string name="menu_new_debt">Νέο χρέος</string>
     <plurals name="debt_mapped_transactions">

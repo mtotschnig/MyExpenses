@@ -16,7 +16,6 @@
     <string name="stop">"Dừng"</string>
     <string name="style">"Kiểu"</string>
     <string name="loading">"Đang tải…"</string>
-    <string name="no_network">"Không có kết nối mạng."</string>
     <string name="button_label_continue">Tiếp tục</string>
     <string name="autofill">"Tự động điền"</string>
     <string name="discard">"Hủy"</string>
@@ -127,4 +126,5 @@
     <string name="hide">"Ẩn"</string>
     <string name="show">"Hiển thị"</string>
     <string name="debug">"Gỡ lỗi"</string>
+    <string name="wifi_not_connected">"Wi‑Fi chưa kết nối với Internet"</string>
 </resources>

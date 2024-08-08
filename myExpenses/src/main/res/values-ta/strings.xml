@@ -628,7 +628,7 @@
     <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
     <string name="pref_sync_wifi_only_summary">Wi-Fi இல் மட்டுமே ஒத்திசை</string>
     <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
-    <string name="wifi_not_connected">கருவியானது Wi-Fi-யுடன் இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
+    <string name="synchronization_postponed">ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">மொழிபெயர்ப்பு</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

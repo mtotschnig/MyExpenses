@@ -888,7 +888,7 @@
     <string name="sub_budget_under_allocated_error">%s đã được phân bổ cho các danh mục phụ. Trừ khi bạn loại bỏ tiền từ họ, ít nhất bạn phải phân bổ số tiền đó vào danh mục chính.</string>
     <string name="content_description_remove_icon">Biểu tượng Xóa</string>
     <string name="pref_sync_changes_immediately_summary">Viết các thay đổi cục bộ ngay lập tức vào phần phụ trợ</string>
-    <string name="wifi_not_connected">Thiết bị không được kết nối với Wi-Fi. Đồng bộ hóa bị hoãn lại.</string>
+    <string name="synchronization_postponed">Đồng bộ hóa bị hoãn lại.</string>
     <string name="backup_wrong_password">Tệp sao lưu dường như được mã hóa bằng một cụm mật khẩu khác.</string>
     <string name="passphrase_for_synchronization">Nhập cụm mật khẩu, nếu bạn muốn dữ liệu đồng bộ hóa trên chương trình phụ trợ này được mã hóa.</string>
     <string name="sync_backend_is_encrypted">Backend từ xa được mã hóa. Bạn cần chỉ định một cụm mật khẩu.</string>

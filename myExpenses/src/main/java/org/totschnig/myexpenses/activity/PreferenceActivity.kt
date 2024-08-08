@@ -322,14 +322,25 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         )
     }
 
+    fun onStartWebUi() {
+        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) &&
+            featureViewModel.isFeatureAvailable(this, Feature.WEBUI)
+        ) {
+            activateWebUi()
+        } else {
+            contribFeatureRequested(ContribFeature.WEB_UI)
+        }
+    }
+
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
-        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
-            twoPanePreference.headerFragment.viewModel
+        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+            R.id.DELETE_FILES_COMMAND -> twoPanePreference.headerFragment.viewModel
                 .deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
                 .observe(this) {
                     showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
                 }
+            R.id.WEB_UI_COMMAND -> onStartWebUi()
         }
     }
 

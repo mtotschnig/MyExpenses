@@ -212,7 +212,6 @@
     <string name="calculator_operator_multiply">×</string>
     <string name="calculator_operator_divide">÷</string>
 
-    <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_budget_label" tools:ignore="UnusedResources">@string/menu_budget</string>
     <string name="contrib_feature_ocr_label" tools:ignore="UnusedResources">@string/title_scan_receipt_feature</string>

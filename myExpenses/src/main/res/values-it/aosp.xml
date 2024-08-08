@@ -16,7 +16,6 @@
     <string name="stop">"Interrompi"</string>
     <string name="style">"Stile"</string>
     <string name="loading">"Caricamento…"</string>
-    <string name="no_network">"Nessuna connessione di rete disponibile."</string>
     <string name="button_label_continue">Continua</string>
     <string name="autofill">"Compilazione automatica"</string>
     <string name="discard">"Ignora"</string>
@@ -131,4 +130,5 @@
     <string name="hide">"Nascondi"</string>
     <string name="show">"Mostra"</string>
     <string name="debug">"Debug"</string>
+    <string name="wifi_not_connected">"Wi-Fi non connesso a Internet"</string>
 </resources>

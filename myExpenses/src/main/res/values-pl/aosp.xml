@@ -17,7 +17,6 @@
     <string name="stop">"Stop"</string>
     <string name="style">"Wygląd"</string>
     <string name="loading">"Wczytuję…"</string>
-    <string name="no_network">"Brak połączenia z siecią."</string>
     <string name="button_label_continue">Dalej</string>
     <string name="autofill">"Autouzupełnianie"</string>
     <string name="discard">"Odrzuć"</string>
@@ -134,4 +133,5 @@
     <string name="hide">"Ukryj"</string>
     <string name="show">"Pokaż"</string>
     <string name="debug">"Debuguj"</string>
+    <string name="wifi_not_connected">"Sieć Wi-Fi nie jest połączona z internetem"</string>
 </resources>

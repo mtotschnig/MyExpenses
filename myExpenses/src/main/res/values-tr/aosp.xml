@@ -16,7 +16,6 @@
     <string name="stop">"Durdur"</string>
     <string name="style">"Stil"</string>
     <string name="loading">"Yükleniyor…"</string>
-    <string name="no_network">"Ağ bağlantısı yok."</string>
     <string name="button_label_continue">Devam</string>
     <string name="autofill">"Otomatik Doldur"</string>
     <string name="discard">"Sil"</string>
@@ -130,4 +129,5 @@
     <string name="hide">"Gizle"</string>
     <string name="show">"Göster"</string>
     <string name="debug">"Hata ayıkla"</string>
+    <string name="wifi_not_connected">"Kablosuz ağ internet'e bağlı değil"</string>
 </resources>

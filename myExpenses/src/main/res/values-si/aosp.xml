@@ -13,7 +13,6 @@
     <string name="stop">"නතර කරන්න"</string>
     <string name="style">"විලාසය"</string>
     <string name="loading">"පූරණය කරමින්…"</string>
-    <string name="no_network">"ජාල සම්බන්ධයක් නොමැත."</string>
     <string name="button_label_continue">"ඉදිරියට යන්න"</string>
     <string name="autofill">"ස්වයංක්‍රිය පිරවුම"</string>
     <string name="discard">"ඉවත ලන්න"</string>
@@ -117,4 +116,5 @@
     <string name="hide">"සඟවන්න"</string>
     <string name="show">"පෙන්වන්න"</string>
     <string name="debug">"නිදොස්කරණය"</string>
+    <string name="wifi_not_connected">"අන්තර්ජාලය වෙත Wi‑Fi සම්බන්ධ වී නැත"</string>
 </resources>

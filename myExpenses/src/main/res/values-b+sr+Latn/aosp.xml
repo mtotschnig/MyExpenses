@@ -48,4 +48,5 @@
     <string name="encrypted">"Šifrovano"</string>
     <string name="hide">"Sakrij"</string>
     <string name="show">"Prikaži"</string>
+    <string name="wifi_not_connected">"Wi‑Fi mreža nije povezana na internet"</string>
 </resources>

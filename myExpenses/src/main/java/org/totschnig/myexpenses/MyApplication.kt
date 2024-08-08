@@ -159,11 +159,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onStart(owner: LifecycleOwner) {
         if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
-            if (isConnectedWifi(this)) {
-                controlWebUi(START_ACTION)
-            } else {
-                prefHandler.putBoolean(PrefKey.UI_WEB, false)
-            }
+            controlWebUi(START_ACTION)
         }
     }
 

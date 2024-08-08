@@ -6,9 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
@@ -61,16 +63,22 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
                 preferenceActivity.resultCode = BaseActivity.RESULT_INVALIDATE_OPTIONS_MENU
             } else {
                 if (!isConnectedWifi(requireContext())) {
-                    preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
-                } else if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) &&
-                    preferenceActivity.featureViewModel.isFeatureAvailable(
-                        preferenceActivity,
-                        Feature.WEBUI
-                    )
-                ) {
-                    preferenceActivity.activateWebUi()
+                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                        putInt(
+                            ConfirmationDialogFragment.KEY_TITLE,
+                            R.string.title_webui
+                        )
+                        putString(
+                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            TextUtils.concatResStrings(requireContext(), " ", R.string.wifi_not_connected, R.string.continue_confirmation)
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            R.id.WEB_UI_COMMAND
+                        )
+                    }).show(parentFragmentManager, "NO_WIFI")
                 } else {
-                    preferenceActivity.contribFeatureRequested(ContribFeature.WEB_UI)
+                    preferenceActivity.onStartWebUi()
                 }
             }
             true

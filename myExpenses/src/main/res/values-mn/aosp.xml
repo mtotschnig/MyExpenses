@@ -56,4 +56,5 @@
     <string name="hide">"Нуух"</string>
     <string name="show">"Харуулах"</string>
     <string name="debug">"Дебаг"</string>
+    <string name="wifi_not_connected">"Wi-Fi интернетэд холбогдоогүй байна"</string>
 </resources>

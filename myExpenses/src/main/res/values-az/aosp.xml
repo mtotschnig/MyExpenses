@@ -47,4 +47,5 @@
     <string name="hide">"Gizlədin"</string>
     <string name="show">"Göstərin"</string>
     <string name="debug">"Sazlama"</string>
+    <string name="wifi_not_connected">"Wi‑Fi internetə qoşulmayıb"</string>
 </resources>

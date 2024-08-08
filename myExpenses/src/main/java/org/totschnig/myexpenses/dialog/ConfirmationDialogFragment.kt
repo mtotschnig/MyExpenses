@@ -28,9 +28,9 @@ import org.totschnig.myexpenses.R
 /**
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
  * present a checkbox that allows user to provide some secondary decision. If the Bundle provided
- * in [.newInstance] provides an entry with key [.KEY_PREFKEY], the value of the
+ * in [.newInstance] provides an entry with key [KEY_PREFKEY], the value of the
  * checkbox will be stored in a preference with this key, and R.string.do_not_show_again
- * will be set as text for the checkbox. If the Bundle provides [.KEY_CHECKBOX_LABEL], this will
+ * will be set as text for the checkbox. If the Bundle provides [KEY_CHECKBOX_LABEL], this will
  * be used as text for the checkbox label. In that case, the state of the checkbox will be communicated
  * in the second argument of [org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener.onPositive]
  */

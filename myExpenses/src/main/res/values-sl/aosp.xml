@@ -47,4 +47,5 @@
     <string name="hide">"Skrivanje"</string>
     <string name="show">"Prikaz"</string>
     <string name="debug">"Odpravljanje napak"</string>
+    <string name="wifi_not_connected">"Omrežje Wi-Fi ni povezano z internetom"</string>
 </resources>

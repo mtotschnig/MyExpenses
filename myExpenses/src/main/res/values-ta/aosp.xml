@@ -17,7 +17,6 @@
     <string name="stop">"நிறுத்து"</string>
     <string name="style">"வகை"</string>
     <string name="loading">"ஏற்றுகிறது…"</string>
-    <string name="no_network">"நெட்வொர்க் இணைப்பு இல்லை."</string>
     <string name="button_label_continue">"தொடர்"</string>
     <string name="autofill">"தன்னிரப்பி"</string>
     <string name="discard">"நிராகரி"</string>
@@ -122,4 +121,5 @@
     <string name="hide">"மறை"</string>
     <string name="show">"காட்டு"</string>
     <string name="debug">"பிழைத்திருத்து"</string>
+    <string name="wifi_not_connected">"வைஃபை, இண்டர்நெட்டில் இணைக்கப்படவில்லை"</string>
 </resources>

@@ -18,7 +18,6 @@
     <string name="stop">"Gelditu"</string>
     <string name="style">"Estiloa"</string>
     <string name="loading">"Kargatzen…"</string>
-    <string name="no_network">"Ez dago sareko konexiorik."</string>
     <string name="button_label_continue">Jarraitu</string>
     <string name="autofill">"Betetze automatikoa"</string>
     <string name="discard">"Baztertu"</string>
@@ -129,4 +128,5 @@
     <string name="hide">"Ezkutatu"</string>
     <string name="show">"Erakutsi"</string>
     <string name="debug">"Araztu"</string>
+    <string name="wifi_not_connected">"Wifi-sarea ez dago Internetera konektatuta"</string>
 </resources>

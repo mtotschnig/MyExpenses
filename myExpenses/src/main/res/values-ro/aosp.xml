@@ -17,7 +17,6 @@
     <string name="stop">"Opriți"</string>
     <string name="style">"Stil"</string>
     <string name="loading">"Se încarcă…"</string>
-    <string name="no_network">"Nu există nicio conexiune la rețea."</string>
     <string name="button_label_continue">Continuați</string>
     <string name="autofill">"Completare automată"</string>
     <string name="discard">"Renunţaţi"</string>
@@ -124,4 +123,5 @@
     <string name="hide">"Ascunde"</string>
     <string name="show">"Afișează"</string>
     <string name="debug">"Remediați erorile"</string>
+    <string name="wifi_not_connected">"Rețeaua Wi-Fi nu este conectată la internet"</string>
 </resources>

@@ -63,4 +63,5 @@
     <string name="hide">"ደብቅ"</string>
     <string name="show">"አሳይ"</string>
     <string name="debug">"አርም"</string>
+    <string name="wifi_not_connected">"Wi‑Fi ከበይነመረብ ጋር አልተገናኘም"</string>
 </resources>

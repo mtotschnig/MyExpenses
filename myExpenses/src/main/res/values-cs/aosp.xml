@@ -17,7 +17,6 @@
     <string name="stop">"Zastavit"</string>
     <string name="style">"Styl"</string>
     <string name="loading">"Načítání…"</string>
-    <string name="no_network">"Připojení k síti není k dispozici."</string>
     <string name="button_label_continue">Pokračovat</string>
     <string name="autofill">"Automatické vyplňování"</string>
     <string name="discard">"Zahodit"</string>
@@ -134,4 +133,5 @@
     <string name="hide">"Skrýt"</string>
     <string name="show">"Zobrazit"</string>
     <string name="debug">"Ladit"</string>
+    <string name="wifi_not_connected">"Síť Wi‑Fi nemá přístup k internetu"</string>
 </resources>

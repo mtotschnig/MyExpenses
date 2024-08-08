@@ -17,7 +17,6 @@
     <string name="stop">"ನಿಲ್ಲಿಸು"</string>
     <string name="style">"ಶೈಲಿ"</string>
     <string name="loading">"ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…"</string>
-    <string name="no_network">"ಯಾವುದೇ ನೆಟ್‌ವರ್ಕ್‌ ಸಂಪರ್ಕಗಳಿಲ್ಲ."</string>
     <string name="button_label_continue">"ಮುಂದುವರಿಸು"</string>
     <string name="autofill">"ಸ್ವಯಂತುಂಬುವಿಕೆ"</string>
     <string name="discard">"ತಿರಸ್ಕರಿಸು"</string>
@@ -121,4 +120,5 @@
     <string name="hide">"ಮರೆಮಾಡು"</string>
     <string name="show">"ತೋರಿಸು"</string>
     <string name="debug">"ಡೀಬಗ್ ಮಾಡು"</string>
+    <string name="wifi_not_connected">"ವೈ-ಫೈ ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕ ಹೊಂದಿಲ್ಲ"</string>
 </resources>

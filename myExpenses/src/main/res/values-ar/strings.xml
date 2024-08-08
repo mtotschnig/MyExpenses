@@ -659,7 +659,7 @@
     <string name="navigation_drawer_accounts_title">إدارة الحسابات</string>
     <string name="pref_sync_wifi_only_summary">مزامنة فقط عند الاتصال بشبكة Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">اكتب التغييرات المحلية على الفور في الخلفية</string>
-    <string name="wifi_not_connected">الجهاز غير متصل بشبكة Wi-Fi. تم تأجيل التزامن.</string>
+    <string name="synchronization_postponed">تم تأجيل التزامن.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">الترجمة</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

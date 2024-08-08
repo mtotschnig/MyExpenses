@@ -52,4 +52,5 @@
     <string name="hide">"লুকান"</string>
     <string name="show">"দেখান"</string>
     <string name="debug">"ডিবাগ"</string>
+    <string name="wifi_not_connected">"ওয়াই-ফাই ইন্টারনেটে কানেক্ট নেই"</string>
 </resources>

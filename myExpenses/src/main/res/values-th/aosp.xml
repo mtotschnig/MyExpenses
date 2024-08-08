@@ -64,4 +64,5 @@
     <string name="hide">"ซ่อน"</string>
     <string name="show">"แสดง"</string>
     <string name="debug">"แก้ไขข้อบกพร่อง"</string>
+    <string name="wifi_not_connected">"Wi-Fi ไม่ได้เชื่อมต่ออินเทอร์เน็ต"</string>
 </resources>

@@ -629,7 +629,7 @@
     <string name="navigation_drawer_accounts_title">Fiókok kezelése</string>
     <string name="pref_sync_wifi_only_summary">Szinkronizálás csak Wi-Fi-n keresztül</string>
     <string name="pref_sync_changes_immediately_summary">Írja azonnal a helyi módosításokat a háttérprogramba</string>
-    <string name="wifi_not_connected">Az eszköz nincs csatlakoztatva a Wi-Fi-hez. A szinkronizálás elhalasztva.</string>
+    <string name="synchronization_postponed">A szinkronizálás elhalasztva.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Fordítás</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->

@@ -747,7 +747,7 @@
     <string name="credit_limit">Kreditno ograničenje</string>
     <string name="saving_goal">Cilj štednje</string>
     <string name="goal_or_limit">Cilj/Ograničenje</string>
-    <string name="wifi_not_connected">Uređaj nije povezan s Wi-Fi mrežom. Sinkronizacija se odgađa.</string>
+    <string name="synchronization_postponed">Sinkronizacija se odgađa.</string>
     <string name="pref_sync_changes_immediately_summary">Zapiši lokalne promjene odmah na pozadinski sustav</string>
     <string name="pref_sync_wifi_only_summary">Sinkroniziraj samo kad koristiš Wi-Fi mrežu</string>
     <string name="navigation_drawer_accounts_title">Upravljaj računima</string>

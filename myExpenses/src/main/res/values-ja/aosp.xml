@@ -17,7 +17,6 @@
     <string name="stop">"停止"</string>
     <string name="style">"スタイル"</string>
     <string name="loading">"読み込んでいます…"</string>
-    <string name="no_network">"ネットワークに接続できません。"</string>
     <string name="button_label_continue">"次へ"</string>
     <string name="autofill">"自動入力"</string>
     <string name="discard">"破棄"</string>
@@ -129,4 +128,5 @@
     <string name="hide">"非表示"</string>
     <string name="show">"表示"</string>
     <string name="debug">"デバッグ"</string>
+    <string name="wifi_not_connected">"Wi-Fi はインターネットに接続していません"</string>
 </resources>

@@ -18,7 +18,6 @@
     <string name="stop">"Спиране"</string>
     <string name="style">"Стил"</string>
     <string name="loading">"Зарежда се…"</string>
-    <string name="no_network">"Няма връзка с мрежата."</string>
     <string name="button_label_continue">Напред</string>
     <string name="autofill">"Автоматично попълване"</string>
     <string name="discard">"Отхвърляне"</string>
@@ -133,4 +132,5 @@
     <string name="hide">"Скриване"</string>
     <string name="show">"Показване"</string>
     <string name="debug">"Отстраняване на грешки"</string>
+    <string name="wifi_not_connected">"Wi-Fi мрежата не е свързана с интернет"</string>
 </resources>

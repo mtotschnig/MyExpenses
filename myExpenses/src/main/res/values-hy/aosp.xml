@@ -62,4 +62,5 @@
     <string name="hide">"Թաքցնել"</string>
     <string name="show">"Ցույց տալ"</string>
     <string name="debug">"Կարգաբերել"</string>
+    <string name="wifi_not_connected">"Wi‑Fi-ը միացված չէ համացանցին"</string>
 </resources>

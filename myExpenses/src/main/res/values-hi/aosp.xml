@@ -55,4 +55,5 @@
     <string name="hide">"छिपाएं"</string>
     <string name="show">"दिखाएं"</string>
     <string name="debug">"डीबग"</string>
+    <string name="wifi_not_connected">"वाई-फ़ाई इंटरनेट से नहीं जुड़ा है"</string>
 </resources>

@@ -17,7 +17,6 @@
     <string name="stop">"Parar"</string>
     <string name="style">"Estilo"</string>
     <string name="loading">"Carregando…"</string>
-    <string name="no_network">"Nenhuma conexão de rede."</string>
     <string name="button_label_continue">Continuar</string>
     <string name="autofill">"Preenchimento automático"</string>
     <string name="discard">"Odrzuć"</string>
@@ -122,4 +121,5 @@
     <string name="encrypted">"Criptografado"</string>
     <string name="hide">"Ocultar"</string>
     <string name="show">"Mostrar"</string>
+    <string name="wifi_not_connected">"O Wi‑Fi não está conectado à Internet"</string>
 </resources>

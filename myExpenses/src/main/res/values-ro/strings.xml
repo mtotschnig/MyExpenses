@@ -635,7 +635,7 @@
     <string name="menu_equivalent_amount">Suma echivalentă</string>
     <string name="licence_expired_yesterday">Cheia profesională a expirat ieri.</string>
     <string name="pref_sync_changes_immediately_summary">Scrieți imediat modificările locale în backend</string>
-    <string name="wifi_not_connected">Dispozitivul nu este conectat la Wi-Fi. Sincronizarea este amânată.</string>
+    <string name="synchronization_postponed">Sincronizarea este amânată.</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Cheia profesională a expirat acum %d zile.</string>
     <string name="history_chart_out_label">Cheltuieli</string>
     <string name="warning_ungroup_split_transactions">Tranzacțiile divizate selectate vor fi negrupate, adică părțile lor divizate vor deveni tranzacții normale.</string>

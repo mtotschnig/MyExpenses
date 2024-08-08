@@ -2,4 +2,5 @@
 <resources>
     <string name="cloud_storage">"Stockage infonuagique"</string>
     <string name="title_font_size">"Taille de police"</string>
+    <string name="wifi_not_connected">"Le Wi‑Fi n'est pas connecté à Internet"</string>
 </resources>

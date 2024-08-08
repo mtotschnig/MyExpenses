@@ -17,7 +17,6 @@
     <string name="stop">"Atura"</string>
     <string name="style">"Estil"</string>
     <string name="loading">"S\'està carregant…"</string>
-    <string name="no_network">"No hi ha cap connexió de xarxa."</string>
     <string name="button_label_continue">Continua</string>
     <string name="autofill">"Emplenament automàtic"</string>
     <string name="discard">"Descarta"</string>
@@ -132,4 +131,5 @@
     <string name="hide">"Amaga"</string>
     <string name="show">"Mostra"</string>
     <string name="debug">"Depura"</string>
+    <string name="wifi_not_connected">"La Wi‑Fi no està connectada a Internet"</string>
 </resources>

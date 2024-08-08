@@ -13,7 +13,6 @@
     <string name="stop">"ఆపివేయి"</string>
     <string name="style">"శైలి"</string>
     <string name="loading">"లోడ్ చేస్తోంది…"</string>
-    <string name="no_network">"నెట్‌వర్క్ కనెక్షన్ లేదు. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి."</string>
     <string name="button_label_continue">"కొనసాగించండి"</string>
     <string name="autofill">"ఆటోఫిల్"</string>
     <string name="discard">"విస్మరించు"</string>
@@ -116,4 +115,5 @@
     <string name="hide">"దాస్తుంది"</string>
     <string name="show">"చూపుతుంది"</string>
     <string name="debug">"డీబగ్"</string>
+    <string name="wifi_not_connected">"Wi-Fi ఇంటర్నెట్‌కు కనెక్ట్ కాలేదు"</string>
 </resources>

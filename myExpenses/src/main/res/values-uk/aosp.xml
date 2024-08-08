@@ -17,7 +17,6 @@
     <string name="stop">"Зупинити"</string>
     <string name="style">"Стиль"</string>
     <string name="loading">"Завантаження…"</string>
-    <string name="no_network">"Немає з’єднання з мережею."</string>
     <string name="button_label_continue">Продовжити</string>
     <string name="autofill">"Автозаповнення"</string>
     <string name="discard">"Відхилити"</string>
@@ -132,4 +131,5 @@
     <string name="hide">"Сховати"</string>
     <string name="show">"Показати"</string>
     <string name="debug">"Налагодження"</string>
+    <string name="wifi_not_connected">"Мережу Wi-Fi не під’єднано до Інтернету"</string>
 </resources>

@@ -64,4 +64,5 @@
     <string name="hide">"Skryť"</string>
     <string name="show">"Zobraziť"</string>
     <string name="debug">"Ladiť"</string>
+    <string name="wifi_not_connected">"Wi‑Fi nie je pripojené k internetu"</string>
 </resources>

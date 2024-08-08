@@ -65,4 +65,5 @@
     <string name="hide">"Sembunyikan"</string>
     <string name="show">"Lihat"</string>
     <string name="debug">"Debug"</string>
+    <string name="wifi_not_connected">"Wi-Fi tidak terhubung ke internet"</string>
 </resources>

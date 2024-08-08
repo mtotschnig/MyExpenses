@@ -16,7 +16,6 @@
     <string name="stop">"停止"</string>
     <string name="style">"樣式"</string>
     <string name="loading">"正在載入…"</string>
-    <string name="no_network">"沒有網絡連線。"</string>
     <string name="button_label_continue">"繼續"</string>
     <string name="autofill">"自動填入"</string>
     <string name="discard">"丟棄"</string>
@@ -109,4 +108,5 @@
     <string name="hide">"隱藏"</string>
     <string name="show">"顯示"</string>
     <string name="debug">"除錯"</string>
+    <string name="wifi_not_connected">"Wi-Fi 並未連線至互聯網"</string>
 </resources>
