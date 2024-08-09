@@ -106,8 +106,10 @@ class CSVParser(
                         QifUtils.isTransferCategory(subCategory)
                     ) {
                         transaction.toAccount(subCategory.substring(1, subCategory.length - 1))
+                        transaction.category(R.string.transfer)
                     } else if (QifUtils.isTransferCategory(category)) {
                         transaction.toAccount(category.substring(1, category.length - 1))
+                        transaction.category(R.string.transfer)
                     } else {
                         val category1 = category +
                                 (subCategory.takeIf { it.isNotEmpty() }?.let { ":$it" } ?: "")
