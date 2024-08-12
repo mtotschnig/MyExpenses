@@ -14,7 +14,7 @@ Nøglefunktioner:
 
 Lås op for premium-funktioner:
 
-     • <i>Bidragsnøgle</i>: Sig farvel til annoncer, og lås op for ubegrænsede konti, tilbagevendende transaktionsplaner og mere.
+     • <i>Bidragsnøgle</i>: Lås op for ubegrænsede konti, tilbagevendende transaktionsplaner og mere.
      • <i>Udvidet nøgle</i>: Nyd skysynkronisering, automatiserede sikkerhedskopier og sofistikeret CSV-import.
      • <i>Professionel nøgle</i>: Tag din økonomistyring til næste niveau med budgetværktøjer, kvitteringsscanning og e-mailsupport.
 

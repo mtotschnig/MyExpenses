@@ -14,7 +14,7 @@ Ana Özellikler:
 
 Premium Özelliklerin Kilidini Açın:
 
-     • <i>Katkı Anahtarı</i>: Reklamlara veda edin ve sınırsız hesapların, yinelenen işlem planlarının ve daha fazlasının kilidini açın.
+     • <i>Katkı Anahtarı</i>:Sınırsız hesapların, yinelenen işlem planlarının ve daha fazlasının kilidini açın.
      • <i>Genişletilmiş Anahtar</i>: Bulut senkronizasyonunun, otomatik yedeklemelerin ve gelişmiş CSV içe aktarmalarının keyfini çıkarın.
      • <i>Profesyonel Anahtar</i>: Bütçeleme araçları, makbuz tarama ve e-posta desteğiyle mali yönetiminizi bir sonraki seviyeye taşıyın.
 

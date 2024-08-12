@@ -14,7 +14,7 @@ Ezaugarri nagusiak:
 
 Desblokeatu Premium Ezaugarriak:
 
-     • <i>Contrib-gakoa</i>: esan agur iragarkiei eta desblokeatu mugarik gabeko kontuak, errepikatzen diren transakzio-planak eta abar.
+     • <i>Contrib-gakoa</i>: desblokeatu mugarik gabeko kontuak, errepikatzen diren transakzio-planak eta abar.
      • <i>Gako hedatua</i>: gozatu hodeiko sinkronizazioaz, babeskopia automatizatuetan eta CSV inportazio sofistikatuekin.
      • <i>Gako profesionala</i>: eraman zure finantza-kudeaketa hurrengo mailara aurrekontu-tresnekin, ordainagirien eskaneatu eta posta elektroniko bidezko laguntzarekin.
 

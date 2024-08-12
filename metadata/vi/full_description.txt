@@ -14,7 +14,7 @@ Các tính năng chính:
 
 Mở khóa các tính năng cao cấp:
 
-     • <i>Khóa đóng góp</i>: Nói lời tạm biệt với quảng cáo và mở khóa số lượng tài khoản không giới hạn, gói giao dịch định kỳ, v.v.
+     • <i>Khóa đóng góp</i>: Mở khóa tài khoản không giới hạn, kế hoạch giao dịch định kỳ và hơn thế nữa.
      • <i>Khóa mở rộng</i>: Tận hưởng đồng bộ hóa đám mây, sao lưu tự động và nhập CSV phức tạp.
      • <i>Chìa khóa chuyên nghiệp</i>: Đưa việc quản lý tài chính của bạn lên một tầm cao mới bằng các công cụ lập ngân sách, quét biên lai và hỗ trợ qua email.
 

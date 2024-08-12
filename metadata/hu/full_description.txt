@@ -14,7 +14,7 @@ Főbb jellemzők:
 
 Prémium funkciók feloldása:
 
-     • <i>Contrib Kulcs</i>: Mondjon búcsút a hirdetéseknek, és korlátlan számú fiókot, ismétlődő tranzakciós terveket és egyebeket nyithat meg.
+     • <i>Contrib Kulcs</i>: Nyisson fel korlátlan számú fiókot, ismétlődő tranzakciós terveket és sok mást.
      • <i>Kibővített Kulcs</i>: Élvezze a felhőalapú szinkronizálást, az automatikus biztonsági mentéseket és a kifinomult CSV-importálást.
      • <i>Professzionális Kulcs</i>: Emelje a következő szintre a pénzgazdálkodást a költségvetés-tervező eszközökkel, a nyugták beolvasásával és az e-mailes támogatással.
 

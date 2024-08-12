@@ -14,7 +14,7 @@ Hauptmerkmale:
 
 Premium-Funktionen freischalten:
 
-     • <i>Contrib-Schlüssel</i>: Verabschieden Sie sich von Werbung und schalten Sie unbegrenzte Konten, wiederkehrende Transaktionspläne und mehr frei.
+     • <i>Contrib-Schlüssel</i>: Schalten Sie unbegrenzte Konten, wiederkehrende Transaktionspläne und mehr frei.
      • <i>Erweiterter Schlüssel</i>: Genießen Sie Cloud-Synchronisierung, automatisierte Backups und anspruchsvolle CSV-Importe.
      • <i>Professioneller Schlüssel</i>: Bringen Sie Ihr Finanzmanagement mit Budgetierungstools, Belegscannen und E-Mail-Support auf die nächste Stufe.
 
