@@ -2087,6 +2087,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo165(db);
       }
 
+      if (oldVersion < 166) {
+        db.execSQL("alter table banks add column version integer");
+        db.execSQL("UPDATE banks set version = 1");
+      }
+
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);

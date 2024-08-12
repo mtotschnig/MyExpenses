@@ -303,6 +303,7 @@ dependencies {
     implementation("com.github.livefront.sealed-enum:runtime:0.7.0")
     ksp("com.github.livefront.sealed-enum:ksp:0.7.0")
 
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
 
     debugImplementation("androidx.fragment:fragment-testing-manifest:$fragmentVersion")
     testImplementation("androidx.fragment:fragment-testing:$fragmentVersion")

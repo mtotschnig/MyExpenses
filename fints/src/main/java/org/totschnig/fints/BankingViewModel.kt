@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.crypt.PassphraseRepository
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
@@ -95,8 +96,8 @@ data class SecMech(val id: String, val name: String) {
 
 class BankingViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
-        @Inject
-        lateinit var tracker: Tracker
+    @Inject
+    lateinit var tracker: Tracker
 
     init {
         System.setProperty(
@@ -195,8 +196,14 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _pushTanRequested.postValue(null)
     }
 
+    private fun logTree() = Timber.tag(BankingFeature.TAG)
+
     private fun log(msg: String) {
-        Timber.tag(BankingFeature.TAG).i(msg)
+        logTree().i(msg)
+    }
+
+    private fun log(exception: Exception) {
+        logTree().w(exception)
     }
 
     private fun error(msg: String) {
@@ -210,7 +217,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun logEvent(event: String, bankingCredentials: BankingCredentials) {
         tracker.logEvent(event, Bundle(1).apply {
-            putString(Tracker.EVENT_PARAM_BLZ, bankingCredentials.bank?.blz ?: bankingCredentials.blz)
+            putString(
+                Tracker.EVENT_PARAM_BLZ,
+                bankingCredentials.bank?.blz ?: bankingCredentials.blz
+            )
         })
     }
 
@@ -227,10 +237,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             }
     }
 
-    private fun buildPassportFile(info: BankInfo, user: String) =
+    private fun buildPassportFile(blz: String, user: String) =
         File(
             getApplication<MyApplication>().filesDir,
-            "passport_${info.blz}_${user}.dat"
+            "passport_${blz}_${user}.dat"
         )
 
     private fun buildPassport(info: BankInfo, file: File) =
@@ -253,16 +263,18 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
-        val passportFile = buildPassportFile(info, bankingCredentials.user)
+        val passportFile = buildPassportFile(info.blz, bankingCredentials.user)
 
         val passport = try {
             buildPassport(info, passportFile)
         } catch (e: Exception) {
-            val exception = if (Utils.getCause(e) is StreamCorruptedException) {
-                Exception(getString(R.string.wrong_pin))
-            } else e
+            log(e)
             HBCIUtils.doneThread()
-            onError(exception)
+            onError(
+                if (Utils.getCause(e) is StreamCorruptedException) {
+                    Exception(getString(R.string.wrong_pin))
+                } else e
+            )
             return
         }
 
@@ -562,8 +574,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         }
     }
 
-    fun deleteBank(id: Long) {
-        repository.deleteBank(id)
+    fun deleteBank(bank: Bank) {
+        buildPassportFile(bank.blz, bank.userId).delete()
+        repository.deleteBank(bank.id)
     }
 
     fun reset() {
@@ -611,59 +624,59 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         ) {
             log("callback:$reason")
             when (reason) {
-                NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE -> {
-                    retData.replace(0, retData.length, bankingCredentials.password!!)
-                }
+                NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE ->
+                    retData.replace(0, retData.length,
+                        if (bankingCredentials.bank?.version == 1) bankingCredentials.password!! else
+                        PassphraseRepository(getApplication()).getPassphrase().toString(Charsets.UTF_8))
 
                 NEED_PT_PIN -> retData.replace(0, retData.length, bankingCredentials.password!!)
                 NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.blz)
                 NEED_USERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_CUSTOMERID -> retData.replace(0, retData.length, bankingCredentials.user)
-                NEED_PT_PHOTOTAN ->
-                    try {
-                        val code = MatrixCode(retData.toString())
+                NEED_PT_PHOTOTAN -> try {
+                    val code = MatrixCode(retData.toString())
 
-                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+                    val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(msg, bitmap))
-                        retData.replace(0, retData.length, runBlocking {
-                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                        })
+                    _tanRequested.postValue(TanRequest(msg, bitmap))
+                    retData.replace(0, retData.length, runBlocking {
+                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                    })
 
-                    } catch (e: Exception) {
-                        report(e)
-                        throw HBCI_Exception(e)
-                    }
+                } catch (e: Exception) {
+                    report(e)
+                    throw HBCI_Exception(e)
+                }
 
-                NEED_PT_QRTAN ->
-                    try {
-                        val code = QRCode(retData.toString(), msg)
+                NEED_PT_QRTAN -> try {
+                    val code = QRCode(retData.toString(), msg)
 
-                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+                    val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(code.message, bitmap))
-                        retData.replace(0, retData.length, runBlocking {
-                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                        })
-                    } catch (e: Exception) {
-                        report(e)
-                        throw HBCI_Exception(e)
-                    }
+                    _tanRequested.postValue(TanRequest(code.message, bitmap))
+                    retData.replace(0, retData.length, runBlocking {
+                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                    })
+                } catch (e: Exception) {
+                    report(e)
+                    throw HBCI_Exception(e)
+                }
 
                 NEED_PT_SECMECH -> {
                     val options = SecMech.parse(retData.toString())
                     retData.replace(0, retData.length,
                         if (options.size == 1) {
                             options[0].id
-                        } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } } ?: runBlocking {
-                            _secMechRequested.postValue(options)
-                            secMechFuture.await()?.let { (secMec, shouldPersist) ->
-                                selectedSecMech = secMec
-                                if (shouldPersist) persistSelectedSecMech()
-                                secMec
+                        } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } }
+                            ?: runBlocking {
+                                _secMechRequested.postValue(options)
+                                secMechFuture.await()?.let { (secMec, shouldPersist) ->
+                                    selectedSecMech = secMec
+                                    if (shouldPersist) persistSelectedSecMech()
+                                    secMec
+                                }
+                                    ?: throw HBCI_Exception("Security mechanism selection cancelled")
                             }
-                                ?: throw HBCI_Exception("Security mechanism selection cancelled")
-                        }
                     )
                 }
 

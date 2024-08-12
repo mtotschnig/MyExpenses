@@ -81,7 +81,6 @@ import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
@@ -192,7 +191,7 @@ class Banking : ProtectedFragmentActivity() {
                                                     if (it.count > 0) {
                                                         confirmBankDelete(it)
                                                     } else {
-                                                        viewModel.deleteBank(it.id)
+                                                        viewModel.deleteBank(it)
                                                     }
                                                 },
                                                 onShow = {
@@ -488,7 +487,7 @@ class Banking : ProtectedFragmentActivity() {
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) true else when (command) {
             R.id.DELETE_BANK_COMMAND_DO -> {
-                viewModel.deleteBank(tag as Long)
+                viewModel.deleteBank(tag as Bank)
                 true
             }
 
@@ -513,7 +512,7 @@ class Banking : ProtectedFragmentActivity() {
             MessageDialogFragment.Button(
                 R.string.menu_delete,
                 R.id.DELETE_BANK_COMMAND_DO,
-                bank.id
+                bank
             ),
             null,
             MessageDialogFragment.noButton(), 0
