@@ -358,7 +358,7 @@ public class DatabaseConstants {
 
   public static final String KEY_ATTACHMENT_ID = "attachment_id";
 
-  public static final String KEY_VERSION = "version"
+  public static final String KEY_VERSION = "version";
 
   /**
    * No special status

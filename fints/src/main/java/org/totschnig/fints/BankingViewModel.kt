@@ -626,8 +626,14 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             when (reason) {
                 NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE ->
                     retData.replace(0, retData.length,
-                        if (bankingCredentials.bank?.version == 1) bankingCredentials.password!! else
-                        PassphraseRepository(getApplication()).getPassphrase().toString(Charsets.UTF_8))
+                        if (bankingCredentials.bank?.version == 1) {
+                            log("Using legacy password (=PIN)")
+                            bankingCredentials.password!!
+                        } else {
+                            log("Using new password (via encrypted file")
+                            PassphraseRepository(getApplication()).getPassphrase().toString(Charsets.UTF_8)
+                        }
+                    )
 
                 NEED_PT_PIN -> retData.replace(0, retData.length, bankingCredentials.password!!)
                 NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.blz)
