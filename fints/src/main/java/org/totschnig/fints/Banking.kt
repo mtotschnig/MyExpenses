@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -68,6 +69,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
 import org.totschnig.myexpenses.MyApplication
@@ -100,6 +105,16 @@ class Banking : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         DaggerFinTSComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(viewModel)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.instMessage.collect {
+                    if (it != null) {
+                        Toast.makeText(this@Banking, it, Toast.LENGTH_LONG).show()
+                        viewModel.messageShown()
+                    }
+                }
+            }
+        }
         setContent {
             AppTheme {
 
@@ -115,6 +130,8 @@ class Banking : ProtectedFragmentActivity() {
                 val pushTanRequested = viewModel.pushTanRequested.observeAsState()
                 val secMechRequested = viewModel.secMechRequested.observeAsState()
 
+                val migrationDialogShown = remember { mutableStateOf<Bank?>(null) }
+
                 val workState = viewModel.workState.collectAsState()
                 LaunchedEffect(workState.value) {
                     when (workState.value) {
@@ -123,6 +140,7 @@ class Banking : ProtectedFragmentActivity() {
                                 dialogState = DialogState.Credentials
                             }
                         }
+
                         is Loading -> {
                             dialogState = DialogState.Loading
                         }
@@ -182,7 +200,13 @@ class Banking : ProtectedFragmentActivity() {
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             } else {
-                                LazyColumn(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))) {
+                                LazyColumn(
+                                    modifier = Modifier.padding(
+                                        horizontal = dimensionResource(
+                                            id = R.dimen.padding_main_screen
+                                        )
+                                    )
+                                ) {
                                     data.value.forEach {
                                         item {
                                             BankRow(
@@ -196,7 +220,11 @@ class Banking : ProtectedFragmentActivity() {
                                                 },
                                                 onShow = {
                                                     dialogState = DialogState.Credentials
-                                                    bankingCredentials.value = BankingCredentials.fromBank(it)
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                },
+                                                onMigrate = {
+                                                    migrationDialogShown.value = it
                                                 }
                                             )
                                         }
@@ -217,9 +245,28 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 }
                 TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-                TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
-                PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
-                SecMechDialog(options = secMechRequested.value, submitSecMech = viewModel::submitSecMech)
+                TanMediaDialog(
+                    options = tanMediumRequested.value,
+                    submitMedia = viewModel::submitTanMedium
+                )
+                PushTanDialog(
+                    msg = pushTanRequested.value,
+                    confirmPushTan = viewModel::confirmPushTan
+                )
+                SecMechDialog(
+                    options = secMechRequested.value,
+                    submitSecMech = viewModel::submitSecMech
+                )
+                if (migrationDialogShown.value != null) {
+                    MigrationDialog(
+                        onDismiss = { migrationDialogShown.value = null},
+                        onMigrate = { passphrase ->
+                            migrationDialogShown.value?.let {
+                                viewModel.migrateBank(it, passphrase)
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -446,7 +493,7 @@ class Banking : ProtectedFragmentActivity() {
                         Button(
                             onClick = { dismiss(workState is Success) }
                         ) {
-                            Text(stringResource( R.string.menu_close))
+                            Text(stringResource(R.string.menu_close))
                         }
                     },
                     text = {
@@ -460,9 +507,13 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 )
             }
+
             DialogState.Loading -> {
                 AlertDialog(
-                    properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false),
+                    properties = DialogProperties(
+                        dismissOnClickOutside = false,
+                        dismissOnBackPress = false
+                    ),
                     onDismissRequest = { },
                     confirmButton = { },
                     icon = { DialogIcon() },
@@ -520,6 +571,10 @@ class Banking : ProtectedFragmentActivity() {
             .show(supportFragmentManager, "DELETE_ACCOUNT")
     }
 
+    private fun confirmMigrate(bank: Bank) {
+
+    }
+
     @Composable
     fun Help(@StringRes resIds: List<Int>) {
         val help = resIds.joinTo(SpannableStringBuilder(), " ") {
@@ -538,8 +593,9 @@ class Banking : ProtectedFragmentActivity() {
 @Composable
 fun BankRow(
     bank: Bank,
-    onDelete: (Bank) -> Unit,
-    onShow: (Bank) -> Unit
+    onDelete: (Bank) -> Unit = {},
+    onShow: (Bank) -> Unit = {},
+    onMigrate: (Bank) -> Unit = {}
 ) {
     val showMenu = remember { mutableStateOf(false) }
     Row(
@@ -562,7 +618,16 @@ fun BankRow(
                     command = "LIST_ACCOUNTS",
                     label = R.string.accounts,
                     icon = Icons.Filled.Checklist
-                ) { onShow(bank) })
+                ) { onShow(bank) }
+            )
+            if (bank.version == 1) {
+                add(
+                    MenuEntry(
+                        command = "MIGRATION",
+                        label = UiText.StringValue("v1 -> v2")
+                    ) { onMigrate(bank) }
+                )
+            }
         }
     )
     HierarchicalMenu(showMenu, menu)
@@ -613,8 +678,29 @@ fun AccountRow(
 @Composable
 private fun BankDemo() {
     Column {
-        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "My home bank", userId = "1234"), onDelete = {}, onShow = {})
-        BankRow(bank = Bank(blz = "200411",  bic = "XPNSS", bankName = "Comdirect Bank", userId = "1234"), onDelete = {}, onShow = {})
-        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "Sparda Bank", userId = "1234"), onDelete = {}, onShow = {})
+        BankRow(
+            bank = Bank(
+                blz = "1234567",
+                bic = "XPNSS",
+                bankName = "My home bank",
+                userId = "1234"
+            )
+        )
+        BankRow(
+            bank = Bank(
+                blz = "200411",
+                bic = "XPNSS",
+                bankName = "Comdirect Bank",
+                userId = "1234"
+            )
+        )
+        BankRow(
+            bank = Bank(
+                blz = "1234567",
+                bic = "XPNSS",
+                bankName = "Sparda Bank",
+                userId = "1234"
+            )
+        )
     }
 }

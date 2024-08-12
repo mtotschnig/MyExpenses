@@ -1,6 +1,7 @@
 package org.totschnig.fints
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
@@ -33,6 +38,16 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             .build()
             .inject(viewModel)
         viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.instMessage.collect {
+                    if (it != null) {
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                        viewModel.messageShown()
+                    }
+                }
+            }
+        }
     }
 
     @Composable

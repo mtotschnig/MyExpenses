@@ -268,6 +268,49 @@ private fun SelectionDialog(
 }
 
 @Composable
+fun MigrationDialog(
+    onDismiss: () -> Unit,
+    onMigrate: (String) -> Unit,
+) {
+    val passphrase = remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            Button(onClick = { onMigrate(passphrase.value) }) {
+                Text("Migrate")
+            }
+        },
+        text = {
+            Column {
+                Text("Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
+                        "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
+                        "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead."+
+                        "By providing the PIN that you used when you setup this FinTS connection, you can migrate to the new mechanism. The PIN will be saved in the same secure way, and used for decrypting the passport."
+                )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {}
+                    ),
+                    value = passphrase.value,
+                    onValueChange = {
+                        passphrase.value = it.trim()
+                    },
+                    label = { Text(text = stringResource(id = RB.string.password)) },
+                    singleLine = true
+                )
+            }
+        }
+    )
+}
+
+@Composable
 fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
     bank.asWellKnown?.icon?.let {
         Image(modifier = modifier, painter = painterResource(id = it), contentDescription = null)

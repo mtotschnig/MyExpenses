@@ -3,6 +3,7 @@ package org.totschnig.fints
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.kapott.hbci.GV.HBCIJob
@@ -61,6 +63,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
@@ -141,13 +144,17 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private val _secMechRequested = MutableLiveData<List<SecMech>?>(null)
     val secMechRequested: LiveData<List<SecMech>?> = _secMechRequested
 
+    private val _instMessage: MutableStateFlow<String?> = MutableStateFlow(null)
+    val instMessage: StateFlow<String?> = _instMessage
 
-    private val _workState: MutableStateFlow<WorkState> =
-        MutableStateFlow(WorkState.Initial)
+    fun messageShown() {
+        _instMessage.update { null }
+    }
+
+    private val _workState: MutableStateFlow<WorkState> = MutableStateFlow(WorkState.Initial)
     val workState: StateFlow<WorkState> = _workState
 
-    private val _errorState: MutableStateFlow<String?> =
-        MutableStateFlow(null)
+    private val _errorState: MutableStateFlow<String?> = MutableStateFlow(null)
     val errorState: StateFlow<String?> = _errorState
 
     private val converter: HbciConverter
@@ -588,27 +595,28 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _errorState.value = null
     }
 
+    private fun getPassPhraseRepository(blz: String, user: String) =
+        PassphraseRepository(getApplication(), "passphrase_${blz}_${user}.bin")
+
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
-        private val keySelectedTanMedium: String
-            get() = "selectedTanMedium_${bankingCredentials.bank?.id}"
-        private val keySelectedSecMech: String
-            get() = "selectedSecMech_${bankingCredentials.bank?.id}"
+        private val keySelectedTanMedium: String?
+            get() = bankingCredentials.bank?.let { "selectedTanMedium_${it.id}" }
+        private val keySelectedSecMech: String?
+            get() = bankingCredentials.bank?.let { "selectedSecMech_${it.id}" }
 
         init {
-            if (bankingCredentials.bank != null) {
-                selectedTanMedium = prefHandler.getString(keySelectedTanMedium)
-                selectedSecMech = prefHandler.getString(keySelectedSecMech)
-            }
+            keySelectedTanMedium?.let { selectedTanMedium = prefHandler.getString(it) }
+            keySelectedSecMech?.let { selectedSecMech = prefHandler.getString(it) }
         }
 
         private fun persistSelectedTanMedium() {
-            prefHandler.putString(keySelectedTanMedium, selectedTanMedium)
+            keySelectedTanMedium?.let { prefHandler.putString(it, selectedTanMedium) }
         }
 
         private fun persistSelectedSecMech() {
-            prefHandler.putString(keySelectedSecMech, selectedSecMech)
+            keySelectedSecMech?.let { prefHandler.putString(it, selectedSecMech) }
         }
 
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
@@ -625,13 +633,18 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             log("callback:$reason")
             when (reason) {
                 NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE ->
-                    retData.replace(0, retData.length,
+                    retData.replace(
+                        0, retData.length,
                         if (bankingCredentials.bank?.version == 1) {
                             log("Using legacy password (=PIN)")
                             bankingCredentials.password!!
                         } else {
-                            log("Using new password (via encrypted file")
-                            PassphraseRepository(getApplication()).getPassphrase().toString(Charsets.UTF_8)
+                            log("Using new password (via encrypted file)")
+                            bankingCredentials.blz + bankingCredentials.user
+                            getPassPhraseRepository(
+                                bankingCredentials.blz,
+                                bankingCredentials.user
+                            ).getPassphrase().toString(Charsets.UTF_8)
                         }
                     )
 
@@ -722,6 +735,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                 HAVE_ERROR -> report(Throwable(msg))
 
+                HAVE_INST_MSG -> _instMessage.update { msg }
+
                 else -> {}
             }
         }
@@ -738,6 +753,27 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun report(throwable: Throwable) {
         CrashHandler.report(throwable, BankingFeature.TAG)
+    }
+
+    fun migrateBank(bank: Bank, passphrase: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            doHBCI(
+                bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
+                work = { _, _, _ ->
+                    val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
+                    passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
+                    contentResolver.update(
+                        ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
+                        ContentValues().also { it.put(KEY_VERSION, 2) },
+                        null, null
+                    )
+                    //TODO report success // make sure menu is updated
+                },
+                onError = {
+                    //TODO report failure
+                }
+            )
+        }
     }
 
     val banks: StateFlow<List<Bank>> by lazy {

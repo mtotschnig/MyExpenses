@@ -8,27 +8,30 @@ import java.io.File
 import java.nio.charset.Charset
 import java.security.SecureRandom
 
-class PassphraseRepository(private val context: Context) {
-    fun getPassphrase(): ByteArray {
-        val file = File(context.filesDir, "fints_passphrase.bin")
-        val encryptedFile = androidx.security.crypto.EncryptedFile.Builder(
-            context,
-            file,
-            androidx.security.crypto.MasterKey.Builder(context)
-                .setKeyScheme(androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM).build(),
-            androidx.security.crypto.EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-        ).build()
+class PassphraseRepository(private val context: Context, val fileName: String) {
+    private val file = File(context.filesDir, fileName)
 
-        return if (file.exists()) {
-            encryptedFile.openFileInput().use { it.readBytes() }.also {
-                Timber.d("passphrase loaded: ${it.toString(Charsets.UTF_8)}")
-            }
-        } else {
-            generatePassphrase().also { passphrase ->
-                Timber.d("passphrase generated: ${passphrase.toString(Charsets.UTF_8)}")
-                encryptedFile.openFileOutput().use { it.write(passphrase) }
-            }
+    private val encryptedFile = androidx.security.crypto.EncryptedFile.Builder(
+        context,
+        file,
+        androidx.security.crypto.MasterKey.Builder(context)
+            .setKeyScheme(androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM).build(),
+        androidx.security.crypto.EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+    ).build()
+
+    fun getPassphrase(): ByteArray = if (file.exists()) {
+        encryptedFile.openFileInput().use { it.readBytes() }.also {
+            Timber.d("passphrase loaded: ${it.toString(Charsets.UTF_8)}")
         }
+    } else {
+        generatePassphrase().also { passphrase ->
+            Timber.d("passphrase generated: ${passphrase.toString(Charsets.UTF_8)}")
+            storePassphrase(passphrase)
+        }
+    }
+
+    fun storePassphrase(passphrase: ByteArray) {
+        encryptedFile.openFileOutput().use { it.write(passphrase) }
     }
 
     private fun generatePassphrase(): ByteArray {
