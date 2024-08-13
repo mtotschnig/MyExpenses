@@ -248,7 +248,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             }
     }
 
-    private fun buildPassportFile(blz: String, user: String) =
+    private fun passportFile(blz: String, user: String) =
         File(
             getApplication<MyApplication>().filesDir,
             "passport_${blz}_${user}.dat"
@@ -275,7 +275,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
-        val passportFile = buildPassportFile(info.blz, bankingCredentials.user).also {
+        val passportFile = passportFile(info.blz, bankingCredentials.user).also {
             if (forceNewFile && it.exists()) {
                 it.delete()
             }
@@ -592,7 +592,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     }
 
     fun deleteBank(bank: Bank) {
-        buildPassportFile(bank.blz, bank.userId).delete()
+        passportFile(bank.blz, bank.userId).delete()
+        passphraseFile(bank.blz, bank.userId).delete()
         repository.deleteBank(bank.id)
     }
 
@@ -605,8 +606,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _errorState.value = null
     }
 
+    private fun passphraseFile(blz: String, user: String) =
+        File(getApplication<MyApplication>().filesDir, "passphrase_${blz}_${user}.bin")
+
     private fun getPassPhraseRepository(blz: String, user: String) =
-        PassphraseRepository(getApplication(), "passphrase_${blz}_${user}.bin")
+        PassphraseRepository(getApplication(), passphraseFile(blz, user))
 
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :

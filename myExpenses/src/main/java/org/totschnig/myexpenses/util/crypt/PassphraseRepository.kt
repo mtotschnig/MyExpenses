@@ -8,8 +8,7 @@ import java.io.File
 import java.nio.charset.Charset
 import java.security.SecureRandom
 
-class PassphraseRepository(private val context: Context, val fileName: String) {
-    private val file = File(context.filesDir, fileName)
+class PassphraseRepository(context: Context, val file: File) {
 
     private val encryptedFile = androidx.security.crypto.EncryptedFile.Builder(
         context,
