@@ -131,7 +131,7 @@ class Banking : ProtectedFragmentActivity() {
                 val pushTanRequested = viewModel.pushTanRequested.observeAsState()
                 val secMechRequested = viewModel.secMechRequested.observeAsState()
 
-                val migrationDialogShown = remember { mutableStateOf<Bank?>(null) }
+                val migrationDialogShown = rememberSaveable { mutableStateOf<Bank?>(null) }
 
                 val workState = viewModel.workState.collectAsState()
                 LaunchedEffect(workState.value) {

@@ -1,5 +1,6 @@
 package org.totschnig.fints
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.compose.optional
@@ -270,10 +272,14 @@ private fun SelectionDialog(
     )
 }
 
-sealed class MigrationState {
+sealed class MigrationState: Parcelable {
+    @Parcelize
     data object Idle : MigrationState()
+    @Parcelize
     data object Running : MigrationState()
+    @Parcelize
     data object Success : MigrationState()
+    @Parcelize
     data class Failure(val message: String) : MigrationState()
 }
 
@@ -283,34 +289,45 @@ fun MigrationDialog(
     onMigrate: suspend (Bank, String) -> Result<Unit>,
 ) {
     val scope = rememberCoroutineScope()
-    var passphrase by remember { mutableStateOf("") }
-    var migrationState by remember { mutableStateOf<MigrationState>(MigrationState.Idle) }
+    var passphrase by rememberSaveable { mutableStateOf("") }
+    var migrationState by rememberSaveable { mutableStateOf<MigrationState>(MigrationState.Idle) }
     migrationDialogShown.value?.let { bank ->
-
+        fun doDismiss() {
+            migrationDialogShown.value = null
+            migrationState = MigrationState.Idle
+        }
         AlertDialog(
             onDismissRequest = {
                 if (migrationState != MigrationState.Running) {
-                    migrationDialogShown.value = null
+                    doDismiss()
                 }
             },
             confirmButton = {
-                if (migrationState == MigrationState.Running) {
-                    CircularProgressIndicator()
-                } else {
-                    Button(onClick = {
-                        migrationDialogShown.value?.let {
-                            scope.launch {
-                                migrationState = MigrationState.Running
-                                onMigrate(bank, passphrase).onSuccess {
-                                    migrationState = MigrationState.Success
-                                }.onFailure {
-                                    migrationState = MigrationState.Failure(it.safeMessage)
-                                }
-                            }
-                        }
-                    }) {
-                        Text(if (migrationState == MigrationState.Idle) "Migrate" else "Close")
+                when (migrationState) {
+                    MigrationState.Running -> {
+                        CircularProgressIndicator()
                     }
+
+                    MigrationState.Idle, is MigrationState.Failure -> {
+                        Button(
+                            onClick = {
+                                scope.launch {
+                                    migrationState = MigrationState.Running
+                                    onMigrate(bank, passphrase).onSuccess {
+                                        migrationState = MigrationState.Success
+                                    }.onFailure {
+                                        migrationState = MigrationState.Failure(it.safeMessage)
+                                        passphrase = ""
+                                    }
+                                }
+                            },
+                            enabled = passphrase.isNotEmpty()
+                        ) {
+                            Text("Migrate")
+                        }
+                    }
+
+                    else -> {}
                 }
             },
             dismissButton = if (migrationState == MigrationState.Running)
@@ -318,19 +335,21 @@ fun MigrationDialog(
             else {
                 {
 
-                    Button(onClick = { migrationDialogShown.value = null }) {
+                    Button(onClick = ::doDismiss) {
                         Text(stringResource(id = android.R.string.cancel))
                     }
                 }
             },
             text = {
-                Column {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         "Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
                                 "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
                                 "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead." +
                                 "By providing the PIN that you used when you setup this FinTS connection, you can migrate to the new mechanism. The PIN will be saved in the same secure way, and used for decrypting the passport."
                     )
+
+                    Error((migrationState as? MigrationState.Failure)?.message)
                     OutlinedTextField(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally),

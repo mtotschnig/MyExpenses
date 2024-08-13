@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.kapott.hbci.GV.HBCIJob
 import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
@@ -85,7 +86,6 @@ import java.util.Date
 import java.util.Properties
 import javax.inject.Inject
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import org.totschnig.fints.R as RF
 
@@ -759,24 +759,26 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         CrashHandler.report(throwable, BankingFeature.TAG)
     }
 
-    suspend fun migrateBank(bank: Bank, passphrase: String) =
-        suspendCoroutine { cont ->
-            doHBCI(
-                bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
-                work = { _, _, _ ->
-                    val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
-                    passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
-                    contentResolver.update(
-                        ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
-                        ContentValues().also { it.put(KEY_VERSION, 2) },
-                        null, null
-                    )
-                    cont.resume(ResultUnit)
-                },
-                onError = {
-                    cont.resumeWithException(it)
-                }
-            )
+    suspend fun migrateBank(bank: Bank, passphrase: String): Result<Unit> =
+        withContext(coroutineDispatcher) {
+            suspendCoroutine { cont ->
+                doHBCI(
+                    bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
+                    work = { _, _, _ ->
+                        val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
+                        passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
+                        contentResolver.update(
+                            ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
+                            ContentValues().also { it.put(KEY_VERSION, 2) },
+                            null, null
+                        )
+                        cont.resume(ResultUnit)
+                    },
+                    onError = {
+                        cont.resume(Result.failure(it))
+                    }
+                )
+            }
         }
 
     val banks: StateFlow<List<Bank>> by lazy {
