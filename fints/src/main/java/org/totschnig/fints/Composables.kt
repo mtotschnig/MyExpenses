@@ -30,6 +30,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,8 +47,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.R as RB
 
 @Composable
@@ -267,47 +270,89 @@ private fun SelectionDialog(
     )
 }
 
+sealed class MigrationState {
+    data object Idle : MigrationState()
+    data object Running : MigrationState()
+    data object Success : MigrationState()
+    data class Failure(val message: String) : MigrationState()
+}
+
 @Composable
 fun MigrationDialog(
-    onDismiss: () -> Unit,
-    onMigrate: (String) -> Unit,
+    migrationDialogShown: MutableState<Bank?>,
+    onMigrate: suspend (Bank, String) -> Result<Unit>,
 ) {
-    val passphrase = remember { mutableStateOf("") }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = { onMigrate(passphrase.value) }) {
-                Text("Migrate")
+    val scope = rememberCoroutineScope()
+    var passphrase by remember { mutableStateOf("") }
+    var migrationState by remember { mutableStateOf<MigrationState>(MigrationState.Idle) }
+    migrationDialogShown.value?.let { bank ->
+
+        AlertDialog(
+            onDismissRequest = {
+                if (migrationState != MigrationState.Running) {
+                    migrationDialogShown.value = null
+                }
+            },
+            confirmButton = {
+                if (migrationState == MigrationState.Running) {
+                    CircularProgressIndicator()
+                } else {
+                    Button(onClick = {
+                        migrationDialogShown.value?.let {
+                            scope.launch {
+                                migrationState = MigrationState.Running
+                                onMigrate(bank, passphrase).onSuccess {
+                                    migrationState = MigrationState.Success
+                                }.onFailure {
+                                    migrationState = MigrationState.Failure(it.safeMessage)
+                                }
+                            }
+                        }
+                    }) {
+                        Text(if (migrationState == MigrationState.Idle) "Migrate" else "Close")
+                    }
+                }
+            },
+            dismissButton = if (migrationState == MigrationState.Running)
+                null
+            else {
+                {
+
+                    Button(onClick = { migrationDialogShown.value = null }) {
+                        Text(stringResource(id = android.R.string.cancel))
+                    }
+                }
+            },
+            text = {
+                Column {
+                    Text(
+                        "Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
+                                "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
+                                "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead." +
+                                "By providing the PIN that you used when you setup this FinTS connection, you can migrate to the new mechanism. The PIN will be saved in the same secure way, and used for decrypting the passport."
+                    )
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally),
+                        visualTransformation = PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {}
+                        ),
+                        value = passphrase,
+                        onValueChange = {
+                            passphrase = it.trim()
+                        },
+                        label = { Text(text = stringResource(id = RB.string.password)) },
+                        singleLine = true
+                    )
+                }
             }
-        },
-        text = {
-            Column {
-                Text("Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
-                        "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
-                        "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead."+
-                        "By providing the PIN that you used when you setup this FinTS connection, you can migrate to the new mechanism. The PIN will be saved in the same secure way, and used for decrypting the passport."
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally),
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {}
-                    ),
-                    value = passphrase.value,
-                    onValueChange = {
-                        passphrase.value = it.trim()
-                    },
-                    label = { Text(text = stringResource(id = RB.string.password)) },
-                    singleLine = true
-                )
-            }
-        }
-    )
+        )
+    }
 }
 
 @Composable

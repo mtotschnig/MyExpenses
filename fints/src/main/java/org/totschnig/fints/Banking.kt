@@ -57,6 +57,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -257,16 +258,10 @@ class Banking : ProtectedFragmentActivity() {
                     options = secMechRequested.value,
                     submitSecMech = viewModel::submitSecMech
                 )
-                if (migrationDialogShown.value != null) {
-                    MigrationDialog(
-                        onDismiss = { migrationDialogShown.value = null},
-                        onMigrate = { passphrase ->
-                            migrationDialogShown.value?.let {
-                                viewModel.migrateBank(it, passphrase)
-                            }
-                        }
-                    )
-                }
+                MigrationDialog(
+                    migrationDialogShown,
+                    onMigrate = { bank, passphrase ->  viewModel.migrateBank(bank, passphrase) }
+                )
             }
         }
     }

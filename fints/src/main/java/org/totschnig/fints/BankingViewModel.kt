@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crypt.PassphraseRepository
@@ -83,6 +84,9 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import org.totschnig.fints.R as RF
 
 data class TanRequest(val message: String, val bitmap: Bitmap?)
@@ -259,9 +263,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         }
 
     @WorkerThread
-    private suspend fun doHBCI(
+    private fun doHBCI(
         bankingCredentials: BankingCredentials,
-        work: suspend (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
         onError: (Exception) -> Unit
     ) {
         val info = initHBCI(bankingCredentials) ?: run {
@@ -755,8 +759,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         CrashHandler.report(throwable, BankingFeature.TAG)
     }
 
-    fun migrateBank(bank: Bank, passphrase: String) {
-        viewModelScope.launch(context = coroutineContext()) {
+    suspend fun migrateBank(bank: Bank, passphrase: String) =
+        suspendCoroutine { cont ->
             doHBCI(
                 bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
                 work = { _, _, _ ->
@@ -767,14 +771,13 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         ContentValues().also { it.put(KEY_VERSION, 2) },
                         null, null
                     )
-                    //TODO report success // make sure menu is updated
+                    cont.resume(ResultUnit)
                 },
                 onError = {
-                    //TODO report failure
+                    cont.resumeWithException(it)
                 }
             )
         }
-    }
 
     val banks: StateFlow<List<Bank>> by lazy {
         repository.loadBanks().stateIn(
