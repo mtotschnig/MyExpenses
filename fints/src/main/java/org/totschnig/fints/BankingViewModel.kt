@@ -266,6 +266,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private fun doHBCI(
         bankingCredentials: BankingCredentials,
         work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        forceNewFile: Boolean = false,
         onError: (Exception) -> Unit
     ) {
         val info = initHBCI(bankingCredentials) ?: run {
@@ -274,7 +275,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
-        val passportFile = buildPassportFile(info.blz, bankingCredentials.user)
+        val passportFile = buildPassportFile(info.blz, bankingCredentials.user).also {
+            if (forceNewFile && it.exists()) {
+                it.delete()
+            }
+        }
 
         val passport = try {
             buildPassport(info, passportFile)
@@ -335,6 +340,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
+                forceNewFile = bankingCredentials.isNew,
                 work = { info, passport, _ ->
                     val bank = if (bankingCredentials.isNew) {
                         logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
