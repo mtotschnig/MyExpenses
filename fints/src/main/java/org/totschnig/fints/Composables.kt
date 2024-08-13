@@ -336,7 +336,7 @@ fun MigrationDialog(
                 {
 
                     Button(onClick = ::doDismiss) {
-                        Text(stringResource(id = android.R.string.cancel))
+                        Text(stringResource(id = if (migrationState == MigrationState.Success) android.R.string.ok else android.R.string.cancel))
                     }
                 }
             },
@@ -346,28 +346,33 @@ fun MigrationDialog(
                         "Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
                                 "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
                                 "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead." +
-                                "By providing the PIN that you used when you setup this FinTS connection, you can migrate to the new mechanism. The PIN will be saved in the same secure way, and used for decrypting the passport."
+                                "By providing the PIN that you used when you setup this FinTS connection, it will be saved in the same secure way, and thus can  be used for decrypting the passport, independent of the PIN that can now be updated."
                     )
 
                     Error((migrationState as? MigrationState.Failure)?.message)
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally),
-                        visualTransformation = PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onDone = {}
-                        ),
-                        value = passphrase,
-                        onValueChange = {
-                            passphrase = it.trim()
-                        },
-                        label = { Text(text = stringResource(id = RB.string.password)) },
-                        singleLine = true
-                    )
+                    if (migrationState == MigrationState.Success) {
+                        Text("Password securely stored.")
+                    } else {
+                        OutlinedTextField(
+                            enabled = migrationState != MigrationState.Running,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally),
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {}
+                            ),
+                            value = passphrase,
+                            onValueChange = {
+                                passphrase = it.trim()
+                            },
+                            label = { Text(text = stringResource(id = RB.string.password)) },
+                            singleLine = true
+                        )
+                    }
                 }
             }
         )
