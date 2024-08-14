@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.apache.commons.text.RandomStringGenerator
 import org.kapott.hbci.GV.HBCIJob
 import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import timber.log.Timber
 import java.io.File
 import java.io.StreamCorruptedException
+import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -610,7 +612,15 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         File(getApplication<MyApplication>().filesDir, "passphrase_${blz}_${user}.bin")
 
     private fun getPassPhraseRepository(blz: String, user: String) =
-        PassphraseRepository(getApplication(), passphraseFile(blz, user))
+        PassphraseRepository(getApplication(), passphraseFile(blz, user)) {
+            RandomStringGenerator
+                .builder()
+                .usingRandom { SecureRandom().nextInt(it) }
+                .withinRange('a'.code, 'z'.code)
+                .get()
+                .generate(20)
+                .toByteArray()
+        }
 
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :

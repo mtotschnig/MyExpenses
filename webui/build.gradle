@@ -35,7 +35,6 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(":myExpenses")
     implementation "androidx.lifecycle:lifecycle-service:$archLifecycleVersion"
-    implementation "org.apache.commons:commons-text:$commonsText"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     testImplementation "junit:junit:$junitVersion"
