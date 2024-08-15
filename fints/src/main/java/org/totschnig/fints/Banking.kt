@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -57,7 +56,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -73,6 +71,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
@@ -110,8 +109,14 @@ class Banking : ProtectedFragmentActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.instMessage.collect {
                     if (it != null) {
-                        Toast.makeText(this@Banking, it, Toast.LENGTH_LONG).show()
-                        viewModel.messageShown()
+                        showDismissibleSnackBar(it, object : Snackbar.Callback() {
+                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION ||
+                                    event == DISMISS_EVENT_TIMEOUT
+                                )
+                                    viewModel.messageShown()
+                            }
+                        })
                     }
                 }
             }
@@ -260,7 +265,7 @@ class Banking : ProtectedFragmentActivity() {
                 )
                 MigrationDialog(
                     migrationDialogShown,
-                    onMigrate = { bank, passphrase ->  viewModel.migrateBank(bank, passphrase) }
+                    onMigrate = { bank, passphrase -> viewModel.migrateBank(bank, passphrase) }
                 )
             }
         }
@@ -564,10 +569,6 @@ class Banking : ProtectedFragmentActivity() {
             MessageDialogFragment.noButton(), 0
         )
             .show(supportFragmentManager, "DELETE_ACCOUNT")
-    }
-
-    private fun confirmMigrate(bank: Bank) {
-
     }
 
     @Composable
