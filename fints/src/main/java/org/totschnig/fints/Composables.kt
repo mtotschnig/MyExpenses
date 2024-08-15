@@ -47,9 +47,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.safeMessage
@@ -323,7 +323,7 @@ fun MigrationDialog(
                             },
                             enabled = passphrase.isNotEmpty()
                         ) {
-                            Text("Migrate")
+                            Text(stringResource(R.string.migrate))
                         }
                     }
 
@@ -342,16 +342,11 @@ fun MigrationDialog(
             },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        "Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, " +
-                                "was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN." +
-                                "Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead." +
-                                "By providing the PIN that you used when you setup this FinTS connection, it will be saved in the same secure way, and thus can  be used for decrypting the passport, independent of the PIN that can now be updated."
-                    )
+                    Text(stringResource(R.string.migration_description_1548))
 
                     Error((migrationState as? MigrationState.Failure)?.message)
                     if (migrationState == MigrationState.Success) {
-                        Text("Password securely stored.")
+                        Text(stringResource(R.string.password_securely_stored))
                     } else {
                         OutlinedTextField(
                             enabled = migrationState != MigrationState.Running,

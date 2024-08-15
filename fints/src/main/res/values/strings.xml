@@ -49,4 +49,7 @@
     <string name="checkbox_should_save_selection_label">Save selection</string>
     <string name="pushtan_dialog">Please confirm the request on your smartphone.</string>
     <string name="sec_mech_selection_prompt">Please select the desired PIN/TAN mechanism:</string>
+    <string name="migration_description_1548">Prior to version 3.8.8, the PIN you provided for communicating with the FinTS server, was also used as password for encrypting locally stored sensitive information (passport), which made it impossible to change the PIN. Since version 3.8.8, a randomly generated password, that is written to a file encrypted with a key stored in the Android KeyStore, is used instead. By providing the PIN that you used when you setup this FinTS connection, it will be saved in the same secure way, and thus can  be used for decrypting the passport, independent of the PIN that can now be updated.</string>
+    <string name="password_securely_stored">Password securely stored.</string>
+    <string name="migrate">Migrate</string>
 </resources>
