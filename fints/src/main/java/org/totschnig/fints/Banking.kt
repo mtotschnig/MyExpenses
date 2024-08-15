@@ -72,6 +72,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
@@ -107,8 +108,9 @@ class Banking : ProtectedFragmentActivity() {
             .build().inject(viewModel)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.instMessage.collect {
-                    if (it != null) {
+                viewModel.instMessage
+                    .filterNotNull()
+                    .collect {
                         showDismissibleSnackBar(it, object : Snackbar.Callback() {
                             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                                 if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION ||
@@ -117,7 +119,6 @@ class Banking : ProtectedFragmentActivity() {
                                     viewModel.messageShown()
                             }
                         })
-                    }
                 }
             }
         }

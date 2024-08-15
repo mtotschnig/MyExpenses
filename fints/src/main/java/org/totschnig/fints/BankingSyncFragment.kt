@@ -1,7 +1,6 @@
 package org.totschnig.fints
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -19,9 +18,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -40,12 +42,22 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
         viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.instMessage.collect {
-                    if (it != null) {
-                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                        viewModel.messageShown()
+                viewModel.instMessage
+                    .filterNotNull()
+                    .collect {
+                        (requireActivity() as BaseActivity).showDismissibleSnackBar(it,
+                            object : Snackbar.Callback() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar?,
+                                    event: Int
+                                ) {
+                                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION ||
+                                        event == DISMISS_EVENT_TIMEOUT
+                                    )
+                                        viewModel.messageShown()
+                                }
+                            })
                     }
-                }
             }
         }
     }
@@ -105,9 +117,15 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                 }
             }
             TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-            TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
+            TanMediaDialog(
+                options = tanMediumRequested.value,
+                submitMedia = viewModel::submitTanMedium
+            )
             PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
-            SecMechDialog(options = secMechRequested.value, submitSecMech = viewModel::submitSecMech)
+            SecMechDialog(
+                options = secMechRequested.value,
+                submitSecMech = viewModel::submitSecMech
+            )
         }
     }
 
