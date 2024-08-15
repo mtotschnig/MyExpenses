@@ -3,6 +3,7 @@ package org.totschnig.fints
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -16,8 +17,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import org.apache.commons.text.RandomStringGenerator
 import org.kapott.hbci.GV.HBCIJob
 import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
@@ -61,24 +65,30 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.crypt.PassphraseRepository
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import timber.log.Timber
 import java.io.File
 import java.io.StreamCorruptedException
+import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import org.totschnig.fints.R as RF
 
 data class TanRequest(val message: String, val bitmap: Bitmap?)
@@ -95,8 +105,8 @@ data class SecMech(val id: String, val name: String) {
 
 class BankingViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
-        @Inject
-        lateinit var tracker: Tracker
+    @Inject
+    lateinit var tracker: Tracker
 
     init {
         System.setProperty(
@@ -140,13 +150,17 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private val _secMechRequested = MutableLiveData<List<SecMech>?>(null)
     val secMechRequested: LiveData<List<SecMech>?> = _secMechRequested
 
+    private val _instMessage: MutableStateFlow<String?> = MutableStateFlow(null)
+    val instMessage: StateFlow<String?> = _instMessage
 
-    private val _workState: MutableStateFlow<WorkState> =
-        MutableStateFlow(WorkState.Initial)
+    fun messageShown() {
+        _instMessage.update { null }
+    }
+
+    private val _workState: MutableStateFlow<WorkState> = MutableStateFlow(WorkState.Initial)
     val workState: StateFlow<WorkState> = _workState
 
-    private val _errorState: MutableStateFlow<String?> =
-        MutableStateFlow(null)
+    private val _errorState: MutableStateFlow<String?> = MutableStateFlow(null)
     val errorState: StateFlow<String?> = _errorState
 
     private val converter: HbciConverter
@@ -195,8 +209,14 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _pushTanRequested.postValue(null)
     }
 
+    private fun logTree() = Timber.tag(BankingFeature.TAG)
+
     private fun log(msg: String) {
-        Timber.tag(BankingFeature.TAG).i(msg)
+        logTree().i(msg)
+    }
+
+    private fun log(exception: Exception) {
+        logTree().w(exception)
     }
 
     private fun error(msg: String) {
@@ -210,7 +230,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun logEvent(event: String, bankingCredentials: BankingCredentials) {
         tracker.logEvent(event, Bundle(1).apply {
-            putString(Tracker.EVENT_PARAM_BLZ, bankingCredentials.bank?.blz ?: bankingCredentials.blz)
+            putString(
+                Tracker.EVENT_PARAM_BLZ,
+                bankingCredentials.bank?.blz ?: bankingCredentials.blz
+            )
         })
     }
 
@@ -227,10 +250,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             }
     }
 
-    private fun buildPassportFile(info: BankInfo, user: String) =
+    private fun passportFile(blz: String, user: String) =
         File(
             getApplication<MyApplication>().filesDir,
-            "passport_${info.blz}_${user}.dat"
+            "passport_${blz}_${user}.dat"
         )
 
     private fun buildPassport(info: BankInfo, file: File) =
@@ -242,9 +265,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         }
 
     @WorkerThread
-    private suspend fun doHBCI(
+    private fun doHBCI(
         bankingCredentials: BankingCredentials,
-        work: suspend (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        forceNewFile: Boolean = false,
         onError: (Exception) -> Unit
     ) {
         val info = initHBCI(bankingCredentials) ?: run {
@@ -253,16 +277,22 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
-        val passportFile = buildPassportFile(info, bankingCredentials.user)
+        val passportFile = passportFile(info.blz, bankingCredentials.user).also {
+            if (forceNewFile && it.exists()) {
+                it.delete()
+            }
+        }
 
         val passport = try {
             buildPassport(info, passportFile)
         } catch (e: Exception) {
-            val exception = if (Utils.getCause(e) is StreamCorruptedException) {
-                Exception(getString(R.string.wrong_pin))
-            } else e
+            log(e)
             HBCIUtils.doneThread()
-            onError(exception)
+            onError(
+                if (Utils.getCause(e) is StreamCorruptedException) {
+                    Exception(getString(R.string.wrong_pin))
+                } else e
+            )
             return
         }
 
@@ -312,6 +342,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
+                forceNewFile = bankingCredentials.isNew,
                 work = { info, passport, _ ->
                     val bank = if (bankingCredentials.isNew) {
                         logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
@@ -562,8 +593,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         }
     }
 
-    fun deleteBank(id: Long) {
-        repository.deleteBank(id)
+    fun deleteBank(bank: Bank) {
+        passportFile(bank.blz, bank.userId).delete()
+        passphraseFile(bank.blz, bank.userId).delete()
+        repository.deleteBank(bank.id)
     }
 
     fun reset() {
@@ -575,27 +608,39 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _errorState.value = null
     }
 
+    private fun passphraseFile(blz: String, user: String) =
+        File(getApplication<MyApplication>().filesDir, "passphrase_${blz}_${user}.bin")
+
+    private fun getPassPhraseRepository(blz: String, user: String) =
+        PassphraseRepository(getApplication(), passphraseFile(blz, user)) {
+            RandomStringGenerator
+                .builder()
+                .usingRandom { SecureRandom().nextInt(it) }
+                .withinRange('a'.code, 'z'.code)
+                .get()
+                .generate(20)
+                .toByteArray()
+        }
+
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
-        private val keySelectedTanMedium: String
-            get() = "selectedTanMedium_${bankingCredentials.bank?.id}"
-        private val keySelectedSecMech: String
-            get() = "selectedSecMech_${bankingCredentials.bank?.id}"
+        private val keySelectedTanMedium: String?
+            get() = bankingCredentials.bank?.let { "selectedTanMedium_${it.id}" }
+        private val keySelectedSecMech: String?
+            get() = bankingCredentials.bank?.let { "selectedSecMech_${it.id}" }
 
         init {
-            if (bankingCredentials.bank != null) {
-                selectedTanMedium = prefHandler.getString(keySelectedTanMedium)
-                selectedSecMech = prefHandler.getString(keySelectedSecMech)
-            }
+            keySelectedTanMedium?.let { selectedTanMedium = prefHandler.getString(it) }
+            keySelectedSecMech?.let { selectedSecMech = prefHandler.getString(it) }
         }
 
         private fun persistSelectedTanMedium() {
-            prefHandler.putString(keySelectedTanMedium, selectedTanMedium)
+            keySelectedTanMedium?.let { prefHandler.putString(it, selectedTanMedium) }
         }
 
         private fun persistSelectedSecMech() {
-            prefHandler.putString(keySelectedSecMech, selectedSecMech)
+            keySelectedSecMech?.let { prefHandler.putString(it, selectedSecMech) }
         }
 
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
@@ -611,59 +656,70 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         ) {
             log("callback:$reason")
             when (reason) {
-                NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE -> {
-                    retData.replace(0, retData.length, bankingCredentials.password!!)
-                }
+                NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE ->
+                    retData.replace(
+                        0, retData.length,
+                        if (bankingCredentials.bank?.version == 1) {
+                            log("Using legacy password (=PIN)")
+                            bankingCredentials.password!!
+                        } else {
+                            log("Using new password (via encrypted file)")
+                            bankingCredentials.blz + bankingCredentials.user
+                            getPassPhraseRepository(
+                                bankingCredentials.blz,
+                                bankingCredentials.user
+                            ).getPassphrase().toString(Charsets.UTF_8)
+                        }
+                    )
 
                 NEED_PT_PIN -> retData.replace(0, retData.length, bankingCredentials.password!!)
                 NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.blz)
                 NEED_USERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_CUSTOMERID -> retData.replace(0, retData.length, bankingCredentials.user)
-                NEED_PT_PHOTOTAN ->
-                    try {
-                        val code = MatrixCode(retData.toString())
+                NEED_PT_PHOTOTAN -> try {
+                    val code = MatrixCode(retData.toString())
 
-                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+                    val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(msg, bitmap))
-                        retData.replace(0, retData.length, runBlocking {
-                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                        })
+                    _tanRequested.postValue(TanRequest(msg, bitmap))
+                    retData.replace(0, retData.length, runBlocking {
+                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                    })
 
-                    } catch (e: Exception) {
-                        report(e)
-                        throw HBCI_Exception(e)
-                    }
+                } catch (e: Exception) {
+                    report(e)
+                    throw HBCI_Exception(e)
+                }
 
-                NEED_PT_QRTAN ->
-                    try {
-                        val code = QRCode(retData.toString(), msg)
+                NEED_PT_QRTAN -> try {
+                    val code = QRCode(retData.toString(), msg)
 
-                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+                    val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(code.message, bitmap))
-                        retData.replace(0, retData.length, runBlocking {
-                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                        })
-                    } catch (e: Exception) {
-                        report(e)
-                        throw HBCI_Exception(e)
-                    }
+                    _tanRequested.postValue(TanRequest(code.message, bitmap))
+                    retData.replace(0, retData.length, runBlocking {
+                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                    })
+                } catch (e: Exception) {
+                    report(e)
+                    throw HBCI_Exception(e)
+                }
 
                 NEED_PT_SECMECH -> {
                     val options = SecMech.parse(retData.toString())
                     retData.replace(0, retData.length,
                         if (options.size == 1) {
                             options[0].id
-                        } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } } ?: runBlocking {
-                            _secMechRequested.postValue(options)
-                            secMechFuture.await()?.let { (secMec, shouldPersist) ->
-                                selectedSecMech = secMec
-                                if (shouldPersist) persistSelectedSecMech()
-                                secMec
+                        } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } }
+                            ?: runBlocking {
+                                _secMechRequested.postValue(options)
+                                secMechFuture.await()?.let { (secMec, shouldPersist) ->
+                                    selectedSecMech = secMec
+                                    if (shouldPersist) persistSelectedSecMech()
+                                    secMec
+                                }
+                                    ?: throw HBCI_Exception("Security mechanism selection cancelled")
                             }
-                                ?: throw HBCI_Exception("Security mechanism selection cancelled")
-                        }
                     )
                 }
 
@@ -703,6 +759,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                 HAVE_ERROR -> report(Throwable(msg))
 
+                HAVE_INST_MSG -> _instMessage.update { msg }
+
                 else -> {}
             }
         }
@@ -720,6 +778,28 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private fun report(throwable: Throwable) {
         CrashHandler.report(throwable, BankingFeature.TAG)
     }
+
+    suspend fun migrateBank(bank: Bank, passphrase: String): Result<Unit> =
+        withContext(coroutineDispatcher) {
+            suspendCoroutine { cont ->
+                doHBCI(
+                    bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
+                    work = { _, _, _ ->
+                        val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
+                        passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
+                        contentResolver.update(
+                            ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
+                            ContentValues().also { it.put(KEY_VERSION, 2) },
+                            null, null
+                        )
+                        cont.resume(ResultUnit)
+                    },
+                    onError = {
+                        cont.resume(Result.failure(it))
+                    }
+                )
+            }
+        }
 
     val banks: StateFlow<List<Bank>> by lazy {
         repository.loadBanks().stateIn(

@@ -246,7 +246,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
 
         val BANK_PROJECTION = arrayOf(
-            KEY_ROWID, KEY_BLZ, KEY_BIC, KEY_BANK_NAME, KEY_USER_ID,
+            KEY_ROWID, KEY_BLZ, KEY_BIC, KEY_BANK_NAME, KEY_USER_ID, KEY_VERSION,
             "(SELECT count(*) FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = $TABLE_BANKS.$KEY_ROWID) AS $KEY_COUNT"
         )
 

@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -48,6 +49,7 @@ fun Repository.createBank(bank: Bank): Bank {
             put(KEY_BIC, bank.bic)
             put(KEY_BANK_NAME, bank.bankName)
             put(KEY_USER_ID, bank.userId)
+            put(KEY_VERSION, 2)
         })!!
     )
     return bank.copy(id = id)

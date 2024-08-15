@@ -1,17 +1,39 @@
 package org.totschnig.sqlcrypt
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.Keep
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 import org.totschnig.myexpenses.di.SqlCryptProvider
+import org.totschnig.myexpenses.util.crypt.PassphraseRepository
 import java.io.File
 import java.io.IOException
+import java.security.SecureRandom
+
+private const val PASSPHRASE_LENGTH = 32
 
 @Keep
 class SQLiteOpenHelperFactory : SqlCryptProvider {
     private fun passPhrase(context: Context): ByteArray =
-        PassphraseRepository(context).getPassphrase()
+        PassphraseRepository(context, File(context.filesDir, "passphrase.bin")) {
+            val random = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                SecureRandom.getInstanceStrong()
+            } else {
+                SecureRandom()
+            }
+            val result = ByteArray(PASSPHRASE_LENGTH)
+
+            random.nextBytes(result)
+
+            // filter out zero byte values, as SQLCipher does not like them
+            while (result.contains(0)) {
+                random.nextBytes(result)
+            }
+
+            result
+        }
+            .getPassphrase()
 
     override fun provideEncryptedDatabase(context: Context) = SupportFactory(passPhrase(context))
 

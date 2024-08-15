@@ -9,9 +9,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
+import java.io.Serializable
+
+const val CURRENT_VERSION = 2
 
 @Parcelize
 data class Bank(
@@ -20,11 +24,12 @@ data class Bank(
     val bic: String,
     val bankName: String,
     val userId: String,
+    val version: Int = CURRENT_VERSION,
     /**
      * holds the number of accounts linked to this bank
      */
     val count: Int = 0
-): Parcelable {
+): Parcelable, Serializable {
     override fun toString(): String {
         return "$bankName ($userId)"
     }
@@ -36,6 +41,7 @@ data class Bank(
             bic = cursor.getString(KEY_BIC),
             bankName = cursor.getString(KEY_BANK_NAME),
             userId = cursor.getString(KEY_USER_ID),
+            version = cursor.getInt(KEY_VERSION),
             count = cursor.getInt(KEY_COUNT)
         )
     }

@@ -1399,6 +1399,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case BUDGET_ID -> count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case BANK_ID -> count = MoreDbUtilsKt.update(db, TABLE_BANKS, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case BUDGET_CATEGORY -> count = budgetCategoryUpsert(db, uri, values);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
       case CURRENCIES_CODE -> {

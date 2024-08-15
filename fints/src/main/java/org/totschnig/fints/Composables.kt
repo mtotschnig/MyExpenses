@@ -1,5 +1,6 @@
 package org.totschnig.fints
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,8 +48,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.R as RB
 
 @Composable
@@ -265,6 +270,108 @@ private fun SelectionDialog(
             }
         }
     )
+}
+
+sealed class MigrationState: Parcelable {
+    @Parcelize
+    data object Idle : MigrationState()
+    @Parcelize
+    data object Running : MigrationState()
+    @Parcelize
+    data object Success : MigrationState()
+    @Parcelize
+    data class Failure(val message: String) : MigrationState()
+}
+
+@Composable
+fun MigrationDialog(
+    migrationDialogShown: MutableState<Bank?>,
+    onMigrate: suspend (Bank, String) -> Result<Unit>,
+) {
+    val scope = rememberCoroutineScope()
+    var passphrase by rememberSaveable { mutableStateOf("") }
+    var migrationState by rememberSaveable { mutableStateOf<MigrationState>(MigrationState.Idle) }
+    migrationDialogShown.value?.let { bank ->
+        fun doDismiss() {
+            migrationDialogShown.value = null
+            migrationState = MigrationState.Idle
+        }
+        AlertDialog(
+            onDismissRequest = {
+                if (migrationState != MigrationState.Running) {
+                    doDismiss()
+                }
+            },
+            confirmButton = {
+                when (migrationState) {
+                    MigrationState.Running -> {
+                        CircularProgressIndicator()
+                    }
+
+                    MigrationState.Idle, is MigrationState.Failure -> {
+                        Button(
+                            onClick = {
+                                scope.launch {
+                                    migrationState = MigrationState.Running
+                                    onMigrate(bank, passphrase).onSuccess {
+                                        migrationState = MigrationState.Success
+                                    }.onFailure {
+                                        migrationState = MigrationState.Failure(it.safeMessage)
+                                        passphrase = ""
+                                    }
+                                }
+                            },
+                            enabled = passphrase.isNotEmpty()
+                        ) {
+                            Text(stringResource(R.string.migrate))
+                        }
+                    }
+
+                    else -> {}
+                }
+            },
+            dismissButton = if (migrationState == MigrationState.Running)
+                null
+            else {
+                {
+
+                    Button(onClick = ::doDismiss) {
+                        Text(stringResource(id = if (migrationState == MigrationState.Success) android.R.string.ok else android.R.string.cancel))
+                    }
+                }
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(stringResource(R.string.migration_description_1548))
+
+                    Error((migrationState as? MigrationState.Failure)?.message)
+                    if (migrationState == MigrationState.Success) {
+                        Text(stringResource(R.string.password_securely_stored))
+                    } else {
+                        OutlinedTextField(
+                            enabled = migrationState != MigrationState.Running,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally),
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {}
+                            ),
+                            value = passphrase,
+                            onValueChange = {
+                                passphrase = it.trim()
+                            },
+                            label = { Text(text = stringResource(id = RB.string.password)) },
+                            singleLine = true
+                        )
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Composable

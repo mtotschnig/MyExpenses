@@ -15,8 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -33,6 +40,26 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             .build()
             .inject(viewModel)
         viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.instMessage
+                    .filterNotNull()
+                    .collect {
+                        (requireActivity() as BaseActivity).showDismissibleSnackBar(it,
+                            object : Snackbar.Callback() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar?,
+                                    event: Int
+                                ) {
+                                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION ||
+                                        event == DISMISS_EVENT_TIMEOUT
+                                    )
+                                        viewModel.messageShown()
+                                }
+                            })
+                    }
+            }
+        }
     }
 
     @Composable
@@ -90,9 +117,15 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                 }
             }
             TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-            TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
+            TanMediaDialog(
+                options = tanMediumRequested.value,
+                submitMedia = viewModel::submitTanMedium
+            )
             PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
-            SecMechDialog(options = secMechRequested.value, submitSecMech = viewModel::submitSecMech)
+            SecMechDialog(
+                options = secMechRequested.value,
+                submitSecMech = viewModel::submitSecMech
+            )
         }
     }
 

@@ -68,6 +68,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
 import org.totschnig.myexpenses.MyApplication
@@ -81,7 +87,6 @@ import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
@@ -101,6 +106,22 @@ class Banking : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         DaggerFinTSComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(viewModel)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.instMessage
+                    .filterNotNull()
+                    .collect {
+                        showDismissibleSnackBar(it, object : Snackbar.Callback() {
+                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION ||
+                                    event == DISMISS_EVENT_TIMEOUT
+                                )
+                                    viewModel.messageShown()
+                            }
+                        })
+                }
+            }
+        }
         setContent {
             AppTheme {
 
@@ -116,6 +137,8 @@ class Banking : ProtectedFragmentActivity() {
                 val pushTanRequested = viewModel.pushTanRequested.observeAsState()
                 val secMechRequested = viewModel.secMechRequested.observeAsState()
 
+                val migrationDialogShown = rememberSaveable { mutableStateOf<Bank?>(null) }
+
                 val workState = viewModel.workState.collectAsState()
                 LaunchedEffect(workState.value) {
                     when (workState.value) {
@@ -124,6 +147,7 @@ class Banking : ProtectedFragmentActivity() {
                                 dialogState = DialogState.Credentials
                             }
                         }
+
                         is Loading -> {
                             dialogState = DialogState.Loading
                         }
@@ -183,7 +207,13 @@ class Banking : ProtectedFragmentActivity() {
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             } else {
-                                LazyColumn(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))) {
+                                LazyColumn(
+                                    modifier = Modifier.padding(
+                                        horizontal = dimensionResource(
+                                            id = R.dimen.padding_main_screen
+                                        )
+                                    )
+                                ) {
                                     data.value.forEach {
                                         item {
                                             BankRow(
@@ -192,12 +222,16 @@ class Banking : ProtectedFragmentActivity() {
                                                     if (it.count > 0) {
                                                         confirmBankDelete(it)
                                                     } else {
-                                                        viewModel.deleteBank(it.id)
+                                                        viewModel.deleteBank(it)
                                                     }
                                                 },
                                                 onShow = {
                                                     dialogState = DialogState.Credentials
-                                                    bankingCredentials.value = BankingCredentials.fromBank(it)
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                },
+                                                onMigrate = {
+                                                    migrationDialogShown.value = it
                                                 }
                                             )
                                         }
@@ -218,9 +252,22 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 }
                 TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-                TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
-                PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
-                SecMechDialog(options = secMechRequested.value, submitSecMech = viewModel::submitSecMech)
+                TanMediaDialog(
+                    options = tanMediumRequested.value,
+                    submitMedia = viewModel::submitTanMedium
+                )
+                PushTanDialog(
+                    msg = pushTanRequested.value,
+                    confirmPushTan = viewModel::confirmPushTan
+                )
+                SecMechDialog(
+                    options = secMechRequested.value,
+                    submitSecMech = viewModel::submitSecMech
+                )
+                MigrationDialog(
+                    migrationDialogShown,
+                    onMigrate = { bank, passphrase -> viewModel.migrateBank(bank, passphrase) }
+                )
             }
         }
     }
@@ -447,7 +494,7 @@ class Banking : ProtectedFragmentActivity() {
                         Button(
                             onClick = { dismiss(workState is Success) }
                         ) {
-                            Text(stringResource( R.string.menu_close))
+                            Text(stringResource(R.string.menu_close))
                         }
                     },
                     text = {
@@ -461,9 +508,13 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 )
             }
+
             DialogState.Loading -> {
                 AlertDialog(
-                    properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false),
+                    properties = DialogProperties(
+                        dismissOnClickOutside = false,
+                        dismissOnBackPress = false
+                    ),
                     onDismissRequest = { },
                     confirmButton = { },
                     icon = { DialogIcon() },
@@ -488,7 +539,7 @@ class Banking : ProtectedFragmentActivity() {
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) true else when (command) {
             R.id.DELETE_BANK_COMMAND_DO -> {
-                viewModel.deleteBank(tag as Long)
+                viewModel.deleteBank(tag as Bank)
                 true
             }
 
@@ -513,7 +564,7 @@ class Banking : ProtectedFragmentActivity() {
             MessageDialogFragment.Button(
                 R.string.menu_delete,
                 R.id.DELETE_BANK_COMMAND_DO,
-                bank.id
+                bank
             ),
             null,
             MessageDialogFragment.noButton(), 0
@@ -539,8 +590,9 @@ class Banking : ProtectedFragmentActivity() {
 @Composable
 fun BankRow(
     bank: Bank,
-    onDelete: (Bank) -> Unit,
-    onShow: (Bank) -> Unit
+    onDelete: (Bank) -> Unit = {},
+    onShow: (Bank) -> Unit = {},
+    onMigrate: (Bank) -> Unit = {}
 ) {
     val showMenu = remember { mutableStateOf(false) }
     Row(
@@ -563,7 +615,16 @@ fun BankRow(
                     command = "LIST_ACCOUNTS",
                     label = R.string.accounts,
                     icon = Icons.Filled.Checklist
-                ) { onShow(bank) })
+                ) { onShow(bank) }
+            )
+            if (bank.version == 1) {
+                add(
+                    MenuEntry(
+                        command = "MIGRATION",
+                        label = UiText.StringValue("v1 -> v2")
+                    ) { onMigrate(bank) }
+                )
+            }
         }
     )
     HierarchicalMenu(showMenu, menu)
@@ -614,8 +675,29 @@ fun AccountRow(
 @Composable
 private fun BankDemo() {
     Column {
-        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "My home bank", userId = "1234"), onDelete = {}, onShow = {})
-        BankRow(bank = Bank(blz = "200411",  bic = "XPNSS", bankName = "Comdirect Bank", userId = "1234"), onDelete = {}, onShow = {})
-        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "Sparda Bank", userId = "1234"), onDelete = {}, onShow = {})
+        BankRow(
+            bank = Bank(
+                blz = "1234567",
+                bic = "XPNSS",
+                bankName = "My home bank",
+                userId = "1234"
+            )
+        )
+        BankRow(
+            bank = Bank(
+                blz = "200411",
+                bic = "XPNSS",
+                bankName = "Comdirect Bank",
+                userId = "1234"
+            )
+        )
+        BankRow(
+            bank = Bank(
+                blz = "1234567",
+                bic = "XPNSS",
+                bankName = "Sparda Bank",
+                userId = "1234"
+            )
+        )
     }
 }

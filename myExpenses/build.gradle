@@ -207,7 +207,7 @@ dependencies {
     implementation "ch.acra:acra-dialog:$acraVersion"
     implementation "org.apache.commons:commons-lang3:$commonsLang"
     implementation 'org.apache.commons:commons-csv:1.11.0'
-    implementation "org.apache.commons:commons-text:$commonsText"
+    api "org.apache.commons:commons-text:$commonsText"
     //noinspection GradleDependency
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:47240bb94c'
@@ -303,6 +303,7 @@ dependencies {
     implementation("com.github.livefront.sealed-enum:runtime:0.7.0")
     ksp("com.github.livefront.sealed-enum:ksp:0.7.0")
 
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
 
     debugImplementation("androidx.fragment:fragment-testing-manifest:$fragmentVersion")
     testImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
