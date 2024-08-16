@@ -5,7 +5,7 @@ buildscript {
     ext {
         compose_compiler_version = '1.5.14'
         kotlin_version = '1.9.24'
-        agp_version = '8.5.1'
+        agp_version = '8.5.2'
     }
 }
 plugins {
@@ -21,7 +21,7 @@ plugins {
 ext {
     resConfig = ['en', 'en-rGB', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'de-rDE', 'el', 'es', 'eu', 'fr', 'fr-rCA', 'hr', 'hu', 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'ta', 'te', 'tr', 'uk', 'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW']
     versionCode = 749
-    versionName = '3.8.8'
+    versionName = '3.8.7.1'
     compileSdkVersion = 34
     minSdkVersion = 21
     targetSdkVersion = 34
@@ -33,9 +33,9 @@ ext {
     acraVersion = "5.11.3"
     robolectricVersion = '4.12.2'
     roomVersion = "2.6.1"
-    archLifecycleVersion = '2.8.3'
+    archLifecycleVersion = '2.8.4'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.8.1"
+    fragmentVersion = "1.8.2"
     coroutines = '1.8.1'
     mockitoVersion = '5.12.0'
     retrofitVersion = '2.11.0'
@@ -64,7 +64,7 @@ ext {
     //composeDevBom = "dev.chrisbanes.compose:compose-bom:2024.05.00-alpha02"
     composeBom = "androidx.compose:compose-bom:2024.06.00"
     activityCompose = "1.9.0"
-    workManager = "2.9.0"
+    workManager = "2.9.1"
 }
 
 subprojects {
