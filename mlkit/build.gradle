@@ -26,6 +26,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.annotation:annotation:$annotations"
     api 'com.google.android.gms:play-services-mlkit-text-recognition-common:19.1.0'
-    api "com.google.mlkit:text-recognition-bundled-common:$mlkitTextRecognition"
+    api "com.google.mlkit:text-recognition-bundled-common:17.0.0"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
