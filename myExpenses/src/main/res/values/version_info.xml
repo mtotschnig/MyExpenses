@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>749;3.8.7.1</item>
         <item>748;3.8.7</item>
         <item>743;3.8.6</item>
         <item>739;3.8.5</item>
@@ -147,6 +148,7 @@
     <string name="project_board_385">143#column-19888171</string>
     <string name="project_board_386">1</string>
     <string name="project_board_387">3</string>
+    <string name="project_board_3871">4</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -205,5 +207,9 @@
     </string-array>
     <string-array name="whats_new_387">
         <item>@string/cab_MyExpenses_filter_help_text</item>
+    </string-array>
+    <string-array name="whats_new_3871">
+        <item>@string/ui_refinement</item>
+        <item>@string/bug_fixes</item>
     </string-array>
 </resources>
