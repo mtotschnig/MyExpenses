@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
-import java.util.Date
 
 class TransactionTest : BaseDbTest() {
     private lateinit var infos: Array<TransactionInfo>
@@ -44,9 +43,24 @@ class TransactionTest : BaseDbTest() {
 
     private fun insertData() {
         infos = arrayOf(
-            TransactionInfo(testAccountId, 0, Date(), "Transaction 0", payeeId),
-            TransactionInfo(testAccountId, 100, Date(), "Transaction 1", payeeId),
-            TransactionInfo(testAccountId, -100, Date(), "Transaction 2", payeeId)
+            TransactionInfo(
+                accountId = testAccountId,
+                amount = 0,
+                comment = "Transaction 0",
+                payeeId = payeeId
+            ),
+            TransactionInfo(
+                accountId = testAccountId,
+                amount = 100,
+                comment = "Transaction 1",
+                payeeId = payeeId
+            ),
+            TransactionInfo(
+                accountId = testAccountId,
+                amount = -100,
+                comment = "Transaction 2",
+                payeeId = payeeId
+            )
         )
 
         for (transactionInfo in infos) {
@@ -190,8 +204,10 @@ class TransactionTest : BaseDbTest() {
    */
     fun testInserts() {
         val transaction = TransactionInfo(
-            testAccountId,
-            1000, Date(), "Transaction 4", payeeId
+            accountId = testAccountId,
+            amount = 1000,
+            comment = "Transaction 4",
+            payeeId = payeeId
         )
 
         // Insert subtest 1.
@@ -239,8 +255,10 @@ class TransactionTest : BaseDbTest() {
     //Test that we can't insert a record that links to an account_id that does not exist
     fun testInsertViolatesForeignKey() {
         val transaction = TransactionInfo(
-            testAccountId + 1,
-            1000, Date(), "Transaction 4", payeeId
+            accountId = testAccountId + 1,
+            amount = 1000,
+            comment = "Transaction 4",
+            payeeId = payeeId
         )
         try {
             mockContentResolver.insert(

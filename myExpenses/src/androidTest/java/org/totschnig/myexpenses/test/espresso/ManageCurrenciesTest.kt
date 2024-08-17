@@ -70,7 +70,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         onData(Matchers.`is`(currency))
             .inAdapterView(withId(android.R.id.list)).perform(click())
         onView(withId(R.id.edt_currency_fraction_digits))
-            .perform(replaceText("3"))
+            .perform(scrollTo(), replaceText("3"))
         if (withUpdate) {
             onView(withId(R.id.checkBox)).perform(scrollTo())
             BaristaCheckboxInteractions.check(R.id.checkBox)

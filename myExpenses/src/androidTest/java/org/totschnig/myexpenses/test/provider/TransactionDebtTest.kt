@@ -2,13 +2,11 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.TransactionInfo
@@ -28,6 +26,7 @@ class TransactionDebtTest: BaseDbTest() {
     private var closedTransaction: Long = 0
     val currency = CurrencyUnit.DebugInstance
 
+    @Deprecated("Deprecated in Java")
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
@@ -55,7 +54,13 @@ class TransactionDebtTest: BaseDbTest() {
         )
         closedTransaction = mDb.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
-            TransactionInfo(testAccountId, 0, Date(), "Transaction closed", payeeId1, closedDebt).contentValues
+            TransactionInfo(
+                accountId = testAccountId,
+                amount = 0,
+                comment = "Transaction closed",
+                payeeId = payeeId1,
+                debtId = closedDebt
+            ).contentValues
         )
         mDb.update(TABLE_DEBTS, ContentValues(1).apply { put(KEY_SEALED, 1) },
             "$KEY_ROWID = ?", arrayOf(closedDebt.toString()))
@@ -88,12 +93,11 @@ class TransactionDebtTest: BaseDbTest() {
 
     fun testInsertIntoSealedDebtShouldFail() {
         val testTransaction = TransactionInfo(
-            testAccountId,
-            0,
-            Date(),
-            "Transaction 0",
-            payeeId1,
-            closedDebt
+            accountId = testAccountId,
+            amount = 0,
+            comment = "Transaction 0",
+            payeeId = payeeId1,
+            debtId = closedDebt
         )
 
         try {

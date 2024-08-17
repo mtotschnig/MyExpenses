@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.shared_test.CursorSubject
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
-import java.util.Date
 
 class AutoFillTest : BaseDbTest() {
     private val testTransactions = arrayOfNulls<TransactionInfo>(3)
@@ -27,36 +26,32 @@ class AutoFillTest : BaseDbTest() {
     private var methodCreditCardId: Long = 0
 
     private fun insertData() {
-        val now = Date()
         testTransactions[0] = TransactionInfo(
-            testAccountId,
-            0,
-            now,
-            "Transaction 0",
-            payeeId,
-            null,
-            catId1,
-            methodCreditCardId
+            accountId = testAccountId,
+            amount = 0,
+            comment = "Transaction 0",
+            payeeId = payeeId,
+            debtId = null,
+            catId = catId1,
+            methodId = methodCreditCardId
         )
         testTransactions[1] = TransactionInfo(
-            testAccountId,
-            200,
-            now,
-            "Transaction 1",
-            payeeId,
-            null,
-            catId,
-            methodChequeId
+            accountId = testAccountId,
+            amount = 200,
+            comment = "Transaction 1",
+            payeeId = payeeId,
+            debtId = null,
+            catId = catId,
+            methodId = methodChequeId
         )
         testTransactions[2] = TransactionInfo(
-            testAccountId,
-            -100,
-            now,
-            "Transaction 2",
-            payeeId1,
-            null,
-            catId,
-            methodCreditCardId
+            accountId = testAccountId,
+            amount = -100,
+            comment = "Transaction 2",
+            payeeId = payeeId1,
+            debtId = null,
+            catId = catId,
+            methodId = methodCreditCardId
         )
 
         for (testTransaction in testTransactions) {
