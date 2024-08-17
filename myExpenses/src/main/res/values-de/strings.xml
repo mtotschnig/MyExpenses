@@ -971,4 +971,8 @@
     <string name="merge_categories_prompt">Wählen Sie die Kategorie aus, die Sie beibehalten möchten</string>
     <string name="pref_csv_export_category_separator_summary">Trennzeichen zwischen den Ebenen der Kategoriehierarchie</string>
     <string name="not_enough_data">Nicht genügend Daten</string>
+    <string name="buy">Kaufen</string>
+    <string name="pref_scroll_to_current_date_app_launch">nur wenn die App gestartet wird</string>
+    <string name="pref_scroll_to_current_date_account_open">jedes mal, wenn Sie zum Konto navigieren</string>
+    <string name="pref_scroll_to_current_date_title">In der Transaktionsliste zum aktuellen Datum scrollen</string>
 </resources>

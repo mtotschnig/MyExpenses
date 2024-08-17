@@ -216,4 +216,14 @@
     <string name="label">Label</string>
     <string name="licence_validation_failure">Tidak dapat memvalidasi kunci lisensi.</string>
     <string name="menu_back">Kembali</string>
+    <string name="menu_create_party">Pihak baru</string>
+    <string name="menu_create_template_from_transaction">Simpan sebagai templat</string>
+    <string name="menu_create_split_part_transfer">Bagian pemisah transfer baru</string>
+    <string name="menu_create_template_for_transaction">Templat transaksi baru</string>
+    <string name="menu_create_template_for_transfer">Templat transfer baru</string>
+    <string name="menu_create_split_part_category">Bagian pemisahan kategori baru</string>
+    <string name="menu_create_method">Metode pembayaran baru</string>
+    <string name="menu_create_split">Pembagian baru</string>
+    <string name="menu_create_sub_cat">Sub kategori baru</string>
+    <string name="menu_create_template">Templat baru</string>
 </resources>

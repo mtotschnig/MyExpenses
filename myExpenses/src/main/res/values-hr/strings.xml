@@ -916,4 +916,8 @@
     <string name="menu_transform_to_transfer">Konvertiraj u prijenos</string>
     <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za 2024. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
     <string name="not_enough_data">Nema dovoljno podataka</string>
+    <string name="buy">Kupi</string>
+    <string name="pref_scroll_to_current_date_app_launch">samo kada se aplikacija pokrene</string>
+    <string name="pref_scroll_to_current_date_title">Prolistaj popis transakcija na aktualni datum</string>
+    <string name="pref_scroll_to_current_date_account_open">svaki put kada prijeđeš na račun</string>
 </resources>
