@@ -334,8 +334,7 @@ class Banking : ProtectedFragmentActivity() {
                     },
                     text = {
                         Column(
-                            modifier = Modifier
-                                .verticalScroll(rememberScrollState())
+                            modifier = Modifier.verticalScroll(rememberScrollState())
                         ) {
                             Error(errorMessage = errorState.value)
                             Help(buildList {
