@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>749;3.8.7.1</item>
+        <item>750;3.8.7.1</item>
         <item>748;3.8.7</item>
         <item>743;3.8.6</item>
         <item>739;3.8.5</item>
