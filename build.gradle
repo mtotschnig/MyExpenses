@@ -54,7 +54,7 @@ ext {
     ktor = '2.3.11'
     bouncycastle = "1.71"
     desugarVersion = '2.0.4'
-    mlkitTextRecognition = "16.0.0"
+    mlkitTextRecognition = "16.0.1"
     truthVersion = '1.4.2'
     accompanist = "0.34.0"
     requery = "3.36.0"
