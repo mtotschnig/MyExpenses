@@ -175,7 +175,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     lateinit var floatingActionButton: FloatingActionButton
 
-
     fun configureFloatingActionButton() {
         require(hasFloatingActionButton)
         with(floatingActionButton) {

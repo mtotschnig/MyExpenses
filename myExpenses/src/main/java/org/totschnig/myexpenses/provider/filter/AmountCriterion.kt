@@ -37,7 +37,7 @@ class AmountCriterion(
 ) : Criterion<Long>() {
 
     init {
-        if(type) {
+        if (type) {
             require(values.all { it >= 0 })
         } else {
             require(values.all { it <= 0 })
