@@ -40,31 +40,31 @@ class AmountCriterionTransformationTest(
         fun data() = listOf(
             arrayOf(
                 WhereFilter.Operation.EQ, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.EQ, arrayOf(100L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.EQ, arrayOf(100L), CURRENCY, true)
             ),
             arrayOf(
                 WhereFilter.Operation.GTE, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.GTE, arrayOf(100L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.GTE, arrayOf(100L), CURRENCY, true)
             ),
             arrayOf(
                 WhereFilter.Operation.GTE, false, 100L, null,
-                AmountCriterion(WhereFilter.Operation.LTE, arrayOf(-100L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.LTE, arrayOf(-100L), CURRENCY, false)
             ),
             arrayOf(
                 WhereFilter.Operation.LTE, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(0L, 100L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(0L, 100L), CURRENCY, true)
             ),
             arrayOf(
                 WhereFilter.Operation.LTE, false, 100L, null,
-                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(-100L, 0), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(-100L, 0), CURRENCY, false)
             ),
             arrayOf(
                 WhereFilter.Operation.BTW, true, 100L, 200L,
-                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(100L, 200L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(100L, 200L), CURRENCY, true)
             ),
             arrayOf(
                 WhereFilter.Operation.BTW, false, 100L, 200L,
-                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(-200L, -100L), CURRENCY)
+                AmountCriterion(WhereFilter.Operation.BTW, arrayOf(-200L, -100L), CURRENCY, false)
             )
         )
     }
