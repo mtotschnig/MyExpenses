@@ -19,13 +19,15 @@ enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, val blz: St
     RENAULT(R.drawable.renault, Color.rgb(128, 128, 128), "30520037"),
     MLP(R.drawable.mlp, Color.rgb(190, 182, 170), "67230000"),
     DIREKT1822(R.drawable.direkt1822_96, Color.rgb(0, 58, 107), "50050222"),
-    PSD(R.drawable.psd, Color.rgb(1, 153, 102))
+    PSD(R.drawable.psd, Color.rgb(1, 153, 102)),
+    COMMERZBANK(R.drawable.commerz, Color.rgb(254, 213, 41))
 
 }
 
 val Bank.asWellKnown: WellKnownBank?
     get() = WellKnownBank.entries.find { it.blz == blz } ?: when {
         blz.startsWith("200411") -> WellKnownBank.COMDIRECT
+        bankName.contains("Commerzbank") -> WellKnownBank.COMMERZBANK
         bankName.contains("sparda", ignoreCase = true) -> WellKnownBank.SPARDA
         bankName.contains("postbank", ignoreCase = true) -> WellKnownBank.POSTBANK
         bankName.contains("PSD Bank", ignoreCase = true) -> WellKnownBank.PSD

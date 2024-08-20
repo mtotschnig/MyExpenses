@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -241,29 +242,22 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     }
                 }
-                SetupDialog(dialogState, workState.value, bankingCredentials, errorState) {
-                    if (calledFromOnboarding) {
-                        setResult(if (it) Activity.RESULT_OK else Activity.RESULT_CANCELED)
-                        finish()
-                    } else {
-                        dialogState = DialogState.NoShow
-                        bankingCredentials.value = BankingCredentials.EMPTY
-                        viewModel.reset()
+                if (tanRequested.value == null && tanMediumRequested.value == null && pushTanRequested.value == null && secMechRequested.value == null) {
+                    SetupDialog(dialogState, workState.value, bankingCredentials, errorState) {
+                        if (calledFromOnboarding) {
+                            setResult(if (it) Activity.RESULT_OK else Activity.RESULT_CANCELED)
+                            finish()
+                        } else {
+                            dialogState = DialogState.NoShow
+                            bankingCredentials.value = BankingCredentials.EMPTY
+                            viewModel.reset()
+                        }
                     }
                 }
-                TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-                TanMediaDialog(
-                    options = tanMediumRequested.value,
-                    submitMedia = viewModel::submitTanMedium
-                )
-                PushTanDialog(
-                    msg = pushTanRequested.value,
-                    confirmPushTan = viewModel::confirmPushTan
-                )
-                SecMechDialog(
-                    options = secMechRequested.value,
-                    submitSecMech = viewModel::submitSecMech
-                )
+                TanDialog(tanRequested.value)
+                TanMediaDialog(tanMediumRequested.value)
+                PushTanDialog(pushTanRequested.value)
+                SecMechDialog(secMechRequested.value)
                 MigrationDialog(
                     migrationDialogShown,
                     onMigrate = { bank, passphrase -> viewModel.migrateBank(bank, passphrase) }
@@ -599,7 +593,7 @@ fun BankRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        BankIconImpl(bank = bank)
+        BankIconImpl(modifier = Modifier.padding(2.dp).size(48.dp), bank = bank)
         Column {
             Text(bank.bankName)
             Text(bank.blz + " / " + bank.bic)

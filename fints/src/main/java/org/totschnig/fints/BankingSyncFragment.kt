@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
@@ -39,7 +40,9 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             .appComponent((requireActivity().application as MyApplication).appComponent)
             .build()
             .inject(viewModel)
-        viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
+        if (savedInstanceState == null) {
+            viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.instMessage
@@ -75,7 +78,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             Column {
                 when (workState.value) {
                     is BankingViewModel.WorkState.BankLoaded -> {
-                        val state: MutableState<BankingCredentials> = remember {
+                        val state: MutableState<BankingCredentials> = rememberSaveable {
                             mutableStateOf(
                                 BankingCredentials.fromBank((workState.value as BankingViewModel.WorkState.BankLoaded).bank)
                             )
@@ -116,16 +119,10 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                     else -> {}
                 }
             }
-            TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
-            TanMediaDialog(
-                options = tanMediumRequested.value,
-                submitMedia = viewModel::submitTanMedium
-            )
-            PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
-            SecMechDialog(
-                options = secMechRequested.value,
-                submitSecMech = viewModel::submitSecMech
-            )
+            TanDialog(tanRequested.value)
+            TanMediaDialog(tanMediumRequested.value)
+            PushTanDialog(pushTanRequested.value)
+            SecMechDialog(secMechRequested.value)
         }
     }
 

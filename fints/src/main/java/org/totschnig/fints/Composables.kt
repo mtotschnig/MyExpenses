@@ -21,6 +21,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -128,45 +129,36 @@ fun ColumnScope.BankingCredentials(
 }
 
 @Composable
-fun PushTanDialog(
-    msg: String?,
-    confirmPushTan: () -> Unit
-) {
-    msg?.let {
+fun PushTanDialog(pushTanRequest: PushTanRequest?) {
+    pushTanRequest?.let {
         AlertDialog(
             onDismissRequest = { },
             confirmButton = {
-                Button(onClick = {
-                    confirmPushTan()
-                }) {
+                Button(onClick = pushTanRequest.submit) {
                     Text(stringResource(id = android.R.string.ok))
                 }
             },
             text = {
                 Column {
-                    Text(msg)
+                    Text(pushTanRequest.message)
                     Text(stringResource(id = R.string.pushtan_dialog))
                 }
             }
-
         )
     }
 }
 
 @Composable
-fun TanDialog(
-    tanRequest: TanRequest?,
-    submitTan: (String?) -> Unit
-) {
+fun TanDialog(tanRequest: TanRequest?) {
     tanRequest?.let {
         var tan by rememberSaveable { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = {
-                submitTan(null)
+                tanRequest.submit(null)
             },
             confirmButton = {
                 Button(onClick = {
-                    submitTan(tan)
+                    tanRequest.submit(tan)
                 }) {
                     Text(stringResource(id = android.R.string.ok))
                 }
@@ -191,29 +183,23 @@ fun TanDialog(
 }
 
 @Composable
-fun SecMechDialog(
-    options: List<SecMech>?,
-    submitSecMech: (Pair<String, Boolean>?) -> Unit
-) {
-    options?.let {
+fun SecMechDialog(request: SecMechRequest?) {
+    request?.let {
         SelectionDialog(
             title = R.string.sec_mech_selection_prompt,
-            options = options.map { it.id to it.name },
-            submit = submitSecMech
+            options = request.options.map { it.id to it.name },
+            submit = request.submit
         )
     }
 }
 
 @Composable
-fun TanMediaDialog(
-    options: List<String>?,
-    submitMedia: (Pair<String, Boolean>?) -> Unit
-) {
-    options?.let {
+fun TanMediaDialog(request: TanMediumRequest?) {
+    request?.let {
         SelectionDialog(
             title = R.string.tan_medium_selection_prompt,
-            options = options.map { it to it },
-            submit = submitMedia
+            options = request.options.map { it to it },
+            submit = request.submit
         )
     }
 }
@@ -384,7 +370,7 @@ fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
     bank.asWellKnown?.icon?.let {
         Image(modifier = modifier, painter = painterResource(id = it), contentDescription = null)
     } ?: run {
-        Image(
+        Icon(
             modifier = modifier,
             imageVector = Icons.Filled.AccountBalance,
             contentDescription = null
@@ -417,5 +403,5 @@ fun Error(errorMessage: String?) {
 @Preview
 @Composable
 private fun TanMediaPreview() {
-    TanMediaDialog(options = listOf("pushTan", "Pixel"), submitMedia = {})
+    TanMediaDialog(TanMediumRequest(options = listOf("pushTan", "Pixel")) {})
 }

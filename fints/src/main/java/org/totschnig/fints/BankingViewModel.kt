@@ -27,7 +27,6 @@ import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
 import org.kapott.hbci.exceptions.HBCI_Exception
 import org.kapott.hbci.manager.BankInfo
-import org.kapott.hbci.manager.Feature
 import org.kapott.hbci.manager.HBCIHandler
 import org.kapott.hbci.manager.HBCIUtils
 import org.kapott.hbci.manager.MatrixCode
@@ -91,7 +90,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import org.totschnig.fints.R as RF
 
-data class TanRequest(val message: String, val bitmap: Bitmap?)
+data class TanRequest(val message: String, val bitmap: Bitmap?, val submit: (String?) -> Unit)
+data class TanMediumRequest(val options: List<String>, val submit: (Pair<String, Boolean>?) -> Unit)
+data class PushTanRequest(val message: String, val submit: () -> Unit)
+data class SecMechRequest(val options: List<SecMech>, val submit: (Pair<String, Boolean>?) -> Unit)
 
 data class SecMech(val id: String, val name: String) {
     companion object {
@@ -134,21 +136,53 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         }
     }
 
-    private val tanFuture: CompletableDeferred<String?> = CompletableDeferred()
     private val _tanRequested = MutableLiveData<TanRequest?>(null)
     val tanRequested: LiveData<TanRequest?> = _tanRequested
 
-    private val tanMediumFuture: CompletableDeferred<Pair<String, Boolean>?> = CompletableDeferred()
-    private val _tanMediumRequested = MutableLiveData<List<String>?>(null)
-    val tanMediumRequested: LiveData<List<String>?> = _tanMediumRequested
+    private fun requestTan(message: String, bitmap: Bitmap?): CompletableDeferred<String?> {
+        val future = CompletableDeferred<String?>()
+        _tanRequested.postValue(TanRequest(message, bitmap) {
+            future.complete(it)
+            _tanRequested.postValue(null)
+        })
+        return future
+    }
 
-    private val pushTanFuture: CompletableDeferred<Unit> = CompletableDeferred()
-    private val _pushTanRequested = MutableLiveData<String?>(null)
-    val pushTanRequested: LiveData<String?> = _pushTanRequested
+    private val _tanMediumRequested = MutableLiveData<TanMediumRequest?>(null)
+    val tanMediumRequested: LiveData<TanMediumRequest?> = _tanMediumRequested
 
-    private val secMechFuture: CompletableDeferred<Pair<String, Boolean>?> = CompletableDeferred()
-    private val _secMechRequested = MutableLiveData<List<SecMech>?>(null)
-    val secMechRequested: LiveData<List<SecMech>?> = _secMechRequested
+    private fun requestTanMedium(options: List<String>): CompletableDeferred<Pair<String, Boolean>?> {
+        val future = CompletableDeferred<Pair<String, Boolean>?>()
+        _tanMediumRequested.postValue(TanMediumRequest(options) {
+            future.complete(it)
+            _tanMediumRequested.postValue(null)
+        })
+        return future
+    }
+
+    private val _pushTanRequested = MutableLiveData<PushTanRequest?>(null)
+    val pushTanRequested: LiveData<PushTanRequest?> = _pushTanRequested
+
+    private fun requestPushTan(message: String): CompletableDeferred<Unit> {
+        val future = CompletableDeferred<Unit>()
+        _pushTanRequested.postValue(PushTanRequest(message) {
+            future.complete(Unit)
+            _pushTanRequested.postValue(null)
+        })
+        return future
+    }
+
+    private val _secMechRequested = MutableLiveData<SecMechRequest?>(null)
+    val secMechRequested: LiveData<SecMechRequest?> = _secMechRequested
+
+    private fun requestSecMech(options: List<SecMech>): CompletableDeferred<Pair<String, Boolean>?> {
+        val future = CompletableDeferred<Pair<String, Boolean>?>()
+        _secMechRequested.postValue(SecMechRequest(options) {
+            future.complete(it)
+            _secMechRequested.postValue(null)
+        })
+        return future
+    }
 
     private val _instMessage: MutableStateFlow<String?> = MutableStateFlow(null)
     val instMessage: StateFlow<String?> = _instMessage
@@ -189,26 +223,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         class Success(val message: String = "") : Done()
     }
 
-    fun submitTan(tan: String?) {
-        tanFuture.complete(tan)
-        _tanRequested.postValue(null)
-    }
-
-    fun submitTanMedium(selection: Pair<String, Boolean>?) {
-        tanMediumFuture.complete(selection)
-        _tanMediumRequested.postValue(null)
-    }
-
-    fun submitSecMech(selection: Pair<String, Boolean>?) {
-        secMechFuture.complete(selection)
-        _secMechRequested.postValue(null)
-    }
-
-    fun confirmPushTan() {
-        pushTanFuture.complete(Unit)
-        _pushTanRequested.postValue(null)
-    }
-
     private fun logTree() = Timber.tag(BankingFeature.TAG)
 
     private fun log(msg: String) {
@@ -225,6 +239,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun error(exception: Exception, bankingCredentials: BankingCredentials) {
         logEvent(Tracker.EVENT_FINTS_ERROR, bankingCredentials)
+        log(exception)
         error(Utils.getCause(exception).safeMessage)
     }
 
@@ -239,15 +254,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun initHBCI(bankingCredentials: BankingCredentials): BankInfo? {
         HBCIUtils.init(hbciProperties, MyHBCICallback(bankingCredentials))
-        HBCIUtils.setParam("client.passport.default", "PinTan")
+        HBCIUtils.setParam("client.passport.default", "PinTanMemory")
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
         return HBCIUtils.getBankInfo(bankingCredentials.blz)
-            ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }?.also {
-                if (it.name.contains("Commerzbank", ignoreCase = true)) {
-                    Feature.INIT_FLIP_USER_INST.isEnabled = false
-                    Feature.SYNC_SEPAINFO.isEnabled = false
-                }
-            }
+            ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }
     }
 
     private fun passportFile(blz: String, user: String) =
@@ -256,8 +266,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             "passport_${blz}_${user}.dat"
         )
 
-    private fun buildPassport(info: BankInfo, file: File) =
-        AbstractHBCIPassport.getInstance(file).apply {
+    private fun buildPassport(info: BankInfo) =
+        AbstractHBCIPassport.getInstance().apply {
             country = "DE"
             host = info.pinTanAddress
             port = 443
@@ -268,7 +278,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private fun doHBCI(
         bankingCredentials: BankingCredentials,
         work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
-        forceNewFile: Boolean = false,
         onError: (Exception) -> Unit
     ) {
         val info = initHBCI(bankingCredentials) ?: run {
@@ -277,14 +286,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
-        val passportFile = passportFile(info.blz, bankingCredentials.user).also {
-            if (forceNewFile && it.exists()) {
-                it.delete()
-            }
-        }
-
         val passport = try {
-            buildPassport(info, passportFile)
+            buildPassport(info)
         } catch (e: Exception) {
             log(e)
             HBCIUtils.doneThread()
@@ -304,7 +307,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 Timber.e(e)
             }
             passport.close()
-            passportFile.delete()
             HBCIUtils.doneThread()
             onError(e)
             return
@@ -342,7 +344,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
-                forceNewFile = bankingCredentials.isNew,
                 work = { info, passport, _ ->
                     val bank = if (bankingCredentials.isNew) {
                         logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
@@ -362,7 +363,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                     val accounts = passport.accounts
                         ?.map { konto ->
-                            konto to (importedAccounts?.any {
+                            konto.also {
+                                if (it.bic == null) {
+                                    it.bic = info.bic
+                                }
+                            } to (importedAccounts?.any {
                                 it.iban == konto.iban || (it.number == konto.number && it.subnumber == konto.subnumber)
                             } == true)
                         }
@@ -409,18 +414,20 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             doHBCI(
                 credentials,
                 work = { _, _, handle ->
+                    val konto = Konto(
+                        "DE",
+                        accountInformation.blz ?: credentials.blz,
+                        accountInformation.number,
+                        accountInformation.subnumber
+                    ).also {
+                        it.iban = accountInformation.iban
+                        it.bic = credentials.bank!!.bic
+                        it.name = "MICHAEL TOTSCHNIG"
+                    }
+
+
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                    umsatzJob.setParam("my",
-                        Konto(
-                            "DE",
-                            accountInformation.blz ?: credentials.blz,
-                            accountInformation.number,
-                            accountInformation.subnumber
-                        ).also {
-                            it.iban = accountInformation.iban
-                            it.bic = credentials.bank!!.bic
-                        }
-                    )
+                    umsatzJob.setParam("my", konto)
                     umsatzJob.setStartParam(accountInformation.lastSynced!!)
                     umsatzJob.addToQueue()
 
@@ -428,8 +435,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                     if (!status.isOK) {
                         error(status.toString())
+                        _workState.value = WorkState.Abort
                         return@doHBCI
                     }
+
 
                     val result = umsatzJob.jobResult as GVRKUms
                     if (!result.isOK) {
@@ -528,13 +537,17 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                             )
                         )
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                        umsatzJob.setParam("my", konto)
+                        umsatzJob.setParam("my", konto.also {
+                            if (it.bic == null) {
+                                it.bic = bankingCredentials.bank?.bic
+                            }
+                        })
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 
                         try {
                             umsatzJob.addToQueue()
                         } catch (e: Exception) {
-                            error(e.safeMessage)
+                            error(e, bankingCredentials)
                             return@doHBCI
                         }
 
@@ -680,12 +693,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     val code = MatrixCode(retData.toString())
 
                     val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
-
-                    _tanRequested.postValue(TanRequest(msg, bitmap))
-                    retData.replace(0, retData.length, runBlocking {
-                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                    })
-
+                    val tan = runBlocking {
+                        requestTan(msg, bitmap).await()
+                            ?: throw HBCI_Exception("TAN entry cancelled")
+                    }
+                    retData.replace(0, retData.length, tan)
                 } catch (e: Exception) {
                     report(e)
                     throw HBCI_Exception(e)
@@ -696,10 +708,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                     val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                    _tanRequested.postValue(TanRequest(code.message, bitmap))
-                    retData.replace(0, retData.length, runBlocking {
-                        tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                    })
+                    val tan = runBlocking {
+                        requestTan(code.message, bitmap).await()
+                            ?: throw HBCI_Exception("TAN entry cancelled")
+                    }
+                    retData.replace(0, retData.length, tan)
                 } catch (e: Exception) {
                     report(e)
                     throw HBCI_Exception(e)
@@ -712,13 +725,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                             options[0].id
                         } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } }
                             ?: runBlocking {
-                                _secMechRequested.postValue(options)
-                                secMechFuture.await()?.let { (secMec, shouldPersist) ->
+                                requestSecMech(options).await()?.let { (secMec, shouldPersist) ->
                                     selectedSecMech = secMec
                                     if (shouldPersist) persistSelectedSecMech()
                                     secMec
-                                }
-                                    ?: throw HBCI_Exception("Security mechanism selection cancelled")
+                                } ?: throw HBCI_Exception("Security mechanism selection cancelled")
                             }
                     )
                 }
@@ -728,10 +739,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     if (flicker.isNotEmpty()) {
                         throwAndReport(HBCI_Exception("Flicker not yet implemented. Please contact support@myexpenses.mobi !"))
                     } else {
-                        _tanRequested.postValue(TanRequest(msg, null))
-                        retData.replace(0, retData.length, runBlocking {
-                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                        })
+                        val tan = runBlocking {
+                            requestTan(msg, null).await()
+                                ?: throw HBCI_Exception("TAN entry cancelled")
+                        }
+                        retData.replace(0, retData.length, tan)
                     }
                 }
 
@@ -741,20 +753,17 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         if (options.size == 1) {
                             options[0]
                         } else selectedTanMedium.takeIf { options.contains(it) } ?: runBlocking {
-                            _tanMediumRequested.postValue(options)
-                            tanMediumFuture.await()?.let { (medium, shouldPersist) ->
+                            requestTanMedium(options).await()?.let { (medium, shouldPersist) ->
                                 selectedTanMedium = medium
                                 if (shouldPersist) persistSelectedTanMedium()
                                 medium
-                            }
-                                ?: throw HBCI_Exception("TAN media selection cancelled")
+                            } ?: throw HBCI_Exception("TAN media selection cancelled")
                         }
                     )
                 }
 
                 NEED_PT_DECOUPLED -> {
-                    _pushTanRequested.postValue(msg)
-                    runBlocking { pushTanFuture.await() }
+                    runBlocking { requestPushTan(msg).await() }
                 }
 
                 HAVE_ERROR -> report(Throwable(msg))
@@ -783,7 +792,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         withContext(coroutineDispatcher) {
             suspendCoroutine { cont ->
                 doHBCI(
-                    bankingCredentials = BankingCredentials.fromBank(bank).copy(password = passphrase),
+                    bankingCredentials = BankingCredentials.fromBank(bank)
+                        .copy(password = passphrase),
                     work = { _, _, _ ->
                         val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
                         passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
