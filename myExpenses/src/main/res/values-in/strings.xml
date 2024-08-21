@@ -226,4 +226,14 @@
     <string name="menu_create_split">Pembagian baru</string>
     <string name="menu_create_sub_cat">Sub kategori baru</string>
     <string name="menu_create_template">Templat baru</string>
+    <string name="menu_distribution">Distribusi</string>
+    <string name="menu_edit_cat">Ubah kategori</string>
+    <string name="menu_create_transaction">Transaksi Baru</string>
+    <string name="menu_create_transfer">Transfer Baru</string>
+    <string name="menu_delete">Hapus</string>
+    <string name="menu_edit_party">Ubah pihak</string>
+    <string name="menu_edit">Ubah</string>
+    <string name="menu_edit_account">Ubah akun</string>
+    <string name="menu_edit_method">Ubah metode pembayaran</string>
+    <string name="menu_edit_plan_instance">Ubah kejadian rencana tunggal</string>
 </resources>
