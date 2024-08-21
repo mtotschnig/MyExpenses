@@ -81,7 +81,7 @@ enum class FinTsAttribute(override val userVisible: Boolean = true) : Attribute 
 }
 
 enum class BankingAttribute : Attribute {
-    BLZ, IBAN, NUMBER, SUBNUMBER, LAST_SYCNED_WITH_BANK;
+    NAME, BLZ, IBAN, BIC, NUMBER, SUBNUMBER, LAST_SYCNED_WITH_BANK;
 
     companion object {
         const val CONTEXT = "Banking"

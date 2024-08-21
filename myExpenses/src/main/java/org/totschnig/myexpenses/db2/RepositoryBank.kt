@@ -63,13 +63,23 @@ fun Repository.deleteBank(id: Long) {
     )
 }
 
-data class AccountInformation(val blz: String?, val number: String?, val subnumber: String?, val iban: String?, val lastSynced: LocalDate?) {
+data class AccountInformation(
+    val name: String?,
+    val blz: String?,
+    val number: String?,
+    val subnumber: String?,
+    val iban: String?,
+    val bic: String?,
+    val lastSynced: LocalDate?
+) {
     companion object {
         fun fromMap(map: Map<Attribute, String>) = AccountInformation(
+            map[BankingAttribute.NAME],
             map[BankingAttribute.BLZ],
             map[BankingAttribute.NUMBER],
             map[BankingAttribute.SUBNUMBER],
             map[BankingAttribute.IBAN],
+            map[BankingAttribute.BIC],
             map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) }
         )
     }

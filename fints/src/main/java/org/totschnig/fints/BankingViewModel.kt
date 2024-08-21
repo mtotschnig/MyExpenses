@@ -27,6 +27,7 @@ import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
 import org.kapott.hbci.exceptions.HBCI_Exception
 import org.kapott.hbci.manager.BankInfo
+import org.kapott.hbci.manager.Feature
 import org.kapott.hbci.manager.HBCIHandler
 import org.kapott.hbci.manager.HBCIUtils
 import org.kapott.hbci.manager.MatrixCode
@@ -254,8 +255,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     private fun initHBCI(bankingCredentials: BankingCredentials): BankInfo? {
         HBCIUtils.init(hbciProperties, MyHBCICallback(bankingCredentials))
-        HBCIUtils.setParam("client.passport.default", "PinTanMemory")
+        HBCIUtils.setParam("client.passport.default", "PinTan")
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
+        Feature.INIT_FLIP_USER_INST.isEnabled = false
         return HBCIUtils.getBankInfo(bankingCredentials.blz)
             ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }
     }
@@ -266,8 +268,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             "passport_${blz}_${user}.dat"
         )
 
-    private fun buildPassport(info: BankInfo) =
-        AbstractHBCIPassport.getInstance().apply {
+    private fun buildPassport(info: BankInfo, file: File) =
+        AbstractHBCIPassport.getInstance(file).apply {
             country = "DE"
             host = info.pinTanAddress
             port = 443
@@ -278,6 +280,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     private fun doHBCI(
         bankingCredentials: BankingCredentials,
         work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        forceNewFile: Boolean = false,
         onError: (Exception) -> Unit
     ) {
         val info = initHBCI(bankingCredentials) ?: run {
@@ -286,8 +289,14 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             return
         }
 
+        val passportFile = passportFile(info.blz, bankingCredentials.user).also {
+            if (forceNewFile && it.exists()) {
+                it.delete()
+            }
+        }
+
         val passport = try {
-            buildPassport(info)
+            buildPassport(info, passportFile)
         } catch (e: Exception) {
             log(e)
             HBCIUtils.doneThread()
@@ -344,6 +353,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
+                forceNewFile = bankingCredentials.isNew,
                 work = { info, passport, _ ->
                     val bank = if (bankingCredentials.isNew) {
                         logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
@@ -420,14 +430,15 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         accountInformation.number,
                         accountInformation.subnumber
                     ).also {
+                        it.name = accountInformation.name
                         it.iban = accountInformation.iban
-                        it.bic = credentials.bank!!.bic
-                        it.name = "MICHAEL TOTSCHNIG"
+                        it.bic = accountInformation.bic
                     }
 
 
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                     umsatzJob.setParam("my", konto)
+                    log("Setting my param to $konto")
                     umsatzJob.setStartParam(accountInformation.lastSynced!!)
                     umsatzJob.addToQueue()
 
@@ -537,11 +548,13 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                             )
                         )
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                        umsatzJob.setParam("my", konto.also {
+                        val kontoParam = konto.also {
                             if (it.bic == null) {
                                 it.bic = bankingCredentials.bank?.bic
                             }
-                        })
+                        }
+                        log("Setting my param to $kontoParam")
+                        umsatzJob.setParam("my", kontoParam)
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 
                         try {
