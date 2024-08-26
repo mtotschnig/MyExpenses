@@ -81,10 +81,16 @@ class UpgradeHandlerViewModel(application: Application) :
     ) {
         //first check changes that need to run synchronously because they are needed when data is loaded and rendered
         if (fromVersion < 749) {
-            prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
-                if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false))
-                    ScrollToCurrentDate.AppLaunch.name else ScrollToCurrentDate.Never.name
-            )
+            try {
+                prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
+                    if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false))
+                        ScrollToCurrentDate.AppLaunch.name else ScrollToCurrentDate.Never.name
+                )
+            } catch (e: Exception) {
+                // if for any reason (app is killed before upgrade coroutine is finished),
+                // upgrade is run twice, we would run into ClassCastException the second time
+                CrashHandler.report(e)
+            }
         }
         viewModelScope.launch(context = coroutineContext()) {
             try {
