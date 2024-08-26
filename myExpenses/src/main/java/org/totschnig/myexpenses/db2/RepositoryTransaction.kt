@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+import android.os.Bundle
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
@@ -15,19 +16,25 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -36,9 +43,12 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.joinArrays
+import org.totschnig.myexpenses.util.toEndOfDayEpoch
 import org.totschnig.myexpenses.util.toEpoch
+import org.totschnig.myexpenses.util.toStartOfDayEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 private fun Repository.toContentValues(transaction: Transaction) = with(transaction) {
@@ -68,16 +78,21 @@ fun Repository.updateTransaction(id: Long, transaction: Transaction): Boolean {
     if (contentResolver.update(
             ContentUris.withAppendedId(TRANSACTIONS_URI, id),
             toContentValues(transaction),
-        null, null
-        ) != 1) return false
+            null, null
+        ) != 1
+    ) return false
     contentResolver.saveTagsForTransaction(transaction.tags.toLongArray(), id)
     return true
 }
 
 fun Repository.createTransaction(transaction: Transaction): Long {
-    val id = ContentUris.parseId(contentResolver.insert(TRANSACTIONS_URI, toContentValues(transaction).apply {
-        put(KEY_UUID, Model.generateUuid())
-    })!!)
+    val id = ContentUris.parseId(
+        contentResolver.insert(
+            TRANSACTIONS_URI,
+            toContentValues(transaction).apply {
+                put(KEY_UUID, Model.generateUuid())
+            })!!
+    )
     contentResolver.saveTagsForTransaction(transaction.tags.toLongArray(), id)
     return id
 }
@@ -144,6 +159,51 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? 
     }
 }
 
+fun Repository.archive(
+    accountId: Long,
+    range: Pair<LocalDate, LocalDate>
+) {
+    contentResolver.call(TransactionProvider.DUAL_URI, METHOD_ARCHIVE, null, Bundle().apply {
+        putLong(KEY_ACCOUNTID, accountId)
+        putSerializable(KEY_START, range.first)
+        putSerializable(KEY_END, range.second)
+    })
+}
+
+/**
+ * returns pair of 1) total transactions in the range, 2) transactions in the range that are archives
+ */
+fun Repository.canBeArchived(
+    accountId: Long,
+    range: Pair<LocalDate, LocalDate>
+) = contentResolver.query(
+    TRANSACTIONS_URI,
+    arrayOf("count(*)", "count(case $KEY_STATUS when $STATUS_ARCHIVE then 1 end)"),
+    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_DATE > ? AND $KEY_DATE < ?",
+    arrayOf(accountId.toString(), range.first.toStartOfDayEpoch().toString(), range.second.toEndOfDayEpoch().toString()),
+    null,
+    null
+)!!.use {
+    it.moveToFirst()
+    it.getInt(0) to it.getInt(1)
+}
+
+
+/**
+ * @param range pair of start and end
+ */
+fun Repository.countTransactionsPerAccount(
+    accountId: Long,
+    range: Pair<Long, Long>? = null
+) = count(
+    TRANSACTIONS_URI,
+    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null" + if (range != null) " AND $KEY_DATE > ? AND $KEY_DATE < ?" else "",
+    if (range != null)
+        arrayOf(accountId.toString(), range.first.toString(), range.second.toString())
+    else
+        arrayOf(accountId.toString())
+)
+
 fun ContentResolver.findByAccountAndUuid(accountId: Long, uuid: String) = findBySelection(
     "$KEY_UUID = ? AND $KEY_ACCOUNTID = ?",
     arrayOf(uuid, accountId.toString()),
@@ -156,7 +216,11 @@ fun Repository.hasParent(id: Long) = contentResolver.findBySelection(
     KEY_PARENTID
 ) != 0L
 
-private fun ContentResolver.findBySelection(selection: String, selectionArgs: Array<String>, column: String) =
+private fun ContentResolver.findBySelection(
+    selection: String,
+    selectionArgs: Array<String>,
+    column: String
+) =
     query(
         org.totschnig.myexpenses.model.Transaction.CONTENT_URI,
         arrayOf(column),

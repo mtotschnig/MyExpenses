@@ -27,6 +27,8 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
+import androidx.compose.material.icons.automirrored.filled.SendAndArchive
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -74,6 +76,8 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
@@ -94,33 +98,31 @@ abstract class ItemRenderer(
     fun Transaction2.buildPrimaryInfo(
         context: Context,
         forLegacy: Boolean
-    ): AnnotatedString {
-        return buildAnnotatedString {
-            if (isSplit) {
-                append(context.getString(R.string.split_transaction))
-            } else if (forLegacy && !isTransfer && catId == null &&
-                status != DatabaseConstants.STATUS_HELPER
-            ) {
-                append(NO_CATEGORY_ASSIGNED_LABEL)
-            } else {
-                categoryPath?.let {
-                    if (forLegacy) {
+    ) = buildAnnotatedString {
+        if (isSplit) {
+            append(context.getString(R.string.split_transaction))
+        } else if (forLegacy && !isTransfer && catId == null &&
+            status != STATUS_HELPER && status != STATUS_ARCHIVE
+        ) {
+            append(NO_CATEGORY_ASSIGNED_LABEL)
+        } else {
+            categoryPath?.let {
+                if (forLegacy) {
+                    append(it)
+                } else {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append(it)
-                    } else {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(it)
-                        }
                     }
                 }
-                if (isTransfer) {
-                    if (categoryPath != null) append(" (")
-                    accountLabel?.let { append("$it ") }
-                    if (forLegacy || accountLabel != null) {
-                        append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
-                    }
-                    transferAccountLabel?.let { append(it) }
-                    if (categoryPath != null) append(")")
+            }
+            if (isTransfer) {
+                if (categoryPath != null) append(" (")
+                accountLabel?.let { append("$it ") }
+                if (forLegacy || accountLabel != null) {
+                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
                 }
+                transferAccountLabel?.let { append(it) }
+                if (categoryPath != null) append(")")
             }
         }
     }
@@ -296,6 +298,12 @@ abstract class ItemRenderer(
                         )
                     )
 
+                    status == STATUS_ARCHIVE -> Icon(
+                        imageVector = Icons.Filled.Archive,
+                        contentDescription = stringResource(id = R.string.archive),
+                        modifier = Modifier.fillMaxSize()
+                    )
+
                     else -> Icon("minus")
                 }
             }
@@ -369,7 +377,7 @@ class CompactTransactionRenderer(
         val description = buildAnnotatedString {
             append(transaction.buildPrimaryInfo(context, true))
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
-                append(COMMENT_SEPARATOR)
+                if (transaction.status != STATUS_ARCHIVE) append(COMMENT_SEPARATOR)
                 append(it)
             }
         }

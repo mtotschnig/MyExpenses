@@ -90,6 +90,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
@@ -437,6 +438,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.WEB_UI_COMMAND -> {
                 toggleWebUI()
+                true
+            }
+
+            R.id.ARCHIVE_COMMAND -> {
+                currentAccount?.let {
+                    ArchiveDialogFragment.newInstance(it).show(supportFragmentManager, "ARCHIVE")
+                }
                 true
             }
 

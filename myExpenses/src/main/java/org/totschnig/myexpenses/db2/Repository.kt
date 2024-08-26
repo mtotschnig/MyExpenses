@@ -105,16 +105,12 @@ open class Repository @Inject constructor(
         return result.size == ops.size && result.last().count!! > 0
     }
 
-    fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {
-        return contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)
+    fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null) =
+        contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)
             ?.use {
                 it.moveToFirst()
                 it.getInt(0)
             } ?: 0
-    }
-
-    fun countTransactionsPerAccount(accountId: Long) =
-        count(TRANSACTIONS_URI, "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()))
 
     /**
      * @return the number of transactions that have been created since creation of the db based on sqllite sequence

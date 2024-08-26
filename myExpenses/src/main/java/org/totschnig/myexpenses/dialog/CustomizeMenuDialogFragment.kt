@@ -163,6 +163,13 @@ sealed class MenuItem(
         R.menu.main_manage
     )
 
+    data object Archive: MenuItem(
+        R.id.ARCHIVE_COMMAND,
+        R.string.archive,
+        R.drawable.ic_archive,
+        isEnabledByDefault = true
+    )
+
     data object Share : MenuItem(
         R.id.SHARE_COMMAND,
         R.string.menu_share,
@@ -184,7 +191,7 @@ sealed class MenuItem(
     data object Backup : MenuItem(
         R.id.BACKUP_COMMAND,
         R.string.menu_backup,
-        R.drawable.ic_archive,
+        R.drawable.ic_menu_save,
         isEnabledByDefault = false
     )
 

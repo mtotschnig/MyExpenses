@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.delegate.CategoryDelegate;
 import org.totschnig.myexpenses.delegate.SplitDelegate;
 import org.totschnig.myexpenses.delegate.TransferDelegate;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.ArchiveDialogFragment;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment;
@@ -316,4 +317,5 @@ public interface AppComponent {
 
   void inject(PreferencesContribFragment preferencesContribFragment);
 
+  void inject(ArchiveDialogFragment archiveDialogFragment);
 }

@@ -18,17 +18,22 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Calendar
 
-fun epoch2LocalDate(epochSecond: Long): LocalDate = ZonedDateTime.ofInstant(
-    Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()
-).toLocalDate()
+fun epoch2LocalDate(
+    epochSecond: Long,
+    zoneId: ZoneId? = ZoneId.systemDefault()
+) = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
+    .toLocalDate()
 
-fun epochMillis2LocalDate(epochMillis: Long, zoneId: ZoneId? = ZoneId.systemDefault()): LocalDate = ZonedDateTime.ofInstant(
-    Instant.ofEpochMilli(epochMillis), zoneId
-).toLocalDate()
+fun epochMillis2LocalDate(
+    epochMillis: Long,
+    zoneId: ZoneId? = ZoneId.systemDefault()
+) = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
+        .toLocalDate()
 
-fun epoch2ZonedDateTime(epoch: Long): ZonedDateTime = ZonedDateTime.ofInstant(
-    Instant.ofEpochSecond(epoch), ZoneId.systemDefault()
-)
+fun epoch2ZonedDateTime(
+    epoch: Long,
+    zoneId: ZoneId? = ZoneId.systemDefault()
+) = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epoch), zoneId)
 
 fun LocalDateTime.toEpoch() =
     ZonedDateTime.of(this, ZoneId.systemDefault()).toEpochSecond()

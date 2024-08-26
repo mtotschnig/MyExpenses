@@ -376,6 +376,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_MERGE_SOURCE = "mergeSource";
   public static final String KEY_MERGE_TARGET = "mergeTarget";
 
+  public static final String METHOD_ARCHIVE = "archive";
+
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -1586,6 +1588,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(CATEGORIES_URI, false);
         notifyChange(TRANSACTIONS_URI, false);
         return null;
+      }
+      case METHOD_ARCHIVE -> {
+        archive(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
       }
     }
     return null;

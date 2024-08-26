@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
@@ -48,6 +47,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
@@ -95,7 +95,8 @@ data class Transaction(
     override val debtLabel: String?,
     override val tagList: List<Tag>,
     override val icon: String? = null,
-    val iban: String? = null
+    val iban: String? = null,
+    val status: Int = STATUS_NONE
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
@@ -202,7 +203,8 @@ data class Transaction(
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
                 tagList = context.contentResolver.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),
-                iban = getStringOrNull(KEY_IBAN)
+                iban = getStringOrNull(KEY_IBAN),
+                status = getInt(KEY_STATUS)
             )
         }
     }
