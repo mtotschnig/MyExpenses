@@ -92,11 +92,11 @@ object ColorUtils {
         return result
     }
 
-    fun isBrightColor(color: Int): Boolean {
-        return if (android.R.color.transparent == color) true else ColorUtils.calculateLuminance(
-            color
-        ) > 0.5
-    }
+    fun isBrightColor(color: Int) =
+        if (android.R.color.transparent == color)
+            true
+        else
+            ColorUtils.calculateLuminance(color) > 0.5
 
     fun getComplementColor(colorInt: Int): Int {
         val contrastColor = getBestForeground(colorInt)

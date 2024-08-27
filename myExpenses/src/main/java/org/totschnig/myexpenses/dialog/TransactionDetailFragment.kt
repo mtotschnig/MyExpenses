@@ -16,25 +16,42 @@ package org.totschnig.myexpenses.dialog
 
 import android.content.DialogInterface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.widget.TableRow
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.ChipColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.feature.BankingFeature
@@ -49,6 +66,7 @@ import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
+import org.totschnig.myexpenses.util.ui.getBestForeground
 import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
@@ -69,8 +87,6 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
-
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
 
@@ -78,7 +94,6 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
         super.onCreate(savedInstanceState)
         injector.inject(this)
         injector.inject(viewModel)
-        attachmentInfoMap = attachmentInfoMap(requireContext())
     }
 
     override val title: CharSequence
@@ -93,30 +108,37 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
     ) {
         TableRow(label) {
             Text(
-                modifier = it.then(modifier),
+                modifier = modifier,
                 text = content,
                 color = color
             )
         }
     }
-    
+
     @Composable
     fun TableRow(
         @StringRes label: Int,
-        content: @Composable RowScope.(Modifier) -> Unit
+        content: @Composable () -> Unit
     ) {
         Row {
-            Text(modifier = Modifier.weight(1f), text = stringResource(label))
-            content(Modifier.weight(2f))
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically), text = stringResource(label)
+            )
+            Box(modifier = Modifier.weight(2f)) {
+                content()
+            }
         }
     }
-    
 
-    @OptIn(ExperimentalLayoutApi::class)
+
+    @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun ColumnScope.MainContent() {
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         val transactionInfo = viewModel.transaction(rowId).observeAsState()
+        val attachments = viewModel.attachments(rowId).observeAsState(emptyList())
         transactionInfo.value?.also { info ->
             if (info.isEmpty()) {
                 Text(getString(R.string.transaction_deleted))
@@ -271,14 +293,61 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
                         }
                     }
                     if (transaction.tagList.isNotEmpty()) {
-                        item { 
+                        item {
+                            val interactionSource = remember { NoRippleInteractionSource() }
                             TableRow(label = R.string.tags) {
-                                FlowRow(modifier = it) {
-                                    for (tag in transaction.tagList) {
-                                        FilterChip(
-                                            selected = true,
-                                            onClick = {  },
-                                            label = { Text(tag.label) })
+                                CompositionLocalProvider(
+                                    LocalMinimumInteractiveComponentEnforcement provides false
+                                ) {
+                                    FlowRow(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        for (tag in transaction.tagList) {
+                                            SuggestionChip(
+                                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                                    containerColor = tag.color?.let { Color(it) }
+                                                        ?: Color.Unspecified,
+                                                    labelColor = tag.color?.let {
+                                                        Color(getBestForeground(it))
+                                                    } ?: Color.Unspecified
+                                                ),
+                                                onClick = { },
+                                                label = { Text(tag.label) },
+                                                interactionSource = interactionSource
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (attachments.value.isNotEmpty()) {
+                        item {
+                            TableRow(label = R.string.attachments) {
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+
+                                    attachments.value.forEach { (uri, info) ->
+                                        when {
+                                            info.thumbnail != null -> Image(
+                                                bitmap = info.thumbnail.asImageBitmap(),
+                                                contentDescription = null
+                                            )
+
+                                            info.typeIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+                                                Image(
+                                                    painter = rememberDrawablePainter(
+                                                        drawable = info.typeIcon.loadDrawable(
+                                                            requireContext()
+                                                        )
+                                                    ),
+                                                    contentDescription = null
+                                                )
+                                            else -> Image(painter = painterResource(id = info.fallbackResource ?: 0), contentDescription = null)
+                                        }
                                     }
                                 }
                             }
@@ -555,7 +624,6 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        attachmentInfoMap = null
     }
 
     companion object {
@@ -578,4 +646,14 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
     override fun onClick(dialog: DialogInterface?, which: Int) {
         TODO("Not yet implemented")
     }
+}
+
+class NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
+
 }

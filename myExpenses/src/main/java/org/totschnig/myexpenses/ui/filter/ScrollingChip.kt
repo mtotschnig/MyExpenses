@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.ui.filter
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.HorizontalScrollView
 import androidx.annotation.ColorInt
-import androidx.core.graphics.ColorUtils
 import com.google.android.material.chip.Chip
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.ui.setColor
@@ -39,7 +37,7 @@ class ScrollingChip @JvmOverloads constructor(
             chip.text = value
         }
 
-    private var chip: Chip =
+    private val chip: Chip =
         LayoutInflater.from(context).inflate(R.layout.chip, this, false) as Chip
 
     init {
