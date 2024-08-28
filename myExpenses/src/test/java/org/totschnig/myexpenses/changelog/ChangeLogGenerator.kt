@@ -116,7 +116,9 @@ class ChangeLogGenerator {
                         versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
                             .forEach { appendLine("• $it") }
                         appendLine()
-                        appendLine(context.githubUrl(versionInfo))
+                        context.githubUrl(versionInfo)?.let {
+                            appendLine(it)
+                        }
                         context.mastodonUrl(versionInfo)?.let {
                             appendLine(it)
                         }
@@ -133,7 +135,9 @@ class ChangeLogGenerator {
         resolveMoreInfo("version_more_info_", versionInfo)?.let { getString(it) }
 
     private fun Context.githubUrl(versionInfo: VersionInfo) =
-        "https://github.com/users/mtotschnig/projects/${githubLink(versionInfo)!!}"
+        githubLink(versionInfo)?.let {
+            "https://github.com/users/mtotschnig/projects/$it"
+        }
 
     private fun Context.mastodonUrl(versionInfo: VersionInfo) =
         mastodonLink(versionInfo)?.let {
