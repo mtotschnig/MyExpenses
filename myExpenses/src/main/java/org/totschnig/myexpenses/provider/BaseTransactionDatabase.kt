@@ -910,7 +910,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo164() {
-        insert("attributes", ContentValues().apply {
+        safeInsert("attributes", ContentValues().apply {
             put("attribute_name", BankingAttribute.BLZ.name)
             put("context", BankingAttribute.BLZ.context)
         })
@@ -922,11 +922,11 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo167() {
-        insert("attributes", ContentValues().apply {
+        safeInsert("attributes", ContentValues().apply {
             put("attribute_name", BankingAttribute.NAME.name)
             put("context", BankingAttribute.NAME.context)
         })
-        insert("attributes", ContentValues().apply {
+        safeInsert("attributes", ContentValues().apply {
             put("attribute_name", BankingAttribute.BIC.name)
             put("context", BankingAttribute.BIC.context)
         })

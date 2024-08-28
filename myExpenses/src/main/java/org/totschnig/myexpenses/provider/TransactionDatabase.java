@@ -2092,7 +2092,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("UPDATE banks set version = 1");
       }
 
-      if (oldVersion < 167) {
+      if (oldVersion >= 145 && oldVersion < 167) {
         upgradeTo167(db);
       }
 

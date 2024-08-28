@@ -602,6 +602,13 @@ fun SupportSQLiteDatabase.update(
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)
 
+/**
+ * insert where conflicts are ignored instead of raising exception
+ */
+fun SupportSQLiteDatabase.safeInsert(table: String, values: ContentValues): Long =
+    insert(table, SQLiteDatabase.CONFLICT_IGNORE, values)
+
+
 fun SupportSQLiteDatabase.query(
     table: String,
     columns: Array<String>,
