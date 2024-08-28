@@ -20,8 +20,8 @@ plugins {
 
 ext {
     resConfig = ['en', 'en-rGB', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'de-rDE', 'el', 'es', 'eu', 'fr', 'fr-rCA', 'hr', 'hu', 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'ta', 'te', 'tr', 'uk', 'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW']
-    versionCode = 751
-    versionName = '3.8.7.1'
+    versionCode = 752
+    versionName = '3.8.7.2'
     compileSdkVersion = 34
     minSdkVersion = 21
     targetSdkVersion = 34
