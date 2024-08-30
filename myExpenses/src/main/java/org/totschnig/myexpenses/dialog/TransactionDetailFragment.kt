@@ -15,12 +15,12 @@
 package org.totschnig.myexpenses.dialog
 
 import android.content.DialogInterface
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +29,13 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ChipColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
@@ -44,8 +47,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -54,22 +64,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ViewIntentProvider
+import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
-import org.totschnig.myexpenses.util.ui.attachmentInfoMap
 import org.totschnig.myexpenses.util.ui.getBestForeground
 import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
-import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
@@ -331,14 +343,29 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
                                 ) {
 
                                     attachments.value.forEach { (uri, info) ->
+                                        val onClick = {
+                                            viewIntentProvider.startViewAction(
+                                                requireActivity(),
+                                                uri,
+                                                info.type
+                                            )
+                                        }
                                         when {
                                             info.thumbnail != null -> Image(
+                                                modifier = Modifier
+                                                    .clickable(onClick = onClick)
+                                                    .size(48.dp)
+                                                    .padding(5.dp),
                                                 bitmap = info.thumbnail.asImageBitmap(),
+                                                contentScale = ContentScale.Crop,
                                                 contentDescription = null
                                             )
 
                                             info.typeIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
                                                 Image(
+                                                    modifier = Modifier
+                                                        .clickable(onClick = onClick)
+                                                        .size(48.dp),
                                                     painter = rememberDrawablePainter(
                                                         drawable = info.typeIcon.loadDrawable(
                                                             requireContext()
@@ -354,9 +381,61 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3(),
                         }
                     }
                     if (transaction.isSplit) {
+                        item {
+                            Text(
+                                modifier = Modifier.padding(vertical = 8.dp),
+                                style = MaterialTheme.typography.titleMedium,
+                                text = stringResource(R.string.split_parts_heading)
+                            )
+                        }
                         items(info.size - 1) {
                             val part = info[it + 1]
-                            Text(part.accountLabel)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                part.icon?.let {
+                                    Box(modifier = Modifier.size(32.dp).padding(end = 4.dp), contentAlignment = Alignment.Center) {
+                                        Icon(it)
+                                    }
+                                }
+                                Text(text = buildAnnotatedString {
+                                    append(
+                                        when {
+                                            part.isTransfer -> Transfer.getIndicatorPrefixForLabel(part.amountRaw) + part.transferAccount
+                                            else -> part.categoryPath ?: Category.NO_CATEGORY_ASSIGNED_LABEL
+                                        }
+                                    )
+                                    part.comment.takeIf { !it.isNullOrBlank() }?.let {
+                                        append(" / ")
+                                        withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
+                                            append(it)
+                                        }
+                                    }
+                                    part.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
+                                        append(" / ")
+                                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                            append(it)
+                                        }
+                                    }
+                                    part.tagList.takeIf { it.isNotEmpty() }?.let {
+                                        append(" / ")
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                            it.forEachIndexed { index, tag ->
+                                                tag.color?.also { color ->
+                                                    withStyle(style = SpanStyle(color = Color(color))) {
+                                                        append(tag.label)
+                                                    }
+                                                } ?: run {
+                                                    append(tag.label)
+                                                }
+                                                if (index < it.size - 1) {
+                                                    append(", ")
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                Spacer(modifier = Modifier.weight(1f))
+                                ColoredAmountText(money = part.amount)
+                            }
                         }
                     }
                 }
