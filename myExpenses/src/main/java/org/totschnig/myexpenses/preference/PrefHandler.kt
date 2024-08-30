@@ -121,7 +121,19 @@ interface PrefHandler {
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getString(prefKey, default.name), default)
+    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: String, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getString(prefKey, default.name), default)
+    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
+
+fun PrefHandler.getStringSafe(prefKey: PrefKey, default: String) = try {
+    getString(prefKey, default)
+} catch (e: ClassCastException) {
+    default
+}
+
+fun PrefHandler.getStringSafe(prefKey: String, default: String) = try {
+    getString(prefKey, default)
+} catch (e: ClassCastException) {
+    default
+}
