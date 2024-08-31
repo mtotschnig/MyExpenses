@@ -484,6 +484,11 @@ interface SelectionHandler {
     fun isSelected(transaction: Transaction2): Boolean
     fun select(transaction: Transaction2)
     val selectionCount: Int
+    fun isSelectable(transaction: Transaction2): Boolean
+
+    fun selectConditional(transaction: Transaction2) {
+        if(isSelectable(transaction)) select(transaction)
+    }
 }
 
 

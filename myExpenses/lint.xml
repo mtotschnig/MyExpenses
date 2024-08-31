@@ -6,6 +6,7 @@
     <issue id="TrustAllX509TrustManager" /> -->
     <issue id="UnusedResources">
         <ignore path="src/main/res/values/version_info.xml" />
+        <ignore path="src/main/res/values/whats_new.xml" />
         <ignore path="src/main/categoryIcons" />
     </issue>
     <issue id="UnusedQuantity">

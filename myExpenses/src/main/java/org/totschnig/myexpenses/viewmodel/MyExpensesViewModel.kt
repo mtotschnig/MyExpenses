@@ -260,6 +260,8 @@ open class MyExpensesViewModel(
         override val selectionCount: Int
             get() = selectionState.value.size
 
+        override fun isSelectable(transaction: Transaction2) = !transaction.isArchive
+
     }
 
     val showSumDetails: Flow<Boolean> by lazy {

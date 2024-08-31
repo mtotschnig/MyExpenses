@@ -214,20 +214,20 @@ abstract class ItemRenderer(
         val voidStatus = stringResource(id = R.string.status_void)
         Row(modifier = modifier
             .height()
-            .optional(selectionHandler,
-                ifPresent = {
+            .conditional(selectionHandler?.isSelectable(transaction) == true,
+                ifTrue = {
                     combinedClickable(
-                        onLongClick = { it.toggle(transaction) },
+                        onLongClick = { selectionHandler!!.toggle(transaction) },
                         onClick = {
-                            if (it.selectionCount == 0) {
+                            if ( selectionHandler!!.selectionCount == 0) {
                                 showMenu.value = true
                             } else {
-                                it.toggle(transaction)
+                                selectionHandler.toggle(transaction)
                             }
                         }
                     )
                 },
-                ifAbsent = {
+                ifFalse = {
                     clickable { showMenu.value = true }
                 }
             )

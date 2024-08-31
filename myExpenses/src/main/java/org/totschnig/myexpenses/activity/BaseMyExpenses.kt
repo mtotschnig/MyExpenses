@@ -953,7 +953,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 var jndex = 0
                                 while (jndex < lazyPagingItems.itemCount) {
                                     lazyPagingItems.peek(jndex)?.let {
-                                        viewModel.selectionHandler.select(it)
+                                        viewModel.selectionHandler.selectConditional(it)
                                     }
                                     jndex++
                                 }
@@ -989,7 +989,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         label = R.string.details,
                                         command = "DETAILS"
                                     ) { showDetails(transaction.id) })
-                                    if (modificationAllowed) {
+                                    if (modificationAllowed && !transaction.isArchive) {
                                         add(MenuEntry(
                                             icon = Icons.Filled.ContentCopy,
                                             label = R.string.menu_clone_transaction,
