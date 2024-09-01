@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -168,6 +169,29 @@ fun Repository.archive(
         putSerializable(KEY_START, range.first)
         putSerializable(KEY_END, range.second)
     })
+}
+
+fun Repository.unarchive(id: Long) {
+    val args = arrayOf(id.toString())
+    val ops = java.util.ArrayList<ContentProviderOperation>().apply {
+        add(
+            ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
+                .withSelection("$KEY_ROWID = ? AND $KEY_STATUS == $STATUS_ARCHIVE", args)
+                .withExpectedCount(1).build()
+        )
+        add(
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                .withValue(KEY_PARENTID, null)
+                .withSelection("$KEY_PARENTID = ?", args)
+                .build()
+        )
+        add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+                .withSelection("$KEY_ROWID = ?", args)
+                .build()
+        )
+    }
+    contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
 }
 
 /**
