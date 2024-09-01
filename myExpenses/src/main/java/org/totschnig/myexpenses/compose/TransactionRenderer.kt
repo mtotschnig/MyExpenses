@@ -27,7 +27,6 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
-import androidx.compose.material.icons.automirrored.filled.SendAndArchive
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -63,7 +62,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -74,7 +72,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
@@ -362,8 +359,13 @@ abstract class ItemRenderer(
     }
 }
 
+data class DateTimeFormatInfo(
+    val dateTimeFormatter: DateTimeFormatter,
+    val emSize: Float
+)
+
 class CompactTransactionRenderer(
-    private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
+    private val dateTimeFormatInfo: DateTimeFormatInfo?,
     withCategoryIcon: Boolean = true,
     private val withOriginalAmount: Boolean = false,
     colorSource: ColorSource = ColorSource.TYPE,
@@ -384,8 +386,8 @@ class CompactTransactionRenderer(
         transaction.AccountColor()
         dateTimeFormatInfo?.let {
             Text(
-                modifier = Modifier.width(it.second),
-                text = it.first.format(transaction.date),
+                modifier = Modifier.width(emToDp(it.emSize)),
+                text = it.dateTimeFormatter.format(transaction.date),
                 textAlign = TextAlign.Center,
                 maxLines = 1
             )
@@ -490,7 +492,7 @@ private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Tran
 @Composable
 private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatter.ofPattern("EEE") to 40.dp,
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"),4f),
         withOriginalAmount = true
     ).Render(transaction)
 }

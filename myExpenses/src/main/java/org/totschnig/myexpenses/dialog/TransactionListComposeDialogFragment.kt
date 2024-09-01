@@ -6,12 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,12 +17,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.KEY_LOADING_INFO
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -68,11 +67,9 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
     override fun BuildContent() {
         val data = viewModel.transactions.collectAsState(initial = emptyList())
         val renderer = CompactTransactionRenderer(
-            dateTimeFormatInfo = Pair(
+            dateTimeFormatInfo = DateTimeFormatInfo(
                 (Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter,
-                with(LocalDensity.current) {
-                    LocalTextStyle.current.fontSize.toDp()
-                } * 4.6f
+                4.6f
             ),
             withCategoryIcon = false,
             withOriginalAmount = prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)

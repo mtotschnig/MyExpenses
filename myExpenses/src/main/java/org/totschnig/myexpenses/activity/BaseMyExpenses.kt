@@ -1200,11 +1200,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     prefHandler,
                                     this@BaseMyExpenses
                                 )?.let {
-                                    Pair(
+                                    DateTimeFormatInfo(
                                         (it.first as SimpleDateFormat).asDateTimeFormatter,
-                                        with(LocalDensity.current) {
-                                            LocalTextStyle.current.fontSize.toDp()
-                                        } * it.second
+                                        it.second
                                     )
                                 },
                                 withCategoryIcon,

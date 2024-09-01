@@ -19,10 +19,10 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,11 +35,12 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
@@ -63,9 +64,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -80,6 +83,8 @@ import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.emToDp
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
@@ -199,85 +204,85 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     }
                 }
-                LazyColumn {
-                    item {
-                        ExpandedRenderer(transaction)
-                    }
 
-                    if (transaction.isSplit || transaction.isArchive) {
-                        item {
-                            HeadingRenderer(
-                                stringResource(
-                                    if (transaction.isSplit) R.string.split_parts_heading
-                                    else R.string.import_select_transactions
-                                )
-                            )
-                        }
+                ExpandedRenderer(transaction)
+
+                if (transaction.isSplit || transaction.isArchive) {
+
+                    HeadingRenderer(
+                        stringResource(
+                            if (transaction.isSplit) R.string.split_parts_heading
+                            else R.string.import_select_transactions
+                        )
+                    )
+
+                    LazyColumn(modifier = Modifier.weight(1f)) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
                         items(info.size - 1) { index ->
                             val part = info[index + 1]
-                            if (selectedArchivedTransaction == part.id) {
-                                Column(
-                                    modifier = Modifier
+                            AnimatedContent(
+                                targetState = selectedArchivedTransaction == part.id,
+                                label = "ExpandedTransactionCard"
+                            ) { expanded ->
+                                if (expanded) {
+                                    OutlinedCard(modifier = Modifier
                                         .clickable {
                                             selectedArchivedTransaction = 0
                                         }
-                                        .border(
-                                            border = BorderStroke(1.dp, Color.DarkGray),
-                                            shape = RoundedCornerShape(16.dp),
-                                        )
-                                        .padding(8.dp)
-                                ) {
-                                    ExpandedRenderer(part, true)
-                                    if (part.isSplit) {
-                                        HeadingRenderer(stringResource(R.string.split_parts_heading))
-                                        val partInfo =
-                                            viewModel.transaction(part.id).observeAsState()
-                                        partInfo.value?.drop(1)?.forEach {
-                                            CondensedRenderer(part = it)
+                                        .animateContentSize()) {
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            ExpandedRenderer(part, true)
+                                            if (part.isSplit) {
+                                                HeadingRenderer(stringResource(R.string.split_parts_heading))
+                                                val partInfo =
+                                                    viewModel.transaction(part.id).observeAsState()
+                                                partInfo.value?.drop(1)?.forEach {
+                                                    CondensedRenderer(part = it)
+                                                }
+                                            }
                                         }
                                     }
+                                } else {
+                                    CondensedRenderer(
+                                        Modifier.conditional(transaction.isArchive) {
+                                            clickable { selectedArchivedTransaction = part.id }
+                                        },
+                                        part,
+                                        withDate = transaction.isArchive
+                                    )
                                 }
-                            } else {
-                                CondensedRenderer(
-                                    Modifier.conditional(transaction.isArchive) {
-                                        clickable { selectedArchivedTransaction = part.id }
-                                    },
-                                    part,
-                                    withDate = transaction.isArchive
-                                )
                             }
                         }
                     }
                 }
             }
-            ButtonRow {
-                TextButton(onClick = { dismiss() }) {
-                    Text(stringResource(id = android.R.string.ok))
-                }
-                transactionInfo.value
-                    ?.get(0)
-                    ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
-                    ?.let { transaction ->
-                        TextButton(onClick = {
-                            if (transaction.isTransfer && transaction.hasTransferPeerParent) {
-                                showSnackBar(R.string.warning_splitpartcategory_context)
-                            } else {
-                                dismiss()
-                                (requireActivity() as BaseActivity).startEdit(
-                                    Intent(
-                                        requireActivity(),
-                                        ExpenseEdit::class.java
-                                    ).apply {
-                                        putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-                                    }
-                                )
-                            }
-                        }) {
-                            Text(stringResource(id = R.string.menu_edit))
-                        }
-                    }
+        }
+        ButtonRow {
+            TextButton(onClick = { dismiss() }) {
+                Text(stringResource(id = android.R.string.ok))
             }
+            transactionInfo.value
+                ?.get(0)
+                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
+                ?.let { transaction ->
+                    TextButton(onClick = {
+                        if (transaction.isTransfer && transaction.hasTransferPeerParent) {
+                            showSnackBar(R.string.warning_splitpartcategory_context)
+                        } else {
+                            dismiss()
+                            (requireActivity() as BaseActivity).startEdit(
+                                Intent(
+                                    requireActivity(),
+                                    ExpenseEdit::class.java
+                                ).apply {
+                                    putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+                                }
+                            )
+                        }
+                    }) {
+                        Text(stringResource(id = R.string.menu_edit))
+                    }
+                }
         }
     }
 
@@ -527,16 +532,17 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         ) {
             if (withDate) {
                 Text(
-                    modifier = Modifier.padding(start = 4.dp),
+                    modifier = Modifier.width(emToDp(4f)),
                     text = LocalDateFormatter.current.format(part.date),
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
+                    textAlign = TextAlign.Center
                 )
             }
             part.icon?.let {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
-                        .padding(end = 4.dp),
+                        .padding(horizontal = 8.dp)
+                        .size(40.sp),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(it)
