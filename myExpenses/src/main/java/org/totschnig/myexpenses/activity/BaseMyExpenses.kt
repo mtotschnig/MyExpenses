@@ -1008,7 +1008,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                             add(MenuEntry(
                                                 icon = myiconpack.IcActionTemplateAdd,
                                                 label = R.string.menu_create_template_from_transaction,
-                                                command = "CREATE_TEMPLATE_FROM_TRANACTION"
+                                                command = "CREATE_TEMPLATE_FROM_TRANSACTION"
                                             ) { createTemplate(transaction) })
                                             if (transaction.crStatus == CrStatus.VOID) {
                                                 add(MenuEntry(
