@@ -906,4 +906,8 @@
     <string name="orphaned_transaction_relink">Transaktionen kan linkes igen med begivenhedsinstansen på %s.</string>
     <string name="orphaned_transaction_info">En transaktion er knyttet til planen for denne dato, men ingen begivenhedsinstans eksisterer på denne dato.</string>
     <string name="not_enough_data">Ikke nok data</string>
+    <string name="buy">Køb</string>
+    <string name="pref_scroll_to_current_date_title">Rul transaktionslisten til dags dato</string>
+    <string name="pref_scroll_to_current_date_app_launch">kun når appen starter</string>
+    <string name="pref_scroll_to_current_date_account_open">hver gang du navigerer til konto</string>
 </resources>

@@ -410,7 +410,7 @@
     <string name="content_description_calculator">کیلکولیٹر</string>
     <string name="search_transfer">منتقلی کی تلاش کریں</string>
     <string name="pref_sort_order_next_instance">اگلی مثال</string>
-    <string name="crash_dialog_title">ترجمہ_سے_اردو (انگریزی_فقرہ)</string>
+    <string name="crash_dialog_title">{app_name} کریش ہو گیا ہے۔</string>
     <string name="crash_dialog_text">ایپلیکیشن کو رکنے پر مجبور کرنے میں ایک غیر متوقع خرابی پیش آگئی۔ براہ کرم ہمیں غلطی کا ڈیٹا بھیج کر اسے ٹھیک کرنے میں ہماری مدد کریں، آپ کو بس ٹھیک پر کلک کرنا ہے.</string>
     <string name="crash_dialog_comment_prompt">آپ ذیل میں مسئلہ کے بارے میں اپنے تبصرے شامل کر سکتے ہیں:</string>
     <string name="synchronization">ہم وقت سازی</string>
