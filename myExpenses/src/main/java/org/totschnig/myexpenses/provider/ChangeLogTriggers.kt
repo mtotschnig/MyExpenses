@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
@@ -73,7 +74,7 @@ val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN 
         ${shouldWriteChangeTemplate("old")} AND 
         old.$KEY_STATUS != $STATUS_UNCOMMITTED AND new.$KEY_STATUS != $STATUS_UNCOMMITTED AND 
-        new.$KEY_STATUS =  old.$KEY_STATUS AND 
+        (new.$KEY_STATUS = old.$KEY_STATUS OR new.$KEY_STATUS = $STATUS_ARCHIVED) AND
         new.$KEY_ACCOUNTID = old.$KEY_ACCOUNTID AND 
         new.$KEY_TRANSFER_PEER IS old.$KEY_TRANSFER_PEER AND 
         new.$KEY_UUID IS NOT NULL

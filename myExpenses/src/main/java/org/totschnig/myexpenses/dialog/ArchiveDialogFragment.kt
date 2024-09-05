@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.DateRangePickerState
@@ -81,16 +82,25 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
             }
         }
         Column {
-
-
+            val dateFormatter =  remember { DatePickerDefaults.dateFormatter() }
             DateRangePicker(
                 modifier = Modifier.conditional(state.displayMode == DisplayMode.Picker) {
                     weight(1f)
                 },
                 state = state,
+                dateFormatter = dateFormatter,
                 title = {
                     DateRangePickerDefaults.DateRangePickerTitle(
                         displayMode = state.displayMode,
+                        modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp)
+                    )
+                },
+                headline = {
+                    DateRangePickerDefaults.DateRangePickerHeadline(
+                        selectedStartDateMillis = state.selectedStartDateMillis,
+                        selectedEndDateMillis = state.selectedEndDateMillis,
+                        displayMode = state.displayMode,
+                        dateFormatter,
                         modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp)
                     )
                 }

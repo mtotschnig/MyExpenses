@@ -1845,6 +1845,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
                 put(KEY_COMMENT, start.format(formatter) + " - " + end.format(formatter))
                 put(KEY_STATUS, STATUS_ARCHIVE)
+                put(KEY_UUID, Model.generateUuid())
             })
             db.update(
                 table = TABLE_TRANSACTIONS,
