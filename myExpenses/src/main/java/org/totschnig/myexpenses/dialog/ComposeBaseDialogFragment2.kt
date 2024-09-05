@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 
 /**
@@ -21,6 +22,10 @@ abstract class ComposeBaseDialogFragment2: BaseDialogFragment() {
 
     @Composable
     abstract fun BuildContent()
+
+    override fun getTheme(): Int {
+        return if (fullScreen) R.style.FullscreenDialog else super.getTheme()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

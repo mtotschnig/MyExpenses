@@ -1,25 +1,27 @@
 package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TableLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.linkInputsWithLabels
+import org.totschnig.myexpenses.util.ui.UiUtils
 import timber.log.Timber
 import javax.inject.Inject
+
 
 abstract class BaseDialogFragment : DialogFragment() {
     protected lateinit var dialogView: View
@@ -30,14 +32,35 @@ abstract class BaseDialogFragment : DialogFragment() {
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    open val fullScreenIfNotLarge = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(this)
     }
 
+    private val isLarge
+        get() = resources.getBoolean(R.bool.isLarge)
+
+    protected val fullScreen
+        get() = fullScreenIfNotLarge && !isLarge
+
+    override fun onStart() {
+        super.onStart()
+        if (fullScreen) {
+            dialog?.window?.let {
+                val width = ViewGroup.LayoutParams.MATCH_PARENT
+                val height = ViewGroup.LayoutParams.MATCH_PARENT
+                it.setLayout(width, height)
+            }
+        }
+    }
+
     @SuppressLint("UseGetLayoutInflater")
-    open fun initBuilder(): AlertDialog.Builder =
-        MaterialAlertDialogBuilder(requireContext()).also {
+    open fun initBuilder(): AlertDialog.Builder = (if (fullScreen)
+        AlertDialog.Builder(requireContext(), R.style.FullscreenDialog)
+    else MaterialAlertDialogBuilder(requireContext())
+            ).also {
             materialLayoutInflater = LayoutInflater.from(it.context)
         }
 
@@ -46,14 +69,15 @@ abstract class BaseDialogFragment : DialogFragment() {
             it.inflate(layoutResourceId, null)
         }
 
-    protected fun initBuilderWithView(inflate: (LayoutInflater) -> View) = initBuilder().also { builder ->
-        dialogView = inflate(materialLayoutInflater).also { view ->
-            view.findViewById<TableLayout>(R.id.FormTable)?.let {
-                linkInputsWithLabels(it)
+    protected fun initBuilderWithView(inflate: (LayoutInflater) -> View) =
+        initBuilder().also { builder ->
+            dialogView = inflate(materialLayoutInflater).also { view ->
+                view.findViewById<TableLayout>(R.id.FormTable)?.let {
+                    linkInputsWithLabels(it)
+                }
             }
+            builder.setView(dialogView)
         }
-        builder.setView(dialogView)
-    }
 
     fun report(e: IllegalStateException) {
         activity?.also {

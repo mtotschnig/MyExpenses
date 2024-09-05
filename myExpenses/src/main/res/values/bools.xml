@@ -6,4 +6,5 @@
     <bool name="pin_shortcut_support">true</bool>
     <bool name="fints">false</bool>
     <bool name="allowFullScreen">false</bool>
+    <bool name="isLarge">false</bool>
 </resources>

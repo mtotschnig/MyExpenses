@@ -393,4 +393,9 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:gravity">end</item>
     </style>
+
+    <style name="FullscreenDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>
