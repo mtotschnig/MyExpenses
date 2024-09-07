@@ -318,6 +318,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")),"
+          + KEY_STATUS + " integer default 0, "
           + KEY_REFERENCE_NUMBER + " text);";
 
   private static final String BUDGETS_CREATE =

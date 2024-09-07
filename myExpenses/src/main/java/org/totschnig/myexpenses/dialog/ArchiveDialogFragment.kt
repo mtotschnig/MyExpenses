@@ -128,15 +128,11 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                         dismiss()
                     }) {
                     Text(
-                        text = stringResource(id = R.string.archive)
+                        text = stringResource(id = R.string.action_archive)
                     )
                 }
             }
         }
-    }
-
-    override fun initBuilder(): AlertDialog.Builder {
-        return super.initBuilder().setTitle(R.string.archive)
     }
 
     companion object {

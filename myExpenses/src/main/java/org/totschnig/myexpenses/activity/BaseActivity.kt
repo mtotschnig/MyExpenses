@@ -1394,10 +1394,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 invalidateOptionsMenu()
             }
         }
+
     protected val calledFromOnboarding: Boolean
         get() = callingActivity?.let {
             Utils.getSimpleClassNameFromComponentName(it)
         } == OnboardingActivity::class.java.simpleName
+
     val bankingFeature: BankingFeature
         get() = requireApplication().appComponent.bankingFeature() ?: object :
             BankingFeature {}

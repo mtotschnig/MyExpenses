@@ -1024,4 +1024,5 @@
     <string name="not_enough_data">Not enough data</string>
     <string name="menu_unpack">Unpack</string>
     <string name="warning_unarchive">The archive will be unpacked. All contained transactions will be reinserted into the list.</string>
+    <string name="archive">Archive</string>
 </resources>

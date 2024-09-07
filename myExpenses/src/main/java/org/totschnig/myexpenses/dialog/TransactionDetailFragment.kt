@@ -216,7 +216,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     )
 
-                    LazyColumn(modifier = Modifier.weight(1f)) {
+                    LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
                         items(info.size - 1) { index ->
                             val part = info[index + 1]

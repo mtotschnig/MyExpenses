@@ -297,7 +297,7 @@ abstract class ItemRenderer(
 
                     status == STATUS_ARCHIVE -> Icon(
                         imageVector = Icons.Filled.Archive,
-                        contentDescription = stringResource(id = R.string.archive),
+                        contentDescription = stringResource(id = R.string.action_archive),
                         modifier = Modifier.fillMaxSize()
                     )
 
