@@ -444,11 +444,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         DynamicColors.applyToActivityIfAvailable(
             this,
             DynamicColorsOptions.Builder().apply {
-                contentColor?.takeIf { it != 0 }?.let { setContentBasedSource(it) }
-            }
-                .setOnAppliedCallback {
-                    harmonizeColors()
+                contentColor.takeIf { it != 0 }?.let { setContentBasedSource(it) }
+                if ("robolectric" != Build.FINGERPRINT) {
+                    setOnAppliedCallback {
+                        harmonizeColors()
+                    }
                 }
+            }
                 .build()
         )
 

@@ -28,7 +28,6 @@ import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatche
 import org.assertj.core.api.Assertions
 import org.hamcrest.Matchers.not
 import org.junit.Before
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R

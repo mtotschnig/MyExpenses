@@ -92,7 +92,6 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         )
     }
 
-
     @Test
     fun testSelectCommandIncome() {
         launchWithContextCommand(
