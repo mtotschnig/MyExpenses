@@ -38,11 +38,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.toEndOfDayEpoch
 import org.totschnig.myexpenses.util.toEpoch
@@ -172,26 +174,26 @@ fun Repository.archive(
 }
 
 fun Repository.unarchive(id: Long) {
-    val args = arrayOf(id.toString())
     val ops = java.util.ArrayList<ContentProviderOperation>().apply {
         add(
             ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
-                .withSelection("$KEY_ROWID = ? AND $KEY_STATUS == $STATUS_ARCHIVE", args)
+                .withSelection(
+                    "$KEY_ROWID = ? AND $KEY_STATUS == $STATUS_ARCHIVE",
+                    arrayOf(id.toString())
+                )
                 .withExpectedCount(1).build()
         )
         add(
-            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                .withValue(KEY_PARENTID, null)
-                .withSelection("$KEY_PARENTID = ?", args)
-                .build()
-        )
-        add(
-            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
-                .withSelection("$KEY_ROWID = ?", args)
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI.buildUpon().appendPath(URI_SEGMENT_UNARCHIVE).build())
+                .withValue(KEY_ROWID, id)
                 .build()
         )
     }
-    contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+    val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+    val affectedRows = result[1].count
+    if (affectedRows != 1) {
+        CrashHandler.report(Exception("Unarchive returned $affectedRows affected rows"))
+    }
 }
 
 /**

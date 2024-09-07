@@ -205,6 +205,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Named
@@ -500,6 +501,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_ID_ATTACHMENT_ID = 74
         protected const val TRANSACTION_UNLINK_TRANSFER = 75
         protected const val TRANSACTION_TRANSFORM_TO_TRANSFER = 76
+        protected const val UNARCHIVE = 77
     }
 
     val homeCurrency: String
@@ -930,7 +932,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
+    private fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
         table = TABLE_TRANSACTIONS,
         columns = arrayOf(KEY_UUID),
         selection = "$KEY_ROWID = ?",
@@ -968,7 +970,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
     }
 
-    fun getInternalAppDir(): File {
+    private fun getInternalAppDir(): File {
         return context!!.filesDir.parentFile!!
     }
 
@@ -1793,7 +1795,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             val parentUUidTemplate = parentUuidExpression(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS)
             db.execSQL(
-                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER) 
+                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
                     SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
                 accountIdBindArgs
             )
@@ -1819,13 +1821,88 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun archive(db: SupportSQLiteDatabase, extras: Bundle) {
+    private fun subSelectTemplate(colum: String) = "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
+
+    fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
+        val uuid = values.getAsString(KEY_UUID) ?: uuidForTransaction(this, values.getAsLong(KEY_ROWID))
+
+
+        val crStatusSubSelect = subSelectTemplate(KEY_CR_STATUS)
+        val payeeIdSubSelect = subSelectTemplate(KEY_PAYEEID)
+        val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
+        val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
+
+        return try {
+            beginTransaction()
+            TransactionProvider.pauseChangeTrigger(this)
+            //parts are promoted to independence
+            execSQL(
+                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = $rowIdSubSelect ",
+                arrayOf(uuid, uuid, uuid)
+            )
+            //Change is recorded
+            if (callerIsNotSyncAdapter) {
+                execSQL(
+                    """INSERT INTO $TABLE_CHANGES
+                            | ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID)
+                            | SELECT '${TransactionChange.Type.unsplit.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?
+                            | FROM $TABLE_ACCOUNTS
+                            | WHERE $KEY_ROWID = $accountIdSubSelect AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL""".trimMargin(),
+                    arrayOf(uuid, uuid)
+                )
+            }
+            //parent is deleted
+            val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
+            TransactionProvider.resumeChangeTrigger(this)
+            setTransactionSuccessful()
+            count
+        } finally {
+            endTransaction()
+        }
+    }
+
+    fun SupportSQLiteDatabase.unarchive(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
+        val uuid =
+            values.getAsString(KEY_UUID) ?: uuidForTransaction(this, values.getAsLong(KEY_ROWID))
+        val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
+        val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
+
+        return try {
+            beginTransaction()
+            TransactionProvider.pauseChangeTrigger(this)
+            //parts are promoted to independence
+            execSQL(
+                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null WHERE $KEY_PARENTID = $rowIdSubSelect ",
+                arrayOf(uuid)
+            )
+            //Change is recorded
+            if (callerIsNotSyncAdapter) {
+                execSQL(
+                    """INSERT INTO $TABLE_CHANGES
+                            | ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID)
+                            | SELECT '${TransactionChange.Type.unarchive.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?
+                            | FROM $TABLE_ACCOUNTS
+                            | WHERE $KEY_ROWID = $accountIdSubSelect AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL""".trimMargin(),
+                    arrayOf(uuid, uuid)
+                )
+            }
+            //parent is deleted
+            val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
+            TransactionProvider.resumeChangeTrigger(this)
+            setTransactionSuccessful()
+            count
+        } finally {
+            endTransaction()
+        }
+    }
+
+    fun SupportSQLiteDatabase.archive(extras: Bundle) {
         val accountId = extras.getLong(KEY_ACCOUNTID)
         val start = BundleCompat.getSerializable(extras, KEY_START, LocalDate::class.java)!!
         val end = BundleCompat.getSerializable(extras, KEY_END, LocalDate::class.java)!!
         val selection = "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_DATE > ? AND $KEY_DATE < ?"
         val selectionArgs: Array<Any> = arrayOf(accountId, start.toStartOfDayEpoch(), end.toEndOfDayEpoch())
-        val (archiveSum, archiveDate) = db.query(
+        val (archiveSum, archiveDate) = query(
             table = TABLE_TRANSACTIONS,
             columns = arrayOf("sum($KEY_AMOUNT), max($KEY_DATE)"),
             selection = selection,
@@ -1835,9 +1912,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             it.getLong(0) to it.getLong(1)
         }
 
-        db.beginTransaction()
+        beginTransaction()
         try {
-            val archiveId = db.insert(TABLE_TRANSACTIONS, ContentValues().apply {
+            val archiveId = insert(TABLE_TRANSACTIONS, ContentValues().apply {
                 put(KEY_ACCOUNTID, accountId)
                 put(KEY_DATE, archiveDate)
                 put(KEY_VALUE_DATE, archiveDate)
@@ -1847,7 +1924,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 put(KEY_STATUS, STATUS_ARCHIVE)
                 put(KEY_UUID, Model.generateUuid())
             })
-            db.update(
+            update(
                 table = TABLE_TRANSACTIONS,
                 values = ContentValues().apply {
                     put(KEY_PARENTID, archiveId)
@@ -1856,9 +1933,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 whereClause = "$selection AND $KEY_ROWID != ?",
                 whereArgs = selectionArgs + archiveId
             )
-            db.setTransactionSuccessful()
+            setTransactionSuccessful()
         } finally {
-            db.endTransaction()
+            endTransaction()
         }
 
     }

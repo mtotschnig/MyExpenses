@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.provider.fromSyncAdapter
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
@@ -531,6 +532,25 @@ class SyncDelegate(
                     ContentProviderOperation.newUpdate(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
+                    )
+                        .withValue(KEY_UUID, change.uuid())
+                        .build()
+                )
+            }
+
+            TransactionChange.Type.unarchive -> {
+                ops.add(
+                    ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
+                        .withSelection(
+                            "$KEY_UUID = ? AND $KEY_STATUS == $STATUS_ARCHIVE",
+                            arrayOf(change.uuid())
+                        )
+                        .withExpectedCount(1).build()
+                )
+                ops.add(
+                    ContentProviderOperation.newUpdate(
+                        uri.buildUpon()
+                            .appendPath(TransactionProvider.URI_SEGMENT_UNARCHIVE).build()
                     )
                         .withValue(KEY_UUID, change.uuid())
                         .build()

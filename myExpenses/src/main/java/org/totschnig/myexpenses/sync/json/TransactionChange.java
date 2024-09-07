@@ -195,7 +195,7 @@ public abstract class TransactionChange {
   }
 
   public enum Type {
-    created, updated, deleted, unsplit, metadata, link, tags, attachments;
+    created, updated, deleted, unsplit, metadata, link, tags, attachments, unarchive;
 
     public static final String JOIN;
 
