@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.squareup.phrase.Phrase
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +12,7 @@ import org.totschnig.myexpenses.R
 
 @RunWith(RobolectricTestRunner::class)
 class AppNameLocalizationTest {
+
     @Test
     fun shouldBuildWithAppName() {
         val context = ApplicationProvider.getApplicationContext<Application>()
