@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.delegate
 
 import android.database.Cursor
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
@@ -10,7 +11,9 @@ import android.view.Menu
 import android.view.View
 import android.widget.AdapterView
 import android.widget.FilterQueryProvider
+import android.widget.ListPopupWindow
 import android.widget.SimpleCursorAdapter
+import androidx.appcompat.widget.ListPopupWindow.INPUT_METHOD_NOT_NEEDED
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.bold
 import androidx.core.view.isVisible
@@ -40,6 +43,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
@@ -174,6 +179,9 @@ abstract class MainDelegate<T : ITransaction>(
             intArrayOf(android.R.id.text1),
             0
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]) {
+            viewBinding.Payee.inputMethodMode = ListPopupWindow.INPUT_METHOD_NEEDED
+        }
         viewBinding.Payee.setAdapter(payeeAdapter)
         payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
             if (constraint != null) {

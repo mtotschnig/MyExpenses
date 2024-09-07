@@ -6,6 +6,7 @@ interface Configurator {
 
     enum class Configuration {
         USE_SET_DECOR_PADDING_WORKAROUND,
+        AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED,
         ad_handling_waterfall;
     }
 

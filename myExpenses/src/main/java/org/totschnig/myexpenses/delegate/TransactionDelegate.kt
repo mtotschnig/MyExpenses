@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
+import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
@@ -90,6 +91,9 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var configurator: Configurator
 
     val homeCurrency by lazy {
         currencyContext.homeCurrencyUnit
