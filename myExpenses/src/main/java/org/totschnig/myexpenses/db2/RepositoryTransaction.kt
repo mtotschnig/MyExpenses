@@ -215,10 +215,6 @@ fun Repository.canBeArchived(
         })!!, KEY_RESULT, ArchiveInfo::class.java
 )!!
 
-
-/**
- * @param range pair of start and end
- */
 fun Repository.countTransactionsPerAccount(
     accountId: Long
 ) = count(

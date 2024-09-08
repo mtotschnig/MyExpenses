@@ -87,8 +87,12 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     var (index, visibleIndex) = startIndex
     var lastHeader: Int? = null
     val limit = when (sortDirection) {
-        SortDirection.ASC -> LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).toEpoch() //startOfToday
-        SortDirection.DESC -> LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1)
+        SortDirection.ASC -> LocalDateTime.now()
+            .truncatedTo(ChronoUnit.DAYS)
+            .toEpoch() //startOfToday
+        SortDirection.DESC -> LocalDateTime.now()
+            .truncatedTo(ChronoUnit.DAYS)
+            .plusDays(1)
             .toEpoch() //endOfToday
     }
     while (index < itemCount) {
@@ -224,9 +228,13 @@ fun TransactionList(
                                         val budget = budgetData.value?.let { data ->
                                             val amount =
                                                 (data.data.find { it.headerId == headerId && it.amount != null }
-                                                    ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId && it.amount != null })?.amount
+                                                    ?: data.data.lastOrNull {
+                                                        !it.oneTime && it.headerId < headerId && it.amount != null
+                                                    })?.amount ?: 0L
+                                            val rollOverPrevious =
+                                                data.data.find { it.headerId == headerId }
+                                                    ?.rollOverPrevious
                                                     ?: 0L
-                                            val rollOverPrevious = data.data.find { it.headerId == headerId }?.rollOverPrevious ?: 0L
                                             data.budgetId to amount + rollOverPrevious
                                         }
                                         Timber.i("budget for $headerId: ${budget?.second}")
@@ -487,7 +495,7 @@ interface SelectionHandler {
     fun isSelectable(transaction: Transaction2): Boolean
 
     fun selectConditional(transaction: Transaction2) {
-        if(isSelectable(transaction)) select(transaction)
+        if (isSelectable(transaction)) select(transaction)
     }
 }
 
