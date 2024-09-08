@@ -432,7 +432,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     ).also {
                         it.name = accountInformation.name
                         it.iban = accountInformation.iban
-                        it.bic = accountInformation.bic
+                        it.bic = accountInformation.bic ?: credentials.bank?.bic
                     }
 
 
