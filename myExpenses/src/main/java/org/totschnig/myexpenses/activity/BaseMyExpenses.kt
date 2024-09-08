@@ -77,6 +77,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.adapter.SortableItem
@@ -997,6 +998,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                             ) {
                                                 unarchive(transaction)
                                             })
+                                            add(delete("DELETE_TRANSACTION") {
+                                                lifecycleScope.launch {
+                                                    deleteArchive(transaction)
+                                                }
+                                            })
                                         } else {
                                             add(MenuEntry(
                                                 icon = Icons.Filled.ContentCopy,
@@ -1319,6 +1325,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             )
         }
 
+    }
+
+    private suspend fun deleteArchive(transaction: Transaction2) {
+        val count = withContext(Dispatchers.IO) {
+            viewModel.childCount(transaction.id)
+        }
+        checkSealed(listOf(transaction.id)) {
+            val message = buildString {
+                append(getString(R.string.warning_delete_archive, count))
+                if (transaction.crStatus == CrStatus.RECONCILED) {
+                    append(" ")
+                    append(getString(R.string.warning_delete_reconciled))
+                }
+            }
+
+            showConfirmationDialog(
+                "DELETE_TRANSACTION",
+                message,
+                R.id.DELETE_COMMAND_DO,
+                R.string.menu_delete
+            ) {
+                putInt(
+                    ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_warning_delete_archive
+                )
+                putLongArray(KEY_ROW_IDS, longArrayOf(transaction.id))
+            }
+        }
     }
 
     private fun delete(transactions: List<Pair<Long, CrStatus>>) {
@@ -1872,6 +1906,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             excludeFromTotals
                     }
                 }
+                menu.findItem(R.id.ARCHIVE_COMMAND).setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 filterHandler.configureSearchMenu(it)

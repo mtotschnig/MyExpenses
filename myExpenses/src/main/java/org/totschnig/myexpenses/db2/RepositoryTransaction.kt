@@ -220,15 +220,11 @@ fun Repository.canBeArchived(
  * @param range pair of start and end
  */
 fun Repository.countTransactionsPerAccount(
-    accountId: Long,
-    range: Pair<Long, Long>? = null
+    accountId: Long
 ) = count(
     TRANSACTIONS_URI,
-    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null" + if (range != null) " AND $KEY_DATE > ? AND $KEY_DATE < ?" else "",
-    if (range != null)
-        arrayOf(accountId.toString(), range.first.toString(), range.second.toString())
-    else
-        arrayOf(accountId.toString())
+    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null",
+    arrayOf(accountId.toString())
 )
 
 fun ContentResolver.findByAccountAndUuid(accountId: Long, uuid: String) = findBySelection(

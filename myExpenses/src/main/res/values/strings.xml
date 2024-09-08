@@ -1025,4 +1025,6 @@
     <string name="menu_unpack">Unpack</string>
     <string name="warning_unarchive">The archive will be unpacked. All contained transactions will be reinserted into the list.</string>
     <string name="archive">Archive</string>
+    <string name="warning_delete_archive">All transactions contained in this archive (%d) will be deleted.</string>
+    <string name="dialog_title_warning_delete_archive">Delete archive?</string>
 </resources>
