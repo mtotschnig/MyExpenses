@@ -115,7 +115,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                     //https://github.com/android/android-test/issues/444
                     Thread.sleep(500)
                 }
-                onView(withId(android.R.id.button1)).perform(click())
+                composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
                 closeSoftKeyboard()
                 takeScreenshot("split")
                 pressBack()
