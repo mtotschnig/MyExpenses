@@ -120,16 +120,16 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
 
                 Text(
                     text = when {
-                        info.canArchive -> "All transactions (${info.count}) in the selected date range will be archived."
-                        info.hasNested -> "Nested archives are not supported."
-                        info.count == 0 -> "No transactions exist in the selected date range."
-                        info.statuses.size > 1 -> "The transactions in the selected date range have inconsistent states (${
+                        info.canArchive -> stringResource(R.string.archive_warning, info.count)
+                        info.hasNested -> stringResource(R.string.warning_nested_archives)
+                        info.count == 0 -> stringResource(R.string.warning_empty_archive)
+                        info.statuses.size > 1 -> stringResource(
+                            R.string.warning_archive_inconsistent_state,
                             info.statuses.joinToString {
                                 getString(
                                     it.toStringRes()
                                 )
-                            }
-                        })."
+                            })
                         else -> throw IllegalStateException()
                     },
                     modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),
