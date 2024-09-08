@@ -131,4 +131,5 @@
     <string name="show">"Anzeigen"</string>
     <string name="debug">"Debuggen"</string>
     <string name="wifi_not_connected">"Keine Internetverbindung über WLAN vorhanden"</string>
+    <string name="action_archive">"Archivieren"</string>
 </resources>

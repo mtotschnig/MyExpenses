@@ -17,6 +17,9 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
+import static org.totschnig.myexpenses.provider.ArchiveKt.archive;
+import static org.totschnig.myexpenses.provider.ArchiveKt.canBeArchived;
+import static org.totschnig.myexpenses.provider.ArchiveKt.unarchive;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -298,6 +301,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
   public static final String URI_SEGMENT_TRANSFORM_TO_TRANSFER = "transform_to_transfer";
+  public static final String URI_SEGMENT_UNARCHIVE = "unarchive";
 
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
@@ -375,6 +379,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_MERGE_CATEGORIES = "mergeCategories";
   public static final String KEY_MERGE_SOURCE = "mergeSource";
   public static final String KEY_MERGE_TARGET = "mergeTarget";
+
+  public static final String METHOD_ARCHIVE = "archive";
+  public static final String METHOD_CAN_BE_ARCHIVED = "canBeArchived";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1364,39 +1371,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ACCOUNT_ID_GROUPING -> count = handleAccountProperty(db, uri, KEY_GROUPING);
       case ACCOUNT_ID_SORT -> count = handleAccountProperty(db, uri, KEY_SORT_BY, KEY_SORT_DIRECTION);
-      case UNSPLIT -> {
-        String uuid = values.getAsString(KEY_UUID);
-        if (uuid == null) {
-          uuid = uuidForTransaction(db, values.getAsLong(KEY_ROWID));
-        }
-
-        final String subselectTemplate = String.format("(SELECT %%1$s FROM %s WHERE %s = ?)", TABLE_TRANSACTIONS, KEY_UUID);
-        String crStatusSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_CR_STATUS);
-        String payeeIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_PAYEEID);
-        String rowIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ROWID);
-        String accountIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ACCOUNTID);
-
-        try {
-          db.beginTransaction();
-          pauseChangeTrigger(db);
-          //parts are promoted to independence
-          db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = %s ",
-                          TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
-                  new String[]{uuid, uuid, uuid});
-          //Change is recorded
-          if (callerIsNotSyncAdapter(uri)) {
-            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s AND %10$s IS NOT NULL",
-                    TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
-                    TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
-          }
-          //parent is deleted
-          count = db.delete(TABLE_TRANSACTIONS, KEY_UUID + " = ?", new String[]{uuid});
-          resumeChangeTrigger(db);
-          db.setTransactionSuccessful();
-        } finally {
-          db.endTransaction();
-        }
-      }
+      case UNSPLIT -> count = unsplit(db, values, callerIsNotSyncAdapter(uri));
+      case UNARCHIVE -> count = unarchive(db, values, callerIsNotSyncAdapter(uri));
       case BUDGET_ID -> count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case BANK_ID -> count = MoreDbUtilsKt.update(db, TABLE_BANKS, values,
@@ -1587,6 +1563,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(TRANSACTIONS_URI, false);
         return null;
       }
+      case METHOD_ARCHIVE -> {
+        archive(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
+      }
+      case METHOD_CAN_BE_ARCHIVED -> {
+         Bundle result = new Bundle(1);
+         result.putParcelable(KEY_RESULT, canBeArchived(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
+         return result;
+      }
     }
     return null;
   }
@@ -1667,6 +1653,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments", TRANSACTION_ATTACHMENTS);
     URI_MATCHER.addURI(AUTHORITY, "attachments", ATTACHMENTS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments/#/#", TRANSACTION_ID_ATTACHMENT_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
   }
 
   /**

@@ -54,4 +54,5 @@
     <string name="show">"બતાવો"</string>
     <string name="debug">"ડીબગ"</string>
     <string name="wifi_not_connected">"વાઇ-ફાઇ ઇન્ટરનેટ સાથે કનેક્ટેડ નથી"</string>
+    <string name="action_archive">"આર્કાઇવ"</string>
 </resources>

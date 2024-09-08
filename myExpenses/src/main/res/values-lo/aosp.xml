@@ -55,4 +55,5 @@
     <string name="show">"ສະແດງ"</string>
     <string name="debug">"ດີບັ໊ກ"</string>
     <string name="wifi_not_connected">"Wi‑Fi ບໍ່ໄດ້ເຊື່ອມຕໍ່ອິນເຕີເນັດ"</string>
+    <string name="action_archive">"ຈັດ​ເກັບເຂົ້າແຟ້ມ"</string>
 </resources>

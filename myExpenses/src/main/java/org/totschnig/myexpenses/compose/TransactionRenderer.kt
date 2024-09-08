@@ -27,6 +27,7 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -61,7 +62,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -72,8 +72,9 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
@@ -94,33 +95,31 @@ abstract class ItemRenderer(
     fun Transaction2.buildPrimaryInfo(
         context: Context,
         forLegacy: Boolean
-    ): AnnotatedString {
-        return buildAnnotatedString {
-            if (isSplit) {
-                append(context.getString(R.string.split_transaction))
-            } else if (forLegacy && !isTransfer && catId == null &&
-                status != DatabaseConstants.STATUS_HELPER
-            ) {
-                append(NO_CATEGORY_ASSIGNED_LABEL)
-            } else {
-                categoryPath?.let {
-                    if (forLegacy) {
+    ) = buildAnnotatedString {
+        if (isSplit) {
+            append(context.getString(R.string.split_transaction))
+        } else if (forLegacy && !isTransfer && catId == null &&
+            status != STATUS_HELPER && status != STATUS_ARCHIVE
+        ) {
+            append(NO_CATEGORY_ASSIGNED_LABEL)
+        } else {
+            categoryPath?.let {
+                if (forLegacy) {
+                    append(it)
+                } else {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append(it)
-                    } else {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(it)
-                        }
                     }
                 }
-                if (isTransfer) {
-                    if (categoryPath != null) append(" (")
-                    accountLabel?.let { append("$it ") }
-                    if (forLegacy || accountLabel != null) {
-                        append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
-                    }
-                    transferAccountLabel?.let { append(it) }
-                    if (categoryPath != null) append(")")
+            }
+            if (isTransfer) {
+                if (categoryPath != null) append(" (")
+                accountLabel?.let { append("$it ") }
+                if (forLegacy || accountLabel != null) {
+                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
                 }
+                transferAccountLabel?.let { append(it) }
+                if (categoryPath != null) append(")")
             }
         }
     }
@@ -212,20 +211,20 @@ abstract class ItemRenderer(
         val voidStatus = stringResource(id = R.string.status_void)
         Row(modifier = modifier
             .height()
-            .optional(selectionHandler,
-                ifPresent = {
+            .conditional(selectionHandler?.isSelectable(transaction) == true,
+                ifTrue = {
                     combinedClickable(
-                        onLongClick = { it.toggle(transaction) },
+                        onLongClick = { selectionHandler!!.toggle(transaction) },
                         onClick = {
-                            if (it.selectionCount == 0) {
+                            if ( selectionHandler!!.selectionCount == 0) {
                                 showMenu.value = true
                             } else {
-                                it.toggle(transaction)
+                                selectionHandler.toggle(transaction)
                             }
                         }
                     )
                 },
-                ifAbsent = {
+                ifFalse = {
                     clickable { showMenu.value = true }
                 }
             )
@@ -296,6 +295,12 @@ abstract class ItemRenderer(
                         )
                     )
 
+                    status == STATUS_ARCHIVE -> Icon(
+                        imageVector = Icons.Filled.Archive,
+                        contentDescription = stringResource(id = R.string.action_archive),
+                        modifier = Modifier.fillMaxSize()
+                    )
+
                     else -> Icon("minus")
                 }
             }
@@ -354,8 +359,13 @@ abstract class ItemRenderer(
     }
 }
 
+data class DateTimeFormatInfo(
+    val dateTimeFormatter: DateTimeFormatter,
+    val emSize: Float
+)
+
 class CompactTransactionRenderer(
-    private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
+    private val dateTimeFormatInfo: DateTimeFormatInfo?,
     withCategoryIcon: Boolean = true,
     private val withOriginalAmount: Boolean = false,
     colorSource: ColorSource = ColorSource.TYPE,
@@ -369,15 +379,15 @@ class CompactTransactionRenderer(
         val description = buildAnnotatedString {
             append(transaction.buildPrimaryInfo(context, true))
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
-                append(COMMENT_SEPARATOR)
+                if (transaction.status != STATUS_ARCHIVE) append(COMMENT_SEPARATOR)
                 append(it)
             }
         }
         transaction.AccountColor()
         dateTimeFormatInfo?.let {
             Text(
-                modifier = Modifier.width(it.second),
-                text = it.first.format(transaction.date),
+                modifier = Modifier.width(emToDp(it.emSize)),
+                text = it.dateTimeFormatter.format(transaction.date),
                 textAlign = TextAlign.Center,
                 maxLines = 1
             )
@@ -482,7 +492,7 @@ private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Tran
 @Composable
 private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatter.ofPattern("EEE") to 40.dp,
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"),4f),
         withOriginalAmount = true
     ).Render(transaction)
 }

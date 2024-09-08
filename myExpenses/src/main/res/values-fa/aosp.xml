@@ -55,4 +55,5 @@
     <string name="show">"نمایش"</string>
     <string name="debug">"اشکال‌زدایی"</string>
     <string name="wifi_not_connected">"‏Wi-Fi به اینترنت متصل نیست"</string>
+    <string name="action_archive">"بایگانی"</string>
 </resources>

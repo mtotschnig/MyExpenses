@@ -117,4 +117,5 @@
     <string name="show">"පෙන්වන්න"</string>
     <string name="debug">"නිදොස්කරණය"</string>
     <string name="wifi_not_connected">"අන්තර්ජාලය වෙත Wi‑Fi සම්බන්ධ වී නැත"</string>
+    <string name="action_archive">"සංරක්ෂිත කරන්න"</string>
 </resources>

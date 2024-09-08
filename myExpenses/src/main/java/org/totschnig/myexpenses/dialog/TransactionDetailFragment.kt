@@ -14,30 +14,77 @@
  */
 package org.totschnig.myexpenses.dialog
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentActivity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.fragment.app.viewModels
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.EDIT_REQUEST
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ViewIntentProvider
-import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
-import org.totschnig.myexpenses.databinding.AttachmentItemBinding
-import org.totschnig.myexpenses.databinding.AttributeBinding
-import org.totschnig.myexpenses.databinding.AttributeGroupHeaderBinding
-import org.totschnig.myexpenses.databinding.AttributeGroupTableBinding
-import org.totschnig.myexpenses.databinding.TransactionDetailBinding
+import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.Icon
+import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.emToDp
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
@@ -46,28 +93,24 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
-import org.totschnig.myexpenses.util.ui.addChipsBulk
-import org.totschnig.myexpenses.util.ui.attachmentInfoMap
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
+import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
+import org.totschnig.myexpenses.util.ui.getBestForeground
 import org.totschnig.myexpenses.util.ui.getDateMode
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
-import org.totschnig.myexpenses.util.ui.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
-import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
+import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Transaction
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
 
-class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
-    DialogInterface.OnClickListener {
-    private var transactionData: List<Transaction>? = null
-    private lateinit var viewModel: TransactionDetailViewModel
+class TransactionDetailFragment : ComposeBaseDialogFragment3() {
+    private val viewModel: TransactionDetailViewModel by viewModels()
 
     @Inject
     lateinit var viewIntentProvider: ViewIntentProvider
@@ -78,271 +121,488 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
-
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(this)
-        attachmentInfoMap = attachmentInfoMap(requireContext())
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilder {
-            TransactionDetailBinding.inflate(it)
-        }
-
-        viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
         injector.inject(viewModel)
+    }
+
+    override val title: CharSequence
+        get() = getString(R.string.loading)
+
+    @Composable
+    fun TableRow(
+        modifier: Modifier = Modifier,
+        @StringRes label: Int,
+        content: String,
+        color: Color = Color.Unspecified
+    ) {
+        TableRow(modifier, stringResource(label), content, color)
+    }
+
+    @Composable
+    fun TableRow(
+        modifier: Modifier = Modifier,
+        label: String,
+        content: String,
+        color: Color = Color.Unspecified
+    ) {
+        TableRow(label) {
+            Text(
+                modifier = modifier,
+                text = content,
+                color = color
+            )
+        }
+    }
+
+    @Composable
+    fun TableRow(
+        label: String,
+        content: @Composable () -> Unit
+    ) {
+        Row {
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically),
+                text = label
+            )
+            Box(modifier = Modifier.weight(2f)) {
+                content()
+            }
+        }
+    }
+
+
+    @Composable
+    override fun ColumnScope.MainContent() {
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
-        viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
-        viewModel.attachments(rowId).observe(this) { attachments ->
-            if (attachments.isEmpty()) {
-                binding.AttachmentsRow.visibility = View.GONE
+        val transactionInfo = viewModel.transaction(rowId).observeAsState()
+        transactionInfo.value?.also { info ->
+            if (info.isEmpty()) {
+                Text(stringResource(R.string.transaction_deleted))
             } else {
-                attachments.forEach { uri ->
-                    AttachmentItemBinding.inflate(
-                        layoutInflater,
-                        binding.AttachmentGroup,
-                        false
-                    ).root.apply {
-                        binding.AttachmentGroup.addView(this)
-                        lifecycleScope.launch {
-                            val info = withContext(Dispatchers.IO) {
-                                attachmentInfoMap!!.getValue(uri)
-                            }
-                            setAttachmentInfo(info)
-                            setOnClickListener {
-                                viewIntentProvider.startViewAction(requireActivity(), uri, info.type)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        viewModel.attributes(rowId).observe(this) { groups ->
-            groups.forEach { entry ->
-                binding.OneExpense.addView(
-                    AttributeGroupHeaderBinding.inflate(layoutInflater).root.also {
-                        it.text = entry.key
-                    }, binding.OneExpense.childCount - 1
-                )
-                val attributeTable = AttributeGroupTableBinding.inflate(layoutInflater).root.also {
-                    binding.OneExpense.addView(it, binding.OneExpense.childCount - 1)
-                }
-                entry.value.filter { it.first.userVisible }.forEach {
-                    attributeTable.addView(
-                        with(AttributeBinding.inflate(layoutInflater)) {
-                            Name.text = (it.first as? FinTsAttribute)?.let {
-                                bankingFeature.resolveAttributeLabel(
-                                    requireContext(),
-                                    it
-                                )
-                            } ?: it.first.name
-                            Value.text = it.second
-                            root
-                        }
-                    )
-                }
-            }
-        }
-
-        val alertDialog =
-            builder.setTitle(R.string.loading) //.setIcon(android.R.color.transparent)
-                .setNegativeButton(android.R.string.ok, this)
-                .setPositiveButton(R.string.menu_edit, null)
-                .create()
-        alertDialog.setOnShowListener(object : ButtonOnShowDisabler() {
-            override fun onShow(dialog: DialogInterface) {
-                if (transactionData == null) {
-                    super.onShow(dialog)
-                }
-                //prevent automatic dismiss on button click
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                    .setOnClickListener { onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
-            }
-        })
-        return alertDialog
-    }
-
-    override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx: FragmentActivity = activity ?: return
-        transactionData?.takeIf { it.isNotEmpty() }?.let { list ->
-            val transaction = list[0]
-            when (which) {
-                AlertDialog.BUTTON_POSITIVE -> {
-                    if (transaction.isTransfer && transaction.hasTransferPeerParent) {
-                        showSnackBar(R.string.warning_splitpartcategory_context)
-                        return
-                    }
-                    dismissAllowingStateLoss()
-                    val i = Intent(ctx, ExpenseEdit::class.java)
-                    i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-                    ctx.startActivityForResult(i, EDIT_REQUEST)
-                }
-            }
-        }
-    }
-
-    private fun fillData(list: List<Transaction>) {
-        transactionData = list
-        (dialog as? AlertDialog)?.let { dlg ->
-            if (list.isNotEmpty()) {
-                val transaction = list[0]
-                binding.progress.visibility = View.GONE
-                dlg.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
-                    if (transaction.crStatus == CrStatus.VOID || transaction.isSealed) {
-                        it.visibility = View.GONE
-                    } else {
-                        it.isEnabled = true
-                    }
-                }
-                binding.Table.visibility = View.VISIBLE
-                val title: Int
+                val transaction = info.first()
                 val isIncome = transaction.amount.amountMinor > 0
-                when {
-                    transaction.isSplit -> {
-                        binding.SplitContainer.visibility = View.VISIBLE
-                        title = R.string.split_transaction
-                        SplitPartRVAdapter(
-                            requireContext(),
-                            transaction.amount.currencyUnit,
-                            currencyFormatter
-                        ).also {
-                            it.submitList(list.subList(1, list.size))
-                            binding.splitList.adapter = it
+                LaunchedEffect(transaction) {
+                    transactionInfo.value?.let {
+                        (dialog as? AlertDialog)?.setTitle(
+                            when {
+                                transaction.isSplit -> getString(R.string.split_transaction)
+
+                                transaction.isTransfer -> getString(R.string.transfer)
+
+                                transaction.status == STATUS_ARCHIVE ->
+                                    "${getString(R.string.archive)} (${transaction.comment})"
+
+                                else -> getString(if (isIncome) R.string.income else R.string.expense)
+                            }
+                        )
+                    }
+                }
+
+                ExpandedRenderer(transaction)
+
+                if (transaction.isSplit || transaction.isArchive) {
+
+                    HeadingRenderer(
+                        stringResource(
+                            if (transaction.isSplit) R.string.split_parts_heading
+                            else R.string.import_select_transactions
+                        )
+                    )
+
+                    LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
+                        var selectedArchivedTransaction by mutableLongStateOf(0)
+                        items(info.size - 1) { index ->
+                            val part = info[index + 1]
+                            AnimatedContent(
+                                targetState = selectedArchivedTransaction == part.id,
+                                label = "ExpandedTransactionCard"
+                            ) { expanded ->
+                                if (expanded) {
+                                    OutlinedCard(modifier = Modifier
+                                        .clickable {
+                                            selectedArchivedTransaction = 0
+                                        }
+                                        .animateContentSize()) {
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            ExpandedRenderer(part, true)
+                                            if (part.isSplit) {
+                                                HeadingRenderer(stringResource(R.string.split_parts_heading))
+                                                val partInfo =
+                                                    viewModel.transaction(part.id).observeAsState()
+                                                partInfo.value?.drop(1)?.forEach {
+                                                    CondensedRenderer(part = it)
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    CondensedRenderer(
+                                        Modifier.conditional(transaction.isArchive) {
+                                            clickable { selectedArchivedTransaction = part.id }
+                                        },
+                                        part,
+                                        withDate = transaction.isArchive
+                                    )
+                                }
+                            }
                         }
                     }
+                }
+            }
+        }
+        ButtonRow {
+            TextButton(onClick = { dismiss() }) {
+                Text(stringResource(id = android.R.string.ok))
+            }
+            transactionInfo.value
+                ?.get(0)
+                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
+                ?.let { transaction ->
+                    TextButton(onClick = {
+                        if (transaction.isTransfer && transaction.hasTransferPeerParent) {
+                            showSnackBar(R.string.warning_splitpartcategory_context)
+                        } else {
+                            dismiss()
+                            (requireActivity() as BaseActivity).startEdit(
+                                Intent(
+                                    requireActivity(),
+                                    ExpenseEdit::class.java
+                                ).apply {
+                                    putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+                                }
+                            )
+                        }
+                    }) {
+                        Text(stringResource(id = R.string.menu_edit))
+                    }
+                }
+        }
+    }
 
-                    transaction.isTransfer -> {
-                        title = R.string.transfer
-                        binding.AccountLabel.setText(R.string.transfer_from_account)
-                        binding.CategoryLabel.setText(R.string.transfer_to_account)
-                    }
+    @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+    @Composable
+    fun ExpandedRenderer(transaction: Transaction, forPart: Boolean = false) {
+        val isIncome = transaction.amount.amountMinor > 0
+        if (!forPart || transaction.isTransfer) {
+            TableRow(
+                label = if (transaction.isTransfer) R.string.transfer_from_account else R.string.account,
+                content = if (transaction.isTransfer && isIncome)
+                    transaction.transferAccount!! else transaction.accountLabel
+            )
+        }
+        if (transaction.isTransfer) {
+            TableRow(
+                label = R.string.transfer_to_account,
+                content = if (isIncome) transaction.accountLabel else transaction.transferAccount!!
+            )
+        } else if (transaction.catId != null && transaction.catId > 0) {
+            TableRow(
+                label = R.string.category,
+                content = transaction.categoryPath!!
+            )
+        }
+        if (!transaction.isArchive) {
+            val dateMode = getDateMode(transaction.accountType, prefHandler)
+            val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+            val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
-                    else -> {
-                        title = if (isIncome) R.string.income else R.string.expense
-                    }
+            val dateText = buildString {
+                append(transaction.date.format(dateFormatter))
+                if (dateMode == DATE_TIME) {
+                    append(" ")
+                    append(transaction.date.format(timeFormatter))
                 }
-                val amountText: String
-                if (transaction.isTransfer) {
-                    binding.Account.text =
-                        if (isIncome) transaction.transferAccount else transaction.accountLabel
-                    binding.Category.text =
-                        if (isIncome) transaction.accountLabel else transaction.transferAccount
-                    amountText = if (transaction.isSameCurrency) {
-                        formatCurrencyAbs(transaction.amount)
-                    } else {
-                        val self = formatCurrencyAbs(transaction.amount)
-                        val other = formatCurrencyAbs(transaction.transferAmount)
-                        if (isIncome) "$other => $self" else "$self => $other"
-                    }
-                } else {
-                    binding.Account.text = transaction.accountLabel
-                    if (transaction.catId != null && transaction.catId > 0) {
-                        binding.Category.text = transaction.categoryPath
-                    } else {
-                        binding.CategoryRow.visibility = View.GONE
-                    }
-                    amountText = formatCurrencyAbs(transaction.amount)
-                }
-                binding.Amount.text = amountText
-                transaction.originalAmount?.let {
-                    binding.OriginalAmountRow.visibility = View.VISIBLE
-                    binding.OriginalAmount.text = formatCurrencyAbs(it)
-                }
-                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != currencyContext.homeCurrencyUnit.code) {
-                    binding.EquivalentAmountRow.visibility = View.VISIBLE
-                    binding.EquivalentAmount.text = formatCurrencyAbs(transaction.equivalentAmount)
-                }
-                val dateMode = getDateMode(transaction.accountType, prefHandler)
-                val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-                if (dateMode == DateMode.BOOKING_VALUE) {
-                    binding.DateLabel.setText(R.string.booking_date)
-                    binding.Date2Row.visibility = View.VISIBLE
-                    binding.Date2.text = ZonedDateTime.ofInstant(
-                        Instant.ofEpochSecond(transaction.valueDate),
-                        ZoneId.systemDefault()
-                    ).format(dateFormatter)
-                }
+            }
 
-                var dateText = transaction.date.format(dateFormatter)
-                if (dateMode == DateMode.DATE_TIME) {
-                    dateText += " " + transaction.date.format(timeFormatter)
-                }
-                binding.Date.text = dateText
-                if (transaction.comment.isNullOrBlank()) {
-                    binding.CommentRow.visibility = View.GONE
+            TableRow(
+                label = if (dateMode == BOOKING_VALUE) R.string.booking_date else R.string.date,
+                content = dateText
+            )
+            if (dateMode == BOOKING_VALUE) {
+                TableRow(
+                    label = R.string.value_date,
+                    content = epoch2ZonedDateTime(transaction.valueDate)
+                        .format(dateFormatter)
+                )
+            }
+        }
+
+        transaction.originalAmount?.let {
+            TableRow(
+                label = R.string.menu_original_amount,
+                content = formatCurrencyAbs(it)
+            )
+        }
+        TableRow(
+            label = if (transaction.isArchive) R.string.menu_aggregates else R.string.amount,
+            content = if (transaction.isTransfer) {
+                if (transaction.isSameCurrency) {
+                    formatCurrencyAbs(transaction.amount)
                 } else {
-                    binding.Comment.text = transaction.comment
+                    val self = formatCurrencyAbs(transaction.amount)
+                    val other = formatCurrencyAbs(transaction.transferAmount)
+                    if (isIncome) "$other => $self" else "$self => $other"
                 }
-                if (transaction.referenceNumber.isNullOrBlank()) {
-                    binding.NumberRow.visibility = View.GONE
-                } else {
-                    binding.Number.text = transaction.referenceNumber
+            } else {
+                formatCurrencyAbs(transaction.amount)
+            }
+        )
+        if (!transaction.isTransfer && transaction.amount.currencyUnit.code != currencyContext.homeCurrencyUnit.code) {
+            TableRow(
+                label = R.string.menu_equivalent_amount,
+                content = formatCurrencyAbs(transaction.equivalentAmount)
+            )
+        }
+        if (!(transaction.isArchive || transaction.comment.isNullOrBlank())) {
+            TableRow(
+                label = R.string.comment,
+                content = transaction.comment
+            )
+        }
+        if (transaction.payee != "" || transaction.debtLabel != null) {
+            TableRow(
+                label = when {
+                    transaction.payee == "" -> R.string.debt
+                    isIncome -> R.string.payer
+                    else -> R.string.payee
+                },
+                content = buildString {
+                    append(transaction.payee)
+                    transaction.debtLabel?.let {
+                        append(" ($it)")
+                    }
+                    transaction.iban?.let {
+                        append(" (${transaction.iban})")
+                    }
                 }
-                if (transaction.payee != "" || transaction.debtLabel != null) {
-                    val payeeInfo = transaction.payee +
-                            (if (transaction.debtLabel == null) "" else " (${transaction.debtLabel})") +
-                            if (transaction.iban == null) "" else " (${transaction.iban})"
-                    binding.Payee.text = payeeInfo
-                    binding.PayeeLabel.setText(
+            )
+        }
+        if (!transaction.methodLabel.isNullOrBlank()) {
+            TableRow(
+                label = R.string.method,
+                content = transaction.methodLabel
+            )
+        }
+        if (!transaction.referenceNumber.isNullOrBlank()) {
+            TableRow(
+                label = R.string.reference_number,
+                content = transaction.referenceNumber
+            )
+        }
+        if (!(transaction.isArchive || transaction.accountType == AccountType.CASH)) {
+            val roles = transaction.crStatus.toColorRoles(requireContext())
+            TableRow(
+                modifier = Modifier.background(color = Color(roles.accent)),
+                label = R.string.status,
+                content = stringResource(id = transaction.crStatus.toStringRes()),
+                color = Color(roles.onAccent)
+            )
+        }
+        if (transaction.originTemplate != null) {
+            TableRow(
+                label = R.string.plan,
+                content = transaction.originTemplate.plan?.let {
+                    Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
+                } ?: stringResource(R.string.plan_event_deleted)
+            )
+        }
+        if (transaction.tagList.isNotEmpty()) {
+            val interactionSource = remember { NoRippleInteractionSource() }
+            TableRow(stringResource(R.string.tags)) {
+                CompositionLocalProvider(
+                    LocalMinimumInteractiveComponentEnforcement provides false
+                ) {
+                    FlowRow(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        for (tag in transaction.tagList) {
+                            SuggestionChip(
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = tag.color?.let { Color(it) }
+                                        ?: Color.Unspecified,
+                                    labelColor = tag.color?.let {
+                                        Color(getBestForeground(it))
+                                    } ?: Color.Unspecified
+                                ),
+                                onClick = { },
+                                label = { Text(tag.label) },
+                                interactionSource = interactionSource
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        viewModel.attachments(transaction.id).observeAsState().value?.let {
+            if (it.isNotEmpty()) {
+                TableRow(stringResource(R.string.attachments)) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+
+                        it.forEach { (uri, info) ->
+                            val onClick = {
+                                viewIntentProvider.startViewAction(
+                                    requireActivity(),
+                                    uri,
+                                    info.type
+                                )
+                            }
+                            when {
+                                info.thumbnail != null -> Image(
+                                    modifier = Modifier
+                                        .clickable(onClick = onClick)
+                                        .size(48.dp)
+                                        .padding(5.dp),
+                                    bitmap = info.thumbnail.asImageBitmap(),
+                                    contentScale = ContentScale.Crop,
+                                    contentDescription = null
+                                )
+
+                                info.typeIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+                                    Image(
+                                        modifier = Modifier
+                                            .clickable(onClick = onClick)
+                                            .size(48.dp),
+                                        painter = rememberDrawablePainter(
+                                            drawable = info.typeIcon.loadDrawable(
+                                                requireContext()
+                                            )
+                                        ),
+                                        contentDescription = null
+                                    )
+
+                                else -> Image(
+                                    painter = painterResource(
+                                        id = info.fallbackResource ?: 0
+                                    ), contentDescription = null
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        viewModel.attributes(transaction.id).observeAsState().value?.let { map ->
+            map.forEach { entry ->
+                HeadingRenderer(entry.key)
+
+                entry.value.filter { it.first.userVisible }.forEach {
+                    TableRow(
+                        label = (it.first as? FinTsAttribute)?.let { attribute ->
+                            bankingFeature.resolveAttributeLabel(requireContext(), attribute)
+                        } ?: it.first.name,
+                        content = it.second
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun HeadingRenderer(
+        text: String
+    ) {
+        Text(
+            modifier = Modifier.padding(vertical = 8.dp),
+            style = MaterialTheme.typography.titleMedium,
+            text = text
+        )
+    }
+
+    @Composable
+    fun CondensedRenderer(
+        modifier: Modifier = Modifier,
+        part: Transaction,
+        withDate: Boolean = false
+    ) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (withDate) {
+                Text(
+                    modifier = Modifier.width(emToDp(4f)),
+                    text = LocalDateFormatter.current.format(part.date),
+                    fontWeight = FontWeight.Light,
+                    textAlign = TextAlign.Center
+                )
+            }
+            part.icon?.let {
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .size(40.sp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(it)
+                }
+            }
+            Text(
+                modifier = Modifier.weight(1f),
+                text = buildAnnotatedString {
+                    append(
                         when {
-                            transaction.payee == "" -> R.string.debt
-                            isIncome -> R.string.payer
-                            else -> R.string.payee
+                            part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
+                                part.amountRaw
+                            ) + part.transferAccount
+
+                            else -> part.categoryPath
+                                ?: Category.NO_CATEGORY_ASSIGNED_LABEL
                         }
                     )
-                } else {
-                    binding.PayeeRow.visibility = View.GONE
-                }
-                if (transaction.methodLabel.isNullOrBlank()) {
-                    binding.MethodRow.visibility = View.GONE
-                } else {
-                    binding.Method.text = transaction.methodLabel
-                }
-
-                if (transaction.accountType == AccountType.CASH) {
-                    binding.StatusRow.visibility = View.GONE
-                } else {
-                    val roles = transaction.crStatus.toColorRoles(requireContext())
-                    binding.Status.setBackgroundColor(roles.accent)
-                    binding.Status.setTextColor(roles.onAccent)
-                    binding.Status.setText(transaction.crStatus.toStringRes())
-                }
-                if (transaction.originTemplate == null) {
-                    binding.PlanRow.visibility = View.GONE
-                } else {
-                    binding.Plan.text = transaction.originTemplate.plan?.let {
-                        Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
-                    } ?: getString(R.string.plan_event_deleted)
-                }
-
-                if (transaction.tagList.isNotEmpty()) {
-                    binding.TagGroup.addChipsBulk(transaction.tagList)
-                } else {
-                    binding.TagRow.visibility = View.GONE
-                }
-
-                dlg.setTitle(title)
-            } else {
-                binding.error.visibility = View.VISIBLE
-                binding.error.setText(R.string.transaction_deleted)
-            }
+                    part.comment.takeIf { !it.isNullOrBlank() }?.let {
+                        append(" / ")
+                        withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
+                            append(it)
+                        }
+                    }
+                    part.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
+                        append(" / ")
+                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                            append(it)
+                        }
+                    }
+                    part.tagList.takeIf { it.isNotEmpty() }?.let {
+                        append(" / ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            it.forEachIndexed { index, tag ->
+                                tag.color?.also { color ->
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color(
+                                                color
+                                            )
+                                        )
+                                    ) {
+                                        append(tag.label)
+                                    }
+                                } ?: run {
+                                    append(tag.label)
+                                }
+                                if (index < it.size - 1) {
+                                    append(", ")
+                                }
+                            }
+                        }
+                    }
+                })
+            ColoredAmountText(money = part.amount)
         }
     }
 
     private fun formatCurrencyAbs(money: Money?): String {
         return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        attachmentInfoMap = null
     }
 
     companion object {
@@ -361,4 +621,14 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 }
             }
     }
+}
+
+class NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
+
 }

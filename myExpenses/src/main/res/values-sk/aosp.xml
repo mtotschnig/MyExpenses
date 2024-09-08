@@ -65,4 +65,5 @@
     <string name="show">"Zobraziť"</string>
     <string name="debug">"Ladiť"</string>
     <string name="wifi_not_connected">"Wi‑Fi nie je pripojené k internetu"</string>
+    <string name="action_archive">"Archivovať"</string>
 </resources>

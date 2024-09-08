@@ -134,4 +134,5 @@
     <string name="show">"Pokaż"</string>
     <string name="debug">"Debuguj"</string>
     <string name="wifi_not_connected">"Sieć Wi-Fi nie jest połączona z internetem"</string>
+    <string name="action_archive">"Archiwizuj"</string>
 </resources>

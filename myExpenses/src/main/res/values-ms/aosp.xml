@@ -109,4 +109,5 @@
     <string name="show">"Tunjukkan"</string>
     <string name="debug">"Nyahpepijat"</string>
     <string name="wifi_not_connected">"Wi-Fi tidak disambungkan ke Internet"</string>
+    <string name="action_archive">"Arkib"</string>
 </resources>

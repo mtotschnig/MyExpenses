@@ -57,4 +57,5 @@
     <string name="show">"Харуулах"</string>
     <string name="debug">"Дебаг"</string>
     <string name="wifi_not_connected">"Wi-Fi интернетэд холбогдоогүй байна"</string>
+    <string name="action_archive">"Архивлах"</string>
 </resources>

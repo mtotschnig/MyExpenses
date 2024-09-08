@@ -129,4 +129,5 @@
     <string name="show">"表示"</string>
     <string name="debug">"デバッグ"</string>
     <string name="wifi_not_connected">"Wi-Fi はインターネットに接続していません"</string>
+    <string name="action_archive">"アーカイブ"</string>
 </resources>

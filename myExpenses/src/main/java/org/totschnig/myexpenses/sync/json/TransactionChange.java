@@ -14,6 +14,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_C
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
@@ -58,6 +59,7 @@ public abstract class TransactionChange {
       KEY_CATID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
+      KEY_STATUS,
       "TRIM(" + KEY_REFERENCE_NUMBER + ") AS " + KEY_REFERENCE_NUMBER
   };
 
@@ -154,6 +156,10 @@ public abstract class TransactionChange {
   @Nullable
   public abstract String crStatus();
 
+  @ColumnName(KEY_STATUS)
+  @Nullable
+  public abstract Integer status();
+
   @ColumnName(KEY_REFERENCE_NUMBER)
   @Nullable
   public abstract String referenceNumber();
@@ -183,12 +189,13 @@ public abstract class TransactionChange {
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
         && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
-        && parentUuid() == null && tags() == null  && tagsV2() == null && categoryInfo() == null && attachments() == null;
+        && parentUuid() == null && tags() == null  && tagsV2() == null && categoryInfo() == null && attachments() == null
+        && status() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
   public enum Type {
-    created, updated, deleted, unsplit, metadata, link, tags, attachments;
+    created, updated, deleted, unsplit, metadata, link, tags, attachments, unarchive;
 
     public static final String JOIN;
 
@@ -252,6 +259,8 @@ public abstract class TransactionChange {
     public abstract Builder setMethodLabel(String value);
 
     public abstract Builder setCrStatus(String value);
+
+    public abstract Builder setStatus(Integer value);
 
     public abstract Builder setReferenceNumber(String value);
 

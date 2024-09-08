@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
@@ -138,6 +139,9 @@ data class Transaction2(
 
     val valueDate: ZonedDateTime
         get() = epoch2ZonedDateTime(_valueDate)
+
+    val isArchive: Boolean
+        get() = status == STATUS_ARCHIVE
 
     /**
      * pair of localized label and icon

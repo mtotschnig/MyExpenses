@@ -133,4 +133,5 @@
     <string name="show">"Показать"</string>
     <string name="debug">"Выполнить отладку"</string>
     <string name="wifi_not_connected">"В сети Wi-Fi нет доступа к Интернету"</string>
+    <string name="action_archive">"В архив"</string>
 </resources>

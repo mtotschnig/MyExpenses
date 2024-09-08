@@ -134,4 +134,5 @@
     <string name="show">"إظهار"</string>
     <string name="debug">"تصحيح الأخطاء"</string>
     <string name="wifi_not_connected">"‏شبكة Wi‑Fi غير متصلة بالإنترنت"</string>
+    <string name="action_archive">"وضع في الأرشيف"</string>
 </resources>

@@ -46,4 +46,5 @@
     <string name="show">"Ipakita"</string>
     <string name="debug">"I-debug"</string>
     <string name="wifi_not_connected">"Hindi nakakonekta ang Wi‑Fi sa internet"</string>
+    <string name="action_archive">"I-archive"</string>
 </resources>

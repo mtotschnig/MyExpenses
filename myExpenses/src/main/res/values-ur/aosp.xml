@@ -107,4 +107,5 @@
     <string name="show">"دکھائیں"</string>
     <string name="debug">"ڈیبگ کریں"</string>
     <string name="wifi_not_connected">"‏Wi-Fi انٹرنیٹ سے منسلک نہیں ہے"</string>
+    <string name="action_archive">"آرکائیو کریں"</string>
 </resources>

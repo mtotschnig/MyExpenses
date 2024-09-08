@@ -380,6 +380,16 @@ public class DatabaseConstants {
    */
   public static final int STATUS_HELPER = 3;
 
+  /**
+   * Status for the parent archive transaction
+   */
+  public static final int STATUS_ARCHIVE = 4;
+
+  /**
+   * Status for the transactions contained in the archive
+   */
+  public static final int STATUS_ARCHIVED = 5;
+
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
   static final String TABLE_SYNC_STATE = "_sync_state";
@@ -470,6 +480,8 @@ public class DatabaseConstants {
       KEY_PARENTID + " IS null";
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
+  public static final String WHERE_NOT_ARCHIVED =
+    KEY_STATUS + " != " + STATUS_ARCHIVED;
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";

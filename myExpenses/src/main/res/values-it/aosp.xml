@@ -131,4 +131,5 @@
     <string name="show">"Mostra"</string>
     <string name="debug">"Debug"</string>
     <string name="wifi_not_connected">"Wi-Fi non connesso a Internet"</string>
+    <string name="action_archive">"Archivia"</string>
 </resources>

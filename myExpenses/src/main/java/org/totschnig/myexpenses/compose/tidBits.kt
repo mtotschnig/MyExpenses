@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,9 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import app.futured.donut.compose.DonutProgress
@@ -154,3 +157,6 @@ fun TypeConfiguration(
         }
     }
 }
+
+@Composable
+fun emToDp(em: Float): Dp = with(LocalDensity.current) { LocalTextStyle.current.fontSize.toDp() } * em

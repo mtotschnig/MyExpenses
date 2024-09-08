@@ -65,9 +65,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithLayoutResource(
-            layoutId
-        )
+        val builder = initBuilderWithLayoutResource(layoutId)
         setupDialogView(dialogView)
         return builder.setTitle(layoutTitle)
             .setPositiveButton(android.R.string.ok, this)

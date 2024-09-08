@@ -119,4 +119,5 @@
     <string name="show">"បង្ហាញ"</string>
     <string name="debug">"កែ​កំហុស"</string>
     <string name="wifi_not_connected">"Wi-Fi មិនត្រូវបានភ្ជាប់ទៅអ៊ីនធឺណិតទេ"</string>
+    <string name="action_archive">"ប័ណ្ណសារ"</string>
 </resources>

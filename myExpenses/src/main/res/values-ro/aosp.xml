@@ -124,4 +124,5 @@
     <string name="show">"Afișează"</string>
     <string name="debug">"Remediați erorile"</string>
     <string name="wifi_not_connected">"Rețeaua Wi-Fi nu este conectată la internet"</string>
+    <string name="action_archive">"Arhivaţi"</string>
 </resources>

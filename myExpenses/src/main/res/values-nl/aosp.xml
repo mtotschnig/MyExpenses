@@ -128,4 +128,5 @@
     <string name="show">"Tonen"</string>
     <string name="debug">"Fouten opsporen"</string>
     <string name="wifi_not_connected">"Wifi heeft geen verbinding met internet"</string>
+    <string name="action_archive">"Archiveren"</string>
 </resources>

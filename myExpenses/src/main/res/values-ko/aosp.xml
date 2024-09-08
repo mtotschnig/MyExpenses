@@ -123,4 +123,5 @@
     <string name="show">"표시"</string>
     <string name="debug">"디버그"</string>
     <string name="wifi_not_connected">"Wi‑Fi가 인터넷에 연결되어 있지 않음"</string>
+    <string name="action_archive">"보관처리"</string>
 </resources>

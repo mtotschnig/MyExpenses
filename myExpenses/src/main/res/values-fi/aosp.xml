@@ -65,4 +65,5 @@
     <string name="show">"Näytä"</string>
     <string name="debug">"Vianetsintä"</string>
     <string name="wifi_not_connected">"Wi-Fi-yhteyttä ei voi muodostaa."</string>
+    <string name="action_archive">"Arkisto"</string>
 </resources>

@@ -58,4 +58,5 @@
     <string name="show">"Rodyti"</string>
     <string name="debug">"Derinti"</string>
     <string name="wifi_not_connected">"„Wi‑Fi“ tinkle nėra interneto ryšio"</string>
+    <string name="action_archive">"Archyvas"</string>
 </resources>

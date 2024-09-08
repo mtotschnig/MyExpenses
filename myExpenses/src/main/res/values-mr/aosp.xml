@@ -54,4 +54,5 @@
     <string name="show">"दर्शवा"</string>
     <string name="debug">"डीबग करणे"</string>
     <string name="wifi_not_connected">"वाय-फाय इंटरनेटशी कनेक्ट केलेले नाही"</string>
+    <string name="action_archive">"संग्रहण करा"</string>
 </resources>

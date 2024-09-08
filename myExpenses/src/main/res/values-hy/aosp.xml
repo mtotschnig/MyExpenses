@@ -63,4 +63,5 @@
     <string name="show">"Ցույց տալ"</string>
     <string name="debug">"Կարգաբերել"</string>
     <string name="wifi_not_connected">"Wi‑Fi-ը միացված չէ համացանցին"</string>
+    <string name="action_archive">"Արխիվ"</string>
 </resources>

@@ -34,8 +34,15 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Category
+import org.totschnig.myexpenses.model2.CategoryExport
+import org.totschnig.myexpenses.model2.CategoryInfo
+import org.totschnig.myexpenses.model2.ICategoryInfo
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
@@ -43,20 +50,138 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGR
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
+import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
+import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStartJulian
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
-import org.totschnig.myexpenses.model2.CategoryExport
-import org.totschnig.myexpenses.model2.CategoryInfo
-import org.totschnig.myexpenses.model2.ICategoryInfo
-import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
-import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -70,6 +195,7 @@ import java.io.File
 import java.io.IOException
 import java.time.Duration
 import java.time.Instant
+import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Named
@@ -365,6 +491,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_ID_ATTACHMENT_ID = 74
         protected const val TRANSACTION_UNLINK_TRANSFER = 75
         protected const val TRANSACTION_TRANSFORM_TO_TRANSFER = 76
+        protected const val UNARCHIVE = 77
     }
 
     val homeCurrency: String
@@ -617,8 +744,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } else {
             if (lenientMode) {
                 backupDb(currentDb, backupDir)
-            }
-            else {
+            } else {
                 helper.readableDatabase.beginTransaction()
                 try {
                     backupDb(currentDb, backupDir)
@@ -795,16 +921,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
-        table = TABLE_TRANSACTIONS,
-        columns = arrayOf(KEY_UUID),
-        selection = "$KEY_ROWID = ?",
-        selectionArgs = arrayOf(id)
-    ).use {
-        it.moveToFirst()
-        it.getString(0)
-    }
-
     /**
      * @return number of corrupted entries
      */
@@ -833,7 +949,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
     }
 
-    fun getInternalAppDir(): File {
+    private fun getInternalAppDir(): File {
         return context!!.filesDir.parentFile!!
     }
 
@@ -1578,12 +1694,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun mergeCategories(db: SupportSQLiteDatabase, extras: Bundle) {
         val source = extras.getLongArray(KEY_MERGE_SOURCE)!!
         val target = extras.getLong(KEY_MERGE_TARGET)
-        require(db.query(
-            TABLE_CATEGORIES,
-            arrayOf(KEY_TYPE),
-            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
-            arrayOf(*source.toTypedArray(), target)
-        ).useAndMapToSet { it.getInt(0) }.size == 1)
+        require(
+            db.query(
+                TABLE_CATEGORIES,
+                arrayOf(KEY_TYPE),
+                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
+                arrayOf(*source.toTypedArray(), target)
+            ).useAndMapToSet { it.getInt(0) }.size == 1
+        )
         db.beginTransaction()
         try {
             source.forEach {
@@ -1658,8 +1776,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             val parentUUidTemplate = parentUuidExpression(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS)
             db.execSQL(
-                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_REFERENCE_NUMBER) 
-                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
+                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
+                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
                 accountIdBindArgs
             )
             db.execSQL(
@@ -1681,6 +1799,48 @@ abstract class BaseTransactionProvider : ContentProvider() {
             throw e
         } finally {
             db.endTransaction()
+        }
+    }
+
+    private fun subSelectTemplate(colum: String) =
+        "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
+
+    fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
+        val uuid =
+            values.getAsString(KEY_UUID) ?: this.uuidForTransaction(values.getAsLong(KEY_ROWID))
+
+
+        val crStatusSubSelect = subSelectTemplate(KEY_CR_STATUS)
+        val payeeIdSubSelect = subSelectTemplate(KEY_PAYEEID)
+        val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
+        val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
+
+        return try {
+            beginTransaction()
+            TransactionProvider.pauseChangeTrigger(this)
+            //parts are promoted to independence
+            execSQL(
+                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = $rowIdSubSelect ",
+                arrayOf(uuid, uuid, uuid)
+            )
+            //Change is recorded
+            if (callerIsNotSyncAdapter) {
+                execSQL(
+                    """INSERT INTO $TABLE_CHANGES
+                            | ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID)
+                            | SELECT '${TransactionChange.Type.unsplit.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?
+                            | FROM $TABLE_ACCOUNTS
+                            | WHERE $KEY_ROWID = $accountIdSubSelect AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL""".trimMargin(),
+                    arrayOf(uuid, uuid)
+                )
+            }
+            //parent is deleted
+            val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
+            TransactionProvider.resumeChangeTrigger(this)
+            setTransactionSuccessful()
+            count
+        } finally {
+            endTransaction()
         }
     }
 }

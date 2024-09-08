@@ -132,4 +132,5 @@
     <string name="show">"Vis"</string>
     <string name="debug">"Fejlretning"</string>
     <string name="wifi_not_connected">"Der er ikke internetadgang via Wi-Fi"</string>
+    <string name="action_archive">"Arkivér"</string>
 </resources>

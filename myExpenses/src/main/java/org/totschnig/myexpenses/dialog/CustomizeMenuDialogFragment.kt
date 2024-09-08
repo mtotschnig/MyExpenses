@@ -7,7 +7,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -163,6 +161,13 @@ sealed class MenuItem(
         R.menu.main_manage
     )
 
+    data object Archive: MenuItem(
+        R.id.ARCHIVE_COMMAND,
+        R.string.action_archive,
+        R.drawable.ic_archive,
+        isEnabledByDefault = true
+    )
+
     data object Share : MenuItem(
         R.id.SHARE_COMMAND,
         R.string.menu_share,
@@ -184,7 +189,7 @@ sealed class MenuItem(
     data object Backup : MenuItem(
         R.id.BACKUP_COMMAND,
         R.string.menu_backup,
-        R.drawable.ic_archive,
+        R.drawable.ic_menu_save,
         isEnabledByDefault = false
     )
 

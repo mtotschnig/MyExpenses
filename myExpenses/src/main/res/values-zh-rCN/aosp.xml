@@ -129,4 +129,5 @@
     <string name="show">"显示"</string>
     <string name="debug">"调试"</string>
     <string name="wifi_not_connected">"此 WLAN 网络无法连接到互联网"</string>
+    <string name="action_archive">"归档"</string>
 </resources>

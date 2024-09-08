@@ -36,8 +36,8 @@ import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,7 +48,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -78,6 +77,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.adapter.SortableItem
@@ -90,6 +90,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
@@ -437,6 +438,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.WEB_UI_COMMAND -> {
                 toggleWebUI()
+                true
+            }
+
+            R.id.ARCHIVE_COMMAND -> {
+                currentAccount?.let {
+                    ArchiveDialogFragment.newInstance(it).show(supportFragmentManager, "ARCHIVE")
+                }
                 true
             }
 
@@ -945,7 +953,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 var jndex = 0
                                 while (jndex < lazyPagingItems.itemCount) {
                                     lazyPagingItems.peek(jndex)?.let {
-                                        viewModel.selectionHandler.select(it)
+                                        viewModel.selectionHandler.selectConditional(it)
                                     }
                                     jndex++
                                 }
@@ -982,73 +990,89 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         command = "DETAILS"
                                     ) { showDetails(transaction.id) })
                                     if (modificationAllowed) {
-                                        add(MenuEntry(
-                                            icon = Icons.Filled.ContentCopy,
-                                            label = R.string.menu_clone_transaction,
-                                            command = "CLONE"
-                                        ) {
-                                            edit(transaction, true)
-                                        })
-                                        add(MenuEntry(
-                                            icon = myiconpack.IcActionTemplateAdd,
-                                            label = R.string.menu_create_template_from_transaction,
-                                            command = "CREATE_TEMPLATE_FROM_TRANACTION"
-                                        ) { createTemplate(transaction) })
-                                        if (transaction.crStatus == CrStatus.VOID) {
+                                        if (transaction.isArchive) {
                                             add(MenuEntry(
-                                                icon = Icons.Filled.RestoreFromTrash,
-                                                label = R.string.menu_undelete_transaction,
-                                                command = "UNDELETE_TRANSACTION"
+                                                icon = Icons.Filled.Unarchive,
+                                                label = R.string.menu_unpack,
+                                                command = "UNPACK_ARCHIVE"
                                             ) {
-                                                undelete(listOf(transaction.id))
+                                                unarchive(transaction)
                                             })
-                                        }
-                                        if (transaction.crStatus != CrStatus.VOID) {
-                                            add(edit("EDIT_TRANSACTION") {
-                                                edit(transaction)
+                                            add(delete("DELETE_TRANSACTION") {
+                                                lifecycleScope.launch {
+                                                    deleteArchive(transaction)
+                                                }
                                             })
-                                        }
-                                        add(delete("DELETE_TRANSACTION") {
-                                            delete(listOf(transaction.id to transaction.crStatus))
-                                        })
-                                        add(
-                                            select("SELECT_TRANSACTION") {
-                                                viewModel.selectionState.value = listOf(
-                                                    MyExpensesViewModel.SelectionInfo(transaction)
-                                                )
-                                            }
-                                        )
-                                        when {
-                                            transaction.isSplit -> {
+                                        } else {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.ContentCopy,
+                                                label = R.string.menu_clone_transaction,
+                                                command = "CLONE"
+                                            ) {
+                                                edit(transaction, true)
+                                            })
+                                            add(MenuEntry(
+                                                icon = myiconpack.IcActionTemplateAdd,
+                                                label = R.string.menu_create_template_from_transaction,
+                                                command = "CREATE_TEMPLATE_FROM_TRANSACTION"
+                                            ) { createTemplate(transaction) })
+                                            if (transaction.crStatus == CrStatus.VOID) {
                                                 add(MenuEntry(
-                                                    icon = Icons.AutoMirrored.Filled.CallSplit,
-                                                    label = R.string.menu_ungroup_split_transaction,
-                                                    command = "UNGROUP_SPLIT"
+                                                    icon = Icons.Filled.RestoreFromTrash,
+                                                    label = R.string.menu_undelete_transaction,
+                                                    command = "UNDELETE_TRANSACTION"
                                                 ) {
-                                                    ungroupSplit(transaction)
+                                                    undelete(listOf(transaction.id))
                                                 })
                                             }
-
-                                            transaction.isTransfer -> {
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.LinkOff,
-                                                    label = R.string.menu_unlink_transfer,
-                                                    command = "UNLINK_TRANSFER"
-                                                ) {
-                                                    unlinkTransfer(transaction)
+                                            if (transaction.crStatus != CrStatus.VOID) {
+                                                add(edit("EDIT_TRANSACTION") {
+                                                    edit(transaction)
                                                 })
                                             }
-
-                                            else -> {
-                                                if (accountCount >= 2) {
-                                                    add(MenuEntry(
-                                                        icon = Icons.Filled.Link,
-                                                        label = R.string.menu_transform_to_transfer,
-                                                        command = "TRANSFORM_TRANSFER"
-                                                    ) {
-                                                        transformToTransfer(transaction)
-                                                    }
+                                            add(delete("DELETE_TRANSACTION") {
+                                                delete(listOf(transaction.id to transaction.crStatus))
+                                            })
+                                            add(
+                                                select("SELECT_TRANSACTION") {
+                                                    viewModel.selectionState.value = listOf(
+                                                        MyExpensesViewModel.SelectionInfo(
+                                                            transaction
+                                                        )
                                                     )
+                                                }
+                                            )
+                                            when {
+                                                transaction.isSplit -> {
+                                                    add(MenuEntry(
+                                                        icon = Icons.AutoMirrored.Filled.CallSplit,
+                                                        label = R.string.menu_ungroup_split_transaction,
+                                                        command = "UNGROUP_SPLIT"
+                                                    ) {
+                                                        ungroupSplit(transaction)
+                                                    })
+                                                }
+
+                                                transaction.isTransfer -> {
+                                                    add(MenuEntry(
+                                                        icon = Icons.Filled.LinkOff,
+                                                        label = R.string.menu_unlink_transfer,
+                                                        command = "UNLINK_TRANSFER"
+                                                    ) {
+                                                        unlinkTransfer(transaction)
+                                                    })
+                                                }
+
+                                                else -> {
+                                                    if (accountCount >= 2) {
+                                                        add(MenuEntry(
+                                                            icon = Icons.Filled.Link,
+                                                            label = R.string.menu_transform_to_transfer,
+                                                            command = "TRANSFORM_TRANSFER"
+                                                        ) {
+                                                            transformToTransfer(transaction)
+                                                        })
+                                                    }
                                                 }
                                             }
                                         }
@@ -1192,11 +1216,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     prefHandler,
                                     this@BaseMyExpenses
                                 )?.let {
-                                    Pair(
+                                    DateTimeFormatInfo(
                                         (it.first as SimpleDateFormat).asDateTimeFormatter,
-                                        with(LocalDensity.current) {
-                                            LocalTextStyle.current.fontSize.toDp()
-                                        } * it.second
+                                        it.second
                                     )
                                 },
                                 withCategoryIcon,
@@ -1220,6 +1242,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 finishActionMode()
                 showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
             }
+        }
+    }
+
+    private fun unarchive(transaction: Transaction2) {
+        showConfirmationDialog(
+            "UNARCHIVE",
+            getString(R.string.warning_unarchive),
+            R.id.UNARCHIVE_COMMAND, R.string.menu_unpack
+        ) {
+            putLong(KEY_ROWID, transaction.id)
         }
     }
 
@@ -1293,6 +1325,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             )
         }
 
+    }
+
+    private suspend fun deleteArchive(transaction: Transaction2) {
+        val count = withContext(Dispatchers.IO) {
+            viewModel.childCount(transaction.id)
+        }
+        checkSealed(listOf(transaction.id)) {
+            val message = buildString {
+                append(getString(R.string.warning_delete_archive, count))
+                if (transaction.crStatus == CrStatus.RECONCILED) {
+                    append(" ")
+                    append(getString(R.string.warning_delete_reconciled))
+                }
+            }
+
+            showConfirmationDialog(
+                "DELETE_TRANSACTION",
+                message,
+                R.id.DELETE_COMMAND_DO,
+                R.string.menu_delete
+            ) {
+                putInt(
+                    ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_warning_delete_archive
+                )
+                putLongArray(KEY_ROW_IDS, longArrayOf(transaction.id))
+            }
+        }
     }
 
     private fun delete(transactions: List<Pair<Long, CrStatus>>) {
@@ -1846,6 +1906,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             excludeFromTotals
                     }
                 }
+                menu.findItem(R.id.ARCHIVE_COMMAND).setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 filterHandler.configureSearchMenu(it)
@@ -2402,6 +2463,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     args.getLong(KEY_TRANSACTIONID),
                     args.getLong(KEY_ROWID)
                 ).observeAndReportFailure()
+            }
+
+            R.id.UNARCHIVE_COMMAND -> {
+                viewModel.unarchive(args.getLong(KEY_ROWID))
             }
         }
     }

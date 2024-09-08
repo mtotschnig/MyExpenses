@@ -64,4 +64,5 @@
     <string name="show">"Mostrar"</string>
     <string name="debug">"Depurar"</string>
     <string name="wifi_not_connected">"A wifi non está conectada a Internet"</string>
+    <string name="action_archive">"Arquivar"</string>
 </resources>

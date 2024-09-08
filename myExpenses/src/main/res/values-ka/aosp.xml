@@ -58,4 +58,5 @@
     <string name="show">"ჩვენება"</string>
     <string name="debug">"გამართვა"</string>
     <string name="wifi_not_connected">"Wi-Fi არ არის დაკავშირებული ინტერნეტთან"</string>
+    <string name="action_archive">"დაარქივება"</string>
 </resources>

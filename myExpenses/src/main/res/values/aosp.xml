@@ -239,4 +239,6 @@
     <string name="debug">"Debug"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r lost_internet_access_title | sed 's/ msgid="[[:digit:]]*"//' | sed 's/lost_internet_access_title/wifi_not_connected/'  | aosp_helper -->
     <string name="wifi_not_connected">"Wi\u2011Fi is not connected to the internet"</string>
+    <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -r "\"archive\"" res | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="action_archive">"Archive"</string>
 </resources>

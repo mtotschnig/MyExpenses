@@ -33,9 +33,9 @@ ext {
     acraVersion = "5.11.3"
     robolectricVersion = '4.13'
     roomVersion = "2.6.1"
-    archLifecycleVersion = '2.8.4'
+    archLifecycleVersion = '2.8.5'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.8.2"
+    fragmentVersion = "1.8.3"
     coroutines = '1.8.1'
     mockitoVersion = '5.12.0'
     retrofitVersion = '2.11.0'
@@ -56,14 +56,14 @@ ext {
     desugarVersion = '2.0.4'
     mlkitTextRecognition = "16.0.1"
     truthVersion = '1.4.2'
-    accompanist = "0.34.0"
+    accompanist = "0.36.0"
     requery = "3.36.0"
     androidxSqlite = "2.4.0"
     barista = "4.3.0"
     googleHttp = "1.44.1"
     //composeDevBom = "dev.chrisbanes.compose:compose-bom:2024.05.00-alpha02"
-    composeBom = "androidx.compose:compose-bom:2024.06.00"
-    activityCompose = "1.9.1"
+    composeBom = "androidx.compose:compose-bom:2024.09.00"
+    activityCompose = "1.9.2"
     workManager = "2.9.1"
 }
 

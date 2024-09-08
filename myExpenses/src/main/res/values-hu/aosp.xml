@@ -133,4 +133,5 @@
     <string name="show">"Megjelenítés"</string>
     <string name="debug">"Hibakeresés"</string>
     <string name="wifi_not_connected">"A Wi‑Fi-hálózat nem kapcsolódik az internethez"</string>
+    <string name="action_archive">"Archiválás"</string>
 </resources>

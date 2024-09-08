@@ -63,4 +63,5 @@
     <string name="show">"Wys"</string>
     <string name="debug">"Ontfout"</string>
     <string name="wifi_not_connected">"Wi‑Fi is nie aan die internet gekoppel nie"</string>
+    <string name="action_archive">"Argiveer"</string>
 </resources>

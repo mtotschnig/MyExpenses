@@ -63,6 +63,7 @@ import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
+import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -259,6 +260,8 @@ open class MyExpensesViewModel(
 
         override val selectionCount: Int
             get() = selectionState.value.size
+
+        override fun isSelectable(transaction: Transaction2) = !transaction.isArchive
 
     }
 
@@ -847,6 +850,10 @@ open class MyExpensesViewModel(
         pagingSourceFactories.forEach {
             it.value.clear()
         }
+    }
+
+    fun unarchive(id: Long) {
+        repository.unarchive(id)
     }
 
     val banks: StateFlow<List<Bank>> by lazy {

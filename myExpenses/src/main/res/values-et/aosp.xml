@@ -66,4 +66,5 @@
     <string name="show">"Kuva"</string>
     <string name="debug">"Silu"</string>
     <string name="wifi_not_connected">"WiFi pole Internetiga ühendatud"</string>
+    <string name="action_archive">"Arhiiv"</string>
 </resources>

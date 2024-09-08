@@ -56,4 +56,5 @@
     <string name="show">"देखाउनुहोस्"</string>
     <string name="debug">"डिबग"</string>
     <string name="wifi_not_connected">"Wi-Fi इन्टरनेटमा कनेक्ट भएको छैन"</string>
+    <string name="action_archive">"अभिलेख"</string>
 </resources>

@@ -54,4 +54,5 @@
     <string name="show">"കാണിക്കുക"</string>
     <string name="debug">"ഡീബഗ്"</string>
     <string name="wifi_not_connected">"ഇന്‍റർനെറ്റിലേക്ക് വൈഫൈ കണക്‌റ്റ് ചെയ്‌തിട്ടില്ല"</string>
+    <string name="action_archive">"ആര്‍ക്കൈവുചെയ്യുക"</string>
 </resources>

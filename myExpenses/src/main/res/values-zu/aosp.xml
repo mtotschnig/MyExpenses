@@ -56,4 +56,5 @@
     <string name="show">"Umbukiso"</string>
     <string name="debug">"Lungisa iphutha"</string>
     <string name="wifi_not_connected">"I-Wi-Fi ayixhunyiwe kwi-inthanethi"</string>
+    <string name="action_archive">"Ingobo yomlando"</string>
 </resources>

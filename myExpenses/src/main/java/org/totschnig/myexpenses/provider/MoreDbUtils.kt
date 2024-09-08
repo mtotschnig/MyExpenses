@@ -775,3 +775,13 @@ fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Mon
             )
         )
     )
+
+fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String = query(
+    table = TABLE_TRANSACTIONS,
+    columns = arrayOf(KEY_UUID),
+    selection = "$KEY_ROWID = ?",
+    selectionArgs = arrayOf(id)
+).use {
+    it.moveToFirst()
+    it.getString(0)
+}

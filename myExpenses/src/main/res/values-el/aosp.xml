@@ -131,4 +131,5 @@
     <string name="show">"Εμφάνιση"</string>
     <string name="debug">"Εντοπισμός σφαλμάτων"</string>
     <string name="wifi_not_connected">"Το Wi‑Fi δεν είναι συνδεδεμένο στο διαδίκτυο"</string>
+    <string name="action_archive">"Αρχειοθέτηση"</string>
 </resources>

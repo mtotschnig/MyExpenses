@@ -132,4 +132,5 @@
     <string name="show">"Mostrar"</string>
     <string name="debug">"Depurar"</string>
     <string name="wifi_not_connected">"La red Wi‑Fi no tiene conexión a Internet"</string>
+    <string name="action_archive">"Archivar"</string>
 </resources>

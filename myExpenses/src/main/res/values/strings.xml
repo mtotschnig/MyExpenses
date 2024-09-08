@@ -1022,4 +1022,17 @@
     <string name="pref_csv_export_category_separator_summary">Separator between levels of category hierarchy</string>
     <!-- This message is shown on the Budget Screen, when there are not enough categories with allocated budgets for the selected time period. -->
     <string name="not_enough_data">Not enough data</string>
+    <string name="menu_unpack">Unpack</string>
+    <string name="warning_unarchive">The archive will be unpacked. All contained transactions will be reinserted into the list.</string>
+    <!-- This is used in the title of a dialog showing the contents of an existing archive -->
+    <string name="archive">Archive</string>
+    <string name="warning_delete_archive">All transactions contained in this archive (%d) will be deleted.</string>
+    <string name="dialog_title_warning_delete_archive">Delete archive?</string>
+    <string name="archive_warning">All transactions (%s) in the selected date range will be archived.</string>
+    <!-- If user selects a date range which already contains an archive, we show this message. -->
+    <string name="warning_nested_archives">Nested archives are not supported.</string>
+    <!-- If user selects a date range without transactions, there is no reason to create an archive. -->
+    <string name="warning_empty_archive">No transactions exist in the selected date range.</string>
+    <!-- All transactions being packaged into an archive must have the same statuses (cleared, reconciled, not reconciled, void), in order to create an archive with the same status. -->
+    <string name="warning_archive_inconsistent_state">The transactions in the selected date range have inconsistent statuses (%s).</string>
 </resources>

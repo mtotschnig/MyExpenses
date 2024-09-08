@@ -50,4 +50,5 @@
     <string name="show">"Ko‘rsatish"</string>
     <string name="debug">"Tuzatish"</string>
     <string name="wifi_not_connected">"Wi-Fi aloqasi bor, lekin Internetga ulanmagansiz"</string>
+    <string name="action_archive">"Arxivlash"</string>
 </resources>

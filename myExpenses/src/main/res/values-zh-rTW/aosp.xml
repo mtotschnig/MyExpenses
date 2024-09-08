@@ -128,4 +128,5 @@
     <string name="show">"顯示"</string>
     <string name="debug">"偵錯"</string>
     <string name="wifi_not_connected">"Wi-Fi 無法連上網際網路"</string>
+    <string name="action_archive">"封存"</string>
 </resources>

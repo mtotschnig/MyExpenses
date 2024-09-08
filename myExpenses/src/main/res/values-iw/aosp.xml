@@ -123,4 +123,5 @@
     <string name="show">"הצגה"</string>
     <string name="debug">"ניפוי באגים"</string>
     <string name="wifi_not_connected">"‏רשת ה-Wi-Fi לא מחוברת לאינטרנט"</string>
+    <string name="action_archive">"העברה לארכיון"</string>
 </resources>

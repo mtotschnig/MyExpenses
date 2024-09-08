@@ -127,4 +127,5 @@
     <string name="show">"Hiển thị"</string>
     <string name="debug">"Gỡ lỗi"</string>
     <string name="wifi_not_connected">"Wi‑Fi chưa kết nối với Internet"</string>
+    <string name="action_archive">"Lưu trữ"</string>
 </resources>

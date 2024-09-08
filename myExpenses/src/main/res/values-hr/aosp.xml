@@ -124,4 +124,5 @@
     <string name="show">"Prikaži"</string>
     <string name="debug">"Otkloni pogreške"</string>
     <string name="wifi_not_connected">"Wi-Fi mreža nije povezana s internetom"</string>
+    <string name="action_archive">"Arhiviraj"</string>
 </resources>

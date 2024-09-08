@@ -121,4 +121,5 @@
     <string name="show">"ತೋರಿಸು"</string>
     <string name="debug">"ಡೀಬಗ್ ಮಾಡು"</string>
     <string name="wifi_not_connected">"ವೈ-ಫೈ ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕ ಹೊಂದಿಲ್ಲ"</string>
+    <string name="action_archive">"ಆರ್ಕೈವ್"</string>
 </resources>

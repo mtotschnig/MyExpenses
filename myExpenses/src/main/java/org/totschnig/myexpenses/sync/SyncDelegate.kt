@@ -51,6 +51,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.fromSyncAdapter
 import org.totschnig.myexpenses.model2.CategoryInfo
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
@@ -239,6 +242,10 @@ class SyncDelegate(
             if (crStatus() != null && merged.crStatus() != null && merged.crStatus() != crStatus()) {
                 setCrStatus(null)
             }
+
+            if (status() != null && merged.status() != null && merged.status() != status()) {
+                setStatus(null)
+            }
             if (referenceNumber() != null && merged.referenceNumber() != null && merged.referenceNumber() != referenceNumber()) {
                 setReferenceNumber(null)
             }
@@ -315,6 +322,9 @@ class SyncDelegate(
         }
         if (change.crStatus() != null) {
             builder.setCrStatus(change.crStatus())
+        }
+        if (change.status() != null) {
+            builder.setStatus(change.status())
         }
         if (change.referenceNumber() != null) {
             builder.setReferenceNumber(change.referenceNumber())
@@ -528,6 +538,25 @@ class SyncDelegate(
                 )
             }
 
+            TransactionChange.Type.unarchive -> {
+                ops.add(
+                    ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
+                        .withSelection(
+                            "$KEY_UUID = ? AND $KEY_STATUS == $STATUS_ARCHIVE",
+                            arrayOf(change.uuid())
+                        )
+                        .withExpectedCount(1).build()
+                )
+                ops.add(
+                    ContentProviderOperation.newUpdate(
+                        uri.buildUpon()
+                            .appendPath(TransactionProvider.URI_SEGMENT_UNARCHIVE).build()
+                    )
+                        .withValue(KEY_UUID, change.uuid())
+                        .build()
+                )
+            }
+
             TransactionChange.Type.link -> {
                 ops.add(
                     ContentProviderOperation.newUpdate(
@@ -600,6 +629,7 @@ class SyncDelegate(
             }
         }
         change.crStatus()?.let { values.put(KEY_CR_STATUS, it) }
+        change.status()?.let { values.put(KEY_STATUS, it) }
         change.referenceNumber()?.let { values.put(KEY_REFERENCE_NUMBER, it) }
         if (change.originalAmount() != null && change.originalCurrency() != null) {
             if (change.originalAmount() == Long.MIN_VALUE) {
@@ -654,10 +684,10 @@ class SyncDelegate(
         check(change.isCreate)
         val amount = change.amount() ?: 0L
         val money = Money(currencyContext[account.currency], amount)
-        val t: Transaction = if (change.splitParts() != null) {
-            SplitTransaction(account.id, money)
-        } else {
-            (change.transferAccount()?.let { transferAccount ->
+        val t: Transaction = when {
+            change.status() == STATUS_ARCHIVE -> Transaction(account.id, money)
+            change.splitParts() != null -> SplitTransaction(account.id, money)
+            else -> (change.transferAccount()?.let { transferAccount ->
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
@@ -684,6 +714,7 @@ class SyncDelegate(
             t.methodId = extractMethodId(label)
         }
         change.crStatus()?.let { t.crStatus = CrStatus.valueOf(it) }
+        change.status()?.let { t.status = it }
         t.referenceNumber = change.referenceNumber()
         if (parentOffset == -1) {
             change.parentUuid()?.let {

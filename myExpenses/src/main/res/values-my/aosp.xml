@@ -54,4 +54,5 @@
     <string name="show">"ပြပါ"</string>
     <string name="debug">"ဒီဘာဂ်"</string>
     <string name="wifi_not_connected">"Wi-Fi သည် အင်တာနက်သို့ ချိတ်ဆက်မထားပါ"</string>
+    <string name="action_archive">"မော်ကွန်းတင်ရန်"</string>
 </resources>

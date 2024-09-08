@@ -63,4 +63,5 @@
     <string name="show">"Sýna"</string>
     <string name="debug">"Villuleita"</string>
     <string name="wifi_not_connected">"Wi-Fi er ekki tengt internetinu"</string>
+    <string name="action_archive">"Setja í geymslu"</string>
 </resources>

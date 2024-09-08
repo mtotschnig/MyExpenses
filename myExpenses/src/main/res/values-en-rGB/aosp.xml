@@ -7,4 +7,5 @@
     <string name="license_title">"Licence"</string>
     <string name="color">"Colour"</string>
     <string name="color_component_title">"Choose colour"</string>
+    <string name="action_archive">"Archive"</string>
 </resources>

@@ -129,4 +129,5 @@
     <string name="show">"Erakutsi"</string>
     <string name="debug">"Araztu"</string>
     <string name="wifi_not_connected">"Wifi-sarea ez dago Internetera konektatuta"</string>
+    <string name="action_archive">"Artxibatu"</string>
 </resources>

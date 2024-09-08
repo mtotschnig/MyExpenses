@@ -130,4 +130,5 @@
     <string name="show">"Göster"</string>
     <string name="debug">"Hata ayıkla"</string>
     <string name="wifi_not_connected">"Kablosuz ağ internet'e bağlı değil"</string>
+    <string name="action_archive">"Arşiv"</string>
 </resources>

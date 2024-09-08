@@ -66,4 +66,5 @@
     <string name="show">"Visa"</string>
     <string name="debug">"Felsökning"</string>
     <string name="wifi_not_connected">"Ingen internetanslutning med wifi"</string>
+    <string name="action_archive">"Arkivera"</string>
 </resources>

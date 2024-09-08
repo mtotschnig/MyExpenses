@@ -109,4 +109,5 @@
     <string name="show">"顯示"</string>
     <string name="debug">"除錯"</string>
     <string name="wifi_not_connected">"Wi-Fi 並未連線至互聯網"</string>
+    <string name="action_archive">"封存"</string>
 </resources>

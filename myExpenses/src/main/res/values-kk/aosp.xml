@@ -59,4 +59,5 @@
     <string name="show">"Көрсету"</string>
     <string name="debug">"Күйін келтіру"</string>
     <string name="wifi_not_connected">"Wi-Fi желісі интернетке қосылмаған"</string>
+    <string name="action_archive">"Мұрағаттау"</string>
 </resources>

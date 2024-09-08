@@ -134,4 +134,5 @@
     <string name="show">"Zobrazit"</string>
     <string name="debug">"Ladit"</string>
     <string name="wifi_not_connected">"Síť Wi‑Fi nemá přístup k internetu"</string>
+    <string name="action_archive">"Archivovat"</string>
 </resources>

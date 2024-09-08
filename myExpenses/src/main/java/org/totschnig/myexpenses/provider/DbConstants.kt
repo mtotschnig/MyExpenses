@@ -95,6 +95,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TA
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
@@ -286,6 +287,8 @@ fun categoryTreeWithSum(
         val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
         append(", amounts as (select $amountCalculation AS $KEY_DISPLAY_AMOUNT from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
+        append(" AND ")
+        append(WHERE_NOT_ARCHIVED)
         append(" AND +$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
             append(" AND $it")
@@ -532,7 +535,7 @@ WITH now as (
         ) AS $KEY_EQUIVALENT_AMOUNT,
         $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
     FROM ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
-    WHERE $WHERE_NOT_SPLIT AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
+    WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
 ), aggregates AS (
     SELECT
         $KEY_ACCOUNTID,
@@ -660,7 +663,7 @@ fun buildTransactionGroupCte(
         append(getAmountCalculation(forHome))
         append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
         append(" FROM $VIEW_WITH_ACCOUNT")
-        append(" WHERE $WHERE_NOT_SPLIT AND $selection)")
+        append(" WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $selection)")
     }
 }
 
@@ -693,7 +696,7 @@ fun transactionSumQuery(
             else -> throw IllegalArgumentException()
         }
         """SELECT $aggregateFunction($amountCalculation) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
-AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)"""
+AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection)"""
     } else {
         val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
         val columns = projection.map {
@@ -712,7 +715,7 @@ AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)
      $KEY_CURRENCY,
      $KEY_EQUIVALENT_AMOUNT
     FROM $VIEW_WITH_ACCOUNT
-    WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection))
+    WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection))
     SELECT ${columns.joinToString()}"""
     }
 }

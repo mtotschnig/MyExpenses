@@ -122,4 +122,5 @@
     <string name="show">"காட்டு"</string>
     <string name="debug">"பிழைத்திருத்து"</string>
     <string name="wifi_not_connected">"வைஃபை, இண்டர்நெட்டில் இணைக்கப்படவில்லை"</string>
+    <string name="action_archive">"காப்பிடு"</string>
 </resources>

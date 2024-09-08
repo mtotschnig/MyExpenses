@@ -67,7 +67,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
             manifestPlaceholders["appName"] = "@string/app_name"
-            manifestPlaceholders["debug"] = "false"
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
             buildConfigField "java.time.LocalDateTime", "BUILD_DATE", getDate()
@@ -75,7 +74,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders["appName"] = "My Expenses Debug"
-            manifestPlaceholders["debug"] = "true"
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "java.time.LocalDateTime", "BUILD_DATE", "java.time.LocalDateTime.now()"
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""

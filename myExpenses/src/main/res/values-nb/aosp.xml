@@ -65,4 +65,5 @@
     <string name="show">"Vis"</string>
     <string name="debug">"Feilsøk"</string>
     <string name="wifi_not_connected">"Wi‑Fi er ikke koblet til Internett"</string>
+    <string name="action_archive">"Arkivér"</string>
 </resources>

@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
@@ -334,6 +335,10 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         if (handleDeleteOperation != null) ops.add(handleDeleteOperation)
         contentResolver.applyBatch(AUTHORITY, ops)
     }
+
+    fun childCount(transactionId : Long) = repository.count(TRANSACTIONS_URI,
+        "$KEY_PARENTID = ?", arrayOf(transactionId.toString())
+    )
 
     fun joinQueryAndAccountFilter(
         filter: String?,

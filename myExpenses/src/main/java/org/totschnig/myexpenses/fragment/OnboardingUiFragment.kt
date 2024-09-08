@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.compose.GroupDivider
 import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
@@ -178,11 +179,9 @@ class OnboardingUiFragment : OnboardingFragment() {
                     (when (renderer) {
                         RenderType.Legacy -> {
                             CompactTransactionRenderer(
-                                Pair(
+                                DateTimeFormatInfo(
                                     (Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter,
-                                    with(LocalDensity.current) {
-                                        LocalTextStyle.current.fontSize.toDp()
-                                    } * 4.6f
+                                    4.6f
                                 ),
                                 withCategoryIcon
                             )

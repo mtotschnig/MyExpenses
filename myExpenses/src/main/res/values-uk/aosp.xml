@@ -132,4 +132,5 @@
     <string name="show">"Показати"</string>
     <string name="debug">"Налагодження"</string>
     <string name="wifi_not_connected">"Мережу Wi-Fi не під’єднано до Інтернету"</string>
+    <string name="action_archive">"Архів"</string>
 </resources>

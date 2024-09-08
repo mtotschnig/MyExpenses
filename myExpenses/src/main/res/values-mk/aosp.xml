@@ -51,4 +51,5 @@
     <string name="show">"Прикажи"</string>
     <string name="debug">"Отстрани грешка"</string>
     <string name="wifi_not_connected">"Wi‑Fi мрежата не е поврзана на интернет"</string>
+    <string name="action_archive">"Архивирај"</string>
 </resources>
