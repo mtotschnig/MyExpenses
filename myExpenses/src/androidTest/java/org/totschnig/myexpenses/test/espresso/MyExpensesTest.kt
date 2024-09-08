@@ -26,6 +26,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
 import com.google.common.truth.Truth
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
@@ -265,9 +267,10 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun titleAndSubtitleAreSetAndSurviveOrientationChange() {
         checkTitle("Test account 2")
-        rotate()
+        val device = UiDevice.getInstance(getInstrumentation())
+        device.setOrientationRight()
         checkTitle("Test account 2")
-        rotate()
+        device.setOrientationNatural()
     }
 
     private fun checkTitle(label: String) {
