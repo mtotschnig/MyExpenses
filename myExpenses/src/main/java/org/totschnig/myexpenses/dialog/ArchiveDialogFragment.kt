@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.os.Parcelable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePickerDefaults
@@ -15,8 +15,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.conditional
@@ -31,6 +34,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.canBeArchived
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
@@ -38,6 +42,16 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.time.LocalDate
 import java.time.ZoneOffset
 import javax.inject.Inject
+
+@Parcelize
+data class ArchiveInfo(
+    val count: Int,
+    val hasNested: Boolean,
+    val statuses: List<CrStatus>
+) : Parcelable {
+    val canArchive: Boolean
+        get() = count > 0 && !hasNested && statuses.size == 1
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
@@ -66,23 +80,20 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
     override fun BuildContent() {
         val state = rememberDateRangePickerState()
 
-        val archiveCount = remember { mutableStateOf<Int?>(null) }
-        val hasNested = remember { mutableStateOf(false) }
+        var archiveInfo by remember { mutableStateOf<ArchiveInfo?>(null) }
 
         LaunchedEffect(state) {
             snapshotFlow { state.range }.collect {
-                archiveCount.value = null
+                archiveInfo = null
                 it?.let { range ->
-                    val canBeArchived = withContext(Dispatchers.IO) {
+                    archiveInfo = withContext(Dispatchers.IO) {
                         repository.canBeArchived(accountId, range)
                     }
-                    archiveCount.value = canBeArchived.first
-                    hasNested.value = canBeArchived.second > 0
                 }
             }
         }
         Column {
-            val dateFormatter =  remember { DatePickerDefaults.dateFormatter() }
+            val dateFormatter = remember { DatePickerDefaults.dateFormatter() }
             DateRangePicker(
                 modifier = Modifier.conditional(state.displayMode == DisplayMode.Picker) {
                     weight(1f)
@@ -105,13 +116,21 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                     )
                 }
             )
-            archiveCount.value?.let {
+            archiveInfo?.let { info ->
 
                 Text(
                     text = when {
-                        hasNested.value -> "Nested archives are not supported."
-                        it == 0 -> "No transactions exist in the selected date range."
-                        else -> "All transactions ($it) in the selected date range will be archived."
+                        info.canArchive -> "All transactions (${info.count}) in the selected date range will be archived."
+                        info.hasNested -> "Nested archives are not supported."
+                        info.count == 0 -> "No transactions exist in the selected date range."
+                        info.statuses.size > 1 -> "The transactions in the selected date range have inconsistent states (${
+                            info.statuses.joinToString {
+                                getString(
+                                    it.toStringRes()
+                                )
+                            }
+                        })."
+                        else -> throw IllegalStateException()
                     },
                     modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),
                     fontWeight = FontWeight.Bold
@@ -122,7 +141,7 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                     Text(stringResource(id = android.R.string.cancel))
                 }
                 TextButton(
-                    enabled = !hasNested.value && archiveCount.value?.let { it > 0 } == true,
+                    enabled = archiveInfo?.canArchive == true,
                     onClick = {
                         state.range?.let { repository.archive(accountId, it) }
                         dismiss()

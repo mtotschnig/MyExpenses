@@ -5,6 +5,8 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.os.Bundle
+import androidx.core.os.BundleCompat
+import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
@@ -35,7 +37,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHIVED
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
@@ -46,9 +50,7 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
-import org.totschnig.myexpenses.util.toEndOfDayEpoch
 import org.totschnig.myexpenses.util.toEpoch
-import org.totschnig.myexpenses.util.toStartOfDayEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -184,7 +186,9 @@ fun Repository.unarchive(id: Long) {
                 .withExpectedCount(1).build()
         )
         add(
-            ContentProviderOperation.newUpdate(TRANSACTIONS_URI.buildUpon().appendPath(URI_SEGMENT_UNARCHIVE).build())
+            ContentProviderOperation.newUpdate(
+                TRANSACTIONS_URI.buildUpon().appendPath(URI_SEGMENT_UNARCHIVE).build()
+            )
                 .withValue(KEY_ROWID, id)
                 .build()
         )
@@ -196,23 +200,20 @@ fun Repository.unarchive(id: Long) {
     }
 }
 
-/**
- * returns pair of 1) total transactions in the range, 2) transactions in the range that are archives
- */
 fun Repository.canBeArchived(
     accountId: Long,
     range: Pair<LocalDate, LocalDate>
-) = contentResolver.query(
-    TRANSACTIONS_URI,
-    arrayOf("count(*)", "count(case $KEY_STATUS when $STATUS_ARCHIVE then 1 end)"),
-    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_DATE > ? AND $KEY_DATE < ?",
-    arrayOf(accountId.toString(), range.first.toStartOfDayEpoch().toString(), range.second.toEndOfDayEpoch().toString()),
-    null,
-    null
-)!!.use {
-    it.moveToFirst()
-    it.getInt(0) to it.getInt(1)
-}
+) = BundleCompat.getParcelable(
+    contentResolver.call(
+        TransactionProvider.DUAL_URI,
+        METHOD_CAN_BE_ARCHIVED,
+        null,
+        Bundle().apply {
+            putLong(KEY_ACCOUNTID, accountId)
+            putSerializable(KEY_START, range.first)
+            putSerializable(KEY_END, range.second)
+        })!!, KEY_RESULT, ArchiveInfo::class.java
+)!!
 
 
 /**

@@ -83,7 +83,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
@@ -122,7 +121,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -142,13 +140,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
@@ -195,16 +190,11 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
-import org.totschnig.myexpenses.util.toEndOfDayEpoch
-import org.totschnig.myexpenses.util.toStartOfDayEpoch
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
@@ -754,8 +744,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } else {
             if (lenientMode) {
                 backupDb(currentDb, backupDir)
-            }
-            else {
+            } else {
                 helper.readableDatabase.beginTransaction()
                 try {
                     backupDb(currentDb, backupDir)
@@ -930,16 +919,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     if (it.moveToFirst()) it.getInt(0) == 1 else false
                 }
         )
-    }
-
-    private fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
-        table = TABLE_TRANSACTIONS,
-        columns = arrayOf(KEY_UUID),
-        selection = "$KEY_ROWID = ?",
-        selectionArgs = arrayOf(id)
-    ).use {
-        it.moveToFirst()
-        it.getString(0)
     }
 
     /**
@@ -1715,12 +1694,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun mergeCategories(db: SupportSQLiteDatabase, extras: Bundle) {
         val source = extras.getLongArray(KEY_MERGE_SOURCE)!!
         val target = extras.getLong(KEY_MERGE_TARGET)
-        require(db.query(
-            TABLE_CATEGORIES,
-            arrayOf(KEY_TYPE),
-            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
-            arrayOf(*source.toTypedArray(), target)
-        ).useAndMapToSet { it.getInt(0) }.size == 1)
+        require(
+            db.query(
+                TABLE_CATEGORIES,
+                arrayOf(KEY_TYPE),
+                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
+                arrayOf(*source.toTypedArray(), target)
+            ).useAndMapToSet { it.getInt(0) }.size == 1
+        )
         db.beginTransaction()
         try {
             source.forEach {
@@ -1821,10 +1802,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    private fun subSelectTemplate(colum: String) = "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
+    private fun subSelectTemplate(colum: String) =
+        "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
 
     fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
-        val uuid = values.getAsString(KEY_UUID) ?: uuidForTransaction(this, values.getAsLong(KEY_ROWID))
+        val uuid =
+            values.getAsString(KEY_UUID) ?: this.uuidForTransaction(values.getAsLong(KEY_ROWID))
 
 
         val crStatusSubSelect = subSelectTemplate(KEY_CR_STATUS)
@@ -1859,84 +1842,5 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             endTransaction()
         }
-    }
-
-    fun SupportSQLiteDatabase.unarchive(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
-        val uuid =
-            values.getAsString(KEY_UUID) ?: uuidForTransaction(this, values.getAsLong(KEY_ROWID))
-        val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
-        val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
-
-        return try {
-            beginTransaction()
-            TransactionProvider.pauseChangeTrigger(this)
-            //parts are promoted to independence
-            execSQL(
-                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null WHERE $KEY_PARENTID = $rowIdSubSelect ",
-                arrayOf(uuid)
-            )
-            //Change is recorded
-            if (callerIsNotSyncAdapter) {
-                execSQL(
-                    """INSERT INTO $TABLE_CHANGES
-                            | ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID)
-                            | SELECT '${TransactionChange.Type.unarchive.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?
-                            | FROM $TABLE_ACCOUNTS
-                            | WHERE $KEY_ROWID = $accountIdSubSelect AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL""".trimMargin(),
-                    arrayOf(uuid, uuid)
-                )
-            }
-            //parent is deleted
-            val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
-            TransactionProvider.resumeChangeTrigger(this)
-            setTransactionSuccessful()
-            count
-        } finally {
-            endTransaction()
-        }
-    }
-
-    fun SupportSQLiteDatabase.archive(extras: Bundle) {
-        val accountId = extras.getLong(KEY_ACCOUNTID)
-        val start = BundleCompat.getSerializable(extras, KEY_START, LocalDate::class.java)!!
-        val end = BundleCompat.getSerializable(extras, KEY_END, LocalDate::class.java)!!
-        val selection = "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_DATE > ? AND $KEY_DATE < ?"
-        val selectionArgs: Array<Any> = arrayOf(accountId, start.toStartOfDayEpoch(), end.toEndOfDayEpoch())
-        val (archiveSum, archiveDate) = query(
-            table = TABLE_TRANSACTIONS,
-            columns = arrayOf("sum($KEY_AMOUNT), max($KEY_DATE)"),
-            selection = selection,
-            selectionArgs = selectionArgs
-        ).use {
-            it.moveToFirst()
-            it.getLong(0) to it.getLong(1)
-        }
-
-        beginTransaction()
-        try {
-            val archiveId = insert(TABLE_TRANSACTIONS, ContentValues().apply {
-                put(KEY_ACCOUNTID, accountId)
-                put(KEY_DATE, archiveDate)
-                put(KEY_VALUE_DATE, archiveDate)
-                put(KEY_AMOUNT, archiveSum)
-                val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                put(KEY_COMMENT, start.format(formatter) + " - " + end.format(formatter))
-                put(KEY_STATUS, STATUS_ARCHIVE)
-                put(KEY_UUID, Model.generateUuid())
-            })
-            update(
-                table = TABLE_TRANSACTIONS,
-                values = ContentValues().apply {
-                    put(KEY_PARENTID, archiveId)
-                    put(KEY_STATUS, STATUS_ARCHIVED)
-                },
-                whereClause = "$selection AND $KEY_ROWID != ?",
-                whereArgs = selectionArgs + archiveId
-            )
-            setTransactionSuccessful()
-        } finally {
-            endTransaction()
-        }
-
     }
 }

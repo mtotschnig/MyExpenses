@@ -17,6 +17,9 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
+import static org.totschnig.myexpenses.provider.ArchiveKt.archive;
+import static org.totschnig.myexpenses.provider.ArchiveKt.canBeArchived;
+import static org.totschnig.myexpenses.provider.ArchiveKt.unarchive;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -378,6 +381,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_MERGE_TARGET = "mergeTarget";
 
   public static final String METHOD_ARCHIVE = "archive";
+  public static final String METHOD_CAN_BE_ARCHIVED = "canBeArchived";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1563,6 +1567,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         archive(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(TRANSACTIONS_URI, true);
         notifyChange(ACCOUNTS_URI, false);
+      }
+      case METHOD_CAN_BE_ARCHIVED -> {
+         Bundle result = new Bundle(1);
+         result.putParcelable(KEY_RESULT, canBeArchived(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
+         return result;
       }
     }
     return null;
