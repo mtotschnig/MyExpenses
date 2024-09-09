@@ -99,6 +99,7 @@
     <string name="version_more_info_385">112514030317651128</string>
     <string name="version_more_info_386">112611283595024791</string>
     <string name="version_more_info_387">112780201819204851</string>
+    <string name="version_more_info_388">113108470765902348</string>
 
     <!-- Github -->
     <string name="project_board_341">69#column-18649612</string>
@@ -208,12 +209,7 @@
     <string-array name="whats_new_387">
         <item>@string/cab_MyExpenses_filter_help_text</item>
     </string-array>
-    <string-array name="whats_new_3871">
-        <item>@string/ui_refinement</item>
-        <item>@string/bug_fixes</item>
-        <item>FinTS: Commerzbank</item>
-    </string-array>
-    <string-array name="whats_new_3872">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_388">
+        <item>@string/whats_new_388</item>
     </string-array>
 </resources>
