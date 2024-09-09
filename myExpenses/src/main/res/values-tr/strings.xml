@@ -975,4 +975,13 @@
     <string name="pref_scroll_to_current_date_title">Muamele listesini geçerli tarihe kaydır</string>
     <string name="pref_scroll_to_current_date_account_open">hesaba her gittiğinizde</string>
     <string name="pref_scroll_to_current_date_app_launch">yalnızca uygulama başlatıldığında</string>
+    <string name="menu_unpack">Çıkart</string>
+    <string name="archive">Arşiv</string>
+    <string name="dialog_title_warning_delete_archive">Arşiv silinsin mi?</string>
+    <string name="archive_warning">Seçilen tarih aralığındaki tüm muameleler (%s) arşivlenecek.</string>
+    <string name="warning_empty_archive">Seçilen tarih aralığında muamele yok.</string>
+    <string name="warning_unarchive">Arşiv çıkarılacak. İçerdiği tüm muameleler listeye yeniden eklenecektir.</string>
+    <string name="warning_delete_archive">Bu arşivde (%d) bulunan tüm muameleler silinecek.</string>
+    <string name="warning_nested_archives">İç içe arşivler desteklenmiyor.</string>
+    <string name="warning_archive_inconsistent_state">Seçilen tarih aralığındaki muamelelerin tutarsız durumları var (%s).</string>
 </resources>
