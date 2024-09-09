@@ -14,6 +14,7 @@
         <item>status_handle</item>
         <item>balance</item>
         <item>print</item>
+        <item>archive</item>
     </string-array>
 
     <string-array name="MyExpenses_cabitems">

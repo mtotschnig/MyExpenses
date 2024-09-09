@@ -226,4 +226,5 @@
     <string name="menu_type_filter_help_text">When this option is activated, you can select to only show expense, income or transfer categories.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Transactions mapped to income categories are always counted as income, transactions mapped to expense categories are always counted as expense. This option allows you to configure how transactions mapped to neutral categories are counted: By default if they are positive they represent an income, if they are negative an expense. But if this option is activated, they are always included into both the sums of your income and expense.</string>
     <string name="cab_MyExpenses_filter_help_text">Search for transactions with same properties.</string>
+    <string name="menu_archive_help_text">After selecting a date range, all transactions for this period will be rolled up into a summary archive transaction. This will clear up the transaction list, but the transactions in the archive can still be inspected, and, if needed, unpacked again.</string>
 </resources>

@@ -230,6 +230,7 @@
     <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
     <string name="menu_sort" tools:ignore="UnusedResources">@string/display_options_sort_list_by</string>
+    <string name="menu_archive">@string/action_archive</string>
     <string name="roadmap_loading">Loading issues …</string>
     <string name="roadmap_submitting">Submitting vote …</string>
     <string name="db_error_cursor_null">Cursor is null</string>
