@@ -870,4 +870,7 @@
     <string name="one_time_payment">Единовременный платеж</string>
     <string name="dialog_contrib_trial_info_play">Эта бесплатная пробная версия никогда не преобразуется в какой-либо тип подписки.</string>
     <string name="dialog_contrib_subscription_info_play">Эта подписка вступает в силу немедленно, оплачивается ежемесячно или ежегодно и может быть отменена в любое время.</string>
+    <string name="contrib_feature_category_tree_label">Дерево категорий</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">С вашим текущим статусом лицензии (%1$s), это диалоговое окно будет появляться при каждом использовании.</string>
+    <string name="budget_deleted">Бюджет удален</string>
 </resources>

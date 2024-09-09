@@ -125,9 +125,19 @@
     <string name="popup_MyExpenses_toolbar_intro">При нажатии на панель инструментов (ярлык счета или текущий баланс) появляется меню со следующими пунктами:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Скопировать текущий баланс в буфер обмена.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Рассчитать разницу между текущим балансом и новым значением.</string>
-    <string name="menu_scan_mode_help_text">Включите режим сканирования, чтобы быстро отсканировать квитанции.</string>
+    <string name="menu_scan_mode_help_text">Включить режим сканирования для быстрого сканирования квитанций.</string>
     <string name="cab_link_help_text">Расход по одному счету может быть связан с доходом по другому счету. Если счета имеют одну и ту же валюту, то обе операции должны иметь одинаковые суммы.</string>
     <string name="cab_ManageCategories_select_help_text">Отобразить выбранную категорию в операции и вернуться к форме операции.</string>
     <string name="help_MyExpenses_fab_long_press">Нажатие и удержание плавающую кнопку действия открывает меню подготовки форму для перевода, разделение транзакции и дохода.</string>
     <string name="cab_MyExpenses_filter_help_text">Поиск транзакций с одинаковыми свойствами.</string>
+    <string name="help_ManageCategories_select_filter_info">Нажмите на запись, чтобы выбрать несколько элементов.</string>
+    <string name="help_ManageTemplates_planner_intro">Долгое нажатие на открытую запись активирует режим выбора нескольких записей. Нажатие на начало или конец диапазона дат позволяет изменить диапазон в прошлом или будущем.</string>
+    <string name="help_ManageCategories_expand_collapse">Нажмите на &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; иконку, чтобы открыть или закрыть категорию.</string>
+    <string name="help_ManageCategories_manage_context">Нажмите на запись, чтобы отобразить контекстное меню. Долгое нажатие для выбора нескольких элементов.</string>
+    <string name="cab_ManageCategories_move_help_text">Категорию (вместе с ее подкатегориями) можно переместить в другую родительскую категорию. Подкатегории можно сделать основными категориями.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Открывает диалог создания новой подкатегории в выбранной категории. Подкатегории могут быть вложены с произвольной глубиной.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Выберите дубликаты сторон, которые необходимо объединить.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Вам будет предложено выбрать, какой вариант оставить.</string>
+    <string name="help_fab_confirm_selection">Используйте плавающую кнопку действий, чтобы подтвердить выбор.</string>
+    <string name="cab_ManageCategories_merge_help_text">Категории одного типа можно объединить.</string>
 </resources>
