@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.annotation.DrawableRes
 import org.totschnig.myexpenses.model2.Bank
 
-enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, val blz: String? = null) {
+enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, vararg val blz: String) {
     DKB(R.drawable.dkb, Color.rgb(20, 141, 234), "12030000"),
     GLS(R.drawable.gls, Color.rgb(38, 230, 101), "43060967"),
     ING(R.drawable.ing, Color.rgb(255, 98, 0), "50010517"),
@@ -20,12 +20,12 @@ enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, val blz: St
     MLP(R.drawable.mlp, Color.rgb(190, 182, 170), "67230000"),
     DIREKT1822(R.drawable.direkt1822_96, Color.rgb(0, 58, 107), "50050222"),
     PSD(R.drawable.psd, Color.rgb(1, 153, 102)),
-    COMMERZBANK(R.drawable.commerz, Color.rgb(254, 213, 41))
-
+    COMMERZBANK(R.drawable.commerz, Color.rgb(254, 213, 41)),
+    KD(R.drawable.kd, Color.rgb(162, 181, 45), "10061006", "44064406", "81068106", "35060190")
 }
 
 val Bank.asWellKnown: WellKnownBank?
-    get() = WellKnownBank.entries.find { it.blz == blz } ?: when {
+    get() = WellKnownBank.entries.find { it.blz.contains(blz) } ?: when {
         blz.startsWith("200411") -> WellKnownBank.COMDIRECT
         bankName.contains("Commerzbank") -> WellKnownBank.COMMERZBANK
         bankName.contains("sparda", ignoreCase = true) -> WellKnownBank.SPARDA
