@@ -211,4 +211,5 @@
     <string name="help_ManageTags_context_menu_info">Tippen Sie auf das Symbol &lt;img src=more&gt;, um ein Schlagwort zu bearbeiten, ihm eine Farbe zuzuweisen oder es zu löschen.</string>
     <string name="cab_ManageCategories_merge_help_text">Kategorien des gleichen Typs können zusammengeführt werden.</string>
     <string name="cab_MyExpenses_filter_help_text">Suche nach Transaktionen mit gleichen Eigenschaften.</string>
+    <string name="menu_archive_help_text">Nach Auswahl eines Datumsbereichs werden alle Buchungen für diesen Zeitraum in einer Archiv-Buchung zusammengefasst. Dadurch wird die Buchungsliste übersichtlicher, die Buchungen im Archiv können aber weiterhin eingesehen und bei Bedarf wieder entpackt werden.</string>
 </resources>
