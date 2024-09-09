@@ -95,7 +95,7 @@ public class MyExpenses extends BaseMyExpenses implements
     long idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
     //detail fragment from notification should only be shown upon first instantiation from notification
     if (idFromNotification != 0) {
-      showDetails(idFromNotification);
+      showDetails(idFromNotification, false);
       getIntent().removeExtra(KEY_TRANSACTIONID);
     }
   }

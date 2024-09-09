@@ -988,7 +988,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         icon = Icons.Filled.Loupe,
                                         label = R.string.details,
                                         command = "DETAILS"
-                                    ) { showDetails(transaction.id) })
+                                    ) { showDetails(transaction.id, transaction.isArchive) })
                                     if (modificationAllowed) {
                                         if (transaction.isArchive) {
                                             add(MenuEntry(

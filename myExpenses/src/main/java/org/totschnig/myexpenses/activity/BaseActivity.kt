@@ -1286,9 +1286,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showDetails(transactionId: Long) {
+    fun showDetails(transactionId: Long, fullScreen: Boolean = false) {
         lifecycleScope.launchWhenResumed {
-            TransactionDetailFragment.show(transactionId, supportFragmentManager)
+            TransactionDetailFragment.show(transactionId, supportFragmentManager, fullScreen)
         }
     }
 
