@@ -64,6 +64,7 @@ class CsvImportDataFragment : Fragment() {
         R.string.date to "DATE",
         R.string.booking_date to "BOOKING_DATE",
         R.string.value_date to "VALUE_DATE",
+        R.string.time to "TIME",
         R.string.payer_or_payee to "PAYEE",
         R.string.notes to "COMMENT",
         R.string.category to "CATEGORY",
@@ -150,9 +151,11 @@ class CsvImportDataFragment : Fragment() {
         if (data.isEmpty()) return
         binding.switcher.displayedChild = 1
         val withValueDate = prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
+        val withTime = !withValueDate && prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, false)
         fields = allFields.filter {
             when (it.first) {
                 R.string.date -> !withValueDate
+                R.string.time -> withTime
                 R.string.booking_date, R.string.value_date -> withValueDate
                 R.string.account -> (requireActivity() as CsvImportActivity).accountId== 0L
                 else -> true

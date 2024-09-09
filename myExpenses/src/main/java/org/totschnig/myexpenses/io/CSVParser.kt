@@ -12,6 +12,10 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.SplitTransaction
 import java.math.BigDecimal
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Calendar
 
 class CSVParser(
     private val context: Context,
@@ -49,6 +53,7 @@ class CSVParser(
         val columnIndexDate = columnToFieldMap.indexOf(R.string.date).takeIf { it > -1 }
             ?: columnToFieldMap.indexOf(R.string.booking_date)
         val columnIndexValueDate = columnToFieldMap.indexOf(R.string.value_date)
+        val columnIndexTime = columnToFieldMap.indexOf(R.string.time)
         val columnIndexPayee = columnToFieldMap.indexOf(R.string.payer_or_payee)
         val columnIndexNotes = columnToFieldMap.indexOf(R.string.notes)
         val columnIndexCategory = columnToFieldMap.indexOf(R.string.category)
@@ -116,13 +121,27 @@ class CSVParser(
                     }
                 }
             }
-            if (columnIndexDate != -1) {
+            val dateRecord =
+                columnIndexDate.takeIf { it != -1 }?.let { saveGetFromRecord(record, it) }
+
+            val timeRecord =
+                columnIndexTime.takeIf { it != -1 }?.let { saveGetFromRecord(record, it) }
+            if (dateRecord != null && timeRecord == null) {
                 transaction.date(
-                    QifUtils.parseDate(
-                        saveGetFromRecord(record, columnIndexDate),
-                        dateFormat
-                    )
+                    QifUtils.parseDate(dateRecord, dateFormat)
                 )
+            }
+            if (timeRecord != null) {
+                val cal = dateRecord?.let { QifUtils.parseDateInternal(dateRecord, dateFormat) }
+                    ?: Calendar.getInstance()
+                val time = LocalTime.parse(
+                    timeRecord,
+                    DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                )
+                cal[Calendar.HOUR_OF_DAY] = time.hour
+                cal[Calendar.MINUTE] = time.minute
+                cal[Calendar.SECOND] = time.second
+                transaction.date(cal.time)
             }
             if (columnIndexValueDate != -1) {
                 transaction.valueDate(

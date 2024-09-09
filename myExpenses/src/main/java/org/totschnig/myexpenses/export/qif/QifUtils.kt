@@ -60,7 +60,7 @@ object QifUtils {
      * @throws IllegalArgumentException if input cannot be parsed
      * @return Returns parsed date as Calendar
      */
-    private fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
+    fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
         val cal = Calendar.getInstance()
         var month = cal[Calendar.MONTH] + 1
         var day = cal[Calendar.DAY_OF_MONTH]
