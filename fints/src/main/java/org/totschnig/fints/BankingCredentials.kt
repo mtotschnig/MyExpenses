@@ -33,5 +33,5 @@ data class BankingCredentials(
         get() = bankLeitZahl.filter { !it.isWhitespace() }
 
     val hbciVersion: HBCIVersion
-        get() = if (blz == WellKnownBank.ING.blz) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
+        get() = if (blz == WellKnownBank.ING.blz.getOrNull(0)) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
 }
