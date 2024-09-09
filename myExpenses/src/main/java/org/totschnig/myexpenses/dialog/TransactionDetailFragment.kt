@@ -20,7 +20,6 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -120,6 +119,9 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    override val fullScreenIfNotLarge: Boolean
+        get() = requireArguments().getBoolean(KEY_FULL_SCREEN)
 
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
@@ -229,7 +231,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                         .clickable {
                                             selectedArchivedTransaction = 0
                                         }
-                                        .animateContentSize()) {
+                                    ) {
                                         Column(modifier = Modifier.padding(8.dp)) {
                                             ExpandedRenderer(part, true)
                                             if (part.isSplit) {
@@ -606,18 +608,20 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
     }
 
     companion object {
-        fun show(id: Long, fragmentManager: FragmentManager) {
+        const val KEY_FULL_SCREEN = "fullScreen"
+        fun show(id: Long, fragmentManager: FragmentManager, fullScreen: Boolean = false) {
             with(fragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
-                    newInstance(id).show(this, TransactionDetailFragment::class.java.name)
+                    newInstance(id, fullScreen).show(this, TransactionDetailFragment::class.java.name)
                 }
             }
         }
 
-        private fun newInstance(id: Long): TransactionDetailFragment =
+        private fun newInstance(id: Long, fullScreen: Boolean): TransactionDetailFragment =
             TransactionDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(DatabaseConstants.KEY_ROWID, id)
+                    putBoolean(KEY_FULL_SCREEN, fullScreen)
                 }
             }
     }
