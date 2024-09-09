@@ -1026,9 +1026,11 @@
     <string name="warning_unarchive">The archive will be unpacked. All contained transactions will be reinserted into the list.</string>
     <!-- This is used in the title of a dialog showing the contents of an existing archive -->
     <string name="archive">Archive</string>
+    <!-- %d will be replaced with the number of transactions -->
     <string name="warning_delete_archive">All transactions contained in this archive (%d) will be deleted.</string>
     <string name="dialog_title_warning_delete_archive">Delete archive?</string>
-    <string name="archive_warning">All transactions (%s) in the selected date range will be archived.</string>
+    <!-- %d will be replaced with the number of transactions -->
+    <string name="archive_warning">All transactions (%d) in the selected date range will be archived.</string>
     <!-- If user selects a date range which already contains an archive, we show this message. -->
     <string name="warning_nested_archives">Nested archives are not supported.</string>
     <!-- If user selects a date range without transactions, there is no reason to create an archive. -->

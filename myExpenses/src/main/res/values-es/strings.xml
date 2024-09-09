@@ -994,7 +994,7 @@
     <string name="warning_empty_archive">No existen transacciones en el intervalo de fechas seleccionado.</string>
     <string name="warning_unarchive">El archivo se descomprimirá. Todas las transacciones contenidas se reinsertarán en la lista.</string>
     <string name="warning_delete_archive">Todas las transacciones contenidas en este archivo (%d) serán eliminadas.</string>
-    <string name="archive_warning">Se archivarán todas las transacciones (%s) en el intervalo de fechas seleccionado.</string>
+    <string name="archive_warning">Se archivarán todas las transacciones (%d) en el intervalo de fechas seleccionado.</string>
     <string name="warning_nested_archives">No se admiten archivos anidados.</string>
     <string name="warning_archive_inconsistent_state">Las transacciones en el rango de fechas seleccionado tienen estados inconsistentes (%s).</string>
 </resources>

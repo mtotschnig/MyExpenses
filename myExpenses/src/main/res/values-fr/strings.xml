@@ -992,7 +992,7 @@
     <string name="archive">Archive</string>
     <string name="warning_unarchive">L\'archive sera déballée. Toutes les opérations contenues seront réinsérées dans la liste.</string>
     <string name="warning_delete_archive">Toutes les opérations contenues dans cette archive (%d) seront supprimées.</string>
-    <string name="archive_warning">Toutes les opérations (%s) dans la plage de dates sélectionnée seront archivées.</string>
+    <string name="archive_warning">Toutes les opérations (%d) dans la plage de dates sélectionnée seront archivées.</string>
     <string name="warning_archive_inconsistent_state">Les opérations dans la plage de dates sélectionnée ont des statuts incohérents (%s).</string>
     <string name="dialog_title_warning_delete_archive">Supprimer l\'archive ?</string>
     <string name="warning_nested_archives">Les archives imbriquées ne sont pas supportées.</string>

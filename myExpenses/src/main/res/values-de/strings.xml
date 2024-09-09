@@ -976,7 +976,7 @@
     <string name="pref_scroll_to_current_date_account_open">jedes mal, wenn Sie zum Konto navigieren</string>
     <string name="pref_scroll_to_current_date_title">In der Transaktionsliste zum aktuellen Datum scrollen</string>
     <string name="warning_delete_archive">Alle Buchungen, die in diesem Archiv enthalten sind (%d), werden gelöscht.</string>
-    <string name="archive_warning">Alle Buchungen (%s) im ausgewählten Zeitraum werden archiviert.</string>
+    <string name="archive_warning">Alle Buchungen (%d) im ausgewählten Zeitraum werden archiviert.</string>
     <string name="warning_nested_archives">Verschachtelte Archive werden nicht unterstützt.</string>
     <string name="warning_empty_archive">Im ausgewählten Datumsbereich sind keine Buchungen vorhanden.</string>
     <string name="menu_unpack">Entpacken</string>
