@@ -211,4 +211,5 @@
     <string name="cab_ManageCategories_merge_help_text">Se pueden fusionar categorías del mismo tipo.</string>
     <string name="menu_chart_help_text">Cambia la visibilidad del gráfico.</string>
     <string name="cab_MyExpenses_filter_help_text">Buscar transacciones con las mismas propiedades.</string>
+    <string name="menu_archive_help_text">Tras seleccionar un intervalo de fechas, todas las transacciones de este periodo se agruparán en una transacción de archivo resumida. Esto borrará la lista de transacciones, pero las transacciones en el archivo todavía pueden ser inspeccionadas y, si es necesario, desempaquetadas de nuevo.</string>
 </resources>
