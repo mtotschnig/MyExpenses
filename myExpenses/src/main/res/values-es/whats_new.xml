@@ -20,4 +20,5 @@
     <string name="whats_new_382">La función %1$s puede llamar desde el widget %2$s.</string>
     <string name="whats_new_384">Configuración simplificada de la copia de seguridad en la nube</string>
     <string name="whats_new_386">La distribución por gastos y la distribución por ingresos pueden mostrarse juntas en un gráfico de doble anillo.</string>
+    <string name="whats_new_388">Las transacciones se pueden archivar.</string>
 </resources>
