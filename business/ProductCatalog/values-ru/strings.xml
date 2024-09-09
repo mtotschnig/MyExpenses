@@ -24,4 +24,11 @@
     <string name="csvimport_description">Сложный, настраиваемый импорт CSV (приложения для работы с эл. таблицами)</string>
     <string name="ocr_description">Автоматически извлекать сумму, дату и получателя</string>
     <string name="webui_description">Используйте браузер ПК для ввода данных</string>
+    <string name="categorytree_description">Иерархия категорий произвольной глубины</string>
+    <string name="splittransaction_description">Одна транзакция может быть разделена на несколько частей (категории и переводы).</string>
+    <string name="professional_benefit_1">Разблокировать все премиум-функции</string>
+    <string name="synchronization_description">Данные можно синхронизировать между несколькими устройствами.</string>
+    <string name="distribution_description">Визуализировать статистическое распределение транзакций по категориям за разные периоды (годы, месяцы, недели, дни)</string>
+    <string name="print_description">Распечатать список транзакций в файл PDF</string>
+    <string name="splittemplate_title">Шаблон разделения</string>
 </resources>
