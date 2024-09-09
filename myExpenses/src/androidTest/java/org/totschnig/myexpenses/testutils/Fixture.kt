@@ -175,7 +175,6 @@ class Fixture(inst: Instrumentation) {
                 .comment(appContext.getString(R.string.testData_transaction2Comment))
                 .persist()
 
-            //Transaction 3 Cleared
             TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(2500L))
@@ -186,10 +185,8 @@ class Fixture(inst: Instrumentation) {
                     )
                 )
                 .date(offset - 72230000)
-                .crStatus(CrStatus.CLEARED)
                 .persist()
 
-            //Transaction 4 Cleared
             TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(5000L))
@@ -201,25 +198,20 @@ class Fixture(inst: Instrumentation) {
                 )
                 .payee(appContext.getString(R.string.testData_transaction4Payee))
                 .date(offset - 98030000)
-                .crStatus(CrStatus.CLEARED)
                 .persist()
 
-            //Transaction 5 Reconciled
             TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(10000L))
                 .date(offset - 100390000)
-                .crStatus(CrStatus.RECONCILED)
                 .payee(johnDoe)
                 .persist()
 
-            //Transaction 6 Gift Reconciled
             TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -10000L)
                 .catId(mainCat6)
                 .date(offset - 210390000)
-                .crStatus(CrStatus.RECONCILED)
                 .persist()
 
             //Salary
