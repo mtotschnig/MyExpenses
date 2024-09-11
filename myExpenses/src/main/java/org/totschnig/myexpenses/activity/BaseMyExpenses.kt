@@ -1906,7 +1906,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             excludeFromTotals
                     }
                 }
-                menu.findItem(R.id.ARCHIVE_COMMAND).setEnabledAndVisible(!isAggregate && !sealed && hasItems)
+                menu.findItem(R.id.ARCHIVE_COMMAND)?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 filterHandler.configureSearchMenu(it)

@@ -209,7 +209,8 @@ sealed class MenuItem(
 
     @GenSealedEnum
     companion object {
-        val defaultConfiguration = values.filter { it.isEnabledByDefault }
+        val defaultConfiguration: List<MenuItem>
+            get() = values.filter { it.isEnabledByDefault }
     }
 }
 

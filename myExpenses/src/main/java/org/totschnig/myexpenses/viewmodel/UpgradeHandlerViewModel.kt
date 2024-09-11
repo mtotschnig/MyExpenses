@@ -28,6 +28,8 @@ import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
@@ -90,6 +92,11 @@ class UpgradeHandlerViewModel(application: Application) :
                 // if for any reason (app is killed before upgrade coroutine is finished),
                 // upgrade is run twice, we would run into ClassCastException the second time
                 CrashHandler.report(e)
+            }
+        }
+        if (fromVersion < 754) {
+            prefHandler.getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
+                prefHandler.putStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
             }
         }
         viewModelScope.launch(context = coroutineContext()) {
