@@ -211,4 +211,5 @@
     <string name="cab_ManageCategories_merge_help_text">Aynı türdeki kategoriler birleştirilebilir.</string>
     <string name="menu_chart_help_text">Grafiğin görünürlüğünü değiştirin.</string>
     <string name="cab_MyExpenses_filter_help_text">Aynı özelliklere sahip muameleleri arayın.</string>
+    <string name="menu_archive_help_text">Bir tarih aralığı seçtikten sonra, bu döneme ait tüm muameleler bir özet arşiv muamelesi içinde toplanacaktır. Bu, muamele listesini temizleyecektir, ancak arşivdeki muameleler hala incelenebilir ve gerekirse tekrar arşivden çıkarılabilir.</string>
 </resources>

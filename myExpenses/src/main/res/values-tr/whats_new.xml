@@ -20,4 +20,5 @@
     <string name="whats_new_382">%1$s özelliği, %2$s widget\'ından çağrılabilir.</string>
     <string name="whats_new_384">Bulut yedekleme için kurulum basitleştirildi</string>
     <string name="whats_new_386">Gider başına dağıtım ve gelir başına dağıtım çift halkalı simit grafiğinde birlikte gösterilebilir.</string>
+    <string name="whats_new_388">Muameleler arşivlenebilir.</string>
 </resources>
