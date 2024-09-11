@@ -20,4 +20,5 @@
     <string name="whats_new_376_2">Управление веб-интерфейсом доступно прямо из главного экрана.</string>
     <string name="whats_new_378">Графики теперь учитывают фильтры поиска.</string>
     <string name="whats_new_382">Функция %1$s может быть вызвана из виджета %2$s.</string>
+    <string name="whats_new_388">Транзакции могут быть архивированы.</string>
 </resources>
