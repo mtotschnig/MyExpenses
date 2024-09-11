@@ -21,24 +21,24 @@ android {
 
 dependencies {
     implementation project(":myExpenses")
-    implementation 'com.evernote:android-state:1.4.1'
-    kapt 'com.evernote:android-state-processor:1.4.1'
+    implementation libs.android.state
+    kapt libs.android.state.processor
 
-    implementation 'com.google.android.gms:play-services-auth:21.2.0'
-    implementation("com.google.http-client:google-http-client-gson:$googleHttp")  {
+    implementation libs.play.services.auth
+    implementation(libs.google.http.client.gson)  {
         exclude module: 'httpclient'
         exclude module: 'commons-logging'
     }
-    implementation("com.google.http-client:google-http-client-android:$googleHttp") {
+    implementation(libs.google.http.client.android) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation('com.google.api-client:google-api-client-android:2.3.0') {
+    implementation(libs.google.api.client.android) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation('com.google.apis:google-api-services-drive:v3-rev20240123-2.0.0') {
+    implementation(libs.google.api.services.drive) {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt libs.dagger.compiler
+    implementation libs.dagger
 }

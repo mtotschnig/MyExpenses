@@ -299,7 +299,7 @@ class TransferDelegate(
                 if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
                     this.amount = amount ?: Money(currentAccount.currency, 0)
                     setTransferAccountId(transferAccount.id)
-                } else if (!isSame) {
+                } else if (!isSame && transferAmount != null) {
                     this.accountId = transferAccount.id
                     setTransferAccountId(currentAccount.id)
                     this.amount = transferAmount

@@ -19,5 +19,5 @@ android {
 
 dependencies {
     implementation project(":mlkit")
-    implementation "com.google.mlkit:text-recognition-korean:$mlkitTextRecognition"
+    implementation libs.text.recognition.korean
 }

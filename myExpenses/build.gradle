@@ -15,7 +15,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
-
+    alias libs.plugins.compose.compiler
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -132,10 +132,6 @@ android {
     //drive for Sync with Google Drive
     dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav', ':sqlcrypt', ':fints', ':onedrive', ':jackson']
 
-    composeOptions {
-        kotlinCompilerExtensionVersion compose_compiler_version
-    }
-
     lint {
         abortOnError true
         checkDependencies true
@@ -163,191 +159,190 @@ dependencies {
     //LeakCanary leads to failure of Screengrab's LocaleUtil:
     //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
-    api("androidx.datastore:datastore-preferences:1.1.1")
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
+    api(libs.androidx.datastore.preferences)
+    coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
-    implementation 'com.squareup.phrase:phrase:1.2.0'
-    def composeBom = platform("$composeBom")
-    implementation composeBom
-    implementation "androidx.compose.ui:ui"
-    implementation("androidx.compose.material3:material3")
-    implementation "androidx.compose.ui:ui-tooling-preview"
-    implementation "androidx.activity:activity-compose:$activityCompose"
-    implementation "androidx.compose.runtime:runtime-livedata"
-    debugImplementation "androidx.compose.ui:ui-tooling"
-    implementation "androidx.compose.material:material-icons-extended"
-    implementation "androidx.paging:paging-compose:3.3.2"
-    implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
-    implementation "com.google.accompanist:accompanist-themeadapter-material3:$accompanist"
-    implementation('app.futured.donut:donut-compose:2.2.3')
+    implementation libs.phrase
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.ui
+    implementation(libs.androidx.compose.material3)
+    implementation libs.androidx.ui.tooling.preview
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.runtime.livedata
+    debugImplementation libs.androidx.ui.tooling
+    implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.paging.compose
+    implementation libs.accompanist.drawablepainter
+    implementation libs.accompanist.themeadapter.material3
+    implementation(libs.donut.compose)
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation 'com.evernote:android-state:1.4.1'
-    kapt 'com.evernote:android-state-processor:1.4.1'
-    implementation 'com.google.code.gson:gson:2.11.0'
+    kapt libs.dagger.compiler
+    implementation libs.dagger
+    implementation libs.android.state
+    kapt libs.android.state.processor
+    implementation libs.gson
 
-    api 'com.google.auto.value:auto-value-annotations:1.11.0'
-    kapt 'com.google.auto.value:auto-value:1.11.0'
+    api libs.auto.value.annotations
+    kapt libs.auto.value
 
-    kapt 'com.ryanharter.auto.value:auto-value-gson:1.3.1'
-    api 'com.ryanharter.auto.value:auto-value-gson-runtime:1.3.1'
+    kapt libs.auto.value.gson
+    api libs.auto.value.gson.runtime
 
-    kapt 'com.gabrielittner.auto.value:auto-value-cursor:2.0.1'
-    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:2.0.1'
+    kapt libs.auto.value.cursor
+    implementation libs.auto.value.cursor.annotations
 
-    kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.9'
+    kapt libs.auto.value.parcel
 
     implementation project(':PlayLicensingOrig')
-    implementation 'com.itextpdf:itextpdf:5.5.13.3'
-    api "ch.acra:acra-core:$acraVersion"
-    implementation "ch.acra:acra-mail:$acraVersion"
-    implementation "ch.acra:acra-dialog:$acraVersion"
-    implementation "org.apache.commons:commons-lang3:$commonsLang"
-    implementation 'org.apache.commons:commons-csv:1.11.0'
-    api "org.apache.commons:commons-text:$commonsText"
+    implementation libs.itextpdf
+    api libs.acra.core
+    implementation libs.acra.mail
+    implementation libs.acra.dialog
+    implementation libs.commons.lang3
+    implementation libs.commons.csv
+    api libs.commons.text
     //noinspection GradleDependency
-    api "com.squareup.picasso:picasso:$picassoVersion"
-    implementation 'com.github.mtotschnig:MPAndroidChart:47240bb94c'
-    implementation 'com.github.mtotschnig:Caldroid:377d10a2a2'
-    api 'com.github.eltos:SimpleDialogFragments:09a642bc42'
+    api libs.picasso
+    implementation libs.mpandroidchart
+    implementation libs.caldroid
+    api libs.simpledialogfragments
 
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
+    implementation libs.taptargetview
 
-    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation libs.commons.collections4
 
-    api "com.jakewharton.timber:timber:$timberVersion"
+    api libs.timber
 
-    implementation 'org.slf4j:slf4j-api:2.0.13'
-    implementation 'com.github.tony19:logback-android:3.0.0'
+    implementation libs.slf4j.api
+    implementation libs.logback.android
 
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "androidx.recyclerview:recyclerview:$recyclerview"
-    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.legacy.support.v4
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.cardview
 
-    api "com.google.android.material:material:$materialComponents"
+    api libs.material
 
-    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation libs.androidx.gridlayout
     api project(':preferences')
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation libs.androidx.constraintlayout
 
-    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation libs.flexbox
 
     implementation project(path: ':setupwizard')
 
     //licence validation
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.logging.interceptor
 
-    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+    implementation libs.circleprogress
 
-    implementation 'app.cash.copper:copper-flow:1.0.0'
+    implementation libs.copper.flow
 
     //https://github.com/romandanylyk/PageIndicatorView/issues/141
-    implementation 'com.github.romandanylyk:PageIndicatorView:b1bad589b5'
+    implementation libs.pageindicatorview
 
-    implementation "androidx.sqlite:sqlite-ktx:$androidxSqlite"
+    implementation libs.androidx.sqlite.ktx
 
     // dynamic feature module compilation fails with
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
-    api "com.github.mtotschnig:easypermissions-ktx:7ab6997271"
+    api libs.easypermissions.ktx
 
-    implementation('org.jetbrains.kotlinx:kotlinx-html:0.11.0')
-    implementation('io.arrow-kt:arrow-core:1.2.4')
+    implementation(libs.kotlinx.html)
+    implementation(libs.arrow.core)
 
-    implementation 'com.github.mtotschnig:FontDrawable:39e8f63ce2'
+    implementation libs.fontdrawable
 
     // Room components
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    ksp "androidx.room:room-compiler:$roomVersion"
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    ksp libs.androidx.room.compiler
 
-    implementation "com.github.requery:sqlite-android:$requery"
+    implementation libs.sqlite.android
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$archLifecycleVersion"
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$archLifecycleVersion")
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.common.java8
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // ViewModel Kotlin support
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.extensions
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    implementation libs.kotlinx.coroutines.android
 
     //implementation "androidx.activity:activity-ktx:$activity_version"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation libs.androidx.fragment.ktx
 
     //Mlkit / Drive
     //implementation "com.google.android.gms:play-services-base:18.4.0"
     //implementation "com.google.mlkit:vision-interfaces:+"
-    implementation("com.google.guava:guava:33.2.1-android")
+    implementation(libs.guava)
 
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:96a06733f3'
-    api "androidx.core:core-ktx:$androidXCoreVersion"
-    implementation "androidx.core:core-remoteviews:1.1.0"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation libs.android.image.cropper
+    api libs.androidx.core.ktx
+    implementation libs.androidx.core.remoteviews
+    implementation libs.kotlin.reflect
 
-    implementation "androidx.work:work-runtime-ktx:$workManager"
+    implementation libs.androidx.work.runtime.ktx
 
-    implementation 'de.cketti.mailto:email-intent-builder:2.0.0'
+    implementation libs.email.intent.builder
 
-    implementation 'androidx.browser:browser:1.8.0'
+    implementation libs.androidx.browser
 
-    implementation("com.github.livefront.sealed-enum:runtime:0.7.0")
-    ksp("com.github.livefront.sealed-enum:ksp:0.7.0")
+    implementation(libs.runtime)
+    ksp(libs.sealed.enum)
 
-    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    implementation libs.androidx.security.crypto
 
-    debugImplementation("androidx.fragment:fragment-testing-manifest:$fragmentVersion")
-    testImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
-    androidTestImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
-    androidTestImplementation composeBom
-    androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    debugImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test:runner:1.6.2"
-    androidTestUtil "androidx.test:orchestrator:1.5.0"
-    androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
+    debugImplementation(libs.androidx.fragment.testing.manifest)
+    testImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation platform(libs.androidx.compose.bom)
+    androidTestImplementation libs.screengrab
+    androidTestImplementation libs.androidx.espresso.core
+    debugImplementation libs.androidx.espresso.idling.resource
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.runner
+    androidTestUtil libs.androidx.orchestrator
+    androidTestImplementation libs.androidx.rules
+    androidTestImplementation libs.androidx.espresso.intents
+    androidTestImplementation(libs.androidx.espresso.contrib)
     //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
-    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
-    androidTestImplementation("com.adevinta.android:barista:$barista") {
+    androidTestImplementation libs.mockito.android
+    androidTestImplementation(libs.barista) {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    androidTestImplementation libs.kotlin.test.junit
+    androidTestImplementation libs.androidx.room.testing
+    androidTestImplementation libs.androidx.ui.test.junit4
     //noinspection GradleDependency
-    androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
-    androidTestImplementation "com.google.truth:truth:$truthVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
+    androidTestImplementation libs.assertj.core
+    androidTestImplementation libs.truth
+    androidTestImplementation libs.androidx.core.testing
     androidTestImplementation(project(":shared-test"))
 
-    testImplementation("com.adevinta.android:barista:$barista") {
+    testImplementation(libs.barista) {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
-    testImplementation "androidx.compose.ui:ui-test-junit4"
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "androidx.test:core:$androidSupportTestVersion"
-    testImplementation "org.assertj:assertj-core:$assertjVersion"
-    testImplementation "com.google.truth:truth:$truthVersion"
-    testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    testImplementation "androidx.test:rules:$androidSupportTestVersion"
-    testImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
+    testImplementation libs.ui.test.junit4
+    testImplementation libs.junit
+    testImplementation libs.junitparams
+    testImplementation libs.mockito.core
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.robolectric
+    testImplementation libs.androidx.test.core
+    testImplementation libs.assertj.core.v3190
+    testImplementation libs.truth
+    testImplementation libs.androidx.espresso.core
+    testImplementation libs.androidx.rules
+    testImplementation libs.androidx.junit
     testImplementation(project(":shared-test"))
-    testImplementation "androidx.work:work-testing:$workManager"
-    testImplementation 'org.yaml:snakeyaml:2.2'
+    testImplementation libs.androidx.work.testing
+    testImplementation libs.snakeyaml
 }
 
 static def getDate() {

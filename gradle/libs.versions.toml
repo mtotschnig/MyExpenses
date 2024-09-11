@@ -1,0 +1,268 @@
+[versions]
+accompanist = "0.36.0"
+acraVersion = "5.11.3"
+activityCompose = "1.9.2"
+androidDesugar = "2.1.2"
+androidGradlePlugin = "8.6.0"
+androidImageCropper = "96a06733f3"
+androidSupportTestVersion = "1.6.1"
+androidxArchVersion = "2.2.0"
+androidxCollection = "1.4.0"
+androidXCoreVersion = "1.13.1"
+androidxSqlite = "2.4.0"
+androidxTextExtJunit = "1.2.1"
+annotation = "1.8.2"
+appcompatVersion = "1.7.0"
+arrowCore = "1.2.4"
+assertjVersion = "3.19.0"
+assertjVersionAndroid = "2.9.1"
+autoValue = "1.11.0"
+autoValueCursor = "2.0.1"
+autoValueGson = "1.3.1"
+autoValueParcel = "0.2.9"
+barista = "4.3.0"
+bouncycastle = "1.71"
+browser = "1.8.0"
+caldroid = "377d10a2a2"
+cardview = "1.0.0"
+circleprogress = "1.2.1"
+commonsCollections4 = "4.4"
+commonsCsv = "1.11.0"
+commonsLang = "3.14.0"
+commonsText = "1.12.0"
+constraintlayout = "2.1.4"
+copperFlow = "1.0.0"
+coreRemoteviews = "1.1.0"
+coroutines = "1.8.1"
+dav4android = "2c26db1e24"
+dropbox = "7.0.0"
+easypermissionsKtx = "7ab6997271"
+emailIntentBuilder = "2.0.0"
+espressoVersion = "3.6.1"
+evernote = "1.4.1"
+composeBom = "2024.09.01"
+dagger = "2.51.1"
+datastorePreferences = "1.1.1"
+donutCompose = "2.2.3"
+flexbox = "3.0.0"
+fontdrawable = "39e8f63ce2"
+fragmentVersion = "1.8.3"
+googleApiClientAndroid = "2.3.0"
+googleApiServicesDrive = "v3-rev20240123-2.0.0"
+googleHttpClient = "1.44.1"
+gridlayout = "1.0.0"
+gson = "2.11.0"
+guava = "33.2.1-android"
+hbci4jCore = "3.1.82"
+itextpdf = "5.5.13.3"
+jacksonCore = "2.17.1"
+junitparams = "1.1.1"
+junitVersion = "4.13.2"
+kotlin = "2.0.20"
+kotlinxHtml = "0.11.0"
+ksp = "2.0.20-1.0.24"
+sealed-enum = "0.7.0"
+ktor = "2.3.11"
+legacySupportV4 = "1.0.0"
+lifecycleExtensions = "2.2.0"
+lifecycleRuntimeKtx = "2.8.5"
+logbackAndroid = "3.0.0"
+materialComponents = "1.12.0"
+microsoftGraph = "5.80.0"
+mockitoKotlin = "4.0.0"
+mockitoVersion = "5.12.0"
+mpandroidchart = "47240bb94c"
+msal = "5.1.0"
+okHttpVersion = "4.12.0"
+orchestrator = "1.5.0"
+pageindicatorview = "b1bad589b5"
+pagingCompose = "3.3.2"
+phrase = "1.2.0"
+picassoVersion = "2.8"
+playServicesAuth = "21.2.0"
+playServicesMlkitTextRecognitionCommon = "19.1.0"
+recyclerview = "1.3.2"
+relinker = "1.4.4"
+requery = "3.36.0"
+retrofitVersion = "2.11.0"
+robolectricVersion = "4.13"
+roomVersion = "2.6.1"
+runner = "1.6.2"
+runtime = "0.7.0"
+screengrab = "2.1.1"
+securityCrypto = "1.1.0-alpha06"
+simpledialogfragments = "09a642bc42"
+slf4jApi = "2.0.13"
+snakeyaml = "2.2"
+sqlcipher = "4.5.4"
+taptargetview = "1.13.3"
+tesseract4androidOpenmp = "4.7.0"
+mlkitTextRecognition = "16.0.1"
+mlkitTextRecognitionBundledCommon = "17.0.0"
+timberVersion = "5.0.1"
+truthVersion = "1.4.2"
+workManager = "2.9.1"
+xercesimpl = "2.12.2"
+
+[libraries]
+accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
+accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
+acra-core = { module = "ch.acra:acra-core", version.ref = "acraVersion" }
+acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acraVersion" }
+acra-mail = { module = "ch.acra:acra-mail", version.ref = "acraVersion" }
+android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "sqlcipher" }
+android-image-cropper = { module = "com.github.mtotschnig:Android-Image-Cropper", version.ref = "androidImageCropper" }
+android-state = { module = "com.evernote:android-state", version.ref = "evernote" }
+android-state-processor = { module = "com.evernote:android-state-processor", version.ref = "evernote" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+androidx-collection = { module = "androidx.collection:collection", version.ref = "androidxCollection" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidSupportTestVersion" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidXCoreVersion" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidXCoreVersion" }
+androidx-core-remoteviews = { module = "androidx.core:core-remoteviews", version.ref = "coreRemoteviews" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchVersion" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugar" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espressoVersion" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoVersion" }
+androidx-espresso-idling-resource = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "espressoVersion" }
+androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoVersion" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentVersion" }
+androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentVersion" }
+androidx-fragment-testing-manifest = { module = "androidx.fragment:fragment-testing-manifest", version.ref = "fragmentVersion" }
+androidx-gridlayout = { module = "androidx.gridlayout:gridlayout", version.ref = "gridlayout" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTextExtJunit" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-orchestrator = { module = "androidx.test:orchestrator", version.ref = "orchestrator" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "androidSupportTestVersion" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidxSqlite" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertjVersionAndroid" }
+assertj-core-v3190 = { module = "org.assertj:assertj-core", version.ref = "assertjVersion" }
+auto-value = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
+auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
+auto-value-cursor = { module = "com.gabrielittner.auto.value:auto-value-cursor", version.ref = "autoValueCursor" }
+auto-value-cursor-annotations = { module = "com.gabrielittner.auto.value:auto-value-cursor-annotations", version.ref = "autoValueCursor" }
+auto-value-gson = { module = "com.ryanharter.auto.value:auto-value-gson", version.ref = "autoValueGson" }
+auto-value-gson-runtime = { module = "com.ryanharter.auto.value:auto-value-gson-runtime", version.ref = "autoValueGson" }
+auto-value-parcel = { module = "com.ryanharter.auto.value:auto-value-parcel", version.ref = "autoValueParcel" }
+barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
+bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
+bcprov-jdk18on = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
+caldroid = { module = "com.github.mtotschnig:Caldroid", version.ref = "caldroid" }
+circleprogress = { module = "com.github.lzyzsd:circleprogress", version.ref = "circleprogress" }
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commonsCollections4" }
+commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "commonsCsv" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+copper-flow = { module = "app.cash.copper:copper-flow", version.ref = "copperFlow" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+dav4android = { module = "com.gitlab.mtotschn:dav4android", version.ref = "dav4android" }
+donut-compose = { module = "app.futured.donut:donut-compose", version.ref = "donutCompose" }
+dropbox-android-sdk = { module = "com.dropbox.core:dropbox-android-sdk", version.ref = "dropbox" }
+dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropbox" }
+easypermissions-ktx = { module = "com.github.mtotschnig:easypermissions-ktx", version.ref = "easypermissionsKtx" }
+email-intent-builder = { module = "de.cketti.mailto:email-intent-builder", version.ref = "emailIntentBuilder" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
+fontdrawable = { module = "com.github.mtotschnig:FontDrawable", version.ref = "fontdrawable" }
+google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "googleApiClientAndroid" }
+google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "googleApiServicesDrive" }
+google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "googleHttpClient" }
+google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "googleHttpClient" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+hbci4j-core = { module = "com.github.hbci4j:hbci4j-core", version.ref = "hbci4jCore" }
+itextpdf = { module = "com.itextpdf:itextpdf", version.ref = "itextpdf" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jacksonCore" }
+junit = { module = "junit:junit", version.ref = "junitVersion" }
+junitparams = { module = "pl.pragmatists:JUnitParams", version.ref = "junitparams" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }
+sealed-enum = { module = "com.github.livefront.sealed-enum:ksp", version.ref = "sealed-enum" }
+ktor-network-tls-certificates = { module = "io.ktor:ktor-network-tls-certificates", version.ref = "ktor" }
+ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+logback-android = { module = "com.github.tony19:logback-android", version.ref = "logbackAndroid" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttpVersion" }
+material = { module = "com.google.android.material:material", version.ref = "materialComponents" }
+microsoft-graph = { module = "com.microsoft.graph:microsoft-graph", version.ref = "microsoftGraph" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoVersion" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoVersion" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mpandroidchart = { module = "com.github.mtotschnig:MPAndroidChart", version.ref = "mpandroidchart" }
+msal = { module = "com.microsoft.identity.client:msal", version.ref = "msal" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttpVersion" }
+pageindicatorview = { module = "com.github.romandanylyk:PageIndicatorView", version.ref = "pageindicatorview" }
+phrase = { module = "com.squareup.phrase:phrase", version.ref = "phrase" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersion" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+play-services-mlkit-text-recognition-common = { module = "com.google.android.gms:play-services-mlkit-text-recognition-common", version.ref = "playServicesMlkitTextRecognitionCommon" }
+relinker = { module = "com.getkeepsafe.relinker:relinker", version.ref = "relinker" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }
+runtime = { module = "com.github.livefront.sealed-enum:runtime", version.ref = "runtime" }
+screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
+simpledialogfragments = { module = "com.github.eltos:SimpleDialogFragments", version.ref = "simpledialogfragments" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+sqlite-android = { module = "com.github.requery:sqlite-android", version.ref = "requery" }
+taptargetview = { module = "com.getkeepsafe.taptargetview:taptargetview", version.ref = "taptargetview" }
+tesseract4android-openmp = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract4androidOpenmp" }
+text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "mlkitTextRecognition" }
+text-recognition-bundled-common = { module = "com.google.mlkit:text-recognition-bundled-common", version.ref = "mlkitTextRecognitionBundledCommon" }
+text-recognition-chinese = { module = "com.google.mlkit:text-recognition-chinese", version.ref = "mlkitTextRecognition" }
+text-recognition-devanagari = { module = "com.google.mlkit:text-recognition-devanagari", version.ref = "mlkitTextRecognition" }
+text-recognition-japanese = { module = "com.google.mlkit:text-recognition-japanese", version.ref = "mlkitTextRecognition" }
+text-recognition-korean = { module = "com.google.mlkit:text-recognition-korean", version.ref = "mlkitTextRecognition" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
+truth = { module = "com.google.truth:truth", version.ref = "truthVersion" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+xercesimpl = { module = "xerces:xercesImpl", version.ref = "xercesimpl" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "androidGradlePlugin" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

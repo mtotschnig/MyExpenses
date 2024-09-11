@@ -17,5 +17,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation("androidx.annotation:annotation:$annotations")
+    implementation libs.androidx.annotation
 }

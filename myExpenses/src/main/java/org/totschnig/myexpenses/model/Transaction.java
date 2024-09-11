@@ -160,11 +160,12 @@ public class Transaction extends Model implements ITransaction {
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   public static final Uri CALLER_IS_SYNC_ADAPTER_URI = UriExtKt.fromSyncAdapter(CONTENT_URI);
 
+  @NonNull
   public Money getAmount() {
     return amount;
   }
 
-  public void setAmount(Money amount) {
+  public void setAmount(@NonNull Money amount) {
     this.amount = amount;
   }
 
