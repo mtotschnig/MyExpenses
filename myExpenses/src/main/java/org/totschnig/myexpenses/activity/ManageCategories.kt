@@ -116,7 +116,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
                 it.isChecked = parentSelectionOnTap.value
             }
-            checkMenuIcon(menu.findItem(R.id.TYPE_FILTER_COMMAND))
+            menu.findItem(R.id.TYPE_FILTER_COMMAND)?.let { checkMenuIcon(it) }
         }
         prepareSearch(menu, viewModel.filter)
         val accountNames = GenericAccountService.getAccountNames(this)
