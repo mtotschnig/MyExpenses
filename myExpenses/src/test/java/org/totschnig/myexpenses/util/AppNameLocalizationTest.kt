@@ -33,11 +33,13 @@ class AppNameLocalizationTest {
                 R.string.warning_synchronization_folder_usage,
                 R.string.onboarding_ui_title,
                 R.string.crash_dialog_title,
-                R.string.crash_reports_user_info
+                R.string.crash_reports_user_info,
+                R.string.notifications_permission_required_planner
             )) {
                 try {
                     Utils.getTextWithAppName(context, resId)
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     failures.add(locale to context.resources.getResourceName(resId))
                 }
             }
