@@ -954,4 +954,17 @@
     <string name="rollover_edit_invalid">Сума перенесення, запланована для категорії, та суми перенесення, заплановані для підкатегорій, не можуть перевищувати залишок.</string>
     <string name="dialog_confirm_rollover_delete">Усі суми перенесення на цей період будуть видалені.</string>
     <string name="not_enough_data">Недостатньо даних</string>
+    <string name="menu_unpack">Розпакувати</string>
+    <string name="warning_unarchive">Архів буде розпаковано. Всі транзакції, що містяться в архіві, будуть повторно вставлені до списку.</string>
+    <string name="archive">Архів</string>
+    <string name="warning_delete_archive">Всі транзакції, що містяться в цьому архіві (%d) будуть видалені.</string>
+    <string name="dialog_title_warning_delete_archive">Видалити архів?</string>
+    <string name="warning_nested_archives">Вкладені архіви не підтримуються.</string>
+    <string name="archive_warning">Всі транзакції (%d) у вибраному діапазоні дат будуть заархівовані.</string>
+    <string name="warning_empty_archive">У вибраному діапазоні дат немає транзакцій.</string>
+    <string name="warning_archive_inconsistent_state">Транзакції у вибраному діапазоні дат мають суперечливі статуси (%).</string>
+    <string name="pref_scroll_to_current_date_title">Прокрутити список транзакцій до поточної дати</string>
+    <string name="buy">Купити</string>
+    <string name="pref_scroll_to_current_date_app_launch">тільки під час запуску програми</string>
+    <string name="pref_scroll_to_current_date_account_open">щоразу коли ви перемикаєте рахунки</string>
 </resources>
