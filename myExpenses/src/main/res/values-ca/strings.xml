@@ -865,7 +865,7 @@
     <string name="debt">Deute</string>
     <string name="select_all_list_too_large">L\'ordre %s no està disponible perquè la llista només està parcialment carregada. Utilitzeu la funcionalitat Cerca per a reduir la mida de la llista.</string>
     <string name="github_sponsors">Les claus de llicència també es proporcionen a &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
-    <string name="notifications_permission_required_planner"><i>{app.name}</i> necessita permís per enviar-vos notificacions, quan es publiquin transaccions futures.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita permís per enviar-vos notificacions, quan es publiquin transaccions futures.</string>
     <string name="notifications_permission_required_webui">En concedir el permís per enviar notificacions, podeu controlar l\'estat del servidor web.</string>
     <string name="notifications_permission_required_sync">En concedir el permís per a enviar notificacions, podeu controlar el progrés de les operacions de sincronització.</string>
     <string name="debt_installment_receive">Rebo una quota de %s.</string>

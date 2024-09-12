@@ -899,7 +899,7 @@
     <string name="pref_purge_backup_keep_title">Bilangan maksimum fail sandaran terbaharu untuk disimpan</string>
     <string name="pref_csv_export_split_categories_summary">Gunakan lajur berasingan untuk setiap peringkat hierarki kategori</string>
     <string name="dialog_confirm_rollover_delete">Semua jumlah peralihan untuk tempoh ini akan dipadamkan.</string>
-    <string name="notifications_permission_required_planner"><i>[app_name}</i> memerlukan kebenaran untuk menghantar pemberitahuan kepada anda, apabila transaksi akan datang disiarkan.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> memerlukan kebenaran untuk menghantar pemberitahuan kepada anda, apabila transaksi akan datang disiarkan.</string>
     <string name="notifications_permission_required_webui">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda boleh mengawal status pelayan web.</string>
     <string name="notifications_permission_required_sync">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda boleh memantau kemajuan operasi penyegerakan.</string>
     <string name="image_optimize_quality_summary">Kualiti 0 bermakna memampatkan untuk saiz terkecil. 100 bermaksud memampatkan untuk kualiti visual yang maksimum.</string>
