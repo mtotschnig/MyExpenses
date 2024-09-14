@@ -49,8 +49,7 @@ fun SupportSQLiteDatabase.unarchive(
     val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
     val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
 
-    return try {
-        beginTransaction()
+    return safeUpdateWithSealed {
         TransactionProvider.pauseChangeTrigger(this)
         //parts are promoted to independence
         execSQL(
@@ -71,10 +70,7 @@ fun SupportSQLiteDatabase.unarchive(
         //parent is deleted
         val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
         TransactionProvider.resumeChangeTrigger(this)
-        setTransactionSuccessful()
         count
-    } finally {
-        endTransaction()
     }
 }
 
@@ -121,8 +117,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle) {
         Triple(it.getString(0), it.getLong(2), it.getLong(3))
     }
 
-    beginTransaction()
-    try {
+   safeUpdateWithSealed {
         val archiveId = insert(TABLE_TRANSACTIONS, ContentValues().apply {
             put(KEY_ACCOUNTID, accountId)
             put(KEY_DATE, archiveDate)
@@ -148,9 +143,6 @@ fun SupportSQLiteDatabase.archive(extras: Bundle) {
                 archiveId
             )
         )
-        setTransactionSuccessful()
-    } finally {
-        endTransaction()
     }
 }
 

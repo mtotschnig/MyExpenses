@@ -1054,7 +1054,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val operation = if (increase) "*" else "/"
         val inverseOperation = if (increase) "/" else "*"
         val factor = 10.0.pow(abs(oldValue - newValue).toDouble()).toInt()
-        safeUpdateWithSealed(db) {
+        db.safeUpdateWithSealed {
             db.execSQL(
                 "UPDATE $TABLE_ACCOUNTS SET $KEY_OPENING_BALANCE=$KEY_OPENING_BALANCE$operation$factor WHERE $KEY_CURRENCY=?",
                 bindArgs
@@ -1079,18 +1079,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 if (homeCurrency == currency) " OR $KEY_CURRENCY = '$AGGREGATE_HOME_CURRENCY_CODE'" else ""
             db.execSQL(
                 """UPDATE $TABLE_BUDGET_ALLOCATIONS SET
-                    $KEY_BUDGET=$KEY_BUDGET$operation$factor,
-                    $KEY_BUDGET_ROLLOVER_PREVIOUS=$KEY_BUDGET_ROLLOVER_PREVIOUS$operation$factor,
-                    $KEY_BUDGET_ROLLOVER_NEXT=$KEY_BUDGET_ROLLOVER_NEXT$operation$factor
-                    WHERE $KEY_BUDGETID IN (
-                        SELECT $KEY_ROWID FROM $TABLE_BUDGETS WHERE
-                            $KEY_CURRENCY=? OR
-                            $KEY_ACCOUNTID IN (
-                                SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?
-                            )
-                            $totalBudgetClause
-                    )
-                """.trimIndent(),
+                        $KEY_BUDGET=$KEY_BUDGET$operation$factor,
+                        $KEY_BUDGET_ROLLOVER_PREVIOUS=$KEY_BUDGET_ROLLOVER_PREVIOUS$operation$factor,
+                        $KEY_BUDGET_ROLLOVER_NEXT=$KEY_BUDGET_ROLLOVER_NEXT$operation$factor
+                        WHERE $KEY_BUDGETID IN (
+                            SELECT $KEY_ROWID FROM $TABLE_BUDGETS WHERE
+                                $KEY_CURRENCY=? OR
+                                $KEY_ACCOUNTID IN (
+                                    SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?
+                                )
+                                $totalBudgetClause
+                        )
+                    """.trimIndent(),
                 arrayOf(currency, currency)
             )
             db.execSQL(
@@ -1762,7 +1762,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     .create()
             ).use {
                 if (it.moveToFirst()) {
-                    safeUpdateWithSealed(db) {
+                    db.safeUpdateWithSealed {
                         while (!it.isAfterLast) {
                             val idString: String = it.getString(0)
                             db.execSQL(

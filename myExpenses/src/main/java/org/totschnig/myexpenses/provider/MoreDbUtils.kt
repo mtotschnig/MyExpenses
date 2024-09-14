@@ -87,29 +87,30 @@ import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
 
-fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
-    db.beginTransaction()
+fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T) : T {
+    beginTransaction()
     try {
         ContentValues(1).apply {
             put(KEY_SEALED, -1)
-            db.update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
         }
         ContentValues(1).apply {
             put(KEY_SEALED, -1)
-            db.update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
         }
-        runnable.run()
+        val result = runnable()
         ContentValues(1).apply {
             put(KEY_SEALED, 1)
-            db.update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
         }
         ContentValues(1).apply {
             put(KEY_SEALED, 1)
-            db.update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
         }
-        db.setTransactionSuccessful()
+        setTransactionSuccessful()
+        return result
     } finally {
-        db.endTransaction()
+        endTransaction()
     }
 }
 
