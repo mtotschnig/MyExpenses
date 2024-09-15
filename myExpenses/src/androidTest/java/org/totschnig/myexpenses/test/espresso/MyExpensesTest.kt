@@ -32,7 +32,6 @@ import com.google.common.truth.Truth
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.hasToString
 import org.hamcrest.Matchers.not
 import org.junit.After
@@ -107,7 +106,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun helpDialogIsOpened() {
         openActionBarOverflowMenu()
         onData(hasToString(getString(R.string.menu_help))).perform(click())
-        onView(withText(containsString(getString(R.string.help_MyExpenses_title))))
+        onView(withText(R.string.help_MyExpenses_title))
             .check(matches(isDisplayed()))
         onView(
             allOf(
