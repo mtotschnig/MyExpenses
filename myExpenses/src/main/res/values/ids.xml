@@ -229,4 +229,5 @@
     <item name="FULL_SCREEN_COMMAND" type="id" />
     <item name="ARCHIVE_COMMAND" type="id" />
     <item name="UNARCHIVE_COMMAND" type="id" />
+    <item name="SORT_PAYEE_NAME_COMMAND" type="id" />
 </resources>

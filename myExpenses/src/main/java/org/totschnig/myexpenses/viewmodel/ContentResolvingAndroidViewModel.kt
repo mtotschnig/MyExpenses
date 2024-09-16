@@ -267,7 +267,12 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * @param rowId For split transactions, we check if any of their children is linked to a debt,
      * in which case the parent should not be linkable to a debt, and we return an empty list
      */
-    fun loadDebts(rowId: Long? = null, showSealed: Boolean = false, showZero: Boolean = true) =
+    fun loadDebts(
+        rowId: Long? = null,
+        showSealed: Boolean = false,
+        showZero: Boolean = true,
+        sortOrder: String? = null
+    ) =
         contentResolver.observeQuery(
             uri = with(DEBTS_URI.buildUpon()) {
                 rowId?.let {
@@ -279,6 +284,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 if (!showSealed) add("$KEY_SEALED = 0")
                 if (!showZero) add("$KEY_AMOUNT-$KEY_SUM != 0")
             }.joinToString(separator = " AND "),
+            sortOrder = sortOrder,
             notifyForDescendants = true
         )
             .mapToList { Debt.fromCursor(it, currencyContext) }

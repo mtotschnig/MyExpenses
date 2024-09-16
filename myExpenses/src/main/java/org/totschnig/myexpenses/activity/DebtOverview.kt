@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.DebtOverViewViewModel
@@ -88,23 +89,38 @@ class DebtOverview : DebtActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.SHOW_ALL_COMMAND).let {
-            lifecycleScope.launch {
-                it.isChecked = debtViewModel.showAll().first()
-            }
+        lifecycleScope.launch {
+            menu.findItem(R.id.SHOW_ALL_COMMAND).isChecked = debtViewModel.showAll().first()
+            menu.findItem(R.id.SORT_MENU)?.subMenu
+                ?.findItem(debtViewModel.sortOrder().first().commandId)
+                ?.isChecked = true
         }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.SHOW_ALL_COMMAND) {
-            lifecycleScope.launch {
-                debtViewModel.persistShowAll(!item.isChecked)
-                invalidateOptionsMenu()
+        return when (item.itemId) {
+            R.id.SHOW_ALL_COMMAND -> {
+                lifecycleScope.launch {
+                    debtViewModel.persistShowAll(!item.isChecked)
+                    invalidateOptionsMenu()
+                }
+                true
             }
-            return true
+            R.id.SORT_LABEL_COMMAND, R.id.SORT_AMOUNT_COMMAND, R.id.SORT_PAYEE_NAME_COMMAND -> {
+                if (!item.isChecked) {
+                    Sort.fromCommandId(item.itemId)?.let {
+                        lifecycleScope.launch {
+                            debtViewModel.persistSortOrder(it)
+                            invalidateOptionsMenu()
+                        }
+                    }
+                }
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }
 
@@ -128,13 +144,14 @@ fun DebtList(
         itemsIndexed(items = debts.value) { index, item ->
             Timber.d("rendering item $index")
             val expandedState = rememberSaveable { mutableStateOf(false) }
-            val transactions = if (expandedState.value)  loadTransactionsForDebt(item).value else emptyList()
+            val transactions =
+                if (expandedState.value) loadTransactionsForDebt(item).value else emptyList()
             DebtCard(
                 debt = item,
-                transactions =  transactions,
+                transactions = transactions,
                 expanded = expandedState,
                 onEdit = { onEdit(item) },
-                onDelete = { count-> onDelete(item, count) },
+                onDelete = { count -> onDelete(item, count) },
                 onToggle = { onToggle(item) },
                 onShare = { format -> onShare(item, format) },
                 onTransactionClick = onTransactionClick

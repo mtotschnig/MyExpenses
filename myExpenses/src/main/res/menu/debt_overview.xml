@@ -2,6 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
     <item
+        android:id="@id/SORT_MENU"
+        android:icon="@drawable/ic_menu_sort"
+        android:title="@string/menu_sort_direction"
+        app:showAsAction="ifRoom"
+        >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@id/SORT_LABEL_COMMAND"
+                    android:title="@string/label" />
+                <item
+                    android:id="@id/SORT_AMOUNT_COMMAND"
+                    android:title="@string/amount" />
+                <item
+                    android:id="@id/SORT_PAYEE_NAME_COMMAND"
+                    android:title="@string/payer_or_payee" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@id/SHOW_ALL_COMMAND"
         app:showAsAction="never"
         android:checkable="true"

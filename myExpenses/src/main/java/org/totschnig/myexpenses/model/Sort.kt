@@ -3,11 +3,11 @@ package org.totschnig.myexpenses.model
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
@@ -24,7 +24,8 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     ACCOUNT(R.id.SORT_ACCOUNT_COMMAND, false),
     ALLOCATED(0),
     SPENT(0),
-    AVAILABLE(0);
+    AVAILABLE(0),
+    PAYEE_NAME(R.id.SORT_PAYEE_NAME_COMMAND, false);
 
     private fun toDatabaseColumn(collate: String) = when (this) {
         USAGES -> KEY_USAGES
@@ -34,6 +35,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
         LABEL -> "$KEY_LABEL COLLATE $collate"
         ACCOUNT -> "$KEY_ACCOUNT_LABEL COLLATE $collate"
         CUSTOM -> KEY_SORT_KEY
+        PAYEE_NAME -> "$KEY_PAYEE_NAME COLLATE $collate"
         else -> null
     }
 
