@@ -1520,11 +1520,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_RESET_EQUIVALENT_AMOUNTS -> {
         final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         Bundle result = new Bundle(1);
-        MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
+        result.putInt(KEY_RESULT, MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
           ContentValues resetValues = new ContentValues(1);
           resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
-          result.putInt(KEY_RESULT, MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
-        });
+          return MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null);
+        }));
         return result;
       }
       case METHOD_CHECK_CORRUPTED_DATA_987 -> {

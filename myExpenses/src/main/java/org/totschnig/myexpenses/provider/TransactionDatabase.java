@@ -2013,7 +2013,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 148) {
         upgradeTo148(db);
-        createOrRefreshTransactionTriggers(db);
+        //createOrRefreshTransactionTriggers(db);
       }
       if (oldVersion < 149) {
         createOrRefreshTransactionSealedTriggers(db);

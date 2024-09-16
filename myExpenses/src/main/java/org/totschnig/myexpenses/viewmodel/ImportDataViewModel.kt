@@ -185,11 +185,13 @@ abstract class ImportDataViewModel(application: Application) :
     }
 
     private fun findCategory(transaction: ImportTransaction, t: Transaction, autofill: Boolean) {
-        t.catId = categoryToId[transaction.category] ?: if (autofill) {
-            t.payeeId?.let {
+        t.catId = categoryToId[transaction.category] ?: when {
+            autofill -> t.payeeId?.let {
                 (autoFillCache[it] ?: repository.autoFill(it)
                     ?.apply { autoFillCache[it] = this })?.categoryId
             }
-        } else null
+            transaction.isTransfer -> prefHandler.defaultTransferCategory
+            else -> null
+        }
     }
 }
