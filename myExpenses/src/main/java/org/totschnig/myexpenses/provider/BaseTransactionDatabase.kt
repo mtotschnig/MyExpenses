@@ -1112,7 +1112,7 @@ abstract class BaseTransactionDatabase(
         append(" LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID")
         if (tableName != TABLE_CHANGES) {
             append(" LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID")
-            append(" LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID")
+            append(" LEFT JOIN Tree ON $KEY_CATID = Tree.$KEY_ROWID")
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")

@@ -1083,37 +1083,44 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         subMenu = Menu(
                                             buildList {
                                                 if (transaction.catId != null && !transaction.isSplit) {
-                                                    add(MenuEntry(
-                                                        label = UiText.StringValue(
-                                                            transaction.categoryPath!!
-                                                        ),
-                                                        command = "FILTER_FOR_CATEGORY"
-                                                    ) {
-                                                        addFilterCriterion(
-                                                            CategoryCriterion(
-                                                                transaction.categoryPath,
-                                                                transaction.catId
-                                                            )
-                                                        )
-                                                    }
-                                                    )
-                                                }
-                                                if (transaction.payeeId != null) {
-                                                    add(
-                                                        MenuEntry(
+                                                    if (transaction.categoryPath != null) {
+                                                        add(MenuEntry(
                                                             label = UiText.StringValue(
-                                                                transaction.payee!!
+                                                                transaction.categoryPath
                                                             ),
-                                                            command = "FILTER_FOR_PAYEE"
+                                                            command = "FILTER_FOR_CATEGORY"
                                                         ) {
                                                             addFilterCriterion(
-                                                                PayeeCriterion(
-                                                                    transaction.payee,
-                                                                    transaction.payeeId
+                                                                CategoryCriterion(
+                                                                    transaction.categoryPath,
+                                                                    transaction.catId
                                                                 )
                                                             )
-                                                        }
-                                                    )
+                                                        })
+                                                    } else {
+                                                        CrashHandler.report(IllegalStateException("Category path is null"))
+                                                    }
+                                                }
+                                                if (transaction.payeeId != null) {
+                                                    if (transaction.payee != null) {
+                                                        add(
+                                                            MenuEntry(
+                                                                label = UiText.StringValue(
+                                                                    transaction.payee
+                                                                ),
+                                                                command = "FILTER_FOR_PAYEE"
+                                                            ) {
+                                                                addFilterCriterion(
+                                                                    PayeeCriterion(
+                                                                        transaction.payee,
+                                                                        transaction.payeeId
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    } else {
+                                                        CrashHandler.report(IllegalStateException("Payee is null"))
+                                                    }
                                                 }
                                                 if (transaction.methodId != null) {
                                                     val label =

@@ -365,7 +365,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
       defaultAction = Action.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_DEFAULT_ACTION)));
     } catch (IllegalArgumentException ignored) {}
     setDebtId(getLongOrNull(c, KEY_DEBT_ID));
-    String originalCurrency = getStringOrNull(c, KEY_ORIGINAL_CURRENCY);
+    String originalCurrency = getStringOrNull(c, KEY_ORIGINAL_CURRENCY, false);
     if (originalCurrency != null) {
       setOriginalAmount(
         new Money(currencyContext.get(originalCurrency),

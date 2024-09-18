@@ -258,7 +258,7 @@ data class Transaction2(
                 payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 methodIcon = cursor.getStringIfExists(KEY_METHOD_ICON),
-                categoryPath = cursor.getStringOrNull(KEY_PATH),
+                categoryPath = cursor.getStringOrNull(KEY_PATH, allowEmpty = true),
                 transferPeer = transferPeer,
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
                 transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),

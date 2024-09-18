@@ -175,7 +175,7 @@ data class Transaction(
                 catId = getLongOrNull(KEY_CATID),
                 payee = getString(KEY_PAYEE_NAME),
                 methodLabel = getStringOrNull(KEY_METHOD_LABEL),
-                categoryPath = getStringOrNull(KEY_PATH),
+                categoryPath = getStringOrNull(KEY_PATH, allowEmpty = true),
                 transferAccount = getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
