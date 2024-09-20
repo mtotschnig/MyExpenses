@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
@@ -102,7 +103,6 @@ import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
 import org.totschnig.myexpenses.util.ui.getBestForeground
 import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -553,30 +553,39 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             Text(
                 modifier = Modifier.weight(1f),
                 text = buildAnnotatedString {
-                    append(
-                        when {
-                            part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
-                                part.amountRaw
-                            ) + part.transferAccount
+                    var isNotEmpty = false
+                    when {
+                        part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
+                            part.amountRaw
+                        ) + part.transferAccount
 
-                            else -> part.categoryPath
-                                ?: Category.NO_CATEGORY_ASSIGNED_LABEL
-                        }
-                    )
+                        else -> part.categoryPath
+                    }?.let {
+                        append(it)
+                        isNotEmpty = true
+                    }
                     part.comment.takeIf { !it.isNullOrBlank() }?.let {
-                        append(" / ")
+                        if (isNotEmpty) {
+                            append(COMMENT_SEPARATOR)
+                        }
                         withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                             append(it)
+                            isNotEmpty = true
                         }
                     }
                     part.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
-                        append(" / ")
+                        if (isNotEmpty) {
+                            append(COMMENT_SEPARATOR)
+                        }
                         withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
                             append(it)
+                            isNotEmpty = true
                         }
                     }
                     part.tagList.takeIf { it.isNotEmpty() }?.let {
-                        append(" / ")
+                        if (isNotEmpty) {
+                            append(COMMENT_SEPARATOR)
+                        }
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             it.forEachIndexed { index, tag ->
                                 tag.color?.also { color ->

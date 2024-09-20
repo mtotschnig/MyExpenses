@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.getCurrencyForAccount
@@ -116,7 +117,6 @@ import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
-import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
@@ -684,26 +684,23 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
                 catText = if (catText.isEmpty()) transfer
                 else TextUtils.concat(catText, " (", transfer, ")")
-            } else {
-                val catId = cursor.getLongOrNull(KEY_CATID)
-                if (catId == null) {
-                    catText = Category.NO_CATEGORY_ASSIGNED_LABEL
-                }
             }
             //TODO: simplify confer TemplateWidget
             var ssb: SpannableStringBuilder
             val comment = cursor.getStringOrNull(KEY_COMMENT)
-            val commentSeparator = " / "
+
             if (!comment.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(comment)
                 ssb.setSpan(StyleSpan(Typeface.ITALIC), 0, comment.length, 0)
-                catText = TextUtils.concat(catText, commentSeparator, ssb)
+                catText = if (catText.isEmpty()) ssb else
+                    TextUtils.concat(catText, COMMENT_SEPARATOR, ssb)
             }
             val payee = cursor.getStringOrNull(KEY_PAYEE_NAME)
             if (!payee.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(payee)
                 ssb.setSpan(UnderlineSpan(), 0, payee.length, 0)
-                catText = TextUtils.concat(catText, commentSeparator, ssb)
+                catText = if (catText.isEmpty()) ssb else
+                    TextUtils.concat(catText, COMMENT_SEPARATOR, ssb)
             }
             tv2.text = catText
             view.findViewById<TextView>(R.id.Title).text = cursor.getString(KEY_TITLE) +
