@@ -74,8 +74,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
-import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -98,10 +96,6 @@ abstract class ItemRenderer(
     ) = buildAnnotatedString {
         if (isSplit) {
             append(context.getString(R.string.split_transaction))
-        } else if (forLegacy && !isTransfer && catId == null &&
-            status != STATUS_HELPER && status != STATUS_ARCHIVE
-        ) {
-            append(NO_CATEGORY_ASSIGNED_LABEL)
         } else {
             categoryPath?.let {
                 if (forLegacy) {
@@ -377,9 +371,14 @@ class CompactTransactionRenderer(
         val context = LocalContext.current
         val secondaryInfo = transaction.buildSecondaryInfo(context, true)
         val description = buildAnnotatedString {
-            append(transaction.buildPrimaryInfo(context, true))
+            val primaryInfo = transaction.buildPrimaryInfo(context, true)
+            if (primaryInfo.isNotEmpty()) {
+                append(primaryInfo)
+                if (secondaryInfo.first.isNotEmpty()) {
+                    append(COMMENT_SEPARATOR)
+                }
+            }
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
-                if (transaction.status != STATUS_ARCHIVE) append(COMMENT_SEPARATOR)
                 append(it)
             }
         }

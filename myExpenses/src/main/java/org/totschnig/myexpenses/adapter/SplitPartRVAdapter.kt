@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
@@ -80,23 +79,29 @@ class SplitPartRVAdapter(
                 append(
                     when {
                         transaction.isTransfer -> Transfer.getIndicatorPrefixForLabel(transaction.amountRaw) + transaction.transferAccount
-                        else -> transaction.categoryPath ?: Category.NO_CATEGORY_ASSIGNED_LABEL
+                        else -> transaction.categoryPath ?: ""
                     }
                 )
                 transaction.comment.takeIf { !it.isNullOrBlank() }?.let {
-                    append(" / ")
+                    if (isNotEmpty()) {
+                        append(" / ")
+                    }
                     italic {
                         append(it)
                     }
                 }
                 transaction.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
-                    append(" / ")
+                    if (isNotEmpty()) {
+                        append(" / ")
+                    }
                     underline {
                         append(it)
                     }
                 }
                 transaction.tagList.takeIf { it.isNotEmpty() }?.let {
-                    append(" / ")
+                    if (isNotEmpty()) {
+                        append(" / ")
+                    }
                     bold {
                         it.forEachIndexed { index, tag ->
                             tag.color?.also { color ->

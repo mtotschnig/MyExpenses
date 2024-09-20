@@ -18,10 +18,6 @@ ext {
     compileSdkVersion = 34
     minSdkVersion = 21
     targetSdkVersion = 34
-    espressoVersion = "3.6.1"
-    androidSupportTestVersion = "1.6.1"
-    androidxTextExtJunit = "1.2.1"
-    daggerVersion = '2.51.1'
 }
 
 subprojects {

@@ -56,7 +56,7 @@ fun CategoryEdit(
     val isError = if (shouldValidate) {
         when {
             dialogState.error -> context.getString(R.string.already_defined, label)
-            label.isEmpty() -> context.getString(R.string.required)
+            label.isBlank() -> context.getString(R.string.required)
             else -> null
         }
     } else null
@@ -73,7 +73,7 @@ fun CategoryEdit(
             !dialogState.saving && isError == null
         ) {
             shouldValidate = true
-            if (label.isNotEmpty()) {
+            if (label.isNotBlank()) {
                 onSave(label, icon, typeFlags)
             }
         }

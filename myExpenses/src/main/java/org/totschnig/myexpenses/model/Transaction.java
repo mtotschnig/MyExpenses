@@ -409,7 +409,7 @@ public class Transaction extends Model implements ITransaction {
       t.setCrStatus(CrStatus.UNRECONCILED);
     }
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
-    t.setMethodLabel(getStringOrNull(c, KEY_METHOD_LABEL));
+    t.setMethodLabel(getStringOrNull(c, KEY_METHOD_LABEL, false));
     t.setCatId(catId);
     t.setPayee(getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));

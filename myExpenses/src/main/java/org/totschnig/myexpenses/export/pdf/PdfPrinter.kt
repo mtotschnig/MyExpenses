@@ -56,7 +56,6 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.io.displayName
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
@@ -472,12 +471,10 @@ object PdfPrinter {
                             if (splits.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
                                 splitText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + splits.getStringOrNull(
                                     DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-                                ) + ")"
+                                ) + ") "
                             }
-                        } else {
-                            splitText = Category.NO_CATEGORY_ASSIGNED_LABEL
                         }
-                        splitText += " " + currencyFormatter.convAmount(
+                        splitText += currencyFormatter.convAmount(
                             splits.getLong(
                                 splits.getColumnIndexOrThrow(DatabaseConstants.KEY_DISPLAY_AMOUNT)
                             ), currencyUnit
@@ -495,13 +492,14 @@ object PdfPrinter {
                     catText += catTextBuilder.toString()
                 }
             } else {
-                catText += if (catId == null) {
-                    Category.NO_CATEGORY_ASSIGNED_LABEL
-                } else {
-                    transaction.categoryPath
+                if (catId != null) {
+                    catText += transaction.categoryPath
                 }
                 if (transaction.transferPeer != null) {
-                    catText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccountLabel + ")"
+                    if (catText.isNotEmpty()) {
+                        catText += " "
+                    }
+                    catText += "(" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccountLabel + ")"
                 }
             }
             if (!transaction.referenceNumber.isNullOrEmpty()) catText =
