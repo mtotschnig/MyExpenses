@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:$annotations"
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation "androidx.recyclerview:recyclerview:$recyclerview"
-    implementation "com.google.android.material:material:$materialComponents"
+    implementation libs.androidx.annotation
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.recyclerview
+    implementation libs.material
 }

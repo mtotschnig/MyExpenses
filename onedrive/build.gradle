@@ -30,17 +30,17 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
+    coreLibraryDesugaring libs.android.desugar
     implementation project(":myExpenses")
     implementation project(":jackson")
-    implementation 'com.evernote:android-state:1.4.1'
-    kapt 'com.evernote:android-state-processor:1.4.1'
+    implementation libs.android.state
+    kapt libs.android.state.processor
 
-    implementation("com.microsoft.identity.client:msal:5.1.0") {
+    implementation(libs.msal) {
         exclude group: 'com.microsoft.device.display'
     }
 
-    implementation 'com.microsoft.graph:microsoft-graph:5.80.0'
+    implementation libs.microsoft.graph
 }
 
 configurations.configureEach {

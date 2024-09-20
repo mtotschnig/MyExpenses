@@ -22,9 +22,9 @@ android {
 
 dependencies {
     implementation project(":myExpenses")
-    implementation('com.gitlab.mtotschn:dav4android:2c26db1e24')
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation(libs.dav4android)
+    implementation libs.androidx.appcompat
+    implementation libs.okhttp
+    kapt libs.dagger.compiler
+    implementation libs.dagger
 }

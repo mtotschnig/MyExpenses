@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    alias libs.plugins.compose.compiler
 }
 
 android {
@@ -24,35 +25,31 @@ android {
     buildFeatures {
         compose true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion compose_compiler_version
-    }
 }
 
 dependencies {
     implementation project(':myExpenses')
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
-    def composeBom = platform("$composeBom")
-    implementation composeBom
-    implementation "androidx.compose.ui:ui"
-    implementation("androidx.compose.material3:material3")
-    implementation "androidx.compose.ui:ui-tooling-preview"
-    debugImplementation "androidx.compose.ui:ui-tooling"
-    implementation "androidx.activity:activity-compose:$activityCompose"
-    implementation "androidx.compose.material:material-icons-extended"
-    implementation "androidx.compose.runtime:runtime-livedata"
+    coreLibraryDesugaring libs.android.desugar
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.ui
+    implementation(libs.androidx.compose.material3)
+    implementation libs.androidx.ui.tooling.preview
+    debugImplementation libs.androidx.ui.tooling
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.runtime.livedata
 
-    implementation  'com.github.hbci4j:hbci4j-core:3.1.82'
-    implementation 'xerces:xercesImpl:2.12.2'
-    implementation "org.apache.commons:commons-lang3:$commonsLang"
+    implementation  libs.hbci4j.core
+    implementation libs.xercesimpl
+    implementation libs.commons.lang3
 
-    implementation "androidx.core:core-ktx:$androidXCoreVersion"
+    implementation libs.androidx.core.ktx
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt libs.dagger.compiler
+    implementation libs.dagger
 
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.annotation:annotation:$annotations"
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.annotation
 }

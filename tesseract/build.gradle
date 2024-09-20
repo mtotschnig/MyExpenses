@@ -20,12 +20,12 @@ android {
 
 dependencies {
     implementation project(":ocr")
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-    implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.7.0'
-    implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.tesseract4android.openmp
+    implementation libs.relinker
 
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.annotation:annotation:$annotations"
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.annotation
 }

@@ -21,11 +21,11 @@ android {
 
 dependencies {
     implementation project(":myExpenses")
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.annotation:annotation:$annotations"
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.annotation
 
-    implementation 'net.zetetic:android-database-sqlcipher:4.5.4'
-    implementation "androidx.sqlite:sqlite-ktx:$androidxSqlite"
+    implementation libs.android.database.sqlcipher
+    implementation libs.androidx.sqlite.ktx
 }
