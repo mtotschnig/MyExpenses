@@ -1,2 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="adfree_title">無廣告</string>
+    <string name="splittransaction_description">單一交易可以分割成多個部分（類別和轉帳）。</string>
+    <string name="synchronization_title">雲端同步</string>
+    <string name="synchronization_description">資料可以在多個裝置之間同步。</string>
+    <string name="professional_benefit_1">解鎖所有進階功能</string>
+    <string name="professional_benefit_2">電子郵件支援</string>
+    <string name="splittemplate_title">分割範本</string>
+    <string name="splittemplate_description">無限數量的分帳交易範本和計劃</string>
+    <string name="history_title">歷史圖表</string>
+    <string name="history_description">瞭解您的財務狀況如何隨時間變化</string>
+    <string name="budget_title">預算管理</string>
+    <string name="budget_description">設定您計劃在年度、月度或週度預算中花費的金額</string>
+    <string name="ocr_title">掃描收據</string>
+    <string name="ocr_description">自動擷取金額、日期和收款人資訊</string>
+    <string name="webui_title">網頁使用者介面</string>
+    <string name="webui_description">使用桌面瀏覽器進行資料輸入</string>
+    <string name="categorytree_title">類別樹狀結構</string>
+    <string name="categorytree_description">任意深度的類別階層</string>
+    <string name="accountsunlimited_title">無限數量的帳戶</string>
+    <string name="accountsunlimited_description">解鎖建立超過五個帳戶的功能。</string>
+    <string name="adfree_description">無廣告。</string>
+    <string name="csvimport_title">CSV 匯入</string>
+    <string name="csvimport_description">進階、可自訂的 CSV 匯入（適用於試算表應用程式）</string>
+    <string name="distribution_title">圓餅圖</string>
+    <string name="distribution_description">視覺化呈現不同時期（年、月、週、日）各類別的交易統計分佈</string>
+    <string name="plansunlimited_title">無限數量的計劃</string>
+    <string name="plansunlimited_description">解鎖建立超過三個定期交易計劃的功能。</string>
+    <string name="print_title">列印</string>
+    <string name="print_description">將交易清單列印成 PDF 檔案</string>
+    <string name="splittransaction_title">分帳交易</string>
+    <string name="professional_benefit_3">對開發路線圖的投票權</string>
+</resources>
