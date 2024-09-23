@@ -80,7 +80,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -287,7 +287,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             sortOrder = sortOrder,
             notifyForDescendants = true
         )
-            .mapToList { Debt.fromCursor(it, currencyContext) }
+            .mapToList { DisplayDebt.fromCursor(it, currencyContext) }
 
     /**
      * deletes all expenses and updates account according to value of handleDelete

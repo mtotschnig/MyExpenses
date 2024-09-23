@@ -86,7 +86,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
                     }
                 } else {
                     savedInstanceState.getString(KEY_CURRENCY)?.let {
-                        setSelectedCurrency(currencyContext.get(it))
+                        setSelectedCurrency(currencyContext[it])
                     }
                 }
             }

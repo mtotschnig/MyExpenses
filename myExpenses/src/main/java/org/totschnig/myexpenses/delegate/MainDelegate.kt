@@ -13,7 +13,6 @@ import android.widget.AdapterView
 import android.widget.FilterQueryProvider
 import android.widget.ListPopupWindow
 import android.widget.SimpleCursorAdapter
-import androidx.appcompat.widget.ListPopupWindow.INPUT_METHOD_NOT_NEEDED
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.bold
 import androidx.core.view.isVisible
@@ -31,7 +30,10 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
@@ -45,12 +47,12 @@ import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED
 import org.totschnig.myexpenses.util.config.get
-import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import java.math.BigDecimal
 import kotlin.math.sign
 
@@ -66,7 +68,7 @@ abstract class MainDelegate<T : ITransaction>(
     methodRowBinding,
     isTemplate
 ) {
-    private var debts: List<Debt> = emptyList()
+    private var debts: List<DisplayDebt> = emptyList()
     private lateinit var payeeAdapter: SimpleCursorAdapter
 
 
@@ -249,7 +251,7 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    fun setDebts(debts: List<Debt>) {
+    fun setDebts(debts: List<DisplayDebt>) {
         this.debts = debts
         handleDebts()
     }
@@ -258,7 +260,7 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debts.find { it.id == debtId })
     }
 
-    private fun updateUiWithDebt(debt: Debt?) {
+    private fun updateUiWithDebt(debt: DisplayDebt?) {
         if (debt == null) {
             if (viewBinding.DebtCheckBox.isChecked) {
                 viewBinding.DebtCheckBox.isChecked = false
@@ -267,7 +269,7 @@ abstract class MainDelegate<T : ITransaction>(
         updateDebtCheckBox(debt)
     }
 
-    private fun updateDebtCheckBox(debt: Debt?) {
+    private fun updateDebtCheckBox(debt: DisplayDebt?) {
         val installment = debt?.let { calculateInstallment(it) }
         viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, installment) } ?: ""
         val infoText = installment?.let {
@@ -285,7 +287,7 @@ abstract class MainDelegate<T : ITransaction>(
 
     }
 
-    private fun calculateInstallment(debt: Debt) =
+    private fun calculateInstallment(debt: DisplayDebt) =
         if (debt.currency != currentAccount()!!.currency)
             with(
                 viewBinding.EquivalentAmount.getAmount(
@@ -296,7 +298,7 @@ abstract class MainDelegate<T : ITransaction>(
             }
         else validateAmountInput()
 
-    private fun formatDebtHelp(debt: Debt, installment: BigDecimal) =
+    private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal) =
         TextUtils.concat(*buildList {
             val installmentSign = installment.signum()
             val debtSign = debt.currentBalance.sign
@@ -352,7 +354,7 @@ abstract class MainDelegate<T : ITransaction>(
 
         }.toTypedArray())
 
-    private fun formatDebt(debt: Debt, withInstallment: BigDecimal? = null): CharSequence {
+    private fun formatDebt(debt: DisplayDebt, withInstallment: BigDecimal? = null): CharSequence {
         val amount = debt.currentBalance
         val money = Money(debt.currency, amount)
         val elements = buildList {
@@ -382,7 +384,7 @@ abstract class MainDelegate<T : ITransaction>(
         return TextUtils.concat(*elements.toTypedArray())
     }
 
-    private fun setDebt(debt: Debt) {
+    private fun setDebt(debt: DisplayDebt) {
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
@@ -405,7 +407,7 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    private val applicableDebts: List<Debt>
+    private val applicableDebts: List<DisplayDebt>
         get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == homeCurrency }
 
     private fun handleDebts() {
@@ -427,7 +429,7 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    private fun singleDebtForPayee(debts: List<Debt>) =
+    private fun singleDebtForPayee(debts: List<DisplayDebt>) =
         if (debts.size == 1) debts.first().takeIf { it.payeeId == payeeId } else null
 
     override fun setupListeners(watcher: TextWatcher) {
@@ -456,7 +458,7 @@ abstract class MainDelegate<T : ITransaction>(
                                 setDebt(it)
                             } ?: run {
                                 val sortedDebts =
-                                    debts.sortedWith(compareBy<Debt> { it.payeeId != payeeId }.thenBy { it.payeeId })
+                                    debts.sortedWith(compareBy<DisplayDebt> { it.payeeId != payeeId }.thenBy { it.payeeId })
                                 with(PopupMenu(context, viewBinding.DebtCheckBox)) {
                                     var currentMenu: Menu? = null
                                     var currentPayee: Long? = null

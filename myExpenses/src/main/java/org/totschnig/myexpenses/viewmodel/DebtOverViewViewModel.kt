@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 
 class DebtOverViewViewModel(application: Application) : DebtViewModel(application) {
     private val showAllPrefKey = booleanPreferencesKey("showAll")
@@ -44,7 +44,7 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val debts: StateFlow<List<Debt>>
+    val debts: StateFlow<Pair<Sort, List<DisplayDebt>>>
         get() = combine(showAll(), sortOrder()) {
             showAll, sortOrder -> showAll to sortOrder
         }.flatMapLatest { (showAll, sortOrder) ->
@@ -53,6 +53,6 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
                 showSealed = showAll,
                 showZero = showAll,
                 sortOrder = sortOrder.toOrderBy(collate)
-            )
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+            ).map { sortOrder to it }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, Sort.LABEL to emptyList())
 }

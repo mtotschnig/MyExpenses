@@ -9,7 +9,11 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.StringRes
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
@@ -26,18 +30,34 @@ import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.unsetParentId
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.CHANGES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_HIERARCHICAL
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 const val KEY_EXPANDED_ITEM = "expandedItem"
 
@@ -51,7 +71,7 @@ class PartyListViewModel(
     val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
 
-    private lateinit var debts: Map<Long, List<Debt>>
+    private lateinit var debts: Map<Long, List<DisplayDebt>>
 
     var filter: String?
         get() = savedStateHandle[KEY_FILTER]
@@ -65,7 +85,7 @@ class PartyListViewModel(
             savedStateHandle[KEY_EXPANDED_ITEM] = value
         }
 
-    fun getDebts(partyId: Long): List<Debt>? = if (::debts.isInitialized) debts[partyId] else null
+    fun getDebts(partyId: Long): List<DisplayDebt>? = if (::debts.isInitialized) debts[partyId] else null
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -133,7 +153,7 @@ class PartyListViewModel(
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
             .mapToList {
-                Debt.fromCursor(it, currencyContext)
+                DisplayDebt.fromCursor(it, currencyContext)
             }.collect { list ->
                 this@PartyListViewModel.debts = list.groupBy { it.payeeId }
                 emit(Unit)

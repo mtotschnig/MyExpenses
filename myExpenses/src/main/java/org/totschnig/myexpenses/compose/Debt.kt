@@ -15,7 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -42,7 +46,7 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import timber.log.Timber
 import java.time.LocalDate
 import kotlin.math.absoluteValue
@@ -50,7 +54,7 @@ import kotlin.math.sign
 
 @Composable
 fun DebtCard(
-    debt: Debt,
+    debt: DisplayDebt,
     transactions: List<DebtViewModel.Transaction>,
     expanded: MutableState<Boolean>,
     onEdit: () -> Unit,
@@ -82,7 +86,7 @@ fun DebtCard(
 
 @Composable
 fun DebtRenderer(
-    debt: Debt,
+    debt: DisplayDebt,
     transactions: List<DebtViewModel.Transaction>,
     expanded: Boolean,
     onEdit: () -> Unit = {},
@@ -93,7 +97,8 @@ fun DebtRenderer(
 ) {
 
     val homeCurrency = LocalHomeCurrency.current
-    val showEquivalentAmount = rememberSaveable { mutableStateOf((debt.currency.code == homeCurrency.code)) }
+    val showEquivalentAmount =
+        rememberSaveable { mutableStateOf((debt.currency.code == homeCurrency.code)) }
 
     CompositionLocalProvider(
         LocalColors provides LocalColors.current.copy(
@@ -108,14 +113,14 @@ fun DebtRenderer(
                 modifier = Modifier
                     .padding(8.dp)
             ) {
-                val currency = if(showEquivalentAmount.value) homeCurrency else debt.currency
+                val currency = if (showEquivalentAmount.value) homeCurrency else debt.currency
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (expanded) {
                         Initials(
-                            name = debt.payeeName!!,
+                            name = debt.payeeName,
                             modifier = Modifier.padding(end = 4.dp)
                         )
                     }
@@ -154,12 +159,13 @@ fun DebtRenderer(
                     }
                     if (!expanded) {
                         ColoredAmountText(
-                            if(showEquivalentAmount.value) debt.currentEquivalentBalance else debt.currentBalance,
+                            if (showEquivalentAmount.value) debt.currentEquivalentBalance else debt.currentBalance,
                             currency
                         )
                     }
                 }
-                val start = if (showEquivalentAmount.value) debt.equivalentAmount ?: debt.amount else debt.amount
+                val start = if (showEquivalentAmount.value) debt.equivalentAmount
+                    ?: debt.amount else debt.amount
                 if (expanded) {
                     TransactionRenderer(
                         date = epoch2LocalDate(debt.date),
@@ -173,9 +179,10 @@ fun DebtRenderer(
                     transactions.forEachIndexed { index, transaction ->
                         val runningTotal =
                             if (showEquivalentAmount.value) transaction.equivalentRunningTotal else transaction.runningTotal
-                        val previousBalance = if (index == 0) start else with(transactions[index-1]) {
-                            if (showEquivalentAmount.value) equivalentRunningTotal else this.runningTotal
-                        }
+                        val previousBalance =
+                            if (index == 0) start else with(transactions[index - 1]) {
+                                if (showEquivalentAmount.value) equivalentRunningTotal else this.runningTotal
+                            }
 
                         val trend =
                             if (previousBalance.sign * runningTotal.sign == -1)
@@ -216,7 +223,10 @@ fun DebtRenderer(
                                 label = R.string.share,
                                 subMenu = Menu(
                                     DebtViewModel.ExportFormat.entries.map { format ->
-                                        MenuEntry(label = format.resId, command = "SHARE_DEBT_$format") {
+                                        MenuEntry(
+                                            label = format.resId,
+                                            command = "SHARE_DEBT_$format"
+                                        ) {
                                             onShare(format)
                                         }
                                     }
@@ -263,7 +273,7 @@ fun TransactionRenderer(
             fontWeight = FontWeight.Light
         )
 
-       amount.takeIf { it != 0L }?.let {
+        amount.takeIf { it != 0L }?.let {
             Text(
                 modifier = Modifier.weight(1F),
                 textAlign = TextAlign.End,
@@ -292,7 +302,7 @@ fun TransactionRenderer(
 @Preview
 @Composable
 private fun SingleDebtPreview() {
-    val debt = Debt(
+    val debt = DisplayDebt(
         id = 1,
         label = "Debt 1",
         description = "some long, very long, extremely long description",

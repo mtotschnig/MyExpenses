@@ -12,15 +12,43 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
-import kotlinx.html.*
+import kotlinx.html.b
+import kotlinx.html.body
+import kotlinx.html.br
+import kotlinx.html.div
+import kotlinx.html.head
+import kotlinx.html.html
+import kotlinx.html.meta
 import kotlinx.html.stream.appendHTML
+import kotlinx.html.style
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.tr
+import kotlinx.html.unsafe
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.epoch2LocalDate
+import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import java.io.File
 import java.time.LocalDate
 import javax.inject.Inject
@@ -34,7 +62,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         emit(repository.saveDebt(debt))
     }
 
-    fun loadDebt(debtId: Long): StateFlow<Debt?> =
+    fun loadDebt(debtId: Long): StateFlow<DisplayDebt?> =
         contentResolver.observeQuery(
             singleDebtUri(debtId),
             null,
@@ -42,7 +70,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
             null,
             null
         ).mapToOne {
-            Debt.fromCursor(it, currencyContext)
+            DisplayDebt.fromCursor(it, currencyContext)
         }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     private fun singleDebtUri(debtId: Long) =
@@ -56,7 +84,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         )
     }*/
 
-    private fun transactionsFlow(debt: Debt): Flow<List<Transaction>> {
+    private fun transactionsFlow(debt: DisplayDebt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
         var runningEquivalentTotal: Long = 0
         val homeCurrency = currencyContext.homeCurrencyString
@@ -89,11 +117,11 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         }
     }
 
-    private val transactionsLiveData: Map<Debt, LiveData<List<Transaction>>> = lazyMap { debt ->
+    private val transactionsLiveData: Map<DisplayDebt, LiveData<List<Transaction>>> = lazyMap { debt ->
         transactionsFlow(debt).asLiveData(coroutineContext())
     }
 
-    fun loadTransactions(debt: Debt): LiveData<List<Transaction>> =
+    fun loadTransactions(debt: DisplayDebt): LiveData<List<Transaction>> =
         transactionsLiveData.getValue(debt)
 
     fun deleteDebt(debtId: Long): LiveData<Boolean> =
@@ -125,7 +153,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
 
     private suspend fun exportData(
         context: Context,
-        debt: Debt
+        debt: DisplayDebt
     ): List<Triple<String, String, String>> {
         val transactions = buildList {
             add(Transaction(0, epoch2LocalDate(debt.date), 0, debt.amount))
@@ -145,7 +173,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         }
     }
 
-    fun exportText(context: Context, debt: Debt): LiveData<String> =
+    fun exportText(context: Context, debt: DisplayDebt): LiveData<String> =
         liveData(context = coroutineContext()) {
             val stringBuilder = StringBuilder().appendLine(debt.label)
                 .appendLine(debt.title(context))
@@ -171,7 +199,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
             emit(stringBuilder.toString())
         }
 
-    fun exportHtml(context: Context, debt: Debt): LiveData<Uri> =
+    fun exportHtml(context: Context, debt: DisplayDebt): LiveData<Uri> =
         liveData(context = coroutineContext()) {
             val file = File(context.cacheDir, "debt_${debt.id}.html")
             file.writer().use { writer ->

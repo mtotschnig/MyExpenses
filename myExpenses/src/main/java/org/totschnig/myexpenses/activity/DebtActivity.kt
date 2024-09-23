@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
-import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import timber.log.Timber
 
 
@@ -27,7 +27,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         injector.inject(debtViewModel)
     }
 
-    fun editDebt(debt: Debt) {
+    fun editDebt(debt: DisplayDebt) {
         startActivityForResult(Intent(this, DebtEdit::class.java).apply {
             putExtra(DatabaseConstants.KEY_PAYEEID, debt.payeeId)
             putExtra(DatabaseConstants.KEY_PAYEE_NAME, debt.payeeName)
@@ -43,7 +43,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }
     }
 
-    fun toggleDebt(debt: Debt) {
+    fun toggleDebt(debt: DisplayDebt) {
         if (debt.isSealed) {
             debtViewModel.reopenDebt(debt.id)
         } else {
@@ -51,7 +51,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }
     }
 
-    fun shareDebt(debt: Debt, exportFormat: DebtViewModel.ExportFormat, snackBarContainer: View?) {
+    fun shareDebt(debt: DisplayDebt, exportFormat: DebtViewModel.ExportFormat, snackBarContainer: View?) {
         showProgressSnackBar(
             getString(R.string.progress_dialog_printing, exportFormat.name),
             container = snackBarContainer
@@ -82,7 +82,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }
     }
 
-    fun deleteDebt(debt: Debt, count: Int) {
+    fun deleteDebt(debt: DisplayDebt, count: Int) {
         MessageDialogFragment.newInstance(
             null,
             "${
