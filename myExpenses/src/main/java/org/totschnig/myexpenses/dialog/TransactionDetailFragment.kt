@@ -264,7 +264,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 Text(stringResource(id = android.R.string.ok))
             }
             transactionInfo.value
-                ?.get(0)
+                ?.getOrNull(0)
                 ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
