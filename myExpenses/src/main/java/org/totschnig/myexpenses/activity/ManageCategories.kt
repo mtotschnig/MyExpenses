@@ -8,7 +8,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
@@ -50,9 +48,9 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
-import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
+import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
@@ -252,9 +250,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (typeFlags != null) {
                             TypeConfiguration(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(color = colorResource(id = R.color.cardBackground)),
+                                modifier = Modifier.align(CenterHorizontally),
                                 typeFlags = typeFlags,
                                 onCheckedChange = { viewModel.typeFilter = it }
                             )

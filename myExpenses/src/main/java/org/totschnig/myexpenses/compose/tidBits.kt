@@ -2,20 +2,18 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,10 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
@@ -38,7 +34,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import kotlin.experimental.and
-import kotlin.experimental.xor
+import kotlin.experimental.inv
+import kotlin.experimental.or
 
 @Composable
 fun ExpansionHandle(
@@ -108,8 +105,6 @@ fun DonutInABox(
     }
 }
 
-// Swap this in when upgrading to 1.6
-/*@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TypeConfiguration(
     modifier: Modifier,
@@ -130,30 +125,6 @@ fun TypeConfiguration(
             ) {
                 Text(stringResource(id = type.first))
             }
-        }
-    }
-}*/
-
-@Composable
-fun TypeConfiguration(
-    modifier: Modifier,
-    typeFlags: Byte,
-    onCheckedChange: (Byte) -> Unit
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        val options = listOf(R.string.expense to FLAG_EXPENSE, R.string.income to FLAG_INCOME)
-        options.forEach { type ->
-            Checkbox(
-                onCheckedChange = {
-                    onCheckedChange(typeFlags xor type.second)
-                },
-                checked = (typeFlags and type.second) != 0.toByte()
-            )
-            Text(stringResource(id = type.first))
         }
     }
 }
