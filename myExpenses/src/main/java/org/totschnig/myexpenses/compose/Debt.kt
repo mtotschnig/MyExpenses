@@ -177,18 +177,23 @@ fun DebtRenderer(
                     )
                     val count = transactions.size
                     transactions.forEachIndexed { index, transaction ->
-                        val runningTotal =
-                            if (showEquivalentAmount.value) transaction.equivalentRunningTotal else transaction.runningTotal
-                        val previousBalance =
-                            if (index == 0) start else with(transactions[index - 1]) {
-                                if (showEquivalentAmount.value) equivalentRunningTotal else this.runningTotal
-                            }
 
-                        val trend =
-                            if (previousBalance.sign * runningTotal.sign == -1)
-                                0
-                            else
-                                runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
+                        val runningTotal = if (showEquivalentAmount.value)
+                            transaction.equivalentRunningTotal
+                        else
+                            transaction.runningTotal
+
+                        val previousBalance = if (index == 0)
+                            start
+                        else with(transactions[index - 1]) {
+                            if (showEquivalentAmount.value) equivalentRunningTotal else runningTotal
+                        }
+
+                        val trend = if (previousBalance.sign * runningTotal.sign == -1)
+                            0
+                        else
+                            runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
+
                         val trendIcon = when {
                             runningTotal == 0L -> R.drawable.ic_check
                             trend > 0 -> R.drawable.ic_debt_up
