@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOM
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -270,13 +272,13 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     fun hasExported(account: DataBaseAccount) = liveData(coroutineDispatcher) {
         contentResolver.query(
             account.uriForTransactionList(extended = false),
-            arrayOf("max(" + DatabaseConstants.KEY_STATUS + ")"),
-            null,
+            arrayOf("count(*)"),
+            "$KEY_STATUS = $STATUS_EXPORTED",
             null,
             null
         )?.use {
             it.moveToFirst()
-            emit(it.getLong(0) == 1L)
+            emit(it.getInt(0) > 0)
         }
     }
 
