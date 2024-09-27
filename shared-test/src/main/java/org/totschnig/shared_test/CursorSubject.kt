@@ -60,17 +60,23 @@ class CursorSubject private constructor(
         check("isNull").that(actual.isNull(actual.getColumnIndexOrThrow(columnName))).isTrue()
     }
 
+    fun forEach(assertions: CursorSubject.() -> Unit) {
+        actual.moveToFirst()
+        while(!actual.isAfterLast) {
+            assertions()
+            actual.moveToNext()
+        }
+    }
+
     private fun count(): IntegerSubject = check("count").that(actual.count)
 
     private fun columnCount(): IntegerSubject = check("columnCount").that(actual.columnCount)
 
     companion object {
-        inline fun <R> Cursor?.useAndAssert(assertions: CursorSubject.() -> R) =
+        inline fun Cursor?.useAndAssert(assertions: CursorSubject.() -> Unit) =
             this!!.use { assertThat(it).assertions() }
 
-        fun assertThat(cursor: Cursor): CursorSubject {
-            return assertAbout(CURSOR_FACTORY).that(cursor)
-        }
+        fun assertThat(cursor: Cursor): CursorSubject = assertAbout(CURSOR_FACTORY).that(cursor)
 
         private val CURSOR_FACTORY: Factory<CursorSubject, Cursor> = Factory {
             failureMetadata: FailureMetadata, subject: Cursor? -> CursorSubject(failureMetadata, subject!!)

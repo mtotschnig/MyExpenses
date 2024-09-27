@@ -108,7 +108,7 @@ private fun Bundle.parseArchiveArguments() = Triple(
     BundleCompat.getSerializable(this, KEY_END, LocalDate::class.java)!!
 )
 
-fun SupportSQLiteDatabase.archive(extras: Bundle) {
+fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
     val (accountId, start, end) = extras.parseArchiveArguments()
 
     val (crStatus, archiveSum, archiveDate) = archiveInfo(accountId, start, end, false).use {
@@ -118,7 +118,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle) {
         Triple(it.getString(0), it.getLong(2), it.getLong(3))
     }
 
-   safeUpdateWithSealed {
+   return safeUpdateWithSealed {
         val archiveId = insert(TABLE_TRANSACTIONS, ContentValues().apply {
             put(KEY_ACCOUNTID, accountId)
             put(KEY_DATE, archiveDate)
@@ -144,6 +144,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle) {
                 archiveId
             )
         )
+       archiveId
     }
 }
 

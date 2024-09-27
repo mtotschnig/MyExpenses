@@ -26,7 +26,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.io.File
 
-open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(TransactionProvider::class.java, TransactionProvider.AUTHORITY) {
+open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
+    TransactionProvider::class.java,
+    TransactionProvider.AUTHORITY
+) {
     private lateinit var transactionProvider: TransactionProvider
     private lateinit var targetContextWrapper: Context
     private lateinit var resolver: MockContentResolver
@@ -59,9 +62,15 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
 
     @JvmOverloads
     fun buildAccount(label: String, openingBalance: Long = 0L, syncAccountName: String? = null) =
-        Account(label = label, currency = homeCurrency.code, openingBalance = openingBalance, syncAccountName = syncAccountName).createIn(repository)
+        Account(
+            label = label,
+            currency = homeCurrency.code,
+            openingBalance = openingBalance,
+            syncAccountName = syncAccountName
+        ).createIn(repository)
 
-    fun getTransactionFromDb(id: Long): Transaction? = Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)
+    fun getTransactionFromDb(id: Long): Transaction? =
+        Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)
 
     @Deprecated("Deprecated in Java")
     @Throws(Exception::class)
@@ -70,6 +79,7 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
             override fun takePersistableUriPermission(uri: Uri) {
                 persistedPermissions.add(uri)
             }
+
             override fun releasePersistableUriPermission(uri: Uri) {
                 persistedPermissions.remove(uri)
             }
@@ -77,10 +87,11 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
         resolver = MockContentResolver()
         val filenamePrefix = "test."
         targetContextWrapper = RenamingDelegatingContext(
-                DelegatedMockContext(resolver),  // The context that most methods are
-                //delegated to
-                context,  // The context that file methods are delegated to
-                filenamePrefix)
+            DelegatedMockContext(resolver),  // The context that most methods are
+            //delegated to
+            context,  // The context that file methods are delegated to
+            filenamePrefix
+        )
         assertNotNull(transactionProvider)
         val providerInfo = ProviderInfo()
         providerInfo.authority = TransactionProvider.AUTHORITY
@@ -101,7 +112,9 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
     private inner class DelegatedMockContext(val resolver: ContentResolver) : MockContext() {
         override fun createConfigurationContext(overrideConfiguration: Configuration) = this
         override fun getResources(): Resources = context.resources
-        override fun getDir(name: String, mode: Int): File = context.getDir("mockContext2_$name", mode)
+        override fun getDir(name: String, mode: Int): File =
+            context.getDir("mockContext2_$name", mode)
+
         override fun getApplicationContext() = this
         override fun getContentResolver() = resolver
     }

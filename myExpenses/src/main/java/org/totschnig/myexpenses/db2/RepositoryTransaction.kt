@@ -167,13 +167,11 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? 
 fun Repository.archive(
     accountId: Long,
     range: Pair<LocalDate, LocalDate>
-) {
-    contentResolver.call(TransactionProvider.DUAL_URI, METHOD_ARCHIVE, null, Bundle().apply {
-        putLong(KEY_ACCOUNTID, accountId)
-        putSerializable(KEY_START, range.first)
-        putSerializable(KEY_END, range.second)
-    })
-}
+) = contentResolver.call(TransactionProvider.DUAL_URI, METHOD_ARCHIVE, null, Bundle().apply {
+    putLong(KEY_ACCOUNTID, accountId)
+    putSerializable(KEY_START, range.first)
+    putSerializable(KEY_END, range.second)
+})!!.getLong(KEY_TRANSACTIONID)
 
 fun Repository.unarchive(id: Long) {
     val ops = java.util.ArrayList<ContentProviderOperation>().apply {
