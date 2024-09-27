@@ -4,7 +4,7 @@ import org.apache.commons.text.translate.UnicodeUnescaper
 import org.totschnig.myexpenses.model2.Category
 
 object CategoryHelper {
-    private val unicodeEscaper = UnicodeUnescaper()
+    private val unicodeUnescaper = UnicodeUnescaper()
     private var countInserted = 0
 
     /**
@@ -70,7 +70,7 @@ object CategoryHelper {
         parentId: Long?,
         typeFlags: Byte = FLAG_NEUTRAL
     ): Long {
-        val unescaped = unicodeEscaper.translate(name)
+        val unescaped = unicodeUnescaper.translate(name)
         var id = repository.findCategory(unescaped, parentId)
         if (id == -1L) {
             id = repository.saveCategory(
