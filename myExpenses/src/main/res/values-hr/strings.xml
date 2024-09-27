@@ -157,7 +157,7 @@
     <string name="method">Način plaćanja</string>
     <string name="no_app_handling_email_available">Nema programa za email.</string>
     <string name="no_app_handling_ftp_available">Nema programa za podršku ftp-a. Instalirati <i>Send With FTP</i>\?</string>
-    <string name="no_app_handling_pdf_available">Nema programa za čitanje PDF datoteka.</string>
+    <string name="no_app_handling_mime_type_available">Nema programa za čitanje %s datoteka.</string>
     <string name="no_categories">Nema kategorija.</string>
     <string name="no_expenses">Još nema troškova!</string>
     <string name="no_exportable_expenses">Nema transakcija koje još nisu izvezene.</string>

@@ -161,8 +161,8 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
             )
         }
 
-    private fun showMoreInfo(uri: String?) {
-        (requireActivity() as BaseActivity).startActionView(uri!!)
+    private fun showMoreInfo(uri: String) {
+        (requireActivity() as BaseActivity).startActionView(uri)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {

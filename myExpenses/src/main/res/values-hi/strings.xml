@@ -150,7 +150,7 @@
     <string name="menu_save_and_new">सेव और नया</string>
     <string name="menu_share">दोस्त को बताओ</string>
     <string name="no_app_handling_email_available">ईमेल सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
-    <string name="no_app_handling_pdf_available">पीडीऍफ़ सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
+    <string name="no_app_handling_mime_type_available">%s सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
     <string name="no_categories">कोई श्रेणी नहीं</string>
     <string name="no_expenses">कोई खर्चें नहीं!</string>
     <string name="no_filemanager_installed">कोई फाइल मैनेजर इंस्टाल्ड नहीं है</string>

@@ -17,8 +17,8 @@ import org.totschnig.myexpenses.compose.AppTheme
  */
 abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
 
-    val bottomPadding = 24.dp
-    val titlePadding = 16.dp
+    private val bottomPadding = 24.dp
+    private val titlePadding = 16.dp
     open val horizontalPadding = 24.dp
 
     @Composable

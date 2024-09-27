@@ -172,7 +172,7 @@
     <string name="method">Modalitate de plată</string>
     <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
     <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
+    <string name="no_app_handling_mime_type_available">Nici o aplicaţie disponibilă pentru fişiere %s</string>
     <string name="no_categories">Nici o categorie.</string>
     <string name="no_expenses">Nici o cheltuială încă!</string>
     <string name="no_exportable_expenses">Nici o tranzacţie ce nu a fost exportată.</string>

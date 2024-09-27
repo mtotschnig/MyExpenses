@@ -180,7 +180,7 @@
     <string name="method">Phương thức thanh toán</string>
     <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
     <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Không có ứng dụng để xử lý PDF.</string>
+    <string name="no_app_handling_mime_type_available">Không có ứng dụng để xử lý %s.</string>
     <string name="no_categories">Không có phân loại nào.</string>
     <string name="no_expenses">Chưa có giao dịch nào!</string>
     <string name="no_exportable_expenses">Hiện không có giao dịch nào mà vẫn chưa được xuất ra.</string>

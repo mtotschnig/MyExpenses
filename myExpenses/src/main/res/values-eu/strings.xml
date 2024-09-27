@@ -183,7 +183,7 @@
     <string name="method">Ordainketa metodoa</string>
     <string name="no_app_handling_email_available">Ez dago posta elektronikoa kudeatu dezaken aplikaziorik.</string>
     <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Ez dago PDF fitxategiak kudeatzeko aplikaziorik</string>
+    <string name="no_app_handling_mime_type_available">Ez dago %s fitxategiak kudeatzeko aplikaziorik</string>
     <string name="no_categories">Kategoriarik ez</string>
     <string name="no_expenses">Ez dago gasturik oraindik!</string>
     <string name="no_exportable_expenses">Ez dago jada esportatu ez den transakziorik.</string>

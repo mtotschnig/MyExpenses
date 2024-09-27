@@ -184,7 +184,7 @@
     <string name="method">אמצעי תשלום</string>
     <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
     <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">אין אפליקציה זמינה המטפלת בקבצי PDF.</string>
+    <string name="no_app_handling_mime_type_available">אין אפליקציה זמינה המטפלת בקבצי %s.</string>
     <string name="no_categories">אין קטגוריות.</string>
     <string name="no_expenses">אין עדין הוצאות!</string>
     <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>

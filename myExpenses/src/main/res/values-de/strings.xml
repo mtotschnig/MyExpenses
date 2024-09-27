@@ -183,7 +183,7 @@
     <string name="method">Zahlungsweise</string>
     <string name="no_app_handling_email_available">Keine Anwendung für das Versenden von E-Mails gefunden.</string>
     <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
-    <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
+    <string name="no_app_handling_mime_type_available">Keine App für das Öffnen von %s Dateien gefunden.</string>
     <string name="no_categories">Noch keine Kategorien vorhanden.</string>
     <string name="no_expenses">Noch keine Ausgaben!</string>
     <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>

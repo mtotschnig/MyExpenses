@@ -178,7 +178,7 @@
     <string name="method">Спосіб оплати</string>
     <string name="no_app_handling_email_available">Відсутня програма для роботи з поштою.</string>
     <string name="no_app_handling_ftp_available">Відсутня програма для роботи з FTP. Встановити <i>Send With FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Відсутня програма для роботи з PDF-файлами.</string>
+    <string name="no_app_handling_mime_type_available">Відсутня програма для роботи з %s-файлами.</string>
     <string name="no_categories">Немає категорій.</string>
     <string name="no_expenses">Ще немає витрат!</string>
     <string name="no_exportable_expenses">Немає транзакцій, які ще не були експортовані.</string>
@@ -962,7 +962,7 @@
     <string name="warning_nested_archives">Вкладені архіви не підтримуються.</string>
     <string name="archive_warning">Всі транзакції (%d) у вибраному діапазоні дат будуть заархівовані.</string>
     <string name="warning_empty_archive">У вибраному діапазоні дат немає транзакцій.</string>
-    <string name="warning_archive_inconsistent_state">Транзакції у вибраному діапазоні дат мають суперечливі статуси (%).</string>
+    <string name="warning_archive_inconsistent_state">Транзакції у вибраному діапазоні дат мають суперечливі статуси (%s).</string>
     <string name="pref_scroll_to_current_date_title">Прокрутити список транзакцій до поточної дати</string>
     <string name="buy">Купити</string>
     <string name="pref_scroll_to_current_date_app_launch">тільки під час запуску програми</string>

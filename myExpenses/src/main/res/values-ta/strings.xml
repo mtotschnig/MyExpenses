@@ -183,7 +183,7 @@
     <string name="method">கட்டணம் செலுத்தும் முறை</string>
     <string name="no_app_handling_email_available">மின்னஞ்சல் கையாளும் செயலி ஏதும் இல்லை.</string>
     <string name="no_app_handling_ftp_available">FTP கையாளும் செயலி ஏதும் இல்லை. <i>Send with FTP</i> நிறுவலாமா?</string>
-    <string name="no_app_handling_pdf_available">PDF கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
+    <string name="no_app_handling_mime_type_available">%s கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
     <string name="no_categories">வகைகள் ஏதுமில்லை.</string>
     <string name="no_expenses">இன்னும் செலவுகள் ஏதுமில்லை!</string>
     <string name="no_exportable_expenses">இதுவரை ஏற்றுமதி செய்யப்படாத பரிமாற்றங்கள் எதுவும் இல்லை.</string>

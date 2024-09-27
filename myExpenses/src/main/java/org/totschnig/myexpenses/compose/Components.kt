@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +29,10 @@ fun ButtonRow(modifier: Modifier = Modifier, content: @Composable RowScope.() ->
 @Composable
 private fun ButtonRowDemo() {
     ButtonRow(modifier = Modifier.width(150.dp)) {
-        Button(onClick = { }) {
+        TextButton(onClick = { }) {
             Text("Cancel")
         }
-        Button(onClick = {}) {
+        TextButton(onClick = {}) {
             Text("Load")
         }
     }

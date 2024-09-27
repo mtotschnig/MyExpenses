@@ -179,7 +179,7 @@
     <string name="method">Metoda płatności</string>
     <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
     <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Brak aplikacji do obsługi PDF.</string>
+    <string name="no_app_handling_mime_type_available">Brak aplikacji do obsługi %s.</string>
     <string name="no_categories">Brak kategorii.</string>
     <string name="no_expenses">Brak wydatków!</string>
     <string name="no_exportable_expenses">Nie ma transakcji które nie zostały jeszcze wyeksportowane.</string>

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.net.Uri
 import android.os.Bundle
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,10 +64,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     }
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
-    private val _result: MutableStateFlow<Pair<ExportFormat, List<Uri>>?> = MutableStateFlow(null)
+    private val _result: MutableStateFlow<Pair<ExportFormat, List<DocumentFile>>?> = MutableStateFlow(null)
     private val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
-    val result: StateFlow<Pair<ExportFormat, List<Uri>>?> = _result
+    val result: StateFlow<Pair<ExportFormat, List<DocumentFile>>?> = _result
     val pdfResult: StateFlow<Result<Pair<Uri, String>>?> = _pdfResult
 
     fun startExport(args: Bundle) {
@@ -192,12 +193,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                         )
                                     }, append)
                                     result.onSuccess {
-                                        if (!append && prefHandler.getBoolean(
-                                                PrefKey.PERFORM_SHARE,
-                                                false
-                                            )
-                                        ) {
-                                            add(it.uri)
+                                        if (!append) {
+                                            add(it)
                                         }
                                         successfullyExported.add(account)
                                         publishProgress(

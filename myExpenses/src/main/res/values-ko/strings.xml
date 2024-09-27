@@ -168,7 +168,7 @@
     <string name="method">지불 방법</string>
     <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
-    <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
+    <string name="no_app_handling_mime_type_available">%s 파일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_categories">카테고리가 없습니다.</string>
     <string name="no_expenses">지출이 아직 없습니다!</string>
     <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>

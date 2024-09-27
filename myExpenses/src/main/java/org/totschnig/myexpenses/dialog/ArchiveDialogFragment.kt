@@ -126,9 +126,7 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                         info.statuses.size > 1 -> stringResource(
                             R.string.warning_archive_inconsistent_state,
                             info.statuses.joinToString {
-                                getString(
-                                    it.toStringRes()
-                                )
+                                getString(it.toStringRes())
                             })
                         else -> throw IllegalStateException()
                     },

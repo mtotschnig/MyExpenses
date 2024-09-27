@@ -182,7 +182,7 @@
     <string name="method">付款方式</string>
     <string name="no_app_handling_email_available">沒有可應用電子郵件的程式。</string>
     <string name="no_app_handling_ftp_available">沒有可處理ftp的應用程式。安裝<i>Send With FTP</i>？</string>
-    <string name="no_app_handling_pdf_available">沒有可以處理 PDF 檔案的應用程式。</string>
+    <string name="no_app_handling_mime_type_available">沒有可以處理 %s 檔案的應用程式。</string>
     <string name="no_categories">沒有類別項目。</string>
     <string name="no_expenses">還沒有支出！</string>
     <string name="no_exportable_expenses">沒有尚未匯出的交易項目。</string>
