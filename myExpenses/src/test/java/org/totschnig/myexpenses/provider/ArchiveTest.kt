@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentUris
-import androidx.room.util.useCursor
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,12 +9,10 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
@@ -47,11 +44,12 @@ class ArchiveTest : BaseTestWithRepository() {
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
-            arrayOf("count(*)"),
+            arrayOf(KEY_ROWID),
             "$KEY_PARENTID is null", null, null
         ).useAndAssert {
+            hasCount(1)
             movesToFirst()
-            hasInt(0, 1)
+            hasLong(0, archiveId)
         }
         val archiveUri =
             ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId)
