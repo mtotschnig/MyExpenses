@@ -181,7 +181,7 @@
     <string name="method">支払方法</string>
     <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
     <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
-    <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
+    <string name="no_app_handling_mime_type_available">%s を利用可能なアプリがありません。</string>
     <string name="no_categories">分類がありません。</string>
     <string name="no_expenses">まだ支出がありません!</string>
     <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>

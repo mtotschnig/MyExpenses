@@ -183,7 +183,7 @@
     <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
     <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. ಸ್ಥಾಪಿಸಿ <i> ಎಫ್‌ಟಿಪಿ ಯೊಂದಿಗೆ ಕಳುಹಿಸಿ </i>\?</string>
-    <string name="no_app_handling_pdf_available">ಪಿಡಿಎಫ್ ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
+    <string name="no_app_handling_mime_type_available">%s ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="no_categories">ಯಾವುದೇ ವರ್ಗಗಳಿಲ್ಲ.</string>
     <string name="no_expenses">ಇನ್ನೂ ವೆಚ್ಚಗಳಿಲ್ಲ!</string>
     <string name="no_exportable_expenses">ಇನ್ನೂ ರಫ್ತು ಮಾಡದ ಯಾವುದೇ ವಹಿವಾಟುಗಳಿಲ್ಲ.</string>

@@ -187,7 +187,7 @@
     <string name="method">طريقة الدفع او السداد</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
     <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
-    <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF.</string>
+    <string name="no_app_handling_mime_type_available">لا يوجد تطبيق لمعاينة ملفات ال%s.</string>
     <string name="no_categories">لا يوجد تصنيفات.</string>
     <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
     <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>

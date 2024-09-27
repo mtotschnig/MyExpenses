@@ -170,7 +170,6 @@
     <string name="method">روش پرداخت</string>
     <string name="no_app_handling_email_available">هیچ اپلیکیشنی برای استفاده از ایمیل دردسترس نیست</string>
     <string name="no_app_handling_ftp_available">هیچ اپلیکیشنی برای استفاده از اف‌تی‌پی دردسترس نیست. <i>Send With FTP</i> نصب شود؟</string>
-    <string name="no_app_handling_pdf_available">هیچ اپلیکیشنی برای استفاده از فایل‌های پی‌دی‌اف دردسترس نیست.</string>
     <string name="no_categories">بدون دسته‌بندی</string>
     <string name="no_expenses">هنوز هیچ هزینه‌ای وجود ندارد!</string>
     <string name="no_exportable_expenses">هیچ تراکنشی که تابه‌حال استخراج نشده‌ باشد وجود ندارد.</string>

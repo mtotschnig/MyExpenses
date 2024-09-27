@@ -570,7 +570,7 @@
     <string name="no_exportable_expenses">ఇంకా ఎగుమతి చేయని లావాదేవీలు లేవు.</string>
     <string name="no_expenses">ఇంకా ఖర్చులు లేవు!</string>
     <string name="no_categories">వర్గాలు లేవు.</string>
-    <string name="no_app_handling_pdf_available">PDF ఫైల్‌లను నిర్వహించే అనువర్తనం అందుబాటులో లేదు.</string>
+    <string name="no_app_handling_mime_type_available">%s ఫైల్‌లను నిర్వహించే అనువర్తనం అందుబాటులో లేదు.</string>
     <string name="no_app_handling_ftp_available">అనువర్తన నిర్వహణ ftp అందుబాటులో లేదు. ఇన్‌స్టాల్ చేయండి <i> FTP తో పంపండి </i>\?</string>
     <string name="no_app_handling_email_available">అనువర్తన నిర్వహణ ఇమెయిల్ అందుబాటులో లేదు.</string>
     <string name="method">చెల్లింపు విధానము</string>

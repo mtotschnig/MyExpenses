@@ -184,7 +184,7 @@
     <string name="method">Forma de pagamento</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
     <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Nenhum app de PDF disponível.</string>
+    <string name="no_app_handling_mime_type_available">Nenhum app de %s disponível.</string>
     <string name="no_categories">Nenhuma categoria.</string>
     <string name="no_expenses">Nenhuma despesa ainda!</string>
     <string name="no_exportable_expenses">Não existe nenhuma transação que ainda não tenha sido exportada.</string>

@@ -46,15 +46,6 @@ public class ProgressDialogFragment extends BaseDialogFragment {
   private final int dialogButton = DialogInterface.BUTTON_POSITIVE;
 
 
-  /**
-   * @param message if different from 0 a resource string identifier displayed as the dialogs's message
-   * @return the dialog fragment
-   */
-  @Deprecated
-  public static ProgressDialogFragment newInstance(String message) {
-    return newInstance(message, false);
-  }
-
   @Deprecated
   public static ProgressDialogFragment newInstance(String message, boolean withButton) {
     return newInstance(null, message, STYLE_SPINNER, withButton);

@@ -182,7 +182,7 @@
     <string name="method">Kaedah pembayaran</string>
     <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
     <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
+    <string name="no_app_handling_mime_type_available">Tiada apl pengendalian fail %s tersedia.</string>
     <string name="no_categories">Tiada kategori.</string>
     <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
     <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>

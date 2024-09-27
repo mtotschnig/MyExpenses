@@ -185,7 +185,7 @@
     <string name="method">Způsob platby</string>
     <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
     <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">Nejsou k dispozici žádné aplikace pro zpracování souborů PDF.</string>
+    <string name="no_app_handling_mime_type_available">Nejsou k dispozici žádné aplikace pro zpracování souborů %s.</string>
     <string name="no_categories">Žádné kategorie.</string>
     <string name="no_expenses">Doposud žádné výdaje!</string>
     <string name="no_exportable_expenses">Neexistují žádné transakce, které ještě nebyly exportovány.</string>

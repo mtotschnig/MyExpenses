@@ -183,7 +183,7 @@
     <string name="method">Ödeme yöntemi</string>
     <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
     <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
-    <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
+    <string name="no_app_handling_mime_type_available">%s dosyalarını yönetecek hiçbir uygulama yok.</string>
     <string name="no_categories">Kategori yok.</string>
     <string name="no_expenses">Henüz hiçbir harcama yok!</string>
     <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>

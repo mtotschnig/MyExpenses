@@ -28,6 +28,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.webkit.MimeTypeMap
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -43,6 +44,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.text.toUpperCase
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -92,6 +94,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
+import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -115,6 +118,7 @@ import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
+import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -144,6 +148,7 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -1055,6 +1060,26 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             })
         } catch (e: ActivityNotFoundException) {
             showSnackBar("No activity found for opening $uri")
+        }
+    }
+
+    fun startActionView(uri: Uri, mimeType: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(
+                    ensureContentUri(uri, this@BaseActivity),
+                    mimeType
+                )
+                setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            )
+        } catch (e: ActivityNotFoundException) {
+            showSnackBar(MimeTypeMap.getSingleton()
+                .getExtensionFromMimeType(mimeType)
+                ?.uppercase(Locale.getDefault())
+                ?.let { getString(R.string.no_app_handling_mime_type_available, it) }
+                ?: "No activity found for opening $uri"
+            )
         }
     }
 

@@ -145,7 +145,7 @@
     <string name="menu_create_template_for_transaction">Nieuw transactiesjabloon</string>
     <string name="menu_edit_split_part_category">Categorie gesplitst deel bewerken</string>
     <string name="no_app_handling_ftp_available">Geen app-afhandeling ftp beschikbaar. <i>Verzenden met FTP</i> installeren\?</string>
-    <string name="no_app_handling_pdf_available">Geen app die PDF-bestanden verwerkt beschikbaar.</string>
+    <string name="no_app_handling_mime_type_available">Geen app die %s-bestanden verwerkt beschikbaar.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
     <string name="no_exportable_expenses">Er zijn geen transacties die nog niet geëxporteerd zijn.</string>
     <string name="plan_event_deleted">Het plan dat bij dit sjabloon hoort, is uit de kalender verwijderd.</string>

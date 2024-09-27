@@ -161,7 +161,7 @@
     <string name="method">Betalingsmetode</string>
     <string name="no_app_handling_email_available">Ingen app til håndtering af e-mail.</string>
     <string name="no_app_handling_ftp_available">Ingen app til håndtering af ftp. Installér <i>Send via FTP</i>\?</string>
-    <string name="no_app_handling_pdf_available">Ingen app til håndtering af PDF-filer.</string>
+    <string name="no_app_handling_mime_type_available">Ingen app til håndtering af %s-filer.</string>
     <string name="no_categories">Ingen kategorier.</string>
     <string name="no_expenses">Ingen udgifter endnu!</string>
     <string name="no_exportable_expenses">Der er ingen transaktioner, der endnu ikke er blevet eksporteret.</string>

@@ -183,7 +183,7 @@
     <string name="method">Fizetési mód</string>
     <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
     <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>
-    <string name="no_app_handling_pdf_available">Nincs elérhető PDF-fájlokat kezelő alkalmazás.</string>
+    <string name="no_app_handling_mime_type_available">Nincs elérhető %s-fájlokat kezelő alkalmazás.</string>
     <string name="no_categories">Nincsenek kategóriák.</string>
     <string name="no_expenses">Még nincsenek kiadások!</string>
     <string name="no_exportable_expenses">Nincs olyan tranzakció, amely ne került volna exportálásra.</string>
