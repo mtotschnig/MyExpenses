@@ -105,7 +105,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 168
+const val DATABASE_VERSION = 169
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -948,6 +948,10 @@ abstract class BaseTransactionDatabase(
         execSQL("DROP TABLE changes_old")
         execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES))
         createOrRefreshChangeLogTriggers()
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo169() {
+        execSQL("UPDATE transactions SET status = 0 WHERE status = 5 AND parent_id is null")
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
@@ -53,7 +54,7 @@ fun SupportSQLiteDatabase.unarchive(
         TransactionProvider.pauseChangeTrigger(this)
         //parts are promoted to independence
         execSQL(
-            "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null WHERE $KEY_PARENTID = $rowIdSubSelect ",
+            "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_STATUS = $STATUS_NONE WHERE $KEY_PARENTID = $rowIdSubSelect ",
             arrayOf(uuid)
         )
         //Change is recorded
