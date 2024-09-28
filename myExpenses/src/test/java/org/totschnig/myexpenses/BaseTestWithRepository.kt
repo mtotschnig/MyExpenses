@@ -10,6 +10,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -44,11 +45,17 @@ abstract class BaseTestWithRepository {
     fun writeCategory(label: String, parentId: Long? = null) =
         repository.saveCategory(Category(label = label, parentId = parentId))!!
 
-    protected fun insertTransaction(accountId: Long, amount: Long, categoryId: Long? = null): Pair<Long, String> {
+    protected fun insertTransaction(
+        accountId: Long,
+        amount: Long,
+        categoryId: Long? = null,
+        crStatus: CrStatus = CrStatus.UNRECONCILED
+    ): Pair<Long, String> {
         val contentValues = TransactionInfo(
             accountId = accountId,
             amount = amount,
-            catId = categoryId
+            catId = categoryId,
+            crStatus = crStatus
         ).contentValues
         val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)

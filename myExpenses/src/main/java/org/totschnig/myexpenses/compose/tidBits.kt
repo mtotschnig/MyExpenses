@@ -27,6 +27,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
@@ -130,4 +131,6 @@ fun TypeConfiguration(
 }
 
 @Composable
-fun emToDp(em: Float): Dp = with(LocalDensity.current) { LocalTextStyle.current.fontSize.toDp() } * em
+fun emToDp(em: Float): Dp = with(LocalDensity.current) {
+    (LocalTextStyle.current.fontSize.takeIf { it.isSp } ?: 12.sp).toDp()
+} * em

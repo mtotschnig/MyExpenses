@@ -9,7 +9,9 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
@@ -33,14 +35,14 @@ class ArchiveTest : BaseTestWithRepository() {
                 testAccount.contentValues
             )!!
         )
-        insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, -200)
-        insertTransaction(testAccountId, 400)
-        insertTransaction(testAccountId, 800)
     }
 
     @Test
     fun createArchiveAndUnpack() {
+        insertTransaction(testAccountId, 100)
+        insertTransaction(testAccountId, -200)
+        insertTransaction(testAccountId, 400)
+        insertTransaction(testAccountId, 800)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
@@ -55,12 +57,13 @@ class ArchiveTest : BaseTestWithRepository() {
             ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId)
         contentResolver.query(
             archiveUri,
-            arrayOf(KEY_STATUS, KEY_AMOUNT),
+            arrayOf(KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
             null, null, null
         )!!.useAndAssert {
             movesToFirst()
             hasInt(0, STATUS_ARCHIVE)
-            hasLong(1, 1100)
+            hasString(1, CrStatus.UNRECONCILED.name)
+            hasLong(2, 1100)
         }
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
@@ -86,6 +89,69 @@ class ArchiveTest : BaseTestWithRepository() {
             null, null
         )!!.useAndAssert {
             hasCount(4)
+            forEach {
+                hasInt(0, STATUS_NONE)
+            }
+        }
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun createArchiveWithInconsistentStates() {
+        insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
+        insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
+        repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
+    }
+
+    @Test
+    fun createArchiveWithVoidTransactions() {
+        insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
+        insertTransaction(testAccountId, -200, crStatus = CrStatus.VOID)
+        val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_ROWID),
+            "$KEY_PARENTID is null", null, null
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasLong(0, archiveId)
+        }
+        val archiveUri =
+            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId)
+        contentResolver.query(
+            archiveUri,
+            arrayOf(KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
+            null, null, null
+        )!!.useAndAssert {
+            movesToFirst()
+            hasInt(0, STATUS_ARCHIVE)
+            hasString(1, CrStatus.RECONCILED.name)
+            hasLong(2, 100)
+        }
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_STATUS, KEY_AMOUNT),
+            "$KEY_PARENTID = ?", arrayOf(archiveId.toString()), null
+        )!!.useAndAssert {
+            hasCount(2)
+            forEach {
+                hasInt(0, STATUS_ARCHIVED)
+            }
+        }
+        repository.unarchive(archiveId)
+        contentResolver.query(
+            archiveUri,
+            arrayOf(KEY_STATUS),
+            null, null, null
+        )!!.useAndAssert {
+            hasCount(0)
+        }
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_STATUS),
+            null, null
+        )!!.useAndAssert {
+            hasCount(2)
             forEach {
                 hasInt(0, STATUS_NONE)
             }

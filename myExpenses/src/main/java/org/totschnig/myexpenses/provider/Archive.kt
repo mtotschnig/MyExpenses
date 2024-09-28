@@ -75,7 +75,8 @@ fun SupportSQLiteDatabase.unarchive(
     }
 }
 
-private const val ARCHIVE_SELECTION = "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS != $STATUS_UNCOMMITTED AND $KEY_DATE > ? AND $KEY_DATE < ?"
+private const val ARCHIVE_SELECTION =
+    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS != $STATUS_UNCOMMITTED AND $KEY_DATE > ? AND $KEY_DATE < ?"
 
 private fun SupportSQLiteDatabase.archiveInfo(
     accountId: Long,
@@ -111,14 +112,45 @@ private fun Bundle.parseArchiveArguments() = Triple(
 fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
     val (accountId, start, end) = extras.parseArchiveArguments()
 
-    val (crStatus, archiveSum, archiveDate) = archiveInfo(accountId, start, end, false).use {
-        if (it.count > 1) throw IllegalStateException("Transactions in archive have different states.")
-        it.moveToFirst()
-        if (it.hasNested()) throw IllegalStateException("Nested archive is not supported.")
-        Triple(it.getString(0), it.getLong(2), it.getLong(3))
+    val (crStatus, archiveSum, archiveDate) = archiveInfo(
+        accountId,
+        start,
+        end,
+        false
+    ).use { cursor ->
+        when (cursor.count) {
+            0 -> throw IllegalStateException("No transactions to archive.")
+            1 -> {
+                cursor.moveToFirst()
+                if (cursor.hasNested()) throw IllegalStateException("Nested archive is not supported.")
+                Triple(cursor.getString(0), cursor.getLong(2), cursor.getLong(3))
+            }
+
+            2 -> {
+                val states = cursor.useAndMapToMap {
+                    it.getString(0) to Triple(
+                        it.hasNested(),
+                        it.getLong(2),
+                        it.getLong(3)
+                    )
+                }
+                if (states.any { it.value.first }) {
+                    throw IllegalStateException("Nested archive is not supported.")
+                }
+                if (!states.containsKey(CrStatus.VOID.name)) {
+                    throw IllegalStateException("Transactions in archive have different states.")
+                }
+                val archive = states.entries.first { it.key != CrStatus.VOID.name }
+                Triple(archive.key, archive.value.second, archive.value.third)
+            }
+
+            else -> {
+                throw IllegalStateException("Transactions in archive have different states.")
+            }
+        }
     }
 
-   return safeUpdateWithSealed {
+    return safeUpdateWithSealed {
         val archiveId = insert(TABLE_TRANSACTIONS, ContentValues().apply {
             put(KEY_ACCOUNTID, accountId)
             put(KEY_DATE, archiveDate)
@@ -144,7 +176,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
                 archiveId
             )
         )
-       archiveId
+        archiveId
     }
 }
 

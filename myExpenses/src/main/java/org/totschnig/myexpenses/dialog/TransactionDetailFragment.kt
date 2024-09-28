@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.size
+import org.totschnig.myexpenses.compose.voidMarker
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
@@ -228,6 +229,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                             ) { expanded ->
                                 if (expanded) {
                                     OutlinedCard(modifier = Modifier
+                                        .voidMarker(part.crStatus)
                                         .clickable {
                                             selectedArchivedTransaction = 0
                                         }
@@ -529,7 +531,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         withDate: Boolean = false
     ) {
         Row(
-            modifier = modifier,
+            modifier = modifier.voidMarker(part.crStatus),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (withDate) {

@@ -18,6 +18,16 @@ fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) =
         it.asSequence.map(mapper).toSet()
     }
 
+fun <K,V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K,V>) =
+    use {
+        buildMap {
+            it.asSequence.forEach {
+                val (key, value) = mapper(it)
+                put(key, value)
+            }
+        }
+    }
+
 /**
  * requires the Cursor to be positioned BEFORE first row
  */
