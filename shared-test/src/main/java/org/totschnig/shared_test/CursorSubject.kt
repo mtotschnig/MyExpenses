@@ -73,7 +73,7 @@ class CursorSubject private constructor(
     private fun columnCount(): IntegerSubject = check("columnCount").that(actual.columnCount)
 
     companion object {
-        inline fun Cursor?.useAndAssert(assertions: CursorSubject.() -> Unit) =
+        inline fun <R> Cursor?.useAndAssert(assertions: CursorSubject.() -> R) =
             this!!.use { assertThat(it).assertions() }
 
         fun assertThat(cursor: Cursor): CursorSubject = assertAbout(CURSOR_FACTORY).that(cursor)
