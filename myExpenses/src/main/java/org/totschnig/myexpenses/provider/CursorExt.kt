@@ -8,25 +8,26 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import java.time.LocalDate
 
-fun <T> Cursor.useAndMapToList(mapper: (Cursor) -> T) =
-    use {
-        it.asSequence.map(mapper).toList()
-    }
+fun <T> Cursor.useAndMapToOne(mapper: (Cursor) -> T) = use {
+    if (it.moveToFirst()) mapper(it) else null
+}
 
-fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) =
-    use {
-        it.asSequence.map(mapper).toSet()
-    }
+fun <T> Cursor.useAndMapToList(mapper: (Cursor) -> T) = use {
+    it.asSequence.map(mapper).toList()
+}
 
-fun <K,V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K,V>) =
-    use {
-        buildMap {
-            it.asSequence.forEach {
-                val (key, value) = mapper(it)
-                put(key, value)
-            }
+fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) = use {
+    it.asSequence.map(mapper).toSet()
+}
+
+fun <K, V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K, V>) = use {
+    buildMap {
+        it.asSequence.forEach {
+            val (key, value) = mapper(it)
+            put(key, value)
         }
     }
+}
 
 /**
  * requires the Cursor to be positioned BEFORE first row

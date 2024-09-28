@@ -72,7 +72,7 @@ data class FullAccount(
     val sumExpense: Long,
     val sumTransfer: Long = 0L,
     override val grouping: Grouping = Grouping.NONE,
-    val sortBy: String = KEY_DATE,
+    override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
@@ -134,7 +134,7 @@ data class FullAccount(
 data class PageAccount(
     override val id: Long,
     val type: AccountType?,
-    val sortBy: String,
+    override val sortBy: String,
     override val sortDirection: SortDirection,
     override val grouping: Grouping,
     val currencyUnit: CurrencyUnit,

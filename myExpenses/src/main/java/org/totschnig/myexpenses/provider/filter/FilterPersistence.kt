@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
 import androidx.annotation.CheckResult
+import androidx.core.os.BundleCompat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -26,9 +27,10 @@ class FilterPersistence(
 
     init {
         _whereFilter = MutableStateFlow(
-            savedInstanceState?.getParcelableArrayList<Criterion<*>>(KEY_FILTER)?.let {
-                WhereFilter(it)
-            } ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
+            savedInstanceState
+                ?.let { BundleCompat.getParcelableArrayList(it, KEY_FILTER, Criterion::class.java) }
+                ?.let { WhereFilter(it) }
+                ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
         )
     }
 

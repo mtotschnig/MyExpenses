@@ -110,17 +110,14 @@ open class TransactionPagingSource(
                 }
             }
             val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-            val sortBy = when (account.sortBy) {
-                KEY_AMOUNT -> "abs($KEY_AMOUNT)"
-                else -> account.sortBy
-            }
             val origList = withContext(Dispatchers.IO) {
                 contentResolver.query(
                     uri.withLimit(loadSize, position.coerceAtLeast(0)),
                     projection,
                     selection,
                     selectionArgs,
-                    "$sortBy ${account.sortDirection}", null
+                    account.sortOrder,
+                    null
                 )?.use { cursor ->
                     if (BuildConfig.DEBUG) {
                         val endTime = Instant.now()

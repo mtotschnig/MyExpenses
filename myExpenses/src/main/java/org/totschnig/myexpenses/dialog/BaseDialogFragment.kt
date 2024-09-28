@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -116,7 +115,10 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     fun showDetails(transactionId: Long) {
         lifecycleScope.launchWhenResumed {
-            TransactionDetailFragment.show(transactionId, parentFragmentManager)
+            TransactionDetailFragment.show(
+                transactionId,
+                parentFragmentManager
+            )
         }
     }
 

@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
-import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 
 /**
@@ -12,8 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
  */
 abstract class DataBaseAccount : AccountInfoWithGrouping {
     abstract val id: Long
-    abstract override val currency: String
-    abstract override val grouping: Grouping
+    abstract val sortBy: String
     abstract val sortDirection: SortDirection
 
     override val accountId: Long
@@ -22,6 +21,9 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     val isHomeAggregate get() = isHomeAggregate(id)
 
     val isAggregate get() = isAggregate(id)
+
+    val sortOrder: String
+        get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
 
     fun uriForTransactionList(
         shortenComment: Boolean = false,

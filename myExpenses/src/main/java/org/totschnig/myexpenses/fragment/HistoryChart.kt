@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -38,7 +40,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
@@ -165,7 +166,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
         }
-        requireActivity().intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
+        IntentCompat.getParcelableArrayListExtra(requireActivity().intent, KEY_FILTER, Criterion::class.java)?.let {
             filter = WhereFilter(it)
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)

@@ -91,15 +91,6 @@ public class MyExpenses extends BaseMyExpenses implements
     reviewManager.init(this);
   }
 
-  public void showTransactionFromIntent(Bundle extras) {
-    long idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
-    //detail fragment from notification should only be shown upon first instantiation from notification
-    if (idFromNotification != 0) {
-      showDetails(idFromNotification, false);
-      getIntent().removeExtra(KEY_TRANSACTIONID);
-    }
-  }
-
   /**
    * Can be used to ask user who has already voted to update their vote. Currently not used
    */

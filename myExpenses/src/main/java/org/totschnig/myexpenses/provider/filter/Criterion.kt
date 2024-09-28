@@ -22,7 +22,9 @@ import android.os.Parcelable
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
@@ -62,7 +64,7 @@ abstract class Criterion<T : Any> : Parcelable {
      * that are matched by the criteria
      */
     private fun applyToSplitParts(selection: String, tableName: String) = if (shouldApplyToParts)
-        "($selection OR ($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $TABLE_TRANSACTIONS children WHERE $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection))))"
+        "($selection OR (($KEY_CATID = $SPLIT_CATID OR $KEY_STATUS = $STATUS_ARCHIVE) AND exists(select 1 from $TABLE_TRANSACTIONS WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection))))"
     else selection
 
     /**

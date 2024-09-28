@@ -36,8 +36,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SuggestionChip
@@ -66,10 +66,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -80,6 +83,7 @@ import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.conditional
@@ -97,6 +101,10 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
@@ -126,6 +134,12 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
+
+    val sortOrder: String?
+        get() = requireArguments().getString(KEY_SORT_ORDER)
+
+    val rowId: Long
+        get() = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,16 +194,24 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         }
     }
 
+    private val transactionLiveData: LiveData<Transaction> by lazy {
+        viewModel.transaction(rowId)
+    }
+
+    private val partsLiveData: LiveData<List<Transaction>> by lazy {
+        viewModel.parts(rowId, sortOrder)
+    }
 
     @Composable
     override fun ColumnScope.MainContent() {
-        val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
-        val transactionInfo = viewModel.transaction(rowId).observeAsState()
-        transactionInfo.value?.also { info ->
-            if (info.isEmpty()) {
+        val filter = BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, Criterion::class.java)?.let {
+            WhereFilter(it)
+        }
+        val transactionInfo = transactionLiveData.observeAsState()
+        transactionInfo.value.let { transaction ->
+            if (transaction == null) {
                 Text(stringResource(R.string.transaction_deleted))
             } else {
-                val transaction = info.first()
                 val isIncome = transaction.amount.amountMinor > 0
                 LaunchedEffect(transaction) {
                     transactionInfo.value?.let {
@@ -207,6 +229,9 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     }
                 }
+                if (filter?.isEmpty == false) {
+                   FilterCard(filter)
+                }
 
                 ExpandedRenderer(transaction)
 
@@ -219,10 +244,11 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     )
 
+                    val parts = partsLiveData.observeAsState(emptyList())
+
                     LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
-                        items(info.size - 1) { index ->
-                            val part = info[index + 1]
+                        items(parts.value) { part ->
                             AnimatedContent(
                                 targetState = selectedArchivedTransaction == part.id,
                                 label = "ExpandedTransactionCard"
@@ -238,11 +264,11 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                             ExpandedRenderer(part, true)
                                             if (part.isSplit) {
                                                 HeadingRenderer(stringResource(R.string.split_parts_heading))
-                                                val partInfo =
-                                                    viewModel.transaction(part.id).observeAsState()
-                                                partInfo.value?.drop(1)?.forEach {
-                                                    CondensedRenderer(part = it)
-                                                }
+                                                viewModel.parts(part.id, sortOrder)
+                                                    .observeAsState(emptyList())
+                                                    .value.forEach {
+                                                        CondensedRenderer(part = it)
+                                                    }
                                             }
                                         }
                                     }
@@ -266,7 +292,6 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 Text(stringResource(id = android.R.string.ok))
             }
             transactionInfo.value
-                ?.getOrNull(0)
                 ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
@@ -290,7 +315,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         }
     }
 
-    @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     fun ExpandedRenderer(transaction: Transaction, forPart: Boolean = false) {
         val isIncome = transaction.amount.amountMinor > 0
@@ -421,7 +446,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             val interactionSource = remember { NoRippleInteractionSource() }
             TableRow(stringResource(R.string.tags)) {
                 CompositionLocalProvider(
-                    LocalMinimumInteractiveComponentEnforcement provides false
+                    LocalMinimumInteractiveComponentSize provides Dp.Unspecified
                 ) {
                     FlowRow(
                         modifier = Modifier.padding(vertical = 4.dp),
@@ -446,7 +471,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 }
             }
         }
-        viewModel.attachments(transaction.id).observeAsState().value?.let {
+        val attachments = remember { viewModel.attachments(transaction.id) }
+        attachments.observeAsState().value?.let {
             if (it.isNotEmpty()) {
                 TableRow(stringResource(R.string.attachments)) {
                     FlowRow(
@@ -497,7 +523,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 }
             }
         }
-        viewModel.attributes(transaction.id).observeAsState().value?.let { map ->
+        val attributes = remember { viewModel.attributes(transaction.id) }
+        attributes.observeAsState().value?.let { map ->
             map.forEach { entry ->
                 HeadingRenderer(entry.key)
 
@@ -620,18 +647,38 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
     companion object {
         const val KEY_FULL_SCREEN = "fullScreen"
-        fun show(id: Long, fragmentManager: FragmentManager, fullScreen: Boolean = false) {
+        const val KEY_SORT_ORDER = "sortOrder"
+
+        fun show(
+            id: Long,
+            fragmentManager: FragmentManager,
+            fullScreen: Boolean = false,
+            currentFilter: FilterPersistence? = null,
+            sortOrder: String? = null
+        ) {
             with(fragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
-                    newInstance(id, fullScreen).show(this, TransactionDetailFragment::class.java.name)
+                    newInstance(id, fullScreen, currentFilter, sortOrder)
+                        .show(this, TransactionDetailFragment::class.java.name)
                 }
             }
         }
 
-        private fun newInstance(id: Long, fullScreen: Boolean): TransactionDetailFragment =
+        private fun newInstance(
+            id: Long,
+            fullScreen: Boolean,
+            currentFilter: FilterPersistence?,
+            sortOrder: String?
+        ): TransactionDetailFragment =
             TransactionDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(DatabaseConstants.KEY_ROWID, id)
+                    currentFilter?.whereFilter?.criteria?.let {
+                        putParcelableArrayList(KEY_FILTER, ArrayList(it))
+                    }
+                    sortOrder?.let {
+                        putString(KEY_SORT_ORDER, it)
+                    }
                     putBoolean(KEY_FULL_SCREEN, fullScreen)
                 }
             }

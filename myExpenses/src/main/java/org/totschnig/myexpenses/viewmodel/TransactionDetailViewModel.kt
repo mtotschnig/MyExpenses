@@ -11,10 +11,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.provider.useAndMapToOne
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
+import org.totschnig.myexpenses.viewmodel.data.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.projection
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.readTransaction
-import org.totschnig.myexpenses.viewmodel.data.Transaction as TData
 
 class TransactionDetailViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
@@ -24,14 +25,34 @@ class TransactionDetailViewModel(application: Application) :
     }
 
     @SuppressLint("Recycle")
-    fun transaction(transactionId: Long): LiveData<List<TData>> =
+    fun transaction(transactionId: Long): LiveData<Transaction> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
-                TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
+                TransactionProvider.EXTENDED_URI.buildUpon()
+                    .appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
                 projection(localizedContext, currencyContext.homeCurrencyString),
                 null,
                 null,
-                "$KEY_PARENTID IS NULL DESC"
+                null
+            )?.useAndMapToOne {
+                it.readTransaction(
+                    getApplication(),
+                    currencyContext,
+                    currencyContext.homeCurrencyUnit
+                )
+            }?.let { emit(it) }
+        }
+
+    @SuppressLint("Recycle")
+    fun parts(transactionId: Long, sortOrder: String?): LiveData<List<Transaction>> =
+        liveData(context = coroutineContext()) {
+            contentResolver.query(
+                TransactionProvider.EXTENDED_URI.buildUpon()
+                    .appendQueryParameter(KEY_PARENTID, transactionId.toString()).build(),
+                projection(localizedContext, currencyContext.homeCurrencyString),
+                null,
+                null,
+                sortOrder
             )?.useAndMapToList {
                 it.readTransaction(
                     getApplication(),

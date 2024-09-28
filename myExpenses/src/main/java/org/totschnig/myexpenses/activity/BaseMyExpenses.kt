@@ -1019,7 +1019,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         icon = Icons.Filled.Loupe,
                                         label = R.string.details,
                                         command = "DETAILS"
-                                    ) { showDetails(transaction.id, transaction.isArchive) })
+                                    ) { showDetails(
+                                        transaction.id,
+                                        transaction.isArchive,
+                                        currentFilter.takeIf { transaction.isArchive },
+                                        currentAccount?.sortOrder.takeIf { transaction.isArchive }
+                                    ) })
                                     if (modificationAllowed) {
                                         if (transaction.isArchive) {
                                             add(MenuEntry(
@@ -2555,6 +2560,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     override fun onSortOrderConfirmed(sortedIds: LongArray) {
         viewModel.sortAccounts(sortedIds)
+    }
+
+    fun showTransactionFromIntent(extras: Bundle) {
+        val idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0)
+        if (idFromNotification != 0L) {
+            showDetails(idFromNotification, false)
+            intent.removeExtra(KEY_TRANSACTIONID)
+        }
     }
 
     companion object {

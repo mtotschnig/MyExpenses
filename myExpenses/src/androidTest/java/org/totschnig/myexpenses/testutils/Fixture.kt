@@ -360,7 +360,7 @@ class Fixture(inst: Instrumentation) {
     private inner class TransactionBuilder {
         private var accountId: Long = 0
         private var parentId: Long? = null
-        private var amount: Money? = null
+        lateinit var amount: Money
         private var catId: Long? = null
         private var date: Date? = null
         private var crStatus: CrStatus? = null
@@ -407,14 +407,14 @@ class Fixture(inst: Instrumentation) {
         }
 
         fun persist(): Transaction {
-            val transaction = Transaction.getNewInstance(accountId, amount!!.currencyUnit)
+            val transaction = Transaction.getNewInstance(accountId, amount.currencyUnit)
             transaction.amount = amount
             transaction.catId = catId
-            if (date != null) {
-                transaction.setDate(date)
+            date?.let {
+                transaction.setDate(it)
             }
-            if (crStatus != null) {
-                transaction.crStatus = crStatus
+            crStatus?.let {
+                transaction.crStatus = it
             }
             transaction.payee = payee
             transaction.comment = comment
