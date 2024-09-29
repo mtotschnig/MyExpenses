@@ -7,9 +7,11 @@ import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
@@ -44,14 +46,14 @@ class TransactionDetailViewModel(application: Application) :
         }
 
     @SuppressLint("Recycle")
-    fun parts(transactionId: Long, sortOrder: String?): LiveData<List<Transaction>> =
+    fun parts(transactionId: Long, sortOrder: String?, filter: WhereFilter? = null): LiveData<List<Transaction>> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
                     .appendQueryParameter(KEY_PARENTID, transactionId.toString()).build(),
                 projection(localizedContext, currencyContext.homeCurrencyString),
-                null,
-                null,
+                filter?.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED),
+                filter?.getSelectionArgsIfNotEmpty(false),
                 sortOrder
             )?.useAndMapToList {
                 it.readTransaction(

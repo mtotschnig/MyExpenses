@@ -194,19 +194,22 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         }
     }
 
+    private val filter by lazy {
+        BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, Criterion::class.java)?.let {
+            WhereFilter(it)
+        }
+    }
+
     private val transactionLiveData: LiveData<Transaction> by lazy {
         viewModel.transaction(rowId)
     }
 
     private val partsLiveData: LiveData<List<Transaction>> by lazy {
-        viewModel.parts(rowId, sortOrder)
+        viewModel.parts(rowId, sortOrder, filter)
     }
 
     @Composable
     override fun ColumnScope.MainContent() {
-        val filter = BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, Criterion::class.java)?.let {
-            WhereFilter(it)
-        }
         val transactionInfo = transactionLiveData.observeAsState()
         transactionInfo.value.let { transaction ->
             if (transaction == null) {
@@ -229,8 +232,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     }
                 }
-                if (filter?.isEmpty == false) {
-                   FilterCard(filter)
+                filter?.takeIf { !it.isEmpty }?.let {
+                    FilterCard(it)
                 }
 
                 ExpandedRenderer(transaction)
