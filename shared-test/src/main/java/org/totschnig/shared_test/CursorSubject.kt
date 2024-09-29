@@ -63,6 +63,7 @@ class CursorSubject private constructor(
     fun forEach(assertions: CursorSubject.() -> Unit) {
         actual.moveToFirst()
         while(!actual.isAfterLast) {
+            @Suppress("UNUSED_EXPRESSION")
             assertions()
             actual.moveToNext()
         }

@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
@@ -26,6 +27,7 @@ data class TransactionInfo(
     val debtId: Long? = null,
     val catId: Long? = null,
     val methodId: Long? = null,
+    val parentId: Long? = null,
     val crStatus: CrStatus = CrStatus.UNRECONCILED
 ) {
     val dateAsLong: Long
@@ -43,5 +45,6 @@ data class TransactionInfo(
             put(KEY_DEBT_ID, debtId)
             put(KEY_CATID, catId)
             put(KEY_METHODID, methodId)
+            put(KEY_PARENTID, parentId)
         }
 }

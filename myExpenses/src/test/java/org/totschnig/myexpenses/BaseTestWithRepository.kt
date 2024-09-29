@@ -48,6 +48,7 @@ abstract class BaseTestWithRepository {
     protected fun insertTransaction(
         accountId: Long,
         amount: Long,
+        parentId: Long? = null,
         categoryId: Long? = null,
         crStatus: CrStatus = CrStatus.UNRECONCILED
     ): Pair<Long, String> {
@@ -55,7 +56,8 @@ abstract class BaseTestWithRepository {
             accountId = accountId,
             amount = amount,
             catId = categoryId,
-            crStatus = crStatus
+            crStatus = crStatus,
+            parentId = parentId
         ).contentValues
         val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)

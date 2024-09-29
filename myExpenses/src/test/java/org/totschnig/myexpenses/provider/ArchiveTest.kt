@@ -46,28 +46,19 @@ class ArchiveTest : BaseTestWithRepository() {
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
-            arrayOf(KEY_ROWID),
+            arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
             "$KEY_PARENTID is null", null, null
         ).useAndAssert {
             hasCount(1)
             movesToFirst()
             hasLong(0, archiveId)
-        }
-        val archiveUri =
-            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId)
-        contentResolver.query(
-            archiveUri,
-            arrayOf(KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
-            null, null, null
-        )!!.useAndAssert {
-            movesToFirst()
-            hasInt(0, STATUS_ARCHIVE)
-            hasString(1, CrStatus.UNRECONCILED.name)
-            hasLong(2, 1100)
+            hasInt(1, STATUS_ARCHIVE)
+            hasString(2, CrStatus.UNRECONCILED.name)
+            hasLong(3, 1100)
         }
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
-            arrayOf(KEY_STATUS, KEY_AMOUNT),
+            arrayOf(KEY_STATUS),
             "$KEY_PARENTID = ?", arrayOf(archiveId.toString()), null
         )!!.useAndAssert {
             hasCount(4)
@@ -77,7 +68,7 @@ class ArchiveTest : BaseTestWithRepository() {
         }
         repository.unarchive(archiveId)
         contentResolver.query(
-            archiveUri,
+            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId),
             arrayOf(KEY_STATUS),
             null, null, null
         )!!.useAndAssert {
@@ -109,24 +100,15 @@ class ArchiveTest : BaseTestWithRepository() {
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
-            arrayOf(KEY_ROWID),
+            arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
             "$KEY_PARENTID is null", null, null
         ).useAndAssert {
             hasCount(1)
             movesToFirst()
             hasLong(0, archiveId)
-        }
-        val archiveUri =
-            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId)
-        contentResolver.query(
-            archiveUri,
-            arrayOf(KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
-            null, null, null
-        )!!.useAndAssert {
-            movesToFirst()
-            hasInt(0, STATUS_ARCHIVE)
-            hasString(1, CrStatus.RECONCILED.name)
-            hasLong(2, 100)
+            hasInt(1, STATUS_ARCHIVE)
+            hasString(2, CrStatus.RECONCILED.name)
+            hasLong(3, 100)
         }
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
@@ -140,7 +122,7 @@ class ArchiveTest : BaseTestWithRepository() {
         }
         repository.unarchive(archiveId)
         contentResolver.query(
-            archiveUri,
+            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId),
             arrayOf(KEY_STATUS),
             null, null, null
         )!!.useAndAssert {
@@ -152,6 +134,65 @@ class ArchiveTest : BaseTestWithRepository() {
             null, null
         )!!.useAndAssert {
             hasCount(2)
+            forEach {
+                hasInt(0, STATUS_NONE)
+            }
+        }
+    }
+
+    @Test
+    fun createArchiveWithSplitTransactions() {
+        val (splitId, _) = insertTransaction(testAccountId, 100)
+        insertTransaction(testAccountId, 50, parentId = splitId)
+        insertTransaction(testAccountId, 50, parentId = splitId)
+        val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
+            "$KEY_PARENTID is null", null, null
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasLong(0, archiveId)
+            hasInt(1, STATUS_ARCHIVE)
+            hasString(2, CrStatus.UNRECONCILED.name)
+            hasLong(3, 100)
+        }
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_STATUS, KEY_ROWID),
+            "$KEY_PARENTID = ?", arrayOf(archiveId.toString()), null
+        )!!.useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasInt(0, STATUS_ARCHIVED)
+            hasLong(1, splitId)
+        }
+        val splitIDArg = splitId.toString()
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_STATUS, KEY_AMOUNT),
+            "$KEY_PARENTID = ?", arrayOf(splitIDArg), null
+        )!!.useAndAssert {
+            hasCount(2)
+            forEach {
+                hasInt(0, STATUS_ARCHIVED)
+            }
+        }
+        repository.unarchive(archiveId)
+        contentResolver.query(
+            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, archiveId),
+            arrayOf(KEY_STATUS),
+            null, null, null
+        )!!.useAndAssert {
+            hasCount(0)
+        }
+        contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_STATUS, KEY_AMOUNT),
+            "$KEY_ROWID = ? OR $KEY_PARENTID = ?", arrayOf(splitIDArg, splitIDArg), null
+        )!!.useAndAssert {
+            hasCount(3)
             forEach {
                 hasInt(0, STATUS_NONE)
             }
