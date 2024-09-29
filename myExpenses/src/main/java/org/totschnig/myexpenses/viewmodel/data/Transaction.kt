@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT
@@ -105,6 +106,8 @@ data class Transaction(
         get() = SPLIT_CATID == catId
     val isArchive
         get() = status == STATUS_ARCHIVE
+    val isPartOfArchive
+        get() = status == STATUS_ARCHIVED
 
     companion object {
         fun projection(context: Context, homeCurrency: String) = arrayOf(

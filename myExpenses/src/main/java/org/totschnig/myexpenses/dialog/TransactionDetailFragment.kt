@@ -281,7 +281,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                             clickable { selectedArchivedTransaction = part.id }
                                         },
                                         part,
-                                        withDate = transaction.isArchive
+                                        parentIsArchive = transaction.isArchive
                                     )
                                 }
                             }
@@ -558,13 +558,13 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
     fun CondensedRenderer(
         modifier: Modifier = Modifier,
         part: Transaction,
-        withDate: Boolean = false
+        parentIsArchive: Boolean = false
     ) {
         Row(
             modifier = modifier.voidMarker(part.crStatus),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (withDate) {
+            if (parentIsArchive) {
                 Text(
                     modifier = Modifier.width(emToDp(4f)),
                     text = LocalDateFormatter.current.format(part.date),
@@ -590,7 +590,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
                             part.amountRaw
                         ) + part.transferAccount
-
+                        part.isSplit -> getString(R.string.split_transaction)
                         else -> part.categoryPath
                     }?.let {
                         append(it)
@@ -605,15 +605,27 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                             isNotEmpty = true
                         }
                     }
-                    part.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
-                        if (isNotEmpty) {
-                            append(COMMENT_SEPARATOR)
+                    if (parentIsArchive) {
+                        part.payee.takeIf { it.isNotEmpty() }?.let {
+                            if (length > 0) {
+                                append(COMMENT_SEPARATOR)
+                            }
+                            withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                append(it)
+                            }
                         }
-                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                            append(it)
-                            isNotEmpty = true
+                    } else {
+                        part.debtLabel.takeIf { !it.isNullOrBlank() }?.let {
+                            if (isNotEmpty) {
+                                append(COMMENT_SEPARATOR)
+                            }
+                            withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                append(it)
+                                isNotEmpty = true
+                            }
                         }
                     }
+
                     part.tagList.takeIf { it.isNotEmpty() }?.let {
                         if (isNotEmpty) {
                             append(COMMENT_SEPARATOR)
