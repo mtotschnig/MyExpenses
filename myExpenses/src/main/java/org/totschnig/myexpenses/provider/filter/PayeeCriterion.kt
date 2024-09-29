@@ -51,8 +51,6 @@ class PayeeCriterion(
     override val selectionArgs: Array<String>
         get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
 
-    override val shouldApplyToParts get() = false
-
     companion object {
         fun fromStringExtra(extra: String) =
             if (extra == "null") PayeeCriterion() else
