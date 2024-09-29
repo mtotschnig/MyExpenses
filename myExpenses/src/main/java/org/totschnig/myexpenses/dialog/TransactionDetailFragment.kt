@@ -99,7 +99,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -139,7 +139,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         get() = requireArguments().getString(KEY_SORT_ORDER)
 
     val rowId: Long
-        get() = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
+        get() = requireArguments().getLong(KEY_ROWID)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -307,7 +307,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                     requireActivity(),
                                     ExpenseEdit::class.java
                                 ).apply {
-                                    putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+                                    putExtra(KEY_ROWID, transaction.id)
                                 }
                             )
                         }
@@ -675,7 +675,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         ): TransactionDetailFragment =
             TransactionDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(DatabaseConstants.KEY_ROWID, id)
+                    putLong(KEY_ROWID, id)
                     currentFilter?.whereFilter?.criteria?.let {
                         putParcelableArrayList(KEY_FILTER, ArrayList(it))
                     }
