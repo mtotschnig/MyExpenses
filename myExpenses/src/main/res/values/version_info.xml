@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>757;3.8.8</item>
+        <item>758;3.8.9</item>
         <item>748;3.8.7</item>
         <item>743;3.8.6</item>
         <item>739;3.8.5</item>
@@ -150,6 +150,7 @@
     <string name="project_board_386">1</string>
     <string name="project_board_387">3</string>
     <string name="project_board_388">5</string>
+    <string name="project_board_389">6</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
