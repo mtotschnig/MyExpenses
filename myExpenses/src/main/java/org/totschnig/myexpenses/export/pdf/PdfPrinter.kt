@@ -116,10 +116,7 @@ object PdfPrinter {
         var selection = "$KEY_PARENTID is null"
         val selectionArgs: Array<String>
         if (!filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(
-                DatabaseConstants.VIEW_EXTENDED,
-                false
-            )
+            selection += " AND " + filter.getSelectionForParents()
             selectionArgs = filter.getSelectionArgs(false)
         } else {
             selectionArgs = arrayOf()

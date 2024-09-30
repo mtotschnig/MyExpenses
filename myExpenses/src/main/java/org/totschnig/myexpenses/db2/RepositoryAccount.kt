@@ -230,7 +230,7 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
         var selectionArgs: Array<String>? =
             arrayOf(accountId.toString(), STATUS_NONE.toString())
         if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(TABLE_TRANSACTIONS, true)
+            selection += " AND " + filter.getSelectionForParents(TABLE_TRANSACTIONS)
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         add(

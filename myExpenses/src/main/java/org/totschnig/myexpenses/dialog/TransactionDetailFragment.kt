@@ -386,7 +386,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 formatCurrencyAbs(transaction.amount)
             }
         )
-        if (!transaction.isTransfer && transaction.amount.currencyUnit.code != currencyContext.homeCurrencyUnit.code) {
+        if (!transaction.isTransfer && transaction.isForeign) {
             TableRow(
                 label = R.string.menu_equivalent_amount,
                 content = formatCurrencyAbs(transaction.equivalentAmount)
@@ -652,13 +652,23 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         }
                     }
                 })
-            ColoredAmountText(money = part.amount)
+            if (part.isForeign) {
+                Column {
+                    ColoredAmountText(money = part.amount)
+                    ColoredAmountText(money = part.equivalentAmount!!)
+                }
+            } else {
+                ColoredAmountText(money = part.amount)
+            }
         }
     }
 
     private fun formatCurrencyAbs(money: Money?): String {
         return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
     }
+
+    private val Transaction.isForeign
+        get() = amount.currencyUnit.code != currencyContext.homeCurrencyUnit.code
 
     companion object {
         const val KEY_FULL_SCREEN = "fullScreen"

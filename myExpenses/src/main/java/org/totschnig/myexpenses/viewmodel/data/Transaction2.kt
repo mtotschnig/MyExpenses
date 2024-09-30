@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -60,11 +59,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
@@ -164,8 +159,6 @@ data class Transaction2(
                 projection(
                     grouping,
                     extended,
-                    DataBaseAccount.isHomeAggregate(accountId),
-                    homeCurrency,
                     prefHandler
                 )
             )
@@ -181,18 +174,13 @@ data class Transaction2(
         private fun projection(
             grouping: Grouping,
             extended: Boolean,
-            isHomeAggregate: Boolean,
-            homeCurrency: String,
             prefHandler: PrefHandler
         ): Array<String> =
             listOf(
                 KEY_ROWID,
                 KEY_DATE,
                 KEY_VALUE_DATE,
-                (if (isHomeAggregate) getAmountHomeEquivalent(
-                    if (extended) VIEW_EXTENDED else VIEW_COMMITTED,
-                    homeCurrency
-                ) else KEY_AMOUNT) + " AS $KEY_DISPLAY_AMOUNT",
+                KEY_DISPLAY_AMOUNT,
                 KEY_COMMENT,
                 KEY_CATID,
                 KEY_PATH,
@@ -223,7 +211,7 @@ data class Transaction2(
             ).let {
                 if (extended) it + listOf(
                     KEY_CURRENCY,
-                    "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
+                    KEY_TRANSFER_PEER_PARENT,
                     KEY_ATTACHMENT_COUNT
                 ) else it
             }.toTypedArray()

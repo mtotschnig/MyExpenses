@@ -34,6 +34,7 @@ import kotlinx.html.tr
 import kotlinx.html.unsafe
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
@@ -87,14 +88,9 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
     private fun transactionsFlow(debt: DisplayDebt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
         var runningEquivalentTotal: Long = 0
-        val homeCurrency = currencyContext.homeCurrencyString
-        val equivalentAmountColumn =
-            "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
-                getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)
-            } END"
         return contentResolver.observeQuery(
             uri = TransactionProvider.EXTENDED_URI,
-            projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, equivalentAmountColumn),
+            projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
             sortOrder = "$KEY_DATE ASC"

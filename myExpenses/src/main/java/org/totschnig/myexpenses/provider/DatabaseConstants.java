@@ -133,9 +133,7 @@ public class DatabaseConstants {
     PROJECTION_EXTENDED = new String[baseLength + 7];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
-    //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
-    //thus can not be used in PROJECTION_BASE
-    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
+    PROJECTION_EXTENDED[baseLength + 1] = KEY_TRANSFER_PEER_PARENT;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
     PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
@@ -324,6 +322,10 @@ public class DatabaseConstants {
    * boolean flag for accounts: A sealed account can no longer be edited
    */
   public static final String KEY_SEALED = "sealed";
+  public static final String KEY_HAS_SEALED_DEBT = "hasSealedDebt";
+  public static final String KEY_HAS_SEALED_ACCOUNT = "hasSealedAccount";
+  public static final String KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER = "hasSealedAccountWithTransfer";
+  public static final String KEY_AMOUNT_HOME_EQUIVALENT = "amountHomeEquivalent";
 
   /**
    * if of a drawable resource representing a category
@@ -443,24 +445,6 @@ public class DatabaseConstants {
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
-  public static final String TRANSFER_PEER_PARENT =
-      "(SELECT " + KEY_PARENTID
-          + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID
-          + " = " + VIEW_EXTENDED + "." + KEY_TRANSFER_PEER + ")";
-
-  /**
-   * @param view the view which is used in the outer table
-   * @return column expression
-   */
-  public static String TRANSFER_AMOUNT(String view) {
-      return "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " " +
-          " THEN " +
-          "  (SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = " + view + "." + KEY_TRANSFER_PEER + ") " +
-          " ELSE null" +
-          " END AS " + KEY_TRANSFER_AMOUNT;
-  }
-
   public static final String TRANSFER_CURRENCY = String.format("(select %1$s from %2$s where %3$s=%4$s) AS %5$s", KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_TRANSFER_ACCOUNT, KEY_TRANSFER_CURRENCY);
 
   public static final String CATEGORY_ICON =
@@ -576,9 +560,9 @@ public class DatabaseConstants {
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
-    return "CASE WHEN " + KEY_PARENTID
+    return "CASE WHEN " + forTable + "." + KEY_PARENTID
         + " THEN " +
-        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " +
+        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " parent WHERE " +
         KEY_ROWID + " = " + forTable + "." + KEY_PARENTID + ") * " + KEY_AMOUNT +
         " ELSE "
         + KEY_EQUIVALENT_AMOUNT + " END";
@@ -587,10 +571,10 @@ public class DatabaseConstants {
   public static String getExchangeRate(String forTable, String accountIdColumn, String homeCurrency) {
     final String accountReference = forTable  + "."+ accountIdColumn;
     return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + forTable + "." + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
+        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
   }
 
-  static String getAmountCalculation(String homeCurrency) {
-    return homeCurrency != null ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) : KEY_AMOUNT;
+  static String getAmountCalculation(String homeCurrency, String forTable) {
+    return homeCurrency != null ? getAmountHomeEquivalent(forTable, homeCurrency) : KEY_AMOUNT;
   }
 }

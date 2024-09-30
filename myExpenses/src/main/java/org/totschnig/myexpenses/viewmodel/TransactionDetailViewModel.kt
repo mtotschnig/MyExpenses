@@ -7,7 +7,6 @@ import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -32,7 +31,7 @@ class TransactionDetailViewModel(application: Application) :
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
                     .appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
-                projection(localizedContext, currencyContext.homeCurrencyString),
+                projection(localizedContext),
                 null,
                 null,
                 null
@@ -51,8 +50,8 @@ class TransactionDetailViewModel(application: Application) :
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
                     .appendQueryParameter(KEY_PARENTID, transactionId.toString()).build(),
-                projection(localizedContext, currencyContext.homeCurrencyString),
-                filter?.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED),
+                projection(localizedContext),
+                filter?.getSelectionForParents(),
                 filter?.getSelectionArgsIfNotEmpty(false),
                 sortOrder
             )?.useAndMapToList {

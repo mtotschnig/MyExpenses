@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
@@ -91,6 +92,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_DEBT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
@@ -133,7 +137,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
@@ -344,6 +350,33 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } ELSE $KEY_AMOUNT END"
 
+    fun prepareProjection(
+        projectionIn: Array<String>,
+        table: String,
+        shortenComment: Boolean,
+        expandDisplayAmount: Boolean,
+    ) = projectionIn.map {
+        when (it) {
+            KEY_COMMENT -> if (shortenComment) "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $it" else it
+            KEY_TRANSFER_PEER_PARENT -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER) AS $it"
+            KEY_TRANSFER_AMOUNT -> "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"
+            KEY_SEALED -> checkSealedWithAlias(table)
+            KEY_EXCHANGE_RATE -> "${getExchangeRate(table, KEY_ACCOUNTID, homeCurrency)} AS $it"
+            KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)
+                "${getAmountHomeEquivalent(table, homeCurrency)} AS $it" else it
+            KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table)})"
+            KEY_HAS_SEALED_ACCOUNT -> """
+                MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, false)})
+                """.trimIndent()
+            KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER -> """
+                MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
+                """.trimIndent()
+            KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
+                getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
+            else -> it
+        }
+    }.toTypedArray()
+
     companion object {
         val CATEGORY_TREE_URI: Uri
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
@@ -384,13 +417,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val ACCOUNT_ATTRIBUTES_JOIN =
             "$TABLE_ACCOUNT_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
-
-        fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
-            if (it == KEY_COMMENT)
-                "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $KEY_COMMENT"
-            else
-                it
-        }.toTypedArray()
 
         const val KEY_DEBT_LABEL = "debt"
 
@@ -1016,7 +1042,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         groupBy: String?,
         having: String?,
         sortOrder: String?,
-        limit: String?
+        limit: String?,
+        cte: String?
     ): Cursor {
         val query =
             columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having)
@@ -1025,11 +1052,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         limit(limit)
                     }
                 }.create()
-        return measure(block = {
+        return if (cte == null) measure(block = {
             db.query(query)
         }) {
             "$uri - ${query.sql} - (${selectionArgs?.joinToString()})"
-        }
+        } else db.measureAndLogQuery(uri, "$cte ${query.sql}", selection, selectionArgs)
     }
 
     fun updateFractionDigits(

@@ -19,12 +19,23 @@ package org.totschnig.myexpenses.provider.filter
 
 import androidx.annotation.CheckResult
 import androidx.compose.runtime.Immutable
+import org.totschnig.myexpenses.provider.CTE_SEARCH
 
 @Immutable
 data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
 
-    fun getSelectionForParents(tableName: String, forExport: Boolean = false) =
-        criteria.joinToString(" AND ") { it.getSelectionForParents(tableName, forExport) }
+    /**
+     * @param tableName If not null, we are guaranteed to be called in the context of single account,
+     * i.e. not for an aggregate account, and we reference the passed in name, otherwise we reference CTE_SEARCH
+     */
+    fun getSelectionForParents(tableName: String? = null): String {
+        return criteria.joinToString(" AND ") {
+            it.getSelectionForParents(
+                tableName ?: CTE_SEARCH,
+                tableName != null
+            )
+        }
+    }
 
     fun getSelectionForParts(tableName: String) =
         criteria.joinToString(" AND ") { it.getSelectionForParts(tableName) }

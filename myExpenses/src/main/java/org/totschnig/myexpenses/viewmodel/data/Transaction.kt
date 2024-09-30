@@ -17,12 +17,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
@@ -48,17 +48,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.calculateEquivalentAmount
-import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -98,7 +90,7 @@ data class Transaction(
     override val tagList: List<Tag>,
     override val icon: String? = null,
     val iban: String? = null,
-    val status: Int = STATUS_NONE
+    val status: Int = STATUS_NONE,
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
@@ -106,11 +98,11 @@ data class Transaction(
         get() = SPLIT_CATID == catId
     val isArchive
         get() = status == STATUS_ARCHIVE
-    val isPartOfArchive
-        get() = status == STATUS_ARCHIVED
 
     companion object {
-        fun projection(context: Context, homeCurrency: String) = arrayOf(
+        fun projection(
+            context: Context
+        ) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
             KEY_VALUE_DATE,
@@ -134,20 +126,16 @@ data class Transaction(
                 KEY_METHOD_LABEL
             ) + " AS " + KEY_METHOD_LABEL,
             KEY_STATUS,
-            TRANSFER_AMOUNT(VIEW_EXTENDED),
-            "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
+            KEY_TRANSFER_AMOUNT,
+            KEY_TRANSFER_PEER_PARENT,
             KEY_TEMPLATEID,
             KEY_UUID,
             KEY_ORIGINAL_AMOUNT,
             KEY_ORIGINAL_CURRENCY,
-            KEY_EQUIVALENT_AMOUNT,
+            KEY_AMOUNT_HOME_EQUIVALENT,
             KEY_ICON,
-            checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
-            getExchangeRate(
-                VIEW_EXTENDED,
-                KEY_ACCOUNTID,
-                homeCurrency
-            ) + " AS " + KEY_EXCHANGE_RATE,
+            KEY_SEALED,
+            KEY_EXCHANGE_RATE,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
@@ -190,7 +178,7 @@ data class Transaction(
                 originalAmount = getLongOrNull(KEY_ORIGINAL_AMOUNT)?.let {
                     Money(currencyContext[getString(KEY_ORIGINAL_CURRENCY)], it)
                 },
-                equivalentAmount = calculateEquivalentAmount(homeCurrency, money),
+                equivalentAmount = Money(homeCurrency, getLong(KEY_AMOUNT_HOME_EQUIVALENT)),
                 crStatus = enumValueOrDefault(
                     getStringOrNull(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED

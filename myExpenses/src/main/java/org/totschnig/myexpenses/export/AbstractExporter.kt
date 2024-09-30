@@ -93,7 +93,7 @@ abstract class AbstractExporter
         var selection = "$KEY_PARENTID is null"
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         val selectionArgs = if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED, true)
+            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
             filter.getSelectionArgs(false)
         } else null
         val projection = arrayOf(
@@ -114,11 +114,7 @@ abstract class AbstractExporter
             KEY_EQUIVALENT_AMOUNT,
             KEY_ORIGINAL_CURRENCY,
             KEY_ORIGINAL_AMOUNT,
-            getExchangeRate(
-                VIEW_EXTENDED,
-                KEY_ACCOUNTID,
-                currencyContext.homeCurrencyString
-            ) + " AS " + KEY_EXCHANGE_RATE
+            KEY_EXCHANGE_RATE
         )
 
         fun Cursor.ingestCategoryPaths() {

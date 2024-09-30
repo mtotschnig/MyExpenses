@@ -18,8 +18,6 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -103,7 +101,7 @@ open class TransactionPagingSource(
             var selectionArgs: Array<String>? = null
             if (!whereFilter.value.isEmpty) {
                 val selectionForParents =
-                    whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
+                    whereFilter.value.getSelectionForParents()
                 if (selectionForParents.isNotEmpty()) {
                     selection += " AND $selectionForParents"
                     selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)
