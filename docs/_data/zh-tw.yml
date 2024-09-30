@@ -48,7 +48,8 @@ zh-tw:
     sync: 云同步
   imprint_text: 負責本網站的內容以及<i>{app_name}</i>的開發、維護和配置
   privacy_policy_heading: 隱私政策
-  privacy_policy_text: 除了應用程序自己的數據庫和SD卡上所屬的文件夾之外，<i>{app_name}</i>無法訪問您設備上其他的任何數據。如果您使用到未來和定期交易計劃的功能，應用程序會將這些計劃存儲在您指定的日曆中。
+  privacy_policy_text: 
+    除了應用程序自己的數據庫和SD卡上所屬的文件夾之外，<i>{app_name}</i>無法訪問您設備上其他的任何數據。如果您使用到未來和定期交易計劃的功能，應用程序會將這些計劃存儲在您指定的日曆中。
   screenshots:
     group: 對交易數據進行每天、每週、每月和每年的分組
     summarize: 匯總所有賬戶（對每個賬戶和每個交易的匯率進行複雜的數據處理）
@@ -70,8 +71,8 @@ zh-tw:
     thank_you: "您的捐款贊助“開支助手”的進一步發展。謝謝您！\n"
     feature-list-title: '請透過升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:'
     feature:
-      accounts_unlimited: 解锁创建五个以上账户的能力
-      plans_unlimited: 可創建無限數量的<b>定期交易計劃</b>
+      accounts_unlimited: 解鎖建立超過五個帳號的功能
+      plans_unlimited: 解鎖建立超過三個定期交易計劃的功能
       distribution: <b>餅狀統計圖</b>：可視化不同時期（年、月、週、天）中，每個類別的交易統計分佈
       split_transaction: <b>拆分交易</b>：單個交易可以拆分成多個部分（轉賬或分屬於不同的類別）
       print: <b>打印</b>：可以將交易清單打印成PDF文件
@@ -86,6 +87,7 @@ zh-tw:
       scan_receipt: <b>掃描收據</b>：自動讀取金額、日期和收款人等數據
       webui: <b>網絡的用戶界面</b>
       cloud_sync: <b>云同步</b>：可以在多個設備之間同步數據
+      banking: 從德國的銀行下載交易紀錄（<b>FinTS</b>）
     one-time-payment: 一次性支付
     subscription: 訂閱
   store:
