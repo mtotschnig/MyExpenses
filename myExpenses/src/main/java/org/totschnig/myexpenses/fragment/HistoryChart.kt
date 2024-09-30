@@ -198,7 +198,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                 grouping = grouping,
                                 groupingClause = listOfNotNull(
                                     buildGroupingClause(e.x.toInt()),
-                                    filter.getSelectionForParts(VIEW_COMMITTED).takeIf { it.isNotEmpty() }
+                                    filter.getSelectionForParts().takeIf { it.isNotEmpty() }
                                 ).joinToString(" AND "),
                                 groupingArgs = filter.getSelectionArgsList(true),
                                 label = formatXValue(e.x),

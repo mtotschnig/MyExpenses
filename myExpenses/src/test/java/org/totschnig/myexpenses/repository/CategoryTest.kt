@@ -176,7 +176,7 @@ class CategoryTest : BaseTestWithRepository() {
         )
         val main1 = Category(label = "Main 1", type = FLAG_EXPENSE).saveCopy
         val main2 = Category(label = "Main 2", type = FLAG_EXPENSE).saveCopy
-        val transactionId = insertTransaction(testAccountId, 100, main2.id!!).first
+        val transactionId = insertTransaction(testAccountId, 100, categoryId = main2.id!!).first
         val templateId = insertTemplate(testAccountId, "Template", 100, main2.id)
         val budgetId = insertBudget(testAccountId, "Budget", 100)
         contentResolver.update(

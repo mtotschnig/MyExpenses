@@ -162,6 +162,11 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 // @formatter:on
                 )
 
+            "389" -> arrayOf(
+                "${t(R.string.menu_search)}: ${t(R.string.ui_refinement)}",
+                "${t(R.string.title_activity_debt_overview)}: ${t(R.string.ui_refinement)}",
+                )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(

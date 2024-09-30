@@ -25,7 +25,7 @@ class RepositoryTagsTest : BaseTestWithRepository() {
                 testAccount.contentValues
             )!!
         )
-        val transactionId = insertTransaction(testAccountId, 100, null).first
+        val transactionId = insertTransaction(testAccountId, 100).first
         val tagId = repository.writeTag("Good Tag")
         val controlTag = Tag(tagId, "Good Tag")
         repository.saveTagsForTransaction(listOf(controlTag), transactionId)

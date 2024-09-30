@@ -100,8 +100,7 @@ open class TransactionPagingSource(
             var selection = "$KEY_PARENTID is null"
             var selectionArgs: Array<String>? = null
             if (!whereFilter.value.isEmpty) {
-                val selectionForParents =
-                    whereFilter.value.getSelectionForParents()
+                val selectionForParents = whereFilter.value.getSelectionForParents()
                 if (selectionForParents.isNotEmpty()) {
                     selection += " AND $selectionForParents"
                     selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)

@@ -328,6 +328,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
+  public static final String QUERY_PARAMETER_SEARCH = "search";
 
   /**
    * 1 -> mapped objects for each row
@@ -421,6 +422,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
+        boolean hasSearch = uri.getBooleanQueryParameter(QUERY_PARAMETER_SEARCH, false);
         String selector = getTransactionQuerySelector(uri);
         selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
         String forCatId = uri.getQueryParameter(KEY_CATID);
@@ -435,15 +437,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         String forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null ? getHomeCurrency() : null;
         if (forCatId != null) {
           projection = prepareProjection(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
-          String sql = transactionListAsCTE(forCatId, forHome) + " " + SupportSQLiteQueryBuilder.builder(table).columns(projection)
+          String sql = transactionListAsCTE(forCatId, forHome) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
-        cte = buildSearchCte(table, forHome);
-        projection = prepareProjection(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
-        qb = SupportSQLiteQueryBuilder.builder(CTE_SEARCH);
+        if (hasSearch) {
+            cte = buildSearchCte(table, forHome);
+            table = CTE_SEARCH;
+        }
+        projection = prepareProjection(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), !hasSearch);
+        qb = SupportSQLiteQueryBuilder.builder(table);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.distinct();
         }

@@ -149,7 +149,7 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? 
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
     var selectionArgs: Array<String>? = arrayOf(account.id.toString())
     if (filter != null && !filter.isEmpty) {
-        selection += " AND " + filter.getSelectionForParents(VIEW_COMMITTED)
+        selection += " AND " + filter.getSelectionForParents()
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }
     return contentResolver.query(

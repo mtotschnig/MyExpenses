@@ -60,10 +60,10 @@ class GroupQueryTest : BaseTestWithRepository() {
     }
 
     private fun insertTransactions() {
-        insertTransaction(testAccountId, 100, neutralCategoryId)
-        insertTransaction(testAccountId,-200, expenseCategoryId)
-        insertTransaction(testAccountId,400, incomeCategoryId)
-        insertTransaction(testAccountId,800, transferCategoryId)
+        insertTransaction(testAccountId, 100, categoryId = neutralCategoryId)
+        insertTransaction(testAccountId,-200, categoryId = expenseCategoryId)
+        insertTransaction(testAccountId,400, categoryId = incomeCategoryId)
+        insertTransaction(testAccountId,800, categoryId = transferCategoryId)
     }
 
     @Test

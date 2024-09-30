@@ -285,7 +285,7 @@ abstract class ItemRenderer(
 
                     else -> Icon(
                         imageVector = Icons.Filled.Remove,
-                        contentDescription = stringResource(id = R.string.action_archive),
+                        contentDescription = null,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

@@ -6,6 +6,10 @@ import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 
 /**
  * groups databaseSpecific information
@@ -76,11 +80,15 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             shortenComment: Boolean,
             extended: Boolean = true
         ): Uri.Builder =
-            (if (extended) TransactionProvider.EXTENDED_URI else TransactionProvider.TRANSACTIONS_URI)
+            (if (extended) EXTENDED_URI else TRANSACTIONS_URI)
                 .buildUpon().apply {
                     if (shortenComment) {
                         appendQueryParameter(
-                            TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT,
+                            QUERY_PARAMETER_SHORTEN_COMMENT,
+                            "1"
+                        )
+                        appendQueryParameter(
+                            QUERY_PARAMETER_SEARCH,
                             "1"
                         )
                     }

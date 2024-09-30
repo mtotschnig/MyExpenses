@@ -37,8 +37,8 @@ data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
         }
     }
 
-    fun getSelectionForParts(tableName: String) =
-        criteria.joinToString(" AND ") { it.getSelectionForParts(tableName) }
+    fun getSelectionForParts(tableName: String? = null) =
+        criteria.joinToString(" AND ") { it.getSelectionForParts(tableName ?: CTE_SEARCH) }
 
     fun getSelectionArgsList(queryParts: Boolean) = criteria.flatMap {
         (if (queryParts || it.shouldApplyToParts) it.selectionArgs + it.selectionArgs else it.selectionArgs)

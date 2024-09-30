@@ -208,12 +208,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
 
     val filterClause: String
-        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_COMMITTED)
+        get() = buildFilterClause(groupingInfo!!, _whereFilter.value)
 
     private fun buildFilterClause(
         groupingInfo: GroupingInfo,
         whereFilter: WhereFilter,
-        table: String
+        table: String? = null
     ): String {
         return listOfNotNull(
             dateFilterClause(groupingInfo),

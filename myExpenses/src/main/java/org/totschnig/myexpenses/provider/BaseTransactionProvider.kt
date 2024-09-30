@@ -351,11 +351,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } ELSE $KEY_AMOUNT END"
 
     fun prepareProjection(
-        projectionIn: Array<String>,
+        projectionIn: Array<String>?,
         table: String,
         shortenComment: Boolean,
         expandDisplayAmount: Boolean,
-    ) = projectionIn.map {
+    ) = projectionIn?.map {
         when (it) {
             KEY_COMMENT -> if (shortenComment) "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $it" else it
             KEY_TRANSFER_PEER_PARENT -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER) AS $it"
@@ -375,7 +375,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
             else -> it
         }
-    }.toTypedArray()
+    }?.toTypedArray()
 
     companion object {
         val CATEGORY_TREE_URI: Uri
