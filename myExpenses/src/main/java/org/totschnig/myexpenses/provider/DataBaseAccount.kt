@@ -87,11 +87,11 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
                             QUERY_PARAMETER_SHORTEN_COMMENT,
                             "1"
                         )
-                        appendQueryParameter(
-                            QUERY_PARAMETER_SEARCH,
-                            "1"
-                        )
                     }
+                    appendQueryParameter(
+                        QUERY_PARAMETER_SEARCH,
+                        "1"
+                    )
                 }
     }
 }
