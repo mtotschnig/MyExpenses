@@ -32,7 +32,7 @@ class QifExporter(
             .append("\nT")
             .append(nfFormat.format(amount))
         comment?.takeIf { it.isNotEmpty() }?.let {
-            append("\nM").append(it)
+            append("\nM").append(it.escapeNewLine())
         }
         fullLabel(categoryPaths)?.takeIf { it.isNotEmpty() }?.let {
             append("\nL").append(it)

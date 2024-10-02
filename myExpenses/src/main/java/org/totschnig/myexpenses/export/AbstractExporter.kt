@@ -262,6 +262,8 @@ abstract class AbstractExporter
     open fun sanitizeCategoryLabel(label: String) =
         label.replace("/","\\u002F").replace(":","\\u003A")
 
+    fun String.escapeNewLine() = split("\n").joinToString( " + " )
+
     private fun TransactionDTO.categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
         categoryPaths[cat]?.joinToString(categoryPathSeparator, transform = ::sanitizeCategoryLabel)
     }

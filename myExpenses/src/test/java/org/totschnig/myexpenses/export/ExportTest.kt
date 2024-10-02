@@ -447,6 +447,40 @@ class ExportTest : BaseTestWithRepository() {
     }
 
     @Test
+    fun testQIFNoteWithNewline() {
+        val linesQIF = arrayOf(
+            "!Account",
+            "NAccount 1",
+            "TBank",
+            "^",
+            "!Type:Bank",
+            "D$date",
+            "T0.40",
+            "MTacos + Service charge, 10%",
+            "^"
+        )
+
+        val account = buildAccount1()
+        val op = Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
+            ?: throw IllegalStateException()
+        op.amount = Money(CurrencyUnit.DebugInstance, income2)
+        op.date = baseSinceEpoch
+        op.comment = "Tacos\nService charge, 10%"
+        op.save(contentResolver)
+
+        expect.that(
+            exportAll(
+                account,
+                ExportFormat.QIF,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false
+            ).isSuccess
+        ).isTrue()
+        compare(linesQIF)
+    }
+
+    @Test
     fun testQIFCategorySanitizer() {
         val unicodeEscaper = UnicodeEscaper()
         val colonEscaped = unicodeEscaper.translate(":")
