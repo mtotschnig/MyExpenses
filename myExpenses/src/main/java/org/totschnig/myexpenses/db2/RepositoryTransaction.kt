@@ -110,7 +110,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
         immediatePersist = false,
         restoreFromPreferences = true
     ).whereFilter.takeIf { !it.isEmpty }?.let {
-        it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
+        it.getSelectionForParents() to it.getSelectionArgs(false)
     }
     //noinspection Recycle
     return contentResolver.query(

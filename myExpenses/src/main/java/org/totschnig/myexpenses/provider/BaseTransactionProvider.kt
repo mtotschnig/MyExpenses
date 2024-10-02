@@ -1141,12 +1141,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     private fun measure(block: () -> Cursor, lazyMessage: () -> String): Cursor = if (shouldLog) {
         val startTime = Instant.now()
-        val result = block()
+        val result = try {
+            block()
+        } catch (e: Exception) {
+            Timber.tag(TAG).w("Query failed: ${lazyMessage()}")
+            throw e
+        }
         val endTime = Instant.now()
         val duration = Duration.between(startTime, endTime)
         log("${lazyMessage()}\n$duration - ${result.count}")
         result
-    } else block()
+    } else try {
+        block()
+    } catch (e: Exception) {
+        Timber.tag(TAG).w("Query failed: ${lazyMessage()}")
+        throw e
+    }
 
     fun report(e: String) {
         report(Exception(e), TAG)

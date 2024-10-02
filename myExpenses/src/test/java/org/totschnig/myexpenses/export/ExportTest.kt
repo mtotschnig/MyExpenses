@@ -40,6 +40,8 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
@@ -65,6 +67,8 @@ class ExportTest : BaseTestWithRepository() {
     private val split1 = 70L
     private val part1 = 40L
     private val part2 = 30L
+
+    private var catForFilter = 0L
 
     @Suppress("DEPRECATION")
     private val base = Date(117, 11, 15, 12, 0, 0)
@@ -96,7 +100,7 @@ class ExportTest : BaseTestWithRepository() {
         val cat1Id = writeCategory("Main")
         val cat2Id = writeCategory("Sub", cat1Id)
         val cat3Id = writeCategory("Sub2", cat1Id)
-        val cat4Id = writeCategory("Sub3", cat1Id)
+        catForFilter = writeCategory("Sub3", cat1Id)
         val op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance)
             ?: throw IllegalStateException()
         op.amount = Money(CurrencyUnit.DebugInstance, expense1)
@@ -157,7 +161,7 @@ class ExportTest : BaseTestWithRepository() {
         part.save(contentResolver)
         uuidList.add(part.uuid!!)
         part.amount = Money(CurrencyUnit.DebugInstance, part2)
-        part.catId = cat4Id
+        part.catId = catForFilter
         part.saveAsNew(contentResolver)
         uuidList.add(part.uuid!!)
         contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), part.id)
@@ -316,10 +320,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 insertData1(),
-                ExportFormat.QIF,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.QIF
             ).isSuccess
         ).isTrue()
         compare(linesQIF)
@@ -342,10 +343,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 insertData1(),
-                ExportFormat.CSV,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.CSV
             ).isSuccess
         ).isTrue()
         compare(linesCSV)
@@ -358,20 +356,17 @@ class ExportTest : BaseTestWithRepository() {
             exportAll(
                 account1,
                 ExportFormat.CSV,
-                notYetExportedP = false,
-                append = false,
                 withAccountColumn = true,
-                AbstractExporter.ENCODING_UTF_8_BOM
+                encoding = AbstractExporter.ENCODING_UTF_8_BOM
             ).isSuccess
         ).isTrue()
         expect.that(
             exportAll(
                 account2,
                 ExportFormat.CSV,
-                notYetExportedP = false,
                 append = true,
                 withAccountColumn = true,
-                AbstractExporter.ENCODING_UTF_8_BOM
+                encoding = AbstractExporter.ENCODING_UTF_8_BOM
             ).isSuccess
         ).isTrue()
         outFile.useLines {
@@ -394,10 +389,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
-                ExportFormat.JSON,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.JSON
             ).isSuccess
         ).isTrue()
         expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
@@ -471,10 +463,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
-                ExportFormat.QIF,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.QIF
             ).isSuccess
         ).isTrue()
         compare(linesQIF)
@@ -508,10 +497,35 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
+                ExportFormat.QIF
+            ).isSuccess
+        ).isTrue()
+        compare(linesQIF)
+    }
+
+    @Test
+    fun testFilter() {
+        val linesQIF = arrayOf(
+            "!Account",
+            "NAccount 1",
+            "TBank",
+            "^",
+            "!Type:Bank",
+            "D$date",
+            "T0.70",
+            "LMain:Sub2",
+            "PN.N.",
+            "SMain:Sub2",
+            "$0.40",
+            "SMain:Sub3",
+            "$0.30",
+            "^"
+        )
+        expect.that(
+            exportAll(
+                insertData1(),
                 ExportFormat.QIF,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                filter = WhereFilter(listOf(CategoryCriterion("Sub3", catForFilter)))
             ).isSuccess
         ).isTrue()
         compare(linesQIF)
@@ -529,10 +543,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
-                ExportFormat.CSV,
-                notYetExportedP = false,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.CSV
             ).isSuccess
         ).isTrue()
         repository.markAsExported(account.id, null)
@@ -541,10 +552,7 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
-                ExportFormat.CSV,
-                notYetExportedP = true,
-                append = false,
-                withAccountColumn = false
+                ExportFormat.CSV
             ).isSuccess
         ).isTrue()
         compare(linesCSV)
@@ -564,8 +572,6 @@ class ExportTest : BaseTestWithRepository() {
             exportAll(
                 account1,
                 ExportFormat.CSV,
-                notYetExportedP = false,
-                append = false,
                 withAccountColumn = true
             ).isSuccess
         ).isTrue()
@@ -573,7 +579,6 @@ class ExportTest : BaseTestWithRepository() {
             exportAll(
                 account2,
                 ExportFormat.CSV,
-                notYetExportedP = false,
                 append = true,
                 withAccountColumn = true
             ).isSuccess
@@ -740,15 +745,16 @@ class ExportTest : BaseTestWithRepository() {
     private fun exportAll(
         account: Account,
         format: ExportFormat,
-        notYetExportedP: Boolean,
-        append: Boolean,
-        withAccountColumn: Boolean,
-        encoding: String = AbstractExporter.ENCODING_UTF_8
+        notYetExportedP: Boolean = false,
+        append: Boolean = false,
+        withAccountColumn: Boolean = false,
+        encoding: String = AbstractExporter.ENCODING_UTF_8,
+        filter: WhereFilter? = null
     ) = when (format) {
         ExportFormat.CSV -> CsvExporter(
             account,
             currencyContext,
-            null,
+            filter,
             notYetExportedP,
             "dd/MM/yyyy",
             '.',
@@ -761,7 +767,7 @@ class ExportTest : BaseTestWithRepository() {
         ExportFormat.QIF -> QifExporter(
             account,
             currencyContext,
-            null,
+            filter,
             notYetExportedP,
             "dd/MM/yyyy",
             '.',
@@ -771,7 +777,7 @@ class ExportTest : BaseTestWithRepository() {
         ExportFormat.JSON -> JSONExporter(
             account,
             currencyContext,
-            null,
+            filter,
             notYetExportedP,
             "dd/MM/yyyy",
             '.',

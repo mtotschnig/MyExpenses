@@ -93,7 +93,7 @@ abstract class AbstractExporter
         var selection = "$KEY_PARENTID is null"
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         val selectionArgs = if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
+            selection += " AND " + filter.getSelectionForParents()
             filter.getSelectionArgs(false)
         } else null
         val projection = arrayOf(
