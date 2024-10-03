@@ -755,24 +755,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.logEvent(event, params)
     }
 
-    fun trackCommand(command: Int, postFix: String = "") {
+    fun trackCommand(command: Int) {
         try {
             resources.getResourceName(command)
         } catch (e: Resources.NotFoundException) {
             null
         }?.let { fullResourceName ->
-            trackCommand(fullResourceName.substring(fullResourceName.indexOf('/') + 1) + postFix)
+            trackCommand(fullResourceName.substring(fullResourceName.indexOf('/') + 1))
         }
     }
 
-    fun trackCommand(command: String) {
+    private fun trackCommand(command: String) {
         tracker.trackCommand(command)
     }
 
     @CallSuper
     override fun onPositive(args: Bundle, checked: Boolean) {
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
-        trackCommand(command, if (checked) "_CHECKED" else "")
         dispatchCommand(
             command,
             args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE)
