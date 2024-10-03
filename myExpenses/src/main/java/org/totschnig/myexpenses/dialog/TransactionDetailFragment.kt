@@ -665,7 +665,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                     }
                 })
             if (part.isForeign) {
-                Column {
+                Column(horizontalAlignment = Alignment.End) {
                     ColoredAmountText(money = part.amount)
                     ColoredAmountText(money = part.equivalentAmount!!)
                 }
