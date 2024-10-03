@@ -57,8 +57,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -86,6 +90,7 @@ import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.TEST_TAG_PART_LIST
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.size
@@ -249,7 +254,13 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
                     val parts = partsLiveData.observeAsState(emptyList())
 
-                    LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
+                    LazyColumn(modifier = Modifier
+                        .testTag(TEST_TAG_PART_LIST)
+                        .weight(1f, fill = false)
+                        .semantics {
+                            collectionInfo = CollectionInfo(parts.value.size, 1)
+                        }
+                    ) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
                         items(parts.value) { part ->
                             AnimatedContent(

@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.db2.loadAttributes
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
@@ -49,7 +50,10 @@ class TransactionDetailViewModel(application: Application) :
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
-                    .appendQueryParameter(KEY_PARENTID, transactionId.toString()).build(),
+                    .appendQueryParameter(KEY_PARENTID, transactionId.toString())
+                    .appendQueryParameter(QUERY_PARAMETER_SEARCH, "1")
+                    .build()
+                ,
                 projection(localizedContext),
                 filter?.getSelectionForParents(),
                 filter?.getSelectionArgsIfNotEmpty(false),

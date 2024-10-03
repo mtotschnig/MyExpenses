@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG_ROOT
 
 /**
  * variant of [ComposeBaseDialogFragment] which guarantees
@@ -33,12 +35,14 @@ abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
                 setContent {
                     AppTheme {
                         Column(
-                            modifier = Modifier.padding(
-                                start = horizontalPadding,
-                                end = horizontalPadding,
-                                bottom = bottomPadding,
-                                top = titlePadding
-                            )
+                            modifier = Modifier
+                                .testTag(TEST_TAG_DIALOG_ROOT)
+                                .padding(
+                                    start = horizontalPadding,
+                                    end = horizontalPadding,
+                                    bottom = bottomPadding,
+                                    top = titlePadding
+                                )
                         ) {
                             MainContent()
                         }

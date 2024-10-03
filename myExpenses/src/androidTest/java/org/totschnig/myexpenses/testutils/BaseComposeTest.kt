@@ -18,7 +18,11 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     val composeTestRule = createEmptyComposeRule()
 
     fun assertTextAtPosition(text: String, position: Int, substring: Boolean = true) {
-        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren()[position].assertTextContains(
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).assertTextAstPosition(text, position, substring)
+    }
+
+    fun SemanticsNodeInteraction.assertTextAstPosition(text: String, position: Int, substring: Boolean = true) {
+        onChildren()[position].assertTextContains(
             text,
             substring = substring
         )

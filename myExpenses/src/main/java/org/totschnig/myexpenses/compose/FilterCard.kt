@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
@@ -36,6 +37,7 @@ fun FilterCard(
 ) {
     Row(
         modifier = Modifier
+            .testTag(TEST_TAG_FILTER_CARD)
             .background(color = colorResource(id = R.color.cardBackground))
             .padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
         verticalAlignment = Alignment.CenterVertically

@@ -21,6 +21,9 @@ const val TEST_TAG_BUDGET_ALLOCATION = "BUDGET_ALLOCATION"
 const val TEST_TAG_BUDGET_SPENT = "BUDGET_SPENT"
 const val TEST_TAG_GROUP_SUMMARY = "GROUP_SUMMARY"
 const val TEST_TAG_GROUP_SUMS = "GROUP_SUMS"
+const val TEST_TAG_FILTER_CARD = "FILTER_CARD"
+const val TEST_TAG_DIALOG_ROOT = "DIALOG_ROOT"
+const val TEST_TAG_PART_LIST = "PART_LIST"
 
 val amountProperty = SemanticsPropertyKey<Long>("amount")
 
