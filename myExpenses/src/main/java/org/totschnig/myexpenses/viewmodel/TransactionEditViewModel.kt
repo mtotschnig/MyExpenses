@@ -312,9 +312,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun Transaction.applyDefaultTransferCategory() {
         if (isTransfer) {
-            catId = prefHandler.defaultTransferCategory
-            catId?.let {
-                categoryPath = repository.getCategoryPath(it)
+            prefHandler.defaultTransferCategory?.let { id ->
+                repository.getCategoryPath(id)?.let {  path ->
+                    catId = id
+                    categoryPath = path
+                }
             }
         }
     }

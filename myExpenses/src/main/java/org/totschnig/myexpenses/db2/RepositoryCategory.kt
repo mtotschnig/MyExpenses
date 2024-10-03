@@ -128,8 +128,14 @@ fun Repository.getCategoryPath(id: Long) = contentResolver.query(
     ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
     null, null, null, null
 )?.use { cursor ->
-    cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
-}?.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
+    cursor
+        .takeIf { it.count > 0 }
+        ?.asSequence
+        ?.map { it.getString(KEY_LABEL) }
+        ?.toList()
+        ?.asReversed()
+        ?.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
+}
 
 @VisibleForTesting
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
