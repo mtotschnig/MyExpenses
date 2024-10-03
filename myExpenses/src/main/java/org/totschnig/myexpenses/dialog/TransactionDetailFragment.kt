@@ -334,7 +334,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 label = R.string.transfer_to_account,
                 content = if (isIncome) transaction.accountLabel else transaction.transferAccount!!
             )
-        } else if (transaction.catId != null && transaction.catId > 0) {
+        }
+        if (transaction.catId != null && transaction.catId > 0) {
             TableRow(
                 label = R.string.category,
                 content = transaction.categoryPath!!
