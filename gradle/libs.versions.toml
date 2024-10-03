@@ -61,6 +61,7 @@ junitVersion = "4.13.2"
 kotlin = "2.0.20"
 kotlinxHtml = "0.11.0"
 ksp = "2.0.20-1.0.25"
+leakcanaryAndroid = "2.14"
 sealed-enum = "0.7.0"
 ktor = "2.3.12"
 legacySupportV4 = "1.0.0"
@@ -213,6 +214,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 sealed-enum = { module = "com.github.livefront.sealed-enum:ksp", version.ref = "sealed-enum" }
 ktor-network-tls-certificates = { module = "io.ktor:ktor-network-tls-certificates", version.ref = "ktor" }
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
