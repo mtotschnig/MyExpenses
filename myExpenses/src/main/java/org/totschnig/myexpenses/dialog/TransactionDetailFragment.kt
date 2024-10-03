@@ -566,7 +566,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         ) {
             if (parentIsArchive) {
                 Text(
-                    modifier = Modifier.width(emToDp(4f)),
+                    modifier = Modifier.width(emToDp(4.6f)),
                     text = LocalDateFormatter.current.format(part.date),
                     fontWeight = FontWeight.Light,
                     textAlign = TextAlign.Center
