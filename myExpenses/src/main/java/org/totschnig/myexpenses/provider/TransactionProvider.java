@@ -1410,7 +1410,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS ||
-        uriMatch == TRANSACTION_LINK_TRANSFER  || uriMatch == TRANSACTION_UNLINK_TRANSFER) {
+        uriMatch == TRANSACTION_LINK_TRANSFER  || uriMatch == TRANSACTION_UNLINK_TRANSFER || uriMatch == UNARCHIVE) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
