@@ -964,8 +964,16 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo170() {
+        // KEY_ARCHIVED = 5, SPLIT_CAT_ID = 0
+        val newStatus = ContentValues(1).apply {
+            put("status", 5)
+        }
+        query("transactions", arrayOf("_id"), "status = ? AND cat_id = ?", arrayOf(5, 0)).use { cursor ->
+            cursor.asSequence.forEach {
+                update("transactions", newStatus, "parent_id = ?", arrayOf(it.getLong(0)))
+            }
+        }
         createArchiveTriggers()
-        execSQL("UPDATE transactions SET status = 5 WHERE parent_id is NOT NULL AND (SELECT status from transactions parent where parent._id = transactions.parent_id) = 5")
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
