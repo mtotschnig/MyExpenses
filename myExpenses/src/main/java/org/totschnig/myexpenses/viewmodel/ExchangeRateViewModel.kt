@@ -51,7 +51,7 @@ class ExchangeRateViewModel(val application: MyApplication) {
                 exception !is UnsupportedOperationException &&
                 exception !is MissingApiKeyException
             ) {
-                CrashHandler.report(exception)
+                CrashHandler.report(Exception("Failed to load rate for $other/$base", exception))
             }
             error.postValue(
                 when (exception) {
