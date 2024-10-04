@@ -1740,14 +1740,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 arrayOf(*source.toTypedArray(), target)
             ).useAndMapToSet { it.getInt(0) }.size == 1
         )
-        db.beginTransaction()
-        try {
+        db.safeUpdateWithSealed {
             source.forEach {
                 db.mergeCategory(it, target)
             }
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
         }
     }
 
