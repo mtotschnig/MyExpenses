@@ -37,6 +37,8 @@ class MethodCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_METHODID
 
+    override val shouldApplyToSplitTransactions get() = false
+
     companion object {
         fun fromStringExtra(extra: String) =
             if (extra == "null") MethodCriterion() else

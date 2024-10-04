@@ -90,7 +90,8 @@ class DateCriterion(
         return result
     }
 
-    override val shouldApplyToParts get() = false
+    override val shouldApplyToSplitTransactions get() = false
+    override val shouldApplyToArchive: Boolean get() = false
 
     companion object {
 

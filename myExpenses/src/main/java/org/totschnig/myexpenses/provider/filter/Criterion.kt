@@ -62,9 +62,22 @@ abstract class Criterion<T : Any> : Parcelable {
      * @return selection wrapped in a way that it also finds split transactions with parts
      * that are matched by the criteria
      */
-    private fun applyToSplitParts(selection: String, tableName: String) = if (shouldApplyToParts)
-        "($selection OR (($KEY_CATID = $SPLIT_CATID OR $KEY_STATUS = $STATUS_ARCHIVE) AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection))))"
-    else selection
+    private fun applyToSplitParts(selection: String, tableName: String): String {
+        val queryparts = buildList {
+            add(selection)
+            if (shouldApplyToSplitTransactions) {
+                add("($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $tableName children WHERE  $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection)))")
+            }
+            if (shouldApplyToArchive) {
+                add("($KEY_STATUS = $STATUS_ARCHIVE AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS grandchildren where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection)))")
+            }
+        }
+            "($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $tableName children WHERE  $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection)))"
+        "($KEY_STATUS = $STATUS_ARCHIVE AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS grandchildren where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection)))"
+
+
+        return queryparts.joinToString(separator = " OR ", prefix = "(", postfix = ")")
+    }
 
     /**
      * the sums are calculated based on split parts, hence here we must take care to select parts
@@ -74,7 +87,7 @@ abstract class Criterion<T : Any> : Parcelable {
      * matched by the criteria
      */
     private fun applyToSplitParents(selection: String, tableName: String): String {
-        val selectParents = if (shouldApplyToParts) selection else
+        val selectParents = if (shouldApplyToSplitTransactions) selection else
             "($selection AND $KEY_PARENTID IS NULL)"
         return "($selectParents OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
     }
@@ -85,7 +98,8 @@ abstract class Criterion<T : Any> : Parcelable {
     fun getSelectionForParents(tableName: String, forExport: Boolean) =
         applyToSplitParts(getSelection(forExport), tableName)
 
-    open val shouldApplyToParts get() = true
+    open val shouldApplyToSplitTransactions get() = true
+    open val shouldApplyToArchive get() = true
 
     companion object {
         const val EXTRA_SEPARATOR = ";"
