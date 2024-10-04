@@ -283,7 +283,13 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 }
             if (componentName == null) {
                 report(Exception("Start of Web User Interface failed"))
-                prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                //Since trying to start the WebUI failed, it is likeyl that the STOP_ACTION triggered by
+                //onSharedPreferenceChanged listener might also fail
+                try {
+                    prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                } catch (e: Exception) {
+                    report(e)
+                }
             }
         } else {
             prefHandler.putBoolean(PrefKey.UI_WEB, false)
