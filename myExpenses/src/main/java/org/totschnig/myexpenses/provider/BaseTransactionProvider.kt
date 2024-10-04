@@ -1140,6 +1140,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     private fun measure(block: () -> Cursor, lazyMessage: () -> String): Cursor = if (shouldLog) {
+        log(lazyMessage())
         val startTime = Instant.now()
         val result = try {
             block()
@@ -1149,7 +1150,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
         val endTime = Instant.now()
         val duration = Duration.between(startTime, endTime)
-        log("${lazyMessage()}\n$duration - ${result.count}")
+        log("$duration - ${result.count}")
         result
     } else try {
         block()
