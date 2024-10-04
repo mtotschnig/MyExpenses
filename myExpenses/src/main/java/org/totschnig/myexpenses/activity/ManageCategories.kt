@@ -246,6 +246,9 @@ class ManageCategories : ProtectedFragmentActivity(),
                     else -> {}
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
+                    LaunchedEffect(state) {
+                        finishActionMode()
+                    }
                     val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (typeFlags != null) {
