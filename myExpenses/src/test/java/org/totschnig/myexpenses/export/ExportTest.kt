@@ -552,7 +552,8 @@ class ExportTest : BaseTestWithRepository() {
         expect.that(
             exportAll(
                 account,
-                ExportFormat.CSV
+                ExportFormat.CSV,
+                notYetExportedP = true
             ).isSuccess
         ).isTrue()
         compare(linesCSV)
