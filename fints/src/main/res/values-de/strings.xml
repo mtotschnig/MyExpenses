@@ -50,4 +50,5 @@
     <string name="migration_description_1548">Vor Version 3.8.8 wurde die PIN, die Sie für die Kommunikation mit dem FinTS-Server angegeben haben, auch als Passwort für die Verschlüsselung lokal gespeicherter sensibler Informationen (Passport) verwendet, was eine Änderung der PIN unmöglich machte. Seit Version 3.8.8 wird stattdessen ein zufällig generiertes Passwort verwendet, das in eine Datei geschrieben wird, die mit einem im Android KeyStore gespeicherten Schlüssel verschlüsselt ist. Wenn Sie die PIN angeben, die Sie beim Einrichten dieser FinTS-Verbindung verwendet haben, wird diese auf die gleiche sichere Weise gespeichert und kann somit zum Entschlüsseln des Passports verwendet werden, unabhängig von der PIN, die dadurch aktualisiert werden kann.</string>
     <string name="password_securely_stored">Password sicher gespeichert.</string>
     <string name="migrate">Migrieren</string>
+    <string name="reset_stored_configuration">TAN-Verfahren zurücksetzen</string>
 </resources>

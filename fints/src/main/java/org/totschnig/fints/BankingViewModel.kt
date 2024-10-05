@@ -10,7 +10,6 @@ import android.os.Bundle
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -106,7 +105,7 @@ data class SecMech(val id: String, val name: String) {
     }
 }
 
-class BankingViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
+class BankingViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
     @Inject
     lateinit var tracker: Tracker
@@ -118,24 +117,38 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         )
     }
 
-    var selectedTanMedium: String?
-        get() = savedStateHandle["selectedTanMedium"]
-        set(value) {
-            savedStateHandle["selectedTanMedium"] = value
-        }
-
-    var selectedSecMech: String?
-        get() = savedStateHandle["selectedSecMech"]
-        set(value) {
-            savedStateHandle["selectedSecMech"] = value
-        }
-
     private val hbciProperties = Properties().also {
         it["client.product.name"] = "02F84CA8EC793B72255C747B4"
         if (BuildConfig.DEBUG) {
             it["log.loglevel.default"] = HBCIUtils.LOG_INTERN.toString()
         }
     }
+
+    private fun keySelectedTanMedium(bankId: Long) = "selectedTanMedium_$bankId"
+    private fun keySelectedSecMech(bankId: Long) = "selectedSecMech_$bankId"
+
+    fun selectedTanMedium(bankId: Long) =
+        prefHandler.getString(keySelectedTanMedium(bankId))
+
+    fun selectedSecMech(bankId: Long) =
+        prefHandler.getString(keySelectedSecMech(bankId))
+
+    fun hasStoredTanMech(bankId: Long): Boolean =
+        selectedSecMech(bankId) != null || selectedTanMedium(bankId) != null
+
+    fun resetTanMechanism(bankId: Long) {
+        prefHandler.remove(keySelectedSecMech(bankId))
+        prefHandler.remove(keySelectedTanMedium(bankId))
+    }
+
+    private fun persistSelectedTanMedium(bankId: Long, tanMedium: String) {
+        prefHandler.putString(keySelectedTanMedium(bankId), tanMedium)
+    }
+
+    private fun persistSelectedSecMech(bankId: Long, secMech: String) {
+        prefHandler.putString(keySelectedSecMech(bankId), secMech)
+    }
+
 
     private val _tanRequested = MutableLiveData<TanRequest?>(null)
     val tanRequested: LiveData<TanRequest?> = _tanRequested
@@ -651,22 +664,16 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
-        private val keySelectedTanMedium: String?
-            get() = bankingCredentials.bank?.let { "selectedTanMedium_${it.id}" }
-        private val keySelectedSecMech: String?
-            get() = bankingCredentials.bank?.let { "selectedSecMech_${it.id}" }
+
+        private var selectedTanMedium: String? = null
+
+        private var selectedSecMech: String? = null
 
         init {
-            keySelectedTanMedium?.let { selectedTanMedium = prefHandler.getString(it) }
-            keySelectedSecMech?.let { selectedSecMech = prefHandler.getString(it) }
-        }
-
-        private fun persistSelectedTanMedium() {
-            keySelectedTanMedium?.let { prefHandler.putString(it, selectedTanMedium) }
-        }
-
-        private fun persistSelectedSecMech() {
-            keySelectedSecMech?.let { prefHandler.putString(it, selectedSecMech) }
+            bankingCredentials.bank?.let {
+                selectedTanMedium = selectedTanMedium(it.id)
+                selectedSecMech = selectedSecMech(it.id)
+            }
         }
 
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
@@ -740,7 +747,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                             ?: runBlocking {
                                 requestSecMech(options).await()?.let { (secMec, shouldPersist) ->
                                     selectedSecMech = secMec
-                                    if (shouldPersist) persistSelectedSecMech()
+                                    if (shouldPersist && bankingCredentials.bank != null) {
+                                        persistSelectedSecMech(bankingCredentials.bank.id, secMec)
+                                    }
                                     secMec
                                 } ?: throw HBCI_Exception("Security mechanism selection cancelled")
                             }
@@ -768,7 +777,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         } else selectedTanMedium.takeIf { options.contains(it) } ?: runBlocking {
                             requestTanMedium(options).await()?.let { (medium, shouldPersist) ->
                                 selectedTanMedium = medium
-                                if (shouldPersist) persistSelectedTanMedium()
+                                if (shouldPersist && bankingCredentials.bank != null) {
+                                    persistSelectedTanMedium(bankingCredentials.bank.id, medium)
+                                }
                                 medium
                             } ?: throw HBCI_Exception("TAN media selection cancelled")
                         }
