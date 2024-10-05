@@ -910,4 +910,13 @@
     <string name="pref_scroll_to_current_date_title">Rul transaktionslisten til dags dato</string>
     <string name="pref_scroll_to_current_date_app_launch">kun når appen starter</string>
     <string name="pref_scroll_to_current_date_account_open">hver gang du navigerer til konto</string>
+    <string name="menu_unpack">Pak ud</string>
+    <string name="warning_unarchive">Arkivet bliver pakket ud. Alle indeholdte transaktioner genindsættes i listen.</string>
+    <string name="archive">Arkiv</string>
+    <string name="dialog_title_warning_delete_archive">Slet arkiv?</string>
+    <string name="warning_nested_archives">Indlejrede arkiver understøttes ikke.</string>
+    <string name="warning_archive_inconsistent_state">Transaktionerne i det valgte datointerval har inkonsistente statusser (%s).</string>
+    <string name="archive_warning">Alle transaktioner (%d) i det valgte datointerval arkiveres.</string>
+    <string name="warning_delete_archive">Alle transaktioner i dette arkiv (%d) slettes.</string>
+    <string name="warning_empty_archive">Der er ingen transaktioner i det valgte datointerval.</string>
 </resources>
