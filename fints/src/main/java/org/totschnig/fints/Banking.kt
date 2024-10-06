@@ -120,7 +120,7 @@ class Banking : ProtectedFragmentActivity() {
                                     viewModel.messageShown()
                             }
                         })
-                }
+                    }
             }
         }
         setContent {
@@ -204,7 +204,7 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             if (data.value.isEmpty()) {
                                 Text(
-                                    text = stringResource(org.totschnig.fints.R.string.no_bank_added_yet),
+                                    text = stringResource(RF.string.no_bank_added_yet),
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             } else {
@@ -231,9 +231,13 @@ class Banking : ProtectedFragmentActivity() {
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
-                                                onMigrate = {
-                                                    migrationDialogShown.value = it
-                                                }
+                                                onMigrate = if (it.version == 1) {
+                                                    { migrationDialogShown.value = it }
+                                                } else null,
+                                                onResetTanMechanism =
+                                                if (viewModel.hasStoredTanMech(it.id)) {
+                                                    { viewModel.resetTanMechanism(it.id) }
+                                                } else null
                                             )
                                         }
                                     }
@@ -272,7 +276,7 @@ class Banking : ProtectedFragmentActivity() {
         workState: BankingViewModel.WorkState,
         bankingCredentials: MutableState<BankingCredentials>,
         errorState: State<String?>,
-        dismiss: (success: Boolean) -> Unit
+        dismiss: (success: Boolean) -> Unit,
     ) {
         when (dialogState) {
             DialogState.AccountSelection -> {
@@ -374,7 +378,7 @@ class Banking : ProtectedFragmentActivity() {
                                             onClick = null
                                         )
                                         Text(
-                                            text = getString(org.totschnig.fints.R.string.import_maximum),
+                                            text = getString(RF.string.import_maximum),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                     }
@@ -585,7 +589,8 @@ fun BankRow(
     bank: Bank,
     onDelete: (Bank) -> Unit = {},
     onShow: (Bank) -> Unit = {},
-    onMigrate: (Bank) -> Unit = {}
+    onResetTanMechanism: ((Bank) -> Unit)? = null,
+    onMigrate: ((Bank) -> Unit)? = null,
 ) {
     val showMenu = remember { mutableStateOf(false) }
     Row(
@@ -593,7 +598,11 @@ fun BankRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        BankIconImpl(modifier = Modifier.padding(2.dp).size(48.dp), bank = bank)
+        BankIconImpl(
+            modifier = Modifier
+                .padding(2.dp)
+                .size(48.dp), bank = bank
+        )
         Column {
             Text(bank.bankName)
             Text(bank.blz + " / " + bank.bic)
@@ -610,12 +619,20 @@ fun BankRow(
                     icon = Icons.Filled.Checklist
                 ) { onShow(bank) }
             )
-            if (bank.version == 1) {
+            onMigrate?.let {
                 add(
                     MenuEntry(
                         command = "MIGRATION",
                         label = UiText.StringValue("v1 -> v2")
                     ) { onMigrate(bank) }
+                )
+            }
+            onResetTanMechanism?.let {
+                add(
+                    MenuEntry(
+                        command = "MIGRATION",
+                        label = RF.string.reset_stored_configuration
+                    ) { onResetTanMechanism(bank) }
                 )
             }
         }
@@ -629,7 +646,7 @@ fun AccountRow(
     selectable: Boolean,
     selected: String?,
     targetOptions: List<Pair<Long, String>>,
-    onSelectionChange: (Boolean, Long) -> Unit
+    onSelectionChange: (Boolean, Long) -> Unit,
 ) {
     Row {
         if (selectable) {
