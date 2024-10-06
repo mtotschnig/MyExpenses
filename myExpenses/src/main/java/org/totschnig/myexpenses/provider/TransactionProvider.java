@@ -39,6 +39,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -554,6 +555,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
+          sortOrder = KEY_HIDDEN + ", " + sortOrder;
           qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
           if (projection == null)
             projection = org.totschnig.myexpenses.model2.Account.Companion.getPROJECTION();
