@@ -155,12 +155,12 @@ class RoadmapRepository @Inject constructor(
         val ce = context.packageManager.getPackageInfo(
             context.packageName,
             PackageManager.GET_SIGNATURES
-        ).signatures.first()
+        ).signatures?.first()
         buildString {
             MessageDigest.getInstance("SHA-1")
                 .digest(
                     CertificateFactory.getInstance("X509")
-                        .generateCertificate(ByteArrayInputStream(ce.toByteArray()))
+                        .generateCertificate(ByteArrayInputStream(ce?.toByteArray()))
                         .encoded
                 ).forEach {
                     val appendString = Integer.toHexString(0xFF and it.toInt())

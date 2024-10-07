@@ -22,16 +22,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import timber.log.Timber;
 
 
 /**
