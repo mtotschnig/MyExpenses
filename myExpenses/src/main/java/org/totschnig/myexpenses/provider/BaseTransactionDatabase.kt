@@ -960,17 +960,21 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo169() {
-        execSQL("UPDATE transactions SET status = 0 WHERE status = 5 AND parent_id is null")
+        repairWithSealedAccountsAndDebts(this) {
+            execSQL("UPDATE transactions SET status = 0 WHERE status = 5 AND parent_id is null")
+        }
     }
 
     fun SupportSQLiteDatabase.upgradeTo170() {
-        // KEY_ARCHIVED = 5, SPLIT_CAT_ID = 0
-        val newStatus = ContentValues(1).apply {
-            put("status", 5)
-        }
-        query("transactions", arrayOf("_id"), "status = ? AND cat_id = ?", arrayOf(5, 0)).use { cursor ->
-            cursor.asSequence.forEach {
-                update("transactions", newStatus, "parent_id = ?", arrayOf(it.getLong(0)))
+        repairWithSealedAccountsAndDebts(this) {
+            // KEY_ARCHIVED = 5, SPLIT_CAT_ID = 0
+            val newStatus = ContentValues(1).apply {
+                put("status", 5)
+            }
+            query("transactions", arrayOf("_id"), "status = ? AND cat_id = ?", arrayOf(5, 0)).use { cursor ->
+                cursor.asSequence.forEach {
+                    update("transactions", newStatus, "parent_id = ?", arrayOf(it.getLong(0)))
+                }
             }
         }
         createArchiveTriggers()
