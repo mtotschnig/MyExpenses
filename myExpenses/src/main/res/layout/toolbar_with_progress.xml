@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:contentInsetStartWithNavigation="0dp"
+    tools:showIn="@layout/activity_main">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <app.futured.donut.DonutProgressView
+            android:id="@+id/donut_view"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            app:donut_cap="100"
+            app:donut_gapAngle="0"
+            app:donut_gapWidth="0"
+            app:donut_strokeWidth="@dimen/progress_donut_stroke_width"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/progress_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/donut_view"
+            app:layout_constraintBottom_toBottomOf="@id/donut_view"
+            app:layout_constraintStart_toStartOf="@id/donut_view"
+            app:layout_constraintEnd_toEndOf="@id/donut_view"
+            android:textSize="12dp"
+            tools:ignore="SpUsage" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Title"
+            app:layout_constraintBottom_toTopOf="@id/subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/donut_view"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Subtitle"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/donut_view"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.appbar.MaterialToolbar>

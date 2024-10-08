@@ -43,7 +43,7 @@ evernote = "1.4.1"
 composeBom = "2024.09.03"
 dagger = "2.51.1"
 datastorePreferences = "1.1.1"
-donutCompose = "2.2.3"
+donut = "2.2.4"
 flexbox = "3.0.0"
 fontdrawable = "39e8f63ce2"
 fragmentVersion = "1.8.4"
@@ -192,7 +192,8 @@ copper-flow = { module = "app.cash.copper:copper-flow", version.ref = "copperFlo
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dav4android = { module = "com.gitlab.mtotschn:dav4android", version.ref = "dav4android" }
-donut-compose = { module = "app.futured.donut:donut-compose", version.ref = "donutCompose" }
+donut-compose = { module = "app.futured.donut:donut-compose", version.ref = "donut" }
+donut = { module = "app.futured.donut:donut", version.ref = "donut" }
 dropbox-android-sdk = { module = "com.dropbox.core:dropbox-android-sdk", version.ref = "dropbox" }
 dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropbox" }
 easypermissions-ktx = { module = "com.github.mtotschnig:easypermissions-ktx", version.ref = "easypermissionsKtx" }

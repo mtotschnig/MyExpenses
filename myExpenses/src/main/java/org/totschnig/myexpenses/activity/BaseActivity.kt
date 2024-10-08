@@ -137,6 +137,7 @@ import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.util.ui.setBackgroundTintList
 import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
@@ -207,20 +208,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 homeAsUpIndicator?.let {
                     setHomeAsUpIndicator(it)
                 }
+                customView
             }
         }
     }
 
     fun setSignedToolbarColor(amount: Long) {
         val sign = amount.sign
-        toolbar.setSubtitleTextColor(
-            if (sign == 0) readPrimaryTextColor(this) else
-                ResourcesCompat.getColor(
-                    resources,
-                    if (sign == -1) R.color.colorExpense else R.color.colorIncome,
-                    null
-                )
-        )
+        toolbar.setSubtitleTextColor(getAmountColor(sign))
     }
 
     fun enqueuePlanner(forceImmediate: Boolean) {

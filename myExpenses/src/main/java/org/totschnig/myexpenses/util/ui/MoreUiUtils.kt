@@ -22,9 +22,11 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.calculateLuminance
 import androidx.core.widget.ImageViewCompat
+import app.futured.donut.DonutSection
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.CalendarConstraints
@@ -45,6 +47,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getMimeType
+import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Companion.lazyMap
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
@@ -55,14 +58,15 @@ import java.time.format.FormatStyle
 
 interface Itag {
     val label: String
+
     @get:ColorInt
     val color: Int?
 }
 
 
-fun <T: Itag> ChipGroup.addChipsBulk(
+fun <T : Itag> ChipGroup.addChipsBulk(
     chips: Iterable<T>,
-    closeFunction: ((T) -> Unit)? = null
+    closeFunction: ((T) -> Unit)? = null,
 ) {
     removeAllViews()
     for (chip in chips) {
@@ -81,10 +85,12 @@ fun <T: Itag> ChipGroup.addChipsBulk(
 }
 
 fun ChipGroup.addChipsBulk(chips: Iterable<String>) {
-    addChipsBulk(chips.map { object: Itag {
-        override val label: String = it
-        override val color: Int? = null
-    } })
+    addChipsBulk(chips.map {
+        object : Itag {
+            override val label: String = it
+            override val color: Int? = null
+        }
+    })
 }
 
 fun colorWithPressedFeedback(@ColorInt base: Int) = ColorStateList(
@@ -126,7 +132,8 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
     )
 }
 
-fun getBestForeground(color: Int) =  if (calculateLuminance(color) > 0.5) Color.BLACK else Color.WHITE
+fun getBestForeground(color: Int) =
+    if (calculateLuminance(color) > 0.5) Color.BLACK else Color.WHITE
 
 fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     if (type.isInstance(view)) {
@@ -140,7 +147,7 @@ fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
 fun getDateMode(accountType: AccountType?, prefHandler: PrefHandler) = when {
     (accountType == null || accountType != AccountType.CASH) &&
             prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
-    -> DateMode.BOOKING_VALUE
+        -> DateMode.BOOKING_VALUE
 
     prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, true) -> DateMode.DATE_TIME
     else -> DateMode.DATE
@@ -197,7 +204,7 @@ fun FloatingActionButton.setBackgroundTintList(color: Int) {
 }
 
 fun View.configurePopupAnchor(
-    infoText: CharSequence
+    infoText: CharSequence,
 ) {
     setOnClickListener {
         val host =
@@ -302,14 +309,47 @@ fun preferredTimePickerBuilder(context: Context) = MaterialTimePicker.Builder()
     }
 
 fun preferredDatePickerBuilder(context: Context) = MaterialDatePicker.Builder.datePicker().apply {
-        with(context.injector.prefHandler()) {
-            weekStart?.let {
-                setCalendarConstraints(
-                    CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
-                )
-            }
-            getInt(PrefKey.DATE_PICKER_INPUT_MODE, -1)
-                .takeIf { it != -1 }
-                ?.let { setInputMode(it) }
+    with(context.injector.prefHandler()) {
+        weekStart?.let {
+            setCalendarConstraints(
+                CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
+            )
         }
+        getInt(PrefKey.DATE_PICKER_INPUT_MODE, -1)
+            .takeIf { it != -1 }
+            ?.let { setInputMode(it) }
     }
+}
+
+fun Context.getAmountColor(sign: Int) =
+    if (sign == 0) readPrimaryTextColor(this) else
+        ContextCompat.getColor(
+            this,
+            if (sign == -1) R.color.colorExpense else R.color.colorIncome,
+        )
+
+data class DisplayProgress(val displayValue: Int, val displayExcess: Int)
+
+fun DisplayProgress.forViewSystem(valueColor: Int, excessColor: Int) = listOf(
+    DonutSection("excess", excessColor, displayExcess.toFloat()),
+    DonutSection("progress", valueColor, displayValue.toFloat())
+)
+
+fun DisplayProgress.forCompose(
+    valueColor: androidx.compose.ui.graphics.Color,
+    excessColor: androidx.compose.ui.graphics.Color,
+) = listOf(
+    app.futured.donut.compose.data.DonutSection(displayExcess.toFloat(), excessColor),
+    app.futured.donut.compose.data.DonutSection(displayValue.toFloat(), valueColor)
+)
+
+fun calcProgressVisualRepresentation(progress: Int) = when {
+
+    progress > 200 -> DisplayProgress(0,100)
+
+    progress > 100 -> DisplayProgress(200 - progress, progress - 100)
+
+    progress >= 0 -> DisplayProgress(progress, 0)
+
+    else -> throw IllegalArgumentException()
+}

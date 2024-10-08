@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
+import kotlin.math.roundToInt
 
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
@@ -92,6 +93,13 @@ data class FullAccount(
         get() = PageAccount(
             id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
+
+    val progress: Int?
+        get() = criterion?.let {
+            if (it > 0 == currentBalance > 0) {
+                (currentBalance * 100F / it).roundToInt()
+            } else 0
+        }
 
     companion object {
 

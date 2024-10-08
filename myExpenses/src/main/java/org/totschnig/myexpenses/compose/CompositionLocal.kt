@@ -14,7 +14,13 @@ data class Colors(
     val income: Color,
     val expense: Color,
     val transfer: Color,
-)
+) {
+    fun amountColor(sign: Int) = when {
+        sign > 0 -> income
+        sign < 0 -> expense
+        else -> Color.Unspecified
+    }
+}
 
 val LocalColors = compositionLocalOf {
     Colors(

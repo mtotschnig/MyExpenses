@@ -178,6 +178,7 @@ dependencies {
     implementation libs.accompanist.drawablepainter
     implementation libs.accompanist.themeadapter.material3
     implementation(libs.donut.compose)
+    implementation(libs.donut)
 
     kapt libs.dagger.compiler
     implementation libs.dagger

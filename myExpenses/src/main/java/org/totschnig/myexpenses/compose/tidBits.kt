@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +35,8 @@ import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
+import org.totschnig.myexpenses.util.ui.forCompose
 import kotlin.experimental.and
 import kotlin.experimental.inv
 import kotlin.experimental.or
@@ -83,24 +86,24 @@ fun DonutInABox(
     modifier: Modifier,
     progress: Int,
     fontSize: TextUnit,
-    strokeWidth: Float = 15f,
-    color: Color
+    color: Color,
+    excessColor: Color
 ) {
+
     Box(modifier = modifier) {
         DonutProgress(
             modifier = Modifier.fillMaxSize(),
             model = DonutModel(
                 cap = 100f,
-                masterProgress = 1f,
                 gapWidthDegrees = 0f,
                 gapAngleDegrees = 0f,
-                strokeWidth = strokeWidth,
-                sections = listOf(DonutSection(amount = progress.toFloat(), color = color))
+                strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
+                sections = calcProgressVisualRepresentation(progress).forCompose(color, excessColor)
             )
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = progress.toString(),
+            text = "%d".format(progress),
             fontSize = fontSize,
             )
     }
