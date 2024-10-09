@@ -175,7 +175,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
         val currency =
-            currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
+            currencyContext[cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))]
         return Account(
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
