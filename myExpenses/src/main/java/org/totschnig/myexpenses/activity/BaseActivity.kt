@@ -1459,8 +1459,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             val bundle = Bundle(1)
             bundle.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
             SimpleDialog.build()
-                .msg("Backend is not ready to be synced")
-                .pos("Activate again")
+                .msg(getString(R.string.warning_backend_deactivated))
+                .pos(getString(R.string.button_activate_again))
                 .extra(bundle)
                 .show(this, DIALOG_INACTIVE_BACKEND)
         }

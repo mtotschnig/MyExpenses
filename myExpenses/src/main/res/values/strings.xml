@@ -1038,4 +1038,6 @@
     <string name="warning_empty_archive">No transactions exist in the selected date range.</string>
     <!-- All transactions being packaged into an archive must have the same statuses (cleared, reconciled, not reconciled, void), in order to create an archive with the same status. -->
     <string name="warning_archive_inconsistent_state">The transactions in the selected date range have inconsistent statuses (%s).</string>
+    <string name="warning_backend_deactivated">Backend is not ready to be synced.</string>
+    <string name="button_activate_again">Activate again</string>
 </resources>
