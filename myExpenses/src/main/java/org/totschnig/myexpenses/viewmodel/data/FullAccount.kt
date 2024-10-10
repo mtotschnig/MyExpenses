@@ -94,11 +94,11 @@ data class FullAccount(
             id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
 
-    val progress: Int?
+    val progress: Float?
         get() = criterion?.let {
             if (it > 0 == currentBalance > 0) {
-                (currentBalance * 100F / it).roundToInt()
-            } else 0
+                (currentBalance * 100F / it)
+            } else 0f
         }
 
     companion object {

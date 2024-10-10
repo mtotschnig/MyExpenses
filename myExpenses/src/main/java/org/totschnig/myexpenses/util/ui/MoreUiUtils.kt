@@ -250,7 +250,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
             "content" -> {
                 val file = if (withFile) try {
                     PictureDirHelper.getFileForUri(context, uri)
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     null
                 } else null
                 contentResolver.getType(uri)?.let {
@@ -267,7 +267,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                                         cancellationSignal
                                     ), file
                                 )
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 null
                             }
                         } else {
@@ -328,28 +328,28 @@ fun Context.getAmountColor(sign: Int) =
             if (sign == -1) R.color.colorExpense else R.color.colorIncome,
         )
 
-data class DisplayProgress(val displayValue: Int, val displayExcess: Int)
+data class DisplayProgress(val displayValue: Float, val displayExcess: Float)
 
 fun DisplayProgress.forViewSystem(valueColor: Int, excessColor: Int) = listOf(
-    DonutSection("excess", excessColor, displayExcess.toFloat()),
-    DonutSection("progress", valueColor, displayValue.toFloat())
+    DonutSection("excess", excessColor, displayExcess),
+    DonutSection("progress", valueColor, displayValue)
 )
 
 fun DisplayProgress.forCompose(
     valueColor: androidx.compose.ui.graphics.Color,
     excessColor: androidx.compose.ui.graphics.Color,
 ) = listOf(
-    app.futured.donut.compose.data.DonutSection(displayExcess.toFloat(), excessColor),
-    app.futured.donut.compose.data.DonutSection(displayValue.toFloat(), valueColor)
+    app.futured.donut.compose.data.DonutSection(displayExcess, excessColor),
+    app.futured.donut.compose.data.DonutSection(displayValue, valueColor)
 )
 
-fun calcProgressVisualRepresentation(progress: Int) = when {
+fun calcProgressVisualRepresentation(progress: Float) = when {
 
-    progress > 200 -> DisplayProgress(0,100)
+    progress > 200 -> DisplayProgress(0f,100f)
 
-    progress > 100 -> DisplayProgress(200 - progress, progress - 100)
+    progress > 100 -> DisplayProgress(200f - progress, progress - 100)
 
-    progress >= 0 -> DisplayProgress(progress, 0)
+    progress >= 0 -> DisplayProgress(progress, 0f)
 
     else -> throw IllegalArgumentException()
 }

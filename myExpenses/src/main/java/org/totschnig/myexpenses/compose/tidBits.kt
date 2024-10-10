@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastRoundToInt
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
@@ -84,7 +86,7 @@ val generalPadding
 @Composable
 fun DonutInABox(
     modifier: Modifier,
-    progress: Int,
+    progress: Float,
     fontSize: TextUnit,
     color: Color,
     excessColor: Color
@@ -98,12 +100,13 @@ fun DonutInABox(
                 gapWidthDegrees = 0f,
                 gapAngleDegrees = 0f,
                 strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
+                strokeCap = StrokeCap.Butt,
                 sections = calcProgressVisualRepresentation(progress).forCompose(color, excessColor)
             )
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "%d".format(progress),
+            text = "%d".format(progress.fastRoundToInt()),
             fontSize = fontSize,
             )
     }

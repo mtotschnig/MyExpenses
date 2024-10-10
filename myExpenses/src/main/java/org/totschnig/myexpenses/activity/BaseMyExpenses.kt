@@ -55,6 +55,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastRoundToInt
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
@@ -2082,7 +2083,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             with(binding.toolbar.progressPercent) {
-                text = "%d".format(it)
+                text = "%d".format(it.fastRoundToInt())
                 setTextColor(this@BaseMyExpenses.getAmountColor(account.criterion?.sign ?: 0))
             }
         }
