@@ -364,15 +364,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_EXCHANGE_RATE -> "${getExchangeRate(table, KEY_ACCOUNTID, homeCurrency)} AS $it"
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)
                 "${getAmountHomeEquivalent(table, homeCurrency)} AS $it" else it
+
             KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table)})"
             KEY_HAS_SEALED_ACCOUNT -> """
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, false)})
                 """.trimIndent()
+
             KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER -> """
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
                 """.trimIndent()
+
             KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
-                getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
+                    getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
+
             else -> it
         }
     }?.toTypedArray()
@@ -572,7 +576,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         minimal: Boolean,
         mergeAggregate: String?,
         selection: String?,
-        sortOrder: String?
+        sortOrder: String?,
     ): String {
 
         val aggregateFunction = this.aggregateFunction
@@ -593,26 +597,39 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID"
 
-        val accountQueryBuilder =
-            SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
-
         val query = if (mergeAggregate == null) {
-            accountQueryBuilder.columns(fullAccountProjection).selection(selection, emptyArray())
+            (if (minimal)
+                SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
+                    .columns(fullAccountProjection)
+            else SupportSQLiteQueryBuilder.builder(
+                exchangeRateJoin(
+                    joinWithAggregates,
+                    KEY_ROWID,
+                    homeCurrency,
+                    TABLE_ACCOUNTS
+                )
+            )
+                .columns(fullAccountProjection + KEY_EXCHANGE_RATE)
+                    )
+                .selection(selection, emptyArray())
                 .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()
             if (mergeAggregate == "1") {
                 subQueries.add(
-                    accountQueryBuilder.columns(
-                        if (minimal) arrayOf(
-                            KEY_ROWID,
-                            KEY_LABEL,
-                            KEY_CURRENCY,
-                            KEY_TYPE,
-                            "0 AS $KEY_IS_AGGREGATE"
-                        ) else fullAccountProjection
-                    )
-                        .selection(selection, emptyArray()).create().sql
+                    SupportSQLiteQueryBuilder
+                        .builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
+                        .columns(
+                            if (minimal) arrayOf(
+                                KEY_ROWID,
+                                KEY_LABEL,
+                                KEY_CURRENCY,
+                                KEY_TYPE,
+                                "0 AS $KEY_IS_AGGREGATE"
+                            ) else fullAccountProjection
+                        )
+                        .selection(selection, emptyArray())
+                        .create().sql
                 )
             }
             //Currency query
@@ -908,7 +925,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun budgetDefaultSelect(
         db: SupportSQLiteDatabase,
-        uri: Uri
+        uri: Uri,
     ): Long? {
         val accountId = uri.pathSegments[2].toLong()
         val group = uri.pathSegments[3]
@@ -1043,7 +1060,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         having: String?,
         sortOrder: String?,
         limit: String?,
-        cte: String?
+        cte: String?,
     ): Cursor {
         val query =
             columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having)
@@ -1062,7 +1079,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun updateFractionDigits(
         db: SupportSQLiteDatabase,
         currency: String,
-        newValue: Int
+        newValue: Int,
     ): Int {
         val oldValue = currencyContext[currency].fractionDigits
         if (oldValue == newValue) {
@@ -1134,7 +1151,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         uri: Uri,
         sql: String,
         selection: String?,
-        selectionArgs: Array<String>?
+        selectionArgs: Array<String>?,
     ): Cursor = measure(block = { query(sql, selectionArgs ?: emptyArray()) }) {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
     }
@@ -1183,7 +1200,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun handleAccountProperty(
         db: SupportSQLiteDatabase,
         uri: Uri,
-        vararg keys: String
+        vararg keys: String,
     ): Int {
         val subject = uri.pathSegments[1]
         val id: Long? = subject.toLongOrNull()
@@ -1207,7 +1224,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         uri: Uri,
         selection: String?,
-        selectionArgs: Array<String>?
+        selectionArgs: Array<String>?,
     ): Cursor {
 
         val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
@@ -1324,7 +1341,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         values: ContentValues,
         table: String,
-        linkColumn: String
+        linkColumn: String,
     ) {
         db.execSQL(
             "INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
@@ -1366,7 +1383,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun deleteAttachments(
         db: SupportSQLiteDatabase,
         transactionId: Long,
-        uriList: MutableList<String>
+        uriList: MutableList<String>,
     ): Boolean {
         val attachmentIds = uriList.associateWith { findAttachment(db, it) ?: return false }
         attachmentIds.forEach {
@@ -1425,7 +1442,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private fun insertAttachment(
         db: SupportSQLiteDatabase,
         uriString: String,
-        uuid: String?
+        uuid: String?,
     ): Long {
         val id = db.insert(
             TABLE_ATTACHMENTS,
@@ -1472,7 +1489,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private fun ensureCategoryTreeInternal(
         db: SupportSQLiteDatabase,
         categoryExport: CategoryExport,
-        parentId: Long?
+        parentId: Long?,
     ): Int {
         check(categoryExport.uuid.isNotEmpty())
         val (nextParent, created) = ensureCategoryInternal(db, categoryExport, parentId)
@@ -1521,7 +1538,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private fun ensureCategoryInternal(
         db: SupportSQLiteDatabase,
         categoryInfo: ICategoryInfo,
-        parentId: Long?
+        parentId: Long?,
     ): Pair<Long, Boolean> {
 
         val stripped = categoryInfo.label.trim()

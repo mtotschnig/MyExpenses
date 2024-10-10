@@ -77,6 +77,7 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
@@ -150,6 +151,8 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.collections.set
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 
@@ -1407,6 +1410,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    private fun doFinish() {
+        setResult(RESULT_OK, backwardCanceledTagsIntent())
+        finish()
+    }
+
     private fun onSaved(result: Result<Unit>, transaction: ITransaction) {
         result.onSuccess {
             if (isSplitParent) {
@@ -1429,20 +1437,27 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    if (wasStartedFromWidget) {
-                        viewModel.currentBalance(transaction.accountId).observe(this) {
-                            it?.let { balance ->
+                    if (!isSplitPartOrTemplate) {
+                        currentAccount?.let {
+                            val newBalance = it.currentBalance + transaction.amount.amountMinor
+                            if (wasStartedFromWidget) {
                                 Toast.makeText(
                                     this,
-                                    getString(R.string.new_balance) + " : " + currencyFormatter.formatMoney(balance),
-                                    Toast.LENGTH_LONG).show()
+                                    getString(R.string.new_balance) + " : " +
+                                            currencyFormatter.formatMoney(
+                                                Money(it.currency, newBalance)
+                                            ),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else it.criterion?.let { criterion ->
+                                if (criterion.sign == newBalance.sign && newBalance.absoluteValue > criterion.absoluteValue) {
+                                    CriterionReachedDialogFragment().show(supportFragmentManager, "CRITERION")
+                                    return
+                                }
                             }
-                            finish()
                         }
-                    } else {
-                        setResult(RESULT_OK, backwardCanceledTagsIntent())
-                        finish()
                     }
+                    doFinish()
                     //no need to call super after finish
                     return
                 }
