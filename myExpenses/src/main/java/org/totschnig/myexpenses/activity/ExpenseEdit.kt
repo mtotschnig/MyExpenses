@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
+import org.totschnig.myexpenses.dialog.CriterionInfo
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
@@ -151,8 +152,6 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.collections.set
-import kotlin.math.absoluteValue
-import kotlin.math.sign
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 
@@ -1438,28 +1437,40 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     if (!isSplitPartOrTemplate) {
-                        currentAccount?.let {
-                            val newBalance = it.currentBalance + transaction.amount.amountMinor
-                            if (wasStartedFromWidget) {
-                                Toast.makeText(
-                                    this,
-                                    getString(R.string.new_balance) + " : " +
-                                            currencyFormatter.formatMoney(
-                                                Money(it.currency, newBalance)
-                                            ),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else it.criterion?.let { criterion ->
-                                if (criterion.sign == newBalance.sign && newBalance.absoluteValue > criterion.absoluteValue) {
-                                    CriterionReachedDialogFragment().show(supportFragmentManager, "CRITERION")
-                                    return
+                        currentAccount?.let { account ->
+
+                            account.criterion?.also { criterion ->
+                                val criterionInfo = CriterionInfo(
+                                    account.currentBalance, criterion, transaction.amount.amountMinor
+                                )
+                                if (criterionInfo.hasReached) {
+                                    CriterionReachedDialogFragment.newInstance(
+                                        CriterionInfo(
+                                            account.currentBalance, criterion, transaction.amount.amountMinor
+                                        )
+                                    )
+                                        .show(supportFragmentManager, "CRITERION")
                                 }
+                            } ?: run {
+                                if (wasStartedFromWidget) {
+                                    val newBalance = account.currentBalance + transaction.amount.amountMinor
+                                    Toast.makeText(
+                                        this,
+                                        getString(R.string.new_balance) + " : " +
+                                                currencyFormatter.formatMoney(
+                                                    Money(account.currency, newBalance)
+                                                ),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                doFinish()
+                                return
                             }
                         }
+                    } else {
+                        doFinish()
+                        return
                     }
-                    doFinish()
-                    //no need to call super after finish
-                    return
                 }
             }
         }.onFailure {

@@ -1038,4 +1038,8 @@
     <string name="warning_empty_archive">No transactions exist in the selected date range.</string>
     <!-- All transactions being packaged into an archive must have the same statuses (cleared, reconciled, not reconciled, void), in order to create an archive with the same status. -->
     <string name="warning_archive_inconsistent_state">The transactions in the selected date range have inconsistent statuses (%s).</string>
+    <string name="credit_limit_reached">You have hit your credit limit.</string>
+    <string name="saving_goal_reached">You have met your saving goal.</string>
+    <string name="credit_limit_exceeded">You have gone over your credit limit.</string>
+    <string name="saving_goal_exceeded">You have exceeded your saving goal.</string>
 </resources>
