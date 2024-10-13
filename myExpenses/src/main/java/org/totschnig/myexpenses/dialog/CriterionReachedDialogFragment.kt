@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.dialog
 
 import android.content.DialogInterface
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.animation.AnimatedVisibility
@@ -222,12 +221,12 @@ fun ColumnScope.CriterionReachedGraph(
     showDataInitially: Boolean = false,
     progressColor: Color = Color.Green,
     overageColor: Color = Color.Red,
-    withAnimation: Boolean = true,
+    withIconAnimation: Boolean = true,
     onDismiss: () -> Unit = {}
 ) {
     var progress by remember { mutableFloatStateOf(info.startProgress) }
     var showData by remember { mutableStateOf(showDataInitially) }
-    val animation = if (withAnimation) remember { mutableStateOf(false) } else null
+    val iconAnimation = if (withIconAnimation) remember { mutableStateOf(false) } else null
     val isLarge = booleanResource(R.bool.isLarge)
     val isLandscape =
         LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -252,7 +251,7 @@ fun ColumnScope.CriterionReachedGraph(
                     showData = showData,
                     progressColor = progressColor,
                     overageColor = overageColor,
-                    animation = animation?.value
+                    animation = iconAnimation?.value
                 )
                 OkButton(onDismiss)
             }
@@ -278,7 +277,7 @@ fun ColumnScope.CriterionReachedGraph(
                 showData = showData,
                 progressColor = progressColor,
                 overageColor = overageColor,
-                animation = animation?.value
+                animation = iconAnimation?.value
             )
         }
         OkButton(onDismiss)
@@ -292,7 +291,7 @@ fun ColumnScope.CriterionReachedGraph(
         progress = info.endProgress
         showData = true
         delay(ANIMATION_DURATION_L)
-        animation?.value = true
+        iconAnimation?.value = true
     }
 }
 
@@ -315,7 +314,7 @@ fun DataOverview(
             Column {
                 Spacer(Modifier.weight(0.7f))
                 val isSavingGoal = info.criterion > 0
-                if (animation != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (animation != null) {
                     val image = AnimatedImageVector.animatedVectorResource(
                         if (isSavingGoal) R.drawable.heart else R.drawable.notification_v4
                     )
@@ -423,7 +422,7 @@ fun Demo() {
                 "My savings account"
             ),
             showDataInitially = true,
-            withAnimation = false
+            withIconAnimation = false
         )
     }
 }
