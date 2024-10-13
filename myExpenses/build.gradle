@@ -167,18 +167,19 @@ dependencies {
     implementation project(':transactionscontract')
     implementation libs.phrase
     implementation platform(libs.androidx.compose.bom)
-    implementation libs.androidx.ui
-    implementation(libs.androidx.compose.material3)
-    implementation libs.androidx.ui.tooling.preview
+    implementation libs.compose.ui
+    implementation libs.compose.animation.graphics
+    implementation libs.androidx.compose.material3
+    implementation libs.compose.ui.tooling.preview
     implementation libs.androidx.activity.compose
     implementation libs.androidx.runtime.livedata
-    debugImplementation libs.androidx.ui.tooling
+    debugImplementation libs.compose.ui.tooling
     implementation libs.androidx.material.icons.extended
     implementation libs.androidx.paging.compose
     implementation libs.accompanist.drawablepainter
     implementation libs.accompanist.themeadapter.material3
-    implementation(libs.donut.compose)
-    implementation(libs.donut)
+    implementation libs.donut.compose
+    implementation libs.donut
 
     kapt libs.dagger.compiler
     implementation libs.dagger
@@ -322,7 +323,7 @@ dependencies {
     }
     androidTestImplementation libs.kotlin.test.junit
     androidTestImplementation libs.androidx.room.testing
-    androidTestImplementation libs.androidx.ui.test.junit4
+    androidTestImplementation libs.compose.ui.test.junit4
     //noinspection GradleDependency
     androidTestImplementation libs.assertj.core
     androidTestImplementation libs.truth

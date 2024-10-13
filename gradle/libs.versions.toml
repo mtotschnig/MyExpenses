@@ -162,10 +162,11 @@ androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidxSqlite" }
-androidx-ui = { module = "androidx.compose.ui:ui" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }

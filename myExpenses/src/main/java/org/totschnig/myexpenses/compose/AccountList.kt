@@ -391,7 +391,8 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
             stringResource(label),
             Modifier
                 .weight(1f)
-                .basicMarquee(iterations = 1), maxLines = 1
+                .basicMarquee(iterations = 1),
+            maxLines = 1
         )
         Text(formattedAmount, modifier)
     }

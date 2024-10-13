@@ -147,7 +147,7 @@
         <item>tillgraeger implemented several tickets (#640, #704, #638) in the context of his internship.</item>
         <item>Alessandro Serafini consulted on the debt overview screen and contributed icons ic_debt_down, ic_debt_up and ic_swap_vert.</item>
     </string-array>
-    <string-array name="additional_icon_credits_keys">
+    <string-array name="noun_icon_credits_keys">
         <item>@drawable/appliance</item>
         <item>@drawable/bottle</item>
         <item>@drawable/clothing</item>
@@ -169,7 +169,7 @@
         <item>@drawable/tray</item>
         <item>@drawable/unemployment</item>
     </string-array>
-    <string-array name="additional_icon_credits">
+    <string-array name="noun_icon_credits">
         <item>appliance by Hassan ali</item>
         <item>Bottle by Sarah</item>
         <item>clothing by bmijnlieff</item>

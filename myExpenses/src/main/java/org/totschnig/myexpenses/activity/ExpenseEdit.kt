@@ -1441,36 +1441,31 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                             account.criterion?.also { criterion ->
                                 val criterionInfo = CriterionInfo(
-                                    account.currentBalance, criterion, transaction.amount.amountMinor
+                                    account.currentBalance, criterion, transaction.amount.amountMinor,
+                                    account.color, account.currency
                                 )
                                 if (criterionInfo.hasReached) {
                                     CriterionReachedDialogFragment.newInstance(
-                                        CriterionInfo(
-                                            account.currentBalance, criterion, transaction.amount.amountMinor
-                                        )
+                                        criterionInfo
                                     )
                                         .show(supportFragmentManager, "CRITERION")
+                                    return
                                 }
-                            } ?: run {
-                                if (wasStartedFromWidget) {
-                                    val newBalance = account.currentBalance + transaction.amount.amountMinor
-                                    Toast.makeText(
-                                        this,
-                                        getString(R.string.new_balance) + " : " +
-                                                currencyFormatter.formatMoney(
-                                                    Money(account.currency, newBalance)
-                                                ),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                                doFinish()
-                                return
+                            }
+                            if (wasStartedFromWidget) {
+                                val newBalance = account.currentBalance + transaction.amount.amountMinor
+                                Toast.makeText(
+                                    this,
+                                    getString(R.string.new_balance) + " : " +
+                                            currencyFormatter.formatMoney(
+                                                Money(account.currency, newBalance)
+                                            ),
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
-                    } else {
-                        doFinish()
-                        return
                     }
+                    doFinish()
                 }
             }
         }.onFailure {
