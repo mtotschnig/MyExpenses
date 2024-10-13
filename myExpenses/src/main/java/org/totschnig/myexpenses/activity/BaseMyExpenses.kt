@@ -98,6 +98,8 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.CriterionInfo
+import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -524,7 +526,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         binding.viewPagerMain.viewPager.setContent {
             MainContent()
         }
-        setupToolbarPopupMenu()
+        setupToolbarClickHanlders()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -1990,40 +1992,63 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val hasItems
         get() = (sumInfo as? SumInfoLoaded)?.hasItems == true
 
-    private fun setupToolbarPopupMenu() {
-        toolbar.setOnClickListener {
-            if (accountCount > 0) {
-                val popup = PopupMenu(this, toolbar)
-                val popupMenu = popup.menu
-                popupMenu.add(
-                    Menu.NONE,
-                    R.id.COPY_TO_CLIPBOARD_COMMAND,
-                    Menu.NONE,
-                    R.string.copy_text
-                )
-                if (currentAccount?.isAggregate == false) {
+    private fun setupToolbarClickHanlders() {
+        listOf(binding.toolbar.subtitle, binding.toolbar.title).forEach {
+            it.setOnClickListener {
+                if (accountCount > 0) {
+                    val popup = PopupMenu(this, toolbar)
+                    val popupMenu = popup.menu
                     popupMenu.add(
                         Menu.NONE,
-                        R.id.NEW_BALANCE_COMMAND,
+                        R.id.COPY_TO_CLIPBOARD_COMMAND,
                         Menu.NONE,
-                        getString(R.string.new_balance)
+                        R.string.copy_text
                     )
-                }
-                popup.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                        R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                            AmountInputHostDialog.build().title(R.string.new_balance)
-                                .fields(
-                                    AmountInput.plain(KEY_AMOUNT)
-                                        .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
-                                        .withTypeSwitch(currentAccount!!.currentBalance > 0)
-                                ).show(this, DIALOG_TAG_NEW_BALANCE)
-                        }
+                    if (currentAccount?.isAggregate == false) {
+                        popupMenu.add(
+                            Menu.NONE,
+                            R.id.NEW_BALANCE_COMMAND,
+                            Menu.NONE,
+                            getString(R.string.new_balance)
+                        )
                     }
-                    true
+                    popup.setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
+                            R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
+                                AmountInputHostDialog.build().title(R.string.new_balance)
+                                    .fields(
+                                        AmountInput.plain(KEY_AMOUNT)
+                                            .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
+                                            .withTypeSwitch(currentAccount!!.currentBalance > 0)
+                                    ).show(this, DIALOG_TAG_NEW_BALANCE)
+                            }
+                        }
+                        true
+                    }
+                    popup.show()
                 }
-                popup.show()
+            }
+        }
+        listOf(binding.toolbar.donutView, binding.toolbar.progressPercent).forEach {
+            it.setOnClickListener {
+                currentAccount?.let { account ->
+                    account.criterion?.also {
+                        CriterionInfo(
+                            account.currentBalance,
+                            account.criterion,
+                            0,
+                            account._color,
+                            account.currencyUnit,
+                            account.label
+                        ).takeIf { it.hasReached(false) }?.let {
+                            CriterionReachedDialogFragment.newInstance(it)
+                                .show(supportFragmentManager, "CRITERION")
+                        }
+                    } ?: run {
+                        CrashHandler.report(Exception("Progress is visible, but no criterion is defined"))
+                    }
+                }
             }
         }
     }

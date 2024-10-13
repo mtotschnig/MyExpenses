@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.CriterionInfo
+import org.totschnig.myexpenses.dialog.OnCriterionDialogDismissedListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
@@ -171,7 +172,7 @@ const val HELP_VARIANT_SPLIT_PART_TRANSFER = "splitPartTransfer"
  * @author Michael Totschnig
  */
 open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFace,
-    ConfirmationDialogListener, ExchangeRateEdit.Host {
+    ConfirmationDialogListener, ExchangeRateEdit.Host, OnCriterionDialogDismissedListener {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -1439,7 +1440,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 label
                             )
                         }
-                    }?.takeIf { it.hasReached },
+                    }?.takeIf { it.hasReached() },
                     transferAccount?.run {
                         val transaction = transaction as Transfer
                         val delegate = delegate as TransferDelegate
@@ -1456,7 +1457,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 label
                             )
                         }
-                    }?.takeIf { it.hasReached }
+                    }?.takeIf { it.hasReached() }
                 )
                 when(criterionInfos.size) {
                     //if a transfer leads to a credit limit and a saving goal being hit at the same time
@@ -1808,6 +1809,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (isSplitPart) {
             viewModel.deletedTagIds = ids
             updateOnBackPressedCallbackEnabled()
+        }
+    }
+
+    override fun onCriterionDialogDismissed() {
+        if (!createNew) {
+            finish()
         }
     }
 }
