@@ -115,13 +115,13 @@ data class CriterionInfo(
                 (startBalance.absoluteValue < criterion.absoluteValue || BuildConfig.DEBUG) &&
                 newBalance.absoluteValue >= criterion.absoluteValue
 
-    @IgnoredOnParcel
-    @StringRes
-    val title = if (criterion.sign > 0) {
-        if (newBalance == criterion) R.string.saving_goal_reached else R.string.saving_goal_exceeded
-    } else {
-        if (newBalance == criterion) R.string.credit_limit_reached else R.string.credit_limit_exceeded
-    }
+
+    val title: Int
+        get() = if (criterion.sign > 0) {
+            if (newBalance == criterion) R.string.saving_goal_reached else R.string.saving_goal_exceeded
+        } else {
+            if (newBalance == criterion) R.string.credit_limit_reached else R.string.credit_limit_exceeded
+        }
 }
 
 class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {

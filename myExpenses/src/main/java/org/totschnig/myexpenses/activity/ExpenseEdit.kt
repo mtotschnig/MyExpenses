@@ -593,7 +593,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreateContextMenu(
         menu: ContextMenu, v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
+        menuInfo: ContextMenu.ContextMenuInfo?,
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit)
@@ -783,7 +783,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun populateFromTask(
         transaction: Transaction?,
-        task: InstantiationTask
+        task: InstantiationTask,
     ) {
         transaction?.also {
             if (transaction.isSealed) {
@@ -1441,19 +1441,22 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                             account.criterion?.also { criterion ->
                                 val criterionInfo = CriterionInfo(
-                                    account.currentBalance, criterion, transaction.amount.amountMinor,
-                                    account.color, account.currency
+                                    account.currentBalance,
+                                    criterion,
+                                    transaction.amount.amountMinor,
+                                    account.color,
+                                    account.currency
                                 )
                                 if (criterionInfo.hasReached) {
-                                    CriterionReachedDialogFragment.newInstance(
-                                        criterionInfo
-                                    )
+                                    CriterionReachedDialogFragment
+                                        .newInstance(criterionInfo)
                                         .show(supportFragmentManager, "CRITERION")
                                     return
                                 }
                             }
                             if (wasStartedFromWidget) {
-                                val newBalance = account.currentBalance + transaction.amount.amountMinor
+                                val newBalance =
+                                    account.currentBalance + transaction.amount.amountMinor
                                 Toast.makeText(
                                     this,
                                     getString(R.string.new_balance) + " : " +
@@ -1562,7 +1565,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private fun showPicturePopupMenu(
         v: View,
         @MenuRes menuRes: Int,
-        listener: OnMenuItemClickListener
+        listener: OnMenuItemClickListener,
     ) {
         with(PopupMenu(this, v)) {
             setOnMenuItemClickListener(listener)
@@ -1670,7 +1673,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val originalAmount: Money?,
         val equivalentAmount: Money?,
         val recurrence: Recurrence?,
-        val tags: List<Tag>?
+        val tags: List<Tag>?,
     ) : Parcelable
 
     @Parcelize
@@ -1678,7 +1681,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val title: String?,
         val isPlanExecutionAutomatic: Boolean,
         val planExecutionAdvance: Int,
-        val date: LocalDate
+        val date: LocalDate,
     ) : Parcelable
 
     private fun ITransaction.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
