@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -966,6 +967,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     val currentAccount: Account?
         get() = if (::delegate.isInitialized) delegate.currentAccount() else null
 
+    private val transferAccount: Account?
+        get() = if (::delegate.isInitialized) (delegate as? TransferDelegate)?.transferAccount() else null
+
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
         if (shouldLoadMethods) {
@@ -1419,6 +1423,56 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }
+            if (!isSplitPartOrTemplate) {
+                val criterionInfos = listOfNotNull(
+                    currentAccount!!.run {
+                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = (delegate as? TransferDelegate)?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        criterion?.let {
+                            CriterionInfo(
+                                currentBalance,
+                                criterion,
+                                //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
+                                transaction.amount.amountMinor - previousAmount - previousTransferAmount,
+                                color,
+                                currency,
+                                label
+                            )
+                        }
+                    }?.takeIf { it.hasReached },
+                    transferAccount?.run {
+                        val transaction = transaction as Transfer
+                        val delegate = delegate as TransferDelegate
+                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = delegate?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        criterion?.let {
+                            CriterionInfo(
+                                currentBalance,
+                                criterion,
+                                //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
+                                transaction.transferAmount.amountMinor - previousAmount - previousTransferAmount,
+                                color,
+                                currency,
+                                label
+                            )
+                        }
+                    }?.takeIf { it.hasReached }
+                )
+                when(criterionInfos.size) {
+                    //if a transfer leads to a credit limit and a saving goal being hit at the same time
+                    //in two different accounts, we give a priority to the credit limit and show saving goal in toast
+                    2 -> criterionInfos.first { it.criterion < 0}
+                    1 -> criterionInfos.first()
+                    else -> null
+                }?.let {
+                    CriterionReachedDialogFragment
+                        .newInstance(it,
+                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) { accountLabel + ": " + getString(title) } else null
+                        )
+                        .show(supportFragmentManager, "CRITERION")
+                    if(!createNew) return
+                }
+            }
             if (createNew) {
                 delegate.prepareForNew()
                 newInstance = true
@@ -1437,35 +1491,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     if (!isSplitPartOrTemplate) {
-                        currentAccount?.let { account ->
-
-                            account.criterion?.also { criterion ->
-                                val criterionInfo = CriterionInfo(
-                                    account.currentBalance,
-                                    criterion,
-                                    transaction.amount.amountMinor,
-                                    account.color,
-                                    account.currency
-                                )
-                                if (criterionInfo.hasReached) {
-                                    CriterionReachedDialogFragment
-                                        .newInstance(criterionInfo)
-                                        .show(supportFragmentManager, "CRITERION")
-                                    return
-                                }
-                            }
-                            if (wasStartedFromWidget) {
-                                val newBalance =
-                                    account.currentBalance + transaction.amount.amountMinor
-                                Toast.makeText(
-                                    this,
-                                    getString(R.string.new_balance) + " : " +
-                                            currencyFormatter.formatMoney(
-                                                Money(account.currency, newBalance)
-                                            ),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                        if (wasStartedFromWidget) {
+                            val newBalance =
+                                currentAccount!!.currentBalance + transaction.amount.amountMinor
+                            Toast.makeText(
+                                this@ExpenseEdit,
+                                getString(R.string.new_balance) + " : " +
+                                        currencyFormatter.formatMoney(
+                                            Money(currentAccount!!.currency, newBalance)
+                                        ),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                     doFinish()

@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -68,7 +67,6 @@ import app.futured.donut.compose.data.DonutModel
 import kotlinx.coroutines.delay
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
@@ -89,16 +87,17 @@ import kotlin.math.sign
 data class CriterionInfo(
     val startBalance: Long,
     val criterion: Long,
-    val transactionAmount: Long,
+    val delta: Long,
     val accountColor: Int,
     val currency: CurrencyUnit,
+    val accountLabel: String
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val newBalance = startBalance + transactionAmount
+    val newBalance = startBalance + delta
 
     @IgnoredOnParcel
-    val startProgress = startBalance * 100F / criterion
+    val startProgress = (startBalance * 100F / criterion).coerceAtLeast(0f)
 
     @IgnoredOnParcel
     val endProgress = newBalance * 100f / criterion
@@ -112,7 +111,7 @@ data class CriterionInfo(
     @IgnoredOnParcel
     val hasReached =
         criterion.sign == newBalance.sign &&
-                (startBalance.absoluteValue < criterion.absoluteValue || BuildConfig.DEBUG) &&
+                (startBalance * criterion.sign < criterion * criterion.sign) &&
                 newBalance.absoluteValue >= criterion.absoluteValue
 
 
@@ -154,6 +153,13 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireArguments().getString(KEY_ADDITIONAL_MESSAGE)?.let {
+            showSnackBar(it)
+        }
+    }
+
     override val title: CharSequence
         get() = getString(info.title)
 
@@ -161,11 +167,15 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
         const val ANIMATION_DURATION = 1000
         const val ANIMATION_DURATION_L = ANIMATION_DURATION.toLong()
         private const val KEY_INFO = "info"
+        private const val KEY_ADDITIONAL_MESSAGE = "additionalMessage"
 
-        fun newInstance(criterionInfo: CriterionInfo) =
+        fun newInstance(criterionInfo: CriterionInfo, additionalMessage: String?) =
             CriterionReachedDialogFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_INFO, criterionInfo)
+                    additionalMessage?.let {
+                        putString(KEY_ADDITIONAL_MESSAGE, it)
+                    }
                 }
             }
     }
@@ -407,9 +417,10 @@ fun Demo() {
             CriterionInfo(
                 startBalance = 95,
                 criterion = 100,
-                transactionAmount = 45,
+                delta = 45,
                 android.graphics.Color.GREEN,
                 CurrencyUnit.DebugInstance,
+                "My savings account"
             ),
             showDataInitially = true,
             withAnimation = false

@@ -413,7 +413,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     )
                     true
                 } else false
-            } ?: false
+            } == true
         }
     }
 
