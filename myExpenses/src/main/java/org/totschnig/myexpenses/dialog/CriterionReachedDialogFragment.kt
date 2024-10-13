@@ -30,9 +30,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Alarm
-import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -67,6 +64,7 @@ import kotlinx.coroutines.delay
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment.Companion.ANIMATION_DURATION
@@ -82,6 +80,10 @@ import java.text.NumberFormat
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
+interface OnCriterionDialogDismissedListener {
+    fun onCriterionDialogDismissed()
+}
+
 @Parcelize
 data class CriterionInfo(
     val startBalance: Long,
@@ -89,7 +91,7 @@ data class CriterionInfo(
     val delta: Long,
     val accountColor: Int,
     val currency: CurrencyUnit,
-    val accountLabel: String
+    val accountLabel: String,
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -107,11 +109,14 @@ data class CriterionInfo(
     @IgnoredOnParcel
     val overagePercent = overage.toFloat() / criterion
 
-    @IgnoredOnParcel
-    val hasReached =
-        criterion.sign == newBalance.sign &&
-                (startBalance * criterion.sign < criterion * criterion.sign) &&
-                newBalance.absoluteValue >= criterion.absoluteValue
+
+    /**
+     * returns true if we are above the criterion, but if [onlyWhenChanged] is true only if startBalance was still below criterion
+     */
+    fun hasReached(onlyWhenChanged: Boolean = true) =
+        criterion.sign == newBalance.sign && newBalance.absoluteValue >= criterion.absoluteValue &&
+                (!onlyWhenChanged || (startBalance * criterion.sign < criterion * criterion.sign))
+
 
 
     val title: Int
@@ -145,10 +150,11 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
         CriterionReachedGraph(
             info,
             progressColor = progressColor,
-            overageColor = overageColor
+            overageColor = overageColor,
+            withProgressAnimation = requireArguments().getBoolean(KEY_WITH_ANIMATION)
         ) {
             dismiss()
-            requireActivity().finish()
+            onFinished()
         }
     }
 
@@ -167,20 +173,30 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
         const val ANIMATION_DURATION_L = ANIMATION_DURATION.toLong()
         private const val KEY_INFO = "info"
         private const val KEY_ADDITIONAL_MESSAGE = "additionalMessage"
+        private const val KEY_WITH_ANIMATION = "withAnimation"
 
-        fun newInstance(criterionInfo: CriterionInfo, additionalMessage: String?) =
+        fun newInstance(
+            criterionInfo: CriterionInfo,
+            additionalMessage: String? = null,
+            withAnimation: Boolean = true,
+        ) =
             CriterionReachedDialogFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_INFO, criterionInfo)
                     additionalMessage?.let {
                         putString(KEY_ADDITIONAL_MESSAGE, it)
                     }
+                    putBoolean(KEY_WITH_ANIMATION, withAnimation)
                 }
             }
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        requireActivity().finish()
+        onFinished()
+    }
+
+    fun onFinished() {
+        (requireActivity() as? OnCriterionDialogDismissedListener)?.onCriterionDialogDismissed()
     }
 }
 
@@ -221,12 +237,12 @@ fun ColumnScope.CriterionReachedGraph(
     showDataInitially: Boolean = false,
     progressColor: Color = Color.Green,
     overageColor: Color = Color.Red,
-    withIconAnimation: Boolean = true,
-    onDismiss: () -> Unit = {}
+    withProgressAnimation: Boolean = true,
+    onDismiss: () -> Unit = {},
 ) {
     var progress by remember { mutableFloatStateOf(info.startProgress) }
     var showData by remember { mutableStateOf(showDataInitially) }
-    val iconAnimation = if (withIconAnimation) remember { mutableStateOf(false) } else null
+    val iconAnimation = remember { mutableStateOf(false) }
     val isLarge = booleanResource(R.bool.isLarge)
     val isLandscape =
         LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -244,16 +260,24 @@ fun ColumnScope.CriterionReachedGraph(
                 progressColor = progressColor,
                 overageColor = overageColor
             )
-            Column(modifier = Modifier.weight(1f).fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
+            ) {
                 DataOverview(
                     info,
-                    modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
-                    showData = showData,
-                    progressColor = progressColor,
-                    overageColor = overageColor,
-                    animation = iconAnimation?.value
+                    Modifier
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState()),
+                    showData,
+                    progressColor,
+                    overageColor,
+                    iconAnimation.value,
+                    withProgressAnimation
                 )
-                OkButton(onDismiss)
+                Buttons(onDismiss)
             }
         }
     } else {
@@ -270,28 +294,31 @@ fun ColumnScope.CriterionReachedGraph(
                 overageColor = overageColor
             )
             DataOverview(
-                info = info,
-                modifier = Modifier
+                info,
+                Modifier
                     .fillMaxWidth(0.75f)
                     .align(Alignment.TopCenter),
-                showData = showData,
-                progressColor = progressColor,
-                overageColor = overageColor,
-                animation = iconAnimation?.value
+                showData,
+                progressColor,
+                overageColor,
+                iconAnimation.value,
+                withProgressAnimation
             )
         }
-        OkButton(onDismiss)
+        Buttons(onDismiss)
     }
     LaunchedEffect(Unit) {
-        delay(ANIMATION_DURATION_L / 2)
-        if (progress < 100F) {
-            progress = 100F
-            delay(ANIMATION_DURATION_L + 50) // extra time to make sure Donut's internal animation has finished
+        if (withProgressAnimation) {
+            delay(ANIMATION_DURATION_L / 2)
+            if (progress < 100F) {
+                progress = 100F
+                delay(ANIMATION_DURATION_L + 50) // extra time to make sure Donut's internal animation has finished
+            }
+            progress = info.endProgress
         }
-        progress = info.endProgress
         showData = true
         delay(ANIMATION_DURATION_L)
-        iconAnimation?.value = true
+        iconAnimation.value = true
     }
 }
 
@@ -303,7 +330,8 @@ fun DataOverview(
     showData: Boolean,
     progressColor: Color,
     overageColor: Color,
-    animation: Boolean?
+    iconAnimation: Boolean,
+    withProgressAnimation: Boolean
 ) {
     AnimatedVisibility(
         modifier = modifier,
@@ -314,26 +342,18 @@ fun DataOverview(
             Column {
                 Spacer(Modifier.weight(0.7f))
                 val isSavingGoal = info.criterion > 0
-                if (animation != null) {
-                    val image = AnimatedImageVector.animatedVectorResource(
-                        if (isSavingGoal) R.drawable.heart else R.drawable.notification_v4
-                    )
-                    Icon(
-                        modifier = Modifier.size(72.dp)
+                val image = AnimatedImageVector.animatedVectorResource(
+                    if (isSavingGoal) R.drawable.heart else R.drawable.notification_v4
+                )
+                Icon(
+                    modifier = Modifier
+                        .size(72.dp)
                         .align(Alignment.CenterHorizontally)
                         .padding(bottom = 12.dp),
-                        painter = rememberAnimatedVectorPainter(image, animation),
-                        tint = colorResource(if (isSavingGoal) R.color.colorIncome else R.color.colorExpense),
-                        contentDescription = null // decorative element
-                    )
-                } else {
-                    Icon(
-                        modifier = Modifier.size(72.dp).align(Alignment.CenterHorizontally).padding(bottom = 12.dp),
-                        imageVector = if (isSavingGoal) Icons.Filled.Celebration else Icons.Filled.Alarm,
-                        tint = if (isSavingGoal) LocalColors.current.income else LocalColors.current.expense,
-                        contentDescription = null
-                    )
-                }
+                    painter = rememberAnimatedVectorPainter(image, iconAnimation),
+                    tint = colorResource(if (isSavingGoal) R.color.colorIncome else R.color.colorExpense),
+                    contentDescription = null // decorative element
+                )
 
                 ValueRow(
                     progressColor,
@@ -350,7 +370,7 @@ fun DataOverview(
                 )
                 ValueRow(
                     null,
-                    stringResource(R.string.new_balance),
+                    stringResource(if (withProgressAnimation) R.string.new_balance else R.string.current_balance),
                     info.newBalance,
                     info.currency
                 )
@@ -377,7 +397,9 @@ fun ValueRow(
             ?: Spacer(modifier = Modifier.width(width = 4.dp))
         Spacer(modifier = Modifier.width(width = 12.dp))
         Text(
-            modifier = Modifier.weight(1f).basicMarquee(iterations = 1),
+            modifier = Modifier
+                .weight(1f)
+                .basicMarquee(iterations = 1),
             text = label,
             maxLines = 1
         )
@@ -398,11 +420,14 @@ fun Circle(radius: Dp, color: Color, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ColumnScope.OkButton(onDismiss: () -> Unit) {
-    TextButton(
-        onClick = onDismiss, modifier = Modifier.align(Alignment.End)
-    ) {
-        Text(stringResource(id = android.R.string.ok))
+fun ColumnScope.Buttons(onDismiss: () -> Unit) {
+    ButtonRow {
+        TextButton(onClick = { TODO() }) {
+            Text(stringResource(id = R.string.menu_edit))
+        }
+        TextButton(onClick = onDismiss) {
+            Text(stringResource(id = R.string.menu_close))
+        }
     }
 }
 
@@ -422,7 +447,7 @@ fun Demo() {
                 "My savings account"
             ),
             showDataInitially = true,
-            withIconAnimation = false
+            withProgressAnimation = true
         )
     }
 }
