@@ -18,8 +18,10 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
@@ -58,7 +60,7 @@ class TransactionListViewModel(
         get() = with(loadingInfo) {
             val (selection, selectionArgs) = selectionInfo
             contentResolver.observeQuery(
-                transactionUri, arrayOf("sum($amountCalculation)"), selection, selectionArgs
+                transactionUri, arrayOf("sum(${KEY_DISPLAY_AMOUNT})"), selection, selectionArgs
             ).mapToOne {
                 it.getLong(0)
             }
@@ -113,11 +115,6 @@ class TransactionListViewModel(
                 }
             }.filterNotNull()
         }
-
-    private val amountCalculation: String
-        get() = if (isHomeAggregate(loadingInfo.accountId))
-            getAmountHomeEquivalent(VIEW_COMMITTED, currencyContext.homeCurrencyString)
-        else KEY_AMOUNT
 
     private val selectionInfo: Pair<String, Array<String>>
         get() = with(loadingInfo) {
