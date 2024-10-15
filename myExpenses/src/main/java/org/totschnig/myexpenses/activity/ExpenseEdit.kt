@@ -1816,7 +1816,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCriterionDialogDismissed() {
         if (!createNew) {
-            finish()
+            doFinish()
         }
     }
 }

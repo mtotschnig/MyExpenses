@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
-import kotlin.math.roundToInt
 
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
