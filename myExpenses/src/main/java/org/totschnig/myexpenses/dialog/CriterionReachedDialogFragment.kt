@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -57,10 +58,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.AmountInput
+import eltos.simpledialogfragment.form.AmountInputHostDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
@@ -69,13 +78,17 @@ import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment.Companion.ANIMATION_DURATION
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment.Companion.ANIMATION_DURATION_L
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
 import org.totschnig.myexpenses.util.ui.forCompose
+import org.totschnig.myexpenses.viewmodel.CriterionViewModel
 import timber.log.Timber
+import java.math.BigDecimal
 import java.text.NumberFormat
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -86,16 +99,17 @@ interface OnCriterionDialogDismissedListener {
 
 @Parcelize
 data class CriterionInfo(
+    val accountId: Long,
     val startBalance: Long,
     val criterion: Long,
-    val delta: Long,
+    val transaction: Long,
     val accountColor: Int,
     val currency: CurrencyUnit,
     val accountLabel: String,
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val newBalance = startBalance + delta
+    val newBalance = startBalance + transaction
 
     @IgnoredOnParcel
     val startProgress = (startBalance * 100F / criterion).coerceAtLeast(0f)
@@ -104,11 +118,13 @@ data class CriterionInfo(
     val endProgress = newBalance * 100f / criterion
 
     @IgnoredOnParcel
-    val overage = newBalance - criterion
+    val delta = newBalance - criterion
 
     @IgnoredOnParcel
-    val overagePercent = overage.toFloat() / criterion
+    val deltaPercent = delta.toFloat() / criterion
 
+    val Long.asMoney: Money
+        get() = Money(currency, this)
 
     /**
      * returns true if we are above the criterion, but if [onlyWhenChanged] is true only if startBalance was still below criterion
@@ -117,45 +133,76 @@ data class CriterionInfo(
         criterion.sign == newBalance.sign && newBalance.absoluteValue >= criterion.absoluteValue &&
                 (!onlyWhenChanged || (startBalance * criterion.sign < criterion * criterion.sign))
 
+    @IgnoredOnParcel
+    val isSavingGoal = criterion.sign > 0
 
+    @IgnoredOnParcel
+    val label: Int = if (isSavingGoal) R.string.saving_goal else R.string.credit_limit
 
-    val title: Int
-        get() = if (criterion.sign > 0) {
-            if (newBalance == criterion) R.string.saving_goal_reached else R.string.saving_goal_exceeded
-        } else {
-            if (newBalance == criterion) R.string.credit_limit_reached else R.string.credit_limit_exceeded
-        }
+    @IgnoredOnParcel
+    val dialogTitle: Int = if (isSavingGoal) when {
+        newBalance < criterion -> R.string.saving_goal
+        newBalance == criterion -> R.string.saving_goal_reached
+        else -> R.string.saving_goal_exceeded
+    } else when {
+        newBalance > criterion -> R.string.credit_limit
+        newBalance == criterion -> R.string.credit_limit_reached
+        else -> R.string.credit_limit_exceeded
+    }
 }
 
-class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
-    val info: CriterionInfo by lazy {
-        requireNotNull(
-            BundleCompat.getParcelable(
-                requireArguments(), KEY_INFO, CriterionInfo::class.java
+class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogResultListener {
+
+    val viewModel: CriterionViewModel by viewModels()
+
+    val info: MutableState<CriterionInfo> by lazy {
+        mutableStateOf(
+            requireNotNull(
+                BundleCompat.getParcelable(
+                    requireArguments(), KEY_INFO, CriterionInfo::class.java
+                )
             )
         )
     }
 
     val progressColor
-        get() = Color(info.accountColor)
+        get() = Color(info.value.accountColor)
 
     @get:Composable
     val overageColor: Color
         get() = with(LocalColors.current) {
-            if (info.criterion > 0) income else expense
+            if (info.value.criterion > 0) income else expense
         }
 
     @Composable
     override fun ColumnScope.MainContent() {
         CriterionReachedGraph(
-            info,
+            info.value,
             progressColor = progressColor,
             overageColor = overageColor,
-            withProgressAnimation = requireArguments().getBoolean(KEY_WITH_ANIMATION)
-        ) {
-            dismiss()
-            onFinished()
-        }
+            withProgressAnimation = requireArguments().getBoolean(KEY_WITH_ANIMATION),
+            onEdit = {
+                with(info.value) {
+                    AmountInputHostDialog.build().title(label)
+                        .fields(
+                            AmountInput.plain(KEY_AMOUNT)
+                                .fractionDigits(currency.fractionDigits)
+                                .amount(criterion.asMoney.amountMajor)
+                        )
+                        .neg()
+                        .show(this@CriterionReachedDialogFragment, DIALOG_TAG_NEW_CRITERION)
+                }
+            },
+            onDismiss = {
+                dismiss()
+                onFinished()
+            }
+        )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injector.inject(viewModel)
     }
 
     override fun onStart() {
@@ -165,15 +212,13 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
         }
     }
 
-    override val title: CharSequence
-        get() = getString(info.title)
-
     companion object {
         const val ANIMATION_DURATION = 1000
         const val ANIMATION_DURATION_L = ANIMATION_DURATION.toLong()
         private const val KEY_INFO = "info"
         private const val KEY_ADDITIONAL_MESSAGE = "additionalMessage"
         private const val KEY_WITH_ANIMATION = "withAnimation"
+        const val DIALOG_TAG_NEW_CRITERION = "NEW_CRITERION"
 
         fun newInstance(
             criterionInfo: CriterionInfo,
@@ -198,14 +243,36 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3() {
     fun onFinished() {
         (requireActivity() as? OnCriterionDialogDismissedListener)?.onCriterionDialogDismissed()
     }
+
+    override fun onResult(
+        dialogTag: String,
+        which: Int,
+        extras: Bundle,
+    ) = if (dialogTag == DIALOG_TAG_NEW_CRITERION) {
+        BundleCompat.getSerializable<BigDecimal>(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
+            with(info.value) {
+                val newCriterion = Money(currency, it).amountMinor * criterion.sign
+                if (criterion.absoluteValue != newCriterion) {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            viewModel.updateCriterion(accountId, newCriterion)
+                            info.value = info.value.copy(criterion = newCriterion)
+                        }
+                    }
+                }
+            }
+        }
+        true
+    } else false
 }
 
 @Composable
 fun GraphInternal(
     modifier: Modifier = Modifier,
     progress: Float,
-    progressColor: Color = Color.Green,
-    overageColor: Color = Color.Red,
+    progressColor: Color,
+    overageColor: Color,
+    remainderColor: Color,
 ) {
     DonutProgress(
         modifier = modifier,
@@ -218,7 +285,7 @@ fun GraphInternal(
             gapWidthDegrees = 0f,
             gapAngleDegrees = 0f,
             strokeCap = StrokeCap.Butt,
-            backgroundLineColor = Color(0xFFE7E8E9)
+            backgroundLineColor = remainderColor
         ),
         config = DonutConfig.create(
             layoutAnimationSpec = tween(
@@ -238,74 +305,81 @@ fun ColumnScope.CriterionReachedGraph(
     progressColor: Color = Color.Green,
     overageColor: Color = Color.Red,
     withProgressAnimation: Boolean = true,
+    onEdit: () -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
-    var progress by remember { mutableFloatStateOf(info.startProgress) }
+    var progress by remember(info) { mutableFloatStateOf(info.startProgress) }
     var showData by remember { mutableStateOf(showDataInitially) }
     val iconAnimation = remember { mutableStateOf(false) }
     val isLarge = booleanResource(R.bool.isLarge)
     val isLandscape =
         LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-    if (isLandscape) {
-        Row(
-            modifier = Modifier.height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(if (isLarge) 16.dp else 8.dp)
-        ) {
-            GraphInternal(
-                modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(1f),
-                progress = progress,
-                progressColor = progressColor,
-                overageColor = overageColor
-            )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center
+    val remainderColor = MaterialTheme.colorScheme.outline
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+        Text(
+            text = stringResource(info.dialogTitle),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        if (isLandscape) {
+            Row(
+                modifier = Modifier.height(IntrinsicSize.Min),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(if (isLarge) 16.dp else 8.dp)
             ) {
+                GraphInternal(
+                    Modifier
+                        .weight(1f)
+                        .aspectRatio(1f),
+                    progress, progressColor, overageColor, remainderColor
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    DataOverview(
+                        info,
+                        Modifier
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState()),
+                        showData,
+                        progressColor,
+                        overageColor,
+                        remainderColor,
+                        iconAnimation.value,
+                        withProgressAnimation
+                    )
+                    Buttons(onEdit, onDismiss)
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(if (isLarge) 0.75f else 1f)
+                    .aspectRatio(1f)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                GraphInternal(
+                    Modifier.fillMaxSize(), progress, progressColor, overageColor, remainderColor
+                )
                 DataOverview(
                     info,
                     Modifier
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState()),
+                        .fillMaxWidth(0.75f)
+                        .align(Alignment.TopCenter),
                     showData,
                     progressColor,
                     overageColor,
+                    remainderColor,
                     iconAnimation.value,
                     withProgressAnimation
                 )
-                Buttons(onDismiss)
             }
+            Buttons(onEdit, onDismiss)
         }
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(if (isLarge) 0.75f else 1f)
-                .aspectRatio(1f)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            GraphInternal(
-                modifier = Modifier.fillMaxSize(),
-                progress = progress,
-                progressColor = progressColor,
-                overageColor = overageColor
-            )
-            DataOverview(
-                info,
-                Modifier
-                    .fillMaxWidth(0.75f)
-                    .align(Alignment.TopCenter),
-                showData,
-                progressColor,
-                overageColor,
-                iconAnimation.value,
-                withProgressAnimation
-            )
-        }
-        Buttons(onDismiss)
     }
     LaunchedEffect(Unit) {
         if (withProgressAnimation) {
@@ -330,8 +404,9 @@ fun DataOverview(
     showData: Boolean,
     progressColor: Color,
     overageColor: Color,
+    remainderColor: Color,
     iconAnimation: Boolean,
-    withProgressAnimation: Boolean
+    withProgressAnimation: Boolean,
 ) {
     AnimatedVisibility(
         modifier = modifier,
@@ -341,9 +416,9 @@ fun DataOverview(
         ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
             Column {
                 Spacer(Modifier.weight(0.7f))
-                val isSavingGoal = info.criterion > 0
+                val savingGoal = info.isSavingGoal
                 val image = AnimatedImageVector.animatedVectorResource(
-                    if (isSavingGoal) R.drawable.heart else R.drawable.notification_v4
+                    if (savingGoal) R.drawable.heart else R.drawable.notification_v4
                 )
                 Icon(
                     modifier = Modifier
@@ -351,28 +426,32 @@ fun DataOverview(
                         .align(Alignment.CenterHorizontally)
                         .padding(bottom = 12.dp),
                     painter = rememberAnimatedVectorPainter(image, iconAnimation),
-                    tint = colorResource(if (isSavingGoal) R.color.colorIncome else R.color.colorExpense),
+                    tint = colorResource(if (savingGoal) R.color.colorIncome else R.color.colorExpense),
                     contentDescription = null // decorative element
                 )
 
                 ValueRow(
                     progressColor,
-                    stringResource(if (isSavingGoal) R.string.saving_goal else R.string.credit_limit),
-                    info.criterion,
-                    info.currency
+                    stringResource(info.label),
+                    with(info) { criterion.asMoney }
                 )
+                val hasReached = info.hasReached(false)
                 ValueRow(
-                    overageColor,
-                    "Overage",
-                    info.overage,
-                    info.currency,
-                    info.overagePercent
+                    if (hasReached) overageColor else remainderColor,
+                    stringResource(
+                        when {
+                            hasReached -> R.string.overage
+                            savingGoal -> R.string.saving_goal_short_fall
+                            else -> R.string.credit_limit_available_credit
+                        }
+                    ),
+                    with(info) { delta.asMoney },
+                    info.deltaPercent.absoluteValue
                 )
                 ValueRow(
                     null,
                     stringResource(if (withProgressAnimation) R.string.new_balance else R.string.current_balance),
-                    info.newBalance,
-                    info.currency
+                    with(info) { newBalance.asMoney }
                 )
                 Spacer(Modifier.weight(1f))
             }
@@ -384,8 +463,7 @@ fun DataOverview(
 fun ValueRow(
     color: Color?,
     label: String,
-    amount: Long,
-    currency: CurrencyUnit,
+    amount: Money,
     percent: Float? = null,
 ) {
     val percentFormat = NumberFormat.getPercentInstance(LocalContext.current.getLocale()).also {
@@ -404,7 +482,7 @@ fun ValueRow(
             maxLines = 1
         )
         Column(horizontalAlignment = Alignment.End) {
-            Text(text = currencyFormatter.formatMoney(Money(currency, amount)))
+            Text(text = currencyFormatter.formatMoney(amount))
             percent?.let { Text(text = percentFormat.format(it)) }
         }
     }
@@ -420,9 +498,12 @@ fun Circle(radius: Dp, color: Color, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ColumnScope.Buttons(onDismiss: () -> Unit) {
+fun ColumnScope.Buttons(
+    onEdit: () -> Unit,
+    onDismiss: () -> Unit,
+) {
     ButtonRow {
-        TextButton(onClick = { TODO() }) {
+        TextButton(onClick = onEdit) {
             Text(stringResource(id = R.string.menu_edit))
         }
         TextButton(onClick = onDismiss) {
@@ -439,9 +520,10 @@ fun Demo() {
     Column {
         CriterionReachedGraph(
             CriterionInfo(
+                accountId = 1L,
                 startBalance = 95,
                 criterion = 100,
-                delta = 45,
+                transaction = 45,
                 android.graphics.Color.GREEN,
                 CurrencyUnit.DebugInstance,
                 "My savings account"

@@ -1398,7 +1398,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 putExtra(KEY_CREATE_TEMPLATE, createTemplate)
                 val attachments = viewModel.attachmentUris.value
-                if (attachments.size > 0) {
+                if (attachments.isNotEmpty()) {
                     clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
                         if (attachments.size > 1) {
                             attachments.subList(1, attachments.size).forEach {
@@ -1431,6 +1431,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         val previousTransferAmount = (delegate as? TransferDelegate)?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
                         criterion?.let {
                             CriterionInfo(
+                                id,
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
@@ -1448,6 +1449,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         val previousTransferAmount = delegate?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
                         criterion?.let {
                             CriterionInfo(
+                                id,
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
@@ -1468,7 +1470,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }?.let {
                     CriterionReachedDialogFragment
                         .newInstance(it,
-                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) { accountLabel + ": " + getString(title) } else null
+                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) { accountLabel + ": " + getString(dialogTitle) } else null
                         )
                         .show(supportFragmentManager, "CRITERION")
                     if(!createNew) return

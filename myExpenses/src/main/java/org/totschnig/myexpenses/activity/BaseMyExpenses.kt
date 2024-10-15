@@ -1544,7 +1544,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
         if (super.onResult(dialogTag, which, extras)) true
-        else if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+        else if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
                 FILTER_COMMENT_DIALOG -> {
                     extras.getString(SimpleInputDialog.TEXT)?.let {
@@ -2032,19 +2032,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
         listOf(binding.toolbar.donutView, binding.toolbar.progressPercent).forEach {
             it.setOnClickListener {
-                currentAccount?.let { account ->
-                    account.criterion?.also {
-                        CriterionInfo(
-                            account.currentBalance,
-                            account.criterion,
+                currentAccount?.run {
+                    criterion?.also {
+                        CriterionReachedDialogFragment.newInstance(CriterionInfo(
+                            id,
+                            currentBalance,
+                            criterion,
                             0,
-                            account._color,
-                            account.currencyUnit,
-                            account.label
-                        ).takeIf { it.hasReached(false) }?.let {
-                            CriterionReachedDialogFragment.newInstance(it)
-                                .show(supportFragmentManager, "CRITERION")
-                        }
+                            _color,
+                            currencyUnit,
+                            label
+                        ), withAnimation = false)
+                            .show(supportFragmentManager, "CRITERION")
                     } ?: run {
                         CrashHandler.report(Exception("Progress is visible, but no criterion is defined"))
                     }

@@ -27,7 +27,7 @@ abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
     @Composable
     abstract fun ColumnScope.MainContent()
 
-    abstract val title: CharSequence
+    open val title: CharSequence? = null
 
     override fun initBuilder(): AlertDialog.Builder =
         super.initBuilder().apply {
