@@ -55,6 +55,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastRoundToInt
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
@@ -97,6 +98,8 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.CriterionInfo
+import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -169,8 +172,11 @@ import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
+import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
+import org.totschnig.myexpenses.util.ui.forViewSystem
+import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
@@ -245,7 +251,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 
-    private var currentBalance: String? = null
+    private var currentBalance: String = ""
 
     lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
@@ -309,7 +315,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
                     mode: ActionMode,
-                    menu: Menu
+                    menu: Menu,
                 ): Boolean {
                     if (!currentAccount!!.sealed) {
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
@@ -332,7 +338,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
                 override fun onPrepareActionMode(
                     mode: ActionMode,
-                    menu: Menu
+                    menu: Menu,
                 ) = with(menu) {
                     findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
                     val hasTransfer = selectionState.any { it.isTransfer }
@@ -354,7 +360,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
-                    item: MenuItem
+                    item: MenuItem,
                 ): Boolean {
                     if (remapHandler.handleActionItemClick(item.itemId)) return true
                     when (item.itemId) {
@@ -520,7 +526,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         binding.viewPagerMain.viewPager.setContent {
             MainContent()
         }
-        setupToolbarPopupMenu()
+        setupToolbarClickHanlders()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -533,7 +539,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             callback = object : Snackbar.Callback() {
                                 override fun onDismissed(
                                     transientBottomBar: Snackbar,
-                                    event: Int
+                                    event: Int,
                                 ) {
                                     if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
                                         upgradeHandlerViewModel.messageShown()
@@ -851,9 +857,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     @Composable
     private fun MainContent() {
 
-        LaunchedEffect(currentAccount) {
+        LaunchedEffect(currentAccount?.id) {
             with(currentAccount) {
-                configureUiWithCurrentAccount(this)
+                configureUiWithCurrentAccount(this, false)
                 if (this != null) {
                     finishActionMode()
                     sumInfo = SumInfoUnknown
@@ -877,7 +883,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 }
                             }
                         }
-                        configureUiWithCurrentAccount(currentAccount)
+                        configureUiWithCurrentAccount(currentAccount, true)
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
@@ -1019,12 +1025,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         icon = Icons.Filled.Loupe,
                                         label = R.string.details,
                                         command = "DETAILS"
-                                    ) { showDetails(
-                                        transaction.id,
-                                        transaction.isArchive,
-                                        currentFilter.takeIf { transaction.isArchive },
-                                        currentAccount?.sortOrder.takeIf { transaction.isArchive }
-                                    ) })
+                                    ) {
+                                        showDetails(
+                                            transaction.id,
+                                            transaction.isArchive,
+                                            currentFilter.takeIf { transaction.isArchive },
+                                            currentAccount?.sortOrder.takeIf { transaction.isArchive }
+                                        )
+                                    })
                                     if (modificationAllowed) {
                                         if (transaction.isArchive) {
                                             add(MenuEntry(
@@ -1442,7 +1450,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         @IdRes commandPositive: Int,
         @StringRes commandPositiveLabel: Int = 0,
         @IdRes commandNegative: Int? = R.id.CANCEL_CALLBACK_COMMAND,
-        prepareBundle: Bundle.() -> Unit
+        prepareBundle: Bundle.() -> Unit,
     ) {
         lifecycleScope.launchWhenResumed {
             ConfirmationDialogFragment
@@ -1536,7 +1544,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
         if (super.onResult(dialogTag, which, extras)) true
-        else if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+        else if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
                 FILTER_COMMENT_DIALOG -> {
                     extras.getString(SimpleInputDialog.TEXT)?.let {
@@ -1984,40 +1992,62 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val hasItems
         get() = (sumInfo as? SumInfoLoaded)?.hasItems == true
 
-    private fun setupToolbarPopupMenu() {
-        toolbar.setOnClickListener {
-            if (accountCount > 0) {
-                val popup = PopupMenu(this, toolbar)
-                val popupMenu = popup.menu
-                popupMenu.add(
-                    Menu.NONE,
-                    R.id.COPY_TO_CLIPBOARD_COMMAND,
-                    Menu.NONE,
-                    R.string.copy_text
-                )
-                if (currentAccount?.isAggregate == false) {
+    private fun setupToolbarClickHanlders() {
+        listOf(binding.toolbar.subtitle, binding.toolbar.title).forEach {
+            it.setOnClickListener {
+                if (accountCount > 0) {
+                    val popup = PopupMenu(this, toolbar)
+                    val popupMenu = popup.menu
                     popupMenu.add(
                         Menu.NONE,
-                        R.id.NEW_BALANCE_COMMAND,
+                        R.id.COPY_TO_CLIPBOARD_COMMAND,
                         Menu.NONE,
-                        getString(R.string.new_balance)
+                        R.string.copy_text
                     )
-                }
-                popup.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                        R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                            AmountInputHostDialog.build().title(R.string.new_balance)
-                                .fields(
-                                    AmountInput.plain(KEY_AMOUNT)
-                                        .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
-                                        .withTypeSwitch(currentAccount!!.currentBalance > 0)
-                                ).show(this, DIALOG_TAG_NEW_BALANCE)
-                        }
+                    if (currentAccount?.isAggregate == false) {
+                        popupMenu.add(
+                            Menu.NONE,
+                            R.id.NEW_BALANCE_COMMAND,
+                            Menu.NONE,
+                            getString(R.string.new_balance)
+                        )
                     }
-                    true
+                    popup.setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
+                            R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
+                                AmountInputHostDialog.build().title(R.string.new_balance)
+                                    .fields(
+                                        AmountInput.plain(KEY_AMOUNT)
+                                            .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
+                                            .withTypeSwitch(currentAccount!!.currentBalance > 0)
+                                    ).show(this, DIALOG_TAG_NEW_BALANCE)
+                            }
+                        }
+                        true
+                    }
+                    popup.show()
                 }
-                popup.show()
+            }
+        }
+        listOf(binding.toolbar.donutView, binding.toolbar.progressPercent).forEach {
+            it.setOnClickListener {
+                currentAccount?.run {
+                    criterion?.also {
+                        CriterionReachedDialogFragment.newInstance(CriterionInfo(
+                            id,
+                            currentBalance,
+                            criterion,
+                            0,
+                            _color,
+                            currencyUnit,
+                            label
+                        ), withAnimation = false)
+                            .show(supportFragmentManager, "CRITERION")
+                    } ?: run {
+                        CrashHandler.report(Exception("Progress is visible, but no criterion is defined"))
+                    }
+                }
             }
         }
     }
@@ -2039,27 +2069,52 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
      * adapt UI to currently selected account
      * @return currently selected account
      */
-    private fun configureUiWithCurrentAccount(account: FullAccount?) {
+    private fun configureUiWithCurrentAccount(account: FullAccount?, animateProgress: Boolean) {
         if (account != null) {
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
-            setBalance(account)
+            setBalance(account, animateProgress)
         }
         updateFab()
         invalidateOptionsMenu()
     }
 
-    private fun setBalance(account: FullAccount) {
+    private fun setBalance(account: FullAccount, animateProgress: Boolean) {
+
         val isHome = account.id == HOME_AGGREGATE_ID
         currentBalance = (if (isHome) " ≈ " else "") +
                 currencyFormatter.formatMoney(Money(account.currencyUnit, account.currentBalance))
-        title = if (isHome) getString(R.string.grand_total) else account.label
-        toolbar.subtitle = currentBalance
-        setSignedToolbarColor(account.currentBalance)
+        binding.toolbar.title.text =
+            if (isHome) getString(R.string.grand_total) else account.label
+        with(binding.toolbar.subtitle) {
+            text = currentBalance
+            setTextColor(getAmountColor(account.currentBalance.sign))
+        }
+        val progress = account.progress
+        binding.toolbar.donutView.isVisible = progress != null
+        binding.toolbar.progressPercent.isVisible = progress != null
+        progress?.let {
+            with(binding.toolbar.donutView) {
+                animateChanges = animateProgress
+                submitData(
+                    sections = calcProgressVisualRepresentation(it).forViewSystem(
+                        account._color,
+                        getAmountColor(account.criterion?.sign ?: 0)
+                    ).also {
+                        Timber.d("Sections: %s", it)
+                    }
+                )
+            }
+
+            with(binding.toolbar.progressPercent) {
+                text = "%d".format(it.fastRoundToInt())
+                setTextColor(this@BaseMyExpenses.getAmountColor(account.criterion?.sign ?: 0))
+            }
+        }
     }
 
     private fun copyToClipBoard() {
-        currentBalance?.let { copyToClipboard(it) }
+        currentBalance.takeIf { it.isNotEmpty() }?.let { copyToClipboard(it) }
     }
 
     fun updateFab() {
@@ -2519,6 +2574,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 "",
                 action.mimeType
             )
+
             is OpenAction -> startActionView(action.targets[index ?: 0], action.mimeType)
 
             else -> {}

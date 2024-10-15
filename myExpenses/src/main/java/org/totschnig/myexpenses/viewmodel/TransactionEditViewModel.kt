@@ -71,8 +71,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
+import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
+import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
@@ -112,7 +117,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
-            uri = TransactionProvider.ACCOUNTS_BASE_URI,
+            uri = ACCOUNTS_FULL_URI,
             projection = null,
             selection = "$KEY_SEALED = 0",
             selectionArgs = null,
@@ -141,23 +146,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         emit(Plan.getInstanceFromDb(contentResolver, planId))
     }
 
-    fun currentBalance(accountId: Long) = liveData(context = coroutineContext()) {
-        emit(
-            contentResolver.query(
-                ACCOUNTS_FULL_URI,
-                null,
-                "$KEY_ROWID = ?",
-                arrayOf(accountId.toString()),
-                null
-            )?.use {
-                if (it.moveToFirst())
-                    Money(currencyContext[it.getString(KEY_CURRENCY)], it.getLong(KEY_CURRENT_BALANCE))
-                else null
-            }
-        )
-    }
-
-
     fun loadMethods(isIncome: Boolean, type: AccountType) {
         loadMethodJob?.cancel()
         viewModelScope.launch {
@@ -175,17 +163,19 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
         val currency =
-            currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
+            currencyContext[cursor.getString(KEY_CURRENCY)]
         return Account(
-            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
+            cursor.getLong(KEY_ROWID),
+            cursor.getString(KEY_LABEL),
             currency,
-            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
-            AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
+            cursor.getInt(KEY_COLOR),
+            cursor.getEnum(KEY_TYPE, AccountType.CASH),
             adjustExchangeRate(
-                cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)),
+                cursor.getDouble(KEY_EXCHANGE_RATE),
                 currency
-            )
+            ),
+            cursor.getLongOrNull(KEY_CRITERION),
+            cursor.getLong(KEY_CURRENT_BALANCE)
         )
     }
 
@@ -423,7 +413,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     )
                     true
                 } else false
-            } ?: false
+            } == true
         }
     }
 

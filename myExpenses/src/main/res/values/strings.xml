@@ -1040,4 +1040,12 @@
     <string name="warning_archive_inconsistent_state">The transactions in the selected date range have inconsistent statuses (%s).</string>
     <string name="warning_backend_deactivated">Backend is not ready to be synced.</string>
     <string name="button_activate_again">Activate again</string>
+    <string name="credit_limit_reached">You have hit your credit limit.</string>
+    <string name="saving_goal_reached">You have met your saving goal.</string>
+    <string name="credit_limit_exceeded">You have gone over your credit limit.</string>
+    <string name="saving_goal_exceeded">You have exceeded your saving goal.</string>
+    <!-- describes the amount that by which a credit limit or a saving goal have been exceeded. -->
+    <string name="overage">Overage</string>
+    <string name="credit_limit_available_credit">Available credit</string>
+    <string name="saving_goal_short_fall">Shortfall</string>
 </resources>

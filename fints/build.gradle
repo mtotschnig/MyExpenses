@@ -34,10 +34,10 @@ dependencies {
     implementation project(':myExpenses')
     coreLibraryDesugaring libs.android.desugar
     implementation platform(libs.androidx.compose.bom)
-    implementation libs.androidx.ui
+    implementation libs.compose.ui
     implementation(libs.androidx.compose.material3)
-    implementation libs.androidx.ui.tooling.preview
-    debugImplementation libs.androidx.ui.tooling
+    implementation libs.compose.ui.tooling.preview
+    debugImplementation libs.compose.ui.tooling
     implementation libs.androidx.activity.compose
     implementation libs.androidx.material.icons.extended
     implementation libs.androidx.runtime.livedata

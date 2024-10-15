@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,7 +27,7 @@ abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
     @Composable
     abstract fun ColumnScope.MainContent()
 
-    abstract val title: CharSequence
+    open val title: CharSequence? = null
 
     override fun initBuilder(): AlertDialog.Builder =
         super.initBuilder().apply {
@@ -37,6 +38,7 @@ abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
                         Column(
                             modifier = Modifier
                                 .testTag(TEST_TAG_DIALOG_ROOT)
+                                .fillMaxWidth()
                                 .padding(
                                     start = horizontalPadding,
                                     end = horizontalPadding,

@@ -43,7 +43,7 @@ evernote = "1.4.1"
 composeBom = "2024.09.03"
 dagger = "2.51.1"
 datastorePreferences = "1.1.1"
-donutCompose = "2.2.3"
+donut = "c11f2d1aeb"
 flexbox = "3.0.0"
 fontdrawable = "39e8f63ce2"
 fragmentVersion = "1.8.4"
@@ -162,10 +162,11 @@ androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidxSqlite" }
-androidx-ui = { module = "androidx.compose.ui:ui" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
@@ -192,7 +193,8 @@ copper-flow = { module = "app.cash.copper:copper-flow", version.ref = "copperFlo
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dav4android = { module = "com.gitlab.mtotschn:dav4android", version.ref = "dav4android" }
-donut-compose = { module = "app.futured.donut:donut-compose", version.ref = "donutCompose" }
+donut-compose = { module = "com.github.mtotschnig.donut:donut-compose", version.ref = "donut" }
+donut = { module = "com.github.mtotschnig.donut:donut", version.ref = "donut" }
 dropbox-android-sdk = { module = "com.dropbox.core:dropbox-android-sdk", version.ref = "dropbox" }
 dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropbox" }
 easypermissions-ktx = { module = "com.github.mtotschnig:easypermissions-ktx", version.ref = "easypermissionsKtx" }

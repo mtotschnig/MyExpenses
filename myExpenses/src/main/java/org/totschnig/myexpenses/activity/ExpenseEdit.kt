@@ -77,6 +77,9 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
+import org.totschnig.myexpenses.dialog.CriterionInfo
+import org.totschnig.myexpenses.dialog.OnCriterionDialogDismissedListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
@@ -92,6 +95,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -168,7 +172,7 @@ const val HELP_VARIANT_SPLIT_PART_TRANSFER = "splitPartTransfer"
  * @author Michael Totschnig
  */
 open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFace,
-    ConfirmationDialogListener, ExchangeRateEdit.Host {
+    ConfirmationDialogListener, ExchangeRateEdit.Host, OnCriterionDialogDismissedListener {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -591,7 +595,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreateContextMenu(
         menu: ContextMenu, v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
+        menuInfo: ContextMenu.ContextMenuInfo?,
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit)
@@ -781,7 +785,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun populateFromTask(
         transaction: Transaction?,
-        task: InstantiationTask
+        task: InstantiationTask,
     ) {
         transaction?.also {
             if (transaction.isSealed) {
@@ -963,6 +967,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     @VisibleForTesting
     val currentAccount: Account?
         get() = if (::delegate.isInitialized) delegate.currentAccount() else null
+
+    private val transferAccount: Account?
+        get() = if (::delegate.isInitialized) (delegate as? TransferDelegate)?.transferAccount() else null
 
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
@@ -1391,7 +1398,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 putExtra(KEY_CREATE_TEMPLATE, createTemplate)
                 val attachments = viewModel.attachmentUris.value
-                if (attachments.size > 0) {
+                if (attachments.isNotEmpty()) {
                     clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
                         if (attachments.size > 1) {
                             attachments.subList(1, attachments.size).forEach {
@@ -1407,10 +1414,67 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    private fun doFinish() {
+        setResult(RESULT_OK, backwardCanceledTagsIntent())
+        finish()
+    }
+
     private fun onSaved(result: Result<Unit>, transaction: ITransaction) {
         result.onSuccess {
             if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
+            }
+            if (!isSplitPartOrTemplate) {
+                val criterionInfos = listOfNotNull(
+                    currentAccount!!.run {
+                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = (delegate as? TransferDelegate)?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        criterion?.let {
+                            CriterionInfo(
+                                id,
+                                currentBalance,
+                                criterion,
+                                //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
+                                transaction.amount.amountMinor - previousAmount - previousTransferAmount,
+                                color,
+                                currency,
+                                label
+                            )
+                        }
+                    }?.takeIf { it.hasReached() },
+                    transferAccount?.run {
+                        val transaction = transaction as Transfer
+                        val delegate = delegate as TransferDelegate
+                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = delegate?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        criterion?.let {
+                            CriterionInfo(
+                                id,
+                                currentBalance,
+                                criterion,
+                                //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
+                                transaction.transferAmount.amountMinor - previousAmount - previousTransferAmount,
+                                color,
+                                currency,
+                                label
+                            )
+                        }
+                    }?.takeIf { it.hasReached() }
+                )
+                when(criterionInfos.size) {
+                    //if a transfer leads to a credit limit and a saving goal being hit at the same time
+                    //in two different accounts, we give a priority to the credit limit and show saving goal in toast
+                    2 -> criterionInfos.first { it.criterion < 0}
+                    1 -> criterionInfos.first()
+                    else -> null
+                }?.let {
+                    CriterionReachedDialogFragment
+                        .newInstance(it,
+                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) { accountLabel + ": " + getString(dialogTitle) } else null
+                        )
+                        .show(supportFragmentManager, "CRITERION")
+                    if(!createNew) return
+                }
             }
             if (createNew) {
                 delegate.prepareForNew()
@@ -1429,22 +1493,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    if (wasStartedFromWidget) {
-                        viewModel.currentBalance(transaction.accountId).observe(this) {
-                            it?.let { balance ->
-                                Toast.makeText(
-                                    this,
-                                    getString(R.string.new_balance) + " : " + currencyFormatter.formatMoney(balance),
-                                    Toast.LENGTH_LONG).show()
-                            }
-                            finish()
+                    if (!isSplitPartOrTemplate) {
+                        if (wasStartedFromWidget) {
+                            val newBalance =
+                                currentAccount!!.currentBalance + transaction.amount.amountMinor
+                            Toast.makeText(
+                                this@ExpenseEdit,
+                                getString(R.string.new_balance) + " : " +
+                                        currencyFormatter.formatMoney(
+                                            Money(currentAccount!!.currency, newBalance)
+                                        ),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
-                    } else {
-                        setResult(RESULT_OK, backwardCanceledTagsIntent())
-                        finish()
                     }
-                    //no need to call super after finish
-                    return
+                    doFinish()
                 }
             }
         }.onFailure {
@@ -1541,7 +1604,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private fun showPicturePopupMenu(
         v: View,
         @MenuRes menuRes: Int,
-        listener: OnMenuItemClickListener
+        listener: OnMenuItemClickListener,
     ) {
         with(PopupMenu(this, v)) {
             setOnMenuItemClickListener(listener)
@@ -1649,7 +1712,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val originalAmount: Money?,
         val equivalentAmount: Money?,
         val recurrence: Recurrence?,
-        val tags: List<Tag>?
+        val tags: List<Tag>?,
     ) : Parcelable
 
     @Parcelize
@@ -1657,7 +1720,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val title: String?,
         val isPlanExecutionAutomatic: Boolean,
         val planExecutionAdvance: Int,
-        val date: LocalDate
+        val date: LocalDate,
     ) : Parcelable
 
     private fun ITransaction.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
@@ -1748,6 +1811,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (isSplitPart) {
             viewModel.deletedTagIds = ids
             updateOnBackPressedCallbackEnabled()
+        }
+    }
+
+    override fun onCriterionDialogDismissed() {
+        if (!createNew) {
+            doFinish()
         }
     }
 }

@@ -93,6 +93,13 @@ data class FullAccount(
             id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
 
+    val progress: Float?
+        get() = criterion?.let {
+            if (it > 0 == currentBalance > 0) {
+                (currentBalance * 100F / it)
+            } else 0f
+        }
+
     companion object {
 
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): FullAccount {

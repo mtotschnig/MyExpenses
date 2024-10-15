@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import kotlin.math.roundToInt
+import kotlin.math.sign
 
 @Composable
 fun AccountList(
@@ -214,9 +215,18 @@ fun AccountCard(
         ) {
             val modifier = Modifier
                 .padding(end = 6.dp)
-                .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 1.444).dp)
+                .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
             val color = Color(account.color(LocalContext.current.resources))
-            if (account.criterion == null) {
+
+            account.progress?.let {
+                DonutInABox(
+                    modifier = modifier,
+                    progress = it,
+                    fontSize = 10.sp,
+                    color = color,
+                    excessColor = LocalColors.current.amountColor(account.criterion?.sign ?: 0)
+                )
+            } ?: run {
                 if (account.bankId == null || bankIcon == null) {
                     ColorCircle(modifier, color) {
                         if (account.isAggregate) {
@@ -224,17 +234,6 @@ fun AccountCard(
                         }
                     }
                 } else bankIcon.invoke(modifier, account.bankId)
-
-            } else {
-                DonutInABox(
-                    modifier = modifier,
-                    progress = if (account.criterion > 0 == account.currentBalance > 0) {
-                        (account.currentBalance * 100F / account.criterion).roundToInt()
-                    } else 0,
-                    fontSize = 10.sp,
-                    strokeWidth = 10f,
-                    color = color
-                )
             }
 
             if (account.sealed) {
@@ -392,7 +391,8 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
             stringResource(label),
             Modifier
                 .weight(1f)
-                .basicMarquee(iterations = 1), maxLines = 1
+                .basicMarquee(iterations = 1),
+            maxLines = 1
         )
         Text(formattedAmount, modifier)
     }

@@ -170,7 +170,13 @@ abstract class TransactionDelegate<T : ITransaction>(
     var originalCurrencyCode: String? = null
 
     @State
+    var passedInAccountId: Long? = null
+
+    @State
     var accountId: Long? = null
+
+    @State
+    var amount: Long? = null
 
     @State
     var methodId: Long? = null
@@ -247,6 +253,8 @@ abstract class TransactionDelegate<T : ITransaction>(
             rowId = transaction.id
             parentId = transaction.parentId
             accountId = transaction.accountId
+            passedInAccountId = transaction.accountId
+            amount = transaction.amount.amountMinor
             methodId = transaction.methodId
             methodLabel = transaction.methodLabel
             planId = (transaction as? Template)?.plan?.id

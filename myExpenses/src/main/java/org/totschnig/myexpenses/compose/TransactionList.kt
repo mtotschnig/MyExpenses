@@ -444,7 +444,7 @@ fun HeaderRenderer(
             )
         }
         if (budget?.second != null && budget.second != 0L) {
-            val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second).roundToInt()
+            val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DonutInABox(
                     modifier = Modifier
@@ -453,7 +453,8 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(account.color(LocalContext.current.resources))
+                    color = Color(account.color(LocalContext.current.resources)),
+                    excessColor = LocalColors.current.expense
                 )
 
                 HeaderData(
@@ -549,7 +550,7 @@ private fun Header() {
     )
 }
 
-@Preview(name = "Tablet", device = TABLET, locale = "en")
+@Preview(name = "Tablet", device = "spec:width=1280dp,height=800dp,dpi=240", locale = "en")
 @Composable
 private fun HeaderWithBudgetProgress() {
     val amount = Money(CurrencyUnit.DebugInstance, 1234)

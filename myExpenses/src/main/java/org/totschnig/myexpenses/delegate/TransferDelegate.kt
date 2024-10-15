@@ -57,6 +57,12 @@ class TransferDelegate(
     @State
     var categoryVisible = false
 
+    @State
+    var transferAmount: Long? = null
+
+    @State
+    var passedInTransferAccountId: Long? = null
+
     override val helpVariant: String
         get() = when {
             isTemplate -> HELP_VARIANT_TEMPLATE_TRANSFER
@@ -79,6 +85,8 @@ class TransferDelegate(
         if (transaction != null) {
             mTransferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
+            transferAmount = transaction.transferAmount?.amountMinor
+            passedInTransferAccountId = transaction.transferAccountId
             transaction.transferAmount?.let {
                 viewBinding.TransferAmount.setFractionDigits(it.currencyUnit.fractionDigits)
             }
@@ -161,7 +169,7 @@ class TransferDelegate(
         return selectedPosition
     }
 
-    private fun transferAccount() = getAccountFromSpinner(transferAccountSpinner)
+    fun transferAccount() = getAccountFromSpinner(transferAccountSpinner)
 
     private fun configureTransferInput() {
         val transferAccount = transferAccount()

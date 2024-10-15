@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/toolbar" />
+                <include android:id="@+id/toolbar" layout="@layout/toolbar_with_progress" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
