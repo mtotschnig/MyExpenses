@@ -993,18 +993,19 @@ abstract class TransactionDelegate<T : ITransaction>(
         updateAccount(mAccounts[selected])
     }
 
-    open fun setAccounts(data: List<Account>) {
+    open fun setAccounts(data: List<Account>, firstLoad: Boolean) {
         mAccounts.clear()
         mAccounts.addAll(data)
         accountSpinner.adapter = IdAdapter(context, data).apply {
             setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         }
-
-        viewBinding.Amount.setTypeEnabled(true)
-        isProcessingLinkedAmountInputs = true
-        configureType()
-        isProcessingLinkedAmountInputs = false
-        setAccount()
+        if (firstLoad) {
+            viewBinding.Amount.setTypeEnabled(true)
+            isProcessingLinkedAmountInputs = true
+            configureType()
+            isProcessingLinkedAmountInputs = false
+            setAccount()
+        }
     }
 
     private fun configureStatusSpinner() {

@@ -729,7 +729,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
         } else {
             if (::delegate.isInitialized) {
-                delegate.setAccounts(accounts)
+                delegate.setAccounts(accounts, !accountsLoaded)
                 loadDebts()
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
@@ -741,10 +741,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accounts.collect {
+                    val firstLoad = !accountsLoaded
                     setAccounts(it)
-                    collectSplitParts()
-                    if (isSplitParent) {
-                        viewModel.loadSplitParts(delegate.rowId, isTemplate)
+                    if (firstLoad) {
+                        collectSplitParts()
+                        if (isSplitParent) {
+                            viewModel.loadSplitParts(delegate.rowId, isTemplate)
+                        }
                     }
                 }
             }
