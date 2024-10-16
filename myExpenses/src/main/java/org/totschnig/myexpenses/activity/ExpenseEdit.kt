@@ -1427,8 +1427,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (!isSplitPartOrTemplate) {
                 val criterionInfos = listOfNotNull(
                     currentAccount!!.run {
-                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
-                        val previousTransferAmount = (delegate as? TransferDelegate)?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        val previousAmount = with(delegate) { passedInAmount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = (delegate as? TransferDelegate)?.run { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
                         criterion?.let {
                             CriterionInfo(
                                 id,
@@ -1445,8 +1445,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     transferAccount?.run {
                         val transaction = transaction as Transfer
                         val delegate = delegate as TransferDelegate
-                        val previousAmount = with(delegate) { amount?.takeIf { passedInAccountId == id } ?: 0 }
-                        val previousTransferAmount = delegate?.run { transferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        val previousAmount = with(delegate) { passedInAmount?.takeIf { passedInAccountId == id } ?: 0 }
+                        val previousTransferAmount = with(delegate) { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } }
+                            ?: 0
                         criterion?.let {
                             CriterionInfo(
                                 id,

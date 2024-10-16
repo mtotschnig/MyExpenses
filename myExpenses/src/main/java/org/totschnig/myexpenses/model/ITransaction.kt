@@ -25,6 +25,7 @@ interface ITransaction: IModel {
     var date: Long
     var originTemplateId: Long?
     var amount: Money
+    var transferAmount: Money?
     var accountId: Long
     var parentId: Long?
     var originPlanInstanceId: Long?

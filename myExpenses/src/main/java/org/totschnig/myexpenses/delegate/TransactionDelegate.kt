@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.delegate
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
@@ -44,7 +43,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
-import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -176,7 +174,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     var accountId: Long? = null
 
     @State
-    var amount: Long? = null
+    var passedInAmount: Long? = null
 
     @State
     var methodId: Long? = null
@@ -254,7 +252,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             parentId = transaction.parentId
             accountId = transaction.accountId
             passedInAccountId = transaction.accountId
-            amount = transaction.amount.amountMinor
+            passedInAmount = transaction.amount.amountMinor
             methodId = transaction.methodId
             methodLabel = transaction.methodLabel
             planId = (transaction as? Template)?.plan?.id

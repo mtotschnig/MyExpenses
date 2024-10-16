@@ -58,7 +58,7 @@ class TransferDelegate(
     var categoryVisible = false
 
     @State
-    var transferAmount: Long? = null
+    var passedInTransferAmount: Long? = null
 
     @State
     var passedInTransferAccountId: Long? = null
@@ -85,7 +85,7 @@ class TransferDelegate(
         if (transaction != null) {
             mTransferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
-            transferAmount = transaction.transferAmount?.amountMinor
+            passedInTransferAmount = transaction.transferAmount?.amountMinor
             passedInTransferAccountId = transaction.transferAccountId
             transaction.transferAmount?.let {
                 viewBinding.TransferAmount.setFractionDigits(it.currencyUnit.fractionDigits)
