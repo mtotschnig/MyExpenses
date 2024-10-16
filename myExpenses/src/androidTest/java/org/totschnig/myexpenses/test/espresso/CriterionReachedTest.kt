@@ -6,10 +6,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.totschnig.myexpenses.R
@@ -223,7 +220,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             setAmount(editedAmount)
             clickFab()
             if (expectedTitle != null) {
-                onView(withText(expectedTitle)).check(matches(isDisplayed()))
+                composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
             } else {
                 assertFinishing()
             }
@@ -255,7 +252,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             setAmount(editedAmount)
             clickFab()
             if (expectedTitle != null) {
-                onView(withText(expectedTitle)).check(matches(isDisplayed()))
+                composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
             } else {
                 assertFinishing()
             }

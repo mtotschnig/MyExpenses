@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.ContentUris
+import androidx.compose.ui.test.isDisplayed
+import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -114,7 +116,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             setAmount(amount.absoluteValue)
             clickFab()
             if (expectedTitle != null) {
-                onView(withText(expectedTitle)).check(matches(isDisplayed()))
+                composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
                 expectedSnackBar?.let {
                     onView(withId(com.google.android.material.R.id.snackbar_text))
                         .check(matches(withSubstring(getString(expectedSnackBar))))
@@ -142,7 +144,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             setAmount(editedAmount)
             clickFab()
             if (expectedTitle != null) {
-                onView(withText(expectedTitle)).check(matches(isDisplayed()))
+                composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
                 expectedSnackBar?.let {
                     onView(withId(com.google.android.material.R.id.snackbar_text))
                         .check(matches(withSubstring(getString(expectedSnackBar))))
@@ -166,7 +168,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
         }).use {
             clickMenuItem(R.id.INVERT_TRANSFER_COMMAND)
             clickFab()
-            onView(withText(R.string.saving_goal_exceeded)).check(matches(isDisplayed()))
+            composeTestRule.onNodeWithText(getString(R.string.saving_goal_exceeded)).isDisplayed()
         }
     }
 }

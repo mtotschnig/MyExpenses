@@ -22,6 +22,8 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
@@ -175,10 +177,12 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     lateinit var testScenario: ActivityScenario<A>
 
-    protected fun rotate() {
-        testScenario.onActivity {
-            it.requestedOrientation = if (it.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
+
+    protected fun doWithRotation(actions: () -> Unit) {
+        val device = UiDevice.getInstance(getInstrumentation())
+        device.setOrientationRight()
+        actions()
+        device.setOrientationNatural()
     }
 
     fun assertCanceled() {

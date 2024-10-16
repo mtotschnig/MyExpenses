@@ -76,10 +76,10 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         onView(withId(R.id.Account)).perform(click())
         onData(allOf(instanceOf(IdHolder::class.java), withAccount(accountLabel2))).perform(click())
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
-        rotate()
-        onIdle()
-        onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
-        rotate()
+        doWithRotation {
+            onIdle()
+            onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
+        }
     }
 
     @Test
@@ -102,10 +102,10 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             )
         ).perform(click())
         onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
-        rotate()
-        onIdle()
-        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
-        rotate()
+        doWithRotation {
+            onIdle()
+            onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
+        }
     }
 
 
@@ -132,20 +132,20 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         //withSpinnerText matches toString of object
         val string = CrStatus.CLEARED.toString()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
-        rotate()
-        onIdle()
-        onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
-        rotate()
+        doWithRotation {
+            onIdle()
+            onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
+        }
     }
 
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
         testScenario = ActivityScenario.launch(intentForNewTransaction)
-        rotate()
-        onIdle()
-        toolbarTitle().check(doesNotExist())
-        checkEffectiveVisible(R.id.OperationType)
-        rotate()
+        doWithRotation {
+            onIdle()
+            toolbarTitle().check(doesNotExist())
+            checkEffectiveVisible(R.id.OperationType)
+        }
     }
 
     @Test
@@ -160,10 +160,10 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             Intent(targetContext, ExpenseEdit::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)
             })
-        rotate()
-        onIdle()
-        checkEffectiveGone(R.id.OperationType)
-        toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
-        rotate()
+        doWithRotation {
+            onIdle()
+            checkEffectiveGone(R.id.OperationType)
+            toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+        }
     }
 }

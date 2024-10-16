@@ -131,14 +131,13 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 clickMenuItem(R.id.BUDGET_COMMAND)
                 onView(withId(R.id.recycler_view))
                     .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-                val device = UiDevice.getInstance(getInstrumentation())
-                device.setOrientationRight()
-                onIdle()
-                //wait for sum to load IdlingResource is too cumbersome to set up, since
-                //onActivity does not get us hold on BudgetActivity
-                Thread.sleep(500)
-                takeScreenshot("budget")
-                device.setOrientationNatural()
+                doWithRotation {
+                    onIdle()
+                    //wait for sum to load IdlingResource is too cumbersome to set up, since
+                    //onActivity does not get us hold on BudgetActivity
+                    Thread.sleep(500)
+                    takeScreenshot("budget")
+                }
                 onIdle()
                 Thread.sleep(500)
                 pressBack()

@@ -45,7 +45,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
-import org.totschnig.myexpenses.testutils.toolbarSubtitle
+import org.totschnig.myexpenses.testutils.toolbarMainSubtitle
+import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
@@ -88,7 +89,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun newBalanceOpensForm() {
-        toolbarTitle().perform(click())
+        toolbarMainTitle().perform(click())
         onView(withText(R.string.new_balance)).perform(click())
         onView(
             withIdAndParent(
@@ -265,16 +266,15 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun titleAndSubtitleAreSetAndSurviveOrientationChange() {
         checkTitle("Test account 2")
-        val device = UiDevice.getInstance(getInstrumentation())
-        device.setOrientationRight()
-        checkTitle("Test account 2")
-        device.setOrientationNatural()
+        doWithRotation {
+            checkTitle("Test account 2")
+        }
     }
 
     private fun checkTitle(label: String) {
         val currencyFormatter = app.appComponent.currencyFormatter()
         val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
-        toolbarTitle().check(matches(withText(label)))
-        toolbarSubtitle().check(matches(withText(balance)))
+        toolbarMainTitle().check(matches(withText(label)))
+        toolbarMainSubtitle().check(matches(withText(balance)))
     }
 }

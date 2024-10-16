@@ -3,21 +3,17 @@ package org.totschnig.myexpenses.testutils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withParentIndex
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
@@ -25,7 +21,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 fun withMethod(label: String): Matcher<Any> =
@@ -81,11 +76,14 @@ fun withOperationType(type: Int): Matcher<Any> =
 fun withPositionInParent(parentViewId: Int, position: Int): Matcher<View> =
     allOf(withParent(withId(parentViewId)), withParentIndex(position))
 
-fun toolbarTitle(): ViewInteraction =
+fun toolbarMainTitle(): ViewInteraction =
     onView(withIdAndAncestor(R.id.title, R.id.toolbar))
 
-fun toolbarSubtitle(): ViewInteraction =
+fun toolbarMainSubtitle(): ViewInteraction =
     onView(withIdAndAncestor(R.id.subtitle, R.id.toolbar))
+
+fun toolbarTitle(): ViewInteraction =
+    onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
 
 //Espresso recorder
 fun childAtPosition(parentMatcher: Matcher<View>, position: Int) =

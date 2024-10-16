@@ -192,8 +192,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun cabIsRestoredAfterOrientationChange() {
         launch()
         openCab(null)
-        rotate()
-        onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
+        doWithRotation {
+            onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
+        }
     }
 
     @Test

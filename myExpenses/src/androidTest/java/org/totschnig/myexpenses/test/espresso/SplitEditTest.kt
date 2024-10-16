@@ -137,17 +137,17 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedTransactions(0)
     }
 
-    //flaky
     @Test
     fun loadCancelRotateCleanup() {
         launchEdit()
         assertUncommittedTransactions(2)
-        rotate()
-        assertUncommittedTransactions(2)
-        closeSoftKeyboard()
-        pressBackUnconditionally()
-        assertCanceled()
-        assertUncommittedTransactions(0)
+        doWithRotation {
+            assertUncommittedTransactions(2)
+            closeSoftKeyboard()
+            pressBackUnconditionally()
+            assertCanceled()
+            assertUncommittedTransactions(0)
+        }
     }
 
     private fun verifyTypeToggle(initiallyChecked: Boolean) {
