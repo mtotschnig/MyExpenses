@@ -1454,7 +1454,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
-                                transaction.transferAmount.amountMinor - previousAmount - previousTransferAmount,
+                                transaction.transferAmount!!.amountMinor - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
                                 label
