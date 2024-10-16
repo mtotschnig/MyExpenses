@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.ContentUris
+import androidx.compose.ui.test.isDisplayed
+import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -193,7 +195,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             setAmount(amount.absoluteValue)
             clickFab()
             if (expectedTitle != null) {
-                onView(withText(expectedTitle)).check(matches(isDisplayed()))
+                composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
             } else {
                 assertFinishing()
             }

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.OperationApplicationException
 import android.os.RemoteException
 import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onData
@@ -24,12 +23,10 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import com.google.common.truth.Truth
-import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.hasToString
@@ -48,6 +45,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
+import org.totschnig.myexpenses.testutils.toolbarSubtitle
+import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
 
@@ -89,7 +88,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun newBalanceOpensForm() {
-        onView(withId(R.id.toolbar)).perform(click())
+        toolbarTitle().perform(click())
         onView(withText(R.string.new_balance)).perform(click())
         onView(
             withIdAndParent(
@@ -157,7 +156,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     private fun openDrawer() {
         try {
             onView(withId(R.id.drawer)).perform(DrawerActions.open())
-        } catch (e: NoMatchingViewException) { /*drawerLess layout*/
+        } catch (_: NoMatchingViewException) { /*drawerLess layout*/
         }
     }
 
@@ -275,19 +274,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     private fun checkTitle(label: String) {
         val currencyFormatter = app.appComponent.currencyFormatter()
         val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
-        onView(
-            allOf(
-                instanceOf(TextView::class.java),
-                withParent(withId(R.id.toolbar)),
-                withText(label)
-            )
-        ).check(matches(isDisplayed()))
-        onView(
-            allOf(
-                instanceOf(TextView::class.java),
-                withParent(withId(R.id.toolbar)),
-                withText(balance)
-            )
-        ).check(matches(isDisplayed()))
+        toolbarTitle().check(matches(withText(label)))
+        toolbarSubtitle().check(matches(withText(balance)))
     }
 }

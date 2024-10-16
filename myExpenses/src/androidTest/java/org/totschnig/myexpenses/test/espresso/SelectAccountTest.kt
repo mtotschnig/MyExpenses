@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.toolbarTitle
 import kotlin.properties.Delegates
 
 //tests if account is selected in MyExpenses view pager
@@ -93,13 +94,7 @@ class SelectAccountTest : BaseMyExpensesTest() {
     ) {
         launch(id)
         assertDataSize(5) //3 accounts, USD and Grand Total
-        onView(
-            allOf(
-                withText(accountLabelForList.value),
-                withParent(withId(R.id.toolbar))
-            )
-        )
-            .check(matches(ViewMatchers.isDisplayed()))
+        toolbarTitle().check(matches(withText(accountLabelForList.value)))
         clickFab()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(`is`(accountForForm.label))))
     }

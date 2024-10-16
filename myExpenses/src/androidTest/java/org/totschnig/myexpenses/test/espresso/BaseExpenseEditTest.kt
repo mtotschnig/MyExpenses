@@ -27,13 +27,13 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.testutils.withOperationType
 
 const val TEMPLATE_TITLE = "Espresso template"
 
-abstract class BaseExpenseEditTest : BaseUiTest<TestExpenseEdit>() {
+abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
 
     val intentForNewTransaction
