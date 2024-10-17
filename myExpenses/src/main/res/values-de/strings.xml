@@ -984,4 +984,13 @@
     <string name="archive">Archiv</string>
     <string name="dialog_title_warning_delete_archive">Archiv löschen?</string>
     <string name="warning_archive_inconsistent_state">Die Buchungen in dem ausgewählten Datumsbereich haben unvereinbare Zustände (%s).</string>
+    <string name="button_activate_again">Erneut aktivieren</string>
+    <string name="credit_limit_reached">Sie haben Ihr Kreditlimit erreicht.</string>
+    <string name="saving_goal_reached">Sie haben Ihr Sparziel erreicht.</string>
+    <string name="saving_goal_exceeded">Sie haben Ihr Sparziel überschritten.</string>
+    <string name="overage">Überschuss</string>
+    <string name="credit_limit_available_credit">Verfügbares Guthaben</string>
+    <string name="saving_goal_short_fall">Fehlbetrag</string>
+    <string name="warning_backend_deactivated">Das Backend ist nicht zur Synchronisierung bereit.</string>
+    <string name="credit_limit_exceeded">Sie haben Ihr Kreditlimit überschritten.</string>
 </resources>
