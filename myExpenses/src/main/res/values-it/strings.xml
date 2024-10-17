@@ -979,4 +979,26 @@
     <string name="warning_transform_to_transfer">La transazione selezionata verrà sostituita da un trasferimento da %1$s a %2$s.</string>
     <string name="remap_date">Su tutte le transazioni selezionate, la data verrà impostata su %s.</string>
     <string name="not_enough_data">Dati insufficienti</string>
+    <string name="button_activate_again">Riattiva</string>
+    <string name="credit_limit_exceeded">Hai superato il tuo limite di credito.</string>
+    <string name="credit_limit_available_credit">Credito disponibile</string>
+    <string name="warning_archive_inconsistent_state">Le transazioni nell\'intervallo di date selezionato hanno stati incoerenti (%s).</string>
+    <string name="warning_backend_deactivated">Il back-end non è pronto per essere sincronizzato.</string>
+    <string name="credit_limit_reached">Hai raggiunto il tuo limite di credito.</string>
+    <string name="saving_goal_reached">Hai raggiunto il tuo obiettivo di risparmio.</string>
+    <string name="saving_goal_exceeded">Hai superato il tuo obiettivo di risparmio.</string>
+    <string name="overage">Eccedenza</string>
+    <string name="saving_goal_short_fall">Carenza</string>
+    <string name="menu_unpack">Disimballare</string>
+    <string name="warning_unarchive">L\'archivio verrà decompresso. Tutte le transazioni contenute verranno reinserite nell\'elenco.</string>
+    <string name="archive">Archivio</string>
+    <string name="dialog_title_warning_delete_archive">Eliminare l\'archivio?</string>
+    <string name="warning_nested_archives">Gli archivi nidificati non sono supportati.</string>
+    <string name="warning_empty_archive">Non esistono transazioni nell\'intervallo di date selezionato.</string>
+    <string name="warning_delete_archive">Tutte le transazioni contenute in questo archivio (%d) verranno cancellate.</string>
+    <string name="archive_warning">Tutte le transazioni (%d) nell\'intervallo di date selezionato verranno archiviate.</string>
+    <string name="pref_scroll_to_current_date_title">Scorrere l\'elenco delle transazioni fino alla data corrente</string>
+    <string name="pref_scroll_to_current_date_app_launch">solo all\'avvio dell\'app</string>
+    <string name="pref_scroll_to_current_date_account_open">Ogni volta che accedi all\'conto</string>
+    <string name="buy">Comprare</string>
 </resources>
