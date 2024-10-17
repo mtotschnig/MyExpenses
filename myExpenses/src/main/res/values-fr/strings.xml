@@ -641,7 +641,7 @@
     <string name="pref_translation_title">Traduction</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->
     <string name="goal_or_limit">Objectif / Limite</string>
-    <string name="saving_goal">Objectif d\'économie</string>
+    <string name="saving_goal">Objectif d’épargne</string>
     <string name="credit_limit">Limite de crédit</string>
     <string name="clear_all_filters">Effacer tous les filtres</string>
     <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
@@ -997,4 +997,13 @@
     <string name="dialog_title_warning_delete_archive">Supprimer l\'archive ?</string>
     <string name="warning_nested_archives">Les archives imbriquées ne sont pas supportées.</string>
     <string name="warning_empty_archive">Aucune opération n\'existe dans la plage de dates sélectionnée.</string>
+    <string name="credit_limit_reached">Vous avez atteint votre limite de crédit.</string>
+    <string name="saving_goal_reached">Vous avez atteint votre objectif d’épargne.</string>
+    <string name="credit_limit_exceeded">Vous avez dépassé votre limite de crédit.</string>
+    <string name="overage">Excédent</string>
+    <string name="credit_limit_available_credit">Crédit disponible</string>
+    <string name="saving_goal_short_fall">Déficit</string>
+    <string name="warning_backend_deactivated">Le backend n’est pas prêt à être synchronisé.</string>
+    <string name="button_activate_again">Réactiver</string>
+    <string name="saving_goal_exceeded">Vous avez dépassé votre objectif d’épargne.</string>
 </resources>
