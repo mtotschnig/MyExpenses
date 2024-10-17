@@ -88,6 +88,7 @@ zh-tw:
       webui: <b>網絡的用戶界面</b>
       cloud_sync: <b>云同步</b>：可以在多個設備之間同步數據
       banking: 從德國的銀行下載交易紀錄（<b>FinTS</b>）
+      category_tree: 無限深度的<b>分類樹</b>
     one-time-payment: 一次性支付
     subscription: 訂閱
   store:
