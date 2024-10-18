@@ -86,22 +86,8 @@ class SplitEditTest : BaseExpenseEditTest() {
             )
         ).perform(click())
         clickFab()//save part
-        onView(withId(R.id.Account)).perform(scrollTo(), click())
-        onData(
-            allOf(
-                instanceOf(IdHolder::class.java),
-                withAccount(account2.label)
-            )
-        ).perform(click())
-        onView(withId(R.id.Account)).check(
-            matches(
-                withSpinnerText(
-                    CoreMatchers.containsString(
-                        account1.label
-                    )
-                )
-            )
-        )
+        setAccount(account2.label)
+        checkAccount(account1.label)
     }
 
     @Test

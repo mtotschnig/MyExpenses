@@ -73,12 +73,11 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
-        onView(withId(R.id.Account)).perform(click())
-        onData(allOf(instanceOf(IdHolder::class.java), withAccount(accountLabel2))).perform(click())
-        onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
+        setAccount(accountLabel2)
+        checkAccount(accountLabel2)
         doWithRotation {
             onIdle()
-            onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
+            checkAccount(accountLabel2)
         }
     }
 

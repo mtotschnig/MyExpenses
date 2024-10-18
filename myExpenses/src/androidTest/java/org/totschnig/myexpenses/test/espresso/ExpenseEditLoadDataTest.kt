@@ -435,13 +435,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             putExtra(Transactions.CATEGORY_LABEL, "A")
             putExtra(Transactions.COMMENT, "A note")
         }).use {
-            onView(withId(R.id.Account)).check(
-                matches(
-                    withSpinnerText(
-                        account1.label
-                    )
-                )
-            )
+            checkAccount(account1.label)
             onView(
                 withIdAndParent(
                     R.id.AmountEditText,

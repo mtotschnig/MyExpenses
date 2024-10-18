@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -19,6 +20,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
@@ -71,7 +73,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         toggleType()
         closeSoftKeyboard()
         onView(withId(R.id.Category)).perform(click())
-        androidx.test.espresso.Espresso.pressBack()
+        pressBack()
         clickFab()
         assertFinishing()
     }
@@ -90,6 +92,19 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         onView(withId(R.id.bOK))
             .perform(click())
         checkType(false)
+    }
+
+    @Test
+    fun categorySelectionMaintainsAccount() {
+        val accountLabel2 = "Test label 2"
+        val account2 = buildAccount(accountLabel2)
+        launchForResult(intent.apply {
+            putExtra(KEY_ACCOUNTID, account2.id)
+        })
+        checkAccount(accountLabel2)
+        onView(withId(R.id.Category)).perform(click())
+        pressBack()
+        checkAccount(accountLabel2)
     }
 
     @Test

@@ -97,6 +97,6 @@ class SelectAccountTest : BaseMyExpensesTest() {
         assertDataSize(5) //3 accounts, USD and Grand Total
         toolbarMainTitle().check(matches(withText(accountLabelForList.value)))
         clickFab()
-        onView(withId(R.id.Account)).check(matches(withSpinnerText(`is`(accountForForm.label))))
+        checkAccount(accountForForm.label)
     }
 }

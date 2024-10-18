@@ -161,9 +161,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 putExtra(DatabaseConstants.KEY_ACCOUNTID, a.id)
             }
             launch(i).use {
-                onView(withId(R.id.Account)).check(
-                    matches(withSpinnerText(a.label))
-                )
+                checkAccount(a.label)
             }
         }
     }

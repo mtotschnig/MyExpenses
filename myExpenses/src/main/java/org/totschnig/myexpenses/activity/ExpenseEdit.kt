@@ -739,7 +739,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun loadAccounts() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.accounts.collect {
                     val firstLoad = !accountsLoaded
                     setAccounts(it)

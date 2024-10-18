@@ -245,10 +245,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             if (editedAmount.sign != existingAmount.sign) {
                 toggleType()
             }
-            onView(withId(R.id.Account)).perform(click())
-            onData(allOf(instanceOf(IdHolder::class.java), withAccount(account2.label))).perform(
-                click()
-            )
+            setAccount(account2.label)
             setAmount(editedAmount)
             clickFab()
             if (expectedTitle != null) {

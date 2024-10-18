@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.testutils
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.view.View
 import androidx.annotation.IdRes
@@ -15,19 +14,25 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.mockito.Mockito
@@ -35,6 +40,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
@@ -46,7 +52,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import java.util.*
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
 
@@ -54,10 +59,10 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     private var isLarge = false
 
     val testContext: Context
-        get() = InstrumentationRegistry.getInstrumentation().context
+        get() = getInstrumentation().context
 
     val targetContext: Context
-        get() = InstrumentationRegistry.getInstrumentation().targetContext
+        get() = getInstrumentation().targetContext
 
     val app: TestApp
         get() = targetContext.applicationContext as TestApp
@@ -112,33 +117,33 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
      */
     protected fun clickMenuItem(@IdRes menuItemId: Int, isCab: Boolean = false) {
         try {
-            onView(ViewMatchers.withId(menuItemId)).apply {
+            onView(withId(menuItemId)).apply {
                 if (try {
                         isCab && isLarge && app.packageManager.getActivityInfo(
                             currentActivity!!.componentName,
                             0
                         ).themeResource == R.style.EditDialog
-                    } catch (ignored: PackageManager.NameNotFoundException) {
+                    } catch (_: PackageManager.NameNotFoundException) {
                         false
                     }
                 ) {
                     inRoot(RootMatchers.isPlatformPopup())
                 }
             }.perform(ViewActions.click())
-        } catch (e: NoMatchingViewException) {
+        } catch (_: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
             onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
         }
     }
 
     protected fun assertMenuItemHidden(@IdRes menuItemId: Int, isCab: Boolean = false) {
-        onView(ViewMatchers.withId(menuItemId)).apply {
+        onView(withId(menuItemId)).apply {
             if (try {
                     isCab && isLarge && app.packageManager.getActivityInfo(
                         currentActivity!!.componentName,
                         0
                     ).themeResource == R.style.EditDialog
-                } catch (ignored: PackageManager.NameNotFoundException) {
+                } catch (_: PackageManager.NameNotFoundException) {
                     false
                 }
             ) {
@@ -165,7 +170,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
                 try {
                     //without play service a billing setup error dialog is displayed
                     onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
-                } catch (ignored: Exception) {
+                } catch (_: Exception) {
                 }
             }
             onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
@@ -226,14 +231,14 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         var iterations = 0
         while (true) {
             try {
-                onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
+                onView(withId(com.google.android.material.R.id.snackbar_text))
                         .check(matches(isDisplayed()))
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 return
             }
             try {
                 Thread.sleep(500)
-            } catch (ignored: InterruptedException) {
+            } catch (_: InterruptedException) {
             }
             iterations++
             if (iterations > 10) throw TimeoutException()
@@ -263,6 +268,16 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     }
 
     fun clickFab() {
-        onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
+        onView(withId(R.id.fab)).perform(ViewActions.click())
+    }
+
+    fun checkAccount(label: String) {
+        onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(label))))
+    }
+
+    fun setAccount(label: String) {
+        onView(withId(R.id.Account)).perform(scrollTo(), click())
+        onData(allOf(instanceOf(IdHolder::class.java), withAccount(label)))
+            .perform(click())
     }
 }
