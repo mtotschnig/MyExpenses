@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">現在可以自訂備份檔案名稱。</string>
+    <string name="whats_new_358">小工具會跟隨主題設定（淺色／深色）。</string>
+    <string name="whats_new_359">現在可以自訂付款方式的圖示。</string>
+    <string name="whats_new_361_1">交易清單可以依金額排序。</string>
+    <string name="whats_new_361_2">現在可以分享或刪除應用程式資料夾中的檔案（備份和匯出）。</string>
+    <string name="whats_new_364_1">可以從單一 CSV 檔案匯入至多個帳戶</string>
+    <string name="whats_new_364_2">全新的重複付款人／收款人資訊管理策略</string>
+    <string name="whats_new_365">可以附加任意數量的圖片和 PDF 文件</string>
+    <string name="whats_new_366">主畫面小工具可顯示目前的預算狀態。</string>
+    <string name="whats_new_367">類別現在可以設定為支出或收入類別，這將影響支出和收入總和的計算方式。</string>
+    <string name="whats_new_369_1">轉帳可以對應到類別。</string>
+    <string name="whats_new_369_2">可以選擇啟用螢幕鎖定時不停用螢幕截圖功能。</string>
+    <string name="whats_new_370">可以完全自訂主畫面上的選單。</string>
+    <string name="whats_new_374">可以設定標籤自訂顏色</string>
+    <string name="whats_new_376_1">可以複製多筆交易並設定新的日期。</string>
+    <string name="whats_new_376_2">可以從主畫面控制網頁使用者介面。</string>
+    <string name="whats_new_378">圖表會套用搜尋篩選條件。</string>
+    <string name="whats_new_382">可以從小工具 %2$s 呼叫 %1$s 功能。</string>
+    <string name="whats_new_384">簡化雲端備份的設定流程</string>
+    <string name="whats_new_386">可以同時顯示支出分佈和收入分佈在雙環圓餅圖中。</string>
+    <string name="whats_new_388">可以封存交易。</string>
+</resources>

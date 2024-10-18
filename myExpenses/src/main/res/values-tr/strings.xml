@@ -634,7 +634,7 @@
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->
     <string name="goal_or_limit">Hedef / Sınır</string>
     <string name="saving_goal">Tasarruf hedefi </string>
-    <string name="credit_limit">Kredi limiti</string>
+    <string name="credit_limit">Kredi sınırı</string>
     <string name="clear_all_filters">Tüm filtreleri temizle</string>
     <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
     <string name="menu_budget">Bütçeleme</string>
@@ -905,7 +905,7 @@
     <string name="encrypt_database">Veri tabanını şifrele</string>
     <string name="encrypt_database_info">Veri tabanı, bu aygıttan dışarı alınamayacak bir parola ile şifrelenecektir. Sonuç olarak aygıtınızın yedekleme hizmeti tarafından yedeklenmeyecektir.</string>
     <string name="database_is_encrypted">Veri tabanı şifrelendi.</string>
-    <string name="github_sponsors">&lt;a href=%s&gt;Github Sponsorlarına&lt;/a&gt; da lisans anahtarları sağlanmaktadır.</string>
+    <string name="github_sponsors"><![CDATA[<a href=%s>Github Sponsorlarına</a> da lisans anahtarları sağlanmaktadır.]]></string>
     <string name="notifications_permission_required_planner">Gelecekteki muameleler gönderildiğinde size bildirim göndermek için <i>{app_name}</i> izne ihtiyaç duyuyor.</string>
     <string name="notifications_permission_required_webui">Bildirim gönderme izni vererek web sunucusunun durumunu denetleyebilirsiniz.</string>
     <string name="notifications_permission_required_sync">Bildirim gönderme izni vererek, eşzamanlama işlemlerinin ilerleyişini izleyebilirsiniz.</string>
@@ -984,4 +984,13 @@
     <string name="warning_delete_archive">Bu arşivde (%d) bulunan tüm muameleler silinecek.</string>
     <string name="warning_nested_archives">İç içe arşivler desteklenmiyor.</string>
     <string name="warning_archive_inconsistent_state">Seçilen tarih aralığındaki muamelelerin tutarsız durumları var (%s).</string>
+    <string name="credit_limit_reached">Kredi sınırınıza ulaştınız.</string>
+    <string name="saving_goal_reached">Tasarruf hedefinize ulaştınız.</string>
+    <string name="credit_limit_exceeded">Kredi sınırınızı aştınız.</string>
+    <string name="saving_goal_exceeded">Tasarruf hedefinizi aştınız.</string>
+    <string name="overage">Aşım</string>
+    <string name="credit_limit_available_credit">Kullanılabilir kredi</string>
+    <string name="warning_backend_deactivated">Arka uç eşzamanlanmaya hazır değil.</string>
+    <string name="button_activate_again">Yeniden etkinleştir</string>
+    <string name="saving_goal_short_fall">Eksiklik</string>
 </resources>
