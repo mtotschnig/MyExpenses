@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -196,8 +197,6 @@ fun AccountCard(
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
 
-    Timber.i("Account %s isCollapsed: %b", account.label, isCollapsed)
-
     Column(
         modifier = Modifier
             .conditional(isSelected) {
@@ -264,14 +263,18 @@ fun AccountCard(
             }
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = account.label)
+                Text(
+                    text = account.label,
+                    maxLines =  if (isCollapsed) 1 else Int.MAX_VALUE,
+                    overflow = if (isCollapsed) TextOverflow.Ellipsis else TextOverflow.Clip
+                )
                 AnimatedVisibility(visible = isCollapsed) {
                     Text(
                         text = format.convAmount(account.currentBalance, account.currencyUnit)
                     )
                 }
-
             }
+
             ExpansionHandle(isExpanded = !isCollapsed, toggle = toggleExpansion)
             val menu = Menu(
                 buildList {

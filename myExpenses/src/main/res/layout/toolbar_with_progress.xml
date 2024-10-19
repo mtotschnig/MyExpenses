@@ -16,46 +16,50 @@
             android:id="@+id/donut_view"
             android:layout_width="42dp"
             android:layout_height="42dp"
+            android:layout_marginEnd="5dp"
             app:donut_cap="100"
             app:donut_gapAngle="0"
             app:donut_gapWidth="0"
             app:donut_strokeWidth="@dimen/progress_donut_stroke_width"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/title"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/progress_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/donut_view"
-            app:layout_constraintBottom_toBottomOf="@id/donut_view"
-            app:layout_constraintStart_toStartOf="@id/donut_view"
-            app:layout_constraintEnd_toEndOf="@id/donut_view"
             android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/donut_view"
+            app:layout_constraintEnd_toEndOf="@id/donut_view"
+            app:layout_constraintStart_toStartOf="@id/donut_view"
+            app:layout_constraintTop_toTopOf="@id/donut_view"
             tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textAppearance="@style/ToolbarTitleTextAppearance"
             app:layout_constraintBottom_toTopOf="@id/subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/donut_view"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textAppearance="@style/ToolbarSubtitleTextAppearance"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/donut_view"
+            app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
 
