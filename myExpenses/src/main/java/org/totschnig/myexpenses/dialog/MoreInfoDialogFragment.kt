@@ -46,7 +46,8 @@ class MoreInfoDialogFragment : DialogViewBinding<MoreInfoBinding>() {
             Utils.makeBulletList(context, lines, R.drawable.ic_menu_forward)
         val nounIcons =
             listOf<CharSequence>(*resources.getStringArray(R.array.noun_icon_credits))
-        resources.obtainTypedArray(R.array.noun_icon_credits_keys).use {
+        //Warning TypedArray.close is API 31 -> We can not use use (tryWithResources)
+        resources.obtainTypedArray(R.array.noun_icon_credits_keys).let {
             val height = UiUtils.dp2Px(32f, resources)
             val drawablePadding = UiUtils.dp2Px(8f, resources)
             var i = 0
@@ -67,6 +68,7 @@ class MoreInfoDialogFragment : DialogViewBinding<MoreInfoBinding>() {
                 binding.nounIconsContainer.addView(textView)
                 i++
             }
+            it.recycle()
         }
 
         //noinspection SetTextI18n
