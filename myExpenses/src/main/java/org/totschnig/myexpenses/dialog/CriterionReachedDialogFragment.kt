@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Parcelable
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -39,6 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -155,49 +157,45 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
 
     val viewModel: CriterionViewModel by viewModels()
 
-    val info: MutableState<CriterionInfo> by lazy {
-        mutableStateOf(
-            requireNotNull(
-                BundleCompat.getParcelable(
-                    requireArguments(), KEY_INFO, CriterionInfo::class.java
-                )
-            )
-        )
+    val withProgressAnimation: MutableState<Boolean> by lazy {
+        mutableStateOf(requireArguments().getBoolean(KEY_WITH_ANIMATION))
     }
 
     val progressColor
-        get() = Color(info.value.accountColor)
+        get() = Color(viewModel.info.accountColor)
 
     @get:Composable
     val overageColor: Color
         get() = with(LocalColors.current) {
-            if (info.value.criterion > 0) income else expense
+            if (viewModel.info.criterion > 0) income else expense
         }
 
     @Composable
     override fun ColumnScope.MainContent() {
-        CriterionReachedGraph(
-            info.value,
-            progressColor = progressColor,
-            overageColor = overageColor,
-            withProgressAnimation = requireArguments().getBoolean(KEY_WITH_ANIMATION),
-            onEdit = {
-                with(info.value) {
-                    AmountInputHostDialog.build().title(label)
-                        .fields(
-                            AmountInput.plain(KEY_AMOUNT)
-                                .fractionDigits(currency.fractionDigits)
-                                .amount(criterion.asMoney.amountMajor)
-                        )
-                        .neg()
-                        .show(this@CriterionReachedDialogFragment, DIALOG_TAG_NEW_CRITERION)
+        viewModel.infoLiveData.observeAsState().value?.let { info ->
+            CriterionReachedGraph(
+                info,
+                progressColor = progressColor,
+                overageColor = overageColor,
+                withProgressAnimation = withProgressAnimation,
+                onEdit = {
+                    with(info) {
+                        AmountInputHostDialog.build().title(label)
+                            .fields(
+                                AmountInput.plain(KEY_AMOUNT)
+                                    .fractionDigits(currency.fractionDigits)
+                                    .amount(criterion.asMoney.amountMajor)
+                            )
+                            .neg()
+                            .show(this@CriterionReachedDialogFragment, DIALOG_TAG_NEW_CRITERION)
+                    }
+                },
+                onDismiss = {
+                    dismiss()
+                    onFinished()
                 }
-            },
-            onDismiss = {
-                dismiss()
-                onFinished()
-            }
-        )
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -215,7 +213,7 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
     companion object {
         const val ANIMATION_DURATION = 1000
         const val ANIMATION_DURATION_L = ANIMATION_DURATION.toLong()
-        private const val KEY_INFO = "info"
+        const val KEY_INFO = "info"
         private const val KEY_ADDITIONAL_MESSAGE = "additionalMessage"
         private const val KEY_WITH_ANIMATION = "withAnimation"
         const val DIALOG_TAG_NEW_CRITERION = "NEW_CRITERION"
@@ -250,13 +248,25 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
         extras: Bundle,
     ) = if (dialogTag == DIALOG_TAG_NEW_CRITERION) {
         BundleCompat.getSerializable<BigDecimal>(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
-            with(info.value) {
-                val newCriterion = Money(currency, it).amountMinor * criterion.sign
-                if (criterion.absoluteValue != newCriterion) {
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.IO) {
-                            viewModel.updateCriterion(accountId, newCriterion)
-                            info.value = info.value.copy(criterion = newCriterion)
+            with(viewModel.info) {
+                if (it.compareTo(BigDecimal.ZERO) == 0) {
+                    Toast.makeText(
+                        requireActivity(),
+                        getString(R.string.required) + ": " + getString(label),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    val newCriterion = Money(currency, it).amountMinor * criterion.sign
+                    if (criterion.absoluteValue != newCriterion) {
+                        lifecycleScope.launch {
+                            withContext(Dispatchers.IO) {
+                                viewModel.updateCriterion(accountId, newCriterion)
+                            }
+                            viewModel.info = copy(
+                                startBalance = newBalance,
+                                transaction = 0,
+                                criterion = newCriterion
+                            )
                         }
                     }
                 }
@@ -274,6 +284,7 @@ fun GraphInternal(
     overageColor: Color,
     remainderColor: Color,
 ) {
+    Timber.i("progress: %f", progress)
     DonutProgress(
         modifier = modifier,
         model = DonutModel(
@@ -304,7 +315,7 @@ fun ColumnScope.CriterionReachedGraph(
     showDataInitially: Boolean = false,
     progressColor: Color = Color.Green,
     overageColor: Color = Color.Red,
-    withProgressAnimation: Boolean = true,
+    withProgressAnimation: MutableState<Boolean>,
     onEdit: () -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
@@ -349,8 +360,7 @@ fun ColumnScope.CriterionReachedGraph(
                         progressColor,
                         overageColor,
                         remainderColor,
-                        iconAnimation.value,
-                        withProgressAnimation
+                        iconAnimation.value
                     )
                     Buttons(onEdit, onDismiss)
                 }
@@ -374,15 +384,14 @@ fun ColumnScope.CriterionReachedGraph(
                     progressColor,
                     overageColor,
                     remainderColor,
-                    iconAnimation.value,
-                    withProgressAnimation
+                    iconAnimation.value
                 )
             }
             Buttons(onEdit, onDismiss)
         }
     }
     LaunchedEffect(Unit) {
-        if (withProgressAnimation) {
+        if (withProgressAnimation.value) {
             delay(ANIMATION_DURATION_L / 2)
             if (progress < 100F) {
                 progress = 100F
@@ -393,6 +402,7 @@ fun ColumnScope.CriterionReachedGraph(
         showData = true
         delay(ANIMATION_DURATION_L)
         iconAnimation.value = true
+        withProgressAnimation.value = false
     }
 }
 
@@ -406,7 +416,6 @@ fun DataOverview(
     overageColor: Color,
     remainderColor: Color,
     iconAnimation: Boolean,
-    withProgressAnimation: Boolean,
 ) {
     AnimatedVisibility(
         modifier = modifier,
@@ -415,27 +424,30 @@ fun DataOverview(
     ) {
         ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
             Column {
-                Spacer(Modifier.weight(0.7f))
-                val savingGoal = info.isSavingGoal
-                val image = AnimatedImageVector.animatedVectorResource(
-                    if (savingGoal) R.drawable.heart else R.drawable.notification_v4
-                )
-                Icon(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 12.dp),
-                    painter = rememberAnimatedVectorPainter(image, iconAnimation),
-                    tint = colorResource(if (savingGoal) R.color.colorIncome else R.color.colorExpense),
-                    contentDescription = null // decorative element
-                )
-
-                ValueRow(
-                    progressColor,
-                    stringResource(info.label),
-                    with(info) { criterion.asMoney }
-                )
                 val hasReached = info.hasReached(false)
+                Spacer(Modifier.weight(if (hasReached) 0.7f else 1f))
+                val savingGoal = info.isSavingGoal
+                if (hasReached) {
+                    val image = AnimatedImageVector.animatedVectorResource(
+                        if (savingGoal) R.drawable.heart else R.drawable.notification_v4
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 12.dp),
+                        painter = rememberAnimatedVectorPainter(image, iconAnimation),
+                        tint = colorResource(if (savingGoal) R.color.colorIncome else R.color.colorExpense),
+                        contentDescription = null // decorative element
+                    )
+                }
+
+                if (hasReached) {
+                    info.RenderCriterion(progressColor)
+                } else {
+                    info.RenderBalance(progressColor)
+                }
+
                 ValueRow(
                     if (hasReached) overageColor else remainderColor,
                     stringResource(
@@ -448,15 +460,34 @@ fun DataOverview(
                     with(info) { delta.asMoney },
                     info.deltaPercent.absoluteValue
                 )
-                ValueRow(
-                    null,
-                    stringResource(if (withProgressAnimation) R.string.new_balance else R.string.current_balance),
-                    with(info) { newBalance.asMoney }
-                )
+
+                if (hasReached) {
+                    info.RenderBalance(progressColor)
+                } else {
+                    info.RenderCriterion(progressColor)
+                }
                 Spacer(Modifier.weight(1f))
             }
         }
     }
+}
+
+@Composable
+fun CriterionInfo.RenderCriterion(progressColor: Color) {
+    ValueRow(
+        progressColor.takeIf { hasReached(false) },
+        stringResource(label),
+        criterion.asMoney
+    )
+}
+
+@Composable
+fun CriterionInfo.RenderBalance(progressColor: Color) {
+    ValueRow(
+        progressColor.takeIf { !hasReached(false) },
+        stringResource(R.string.current_balance),
+        newBalance.asMoney
+    )
 }
 
 @Composable
@@ -529,7 +560,7 @@ fun Demo() {
                 "My savings account"
             ),
             showDataInitially = true,
-            withProgressAnimation = true
+            withProgressAnimation = remember { mutableStateOf(true) }
         )
     }
 }
