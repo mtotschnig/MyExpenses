@@ -53,8 +53,6 @@
             <Spinner
                 android:id="@+id/Currency"
                 style="@style/OnboardingSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
 
             <Button
@@ -96,8 +94,6 @@
                 <Spinner
                     android:id="@+id/AccountType"
                     style="@style/OnboardingSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
 
                 <TextView

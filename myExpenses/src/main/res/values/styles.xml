@@ -43,13 +43,14 @@
     <style name="FormLabel">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:minHeight">50dp</item>
+        <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingEnd">12dp</item>
     </style>
 
     <style name="FormField">
+        <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">@dimen/form_table_ratio</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -258,6 +259,8 @@
     </style>
 
     <style name="OnboardingSpinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/accessibility_clickable_minimum</item>
         <item name="android:layout_marginStart">-8dp</item>
     </style>
 

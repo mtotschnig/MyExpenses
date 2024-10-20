@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/colorInput"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/accessibility_clickable_minimum"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     tools:showIn="@layout/one_account">
@@ -12,7 +12,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ColorIndicator"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:contentDescription="@string/color_component_title"
@@ -22,7 +22,7 @@
         android:id="@+id/ColorEdit"
         style="?actionButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/color_component_title"
         android:focusable="true"
