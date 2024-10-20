@@ -707,7 +707,7 @@
     <string name="budget_onetime">Einmalig</string>
     <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
     <string name="budget_date_end_after_start">Das Enddatum des Budgets muss nach dem Startdatum liegen.</string>
-    <string name="menu_budget_allocated_only">Nur Kategorien mit Zuordnung anzeigen</string>
+    <string name="menu_budget_allocated_only">Nur Kategorien mit zugewiesenem Budget anzeigen</string>
     <string name="budget_filter_all_categories">Alle Kategorien</string>
     <string name="budget_filter_all_parties">Alle Parteien</string>
     <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
