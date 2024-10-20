@@ -918,7 +918,7 @@
     <string name="encrypt_database">Encriptar la base de datos</string>
     <string name="encrypt_database_info">La base de datos se cifrará con una frase de contraseña que no se puede extraer de este dispositivo. En consecuencia, el servicio de copia de seguridad de su dispositivo no realizará una copia de seguridad.</string>
     <string name="database_is_encrypted">La base de datos está cifrada.</string>
-    <string name="github_sponsors">También se proporcionan claves de licencia a &lt;a href=%s&gt;Patrocinadores de Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Las claves de licencia también se proporcionan a <a href="%s">Patrocinadores de Github</a>.]]></string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> necesita permiso para enviarte notificaciones, cuando se publiquen futuras transacciones.</string>
     <string name="notifications_permission_required_webui">Al conceder el permiso para enviar notificaciones, puede controlar el estado del servidor web.</string>
     <string name="notifications_permission_required_sync">Al conceder el permiso para enviar notificaciones, puede supervisar el progreso de las operaciones de sincronización.</string>
@@ -997,4 +997,13 @@
     <string name="archive_warning">Se archivarán todas las transacciones (%d) en el intervalo de fechas seleccionado.</string>
     <string name="warning_nested_archives">No se admiten archivos anidados.</string>
     <string name="warning_archive_inconsistent_state">Las transacciones en el rango de fechas seleccionado tienen estados inconsistentes (%s).</string>
+    <string name="button_activate_again">Activar otra vez</string>
+    <string name="warning_backend_deactivated">El backend no está listo para ser sincronizado.</string>
+    <string name="credit_limit_reached">Has alcanzado el límite de tu crédito.</string>
+    <string name="credit_limit_available_credit">Crédito disponible</string>
+    <string name="saving_goal_reached">Has cumplido el objetivo de ahorro.</string>
+    <string name="credit_limit_exceeded">Has superado tu límite de crédito.</string>
+    <string name="overage">Exceso</string>
+    <string name="saving_goal_exceeded">Has superado tu objetivo de ahorro.</string>
+    <string name="saving_goal_short_fall">Déficit</string>
 </resources>
