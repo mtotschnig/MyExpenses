@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        android:labelFor="@id/theme"
+        android:labelFor="@id/themeSpinner"
         android:text="@string/pref_ui_theme_title" />
 
     <include layout="@layout/onboarding_theme_selection" />
@@ -28,7 +28,7 @@
         android:id="@+id/font_size"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/accessibility_clickable_minimum"
         android:max="3" />
 
     <TextView
@@ -42,10 +42,9 @@
 
     <TextView
         style="@style/OnboardingInputLabel"
-        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:labelFor="@id/font_size"
         android:text="@string/help_MyExpenses_title" />
 
     <androidx.compose.ui.platform.ComposeView

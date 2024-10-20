@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -12,14 +13,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
@@ -28,6 +25,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.compose.GroupDivider
@@ -121,7 +119,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                     parent: AdapterView<*>?,
                     view: View,
                     position: Int,
-                    id: Long
+                    id: Long,
                 ) {
                     prefHandler.putString(PrefKey.UI_THEME, themeValues[position])
                     setNightMode(prefHandler, requireContext())
@@ -162,18 +160,21 @@ class OnboardingUiFragment : OnboardingFragment() {
                     val withCategoryIcon =
                         viewModel.withCategoryIcon.collectAsState(initial = true).value
                     RowCenter {
-                        Checkbox(checked = renderer == RenderType.Legacy,
+                        CheckBoxWithLabel(
+                            label = stringResource(id = R.string.compact),
+                            checked = renderer == RenderType.Legacy,
                             onCheckedChange = {
                                 viewModel.setRenderer(it)
                             }
                         )
-                        Text(stringResource(id = R.string.compact))
-                        Checkbox(checked = withCategoryIcon,
+                        CheckBoxWithLabel(
+                            stringResource(id = R.string.icons_for_categories),
+                            checked = withCategoryIcon,
                             onCheckedChange = {
                                 viewModel.setWithCategoryIcon(it)
                             }
+
                         )
-                        Text(stringResource(id = R.string.icons_for_categories))
                     }
                     GroupDivider()
                     (when (renderer) {
@@ -228,12 +229,14 @@ class OnboardingUiFragment : OnboardingFragment() {
     }
 
     private fun updateFontSizeDisplayName(fontScale: Int) {
-        val activity = activity
-        if (activity != null) {
-            binding.fontSizeDisplayName.text =
-                FontSizeDialogPreference.getEntry(activity, fontScale)
-            FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale, activity)
+        val entry = FontSizeDialogPreference.getEntry(activity, fontScale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            binding.fontSize.stateDescription = entry
         }
+        binding.fontSizeDisplayName.text = entry
+        binding.fontSizeDisplayName.contentDescription =
+            "${getString(R.string.title_font_size)}: $entry"
+        FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale, activity)
     }
 
     private fun setContentDescriptionToThemeSwitch(themeSwitch: View, isLight: Boolean) {

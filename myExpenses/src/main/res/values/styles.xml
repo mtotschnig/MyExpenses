@@ -260,7 +260,8 @@
 
     <style name="OnboardingSpinner">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">-8dp</item>
     </style>
 

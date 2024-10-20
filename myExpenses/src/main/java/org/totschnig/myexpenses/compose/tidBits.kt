@@ -2,12 +2,18 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -17,6 +23,9 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,13 +36,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastRoundToInt
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
-import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
@@ -47,7 +57,7 @@ import kotlin.experimental.or
 fun ExpansionHandle(
     modifier: Modifier = Modifier,
     isExpanded: Boolean,
-    toggle: () -> Unit
+    toggle: () -> Unit,
 ) {
     val rotationAngle by animateFloatAsState(
         targetValue = if (isExpanded) 0F else 180F
@@ -65,12 +75,20 @@ fun ExpansionHandle(
 }
 
 @Composable
-fun ColorCircle(modifier: Modifier = Modifier, color: Int, content: @Composable BoxScope.() -> Unit = {}) {
-    ColorCircle(modifier , Color(color), content)
+fun ColorCircle(
+    modifier: Modifier = Modifier,
+    color: Int,
+    content: @Composable BoxScope.() -> Unit = {},
+) {
+    ColorCircle(modifier, Color(color), content)
 }
 
 @Composable
-fun ColorCircle(modifier: Modifier = Modifier, color: Color, content: @Composable BoxScope.() -> Unit = {}) {
+fun ColorCircle(
+    modifier: Modifier = Modifier,
+    color: Color,
+    content: @Composable BoxScope.() -> Unit = {},
+) {
     Box(
         modifier = modifier
             .clip(CircleShape)
@@ -89,7 +107,7 @@ fun DonutInABox(
     progress: Float,
     fontSize: TextUnit,
     color: Color,
-    excessColor: Color
+    excessColor: Color,
 ) {
 
     Box(modifier = modifier) {
@@ -108,7 +126,7 @@ fun DonutInABox(
             modifier = Modifier.align(Alignment.Center),
             text = "%d".format(progress.fastRoundToInt()),
             fontSize = fontSize,
-            )
+        )
     }
 }
 
@@ -116,7 +134,7 @@ fun DonutInABox(
 fun TypeConfiguration(
     modifier: Modifier,
     typeFlags: Byte,
-    onCheckedChange: (Byte) -> Unit
+    onCheckedChange: (Byte) -> Unit,
 ) {
     MultiChoiceSegmentedButtonRow(
         modifier = modifier
@@ -126,13 +144,35 @@ fun TypeConfiguration(
             SegmentedButton(
                 shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
                 onCheckedChange = {
-                    onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
+                    onCheckedChange(if (it) typeFlags or type.second else typeFlags and type.second.inv())
                 },
                 checked = (typeFlags and type.second) != 0u.toByte()
             ) {
                 Text(stringResource(id = type.first))
             }
         }
+    }
+}
+
+@Composable
+fun CheckBoxWithLabel(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .toggleable(
+                value = checked,
+                role = Role.Checkbox,
+                onValueChange = onCheckedChange
+            )
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Text(text = label)
     }
 }
 
