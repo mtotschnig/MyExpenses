@@ -47,7 +47,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -133,7 +132,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.localizedQuote
-import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.UiUtils
@@ -568,7 +566,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 if (resultCode == RESULT_OK) {
                     confirmCredentialResult = true
                     showWindow()
-                    requireApplication().isLocked = false
+                    requireApplication().unlock()
                 } else {
                     confirmCredentialResult = false
                 }
@@ -614,7 +612,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 confirmCredentialResult = null
             } ?: run {
                 if (requireApplication().shouldLock(this)) {
-                    confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST, null, true)
+                    confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST)
                 }
             }
         }
@@ -660,8 +658,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     protected open fun confirmCredentials(
         requestCode: Int,
-        legacyUnlockCallback: PasswordDialogUnlockedCallback?,
-        shouldHideWindow: Boolean
+        legacyUnlockCallback: PasswordDialogUnlockedCallback? = null,
+        shouldHideWindow: Boolean = true,
+        shouldLock: Boolean = true
     ) {
         if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
             val intent = (getSystemService(KEYGUARD_SERVICE) as KeyguardManager)
@@ -670,8 +669,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 if (shouldHideWindow) hideWindow()
                 try {
                     startActivityForResult(intent, requestCode)
-                    requireApplication().isLocked = true
-                } catch (e: ActivityNotFoundException) {
+                    if (shouldLock) {
+                        requireApplication().lock()
+                    }
+                } catch (_: ActivityNotFoundException) {
                     showSnackBar("No activity found for confirming device credentials")
                 }
             } else {
@@ -684,7 +685,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 pwDialog = DialogUtils.passwordDialog(this, false)
             }
             DialogUtils.showPasswordDialog(this, pwDialog, legacyUnlockCallback)
-            requireApplication().isLocked = true
+            if (shouldLock) {
+                requireApplication().lock()
+            }
         }
     }
 
@@ -739,7 +742,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
         try {
             unregisterReceiver(downloadReceiver)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             //Mainly hits Android 4, 5 and 6, no need to report
             //CrashHandler.report(e)
         }

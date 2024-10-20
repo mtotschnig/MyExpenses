@@ -101,7 +101,7 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
             val myApplication = requireApplication()
             myApplication.resetLastPause()
             if (myApplication.shouldLock(this)) {
-                myApplication.isLocked = true
+                myApplication.lock()
             }
         }
     }

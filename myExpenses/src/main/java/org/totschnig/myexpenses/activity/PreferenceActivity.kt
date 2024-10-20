@@ -380,6 +380,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         if (requestCode == CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
                 twoPanePreference.startPerformProtection()
+                requireApplication().unlock()
             }
         }
         if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_FIRST_USER) {
@@ -392,7 +393,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             confirmCredentials(
                 CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST,
                 { twoPanePreference.startPerformProtection() },
-                false
+                shouldHideWindow = false,
+                shouldLock = false
             )
             false
         } else true

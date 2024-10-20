@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register
 import org.totschnig.myexpenses.widget.onConfigurationChanged
 import timber.log.Timber
 import java.io.IOException
+import java.util.Date
 import java.util.Locale
 import java.util.function.Consumer
 import javax.inject.Inject
@@ -108,8 +109,18 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     private var lastPause: Long = 0
 
-    @JvmField
     var isLocked = false
+        private set
+
+    fun lock() {
+        isLocked = true
+    }
+
+    fun unlock() {
+        isLocked = false
+        setLastPause()
+    }
+
     private var _userPreferredLocale: Locale? = null
     val userPreferredLocale: Locale
         get() = _userPreferredLocale ?: Locale.getDefault()
@@ -233,14 +244,19 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
             )
             if (!isDataEntryEnabled || !isStartFromWidget) {
-                lastPause = System.nanoTime()
+                setLastPause()
             }
-            Timber.i("setting last pause : %d", lastPause)
+
         }
     }
 
     fun resetLastPause() {
         lastPause = 0
+    }
+
+    fun setLastPause() {
+        lastPause = System.nanoTime()
+        Timber.i("setting last pause : %d", lastPause / 1000000)
     }
 
     /**
@@ -253,19 +269,19 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
      */
     fun shouldLock(ctx: Activity?): Boolean {
         if (ctx is OnboardingActivity) return false
+        if (!isProtected) return false
         val isStartFromWidget = (ctx == null
                 || ctx.intent.getBooleanExtra(
             EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
         ))
-        val lastPause = lastPause
-        Timber.i("reading last pause : %d", lastPause)
+        Timber.i("reading last pause : %d", lastPause /1000000)
         val isPostDelay = System.nanoTime() - lastPause > prefHandler.getInt(
             PrefKey.PROTECTION_DELAY_SECONDS,
             15
         ) * 1000000000L
         val isDataEntryEnabled =
             prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false)
-        return isProtected && isPostDelay && !(isDataEntryEnabled && isStartFromWidget)
+        return isPostDelay && !(isDataEntryEnabled && isStartFromWidget)
     }
 
     val isProtected: Boolean

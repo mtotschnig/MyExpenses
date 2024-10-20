@@ -90,7 +90,7 @@ public class DialogUtils {
     dialog.show();
     if (callback == null) {
       callback = () -> {
-        MyApplication.Companion.getInstance().isLocked = false;
+        MyApplication.Companion.getInstance().unlock();
         ctx.showWindow();
       };
     }
