@@ -983,4 +983,5 @@
     <string name="warning_transform_to_transfer">A transação selecionada será substituída por uma transferência de %1$s para %2$s.</string>
     <string name="remap_date">Em todas as transações selecionadas, a data será definida como %s.</string>
     <string name="menu_unlink_transfer">Desvincular transferência</string>
+    <string name="archive">Arquivo</string>
 </resources>

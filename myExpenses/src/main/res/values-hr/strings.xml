@@ -920,4 +920,5 @@
     <string name="pref_scroll_to_current_date_app_launch">samo kada se aplikacija pokrene</string>
     <string name="pref_scroll_to_current_date_title">Prolistaj popis transakcija na aktualni datum</string>
     <string name="pref_scroll_to_current_date_account_open">svaki put kada prijeđeš na račun</string>
+    <string name="archive">Arhiv</string>
 </resources>

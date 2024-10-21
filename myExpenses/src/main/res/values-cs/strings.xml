@@ -987,4 +987,5 @@
     <string name="pref_purge_backup_keep_title">Maximální počet nejnovějších záložních souborů, které se mají uchovávat</string>
     <string name="pref_purge_backup_require_confirmation_summary">Zobrazit výzvu k potvrzení před vymazáním souborů</string>
     <string name="pref_csv_export_split_date_time_summary">Použití samostatných sloupců pro datum a čas</string>
+    <string name="archive">Archiv</string>
 </resources>

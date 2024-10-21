@@ -876,4 +876,5 @@
     <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
     <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
     <string name="merge_categories_dialog_title">Categorieën samenvoegen</string>
+    <string name="archive">Archief</string>
 </resources>
