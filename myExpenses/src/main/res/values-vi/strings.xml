@@ -915,4 +915,5 @@
     <string name="budget_filter_all_states">Tất cả trạng thái</string>
     <string name="button_relink_keep_date">Liên kết lại, nhưng vẫn giữ ngày</string>
     <string name="setup_completed">Thiết lập hoàn tất</string>
+    <string name="archive">Lưu trữ</string>
 </resources>
