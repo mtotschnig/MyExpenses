@@ -86,8 +86,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
-import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
-import org.totschnig.myexpenses.util.ui.forCompose
+import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.viewmodel.CriterionViewModel
 import timber.log.Timber
 import java.math.BigDecimal
@@ -289,7 +288,7 @@ fun GraphInternal(
         modifier = modifier,
         model = DonutModel(
             cap = 100f,
-            sections = calcProgressVisualRepresentation(progress).forCompose(
+            sections = DisplayProgress.calcProgressVisualRepresentation(progress).forCompose(
                 progressColor,
                 overageColor
             ).also { Timber.d("sections: $it") },

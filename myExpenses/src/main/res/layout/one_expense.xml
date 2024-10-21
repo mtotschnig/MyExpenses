@@ -24,7 +24,8 @@
         android:layout_height="wrap_content">
 
         <include
-            android:id="@+id/toolbar" layout="@layout/toolbar_expense_edit" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_expense_edit" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -89,14 +90,14 @@
                     <TextView
                         android:id="@+id/OriginalAmountLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
                         android:text="@string/menu_original_amount" />
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/OriginalAmount"
                         style="@style/FormField"
-                        android:contentDescription="@string/menu_original_amount"
+                        android:contentDescription="@string/content_description_original_amount"
                         app:downStreamDependency="@id/Amount"
+                        app:purpose="@string/menu_original_amount"
                         app:withCurrencySelection="true"
                         app:withExchangeRate="true"
                         app:withTypeSwitch="false" />
@@ -108,7 +109,6 @@
                     <TextView
                         android:id="@+id/AmountLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
                         tools:ignore="LabelFor" />
 
                     <org.totschnig.myexpenses.ui.AmountInput
@@ -129,13 +129,14 @@
                     <TextView
                         android:id="@+id/EquivalentAmountLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
                         android:text="@string/menu_equivalent_amount" />
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/EquivalentAmount"
                         style="@style/FormField"
+                        android:contentDescription="@string/content_description_equivalent_amount"
                         app:alternateLayout="true"
+                        app:purpose="@string/menu_equivalent_amount"
                         app:upStreamDependency="@id/Amount"
                         app:withExchangeRate="true"
                         app:withTypeSwitch="false" />
@@ -149,7 +150,6 @@
                     <TextView
                         android:id="@+id/TransferAmountLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@id/AmountEditText"
                         tools:ignore="LabelFor" />
 
                     <org.totschnig.myexpenses.ui.AmountInput

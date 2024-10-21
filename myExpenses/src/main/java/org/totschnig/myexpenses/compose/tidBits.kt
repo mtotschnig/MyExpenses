@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
@@ -23,9 +22,6 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,8 +43,7 @@ import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
-import org.totschnig.myexpenses.util.ui.forCompose
+import org.totschnig.myexpenses.util.ui.DisplayProgress
 import kotlin.experimental.and
 import kotlin.experimental.inv
 import kotlin.experimental.or
@@ -119,7 +114,7 @@ fun DonutInABox(
                 gapAngleDegrees = 0f,
                 strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
-                sections = calcProgressVisualRepresentation(progress).forCompose(color, excessColor)
+                sections = DisplayProgress.calcProgressVisualRepresentation(progress).forCompose(color, excessColor)
             )
         )
         Text(

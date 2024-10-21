@@ -478,8 +478,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     ) {
         val text = appendCurrencySymbol(label.context, textResId, currencyUnit)
         label.text = text
-        amountInput.contentDescription =
-            appendCurrencyDescription(label.context, textResId, currencyUnit)
+        if (amountInput.contentDescription.isNullOrEmpty()) {
+            amountInput.contentDescription =
+                appendCurrencyDescription(label.context, textResId, currencyUnit)
+        }
     }
 
     fun setCurrencies(currencies: List<Currency>) {

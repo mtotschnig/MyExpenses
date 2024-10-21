@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.databinding.ExchangeRateBinding
 import org.totschnig.myexpenses.databinding.ExchangeRatesBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
 import java.math.BigDecimal
 import java.math.MathContext
@@ -30,9 +31,9 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     val rate2Edit: AmountEditText
     private var exchangeRateWatcher: ExchangeRateWatcher? = null
     private var blockWatcher = false
-    private var viewModel: ExchangeRateViewModel? = null
-    private var firstCurrency: CurrencyUnit? = null
-    private var secondCurrency: CurrencyUnit? = null
+    private lateinit var viewModel: ExchangeRateViewModel
+    private lateinit var firstCurrency: CurrencyUnit
+    private lateinit var secondCurrency: CurrencyUnit
     private val binding = ExchangeRatesBinding.inflate(LayoutInflater.from(getContext()), this)
     fun setExchangeRateWatcher(exchangeRateWatcher: ExchangeRateWatcher?) {
         this.exchangeRateWatcher = exchangeRateWatcher
@@ -45,7 +46,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        viewModel!!.clear()
+        viewModel.clear()
     }
 
     private fun findLifecycleOwner(context: Context?): LifecycleOwner? {
@@ -62,14 +63,14 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         viewModel = ExchangeRateViewModel((context.applicationContext as MyApplication))
         val lifecycleOwner = findLifecycleOwner(context)
         if (lifecycleOwner != null) {
-            viewModel!!.getData().observe(lifecycleOwner) { result: Double? ->
+            viewModel.getData().observe(lifecycleOwner) { result: Double? ->
                 rate2Edit.setAmount(
                     BigDecimal.valueOf(
                         result!!
                     )
                 )
             }
-            viewModel!!.getError().observe(lifecycleOwner) { message: String -> complain(message) }
+            viewModel.getError().observe(lifecycleOwner) { message: String -> complain(message) }
         } else {
             report(Exception("No LifecycleOwner found"))
         }
@@ -81,16 +82,14 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
 
     init {
         binding.ivDownload.getRoot().setOnClickListener {
-            if (firstCurrency != null && secondCurrency != null && viewModel != null) {
-                viewModel!!.loadExchangeRate(firstCurrency!!.code, secondCurrency!!.code, host.date)
+            if (::firstCurrency.isInitialized && ::secondCurrency.isInitialized && ::viewModel.isInitialized) {
+                viewModel.loadExchangeRate(firstCurrency.code, secondCurrency.code, host.date)
             }
         }
         rate1Edit = binding.ExchangeRate1.ExchangeRateText
-        rate1Edit.setId(R.id.ExchangeRateEdit1)
-        binding.ExchangeRate1.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit1)
+        rate1Edit.id = R.id.ExchangeRateEdit1
         rate2Edit = binding.ExchangeRate2.ExchangeRateText
-        rate2Edit.setId(R.id.ExchangeRateEdit2)
-        binding.ExchangeRate2.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit2)
+        rate2Edit.id = R.id.ExchangeRateEdit2
         rate1Edit.fractionDigits = EXCHANGE_RATE_FRACTION_DIGITS
         rate2Edit.fractionDigits = EXCHANGE_RATE_FRACTION_DIGITS
         rate1Edit.addTextChangedListener(LinkedExchangeRateTextWatcher(true))
@@ -139,15 +138,25 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     }
 
     fun setCurrencies(first: CurrencyUnit?, second: CurrencyUnit?) {
-        if (first != null) {
-            firstCurrency = first
+        first?.let {
+            firstCurrency  = it
         }
-        if (second != null) {
-            secondCurrency = second
+        second?.let {
+            secondCurrency = it
         }
-        if (firstCurrency != null && secondCurrency != null) {
-            setSymbols(binding.ExchangeRate1, firstCurrency!!.symbol, secondCurrency!!.symbol)
-            setSymbols(binding.ExchangeRate2, secondCurrency!!.symbol, firstCurrency!!.symbol)
+        if (::firstCurrency.isInitialized && ::secondCurrency.isInitialized) {
+            setSymbols(binding.ExchangeRate1, firstCurrency.symbol, secondCurrency.symbol)
+            setSymbols(binding.ExchangeRate2, secondCurrency.symbol, firstCurrency.symbol)
+            rate1Edit.setHintForA11yOnly(context.getString(
+                R.string.content_description_exchange_rate,
+                firstCurrency.description,
+                secondCurrency.description
+            ))
+            rate2Edit.setHintForA11yOnly(context.getString(
+                R.string.content_description_exchange_rate,
+                secondCurrency.description,
+                firstCurrency.description
+            ))
         }
     }
 
@@ -156,11 +165,12 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         group.ExchangeRateLabel2.text = symbol2
     }
 
+
     private inner class LinkedExchangeRateTextWatcher(
         /**
          * true if we are linked to exchange rate where unit is from account currency
          */
-        private val isMain: Boolean
+        private val isMain: Boolean,
     ) : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}

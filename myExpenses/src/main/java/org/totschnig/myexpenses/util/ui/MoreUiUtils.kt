@@ -15,6 +15,7 @@ import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.ScrollView
@@ -25,6 +26,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.calculateLuminance
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.core.widget.ImageViewCompat
 import app.futured.donut.DonutSection
 import com.google.android.material.chip.Chip
@@ -328,28 +332,14 @@ fun Context.getAmountColor(sign: Int) =
             if (sign == -1) R.color.colorExpense else R.color.colorIncome,
         )
 
-data class DisplayProgress(val displayValue: Float, val displayExcess: Float)
-
-fun DisplayProgress.forViewSystem(valueColor: Int, excessColor: Int) = listOf(
-    DonutSection("excess", excessColor, displayExcess),
-    DonutSection("progress", valueColor, displayValue)
-)
-
-fun DisplayProgress.forCompose(
-    valueColor: androidx.compose.ui.graphics.Color,
-    excessColor: androidx.compose.ui.graphics.Color,
-) = listOf(
-    app.futured.donut.compose.data.DonutSection(displayExcess, excessColor),
-    app.futured.donut.compose.data.DonutSection(displayValue, valueColor)
-)
-
-fun calcProgressVisualRepresentation(progress: Float) = when {
-
-    progress > 200 -> DisplayProgress(0f,100f)
-
-    progress > 100 -> DisplayProgress(200f - progress, progress - 100)
-
-    progress >= 0 -> DisplayProgress(progress, 0f)
-
-    else -> throw IllegalArgumentException()
+fun EditText.setHintForA11yOnly(hint: CharSequence) {
+    ViewCompat.setAccessibilityDelegate(this, object: AccessibilityDelegateCompat() {
+        override fun onInitializeAccessibilityNodeInfo(
+            host: View,
+            info: AccessibilityNodeInfoCompat
+        ) {
+            super.onInitializeAccessibilityNodeInfo(host, info)
+            info.hintText = hint
+        }
+    })
 }

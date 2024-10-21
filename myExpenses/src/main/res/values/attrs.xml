@@ -26,6 +26,7 @@
         <!-- When the upStreamDependency's value changes, this value is updated (upStreamDependency * exchange rate).
             When this value changes, the exchange rate is updated. -->
         <attr name="upStreamDependency" format="reference" />
+        <attr name="purpose" format="string" />
     </declare-styleable>
     <declare-styleable name="EditNumberPreference">
         <attr name="min" format="integer" />

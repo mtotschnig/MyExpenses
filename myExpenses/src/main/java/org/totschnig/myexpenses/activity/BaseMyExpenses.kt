@@ -171,11 +171,10 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
+import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
-import org.totschnig.myexpenses.util.ui.calcProgressVisualRepresentation
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
-import org.totschnig.myexpenses.util.ui.forViewSystem
 import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.CompletedAction
@@ -2097,7 +2096,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             with(binding.toolbar.donutView) {
                 animateChanges = animateProgress
                 submitData(
-                    sections = calcProgressVisualRepresentation(it).forViewSystem(
+                    sections = DisplayProgress.calcProgressVisualRepresentation(it).forViewSystem(
                         account._color,
                         getAmountColor(account.criterion?.sign ?: 0)
                     ).also {

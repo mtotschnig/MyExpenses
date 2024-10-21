@@ -13,9 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewbinding.ViewBinding
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
@@ -25,6 +29,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ui.getActivity
+import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import timber.log.Timber
@@ -66,6 +71,13 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     private var upStreamDependencyRef = -1
     private var blockWatcher = false
 
+    /**
+     * the user of this component will usually set an extensive content description explaining how to
+     * use this component. In addition we need a short label (purpose) that will be used in the
+     * content description of child elements
+     */
+    val purpose: CharSequence?
+
     init {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.AmountInput)
         withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false)
@@ -80,6 +92,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).AmountCurrency else (viewBinding as AmountInputBinding).AmountCurrency)
                 .getRoot()
         )
+        purpose = ta.getText(R.styleable.AmountInput_purpose)
         updateChildContentDescriptions()
         setWithTypeSwitch(ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true))
         if (withCurrencySelection) {
@@ -88,7 +101,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                     override fun getView(
                         position: Int,
                         convertView: View?,
-                        parent: ViewGroup
+                        parent: ViewGroup,
                     ): View {
                         val view = super.getView(position, convertView, parent)
                         view.setPadding(
@@ -108,7 +121,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                     parent: AdapterView<*>?,
                     view: View,
                     position: Int,
-                    id: Long
+                    id: Long,
                 ) {
                     val currency = (currencySpinner.selectedItem as Currency?)!!.code
                     val currencyUnit: CurrencyUnit = host.currencyContext.get(currency)
@@ -183,9 +196,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         }
 
     private fun updateChildContentDescriptions() {
-        //Edit Text does not use content description once it holds content. It is hence needed to point a textView
-        //in the neighborhood of this AmountInput directly to amountEdiText with android:labelFor="@id/AmountEditText"
-        //setContentDescriptionForChild(amountEditText, null);
+        setContentDescriptionForChild(amountEditText(), context.getString(R.string.amount))
         setContentDescriptionForChild(
             calculator(),
             context.getString(R.string.content_description_calculator)
@@ -198,13 +209,18 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     }
 
     private fun setContentDescriptionForChild(view: View, contentDescription: CharSequence?) {
-        view.setContentDescription(
-            if (contentDescription == null) getContentDescription() else String.format(
+        val parentContentDescription = purpose ?: this.contentDescription
+        val childContentDescription =
+            if (contentDescription == null) parentContentDescription else String.format(
                 "%s : %s",
-                getContentDescription(),
+                parentContentDescription,
                 contentDescription
             )
-        )
+        if (view is EditText) {
+            view.setHintForA11yOnly(childContentDescription)
+        } else {
+            view.contentDescription = childContentDescription
+        }
     }
 
     private fun setContentDescriptionForTypeSwitch() {
@@ -312,7 +328,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
 
     fun getAmount(
         currencyUnit: CurrencyUnit,
-        showToUser: Boolean = true
+        showToUser: Boolean = true,
     ): Result<Money?> = getTypedValue(showToUser).mapCatching { value ->
         try {
             (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let { Money(currencyUnit, it) }
@@ -490,7 +506,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             amountEditTextState: Parcelable,
             currencySpinnerState: Parcelable,
             exchangeRateState: BigDecimal?,
-            focusedId: Int
+            focusedId: Int,
         ) : super(superState) {
             this.typeButtonState = typeButtonState
             this.amountEditTextState = amountEditTextState

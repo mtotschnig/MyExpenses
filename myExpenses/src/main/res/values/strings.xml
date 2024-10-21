@@ -1048,4 +1048,8 @@
     <string name="overage">Overage</string>
     <string name="credit_limit_available_credit">Available credit</string>
     <string name="saving_goal_short_fall">Shortfall</string>
+    <string name="content_description_original_amount">Define the original amount of this transaction by selecting a currency, and entering the amount. You can also define an exchange rate which will be used to calculate the effective amount.</string>
+    <!-- This is used as content description for a text input allowing to define the exchange rate for a pair of two currencies. %1$s and %2$s will be replaced with the name of the two currencies. -->
+    <string name="content_description_exchange_rate">Exchange rate for 1 %1$s in %2$s</string>
+    <string name="content_description_equivalent_amount">Define the value of this transaction in your home currency. Instead of entering the amount, you can also enter the exchange rate for calculating it.</string>
 </resources>
