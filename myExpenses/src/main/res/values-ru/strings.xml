@@ -889,7 +889,7 @@
     <string name="debt_installment_receive">Я получаю очередной платеж в размере %s.</string>
     <string name="pref_copy_attachments_summary_on">Файлы скопированы в папку приложения.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">учитываются как перевод</string>
-    <string name="github_sponsors">Лицензионные ключи также предоставляются &lt;a href=%s&gt;спонсорам Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Лицензионные ключи также предоставляются <a href="%s">спонсорам Github</a>.]]></string>
     <string name="notifications_permission_required_sync">Разрешив отправку уведомлений, вы сможете наблюдать за прогрессом синхронизации.</string>
     <string name="debt_balance_they_owe">%1$s теперь имеет долг в размере %2$s.</string>
     <string name="button_relink_keep_date">Перепривязать, но сохранить дату</string>
@@ -954,4 +954,38 @@
     <string name="merge_parties_strategy_group">Дубликаты сгруппированы как зависимые.</string>
     <string name="remove_from_group">Удалить из группы</string>
     <string name="pref_attachment_mime_types_title">Разрешенные типы MIME для вложений</string>
+    <string name="contact_us">Свяжитесь с нами</string>
+    <string name="warning_delete_default_transfer_category">Категория %s задана как категория передачи по умолчанию и не может быть удалена.</string>
+    <string name="overage">Превышение</string>
+    <string name="credit_limit_available_credit">Доступный кредит</string>
+    <string name="saving_goal_short_fall">Дефицит</string>
+    <string name="default_transfer_category">Категория передачи по умолчанию</string>
+    <string name="menu_unpack">Распаковать</string>
+    <string name="warning_unarchive">Архив будет распакован. Все содержащиеся транзакции будут повторно вставлены в список.</string>
+    <string name="archive">Архив</string>
+    <string name="dialog_title_warning_delete_archive">Удалить архив?</string>
+    <string name="archive_warning">Все транзакции (%d) за выбранный период будут архивированы.</string>
+    <string name="warning_empty_archive">В выбранном диапазоне дат нет транзакций.</string>
+    <string name="warning_archive_inconsistent_state">Транзакции в выбранном диапазоне дат имеют неодинаковый статус (%s).</string>
+    <string name="menu_unlink_transfer">Отсоединить перевод</string>
+    <string name="warning_delete_archive">Все транзакции, содержащиеся в этом архиве (%d), будут удалены.</string>
+    <string name="menu_transform_to_transfer">Преобразовать в перевод</string>
+    <string name="subcategories_merged_recursively">Если в объединяемых категориях есть подкатегории с одинаковым названием, они будут сначала объединены рекурсивно.</string>
+    <string name="roadmap_intro">Открыто голосование по дорожной карте 2024 года! Выберите те функции и улучшения, которые для вас наиболее важны.</string>
+    <string name="warning_nested_archives">Вложенные архивы не поддерживаются.</string>
+    <string name="button_activate_again">Включить снова</string>
+    <string name="credit_limit_reached">Вы достигли своего кредитного лимита.</string>
+    <string name="credit_limit_exceeded">Вы превысили свой кредитный лимит.</string>
+    <string name="saving_goal_reached">Вы достигли своей цели сбережений.</string>
+    <string name="saving_goal_exceeded">Вы превысили свою цель сбережений.</string>
+    <string name="warning_backend_deactivated">Бэкенд не готов к синхронизации.</string>
+    <string name="pref_transaction_amount_color_source_title">Цветовая схема для сумм</string>
+    <string name="warning_transform_to_transfer">Выбранная транзакция будет заменена переводом с %1$s на %2$s.</string>
+    <string name="remap_date">Дата всех выбранных транзакций будет изменена на %s.</string>
+    <string name="pref_sync_now_all_summary">%s синхронизирует все счета для одного и того же бэкенда</string>
+    <string name="warning_unlink_transfer">Выбранный перевод будет разорван: он будет заменен обычными транзакциями на обоих счетах.</string>
+    <string name="merge_categories_dialog_title">Объединить категории</string>
+    <string name="merge_categories_prompt">Выберите категорию, которую хотите сохранить</string>
+    <string name="not_enough_data">Недостаточно данных</string>
+    <string name="pref_csv_export_category_separator_summary">Разделитель между уровнями иерархии категорий</string>
 </resources>
