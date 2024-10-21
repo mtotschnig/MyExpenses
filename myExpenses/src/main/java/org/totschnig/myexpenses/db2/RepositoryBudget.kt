@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.util.GroupingInfo
@@ -31,14 +30,15 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
+import timber.log.Timber
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalAdjusters
 
 
-class BudgetDuration(val start: LocalDate, val end: LocalDate)
-class BudgetPeriod(
+data class BudgetDuration(val start: LocalDate, val end: LocalDate)
+data class BudgetPeriod(
     val year: Int,
     val second: Int,
     val duration: BudgetDuration,
@@ -160,22 +160,20 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
             val dateInfo = DateInfo.load(contentResolver)
             val info = period?.let { GroupingInfo(grouping, it.first, it.second) }
                 ?: GroupingNavigator.current(grouping, dateInfo)
-            val weekStartDay = prefHandler.weekStartAsDayOfWeek
-            val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
-            val weekStart = today.with(TemporalAdjusters.previousOrSame(weekStartDay))
+            var weekStart: LocalDate? = null
 
             BudgetPeriod(
                 year = info.year,
                 second = info.second,
                 duration = when (grouping) {
                     Grouping.DAY -> {
-                        today.dayOfWeek
-                        with(today) {
+                        with(LocalDate.ofYearDay(info.year, info.second)) {
                             BudgetDuration(this, this)
                         }
                     }
 
                     Grouping.WEEK -> {
+                        weekStart = DateInfoExtra.load(context.contentResolver, info).weekStart!!
                         BudgetDuration(
                             weekStart,
                             Grouping.getWeekEndFromStart(weekStart)
@@ -219,7 +217,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
         ).use {
             if (it?.moveToFirst() != true) 0 else BudgetAllocation.fromCursor(it).totalAllocated
         }
-        val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] ?: false
+        val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] == true
         val (sumUri, sumSelection, sumSelectionArguments) =
             sumLoaderForBudget(budget, aggregateNeutral, period)
         val spent = contentResolver.query(
