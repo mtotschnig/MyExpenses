@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.time.LocalDate
 import java.util.Locale
 import kotlin.io.path.exists
 
@@ -146,7 +147,7 @@ class ChangeLogGenerator {
 
     @Test
     fun generateChangeLogYaml() {
-        val versionDate = "2024-06-14"
+        val versionDate = LocalDate.now().toString()
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
             "bg",

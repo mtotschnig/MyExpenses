@@ -134,6 +134,87 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.0
+      - '2024-10-21'
+      - bg: 'Цел за спестяване / Кредитен лимит: Подобрения в потребителския интерфейс'
+        cs: 'Ukládání cíle / Kreditní limit: Zdokonalení uživatelského rozhraní'
+        de: 'Sparziel / Kreditlimit: Verfeinerung der Benutzeroberfläche'
+        el: 'Στόχος Αποταμίευσης / Πιστωτικό όριο: Βελτίωση του περιβάλλοντος εργασίας
+          χρήστη'
+        es: 'Meta de ahorro / Límite de crédito: Interfaz de usuario mejorada'
+        fr: 'Objectif d’épargne / Limite de crédit: Raffinement de l''interface utilisateur'
+        hr: 'Cilj štednje / Kreditno ograničenje: Poboljšanje korisničkog sučelja'
+        hu: 'Cél mentése / Hitelkeret: A felhasználói felület finomítása'
+        it: 'Obiettivo risparmio / Limite di credito: Miglioramento dell''interfaccia
+          utente'
+        iw: 'מטרת חיסכון / מסגרת אשראי: חידוד ממשק המשתמש'
+        nl: 'Doel opslaan / Kredietlimiet: Verfijning van de gebruikersinterface'
+        pl: 'Cel oszczędzania / Limit kredytu: Udoskonalenie interfejsu użytkownika'
+        pt: 'Meta de poupança / Limite de crédito: Melhorias na interface do usuário'
+        ro: 'Salvare obiectiv / Limita de credit: Perfecționarea interfeței cu utilizatorul'
+        tr: 'Tasarruf hedefi / Kredi sınırı: Kullanıcı arayüzü iyileştirildi'
+        vi: 'Mục tiêu tiết kiệm / Giới hạn tín dụng: Cải tiến giao diện người dùng'
+        en: 'Saving goal / Credit limit: Refinement of the user interface'
+      - github2: '7'
+        mastodon: '113319606766736436'
+  -   - 3.8.9
+      - '2024-10-06'
+      - bg: 'Архив: Подобрения в потребителския интерфейс. Преглед на дълга: Подобрения
+          в потребителския интерфейс'
+        cs: 'Archiv: Zdokonalení uživatelského rozhraní. Přehled dluhu: Zdokonalení
+          uživatelského rozhraní'
+        de: 'Archiv: Verfeinerung der Benutzeroberfläche. Schuldenübersicht: Verfeinerung
+          der Benutzeroberfläche'
+        el: 'Αρχείο: Βελτίωση του περιβάλλοντος εργασίας χρήστη. Επισκόπηση χρέους:
+          Βελτίωση του περιβάλλοντος εργασίας χρήστη'
+        es: 'Archivo: Interfaz de usuario mejorada. Vista general de la deuda: Interfaz
+          de usuario mejorada'
+        fr: 'Archive: Raffinement de l''interface utilisateur. Aperçu de la dette:
+          Raffinement de l''interface utilisateur'
+        hr: 'Arhiv: Poboljšanje korisničkog sučelja. Pregled dugova: Poboljšanje korisničkog
+          sučelja'
+        hu: 'Archívum: A felhasználói felület finomítása. Adósság áttekintése: A felhasználói
+          felület finomítása'
+        it: 'Archivio: Miglioramento dell''interfaccia utente. Panoramica dei Debiti:
+          Miglioramento dell''interfaccia utente'
+        iw: 'ארכיון: חידוד ממשק המשתמש. סקירת חוב: חידוד ממשק המשתמש'
+        nl: 'Archief: Verfijning van de gebruikersinterface. Schuldenoverzicht: Verfijning
+          van de gebruikersinterface'
+        pl: 'Archiwum: Udoskonalenie interfejsu użytkownika. Przegląd zadłużenia:
+          Udoskonalenie interfejsu użytkownika'
+        pt: 'Arquivo: Melhorias na interface do usuário. Visão geral da dívida: Melhorias
+          na interface do usuário'
+        ro: 'Arhivă: Perfecționarea interfeței cu utilizatorul. Prezentare generală
+          a datoriilor: Perfecționarea interfeței cu utilizatorul'
+        tr: 'Arşiv: Kullanıcı arayüzü iyileştirildi. Borç Genel Görünümü: Kullanıcı
+          arayüzü iyileştirildi'
+        vi: 'Lưu trữ: Cải tiến giao diện người dùng. Tổng quan về nợ: Cải tiến giao
+          diện người dùng'
+        en: 'Archive: Refinement of the user interface. Debt Overview: Refinement
+          of the user interface'
+      - github2: '6'
+        mastodon: '113250295792569214'
+  -   - 3.8.8
+      - '2024-09-13'
+      - bg: Транзакциите могат да се архивират.
+        cs: Transakce lze archivovat.
+        de: Buchungen können archiviert werden.
+        el: Οι συναλλαγές μπορούν να αρχειοθετηθούν.
+        es: Las transacciones se pueden archivar.
+        fr: Les opérations peuvent être archivées.
+        hr: Transakcije se mogu arhivirati.
+        hu: A tranzakciók archiválhatók.
+        it: Le transazioni possono essere archiviate.
+        iw: ניתן לאחסן עסקאות בארכיון.
+        nl: Transacties kunnen worden gearchiveerd.
+        pl: Transakcje można archiwizować.
+        pt: As transações podem ser arquivadas.
+        ro: Tranzacțiile pot fi arhivate.
+        tr: Muameleler arşivlenebilir.
+        vi: Giao dịch có thể được lưu trữ.
+        en: Transactions can be archived.
+      - github2: '5'
+        mastodon: '113108470765902348'
   -   - 3.8.7
       - '2024-07-19'
       - bg: Търсене на сделки с едни и същи имоти.
