@@ -994,17 +994,21 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     open fun setAccounts(data: List<Account>, firstLoad: Boolean) {
-        mAccounts.clear()
-        mAccounts.addAll(data)
-        accountSpinner.adapter = IdAdapter(context, data).apply {
-            setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
-        }
         if (firstLoad) {
+            mAccounts.clear()
+            mAccounts.addAll(data)
+            accountSpinner.adapter = IdAdapter(context, data).apply {
+                setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
+            }
             viewBinding.Amount.setTypeEnabled(true)
             isProcessingLinkedAmountInputs = true
             configureType()
             isProcessingLinkedAmountInputs = false
             setAccount()
+        } else {
+            data.forEach { newData ->
+                mAccounts.find { it.id == newData.id }?.currentBalance  = newData.currentBalance
+            }
         }
     }
 
