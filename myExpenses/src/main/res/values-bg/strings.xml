@@ -957,4 +957,5 @@
     <string name="warning_delete_default_transfer_category">Категорията %s е зададена като категория по подразбиране за превод и не може да бъде изтрита.</string>
     <string name="dialog_contrib_trial_info_play">Тази безплатна пробна версия няма да се преобразува в какъвто и да е вид абонамент.</string>
     <string name="default_transfer_category">Категория по подразбиране за превод</string>
+    <string name="archive">Архив</string>
 </resources>
