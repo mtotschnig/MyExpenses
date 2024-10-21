@@ -86,6 +86,8 @@ nl:
       webui: <b>Webgebruikersinterface</b>
       plans_unlimited: Ontgrendel de mogelijkheid om meer dan drie plannen te maken
         voor terugkerende transacties
+      category_tree: Onbeperkte diepte van <b>categorieboom</b>
+      banking: Transacties downloaden van banken in Duitsland (<b>FinTS</b>)
     thank_you: "Uw bijdrage ondersteunt de verdere ontwikkeling van Mijn Uitgaven.
       Bedankt!\n"
     feature-list-title: 'Draag alstublieft bij door <i>{app_name}</i> te upgraden
