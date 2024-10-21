@@ -970,4 +970,6 @@
     <string name="dialog_contrib_trial_info_play">תקופת הניסיון החינמית הזו לעולם לא תומר לסוג כלשהו של מנוי.</string>
     <string name="dialog_contrib_subscription_info_play">מנוי זה נכנס לתוקף באופן מיידי, מחויב מדי חודש או מדי שנה וניתן לבטלו בכל עת.</string>
     <string name="archive">ארכיון</string>
+    <string name="dialog_title_warning_delete_archive">למחוק את הארכיון?</string>
+    <string name="warning_delete_archive">כל התנועות שמופיעות בארכיון הזה (%d) תימחקנה.</string>
 </resources>
