@@ -924,4 +924,5 @@
     <string name="content_description_remove_icon">Αφαίρεση εικονιδίου</string>
     <string name="icons_for_categories">Εικονίδια για κατηγορίες</string>
     <string name="debt_installment_receive">Λαμβάνω μια δόση ύψους %s.</string>
+    <string name="archive">Αρχείο</string>
 </resources>
