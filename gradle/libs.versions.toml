@@ -95,7 +95,7 @@ securityCrypto = "1.1.0-alpha06"
 simpledialogfragments = "09a642bc42"
 slf4jApi = "2.0.13"
 snakeyaml = "2.2"
-sqlcipher = "4.5.4"
+sqlcipher = "4.6.1"
 taptargetview = "1.13.3"
 tesseract4androidOpenmp = "4.7.0"
 mlkitTextRecognition = "16.0.1"
@@ -111,7 +111,7 @@ accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompan
 acra-core = { module = "ch.acra:acra-core", version.ref = "acraVersion" }
 acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acraVersion" }
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acraVersion" }
-android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "sqlcipher" }
+android-database-sqlcipher = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
 android-image-cropper = { module = "com.github.mtotschnig:Android-Image-Cropper", version.ref = "androidImageCropper" }
 android-state = { module = "com.evernote:android-state", version.ref = "evernote" }
 android-state-processor = { module = "com.evernote:android-state-processor", version.ref = "evernote" }

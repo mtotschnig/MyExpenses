@@ -9,8 +9,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
@@ -31,13 +33,17 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             currency = currency.code,
             criterion = -10000
         ).createIn(repository)
-        if (true) {
-            account2 = Account(
-                label = "Saving",
-                currency = currency.code,
-                criterion = 5000
-            ).createIn(repository)
-        }
+        account2 = Account(
+            label = "Saving",
+            currency = currency.code,
+            criterion = 5000
+        ).createIn(repository)
+    }
+
+    @After
+    fun cleanup() {
+        repository.deleteAccount(account1.id)
+        repository.deleteAccount(account2.id)
     }
 
 

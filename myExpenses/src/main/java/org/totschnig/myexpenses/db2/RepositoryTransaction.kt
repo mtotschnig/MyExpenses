@@ -247,3 +247,8 @@ private fun ContentResolver.findBySelection(
     )?.use {
         if (it.moveToFirst()) it.getLong(0) else null
     } ?: -1
+
+
+fun Repository.deleteTemplate(id: Long) {
+    contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TEMPLATES_URI, id), null, null)
+}

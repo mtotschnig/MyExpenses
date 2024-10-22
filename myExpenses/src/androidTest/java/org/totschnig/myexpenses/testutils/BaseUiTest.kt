@@ -13,7 +13,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -129,10 +128,10 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
                 ) {
                     inRoot(RootMatchers.isPlatformPopup())
                 }
-            }.perform(ViewActions.click())
+            }.perform(click())
         } catch (_: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
-            onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
+            onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
         }
     }
 
@@ -169,14 +168,14 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             if (DistributionHelper.isPlay) {
                 try {
                     //without play service a billing setup error dialog is displayed
-                    onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
+                    onView(ViewMatchers.withText(android.R.string.ok)).perform(click())
                 } catch (_: Exception) {
                 }
             }
             onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
                 matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.button_try)).perform(ViewActions.scrollTo(), ViewActions.click())
+            onView(ViewMatchers.withText(R.string.button_try)).perform(scrollTo(), click())
         }
     }
 
@@ -268,7 +267,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     }
 
     fun clickFab() {
-        onView(withId(R.id.fab)).perform(ViewActions.click())
+        onView(withId(R.id.fab)).perform(click())
     }
 
     fun checkAccount(label: String) {

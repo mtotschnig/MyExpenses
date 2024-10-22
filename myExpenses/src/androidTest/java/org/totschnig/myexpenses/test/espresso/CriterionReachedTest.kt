@@ -3,22 +3,16 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.instanceOf
+import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.withAccount
 import java.util.Currency
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -27,22 +21,18 @@ import kotlin.test.Test
 class CriterionReachedTest : BaseExpenseEditTest() {
     val currency = CurrencyUnit(Currency.getInstance("USD"))
 
-    lateinit var account2: Account
-
-    fun fixture(criterion: Long, withAccount2: Boolean, openingBalance: Long = 0) {
+    fun fixture(criterion: Long, openingBalance: Long = 0) {
         account1 = Account(
             label = "Test label 1",
             currency = currency.code,
             criterion = criterion,
             openingBalance = openingBalance
         ).createIn(repository)
-        if (withAccount2) {
-            account2 = Account(
-                label = "Test label 2",
-                currency = currency.code,
-                criterion = criterion
-            ).createIn(repository)
-        }
+    }
+
+    @After
+    fun cleanup() {
+        repository.deleteAccount(account1.id)
     }
 
     @Test
@@ -184,7 +174,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         expectedTitle: Int?,
         openingBalance: Long = 0,
     ) {
-        fixture(criterion, false, openingBalance)
+        fixture(criterion, openingBalance)
         launchForResult(intentForNewTransaction.apply {
             putExtra(ExpenseEdit.KEY_INCOME, amount > 0)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
@@ -205,7 +195,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         editedAmount: Int,
         expectedTitle: Int?,
     ) {
-        fixture(criterion, false)
+        fixture(criterion)
         val transactionId = Transaction.getNewInstance(account1.id, currency).let {
             it.amount = Money(currency, existingAmount)
             ContentUris.parseId(it.save(contentResolver)!!)
@@ -233,7 +223,12 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         editedAmount: Int,
         expectedTitle: Int?,
     ) {
-        fixture(criterion, true)
+        fixture(criterion)
+        val account2 = Account(
+            label = "Test label 2",
+            currency = currency.code,
+            criterion = criterion
+        ).createIn(repository)
         val transactionId = Transaction.getNewInstance(account1.id, currency).let {
             it.amount = Money(currency, existingAmount)
             ContentUris.parseId(it.save(contentResolver)!!)
@@ -254,5 +249,6 @@ class CriterionReachedTest : BaseExpenseEditTest() {
                 assertFinishing()
             }
         }
+        repository.deleteAccount(account2.id)
     }
 }

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.content.ContentUris
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -17,12 +18,15 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -35,6 +39,12 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     val composeTestRule = createEmptyComposeRule()
 
     private lateinit var account: Account
+
+    private var categoryExpenseId = 0L
+    private var categoryIncomeId = 0L
+    private var transactionExpenseId = 0L
+    private var transactionIncomeId = 0L
+
 
     private fun baseFixture(
         showIncome: Boolean = false,
@@ -56,20 +66,38 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         showExpense: Boolean = true
     ) {
         baseFixture(showIncome, showExpense) {
-            val categoryExpenseId = writeCategory("Expense")
-            val categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            categoryExpenseId = writeCategory("Expense")
+            categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
+            transactionExpenseId = with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, -1200L)
                 catId = categoryExpenseId
-                save(contentResolver)
+                ContentUris.parseId(save(contentResolver)!!)
             }
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            transactionIncomeId = with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)
                 catId = categoryIncomeId
-                save(contentResolver)
+                ContentUris.parseId(save(contentResolver)!!)
             }
         }
     }
+
+    @After
+    fun cleanup() {
+        if (transactionExpenseId != 0L) {
+            repository.deleteTransaction(transactionExpenseId)
+        }
+        if (transactionIncomeId != 0L) {
+            repository.deleteTransaction(transactionIncomeId)
+        }
+        if (categoryExpenseId != 0L) {
+            repository.deleteCategory(categoryExpenseId)
+        }
+        if (categoryIncomeId != 0L) {
+            repository.deleteCategory(categoryIncomeId)
+        }
+        repository.deleteAccount(account.id)
+    }
+
 
     private fun assertIncome() {
         onView(allOf(withText(containsString("Income")), withText(containsString("34"))))

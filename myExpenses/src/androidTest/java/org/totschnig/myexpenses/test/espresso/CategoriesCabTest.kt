@@ -29,6 +29,7 @@ import com.adevinta.android.barista.internal.matcher.HelperMatchers
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
@@ -37,6 +38,10 @@ import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteBudget
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -55,12 +60,20 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
     private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
     private var origListSize = 0
+    private var controlCategory: Long = 0
 
     private fun baseFixture() {
         account = buildAccount("Test account 1")
         categoryId = writeCategory(label = "TestCategory")
-        writeCategory(label = "Control Category")
+        controlCategory = writeCategory(label = "Control Category")
         origListSize = repository.count(TransactionProvider.CATEGORIES_URI)
+    }
+
+    @After
+    fun clearDb() {
+        repository.deleteAccount(account.id)
+        repository.deleteCategory(categoryId)
+        repository.deleteCategory(controlCategory)
     }
 
     private fun launch() =
@@ -73,18 +86,18 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             testScenario = it
         }
 
-    private fun fixtureWithMappedTransaction() {
+    private fun fixtureWithMappedTransaction(): Long {
         baseFixture()
-        with(Transaction.getNewInstance(account.id, homeCurrency)) {
+        return with(Transaction.getNewInstance(account.id, homeCurrency)) {
             amount = Money(homeCurrency, -1200L)
             catId = categoryId
-            save(contentResolver)
+            ContentUris.parseId(save(contentResolver)!!)
         }
     }
 
-    private fun fixtureWithMappedTemplate() {
+    private fun fixtureWithMappedTemplate(): Long {
         baseFixture()
-        with(
+        return with(
             Template(
                 contentResolver,
                 account.id,
@@ -95,11 +108,11 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         ) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
-            save(contentResolver)
+            ContentUris.parseId(save(contentResolver)!!)
         }
     }
 
-    private fun fixtureWithMappedBudget() {
+    private fun fixtureWithMappedBudget(): Long {
         baseFixture()
         val budget = Budget(
             0L,
@@ -121,6 +134,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             )!!
         )
         setCategoryBudget(budgetId, categoryId, 50000)
+        return budgetId
     }
 
     private fun setCategoryBudget(
@@ -161,8 +175,9 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     @Test
     fun shouldNotDeleteCategoryMappedToTransaction() {
-        fixtureWithMappedTransaction()
+        val transactionId = fixtureWithMappedTransaction()
         launch().use {
+            assertTextAtPosition("TestCategory", 0)
             callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(
@@ -176,11 +191,12 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
                 )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
+        repository.deleteTransaction(transactionId)
     }
 
     @Test
     fun shouldNotDeleteCategoryMappedToTemplate() {
-        fixtureWithMappedTemplate()
+        val templateId = fixtureWithMappedTemplate()
         launch().use {
             callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
@@ -194,12 +210,13 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
                     )
                 )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
+            repository.deleteTemplate(templateId)
         }
     }
 
     @Test
     fun shouldNotDeleteCategoryMappedToBudget() {
-        fixtureWithMappedBudget()
+        val budgetId = fixtureWithMappedBudget()
         launch().use {
             callDelete(false)
             onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(
@@ -208,6 +225,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             onView(withText(R.string.response_no)).perform(click())
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
+        repository.deleteBudget(budgetId)
     }
 
     private fun callDelete(withConfirmation: Boolean = true, position: Int = 0) {

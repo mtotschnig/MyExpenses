@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import timber.log.Timber
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -240,3 +239,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
             currentDay
         )
     }
+
+fun Repository.deleteBudget(id: Long) {
+    contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, id), null, null)
+}

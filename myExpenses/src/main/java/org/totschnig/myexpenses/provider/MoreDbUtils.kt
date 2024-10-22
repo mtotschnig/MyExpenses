@@ -597,11 +597,14 @@ fun SupportSQLiteDatabase.update(
     values: ContentValues,
     whereClause: String?,
     whereArgs: Array<Any>?
-) = //https://github.com/sqlcipher/android-database-sqlcipher/issues/615
+) = //https://github.com/sqlcipher/sqlcipher-android/issues/50
     update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs ?: emptyArray())
 
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)
+
+fun SupportSQLiteDatabase.delete(table: String, whereClause: String?, whereArgs: Array<Any>?) =
+    delete(table, whereClause, whereArgs ?: emptyArray())
 
 /**
  * insert where conflicts are ignored instead of raising exception
