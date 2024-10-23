@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.findParty
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -26,10 +27,12 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 data class ImportResult(val label: String, val successCount: Int)
@@ -105,7 +108,7 @@ abstract class ImportDataViewModel(application: Application) :
     suspend fun insertTransactions(
         accounts: List<ImportAccount>,
         currencyUnit: CurrencyUnit,
-        autofill: Boolean
+        autofill: Boolean,
     ) = reduceTransfers(accounts).map { (_, memo, _, _, transactions) ->
         accountTitleToAccount[memo]?.let {
             insertTransactions(it, currencyUnit, transactions, autofill)
@@ -133,15 +136,16 @@ abstract class ImportDataViewModel(application: Application) :
         return count
     }
 
-    fun insertCategories(categories: Set<CategoryInfo>, stripQifCategoryClass: Boolean) = categories.sumOf {
-        CategoryHelper.insert(repository, it.name, categoryToId, stripQifCategoryClass, it.type)
-    }
+    fun insertCategories(categories: Set<CategoryInfo>, stripQifCategoryClass: Boolean) =
+        categories.sumOf {
+            CategoryHelper.insert(repository, it.name, categoryToId, stripQifCategoryClass, it.type)
+        }
 
     private fun insertTransactions(
         account: Account,
         currencyUnit: CurrencyUnit,
         transactions: List<ImportTransaction>,
-        autofill: Boolean
+        autofill: Boolean,
     ) {
         for (transaction in transactions) {
             val t = transaction.toTransaction(account, currencyUnit)
@@ -160,6 +164,7 @@ abstract class ImportDataViewModel(application: Application) :
             } else {
                 findCategory(transaction, t, autofill)
             }
+            findMethod(transaction, t)
             t.save(contentResolver, true)?.let {
                 transaction.tags?.let { list ->
                     repository.saveTagsForTransaction(
@@ -178,7 +183,8 @@ abstract class ImportDataViewModel(application: Application) :
             accountTitleToAccount[transaction.toAccount]?.let { transferAccount ->
                 t.transferAccountId = transferAccount.id
                 transaction.toAmount?.let {
-                    t.transferAmount = Money(currencyContext.get(transferAccount.currency), transaction.toAmount)
+                    t.transferAmount =
+                        Money(currencyContext.get(transferAccount.currency), transaction.toAmount)
                 }
             }
         }
@@ -190,8 +196,18 @@ abstract class ImportDataViewModel(application: Application) :
                 (autoFillCache[it] ?: repository.autoFill(it)
                     ?.apply { autoFillCache[it] = this })?.categoryId
             }
+
             transaction.isTransfer -> prefHandler.defaultTransferCategory
             else -> null
+        }
+    }
+
+    private fun findMethod(transaction: ImportTransaction, t: Transaction) {
+        t.methodId = transaction.method?.let { label ->
+            PreDefinedPaymentMethod.entries.find { localizedContext.getString(it.resId) == label }?.name
+                ?: label
+        }?.let {
+            repository.findPaymentMethod(it)
         }
     }
 }
