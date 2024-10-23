@@ -32,7 +32,9 @@ class CriterionReachedTest : BaseExpenseEditTest() {
 
     @After
     fun cleanup() {
-        repository.deleteAccount(account1.id)
+        cleanup {
+            repository.deleteAccount(account1.id)
+        }
     }
 
     @Test
@@ -249,6 +251,8 @@ class CriterionReachedTest : BaseExpenseEditTest() {
                 assertFinishing()
             }
         }
-        repository.deleteAccount(account2.id)
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 }

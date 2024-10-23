@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
@@ -71,9 +72,11 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     @After
     fun clearDb() {
-        repository.deleteAccount(account.id)
-        repository.deleteCategory(categoryId)
-        repository.deleteCategory(controlCategory)
+        cleanup {
+            repository.deleteAccount(account.id)
+            repository.deleteCategory(categoryId)
+            repository.deleteCategory(controlCategory)
+        }
     }
 
     private fun launch() =
@@ -171,6 +174,9 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             assertTextAtPosition("Control Category", 0)
             listNode.assert(hasRowCount(1))
         }
+        cleanup {
+            prefHandler.remove(PrefKey.SORT_ORDER_CATEGORIES)
+        }
     }
 
     @Test
@@ -191,7 +197,9 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
                 )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
-        repository.deleteTransaction(transactionId)
+        cleanup {
+            repository.deleteTransaction(transactionId)
+        }
     }
 
     @Test
@@ -210,6 +218,8 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
                     )
                 )
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
+        }
+        cleanup {
             repository.deleteTemplate(templateId)
         }
     }
@@ -225,7 +235,9 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             onView(withText(R.string.response_no)).perform(click())
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
-        repository.deleteBudget(budgetId)
+        cleanup {
+            repository.deleteBudget(budgetId)
+        }
     }
 
     private fun callDelete(withConfirmation: Boolean = true, position: Int = 0) {

@@ -83,19 +83,21 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
 
     @After
     fun cleanup() {
-        if (transactionExpenseId != 0L) {
-            repository.deleteTransaction(transactionExpenseId)
+        cleanup {
+            if (transactionExpenseId != 0L) {
+                repository.deleteTransaction(transactionExpenseId)
+            }
+            if (transactionIncomeId != 0L) {
+                repository.deleteTransaction(transactionIncomeId)
+            }
+            if (categoryExpenseId != 0L) {
+                repository.deleteCategory(categoryExpenseId)
+            }
+            if (categoryIncomeId != 0L) {
+                repository.deleteCategory(categoryIncomeId)
+            }
+            repository.deleteAccount(account.id)
         }
-        if (transactionIncomeId != 0L) {
-            repository.deleteTransaction(transactionIncomeId)
-        }
-        if (categoryExpenseId != 0L) {
-            repository.deleteCategory(categoryExpenseId)
-        }
-        if (categoryIncomeId != 0L) {
-            repository.deleteCategory(categoryIncomeId)
-        }
-        repository.deleteAccount(account.id)
     }
 
 

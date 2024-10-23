@@ -42,8 +42,10 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
 
     @After
     fun cleanup() {
-        repository.deleteAccount(account1.id)
-        repository.deleteAccount(account2.id)
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
     }
 
 

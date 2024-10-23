@@ -1235,6 +1235,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         );
         deleteAttachment(db, Long.parseLong(attachmentId), null);
       }
+      case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
