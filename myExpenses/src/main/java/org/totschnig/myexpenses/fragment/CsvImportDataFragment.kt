@@ -14,11 +14,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
+import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.ViewCompat
+import androidx.core.widget.TextViewCompat
+import androidx.core.widget.TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -94,7 +97,7 @@ class CsvImportDataFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
         setHasOptionsMenu(true)
-        cellMinWidth = resources.getDimensionPixelSize(R.dimen.csv_import_cell_min_width)
+        cellMinWidth = resources.getDimensionPixelSize(R.dimen.csv_import_header_text_size) * 8
         checkboxColumnWidth =
             resources.getDimensionPixelSize(R.dimen.csv_import_checkbox_column_width)
         cellMargin = resources.getDimensionPixelSize(R.dimen.csv_import_cell_margin)
@@ -120,7 +123,7 @@ class CsvImportDataFragment : Fragment() {
         header2FieldMap = prefHandler.getString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, null)?.let {
             try {
                 JSONObject(it)
-            } catch (e: JSONException) {
+            } catch (_: JSONException) {
                 null
             }
         } ?: JSONObject()
@@ -198,7 +201,7 @@ class CsvImportDataFragment : Fragment() {
             tableWidth =
                 cellMinWidth * nrOfColumns + checkboxColumnWidth + cellMargin * nrOfColumns * 2
         }
-        cellParams = LinearLayout.LayoutParams(cellWidth, MATCH_PARENT).apply {
+        cellParams = LinearLayout.LayoutParams(cellWidth, WRAP_CONTENT).apply {
             setMargins(cellMargin, cellMargin, cellMargin, cellMargin)
         }
         with(binding.myRecyclerView) {
@@ -242,7 +245,7 @@ class CsvImportDataFragment : Fragment() {
                             )
                             continue@outer
                         }
-                    } catch (e: JSONException) {
+                    } catch (_: JSONException) {
                         //ignore
                     }
                 }
@@ -314,8 +317,9 @@ class CsvImportDataFragment : Fragment() {
             val itemBinding =
                 ImportCsvDataRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             for (i in 0 until nrOfColumns) {
-                val cell = TextView(parent.context)
+                val cell = AppCompatTextView(parent.context)
                 cell.setSingleLine()
+                TextViewCompat.setAutoSizeTextTypeWithDefaults(cell, AUTO_SIZE_TEXT_TYPE_UNIFORM)
                 cell.ellipsize = TextUtils.TruncateAt.END
                 cell.isSelected = true
                 cell.gravity = Gravity.CENTER_HORIZONTAL
