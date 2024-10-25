@@ -612,6 +612,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .columns(fullAccountProjection + KEY_EXCHANGE_RATE)
                     )
                 .selection(selection, emptyArray())
+                .orderBy("$KEY_HIDDEN, $sortOrder")
                 .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()
@@ -764,7 +765,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name
                         )!!
                     )
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     AccountGrouping.TYPE
                 }) {
                     AccountGrouping.CURRENCY -> "$KEY_CURRENCY,$KEY_IS_AGGREGATE"
