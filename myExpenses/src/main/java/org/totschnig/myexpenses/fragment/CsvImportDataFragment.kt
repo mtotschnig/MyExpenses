@@ -19,7 +19,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.ViewCompat
 import androidx.core.widget.TextViewCompat
 import androidx.core.widget.TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
 import androidx.fragment.app.Fragment
@@ -41,10 +40,10 @@ import org.totschnig.myexpenses.databinding.ImportCsvDataRowBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
+import org.totschnig.myexpenses.viewmodel.CsvImportViewModel.Companion.KEY_HEADER_LINE_POSITION
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,9 +53,7 @@ class CsvImportDataFragment : Fragment() {
 
     private var _binding: ImportCsvDataBinding? = null
     private val binding get() = _binding!!
-    private var selectedRows: SparseBooleanArrayParcelable = SparseBooleanArrayParcelable()
     private lateinit var cellParams: LinearLayout.LayoutParams
-    private var headerLine = -1
     private var nrOfColumns: Int = 0
     private val allFields: List<Pair<Int, String?>> = listOf(
         R.string.discard to null,
@@ -116,7 +113,7 @@ class CsvImportDataFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val displayMetrics = resources.displayMetrics
         windowWidth = displayMetrics.widthPixels
@@ -135,13 +132,6 @@ class CsvImportDataFragment : Fragment() {
         // http://www.vogella.com/tutorials/AndroidRecyclerView/article.html
         binding.myRecyclerView.setHasFixedSize(true)
 
-        if (savedInstanceState != null) {
-            savedInstanceState.getParcelable<SparseBooleanArrayParcelable>(KEY_SELECTED_ROWS)?.let {
-                selectedRows = it
-            }
-            headerLine = savedInstanceState.getInt(KEY_HEADER_LINE_POSITION)
-
-        }
         return binding.root
     }
 
@@ -150,17 +140,18 @@ class CsvImportDataFragment : Fragment() {
         _binding = null
     }
 
-    private fun setData(data: List<CSVRecord>, mapping: IntArray? = null) {
+    private fun setData(data: List<CSVRecord>) {
         if (data.isEmpty()) return
         binding.switcher.displayedChild = 1
         val withValueDate = prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
-        val withTime = !withValueDate && prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, false)
+        val withTime =
+            !withValueDate && prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, false)
         fields = allFields.filter {
             when (it.first) {
                 R.string.date -> !withValueDate
                 R.string.time -> withTime
                 R.string.booking_date, R.string.value_date -> withValueDate
-                R.string.account -> (requireActivity() as CsvImportActivity).accountId== 0L
+                R.string.account -> viewModel.withAccountColumn
                 else -> true
             }
         }
@@ -176,7 +167,7 @@ class CsvImportDataFragment : Fragment() {
             override fun getDropDownView(
                 position: Int,
                 convertView: View?,
-                parent: ViewGroup
+                parent: ViewGroup,
             ): View {
                 val tv = super.getDropDownView(position, convertView, parent) as TextView
                 tv.text = getString(fields[position].first)
@@ -186,9 +177,6 @@ class CsvImportDataFragment : Fragment() {
             it.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         }
         nrOfColumns = data.maxOf { it.size() }
-        for (i in data.indices) {
-            selectedRows.put(i, true)
-        }
         val availableCellWidth =
             ((windowWidth - checkboxColumnWidth - cellMargin * nrOfColumns * 2) / nrOfColumns)
         val cellWidth: Int
@@ -216,17 +204,17 @@ class CsvImportDataFragment : Fragment() {
             removeViews(1, childCount - 1)
             for (i in 0 until nrOfColumns) {
                 val cell = AppCompatSpinner(requireContext())
-                cell.id = ViewCompat.generateViewId()
+                cell.id = View.generateViewId()
                 cell.adapter = fieldAdapter
-                ViewCompat.setPaddingRelative(cell, 0, 0, spinnerRightPadding, 0)
+                cell.setPaddingRelative(0, 0, spinnerRightPadding, 0)
                 addView(cell, cellParams)
-                mapping?.get(i)?.let { cell.setSelection(it) }
+                viewModel.mapping?.get(i)?.let { cell.setSelection(it) }
             }
         }
     }
 
     fun setHeader(rowPosition: Int) {
-        headerLine = rowPosition
+        viewModel.headerLine = rowPosition
         binding.myRecyclerView.adapter?.notifyItemChanged(rowPosition)
         //autoMap
         val record = dataSet[rowPosition]
@@ -270,12 +258,12 @@ class CsvImportDataFragment : Fragment() {
                 position
             )
             if (isChecked) {
-                selectedRows.put(position, true)
-                if (position == headerLine) {
-                    headerLine = -1
+                viewModel.selectRow(position)
+                if (position == viewModel.headerLine) {
+                    viewModel.headerLine = -1
                 }
             } else {
-                if (headerLine == -1 && position == firstSelectedRow()) {
+                if (viewModel.headerLine == -1 && position == firstSelectedRow()) {
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
                         putInt(
                             ConfirmationDialogFragment.KEY_TITLE,
@@ -302,7 +290,7 @@ class CsvImportDataFragment : Fragment() {
                         parentFragmentManager, "SET_HEADER_CONFIRMATION"
                     )
                 }
-                selectedRows.delete(position)
+                viewModel.unselectRow(position)
             }
             notifyItemChanged(position)
         }
@@ -312,11 +300,11 @@ class CsvImportDataFragment : Fragment() {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
-            viewType: Int
+            viewType: Int,
         ): ViewHolder {
             val itemBinding =
                 ImportCsvDataRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            for (i in 0 until nrOfColumns) {
+            repeat(nrOfColumns) {
                 val cell = AppCompatTextView(parent.context)
                 cell.setSingleLine()
                 TextViewCompat.setAutoSizeTextTypeWithDefaults(cell, AUTO_SIZE_TEXT_TYPE_UNIFORM)
@@ -337,8 +325,8 @@ class CsvImportDataFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val isSelected = selectedRows[position, false]
-            val isHeader = position == headerLine
+            val isSelected = viewModel.isSelected(position)
+            val isHeader = position == viewModel.headerLine
             holder.itemView.isActivated = !isSelected && !isHeader
             val record = dataSet[position]
             for (i in 0 until record.size()) {
@@ -356,18 +344,15 @@ class CsvImportDataFragment : Fragment() {
         // Return the size of your dataSet (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
 
-        override fun getItemViewType(position: Int) = if (position == headerLine) 0 else 1
+        override fun getItemViewType(position: Int) = if (position == viewModel.headerLine) 0 else 1
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(KEY_SELECTED_ROWS, selectedRows)
-        outState.putInt(KEY_HEADER_LINE_POSITION, headerLine)
-        outState.putIntArray(
-            KEY_MAPPING,
-            (0 until nrOfColumns).map { (binding.headerLine.getChildAt(it + 1) as Spinner).selectedItemPosition }
-                .toIntArray()
-        )
+        viewModel.mapping = (0 until nrOfColumns).map {
+            (binding.headerLine.getChildAt(it + 1) as Spinner).selectedItemPosition
+        }
+            .toIntArray()
     }
 
     @Deprecated("Deprecated in Java")
@@ -379,7 +364,7 @@ class CsvImportDataFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.IMPORT_COMMAND) {
             val columnToFieldMap = IntArray(nrOfColumns)
-            val header = headerLine.takeIf { it > -1 }?.let { dataSet[it] }
+            val header = viewModel.headerLine.takeIf { it > -1 }?.let { dataSet[it] }
             for (i in 0 until nrOfColumns) {
                 val position =
                     (binding.headerLine.getChildAt(i + 1) as Spinner).selectedItemPosition
@@ -404,7 +389,7 @@ class CsvImportDataFragment : Fragment() {
                     PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP,
                     header2FieldMap.toString()
                 )
-                val selectedData = dataSet.filterIndexed { index, _ -> selectedRows[index] }
+                val selectedData = dataSet.filterIndexed { index, _ -> viewModel.isSelected(index) }
                 (activity as? CsvImportActivity)?.importData(
                     selectedData,
                     columnToFieldMap,
@@ -455,17 +440,9 @@ class CsvImportDataFragment : Fragment() {
         return true
     }
 
-    private fun firstSelectedRow(): Int {
-        for (i in dataSet.indices) {
-            if (selectedRows.get(i)) return i
-        }
-        return -1
-    }
+    private fun firstSelectedRow() = dataSet.indices.find { viewModel.isSelected(it) } ?: -1
 
     companion object {
-        const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
-        const val KEY_HEADER_LINE_POSITION = "HEADER_LINE_POSITION"
-        const val KEY_MAPPING = "MAPPING"
         fun newInstance() = CsvImportDataFragment()
     }
 }

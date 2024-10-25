@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/csv_import_row_background"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/csv_import_row_height"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <FrameLayout
