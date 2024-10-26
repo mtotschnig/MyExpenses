@@ -76,7 +76,7 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
     sealed class SourceWithApiKey(
         val prefKey: PrefKey,
         host: String,
-        id: String
+        id: String,
     ) : ExchangeRateSource(id, host) {
         fun requireApiKey(prefHandler: PrefHandler): String =
             prefHandler.getString(prefKey)
@@ -85,7 +85,7 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
 
     data object OpenExchangeRates : SourceWithApiKey(
         prefKey = PrefKey.OPEN_EXCHANGE_RATES_APP_ID,
-        host = "openexchangerates.com",
+        host = "openexchangerates.org",
         id = "OPENEXCHANGERATES"
     ) {
         override fun extractError(body: ResponseBody): String =
@@ -107,15 +107,15 @@ class MissingApiKeyException(val source: ExchangeRateSource.SourceWithApiKey) :
 
 class ExchangeRateService(
     private val frankfurter: Frankfurter,
-    private val openExchangeRates:OpenExchangeRates,
-    private val coinApi: CoinApi
+    private val openExchangeRates: OpenExchangeRates,
+    private val coinApi: CoinApi,
 ) {
     suspend fun getRate(
         source: ExchangeRateSource,
         apiKey: String?,
         date: LocalDate,
         symbol: String,
-        base: String
+        base: String,
     ): Pair<LocalDate, Double> = try {
         when (source) {
             ExchangeRateSource.Frankfurter -> {
