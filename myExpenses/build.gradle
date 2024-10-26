@@ -225,6 +225,7 @@ dependencies {
     implementation libs.androidx.legacy.support.v4
     implementation libs.androidx.recyclerview
     implementation libs.androidx.cardview
+    implementation libs.androidx.viewpager2
 
     api libs.material
 

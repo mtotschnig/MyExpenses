@@ -20,10 +20,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
+import timber.log.Timber
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -34,6 +34,7 @@ import kotlin.math.sign
  *
  * This solution has limitations when using multiple levels of nested scrollable elements
  * (e.g. a horizontal RecyclerView in a vertical RecyclerView in a horizontal ViewPager2).
+ *
  */
 class NestedScrollableHost : FrameLayout {
     constructor(context: Context) : super(context)
@@ -53,10 +54,6 @@ class NestedScrollableHost : FrameLayout {
 
     private val child: View? get() = if (childCount > 0) getChildAt(0) else null
 
-    init {
-        touchSlop = ViewConfiguration.get(context).scaledTouchSlop
-    }
-
     private fun canChildScroll(orientation: Int, delta: Float): Boolean {
         val direction = -delta.sign.toInt()
         return when (orientation) {
@@ -67,16 +64,15 @@ class NestedScrollableHost : FrameLayout {
     }
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
-        handleInterceptTouchEvent(e)
-        return super.onInterceptTouchEvent(e)
+        return if (handleInterceptTouchEvent(e)) true else super.onInterceptTouchEvent(e)
     }
 
-    private fun handleInterceptTouchEvent(e: MotionEvent) {
-        val orientation = parentViewPager?.orientation ?: return
+    private fun handleInterceptTouchEvent(e: MotionEvent): Boolean {
+        val orientation = parentViewPager?.orientation ?: return false
 
         // Early return if child can't scroll in same direction as parent
         if (!canChildScroll(orientation, -1f) && !canChildScroll(orientation, 1f)) {
-            return
+            return false
         }
 
         if (e.action == MotionEvent.ACTION_DOWN) {
@@ -102,11 +98,13 @@ class NestedScrollableHost : FrameLayout {
                         // Child can scroll, disallow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(true)
                     } else {
-                        // Child cannot scroll, allow all parents to intercept
+                        // Child cannot scroll, allow all parents to intercept and intercept touches from children
                         parent.requestDisallowInterceptTouchEvent(false)
+                        return true
                     }
                 }
             }
         }
+        return false
     }
 }
