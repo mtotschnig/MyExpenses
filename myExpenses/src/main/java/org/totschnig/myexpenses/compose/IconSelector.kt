@@ -44,7 +44,7 @@ fun IconSelector(
     modifier: Modifier = Modifier,
     iconsForCategory: (Context, IconCategory) -> Map<String, IIconInfo> = IIconInfo.Companion::resolveIconsForCategory,
     iconsForSearch: (Context, String) -> Map<String, IIconInfo> = IIconInfo.Companion::searchIcons,
-    onIconSelected: (String) -> Unit
+    onIconSelected: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val categories = IconCategory.values
@@ -56,7 +56,7 @@ fun IconSelector(
                 iconsForCategory(context, categories[selectedTabIndex - 1])
             else
                 if (searchTerm.isNotEmpty()) iconsForSearch(context, searchTerm) else emptyMap()
-            )
+                    )
                 .map { Triple(it.key, it.value, context.getString(it.value.label)) }
                 .sortedBy { it.third }
         }
@@ -85,7 +85,10 @@ fun IconSelector(
             categories.forEachIndexed { tabIndex, category ->
                 val effectiveIndex = tabIndex + 1
                 Tab(selected = selectedTabIndex == effectiveIndex,
-                    onClick = { selectedTabIndex = effectiveIndex; localFocusManager.clearFocus() },
+                    onClick = {
+                        selectedTabIndex = effectiveIndex
+                        localFocusManager.clearFocus()
+                    },
                     text = { Text(text = stringResource(category.label)) }
                 )
             }
