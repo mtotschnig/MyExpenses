@@ -1014,7 +1014,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
                     headerData = headerData,
-                    budgetData = remember { viewModel.budgetData(account) }.collectAsState(null),
+                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }.collectAsState(null),
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
                     menuGenerator = remember(modificationAllowed) {
                         { transaction ->
