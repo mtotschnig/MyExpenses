@@ -8,6 +8,8 @@ interface OnIconSelectedListener {
 }
 
 class IconSelectorDialogFragment : ComposeBaseDialogFragment2() {
+
+    override val fullScreenIfNotLarge = true
     @Composable
     override fun BuildContent() {
         IconSelector(onIconSelected = {
