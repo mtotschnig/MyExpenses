@@ -114,7 +114,7 @@ fun DonutInABox(
                 gapAngleDegrees = 0f,
                 strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
-                sections = DisplayProgress.calcProgressVisualRepresentation(progress).forCompose(color, excessColor)
+                sections = DisplayProgress.calcProgressVisualRepresentation(progress.coerceAtLeast(0f)).forCompose(color, excessColor)
             )
         )
         Text(
