@@ -819,7 +819,7 @@
     <string name="dialog_contrib_trial_info_play">Deze gratis proefperiode wordt nooit omgezet naar welk type abonnement dan ook.</string>
     <string name="dialog_contrib_subscription_info_play">Dit abonnement gaat onmiddellijk in, wordt maandelijks of jaarlijks gefactureerd en kan op elk moment worden opgezegd.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Niet-toegewezen transacties</string>
-    <string name="github_sponsors">Licentiesleutels worden ook verstrekt aan &lt;a href=%s&gt;Github-sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Licentiesleutels worden ook verstrekt aan <a href="%s">Github Sponsors</a>.]]></string>
     <string name="select_template">Selecteer sjabloon</string>
     <string name="button_relink_keep_date">Opnieuw koppelen, maar datum behouden</string>
     <string name="remove_from_group">Verwijderen uit groep</string>
@@ -875,6 +875,31 @@
     <string name="warning_transform_to_transfer">De geselecteerde transactie wordt vervangen door een overdracht van %1$s naar %2$s.</string>
     <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
     <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
-    <string name="merge_categories_dialog_title">Categorieën samenvoegen</string>
+    <string name="merge_categories_dialog_title">Categorieën Samenvoegen</string>
     <string name="archive">Archief</string>
+    <string name="subcategories_merged_recursively">Als een van de samengevoegde categorieën subcategorieën met hetzelfde label heeft, worden deze eerst recursief samengevoegd.</string>
+    <string name="warning_backend_deactivated">Backend is niet klaar om te worden gesynchroniseerd.</string>
+    <string name="button_activate_again">Nogmaals activeren</string>
+    <string name="saving_goal_reached">Je hebt je spaardoel bereikt.</string>
+    <string name="credit_limit_reached">Je hebt je kredietlimiet bereikt.</string>
+    <string name="credit_limit_exceeded">Je hebt je kredietlimiet overschreden.</string>
+    <string name="saving_goal_exceeded">Je hebt je spaardoel overschreden.</string>
+    <string name="overage">Overschrijding</string>
+    <string name="credit_limit_available_credit">Beschikbaar krediet</string>
+    <string name="saving_goal_short_fall">Tekort</string>
+    <string name="menu_unpack">Uitpakken</string>
+    <string name="warning_unarchive">Het archief wordt uitgepakt. Alle opgenomen transacties worden opnieuw in de lijst geplaatst.</string>
+    <string name="dialog_title_warning_delete_archive">Archief verwijderen?</string>
+    <string name="archive_warning">Alle transacties (%d) in de geselecteerde periode worden gearchiveerd.</string>
+    <string name="warning_nested_archives">Geneste archieven worden niet ondersteund.</string>
+    <string name="warning_archive_inconsistent_state">De transacties in het geselecteerde datumbereik hebben inconsistente statussen (%s).</string>
+    <string name="warning_delete_archive">Alle transacties in dit archief (%d) worden verwijderd.</string>
+    <string name="warning_empty_archive">Er zijn geen transacties in het geselecteerde datumbereik.</string>
+    <string name="buy">Kopen</string>
+    <string name="pref_scroll_to_current_date_app_launch">alleen wanneer de app start</string>
+    <string name="not_enough_data">Niet genoeg gegevens</string>
+    <string name="pref_scroll_to_current_date_title">Blader met de transactielijst naar de huidige datum</string>
+    <string name="pref_scroll_to_current_date_account_open">elke keer dat je naar jouw account navigeert</string>
+    <string name="pref_csv_export_category_separator_summary">Scheidingsteken tussen niveaus van categoriehiërarchie</string>
+    <string name="merge_categories_prompt">Selecteer de categorie die je wilt behouden</string>
 </resources>
