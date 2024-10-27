@@ -113,7 +113,7 @@ fun CategoryEdit(
     if (showIconSelection) {
         Dialog(
             properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { }
+            onDismissRequest = { showIconSelection = false }
         ) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
