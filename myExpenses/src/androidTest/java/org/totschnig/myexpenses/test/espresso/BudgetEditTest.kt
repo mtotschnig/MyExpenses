@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -70,6 +71,7 @@ class BudgetEditTest : BaseUiTest<BudgetEdit>() {
     }
 
     private fun testFilterWithDialog(@IdRes command: Int, @StringRes dialogTitle: Int) {
+        Espresso.closeSoftKeyboard()
         onView(withId(command)).perform(click())
         onView(withText(dialogTitle)).check(matches(isDisplayed()))
     }
@@ -98,5 +100,4 @@ class BudgetEditTest : BaseUiTest<BudgetEdit>() {
             .perform(click())
         testFilterWithDialog(R.id.FILTER_ACCOUNT_COMMAND, R.string.search_account)
     }
-
 }
