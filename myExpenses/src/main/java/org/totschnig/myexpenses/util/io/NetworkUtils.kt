@@ -4,7 +4,8 @@ import android.app.Service
 import android.content.ContentResolver
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_VPN
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.net.Uri
 import android.net.wifi.WifiManager
@@ -38,9 +39,9 @@ fun getConnectionType(context: Context) =
 private fun ConnectivityManager.getConnectionType23(): Int =
     getNetworkCapabilities(activeNetwork)?.run {
         when {
-            hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> 2
-            hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> 1
-            hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> 3
+            hasTransport(TRANSPORT_WIFI) -> 2
+            hasTransport(TRANSPORT_CELLULAR) -> 1
+            hasTransport(TRANSPORT_VPN) -> 3
             else -> 0
         }
     } ?: 0
