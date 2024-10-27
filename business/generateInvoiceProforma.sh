@@ -29,6 +29,10 @@ while getopts "p:c:u:d:" opt; do
                  export KEY="Scan receipt"
                  export PRICE=${PRICE:=4.5}
                  ;;
+               Banking)
+                 export KEY="Banking"
+                 export PRICE=${PRICE:=4.5}
+                 ;;
                CategoryTree)
                  export KEY="Category Tree"
                  export PRICE=${PRICE:=4.5}
