@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>764;3.9.0.1</item>
         <item>763;3.9.0</item>
         <item>759;3.8.9</item>
         <item>757;3.8.8</item>
@@ -156,6 +157,7 @@
     <string name="project_board_388">5</string>
     <string name="project_board_389">6</string>
     <string name="project_board_390">7</string>
+    <string name="project_board_3901">8</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -217,5 +219,8 @@
     </string-array>
     <string-array name="whats_new_388">
         <item>@string/whats_new_388</item>
+    </string-array>
+    <string-array name="whats_new_3901">
+        <item>@string/bug_fixes</item>
     </string-array>
 </resources>

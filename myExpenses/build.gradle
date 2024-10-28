@@ -161,7 +161,7 @@ tasks.withType(Test).configureEach {
 dependencies {
     //LeakCanary leads to failure of Screengrab's LocaleUtil:
     //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
-    debugImplementation libs.leakcanary.android
+    //debugImplementation libs.leakcanary.android
     api(libs.androidx.datastore.preferences)
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
@@ -225,6 +225,7 @@ dependencies {
     implementation libs.androidx.legacy.support.v4
     implementation libs.androidx.recyclerview
     implementation libs.androidx.cardview
+    implementation libs.androidx.viewpager2
 
     api libs.material
 

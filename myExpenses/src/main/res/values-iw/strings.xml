@@ -970,4 +970,16 @@
     <string name="dialog_contrib_trial_info_play">תקופת הניסיון החינמית הזו לעולם לא תומר לסוג כלשהו של מנוי.</string>
     <string name="dialog_contrib_subscription_info_play">מנוי זה נכנס לתוקף באופן מיידי, מחויב מדי חודש או מדי שנה וניתן לבטלו בכל עת.</string>
     <string name="archive">ארכיון</string>
+    <string name="dialog_title_warning_delete_archive">למחוק את הארכיון?</string>
+    <string name="warning_delete_archive">כל התנועות שמופיעות בארכיון הזה (%d) תימחקנה.</string>
+    <string name="warning_backend_deactivated">המנגנון לא מוכן לסנכרון.</string>
+    <string name="button_activate_again">להפעיל שוב</string>
+    <string name="credit_limit_reached">הגעת למכסת הזיכוי שלך.</string>
+    <string name="saving_goal_reached">לא הגעת ליעד החסכון שלך.</string>
+    <string name="credit_limit_exceeded">עברת את מכסת הזיכוי שלך.</string>
+    <string name="saving_goal_exceeded">חרגת מיעד החסכון שלך.</string>
+    <string name="warning_nested_archives">אין תמיכה בארכיונים מקוננים.</string>
+    <string name="warning_empty_archive">אין עסקאות בטווח התאריכים הנבחר.</string>
+    <string name="warning_archive_inconsistent_state">לעסקאות בטווח התאריכים הנבחר יש מצבים מגוונים (%s).</string>
+    <string name="archive_warning">כל העסקאות (%d) בטווח התאריכים הנבחר תישלחנה לארכיון.</string>
 </resources>

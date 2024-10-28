@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
-   Usage: ${0##*/} [-g GROSS] [-t TX] [-p PACKAGE] [-c COUNTRY] [-u USER] [-e EMAIL] [-v VAT] [-d DATE] 
-   PACKAGE is Extended or Professional_6 or Professional_18 or Professional_30 or History or Budget or Ocr or WebUi or SplitTemplate
+   Usage: ${0##*/} [-g GROSS] [-t TX] [-p PACKAGE] [-c COUNTRY] [-u USER] [-e EMAIL] [-v VAT] [-d DATE] [-n NUMBER]
+   PACKAGE is Extended or Professional_6 or Professional_12 or Professional_24 or History or Budget or Ocr or WebUi or SplitTemplate
    Generate invoice 
 EOF
 exit 1
 }
 
-while getopts "p:c:u:g:t:e:v:d:" opt; do
+while getopts "p:c:u:g:t:e:v:d:n:" opt; do
     case "$opt" in
         p) case "$OPTARG" in
                History)
@@ -25,6 +25,9 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
                  ;;
                SplitTemplate)
                  export KEY="Split Template"
+                 ;;
+               CategoryTree)
+                 export KEY="Category Tree"
                  ;;
                Contrib)
                  export KEY="My Expenses Contrib Licence"
@@ -44,7 +47,9 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
                Upgrade)
                  export KEY="Upgrade Contrib -> Extended Licence"
                  ;;
-            esac
+               *)
+                 export KEY=$OPTARG
+           esac
            ;;
         c) export COUNTRY=$OPTARG
            ;;
@@ -52,7 +57,7 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
            ;;
         e) export EMAIL=$OPTARG
            ;;
-        t) export NUMBER=$OPTARG
+        t) export TX=$OPTARG
            ;;
         g) export GROSS=$OPTARG
            ;;
@@ -60,7 +65,9 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
            ;;
         d) export DATE=$OPTARG
            ;;
-         '?')
+        n) export NUMBER=$OPTARG
+           ;;
+        '?')
             show_help
             ;;
     esac

@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountConfiguration
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
+import org.totschnig.myexpenses.viewmodel.CsvImportViewModel.Companion.KEY_HEADER_LINE_POSITION
 import java.io.FileNotFoundException
 import javax.inject.Inject
 
@@ -98,7 +99,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
-            dataFragment!!.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
+            dataFragment!!.setHeader(args.getInt(KEY_HEADER_LINE_POSITION))
         }
     }
 
@@ -116,6 +117,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     fun parseFile(uri: Uri, delimiter: Char, encoding: String) {
         showProgress()
+        csvImportViewModel.withAccountColumn = accountId == 0L
         csvImportViewModel.parseFile(uri, delimiter, encoding).observe(this) { result ->
             hideProgress()
             result.onSuccess {

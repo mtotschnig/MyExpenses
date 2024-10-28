@@ -102,6 +102,7 @@ mlkitTextRecognition = "16.0.1"
 mlkitTextRecognitionBundledCommon = "17.0.0"
 timberVersion = "5.0.1"
 truthVersion = "1.4.2"
+viewpager2 = "1.1.0"
 workManager = "2.9.1"
 xercesimpl = "2.12.2"
 
@@ -162,6 +163,7 @@ androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidxSqlite" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }

@@ -29,6 +29,10 @@ while getopts "p:c:u:d:" opt; do
                  export KEY="Scan receipt"
                  export PRICE=${PRICE:=4.5}
                  ;;
+               Banking)
+                 export KEY="Banking"
+                 export PRICE=${PRICE:=4.5}
+                 ;;
                Extended)
                  export KEY="My Expenses Extended Licence"
                  export PRICE=${PRICE:=15.5}
@@ -84,28 +88,32 @@ fi
 
 (
 cd "$DOCUMENT_ROOT"/MyExpenses.business/invoices || exit
-YEAR=$(date +'%Y')
-MONTH=$(date +'%m')
-if test -f LATEST
-  then
-    LATEST=$(<LATEST)
-    # shellcheck disable=SC2206
-    arrLATEST=(${LATEST//-/ })
-    LATEST_MONTH=${arrLATEST[0]}
-    LATEST_NUMBER=${arrLATEST[1]}
 
-    if [ "$MONTH" == "${LATEST_MONTH}" ]
+if [ -z "$NUMBER" ]
+  then
+    YEAR=$(date +'%Y')
+    MONTH=$(date +'%m')
+    if test -f LATEST
       then
-        # shellcheck disable=SC2219
-        let LATEST_NUMBER+=1
+        LATEST=$(<LATEST)
+        # shellcheck disable=SC2206
+        arrLATEST=(${LATEST//-/ })
+        LATEST_MONTH=${arrLATEST[0]}
+        LATEST_NUMBER=${arrLATEST[1]}
+
+        if [ "$MONTH" == "${LATEST_MONTH}" ]
+          then
+            # shellcheck disable=SC2219
+            let LATEST_NUMBER+=1
+          else
+            LATEST_NUMBER=1
+        fi
       else
         LATEST_NUMBER=1
     fi
-  else
-    LATEST_NUMBER=1
-fi
 
-export NUMBER=${YEAR}-${MONTH}-${LATEST_NUMBER}
+    export NUMBER=${YEAR}-${MONTH}-${LATEST_NUMBER}
+fi
 
 FILENAME=Invoice-${NUMBER}
 TEX_FILE=${FILENAME}.tex
@@ -115,7 +123,10 @@ if test -f "$TEX_FILE"; then
 fi
 envsubst < $TEMPLATE > "$TEX_FILE"
 pdflatex "$TEX_FILE"
-echo "${MONTH}"-${LATEST_NUMBER} >LATEST
+if [[ -v MONTH ]]
+  then
+    echo "${MONTH}"-${LATEST_NUMBER} >LATEST
+fi
 if command -v xdg-open &> /dev/null
 then
   xdg-open "${FILENAME}".pdf

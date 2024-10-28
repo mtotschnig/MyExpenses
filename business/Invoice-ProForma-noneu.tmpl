@@ -1,0 +1,272 @@
+%---------------------------------------------------------------------------
+\documentclass%%
+%---------------------------------------------------------------------------
+  [fontsize=11pt,%%          Schriftgroesse
+%---------------------------------------------------------------------------
+% Satzspiegel
+   paper=a4,%%               Papierformat
+   %enlargefirstpage=on,%%    Erste Seite anders
+   %pagenumber=headright,%%   Seitenzahl oben mittig  
+%---------------------------------------------------------------------------
+% Layout
+   headsepline=off,%%         Linie unter der Seitenzahl
+   parskip=half,%%           Abstand zwischen Absaetzen
+%---------------------------------------------------------------------------
+% Was kommt in den Briefkopf und in die Anschrift
+   fromalign=right,%%        Plazierung des Briefkopfs
+   fromphone=off,%%           Telefonnummer im Absender
+   fromrule=aftername,%%     Linie im Absender (aftername, afteraddress)
+   fromfax=off,%%            Faxnummer
+   fromemail=on,%%           Emailadresse
+   fromurl=on,%%            Homepage
+   fromlogo=on,%%            Firmenlogo
+   addrfield=on,%%           Adressfeld fuer Fensterkuverts
+   backaddress=on,%%         ...und Absender im Fenster
+   subject=beforeopening,%%  Plazierung der Betreffzeile
+   locfield=narrow,%%        zusaetzliches Feld fuer Absender
+   foldmarks=on,%%           Faltmarken setzen
+   numericaldate=off,%%      Datum numerisch ausgeben
+   refline=narrow,%%         Geschaeftszeile im Satzspiegel
+   firstfoot=on,%%           Footerbereich
+%---------------------------------------------------------------------------
+% Formatierung
+   draft=off%%                Entwurfsmodus
+]{scrlttr2}
+%---------------------------------------------------------------------------
+\usepackage[english]{babel}  
+\usepackage{url}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc} 
+\usepackage{tabularx}
+\usepackage[pdftex]{graphicx}
+\usepackage{colortbl}
+\usepackage{fp}
+% symbols: (cell)phone, email
+\RequirePackage{marvosym} % for gray color in header
+%\RequirePackage{color} % for gray color in header
+\usepackage[T1]{fontenc}
+%---------------------------------------------------------------------------
+% Schriften werden hier definiert
+\renewcommand*\familydefault{\sfdefault} % Latin Modern Sans
+\setkomafont{fromname}{\sffamily\color{mygray}\LARGE}
+%\setkomafont{pagenumber}{\sffamily}
+\setkomafont{subject}{\mdseries}
+\setkomafont{lettersubject}{\normalcolor\bfseries}
+\setkomafont{backaddress}{\mdseries}
+\setkomafont{fromaddress}{\small\sffamily\mdseries\color{mygray}}
+\newkomavar[Ust-Id]{ustid}
+\addtoreffields{ustid}
+
+\newcommand*{\formatNumber}[1]{\FPround{\temp}{#1}{2}\temp}
+
+\usepackage{pdftexcmds}
+\usepackage{xifthen}
+\newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
+\newcommand{\case}[2]{#1 #2} % Dummy, so \renewcommand has something to overwrite...
+\newenvironment{switch}[1]{\renewcommand{\case}{\ifequals{#1}}}{}
+\newcommand{\country}{}
+\newcommand{\countryName}{
+    \begin{switch}{\country}
+        \case{us}{United States}
+        \case{sa}{Saudi Arabia}
+        \case{tr}{Turkey}
+        \case{bd}{Bangladesh}
+        \case{ch}{Switzerland}
+        \case{gb}{United Kingdom}
+        \case{th}{Thailand}
+    \end{switch}
+}
+
+% \makeatletter
+% \newcommand{\vatRate}{%
+  % \ifnum\pdf@strcmp{\country}{de}=0
+    % 19%
+  % \else\ifnum\pdf@strcmp{\country}{fr}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{at}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{pl}=0
+    % 23%
+  % \else\ifnum\pdf@strcmp{\country}{be}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{bg}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{cz}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{dk}=0
+    % 25%
+  % \else\ifnum\pdf@strcmp{\country}{ie}=0
+    % 23%
+  % \else\ifnum\pdf@strcmp{\country}{el}=0
+    % 24%
+  % \else\ifnum\pdf@strcmp{\country}{es}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{hr}=0
+    % 25%
+  % \else\ifnum\pdf@strcmp{\country}{it}=0
+    % 22%
+  % \else\ifnum\pdf@strcmp{\country}{cy}=0
+    % 19%
+  % \else\ifnum\pdf@strcmp{\country}{lv}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{lt}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{lu}=0
+    % 17%
+  % \else\ifnum\pdf@strcmp{\country}{hu}=0
+    % 27%
+  % \else\ifnum\pdf@strcmp{\country}{mt}=0
+    % 18%
+  % \else\ifnum\pdf@strcmp{\country}{nl}=0
+    % 21%
+  % \else\ifnum\pdf@strcmp{\country}{pt}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{ro}=0
+    % 19%
+  % \else\ifnum\pdf@strcmp{\country}{si}=0
+    % 22%
+  % \else\ifnum\pdf@strcmp{\country}{sk}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{fi}=0
+    % 24%
+  % \else\ifnum\pdf@strcmp{\country}{se}=0
+    % 25%
+  % \else\ifnum\pdf@strcmp{\country}{uk}=0
+    % 20%
+  % \else\ifnum\pdf@strcmp{\country}{ee}=0
+    % 20%
+  % \else
+    % unknown%
+  % \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi}
+  % \makeatother
+\newcommand{\vatRate}{19}
+
+%---------------------------------------------------------------------------
+\begin{document}
+%---------------------------------------------------------------------------
+% Briefstil und Position des Briefkopfs
+\LoadLetterOption{DIN} %% oder: DINmtext, SN, SNleft, KOMAold.
+\makeatletter
+\@setplength{sigbeforevskip}{17mm} % Abstand der Signatur von dem closing
+%\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
+\@setplength{firstfootvpos}{275mm} % Abstand des Footers von oben
+\@setplength{firstheadwidth}{\paperwidth}
+\@setplength{locwidth}{70mm}   % Breite des Locationfeldes
+\@setplength{locvpos}{65mm}    % Abstand des Locationfeldes von oben
+\ifdim \useplength{toaddrhpos}>\z@
+  \@addtoplength[-2]{firstheadwidth}{\useplength{toaddrhpos}}
+\else
+  \@addtoplength[2]{firstheadwidth}{\useplength{toaddrhpos}}
+\fi
+\@setplength{foldmarkhpos}{6.5mm}
+\makeatother
+%---------------------------------------------------------------------------
+% Farben werden hier definiert
+% define gray for header
+\definecolor{mygray}{gray}{.55}
+% define blue for address
+\definecolor{myblue}{rgb}{0.25,0.45,0.75}
+
+% KUNDENDATEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\kunde}{${KUNDE}}                                %
+\renewcommand{\country}{${COUNTRY}}                          %
+\setkomavar{invoice}{${NUMBER}}                              %
+% Rechnungs daten                                            %
+% Extended                                                   %
+\newcommand\key{${KEY}}                                      %
+\newcommand\price{${PRICE}}                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%---------------------------------------------------------------------------
+% Absender Daten
+\setkomavar{fromname}{MyExpenses.mobi - Michael Totschnig}
+\setkomavar{fromaddress}{ ${ADDRESS} }
+%\setkomavar{fromfax}[\FAX~]{+49\,(0)\,123\,456\,789\,0}
+\setkomavar{fromemail}[\Letter~]{support@myexpenses.mobi}
+\setkomavar{fromurl}[\PointingHand~]{http://www.myexpenses.mobi}
+%\setkomafont{fromaddress}{\small\rmfamily\mdseries\slshape\color{myblue}}
+\setkomavar{ustid}{DE290355685}
+\setkomavar{backaddressseparator}{ - }
+%\setkomavar{backaddress}{Max Mustermann, alternative Straße, alternative Stadt} % wenn erwünscht kann hier eine andere Backaddress eingetragen werden
+\setkomavar{signature}{Michael TOTSCHNIG} 
+% signature same indention level as rest
+\renewcommand*{\raggedsignature}{\raggedright}
+\setkomavar{location}{\raggedleft
+
+}
+% Anlage neu definieren
+\renewcommand{\enclname}{Anlagen}
+\setkomavar{enclseparator}{: }
+%---------------------------------------------------------------------------
+% Seitenstil
+%pagenumber=footmiddle
+\pagestyle{plain}%% keine Header in der Kopfzeile bzw. plain
+\pagenumbering{arabic}
+%---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+\setkomavar{firstfoot}{\footnotesize%
+\rule[3pt]{\textwidth}{.4pt} \\
+\begin{tabular}[t]{l@{}}% 
+\usekomavar{fromname}\\
+\usekomavar{fromaddress}\\
+\usekomavar[\Letter~]{fromemail}\\
+\end{tabular}%
+\Ifkomavarempty{frombank}{}{%
+\hfill
+\begin{tabular}[t]{l@{}}%
+Bank details \\
+\usekomavar{frombank}
+\end{tabular}%
+}%
+}% 
+%---------------------------------------------------------------------------
+% Bankverbindung
+\setkomavar{frombank}{Michael Totschnig \\
+IBAN DE91 1101 0101 5860 4157 48 \\
+BIC SOBKDEB2XXX \\
+Solarisbank AG}
+%---------------------------------------------------------------------------
+%\setkomavar{yourref}{}
+%\setkomavar{yourmail}{}
+%\setkomavar{myref}{}
+%\setkomavar{customer}{}
+%---------------------------------------------------------------------------
+% Datum und Ort werden hier eingetragen
+\setkomavar{date}{\today}
+\setkomavar{place}{Berlin}
+%---------------------------------------------------------------------------
+
+\renewcaptionname{english}{\invoicename}{ProForma no.}
+
+%---------------------------------------------------------------------------
+% Hier beginnt der Brief, mit der Anschrift des Empfängers
+
+\begin{letter}{\kunde\\\countryName}
+%---------------------------------------------------------------------------
+% Der Betreff des Briefes
+\setkomavar{subject}{Pro Forma Invoice}
+%---------------------------------------------------------------------------
+\opening{}
+
+\vspace{5pt}
+\begin{tabularx}{\textwidth}{Xr}
+%\rowcolor[gray]{.95}
+\key  &  \formatNumber{\price} \EUR \\
+\hline \hline
+\textbf{Total} & \textbf{\formatNumber{\price} \EUR} \\ 
+\hline
+\end{tabularx}
+
+Please transfer \formatNumber{\price} \EUR\ to the account mentioned below.
+
+This is not a tax invoice, you will receive proper invoice upon payment.
+%---------------------------------------------------------------------------
+%\ps{PS:}
+%\cc{}
+%---------------------------------------------------------------------------
+\end{letter}
+%---------------------------------------------------------------------------
+\end{document}
+%---------------------------------------------------------------------------
+
