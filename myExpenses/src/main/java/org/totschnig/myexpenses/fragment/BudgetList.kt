@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -31,17 +32,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ui.addChipsBulk
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
+import org.totschnig.myexpenses.viewmodel.BudgetListViewModel.BudgetViewItem
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
-import org.totschnig.myexpenses.viewmodel.data.Budget
-import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
 import javax.inject.Inject
 
 class BudgetList : Fragment() {
     private var _binding: BudgetsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: BudgetViewModel by activityViewModels()
-    private var budgetAmounts: MutableMap<Long, Pair<Long, Long>?> = mutableMapOf()
+    private val viewModel: BudgetListViewModel by activityViewModels()
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
@@ -75,11 +74,13 @@ class BudgetList : Fragment() {
         StateSaver.saveInstanceState(this, outState)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = requireActivity().let {
-            it.injector.inject(viewModel)
-            BudgetsAdapter(it)
-        }
+        injector.inject(viewModel)
+        viewModel.init()
+        val activity = requireActivity()
+        val adapter = BudgetsAdapter(activity)
         with(binding.recyclerView) {
             LinearLayoutManager(activity).also {
                 layoutManager = it
@@ -89,28 +90,10 @@ class BudgetList : Fragment() {
         with(viewLifecycleOwner) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.data.collect {
+                    viewModel.enrichedData.collect {
                         adapter.submitList(it)
                         binding.empty.isVisible = it.isEmpty()
                         binding.recyclerView.isVisible = it.isNotEmpty()
-                    }
-                }
-            }
-        }
-
-        with(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    viewModel.amounts.collect { (position, id, spent, allocated) ->
-                        budgetAmounts[id] = spent to allocated
-                        if (binding.recyclerView.isComputingLayout) {
-                            CrashHandler.report(Exception("Budget amount received while recyclerView is computing layout"))
-                            binding.recyclerView.post {
-                                adapter.notifyItemChanged(position)
-                            }
-                        } else {
-                            adapter.notifyItemChanged(position)
-                        }
                     }
                 }
             }
@@ -134,8 +117,18 @@ class BudgetList : Fragment() {
         }
     }
 
+    val diffCallback = object : DiffUtil.ItemCallback<BudgetViewItem>() {
+        override fun areItemsTheSame(oldItem: BudgetViewItem, newItem: BudgetViewItem): Boolean {
+            return oldItem.budget.id == newItem.budget.id
+        }
+
+        override fun areContentsTheSame(oldItem: BudgetViewItem, newItem: BudgetViewItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
     inner class BudgetsAdapter(val context: Context) :
-        ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
+        ListAdapter<BudgetViewItem, BudgetViewHolder>(diffCallback) {
 
         init {
             setHasStableIds(true)
@@ -147,14 +140,20 @@ class BudgetList : Fragment() {
         }
 
         override fun onBindViewHolder(holder: BudgetViewHolder, position: Int) {
-            getItem(position).let { budget ->
+            getItem(position).let { (budget, info) ->
+                if (info == null) {
+                    viewModel.loadBudgetAmounts(budget)
+                }
                 with(holder.binding) {
                     Title.text = budget.titleComplete(context)
-                    val (spent, allocated) = budgetAmounts[budget.id] ?: run {
-                        viewModel.loadBudgetAmounts(position, budget)
-                        0L to 0L
-                    }
-                    budgetSummary.bind(budget, currencyContext[budget.currency],  -spent, allocated, currencyFormatter)
+
+                    budgetSummary.bind(
+                        budget,
+                        currencyContext[budget.currency],
+                        info?.spent?.unaryMinus() ?: 0L,
+                        info?.allocated ?: 0L,
+                        currencyFormatter
+                    )
 
                     filter.addChipsBulk(buildList {
                         add(budget.label(requireContext()))
@@ -180,7 +179,7 @@ class BudgetList : Fragment() {
             }
         }
 
-        override fun getItemId(position: Int): Long = getItem(position).id
+        override fun getItemId(position: Int): Long = getItem(position).budget.id
     }
 }
 

@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.ContentValues
 import android.content.Context
-import androidx.recyclerview.widget.DiffUtil
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -120,18 +119,6 @@ data class Budget(
             else -> context.getString(grouping.getLabelForBudgetType())
         }
     })"
-
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Budget>() {
-            override fun areItemsTheSame(oldItem: Budget, newItem: Budget): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Budget, newItem: Budget): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 }
 
 fun Grouping.getLabelForBudgetType() = when (this) {

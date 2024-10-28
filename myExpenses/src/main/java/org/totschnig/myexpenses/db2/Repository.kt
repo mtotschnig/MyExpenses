@@ -12,9 +12,18 @@ import androidx.datastore.preferences.core.Preferences
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
@@ -123,23 +132,22 @@ open class Repository @Inject constructor(
     } ?: 0L
 
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
-        val currency = cursor.getString(DatabaseConstants.KEY_CURRENCY)
-        val budgetId = cursor.getLong(DatabaseConstants.KEY_ROWID)
-        val accountId = cursor.getLong(KEY_ACCOUNTID)
-        val grouping = cursor.getEnum(DatabaseConstants.KEY_GROUPING, Grouping.NONE)
-        Budget(
-            id = budgetId,
-            accountId = accountId,
-            title = cursor.getString(DatabaseConstants.KEY_TITLE),
-            description = cursor.getString(DatabaseConstants.KEY_DESCRIPTION),
-            currency = currency,
-            grouping = grouping,
-            color = cursor.getInt(DatabaseConstants.KEY_COLOR),
-            start = if (grouping == Grouping.NONE) cursor.getString(DatabaseConstants.KEY_START) else null,
-            end = if (grouping == Grouping.NONE) cursor.getString(DatabaseConstants.KEY_END) else null,
-            accountName = cursor.getStringOrNull(DatabaseConstants.KEY_ACCOUNT_LABEL),
-            default = cursor.getBoolean(DatabaseConstants.KEY_IS_DEFAULT)
-        )
+        with(cursor) {
+            val grouping = getEnum(KEY_GROUPING, Grouping.NONE)
+            Budget(
+                id = getLong(KEY_ROWID),
+                accountId = getLong(KEY_ACCOUNTID),
+                title = getString(KEY_TITLE),
+                description = getString(KEY_DESCRIPTION),
+                currency = getString(KEY_CURRENCY),
+                grouping = grouping,
+                color = getInt(KEY_COLOR),
+                start = if (grouping == Grouping.NONE) getString(KEY_START) else null,
+                end = if (grouping == Grouping.NONE) getString(KEY_END) else null,
+                accountName = getStringOrNull(KEY_ACCOUNT_LABEL),
+                default = getBoolean(KEY_IS_DEFAULT)
+            )
+        }
     }
 }
 
