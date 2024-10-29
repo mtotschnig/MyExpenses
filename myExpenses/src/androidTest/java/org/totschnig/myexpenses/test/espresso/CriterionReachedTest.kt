@@ -18,6 +18,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.sign
 import kotlin.test.Test
 
+
 class CriterionReachedTest : BaseExpenseEditTest() {
     val currency = CurrencyUnit(Currency.getInstance("USD"))
 

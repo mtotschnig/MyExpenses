@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.os.Debug
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasTestTag
@@ -41,7 +42,7 @@ class GroupedHeaderTest : BaseMyExpensesTest() {
     }
 
     @After
-    override fun tearDown() {
+    fun cleanup() {
         repository.deleteAccount(account.id)
     }
 

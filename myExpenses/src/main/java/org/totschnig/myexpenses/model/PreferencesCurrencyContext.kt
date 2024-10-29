@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import androidx.annotation.VisibleForTesting
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -37,10 +38,10 @@ open class PreferencesCurrencyContext(
     }
 
     private fun getCustomSymbol(currencyCode: String) =
-        prefHandler.getString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, null)
+        prefHandler.getString(customSymbolKey(currencyCode), null)
 
     private fun getCustomFractionDigits(currencyCode: String) =
-        prefHandler.getInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, -1)
+        prefHandler.getInt(customFractionDigitsKey(currencyCode), -1)
 
     private fun getSymbol(currency: Currency) = getCustomSymbol(currency.currencyCode)
         ?: currency.getSymbol(application.userPreferredLocale)
@@ -49,16 +50,16 @@ open class PreferencesCurrencyContext(
         getCustomFractionDigits(currency.currencyCode).takeIf { it != -1 } ?:
         currency.getDefaultFractionDigits().takeIf { it != -1 } ?: DEFAULT_FRACTION_DIGITS
 
-    override fun storeCustomFractionDigits(currencyCode: String?, fractionDigits: Int) {
-        prefHandler.putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, fractionDigits)
+    override fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int) {
+        prefHandler.putInt(customFractionDigitsKey(currencyCode), fractionDigits)
         INSTANCES.remove(currencyCode)
     }
 
-    override fun storeCustomSymbol(currencyCode: String?, symbol: String?) {
+    override fun storeCustomSymbol(currencyCode: String, symbol: String) {
         val currency = try {
             Currency.getInstance(currencyCode)
-        } catch (ignored: Exception) { null }
-        val key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL
+        } catch (_: Exception) { null }
+        val key = customSymbolKey(currencyCode)
         if (currency != null && currency.symbol == symbol) {
             prefHandler.remove(key)
         } else {
@@ -67,8 +68,8 @@ open class PreferencesCurrencyContext(
         INSTANCES.remove(currencyCode)
     }
 
-    override fun ensureFractionDigitsAreCached(currency: CurrencyUnit?) {
-        storeCustomFractionDigits(currency!!.code, currency.fractionDigits)
+    override fun ensureFractionDigitsAreCached(currency: CurrencyUnit) {
+        storeCustomFractionDigits(currency.code, currency.fractionDigits)
     }
 
     override fun invalidateHomeCurrency() {
@@ -81,7 +82,7 @@ open class PreferencesCurrencyContext(
     override val localCurrency = Utils.getCountryFromTelephonyManager(application)?.let {
         try {
             Currency.getInstance(Locale("", it))
-        } catch (ignore: Exception) {
+        } catch (_: Exception) {
             null
         }
     } ?: Utils.getSaveDefault()
@@ -94,5 +95,14 @@ open class PreferencesCurrencyContext(
         private const val KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits"
         private const val KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol"
         private val INSTANCES = Collections.synchronizedMap(HashMap<String?, CurrencyUnit>())
+
+        private fun customFractionDigitsKey(currencyCode: String) = currencyCode + KEY_CUSTOM_FRACTION_DIGITS
+        private fun customSymbolKey(currencyCode: String) = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL
+
+        @VisibleForTesting
+        fun resetFractionDigits(prefHandler: PrefHandler, currencyCode: String) {
+            prefHandler.remove(customFractionDigitsKey(currencyCode))
+            INSTANCES.remove(currencyCode)
+        }
     }
 }

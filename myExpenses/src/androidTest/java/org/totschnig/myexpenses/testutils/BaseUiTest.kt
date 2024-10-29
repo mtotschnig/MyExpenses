@@ -42,19 +42,23 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
 
-abstract class BaseUiTest<A: ProtectedFragmentActivity> {
+abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
 
     val testContext: Context
@@ -83,7 +87,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         label: String,
         openingBalance: Long = 0L,
         currency: String = homeCurrency.code,
-        excludeFromTotals: Boolean = false
+        excludeFromTotals: Boolean = false,
     ) =
         Account(
             label = label,
@@ -92,7 +96,22 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             excludeFromTotals = excludeFromTotals
         ).createIn(repository)
 
-    fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)
+    fun deleteAccount(label: String) {
+        val accountId = contentResolver.query(
+            TransactionProvider.ACCOUNTS_URI,
+            arrayOf(KEY_ROWID),
+            "$KEY_LABEL = ?",
+            arrayOf(label),
+            null
+        )!!.use {
+            it.moveToFirst()
+            it.getLong(0)
+        }
+        repository.deleteAccount(accountId)
+    }
+
+    fun getTransactionFromDb(id: Long): Transaction =
+        Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)
 
     @Before
     fun setUp() {
@@ -131,7 +150,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             }.perform(click())
         } catch (_: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
-            onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
+            onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup())
+                .perform(click())
         }
     }
 
@@ -159,7 +179,9 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     private val currentActivity: Activity?
         get() {
             val activity = arrayOfNulls<Activity>(1)
-            onView(ViewMatchers.isRoot()).check { view: View, _: NoMatchingViewException? -> activity[0] = view.findViewById<View>(android.R.id.content).context as Activity }
+            onView(ViewMatchers.isRoot()).check { view: View, _: NoMatchingViewException? ->
+                activity[0] = view.findViewById<View>(android.R.id.content).context as Activity
+            }
             return activity[0]
         }
 
@@ -198,7 +220,11 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         Assertions.assertThat(testScenario.result.resultCode).isEqualTo(resultCode)
     }
 
-    protected fun getQuantityString(resId: Int, @Suppress("SameParameterValue") quantity: Int, vararg formatArguments: Any): String {
+    protected fun getQuantityString(
+        resId: Int,
+        @Suppress("SameParameterValue") quantity: Int,
+        vararg formatArguments: Any,
+    ): String {
         var result: String? = null
         testScenario.onActivity {
             result = it.resources.getQuantityString(resId, quantity, *formatArguments)
@@ -231,7 +257,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         while (true) {
             try {
                 onView(withId(com.google.android.material.R.id.snackbar_text))
-                        .check(matches(isDisplayed()))
+                    .check(matches(isDisplayed()))
             } catch (_: Exception) {
                 return
             }
@@ -286,7 +312,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
      * this is not the case, so we conditionally allow to run cleanup tasks
      */
     fun cleanup(work: () -> Unit) {
-        if(true) {
+        if (!isOrchestrated) {
             work()
         }
     }

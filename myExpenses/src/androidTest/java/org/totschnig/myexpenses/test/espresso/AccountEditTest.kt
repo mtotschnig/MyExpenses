@@ -34,6 +34,9 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         clickFab()
         assertFinishing()
         assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
+        cleanup {
+            deleteAccount(LABEL)
+        }
     }
 
     @Test
@@ -47,6 +50,9 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         testScenario = ActivityScenario.launchActivityForResult(i)
         clickFab()
         assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
+        cleanup {
+            deleteAccount(LABEL)
+        }
     }
 
     companion object {

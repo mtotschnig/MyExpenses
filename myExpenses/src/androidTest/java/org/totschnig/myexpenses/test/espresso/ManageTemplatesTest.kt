@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
@@ -7,9 +8,11 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.CursorMatchers
+import androidx.test.rule.GrantPermissionRule
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.After
+import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -18,6 +21,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.db2.countTransactionsPerAccount
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Template
@@ -30,11 +34,17 @@ import java.time.LocalDate
 
 //TODO test CAB actions
 class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
+    @get:Rule
+    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
+    )
     private lateinit var account1: Account
+    private lateinit var account2: Account
     private lateinit var plan1: Plan
 
     private fun buildAccount() {
         account1 = buildAccount("Test account 1", 0)
+        account2 = buildAccount("Test account 2", 0)
     }
 
     private fun fixture(type: Int, defaultAction: Template.Action) {
@@ -71,7 +81,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                     null
                 )!!.apply {
                     amount = Money(homeCurrency, -1200L)
-                    setTransferAccountId(buildAccount("Test account 2", 0).id)
+                    setTransferAccountId(account2.id)
                     this.title = title
                     this.defaultAction = defaultAction
                     save(contentResolver)
@@ -107,8 +117,10 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
 
     @After
     fun tearDown() {
-        Intents.release()
-        //Plan.delete(contentResolver, plan1.id)
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
     }
 
     private fun verifyEditAction() {
@@ -191,6 +203,9 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         launch()
         onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
             .perform(ViewActions.click())
+        cleanup {
+            Plan.delete(contentResolver, plan1.id)
+        }
     }
 
     private fun launch() {
@@ -209,5 +224,6 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             Template.Action.SAVE -> verifySaveAction()
             Template.Action.EDIT -> verifyEditAction()
         }
+        Intents.release()
     }
 }

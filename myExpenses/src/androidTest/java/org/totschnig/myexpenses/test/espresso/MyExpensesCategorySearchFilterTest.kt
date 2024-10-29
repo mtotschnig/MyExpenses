@@ -9,19 +9,27 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
 
+    private lateinit var account: Account
     private lateinit var catLabel1: String
     private lateinit var catLabel2: String
     private lateinit var catLabel1Sub: String
+    private var categoryId1: Long = 0
+    private var categoryId1Sub: Long = 0
+    private var categoryId2: Long = 0
     private var id1Main: Long = 0
     private var id1Sub: Long = 0
     private var id2Main: Long = 0
@@ -32,10 +40,10 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         catLabel1Sub = "Sub category 1"
         catLabel2 = "Test category 2"
         val currency = DebugInstance
-        val account =  buildAccount("Test account 1")
-        val categoryId1 = writeCategory(catLabel1)
-        val categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
-        val categoryId2 = writeCategory(catLabel2)
+        account =  buildAccount("Test account 1")
+        categoryId1 = writeCategory(catLabel1)
+        categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
+        categoryId2 = writeCategory(catLabel2)
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
         op.catId = categoryId1
@@ -50,6 +58,16 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         allLabelsAreDisplayed()
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.category)).perform(ViewActions.click())
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account.id)
+            repository.deleteCategory(categoryId1)
+            repository.deleteCategory(categoryId1Sub)
+            repository.deleteCategory(categoryId2)
+        }
     }
 
     private fun allLabelsAreDisplayed() {

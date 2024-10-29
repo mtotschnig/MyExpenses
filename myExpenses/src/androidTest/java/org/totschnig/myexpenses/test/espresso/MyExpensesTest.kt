@@ -24,9 +24,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.uiautomator.UiDevice
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.hasToString
@@ -47,7 +45,6 @@ import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
 import org.totschnig.myexpenses.testutils.toolbarMainSubtitle
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
-import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
 
@@ -67,11 +64,13 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     @After
-    override fun tearDown() {
+    fun cleanup() {
         Intents.release()
-        repository.deleteAccount(account1.id)
-        repository.deleteAccount(account2.id)
-        repository.deleteAccount(account3.id)
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+            repository.deleteAccount(account3.id)
+        }
     }
 
     @Test
@@ -152,6 +151,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         )
         clickFab()
         checkTitle("A")
+        deleteAccount("A")
     }
 
     private fun openDrawer() {
@@ -251,8 +251,11 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 withText(R.string.menu_delete)
             )
         ).perform(click())
-        Truth.assertThat(repository.loadAccount(account1.id)).isNull()
-        Truth.assertThat(repository.loadAccount(account2.id)).isNotNull()
+        assertThat(repository.loadAccount(account1.id)).isNull()
+        assertThat(repository.loadAccount(account2.id)).isNotNull()
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test

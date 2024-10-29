@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.net.Uri
+import android.os.Debug
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertTextContains
@@ -25,12 +26,17 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
+import org.junit.After
+import org.junit.Assume
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -40,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.isOrchestrated
 
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
@@ -62,6 +69,21 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             op0.saveAsNew(contentResolver)
         }
         launch(account.id)
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            Assume.assumeTrue(isOrchestrated)
+        }
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account.id)
+        }
     }
 
     @Test
@@ -221,6 +243,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency)
         assertThat(op.isTransfer).isTrue()
         assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
+        cleanup {
+            repository.deleteAccount(transferAccount.id)
+        }
     }
 
     @Test
@@ -249,6 +274,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 homeCurrency
             ).isTransfer
         ).isFalse()
+        cleanup {
+            repository.deleteAccount(transferAccount.id)
+        }
     }
 
     @Test
@@ -279,5 +307,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         assertThat(op.isTransfer).isTrue()
         assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
         assertThat(op.transferPeer).isEqualTo(peer.id)
+        cleanup {
+            repository.deleteAccount(transferAccount.id)
+        }
     }
 }

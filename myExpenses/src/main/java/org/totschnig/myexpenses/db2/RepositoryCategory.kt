@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
@@ -31,6 +32,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEG
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY_TREE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_MERGE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
+import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
 import kotlin.experimental.or
@@ -162,4 +164,9 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
             uuid = it.getString(4),
             type = it.getInt(5).toByte()
         ) else null
+}
+
+@VisibleForTesting
+fun Repository.deleteAllCategories() {
+    contentResolver.delete(TransactionProvider.CATEGORIES_URI, "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}", null)
 }

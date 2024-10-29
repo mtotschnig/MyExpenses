@@ -14,9 +14,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
+import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -55,12 +58,17 @@ class RemapTest : BaseMyExpensesTest() {
         val peer = getTransactionFromDb(transfer.transferPeer!!)
         assertThat(peer.accountId).isEqualTo(account2.id)
         assertThat(peer.transferAccountId).isEqualTo(account3.id)
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+            repository.deleteAccount(account3.id)
+        }
     }
 
     @Test
     fun remapAndCloneAccountForSplit() {
         val account1 = buildAccount("K1")
-        buildAccount("K2")
+        val account2 = buildAccount("K2")
         prepareSplit(account1.id)
         doRemapAccount(account1.id, "K2", true)
         contentResolver.query(
@@ -75,6 +83,11 @@ class RemapTest : BaseMyExpensesTest() {
             cursor.asSequence.forEach {
                 assertThat(it.getLong(1)).isEqualTo(it.getLong(0))
             }
+        }
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+
         }
     }
 
@@ -95,13 +108,18 @@ class RemapTest : BaseMyExpensesTest() {
             it.save(contentResolver)
         }
         val catLabel = "Food"
-        writeCategory(catLabel)
+        val catId = writeCategory(catLabel)
         launch(account1.id)
         openCab(R.id.REMAP_PARENT)
         onView(withText(R.string.category)).perform(click())
         composeTestRule.onNodeWithText(catLabel).performClick()
         confirmRemap(doClone)
         verifyCatIdsForTransfers()
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+            repository.deleteCategory(catId)
+        }
     }
 
     private fun verifyCatIdsForTransfers() {

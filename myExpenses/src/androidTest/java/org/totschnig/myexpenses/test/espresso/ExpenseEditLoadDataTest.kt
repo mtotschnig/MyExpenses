@@ -78,11 +78,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         }
     }
 
-    private val foreignAccount: Account
-        get() = Account(
-            label = "Test account 2",
-            currency = foreignCurrency.code,
-        ).createIn(repository)
+    private fun buildForeignAccount(): Account =
+        buildAccount("Test account 2", currency = foreignCurrency.code)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
         putExtra(DatabaseConstants.KEY_ROWID, id)
@@ -123,6 +120,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithEquivalentAmount() {
+        val foreignAccount = buildForeignAccount()
         val transaction = Transaction.getNewInstance(foreignAccount.id, foreignCurrency).apply {
             amount = Money(foreignCurrency, 500L)
             equivalentAmount = Money(homeCurrency, 1000)
@@ -136,6 +134,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("2")))
             onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.EquivalentAmount))
                 .check(matches(withText("%.1f".format(0.5))))
+        }
+        cleanup {
+            repository.deleteAccount(foreignAccount.id)
         }
     }
 
@@ -154,6 +155,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
+        val foreignAccount = buildForeignAccount()
         val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
             Money(homeCurrency, 100L), Money(
@@ -176,6 +178,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.ExchangeRate
                 )
             ).check(matches(withText(formatAmount(0.5f))))
+        }
+        cleanup {
+            repository.deleteTransaction(foreignTransfer.id)
+            repository.deleteAccount(foreignAccount.id)
         }
     }
 
@@ -478,6 +484,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         load(sealed.id).use {
             assertCanceled()
+        }
+        cleanup {
+            repository.deleteAccount(sealedAccount.id)
         }
     }
 }

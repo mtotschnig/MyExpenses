@@ -1,20 +1,25 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.ContentUris
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesTagsTest: BaseMyExpensesTest() {
 
+    private lateinit var account: Account
+
     @Before
     fun fixture() {
-        val account = buildAccount("Test account 1")
+        account = buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(CurrencyUnit.DebugInstance, -1200L)
         val id = ContentUris.parseId(op.save(contentResolver)!!)
@@ -24,6 +29,13 @@ class MyExpensesTagsTest: BaseMyExpensesTest() {
             id
         )
         launch(account.id)
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account.id)
+        }
     }
 
     @Test

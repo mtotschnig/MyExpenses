@@ -316,23 +316,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     mode: ActionMode,
                     menu: Menu,
                 ): Boolean {
-                    if (!currentAccount!!.sealed) {
-                        menuInflater.inflate(R.menu.transactionlist_context, menu)
-                        if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
-                            listOf(
-                                R.id.DELETE_COMMAND,
-                                R.id.MAP_TAG_COMMAND,
-                                R.id.SPLIT_TRANSACTION_COMMAND,
-                                R.id.REMAP_PARENT,
-                                R.id.LINK_TRANSFER_COMMAND,
-                                R.id.SELECT_ALL_COMMAND,
-                                R.id.UNDELETE_COMMAND
-                            ).forEach {
-                                menu.findItem(it).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    return currentAccount?.let {
+                        if (!it.sealed) {
+                            menuInflater.inflate(R.menu.transactionlist_context, menu)
+                            if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
+                                listOf(
+                                    R.id.DELETE_COMMAND,
+                                    R.id.MAP_TAG_COMMAND,
+                                    R.id.SPLIT_TRANSACTION_COMMAND,
+                                    R.id.REMAP_PARENT,
+                                    R.id.LINK_TRANSFER_COMMAND,
+                                    R.id.SELECT_ALL_COMMAND,
+                                    R.id.UNDELETE_COMMAND
+                                ).forEach {
+                                    menu.findItem(it).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                }
                             }
                         }
-                    }
-                    return true
+                    } != null
                 }
 
                 override fun onPrepareActionMode(

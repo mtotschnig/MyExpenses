@@ -1,5 +1,9 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.os.Debug
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -7,21 +11,27 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import kotlin.math.absoluteValue
 
 class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
 
+    lateinit var account: Account
+
     @Before
     fun fixture() {
         val currency = DebugInstance
-        val account = buildAccount("Test account 1")
+        account = buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount =  Money(currency, amount1)
         op.save(contentResolver)
@@ -29,6 +39,13 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         op.date -= 10000
         op.saveAsNew(contentResolver)
         launch(account.id)
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account.id)
+        }
     }
 
     @Test
@@ -51,7 +68,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     }
 
     private fun amountIsDisplayed(amount: Long, position: Int) {
-        assertTextAtPosition((amount.absoluteValue /100).toString(), position)
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren()[position].assert(hasAmount(amount))
     }
 
     companion object {

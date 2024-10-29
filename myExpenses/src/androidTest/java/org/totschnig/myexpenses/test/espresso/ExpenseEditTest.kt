@@ -6,17 +6,18 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -43,6 +44,15 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 .createIn(repository)
         yenAccount =
             Account(label = "Japan", currency = "JPY").createIn(repository)
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+            repository.deleteAccount(yenAccount.id)
+        }
     }
 
     @Test
@@ -176,7 +186,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             val times = 5
             val amount = 2
             clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
-            for (j in 0 until times) {
+            repeat(times) {
                 setAmount(amount)
                 clickFab()
                 onView(withText(success)).check(matches(isDisplayed()))

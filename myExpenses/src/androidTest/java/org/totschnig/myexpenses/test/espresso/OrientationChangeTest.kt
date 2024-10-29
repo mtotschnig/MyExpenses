@@ -20,11 +20,13 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -63,6 +65,14 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             label = accountLabel2,
             currency = currency2.code
         ).createIn(repository)
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test

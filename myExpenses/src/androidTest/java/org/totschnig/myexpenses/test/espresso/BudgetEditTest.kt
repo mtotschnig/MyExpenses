@@ -28,6 +28,9 @@ import org.totschnig.myexpenses.activity.BudgetEdit
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ManageTags
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.withAccount
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
@@ -37,10 +40,13 @@ import kotlin.test.Test
 
 class BudgetEditTest : BaseUiTest<BudgetEdit>() {
 
+    lateinit var account1: Account
+    lateinit var account2: Account
+
     @Before
     fun fixture() {
-        buildAccount("Test account 1", 0)
-        buildAccount("Test account 2", 0)
+        account1 = buildAccount("Test account 1", 0)
+        account2 = buildAccount("Test account 2", 0)
         testScenario = ActivityScenario.launch(Intent(targetContext, BudgetEdit::class.java))
         Intents.init()
     }
@@ -48,6 +54,10 @@ class BudgetEditTest : BaseUiTest<BudgetEdit>() {
     @After
     fun tearDown() {
         Intents.release()
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test

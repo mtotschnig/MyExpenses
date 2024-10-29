@@ -17,12 +17,18 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
+import org.junit.After
+import org.junit.Assume
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -30,6 +36,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import java.util.Currency
 
@@ -41,6 +48,26 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
     val currency2 = CurrencyUnit(Currency.getInstance("EUR"))
     private lateinit var account1: Account
     private lateinit var account2: Account
+    var categoryExpenseId: Long = 0
+    var categoryIncomeId: Long = 0
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            Assume.assumeTrue(isOrchestrated)
+        }
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+            repository.deleteCategory(categoryExpenseId)
+            repository.deleteCategory(categoryIncomeId)
+        }
+    }
 
     private fun baseFixture(
         showIncome: Boolean = false,
@@ -63,8 +90,8 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
         showExpense: Boolean = true
     ) {
         baseFixture(showIncome, showExpense) {
-            val categoryExpenseId = writeCategory("Expense")
-            val categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
+            categoryExpenseId = writeCategory("Expense")
+            categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
             with(Transaction.getNewInstance(account1.id, currency1)) {
                 amount = Money(homeCurrency, -1200L)
                 catId = categoryExpenseId

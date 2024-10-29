@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.preference.PrefKey
@@ -18,5 +19,9 @@ class CustomizedMenuTest: BaseMyExpensesTest() {
         val account1 = buildAccount("Test account 1")
         launch(account1.id)
         composeTestRule.onNodeWithText(getString(R.string.no_expenses)).assertIsDisplayed()
+        cleanup {
+            repository.deleteAccount(account1.id)
+            prefHandler.remove(PrefKey.CUSTOMIZE_MAIN_MENU)
+        }
     }
 }

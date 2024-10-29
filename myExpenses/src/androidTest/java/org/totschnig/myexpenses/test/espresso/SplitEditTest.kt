@@ -22,19 +22,32 @@ import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
+import org.junit.After
+import org.junit.Assume
+import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.testutils.withAccount
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            Assume.assumeTrue(isOrchestrated)
+        }
+    }
 
     private val baseIntent: Intent
         get() = intentForNewTransaction.apply {
@@ -66,6 +79,13 @@ class SplitEditTest : BaseExpenseEditTest() {
         launch(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit(account1.id)) }
     }
 
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+        }
+    }
+
     /*
     Verify resolution of
     https://github.com/mtotschnig/MyExpenses/issues/987
@@ -88,6 +108,9 @@ class SplitEditTest : BaseExpenseEditTest() {
         clickFab()//save part
         setAccount(account2.label)
         checkAccount(account1.label)
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test

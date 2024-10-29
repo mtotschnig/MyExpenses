@@ -10,13 +10,19 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
+import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.model2.Party
+import org.totschnig.myexpenses.preference.PrefKey
 
 class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
+
+    private lateinit var party: Party
 
     //BUG: https://github.com/mtotschnig/MyExpenses/issues/1293
     //TODO: test all fields
@@ -24,7 +30,7 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
     fun shouldRestoreCachedData() {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
-        repository.createParty(Party.create(name = "John"))
+        party = repository.createParty(Party.create(name = "John"))
         testScenario = ActivityScenario.launch(intentForNewTransaction)
         unlock()
         setAmount(200)
@@ -34,5 +40,15 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
         onView(withId(R.id.Payee)).check(matches(withText("John")))
         checkAmount(200)
         onView(withId(R.id.Comment)).check(matches(withText("Kommentar")))
+    }
+
+    @After
+    fun cleanup() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteParty(party.id)
+            prefHandler.remove(PrefKey.AUTO_FILL_SWITCH)
+            prefHandler.remove(PrefKey.AUTO_FILL_HINT_SHOWN)
+        }
     }
 }
