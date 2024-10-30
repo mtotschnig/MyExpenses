@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 import kotlin.math.absoluteValue
 
 class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
@@ -42,7 +43,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
         }

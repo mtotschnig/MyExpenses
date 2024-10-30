@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import kotlin.properties.Delegates
@@ -58,7 +59,7 @@ class SelectAccountTest : BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(accountUSD1.id)
             repository.deleteAccount(accountUSD2.id)

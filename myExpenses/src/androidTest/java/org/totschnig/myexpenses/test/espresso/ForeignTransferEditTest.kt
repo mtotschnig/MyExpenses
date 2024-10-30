@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.Espresso
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 class ForeignTransferEditTest : BaseExpenseEditTest() {
@@ -37,7 +38,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)

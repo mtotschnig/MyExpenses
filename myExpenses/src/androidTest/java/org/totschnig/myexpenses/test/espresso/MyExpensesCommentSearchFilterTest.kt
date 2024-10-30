@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 
 class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
     private lateinit var account: Account
@@ -32,7 +33,7 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
         }

@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 
 class MyExpensesCabTest : BaseMyExpensesTest() {
@@ -80,7 +81,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
         }

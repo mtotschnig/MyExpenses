@@ -10,3 +10,14 @@ fun getBooleanInstrumentationArgument(key: String) =
 
 fun getInstrumentationArgument(key: String, defaultValue: String) =
     InstrumentationRegistry.getArguments().getString(key, defaultValue)
+
+/**
+ * With Android Test Orchestrator each test runs on clean database, so cleanup is not necessary,
+ * but when we run from commandline with "am instrument" (which is the only way to test the universal apk, e.g. with sqlcrypt module),
+ * this is not the case, so we conditionally allow to run cleanup tasks
+ */
+fun cleanup(work: () -> Unit) {
+    if (!isOrchestrated) {
+        work()
+    }
+}

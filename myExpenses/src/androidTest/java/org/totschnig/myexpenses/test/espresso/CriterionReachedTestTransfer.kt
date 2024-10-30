@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -41,7 +42,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)

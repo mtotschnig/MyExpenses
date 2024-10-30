@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 class TransferTemplateTest : BaseExpenseEditTest() {
@@ -39,7 +40,7 @@ class TransferTemplateTest : BaseExpenseEditTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)

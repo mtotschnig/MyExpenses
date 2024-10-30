@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withAccount
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import kotlin.reflect.KClass

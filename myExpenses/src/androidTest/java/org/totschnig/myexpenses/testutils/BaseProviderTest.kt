@@ -17,6 +17,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
@@ -68,6 +69,10 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
             openingBalance = openingBalance,
             syncAccountName = syncAccountName
         ).createIn(repository)
+
+    fun deleteAccount(id: Long) {
+        repository.deleteAccount(id)
+    }
 
     fun getTransactionFromDb(id: Long): Transaction? =
         Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)

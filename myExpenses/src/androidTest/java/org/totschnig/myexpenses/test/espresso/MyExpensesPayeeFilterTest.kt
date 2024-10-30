@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private lateinit var account: Account
@@ -54,7 +55,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
             repository.deleteParty(p1)

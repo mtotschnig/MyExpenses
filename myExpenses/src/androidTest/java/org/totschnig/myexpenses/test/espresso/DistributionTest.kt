@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 
 class DistributionTest : BaseUiTest<DistributionActivity>() {
@@ -82,7 +83,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             if (transactionExpenseId != 0L) {
                 repository.deleteTransaction(transactionExpenseId)

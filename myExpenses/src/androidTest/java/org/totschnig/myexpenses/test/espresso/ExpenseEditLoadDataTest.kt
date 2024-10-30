@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.*
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndAncestor
 import org.totschnig.myexpenses.testutils.withIdAndParent
@@ -71,7 +72,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)

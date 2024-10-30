@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.test.R
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import timber.log.Timber
 import java.time.LocalDate
@@ -74,7 +75,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
             repository.deleteCategory(catIgnore)

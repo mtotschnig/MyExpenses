@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withListSize
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {

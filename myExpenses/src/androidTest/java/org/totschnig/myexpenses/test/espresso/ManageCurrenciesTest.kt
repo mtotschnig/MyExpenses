@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
@@ -46,7 +47,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
             PreferencesCurrencyContext.resetFractionDigits(prefHandler, CURRENCY_CODE)

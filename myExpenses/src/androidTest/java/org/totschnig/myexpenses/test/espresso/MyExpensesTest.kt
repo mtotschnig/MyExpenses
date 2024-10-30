@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarMainSubtitle
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
@@ -64,7 +65,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         Intents.release()
         cleanup {
             repository.deleteAccount(account1.id)

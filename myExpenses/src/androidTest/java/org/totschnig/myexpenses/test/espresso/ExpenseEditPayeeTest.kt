@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.testutils.cleanup
 
 // fails on Nexus 7 emulator Portrait
 class ExpenseEditPayeeTest: BaseExpenseEditTest() {
@@ -26,7 +27,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
     }
 
     @After
-    fun cleanup() {
+    fun clearDb() {
         cleanup {
             repository.deleteAccount(account1.id)
             repository.deleteParty(party.id)

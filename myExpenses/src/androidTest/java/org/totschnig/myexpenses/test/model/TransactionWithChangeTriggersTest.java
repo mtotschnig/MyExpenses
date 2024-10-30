@@ -32,9 +32,13 @@ import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.UtilsKt;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 /**
  * copy of {@link TransactionTest} which runs under the assumption that changes triggers fire
@@ -46,7 +50,7 @@ public class TransactionWithChangeTriggersTest extends ModelTest {
   private long catId1;
   private long catId2;
 
-  @Override
+    @Override
   protected void setUp() throws Exception {
     super.setUp();
     mAccount1 = buildAccount("TestAccount 1", 100, "DEBUG");
@@ -55,6 +59,19 @@ public class TransactionWithChangeTriggersTest extends ModelTest {
     ContentValues values = new ContentValues(1);
     values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
     MoreDbUtilsKt.update(getProvider().getOpenHelperForTest().getWritableDatabase(), DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
+  }
+
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    UtilsKt.cleanup(() -> {
+      deleteAccount(mAccount1.getId());
+      deleteAccount(mAccount2.getId());
+      deleteAccount(mAccount3.getId());
+      deleteCategory(catId1);
+      deleteCategory(catId2);
+      return Unit.INSTANCE;
+    });
   }
 
   public void testTransaction() {

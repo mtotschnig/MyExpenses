@@ -31,9 +31,12 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.UtilsKt;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
+
+import kotlin.Unit;
 
 public class TransactionTest extends ModelTest {
   private Account mAccount1;
@@ -42,12 +45,25 @@ public class TransactionTest extends ModelTest {
   private long catId1;
   private long catId2;
 
-  @Override
+    @Override
   protected void setUp() throws Exception {
     super.setUp();
     mAccount1 = buildAccount("TestAccount 1", 100);
     mAccount2 = buildAccount("TestAccount 2", 100);
     mAccount3 = buildAccount("TestAccount 3", 100);
+  }
+
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    UtilsKt.cleanup(() -> {
+      deleteAccount(mAccount1.getId());
+      deleteAccount(mAccount2.getId());
+      deleteAccount(mAccount3.getId());
+      deleteCategory(catId1);
+      deleteCategory(catId2);
+      return Unit.INSTANCE;
+    });
   }
 
   public void testTransaction() {
