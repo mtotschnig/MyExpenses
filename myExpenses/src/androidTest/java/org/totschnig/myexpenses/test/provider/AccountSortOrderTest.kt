@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentResolver
 import androidx.test.rule.provider.ProviderTestRule
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,6 +50,15 @@ class AccountSortOrderTest(private val sortOrder: String, private val expectedDa
                 account.contentValues
             )
         }
+    }
+
+    @After
+    fun clearDb() {
+        resolver.delete(
+            TransactionProvider.ACCOUNTS_URI,
+            null,
+            null
+        )
     }
 
     @Test

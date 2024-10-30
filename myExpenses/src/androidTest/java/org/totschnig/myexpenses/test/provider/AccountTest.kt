@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.test.rule.provider.ProviderTestRule
 import com.google.common.truth.Truth.assertThat
+import org.junit.After
 import org.junit.Assert.assertThrows
 import org.junit.Rule
 import org.junit.Test
@@ -51,6 +52,15 @@ class AccountTest {
                 account.contentValues
             )
         }
+    }
+
+    @After
+    fun clearDb() {
+        resolver.delete(
+            TransactionProvider.ACCOUNTS_URI,
+            null,
+            null
+        )
     }
 
     private fun insertAccountWithTwoBudgets(): Long {
