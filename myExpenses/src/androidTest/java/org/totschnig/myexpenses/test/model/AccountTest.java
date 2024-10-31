@@ -46,9 +46,9 @@ public class AccountTest extends ModelTest {
   private void insertData() {
     Transaction op;
     CurrencyUnit currencyUnit = getHomeCurrency();
-    long defaultTransferCategory = getPrefHandler().getDefaultTransferCategory();
     account1 = buildAccount("Account 1", openingBalance);
     account2 = buildAccount("Account 2", openingBalance);
+    long defaultTransferCategory = getPrefHandler().getDefaultTransferCategory();
 
     op = Transaction.getNewInstance(account1.getId(), currencyUnit);
     op.setAmount(new Money(currencyUnit, -expense1));
@@ -75,19 +75,10 @@ public class AccountTest extends ModelTest {
    * but set up is easier through models
    */
   public void testDatabaseCalculatedSums() {
-    Cursor cursor = getMockContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        null,            // get all the columns
-        null,                       // no selection columns, get all the records
-        null,                       // no selection criteria
-        null                        // use default the sort order
-    );
-
     //the database setup creates the default account
     insertData();
-    cursor.close();
 
-    cursor = getMockContentResolver().query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_FULL_URI,  // the URI for the main data table
         null,            // get all the columns
         null,                       // no selection columns, get all the records

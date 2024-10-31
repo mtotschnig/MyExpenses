@@ -32,6 +32,10 @@ fun Repository.findParty(party: Party) = contentResolver.findParty(party.name, p
 fun Repository.findParty(name: String) = contentResolver.findParty(name)
 fun Repository.requireParty(name: String) = contentResolver.requireParty(name)
 
+@VisibleForTesting
+fun Repository.deleteParty(id: Long) {
+    contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, id), null, null)
+}
 
 // legacy methods with ContentResolver receivier
 fun ContentResolver.requireParty(name: String): Long {

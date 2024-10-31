@@ -41,7 +41,7 @@ class GroupedHeaderTest : BaseMyExpensesTest() {
     }
 
     @After
-    override fun tearDown() {
+    fun cleanup() {
         repository.deleteAccount(account.id)
     }
 

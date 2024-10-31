@@ -150,6 +150,11 @@ fun Repository.writeTag(label: String, colorInt: Int? = null) =
         }
     )!!)
 
+@VisibleForTesting
+fun Repository.deleteAllTags() {
+    contentResolver.delete(TAGS_URI, null, null)
+}
+
 /**
  * Map of tag id to pair (label, color)
  */

@@ -3,19 +3,25 @@ package org.totschnig.myexpenses.test.espresso
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 
 class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
+    private lateinit var account: Account
+
     @Before
     fun fixture() {
         val currency = DebugInstance
-        val account =  buildAccount("Test account 1")
+        account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, 1000L)
         op.comment = comment1
@@ -24,6 +30,13 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
         launch(account.id)
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account.id)
+        }
     }
 
     @Test

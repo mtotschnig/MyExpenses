@@ -1,17 +1,22 @@
 package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.core.app.ActivityScenario
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.Espresso
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 class ForeignTransferEditTest : BaseExpenseEditTest() {
     private var transfer: Transfer? = null
+    lateinit var account2: Account
     @Before
     fun fixture() {
         val currency1 = CurrencyUnit(Currency.getInstance("USD"))
@@ -22,13 +27,21 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
             currency = currency1.code
         )
         val accountLabel2 = "Test label 2"
-        val id = buildAccount(
+        account2 = buildAccount(
             accountLabel2,
             currency = currency2.code
-        ).id
-        transfer = Transfer.getNewInstance(account1.id, currency1, id).apply {
+        )
+        transfer = Transfer.getNewInstance(account1.id, currency1, account2.id).apply {
             setAmountAndTransferAmount(Money(currency1, -2000L), Money(currency2, -3000L))
             save(contentResolver)
+        }
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
         }
     }
 

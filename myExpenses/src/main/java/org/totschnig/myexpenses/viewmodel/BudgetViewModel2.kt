@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.budgetAllocationUri
+import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -182,14 +183,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     fun deleteBudget(budgetId: Long) = liveData(context = coroutineContext()) {
-        emit(
-            contentResolver.delete(
-                ContentUris.withAppendedId(
-                    TransactionProvider.BUDGETS_URI,
-                    budgetId
-                ), null, null
-            ) == 1
-        )
+        emit(repository.deleteBudget(budgetId) == 1)
     }
 
     fun rollOverClear() {

@@ -27,6 +27,9 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.testutils.withOperationType
@@ -104,16 +107,25 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     }
 
     protected fun assertTemplate(
-        templateId: Long,
         expectedAccount: Long,
         expectedAmount: Long,
         templateTitle: String = TEMPLATE_TITLE,
         expectedTags: List<String> = emptyList()
     ) {
+        val templateId = contentResolver.query(
+            TEMPLATES_URI,
+            arrayOf(KEY_ROWID),
+            "$KEY_TITLE = ?",
+            arrayOf(templateTitle),
+            null
+        )!!.use {
+            it.moveToFirst()
+            it.getLong(0)
+        }
         val (transaction, tags) = Template.getInstanceFromDbWithTags(contentResolver, templateId)!!
         with(transaction as Template) {
-            assertThat(title).isEqualTo(templateTitle)
             assertThat(amount.amountMinor).isEqualTo(expectedAmount)
+            assertThat(title).isEqualTo(templateTitle)
             assertThat(accountId).isEqualTo(expectedAccount)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)

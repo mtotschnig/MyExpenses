@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import timber.log.Timber
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -42,7 +41,7 @@ data class BudgetPeriod(
     val year: Int,
     val second: Int,
     val duration: BudgetDuration,
-    val description: String
+    val description: String,
 )
 
 fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
@@ -56,7 +55,7 @@ fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppe
 fun budgetAllocationQueryUri(
     budgetId: Long,
     categoryId: Long,
-    groupingInfo: GroupingInfo
+    groupingInfo: GroupingInfo,
 ): Uri = budgetAllocationQueryUri(
     budgetId,
     categoryId,
@@ -70,7 +69,7 @@ fun budgetAllocationQueryUri(
     categoryId: Long,
     grouping: Grouping,
     year: String?,
-    second: String?
+    second: String?,
 ): Uri = with(budgetAllocationUri(budgetId, categoryId)) {
     if (grouping != Grouping.NONE) {
         val builder = buildUpon()
@@ -85,7 +84,7 @@ fun budgetAllocationQueryUri(
 fun Repository.sumLoaderForBudget(
     budget: Budget,
     aggregateNeutral: Boolean,
-    period: Pair<Int, Int>?
+    period: Pair<Int, Int>?,
 ): Triple<Uri, String, Array<String>?> {
     val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
     budget.queryParameter?.let {
@@ -240,3 +239,10 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
             currentDay
         )
     }
+
+fun Repository.deleteBudget(id: Long) =
+    contentResolver.delete(
+        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, id),
+        null,
+        null
+    )

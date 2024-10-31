@@ -3,8 +3,8 @@ package org.totschnig.sqlcrypt
 import android.content.Context
 import android.os.Build
 import androidx.annotation.Keep
-import net.sqlcipher.database.SQLiteDatabase
-import net.sqlcipher.database.SupportFactory
+import net.zetetic.database.sqlcipher.SQLiteDatabase
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import org.totschnig.myexpenses.di.SqlCryptProvider
 import org.totschnig.myexpenses.util.crypt.PassphraseRepository
 import java.io.File
@@ -35,12 +35,16 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
         }
             .getPassphrase()
 
-    override fun provideEncryptedDatabase(context: Context) = SupportFactory(passPhrase(context))
+    override fun provideEncryptedDatabase(context: Context): SupportOpenHelperFactory {
+        System.loadLibrary("sqlcipher")
+        return SupportOpenHelperFactory(passPhrase(context))
+    }
 
     /**
      * https://commonsware.com/Room/pages/chap-sqlciphermgmt-001.html
      */
     override fun decrypt(context: Context, encrypted: File, backupDb: File) {
+        System.loadLibrary("sqlcipher")
         val originalDb = SQLiteDatabase.openDatabase(
             encrypted.absolutePath,
             passPhrase(context),
@@ -52,7 +56,6 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
 
         SQLiteDatabase.openOrCreateDatabase(
             backupDb.absolutePath,
-            "",
             null
         ).close() // create an empty database
 
@@ -68,7 +71,6 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
 
         SQLiteDatabase.openOrCreateDatabase(
             backupDb.absolutePath,
-            "",
             null
         ).use {
             it.version = version
@@ -79,14 +81,13 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
      * https://commonsware.com/Room/pages/chap-sqlciphermgmt-001.html
      */
     override fun encrypt(context: Context, backupFile: File, currentDb: File) {
-        SQLiteDatabase.loadLibs(context)
+        System.loadLibrary("sqlcipher")
         if (currentDb.exists()) {
             if (!currentDb.delete())
                 throw IOException("File $currentDb exists and cannot be deleted.")
         }
         val version = SQLiteDatabase.openDatabase(
             backupFile.absolutePath,
-            "",
             null,
             SQLiteDatabase.OPEN_READWRITE
         ).use {
@@ -96,6 +97,7 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
         SQLiteDatabase.openOrCreateDatabase(
             currentDb.absolutePath,
             passPhrase(context),
+            null,
             null
         ).use { db ->
             //language=text

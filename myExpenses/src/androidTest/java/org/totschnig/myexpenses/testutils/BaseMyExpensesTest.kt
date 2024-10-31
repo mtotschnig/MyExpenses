@@ -56,7 +56,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     }
 
     @After
-    open fun tearDown() {
+    fun tearDown() {
         transactionPagingIdlingResource?.let {
             IdlingRegistry.getInstance().unregister(it)
         }

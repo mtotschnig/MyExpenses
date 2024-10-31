@@ -1704,7 +1704,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
                     null else category.id
             }
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
             null
         }
     }

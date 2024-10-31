@@ -8,26 +8,35 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.setParentId
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
     private var duplicate = "Finz Hinz"
+    private var p1: Long = 0
+    private var p2: Long = 0
+    private var d: Long = 0
 
     @Before
     fun fixture() {
-        val p2 = repository.createParty(Party(name = payee2))
+        p1 = repository.createParty(Party(name = payee1)).id
+        p2 = repository.createParty(Party(name = payee2)).id
         val currency = CurrencyUnit.DebugInstance
         account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
@@ -37,12 +46,23 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         op.payee = payee2
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
-        val d = repository.createParty(Party(name = duplicate))
-        repository.setParentId(d.id, p2.id)
+        d = repository.createParty(Party(name = duplicate)).id
+        repository.setParentId(d, p2)
         op.payee = duplicate
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
         launch(account.id)
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account.id)
+            repository.deleteParty(p1)
+            repository.deleteParty(p2)
+            repository.deleteParty(d)
+
+        }
     }
 
     @Test

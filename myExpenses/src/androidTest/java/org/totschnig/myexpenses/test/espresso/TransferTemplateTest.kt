@@ -1,28 +1,24 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.Intent
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 class TransferTemplateTest : BaseExpenseEditTest() {
@@ -43,12 +39,11 @@ class TransferTemplateTest : BaseExpenseEditTest() {
         )
     }
 
-
-    private fun assertCorrectlySaved(expectedAccount: Long, expectedAmount: Long) {
-        with(Template.getInstanceFromDb(contentResolver, 1)!!) {
-            assertThat(title).isEqualTo(TEMPLATE_TITLE)
-            assertThat(amount.amountMinor).isEqualTo(expectedAmount)
-            assertThat(accountId).isEqualTo(expectedAccount)
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
         }
     }
 
@@ -68,7 +63,7 @@ class TransferTemplateTest : BaseExpenseEditTest() {
     private fun runTheTest(
         defaultAction: Action,
         amount: Int?,
-        assertion: () -> Unit
+        templateAssertion: () -> Unit
     ) {
         launch(intent.apply {
             putExtra(
@@ -83,28 +78,28 @@ class TransferTemplateTest : BaseExpenseEditTest() {
             }
             setDefaultAction(defaultAction)
             closeKeyboardAndSave()
-            assertion()
+            templateAssertion()
         }
     }
 
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE, 3000) {
-            assertCorrectlySaved(account1.id, -300000)
+            assertTemplate(account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT, 3000) {
-            assertCorrectlySaved(account1.id, -300000)
+            assertTemplate(account1.id, -300000)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertCorrectlySaved(account1.id, 0)
+            assertTemplate(account1.id, 0)
         }
     }
 

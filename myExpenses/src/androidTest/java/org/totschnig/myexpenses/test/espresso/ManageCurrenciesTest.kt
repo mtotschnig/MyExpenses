@@ -13,28 +13,45 @@ import com.adevinta.android.barista.interaction.BaristaCheckboxInteractions
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsString
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCurrencies
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
 
 class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
+
     @get:Rule
     var scenarioRule = ActivityScenarioRule(ManageCurrencies::class.java)
+
+
+    lateinit var account: Account
 
     @Before
     fun setup() {
         testScenario = scenarioRule.scenario
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account.id)
+            PreferencesCurrencyContext.resetFractionDigits(prefHandler, CURRENCY_CODE)
+        }
     }
 
     @Test
@@ -54,7 +71,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         val appComponent = app.appComponent
         val currencyContext = appComponent.currencyContext()
         val currencyUnit = currencyContext[CURRENCY_CODE]
-        val account = repository.createAccount(
+        account = repository.createAccount(
             Account(
                 label = "TEST ACCOUNT",
                 openingBalance = 5000L,
@@ -74,6 +91,9 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         if (withUpdate) {
             onView(withId(R.id.checkBox)).perform(scrollTo())
             BaristaCheckboxInteractions.check(R.id.checkBox)
+        }
+        if (!isOrchestrated) {
+            Thread.sleep(200)
         }
         onView(withId(android.R.id.button1)).perform(click())
         onData(Matchers.`is`(currency))

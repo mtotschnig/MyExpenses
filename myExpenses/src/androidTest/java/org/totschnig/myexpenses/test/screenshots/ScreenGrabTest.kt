@@ -4,6 +4,8 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
+import org.totschnig.myexpenses.testutils.getBooleanInstrumentationArgument
+import org.totschnig.myexpenses.testutils.getInstrumentationArgument
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 /**
@@ -16,14 +18,11 @@ class ScreenGrabTest: TestMain(null) {
     @JvmField
     val localeTestRule = LocaleTestRule()
 
-    override val shouldTakeScreenShot = getInstrumentationArgument("screenshots", "1") == "true"
+    override val shouldTakeScreenShot = getBooleanInstrumentationArgument("screenshots")
 
     @Test
     fun mkScreenshots() {
         val scenario = getInstrumentationArgument("scenario", "1")
         runScenario(scenario)
     }
-
-    private fun getInstrumentationArgument(key: String, @Suppress("SameParameterValue") defaultValue: String) =
-        InstrumentationRegistry.getArguments().getString(key, defaultValue)
 }

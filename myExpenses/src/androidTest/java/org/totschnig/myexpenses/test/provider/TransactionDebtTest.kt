@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.update
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.util.*
 
 class TransactionDebtTest: BaseDbTest() {
     private var testAccountId: Long = 0
@@ -74,7 +73,7 @@ class TransactionDebtTest: BaseDbTest() {
                 "$KEY_ROWID = ?", arrayOf(closedTransaction.toString())
             )
             kotlin.test.fail("Update of closed debt did not raise SQLiteConstraintException")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
             //Expected
         }
     }
@@ -86,7 +85,7 @@ class TransactionDebtTest: BaseDbTest() {
                 "$KEY_ROWID = ?", arrayOf(closedTransaction.toString())
             )
             kotlin.test.fail("Delete of transaction for closed debt did not raise SQLiteConstraintException")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
             //Expected
         }
     }
@@ -106,7 +105,7 @@ class TransactionDebtTest: BaseDbTest() {
                 testTransaction.contentValues
             )
             kotlin.test.fail("Insert into closed debt dit no raise SQLiteConstraintException")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
             //Expected
         }
     }

@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withListSize
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {
@@ -34,6 +35,9 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         clickFab()
         assertFinishing()
         assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
+        cleanup {
+            deleteAccount(LABEL)
+        }
     }
 
     @Test
@@ -47,6 +51,9 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         testScenario = ActivityScenario.launchActivityForResult(i)
         clickFab()
         assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
+        cleanup {
+            deleteAccount(LABEL)
+        }
     }
 
     companion object {

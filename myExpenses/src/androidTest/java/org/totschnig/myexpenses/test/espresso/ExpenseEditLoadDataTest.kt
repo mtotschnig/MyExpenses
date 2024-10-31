@@ -19,6 +19,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import org.assertj.core.api.Assertions
 import org.hamcrest.CoreMatchers.allOf
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,11 +27,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.*
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndAncestor
 import org.totschnig.myexpenses.testutils.withIdAndParent
@@ -68,11 +71,16 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         }
     }
 
-    private val foreignAccount: Account
-        get() = Account(
-            label = "Test account 2",
-            currency = foreignCurrency.code,
-        ).createIn(repository)
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
+    }
+
+    private fun buildForeignAccount(): Account =
+        buildAccount("Test account 2", currency = foreignCurrency.code)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
         putExtra(DatabaseConstants.KEY_ROWID, id)
@@ -113,6 +121,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithEquivalentAmount() {
+        val foreignAccount = buildForeignAccount()
         val transaction = Transaction.getNewInstance(foreignAccount.id, foreignCurrency).apply {
             amount = Money(foreignCurrency, 500L)
             equivalentAmount = Money(homeCurrency, 1000)
@@ -126,6 +135,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("2")))
             onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.EquivalentAmount))
                 .check(matches(withText("%.1f".format(0.5))))
+        }
+        cleanup {
+            repository.deleteAccount(foreignAccount.id)
         }
     }
 
@@ -144,6 +156,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
+        val foreignAccount = buildForeignAccount()
         val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
             Money(homeCurrency, 100L), Money(
@@ -166,6 +179,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.ExchangeRate
                 )
             ).check(matches(withText(formatAmount(0.5f))))
+        }
+        cleanup {
+            repository.deleteTransaction(foreignTransfer.id)
+            repository.deleteAccount(foreignAccount.id)
         }
     }
 
@@ -468,6 +485,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         load(sealed.id).use {
             assertCanceled()
+        }
+        cleanup {
+            repository.deleteAccount(sealedAccount.id)
         }
     }
 }

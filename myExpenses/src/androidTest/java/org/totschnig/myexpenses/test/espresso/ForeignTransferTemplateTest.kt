@@ -8,14 +8,17 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 class ForeignTransferTemplateTest : BaseExpenseEditTest() {
@@ -37,6 +40,14 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
         )
     }
 
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAccount(account2.id)
+        }
+    }
+
     private fun setDefaultAction(defaultAction: Action) {
         onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
         Espresso.onData(
@@ -53,7 +64,7 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     private fun runTheTest(
         defaultAction: Action,
         amountField: Int? = R.id.Amount,
-        assertion: () -> Unit
+        templateAssertion: () -> Unit
     ) {
         launch(intent.apply {
             putExtra(
@@ -68,7 +79,7 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
             }
             setDefaultAction(defaultAction)
             closeKeyboardAndSave()
-            assertion()
+            templateAssertion()
         }
     }
 
@@ -76,35 +87,35 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE) {
-            assertTemplate(1, account1.id, -300000)
+            assertTemplate(account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT) {
-            assertTemplate(1, account1.id, -300000)
+            assertTemplate(account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountSave() {
         runTheTest(Action.SAVE, R.id.TransferAmount) {
-            assertTemplate(1, account2.id, 300000)
+            assertTemplate(account2.id, 300000)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountEdit() {
         runTheTest(Action.EDIT, R.id.TransferAmount) {
-            assertTemplate(1, account2.id, 300000)
+            assertTemplate(account2.id, 300000)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertTemplate(1, account1.id, 0)
+            assertTemplate(account1.id, 0)
         }
     }
 

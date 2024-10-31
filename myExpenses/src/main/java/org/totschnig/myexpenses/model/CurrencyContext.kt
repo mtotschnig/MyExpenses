@@ -4,9 +4,9 @@ import java.util.Currency
 
 interface CurrencyContext {
     operator fun get(currencyCode: String): CurrencyUnit
-    fun storeCustomFractionDigits(currencyCode: String?, fractionDigits: Int)
-    fun storeCustomSymbol(currencyCode: String?, symbol: String?)
-    fun ensureFractionDigitsAreCached(currency: CurrencyUnit?)
+    fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int)
+    fun storeCustomSymbol(currencyCode: String, symbol: String)
+    fun ensureFractionDigitsAreCached(currency: CurrencyUnit)
     fun invalidateHomeCurrency()
 
     val homeCurrencyString: String

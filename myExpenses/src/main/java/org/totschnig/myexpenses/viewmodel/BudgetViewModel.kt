@@ -1,12 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onEach
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID

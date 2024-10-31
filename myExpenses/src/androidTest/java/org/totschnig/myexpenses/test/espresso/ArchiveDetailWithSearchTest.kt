@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -20,11 +21,14 @@ import org.totschnig.myexpenses.compose.TEST_TAG_FILTER_CARD
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PART_LIST
 import org.totschnig.myexpenses.db2.archive
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.cleanup
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -53,6 +57,13 @@ class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
         op0.date = dateTime
         op0.saveAsNew(contentResolver)
         repository.archive(account.id, date to date)
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account.id)
+        }
     }
 
     @Test

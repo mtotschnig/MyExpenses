@@ -9,7 +9,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.google.common.truth.Truth.assertThat
-import org.assertj.core.api.Assertions
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
+import org.totschnig.myexpenses.db2.deleteAllCategories
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.Espresso
@@ -28,6 +29,11 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
     @Before
     fun setup() {
         testScenario = scenarioRule.scenario
+    }
+
+    @After
+    fun cleanup() {
+        repository.deleteAllCategories()
     }
 
     @Test

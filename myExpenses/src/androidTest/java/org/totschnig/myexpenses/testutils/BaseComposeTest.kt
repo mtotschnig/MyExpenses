@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.amountProperty
 import org.totschnig.myexpenses.compose.headerProperty
+import timber.log.Timber
 
 abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     val listNode: SemanticsNodeInteraction
@@ -31,7 +32,9 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     private fun hasCollectionInfo(expectedColumnCount: Int, expectedRowCount: Int) =
         SemanticsMatcher("Collection has $expectedColumnCount columns, $expectedRowCount rows") {
             with(it.config[SemanticsProperties.CollectionInfo]) {
-                columnCount == expectedColumnCount && rowCount == expectedRowCount
+                val result = columnCount == expectedColumnCount && rowCount == expectedRowCount
+                if(!result) { Timber.d("Actual colums/rows: %d/%d", columnCount, rowCount)}
+                result
             }
         }
 
@@ -48,10 +51,7 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         position: Int = 0,
         onLongClick: Boolean = false
     ) {
-        node.onChildren()[position].performTouchInput {
-            if (onLongClick) longClick() else click()
-        }
-        composeTestRule.onNodeWithText(getString(resId)).performClick()
+        clickContextItem(getString(resId), node, position, onLongClick)
     }
 
     fun clickContextItem(
@@ -62,6 +62,9 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     ) {
         node.onChildren()[position].performTouchInput {
             if (onLongClick) longClick() else click()
+        }
+        if (!isOrchestrated) {
+            Thread.sleep(200)
         }
         composeTestRule.onNodeWithTag(command).performClick()
     }

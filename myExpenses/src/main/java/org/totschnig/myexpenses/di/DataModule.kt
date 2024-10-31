@@ -39,7 +39,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     companion object {
         val cryptProvider: SqlCryptProvider by lazy {
             Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
-                .newInstance() as SqlCryptProvider
+                .getDeclaredConstructor().newInstance() as SqlCryptProvider
         }
     }
 
@@ -123,7 +123,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                 SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
                     if (!try {
                             it.isDatabaseIntegrityOk
-                        } catch (e: SQLiteDatabaseCorruptException) {
+                        } catch (_: SQLiteDatabaseCorruptException) {
                             false
                         }
                     ) {

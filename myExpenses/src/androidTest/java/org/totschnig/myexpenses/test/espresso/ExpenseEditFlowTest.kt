@@ -9,32 +9,36 @@ import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createPaymentMethod
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteAllTags
+import org.totschnig.myexpenses.db2.deleteMethod
+import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
-    lateinit var template: Template
+    var templateId: Long = 0
+    var methodId: Long = 0
     @Before
     fun fixture() {
-        val accountLabel1 = "Test label 1"
-        account1 = buildAccount(accountLabel1)
-        repository.createPaymentMethod(
+        account1 = buildAccount("Test label 1")
+
+        methodId = repository.createPaymentMethod(
             targetContext,
             PaymentMethod(
                 0,
@@ -45,8 +49,9 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 null,
                 listOf(AccountType.CASH)
             )
-        )
-        template = Template.getTypedNewInstance(
+        ).id
+
+        templateId = Template.getTypedNewInstance(
             contentResolver,
             Transactions.TYPE_TRANSACTION,
             account1.id,
@@ -58,6 +63,14 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             title = "Template"
             defaultAction = Template.Action.EDIT
             save(contentResolver)
+        }.id
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteMethod(methodId)
         }
     }
 
@@ -105,6 +118,9 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         onView(withId(R.id.Category)).perform(click())
         pressBack()
         checkAccount(accountLabel2)
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test
@@ -125,17 +141,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         linkWithTag()
         setAmount(5)
         clickFab()
-        val templateId = contentResolver.query(
-            TEMPLATES_URI,
-            arrayOf(KEY_ROWID),
-            "$KEY_TITLE = ?",
-            arrayOf(TEMPLATE_TITLE),
-            null
-        )!!.use {
-            it.moveToFirst()
-            it.getLong(0)
+        assertTemplate(account1.id, -500, expectedTags = listOf("Tag"))
+        cleanup {
+            repository.deleteAllTags()
         }
-        assertTemplate(templateId, account1.id, -500, expectedTags = listOf("Tag"))
     }
 
     private fun linkWithTag() {
@@ -149,12 +158,15 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     fun instantiateTemplateForEditDoesNotAffectTemplate() {
         launchForResult(intentForNewTransaction.apply {
             action = ACTION_CREATE_FROM_TEMPLATE
-            putExtra(KEY_TEMPLATEID, template.id)
+            putExtra(KEY_TEMPLATEID, templateId)
         })
         linkWithTag()
         setAmount(5)
         clickFab()
         //asserts that template is still without tags
-        assertTemplate(template.id, account1.id, 500, templateTitle = "Template")
+        assertTemplate(account1.id, 500, templateTitle = "Template")
+        cleanup {
+            repository.deleteAllTags()
+        }
     }
 }

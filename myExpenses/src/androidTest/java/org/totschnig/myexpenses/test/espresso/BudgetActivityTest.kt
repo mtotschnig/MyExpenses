@@ -15,9 +15,12 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
+import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.activity.BudgetActivity
 import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -28,19 +31,25 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.test.R
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import timber.log.Timber
 import java.time.LocalDate
 
 class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
+    lateinit var account: Account
+    var catIgnore: Long = 0
+    var mainCat1: Long = 0
+    var mainCat2: Long = 0
+
     fun setup(withFilter: Boolean) {
-        val account = buildAccount("Account")
+        account = buildAccount("Account")
         //we write first a category to force category's id to be different from account id
         //in order to verify fix for https://github.com/mtotschnig/MyExpenses/issues/1189
-        writeCategory("ignore")
-        val mainCat1 = writeCategory("A", null)
-        val mainCat2 = writeCategory("B", null)
+        catIgnore = writeCategory("ignore")
+        mainCat1 = writeCategory("A", null)
+        mainCat2 = writeCategory("B", null)
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -12300L)
         op0.catId = mainCat1
@@ -63,6 +72,16 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
             ).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, budgetId)
             })
+    }
+
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account.id)
+            repository.deleteCategory(catIgnore)
+            repository.deleteCategory(mainCat1)
+            repository.deleteCategory(mainCat2)
+        }
     }
 
     private fun createBudget(account: Account) = ContentUris.parseId(
