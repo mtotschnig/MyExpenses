@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.os.Debug
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
@@ -23,7 +22,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.cleanup
-import kotlin.math.absoluteValue
 
 class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
 
@@ -34,9 +32,9 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         val currency = DebugInstance
         account = buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
-        op.amount =  Money(currency, amount1)
+        op.amount =  Money(currency, AMOUNT1)
         op.save(contentResolver)
-        op.amount = Money(currency, amount2)
+        op.amount = Money(currency, AMOUNT2)
         op.date -= 10000
         op.saveAsNew(contentResolver)
         launch(account.id)
@@ -52,20 +50,20 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     @Test
     fun amountFilterShouldHideTransaction() {
         assertListSize(2)
-        amountIsDisplayed(amount1, 0)
-        amountIsDisplayed(amount2, 1)
+        amountIsDisplayed(AMOUNT1, 0)
+        amountIsDisplayed(AMOUNT2, 1)
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
         onView(ViewMatchers.withText(R.string.amount)).perform(click())
         onView(withId(R.id.amount1)).perform(typeText("12"))
         closeSoftKeyboard()
         onView(withId(android.R.id.button1)).perform(click())
         assertListSize(1)
-        amountIsDisplayed(amount1, 0)
+        amountIsDisplayed(AMOUNT1, 0)
         //switch off filter
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
         onView(withSubstring(getString(R.string.expense))).perform(click())
         assertListSize(2)
-        amountIsDisplayed(amount2, 1)
+        amountIsDisplayed(AMOUNT2, 1)
     }
 
     private fun amountIsDisplayed(amount: Long, position: Int) {
@@ -73,7 +71,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     }
 
     companion object {
-        private const val amount1 = -1200L
-        private const val amount2 = -3400L
+        private const val AMOUNT1 = -1200L
+        private const val AMOUNT2 = -3400L
     }
 }

@@ -5,6 +5,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -36,6 +37,7 @@ class MyExpensesTagsTest: BaseMyExpensesTest() {
     fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
+            repository.deleteAllTags()
         }
     }
 

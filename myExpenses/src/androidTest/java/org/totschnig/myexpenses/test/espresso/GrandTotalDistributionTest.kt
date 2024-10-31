@@ -56,6 +56,10 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
         @BeforeClass
         @JvmStatic
         fun setup() {
+            // For unidentified reason, tests in this class fail when run with the whole package
+            // "am instrument -e package org.totschnig.myexpenses.test.espresso"
+            // but work when run on class level
+            // "am instrument -e class org.totschnig.myexpenses.test.espresso.GrandTotalDistributionTest"
             Assume.assumeTrue(isOrchestrated)
         }
     }

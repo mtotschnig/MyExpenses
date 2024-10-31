@@ -31,8 +31,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.testutils.UtilsKt;
-import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.testutils.InstrumentationRegistryUtilsKt;
 
 import java.util.Date;
 
@@ -45,7 +44,7 @@ public class TransactionTest extends ModelTest {
   private long catId1;
   private long catId2;
 
-    @Override
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     mAccount1 = buildAccount("TestAccount 1", 100);
@@ -56,7 +55,7 @@ public class TransactionTest extends ModelTest {
   @Override
   protected void tearDown() throws Exception {
     super.tearDown();
-    UtilsKt.cleanup(() -> {
+    InstrumentationRegistryUtilsKt.cleanup(() -> {
       deleteAccount(mAccount1.getId());
       deleteAccount(mAccount2.getId());
       deleteAccount(mAccount3.getId());

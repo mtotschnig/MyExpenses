@@ -152,7 +152,9 @@ class MyExpensesTest : BaseMyExpensesTest() {
         )
         clickFab()
         checkTitle("A")
-        deleteAccount("A")
+        cleanup {
+            deleteAccount("A")
+        }
     }
 
     private fun openDrawer() {

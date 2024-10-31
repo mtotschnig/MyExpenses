@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.net.Uri
-import android.os.Debug
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertTextContains
@@ -28,7 +27,6 @@ import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Assume
-import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -76,6 +74,10 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         @BeforeClass
         @JvmStatic
         fun setup() {
+            // For unidentified reason, tests in this class fail when run with the whole package
+            // "am instrument -e package org.totschnig.myexpenses.test.espresso"
+            // but work when run on class level
+            // "am instrument -e class org.totschnig.myexpenses.test.espresso.MyExpensesCabTest"
             Assume.assumeTrue(isOrchestrated)
         }
     }

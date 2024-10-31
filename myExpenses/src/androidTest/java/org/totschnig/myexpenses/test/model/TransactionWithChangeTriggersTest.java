@@ -21,7 +21,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.db2.RepositoryAccountKt;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
@@ -32,13 +31,11 @@ import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.testutils.UtilsKt;
-import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.testutils.InstrumentationRegistryUtilsKt;
 
 import java.util.Date;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
 
 /**
  * copy of {@link TransactionTest} which runs under the assumption that changes triggers fire
@@ -50,7 +47,7 @@ public class TransactionWithChangeTriggersTest extends ModelTest {
   private long catId1;
   private long catId2;
 
-    @Override
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     mAccount1 = buildAccount("TestAccount 1", 100, "DEBUG");
@@ -64,7 +61,7 @@ public class TransactionWithChangeTriggersTest extends ModelTest {
   @Override
   protected void tearDown() throws Exception {
     super.tearDown();
-    UtilsKt.cleanup(() -> {
+    InstrumentationRegistryUtilsKt.cleanup(() -> {
       deleteAccount(mAccount1.getId());
       deleteAccount(mAccount2.getId());
       deleteAccount(mAccount3.getId());

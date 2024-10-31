@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -43,9 +42,6 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
 
     private var categoryExpenseId = 0L
     private var categoryIncomeId = 0L
-    private var transactionExpenseId = 0L
-    private var transactionIncomeId = 0L
-
 
     private fun baseFixture(
         showIncome: Boolean = false,
@@ -69,15 +65,13 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         baseFixture(showIncome, showExpense) {
             categoryExpenseId = writeCategory("Expense")
             categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            transactionExpenseId = with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, -1200L)
                 catId = categoryExpenseId
-                ContentUris.parseId(save(contentResolver)!!)
             }
-            transactionIncomeId = with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)
                 catId = categoryIncomeId
-                ContentUris.parseId(save(contentResolver)!!)
             }
         }
     }
@@ -85,12 +79,6 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     @After
     fun clearDb() {
         cleanup {
-            if (transactionExpenseId != 0L) {
-                repository.deleteTransaction(transactionExpenseId)
-            }
-            if (transactionIncomeId != 0L) {
-                repository.deleteTransaction(transactionIncomeId)
-            }
             if (categoryExpenseId != 0L) {
                 repository.deleteCategory(categoryExpenseId)
             }
