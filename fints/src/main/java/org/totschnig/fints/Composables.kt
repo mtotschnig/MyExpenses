@@ -1,5 +1,9 @@
 package org.totschnig.fints
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -8,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -42,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -56,12 +62,13 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.safeMessage
+import kotlin.random.Random
 import org.totschnig.myexpenses.R as RB
 
 @Composable
 fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
-    onDone: (BankingCredentials) -> Unit
+    onDone: (BankingCredentials) -> Unit,
 ) {
     val credentials = bankingCredentials.value
     credentials.bank?.let { Text(it.bankName) } ?: run {
@@ -167,7 +174,11 @@ fun TanDialog(tanRequest: TanRequest?) {
                 Column {
                     Text(tanRequest.message)
                     tanRequest.bitmap?.let {
-                        Image(bitmap = it.asImageBitmap(), contentDescription = null)
+                        Image(
+                            modifier = Modifier.height(200.dp).width(200.dp),
+                            bitmap = it.asImageBitmap(),
+                            contentDescription = null
+                        )
                     }
                     OutlinedTextField(
                         value = tan,
@@ -208,7 +219,7 @@ fun TanMediaDialog(request: TanMediumRequest?) {
 private fun SelectionDialog(
     @StringRes title: Int,
     options: List<Pair<String, String>>,
-    submit: (Pair<String, Boolean>?) -> Unit
+    submit: (Pair<String, Boolean>?) -> Unit,
 ) {
     val (selectedOption, onOptionSelected) = rememberSaveable { mutableStateOf(options[0]) }
     val (shouldSaveSelection, onShouldSaveSelectionChanged) = rememberSaveable { mutableStateOf(true) }
@@ -260,13 +271,16 @@ private fun SelectionDialog(
     )
 }
 
-sealed class MigrationState: Parcelable {
+sealed class MigrationState : Parcelable {
     @Parcelize
     data object Idle : MigrationState()
+
     @Parcelize
     data object Running : MigrationState()
+
     @Parcelize
     data object Success : MigrationState()
+
     @Parcelize
     data class Failure(val message: String) : MigrationState()
 }
@@ -386,7 +400,7 @@ fun Loading(text: String? = "Loading") {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         CircularProgressIndicator()
-        Text(text ?: stringResource(id = org.totschnig.myexpenses.R.string.loading))
+        Text(text ?: stringResource(id = RB.string.loading))
     }
 }
 
@@ -404,4 +418,26 @@ fun Error(errorMessage: String?) {
 @Composable
 private fun TanMediaPreview() {
     TanMediaDialog(TanMediumRequest(options = listOf("pushTan", "Pixel")) {})
+}
+
+@Preview
+@Composable
+private fun TanPreview() {
+    val bmp = createRandomBitmap(50,50)
+    TanDialog(TanRequest("Please scan", bmp) {})
+}
+
+private fun createRandomBitmap(width: Int, height: Int): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            val color = Color.rgb(
+                Random.nextInt(256),
+                Random.nextInt(256),
+                Random.nextInt(256)
+            )
+            bitmap.setPixel(x, y, color)
+        }
+    }
+    return bitmap
 }
