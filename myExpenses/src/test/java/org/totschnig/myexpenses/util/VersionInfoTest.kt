@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.util
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.junit.Assume
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,15 +16,29 @@ import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 
 @RunWith(RobolectricTestRunner::class)
 class VersionInfoTest {
+
+    val context
+        get() = ApplicationProvider.getApplicationContext<Application>()
+
+    val currentVersion
+     get()= VersionInfo(context.resources.getStringArray(R.array.versions).first())
+
+    val isBugFixVersion
+        get() = currentVersion.name.split('.').size == 4
+
     @Test
-    fun shouldProvideVersionInfoForCurrentVersion() {
+    fun currentVersionFromBuildConfigMatches() {
+        assertThat(BuildConfig.VERSION_NAME).isEqualTo(currentVersion.name)
+    }
+
+    @Test
+    fun testVersionLinksForCurrentVersion() {
         Assume.assumeFalse(BuildConfig.BETA)
-        if (BuildConfig.VERSION_NAME.length == 5) { // bug fix version do not need more_info
-            val resIdMoreInfo = resId("version_more_info_")
-            Truth.assertThat(resIdMoreInfo).isNotEqualTo(0)
+        val context = ApplicationProvider.getApplicationContext<Application>()
+        if (!isBugFixVersion) {
+            urlReachable(currentVersion.mastodonUrl(context)!!)
         }
-        val resIdGithubBoard = resId("project_board_")
-        Truth.assertThat(resIdGithubBoard).isNotEqualTo(0)
+        urlReachable(currentVersion.githubUrl(context)!!)
     }
 
     @Test
@@ -29,14 +46,20 @@ class VersionInfoTest {
         val context = ApplicationProvider.getApplicationContext<Application>()
         val versions = context.resources.getStringArray(R.array.versions)
         versions.forEach {
-            Truth.assertWithMessage("No changes for version $it").that(VersionInfo(it).getChanges(context)).isNotNull()
+            assertWithMessage("No changes for version $it").that(VersionInfo(it).getChanges(context)).isNotNull()
         }
     }
 
-    private fun resId(prefix: String) = with(ApplicationProvider.getApplicationContext<Application>()) {
-        resources.getIdentifier(
-            "$prefix${BuildConfig.VERSION_NAME.replace(".", "")}",
-            "string",
-            packageName)
+    private fun urlReachable(url:String) {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .head()
+            .build()
+
+        val response = client.newCall(request).execute()
+
+        assertThat(response.code).isEqualTo(200)
     }
+
 }
