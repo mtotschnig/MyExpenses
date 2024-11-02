@@ -14,8 +14,6 @@
 */
 package org.totschnig.myexpenses.dialog
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -72,6 +70,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
 
     @Composable
     override fun BuildContent() {
+        val context = LocalContext.current
         if (versions.isEmpty()) {
             Text(
                 modifier = Modifier.padding(24.dp),
@@ -93,7 +92,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                                     modifier = Modifier.padding(bottom = 0.dp),
                                     style = MaterialTheme.typography.titleLarge
                                 )
-                                version.getChanges(LocalContext.current)?.let { changes ->
+                                version.getChanges(context)?.let { changes ->
                                     Box(
                                         modifier = Modifier.weight(1f),
                                         contentAlignment = Alignment.Center,
@@ -105,16 +104,12 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                             }
                             Column (modifier = Modifier.align(Alignment.CenterVertically)){
                                 VersionInfoButton(
-                                    version = version,
-                                    resPrefix = "project_board_",
-                                    baseUri = if (version.code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/",
+                                    uri = version.githubUrl(context),
                                     drawableRes = R.drawable.ic_github,
                                     contentDescription = "Github"
                                 )
                                 VersionInfoButton(
-                                    version = version,
-                                    resPrefix = "version_more_info_",
-                                    baseUri = "https://mastodon.social/@myexpenses/",
+                                    uri = version.mastodonUrl(context),
                                     drawableRes = R.drawable.ic_mastodon,
                                     contentDescription = "Mastodon"
                                 )
@@ -128,16 +123,14 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
 
     @Composable
     private fun VersionInfoButton(
-        version: VersionInfo,
-        resPrefix: String,
-        baseUri: String,
+        uri: String?,
         drawableRes: Int,
         contentDescription: String
     ) {
-        requireContext().resolveMoreInfo(resPrefix, version)?.let {
+        uri?.let {
             IconButton(
                 onClick = {
-                    showMoreInfo(baseUri + getString(it))
+                    showMoreInfo(uri)
                 }
             ) {
                 Image(
@@ -181,11 +174,5 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                 }
                 isCancelable = false
             }
-        @SuppressLint("DiscouragedApi")
-        fun Context.resolveMoreInfo(resPrefix: String, version: VersionInfo) = resources.getIdentifier(
-            resPrefix + version.nameCondensed,
-            "string",
-            packageName
-        ).takeIf { it != 0 }
     }
 }

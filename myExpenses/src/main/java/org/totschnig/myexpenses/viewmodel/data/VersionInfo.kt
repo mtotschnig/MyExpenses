@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
@@ -160,12 +161,12 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 // @formatter:off
                 "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.orientation)}, ${t(R.string.title_font_size)})"
                 // @formatter:on
-                )
+            )
 
             "389" -> arrayOf(
                 "${t(R.string.archive)}: ${t(R.string.ui_refinement)}",
                 "${t(R.string.title_activity_debt_overview)}: ${t(R.string.ui_refinement)}",
-                )
+            )
 
             "390" -> arrayOf(
                 "${t(R.string.saving_goal)} / ${t(R.string.credit_limit)}: ${t(R.string.ui_refinement)}",
@@ -200,4 +201,30 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
         }
         return changesArray
     }
+
+    @SuppressLint("DiscouragedApi")
+    private fun resolveMoreInfo(ctx: Context, resPrefix: String, ): Int? {
+        return ctx.resources.getIdentifier(
+            resPrefix + nameCondensed,
+            "string",
+            ctx.packageName
+        ).takeIf { it != 0 }
+    }
+
+    fun githubLink(context: Context) =
+        resolveMoreInfo(context, "project_board_")?.let { context.getString(it) }
+
+    fun mastodonLink(context: Context) =
+        resolveMoreInfo(context, "version_more_info_")?.let { context.getString(it) }
+
+    fun githubUrl(context: Context) =
+        githubLink(context)?.let {
+            "https://github.com/users/mtotschnig/projects/$it"
+        }
+
+    fun mastodonUrl(context: Context) =
+        mastodonLink(context)?.let {
+            "https://mastodon.social/@myexpenses/$it"
+        }
+
 }

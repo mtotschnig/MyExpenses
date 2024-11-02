@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.changelog
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Ignore
@@ -9,7 +8,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.VersionDialogFragment.Companion.resolveMoreInfo
 import org.totschnig.myexpenses.ui.ContextHelper.wrap
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 import org.yaml.snakeyaml.DumperOptions
@@ -117,10 +115,10 @@ class ChangeLogGenerator {
                         versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
                             .forEach { appendLine("• $it") }
                         appendLine()
-                        context.githubUrl(versionInfo)?.let {
+                        versionInfo.githubUrl(context)?.let {
                             appendLine(it)
                         }
-                        context.mastodonUrl(versionInfo)?.let {
+                        versionInfo.mastodonUrl(context)?.let {
                             appendLine(it)
                         }
                     }
@@ -128,22 +126,6 @@ class ChangeLogGenerator {
             }
         }
     }
-
-    private fun Context.githubLink(versionInfo: VersionInfo) =
-        resolveMoreInfo("project_board_", versionInfo)?.let { getString(it) }
-
-    private fun Context.mastodonLink(versionInfo: VersionInfo) =
-        resolveMoreInfo("version_more_info_", versionInfo)?.let { getString(it) }
-
-    private fun Context.githubUrl(versionInfo: VersionInfo) =
-        githubLink(versionInfo)?.let {
-            "https://github.com/users/mtotschnig/projects/$it"
-        }
-
-    private fun Context.mastodonUrl(versionInfo: VersionInfo) =
-        mastodonLink(versionInfo)?.let {
-            "https://mastodon.social/@myexpenses/$it"
-        }
 
     @Test
     fun generateChangeLogYaml() {
@@ -189,8 +171,8 @@ class ChangeLogGenerator {
                 }
             },
             buildMap {
-                put("github2", context.githubLink(versionInfo)!!)
-                put("mastodon", context.mastodonLink(versionInfo)!!)
+                put("github2", versionInfo.githubLink(context)!!)
+                put("mastodon", versionInfo.mastodonLink(context)!!)
             }
         ))
         print(yaml.dump(data))
