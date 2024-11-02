@@ -67,7 +67,7 @@
     </item>
     <item
         android:id="@id/LINK_TRANSFER_COMMAND"
-        android:icon="@drawable/ic_hchain"
+        android:icon="@drawable/ic_link"
         android:orderInCategory="5"
         android:title="@string/menu_create_transfer"
         app:showAsAction="never" />

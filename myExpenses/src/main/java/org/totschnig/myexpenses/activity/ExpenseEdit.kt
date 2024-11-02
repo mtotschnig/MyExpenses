@@ -957,7 +957,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun updateDateLink() {
-        dateEditBinding.DateLink.setImageResource(if (areDatesLinked) R.drawable.ic_hchain else R.drawable.ic_hchain_broken)
+        dateEditBinding.DateLink.setImageResource(if (areDatesLinked) R.drawable.ic_link else R.drawable.ic_link_off)
         dateEditBinding.DateLink.contentDescription =
             getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)
     }

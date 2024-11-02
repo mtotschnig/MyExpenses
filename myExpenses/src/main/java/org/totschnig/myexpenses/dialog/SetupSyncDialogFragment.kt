@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
@@ -9,6 +9,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -20,9 +23,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.viewModels
 import eltos.simpledialogfragment.SimpleDialog
 import kotlinx.parcelize.Parcelize
@@ -30,10 +36,12 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment.AccountRow
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel.SyncSource
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
+import kotlin.collections.set
 
 class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener {
 
@@ -86,10 +94,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         NOT_STARTED, RUNNING, COMPLETED
     }
 
+    val data: SyncViewModel.SyncAccountData by lazy {
+        BundleCompat.getParcelable(requireArguments(), KEY_DATA, SyncViewModel.SyncAccountData::class.java)!!
+    }
+
     @Composable
     override fun BuildContent() {
-        val data: SyncViewModel.SyncAccountData =
-            requireArguments().getParcelable(KEY_DATA)!!
         val progress = remember {
             mutableStateOf(SetupProgress.NOT_STARTED)
         }
@@ -139,20 +149,44 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         )
                     )
                 }
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        modifier = cell(0),
+                        modifier = columnLabel(),
                         text = stringResource(id = R.string.account) + " (UUID)",
                         fontWeight = FontWeight.Bold
                     )
-                    Text(modifier = cell(1), text = "Local", fontWeight = FontWeight.Bold)
-                    Spacer(modifier = cell(2))
-                    Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
+                    Text(modifier = columnSource(), text = "Local", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                    Spacer(modifier = columnLink())
+                    Text(modifier = columnSource(), text = "Remote", fontWeight = FontWeight.Bold)
                 }
                 HorizontalDivider()
             }
-            items(accountRows) {
-                Account(item = it)
+            items(accountRows) { item ->
+                val linkState = viewModel.dialogState[item.uuid]
+                Account(item = item, linkState) {
+                    if (linkState == null) {
+                        if (item.isLocal && item.isRemote) {
+                            SimpleDialog.build()
+                                .extra(Bundle().apply {
+                                    putParcelable(KEY_DATA, item)
+                                })
+                                .msg(
+                                    getString(R.string.dialog_sync_link, item.uuid)
+                                )
+                                .pos(R.string.dialog_command_sync_link_remote)
+                                .neut()
+                                .neg(R.string.dialog_command_sync_link_local)
+                                .show(
+                                    this@SetupSyncDialogFragment,
+                                    SYNC_CONFLICT_DIALOG
+                                )
+                        } else {
+                            viewModel.dialogState[item.uuid] = SyncSource.DEFAULT
+                        }
+                    } else {
+                        viewModel.dialogState[item.uuid] = null
+                    }
+                }
                 HorizontalDivider()
             }
 
@@ -222,118 +256,10 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
-        accountRows =
-            requireArguments().getParcelable<SyncViewModel.SyncAccountData>(KEY_DATA)!!.prepare()
+        accountRows = data.prepare()
     }
 
     override fun initBuilder(): AlertDialog.Builder = super.initBuilder().setCancelable(false)
-
-    @Composable
-    fun Account(item: AccountRow) {
-        val linkState = viewModel.dialogState[item.uuid]
-        Column {
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(modifier = cell(0)) {
-                    Text(text = item.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Text(
-                        text = item.uuid,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        fontSize = 10.sp
-                    )
-                }
-                if (item.isLocal) {
-                    Icon(
-                        modifier = cell(1),
-                        painter = painterResource(
-                            id = when {
-                                item.isSealed -> R.drawable.ic_lock
-                                linkState == SyncSource.REMOTE -> R.drawable.ic_menu_delete
-                                else -> R.drawable.ic_menu_done
-                            }
-                        ),
-                        tint = if (linkState == SyncSource.LOCAL) Color.Green else
-                            LocalContentColor.current,
-                        contentDescription = "Local"
-                    )
-                } else {
-                    Spacer(modifier = cell(1))
-                }
-                if (!item.isSealed) {
-                    Icon(
-                        modifier = cell(2).conditional(linkState != SyncSource.COMPLETED) {
-                            clickable {
-                                if (linkState == null) {
-                                    if (item.isLocal && item.isRemote) {
-                                        SimpleDialog.build()
-                                            .extra(Bundle().apply {
-                                                putParcelable(KEY_DATA, item)
-                                            })
-                                            .msg(
-                                                getString(R.string.dialog_sync_link, item.uuid)
-                                            )
-                                            .pos(R.string.dialog_command_sync_link_remote)
-                                            .neut()
-                                            .neg(R.string.dialog_command_sync_link_local)
-                                            .show(
-                                                this@SetupSyncDialogFragment,
-                                                SYNC_CONFLICT_DIALOG
-                                            )
-                                    } else {
-                                        viewModel.dialogState[item.uuid] = SyncSource.DEFAULT
-                                    }
-                                } else {
-                                    viewModel.dialogState[item.uuid] = null
-                                }
-                            }
-                        },
-                        painter = painterResource(id = if (linkState != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
-                        contentDescription = stringResource(id = R.string.menu_sync_link)
-                    )
-                } else {
-                    Spacer(modifier = cell(2))
-                }
-                if (item.isRemote) {
-                    Icon(
-                        modifier = cell(3),
-                        painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
-                        tint = if (linkState == SyncSource.REMOTE) Color.Green else
-                            LocalContentColor.current,
-                        contentDescription = "Remote"
-                    )
-                } else {
-                    Spacer(modifier = cell(3))
-                }
-            }
-        }
-        val errorColor = colorResource(id = R.color.colorErrorDialog)
-        when (linkState) {
-            SyncSource.LOCAL -> errorColor to R.string.dialog_confirm_sync_link_local
-            SyncSource.REMOTE -> errorColor to R.string.dialog_confirm_sync_link_remote
-            SyncSource.COMPLETED -> Color.Green to R.string.setup_completed
-            else -> null
-        }?.let { (color, msg) ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_warning),
-                    contentDescription = null,
-                    tint = color
-                )
-                Text(
-                    color = color,
-                    text = stringResource(id = msg),
-                    fontSize = 12.sp
-                )
-            }
-        }
-    }
-
-    @SuppressLint("ModifierFactoryExtensionFunction")
-    fun RowScope.cell(index: Int) = Modifier.weight(arrayOf(3f, 1f, 0.5f, 1f)[index])
 
     companion object {
         private const val KEY_DATA = "data"
@@ -349,7 +275,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         when (dialogTag) {
             SYNC_CONFLICT_DIALOG -> {
-                val account = extras.getParcelable<AccountRow>(KEY_DATA)!!
+                val account = BundleCompat.getParcelable(extras, KEY_DATA, AccountRow::class.java)!!
                 viewModel.dialogState[account.uuid] = when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> SyncSource.REMOTE
                     SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> SyncSource.LOCAL
@@ -359,5 +285,102 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         }
         return true
     }
-
 }
+
+@Composable
+private fun Account(
+    item: AccountRow,
+    linkState: SyncSource?,
+    onLinkClick: (() -> Unit)
+) {
+    Column {
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = columnLabel()) {
+                Text(text = item.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    text = item.uuid,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 10.sp
+                )
+            }
+            if (item.isLocal) {
+                Icon(
+                    modifier = columnSource(),
+                    painter = painterResource(
+                        id = when {
+                            item.isSealed -> R.drawable.ic_lock
+                            linkState == SyncSource.REMOTE -> R.drawable.ic_menu_delete
+                            else -> R.drawable.ic_menu_done
+                        }
+                    ),
+                    tint = if (linkState == SyncSource.LOCAL) Color.Green else
+                        LocalContentColor.current,
+                    contentDescription = "Local"
+                )
+            } else {
+                Spacer(modifier = columnSource())
+            }
+            if (!item.isSealed) {
+                IconButton(onLinkClick) {
+                    Icon(
+                        modifier = Modifier.conditional(linkState != SyncSource.COMPLETED) {
+                            clickable(onClick = onLinkClick)
+                        },
+
+                        imageVector = if (linkState != null) Icons.Filled.Link else Icons.Filled.LinkOff,
+                        contentDescription = stringResource(id = R.string.menu_sync_link)
+                    )
+                }
+            } else {
+                Spacer(modifier = columnLink())
+            }
+            if (item.isRemote) {
+                Icon(
+                    modifier = columnSource(),
+                    painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                    tint = if (linkState == SyncSource.REMOTE) Color.Green else
+                        LocalContentColor.current,
+                    contentDescription = "Remote"
+                )
+            } else {
+                Spacer(modifier = columnSource())
+            }
+        }
+    }
+    val errorColor = colorResource(id = R.color.colorErrorDialog)
+    when (linkState) {
+        SyncSource.LOCAL -> errorColor to R.string.dialog_confirm_sync_link_local
+        SyncSource.REMOTE -> errorColor to R.string.dialog_confirm_sync_link_remote
+        SyncSource.COMPLETED -> Color.Green to R.string.setup_completed
+        else -> null
+    }?.let { (color, msg) ->
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_warning),
+                contentDescription = null,
+                tint = color
+            )
+            Text(
+                color = color,
+                text = stringResource(id = msg),
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+
+@Preview(widthDp = 246)
+@Composable
+fun AccountPreview() {
+    Account(AccountRow("Test-Level-${Build.VERSION.SDK_INT}", "Test-UUID", true, true, false), null) { }
+}
+
+private fun RowScope.columnLabel() = Modifier.weight(3f)
+@Composable
+private fun columnLink() = Modifier.width(LocalMinimumInteractiveComponentSize.current)
+private fun RowScope.columnSource() = Modifier.weight(1f)

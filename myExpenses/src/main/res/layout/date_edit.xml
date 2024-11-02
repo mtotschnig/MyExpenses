@@ -25,7 +25,7 @@
         android:paddingStart="@dimen/dateLink_padding"
         android:paddingEnd="@dimen/dateLink_padding"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_hchain_broken" />
+        app:srcCompat="@drawable/ic_link_off" />
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/Date2Button"

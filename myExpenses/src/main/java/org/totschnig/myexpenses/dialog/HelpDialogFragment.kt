@@ -102,7 +102,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "remap" to R.drawable.redo,
             "scan_mode" to R.drawable.ic_scan,
             "save_and_new" to R.drawable.ic_action_save_new,
-            "link" to R.drawable.ic_hchain,
+            "link" to R.drawable.ic_link,
             "merge" to R.drawable.ic_menu_split_transaction,
             "parties.debts" to R.drawable.ic_group,
             "debts" to R.drawable.balance_scale,

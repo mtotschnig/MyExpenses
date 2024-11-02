@@ -27,7 +27,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
 
     fun resolveTitle(
         item: String,
-        prefix: String
+        prefix: String,
     ): String =
         item.split(".").joinToString("/") {
             getStringOrThrowIf0((if (prefix == "form") "" else "menu_") + it)
@@ -35,7 +35,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
 
     fun resolveStringOrArray(
         resString: String,
-        separateComponentsByLineFeeds: Boolean
+        separateComponentsByLineFeeds: Boolean,
     ): CharSequence? {
         fun toTitle(resId: Int) = SpannableStringBuilder()
             .append(" ")
@@ -163,7 +163,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
 
     private fun resolveSystem(
         resIdString: String,
-        @Suppress("SameParameterValue") defType: String
+        @Suppress("SameParameterValue") defType: String,
     ) = resolve(Resources.getSystem(), resIdString, defType, "android")
 
     @SuppressLint("DiscouragedApi")
@@ -171,12 +171,11 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         resources: Resources,
         resIdString: String,
         defType: String,
-        packageName: String
+        packageName: String,
     ) = resources.getIdentifier(resIdString, defType, packageName)
 
     override fun getDrawable(name: String) = try {
-        //Keeping the legacy attribute reference in order to not have to update all translations, where
-        //it appears
+        //Keeping the legacy attribute reference in order to not have to update all translations
         val resId = if (name.startsWith("?")) {
             with(name.substring(1)) {
                 when (this) {
@@ -192,7 +191,14 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             if (name.startsWith("android:")) {
                 resolveSystem(name.substring(8), "drawable")
             } else {
-                resolve(name, "drawable")
+                when (name) {
+                    //Keeping the legacy attribute reference in order to not have to update all
+                    //translations
+                    "ic_action_equal" -> R.drawable.ic_action_equal
+                    "ic_hchain" -> R.drawable.ic_link
+                    "ic_hchain_broken" -> R.drawable.ic_link_off
+                    else -> resolve(name, "drawable")
+                }
             }
         }
         val dimensionPixelSize =
