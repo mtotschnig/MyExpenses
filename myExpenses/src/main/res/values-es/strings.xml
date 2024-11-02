@@ -1006,4 +1006,7 @@
     <string name="overage">Exceso</string>
     <string name="saving_goal_exceeded">Has superado tu objetivo de ahorro.</string>
     <string name="saving_goal_short_fall">Déficit</string>
+    <string name="content_description_original_amount">Defina el importe original de esta transacción seleccionando una moneda e introduciendo el importe. También puede definir un tipo de cambio que se utilizará para calcular el importe efectivo.</string>
+    <string name="content_description_exchange_rate">Tipo de cambio para 1 %1$s en %2$s</string>
+    <string name="content_description_equivalent_amount">Define el valor de esta transacción en su moneda nacional. En lugar de introducir el importe, también puedes introducir el tipo de cambio para calcularlo.</string>
 </resources>
