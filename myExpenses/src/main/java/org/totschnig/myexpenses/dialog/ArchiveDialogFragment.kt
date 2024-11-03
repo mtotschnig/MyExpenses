@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.canBeArchived
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -47,10 +48,13 @@ import javax.inject.Inject
 data class ArchiveInfo(
     val count: Int,
     val hasNested: Boolean,
-    val statuses: List<CrStatus>
+    val statuses: List<CrStatus>,
+    val accountType: AccountType,
 ) : Parcelable {
     val canArchive: Boolean
-        get() = count > 0 && !hasNested && statuses.filter { it != CrStatus.VOID }.size <= 1
+        get() = count > 0 &&
+                !hasNested &&
+                (accountType == AccountType.CASH || statuses.filter { it != CrStatus.VOID }.size <= 1)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -128,6 +132,7 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                             info.statuses.joinToString {
                                 getString(it.toStringRes())
                             })
+
                         else -> throw IllegalStateException()
                     },
                     modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),

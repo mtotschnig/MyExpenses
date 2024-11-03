@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.os.BundleCompat
 import androidx.sqlite.db.SupportSQLiteDatabase
 import org.totschnig.myexpenses.dialog.ArchiveInfo
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -43,7 +44,7 @@ private fun subSelectTemplate(colum: String) =
 
 fun SupportSQLiteDatabase.unarchive(
     values: ContentValues,
-    callerIsNotSyncAdapter: Boolean
+    callerIsNotSyncAdapter: Boolean,
 ): Int {
     val uuid =
         values.getAsString(KEY_UUID) ?: uuidForTransaction(values.getAsLong(KEY_ROWID))
@@ -78,11 +79,16 @@ fun SupportSQLiteDatabase.unarchive(
 private const val ARCHIVE_SELECTION =
     "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS != $STATUS_UNCOMMITTED AND $KEY_DATE > ? AND $KEY_DATE < ?"
 
+/**
+ * @return Cursor of statistics for archive grouped by type:
+ * if @param onlyCheck == true: 0 - status, 1 - number of nested archives, 2 - number of transactions
+ * if @param onlyCheck == false: 0 - status, 1 - number of nested archives, 2 - amount sum, 3 - date of last transaction
+ */
 private fun SupportSQLiteDatabase.archiveInfo(
     accountId: Long,
     start: LocalDate,
     end: LocalDate,
-    onlyCheck: Boolean
+    onlyCheck: Boolean,
 ) = query(
     table = TABLE_TRANSACTIONS,
     columns = arrayOf(
@@ -109,6 +115,12 @@ private fun Bundle.parseArchiveArguments() = Triple(
     BundleCompat.getSerializable(this, KEY_END, LocalDate::class.java)!!
 )
 
+private fun SupportSQLiteDatabase.accountType(accountId: Long) =
+    query(TABLE_ACCOUNTS, arrayOf(KEY_TYPE), "$KEY_ROWID = ?", arrayOf(accountId)).use {
+        it.moveToFirst()
+        AccountType.valueOf(it.getString(0))
+    }
+
 fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
     val (accountId, start, end) = extras.parseArchiveArguments()
 
@@ -126,7 +138,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
                 Triple(cursor.getString(0), cursor.getLong(2), cursor.getLong(3))
             }
 
-            2 -> {
+            else -> {
                 val states = cursor.useAndMapToMap {
                     it.getString(0) to Triple(
                         it.hasNested(),
@@ -137,15 +149,14 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
                 if (states.any { it.value.first }) {
                     throw IllegalStateException("Nested archive is not supported.")
                 }
-                if (!states.containsKey(CrStatus.VOID.name)) {
+
+                if (states.keys.filter { it != CrStatus.VOID.name }.size > 1 &&
+                    accountType(accountId) != AccountType.CASH
+                ) {
                     throw IllegalStateException("Transactions in archive have different states.")
                 }
                 val archive = states.entries.first { it.key != CrStatus.VOID.name }
                 Triple(archive.key, archive.value.second, archive.value.third)
-            }
-
-            else -> {
-                throw IllegalStateException("Transactions in archive have different states.")
             }
         }
     }
@@ -182,16 +193,19 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
 
 fun SupportSQLiteDatabase.canBeArchived(extras: Bundle): ArchiveInfo {
     val (accountId, start, end) = extras.parseArchiveArguments()
+    val accountType = accountType(accountId)
     val empty = ArchiveInfo(
         count = 0,
         hasNested = false,
-        statuses = emptyList()
+        statuses = emptyList(),
+        accountType = accountType
     )
     return archiveInfo(accountId, start, end, true).asSequence.fold(empty) { acc, cursor ->
         ArchiveInfo(
             count = acc.count + cursor.getInt(2),
             hasNested = acc.hasNested || cursor.hasNested(),
-            statuses = acc.statuses + enumValueOf<CrStatus>(cursor.getString(0))
+            statuses = acc.statuses + enumValueOf<CrStatus>(cursor.getString(0)),
+            accountType = accountType
         )
     }
 }
