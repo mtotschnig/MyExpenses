@@ -77,7 +77,7 @@ fun SupportSQLiteDatabase.unarchive(
 }
 
 private const val ARCHIVE_SELECTION =
-    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS != $STATUS_UNCOMMITTED AND $KEY_DATE > ? AND $KEY_DATE < ?"
+    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS != $STATUS_UNCOMMITTED AND $KEY_DATE >= ? AND $KEY_DATE <= ?"
 
 /**
  * @return Cursor of statistics for archive grouped by type:
