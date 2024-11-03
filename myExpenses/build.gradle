@@ -41,7 +41,6 @@ android {
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
 
-        vectorDrawables.useSupportLibrary = true
         resourceConfigurations = resConfig
     }
 
