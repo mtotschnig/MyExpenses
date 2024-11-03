@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
-import android.graphics.drawable.Animatable2
+import android.graphics.drawable.Animatable2.AnimationCallback
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Pair
 import android.view.Gravity
@@ -12,15 +12,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.databinding.MoreInfoBinding
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.ui.UiUtils
 import java.util.Locale
 
 class MoreInfoDialogFragment : DialogViewBinding<MoreInfoBinding>() {
@@ -79,15 +77,15 @@ class MoreInfoDialogFragment : DialogViewBinding<MoreInfoBinding>() {
     }
 
     private fun ImageView.startAnimation() {
-        (background as? AnimatedVectorDrawable)?.apply {
-            start()
-            AnimatedVectorDrawableCompat.registerAnimationCallback(this,
-                object : Animatable2Compat.AnimationCallback() {
-                    override fun onAnimationEnd(drawable: Drawable?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            (background as? AnimatedVectorDrawable)?.apply {
+                start()
+                registerAnimationCallback( object: AnimationCallback() {
+                    override fun onAnimationEnd(drawable: Drawable) {
                         start()
                     }
-                }
-            )
+                })
+            }
         }
     }
 
