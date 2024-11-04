@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -136,6 +135,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING)
                 val budget = viewModel.accountInfo.collectAsState(null).value
+                LaunchedEffect(category.value) {
+                    if (category.value != Category.LOADING) {
+                        invalidateOptionsMenu()
+                    }
+                }
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (category.value === Category.LOADING || budget == null) {
@@ -164,22 +168,19 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             RenderFilters(budget)
                             LayoutHelper(
                                 data = {
-                                    RenderBudget(it, sortedData.value, budget, currencyUnit, sort.value)
+                                    RenderBudget(
+                                        it,
+                                        sortedData.value,
+                                        budget,
+                                        currencyUnit,
+                                        sort.value
+                                    )
                                 }, chart = {
                                     RenderChart(
                                         it,
                                         sortedData.value
                                     )
                                 })
-                            val editRollOverInValid = viewModel.editRollOverInValid
-                            LaunchedEffect(editRollOverInValid) {
-                                invalidateOptionsMenu()
-                            }
-                            if (editRollOverInValid) {
-                                Snackbar {
-                                    Text(text = stringResource(R.string.rollover_edit_invalid))
-                                }
-                            }
                         }
                     }
                 }
@@ -225,7 +226,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         category: Category,
         budget: Budget,
         currencyUnit: CurrencyUnit,
-        sort: Sort
+        sort: Sort,
     ) {
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
             val narrowScreen = maxWidth.value < breakPoint.value
@@ -314,7 +315,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         category: Category,
         parentItem: Category?,
         currencyUnit: CurrencyUnit,
-        withOneTimeCheck: Boolean
+        withOneTimeCheck: Boolean,
     ) {
         val simpleFormDialog = AmountInputHostDialog.build()
             .title(if (category.level > 0) category.label else getString(R.string.dialog_title_edit_budget))
@@ -500,6 +501,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             R.id.ROLLOVER_EDIT_CANCEL -> {
                 viewModel.stopRollOverEdit()
                 invalidateOptionsMenu()
+                viewModel.editRollOverMap.clear()
                 true
             }
 
@@ -527,9 +529,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (viewModel.duringRollOverEdit) {
-            menu.findItem(R.id.ROLLOVER_EDIT_SAVE).isEnabled = !viewModel.editRollOverInValid
-        } else {
+        if (!viewModel.duringRollOverEdit) {
             super.onPrepareOptionsMenu(menu)
             menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
                 it.isChecked = viewModel.allocatedOnly

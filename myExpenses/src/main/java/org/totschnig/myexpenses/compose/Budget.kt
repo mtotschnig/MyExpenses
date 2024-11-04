@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.HorizontalDivider
@@ -30,6 +32,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -59,11 +62,11 @@ fun Budget(
     onBudgetEdit: (category: Category, parent: Category?) -> Unit,
     onShowTransactions: (category: Category) -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
+    editRollOver: SnapshotStateMap<Long, Long>?,
     narrowScreen: Boolean,
     showChart: Boolean = false,
     currentSort: Sort? = null,
-    onChangeSort: ((Sort) -> Unit)? = null
+    onChangeSort: ((Sort) -> Unit)? = null,
 ) {
 
     Column(
@@ -162,8 +165,8 @@ private fun Summary(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
-    narrowScreen: Boolean
+    editRollOver: SnapshotStateMap<Long, Long>?,
+    narrowScreen: Boolean,
 ) {
     Row(
         modifier = Modifier.testTag(TEST_TAG_HEADER),
@@ -219,14 +222,14 @@ private fun Header(
     narrowScreen: Boolean,
     showChart: Boolean,
     currentSort: Sort,
-    onChangeSort: (Sort) -> Unit
+    onChangeSort: (Sort) -> Unit,
 ) {
     @Composable
     fun RowScope.HeaderCell(
         stringRes: Int,
         sort: Sort? = null,
         color: Color? = null,
-        isNumberColumn: Boolean = true
+        isNumberColumn: Boolean = true,
     ) {
         Row(
             modifier = Modifier
@@ -297,8 +300,8 @@ private fun BudgetCategoryRenderer(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
-    narrowScreen: Boolean
+    editRollOver: SnapshotStateMap<Long, Long>?,
+    narrowScreen: Boolean,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -344,8 +347,8 @@ private fun RowScope.BudgetNumbers(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
-    narrowScreen: Boolean
+    editRollOver: SnapshotStateMap<Long, Long>?,
+    narrowScreen: Boolean,
 ) {
     val totalBudget = category.budget.budget + category.budget.rollOverPrevious
     //Allocation
@@ -427,45 +430,57 @@ private fun RowScope.BudgetNumbers(
     //Rollover
     if (hasRolloverNext || editRollOver != null) {
         VerticalDivider()
-        val rollOverFromChildren =
-            category.aggregateRollOverNext(editRollOver?.mapValues { it.value.first })
-        Column(
+        val rollOverFromChildren = category.aggregateRollOverNext(editRollOver)
+        val rollOver =
+            editRollOver?.getOrDefault(category.id, category.budget.rollOverNext)
+                ?: category.budget.rollOverNext
+        val rollOverTotal = rollOver + rollOverFromChildren
+        val isError = rollOverTotal > remainder
+        Row(
             modifier = Modifier.numberColumn(this, narrowScreen),
-            horizontalAlignment = Alignment.End
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            if (editRollOver != null && (remainder != 0L)) {
-                val rollOver =
-                    editRollOver.getOrDefault(category.id, category.budget.rollOverNext to false)
-                val rollOverTotal = rollOver.first + rollOverFromChildren
-                val isError =
-                    rollOverTotal.sign * remainder.sign == -1 || rollOverTotal.absoluteValue > remainder.absoluteValue
-                editRollOver[category.id] = rollOver.first to isError
-
-                AmountEdit(
-                    value = Money(currency, rollOver.first).amountMajor,
-                    onValueChange = {
-                        val newRollOver = Money(currency, it).amountMinor
-                        editRollOver[category.id] =
-                            newRollOver to (newRollOver + rollOverFromChildren > remainder)
+            if (isError) {
+                val context = LocalContext.current
+                val message = stringResource(R.string.rollover_edit_invalid)
+                Icon(
+                    modifier = Modifier.clickable {
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     },
-                    fractionDigits = currency.fractionDigits,
-                    isError = isError
-                )
-            } else if (category.budget.rollOverNext != 0L) {
-                ColoredAmountText(
-                    amount = category.budget.rollOverNext,
-                    currency = currency,
-                    textAlign = TextAlign.End
+                    imageVector = Icons.Default.ErrorOutline,
+                    tint = colorResource(id = R.color.colorErrorDialog),
+                    contentDescription = null
                 )
             }
-            if (rollOverFromChildren != 0L) {
-                ColoredAmountText(
-                    amount = rollOverFromChildren,
-                    currency = currency,
-                    textAlign = TextAlign.End,
-                    prefix = "(",
-                    postfix = ")"
-                )
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                if (editRollOver != null) {
+                    AmountEdit(
+                        value = Money(currency, rollOver).amountMajor,
+                        onValueChange = {
+                            val newRollOver = Money(currency, it).amountMinor
+                            editRollOver[category.id] = newRollOver
+                        },
+                        fractionDigits = currency.fractionDigits,
+                        isError = isError
+                    )
+                } else if (category.budget.rollOverNext != 0L) {
+                    ColoredAmountText(
+                        amount = category.budget.rollOverNext,
+                        currency = currency,
+                        textAlign = TextAlign.End
+                    )
+                }
+                if (rollOverFromChildren != 0L) {
+                    ColoredAmountText(
+                        amount = rollOverFromChildren,
+                        currency = currency,
+                        textAlign = TextAlign.End,
+                        prefix = "(",
+                        postfix = ")"
+                    )
+                }
             }
         }
     }

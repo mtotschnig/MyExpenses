@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentProviderOperation
-import android.content.ContentUris
 import android.content.ContentValues
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -62,9 +61,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     val duringRollOverEdit: Boolean
         get() = editRollOver.value
 
-    val editRollOverMap = SnapshotStateMap<Long, Pair<Long, Boolean>>()
-    val editRollOverInValid: Boolean
-        get() = editRollOverMap.any { it.value.second }
+    val editRollOverMap = SnapshotStateMap<Long, Long>()
 
     private val _allocatedOnly = MutableStateFlow(false)
 
@@ -281,11 +278,9 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     fun rollOverSave() {
         duringRollOverSave = true
         viewModelScope.launch(context = coroutineContext()) {
-            check(!editRollOverInValid)
-            saveRollOverList(
-                editRollOverMap.map { it.key to it.value.first }
-            )
+            saveRollOverList(editRollOverMap.toList())
             duringRollOverSave = false
+            editRollOverMap.clear()
         }
     }
 
