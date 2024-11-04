@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.getLong
@@ -63,7 +64,7 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                     )
                         .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
                     contentResolver.observeQuery(allocationUri)
-                        .mapToOne(0) { it.getLong(KEY_BUDGET) }
+                        .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
                 ) { spent, allocated -> Triple(budget.id, spent, allocated) }
             }.collect { (id, spent, allocated) ->
                 _enrichedData.value = _enrichedData.value.map {
