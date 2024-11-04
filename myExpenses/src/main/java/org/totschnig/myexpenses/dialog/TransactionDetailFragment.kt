@@ -309,8 +309,10 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
-                        if (transaction.isTransfer && transaction.hasTransferPeerParent) {
-                            showSnackBar(R.string.warning_splitpartcategory_context)
+                        if (transaction.isTransfer && transaction.transferPeerIsPart) {
+                            showSnackBar(
+                                if (transaction.transferPeerIsArchived) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
+                            )
                         } else {
                             dismiss()
                             (requireActivity() as BaseActivity).startEdit(

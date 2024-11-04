@@ -1355,8 +1355,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun edit(transaction: Transaction2, clone: Boolean = false) {
         checkSealed(listOf(transaction.id)) {
-            if (transaction.transferPeerParent != null) {
-                showSnackBar(R.string.warning_splitpartcategory_context)
+            if (transaction.transferPeerIsPart == true) {
+                showSnackBar(
+                    if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
+                )
             } else {
                 startActivityForResult(
                     Intent(this, ExpenseEdit::class.java).apply {
