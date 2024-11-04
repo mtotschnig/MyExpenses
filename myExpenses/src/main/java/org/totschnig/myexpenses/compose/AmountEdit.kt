@@ -59,7 +59,7 @@ fun AmountEdit(
             val input = newValue.replace(otherSeparator, decimalSeparator)
             val decimalSeparatorCount = input.count { it == decimalSeparator }
             if (
-                input.all { it.isDigit() } &&
+                input.all { it.isDigit() || it == decimalSeparator || it == '-' } &&
                 decimalSeparatorCount <= (if (fractionDigits == 0) 0 else 1) &&
                 (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length <= fractionDigits) &&
                 input.lastIndexOf('-') <= 0
