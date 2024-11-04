@@ -48,7 +48,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
-import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
@@ -268,15 +267,6 @@ open class MyExpensesViewModel(
     val showSumDetails: Flow<Boolean> by lazy {
         dataStore.data.map {
             it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] != false
-        }
-    }
-
-    val colorSource: Flow<ColorSource> by lazy {
-        dataStore.data.map {
-            enumValueOrDefault(
-                it[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
-                ColorSource.TYPE
-            )
         }
     }
 

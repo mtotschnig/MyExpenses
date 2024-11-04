@@ -41,7 +41,6 @@ import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices.TABLET
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -55,7 +54,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
@@ -69,7 +67,6 @@ import org.totschnig.myexpenses.viewmodel.data.HeaderRow
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
-import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -219,7 +216,7 @@ fun TransactionList(
                 for (index in 0 until lazyPagingItems.itemCount) {
                     val item = lazyPagingItems.peek(index)
                     val headerId = item?.let { headerData.calculateGroupId(it) }
-                    val isGroupHidden = collapsedIds?.contains(headerId.toString()) ?: false
+                    val isGroupHidden = collapsedIds?.contains(headerId.toString()) == true
                     if (headerId !== null && headerId != lastHeader) {
                         stickyHeader(key = headerId) {
                             when (headerData) {
@@ -378,39 +375,7 @@ fun HeaderData(
             }
         }
         if (showSumDetails) {
-            FlowRow(
-                modifier = Modifier
-                    .testTag(TEST_TAG_GROUP_SUMS)
-                    .fillMaxWidth(),
-                horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier.amountSemantics(headerRow.incomeSum),
-                    text = "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
-                    color = LocalColors.current.income
-                )
-                val configureExpenseSum: (DecimalFormat) -> Unit = remember {
-                    {
-                        it.negativePrefix = ""
-                        it.positivePrefix = "+"
-                    }
-                }
-                Text(
-                    modifier = Modifier
-                        .amountSemantics(headerRow.expenseSum)
-                        .padding(horizontal = generalPadding),
-                    text = "⊖ " + amountFormatter.formatMoney(
-                        headerRow.expenseSum,
-                        configureExpenseSum
-                    ),
-                    color = LocalColors.current.expense
-                )
-                Text(
-                    modifier = Modifier.amountSemantics(headerRow.transferSum),
-                    text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
-                    color = LocalColors.current.transfer
-                )
-            }
+            SumDetails(headerRow.incomeSum, headerRow.expenseSum, headerRow.transferSum, alignStart)
         }
     }
 }

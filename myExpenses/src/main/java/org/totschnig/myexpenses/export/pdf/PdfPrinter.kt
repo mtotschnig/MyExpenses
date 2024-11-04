@@ -141,7 +141,6 @@ object PdfPrinter {
             Transaction2.projection(
                 account.id,
                 account.grouping,
-                currencyContext.homeCurrencyString,
                 prefHandler
             ),
             selection, selectionArgs, sortBy + " " + account.sortDirection

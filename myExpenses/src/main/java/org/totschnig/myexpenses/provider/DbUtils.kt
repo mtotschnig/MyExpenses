@@ -107,11 +107,8 @@ object DbUtils {
         )
     ) "total" else "sum"
 
-    fun typeWithFallBack(prefHandler: PrefHandler)= "coalesce(${DatabaseConstants.KEY_TYPE}, ${
-        if (prefHandler.getBoolean(
-                PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER,
-                false
-            )
-        ) FLAG_TRANSFER else FLAG_NEUTRAL
-    })"
+    // @formatter:off
+    fun typeWithFallBack(prefHandler: PrefHandler) =
+        """coalesce(${DatabaseConstants.KEY_TYPE}, CASE ${DatabaseConstants.KEY_CATID} WHEN ${DatabaseConstants.SPLIT_CATID} THEN $FLAG_NEUTRAL ELSE ${if (prefHandler.getBoolean(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER, false)) FLAG_TRANSFER else FLAG_NEUTRAL} END)"""
+    // @formatter:on
 }

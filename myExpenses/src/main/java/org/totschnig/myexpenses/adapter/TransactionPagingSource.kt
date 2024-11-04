@@ -48,7 +48,7 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
 
     init {
-        account.loadingInfo(currencyContext.homeCurrencyString, prefHandler).also {
+        account.loadingInfo(prefHandler).also {
             uri = it.first
             projection = it.second
         }

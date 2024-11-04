@@ -16,16 +16,11 @@ import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.effectiveTypeExpressionIncludeTransfers
@@ -89,7 +84,6 @@ class TransactionListViewModel(
                     Transaction2.projection(
                         accountId,
                         Grouping.NONE,
-                        currencyContext.homeCurrencyString,
                         prefHandler,
                         extended = false
                     ),

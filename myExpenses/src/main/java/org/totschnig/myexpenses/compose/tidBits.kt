@@ -5,8 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +25,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -43,7 +48,11 @@ import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
+import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
 import kotlin.experimental.or
@@ -114,7 +123,11 @@ fun DonutInABox(
                 gapAngleDegrees = 0f,
                 strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
-                sections = DisplayProgress.calcProgressVisualRepresentation(progress.coerceAtLeast(0f)).forCompose(color, excessColor)
+                sections = DisplayProgress.calcProgressVisualRepresentation(
+                    progress.coerceAtLeast(
+                        0f
+                    )
+                ).forCompose(color, excessColor)
             )
         )
         Text(
@@ -175,3 +188,48 @@ fun CheckBoxWithLabel(
 fun emToDp(em: Float): Dp = with(LocalDensity.current) {
     (LocalTextStyle.current.fontSize.takeIf { it.isSp } ?: 12.sp).toDp()
 } * em
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SumDetails(
+    incomeSum: Money,
+    expenseSum: Money,
+    transferSum: Money,
+    alignStart: Boolean
+) {
+    val amountFormatter = LocalCurrencyFormatter.current
+
+    FlowRow(
+        modifier = Modifier
+            .testTag(TEST_TAG_GROUP_SUMS)
+            .fillMaxWidth(),
+        horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier.amountSemantics(incomeSum),
+            text = "⊕ " + amountFormatter.formatMoney(incomeSum),
+            color = LocalColors.current.income
+        )
+        val configureExpenseSum: (DecimalFormat) -> Unit = remember {
+            {
+                it.negativePrefix = ""
+                it.positivePrefix = "+"
+            }
+        }
+        Text(
+            modifier = Modifier
+                .amountSemantics(expenseSum)
+                .padding(horizontal = generalPadding),
+            text = "⊖ " + amountFormatter.formatMoney(
+                expenseSum,
+                configureExpenseSum
+            ),
+            color = LocalColors.current.expense
+        )
+        Text(
+            modifier = Modifier.amountSemantics(transferSum),
+            text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(transferSum),
+            color = LocalColors.current.transfer
+        )
+    }
+}

@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
@@ -74,6 +75,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
@@ -131,6 +133,15 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     val withCategoryIcon: Flow<Boolean> by lazy {
         dataStore.data.map {
             it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON)] != false
+        }
+    }
+
+    val colorSource: Flow<ColorSource> by lazy {
+        dataStore.data.map {
+            enumValueOrDefault(
+                it[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
+                ColorSource.TYPE
+            )
         }
     }
 

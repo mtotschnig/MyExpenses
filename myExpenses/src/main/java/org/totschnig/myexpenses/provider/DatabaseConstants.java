@@ -133,7 +133,7 @@ public class DatabaseConstants {
     PROJECTION_EXTENDED = new String[baseLength + 7];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
-    PROJECTION_EXTENDED[baseLength + 1] = KEY_TRANSFER_PEER_PARENT;
+    PROJECTION_EXTENDED[baseLength + 1] = KEY_TRANSFER_PEER_IS_PART;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
     PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
@@ -270,7 +270,15 @@ public class DatabaseConstants {
   public static final String KEY_ORIGINAL_AMOUNT = "original_amount";
   public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
   public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
-  public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
+  /*
+  true if the transfer peer is either part of a split transaction or part of an archive
+   */
+  public static final String KEY_TRANSFER_PEER_IS_PART = "transfer_peer_is_part";
+
+  /*
+  true if the transfer peer is archived, i.e. part of an archive
+   */
+  public static final String KEY_TRANSFER_PEER_IS_ARCHIVED = "transfer_peer_is_archived";
   public static final String KEY_BUDGETID = "budget_id";
   public static final String KEY_START = "start";
   public static final String KEY_END = "end";

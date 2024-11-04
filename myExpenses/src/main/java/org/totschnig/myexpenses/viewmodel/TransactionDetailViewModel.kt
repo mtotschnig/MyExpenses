@@ -8,10 +8,14 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
@@ -26,13 +30,17 @@ class TransactionDetailViewModel(application: Application) :
         attachmentInfoMap(getApplication<MyApplication>())
     }
 
+    private val projection by lazy {
+        projection(localizedContext, prefHandler)
+    }
+
     @SuppressLint("Recycle")
     fun transaction(transactionId: Long): LiveData<Transaction> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
                     .appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
-                projection(localizedContext),
+                projection,
                 null,
                 null,
                 null
@@ -45,6 +53,16 @@ class TransactionDetailViewModel(application: Application) :
             }?.let { emit(it) }
         }
 
+    fun sums(archiveId: Long): LiveData<Triple<Long, Long, Long>> = liveData(context = coroutineContext()) {
+        contentResolver.query(
+            TransactionProvider.ARCHIVE_SUMS_URI(archiveId),
+            null, null, null, null
+        )?.useAndMapToOne {
+            Triple(it.getLong(KEY_SUM_INCOME), it.getLong(KEY_SUM_EXPENSES), it.getLong(KEY_SUM_TRANSFERS))
+        }?.let { emit(it) }
+    }
+
+
     @SuppressLint("Recycle")
     fun parts(transactionId: Long, sortOrder: String?, filter: WhereFilter? = null): LiveData<List<Transaction>> =
         liveData(context = coroutineContext()) {
@@ -54,7 +72,7 @@ class TransactionDetailViewModel(application: Application) :
                     .appendQueryParameter(QUERY_PARAMETER_SEARCH, "1")
                     .build()
                 ,
-                projection(localizedContext),
+                projection,
                 filter?.getSelectionForParents(),
                 filter?.getSelectionArgsIfNotEmpty(false),
                 sortOrder

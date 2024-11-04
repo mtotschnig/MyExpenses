@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.AccountType
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -43,14 +45,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_ARCHIVED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_PART
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
+import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.effectiveTypeExpression
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -77,7 +84,8 @@ data class Transaction(
     override val transferAccount: String?,
     val transferPeer: Long?,
     val transferAmount: Money?,
-    val hasTransferPeerParent: Boolean,
+    val transferPeerIsPart: Boolean,
+    val transferPeerIsArchived: Boolean,
     val originalAmount: Money?,
     val equivalentAmount: Money?,
     val crStatus: CrStatus,
@@ -91,9 +99,10 @@ data class Transaction(
     override val icon: String? = null,
     val iban: String? = null,
     val status: Int = STATUS_NONE,
+    val type: Byte = FLAG_NEUTRAL
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
-        get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
+        get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } != false
     val isSplit
         get() = SPLIT_CATID == catId
     val isArchive
@@ -101,7 +110,8 @@ data class Transaction(
 
     companion object {
         fun projection(
-            context: Context
+            context: Context,
+            prefHandler: PrefHandler
         ) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
@@ -127,7 +137,8 @@ data class Transaction(
             ) + " AS " + KEY_METHOD_LABEL,
             KEY_STATUS,
             KEY_TRANSFER_AMOUNT,
-            KEY_TRANSFER_PEER_PARENT,
+            KEY_TRANSFER_PEER_IS_PART,
+            KEY_TRANSFER_PEER_IS_ARCHIVED,
             KEY_TEMPLATEID,
             KEY_UUID,
             KEY_ORIGINAL_AMOUNT,
@@ -139,7 +150,8 @@ data class Transaction(
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
-            KEY_IBAN
+            KEY_IBAN,
+            "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
         )
 
         fun Cursor.readTransaction(
@@ -193,12 +205,14 @@ data class Transaction(
                     getStringOrNull(KEY_ACCOUNT_TYPE),
                     AccountType.CASH
                 ),
-                hasTransferPeerParent = getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
+                transferPeerIsPart = getBoolean(KEY_TRANSFER_PEER_IS_PART),
+                transferPeerIsArchived = getBoolean(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
                 tagList = context.contentResolver.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),
                 iban = getStringOrNull(KEY_IBAN),
-                status = getInt(KEY_STATUS)
+                status = getInt(KEY_STATUS),
+                type = getInt(KEY_TYPE).toByte()
             )
         }
     }

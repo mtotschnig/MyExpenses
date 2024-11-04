@@ -51,7 +51,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_ARCHIVED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
@@ -71,7 +72,6 @@ import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
@@ -108,7 +108,8 @@ data class Transaction2(
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val referenceNumber: String? = null,
     val color: Int? = null,
-    val transferPeerParent: Long? = null,
+    val transferPeerIsPart: Boolean? = null,
+    val transferPeerIsArchived: Boolean? = null,
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: AccountType? = AccountType.CASH,
@@ -151,7 +152,6 @@ data class Transaction2(
         fun projection(
             accountId: Long,
             grouping: Grouping,
-            homeCurrency: String,
             prefHandler: PrefHandler,
             extended: Boolean = true
         ) = buildList {
@@ -211,7 +211,8 @@ data class Transaction2(
             ).let {
                 if (extended) it + listOf(
                     KEY_CURRENCY,
-                    KEY_TRANSFER_PEER_PARENT,
+                    KEY_TRANSFER_PEER_IS_PART,
+                    KEY_TRANSFER_PEER_IS_ARCHIVED,
                     KEY_ATTACHMENT_COUNT
                 ) else it
             }.toTypedArray()
@@ -262,7 +263,8 @@ data class Transaction2(
                 accountType = enumValueOrNull<AccountType>(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
-                transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
+                transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
+                transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
                     tags[id]?.let { Triple(id.toLong(), it.first, it.second) }
                 },

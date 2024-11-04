@@ -733,3 +733,19 @@ fun grandTotalAccountKeepTransferPartCriterion(homeCurrency: String) = """
 CASE WHEN ($KEY_CURRENCY = '$homeCurrency') = ((SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) = '$homeCurrency') 
 THEN $KEY_AMOUNT < 0 ELSE $KEY_CURRENCY = '$homeCurrency' END
 """
+
+fun archiveSumCTE(
+    archiveId: Long,
+    typeWithFallBack: String
+): String {
+    return buildString {
+        append("WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT ")
+        append("$typeWithFallBack AS $KEY_TYPE")
+        append(", cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
+        append(KEY_AMOUNT)
+        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
+        append(" FROM $VIEW_WITH_ACCOUNT")
+        append(" WHERE $WHERE_NOT_SPLIT AND ($KEY_PARENTID = $archiveId OR (SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID) = $archiveId))")
+    }
+}
+

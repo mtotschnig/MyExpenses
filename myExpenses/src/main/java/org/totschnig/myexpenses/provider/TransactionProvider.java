@@ -231,11 +231,16 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_SORT = "sortBy";
   public static final String URI_SEGMENT_GROUPING = "accountGrouping";
   public static final String URI_SEGMENT_SUMS_FOR_ACCOUNTS = "sumsForAccounts";
+  public static final String URI_SEGMENT_SUMS_FOR_ARCHIVE = "sumsForArchive";
 
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions/" + URI_SEGMENT_SUMS_FOR_ACCOUNTS);
+  public static Uri ARCHIVE_SUMS_URI(long archiveId) {
+    return Uri.parse("content://" + AUTHORITY + "/transactions/" + archiveId + "/"+ URI_SEGMENT_SUMS_FOR_ARCHIVE);
+  }
+
   public static final Uri EVENT_CACHE_URI =
       Uri.parse("content://" + AUTHORITY + "/eventcache");
   public static final Uri DEBUG_SCHEMA_URI =
@@ -477,6 +482,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         );
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         return c;
+      }
+      case ARCHIVE_SUMS: {
+        return archiveSumQuery(db, uri, getTypeWithFallBack());
       }
       case TRANSACTIONS_GROUPS: {
         return transactionGroupsQuery(db, uri, selection, selectionArgs);
@@ -1668,6 +1676,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "attachments", ATTACHMENTS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments/#/#", TRANSACTION_ID_ATTACHMENT_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
   }
 
   /**

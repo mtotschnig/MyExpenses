@@ -77,6 +77,7 @@ import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -86,15 +87,19 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.SumDetails
 import org.totschnig.myexpenses.compose.TEST_TAG_PART_LIST
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.compose.voidMarker
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
@@ -383,27 +388,37 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         transaction.originalAmount?.let {
             TableRow(
                 label = R.string.menu_original_amount,
-                content = formatCurrencyAbs(it)
+                content = formatCurrency(it, true)
             )
         }
         TableRow(
             label = if (transaction.isArchive) R.string.menu_aggregates else R.string.amount,
             content = if (transaction.isTransfer) {
                 if (transaction.isSameCurrency) {
-                    formatCurrencyAbs(transaction.amount)
+                    formatCurrency(transaction.amount, true)
                 } else {
-                    val self = formatCurrencyAbs(transaction.amount)
-                    val other = formatCurrencyAbs(transaction.transferAmount)
+                    val self = formatCurrency(transaction.amount, true)
+                    val other = formatCurrency(transaction.transferAmount!!, true)
                     if (isIncome) "$other => $self" else "$self => $other"
                 }
             } else {
-                formatCurrencyAbs(transaction.amount)
+                formatCurrency(transaction.amount, !transaction.isArchive)
             }
         )
+        if (transaction.isArchive) {
+            viewModel.sums(transaction.id).observeAsState().value?.let { sums ->
+                SumDetails(
+                    Money(transaction.amount.currencyUnit, sums.first),
+                    Money(transaction.amount.currencyUnit, sums.second),
+                    Money(transaction.amount.currencyUnit, sums.third),
+                    alignStart = true
+                )
+            }
+        }
         if (!transaction.isTransfer && transaction.isForeign) {
             TableRow(
                 label = R.string.menu_equivalent_amount,
-                content = formatCurrencyAbs(transaction.equivalentAmount)
+                content = formatCurrency(transaction.equivalentAmount!!, true)
             )
         }
         if (!(transaction.isArchive || transaction.comment.isNullOrBlank())) {
@@ -668,17 +683,36 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 })
             if (part.isForeign) {
                 Column(horizontalAlignment = Alignment.End) {
-                    ColoredAmountText(money = part.amount)
-                    ColoredAmountText(money = part.equivalentAmount!!)
+                    ColoredAmountText(part.amount, part.type)
+                    ColoredAmountText(part.equivalentAmount!!, part.type)
                 }
             } else {
-                ColoredAmountText(money = part.amount)
+                ColoredAmountText(part.amount, part.type)
             }
         }
     }
 
-    private fun formatCurrencyAbs(money: Money?): String {
-        return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
+    @Composable
+    fun ColoredAmountText(
+        amount: Money,
+        type: Byte
+    ) {
+        val colorSource = viewModel.colorSource.collectAsStateWithLifecycle(ColorSource.TYPE).value
+        ColoredAmountText(
+            money = amount,
+            type = type.takeIf { it == FLAG_NEUTRAL } ?: when (colorSource) {
+                ColorSource.TYPE -> type
+                ColorSource.TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
+                ColorSource.SIGN -> null
+            }
+        )
+    }
+
+    private fun formatCurrency(money: Money, abs: Boolean): String {
+        return currencyFormatter.formatCurrency(
+            money.amountMajor.let { if (abs) it.abs() else it },
+            money.currencyUnit
+        )
     }
 
     private val Transaction.isForeign

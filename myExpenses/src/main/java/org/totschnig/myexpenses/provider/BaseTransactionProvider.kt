@@ -139,7 +139,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_ARCHIVED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
@@ -150,6 +151,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
@@ -358,7 +360,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     ) = projectionIn?.map {
         when (it) {
             KEY_COMMENT -> if (shortenComment) "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $it" else it
-            KEY_TRANSFER_PEER_PARENT -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER) AS $it"
+            KEY_TRANSFER_PEER_IS_PART -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) IS NOT NULL AS $it"
+            KEY_TRANSFER_PEER_IS_ARCHIVED -> "(SELECT $KEY_STATUS FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) = $STATUS_ARCHIVED AS $it"
             KEY_TRANSFER_AMOUNT -> "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"
             KEY_SEALED -> checkSealedWithAlias(table)
             KEY_EXCHANGE_RATE -> "${getExchangeRate(table, KEY_ACCOUNTID, homeCurrency)} AS $it"
@@ -522,6 +525,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_UNLINK_TRANSFER = 75
         protected const val TRANSACTION_TRANSFORM_TO_TRANSFER = 76
         protected const val UNARCHIVE = 77
+        protected const val ARCHIVE_SUMS = 78
     }
 
     val homeCurrency: String
@@ -1219,6 +1223,32 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 if (id == null) subject else abs(id).toString()
             )
         )
+    }
+
+    fun archiveSumQuery(
+        db: SupportSQLiteDatabase,
+        uri: Uri,
+        typeWithFallBack: String,
+    ): Cursor {
+
+        val projection = buildList {
+            val isExpense = "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
+
+            add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+
+            val isIncome = "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
+
+            add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
+
+            add("$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+        }.toTypedArray()
+
+        val sql = archiveSumCTE(uri.pathSegments[1].toLong(), typeWithFallBack) + " " +
+                SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_AMOUNTS)
+                    .columns(projection)
+                    .create()
+                    .sql
+        return db.measureAndLogQuery(uri, sql, null, null)
     }
 
     fun transactionGroupsQuery(

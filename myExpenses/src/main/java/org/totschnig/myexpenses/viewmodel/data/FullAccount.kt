@@ -152,11 +152,10 @@ data class PageAccount(
     override val currency: String = currencyUnit.code
 
     //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(homeCurrency: String, prefHandler: PrefHandler): Pair<Uri, Array<String>> =
+    fun loadingInfo(prefHandler: PrefHandler): Pair<Uri, Array<String>> =
         uriForTransactionList(shortenComment = true) to Transaction2.projection(
             id,
             grouping,
-            homeCurrency,
             prefHandler
         )
 }
