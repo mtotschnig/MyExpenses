@@ -380,7 +380,8 @@
                         <EditText
                             android:id="@+id/Comment"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:minHeight="@dimen/accessibility_clickable_minimum"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:inputType="textCapSentences|textMultiLine" />
