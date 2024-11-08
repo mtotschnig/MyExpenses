@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -53,6 +54,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Budget
+import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
 import org.totschnig.myexpenses.compose.breakPoint
@@ -205,18 +207,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     fun RenderFilters(budget: Budget) {
         if (showFilter.value) {
             val whereFilter = viewModel.whereFilter.collectAsState().value
-            AndroidView(
-                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
-                factory = { ChipGroup(it) },
-                update = { chipGroup ->
-                    chipGroup.addChipsBulk(buildList {
-                        add(budget.label(this@BudgetActivity))
-                        whereFilter.criteria.forEach {
-                            add(it.prettyPrint(this@BudgetActivity))
-                        }
-                    })
-                }
-            )
+            ChipGroup(LocalContext.current, budget, whereFilter.criteria)
         }
     }
 

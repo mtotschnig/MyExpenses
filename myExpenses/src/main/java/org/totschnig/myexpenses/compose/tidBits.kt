@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,13 +46,16 @@ import androidx.compose.ui.unit.sp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.FilterItem
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
@@ -231,5 +235,20 @@ fun SumDetails(
             text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(transferSum),
             color = LocalColors.current.transfer
         )
+    }
+}
+
+@Composable
+fun ChipGroup(context: Context, budget: Budget, criteria: List<Criterion<*>>) {
+    ChipGroup(listOf(budget.label(context)) + criteria.map { it.prettyPrint(context) })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ChipGroup(chips: Iterable<String>) {
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        chips.forEach {
+            FilterItem(it)
+        }
     }
 }

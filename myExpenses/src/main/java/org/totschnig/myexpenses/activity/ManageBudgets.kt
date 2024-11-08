@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
@@ -49,9 +49,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import kotlin.getValue
 
@@ -96,10 +94,17 @@ class ManageBudgets : ProtectedFragmentActivity() {
                             val currencyUnit = currencyContext[budget.currency]
                             val allocated = remember { mutableLongStateOf(0) }
                             val spent = remember { mutableLongStateOf(0) }
+                            val criteria = remember { mutableStateListOf<Criterion<*>>() }
                             LaunchedEffect(budget.id) {
                                 viewModel.budgetAmounts(budget).collect { (s, a) ->
                                     allocated.longValue = a
                                     spent.longValue = s
+                                }
+                            }
+                            LaunchedEffect(budget.id) {
+                                viewModel.budgetCriteria(budget).collect {
+                                    criteria.clear()
+                                    criteria.addAll(it)
                                 }
                             }
 
@@ -117,13 +122,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     )
                                 },
                                 budget,
-                                FilterPersistence(
-                                    prefHandler,
-                                    BudgetViewModel.prefNameForCriteria(budget.id),
-                                    null,
-                                    immediatePersist = false,
-                                    restoreFromPreferences = true
-                                ).whereFilter.criteria,
+                                criteria,
                                 currencyUnit,
                                 allocated.longValue,
                                 spent.longValue
@@ -158,13 +157,13 @@ fun BudgetItem(
     allocated: Long,
     spent: Long,
 ) {
-
+    val context = LocalContext.current
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = budget.titleComplete(LocalContext.current)
+            text = budget.titleComplete(context)
         )
-        ChipGroup(budget, criteria)
+        ChipGroup(context, budget, criteria)
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -253,18 +252,6 @@ fun BudgetItem(
                     }
                 }
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun ChipGroup(budget: Budget, criteria: List<Criterion<*>>) {
-    val context = LocalContext.current
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        FilterItem(budget.label(context))
-        criteria.forEach {
-            FilterItem(it.prettyPrint(context))
         }
     }
 }

@@ -24,6 +24,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -53,43 +55,57 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
         }.buffer(Channel.UNLIMITED).shareIn(viewModelScope, SharingStarted.Lazily)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun budgetAmounts(budget: Budget): Flow<Pair<Long, Long>> {
-        return combine(
-            budgetFilterPreferenceFlow.mapNotNull {
-                if (it == budget.id) Unit else null
-            }.onStart {
-                emit(Unit)
-            },
-            dataStore.data
-        ) { _, data -> data }.map {
-            it[aggregateNeutralPrefKey(budget.id)] == true
-        }.flatMapLatest { aggregateNeutral ->
-            Timber.d("(Re)Loading, %d", budget.id)
-            val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
-                budget, aggregateNeutral, null
-            )
-
-            val allocationUri = budgetAllocationQueryUri(
-                budget.id,
-                0,
-                budget.grouping,
-                THIS_YEAR,
-                budget.grouping.queryArgumentForThisSecond
-            )
-
-            combine(
-                contentResolver.observeQuery(
-                    sumUri,
-                    arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
-                )
-                    .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
-                contentResolver.observeQuery(allocationUri)
-                    .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
-            ) { spent, allocated ->
-                Timber.d("Emitting, %d", budget.id)
-                spent to allocated
-            }
-        }
+    private fun budgetFilterFlow(budgetId: Long) = budgetFilterPreferenceFlow.mapNotNull {
+        if (it == budgetId) Unit else null
+    }.onStart {
+        emit(Unit)
     }
+
+
+    fun budgetCriteria(budget: Budget): Flow<List<Criterion<*>>> = budgetFilterFlow(budget.id).map {
+        FilterPersistence(
+            prefHandler,
+            prefNameForCriteria(budget.id),
+            null,
+            immediatePersist = false,
+            restoreFromPreferences = true
+        ).whereFilter.criteria
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun budgetAmounts(budget: Budget): Flow<Pair<Long, Long>> =
+        combine(budgetFilterFlow(budget.id), dataStore.data) { _, data -> data }
+            .map {
+                it[aggregateNeutralPrefKey(budget.id)] == true
+            }.flatMapLatest { aggregateNeutral ->
+                Timber.d("(Re)Loading, %d", budget.id)
+                val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
+                    budget, aggregateNeutral, null
+                )
+
+                val allocationUri = budgetAllocationQueryUri(
+                    budget.id,
+                    0,
+                    budget.grouping,
+                    THIS_YEAR,
+                    budget.grouping.queryArgumentForThisSecond
+                )
+
+                combine(
+                    contentResolver.observeQuery(
+                        sumUri,
+                        arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
+                    )
+                        .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
+                    contentResolver.observeQuery(allocationUri)
+                        .mapToOne(0) {
+                            it.getLong(KEY_BUDGET) + it.getLong(
+                                KEY_BUDGET_ROLLOVER_PREVIOUS
+                            )
+                        }
+                ) { spent, allocated ->
+                    Timber.d("Emitting, %d", budget.id)
+                    spent to allocated
+                }
+            }
 }
