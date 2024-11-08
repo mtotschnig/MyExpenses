@@ -2223,7 +2223,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         })
                     } else {
                         recordUsage(feature)
-                        val i = Intent(this, ManageBudgets::class.java)
+                        val i = Intent(this, ManageBudgets2::class.java)
                         startActivity(i)
                     }
                 }

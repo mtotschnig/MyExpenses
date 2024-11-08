@@ -107,7 +107,7 @@ val generalPadding
 
 @Composable
 fun DonutInABox(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     progress: Float,
     fontSize: TextUnit,
     color: Color,

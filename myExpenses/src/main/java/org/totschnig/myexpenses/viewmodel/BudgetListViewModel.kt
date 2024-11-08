@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -65,14 +66,47 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                         .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
                     contentResolver.observeQuery(allocationUri)
                         .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
-                ) { spent, allocated -> Triple(budget.id, spent, allocated) }
-            }.collect { (id, spent, allocated) ->
+                ) { spent, allocated -> spent to allocated }
+            }.collect { (spent, allocated) ->
                 _enrichedData.value = _enrichedData.value.map {
-                    if (it.budget.id == id)
+                    if (it.budget.id == budget.id)
                         BudgetViewItem(it.budget, BudgetInfo(allocated, spent))
                     else it
                 }
             }
         }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun budgetAmounts(budget: Budget): Flow<Pair<Long, Long>> {
+        Timber.d("Debugg: Loading, %d", budget.id)
+            return dataStore.data.map {
+                it[aggregateNeutralPrefKey(budget.id)] == true
+            }.flatMapLatest { aggregateNeutral ->
+                val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
+                    budget, aggregateNeutral, null
+                )
+
+                val allocationUri = budgetAllocationQueryUri(
+                    budget.id,
+                    0,
+                    budget.grouping,
+                    THIS_YEAR,
+                    budget.grouping.queryArgumentForThisSecond
+                )
+
+                combine(
+                    contentResolver.observeQuery(
+                        sumUri,
+                        arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
+                    )
+                        .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
+                    contentResolver.observeQuery(allocationUri)
+                        .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
+                ) { spent, allocated ->
+                    Timber.d("Debugg: Emitting, %d", budget.id)
+                    spent to allocated
+                }
+            }
+        }
 }

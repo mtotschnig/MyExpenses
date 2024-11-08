@@ -237,7 +237,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activity.ManageBudgets"
+            android:name=".activity.ManageBudgets2"
             android:theme="@style/EditDialog" />
         <activity
             android:name=".activity.ManageStaleImages"
