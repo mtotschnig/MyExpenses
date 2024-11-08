@@ -240,7 +240,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     val aggregateNeutral: Flow<Boolean> by lazy {
         dataStore.data.map { preferences ->
-            preferences[aggregateNeutralPrefKey] ?: false
+            preferences[aggregateNeutralPrefKey] == true
         }
     }
 

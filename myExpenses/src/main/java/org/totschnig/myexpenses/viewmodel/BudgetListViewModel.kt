@@ -1,17 +1,23 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.shareIn
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -22,91 +28,68 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import timber.log.Timber
+import javax.inject.Inject
 
 class BudgetListViewModel(application: Application) : BudgetViewModel(application) {
 
-    data class BudgetViewItem(val budget: Budget, val budgetInfo: BudgetInfo?)
-    data class BudgetInfo(val allocated: Long, val spent: Long)
+    @Inject
+    lateinit var settings: SharedPreferences
 
-    fun init() {
-        viewModelScope.launch {
-            data.collect {
-                _enrichedData.value = it.map { BudgetViewItem(it, null) }
-            }
-        }
-    }
-
-    private val _enrichedData = MutableStateFlow<List<BudgetViewItem>>(emptyList())
-    val enrichedData: StateFlow<List<BudgetViewItem>> = _enrichedData
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun loadBudgetAmounts(budget: Budget) {
-        Timber.d("Debugg: Loading, %d", budget.id)
-        viewModelScope.launch {
-            dataStore.data.map {
-                it[aggregateNeutralPrefKey(budget.id)] == true
-            }.flatMapLatest { aggregateNeutral ->
-                val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
-                    budget, aggregateNeutral, null
-                )
-
-                val allocationUri = budgetAllocationQueryUri(
-                    budget.id,
-                    0,
-                    budget.grouping,
-                    THIS_YEAR,
-                    budget.grouping.queryArgumentForThisSecond
-                )
-
-                combine(
-                    contentResolver.observeQuery(
-                        sumUri,
-                        arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
-                    )
-                        .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
-                    contentResolver.observeQuery(allocationUri)
-                        .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
-                ) { spent, allocated -> spent to allocated }
-            }.collect { (spent, allocated) ->
-                _enrichedData.value = _enrichedData.value.map {
-                    if (it.budget.id == budget.id)
-                        BudgetViewItem(it.budget, BudgetInfo(allocated, spent))
-                    else it
+    val budgetFilterPreferenceFlow by lazy {
+        callbackFlow<Long> {
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key?.startsWith("budgetFilter") == true) {
+                    try {
+                        key.substringAfterLast('_').toLong()
+                    } catch (_: Exception) {
+                        null
+                    }?.let { trySend(it) }
                 }
             }
-        }
+            settings.registerOnSharedPreferenceChangeListener(listener)
+            awaitClose {
+                settings.unregisterOnSharedPreferenceChangeListener(listener)
+            }
+        }.buffer(Channel.UNLIMITED).shareIn(viewModelScope, SharingStarted.Lazily)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun budgetAmounts(budget: Budget): Flow<Pair<Long, Long>> {
-        Timber.d("Debugg: Loading, %d", budget.id)
-            return dataStore.data.map {
-                it[aggregateNeutralPrefKey(budget.id)] == true
-            }.flatMapLatest { aggregateNeutral ->
-                val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
-                    budget, aggregateNeutral, null
-                )
+        return combine(
+            budgetFilterPreferenceFlow.mapNotNull {
+                if (it == budget.id) Unit else null
+            }.onStart {
+                emit(Unit)
+            },
+            dataStore.data
+        ) { _, data -> data }.map {
+            it[aggregateNeutralPrefKey(budget.id)] == true
+        }.flatMapLatest { aggregateNeutral ->
+            Timber.d("(Re)Loading, %d", budget.id)
+            val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
+                budget, aggregateNeutral, null
+            )
 
-                val allocationUri = budgetAllocationQueryUri(
-                    budget.id,
-                    0,
-                    budget.grouping,
-                    THIS_YEAR,
-                    budget.grouping.queryArgumentForThisSecond
-                )
+            val allocationUri = budgetAllocationQueryUri(
+                budget.id,
+                0,
+                budget.grouping,
+                THIS_YEAR,
+                budget.grouping.queryArgumentForThisSecond
+            )
 
-                combine(
-                    contentResolver.observeQuery(
-                        sumUri,
-                        arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
-                    )
-                        .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
-                    contentResolver.observeQuery(allocationUri)
-                        .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
-                ) { spent, allocated ->
-                    Timber.d("Debugg: Emitting, %d", budget.id)
-                    spent to allocated
-                }
+            combine(
+                contentResolver.observeQuery(
+                    sumUri,
+                    arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
+                )
+                    .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
+                contentResolver.observeQuery(allocationUri)
+                    .mapToOne(0) { it.getLong(KEY_BUDGET) + it.getLong(KEY_BUDGET_ROLLOVER_PREVIOUS) }
+            ) { spent, allocated ->
+                Timber.d("Emitting, %d", budget.id)
+                spent to allocated
             }
         }
+    }
 }

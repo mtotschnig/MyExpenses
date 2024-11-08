@@ -60,7 +60,6 @@ Credits
 - [SLF4J](https://www.slf4j.org/)
 - [logback-android](http://tony19.github.io/logback-android/index.html)
 - [Retrofit2](http://square.github.io/retrofit/)
-- [CircleProgress](https://github.com/lzyzsd/CircleProgress/)
 - [Donut](https://github.com/futuredapp/donut)
 - [Copper](https://github.com/cashapp/copper)
 - [andOTP](https://github.com/andOTP/andOTP) (EncryptionHelper)

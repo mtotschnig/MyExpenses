@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.activity.BudgetActivity
 import org.totschnig.myexpenses.activity.BudgetEdit
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.DebtEdit
-import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE

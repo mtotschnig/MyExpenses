@@ -8,6 +8,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,10 +24,12 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
@@ -48,8 +51,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.viewmodel.data.Category
-import kotlin.math.absoluteValue
-import kotlin.math.sign
 
 @Composable
 fun Budget(
@@ -73,7 +74,7 @@ fun Budget(
         modifier = modifier.conditional(category.level == 0) {
             conditional(narrowScreen) {
                 horizontalScroll(rememberScrollState())
-            }.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
+            }.padding(horizontal = dimensionResource(id = R.dimen.general_padding))
         }
     ) {
         val doEdit = { onBudgetEdit(category, parent) }
@@ -113,8 +114,12 @@ fun Budget(
                 }
             }
         } else {
+            val withRollOverColumn = hasRolloverNext || editRollOver != null
+            val numberOfColumns = if (withRollOverColumn) 4 else 3
+            val tableWidth =
+                breakPoint * (labelFraction + numberOfColumns * numberFraction) + DividerDefaults.Thickness * numberOfColumns
             Header(
-                hasRolloverNext || editRollOver != null,
+                withRollOverColumn,
                 narrowScreen,
                 showChart,
                 currentSort!!,
@@ -169,7 +174,7 @@ private fun Summary(
     narrowScreen: Boolean,
 ) {
     Row(
-        modifier = Modifier.testTag(TEST_TAG_HEADER),
+        modifier = Modifier.testTag(TEST_TAG_HEADER).height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -191,16 +196,9 @@ private fun Summary(
     }
 }
 
-@Composable
-private fun VerticalDivider() {
-    androidx.compose.material3.VerticalDivider(Modifier.height(48.dp))
-}
-
 val breakPoint = 600.dp
 const val labelFraction = 0.35f
 const val numberFraction = 0.2f
-val verticalDividerWidth = 1.dp
-val tableWidth = breakPoint * (labelFraction + 3 * numberFraction) + verticalDividerWidth * 3
 
 private fun Modifier.labelColumn(scope: RowScope, narrowScreen: Boolean) =
     conditional(
@@ -304,6 +302,7 @@ private fun BudgetCategoryRenderer(
     narrowScreen: Boolean,
 ) {
     Row(
+        modifier = Modifier.height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
@@ -419,13 +418,15 @@ private fun RowScope.BudgetNumbers(
 
     //Remainder
     val remainder = category.budget.totalAllocated + aggregateSum
-    ColoredAmountText(
-        modifier = Modifier.numberColumn(this, narrowScreen),
-        amount = remainder,
-        currency = currency,
-        textAlign = TextAlign.End,
-        withBorder = true
-    )
+    Box(modifier = Modifier.numberColumn(this, narrowScreen)) {
+        ColoredAmountText(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            amount = remainder,
+            currency = currency,
+            textAlign = TextAlign.End,
+            withBorder = true
+        )
+    }
 
     //Rollover
     if (hasRolloverNext || editRollOver != null) {

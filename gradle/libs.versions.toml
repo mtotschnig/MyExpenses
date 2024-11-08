@@ -25,7 +25,6 @@ bouncycastle = "1.71"
 browser = "1.8.0"
 caldroid = "377d10a2a2"
 cardview = "1.0.0"
-circleprogress = "1.2.1"
 commonsCollections4 = "4.4"
 commonsCsv = "1.11.0"
 commonsLang = "3.14.0"
@@ -185,7 +184,6 @@ barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
 bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
 bcprov-jdk18on = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 caldroid = { module = "com.github.mtotschnig:Caldroid", version.ref = "caldroid" }
-circleprogress = { module = "com.github.lzyzsd:circleprogress", version.ref = "circleprogress" }
 commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commonsCollections4" }
 commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "commonsCsv" }
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }

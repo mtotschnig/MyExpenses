@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.fastRoundToInt
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
@@ -52,6 +51,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
+import org.totschnig.myexpenses.util.ui.displayProgress
 import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
@@ -132,7 +132,7 @@ fun DonutInABox(
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "%d".format(progress.fastRoundToInt()),
+            text = progress.displayProgress ,
             fontSize = fontSize,
         )
     }

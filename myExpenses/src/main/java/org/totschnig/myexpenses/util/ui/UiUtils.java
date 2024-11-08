@@ -18,7 +18,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
-import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -60,7 +59,7 @@ public class UiUtils {
   public static void configureAmountTextViewForHebrew(TextView amount) {
     int layoutDirection = amount.getContext().getResources().getInteger(R.integer.amount_layout_direction);
     if (layoutDirection == 0) { // hebrew
-      ViewCompat.setLayoutDirection(amount, layoutDirection);
+      amount.setLayoutDirection(layoutDirection);
       amount.setEms(5);
       amount.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
       amount.setSingleLine(true);
@@ -72,11 +71,6 @@ public class UiUtils {
 
   public enum DateMode {
     DATE, DATE_TIME, BOOKING_VALUE
-  }
-
-  public static void configureProgress(DonutProgress donutProgress, int progress) {
-    donutProgress.setProgress(Math.min(progress, 100));
-    donutProgress.setText(progress < 1000 ? String.valueOf(progress) : ">1k");
   }
 
   public static int dp2Px(float dp, Resources resources) {

@@ -241,8 +241,6 @@ dependencies {
     implementation libs.converter.gson
     implementation libs.logging.interceptor
 
-    implementation libs.circleprogress
-
     implementation libs.copper.flow
 
     //https://github.com/romandanylyk/PageIndicatorView/issues/141

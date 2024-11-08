@@ -23,6 +23,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.ui.util.fastRoundToInt
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.calculateLuminance
@@ -342,3 +343,6 @@ fun EditText.setHintForA11yOnly(hint: CharSequence) {
         }
     })
 }
+
+val Float.displayProgress
+    get() = takeIf { it < 1000f }?.let { "%d".format(it.fastRoundToInt()) } ?: ">1k"

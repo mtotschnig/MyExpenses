@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -40,7 +43,7 @@ fun AmountText(
     textDecoration: TextDecoration? = null,
     color: Color = Color.Unspecified,
     prefix: String = "",
-    postfix: String = ""
+    postfix: String = "",
 ) {
     val money = Money(currency, amount)
     Text(
@@ -49,7 +52,10 @@ fun AmountText(
         textAlign = textAlign,
         textDecoration = textDecoration,
         color = color,
-        text = prefix + LocalCurrencyFormatter.current.formatCurrency(money.amountMajor, money.currencyUnit) + postfix
+        text = prefix + LocalCurrencyFormatter.current.formatCurrency(
+            money.amountMajor,
+            money.currencyUnit
+        ) + postfix
     )
 }
 
@@ -62,7 +68,7 @@ fun ColoredAmountText(
     textAlign: TextAlign? = null,
     withBorder: Boolean = false,
     prefix: String = "",
-    postfix: String = ""
+    postfix: String = "",
 ) {
     ColoredAmountText(
         money = Money(currency, amount),
@@ -85,9 +91,9 @@ fun ColoredAmountText(
     withBorder: Boolean = false,
     prefix: String = "",
     postfix: String = "",
-    type: Byte? = null
+    type: Byte? = null,
 ) {
-    val color = (type ?: when(money.amountMinor.sign) {
+    val color = (type ?: when (money.amountMinor.sign) {
         1 -> FLAG_INCOME
         -1 -> FLAG_EXPENSE
         else -> FLAG_NEUTRAL
@@ -95,12 +101,17 @@ fun ColoredAmountText(
 
     Text(
         modifier = modifier
-            .conditional(withBorder) { amountBorder(color) }
+            .conditional(withBorder && color != Color.Unspecified) {
+                amountBorder(color)
+            }
             .amountSemantics(money),
         fontWeight = fontWeight,
         textAlign = textAlign,
         style = style,
-        text = prefix + LocalCurrencyFormatter.current.formatCurrency(money.amountMajor, money.currencyUnit) + postfix,
+        text = prefix + LocalCurrencyFormatter.current.formatCurrency(
+            money.amountMajor,
+            money.currencyUnit
+        ) + postfix,
         color = color
     )
 }

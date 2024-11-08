@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.BankingFeature;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
-import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
@@ -67,6 +66,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel;
 import org.totschnig.myexpenses.viewmodel.BaseViewModel;
+import org.totschnig.myexpenses.viewmodel.BudgetListViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
@@ -241,8 +241,6 @@ public interface AppComponent {
 
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
 
-  void inject(BudgetList budgetList);
-
   void inject(OnBoardingPrivacyFragment onBoardingPrivacyFragment);
 
   void inject(RemindRateDialogFragment remindRateDialogFragment);
@@ -318,4 +316,7 @@ public interface AppComponent {
   void inject(PreferencesContribFragment preferencesContribFragment);
 
   void inject(ArchiveDialogFragment archiveDialogFragment);
+
+  void inject(BudgetListViewModel budgetListViewModel);
+
 }

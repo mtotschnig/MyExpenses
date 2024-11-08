@@ -55,7 +55,6 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastRoundToInt
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
@@ -175,6 +174,7 @@ import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
+import org.totschnig.myexpenses.util.ui.displayProgress
 import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.CompletedAction
@@ -2109,7 +2109,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             with(binding.toolbar.progressPercent) {
-                text = "%d".format(it.fastRoundToInt())
+                text = it.displayProgress
                 setTextColor(this@BaseMyExpenses.getAmountColor(account.criterion?.sign ?: 0))
             }
         }
@@ -2223,7 +2223,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         })
                     } else {
                         recordUsage(feature)
-                        val i = Intent(this, ManageBudgets2::class.java)
+                        val i = Intent(this, ManageBudgets::class.java)
                         startActivity(i)
                     }
                 }
