@@ -94,7 +94,7 @@ class CSVParser(
                         ).abs() else BigDecimal(0)
                         income.subtract(expense)
                     }
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     BigDecimal.ZERO
                 }
             )
@@ -132,15 +132,26 @@ class CSVParser(
                 )
             }
             if (timeRecord != null) {
-                val cal = dateRecord?.let { QifUtils.parseDateInternal(dateRecord, dateFormat) }
+                val cal = dateRecord?.let {
+                    try {
+                        QifUtils.parseDateInternal(dateRecord, dateFormat)
+                    } catch (_: Exception) {
+                        null
+                    }
+                }
                     ?: Calendar.getInstance()
-                val time = LocalTime.parse(
-                    timeRecord,
-                    DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-                )
-                cal[Calendar.HOUR_OF_DAY] = time.hour
-                cal[Calendar.MINUTE] = time.minute
-                cal[Calendar.SECOND] = time.second
+                try {
+                    LocalTime.parse(
+                        timeRecord,
+                        DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                    )
+                } catch (_: Exception) {
+                    null
+                }?.let {
+                    cal[Calendar.HOUR_OF_DAY] = it.hour
+                    cal[Calendar.MINUTE] = it.minute
+                    cal[Calendar.SECOND] = it.second
+                }
                 transaction.date(cal.time)
             }
             if (columnIndexValueDate != -1) {

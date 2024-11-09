@@ -36,7 +36,7 @@ object QifUtils {
     fun parseDate(sDateTime: String, format: QifDateFormat): Date {
         return try {
             parseDateInternal(sDateTime, format).time
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             val dateTimeChunks = WHITESPACE_PATTERN.split(sDateTime)
             if (dateTimeChunks.size > 1) {
                 try {
