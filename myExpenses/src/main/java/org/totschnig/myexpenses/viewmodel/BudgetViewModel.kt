@@ -27,8 +27,7 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import timber.log.Timber
 import java.util.Locale
 
-open class BudgetViewModel(application: Application) :
-    ContentResolvingAndroidViewModel(application) {
+open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data: Flow<List<Budget>> by lazy {
         contentResolver.observeQuery(
             uri = TransactionProvider.BUDGETS_URI,

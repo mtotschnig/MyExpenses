@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -27,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.isVisible
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.AppTheme
@@ -43,6 +49,7 @@ import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -70,7 +77,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
         setTitle(R.string.menu_budget)
         binding.composeView.setContent {
             AppTheme {
-                val data = viewModel.data.collectAsStateWithLifecycle(emptyList()).value
+                val (grouping, data) = viewModel.dataGroupedAndSorted.collectAsStateWithLifecycle()
+                    .value
                 if (data.isEmpty()) {
                     Box {
                         Text(
@@ -79,56 +87,68 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         )
                     }
                 }
-                BoxWithConstraints(Modifier.fillMaxSize()) {
+                val nestedScrollInterop = rememberNestedScrollInteropConnection()
+                BoxWithConstraints(
+                    Modifier
+                        .fillMaxSize()
+                        .nestedScroll(nestedScrollInterop)
+                ) {
                     val breakpoint = 400.dp
                     val narrowScreen = maxWidth < breakpoint
                     LazyColumn(
                         modifier = Modifier
-                            .padding(
-                                horizontal = dimensionResource(R.dimen.padding_main_screen)
-                            )
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(bottom = 72.dp)
                     ) {
-                        itemsIndexed(data) { index, budget ->
-                            val currencyUnit = currencyContext[budget.currency]
-                            val allocated = remember { mutableLongStateOf(0) }
-                            val spent = remember { mutableLongStateOf(0) }
-                            val criteria = remember { mutableStateListOf<Criterion<*>>() }
-                            LaunchedEffect(budget.id) {
-                                viewModel.budgetAmounts(budget).collect { (s, a) ->
-                                    allocated.longValue = a
-                                    spent.longValue = s
-                                }
-                            }
-                            LaunchedEffect(budget.id) {
-                                viewModel.budgetCriteria(budget).collect {
-                                    criteria.clear()
-                                    criteria.addAll(it)
-                                }
-                            }
-
-                            BudgetItem(
-                                narrowScreen,
-                                Modifier.clickable {
-                                    startActivity(
-                                        Intent(
-                                            this@ManageBudgets,
-                                            BudgetActivity::class.java
-                                        ).apply {
-                                            this.putExtra(KEY_ROWID, budget.id)
-                                            this.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        data.forEach { (header, list) ->
+                            simpleStickyHeader(header)
+                            list.forEachIndexed { index, budget ->
+                                item(key = budget.id) {
+                                    val currencyUnit = currencyContext[budget.currency]
+                                    val allocated = remember { mutableLongStateOf(0) }
+                                    val spent = remember { mutableLongStateOf(0) }
+                                    val criteria = remember { mutableStateListOf<Criterion<*>>() }
+                                    LaunchedEffect(budget.id) {
+                                        viewModel.budgetAmounts(budget).collect { (s, a) ->
+                                            allocated.longValue = a
+                                            spent.longValue = s
                                         }
+                                    }
+                                    LaunchedEffect(budget.id) {
+                                        viewModel.budgetCriteria(budget).collect {
+                                            criteria.clear()
+                                            criteria.addAll(it)
+                                        }
+                                    }
+
+                                    BudgetItem(
+                                        narrowScreen,
+                                        grouping,
+                                        Modifier
+                                            .padding(
+                                                horizontal = dimensionResource(R.dimen.padding_main_screen)
+                                            )
+                                            .clickable {
+                                                startActivity(
+                                                    Intent(
+                                                        this@ManageBudgets,
+                                                        BudgetActivity::class.java
+                                                    ).apply {
+                                                        this.putExtra(KEY_ROWID, budget.id)
+                                                        this.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                                    }
+                                                )
+                                            },
+                                        budget,
+                                        criteria,
+                                        currencyUnit,
+                                        allocated.longValue,
+                                        spent.longValue
                                     )
-                                },
-                                budget,
-                                criteria,
-                                currencyUnit,
-                                allocated.longValue,
-                                spent.longValue
-                            )
-                            if (index < data.lastIndex) {
-                                HorizontalDivider(modifier = Modifier.padding(4.dp))
+                                    if (index < list.lastIndex) {
+                                        HorizontalDivider(modifier = Modifier.padding(4.dp))
+                                    }
+                                }
                             }
                         }
                     }
@@ -136,6 +156,41 @@ class ManageBudgets : ProtectedFragmentActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.budgets, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        lifecycleScope.launch {
+            menu.findItem(R.id.GROUPING_COMMAND)?.subMenu
+                ?.findItem(viewModel.grouping().first().commandId)
+                ?.isChecked = true
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.GROUPING_BUDGETS_ACCOUNT_COMMAND, R.id.GROUPING_BUDGETS_GROUPING_COMMAND -> {
+                if (!item.isChecked) {
+                    BudgetListViewModel.Grouping.entries.find { it.commandId == item.itemId }?.let {
+                        lifecycleScope.launch {
+                            viewModel.setGrouping(it)
+                            invalidateOptionsMenu()
+                        }
+                    }
+                }
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     override val fabDescription = R.string.menu_create_budget
 
@@ -150,6 +205,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
 @Composable
 fun BudgetItem(
     narrowScreen: Boolean,
+    grouping: BudgetListViewModel.Grouping,
     modifier: Modifier,
     budget: Budget,
     criteria: List<Criterion<*>>,
@@ -161,9 +217,13 @@ fun BudgetItem(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = budget.titleComplete(context)
+            text = if (grouping == BudgetListViewModel.Grouping.Grouping && budget.grouping != Grouping.NONE)
+                budget.title else budget.titleComplete(context)
         )
-        ChipGroup(budget = budget, criteria = criteria)
+        ChipGroup(
+            budget = budget.takeIf { grouping != BudgetListViewModel.Grouping.Account },
+            criteria = criteria
+        )
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -272,6 +332,7 @@ fun FilterItem(filter: String) {
 fun BudgetItemNarrow() {
     BudgetItem(
         true,
+        BudgetListViewModel.Grouping.Account,
         Modifier,
         Budget(
             1, 1, "Budget", "Daily Expenses", "EUR", Grouping.MONTH, android.graphics.Color.CYAN,
@@ -289,6 +350,7 @@ fun BudgetItemNarrow() {
 fun BudgetItemWide() {
     BudgetItem(
         false,
+        BudgetListViewModel.Grouping.Account,
         Modifier,
         Budget(
             1, 1, "Budget", "Daily Expenses", "EUR", Grouping.MONTH, android.graphics.Color.CYAN,

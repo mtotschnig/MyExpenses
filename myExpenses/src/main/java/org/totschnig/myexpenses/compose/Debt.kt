@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -63,12 +64,15 @@ fun DebtCard(
     onShare: (DebtViewModel.ExportFormat) -> Unit,
     onTransactionClick: (Long) -> Unit
 ) {
+    val cornerSize = 8.dp
+    val horizontalPadding = dimensionResource(id = R.dimen.padding_main_screen) - cornerSize
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = horizontalPadding)
             .animateContentSize()
             .clickable(onClick = { expanded.value = !expanded.value }),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(cornerSize),
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))
     ) {
         DebtRenderer(

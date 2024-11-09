@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,7 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
+import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -74,8 +75,10 @@ class DebtOverview : DebtActivity() {
                     debts.groupBy { it.payeeId }
                         .takeIf { it.values.any { group -> group.size > 1 } }
                 } else null
+                val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 if (grouped != null)
                     GroupedDebtList(
+                        modifier = Modifier.nestedScroll(nestedScrollInterop),
                         debts = grouped,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
@@ -97,6 +100,7 @@ class DebtOverview : DebtActivity() {
                     )
                 else
                     DebtList(
+                        modifier = Modifier.nestedScroll(nestedScrollInterop),
                         debts = debts,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
@@ -111,11 +115,10 @@ class DebtOverview : DebtActivity() {
                                 exportFormat,
                                 null
                             )
-                        },
-                        onTransactionClick = {
-                            showDetails(it)
                         }
-                    )
+                    ) {
+                        showDetails(it)
+                    }
             }
         }
     }
@@ -164,9 +167,9 @@ class DebtOverview : DebtActivity() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GroupedDebtList(
+    modifier: Modifier = Modifier,
     debts: Map<Long, List<DisplayDebt>>,
     loadTransactionsForDebt: @Composable (DisplayDebt) -> State<List<Transaction>>,
     onEdit: (DisplayDebt) -> Unit = {},
@@ -176,17 +179,16 @@ fun GroupedDebtList(
     onTransactionClick: (Long) -> Unit = {}
 ) {
     LazyColumn(
-        modifier = Modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_form)),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         debts.forEach { item ->
             val list = item.value
             val currencies = list.map { it.currency }.distinct()
-            stickyHeader {
+            simpleStickyHeader {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = it.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(list.first().payeeName)
@@ -202,7 +204,6 @@ fun GroupedDebtList(
                         )
                     }
                 }
-
             }
             items(item.value) {
                 val expandedState = rememberSaveable { mutableStateOf(false) }
@@ -225,6 +226,7 @@ fun GroupedDebtList(
 
 @Composable
 fun DebtList(
+    modifier: Modifier = Modifier,
     debts: List<DisplayDebt>,
     loadTransactionsForDebt: @Composable (DisplayDebt) -> State<List<Transaction>>,
     onEdit: (DisplayDebt) -> Unit = {},
@@ -234,8 +236,7 @@ fun DebtList(
     onTransactionClick: (Long) -> Unit = {}
 ) {
     LazyColumn(
-        modifier = Modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_form)),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {

@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.compose
 
-import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -23,6 +25,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -241,11 +244,15 @@ fun SumDetails(
 @Composable
 fun ChipGroup(
     modifier: Modifier = Modifier,
-    budget: Budget,
+    budget: Budget?,
     criteria: List<Criterion<*>>,
 ) {
     val context = LocalContext.current
-    ChipGroup(modifier, listOf(budget.label(context)) + criteria.map { it.prettyPrint(context) })
+    ChipGroup(
+        modifier,
+        (budget?.let { listOf(it.label(context)) } ?: emptyList()) +
+                criteria.map { it.prettyPrint(context) }
+    )
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -257,6 +264,31 @@ fun ChipGroup(
     FlowRow(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         chips.forEach {
             FilterItem(it)
+        }
+    }
+}
+
+fun LazyListScope.simpleStickyHeader(text: String) {
+    simpleStickyHeader {
+        Text(text = text, modifier = it)
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyListScope.simpleStickyHeader(content: @Composable (Modifier) -> Unit) {
+    stickyHeader {
+        Surface(
+            modifier = Modifier
+                .height(32.dp)
+            ,
+            tonalElevation = 1.dp
+        ) {
+            content(
+                Modifier.fillMaxWidth().padding(
+                    horizontal = dimensionResource(R.dimen.padding_main_screen),
+                    vertical = 4.dp
+                )
+            )
         }
     }
 }

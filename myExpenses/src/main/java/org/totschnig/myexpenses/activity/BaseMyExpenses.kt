@@ -1472,7 +1472,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             AccountGrouping.valueOf(
                 prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
             )
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             AccountGrouping.TYPE
         }
     }
