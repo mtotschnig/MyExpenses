@@ -5,7 +5,7 @@
     <dimen name="calculator_button_layout_margin_vertical">0dp</dimen>
     <dimen name="calculator_button_layout_margin_horizontal">3dp</dimen>
     <dimen name="general_padding">12dp</dimen>
-    <dimen name="padding_main_screen">12dp</dimen>
+    <dimen name="padding_main_screen">16dp</dimen>
     <dimen name="padding_form">16dp</dimen>
     <dimen name="margin_list">44dp</dimen>
     <dimen name="margin_list_expandable">22dp</dimen>

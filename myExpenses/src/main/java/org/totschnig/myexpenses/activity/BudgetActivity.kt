@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -26,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -43,7 +41,6 @@ import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
@@ -75,7 +72,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.setEnabledAndVisible
-import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -207,7 +203,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     fun RenderFilters(budget: Budget) {
         if (showFilter.value) {
             val whereFilter = viewModel.whereFilter.collectAsState().value
-            ChipGroup(LocalContext.current, budget, whereFilter.criteria)
+            ChipGroup(
+                Modifier.padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
+                budget,
+                whereFilter.criteria
+            )
         }
     }
 
@@ -220,7 +220,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         sort: Sort,
     ) {
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
-            val narrowScreen = maxWidth.value < breakPoint.value
+            val narrowScreen = this.maxWidth.value < breakPoint.value
             Timber.d("narrowScreen : %b (%f)", narrowScreen, maxWidth.value)
 
             Budget(
@@ -365,7 +365,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+        if (which == BUTTON_POSITIVE) {
             val budget = viewModel.accountInfo.value ?: return false
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
@@ -387,7 +387,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         budgetId = budget.id
                     ).observe(this) {
                         if (it) {
-                            setResult(Activity.RESULT_FIRST_USER)
+                            setResult(RESULT_FIRST_USER)
                             finish()
                         } else {
                             showDeleteFailureFeedback()

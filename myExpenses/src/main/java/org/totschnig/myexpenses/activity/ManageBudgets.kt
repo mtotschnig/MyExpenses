@@ -163,7 +163,7 @@ fun BudgetItem(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = budget.titleComplete(context)
         )
-        ChipGroup(context, budget, criteria)
+        ChipGroup(budget = budget, criteria = criteria)
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

@@ -607,7 +607,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             color = MaterialTheme.colorScheme.onSurface
         )
         Row(modifier = Modifier
-            .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
+            .padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))
             .clickable {
                 lifecycleScope.launch {
                     viewModel.cycleSumLineBehaviour()

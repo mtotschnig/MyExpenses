@@ -74,7 +74,7 @@ fun Budget(
         modifier = modifier.conditional(category.level == 0) {
             conditional(narrowScreen) {
                 horizontalScroll(rememberScrollState())
-            }.padding(horizontal = dimensionResource(id = R.dimen.general_padding))
+            }.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))
         }
     ) {
         val doEdit = { onBudgetEdit(category, parent) }
@@ -199,20 +199,21 @@ private fun Summary(
 val breakPoint = 600.dp
 const val labelFraction = 0.35f
 const val numberFraction = 0.2f
+val columnPadding = 8.dp
 
 private fun Modifier.labelColumn(scope: RowScope, narrowScreen: Boolean) =
     conditional(
         narrowScreen,
         ifTrue = { width(breakPoint * 0.35f) },
         ifFalse = { with(scope) { weight(2f) } }
-    ).padding(end = 8.dp)
+    ).padding(end = columnPadding)
 
-private fun Modifier.numberColumn(scope: RowScope, narrowScreen: Boolean): Modifier =
+private fun Modifier.numberColumn(scope: RowScope, narrowScreen: Boolean, isLast: Boolean = false): Modifier =
     conditional(
         narrowScreen,
         ifTrue = { width(breakPoint * 0.2f) },
         ifFalse = { with(scope) { weight(1f) } }
-    ).padding(horizontal = 8.dp)
+    ).padding(start = columnPadding, end = if (isLast) 0.dp else columnPadding)
 
 @Composable
 private fun Header(
@@ -415,10 +416,10 @@ private fun RowScope.BudgetNumbers(
     )
 
     VerticalDivider()
-
+    val withRollOverColumn = hasRolloverNext || editRollOver != null
     //Remainder
     val remainder = category.budget.totalAllocated + aggregateSum
-    Box(modifier = Modifier.numberColumn(this, narrowScreen)) {
+    Box(modifier = Modifier.numberColumn(this, narrowScreen, isLast = !withRollOverColumn)) {
         ColoredAmountText(
             modifier = Modifier.align(Alignment.CenterEnd),
             amount = remainder,
@@ -429,7 +430,8 @@ private fun RowScope.BudgetNumbers(
     }
 
     //Rollover
-    if (hasRolloverNext || editRollOver != null) {
+
+    if (withRollOverColumn) {
         VerticalDivider()
         val rollOverFromChildren = category.aggregateRollOverNext(editRollOver)
         val rollOver =
@@ -438,7 +440,7 @@ private fun RowScope.BudgetNumbers(
         val rollOverTotal = rollOver + rollOverFromChildren
         val isError = rollOverTotal > remainder
         Row(
-            modifier = Modifier.numberColumn(this, narrowScreen),
+            modifier = Modifier.numberColumn(this, narrowScreen, isLast = true),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             if (isError) {

@@ -239,14 +239,22 @@ fun SumDetails(
 }
 
 @Composable
-fun ChipGroup(context: Context, budget: Budget, criteria: List<Criterion<*>>) {
-    ChipGroup(listOf(budget.label(context)) + criteria.map { it.prettyPrint(context) })
+fun ChipGroup(
+    modifier: Modifier = Modifier,
+    budget: Budget,
+    criteria: List<Criterion<*>>,
+) {
+    val context = LocalContext.current
+    ChipGroup(modifier, listOf(budget.label(context)) + criteria.map { it.prettyPrint(context) })
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ChipGroup(chips: Iterable<String>) {
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+fun ChipGroup(
+    modifier: Modifier,
+    chips: Iterable<String>
+) {
+    FlowRow(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         chips.forEach {
             FilterItem(it)
         }
