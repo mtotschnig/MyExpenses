@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.viewmodel
 
-import org.totschnig.myexpenses.R
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.datastore.preferences.core.edit
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -85,21 +85,29 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dataGroupedAndSorted: StateFlow<Pair<Grouping, List<Pair<String, List<Budget>>>>> by lazy {
+    val dataGrouped: StateFlow<Pair<Grouping, List<Pair<String, List<Budget>>>>> by lazy {
         dataStore.data.map { preferences ->
-            enumValueOrDefault(
-                preferences[groupingSortKey],
-                Grouping.Account
-            ) to preferences[sortOrderPrefKey]
-        }.flatMapLatest { (grouping, sorting) ->
+            enumValueOrDefault(preferences[groupingSortKey], Grouping.Account)
+        }.flatMapLatest { grouping ->
             data.map {
-                grouping to it.groupBy {
-                    if (grouping == Grouping.Account) it.accountId else it.grouping
-                }.values.map {
-                    (if (grouping == Grouping.Account)
-                        it.first().label(localizedContext) else
-                        localizedContext.getString(it.first().grouping.getLabelForBudgetType())
-                            ) to it
+                grouping to it.sortedBy { it.title }.let {
+                    if (grouping == Grouping.Account)
+                        it.groupBy { it.accountId }
+                            .values
+                            .sortedWith(compareBy(
+                                { it.first().accountId < 0 },
+                                { it.first().accountName }
+                            ))
+                            .map {
+                                it.first().label(localizedContext) to it
+                            }
+                    else
+                        it.groupBy { it.grouping }
+                            .toSortedMap()
+                            .values
+                            .map {
+                                localizedContext.getString(it.first().grouping.getLabelForBudgetType()) to it
+                            }
                 }
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, Grouping.Account to emptyList())

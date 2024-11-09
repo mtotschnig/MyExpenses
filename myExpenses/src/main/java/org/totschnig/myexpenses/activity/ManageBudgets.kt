@@ -77,7 +77,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
         setTitle(R.string.menu_budget)
         binding.composeView.setContent {
             AppTheme {
-                val (grouping, data) = viewModel.dataGroupedAndSorted.collectAsStateWithLifecycle()
+                val (grouping, data) = viewModel.dataGrouped.collectAsStateWithLifecycle()
                     .value
                 if (data.isEmpty()) {
                     Box {
