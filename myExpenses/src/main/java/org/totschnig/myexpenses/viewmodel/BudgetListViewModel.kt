@@ -41,7 +41,6 @@ import javax.inject.Inject
 
 class BudgetListViewModel(application: Application) : BudgetViewModel(application) {
     private val groupingSortKey = stringPreferencesKey("budgetListGrouping")
-    private val sortOrderPrefKey = stringPreferencesKey("budgetListSortOrder")
 
     enum class Grouping(val commandId: Int) {
         Account(R.id.GROUPING_BUDGETS_ACCOUNT_COMMAND), Grouping(R.id.GROUPING_BUDGETS_GROUPING_COMMAND)
@@ -90,25 +89,23 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
             enumValueOrDefault(preferences[groupingSortKey], Grouping.Account)
         }.flatMapLatest { grouping ->
             data.map {
-                grouping to it.sortedBy { it.title }.let {
-                    if (grouping == Grouping.Account)
-                        it.groupBy { it.accountId }
-                            .values
-                            .sortedWith(compareBy(
-                                { it.first().accountId < 0 },
-                                { it.first().accountName }
-                            ))
-                            .map {
-                                it.first().label(localizedContext) to it
-                            }
-                    else
-                        it.groupBy { it.grouping }
-                            .toSortedMap()
-                            .values
-                            .map {
-                                localizedContext.getString(it.first().grouping.getLabelForBudgetType()) to it
-                            }
-                }
+                grouping to if (grouping == Grouping.Account)
+                    it.groupBy { it.accountId }
+                        .values
+                        .sortedWith(compareBy(
+                            { it.first().accountId < 0 },
+                            { it.first().accountName }
+                        ))
+                        .map {
+                            it.first().label(localizedContext) to it
+                        }
+                else
+                    it.groupBy { it.grouping }
+                        .toSortedMap()
+                        .values
+                        .map {
+                            localizedContext.getString(it.first().grouping.getLabelForBudgetType()) to it
+                        }
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, Grouping.Account to emptyList())
     }

@@ -32,7 +32,9 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         contentResolver.observeQuery(
             uri = TransactionProvider.BUDGETS_URI,
             projection = PROJECTION,
-            notifyForDescendants = true
+            notifyForDescendants = true,
+            sortOrder = KEY_TITLE
+
         ).onEach {
             Timber.i("budget data received")
         }
