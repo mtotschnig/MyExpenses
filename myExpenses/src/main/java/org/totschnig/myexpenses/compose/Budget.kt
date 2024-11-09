@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
@@ -438,18 +439,16 @@ private fun RowScope.BudgetNumbers(
             editRollOver?.getOrDefault(category.id, category.budget.rollOverNext)
                 ?: category.budget.rollOverNext
         val rollOverTotal = rollOver + rollOverFromChildren
-        val isError = rollOverTotal > remainder
+        val isError = rollOverTotal > remainder && rollOver > 0L
         Row(
             modifier = Modifier.numberColumn(this, narrowScreen, isLast = true),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             if (isError) {
-                val context = LocalContext.current
+                val context = LocalContext.current as BaseActivity
                 val message = stringResource(R.string.rollover_edit_invalid)
                 Icon(
-                    modifier = Modifier.clickable {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    },
+                    modifier = Modifier.clickable { context.showSnackBar(message) },
                     imageVector = Icons.Default.ErrorOutline,
                     tint = colorResource(id = R.color.colorErrorDialog),
                     contentDescription = null
