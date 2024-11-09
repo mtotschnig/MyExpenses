@@ -1009,4 +1009,5 @@
     <string name="content_description_original_amount">Defina el importe original de esta transacción seleccionando una moneda e introduciendo el importe. También puede definir un tipo de cambio que se utilizará para calcular el importe efectivo.</string>
     <string name="content_description_exchange_rate">Tipo de cambio para 1 %1$s en %2$s</string>
     <string name="content_description_equivalent_amount">Define el valor de esta transacción en su moneda nacional. En lugar de introducir el importe, también puedes introducir el tipo de cambio para calcularlo.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">La transferencia no se puede editar porque su otro lado está archivado.</string>
 </resources>
