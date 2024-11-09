@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@id/GROUPING_COMMAND"
+        android:icon="@drawable/ic_action_group"
+        android:title="@string/menu_grouping"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@id/GROUPING_BUDGETS_GROUPING_COMMAND"
+                    android:title="@string/type"/>
+                <item
+                    android:id="@id/GROUPING_BUDGETS_ACCOUNT_COMMAND"
+                    android:title="@string/account"/>
+            </group>
+        </menu>
+    </item>
+</menu>
