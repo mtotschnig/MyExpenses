@@ -896,4 +896,5 @@
     <string name="notifications_channel_required">请启用“%s”通知渠道</string>
     <string name="add_shortcut">添加快捷方式</string>
     <string name="one_time_payment">一次性支付</string>
+    <string name="archive">档案</string>
 </resources>
