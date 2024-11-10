@@ -996,4 +996,5 @@
     <string name="content_description_original_amount">Definieren Sie den ursprünglichen Betrag dieser Transaktion, indem Sie eine Währung auswählen und den Betrag eingeben. Sie können auch einen Wechselkurs definieren, der zur Berechnung des effektiven Betrags verwendet wird.</string>
     <string name="content_description_exchange_rate">Wechselkurs für 1 %1$s in %2$s</string>
     <string name="content_description_equivalent_amount">Definieren Sie den Wert dieser Transaktion in Ihrer Heimatwährung. Anstatt den Betrag einzugeben, können Sie auch den Umrechnungskurs für die Berechnung eingeben.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Die Überweisung kann nicht bearbeitet werden, da die andere Seite archiviert ist.</string>
 </resources>

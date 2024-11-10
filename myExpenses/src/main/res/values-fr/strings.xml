@@ -1006,4 +1006,8 @@
     <string name="warning_backend_deactivated">Le backend n’est pas prêt à être synchronisé.</string>
     <string name="button_activate_again">Réactiver</string>
     <string name="saving_goal_exceeded">Vous avez dépassé votre objectif d’épargne.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Le transfert ne peut pas être modifié car son autre côté est archivé.</string>
+    <string name="content_description_exchange_rate">Taux de change pour 1 %1$s en %2$s</string>
+    <string name="content_description_original_amount">Définissez le montant d’origine de cette opération en sélectionnant une devise et en saisissant le montant. Vous pouvez également définir un taux de change qui sera utilisé pour calculer le montant effectif.</string>
+    <string name="content_description_equivalent_amount">Définissez la valeur de cette opération dans votre devise locale. Au lieu de saisir le montant, vous pouvez également saisir le taux de change pour le calculer.</string>
 </resources>

@@ -958,4 +958,18 @@
     <string name="dialog_contrib_trial_info_play">Тази безплатна пробна версия няма да се преобразува в какъвто и да е вид абонамент.</string>
     <string name="default_transfer_category">Категория по подразбиране за превод</string>
     <string name="archive">Архив</string>
+    <string name="contact_us">Връзка с нас</string>
+    <string name="menu_unlink_transfer">Прекрати връзката с превода</string>
+    <string name="pref_transaction_amount_color_source_title">Оцветяване на суми</string>
+    <string name="menu_transform_to_transfer">Превърни в превод</string>
+    <string name="warning_transform_to_transfer">Избраната транзакция ще бъде заменена с превод от %1$s към %2$s.</string>
+    <string name="roadmap_intro">Отворено е гласуването в Пътната карта 2024! Избери функциите и подобренията, които са най-важни за теб.</string>
+    <string name="merge_categories_dialog_title">Обединяване на категории</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Преводът не може да бъде редактиран, защото отсрещната страна е архивирана.</string>
+    <string name="warning_unlink_transfer">Избраният превод ще бъде заменен от нормални транзакции в двете сметки</string>
+    <string name="remap_date">Датата на всички избрани транзакции ще бъде сменена на %s.</string>
+    <string name="pref_scroll_to_current_date_account_open">при всяко показване на сметката</string>
+    <string name="pref_scroll_to_current_date_app_launch">само при стартиране на приложението</string>
+    <string name="buy">Купи</string>
+    <string name="pref_scroll_to_current_date_title">Превърти списъка с транзакции до текущата дата</string>
 </resources>
