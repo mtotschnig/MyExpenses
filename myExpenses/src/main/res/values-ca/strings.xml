@@ -903,4 +903,5 @@
     <string name="warning_unencrypted_backup">Tot i que les vostres dades estan protegides d\'accés no autoritzat en aquest dispositiu, les còpies de seguretat es creen sense encriptació, llevat que configureu %s.</string>
     <string name="pref_group_header_show_details_summary">Mostra les sumes de detall a la capçalera del grup</string>
     <string name="recurrence_last_day_of_month">Últim dia</string>
+    <string name="archive">Arxiu</string>
 </resources>
