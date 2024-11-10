@@ -885,4 +885,5 @@
     <string name="budget_table_header_overspent">வரம்பு மீறிய செலவு</string>
     <string name="contrib_feature_category_tree_label">வகைக் கிளைப்படம்</string>
     <string name="budget_widget_configuration">வரவு செலவு திட்டத்தை தேர்வு செய்யவும்</string>
+    <string name="archive">காப்பகம்</string>
 </resources>
