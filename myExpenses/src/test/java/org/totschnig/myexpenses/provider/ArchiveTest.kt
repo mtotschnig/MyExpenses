@@ -43,18 +43,7 @@ class ArchiveTest : BaseTestWithRepository() {
         insertTransaction(testAccountId, 400)
         insertTransaction(testAccountId, 800)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
-        contentResolver.query(
-            TransactionProvider.TRANSACTIONS_URI,
-            arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
-            "$KEY_PARENTID is null", null, null
-        ).useAndAssert {
-            hasCount(1)
-            movesToFirst()
-            hasLong(0, archiveId)
-            hasInt(1, STATUS_ARCHIVE)
-            hasString(2, CrStatus.UNRECONCILED.name)
-            hasLong(3, 1100)
-        }
+        verifyArchive(archiveId, 1100)
         verifyArchivedChildren(archiveId, 4)
         unarchiveAndVerify(archiveId, 4)
     }
@@ -65,6 +54,7 @@ class ArchiveTest : BaseTestWithRepository() {
         insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
         insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
+        verifyArchive(archiveId, -100)
         verifyArchivedChildren(archiveId, 2)
     }
 
@@ -82,18 +72,7 @@ class ArchiveTest : BaseTestWithRepository() {
         insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
         insertTransaction(testAccountId, -200, crStatus = CrStatus.VOID)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
-        contentResolver.query(
-            TransactionProvider.TRANSACTIONS_URI,
-            arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
-            "$KEY_PARENTID is null", null, null
-        ).useAndAssert {
-            hasCount(1)
-            movesToFirst()
-            hasLong(0, archiveId)
-            hasInt(1, STATUS_ARCHIVE)
-            hasString(2, CrStatus.RECONCILED.name)
-            hasLong(3, 100)
-        }
+        verifyArchive(archiveId, 100)
         verifyArchivedChildren(archiveId, 2)
         unarchiveAndVerify(archiveId, 2)
     }
@@ -105,6 +84,18 @@ class ArchiveTest : BaseTestWithRepository() {
         insertTransaction(testAccountId, 50, parentId = splitId)
         insertTransaction(testAccountId, 50, parentId = splitId)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
+        verifyArchive(archiveId, 100)
+        verifyArchivedChildren(archiveId, 1, splitId)
+        verifyArchivedChildren(splitId, 2)
+        val splitIDArg = splitId.toString()
+        unarchiveAndVerify(archiveId, 3, "$KEY_ROWID = ? OR $KEY_PARENTID = ?", arrayOf(splitIDArg, splitIDArg))
+    }
+
+    private fun verifyArchive(
+        archiveId: Long,
+        expectedAmount: Long,
+        expectedStatus: CrStatus = CrStatus.UNRECONCILED
+    ) {
         contentResolver.query(
             TransactionProvider.TRANSACTIONS_URI,
             arrayOf(KEY_ROWID, KEY_STATUS, KEY_CR_STATUS, KEY_AMOUNT),
@@ -114,13 +105,9 @@ class ArchiveTest : BaseTestWithRepository() {
             movesToFirst()
             hasLong(0, archiveId)
             hasInt(1, STATUS_ARCHIVE)
-            hasString(2, CrStatus.UNRECONCILED.name)
-            hasLong(3, 100)
+            hasString(2, expectedStatus.name)
+            hasLong(3, expectedAmount)
         }
-        verifyArchivedChildren(archiveId, 1, splitId)
-        verifyArchivedChildren(splitId, 2)
-        val splitIDArg = splitId.toString()
-        unarchiveAndVerify(archiveId, 3, "$KEY_ROWID = ? OR $KEY_PARENTID = ?", arrayOf(splitIDArg, splitIDArg))
     }
 
     private fun verifyArchivedChildren(
