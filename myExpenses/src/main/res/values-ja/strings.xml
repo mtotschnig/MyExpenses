@@ -771,4 +771,5 @@
     <string name="add_shortcut">ショートカットを追加</string>
     <string name="one_time_payment">１回限りの課金</string>
     <string name="merge_categories_dialog_title">カテゴリのマージ</string>
+    <string name="archive">アーカイブ</string>
 </resources>
