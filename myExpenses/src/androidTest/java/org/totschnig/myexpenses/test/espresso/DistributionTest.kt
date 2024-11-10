@@ -68,10 +68,12 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
             with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, -1200L)
                 catId = categoryExpenseId
+                save(contentResolver)
             }
             with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)
                 catId = categoryIncomeId
+                save(contentResolver)
             }
         }
     }

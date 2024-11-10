@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
@@ -97,6 +99,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                     val narrowScreen = maxWidth < breakpoint
                     LazyColumn(
                         modifier = Modifier
+                            .testTag(TEST_TAG_LIST)
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(bottom = 72.dp)
                     ) {

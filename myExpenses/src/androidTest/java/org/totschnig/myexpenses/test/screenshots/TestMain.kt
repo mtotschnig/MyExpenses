@@ -129,8 +129,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 takeScreenshot("history")
                 pressBack()
                 clickMenuItem(R.id.BUDGET_COMMAND)
-                onView(withId(R.id.recycler_view))
-                    .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+                listNode.onChildren()[0].performClick()
                 doWithRotation {
                     onIdle()
                     //wait for sum to load IdlingResource is too cumbersome to set up, since

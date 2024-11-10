@@ -51,21 +51,12 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         position: Int = 0,
         onLongClick: Boolean = false
     ) {
-        clickContextItem(getString(resId), node, position, onLongClick)
-    }
-
-    fun clickContextItem(
-        command: String,
-        node: SemanticsNodeInteraction = listNode,
-        position: Int = 0,
-        onLongClick: Boolean = false
-    ) {
         node.onChildren()[position].performTouchInput {
             if (onLongClick) longClick() else click()
         }
         if (!isOrchestrated) {
             Thread.sleep(200)
         }
-        composeTestRule.onNodeWithTag(command).performClick()
+        composeTestRule.onNodeWithText(getString(resId)).performClick()
     }
 }
