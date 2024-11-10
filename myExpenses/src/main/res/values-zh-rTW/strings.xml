@@ -854,4 +854,5 @@
     <string name="performance_enhancement" tools:ignore="UnusedResources">效能提升</string>
     <string name="warning_plan_instance_delete">所選日期的交易將被刪除。</string>
     <string name="pref_acra_user_email">使用者電子郵件將被包含在當機報告中</string>
+    <string name="archive">檔案</string>
 </resources>
