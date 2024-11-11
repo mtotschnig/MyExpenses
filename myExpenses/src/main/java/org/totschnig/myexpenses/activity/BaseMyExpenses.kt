@@ -122,6 +122,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translat
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -241,9 +242,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     @Inject
     lateinit var reviewManager: ReviewManager
-
-    @Inject
-    lateinit var viewIntentProvider: ViewIntentProvider
 
     @Inject
     lateinit var modelClass: Class<out MyExpensesViewModel>
@@ -1477,13 +1475,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
-    private fun readAccountSortFromPref() = try {
-        Sort.valueOf(
-            prefHandler.requireString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name)
-        )
-    } catch (e: IllegalArgumentException) {
-        Sort.USAGES
-    }
+    private fun readAccountSortFromPref() =
+        prefHandler.enumValueOrDefault(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES)
 
     private fun closeDrawer() {
         binding.drawer?.closeDrawers()

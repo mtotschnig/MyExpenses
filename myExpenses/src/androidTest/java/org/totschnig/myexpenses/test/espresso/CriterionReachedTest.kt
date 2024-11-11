@@ -55,6 +55,11 @@ class CriterionReachedTest : BaseExpenseEditTest() {
     }
 
     @Test
+    fun savingGoalReachedSaveAndNew() {
+        doTheTestWithNewTransaction(5000, 40, R.string.saving_goal_reached, repeat = 2)
+    }
+
+    @Test
     fun creditIsLargerThanSavingGoal() {
         doTheTestWithNewTransaction(5000, -60, null)
     }
@@ -177,14 +182,20 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         amount: Int,
         expectedTitle: Int?,
         openingBalance: Long = 0,
+        repeat: Int = 1,
     ) {
         fixture(criterion, openingBalance)
         launchForResult(intentForNewTransaction.apply {
             putExtra(ExpenseEdit.KEY_INCOME, amount > 0)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
-            setAmount(amount.absoluteValue)
-            clickFab()
+            if (repeat > 1) {
+                clickMenuItem(R.id.SAVE_AND_NEW_COMMAND)
+            }
+            repeat(repeat) {
+                setAmount(amount.absoluteValue)
+                clickFab()
+            }
             if (expectedTitle != null) {
                 composeTestRule.onNodeWithText(getString(expectedTitle)).isDisplayed()
             } else {

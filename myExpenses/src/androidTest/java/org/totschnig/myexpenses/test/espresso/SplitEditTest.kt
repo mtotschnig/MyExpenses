@@ -14,12 +14,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
+import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
@@ -29,8 +28,10 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
@@ -41,6 +42,7 @@ import org.totschnig.myexpenses.testutils.withAccount
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
+    private val accountLabel2 = "Test label 2"
 
     companion object {
         @BeforeClass
@@ -241,13 +243,13 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun create_and_save() {
         launch()
         createParts(1)
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new on
         clickFab()
         onView(withId(com.google.android.material.R.id.snackbar_text))
             .check(matches(withText(R.string.save_transaction_and_new_success)))
         waitForSnackbarDismissed()
         createParts(1)
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new off
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new off
         closeKeyboardAndSave()
         assertFinishing()
     }
@@ -258,7 +260,27 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun createPartsWhichFlipSign() {
         launch()
-        createParts(1, 50, false)
+        createParts(1, 50)
         createParts(1, 100, true, initialChildCount = 1)
+    }
+
+    @Test
+    fun createPartsAndDelete() {
+        account1 = buildAccount(accountLabel1)
+        val account2 = buildAccount(accountLabel2)
+        launchForResult(baseIntent.apply {
+            putExtra(DatabaseConstants.KEY_ACCOUNTID, account2.id)
+        })
+        createParts(2, 50)
+        checkAccount(accountLabel2)
+        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(0, click()))
+        onData(menuIdMatcher(R.id.DELETE_COMMAND)).perform(click())
+        checkAccount(accountLabel2)
+        createParts(2, 50, initialChildCount = 1)
+        checkAccount(accountLabel2)
+        clickFab()
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 }

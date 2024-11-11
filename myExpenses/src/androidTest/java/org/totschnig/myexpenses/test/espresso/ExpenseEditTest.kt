@@ -7,11 +7,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.google.common.truth.Truth
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -23,7 +23,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.cleanup
@@ -85,7 +86,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     fun statusIsShownWhenBankAccountIsSelected() {
         launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-            putExtra(DatabaseConstants.KEY_ACCOUNTID, account2.id)
+            putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             checkEffectiveVisible(R.id.Status)
         }
@@ -94,7 +95,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun amountInputWithFractionDigitLessCurrency() {
         launch(intent.apply {
-            putExtra(DatabaseConstants.KEY_ACCOUNTID, yenAccount.id)
+            putExtra(KEY_ACCOUNTID, yenAccount.id)
         }).use {
             setAmount(100)
         }
@@ -169,7 +170,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         for (a in allAccounts) {
             val i = intent.apply {
                 putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-                putExtra(DatabaseConstants.KEY_ACCOUNTID, a.id)
+                putExtra(KEY_ACCOUNTID, a.id)
             }
             launch(i).use {
                 checkAccount(a.label)
@@ -179,25 +180,26 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun saveAsNewWorksMultipleTimesInARow() {
+        //We test with an account that is not sorted first, in order to verify that account is kept
+        //after save and new fab is clicked
         launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-            putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.id)
+            putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             val success = getString(R.string.save_transaction_and_new_success)
             val times = 5
             val amount = 2
-            clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
+            clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new on
             repeat(times) {
                 setAmount(amount)
                 clickFab()
+                checkAccount(account2.label)
                 onView(withText(success)).check(matches(isDisplayed()))
             }
             //we assume two fraction digits
-            assertEquals(
-                "Transaction sum does not match saved transactions",
-                repository.getTransactionSum(account1),
-                (-amount * times * 100).toLong()
-            )
+            Truth.assertWithMessage("Transaction sum does not match saved transactions")
+                .that(repository.getTransactionSum(account2))
+                .isEqualTo(-amount * times * 100L)
         }
     }
 
@@ -209,14 +211,14 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         template.title = "Test template"
         template.save(contentResolver)
         launch(intent.apply {
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
+            putExtra(KEY_TEMPLATEID, template.id)
         }).use {
             val amount = 2
             setAmount(amount)
             clickFab()
-            val restored = Template.getInstanceFromDb(contentResolver, template.id)
-            assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())
-            assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)
+            val restored = Template.getInstanceFromDb(contentResolver, template.id)!!
+            Truth.assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
+            Truth.assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
         }
     }
 }
