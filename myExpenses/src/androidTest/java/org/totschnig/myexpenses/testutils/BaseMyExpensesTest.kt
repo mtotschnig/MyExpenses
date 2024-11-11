@@ -16,7 +16,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
     private var transactionPagingIdlingResource: IdlingResource? = null
 
-    fun launch(id: Long) {
+    fun launch(id: Long? = null) {
         testScenario = ActivityScenario.launch(
             Intent(targetContext, TestMyExpenses::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)

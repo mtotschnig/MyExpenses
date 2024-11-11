@@ -54,8 +54,6 @@ class SelectAccountTest : BaseMyExpensesTest() {
             it.moveToFirst()
             -it.getLong(0)
         }
-        setLastUsed(accountUSD2, 5)
-        setLastUsed(accountEUR, 10)
     }
 
     @After
@@ -65,17 +63,6 @@ class SelectAccountTest : BaseMyExpensesTest() {
             repository.deleteAccount(accountUSD2.id)
             repository.deleteAccount(accountEUR.id)
         }
-    }
-
-    private fun setLastUsed(account: Account, lastUsed: Long) {
-        repository.contentResolver.update(
-            TransactionProvider.ACCOUNTS_URI,
-            ContentValues(1).apply {
-                put(KEY_LAST_USED, lastUsed)
-            },
-            "$KEY_ROWID = ?",
-            arrayOf(account.id.toString())
-        )
     }
 
     @Test
