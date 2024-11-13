@@ -28,7 +28,7 @@
     <string name="plansunlimited_description">ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳಿಗಾಗಿ ಮೂರಕ್ಕಿಂತ ಹೆಚ್ಚು ಯೋಜನೆಗಳನ್ನು ರಚಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ.</string>
     <string name="synchronization_description">ಬಹು ಸಾಧನಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ ಮಾಡಬಹುದು.</string>
     <string name="splittransaction_description">ಒಂದೇ ವಹಿವಾಟನ್ನು ಬಹು ಭಾಗಗಳಾಗಿ ವಿಭಜಿಸಬಹುದು (ವರ್ಗಗಳು ಮತ್ತು ವರ್ಗಾವಣೆಗಳು).</string>
-    <string name="professional_benefit_1">ಎಲ್ಲಾ ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ</string>
+    <string name="professional_benefit_1">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ</string>
     <string name="ocr_description">ಮೊತ್ತ, ದಿನಾಂಕ ಮತ್ತು ಪಾವತಿಸುವವರನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊರತೆಗೆಯಿರಿ</string>
     <string name="webui_description">ಡೇಟಾ ನಮೂದುಗಾಗಿ ನಿಮ್ಮ ಡೆಸ್ಕ್‌ಟಾಪ್ ಬ್ರೌಸರ್ ಬಳಸಿ</string>
 </resources>
