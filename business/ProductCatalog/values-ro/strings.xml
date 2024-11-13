@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="professional_benefit_1">Deblocați toate funcțiile premium</string>
+    <string name="professional_benefit_2">Asistență prin e-mail</string>
+    <string name="professional_benefit_3">Drept de vot în foaia de parcurs pentru dezvoltare</string>
+</resources>
