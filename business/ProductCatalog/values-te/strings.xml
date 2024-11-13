@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="professional_benefit_1">అన్ని ప్రీమియం ఫీచర్లను అన్ లాక్ చేయండి</string>
+    <string name="professional_benefit_2">ఇమెయిల్ మద్దతు</string>
+    <string name="professional_benefit_3">అభివృద్ధి రోడ్ మ్యాప్ పై ఓటు హక్కు</string>
+</resources>
