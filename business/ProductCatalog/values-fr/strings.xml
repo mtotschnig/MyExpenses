@@ -10,7 +10,7 @@
     <string name="ocr_description">Extraire automatiquement le montant, la date et le bénéficiaire</string>
     <string name="webui_title">Interface utilisateur Web</string>
     <string name="webui_description">Utilisez votre navigateur de PC pour la saisie de données</string>
-    <string name="professional_benefit_1">Débloquez toutes les fonctionnalités premium</string>
+    <string name="professional_benefit_1">Débloquez les fonctionnalités premium</string>
     <string name="professional_benefit_2">Assistance par e-mail</string>
     <string name="professional_benefit_3">Voter sur la feuille de route</string>
     <string name="categorytree_title">Arborescence des catégories</string>
