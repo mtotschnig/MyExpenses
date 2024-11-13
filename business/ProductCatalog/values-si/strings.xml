@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="professional_benefit_3">සංවර්ධන මාර්ග සිතියම මත ඡන්ද අයිතිය</string>
+    <string name="professional_benefit_2">විද්යුත් තැපැල් සහාය</string>
+    <string name="professional_benefit_1">සියලුම වාරික විශේෂාංග අගුළු හරින්න</string>
+</resources>
