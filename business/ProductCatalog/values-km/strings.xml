@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="professional_benefit_3">ផែនទីអភិវឌ្ឍន៍</string>
+    <string name="professional_benefit_1">ដោះសោមុខងារពិសេសទាំងអស់។</string>
+    <string name="professional_benefit_2">ការគាំទ្រអ៊ីម៉ែល</string>
+</resources>
