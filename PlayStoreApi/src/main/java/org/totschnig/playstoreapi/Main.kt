@@ -3,10 +3,11 @@ package org.totschnig.playstoreapi
 import com.google.api.services.androidpublisher.AndroidPublisher
 import com.google.api.services.androidpublisher.model.InAppProduct
 import com.google.api.services.androidpublisher.model.InAppProductListing
+import com.google.api.services.androidpublisher.model.Subscription
+import com.google.api.services.androidpublisher.model.SubscriptionListing
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
-import java.io.IOException
-import java.security.GeneralSecurityException
+import kotlin.text.get
 
 class Main {
     companion object {
@@ -173,37 +174,89 @@ class Main {
 
         private val log: Log = LogFactory.getLog(Main::class.java)
 
+        private val proSubscription = listOf(
+            SubscriptionListing().setLanguageCode("ar").setTitle("المفتاح شامل").setBenefits(listOf("دعم البريد الإلكتروني","حق التصويت على  مخططات التنمية","فتح جميع الميزات المتميزة")),
+            SubscriptionListing().setLanguageCode("bg").setTitle("Професионален ключ").setBenefits(listOf("Отключете всички премиум възможности","Поддръжка по имейл","Право да гласувате на карта за развитие")),
+            SubscriptionListing().setLanguageCode("ca").setTitle("Clau professional").setBenefits(listOf("Desbloqueja totes les funcions prèmium","Suport per correu electrònic","Full de ruta de desenvolupament")),
+            SubscriptionListing().setLanguageCode("cs-CZ").setTitle("Profesionální klíč").setBenefits(listOf("Emailová podpora","Odemkněte všechny prémiové funkce","Hlasovací právo o plánu rozvoje")),
+            SubscriptionListing().setLanguageCode("da-DK").setTitle("Professionel Nøgle").setBenefits(listOf("Lås op for alle premiumfunktioner","Stemmeret på udviklingsplan","E-mail support")),
+            SubscriptionListing().setLanguageCode("de-DE").setTitle("Professioneller Schlüssel").setBenefits(listOf("Schalte alle Premium-Funktionen frei","E-Mail-Support","Stimmrecht zum Entwicklungsfahrplan")),
+            SubscriptionListing().setLanguageCode("el-GR").setTitle("Επαγγελματικό κλειδί").setBenefits(listOf("Υποστήριξη ηλεκτρονικού ταχυδρομείου","Δικαίωμα ψήφου για τον χάρτη πορείας","Ξεκλειδώστε όλες τις premium λειτουργίες")),
+            SubscriptionListing().setLanguageCode("es-ES").setTitle("Llave Profesional").setBenefits(listOf("Soporte por correo electrónico","Participar en la ruta de desarrollo","Desbloquea todas las funciones premium")),
+            SubscriptionListing().setLanguageCode("eu-ES").setTitle("Gako profesionala").setBenefits(listOf("E-mail bidezko laguntza","Garapen ibilbidean bozkatzeko aukera","Desblokeatu premium eginbide guztiak")),
+            SubscriptionListing().setLanguageCode("fr-FR").setTitle("Clé professionnelle").setBenefits(listOf("Débloquez les fonctionnalités premium","Assistance par e-mail","Voter sur la feuille de route")),
+            SubscriptionListing().setLanguageCode("hr").setTitle("Profesionalni ključ").setBenefits(listOf("Otključaj sve premium funkcije","E-mail podrška","Pravo glasa o planu razvoja")),
+            SubscriptionListing().setLanguageCode("hu-HU").setTitle("Szakmai kulcs").setBenefits(listOf("Nyissa ki az összes prémium funkciót","E-mailes támogatás","Szavazás a fejlesztési ütemtervről")),
+            SubscriptionListing().setLanguageCode("it-IT").setTitle("Licenza Professionale").setBenefits(listOf("Supporto email","Votare sulla roadmap di sviluppo","Sblocca tutte le funzionalità premium")),
+            SubscriptionListing().setLanguageCode("iw-IL").setTitle("מפתח מקצועי").setBenefits(listOf("תמיכה דרך דוא״ל","זכות הצבעה על מפת דרכים לפיתוח היישומון","פתיחת כל יכולות הפרימיום")),
+            SubscriptionListing().setLanguageCode("ja-JP").setTitle("プロフェッショナルキー").setBenefits(listOf("メールサポート","開発ロードマップ の投票権","すべてのプレミアム機能のロックを解除する")),
+            SubscriptionListing().setLanguageCode("kn-IN").setTitle("ವೃತ್ತಿಪರ ಕೀ").setBenefits(listOf("ಮೇಲ್ ಬೆಂಬಲ","ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ ಮತದಾನ","ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ")),
+            SubscriptionListing().setLanguageCode("ko-KR").setTitle("프로페셔널 키").setBenefits(listOf("이메일 지원","개발 로드맵에 바로 투표","모든 프리미엄 기능 잠금 해제")),
+            SubscriptionListing().setLanguageCode("km-KH").setTitle("គន្លឹះវិជ្ជាជីវៈ").setBenefits(listOf("ផែនទីអភិវឌ្ឍន៍","ដោះសោមុខងារពិសេសទាំងអស់។","ការគាំទ្រអ៊ីម៉ែល")),
+            SubscriptionListing().setLanguageCode("ms").setTitle("Kunci profesional").setBenefits(listOf("Sokongan emel","Hak mengundi dalam peta jalan","Buka kunci semua ciri premium")),
+            SubscriptionListing().setLanguageCode("nl-NL").setTitle("Professionele Sleutel").setBenefits(listOf("Ontgrendel alle premiumfuncties","E-mail ondersteuning","Stemrecht op ontwikkelingsroutekaart")),
+            SubscriptionListing().setLanguageCode("pl-PL").setTitle("Profesjonalny Klucz").setBenefits(listOf("Wysyłaj pocztę e-mail","Głosowanie na mapie drogowej rozwoju","Odblokuj wszystkie funkcje premium")),
+            SubscriptionListing().setLanguageCode("pt-PT").setTitle("Chave Profissional").setBenefits(listOf("Desbloqueia todos os recursos premium","Suporte por e-mail","Voto no roteiro de desenvolvimento")),
+            SubscriptionListing().setLanguageCode("ro").setTitle("Cheie profesională").setBenefits(listOf("Deblocați toate funcțiile premium","Asistență prin e-mail","Foaia de parcurs de dezvoltare")),
+            SubscriptionListing().setLanguageCode("ru-RU").setTitle("Professional-ключ").setBenefits(listOf("E-mail поддержка","Право голоса на дорожной карте","Разблокировать все премиум-функции")),
+            SubscriptionListing().setLanguageCode("si-LK").setTitle("වෘත්තීය යතුර").setBenefits(listOf("සංවර්ධන මාර්ග සිතියම මත ඡන්ද අයිතිය","විද්යුත් තැපැල් සහාය","සියලුම වාරික විශේෂාංග අගුළු හරින්න")),
+            SubscriptionListing().setLanguageCode("ta-IN").setTitle("நிபுணத்துவ திறவுகோல்").setBenefits(listOf("ஞ்சல் ஆதரவு","வளர்ச்சித் திட்டத்தில் வாக்களியுங்கள்","பிரீமியம் அம்சங்களைத் திறக்கவும்")),
+            SubscriptionListing().setLanguageCode("te-IN").setTitle("ప్రొఫెషనల్ కీ").setBenefits(listOf("అన్ని ప్రీమియం ఫీచర్లను అన్ లాక్ చేయండి","ఇమెయిల్ మద్దతు","అభివృద్ధి రోడ్ మ్యాప్ పై ఓటు హక్కు")),
+            SubscriptionListing().setLanguageCode("tr-TR").setTitle("Profesyonel Anahtar").setBenefits(listOf("E-posta desteği","Geliştirme yol haritasına oy verin","Tüm ücretli özelliklerin kilidini açın")),
+            SubscriptionListing().setLanguageCode("vi").setTitle("Chìa khóa chuyên nghiệp").setBenefits(listOf("Hỗ trợ qua email","Bỏ phiếu về phát triển ứng dụng","Mở khóa tất cả các tính năng cao cấp")),
+            SubscriptionListing().setLanguageCode("zh-CN").setTitle("专业版密钥(Professional Key)").setBenefits(listOf("对程序开发者的未来蓝图进行投票","解锁所有高级功能","电子邮件支持")),
+            SubscriptionListing().setLanguageCode("zh-TW").setTitle("專業版金鑰 (Professional Key)").setBenefits(listOf("解鎖所有進階功能","電子郵件支援","對開發路線圖的投票權")),
+            SubscriptionListing().setLanguageCode("en-US").setTitle("Professional Key").setBenefits(listOf("Unlock all premium features","Email support","Voting right on development roadmap"))
+        )
+
         @JvmStatic
         fun main(args: Array<String>) {
-            val sku = SKU_accounts_unlimited
+            subscriptions()
+        }
+
+
+        fun subscriptions() {
+            val service: AndroidPublisher = AndroidPublisherHelper.init()
+            val subs = service.monetization().subscriptions()
+            val sku = "sku_professional_yearly"
+
             try {
-                // Create the API service.
-                val service: AndroidPublisher = AndroidPublisherHelper.init()
-                val inappproducts = service.inappproducts()
-
-                val content = InAppProduct()
-                    .setPackageName(PACKAGE_NAME)
-                    .setSku(sku.first)
-                    .setPurchaseType("managedUser")
-                    .setListings(
-                        buildMap {
-                            sku.second.forEach {
-                                put(
-                                    it.key,
-                                    InAppProductListing().setTitle(it.value.first)
-                                        .setDescription(it.value.second)
-                                )
-                            }
-                        }
+                subs.patch(PACKAGE_NAME, sku,
+                    Subscription().setListings(
+                        proSubscription
                     )
-
-                inappproducts.patch(PACKAGE_NAME, sku.first, content).execute()
-
-            } catch (ex: IOException) {
-                log.error("Exception was thrown while updating listing", ex)
-            } catch (ex: GeneralSecurityException) {
-                log.error("Exception was thrown while updating listing", ex)
+                ).also {
+                    it.updateMask = "listings"
+                    it.regionsVersionVersion = "2022/02"
+                }.execute()
+                println("Subscription $sku updated successfully.")
+            } catch (e: Exception) {
+                println("Error updating subscription ${sku}: ${e.message}")
             }
+        }
+
+
+        fun inAppProducts() {
+            val service: AndroidPublisher = AndroidPublisherHelper.init()
+            val inappproducts = service.inappproducts()
+            val sku = SKU_accounts_unlimited
+            val content = InAppProduct()
+                .setPackageName(PACKAGE_NAME)
+                .setSku(sku.first)
+                .setPurchaseType("managedUser")
+                .setListings(
+                    buildMap {
+                        sku.second.forEach {
+                            put(
+                                it.key,
+                                InAppProductListing().setTitle(it.value.first)
+                                    .setDescription(it.value.second)
+                            )
+                        }
+                    }
+                )
+
+            inappproducts.patch(PACKAGE_NAME, sku.first, content).execute()
         }
     }
 }

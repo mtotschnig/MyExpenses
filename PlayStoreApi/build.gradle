@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 application {
@@ -14,7 +14,7 @@ application {
 
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20220704-2.0.0'
-    implementation 'com.google.http-client:google-http-client-gson:1.42.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
+    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20241016-2.0.0'
+    implementation 'com.google.http-client:google-http-client-gson:1.44.1'
 }
