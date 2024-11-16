@@ -35,11 +35,9 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
-import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.isConnectedWifi
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.io.IOException
@@ -370,7 +368,7 @@ class SyncAdapter @JvmOverloads constructor(
                                                 }
                                             }
                                         }
-                                        if (localChanges.size > 0) {
+                                        if (localChanges.isNotEmpty()) {
                                             localChanges =
                                                 syncDelegate.collectSplits(localChanges)
                                                     .toMutableList()
@@ -399,7 +397,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             log().i("storing lastSyncedRemote: $lastSyncedRemote")
                                             successRemote2Local += remoteChanges.size
                                         }
-                                        if (localChanges.size > 0) {
+                                        if (localChanges.isNotEmpty()) {
                                             lastSyncedRemote =
                                                 backend.writeChangeSet(
                                                     lastSyncedRemote,
@@ -414,7 +412,7 @@ class SyncAdapter @JvmOverloads constructor(
                                                 lastSyncedLocal.toString()
                                             )
                                             log().i("storing lastSyncedLocal: $lastSyncedLocal")
-                                            if (localChanges.size > 0) {
+                                            if (localChanges.isNotEmpty()) {
                                                 accountManager.setUserData(
                                                     account,
                                                     lastRemoteSyncKey,
@@ -457,7 +455,6 @@ class SyncAdapter @JvmOverloads constructor(
                                     syncResult.databaseError = true
                                     nonRecoverableError(account, e.safeMessage)
                                 } catch (e: Exception) {
-                                    if (e is InterruptedException) throw e
                                     appendToNotification(
                                         "ERROR (${e.javaClass.simpleName}): ${e.message} ",
                                         account, true
@@ -499,6 +496,10 @@ class SyncAdapter @JvmOverloads constructor(
                 }
             }
         } catch (_: InterruptedException) {
+            if (BuildConfig.DEBUG) {
+                notifyUser("Debug", "InterruptedException")
+            }
+
         }
     }
 
@@ -731,6 +732,7 @@ class SyncAdapter @JvmOverloads constructor(
     }
 
     private fun nonRecoverableError(account: Account, message: String) {
+        log().w("nonRecoverableError: $message")
         deactivateSync(account)
         AccountManager.get(context).setUserData(account, GenericAccountService.KEY_BROKEN, "1")
         notifyUser(
@@ -871,7 +873,7 @@ class SyncAdapter @JvmOverloads constructor(
             if (it.moveToFirst()) {
                 it.getLong(0) > 0
             } else false
-        } ?: false
+        } == true
 
     private fun getBooleanSetting(
         provider: ContentProviderClient,
@@ -914,9 +916,8 @@ class SyncAdapter @JvmOverloads constructor(
     override fun onSyncCanceled() {
         if (BuildConfig.DEBUG) {
             notifyUser("Debug", "Sync canceled")
+            log().w("Sync for %s was started at %s and is now cancelled", currentAccount, lastSynStart)
         }
-        log().w("Sync for %s was started at %s", currentAccount, lastSynStart)
-        report(Exception("Sync canceled"))
         super.onSyncCanceled()
     }
 

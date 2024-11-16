@@ -32,8 +32,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.io.FileUtils
-import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.viewmodel.data.Tag
 
 data class ImportResult(val label: String, val successCount: Int)
 
@@ -167,10 +165,8 @@ abstract class ImportDataViewModel(application: Application) :
             findMethod(transaction, t)
             t.save(contentResolver, true)?.let {
                 transaction.tags?.let { list ->
-                    repository.saveTagsForTransaction(
-                        list.mapNotNull { tag ->
-                            tagToId[tag]?.let { id -> Tag(id, tag) }
-                        },
+                    contentResolver.saveTagsForTransaction(
+                        list.mapNotNull { tag -> tagToId[tag] }.toLongArray(),
                         ContentUris.parseId(it)
                     )
                 }
@@ -184,7 +180,7 @@ abstract class ImportDataViewModel(application: Application) :
                 t.transferAccountId = transferAccount.id
                 transaction.toAmount?.let {
                     t.transferAmount =
-                        Money(currencyContext.get(transferAccount.currency), transaction.toAmount)
+                        Money(currencyContext[transferAccount.currency], transaction.toAmount)
                 }
             }
         }

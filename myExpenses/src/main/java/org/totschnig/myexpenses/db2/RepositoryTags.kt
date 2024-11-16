@@ -123,9 +123,7 @@ private fun Repository.extractTagId(label: String) =
 
 /**
  * Looks for a tag with label
- *
- * @param label
- * @return id or -1 if not found
+ * @return pair of id and color or null if not found
  */
 private fun Repository.find(label: String) = contentResolver.query(
     TAGS_URI,

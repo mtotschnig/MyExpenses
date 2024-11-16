@@ -162,7 +162,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
 
     private fun <T> safeRead(read: () -> T?): T? = try {
         read()
-    } catch (e: GraphServiceException) {
+    } catch (_: GraphServiceException) {
         null
     } catch (e: Exception) {
         throw e.asIO()
