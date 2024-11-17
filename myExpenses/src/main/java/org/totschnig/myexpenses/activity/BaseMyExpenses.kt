@@ -2292,10 +2292,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             return binding.accountPanel.expansionContent
         }
 
-    open fun buildCheckSealedHandler() = lazy { CheckSealedHandler(contentResolver) }.value
+    open val checkSealedHandler by lazy { CheckSealedHandler(contentResolver) }
 
     fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true, onChecked: Runnable) {
-        buildCheckSealedHandler().check(itemIds, withTransfer) { result ->
+        checkSealedHandler.check(itemIds, withTransfer) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {
                     if (it.first && it.second) {

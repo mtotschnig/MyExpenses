@@ -8,7 +8,7 @@ class TestMyExpenses: MyExpenses() {
 
     lateinit var decoratedCheckSealedHandler: CheckSealedHandler
 
-    override fun buildCheckSealedHandler() = decoratedCheckSealedHandler
+    override val checkSealedHandler = decoratedCheckSealedHandler
 
     override fun maybeRepairRequerySchema() {}
 }
