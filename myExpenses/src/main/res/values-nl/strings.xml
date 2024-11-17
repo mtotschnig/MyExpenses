@@ -902,4 +902,8 @@
     <string name="pref_scroll_to_current_date_account_open">elke keer dat je naar jouw account navigeert</string>
     <string name="pref_csv_export_category_separator_summary">Scheidingsteken tussen niveaus van categoriehiërarchie</string>
     <string name="merge_categories_prompt">Selecteer de categorie die je wilt behouden</string>
+    <string name="warning_archived_transfer_cannot_be_edited">De overdracht kan niet worden bewerkt omdat de andere kant is gearchiveerd.</string>
+    <string name="content_description_equivalent_amount">Definieer de waarde van deze transactie in je eigen valuta. In plaats van het bedrag in te voeren, kun je ook de wisselkoers invoeren om deze te berekenen.</string>
+    <string name="content_description_original_amount">Definieer het oorspronkelijke bedrag van deze transactie door een valuta te selecteren en het bedrag in te voeren. Je kunt ook een wisselkoers definiëren die zal worden gebruikt om het effectieve bedrag te berekenen.</string>
+    <string name="content_description_exchange_rate">Wisselkoers voor 1 %1$s in %2$s</string>
 </resources>
