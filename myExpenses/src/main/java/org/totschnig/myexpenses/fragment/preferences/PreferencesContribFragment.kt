@@ -35,7 +35,7 @@ class PreferencesContribFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
@@ -74,9 +74,9 @@ class PreferencesContribFragment : Fragment() {
                             .show(parentFragmentManager, "REMOVE_LICENCE")
                     },
                     manageSubscription = {
-                        startActivity(Intent(Intent.ACTION_VIEW).apply {
-                            data = it
-                        })
+                        preferenceActivity.startActivity(
+                            Intent(Intent.ACTION_VIEW).apply { data = it },
+                            R.string.error_accessing_market)
                     }
                 )
             }

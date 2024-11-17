@@ -295,7 +295,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 startActivityForResult(intent, forResultRequestCode)
             else
                 startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             showSnackBar(notAvailableMessage)
         } catch (e: SecurityException) {
             //seen on  Mate 20 Lite with cmp=com.simplemobiletools.calendar/.activities.MainActivity
