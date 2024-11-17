@@ -855,4 +855,27 @@
     <string name="warning_plan_instance_delete">所選日期的交易將被刪除。</string>
     <string name="pref_acra_user_email">使用者電子郵件將被包含在當機報告中</string>
     <string name="archive">檔案</string>
+    <string name="show_duplicates">顯示重複項</string>
+    <string name="encrypt_database">加密資料庫</string>
+    <string name="debt">債務</string>
+    <string name="redesign">重新設計</string>
+    <string name="overage">超額</string>
+    <string name="database_is_encrypted">資料庫已加密。</string>
+    <string name="select_template">選擇模板</string>
+    <string name="search_account">搜尋帳號</string>
+    <string name="dialog_title_warning_delete_archive">刪除封存？</string>
+    <string name="setup_completed">設定已完成</string>
+    <string name="add_shortcut">新增快捷方式</string>
+    <string name="widget_title_budget">我的預算</string>
+    <string name="maximum_size">最大大小</string>
+    <string name="attachments">附件</string>
+    <string name="debts">債務</string>
+    <string name="pref_backup_file_prefix_title">檔案前綴</string>
+    <string name="template_shortcut">模板快捷方式</string>
+    <string name="menu_new_debt">新債務</string>
+    <string name="title_activity_debt_overview">債務概覽</string>
+    <string name="cb_label_merge_accounts">合併帳號</string>
+    <string name="content_description_attachment">附件</string>
+    <string name="contact_us">聯絡我們</string>
+    <string name="merge_categories_dialog_title">合併類別</string>
 </resources>
