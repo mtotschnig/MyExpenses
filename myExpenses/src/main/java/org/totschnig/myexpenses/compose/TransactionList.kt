@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -257,9 +258,13 @@ fun TransactionList(
 
                                 is HeaderDataEmpty -> {}
                                 is HeaderDataError -> {
+                                    val context = LocalContext.current as? BaseActivity
                                     Text(
-                                        "Error loading group header data",
-                                        color = MaterialTheme.colorScheme.error
+                                        "Error loading group header data. Click to start safe mode.",
+                                        color = MaterialTheme.colorScheme.error,
+                                        modifier = Modifier.clickable {
+                                            context?.dispatchCommand(R.id.SAFE_MODE_COMMAND, null)
+                                        }
                                     )
                                 }
                             }

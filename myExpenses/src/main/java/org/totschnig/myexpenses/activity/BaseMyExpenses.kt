@@ -142,6 +142,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
@@ -1624,6 +1625,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.SAFE_MODE_COMMAND -> {
                 prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
                 viewModel.triggerAccountListRefresh()
+                contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
             }
 
             R.id.CLEAR_FILTER_COMMAND -> {
