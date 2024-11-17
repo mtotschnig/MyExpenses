@@ -15,8 +15,8 @@ class ContextAwareRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) :
             super(context, attrs, defStyle)
 
-    override fun getContextMenuInfo(): RecyclerContextMenuInfo {
-        return contextMenuInfo!!
+    override fun getContextMenuInfo(): RecyclerContextMenuInfo? {
+        return contextMenuInfo
     }
 
     override fun showContextMenuForChild(originalView: View): Boolean {

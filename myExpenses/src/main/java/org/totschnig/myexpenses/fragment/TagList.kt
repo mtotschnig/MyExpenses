@@ -35,11 +35,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
-import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
+import org.totschnig.myexpenses.ui.ContextAwareRecyclerView.RecyclerContextMenuInfo
 import org.totschnig.myexpenses.util.ui.setColor
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
-import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagList : Fragment(), OnDialogResultListener {
@@ -84,9 +83,9 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val tag = adapter.getItem(
-            (item.menuInfo as ContextAwareRecyclerView.RecyclerContextMenuInfo).position
-        )
+        val info = item.menuInfo as? RecyclerContextMenuInfo
+            ?: return super.onContextItemSelected(item)
+        val tag = adapter.getItem(info.position)
         return when (item.itemId) {
             R.id.DELETE_COMMAND -> {
                 SimpleDialog.build()

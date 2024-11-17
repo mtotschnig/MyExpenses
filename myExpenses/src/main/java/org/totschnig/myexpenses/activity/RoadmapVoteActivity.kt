@@ -263,7 +263,8 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val info = item.menuInfo as RecyclerContextMenuInfo
+        val info = item.menuInfo as? RecyclerContextMenuInfo
+            ?: return super.onContextItemSelected(item)
         val itemId = item.itemId
         if (itemId == R.id.ROADMAP_DETAILS_COMMAND) {
             startActionView("https://github.com/mtotschnig/MyExpenses/issues/" + info.id)

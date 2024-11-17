@@ -621,7 +621,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val info = item.menuInfo as ContextAwareRecyclerView.RecyclerContextMenuInfo
+        val info = item.menuInfo as? ContextAwareRecyclerView.RecyclerContextMenuInfo
+            ?: return super.onContextItemSelected(item)
         return when (item.itemId) {
             R.id.EDIT_COMMAND -> {
                 startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
@@ -1430,8 +1431,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (!isSplitPartOrTemplate) {
                 val criterionInfos = listOfNotNull(
                     currentAccount!!.run {
-                        val previousAmount = with(delegate) { passedInAmount?.takeIf { passedInAccountId == id } ?: 0 }
-                        val previousTransferAmount = (delegate as? TransferDelegate)?.run { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } } ?: 0
+                        val previousAmount = with(delegate) {
+                            passedInAmount?.takeIf { passedInAccountId == id } ?: 0
+                        }
+                        val previousTransferAmount =
+                            (delegate as? TransferDelegate)?.run { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } }
+                                ?: 0
                         criterion?.let {
                             CriterionInfo(
                                 id,
@@ -1448,9 +1453,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     transferAccount?.run {
                         val transaction = transaction as Transfer
                         val delegate = delegate as TransferDelegate
-                        val previousAmount = with(delegate) { passedInAmount?.takeIf { passedInAccountId == id } ?: 0 }
-                        val previousTransferAmount = with(delegate) { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } }
-                            ?: 0
+                        val previousAmount = with(delegate) {
+                            passedInAmount?.takeIf { passedInAccountId == id } ?: 0
+                        }
+                        val previousTransferAmount =
+                            with(delegate) { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } }
+                                ?: 0
                         criterion?.let {
                             CriterionInfo(
                                 id,
@@ -1465,19 +1473,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         }
                     }?.takeIf { it.hasReached() }
                 )
-                when(criterionInfos.size) {
+                when (criterionInfos.size) {
                     //if a transfer leads to a credit limit and a saving goal being hit at the same time
                     //in two different accounts, we give a priority to the credit limit and show saving goal in toast
-                    2 -> criterionInfos.first { it.criterion < 0}
+                    2 -> criterionInfos.first { it.criterion < 0 }
                     1 -> criterionInfos.first()
                     else -> null
                 }?.let {
                     CriterionReachedDialogFragment
                         .newInstance(it,
-                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) { accountLabel + ": " + getString(dialogTitle) } else null
+                            if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) {
+                                accountLabel + ": " + getString(
+                                    dialogTitle
+                                )
+                            } else null
                         )
                         .show(supportFragmentManager, "CRITERION")
-                    if(!createNew) return
+                    if (!createNew) return
                 }
             }
             if (createNew) {
