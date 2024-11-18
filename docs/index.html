@@ -14,7 +14,9 @@ function findDestination() {
   var translations, lang;
   var userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
   if (userLang == 'zh')
-    userLang = 'zh-tw';
+    userLang = 'zh-cn';
+  if (userLang == 'pt')
+    userLang = 'pt-br';
   var hash = window.location.hash;
   switch (hash) {
     case "#tutorial":
@@ -24,10 +26,6 @@ function findDestination() {
       return "http://" + window.location.host + "/" + lang + "/tutorial_r4/introduction.html"
     case "#paypal":
       return "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6";
-    case "#flattr":
-      return "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
-    case "#news":
-      return "https://plus.google.com/116736113799210525299";
     case "#changelog":
       hash = "#versionlist";
       break;
@@ -38,7 +36,7 @@ function findDestination() {
       hash = "#premium";
     break
   }
-  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw","pt","pl","cs","ru","ro","ja","ms","hr","eu","da","bg","el","iw"];
+  translations = ["ar","bg","ca","cs","da","de","el","en","es","eu","fr","hr","hu","it","iw","ja","kn","ko","ms","nl","pl","pt-br","pt-pt","ro","ru","ta","te","tr","uk","vi","zh-cn","zh-tw"];
   lang = translations.indexOf(userLang) > -1 ? userLang : "en";
   return "https://" + window.location.host + "/" + lang + hash;
 }
@@ -52,7 +50,7 @@ window.location.replace(findDestination());
     <li><a href="{{title[0]}}">{{title[1]}}</a></li>
 {% endfor %}
 </ul>
-</noscript> 
+</noscript>
 </body>
 
 
