@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
+import org.totschnig.myexpenses.util.config.Configurator;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -176,6 +177,8 @@ public interface AppComponent {
   CoroutineDispatcher coroutineDispatcher();
 
   DataStore<Preferences> preferencesDataStore();
+
+  Configurator configurator();
 
   void inject(MyApplication application);
 
