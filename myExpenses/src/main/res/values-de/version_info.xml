@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="whats_new_3911">
+        <item>DKB: Neuer FinTS server</item>
+        <item>OneDrive: Reparatur des Uploads von großen Dateien</item>
+    </string-array>
+</resources>
