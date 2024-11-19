@@ -231,8 +231,14 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
                 log().i("Uploaded $current bytes of $max total bytes", current, max)
             }
 
+            val clientWithoutAuth = GraphServiceClient.builder()
+                .authenticationProvider {
+                    CompletableFuture.supplyAsync { null }
+                }
+                .buildClient()
+
             val largeFileUploadTask = LargeFileUploadTask(
-                uploadSession, graphClient, it, streamSize, DriveItem::class.java
+                uploadSession, clientWithoutAuth, it, streamSize, DriveItem::class.java
             )
 
             largeFileUploadTask.upload(0, null, callback)
