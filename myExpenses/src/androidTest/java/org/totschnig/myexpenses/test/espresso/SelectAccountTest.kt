@@ -1,21 +1,13 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentValues
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
-import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
@@ -25,7 +17,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
-import org.totschnig.myexpenses.testutils.toolbarTitle
 import kotlin.properties.Delegates
 
 //tests if account is selected in MyExpenses view pager
@@ -53,6 +44,14 @@ class SelectAccountTest : BaseMyExpensesTest() {
         )!!.use {
             it.moveToFirst()
             -it.getLong(0)
+        }
+        setLastUsed(accountUSD2, 5)
+        setLastUsed(accountEUR, 10)
+    }
+
+    private fun setLastUsed(account: Account, lastUsed: Long) {
+        repository.updateAccount(account.id) {
+            put(KEY_LAST_USED, lastUsed)
         }
     }
 

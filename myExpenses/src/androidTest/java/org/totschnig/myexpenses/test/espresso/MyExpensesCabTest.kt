@@ -52,7 +52,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private lateinit var account: Account
     private var op0Id: Long = 0
 
-    private fun launch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
+    private fun doLaunch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
         account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -100L)
@@ -91,7 +91,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun cloneCommandIncreasesListSize() {
-        launch()
+        doLaunch()
         assertListSize(origListSize)
         clickContextItem(R.string.menu_clone_transaction)
         closeKeyboardAndSave()
@@ -100,7 +100,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun editCommandKeepsListSize() {
-        launch()
+        doLaunch()
         assertListSize(origListSize)
         clickContextItem(R.string.menu_edit)
         closeKeyboardAndSave()
@@ -109,7 +109,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun createTemplateCommandCreatesTemplate() {
-        launch()
+        doLaunch()
         val templateTitle = "Espresso Template Test"
         assertListSize(origListSize)
         clickContextItem(R.string.menu_create_template_from_transaction)
@@ -126,25 +126,25 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun deleteCommandDecreasesListSize() {
-        launch()
+        doLaunch()
         doDelete(useCab = false, cancel = false)
     }
 
     @Test
     fun deleteCommandDecreasesListSizeCab() {
-        launch()
+        doLaunch()
         doDelete(useCab = true, cancel = false)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSize() {
-        launch()
+        doLaunch()
         doDelete(useCab = false, cancel = true)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSizeCab() {
-        launch()
+        doLaunch()
         doDelete(useCab = true, cancel = true)
     }
 
@@ -159,13 +159,13 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun deleteCommandWithVoidOptionCab() {
-        launch()
+        doLaunch()
         doDeleteCommandWithVoidOption(true)
     }
 
     @Test
     fun deleteCommandWithVoidOption() {
-        launch()
+        doLaunch()
         doDeleteCommandWithVoidOption(false)
     }
 
@@ -194,13 +194,13 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun splitCommandCreatesSplitTransaction() {
-        launch()
+        doLaunch()
         doSplitCommandTest()
     }
 
     @Test
     fun withAccountExcludedFromTotalsSplitCommandCreatesSplitTransaction() {
-        launch(true)
+        doLaunch(true)
         doSplitCommandTest()
     }
 
@@ -215,7 +215,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun cabIsRestoredAfterOrientationChange() {
-        launch()
+        doLaunch()
         openCab(null)
         doWithRotation {
             onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
@@ -224,7 +224,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun contextForSealedAccount() {
-        launch()
+        doLaunch()
         testScenario.onActivity {
             it.viewModel.setSealed(account.id, true)
         }
@@ -236,7 +236,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun transformToTransfer() {
-        launch(initialOpCount = 1)
+        doLaunch(initialOpCount = 1)
         val transferAccount = buildAccount("Test account 2")
         clickContextItem(R.string.menu_transform_to_transfer)
         composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2"))
