@@ -1,0 +1,4 @@
+• DKB: Neuer FinTS server
+• OneDrive: Reparatur des Uploads von großen Dateien
+
+https://github.com/users/mtotschnig/projects/10
