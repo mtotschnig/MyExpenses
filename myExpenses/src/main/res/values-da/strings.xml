@@ -919,4 +919,13 @@
     <string name="archive_warning">Alle transaktioner (%d) i det valgte datointerval arkiveres.</string>
     <string name="warning_delete_archive">Alle transaktioner i dette arkiv (%d) slettes.</string>
     <string name="warning_empty_archive">Der er ingen transaktioner i det valgte datointerval.</string>
+    <string name="warning_backend_deactivated">Backend er ikke klar til synkronisering.</string>
+    <string name="button_activate_again">Aktiver igen</string>
+    <string name="credit_limit_reached">Du har nået din kreditgrænse.</string>
+    <string name="saving_goal_reached">Du har nået dit opsparingsmål.</string>
+    <string name="credit_limit_exceeded">Du har overskredet din kreditgrænse.</string>
+    <string name="saving_goal_exceeded">Du har overskredet dit opsparingsmål.</string>
+    <string name="overage">Overskud</string>
+    <string name="credit_limit_available_credit">Tilgængelig kredit</string>
+    <string name="saving_goal_short_fall">Underskud</string>
 </resources>
