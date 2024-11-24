@@ -7,7 +7,7 @@
 
         <TextView
             style="@style/FormLabel"
-            android:labelFor="@+id/Method"
+            android:labelFor="@+id/MethodSpinner"
             android:text="@string/method" />
 
         <LinearLayout
