@@ -231,6 +231,7 @@ dependencies {
     implementation libs.androidx.gridlayout
     api project(':preferences')
     implementation libs.androidx.constraintlayout
+    implementation libs.androidx.drawer
 
     implementation libs.flexbox
 

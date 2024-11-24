@@ -155,12 +155,4 @@ public class MyExpenses extends BaseMyExpenses implements
     adHandler.onPause();
     super.onPause();
   }
-
-  public void onBackPressed() {
-    if (binding.drawer != null && binding.drawer.isDrawerOpen(GravityCompat.START)) {
-      binding.drawer.closeDrawer(GravityCompat.START);
-    } else {
-      super.onBackPressed();
-    }
-  }
 }
