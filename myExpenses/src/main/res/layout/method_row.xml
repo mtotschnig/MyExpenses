@@ -7,7 +7,7 @@
 
         <TextView
             style="@style/FormLabel"
-            android:labelFor="@+id/Method"
+            android:labelFor="@+id/MethodSpinner"
             android:text="@string/method" />
 
         <LinearLayout
@@ -38,7 +38,6 @@
         <EditText
             android:id="@+id/Number"
             style="@style/FormField"
-            android:hint="@string/reference_number"
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
