@@ -208,10 +208,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     repository.deleteAttachments(transaction.id, it)
                 }
 
-                repository.addAttachments(
-                    transaction.id,
+                val attachments =
                     (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
-                )
+                repository.addAttachments(transaction.id, attachments)
+                (transaction as? Transfer)?.transferPeer?.let { repository.addAttachments(it, attachments) }
+                Unit
             })
         }
 
