@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -57,7 +58,7 @@ class TagList : Fragment(), OnDialogResultListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = TagListBinding.inflate(inflater, container, false)
         return binding.root
@@ -75,7 +76,7 @@ class TagList : Fragment(), OnDialogResultListener {
     override fun onCreateContextMenu(
         menu: ContextMenu,
         v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
+        menuInfo: ContextMenu.ContextMenuInfo?,
     ) {
         requireActivity().menuInflater.inflate(R.menu.tags, menu)
         menu.findItem(R.id.EDIT_COMMAND).title =
@@ -88,42 +89,51 @@ class TagList : Fragment(), OnDialogResultListener {
         val tag = adapter.getItem(info.position)
         return when (item.itemId) {
             R.id.DELETE_COMMAND -> {
-                SimpleDialog.build()
-                    .title(R.string.dialog_title_warning_delete_tag)
-                    .extra(Bundle().apply {
-                        putParcelable(KEY_TAG, tag)
-                    })
-                    .msg(
-                        resources.getQuantityString(
-                            R.plurals.warning_delete_tag,
-                            tag.count,
-                            tag.label,
-                            tag.count
-                        )
-                    )
-                    .pos(R.string.menu_delete)
-                    .neg(android.R.string.cancel)
-                    .show(this, DELETE_TAG_DIALOG)
+                onDelete(tag)
                 true
             }
 
             R.id.EDIT_COMMAND -> {
-                SimpleFormDialog.build()
-                    .title(R.string.menu_edit_tag)
-                    .cancelable(false)
-                    .fields(
-                        Input.plain(KEY_LABEL).text(tag.label),
-                        ColorField.picker(KEY_COLOR).color(tag.color ?: ColorField.NONE).label(R.string.color)
-                    )
-                    .pos(R.string.menu_save)
-                    .neut()
-                    .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
-                    .show(this, EDIT_TAG_DIALOG)
+                onEdit(tag)
                 true
             }
 
             else -> false
         }
+    }
+
+    private fun onEdit(tag: Tag) {
+        SimpleFormDialog.build()
+            .title(R.string.menu_edit_tag)
+            .cancelable(false)
+            .fields(
+                Input.plain(KEY_LABEL).text(tag.label),
+                ColorField.picker(KEY_COLOR).color(tag.color ?: ColorField.NONE)
+                    .label(R.string.color)
+            )
+            .pos(R.string.menu_save)
+            .neut()
+            .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
+            .show(this, EDIT_TAG_DIALOG)
+    }
+
+    private fun onDelete(tag: Tag) {
+        SimpleDialog.build()
+            .title(R.string.dialog_title_warning_delete_tag)
+            .extra(Bundle().apply {
+                putParcelable(KEY_TAG, tag)
+            })
+            .msg(
+                resources.getQuantityString(
+                    R.plurals.warning_delete_tag,
+                    tag.count,
+                    tag.label,
+                    tag.count
+                )
+            )
+            .pos(R.string.menu_delete)
+            .neg(android.R.string.cancel)
+            .show(this, DELETE_TAG_DIALOG)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -244,7 +254,13 @@ class TagList : Fragment(), OnDialogResultListener {
     private inner class Adapter : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(if (allowSelection) R.layout.tag_select else R.layout.tag_manage, parent, false))
+            ViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    if (allowSelection) R.layout.tag_select else R.layout.tag_manage,
+                    parent,
+                    false
+                )
+            )
 
         fun getPosition(label: String) = currentList.indexOfFirst { it.label == label }
 
@@ -269,6 +285,20 @@ class TagList : Fragment(), OnDialogResultListener {
                 isCloseIconVisible = allowModifications
                 if (allowModifications) {
                     setOnCloseIconClickListener(View::showContextMenu)
+                    ViewCompat.addAccessibilityAction(
+                        holder.itemView,
+                        context.getString(R.string.menu_edit)
+                    ) { _, _ ->
+                        onEdit(tag)
+                        true
+                    }
+                    ViewCompat.addAccessibilityAction(
+                        holder.itemView,
+                        context.getString(R.string.menu_delete)
+                    ) { _, _ ->
+                        onDelete(tag)
+                        true
+                    }
                 }
             }
         }

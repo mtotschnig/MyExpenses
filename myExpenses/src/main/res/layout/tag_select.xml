@@ -4,8 +4,7 @@
     style="@style/Widget.Material3.Chip.Filter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:closeIcon="@drawable/more"
+    android:layout_marginHorizontal="4dp"
     android:gravity="center_horizontal"
     android:textAlignment="center"
-    app:ensureMinTouchTargetSize="false" />
+    app:closeIcon="@drawable/more" />
