@@ -69,7 +69,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     val viewBinding: OneExpenseBinding,
     private val dateEditBinding: DateEditBinding,
     private val methodRowBinding: MethodRowBinding,
-    val isTemplate: Boolean
+    val isTemplate: Boolean,
 ) : AdapterView.OnItemSelectedListener {
 
     @State
@@ -186,7 +186,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     var methodLabel: String? = null
 
     @State
-    var _crStatus: CrStatus? = CrStatus.UNRECONCILED
+    var crStatus: CrStatus = CrStatus.UNRECONCILED
 
     @State
     var parentId: Long? = null
@@ -209,9 +209,6 @@ abstract class TransactionDelegate<T : ITransaction>(
     @State
     var debtId: Long? = null
 
-    val crStatus
-        get() = _crStatus ?: CrStatus.UNRECONCILED
-
     protected var mAccounts = mutableListOf<Account>()
 
     val planButton: DateButton
@@ -225,7 +222,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean,
-        isCached: Boolean = false
+        isCached: Boolean = false,
     ) {
         bind(
             transaction as T?,
@@ -241,7 +238,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
-        withAutoFill: Boolean
+        withAutoFill: Boolean,
     ) {
         viewBinding.Category.setOnClickListener { host.startSelectCategory() }
         if (transaction != null) {
@@ -256,7 +253,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             methodId = transaction.methodId
             methodLabel = transaction.methodLabel
             planId = (transaction as? Template)?.plan?.id
-            _crStatus = transaction.crStatus
+            crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
             payeeId = transaction.payeeId
@@ -444,7 +441,14 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun populateStatusSpinner() {
-        statusSpinner.setSelection(crStatus.ordinal, false)
+        if (crStatus != CrStatus.RECONCILED) {
+            statusSpinner.setSelection(CrStatus.editableStatuses.indexOf(crStatus), false)
+            updateStatusContentDescription()
+        }
+    }
+
+    private fun updateStatusContentDescription() {
+        statusSpinner.spinner.contentDescription =  context.getString(R.string.status) + ": " + context.getString(crStatus.toStringRes())
     }
 
     fun fillAmount(amount: BigDecimal) {
@@ -474,7 +478,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         label: TextView,
         amountInput: AmountInput,
         currencyUnit: CurrencyUnit,
-        textResId: Int
+        textResId: Int,
     ) {
         val text = appendCurrencySymbol(label.context, textResId, currencyUnit)
         label.text = text
@@ -628,13 +632,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     protected fun createStatusAdapter() {
-        val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
-            override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
-                //otherwise only unreconciled and cleared can be set
-                return _crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal
-            }
+        if (crStatus != CrStatus.RECONCILED) {
+            statusSpinner.adapter = CrStatusAdapter(context)
         }
-        statusSpinner.adapter = sAdapter
     }
 
     private fun createMethodAdapter() {
@@ -752,7 +752,8 @@ abstract class TransactionDelegate<T : ITransaction>(
 
             statusSpinner.id -> {
                 (parent.selectedItem as? CrStatus)?.let {
-                    _crStatus = it
+                    crStatus = it
+                    updateStatusContentDescription()
                 }
             }
         }
@@ -836,7 +837,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     abstract fun buildTransaction(
         forSave: Boolean,
-        account: Account
+        account: Account,
     ): T?
 
     abstract val operationType: Int
@@ -918,7 +919,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
             }
-            crStatus = (statusSpinner.selectedItem as CrStatus)
+            crStatus = this@TransactionDelegate.crStatus
         }
     }
 
@@ -1009,7 +1010,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             setAccount()
         } else {
             data.forEach { newData ->
-                mAccounts.find { it.id == newData.id }?.currentBalance  = newData.currentBalance
+                mAccounts.find { it.id == newData.id }?.currentBalance = newData.currentBalance
             }
         }
     }
@@ -1017,7 +1018,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun configureStatusSpinner() {
         currentAccount()?.let {
             statusSpinner.spinner.isVisible =
-                !isSplitPart && !isTemplate && it.type != AccountType.CASH
+                !isSplitPart && !isTemplate && it.type != AccountType.CASH && crStatus != CrStatus.RECONCILED
         }
     }
 
@@ -1088,7 +1089,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     open fun prepareForNew() {
         rowId = 0L
         uuid = null
-        _crStatus = CrStatus.UNRECONCILED
+        crStatus = CrStatus.UNRECONCILED
         resetRecurrence()
         resetAmounts()
         populateStatusSpinner()
@@ -1139,7 +1140,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setCreateTemplate(
-        createTemplate: Boolean
+        createTemplate: Boolean,
     ) {
         viewBinding.TitleRow.isVisible = createTemplate
         setPlannerRowVisibility(createTemplate)
@@ -1159,7 +1160,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding: OneExpenseBinding,
             dateEditBinding: DateEditBinding,
             methodRowBinding: MethodRowBinding,
-            injector: AppComponent
+            injector: AppComponent,
         ) =
             (transaction is Template).let { isTemplate ->
                 with(transaction) {
@@ -1197,7 +1198,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         fun create(
             operationType: Int, isTemplate: Boolean, viewBinding: OneExpenseBinding,
             dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
-            injector: AppComponent
+            injector: AppComponent,
         ) = when (operationType) {
             TYPE_TRANSFER -> TransferDelegate(
                 viewBinding,

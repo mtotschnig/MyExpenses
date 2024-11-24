@@ -40,5 +40,7 @@ enum class CrStatus(@ColorRes val color: Int, val symbol: Char?) {
                 "V" -> VOID
                 else -> UNRECONCILED
             }
+
+        val editableStatuses = arrayOf(UNRECONCILED, CLEARED, VOID)
     }
 }
