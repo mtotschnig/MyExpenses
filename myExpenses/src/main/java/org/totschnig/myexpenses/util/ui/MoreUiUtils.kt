@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
-import android.os.CancellationSignal
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.util.Size
@@ -46,6 +45,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -86,15 +86,6 @@ fun <T : Itag> ChipGroup.addChipsBulk(
             }
         })
     }
-}
-
-fun ChipGroup.addChipsBulk(chips: Iterable<String>) {
-    addChipsBulk(chips.map {
-        object : Itag {
-            override val label: String = it
-            override val color: Int? = null
-        }
-    })
 }
 
 fun colorWithPressedFeedback(@ColorInt base: Int) = ColorStateList(
@@ -252,6 +243,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
     return lazyMap { uri ->
         when (uri.scheme) {
             "content" -> {
+                val contentDescription = uri.fileName(context)
                 val file = if (withFile) try {
                     PictureDirHelper.getFileForUri(context, uri)
                 } catch (_: IllegalArgumentException) {
@@ -261,28 +253,27 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                     if (it.startsWith("image")) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             val size = UiUtils.dp2Px(48f, context.resources)
-                            val cancellationSignal = CancellationSignal()
                             try {
                                 AttachmentInfo.of(
                                     it,
                                     contentResolver.loadThumbnail(
                                         uri,
                                         Size(size, size),
-                                        cancellationSignal
-                                    ), file
+                                        null
+                                    ), contentDescription, file
                                 )
                             } catch (_: Exception) {
                                 null
                             }
                         } else {
-                            AttachmentInfo.of(it, R.drawable.ic_menu_camera, file)
+                            AttachmentInfo.of(it, R.drawable.ic_menu_camera, contentDescription, file)
                         }
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             val icon = contentResolver.getTypeInfo(it).icon
-                            AttachmentInfo.of(it, icon, file)
+                            AttachmentInfo.of(it, icon, contentDescription, file)
                         } else {
-                            AttachmentInfo.of(it, R.drawable.ic_menu_template, file)
+                            AttachmentInfo.of(it, R.drawable.ic_menu_template, contentDescription, file)
                         }
                     }
                 }
@@ -292,12 +283,12 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                 val file = uri.pathSegments[1]
                 AttachmentInfo.of(
                     getMimeType(file),
-                    context.assets.open(file).use(BitmapFactory::decodeStream), null
+                    context.assets.open(file).use(BitmapFactory::decodeStream), file, null
                 )
             } else null
 
             else -> null
-        } ?: AttachmentInfo.of(null, com.google.android.material.R.drawable.mtrl_ic_error, null)
+        } ?: AttachmentInfo.of(null, com.google.android.material.R.drawable.mtrl_ic_error, "Error", null)
     }
 }
 

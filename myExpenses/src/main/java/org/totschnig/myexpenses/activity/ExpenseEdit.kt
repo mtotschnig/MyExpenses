@@ -567,7 +567,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 rootBinding.AttachmentGroup,
                 false
             ).root.apply {
-
+                contentDescription = info.contentDescription
                 rootBinding.AttachmentGroup.addView(
                     this,
                     rootBinding.AttachmentGroup.childCount - 1

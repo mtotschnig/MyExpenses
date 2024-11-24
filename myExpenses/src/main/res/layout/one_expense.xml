@@ -402,6 +402,7 @@
 
                     <TextView
                         style="@style/FormLabel"
+                        android:labelFor="@id/newAttachment"
                         android:text="@string/attachments" />
 
                     <com.google.android.flexbox.FlexboxLayout
@@ -415,6 +416,7 @@
                         app:showDivider="middle">
 
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:contentDescription="@string/menu_add"
                             android:id="@+id/newAttachment"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
