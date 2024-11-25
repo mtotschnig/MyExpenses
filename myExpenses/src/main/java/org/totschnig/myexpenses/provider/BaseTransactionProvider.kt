@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
@@ -84,6 +85,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
@@ -125,6 +127,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -134,6 +137,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
@@ -352,7 +356,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } ELSE $KEY_AMOUNT END"
 
-    fun prepareProjection(
+    fun prepareProjectionForTransactions(
         projectionIn: Array<String>?,
         table: String,
         shortenComment: Boolean,
@@ -383,6 +387,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
             else -> it
         }
     }?.toTypedArray()
+
+    private fun qualifyBudgetColumn(column: String) = "$TABLE_BUDGETS.$column"
+
+    val budgetProjection = arrayOf(
+        qualifyBudgetColumn(KEY_ROWID),
+        "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
+        KEY_TITLE,
+        qualifyBudgetColumn(KEY_DESCRIPTION),
+        "coalesce($TABLE_BUDGETS.$KEY_CURRENCY, $TABLE_ACCOUNTS.$KEY_CURRENCY) AS $KEY_CURRENCY",
+        qualifyBudgetColumn(KEY_GROUPING),
+        KEY_COLOR,
+        KEY_START,
+        KEY_END,
+        "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL",
+        KEY_IS_DEFAULT
+    )
 
     companion object {
         val CATEGORY_TREE_URI: Uri

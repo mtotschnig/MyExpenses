@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentProviderOperation
+import android.content.ContentUris
 import android.content.ContentValues
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -82,12 +83,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
         viewModelScope.launch {
             contentResolver.observeQuery(
-                TransactionProvider.BUDGETS_URI,
-                BudgetViewModel.PROJECTION,
-                "${BudgetViewModel.q(KEY_ROWID)} = ?",
-                arrayOf(budgetId.toString()),
-                null,
-                true
+                uri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+                notifyForDescendants = true
             ).mapToOne(mapper = repository.budgetCreatorFunction).collect { budget ->
                 _accountInfo.tryEmit(budget)
                 if (groupingInfo == null) {

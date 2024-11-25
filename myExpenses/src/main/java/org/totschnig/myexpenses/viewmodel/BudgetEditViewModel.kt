@@ -21,8 +21,8 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
 
     fun budget(budgetId: Long) = liveData(context = coroutineContext()) {
         contentResolver.query(
-            TransactionProvider.BUDGETS_URI,
-            PROJECTION, "${q(KEY_ROWID)} = ?", arrayOf(budgetId.toString()), null
+            ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+            null, null, null, null
         )?.use {
             if (it.moveToFirst()) emit((repository.budgetCreatorFunction(it)))
         }

@@ -442,7 +442,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         String forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null ? getHomeCurrency() : null;
         if (forCatId != null) {
-          projection = prepareProjection(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
+          projection = prepareProjectionForTransactions(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
           String sql = transactionListAsCTE(forCatId, forHome) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
@@ -453,7 +453,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             cte = buildSearchCte(table, forHome);
             table = CTE_SEARCH;
         }
-        projection = prepareProjection(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), !hasSearch);
+        projection = prepareProjectionForTransactions(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), !hasSearch);
         qb = SupportSQLiteQueryBuilder.builder(table);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.distinct();
@@ -467,7 +467,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TRANSACTION_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL);
-        projection = prepareProjection(projection, VIEW_ALL, false, true);
+        projection = prepareProjectionForTransactions(projection, VIEW_ALL, false, true);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case TRANSACTIONS_SUMS: {
@@ -795,10 +795,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case BUDGETS:
         qb = SupportSQLiteQueryBuilder.builder(getBudgetTableJoin());
+        projection = projection == null ? getBudgetProjection() : projection;
         break;
       case BUDGET_ID:
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGETS);
-        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(getBudgetTableJoin());
+        projection = projection == null ? getBudgetProjection() : projection;
+        additionalWhere.append(TABLE_BUDGETS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);

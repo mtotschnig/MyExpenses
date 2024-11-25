@@ -138,11 +138,8 @@ fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
 
 suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>?) =
     contentResolver.query(
-        TransactionProvider.BUDGETS_URI,
-        BudgetViewModel.PROJECTION,
-        "${BudgetViewModel.q(DatabaseConstants.KEY_ROWID)} = ?",
-        arrayOf(budgetId.toString()),
-        null
+        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+        null, null, null, null
     )?.use { cursor ->
         if (!cursor.moveToFirst()) return null
         val budget = budgetCreatorFunction(cursor)
