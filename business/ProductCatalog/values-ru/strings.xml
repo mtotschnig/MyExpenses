@@ -13,13 +13,13 @@
     <string name="print_title">Печать</string>
     <string name="splittransaction_title">Разделённая операция</string>
     <string name="synchronization_title">Облачная синхронизация</string>
-    <string name="budget_description">Определите, сколько вы собираетесь тратить в годовом, ежемесячном или недельном бюджете.</string>
+    <string name="budget_description">Определите, сколько вы собираетесь тратить в годовом, ежемесячном или недельном бюджете</string>
     <string name="ocr_title">Скан чека</string>
     <string name="webui_title">Веб-интерфейс пользователя</string>
     <string name="splittemplate_description">Неограниченное количество шаблонов и планов разбиения транзакций</string>
     <string name="categorytree_title">Дерево категорий</string>
     <string name="distribution_title">Круговая диаграмма</string>
-    <string name="plansunlimited_description">Разблокировать возможность создать более трёх планов для повторяющихся транзакций</string>
+    <string name="plansunlimited_description">Разблокировать возможность создать более трёх планов для повторяющихся транзакций.</string>
     <string name="adfree_description">Без рекламы.</string>
     <string name="csvimport_description">Сложный, настраиваемый импорт CSV (приложения для работы с эл. таблицами)</string>
     <string name="ocr_description">Автоматически извлекать сумму, дату и получателя</string>
