@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
@@ -89,6 +90,7 @@ class ManageCategories : ProtectedFragmentActivity(),
         val action = intent.asAction
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
+            menuInflater.inflate(R.menu.sync, menu)
             val exportMenu = menu.findItem(R.id.EXPORT_COMMAND)
             exportMenu.setEnabledAndVisible(action == Action.MANAGE)
             exportMenu.title = getString(R.string.export_to_format, "QIF")
@@ -116,23 +118,8 @@ class ManageCategories : ProtectedFragmentActivity(),
             }
             menu.findItem(R.id.TYPE_FILTER_COMMAND)?.let { checkMenuIcon(it) }
         }
-        prepareSearch(menu, viewModel.filter)
-        val accountNames = GenericAccountService.getAccountNames(this)
-        menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
-            item.setEnabledAndVisible(accountNames.isNotEmpty())
-            item.subMenu?.let { subMenu1 ->
-                fun populateMenu(command: Int) {
-                    subMenu1.findItem(command)?.subMenu?.let {
-                        it.clear()
-                        for (account in accountNames) {
-                            it.add(command, Menu.NONE, Menu.NONE, account)
-                        }
-                    }
-                }
-                populateMenu(R.id.SYNC_COMMAND_EXPORT_CATEGORIES)
-                populateMenu(R.id.SYNC_COMMAND_IMPORT_CATEGORIES)
-            }
-        }
+        menu.prepareSearch(viewModel.filter)
+        menu.prepareSync(this)
         return true
     }
 
@@ -143,8 +130,8 @@ class ManageCategories : ProtectedFragmentActivity(),
             true
         } else if (item.itemId == Menu.NONE) {
             when (item.groupId) {
-                R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCatsExport(item.title.toString())
-                R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> viewModel.syncCatsImport(item.title.toString())
+                R.id.SYNC_COMMAND_EXPORT -> viewModel.syncCatsExport(item.title.toString())
+                R.id.SYNC_COMMAND_IMPORT -> viewModel.syncCatsImport(item.title.toString())
             }
             true
         } else super.onOptionsItemSelected(item)

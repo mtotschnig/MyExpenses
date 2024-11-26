@@ -26,15 +26,29 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -291,6 +305,42 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     override val withIncomeSum = false
+
+    fun exportBudget(accountName: String, budgetId: Long) {
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    contentResolver.query(
+                        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+                        null, null, null, null
+                    )?.use {
+                        if (it.moveToFirst()) {
+                            val grouping: Grouping = it.getEnum(KEY_GROUPING, Grouping.NONE)
+                            BudgetExport(
+                                title = it.getString(KEY_TITLE),
+                                description = it.getString(KEY_DESCRIPTION),
+                                grouping = grouping,
+                                accountUuid = it.getString(KEY_ACCOUNT_UUID),
+                                currency = it.getString(KEY_CURRENCY),
+                                start = if (grouping == Grouping.NONE) it.getString(KEY_START) else null,
+                                end = if (grouping == Grouping.NONE) it.getString(KEY_END) else null,
+                                isDefault = it.getBoolean(KEY_IS_DEFAULT)
+                            )
+                        } else null
+                    }?.let {
+                        backend.writeBudget("test", it)
+                        "test"
+                    }
+                }.fold(
+                    onSuccess = { it },
+                    onFailure = {
+                        CrashHandler.report(it)
+                        getString(R.string.write_fail_reason_cannot_write) + ": " + it.message
+                    }
+                )?.let { message -> _syncResult.update { message } }
+        }
+
+    }
 
     companion object {
         fun aggregateNeutralPrefKey(budgetId: Long) = booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)

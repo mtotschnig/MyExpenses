@@ -117,7 +117,7 @@ open class CategoryViewModel(
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     private val _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
     private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
-    private val _syncResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    protected val _syncResult: MutableStateFlow<String?> = MutableStateFlow(null)
     private val _mergeResult: MutableStateFlow<Unit?> = MutableStateFlow(null)
     val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult.asStateFlow()
     val moveResult: StateFlow<Boolean?> = _moveResult.asStateFlow()

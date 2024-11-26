@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
@@ -462,6 +463,17 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             true
         )
         return categoriesFilename
+    }
+
+    override fun writeBudget(uuid: String, budget: BudgetExport) {
+        saveFileContents(
+            false,
+            "BUDGETS",
+            "$uuid.$extensionForData",
+            gson.toJson(budget),
+            mimeTypeForData,
+            true
+        )
     }
 
     override val categories: Result<List<CategoryExport>>

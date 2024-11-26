@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +42,10 @@ import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_ACTION
+import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_SWIPE
+import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_TIMEOUT
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
@@ -71,6 +76,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
+import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -98,6 +104,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     private val showFilter = mutableStateOf(true)
 
+    val budgetId: Long
+        get() = intent.getLongExtra(KEY_ROWID, 0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -115,7 +124,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             collate = collate
         )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
-        val budgetId: Long = intent.getLongExtra(KEY_ROWID, 0)
         val groupingYear = intent.getIntExtra(KEY_YEAR, 0)
         val groupingSecond = intent.getIntExtra(KEY_SECOND_GROUP, 0)
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
@@ -127,6 +135,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
             }
         }
+        observeSyncResult()
         binding.composeView.setContent {
             AppTheme {
                 val sort = viewModel.sortOrder.collectAsState()
@@ -508,12 +517,42 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     private fun templateForAllocatedOnlyKey(budgetId: Long) = "allocatedOnly_$budgetId"
 
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
+                viewModel.messageShown()
+        }
+    }
+
+    private fun observeSyncResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.syncResult.collect {
+                    showSnackBar(it, callback = dismissCallback)
+                }
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == Menu.NONE) {
+            when (item.groupId) {
+                R.id.SYNC_COMMAND_EXPORT -> viewModel.exportBudget(item.title.toString(), budgetId)
+                R.id.SYNC_COMMAND_IMPORT -> TODO()
+            }
+            true
+        } else super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (viewModel.duringRollOverEdit) {
             menuInflater.inflate(R.menu.budget_rollover_edit, menu)
         } else {
             menuInflater.inflate(R.menu.budget, menu)
+            menuInflater.inflate(R.menu.sync, menu)
             super.onCreateOptionsMenu(menu)
         }
         return true
@@ -535,6 +574,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             lifecycleScope.launch {
                 menu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
             }
+            menu.prepareSync(this)
         }
         return true
     }

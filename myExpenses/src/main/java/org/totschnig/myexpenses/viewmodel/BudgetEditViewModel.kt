@@ -5,7 +5,6 @@ import android.content.ContentUris
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -24,7 +23,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
             null, null, null, null
         )?.use {
-            if (it.moveToFirst()) emit((repository.budgetCreatorFunction(it)))
+            if (it.moveToFirst()) emit(repository.budgetCreatorFunction(it))
         }
     }
 
