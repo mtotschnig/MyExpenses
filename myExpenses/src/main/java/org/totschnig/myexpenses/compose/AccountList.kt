@@ -217,13 +217,13 @@ fun AccountCard(
                 .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
             val color = Color(account.color(LocalContext.current.resources))
 
-            account.progress?.let {
+            account.progress?.let { (sign, progress) ->
                 DonutInABox(
                     modifier = modifier,
-                    progress = it,
+                    progress = progress,
                     fontSize = 10.sp,
                     color = color,
-                    excessColor = LocalColors.current.amountColor(account.criterion?.sign ?: 0)
+                    excessColor = LocalColors.current.amountColor(sign)
                 )
             } ?: run {
                 if (account.bankId == null || bankIcon == null) {

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import android.icu.text.MessageFormat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -122,13 +121,14 @@ fun DonutInABox(
 ) {
 
     Box(modifier = modifier) {
+        val context = LocalContext.current
         DonutProgress(
             modifier = Modifier.fillMaxSize(),
             model = DonutModel(
                 cap = 100f,
                 gapWidthDegrees = 0f,
                 gapAngleDegrees = 0f,
-                strokeWidth = LocalContext.current.resources.getDimension(R.dimen.progress_donut_stroke_width),
+                strokeWidth = context.resources.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
                 sections = DisplayProgress.calcProgressVisualRepresentation(
                     progress.coerceAtLeast(
@@ -137,10 +137,10 @@ fun DonutInABox(
                 ).forCompose(color, excessColor)
             )
         )
-        val contentDescription = MessageFormat.format(stringResource(R.string.percent_long), mapOf("value" to progress))
+
         Text(
             modifier = Modifier.align(Alignment.Center).semantics {
-                this.contentDescription = contentDescription
+                this.contentDescription = DisplayProgress.contentDescription(context, progress)
             },
             text = progress.displayProgress ,
             fontSize = fontSize,

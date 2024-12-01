@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12dp"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@id/donut_view"
             app:layout_constraintEnd_toEndOf="@id/donut_view"
             app:layout_constraintStart_toStartOf="@id/donut_view"
