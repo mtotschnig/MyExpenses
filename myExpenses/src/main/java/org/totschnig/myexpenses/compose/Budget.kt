@@ -2,19 +2,24 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -27,6 +32,7 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -39,6 +45,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -50,6 +58,8 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @Composable
@@ -174,7 +184,9 @@ private fun Summary(
     narrowScreen: Boolean,
 ) {
     Row(
-        modifier = Modifier.testTag(TEST_TAG_HEADER).height(IntrinsicSize.Min),
+        modifier = Modifier
+            .testTag(TEST_TAG_HEADER)
+            .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -208,7 +220,11 @@ private fun Modifier.labelColumn(scope: RowScope, narrowScreen: Boolean) =
         ifFalse = { with(scope) { weight(2f) } }
     ).padding(end = columnPadding)
 
-private fun Modifier.numberColumn(scope: RowScope, narrowScreen: Boolean, isLast: Boolean = false): Modifier =
+private fun Modifier.numberColumn(
+    scope: RowScope,
+    narrowScreen: Boolean,
+    isLast: Boolean = false,
+): Modifier =
     conditional(
         narrowScreen,
         ifTrue = { width(breakPoint * 0.2f) },
@@ -492,4 +508,43 @@ fun Category.aggregateRollOverNext(rollOverMap: Map<Long, Long>?): Long {
         (rollOverMap?.getOrDefault(it.id, it.budget.rollOverNext) ?: it.budget.rollOverNext) +
                 it.aggregateRollOverNext(rollOverMap)
     }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ChipGroup(
+    modifier: Modifier = Modifier,
+    budget: Budget?,
+    criteria: List<Criterion<*>>,
+) {
+    val context = LocalContext.current
+    FlowRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        ((budget?.let { listOf(stringResource(R.string.account) to it.label(context)) } ?: emptyList()) +
+                criteria.map { stringResource(it.title) to  it.prettyPrint(context) })
+            .forEach { FilterItem(it.first, it. second) }
+    }
+}
+
+/**
+ * Simulate SuggestionChip without clickable
+ */
+@Composable
+fun FilterItem(title: String?, filter: String) {
+    Text(
+        text = filter,
+        modifier = Modifier
+            .semantics(mergeDescendants = true) {
+                contentDescription = "$title: $filter"
+            }
+            .border(
+                SuggestionChipDefaults.suggestionChipBorder(true),
+                SuggestionChipDefaults.shape
+            )
+            .defaultMinSize(minHeight = 32.dp)
+            .padding(horizontal = 8.dp)
+            .wrapContentHeight(Alignment.CenterVertically),
+    )
 }

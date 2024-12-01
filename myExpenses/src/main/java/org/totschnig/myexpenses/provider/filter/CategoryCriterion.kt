@@ -35,9 +35,10 @@ class CategoryCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_CATEGORY_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_CATID
+    @IgnoredOnParcel
+    override val title = R.string.category
 
     override fun getSelection(forExport: Boolean): String = if (operation === WhereFilter.Operation.ISNULL) {
         super.getSelection(false)

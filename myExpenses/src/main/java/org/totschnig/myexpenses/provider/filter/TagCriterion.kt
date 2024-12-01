@@ -26,9 +26,10 @@ class TagCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_TAG_COMMAND
-
     @IgnoredOnParcel
     override val column = KEY_TAGID
+    @IgnoredOnParcel
+    override val title = R.string.tags
 
     companion object {
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {

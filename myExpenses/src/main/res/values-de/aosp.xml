@@ -132,4 +132,5 @@
     <string name="debug">"Debuggen"</string>
     <string name="wifi_not_connected">"Keine Internetverbindung über WLAN vorhanden"</string>
     <string name="action_archive">"Archivieren"</string>
+    <string name="percent_long">"{value,plural, =1{1 Prozent}other{# Prozent}}"</string>
 </resources>

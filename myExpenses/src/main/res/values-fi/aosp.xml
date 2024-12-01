@@ -66,4 +66,5 @@
     <string name="debug">"Vianetsintä"</string>
     <string name="wifi_not_connected">"Wi-Fi-yhteyttä ei voi muodostaa."</string>
     <string name="action_archive">"Arkisto"</string>
+    <string name="percent_long">"{value,plural, =1{1 prosentti}other{# prosenttia}}"</string>
 </resources>

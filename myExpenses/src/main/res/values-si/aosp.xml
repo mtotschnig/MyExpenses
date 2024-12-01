@@ -118,4 +118,5 @@
     <string name="debug">"නිදොස්කරණය"</string>
     <string name="wifi_not_connected">"අන්තර්ජාලය වෙත Wi‑Fi සම්බන්ධ වී නැත"</string>
     <string name="action_archive">"සංරක්ෂිත කරන්න"</string>
+    <string name="percent_long">"{value,plural, =1{සියයට 1}one{සියයට #}other{සියයට #}}"</string>
 </resources>

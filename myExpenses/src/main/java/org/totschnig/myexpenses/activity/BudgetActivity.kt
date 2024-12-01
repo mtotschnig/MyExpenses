@@ -213,9 +213,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         if (showFilter.value) {
             val whereFilter = viewModel.whereFilter.collectAsState().value
             ChipGroup(
-                Modifier.padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
-                budget,
-                whereFilter.criteria
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
+                budget = budget,
+                criteria = whereFilter.criteria
             )
         }
     }

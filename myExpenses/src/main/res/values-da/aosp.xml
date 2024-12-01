@@ -133,4 +133,5 @@
     <string name="debug">"Fejlretning"</string>
     <string name="wifi_not_connected">"Der er ikke internetadgang via Wi-Fi"</string>
     <string name="action_archive">"Arkivér"</string>
+    <string name="percent_long">"{value,plural, =1{1 procent}one{# procent}other{# procent}}"</string>
 </resources>

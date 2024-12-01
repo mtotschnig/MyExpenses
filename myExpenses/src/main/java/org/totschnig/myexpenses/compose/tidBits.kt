@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.icu.text.MessageFormat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -42,6 +43,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -49,16 +52,13 @@ import androidx.compose.ui.unit.sp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.FilterItem
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
-import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
@@ -137,8 +137,11 @@ fun DonutInABox(
                 ).forCompose(color, excessColor)
             )
         )
+        val contentDescription = MessageFormat.format(stringResource(R.string.percent_long), mapOf("value" to progress))
         Text(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center).semantics {
+                this.contentDescription = contentDescription
+            },
             text = progress.displayProgress ,
             fontSize = fontSize,
         )
@@ -238,33 +241,6 @@ fun SumDetails(
             text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(transferSum),
             color = LocalColors.current.transfer
         )
-    }
-}
-
-@Composable
-fun ChipGroup(
-    modifier: Modifier = Modifier,
-    budget: Budget?,
-    criteria: List<Criterion<*>>,
-) {
-    val context = LocalContext.current
-    ChipGroup(
-        modifier,
-        (budget?.let { listOf(it.label(context)) } ?: emptyList()) +
-                criteria.map { it.prettyPrint(context) }
-    )
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun ChipGroup(
-    modifier: Modifier,
-    chips: Iterable<String>
-) {
-    FlowRow(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        chips.forEach {
-            FilterItem(it)
-        }
     }
 }
 

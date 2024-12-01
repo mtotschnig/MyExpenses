@@ -34,6 +34,8 @@ class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStat
     override val column = DatabaseConstants.KEY_CR_STATUS
     @IgnoredOnParcel
     override val operation = WhereFilter.Operation.IN
+    @IgnoredOnParcel
+    override val title = R.string.status
 
     override fun prettyPrint(context: Context) =
         values.joinToString(",") { context.getString(it.toStringRes()) }

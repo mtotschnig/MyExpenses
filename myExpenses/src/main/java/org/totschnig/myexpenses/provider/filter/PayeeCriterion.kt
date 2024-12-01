@@ -33,9 +33,10 @@ class PayeeCriterion(
 
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_PAYEE_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_PAYEEID
+    @IgnoredOnParcel
+    override val title = R.string.payer_or_payee
 
     override fun getSelection(forExport: Boolean): String {
         return if (operation === WhereFilter.Operation.ISNULL) {

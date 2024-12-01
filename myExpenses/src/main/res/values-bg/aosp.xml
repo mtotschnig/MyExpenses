@@ -134,4 +134,5 @@
     <string name="debug">"Отстраняване на грешки"</string>
     <string name="wifi_not_connected">"Wi-Fi мрежата не е свързана с интернет"</string>
     <string name="action_archive">"Архивиране"</string>
+    <string name="percent_long">"{value,plural, =1{1 процент}other{# процента}}"</string>
 </resources>

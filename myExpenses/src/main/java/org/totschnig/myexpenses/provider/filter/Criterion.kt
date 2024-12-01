@@ -36,6 +36,7 @@ abstract class Criterion<T : Any> : Parcelable {
         get() = values.map { it.toString() }.toTypedArray()
     abstract val id: Int
     abstract val column: String
+    abstract val title: Int
 
     open val key: String
         get() = column

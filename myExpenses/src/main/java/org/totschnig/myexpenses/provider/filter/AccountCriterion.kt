@@ -33,6 +33,8 @@ class AccountCriterion(
     override val id = R.id.FILTER_ACCOUNT_COMMAND
     @IgnoredOnParcel
     override val column = ACCOUNT_COLUMN
+    @IgnoredOnParcel
+    override val title = R.string.account
 
     override fun getSelection(forExport: Boolean): String {
         val selection = operation.getOp(values.size)

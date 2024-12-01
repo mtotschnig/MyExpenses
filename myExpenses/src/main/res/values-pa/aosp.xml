@@ -41,4 +41,5 @@
     <string name="show">" ਦਿਖਾਓ"</string>
     <string name="debug">"ਡੀਬਗ ਕਰੋ"</string>
     <string name="wifi_not_connected">"ਵਾਈ-ਫਾਈ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਹੈ"</string>
+    <string name="percent_long">"{value,plural, =1{1 ਫ਼ੀਸਦ}one{# ਫ਼ੀਸਦ}other{# ਫ਼ੀਸਦ}}"</string>
 </resources>

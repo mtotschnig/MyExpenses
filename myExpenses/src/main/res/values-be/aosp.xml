@@ -50,4 +50,5 @@
     <string name="hide">"Схаваць"</string>
     <string name="show">"Паказаць"</string>
     <string name="wifi_not_connected">"Wi‑Fi не падключаны да інтэрнэту"</string>
+    <string name="percent_long">"{value,plural, =1{1 працэнт}one{# працэнт}few{# працэнты}many{# працэнтаў}other{# працэнта}}"</string>
 </resources>

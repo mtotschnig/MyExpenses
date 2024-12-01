@@ -42,9 +42,10 @@ class TransferCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_TRANSFER_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
+    @IgnoredOnParcel
+    override val title = R.string.transfer
 
     companion object {
 

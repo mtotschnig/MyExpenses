@@ -57,4 +57,5 @@
     <string name="debug">"Lungisa iphutha"</string>
     <string name="wifi_not_connected">"I-Wi-Fi ayixhunyiwe kwi-inthanethi"</string>
     <string name="action_archive">"Ingobo yomlando"</string>
+    <string name="percent_long">"{value,plural, =1{iphesenti eli-1}one{amaphesenti angu-#}other{amaphesenti angu-#}}"</string>
 </resources>

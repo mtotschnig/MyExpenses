@@ -56,4 +56,5 @@
     <string name="debug">"ດີບັ໊ກ"</string>
     <string name="wifi_not_connected">"Wi‑Fi ບໍ່ໄດ້ເຊື່ອມຕໍ່ອິນເຕີເນັດ"</string>
     <string name="action_archive">"ຈັດ​ເກັບເຂົ້າແຟ້ມ"</string>
+    <string name="percent_long">"{value,plural, =1{1 ເປີເຊັນ}other{# ເປີເຊັນ}}"</string>
 </resources>

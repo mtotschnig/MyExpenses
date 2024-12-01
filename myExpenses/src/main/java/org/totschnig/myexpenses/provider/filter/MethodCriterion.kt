@@ -33,9 +33,10 @@ class MethodCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_METHOD_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_METHODID
+    @IgnoredOnParcel
+    override val title = R.string.method
 
     override val shouldApplyToSplitTransactions get() = false
 

@@ -131,4 +131,5 @@
     <string name="debug">"Hata ayıkla"</string>
     <string name="wifi_not_connected">"Kablosuz ağ internet'e bağlı değil"</string>
     <string name="action_archive">"Arşiv"</string>
+    <string name="percent_long">"{value,plural, =1{yüzde 1}other{yüzde #}}"</string>
 </resources>

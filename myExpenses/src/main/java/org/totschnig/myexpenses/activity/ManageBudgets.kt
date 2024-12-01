@@ -10,14 +10,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,9 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,6 +56,7 @@ import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
@@ -58,6 +64,9 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import kotlin.getValue
@@ -96,7 +105,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         .nestedScroll(nestedScrollInterop)
                 ) {
                     val breakpoint = 400.dp
-                    val narrowScreen = maxWidth < breakpoint
+                    val narrowScreen = this.maxWidth < breakpoint
                     LazyColumn(
                         modifier = Modifier
                             .testTag(TEST_TAG_LIST)
@@ -125,31 +134,26 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     }
 
                                     BudgetItem(
-                                        narrowScreen,
-                                        grouping,
-                                        Modifier
-                                            .padding(
-                                                horizontal = dimensionResource(R.dimen.padding_main_screen)
-                                            )
-                                            .clickable {
-                                                startActivity(
-                                                    Intent(
-                                                        this@ManageBudgets,
-                                                        BudgetActivity::class.java
-                                                    ).apply {
-                                                        this.putExtra(KEY_ROWID, budget.id)
-                                                        this.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-                                                    }
-                                                )
-                                            },
-                                        budget,
-                                        criteria,
-                                        currencyUnit,
-                                        allocated.longValue,
-                                        spent.longValue
-                                    )
+                                        narrowScreen = narrowScreen,
+                                        grouping = grouping,
+                                        budget = budget,
+                                        criteria = criteria,
+                                        currencyUnit = currencyUnit,
+                                        allocated = allocated.longValue,
+                                        spent = spent.longValue
+                                    ) {
+                                        startActivity(
+                                            Intent(
+                                                this@ManageBudgets,
+                                                BudgetActivity::class.java
+                                            ).apply {
+                                                this.putExtra(KEY_ROWID, budget.id)
+                                                this.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                            }
+                                        )
+                                    }
                                     if (index < list.lastIndex) {
-                                        HorizontalDivider(modifier = Modifier.padding(4.dp))
+                                        HorizontalDivider(modifier = Modifier.padding(horizontal = 4.dp))
                                     }
                                 }
                             }
@@ -209,26 +213,74 @@ class ManageBudgets : ProtectedFragmentActivity() {
 fun BudgetItem(
     narrowScreen: Boolean,
     grouping: BudgetListViewModel.Grouping,
-    modifier: Modifier,
     budget: Budget,
     criteria: List<Criterion<*>>,
     currencyUnit: CurrencyUnit,
     allocated: Long,
     spent: Long,
+    onClick: () -> Unit = {},
 ) {
+    val available = allocated + spent
+    val padding =  Modifier
+        .padding(
+            horizontal = dimensionResource(R.dimen.padding_main_screen)
+        )
+    @Composable
+    fun Budgeted() {
+        Text(stringResource(R.string.budget_table_header_budgeted))
+        AmountText(
+            modifier = Modifier.conditional(narrowScreen,
+                ifTrue = { padding(end = 8.dp) },
+                ifFalse = { padding(vertical = 8.dp)}),
+            textAlign = TextAlign.End,
+            amount = allocated,
+            currency = currencyUnit
+        )
+    }
+
+    @Composable
+    fun Spent() {
+        Text(stringResource(R.string.budget_table_header_spent))
+        AmountText(
+            modifier = Modifier.conditional(narrowScreen,
+                ifTrue = { padding(end = 8.dp) },
+                ifFalse = { padding(vertical = 8.dp)}),
+            textAlign = TextAlign.End,
+            amount = spent,
+            currency = currencyUnit
+        )
+    }
+
+    @Composable
+    fun Available() {
+        Text(stringResource(R.string.available))
+        ColoredAmountText(
+            textAlign = TextAlign.End,
+            amount = available,
+            currency = currencyUnit,
+            withBorder = true
+        )
+    }
+
     val context = LocalContext.current
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .semantics {
+            isTraversalGroup = true
+        }
+        .clickable(onClick = onClick)) {
         Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = padding.align(Alignment.CenterHorizontally).padding(top = 4.dp),
             text = if (grouping == BudgetListViewModel.Grouping.Grouping && budget.grouping != Grouping.NONE)
                 budget.title else budget.titleComplete(context)
         )
         ChipGroup(
+            modifier = padding,
             budget = budget.takeIf { grouping != BudgetListViewModel.Grouping.Account },
             criteria = criteria
         )
         Row(
-            Modifier.fillMaxWidth(),
+            padding.fillMaxWidth().height(IntrinsicSize.Min).padding(bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -241,128 +293,73 @@ fun BudgetItem(
                 color = Color(budget.color),
                 excessColor = LocalColors.current.expense
             )
-            val available = allocated + spent
 
-            Column(Modifier.weight(1f)) {
-                if (narrowScreen) {
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(stringResource(R.string.budget_table_header_budgeted))
-                        AmountText(
-                            textAlign = TextAlign.End,
-                            amount = allocated,
-                            currency = currencyUnit
-                        )
+
+            if (narrowScreen) {
+                Column(Modifier.weight(1f)) {
+                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Budgeted()
                     }
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(stringResource(R.string.budget_table_header_spent))
-                        AmountText(
-                            textAlign = TextAlign.End,
-                            amount = spent,
-                            currency = currencyUnit
-                        )
+                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Spent()
                     }
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(stringResource(R.string.available))
-                        ColoredAmountText(
-                            textAlign = TextAlign.End,
-                            amount = available,
-                            currency = currencyUnit,
-                            withBorder = true
-                        )
+                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Available()
                     }
-                } else {
-                    Row(Modifier.fillMaxWidth()) {
-                        Text(
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.budget_table_header_budgeted)
-                        )
-                        Text(
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.budget_table_header_spent)
-                        )
-                        Text(
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.available)
-                        )
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        AmountText(
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f),
-                            amount = allocated, currency = currencyUnit
-                        )
-                        AmountText(
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f),
-                            amount = spent, currency = currencyUnit
-                        )
-                        Box(Modifier.weight(1f)) {
-                            ColoredAmountText(
-                                textAlign = TextAlign.End,
-                                modifier = Modifier.align(Alignment.CenterEnd),
-                                amount = available,
-                                currency = currencyUnit,
-                                withBorder = true
-                            )
-                        }
-                    }
+                }
+            } else {
+                Column(Modifier.weight(1f).fillMaxHeight().semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                    Budgeted()
+                }
+                Column(Modifier.weight(1f).fillMaxHeight().semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                    Spent()
+                }
+                Column(Modifier.weight(1f).semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                    Available()
                 }
             }
         }
     }
 }
 
-@Composable
-fun FilterItem(filter: String) {
-    FilterChip(
-        selected = false,
-        label = {
-            Text(filter)
-        },
-        onClick = {}
-    )
-}
-
 @Preview(widthDp = 320, showBackground = true)
 @Composable
 fun BudgetItemNarrow() {
     BudgetItem(
-        true,
-        BudgetListViewModel.Grouping.Account,
-        Modifier,
-        Budget(
+        narrowScreen = true,
+        grouping = BudgetListViewModel.Grouping.Grouping,
+        budget = Budget(
             1, 1, "Budget", "Daily Expenses", "EUR", Grouping.MONTH, android.graphics.Color.CYAN,
-            null as String?, null as String?, "Wallet", false
+            null as String?, null as String?, "Wallet with a long name", false
         ),
-        emptyList(),
-        CurrencyUnit.DebugInstance,
-        1000,
-        -500
+        criteria = listOf(
+            PayeeCriterion("Payee 1"), TagCriterion("Tags"),
+            MethodCriterion("Method")
+        ),
+        currencyUnit = CurrencyUnit.DebugInstance,
+        allocated = 1000,
+        spent = -500
     )
 }
 
-@Preview(widthDp = 320, showBackground = true)
+@Preview(widthDp = 480, showBackground = true)
 @Composable
 fun BudgetItemWide() {
     BudgetItem(
-        false,
-        BudgetListViewModel.Grouping.Account,
-        Modifier,
-        Budget(
+        narrowScreen = false,
+        grouping = BudgetListViewModel.Grouping.Account,
+        budget = Budget(
             1, 1, "Budget", "Daily Expenses", "EUR", Grouping.MONTH, android.graphics.Color.CYAN,
             null as String?, null as String?, "Wallet", false
         ),
-        emptyList(),
-        CurrencyUnit.DebugInstance,
-        1000,
-        -500
+        criteria = listOf(
+            PayeeCriterion("Payee 1, Payee 2Payee 2Payee 2Payee 2Payee 2Payee 2Payee 2"),
+            TagCriterion("Tags"),
+            MethodCriterion("Method")
+        ),
+        currencyUnit = CurrencyUnit.DebugInstance,
+        allocated = 1000,
+        spent = -500
     )
 }
 

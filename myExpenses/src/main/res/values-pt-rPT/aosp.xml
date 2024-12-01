@@ -94,4 +94,5 @@
     <string name="debug">"Depurar"</string>
     <string name="wifi_not_connected">"A rede Wi-Fi não está ligada à Internet."</string>
     <string name="action_archive">"Arquivar"</string>
+    <string name="percent_long">"{value,plural, =1{1 por cento}other{# por cento}}"</string>
 </resources>
