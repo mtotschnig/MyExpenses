@@ -393,6 +393,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     val budgetProjection = arrayOf(
         qualifyBudgetColumn(KEY_ROWID),
+        qualifyBudgetColumn(KEY_UUID),
         "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
         KEY_TITLE,
         qualifyBudgetColumn(KEY_DESCRIPTION),

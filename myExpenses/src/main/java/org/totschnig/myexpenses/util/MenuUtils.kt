@@ -44,21 +44,25 @@ fun Menu.prepareSearch(filter: String?) {
     }
 }
 
-fun Menu.prepareSync(context: Context) {
+fun MenuItem.populateWithSync(accountNames: Array<String>) {
+    subMenu?.let {
+        it.clear()
+        for (account in accountNames) {
+            it.add(itemId, Menu.NONE, Menu.NONE, account)
+        }
+    }
+}
+
+
+fun Menu.prepareSync(
+    context: Context,
+) {
     val accountNames = GenericAccountService.getAccountNames(context)
     findItem(R.id.SYNC_COMMAND)?.let { item ->
         item.setEnabledAndVisible(accountNames.isNotEmpty())
-        item.subMenu?.let { subMenu1 ->
-            fun populateMenu(command: Int) {
-                subMenu1.findItem(command)?.subMenu?.let {
-                    it.clear()
-                    for (account in accountNames) {
-                        it.add(command, Menu.NONE, Menu.NONE, account)
-                    }
-                }
-            }
-            populateMenu(R.id.SYNC_COMMAND_EXPORT)
-            populateMenu(R.id.SYNC_COMMAND_IMPORT)
+        item.subMenu?.let {
+            it.findItem(R.id.SYNC_COMMAND_EXPORT)?.populateWithSync(accountNames)
+            it.findItem(R.id.SYNC_COMMAND_IMPORT)?.populateWithSync(accountNames)
         }
     }
 }

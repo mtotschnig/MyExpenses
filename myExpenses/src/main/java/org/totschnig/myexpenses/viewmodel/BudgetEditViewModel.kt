@@ -5,6 +5,8 @@ import android.content.ContentUris
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -30,6 +32,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     fun saveBudget(budget: Budget, initialAmount: Long?, whereFilter: WhereFilter) {
         val contentValues = budget.toContentValues(initialAmount)
         if (budget.id == 0L) {
+            contentValues.put(DatabaseConstants.KEY_UUID, Model.generateUuid())
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {
                     val result = uri?.let { ContentUris.parseId(it) } ?: -1

@@ -74,8 +74,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
+import org.totschnig.myexpenses.util.populateWithSync
 import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
@@ -538,11 +540,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == Menu.NONE) {
-            when (item.groupId) {
-                R.id.SYNC_COMMAND_EXPORT -> viewModel.exportBudget(item.title.toString(), budgetId)
-                R.id.SYNC_COMMAND_IMPORT -> TODO()
-            }
+        return if (item.itemId == Menu.NONE && item.groupId == R.id.SYNC_COMMAND_EXPORT) {
+            viewModel.exportBudget(item.title.toString(), budgetId)
             true
         } else super.onOptionsItemSelected(item)
     }
@@ -552,7 +551,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             menuInflater.inflate(R.menu.budget_rollover_edit, menu)
         } else {
             menuInflater.inflate(R.menu.budget, menu)
-            menuInflater.inflate(R.menu.sync, menu)
             super.onCreateOptionsMenu(menu)
         }
         return true
@@ -574,7 +572,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             lifecycleScope.launch {
                 menu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
             }
-            menu.prepareSync(this)
+            menu.findItem(R.id.SYNC_COMMAND_EXPORT)?.populateWithSync(
+                GenericAccountService.getAccountNames(this)
+            )
         }
         return true
     }

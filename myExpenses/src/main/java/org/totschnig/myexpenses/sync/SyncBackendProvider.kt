@@ -70,7 +70,9 @@ interface SyncBackendProvider {
 
     val categories: Result<List<CategoryExport>>
 
-    fun writeBudget(uuid: String, budget: BudgetExport)
+    val budgets: List<Pair<String, String>>
+
+    fun writeBudget(uuid: String, budget: BudgetExport): String
 
     fun suggestDelay(e: IOException, defaultDelay: Long): Long = defaultDelay
 

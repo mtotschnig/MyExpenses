@@ -66,9 +66,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected val isEncrypted: Boolean
         get() = encryptionPassword != null
     val accountMetadataFilename: String
-        get() = String.format("%s.%s", ACCOUNT_METADATA_FILENAME, extensionForData)
+        get() = "$ACCOUNT_METADATA_FILENAME.$extensionForData"
     private val categoriesFilename: String
-        get() = String.format("%s.%s", CATEGORIES_FILENAME, extensionForData)
+        get() = "$CATEGORIES_FILENAME.$extensionForData"
     override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
 
@@ -100,7 +100,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             } else {
                 try {
                     decrypt(it)
-                } catch (e: GeneralSecurityException) {
+                } catch (_: GeneralSecurityException) {
                     throw wrongPassphrase(context)
                 }
             }
@@ -444,7 +444,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     final override val storedBackups: List<String>
-        get() = getCollection(BACKUP_FOLDER_NAME, false)?.let { folder ->
+        get() = getCollection(BACKUP_FOLDER_NAME)?.let { folder ->
             childrenForCollection(folder).mapNotNull { nameForResource(it) }
         } ?: emptyList()
 
@@ -465,15 +465,17 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return categoriesFilename
     }
 
-    override fun writeBudget(uuid: String, budget: BudgetExport) {
+    override fun writeBudget(uuid: String, budget: BudgetExport): String {
+        val fileName = "$uuid.$extensionForData"
         saveFileContents(
             false,
-            "BUDGETS",
-            "$uuid.$extensionForData",
+            BUDGETS_FOLDER_NAME,
+            fileName,
             gson.toJson(budget),
             mimeTypeForData,
             true
         )
+        return fileName
     }
 
     override val categories: Result<List<CategoryExport>>
@@ -486,6 +488,18 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             }
                 ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
+
+    override val budgets: List<Pair<String, String>>
+        get() = getCollection(BUDGETS_FOLDER_NAME)?.let { folder ->
+            childrenForCollection(folder)
+                .mapNotNull { res ->
+                    nameForResource(res)?.let { getNameWithoutExtension(it) }?.let {
+                        it to BufferedReader(InputStreamReader(maybeDecrypt(getInputStream(res)))).use { bufferedReader ->
+                            gson.fromJson(bufferedReader, BudgetExport::class.java).title
+                        }
+                    }
+                }
+        } ?: emptyList()
 
     @CallSuper
     override fun withAccount(account: Account) {
@@ -554,6 +568,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val ATTACHMENT_FOLDER_NAME = "ATTACHMENTS"
+        const val BUDGETS_FOLDER_NAME ="BUDGETS"
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
         private const val CATEGORIES_FILENAME = "categories"

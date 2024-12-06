@@ -20,6 +20,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +69,9 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.populateWithSync
+import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import kotlin.getValue
@@ -75,6 +81,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
     private lateinit var binding: ActivityComposeBinding
     private val viewModel: BudgetListViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityComposeBinding.inflate(layoutInflater)
@@ -96,6 +103,27 @@ class ManageBudgets : ProtectedFragmentActivity() {
                             text = stringResource(R.string.no_budgets)
                         )
                     }
+                }
+                val importableBudgets = viewModel.importableBudgets.collectAsStateWithLifecycle()
+                importableBudgets.value?.let {
+                    AlertDialog(
+                        onDismissRequest = { viewModel.importDialogDismissed() },
+                        confirmButton = {
+                            Button(onClick = {}) {
+                                Text("TODO")
+                            }
+                        },
+                        text = {
+                            if (it.isNotEmpty()) {
+                                Column {
+                                    Text("The following budgets can be imported:")
+                                    it.forEach { Text(it.second) }
+                                }
+                            } else {
+                                Text("No budgets")
+                            }
+                        }
+                    )
                 }
                 val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 BoxWithConstraints(
@@ -171,6 +199,10 @@ class ManageBudgets : ProtectedFragmentActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.SYNC_COMMAND_IMPORT)?.populateWithSync(
+            GenericAccountService.getAccountNames(this)
+        )
+        menu.prepareSync(this)
         lifecycleScope.launch {
             menu.findItem(R.id.GROUPING_COMMAND)?.subMenu
                 ?.findItem(viewModel.grouping().first().commandId)
@@ -191,6 +223,13 @@ class ManageBudgets : ProtectedFragmentActivity() {
                     }
                 }
                 true
+            }
+
+            Menu.NONE -> {
+                if (item.groupId == R.id.SYNC_COMMAND_IMPORT) {
+                    viewModel.importBudgets(item.title.toString())
+                    true
+                } else false
             }
 
             else -> super.onOptionsItemSelected(item)
@@ -220,17 +259,18 @@ fun BudgetItem(
     onClick: () -> Unit = {},
 ) {
     val available = allocated + spent
-    val padding =  Modifier
+    val padding = Modifier
         .padding(
             horizontal = dimensionResource(R.dimen.padding_main_screen)
         )
+
     @Composable
     fun Budgeted() {
         Text(stringResource(R.string.budget_table_header_budgeted))
         AmountText(
             modifier = Modifier.conditional(narrowScreen,
                 ifTrue = { padding(end = 8.dp) },
-                ifFalse = { padding(vertical = 8.dp)}),
+                ifFalse = { padding(vertical = 8.dp) }),
             textAlign = TextAlign.End,
             amount = allocated,
             currency = currencyUnit
@@ -243,7 +283,7 @@ fun BudgetItem(
         AmountText(
             modifier = Modifier.conditional(narrowScreen,
                 ifTrue = { padding(end = 8.dp) },
-                ifFalse = { padding(vertical = 8.dp)}),
+                ifFalse = { padding(vertical = 8.dp) }),
             textAlign = TextAlign.End,
             amount = spent,
             currency = currencyUnit
@@ -269,7 +309,9 @@ fun BudgetItem(
         }
         .clickable(onClick = onClick)) {
         Text(
-            modifier = padding.align(Alignment.CenterHorizontally).padding(top = 4.dp),
+            modifier = padding
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 4.dp),
             text = if (grouping == BudgetListViewModel.Grouping.Grouping && budget.grouping != Grouping.NONE)
                 budget.title else budget.titleComplete(context)
         )
@@ -279,7 +321,10 @@ fun BudgetItem(
             criteria = criteria
         )
         Row(
-            padding.fillMaxWidth().height(IntrinsicSize.Min).padding(bottom = 4.dp),
+            padding
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .padding(bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -296,24 +341,57 @@ fun BudgetItem(
 
             if (narrowScreen) {
                 Column(Modifier.weight(1f)) {
-                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .semantics(mergeDescendants = true) {},
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Budgeted()
                     }
-                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .semantics(mergeDescendants = true) {},
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Spent()
                     }
-                    Row(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .semantics(mergeDescendants = true) {},
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Available()
                     }
                 }
             } else {
-                Column(Modifier.weight(1f).fillMaxHeight().semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .semantics(mergeDescendants = true) {},
+                    horizontalAlignment = Alignment.End
+                ) {
                     Budgeted()
                 }
-                Column(Modifier.weight(1f).fillMaxHeight().semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .semantics(mergeDescendants = true) {},
+                    horizontalAlignment = Alignment.End
+                ) {
                     Spent()
                 }
-                Column(Modifier.weight(1f).semantics(mergeDescendants = true) {}, horizontalAlignment = Alignment.End) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .semantics(mergeDescendants = true) {},
+                    horizontalAlignment = Alignment.End
+                ) {
                     Available()
                 }
             }

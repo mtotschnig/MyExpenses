@@ -600,6 +600,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = Companion.payeeProjection(TABLE_PAYEES);
         additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
+      case PAYEE_ID:
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PAYEES);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
@@ -857,6 +861,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_TAGS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
+      case TAG_ID:
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_TAGS);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       case DEBTS: {
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
@@ -904,6 +912,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = new String[] { KEY_URI };
         }
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
+        break;
+      }
+      case BUDGET_ALLOCATIONS : {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
       default:

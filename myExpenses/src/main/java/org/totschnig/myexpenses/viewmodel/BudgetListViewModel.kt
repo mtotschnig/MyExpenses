@@ -11,8 +11,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
@@ -22,6 +24,8 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
@@ -32,6 +36,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -45,6 +50,9 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     enum class Grouping(val commandId: Int) {
         Account(R.id.GROUPING_BUDGETS_ACCOUNT_COMMAND), Grouping(R.id.GROUPING_BUDGETS_GROUPING_COMMAND)
     }
+
+    private val _importableBudgets = MutableStateFlow<List<Pair<String, String>>?>(null)
+    val importableBudgets: StateFlow<List<Pair<String, String>>?> = _importableBudgets.asStateFlow()
 
     @Inject
     lateinit var settings: SharedPreferences
@@ -157,4 +165,24 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                     spent to allocated
                 }
             }
+
+    fun importBudgets(accountName: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            val allBudgets = dataGrouped.value.second.flatMap { it.second }
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    _importableBudgets.update {
+                        backend.budgets.filter { remote ->
+                            allBudgets.none { local -> local.uuid == remote.first }
+                        }
+                    }
+                }
+        }
+    }
+
+    fun importDialogDismissed() {
+        _importableBudgets.update {
+            null
+        }
+    }
 }

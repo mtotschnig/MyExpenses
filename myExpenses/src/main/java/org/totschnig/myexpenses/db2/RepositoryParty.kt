@@ -9,14 +9,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
 fun Repository.createParty(party: String) = contentResolver.createParty(Party.create(name = party))
 
 fun Repository.saveParty(party: Party) {
     contentResolver.update(
-        ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, party.id),
+        ContentUris.withAppendedId(PAYEES_URI, party.id),
         party.asContentValues,
         null,
         null
@@ -34,10 +34,10 @@ fun Repository.requireParty(name: String) = contentResolver.requireParty(name)
 
 @VisibleForTesting
 fun Repository.deleteParty(id: Long) {
-    contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, id), null, null)
+    contentResolver.delete(ContentUris.withAppendedId(PAYEES_URI, id), null, null)
 }
 
-// legacy methods with ContentResolver receivier
+// legacy methods with ContentResolver receiver
 fun ContentResolver.requireParty(name: String): Long {
     return findParty(name) ?: createParty(Party.create(name = name)).id
 }
@@ -45,14 +45,14 @@ fun ContentResolver.requireParty(name: String): Long {
 fun ContentResolver.createParty(party: Party) = party.copy(
     id = ContentUris.parseId(
         insert(
-            TransactionProvider.PAYEES_URI,
+            PAYEES_URI,
             party.asContentValues
         )!!
     )
 )
 
 fun ContentResolver.findParty(party: String, iban: String? = null) = query(
-    TransactionProvider.PAYEES_URI,
+    PAYEES_URI,
     arrayOf(DatabaseConstants.KEY_ROWID),
     KEY_PAYEE_NAME + " = ? AND " + KEY_IBAN + if (iban == null) " IS NULL" else " = ?",
     if (iban == null) arrayOf(party.trim()) else arrayOf(party, iban),
@@ -63,10 +63,18 @@ fun Repository.unsetParentId(partyId: Long) {
     setParentId(partyId, null)
 }
 
+fun Repository.getParty(partyId: Long) = contentResolver.query(
+        ContentUris.withAppendedId(PAYEES_URI, partyId),
+        arrayOf(KEY_PAYEE_NAME), null, null, null
+    )?.use {
+        it.moveToFirst()
+        it.getString(0)
+    }
+
 @VisibleForTesting
 fun Repository.setParentId(partyId: Long, parentId: Long?) {
     contentResolver.update(
-        ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, partyId),
+        ContentUris.withAppendedId(PAYEES_URI, partyId),
         ContentValues(1).apply { put(KEY_PARENTID, parentId) },
         null, null
     )

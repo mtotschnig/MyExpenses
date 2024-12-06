@@ -10,6 +10,7 @@ import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
+import org.totschnig.myexpenses.model2.CategoryPath
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -139,6 +140,11 @@ fun Repository.getCategoryPath(id: Long) = contentResolver.query(
         ?.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
 }
 
+fun Repository.getCategoryInfoList(id: Long): CategoryPath? = contentResolver.query(
+    ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
+    null, null, null, null
+)?.use { cursor -> CategoryInfo.fromCursor(cursor) }
+
 @VisibleForTesting
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
     TransactionProvider.CATEGORIES_URI,
@@ -168,5 +174,9 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
 
 @VisibleForTesting
 fun Repository.deleteAllCategories() {
-    contentResolver.delete(TransactionProvider.CATEGORIES_URI, "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}", null)
+    contentResolver.delete(
+        TransactionProvider.CATEGORIES_URI,
+        "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}",
+        null
+    )
 }

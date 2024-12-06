@@ -15,7 +15,7 @@ interface ResourceStorage<Res> {
 
     fun collectionForShard(shardNumber: Int): Res?
 
-    fun getCollection(collectionName: String, require: Boolean): Res?
+    fun getCollection(collectionName: String, require: Boolean = false): Res?
 
     fun requireCollection(collectionName: String): Res = getCollection(collectionName, true)
         ?: throw FileNotFoundException("${this::class.java}.getCollection(require = true) returned null")

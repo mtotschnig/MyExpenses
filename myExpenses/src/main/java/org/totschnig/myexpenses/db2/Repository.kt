@@ -145,7 +145,8 @@ open class Repository @Inject constructor(
                 start = if (grouping == Grouping.NONE) getString(KEY_START) else null,
                 end = if (grouping == Grouping.NONE) getString(KEY_END) else null,
                 accountName = getStringOrNull(KEY_ACCOUNT_LABEL),
-                default = getBoolean(KEY_IS_DEFAULT)
+                default = getBoolean(KEY_IS_DEFAULT),
+                uuid = getString(KEY_UUID),
             )
         }
     }
