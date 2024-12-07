@@ -35,6 +35,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
@@ -319,7 +320,7 @@ private fun BudgetCategoryRenderer(
     narrowScreen: Boolean,
 ) {
     Row(
-        modifier = Modifier.height(IntrinsicSize.Min),
+        modifier = Modifier.height(IntrinsicSize.Min).minimumInteractiveComponentSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
