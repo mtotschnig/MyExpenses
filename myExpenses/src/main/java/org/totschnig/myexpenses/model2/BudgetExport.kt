@@ -6,7 +6,7 @@ data class BudgetExport(
     val title: String,
     val description: String,
     val grouping: Grouping,
-    val accountUuid: String,
+    val accountUuid: String?,
     val currency: String,
     val start: String?,
     val end: String?,

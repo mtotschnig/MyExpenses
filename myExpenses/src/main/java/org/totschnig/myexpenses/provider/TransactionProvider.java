@@ -1010,14 +1010,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = SETTINGS_URI + "/" + id;
       }
       case BUDGETS -> {
-        long budget = values.getAsLong(KEY_BUDGET);
-        values.remove(KEY_BUDGET);
+        Long budget = values.getAsLong(KEY_BUDGET);
+        if (budget != null) {
+          values.remove(KEY_BUDGET);
+        }
         id = MoreDbUtilsKt.insert(db, TABLE_BUDGETS, values);
-        ContentValues budgetInitialAmount = new ContentValues(2);
-        budgetInitialAmount.put(KEY_BUDGETID, id);
-        budgetInitialAmount.put(KEY_BUDGET, budget);
-        budgetInitialAmount.put(KEY_CATID, 0);
-        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
+        if (budget != null) {
+          ContentValues budgetInitialAmount = new ContentValues(2);
+          budgetInitialAmount.put(KEY_BUDGETID, id);
+          budgetInitialAmount.put(KEY_BUDGET, budget);
+          budgetInitialAmount.put(KEY_CATID, 0);
+          MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
+        }
         newUri = BUDGETS_URI + "/" + id;
       }
       case CURRENCIES -> {

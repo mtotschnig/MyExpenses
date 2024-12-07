@@ -489,17 +489,28 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
 
-    override val budgets: List<Pair<String, String>>
+    override val budgets: List<Pair<String, BudgetExport>>
         get() = getCollection(BUDGETS_FOLDER_NAME)?.let { folder ->
             childrenForCollection(folder)
                 .mapNotNull { res ->
                     nameForResource(res)?.let { getNameWithoutExtension(it) }?.let {
                         it to BufferedReader(InputStreamReader(maybeDecrypt(getInputStream(res)))).use { bufferedReader ->
-                            gson.fromJson(bufferedReader, BudgetExport::class.java).title
+                            gson.fromJson(bufferedReader, BudgetExport::class.java)
                         }
                     }
                 }
         } ?: emptyList()
+
+    final override fun getBudget(uuid: String): BudgetExport {
+        val inputStream = getInputStream(
+            childrenForCollection(requireCollection(BUDGETS_FOLDER_NAME))
+                .find { nameForResource(it) == "$uuid.$extensionForData" } ?: throw FileNotFoundException()
+        )
+
+        return BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { bufferedReader ->
+            gson.fromJson(bufferedReader, BudgetExport::class.java)
+        }
+    }
 
     @CallSuper
     override fun withAccount(account: Account) {

@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.net.Uri
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
@@ -243,3 +245,19 @@ fun Repository.deleteBudget(id: Long) =
         null,
         null
     )
+
+fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = null): Long {
+    val contentValues = budget.toContentValues(initialAmount)
+    return if (budget.id == 0L) {
+        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentResolver.insert(TransactionProvider.BUDGETS_URI, contentValues)
+            ?.let { ContentUris.parseId(it) } ?: -1
+    } else {
+        contentResolver.update(
+            ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budget.id),
+            contentValues, null, null
+        ).let {
+            if (it == 1) budget.id else -1
+        }
+    }
+}

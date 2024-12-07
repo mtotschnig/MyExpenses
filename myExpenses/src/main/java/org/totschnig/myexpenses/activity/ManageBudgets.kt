@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -104,20 +105,59 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         )
                     }
                 }
-                val importableBudgets = viewModel.importableBudgets.collectAsStateWithLifecycle()
-                importableBudgets.value?.let {
+                val importableBudgets = viewModel.importInfo.collectAsStateWithLifecycle()
+
+                importableBudgets.value?.let { remotes ->
+                    val importables = remotes.filterIsInstance<BudgetListViewModel.Importable>()
+                    val notImportables =
+                        remotes.filterIsInstance<BudgetListViewModel.NotImportable>()
+                    val selectedBudgets = remember { mutableStateListOf<String>() }
                     AlertDialog(
-                        onDismissRequest = { viewModel.importDialogDismissed() },
+                        onDismissRequest = {
+                            selectedBudgets.clear()
+                            viewModel.importDialogDismissed()
+                        },
                         confirmButton = {
-                            Button(onClick = {}) {
-                                Text("TODO")
+                            Button(onClick = {
+                                if (selectedBudgets.isNotEmpty()) {
+                                    viewModel.importBudgetsDo(selectedBudgets.toList())
+                                } else {
+                                    viewModel.importDialogDismissed()
+                                }
+                            }) {
+                                Text(if (selectedBudgets.isNotEmpty()) "Import" else "Close")
                             }
                         },
                         text = {
-                            if (it.isNotEmpty()) {
+                            if (remotes.isNotEmpty()) {
                                 Column {
-                                    Text("The following budgets can be imported:")
-                                    it.forEach { Text(it.second) }
+                                    if (importables.isNotEmpty()) {
+                                        Text("The following budgets can be imported:")
+
+                                        importables.forEach { (uuid, budget) ->
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Checkbox(
+                                                    checked = selectedBudgets.contains(uuid),
+                                                    onCheckedChange = {
+                                                        if (it) {
+                                                            selectedBudgets.add(uuid)
+                                                        } else {
+                                                            selectedBudgets.remove(uuid)
+                                                        }
+                                                    }
+                                                )
+                                                Text(budget.title)
+                                            }
+                                        }
+                                    }
+                                    if (notImportables.isNotEmpty()) {
+                                        Text("The following budgets refer to accounts that are not synchronized:")
+                                        notImportables.forEach { (uuid, title) ->
+                                            Row {
+                                                Text("$title ($uuid)")
+                                            }
+                                        }
+                                    }
                                 }
                             } else {
                                 Text("No budgets")
@@ -159,7 +199,6 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                             criteria.addAll(it)
                                         }
                                     }
-
                                     BudgetItem(
                                         narrowScreen = narrowScreen,
                                         grouping = grouping,

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -147,6 +148,7 @@ open class Repository @Inject constructor(
                 accountName = getStringOrNull(KEY_ACCOUNT_LABEL),
                 default = getBoolean(KEY_IS_DEFAULT),
                 uuid = getString(KEY_UUID),
+                syncAccountName = getStringOrNull(KEY_SYNC_ACCOUNT_NAME)
             )
         }
     }

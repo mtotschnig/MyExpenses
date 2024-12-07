@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.getMethod
 import org.totschnig.myexpenses.db2.getParty
 import org.totschnig.myexpenses.db2.getTag
+import org.totschnig.myexpenses.db2.saveBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.BudgetAllocationExport
@@ -72,6 +73,7 @@ import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.GroupingInfo
@@ -333,7 +335,10 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     override val withIncomeSum = false
 
-    fun exportBudget(accountName: String, budgetId: Long) {
+    fun exportBudget(accountName: String? = null) {
+        val budget = accountInfo.value!!
+        val budgetId = budget.id
+        val accountName = accountName ?: getSyncAccountName(budget) ?: return
         viewModelScope.launch(context = coroutineContext()) {
             GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
                 .mapCatching { backend ->
@@ -347,7 +352,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                                 title = it.getString(KEY_TITLE),
                                 description = it.getString(KEY_DESCRIPTION),
                                 grouping = grouping,
-                                accountUuid = it.getString(KEY_ACCOUNT_UUID),
+                                accountUuid = it.getStringOrNull(KEY_ACCOUNT_UUID),
                                 currency = it.getString(KEY_CURRENCY),
                                 start = if (grouping == Grouping.NONE) it.getString(KEY_START) else null,
                                 end = if (grouping == Grouping.NONE) it.getString(KEY_END) else null,
@@ -414,7 +419,10 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                         backend.writeBudget(it.first, it.second)
                     }
                 }.fold(
-                    onSuccess = { it },
+                    onSuccess = {
+                        setSynced(accountName)
+                        it
+                    },
                     onFailure = {
                         CrashHandler.report(it)
                         getString(R.string.write_fail_reason_cannot_write) + ": " + it.message
@@ -423,11 +431,57 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
     }
 
+    fun importBudget() {
+        val budget = accountInfo.value!!
+        val uuid = budget.uuid ?: return
+        val accountName = getSyncAccountName(budget) ?: return
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    val export = backend.getBudget(uuid)
+                    repository.saveBudget(with(export) {
+                        Budget(
+                            budget.id,
+                            budget.accountId,
+                            title,
+                            description,
+                            currency,
+                            grouping,
+                            0,
+                            start,
+                            end,
+                            "",
+                            isDefault,
+                            null
+                        )
+                    }, null, null)
+                }
+        }
+    }
+
+    fun setSynced(accountName: String) =  accountInfo.value?.let { budget ->
+        if (budget.accountId > 0) prefHandler.putBoolean(KEY_BUDGET_IS_SYNCED + budget.id, true)
+        else prefHandler.putString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, accountName)
+    }
+
+    fun getSyncAccountName(budget: Budget) =
+        if (budget.accountId > 0) budget.syncAccountName else
+        prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null)
+
+    fun isSynced() = accountInfo.value?.let { budget ->
+        if (budget.accountId > 0) prefHandler.getBoolean(KEY_BUDGET_IS_SYNCED + budget.id, false)
+        else prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null) != null
+    } == true
+
     val categoryInfo: Map<Long, CategoryPath> = lazyMap {
         repository.getCategoryInfoList(it) ?: emptyList()
     }
 
     companion object {
+
+        const val KEY_BUDGET_IS_SYNCED = "budgetIsSynced_"
+        const val KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME = "budgetAggregateSyncAccountName_"
+
         fun aggregateNeutralPrefKey(budgetId: Long) =
             booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)
 

@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.BundleCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -78,7 +81,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.populateWithSync
-import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -105,6 +107,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override val showChartDefault = false
 
     private val showFilter = mutableStateOf(true)
+
+    private val showImportConfirmation = mutableStateOf(false)
 
     val budgetId: Long
         get() = intent.getLongExtra(KEY_ROWID, 0)
@@ -148,6 +152,30 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     if (category.value != Category.LOADING) {
                         invalidateOptionsMenu()
                     }
+                }
+
+                if (showImportConfirmation.value) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            showImportConfirmation.value = false
+                        },
+                        dismissButton = {
+                            Button(onClick = { showImportConfirmation.value = false }) {
+                                Text(stringResource(id = android.R.string.cancel))
+                            }
+                        },
+                        confirmButton = {
+                            Button(onClick = {
+                                showImportConfirmation.value = false
+                                viewModel.importBudget()
+                            }) {
+                                Text(stringResource(R.string.menu_import))
+                            }
+                        },
+                        text = {
+                            Text("The configuration of this budget will be imported from the synchronization backend. All local changes will be lost. Do you want to continue")
+                        }
+                    )
                 }
 
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -378,12 +406,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == BUTTON_POSITIVE) {
             val budget = viewModel.accountInfo.value ?: return false
+            val amount = BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)
+                ?: return false
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
-                    val amount = Money(
-                        currencyContext[budget.currency],
-                        extras.getSerializable(KEY_AMOUNT) as BigDecimal
-                    )
+                    val amount = Money(currencyContext[budget.currency], amount)
                     viewModel.updateBudget(
                         budget.id,
                         extras.getLong(KEY_CATID),
@@ -522,7 +549,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     private val dismissCallback = object : Snackbar.Callback() {
         override fun onDismissed(
             transientBottomBar: Snackbar,
-            event: Int
+            event: Int,
         ) {
             if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
                 viewModel.messageShown()
@@ -539,11 +566,23 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == Menu.NONE && item.groupId == R.id.SYNC_COMMAND_EXPORT) {
-            viewModel.exportBudget(item.title.toString(), budgetId)
+    override fun onOptionsItemSelected(item: MenuItem) = when {
+        item.itemId == Menu.NONE && item.groupId == R.id.SYNC_COMMAND -> {
+            viewModel.exportBudget(item.title.toString())
             true
-        } else super.onOptionsItemSelected(item)
+        }
+
+        item.itemId == R.id.SYNC_COMMAND_EXPORT -> {
+            viewModel.exportBudget()
+            true
+        }
+
+        item.itemId == R.id.SYNC_COMMAND_IMPORT -> {
+            showImportConfirmation.value = true
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -572,9 +611,40 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             lifecycleScope.launch {
                 menu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
             }
-            menu.findItem(R.id.SYNC_COMMAND_EXPORT)?.populateWithSync(
-                GenericAccountService.getAccountNames(this)
-            )
+            val isSynced = viewModel.isSynced()
+            menu.findItem(R.id.SYNC_COMMAND)?.let { menuItem ->
+                if (isSynced) {
+                    menuItem.subMenu?.let {
+                        it.clear()
+                        it.add(
+                            Menu.NONE,
+                            R.id.SYNC_COMMAND_EXPORT,
+                            Menu.NONE,
+                            getString(R.string.menu_export)
+                        )
+                        it.add(
+                            Menu.NONE,
+                            R.id.SYNC_COMMAND_IMPORT,
+                            Menu.NONE,
+                            getString(R.string.menu_import)
+                        )
+                    }
+                } else {
+                    viewModel.accountInfo.value?.let {
+                        if (it.accountId > 0 && it.syncAccountName == null) {
+                            //a budget for an account that is not synced can not be synced
+                            menuItem.setEnabledAndVisible(false)
+                        } else {
+                            menuItem.populateWithSync(
+                                //if the account is synced with a backend, we offer to sync with the same backend
+                                //budgets for aggregate accounts can be synced with any backend
+                                if (it.syncAccountName != null) arrayOf(it.syncAccountName) else
+                                    GenericAccountService.getAccountNames(this)
+                            )
+                        }
+                    }
+                }
+            }
         }
         return true
     }

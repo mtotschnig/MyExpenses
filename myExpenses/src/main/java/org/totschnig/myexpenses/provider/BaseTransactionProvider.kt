@@ -404,6 +404,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_END,
         "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL",
         "$TABLE_ACCOUNTS.$KEY_UUID AS $KEY_ACCOUNT_UUID",
+        KEY_SYNC_ACCOUNT_NAME,
         KEY_IS_DEFAULT
     )
 

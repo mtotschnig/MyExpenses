@@ -51,9 +51,9 @@
         android:title="@string/menu_delete"
         app:showAsAction="never" />
     <item
-        android:id="@id/SYNC_COMMAND_EXPORT"
+        android:id="@id/SYNC_COMMAND"
         android:orderInCategory="30"
-        android:title="@string/pref_category_title_export">
+        android:title="@string/synchronization">
         <menu/>
     </item>
 </menu>
