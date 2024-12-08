@@ -12,6 +12,7 @@ import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.ensureCategory
+import org.totschnig.myexpenses.db2.ensureCategoryPath
 import org.totschnig.myexpenses.db2.extractTagIds
 import org.totschnig.myexpenses.db2.extractTagIdsV2
 import org.totschnig.myexpenses.db2.findAccountByUuid
@@ -654,12 +655,7 @@ class SyncDelegate(
         return label()?.let {
             CategoryHelper.insert(repository, it, categoryToId, false)
             categoryToId[it] ?: throw IOException("Saving category $it failed")
-        } ?: categoryInfo()?.fold(null) { parentId: Long?, categoryInfo: CategoryInfo ->
-            repository.ensureCategory(
-                categoryInfo,
-                parentId
-            ).first
-        }
+        } ?:  categoryInfo()?.let { repository.ensureCategoryPath(it) }
     }
 
     private fun extractParty(party: String): Long =

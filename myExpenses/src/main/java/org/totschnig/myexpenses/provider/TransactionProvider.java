@@ -272,8 +272,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
-  public static final Uri BUDGET_ALLOCATIONS_URI = Uri.parse("content://" + AUTHORITY + "/budgets/allocations");
-
   public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
 
   public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/tags");
@@ -303,12 +301,15 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
+  public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
   public static final String URI_SEGMENT_TRANSFORM_TO_TRANSFER = "transform_to_transfer";
   public static final String URI_SEGMENT_UNARCHIVE = "unarchive";
+
+  public static final Uri BUDGET_ALLOCATIONS_URI = Uri.parse("content://" + AUTHORITY + "/budgets/" + URI_SEGMENT_BUDGET_ALLOCATIONS);
 
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
@@ -1099,6 +1100,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
         newUri = TRANSACTIONS_URI + "/" +id;
       }
+      case BUDGET_ALLOCATIONS -> {
+        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
+        return BUDGET_ALLOCATIONS_URI;
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
@@ -1262,6 +1267,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         deleteAttachment(db, Long.parseLong(attachmentId), null);
       }
       case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
+      case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.delete(db, TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1683,7 +1689,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_BUDGET_ALLOCATIONS, BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
     URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);

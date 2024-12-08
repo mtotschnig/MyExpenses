@@ -105,9 +105,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         )
                     }
                 }
-                val importableBudgets = viewModel.importInfo.collectAsStateWithLifecycle()
 
-                importableBudgets.value?.let { remotes ->
+                viewModel.importInfo.collectAsStateWithLifecycle().value?.second?.let { remotes ->
                     val importables = remotes.filterIsInstance<BudgetListViewModel.Importable>()
                     val notImportables =
                         remotes.filterIsInstance<BudgetListViewModel.NotImportable>()

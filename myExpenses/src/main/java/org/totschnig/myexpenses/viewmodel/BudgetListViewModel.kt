@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.findAccountByUuid
-import org.totschnig.myexpenses.db2.saveBudget
+import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -54,18 +54,20 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
         Account(R.id.GROUPING_BUDGETS_ACCOUNT_COMMAND), Grouping(R.id.GROUPING_BUDGETS_GROUPING_COMMAND)
     }
 
-    sealed class ImportInfo
+    sealed interface ImportInfo {
+        val uuid: String
+    }
 
     data class Importable(
-        val uuid: String,
+        override val uuid: String,
         val budget: BudgetExport,
-        val accountId: Long
-    ): ImportInfo()
+        val accountId: Long,
+    ) : ImportInfo
 
-    data class NotImportable(val uuid: String, val title: String): ImportInfo()
+    data class NotImportable(override val uuid: String, val title: String) : ImportInfo
 
-    private val _importInfo = MutableStateFlow<List<ImportInfo>?>(null)
-    val importInfo: StateFlow<List<ImportInfo>?> = _importInfo.asStateFlow()
+    private val _importInfo = MutableStateFlow<Pair<String, List<ImportInfo>>?>(null)
+    val importInfo: StateFlow<Pair<String, List<ImportInfo>>?> = _importInfo.asStateFlow()
 
     @Inject
     lateinit var settings: SharedPreferences
@@ -188,15 +190,16 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                 .mapCatching { backend ->
                     val allBudgets = allBudgets
                     _importInfo.update {
-                        backend.budgets.filter { remote ->
-                            allBudgets.none { local -> local.uuid == remote.first }
-                        }.map { (uuid, budget) ->
-                            budget.accountUuid?.let {
-                                repository.findAccountByUuid(it)?.let {
-                                    Importable(uuid, budget, it)
-                                } ?: NotImportable(uuid, budget.title)
-                            } ?: Importable(uuid, budget, 0L)
-                        }
+                        accountName to
+                                backend.budgets.filter { remote ->
+                                    allBudgets.none { local -> local.uuid == remote.first }
+                                }.map { (uuid, budget) ->
+                                    budget.accountUuid?.let {
+                                        repository.findAccountByUuid(it)?.let {
+                                            Importable(uuid, budget, it)
+                                        } ?: NotImportable(uuid, budget.title)
+                                    } ?: Importable(uuid, budget, 0L)
+                                }
                     }
                 }
         }
@@ -209,27 +212,15 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
     fun importBudgetsDo(uuids: List<String>) {
-        val budgetsToImport = importInfo.value
-            ?.filterIsInstance<Importable>()
-            ?.filter { uuids.contains(it.uuid) }
-        viewModelScope.launch(context = coroutineContext()) {
-            budgetsToImport?.forEach {
-                repository.saveBudget(with(it.budget) {
-                    Budget(
-                        0,
-                        it.accountId,
-                        title,
-                        description,
-                        currency,
-                        grouping,
-                        0,
-                        start,
-                        end,
-                        "",
-                        isDefault,
-                        null
-                    )
-                }, null, it.uuid)
+        importInfo.value?.let { (accountName, list) ->
+            val budgetsToImport = list
+                .filterIsInstance<Importable>()
+                .filter { uuids.contains(it.uuid) }
+            viewModelScope.launch(context = coroutineContext()) {
+                budgetsToImport.forEach {
+                    val budgetId = repository.importBudget(it.budget, 0, it.accountId, it.uuid)
+                    setBudgetSynced(budgetId, it.accountId, prefHandler, accountName)
+                }
             }
         }
         importDialogDismissed()

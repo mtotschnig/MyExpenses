@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGOR
 import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
+import kotlin.collections.fold
 import kotlin.experimental.or
 
 const val FLAG_TRANSFER: Byte = 0
@@ -144,6 +145,11 @@ fun Repository.getCategoryInfoList(id: Long): CategoryPath? = contentResolver.qu
     ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
     null, null, null, null
 )?.use { cursor -> CategoryInfo.fromCursor(cursor) }
+
+fun Repository.ensureCategoryPath(categoryPath: CategoryPath) =
+    categoryPath.fold(null) { parentId: Long?, categoryInfo: CategoryInfo ->
+        ensureCategory(categoryInfo, parentId).first
+}
 
 @VisibleForTesting
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(

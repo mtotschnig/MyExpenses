@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.getMethod
 import org.totschnig.myexpenses.db2.getParty
 import org.totschnig.myexpenses.db2.getTag
-import org.totschnig.myexpenses.db2.saveBudget
+import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.BudgetAllocationExport
@@ -438,35 +438,25 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         viewModelScope.launch(context = coroutineContext()) {
             GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
                 .mapCatching { backend ->
-                    val export = backend.getBudget(uuid)
-                    repository.saveBudget(with(export) {
-                        Budget(
-                            budget.id,
-                            budget.accountId,
-                            title,
-                            description,
-                            currency,
-                            grouping,
-                            0,
-                            start,
-                            end,
-                            "",
-                            isDefault,
-                            null
-                        )
-                    }, null, null)
+                    repository.importBudget(
+                        backend.getBudget(uuid),
+                        budget.id,
+                        budget.accountId,
+                        null
+                    )
                 }
         }
     }
 
-    fun setSynced(accountName: String) =  accountInfo.value?.let { budget ->
-        if (budget.accountId > 0) prefHandler.putBoolean(KEY_BUDGET_IS_SYNCED + budget.id, true)
-        else prefHandler.putString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, accountName)
+    fun setSynced(accountName: String) {
+        accountInfo.value?.let {
+            setBudgetSynced(it.id, it.accountId, prefHandler, accountName)
+        }
     }
 
     fun getSyncAccountName(budget: Budget) =
         if (budget.accountId > 0) budget.syncAccountName else
-        prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null)
+            prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null)
 
     fun isSynced() = accountInfo.value?.let { budget ->
         if (budget.accountId > 0) prefHandler.getBoolean(KEY_BUDGET_IS_SYNCED + budget.id, false)
@@ -478,9 +468,6 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     companion object {
-
-        const val KEY_BUDGET_IS_SYNCED = "budgetIsSynced_"
-        const val KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME = "budgetAggregateSyncAccountName_"
 
         fun aggregateNeutralPrefKey(budgetId: Long) =
             booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)

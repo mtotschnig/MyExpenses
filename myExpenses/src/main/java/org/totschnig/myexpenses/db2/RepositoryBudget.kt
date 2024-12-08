@@ -1,14 +1,22 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
+import android.content.ContentValues
 import android.net.Uri
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -21,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getLocalDate
@@ -259,5 +268,47 @@ fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = 
         ).let {
             if (it == 1) budget.id else -1
         }
+    }
+}
+
+fun Repository.importBudget(
+    budgetExport: BudgetExport,
+    budgetId: Long,
+    accountId: Long,
+    uuid: String?,
+): Long {
+    if (budgetId != 0L) {
+        contentResolver.delete(BUDGET_ALLOCATIONS_URI, "$KEY_BUDGETID = ?", arrayOf(budgetId.toString()))
+    }
+    return with(budgetExport) {
+        val budgetId = saveBudget(
+            Budget(
+                budgetId,
+                accountId,
+                title,
+                description,
+                currency,
+                grouping,
+                0,
+                start,
+                end,
+                "",
+                isDefault,
+                null
+            ), null, uuid
+        )
+        allocations.forEach {
+            contentResolver.insert(BUDGET_ALLOCATIONS_URI, ContentValues().apply {
+                put(KEY_CATID, it.category?.let { ensureCategoryPath(it) } ?: 0L)
+                put(KEY_BUDGETID, budgetId)
+                put(KEY_YEAR, it.year)
+                put(KEY_SECOND_GROUP, it.second)
+                put(KEY_BUDGET, it.budget)
+                put(KEY_BUDGET_ROLLOVER_PREVIOUS, it.rolloverPrevious)
+                put(KEY_BUDGET_ROLLOVER_NEXT, it.rolloverNext)
+                put(KEY_ONE_TIME, it.oneTime)
+            })
+        }
+        budgetId
     }
 }
