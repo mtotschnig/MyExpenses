@@ -406,17 +406,17 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == BUTTON_POSITIVE) {
             val budget = viewModel.accountInfo.value ?: return false
-            val amount = BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)
-                ?: return false
+
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
-                    val amount = Money(currencyContext[budget.currency], amount)
-                    viewModel.updateBudget(
-                        budget.id,
-                        extras.getLong(KEY_CATID),
-                        amount,
-                        extras.getBoolean(KEY_ONE_TIME)
-                    )
+                    BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
+                        viewModel.updateBudget(
+                            budget.id,
+                            extras.getLong(KEY_CATID),
+                            Money(this.currencyContext[budget.currency], it),
+                            extras.getBoolean(KEY_ONE_TIME)
+                        )
+                    }
                     return true
                 }
 
