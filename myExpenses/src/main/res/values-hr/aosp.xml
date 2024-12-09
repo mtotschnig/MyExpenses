@@ -125,4 +125,5 @@
     <string name="debug">"Otkloni pogreške"</string>
     <string name="wifi_not_connected">"Wi-Fi mreža nije povezana s internetom"</string>
     <string name="action_archive">"Arhiviraj"</string>
+    <string name="percent_long">"{value,plural, =1{1 posto}one{# posto}few{# posto}other{# posto}}"</string>
 </resources>

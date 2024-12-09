@@ -7,12 +7,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -27,18 +25,8 @@ class TransferTest : BaseTestWithRepository() {
 
     @Before
     fun setup() {
-        testAccount1 = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                AccountInfo("Test account 1", AccountType.CASH, 0, "USD").contentValues
-            )!!
-        )
-        testAccount2 = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                AccountInfo("Test account 2", AccountType.CASH, 0, "USD").contentValues
-            )!!
-        )
+        testAccount1 = insertAccount("Test account 1")
+        testAccount2 = insertAccount("Test account 2")
     }
 
     private fun verifyTransaction(

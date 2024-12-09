@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
@@ -392,6 +393,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     val budgetProjection = arrayOf(
         qualifyBudgetColumn(KEY_ROWID),
+        qualifyBudgetColumn(KEY_UUID),
         "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
         KEY_TITLE,
         qualifyBudgetColumn(KEY_DESCRIPTION),
@@ -401,6 +403,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_START,
         KEY_END,
         "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL",
+        "$TABLE_ACCOUNTS.$KEY_UUID AS $KEY_ACCOUNT_UUID",
+        KEY_SYNC_ACCOUNT_NAME,
         KEY_IS_DEFAULT
     )
 

@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
+import kotlin.math.sign
 
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
@@ -93,8 +94,12 @@ data class FullAccount(
             id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
 
-    val progress: Float?
+    /**
+     * pair of criterion sign (saving goal or credit limit) and progress in percent
+     */
+    val progress: Pair<Int, Float>?
         get() = criterion?.let {
+            it.sign to
             if (it > 0 == currentBalance > 0) {
                 (currentBalance * 100F / it)
             } else 0f

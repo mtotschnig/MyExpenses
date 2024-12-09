@@ -64,4 +64,5 @@
     <string name="debug">"Ontfout"</string>
     <string name="wifi_not_connected">"Wi‑Fi is nie aan die internet gekoppel nie"</string>
     <string name="action_archive">"Argiveer"</string>
+    <string name="percent_long">"{value,plural, =1{1 persent}other{# persent}}"</string>
 </resources>

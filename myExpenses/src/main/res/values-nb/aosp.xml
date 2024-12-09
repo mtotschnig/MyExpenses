@@ -66,4 +66,5 @@
     <string name="debug">"Feilsøk"</string>
     <string name="wifi_not_connected">"Wi‑Fi er ikke koblet til Internett"</string>
     <string name="action_archive">"Arkivér"</string>
+    <string name="percent_long">"{value,plural, =1{1 prosent}other{# prosent}}"</string>
 </resources>

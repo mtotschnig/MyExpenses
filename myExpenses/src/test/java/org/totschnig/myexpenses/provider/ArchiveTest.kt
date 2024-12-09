@@ -26,13 +26,7 @@ class ArchiveTest : BaseTestWithRepository() {
     private var testAccountId: Long = 0
 
     fun setup(accountType: AccountType = AccountType.CASH) {
-        val testAccount = AccountInfo("Test account", accountType, 0, "USD")
-        testAccountId = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                testAccount.contentValues
-            )!!
-        )
+        testAccountId = insertAccount("Test account", accountType = accountType)
     }
 
     @Test

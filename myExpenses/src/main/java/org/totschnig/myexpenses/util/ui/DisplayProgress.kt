@@ -1,6 +1,12 @@
 package org.totschnig.myexpenses.util.ui
 
+import android.content.Context
+import android.icu.text.MessageFormat
+import android.os.Build
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.util.fastRoundToInt
 import app.futured.donut.DonutSection
+import org.totschnig.myexpenses.R
 
 data class DisplayProgress(val displayValue: Float, val displayExcess: Float) {
     fun forViewSystem(valueColor: Int, excessColor: Int) = listOf(
@@ -26,5 +32,13 @@ data class DisplayProgress(val displayValue: Float, val displayExcess: Float) {
 
             else -> throw IllegalArgumentException()
         }
+
+        fun contentDescription(context: Context, progress: Float) =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                MessageFormat.format(
+                    context.getString(R.string.percent_long),
+                    mapOf("value" to progress.fastRoundToInt())
+                )
+            } else progress.fastRoundToInt().toString()
     }
 }

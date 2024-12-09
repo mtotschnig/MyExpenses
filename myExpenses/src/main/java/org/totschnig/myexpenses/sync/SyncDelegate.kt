@@ -11,7 +11,7 @@ import androidx.annotation.VisibleForTesting
 import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.db2.ensureCategory
+import org.totschnig.myexpenses.db2.ensureCategoryPath
 import org.totschnig.myexpenses.db2.extractTagIds
 import org.totschnig.myexpenses.db2.extractTagIdsV2
 import org.totschnig.myexpenses.db2.findAccountByUuid
@@ -44,16 +44,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.fromSyncAdapter
-import org.totschnig.myexpenses.model2.CategoryInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.fromSyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
@@ -654,12 +653,7 @@ class SyncDelegate(
         return label()?.let {
             CategoryHelper.insert(repository, it, categoryToId, false)
             categoryToId[it] ?: throw IOException("Saving category $it failed")
-        } ?: categoryInfo()?.fold(null) { parentId: Long?, categoryInfo: CategoryInfo ->
-            repository.ensureCategory(
-                categoryInfo,
-                parentId
-            ).first
-        }
+        } ?:  categoryInfo()?.let { repository.ensureCategoryPath(it) }
     }
 
     private fun extractParty(party: String): Long =

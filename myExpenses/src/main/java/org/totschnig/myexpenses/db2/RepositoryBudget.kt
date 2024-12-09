@@ -1,16 +1,28 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentProviderOperation
 import android.content.ContentUris
+import android.content.ContentValues
 import android.net.Uri
 import kotlinx.coroutines.flow.first
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
@@ -19,12 +31,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
-import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -46,7 +65,7 @@ data class BudgetPeriod(
 
 fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
     ContentUris.withAppendedId(
-        TransactionProvider.BUDGETS_URI,
+        BUDGETS_URI,
         budgetId
     ),
     categoryId
@@ -95,7 +114,7 @@ fun Repository.sumLoaderForBudget(
         aggregateNeutral.toString()
     )
     val filterPersistence =
-        FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false)
+        FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
     val selectionArgs: Array<String>? = if (!filterPersistence.whereFilter.isEmpty) {
@@ -130,26 +149,28 @@ fun dateFilterClause(grouping: Grouping, year: Int, second: Int): String {
 }
 
 fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
-    ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+    ContentUris.withAppendedId(BUDGETS_URI, budgetId),
     arrayOf(KEY_GROUPING), null, null, null
 )?.use {
     if (it.moveToFirst()) it.getEnumOrNull<Grouping>(0) else null
 }
 
+fun Repository.loadBudget(budgetId: Long): Budget? = contentResolver.query(
+    ContentUris.withAppendedId(BUDGETS_URI, budgetId),
+    null, null, null, null
+)?.use { cursor ->
+    if (cursor.moveToFirst()) budgetCreatorFunction(cursor) else null
+}
+
 suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>?) =
-    contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
-        null, null, null, null
-    )?.use { cursor ->
-        if (!cursor.moveToFirst()) return null
-        val budget = budgetCreatorFunction(cursor)
+    loadBudget(budgetId)?.let { budget ->
         val grouping = budget.grouping
         val groupingInfo = if (grouping == Grouping.NONE) BudgetPeriod(
             year = 0,
             second = 0,
             duration = BudgetDuration(
-                start = cursor.getLocalDate(KEY_START),
-                end = cursor.getLocalDate(KEY_END)
+                start = budget.start!!,
+                end = budget.end!!
             ),
             description = budget.durationPrettyPrint()
         ) else {
@@ -206,13 +227,13 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
         val totalDays =
             ChronoUnit.DAYS.between(groupingInfo.duration.start, groupingInfo.duration.end) + 1
         val currentDay = ChronoUnit.DAYS.between(groupingInfo.duration.start, LocalDate.now()) + 1
-        val allocated = contentResolver.query(
-            budgetAllocationQueryUri(
-                budgetId, 0, grouping, groupingInfo.year.toString(), groupingInfo.second.toString()
-            ), null, null, null, null
-        ).use {
-            if (it?.moveToFirst() != true) 0 else BudgetAllocation.fromCursor(it).totalAllocated
-        }
+        val allocated = budgetAllocation(
+            budgetId,
+            0,
+            grouping,
+            groupingInfo.year,
+            groupingInfo.second
+        )?.totalAllocated ?: 0
         val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] == true
         val (sumUri, sumSelection, sumSelectionArguments) =
             sumLoaderForBudget(budget, aggregateNeutral, period)
@@ -237,9 +258,159 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
         )
     }
 
+fun Repository.budgetAllocation(
+    budgetId: Long,
+    categoryId: Long,
+    grouping: Grouping,
+    year: Int?,
+    second: Int?,
+) = contentResolver.query(
+    budgetAllocationQueryUri(
+        budgetId, categoryId, grouping, year?.toString(), second?.toString()
+    ), null, null, null, null
+)?.use {
+    if (it.moveToFirst()) BudgetAllocation.fromCursor(it) else null
+}
+
 fun Repository.deleteBudget(id: Long) =
     contentResolver.delete(
-        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, id),
+        ContentUris.withAppendedId(BUDGETS_URI, id),
         null,
         null
     )
+
+fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = null): Long {
+    val contentValues = budget.toContentValues(initialAmount)
+    return if (budget.id == 0L) {
+        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentResolver.insert(BUDGETS_URI, contentValues)
+            ?.let { ContentUris.parseId(it) } ?: -1
+    } else {
+        contentResolver.update(
+            ContentUris.withAppendedId(BUDGETS_URI, budget.id),
+            contentValues, null, null
+        ).let {
+            if (it == 1) budget.id else -1
+        }
+    }
+}
+
+fun Repository.saveBudgetOp(
+    budget: Budget,
+    initialAmount: Long?,
+    uuid: String? = null,
+): ContentProviderOperation {
+    val contentValues = budget.toContentValues(initialAmount)
+    return if (budget.id == 0L) {
+        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        ContentProviderOperation.newInsert(BUDGETS_URI)
+            .withValues(contentValues)
+            .build()
+    } else {
+        ContentProviderOperation.newUpdate(ContentUris.withAppendedId(BUDGETS_URI, budget.id))
+            .withValues(contentValues)
+            .build()
+    }
+}
+
+fun Repository.importBudget(
+    budgetExport: BudgetExport,
+    budgetId: Long,
+    accountId: Long,
+    uuid: String?,
+): Long {
+    val ops = ArrayList<ContentProviderOperation>()
+    if (budgetId != 0L) {
+        ops.add(
+            ContentProviderOperation.newDelete(BUDGET_ALLOCATIONS_URI)
+                .withSelection("$KEY_BUDGETID = ?", arrayOf(budgetId.toString()))
+                .build()
+        )
+    }
+    return with(budgetExport) {
+        ops.add(
+            saveBudgetOp(
+                Budget(
+                    budgetId,
+                    accountId,
+                    title,
+                    description,
+                    currency,
+                    grouping,
+                    0,
+                    start,
+                    end,
+                    "",
+                    isDefault,
+                    null
+                ), null, uuid
+            )
+        )
+        allocations.forEach {
+            ops.add(ContentProviderOperation.newInsert(BUDGET_ALLOCATIONS_URI)
+                .withValues(ContentValues().apply {
+                    put(KEY_CATID, it.category?.let { ensureCategoryPath(it) } ?: 0L)
+                    if(budgetId != 0L) {
+                        put(KEY_BUDGETID, budgetId)
+                    }
+                    put(KEY_YEAR, it.year)
+                    put(KEY_SECOND_GROUP, it.second)
+                    put(KEY_BUDGET, it.budget)
+                    put(KEY_BUDGET_ROLLOVER_PREVIOUS, it.rolloverPrevious)
+                    put(KEY_BUDGET_ROLLOVER_NEXT, it.rolloverNext)
+                    put(KEY_ONE_TIME, it.oneTime)
+                }).apply {
+                    if(budgetId == 0L) {
+                        withValueBackReference(KEY_BUDGETID, 0)
+                    }
+                }
+                .build())
+        }
+        val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
+        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
+            immediatePersist = false, restoreFromPreferences = false)
+        categoryFilter?.mapNotNull { path ->
+            ensureCategoryPath(path)?.let { path.last().label to it }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(CategoryCriterion(label, *ids))
+        }
+        partyFilter?.takeIf { it.isNotEmpty() }?.map {
+            it to requireParty(it)
+        }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(PayeeCriterion(label, *ids))
+        }
+        methodFilter?.mapNotNull { method ->
+            findPaymentMethod(method)?.let { method.translateIfPredefined(context) to it }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(MethodCriterion(label, *ids))
+        }
+        statusFilter?.mapNotNull {
+            try { CrStatus.valueOf(it) } catch (_: Exception) { null }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            filterPersistence.addCriterion(CrStatusCriterion(it.toTypedArray()))
+        }
+        tagFilter?.takeIf { it.isNotEmpty() }?.map {
+            it to extractTagId(it)
+        }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(TagCriterion(label, *ids))
+        }
+        accountFilter?.mapNotNull { accountUuid ->
+            findAccountByUuidWithExtraColumn(accountUuid, KEY_LABEL)
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.second!! }
+            val ids = it.map { it.first }.toLongArray()
+            filterPersistence.addCriterion(AccountCriterion(label, *ids))
+        }
+        filterPersistence.persistAll()
+        budgetId
+    }
+}

@@ -2090,22 +2090,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val progress = account.progress
         binding.toolbar.donutView.isVisible = progress != null
         binding.toolbar.progressPercent.isVisible = progress != null
-        progress?.let {
+        progress?.let { (sign, progress) ->
             with(binding.toolbar.donutView) {
                 animateChanges = animateProgress
                 submitData(
-                    sections = DisplayProgress.calcProgressVisualRepresentation(it).forViewSystem(
+                    sections = DisplayProgress.calcProgressVisualRepresentation(progress).forViewSystem(
                         account._color,
-                        getAmountColor(account.criterion?.sign ?: 0)
+                        getAmountColor(sign)
                     ).also {
-                        Timber.d("Sections: %s", it)
+                        Timber.d("Sections: %s", progress)
                     }
                 )
+                contentDescription =
+                    getString(if(sign > 0) R.string.saving_goal else R.string.credit_limit) + ": " +
+                    DisplayProgress.contentDescription(this@BaseMyExpenses, progress)
             }
 
             with(binding.toolbar.progressPercent) {
-                text = it.displayProgress
-                setTextColor(this@BaseMyExpenses.getAmountColor(account.criterion?.sign ?: 0))
+                text = progress.displayProgress
+                setTextColor(this@BaseMyExpenses.getAmountColor(sign))
             }
         }
     }
@@ -2467,7 +2470,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     fun addFilterCriterion(c: Criterion<*>) {
         invalidateOptionsMenu()
-        currentFilter.addCriteria(c)
+        currentFilter.addCriterion(c)
     }
 
     fun removeFilter(id: Int) = if (currentFilter.removeFilter(id)) {

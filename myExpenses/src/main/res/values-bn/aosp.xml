@@ -54,4 +54,5 @@
     <string name="debug">"ডিবাগ"</string>
     <string name="wifi_not_connected">"ওয়াই-ফাই ইন্টারনেটে কানেক্ট নেই"</string>
     <string name="action_archive">"সংরক্ষণ করুন"</string>
+    <string name="percent_long">"{value,plural, =1{১ শতাংশ}one{# শতাংশ}other{# শতাংশ}}"</string>
 </resources>

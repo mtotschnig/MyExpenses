@@ -272,8 +272,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
-  public static final Uri BUDGET_ALLOCATIONS_URI = Uri.parse("content://" + AUTHORITY + "/budgets/allocations");
-
   public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
 
   public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/tags");
@@ -303,12 +301,15 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
+  public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
   public static final String URI_SEGMENT_TRANSFORM_TO_TRANSFER = "transform_to_transfer";
   public static final String URI_SEGMENT_UNARCHIVE = "unarchive";
+
+  public static final Uri BUDGET_ALLOCATIONS_URI = Uri.parse("content://" + AUTHORITY + "/budgets/" + URI_SEGMENT_BUDGET_ALLOCATIONS);
 
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
@@ -600,6 +601,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = Companion.payeeProjection(TABLE_PAYEES);
         additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
+      case PAYEE_ID:
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PAYEES);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
@@ -857,6 +862,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_TAGS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
+      case TAG_ID:
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_TAGS);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       case DEBTS: {
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
@@ -904,6 +913,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = new String[] { KEY_URI };
         }
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
+        break;
+      }
+      case BUDGET_ALLOCATIONS : {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
       default:
@@ -998,14 +1011,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = SETTINGS_URI + "/" + id;
       }
       case BUDGETS -> {
-        long budget = values.getAsLong(KEY_BUDGET);
-        values.remove(KEY_BUDGET);
+        Long budget = values.getAsLong(KEY_BUDGET);
+        if (budget != null) {
+          values.remove(KEY_BUDGET);
+        }
         id = MoreDbUtilsKt.insert(db, TABLE_BUDGETS, values);
-        ContentValues budgetInitialAmount = new ContentValues(2);
-        budgetInitialAmount.put(KEY_BUDGETID, id);
-        budgetInitialAmount.put(KEY_BUDGET, budget);
-        budgetInitialAmount.put(KEY_CATID, 0);
-        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
+        if (budget != null) {
+          ContentValues budgetInitialAmount = new ContentValues(2);
+          budgetInitialAmount.put(KEY_BUDGETID, id);
+          budgetInitialAmount.put(KEY_BUDGET, budget);
+          budgetInitialAmount.put(KEY_CATID, 0);
+          MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
+        }
         newUri = BUDGETS_URI + "/" + id;
       }
       case CURRENCIES -> {
@@ -1082,6 +1099,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
         id = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
         newUri = TRANSACTIONS_URI + "/" +id;
+      }
+      case BUDGET_ALLOCATIONS -> {
+        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
+        return BUDGET_ALLOCATIONS_URI;
       }
       default -> throw unknownUri(uri);
     }
@@ -1246,6 +1267,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         deleteAttachment(db, Long.parseLong(attachmentId), null);
       }
       case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
+      case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.delete(db, TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1667,7 +1689,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_BUDGET_ALLOCATIONS, BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
     URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);

@@ -24,18 +24,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
 class PayeeCriterion(
-    override val label: String?,
+    override val label: String,
     override val operation: WhereFilter.Operation,
     override val values: Array<Long>
 ) : IdCriterion() {
-    constructor() : this(null, WhereFilter.Operation.ISNULL, emptyArray())
+    constructor() : this("", WhereFilter.Operation.ISNULL, emptyArray())
     constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
 
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_PAYEE_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_PAYEEID
+    @IgnoredOnParcel
+    override val title = R.string.payer_or_payee
 
     override fun getSelection(forExport: Boolean): String {
         return if (operation === WhereFilter.Operation.ISNULL) {

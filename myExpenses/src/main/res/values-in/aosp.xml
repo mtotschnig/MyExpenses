@@ -67,4 +67,5 @@
     <string name="debug">"Debug"</string>
     <string name="wifi_not_connected">"Wi-Fi tidak terhubung ke internet"</string>
     <string name="action_archive">"Arsipkan"</string>
+    <string name="percent_long">"{value,plural, =1{1 persen}other{# persen}}"</string>
 </resources>

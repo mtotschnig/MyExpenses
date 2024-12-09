@@ -88,7 +88,7 @@ class FilterPersistence(
             AccountCriterion.fromStringExtra(it)
         }
 
-    fun addCriteria(criterion: Criterion<*>) {
+    fun addCriterion(criterion: Criterion<*>) {
         _whereFilter.value = whereFilter.put(criterion)
         if (immediatePersist) {
             persist(criterion)

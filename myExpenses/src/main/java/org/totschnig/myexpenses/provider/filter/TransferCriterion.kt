@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
 class TransferCriterion(
-    override val label: String?,
+    override val label: String,
     override val values: Array<Long>
 ) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
@@ -42,9 +42,10 @@ class TransferCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_TRANSFER_COMMAND
-
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
+    @IgnoredOnParcel
+    override val title = R.string.transfer
 
     companion object {
 

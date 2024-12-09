@@ -53,6 +53,8 @@ class DateCriterion(
     override val id = R.id.FILTER_DATE_COMMAND
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DATE
+    @IgnoredOnParcel
+    override val title = R.string.date
 
     override fun toString(): String {
         var result: String = operation.name + EXTRA_SEPARATOR + values[0]

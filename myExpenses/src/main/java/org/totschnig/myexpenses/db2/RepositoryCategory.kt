@@ -10,6 +10,7 @@ import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
+import org.totschnig.myexpenses.model2.CategoryPath
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGOR
 import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
+import kotlin.collections.fold
 import kotlin.experimental.or
 
 const val FLAG_TRANSFER: Byte = 0
@@ -139,6 +141,16 @@ fun Repository.getCategoryPath(id: Long) = contentResolver.query(
         ?.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
 }
 
+fun Repository.getCategoryInfoList(id: Long): CategoryPath? = contentResolver.query(
+    ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
+    null, null, null, null
+)?.use { cursor -> CategoryInfo.fromCursor(cursor) }
+
+fun Repository.ensureCategoryPath(categoryPath: CategoryPath) =
+    categoryPath.fold(null) { parentId: Long?, categoryInfo: CategoryInfo ->
+        ensureCategory(categoryInfo, parentId).first
+}
+
 @VisibleForTesting
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
     TransactionProvider.CATEGORIES_URI,
@@ -168,5 +180,9 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
 
 @VisibleForTesting
 fun Repository.deleteAllCategories() {
-    contentResolver.delete(TransactionProvider.CATEGORIES_URI, "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}", null)
+    contentResolver.delete(
+        TransactionProvider.CATEGORIES_URI,
+        "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}",
+        null
+    )
 }

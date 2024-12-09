@@ -135,4 +135,5 @@
     <string name="debug">"تصحيح الأخطاء"</string>
     <string name="wifi_not_connected">"‏شبكة Wi‑Fi غير متصلة بالإنترنت"</string>
     <string name="action_archive">"وضع في الأرشيف"</string>
+    <string name="percent_long">"{value,plural, =1{1 في المئة}zero{# في المئة}two{# في المئة}few{# في المئة}many{# في المئة}other{# في المئة}}"</string>
 </resources>

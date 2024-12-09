@@ -26,15 +26,56 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.db2.deleteBudget
+import org.totschnig.myexpenses.db2.getCategoryInfoList
+import org.totschnig.myexpenses.db2.getMethod
+import org.totschnig.myexpenses.db2.getParty
+import org.totschnig.myexpenses.db2.getTag
+import org.totschnig.myexpenses.db2.getUuidForAccount
+import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.model2.BudgetAllocationExport
+import org.totschnig.myexpenses.model2.BudgetExport
+import org.totschnig.myexpenses.model2.CategoryPath
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -76,7 +117,9 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
 
-    val sum: StateFlow<Long> by lazy { sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0) }
+    val sum: StateFlow<Long> by lazy {
+        sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0)
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithBudget(budgetId: Long, groupingYear: Int, groupingSecond: Int) {
@@ -150,17 +193,17 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     private val GroupingInfo.asContentValues: ContentValues
         get() = ContentValues().also {
             if (grouping != Grouping.NONE) {
-                it.put(DatabaseConstants.KEY_YEAR, year)
-                it.put(DatabaseConstants.KEY_SECOND_GROUP, second)
+                it.put(KEY_YEAR, year)
+                it.put(KEY_SECOND_GROUP, second)
             }
         }
 
     fun updateBudget(budgetId: Long, categoryId: Long, amount: Money, oneTime: Boolean) {
         groupingInfo?.also {
             val contentValues = it.asContentValues.apply {
-                put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
+                put(KEY_BUDGET, amount.amountMinor)
                 if (it.grouping != Grouping.NONE) {
-                    put(DatabaseConstants.KEY_ONE_TIME, oneTime)
+                    put(KEY_ONE_TIME, oneTime)
                 }
             }
             viewModelScope.launch(context = coroutineContext()) {
@@ -184,7 +227,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         viewModelScope.launch(context = coroutineContext()) {
             val budget = accountInfo.value!!
             val selection =
-                "${DatabaseConstants.KEY_BUDGETID} = ? AND ${DatabaseConstants.KEY_YEAR} = ? AND ${DatabaseConstants.KEY_SECOND_GROUP} = ?"
+                "$KEY_BUDGETID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?"
             val nextGrouping = nextGrouping()!!
             val ops = arrayListOf(
                 ContentProviderOperation.newUpdate(TransactionProvider.BUDGET_ALLOCATIONS_URI)
@@ -196,7 +239,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                             groupingInfo!!.second.toString()
                         )
                     )
-                    .withValues(ContentValues().apply { putNull(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT) })
+                    .withValues(ContentValues().apply { putNull(KEY_BUDGET_ROLLOVER_NEXT) })
                     .build(),
                 ContentProviderOperation.newUpdate(TransactionProvider.BUDGET_ALLOCATIONS_URI)
                     .withSelection(
@@ -207,7 +250,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                             nextGrouping.second.toString()
                         )
                     )
-                    .withValues(ContentValues().apply { putNull(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS) })
+                    .withValues(ContentValues().apply { putNull(KEY_BUDGET_ROLLOVER_PREVIOUS) })
                     .build()
             )
             contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
@@ -224,13 +267,13 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             ops.add(
                 ContentProviderOperation.newUpdate(budgetAllocationUri)
                     .withValues(groupingInfo!!.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT, rollOver)
+                        put(KEY_BUDGET_ROLLOVER_NEXT, rollOver)
                     }).build()
             )
             ops.add(
                 ContentProviderOperation.newUpdate(budgetAllocationUri)
                     .withValues(nextGrouping.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
+                        put(KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
                     }).build()
             )
         }
@@ -292,8 +335,151 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     override val withIncomeSum = false
 
+    fun exportBudget(accountName: String? = null) {
+        val budget = accountInfo.value!!
+        val budgetId = budget.id
+        val accountName = accountName ?: getSyncAccountName(budget) ?: return
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    contentResolver.query(
+                        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+                        null, null, null, null
+                    )?.use {
+                        if (it.moveToFirst()) {
+                            val grouping: Grouping = it.getEnum(KEY_GROUPING, Grouping.NONE)
+                            it.getString(KEY_UUID) to BudgetExport(
+                                title = it.getString(KEY_TITLE),
+                                description = it.getString(KEY_DESCRIPTION),
+                                grouping = grouping,
+                                accountUuid = it.getStringOrNull(KEY_ACCOUNT_UUID),
+                                currency = it.getString(KEY_CURRENCY),
+                                start = if (grouping == Grouping.NONE) it.getString(KEY_START) else null,
+                                end = if (grouping == Grouping.NONE) it.getString(KEY_END) else null,
+                                isDefault = it.getBoolean(KEY_IS_DEFAULT),
+                                categoryFilter = whereFilter.value.criteria
+                                    .filterIsInstance<CategoryCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.mapNotNull { categoryInfo.getValue(it) },
+                                partyFilter = whereFilter.value.criteria
+                                    .filterIsInstance<PayeeCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.mapNotNull { repository.getParty(it) },
+                                methodFilter = whereFilter.value.criteria
+                                    .filterIsInstance<MethodCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.mapNotNull { repository.getMethod(it) },
+                                statusFilter = whereFilter.value.criteria
+                                    .filterIsInstance<CrStatusCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.map { it.name },
+                                tagFilter = whereFilter.value.criteria
+                                    .filterIsInstance<TagCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.mapNotNull { repository.getTag(it) },
+                                accountFilter = whereFilter.value.criteria
+                                    .filterIsInstance<AccountCriterion>()
+                                    .firstOrNull()
+                                    ?.values
+                                    ?.mapNotNull { repository.getUuidForAccount(it) },
+                                allocations = contentResolver.query(
+                                    TransactionProvider.BUDGET_ALLOCATIONS_URI,
+                                    arrayOf(
+                                        KEY_CATID,
+                                        KEY_YEAR,
+                                        KEY_SECOND_GROUP,
+                                        KEY_BUDGET,
+                                        KEY_BUDGET_ROLLOVER_PREVIOUS,
+                                        KEY_BUDGET_ROLLOVER_NEXT,
+                                        KEY_ONE_TIME
+                                    ),
+                                    "$KEY_BUDGETID = ?",
+                                    arrayOf(budgetId.toString()),
+                                    null
+                                )?.useAndMapToList { cursor ->
+                                    BudgetAllocationExport(
+                                        cursor.getLong(KEY_CATID).takeIf { it != 0L }
+                                            ?.let { categoryInfo.getValue(it) },
+                                        cursor.getIntOrNull(KEY_YEAR),
+                                        cursor.getIntOrNull(KEY_SECOND_GROUP),
+                                        cursor.getLong(KEY_BUDGET),
+                                        cursor.getLongOrNull(KEY_BUDGET_ROLLOVER_PREVIOUS),
+                                        cursor.getLongOrNull(KEY_BUDGET_ROLLOVER_NEXT),
+                                        cursor.getBoolean(KEY_ONE_TIME)
+                                    )
+                                } ?: emptyList()
+                            )
+                        } else null
+                    }?.let {
+                        backend.writeBudget(it.first, it.second)
+                    }
+                }.fold(
+                    onSuccess = {
+                        setSynced(accountName)
+                        it
+                    },
+                    onFailure = {
+                        CrashHandler.report(it)
+                        getString(R.string.write_fail_reason_cannot_write) + ": " + it.message
+                    }
+                )?.let { message -> _syncResult.update { message } }
+        }
+    }
+
+    fun importBudget() {
+        val budget = accountInfo.value!!
+        val uuid = budget.uuid ?: return
+        val accountName = getSyncAccountName(budget) ?: return
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    repository.importBudget(
+                        backend.getBudget(uuid),
+                        budget.id,
+                        budget.accountId,
+                        null
+                    )
+                }
+        }
+    }
+
+    fun setSynced(accountName: String) {
+        accountInfo.value?.let {
+            setBudgetSynced(it.id, it.accountId, prefHandler, accountName)
+        }
+    }
+
+    fun getSyncAccountName(budget: Budget) =
+        if (budget.accountId > 0) budget.syncAccountName else
+            getSyncAccountForAggregateBudget(budget.id)
+
+    fun isSynced() = accountInfo.value?.let { budget ->
+        if (budget.accountId > 0) budget.syncAccountName != null &&
+                prefHandler.getBoolean(KEY_BUDGET_IS_SYNCED + budget.id, false)
+        else getSyncAccountForAggregateBudget(budget.id) != null
+    } == true
+
+    private fun getSyncAccountForAggregateBudget(budgetId: Long) =
+        prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budgetId, null).takeIf { sync ->
+            GenericAccountService.getAccounts(getApplication()).any {
+                it.name == sync
+            }
+        }
+
+    val categoryInfo: Map<Long, CategoryPath> = lazyMap {
+        repository.getCategoryInfoList(it) ?: emptyList()
+    }
+
     companion object {
-        fun aggregateNeutralPrefKey(budgetId: Long) = booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)
+
+        fun aggregateNeutralPrefKey(budgetId: Long) =
+            booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)
+
         private const val AGGREGATE_NEUTRAL_PREF_KEY_PREFIX = "budgetAggregateNeutral_"
     }
 }

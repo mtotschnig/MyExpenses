@@ -320,7 +320,7 @@ class Banking : ProtectedFragmentActivity() {
                                     nrDays?.let { LocalDate.now().minusDays(it) }
                                 )
                             },
-                            enabled = selectedAccounts.size > 0
+                            enabled = selectedAccounts.isNotEmpty()
                         ) {
                             Text(stringResource(R.string.menu_import))
                         }

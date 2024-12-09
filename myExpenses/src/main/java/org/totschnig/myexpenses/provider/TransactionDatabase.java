@@ -330,7 +330,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_CURRENCY + " text, "
           + KEY_START + " datetime, "
           + KEY_END + " datetime, "
-          + KEY_IS_DEFAULT + " boolean default 0)";
+          + KEY_IS_DEFAULT + " boolean default 0, "
+          + KEY_UUID + " text not null)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_ALLOCATIONS + " ( "
@@ -2107,6 +2108,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 170) {
         upgradeTo170(db);
+      }
+
+      if (oldVersion < 171) {
+        upgradeTo171(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

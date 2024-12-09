@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TA
 
 @Parcelize
 class TagCriterion(
-    override val label: String?,
+    override val label: String,
     override val values: Array<Long>
 ) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
@@ -26,9 +26,10 @@ class TagCriterion(
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_TAG_COMMAND
-
     @IgnoredOnParcel
     override val column = KEY_TAGID
+    @IgnoredOnParcel
+    override val title = R.string.tags
 
     companion object {
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {

@@ -124,4 +124,5 @@
     <string name="debug">"ניפוי באגים"</string>
     <string name="wifi_not_connected">"‏רשת ה-Wi-Fi לא מחוברת לאינטרנט"</string>
     <string name="action_archive">"העברה לארכיון"</string>
+    <string name="percent_long">"{value,plural, =1{אחוז אחד}one{# אחוזים}two{# אחוזים}other{# אחוזים}}"</string>
 </resources>

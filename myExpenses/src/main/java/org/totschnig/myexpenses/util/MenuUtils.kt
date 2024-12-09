@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.model.SortDirection.ASC
 import org.totschnig.myexpenses.model.SortDirection.DESC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.sync.GenericAccountService
 
 fun configureSearch(activity: Activity, menu: Menu, callback: (String) -> Boolean) {
     (activity.getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.let { manager ->
@@ -31,14 +32,37 @@ fun configureSearch(activity: Activity, menu: Menu, callback: (String) -> Boolea
     }
 }
 
-fun prepareSearch(menu: Menu, filter: String?) {
-    menu.findItem(R.id.SEARCH_COMMAND)?.let { item ->
+fun Menu.prepareSearch(filter: String?) {
+    findItem(R.id.SEARCH_COMMAND)?.let { item ->
         if (!TextUtils.isEmpty(filter)) {
             item.expandActionView()
             (item.actionView as? SearchView)?.apply {
                 setQuery(filter, false)
                 clearFocus()
             }
+        }
+    }
+}
+
+fun MenuItem.populateWithSync(accountNames: Array<String>) {
+    subMenu?.let {
+        it.clear()
+        for (account in accountNames) {
+            it.add(itemId, Menu.NONE, Menu.NONE, account)
+        }
+    }
+}
+
+
+fun Menu.prepareSync(
+    context: Context,
+) {
+    val accountNames = GenericAccountService.getAccountNames(context)
+    findItem(R.id.SYNC_COMMAND)?.let { item ->
+        item.setEnabledAndVisible(accountNames.isNotEmpty())
+        item.subMenu?.let {
+            it.findItem(R.id.SYNC_COMMAND_EXPORT)?.populateWithSync(accountNames)
+            it.findItem(R.id.SYNC_COMMAND_IMPORT)?.populateWithSync(accountNames)
         }
     }
 }

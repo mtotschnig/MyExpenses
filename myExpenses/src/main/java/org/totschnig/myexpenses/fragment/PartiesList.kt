@@ -465,7 +465,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             it.setEnabledAndVisible(adapter.currentList.count { !it.isDuplicate } > 1)
             it.isChecked = mergeMode
         }
-        prepareSearch(menu, viewModel.filter)
+        menu.prepareSearch(viewModel.filter)
         menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
             menuItem.isVisible = adapter.currentList.any { it.mappedDebts }
         }

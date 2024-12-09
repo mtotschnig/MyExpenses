@@ -34,7 +34,9 @@ data class Budget(
     val start: LocalDate?,
     val end: LocalDate?,
     val accountName: String?,
-    val default: Boolean
+    val default: Boolean,
+    val uuid: String? = null,
+    val syncAccountName: String? = null
 ) : DistributionAccountInfo {
     constructor(
         id: Long,
@@ -47,7 +49,9 @@ data class Budget(
         start: String?,
         end: String?,
         accountName: String?,
-        default: Boolean
+        default: Boolean,
+        uuid: String? = null,
+        syncAccountName: String? = null
     ) : this(
         id,
         accountId,
@@ -59,7 +63,9 @@ data class Budget(
         start?.let { LocalDate.parse(it) },
         end?.let { LocalDate.parse(it) },
         accountName,
-        default
+        default,
+        uuid,
+        syncAccountName
     )
 
     init {

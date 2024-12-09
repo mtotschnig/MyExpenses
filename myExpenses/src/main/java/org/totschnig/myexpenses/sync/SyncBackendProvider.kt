@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.sync.json.ChangeSet
@@ -67,9 +68,16 @@ interface SyncBackendProvider {
 
     fun writeCategories(categories: List<CategoryExport>): String
 
-    fun suggestDelay(e: IOException, defaultDelay: Long): Long = defaultDelay
-
     val categories: Result<List<CategoryExport>>
+
+    val budgets: List<Pair<String, BudgetExport>>
+
+    fun writeBudget(uuid: String, budget: BudgetExport): String
+
+    @Throws(IOException::class)
+    fun getBudget(uuid: String): BudgetExport
+
+    fun suggestDelay(e: IOException, defaultDelay: Long): Long = defaultDelay
 
     class SyncParseException : Exception {
         constructor(e: Exception) : super(e.message, e)

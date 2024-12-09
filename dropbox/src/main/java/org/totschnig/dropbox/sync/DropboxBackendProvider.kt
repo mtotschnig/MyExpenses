@@ -273,7 +273,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
                     try {
                         mDbxClient.files().getMetadata(accountMetadataPath)
                         return@filter true
-                    } catch (e: DbxException) {
+                    } catch (_: DbxException) {
                         return@filter false
                     }
                 }

@@ -27,6 +27,8 @@ class CommentCriterion(override val searchString: String) : TextCriterion() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_COMMENT_COMMAND
+    @IgnoredOnParcel
+    override val title = R.string.comment
 
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_COMMENT

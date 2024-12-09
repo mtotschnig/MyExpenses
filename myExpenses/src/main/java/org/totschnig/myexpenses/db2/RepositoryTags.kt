@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
@@ -25,6 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
+import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
@@ -118,7 +120,7 @@ fun Repository.extractTagId(tagInfo: TagInfo): Long {
         writeTag(tagInfo.label, tagInfo.color)
 }
 
-private fun Repository.extractTagId(label: String) =
+fun Repository.extractTagId(label: String) =
     find(label)?.first ?: writeTag(label)
 
 /**
@@ -179,4 +181,12 @@ fun Cursor.toTagMap() = buildMap {
                     getIntOrNull(KEY_COLOR))
         )
     }
+}
+
+fun Repository.getTag(tagId: Long) = contentResolver.query(
+    ContentUris.withAppendedId(TAGS_URI, tagId),
+    arrayOf(KEY_LABEL), null, null, null
+)?.use {
+    it.moveToFirst()
+    it.getString(0)
 }

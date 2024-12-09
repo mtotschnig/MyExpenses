@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@id/SYNC_COMMAND"
+        app:showAsAction="never"
+        android:orderInCategory="30"
+        android:title="@string/synchronization">
+        <menu>
+            <item
+                android:id="@id/SYNC_COMMAND_EXPORT"
+                android:title="@string/pref_category_title_export">
+                <menu/>
+            </item>
+
+            <item
+                android:id="@id/SYNC_COMMAND_IMPORT"
+                android:title="@string/pref_category_title_import">
+                <menu/>
+            </item>
+        </menu>
+    </item>
+</menu>

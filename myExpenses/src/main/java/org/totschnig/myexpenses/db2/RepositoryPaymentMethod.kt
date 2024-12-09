@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
@@ -24,8 +25,8 @@ fun fullProjection(context: Context) = basePaymentMethodProjection(context) + ma
 fun basePaymentMethodProjection(context: Context) = arrayOf(
     localizedLabelSqlColumn(
         context,
-        DatabaseConstants.KEY_LABEL
-    ) + " AS " + DatabaseConstants.KEY_LABEL, //0
+        KEY_LABEL
+    ) + " AS " + KEY_LABEL, //0
     KEY_ICON, //1
     KEY_TYPE, //2
     DatabaseConstants.KEY_IS_NUMBERED, //3
@@ -39,8 +40,8 @@ val mappingColumns = arrayOf(
 )
 
 val preDefinedName = StringBuilder().apply {
-    append("CASE " + DatabaseConstants.KEY_LABEL)
-    for (method in PreDefinedPaymentMethod.values()) {
+    append("CASE $KEY_LABEL")
+    for (method in PreDefinedPaymentMethod.entries) {
         append(" WHEN '").append(method.name).append("' THEN '").append(method.name)
             .append("'")
     }
@@ -50,7 +51,7 @@ val preDefinedName = StringBuilder().apply {
 fun localizedLabelSqlColumn(ctx: Context, keyLabel: String?) =
     StringBuilder().apply {
         append("CASE ").append(keyLabel)
-        for (method in PreDefinedPaymentMethod.values()) {
+        for (method in PreDefinedPaymentMethod.entries) {
             append(" WHEN '").append(method.name).append("' THEN ")
             DatabaseUtils.appendEscapedSQLString(this, ctx.getString(method.resId))
         }
@@ -100,7 +101,7 @@ private fun PaymentMethod.toContentValues(context: Context?) = ContentValues().a
     }
     put(DatabaseConstants.KEY_IS_NUMBERED, isNumbered)
     if (preDefinedPaymentMethod == null || preDefinedPaymentMethod.getLocalizedLabel(context!!) != label) {
-        put(DatabaseConstants.KEY_LABEL, label)
+        put(KEY_LABEL, label)
     }
 }
 
@@ -143,7 +144,7 @@ private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<Accoun
 fun Repository.findPaymentMethod(label: String) = contentResolver.query(
     METHODS_URI,
     arrayOf(KEY_ROWID),
-    DatabaseConstants.KEY_LABEL + " = ?",
+    "$KEY_LABEL = ?",
     arrayOf(label),
     null
 )?.use { if (it.moveToFirst()) it.getLong(0) else null }
@@ -162,4 +163,12 @@ fun Repository.deleteMethod(id: Long) {
         arrayOf(id.toString())
     )
     contentResolver.delete(instanceUir(id), null, null)
+}
+
+fun Repository.getMethod(methodId: Long) = contentResolver.query(
+    ContentUris.withAppendedId(METHODS_URI, methodId),
+    arrayOf(KEY_LABEL), null, null, null
+)?.use {
+    it.moveToFirst()
+    it.getString(0)
 }

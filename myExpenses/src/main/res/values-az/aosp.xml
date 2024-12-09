@@ -49,4 +49,5 @@
     <string name="debug">"Sazlama"</string>
     <string name="wifi_not_connected">"Wi‑Fi internetə qoşulmayıb"</string>
     <string name="action_archive">"Arxiv"</string>
+    <string name="percent_long">"{value,plural, =1{1 faiz}other{# faiz}}"</string>
 </resources>

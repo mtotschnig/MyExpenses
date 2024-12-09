@@ -59,4 +59,5 @@
     <string name="debug">"გამართვა"</string>
     <string name="wifi_not_connected">"Wi-Fi არ არის დაკავშირებული ინტერნეტთან"</string>
     <string name="action_archive">"დაარქივება"</string>
+    <string name="percent_long">"{value,plural, =1{1 პროცენტი}other{# პროცენტი}}"</string>
 </resources>

@@ -56,4 +56,5 @@
     <string name="debug">"اشکال‌زدایی"</string>
     <string name="wifi_not_connected">"‏Wi-Fi به اینترنت متصل نیست"</string>
     <string name="action_archive">"بایگانی"</string>
+    <string name="percent_long">"{value,plural, =1{یک درصد}one{# درصد}other{# درصد}}"</string>
 </resources>

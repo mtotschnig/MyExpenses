@@ -17,4 +17,9 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@id/SYNC_COMMAND_IMPORT"
+        android:title="@string/pref_category_title_import">
+        <menu/>
+    </item>
 </menu>
