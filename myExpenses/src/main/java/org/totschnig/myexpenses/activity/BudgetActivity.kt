@@ -173,7 +173,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             }
                         },
                         text = {
-                            Text("The configuration of this budget will be imported from the synchronization backend. All local changes will be lost. Do you want to continue")
+                            Text(stringResource(R.string.warning_budget_sync_import) + " " + stringResource(R.string.continue_confirmation))
                         }
                     )
                 }

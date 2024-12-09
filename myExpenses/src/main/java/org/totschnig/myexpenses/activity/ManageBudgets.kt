@@ -107,8 +107,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
                 }
 
                 viewModel.importInfo.collectAsStateWithLifecycle().value?.second?.let { remotes ->
-                    val importables = remotes.filterIsInstance<BudgetListViewModel.Importable>()
-                    val notImportables =
+                    val importableBudgets = remotes.filterIsInstance<BudgetListViewModel.Importable>()
+                    val notImportableBudgets =
                         remotes.filterIsInstance<BudgetListViewModel.NotImportable>()
                     val selectedBudgets = remember { mutableStateListOf<String>() }
                     AlertDialog(
@@ -124,16 +124,15 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     viewModel.importDialogDismissed()
                                 }
                             }) {
-                                Text(if (selectedBudgets.isNotEmpty()) "Import" else "Close")
+                                Text(stringResource(if (selectedBudgets.isNotEmpty()) R.string.menu_import else R.string.menu_close))
                             }
                         },
                         text = {
                             if (remotes.isNotEmpty()) {
                                 Column {
-                                    if (importables.isNotEmpty()) {
-                                        Text("The following budgets can be imported:")
-
-                                        importables.forEach { (uuid, budget) ->
+                                    if (importableBudgets.isNotEmpty()) {
+                                        Text(stringResource(R.string.budget_import_can_be_imported))
+                                        importableBudgets.forEach { (uuid, budget) ->
                                             Row(verticalAlignment = Alignment.CenterVertically) {
                                                 Checkbox(
                                                     checked = selectedBudgets.contains(uuid),
@@ -149,9 +148,9 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                             }
                                         }
                                     }
-                                    if (notImportables.isNotEmpty()) {
-                                        Text("The following budgets refer to accounts that are not synchronized:")
-                                        notImportables.forEach { (uuid, title) ->
+                                    if (notImportableBudgets.isNotEmpty()) {
+                                        Text(stringResource(R.string.budget_import_cannot_be_imported))
+                                        notImportableBudgets.forEach { (uuid, title) ->
                                             Row {
                                                 Text("$title ($uuid)")
                                             }
@@ -159,7 +158,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     }
                                 }
                             } else {
-                                Text("No budgets")
+                                Text(stringResource(R.string.budget_import_none_found))
                             }
                         }
                     )
@@ -171,7 +170,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         .nestedScroll(nestedScrollInterop)
                 ) {
                     val breakpoint = 400.dp
-                    val narrowScreen = this.maxWidth < breakpoint
+                    val narrowScreen = maxWidth < breakpoint
                     LazyColumn(
                         modifier = Modifier
                             .testTag(TEST_TAG_LIST)
@@ -342,9 +341,7 @@ fun BudgetItem(
     val context = LocalContext.current
     Column(modifier = Modifier
         .fillMaxWidth()
-        .semantics {
-            isTraversalGroup = true
-        }
+        .semantics { isTraversalGroup = true }
         .clickable(onClick = onClick)) {
         Text(
             modifier = padding

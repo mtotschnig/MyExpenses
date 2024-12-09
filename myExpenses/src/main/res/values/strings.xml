@@ -1053,4 +1053,8 @@
     <string name="content_description_exchange_rate">Exchange rate for 1 %1$s in %2$s</string>
     <string name="content_description_equivalent_amount">Define the value of this transaction in your home currency. Instead of entering the amount, you can also enter the exchange rate for calculating it.</string>
     <string name="warning_archived_transfer_cannot_be_edited">Transfer cannot be edited because its other side is archived.</string>
+    <string name="warning_budget_sync_import">The configuration of this budget will be imported from the synchronization backend. All local changes will be lost.</string>
+    <string name="budget_import_can_be_imported">The following budgets can be imported:</string>
+    <string name="budget_import_cannot_be_imported">The following budgets refer to accounts that are not synchronized:</string>
+    <string name="budget_import_none_found">No budgets found.</string>
 </resources>

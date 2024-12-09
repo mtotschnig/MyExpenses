@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.getCategoryInfoList
-import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.getMethod
 import org.totschnig.myexpenses.db2.getParty
 import org.totschnig.myexpenses.db2.getTag
@@ -457,12 +456,20 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     fun getSyncAccountName(budget: Budget) =
         if (budget.accountId > 0) budget.syncAccountName else
-            prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null)
+            getSyncAccountForAggregateBudget(budget.id)
 
     fun isSynced() = accountInfo.value?.let { budget ->
-        if (budget.accountId > 0) prefHandler.getBoolean(KEY_BUDGET_IS_SYNCED + budget.id, false)
-        else prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budget.id, null) != null
+        if (budget.accountId > 0) budget.syncAccountName != null &&
+                prefHandler.getBoolean(KEY_BUDGET_IS_SYNCED + budget.id, false)
+        else getSyncAccountForAggregateBudget(budget.id) != null
     } == true
+
+    private fun getSyncAccountForAggregateBudget(budgetId: Long) =
+        prefHandler.getString(KEY_BUDGET_AGGREGATE_SYNC_ACCOUNT_NAME + budgetId, null).takeIf { sync ->
+            GenericAccountService.getAccounts(getApplication()).any {
+                it.name == sync
+            }
+        }
 
     val categoryInfo: Map<Long, CategoryPath> = lazyMap {
         repository.getCategoryInfoList(it) ?: emptyList()

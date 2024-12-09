@@ -58,9 +58,6 @@ interface SyncBackendProvider {
     @Throws(IOException::class)
     fun getInputStreamForBackup(backupFile: String): InputStream
 
-    @Throws(IOException::class)
-    fun getBudget(uuid: String): BudgetExport
-
     @Throws(GeneralSecurityException::class, IOException::class)
     fun initEncryption()
 
@@ -76,6 +73,9 @@ interface SyncBackendProvider {
     val budgets: List<Pair<String, BudgetExport>>
 
     fun writeBudget(uuid: String, budget: BudgetExport): String
+
+    @Throws(IOException::class)
+    fun getBudget(uuid: String): BudgetExport
 
     fun suggestDelay(e: IOException, defaultDelay: Long): Long = defaultDelay
 
