@@ -24,10 +24,6 @@ public class AccountInfo {
     this.currency = currency;
   }
 
-  /*
-   * Returns a ContentValues instance (a map) for this NoteInfo instance. This is useful for
-   * inserting a NoteInfo into a database.
-   */
   public ContentValues getContentValues() {
     // Gets a new ContentValues object
     ContentValues v = new ContentValues();

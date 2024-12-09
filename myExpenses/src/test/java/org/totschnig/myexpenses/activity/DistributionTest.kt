@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -67,7 +68,7 @@ class DistributionTest : BaseTestWithRepository() {
         showExpense: Boolean = true
     ) {
         baseFixture(showIncome, showExpense) {
-            val categoryExpenseId = writeCategory("Expense")
+            val categoryExpenseId = writeCategory("Expense", type = FLAG_EXPENSE)
             val categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
             with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)

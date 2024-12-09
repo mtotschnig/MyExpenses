@@ -9,6 +9,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
@@ -45,7 +46,7 @@ abstract class BaseTestWithRepository {
 
     val contentResolver: ContentResolver = repository.contentResolver
 
-    fun writeCategory(label: String, parentId: Long? = null, uuid: String? = null, type: Byte = FLAG_EXPENSE) =
+    fun writeCategory(label: String, parentId: Long? = null, uuid: String? = null, type: Byte = FLAG_NEUTRAL) =
         repository.saveCategory(Category(label = label, parentId = parentId, uuid = uuid, type = type))!!
 
     protected fun insertTransaction(

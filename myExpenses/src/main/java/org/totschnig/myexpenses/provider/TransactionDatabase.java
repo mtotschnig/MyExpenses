@@ -331,7 +331,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_START + " datetime, "
           + KEY_END + " datetime, "
           + KEY_IS_DEFAULT + " boolean default 0, "
-          + KEY_UUID + " text not null)";
+          + KEY_UUID + " text)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_ALLOCATIONS + " ( "
