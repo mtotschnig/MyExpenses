@@ -25,14 +25,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 
 abstract class IdCriterion : Criterion<Long>() {
 
-    abstract val label : String?
+    abstract val label : String
 
     override fun prettyPrint(context: Context): String {
         return if (operation == Operation.ISNULL) String.format(
             "%s: %s",
             columnName2Label(context),
             context.getString(R.string.unmapped)
-        ) else label!!
+        ) else label
     }
 
     private fun columnName2Label(context: Context): String {
@@ -45,7 +45,7 @@ abstract class IdCriterion : Criterion<Long>() {
     }
 
     override fun toString() =
-        if (operation == Operation.ISNULL) "null" else escapeSeparator(label!!) +
+        if (operation == Operation.ISNULL) "null" else escapeSeparator(label) +
                 EXTRA_SEPARATOR + values.joinToString(EXTRA_SEPARATOR)
 
     companion object {

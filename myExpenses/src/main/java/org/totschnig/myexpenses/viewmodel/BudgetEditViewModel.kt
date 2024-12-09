@@ -38,7 +38,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     fun persistPreferences(budgetId: Long, whereFilter: WhereFilter) {
         val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
                 immediatePersist = false, restoreFromPreferences = false)
-        whereFilter.criteria.forEach { filterPersistence.addCriteria(it) }
+        whereFilter.criteria.forEach { filterPersistence.addCriterion(it) }
         filterPersistence.persistAll()
     }
 }

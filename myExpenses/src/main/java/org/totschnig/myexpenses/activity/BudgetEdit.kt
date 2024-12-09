@@ -220,7 +220,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
 
     override fun addFilterCriterion(c: Criterion<*>) {
         setDirty()
-        filterPersistence.addCriteria(c)
+        filterPersistence.addCriterion(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }

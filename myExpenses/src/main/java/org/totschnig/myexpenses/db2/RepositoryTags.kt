@@ -120,7 +120,7 @@ fun Repository.extractTagId(tagInfo: TagInfo): Long {
         writeTag(tagInfo.label, tagInfo.color)
 }
 
-private fun Repository.extractTagId(label: String) =
+fun Repository.extractTagId(label: String) =
     find(label)?.first ?: writeTag(label)
 
 /**

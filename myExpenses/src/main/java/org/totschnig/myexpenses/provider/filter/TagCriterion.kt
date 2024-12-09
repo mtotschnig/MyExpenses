@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TA
 
 @Parcelize
 class TagCriterion(
-    override val label: String?,
+    override val label: String,
     override val values: Array<Long>
 ) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())

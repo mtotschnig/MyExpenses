@@ -106,7 +106,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
     private fun saveBudgetFilter(budgetId: Long, categoryId: Long) {
         val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
             immediatePersist = false, restoreFromPreferences = false)
-        filterPersistence.addCriteria(CategoryCriterion("A", categoryId))
+        filterPersistence.addCriterion(CategoryCriterion("A", categoryId))
         filterPersistence.persistAll()
     }
 

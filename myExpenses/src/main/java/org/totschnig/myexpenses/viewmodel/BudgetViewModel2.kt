@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.getMethod
 import org.totschnig.myexpenses.db2.getParty
 import org.totschnig.myexpenses.db2.getTag
+import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -386,7 +387,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                                     .filterIsInstance<AccountCriterion>()
                                     .firstOrNull()
                                     ?.values
-                                    ?.mapNotNull { repository.getLabelForAccount(it) },
+                                    ?.mapNotNull { repository.getUuidForAccount(it) },
                                 allocations = contentResolver.query(
                                     TransactionProvider.BUDGET_ALLOCATIONS_URI,
                                     arrayOf(

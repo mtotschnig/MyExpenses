@@ -12,10 +12,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHODS_URI
 import org.totschnig.myexpenses.provider.asSequence
@@ -42,8 +40,8 @@ val mappingColumns = arrayOf(
 )
 
 val preDefinedName = StringBuilder().apply {
-    append("CASE " + KEY_LABEL)
-    for (method in PreDefinedPaymentMethod.values()) {
+    append("CASE $KEY_LABEL")
+    for (method in PreDefinedPaymentMethod.entries) {
         append(" WHEN '").append(method.name).append("' THEN '").append(method.name)
             .append("'")
     }
@@ -53,7 +51,7 @@ val preDefinedName = StringBuilder().apply {
 fun localizedLabelSqlColumn(ctx: Context, keyLabel: String?) =
     StringBuilder().apply {
         append("CASE ").append(keyLabel)
-        for (method in PreDefinedPaymentMethod.values()) {
+        for (method in PreDefinedPaymentMethod.entries) {
             append(" WHEN '").append(method.name).append("' THEN ")
             DatabaseUtils.appendEscapedSQLString(this, ctx.getString(method.resId))
         }
@@ -146,7 +144,7 @@ private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<Accoun
 fun Repository.findPaymentMethod(label: String) = contentResolver.query(
     METHODS_URI,
     arrayOf(KEY_ROWID),
-    KEY_LABEL + " = ?",
+    "$KEY_LABEL = ?",
     arrayOf(label),
     null
 )?.use { if (it.moveToFirst()) it.getLong(0) else null }

@@ -5,8 +5,10 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.net.Uri
 import kotlinx.coroutines.flow.first
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
@@ -16,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_N
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -30,11 +33,17 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -105,7 +114,7 @@ fun Repository.sumLoaderForBudget(
         aggregateNeutral.toString()
     )
     val filterPersistence =
-        FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false)
+        FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
     val selectionArgs: Array<String>? = if (!filterPersistence.whereFilter.isEmpty) {
@@ -358,6 +367,50 @@ fun Repository.importBudget(
                 .build())
         }
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
-        if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
+        val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
+        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
+            immediatePersist = false, restoreFromPreferences = false)
+        categoryFilter?.mapNotNull { path ->
+            ensureCategoryPath(path)?.let { path.last().label to it }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(CategoryCriterion(label, *ids))
+        }
+        partyFilter?.takeIf { it.isNotEmpty() }?.map {
+            it to requireParty(it)
+        }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(PayeeCriterion(label, *ids))
+        }
+        methodFilter?.mapNotNull { method ->
+            findPaymentMethod(method)?.let { method.translateIfPredefined(context) to it }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(MethodCriterion(label, *ids))
+        }
+        statusFilter?.mapNotNull {
+            try { CrStatus.valueOf(it) } catch (_: Exception) { null }
+        }?.takeIf { it.isNotEmpty() }?.let {
+            filterPersistence.addCriterion(CrStatusCriterion(it.toTypedArray()))
+        }
+        tagFilter?.takeIf { it.isNotEmpty() }?.map {
+            it to extractTagId(it)
+        }?.let {
+            val label = it.joinToString { it.first }
+            val ids = it.map { it.second }.toLongArray()
+            filterPersistence.addCriterion(TagCriterion(label, *ids))
+        }
+        accountFilter?.mapNotNull { accountUuid ->
+            findAccountByUuidWithExtraColumn(accountUuid, KEY_LABEL)
+        }?.takeIf { it.isNotEmpty() }?.let {
+            val label = it.joinToString { it.second!! }
+            val ids = it.map { it.first }.toLongArray()
+            filterPersistence.addCriterion(AccountCriterion(label, *ids))
+        }
+        filterPersistence.persistAll()
+        budgetId
     }
 }

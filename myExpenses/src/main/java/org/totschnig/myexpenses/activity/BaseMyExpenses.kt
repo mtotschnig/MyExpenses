@@ -2470,7 +2470,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     fun addFilterCriterion(c: Criterion<*>) {
         invalidateOptionsMenu()
-        currentFilter.addCriteria(c)
+        currentFilter.addCriterion(c)
     }
 
     fun removeFilter(id: Int) = if (currentFilter.removeFilter(id)) {
