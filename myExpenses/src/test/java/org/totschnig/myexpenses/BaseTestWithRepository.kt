@@ -8,14 +8,17 @@ import androidx.test.core.app.ApplicationProvider
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TemplateInfo
@@ -42,8 +45,8 @@ abstract class BaseTestWithRepository {
 
     val contentResolver: ContentResolver = repository.contentResolver
 
-    fun writeCategory(label: String, parentId: Long? = null) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
+    fun writeCategory(label: String, parentId: Long? = null, uuid: String? = null, type: Byte = FLAG_EXPENSE) =
+        repository.saveCategory(Category(label = label, parentId = parentId, uuid = uuid, type = type))!!
 
     protected fun insertTransaction(
         accountId: Long,
@@ -88,5 +91,14 @@ abstract class BaseTestWithRepository {
             amount = amount,
             grouping = Grouping.MONTH
         ).contentValues
+    )!!)
+
+    protected fun insertAccount(
+        label: String,
+        openingBalance: Long = 0,
+        accountType: AccountType = AccountType.CASH
+    ) = ContentUris.parseId(contentResolver.insert(
+        TransactionProvider.ACCOUNTS_URI,
+        AccountInfo(label, accountType, openingBalance).contentValues
     )!!)
 }

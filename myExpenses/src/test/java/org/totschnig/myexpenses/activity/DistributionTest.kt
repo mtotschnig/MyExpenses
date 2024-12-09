@@ -26,14 +26,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 
@@ -86,9 +83,6 @@ class DistributionTest : BaseTestWithRepository() {
     }
 
     private val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
-
-    private fun writeCategory(label: String, parentId: Long? = null, type: Byte = FLAG_EXPENSE) =
-        repository.saveCategory(Category(label = label, parentId = parentId, type = type))!!
 
     private fun assertIncome() {
         onView(allOf(withText(containsString("Income")), withText(containsString("34"))))

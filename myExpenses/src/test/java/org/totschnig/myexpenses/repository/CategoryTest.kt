@@ -15,9 +15,7 @@ import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Category
-import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CATEGORY_TREE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -74,7 +72,7 @@ class CategoryTest : BaseTestWithRepository() {
         val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
         val incomeCategory = Category(label = "Income", type = FLAG_INCOME).saveCopy
         repository.moveCategory(expenseCategory.id!!, incomeCategory.id)
-        val new = repository.loadCategory(expenseCategory.id!!)!!
+        val new = repository.loadCategory(expenseCategory.id)!!
         assertThat(new.parentId).isEqualTo(incomeCategory.id)
         assertThat(new.type).isEqualTo(FLAG_INCOME)
         assertThat(repository.loadCategory(sub)!!.type).isEqualTo(FLAG_INCOME)
@@ -127,7 +125,7 @@ class CategoryTest : BaseTestWithRepository() {
         )
         assertThat(tree).containsExactly(
             org.totschnig.myexpenses.viewmodel.data.Category(
-                id = main1.id!!,
+                id = main1.id,
                 level = 1,
                 label = "Main 1",
                 children = listOf(
@@ -136,14 +134,14 @@ class CategoryTest : BaseTestWithRepository() {
                         level = 2,
                         label = "Sub",
                         path = "Main 1 > Sub",
-                        parentId = main1.id!!,
+                        parentId = main1.id,
                         children = listOf(
                             org.totschnig.myexpenses.viewmodel.data.Category(
                                 id = subSub1.id!!,
                                 level = 3,
                                 label = "SubSub",
                                 path = "Main 1 > Sub > SubSub",
-                                parentId = sub1.id!!,
+                                parentId = sub1.id,
                                 isMatching = true,
                                 typeFlags = FLAG_EXPENSE
                             )
@@ -167,27 +165,21 @@ class CategoryTest : BaseTestWithRepository() {
 
     @Test
     fun mergeShouldUpdateReferencedObjects() {
-        val testAccount = AccountInfo("Test account", AccountType.CASH, 0, "USD")
-        val testAccountId = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                testAccount.contentValues
-            )!!
-        )
+        val testAccountId = insertAccount("Test account")
         val main1 = Category(label = "Main 1", type = FLAG_EXPENSE).saveCopy
         val main2 = Category(label = "Main 2", type = FLAG_EXPENSE).saveCopy
         val transactionId = insertTransaction(testAccountId, 100, categoryId = main2.id!!).first
         val templateId = insertTemplate(testAccountId, "Template", 100, main2.id)
         val budgetId = insertBudget(testAccountId, "Budget", 100)
         contentResolver.update(
-            budgetAllocationUri(budgetId, main2.id!!),
+            budgetAllocationUri(budgetId, main2.id),
             ContentValues().apply {
                 put(KEY_BUDGET, 500)
             },
             null,
             null
         )
-        repository.mergeCategories(listOf(main2.id!!), main1.id!!)
+        repository.mergeCategories(listOf(main2.id), main1.id!!)
         with(
             CursorSubject.assertThat(
                 contentResolver.query(
@@ -200,7 +192,7 @@ class CategoryTest : BaseTestWithRepository() {
             )
         ) {
             movesToFirst()
-            hasLong(0, main1.id!!)
+            hasLong(0, main1.id)
         }
         with(
             CursorSubject.assertThat(
@@ -214,12 +206,12 @@ class CategoryTest : BaseTestWithRepository() {
             )
         ) {
             movesToFirst()
-            hasLong(0, main1.id!!)
+            hasLong(0, main1.id)
         }
         with(
             CursorSubject.assertThat(
                 contentResolver.query(
-                    budgetAllocationUri(budgetId, main1.id!!), null, null, null, null
+                    budgetAllocationUri(budgetId, main1.id), null, null, null, null
                 )!!
             )
         ) {

@@ -1,14 +1,11 @@
 package org.totschnig.myexpenses.repository
 
-import android.content.ContentUris
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.IAccount
-import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -40,13 +37,7 @@ class SumQueryTest : BaseTestWithRepository() {
 
     @Before
     fun setup() {
-        val testAccount = AccountInfo("Test account", AccountType.CASH, 0, "USD")
-        testAccountId = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                testAccount.contentValues
-            )!!
-        )
+        testAccountId = insertAccount("Test account")
     }
 
     private fun uriBuilder(accountInfo: IAccount, aggregateNeutral: Boolean) =

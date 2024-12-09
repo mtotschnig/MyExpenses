@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.repository
 
-import android.content.ContentUris
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,11 +10,9 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.saveCategory
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
-import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -46,13 +43,7 @@ class GroupQueryTest : BaseTestWithRepository() {
 
     @Before
     fun setup() {
-        val testAccount = AccountInfo("Test account", AccountType.CASH, 0, "USD")
-        testAccountId = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.ACCOUNTS_URI,
-                testAccount.contentValues
-            )!!
-        )
+        testAccountId = insertAccount("Test account")
         neutralCategoryId = insertCategory("Neutral", FLAG_NEUTRAL)
         expenseCategoryId = insertCategory("Expense", FLAG_EXPENSE)
         incomeCategoryId = insertCategory("Income", FLAG_INCOME)
