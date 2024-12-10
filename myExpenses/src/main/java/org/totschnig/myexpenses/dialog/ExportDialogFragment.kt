@@ -121,7 +121,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 try {
                     DateTimeFormatter.ofPattern(s.toString())
                     editText.error = null
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     editText.error = getString(R.string.date_format_illegal)
                 }
                 configureButton()
@@ -136,7 +136,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             ?.takeIf {
                 it.isNotEmpty() && (try {
                     DateTimeFormatter.ofPattern(it)
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     null
                 }) != null
             } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
@@ -151,7 +151,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             ?.takeIf {
                 it.isNotEmpty() && (try {
                     DateTimeFormatter.ofPattern(it)
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     null
                 }) != null
             } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
@@ -369,7 +369,9 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             if (accountInfo.id > 0) {
                 putLong(DatabaseConstants.KEY_ROWID, accountInfo.id)
             } else {
-                putString(DatabaseConstants.KEY_CURRENCY, accountInfo.currency)
+                if (accountInfo.id != HOME_AGGREGATE_ID) {
+                    putString(DatabaseConstants.KEY_CURRENCY, accountInfo.currency)
+                }
                 val mergeAccounts = binding.mergeAccounts.isChecked
                 putBoolean(KEY_MERGE_P, mergeAccounts)
                 prefHandler.putBoolean(KEY_MERGE_P, mergeAccounts)

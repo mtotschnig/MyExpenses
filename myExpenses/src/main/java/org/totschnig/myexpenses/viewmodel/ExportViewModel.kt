@@ -99,7 +99,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     } else {
                         var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
                         var selectionArgs: Array<String>? = null
-                        if (currency != null && currency != AGGREGATE_HOME_CURRENCY_CODE) {
+                        if (currency != null) {
                             selection += " AND $KEY_CURRENCY = ?"
                             selectionArgs = arrayOf(currency)
                         }
