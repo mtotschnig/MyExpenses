@@ -27,7 +27,7 @@ class SplitPartRVAdapter(
     context: Context,
     var currencyUnit: CurrencyUnit,
     val currencyFormatter: ICurrencyFormatter,
-    private inline val onItemClicked: ((View, ITransaction) -> Unit)? = null
+    private val onItemClicked: ((View, ITransaction) -> Unit)? = null
 ) :
     ListAdapter<SplitPartRVAdapter.ITransaction, SplitPartRVAdapter.ViewHolder>(DIFF_CALLBACK) {
     val colorExpense: Int = ContextCompat.getColor(context, R.color.colorExpense)
