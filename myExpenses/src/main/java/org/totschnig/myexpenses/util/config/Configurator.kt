@@ -7,7 +7,6 @@ interface Configurator {
     enum class Configuration {
         USE_SET_DECOR_PADDING_WORKAROUND,
         AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED,
-        DKB_USE_LEGACY_PIN_TAN_ADDRESS,
         ad_handling_waterfall;
     }
 

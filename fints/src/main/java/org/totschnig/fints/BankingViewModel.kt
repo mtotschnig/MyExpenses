@@ -73,8 +73,6 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator
-import org.totschnig.myexpenses.util.config.Configurator.Configuration.DKB_USE_LEGACY_PIN_TAN_ADDRESS
-import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crypt.PassphraseRepository
 import org.totschnig.myexpenses.util.safeMessage
@@ -277,13 +275,7 @@ class BankingViewModel(application: Application) :
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
         Feature.INIT_FLIP_USER_INST.isEnabled = false
         return HBCIUtils.getBankInfo(bankingCredentials.blz)
-            ?.takeIf { it.pinTanAddress != null }?.also {
-                if(bankingCredentials.blz == WellKnownBank.DKB.blz.first() &&
-                    configurator[DKB_USE_LEGACY_PIN_TAN_ADDRESS, false]
-                    ) {
-                    it.pinTanAddress = "https://banking-dkb.s-fints-pt-dkb.de/fints30"
-                }
-            }
+            ?.takeIf { it.pinTanAddress != null }
     }
 
     private fun passportFile(blz: String, user: String) =
