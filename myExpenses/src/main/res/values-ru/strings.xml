@@ -380,7 +380,7 @@
     </plurals>
     <string name="move_category_success">Одна категория была успешно перемещена.</string>
     <string name="move_category_failure">Одна категория не была перемещена, поскольку тот же ярлык уже существует в целевом объекте.</string>
-    <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской</string>
+    <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской.</string>
     <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
     <string name="warning_password_protected">Приложение защищено паролем.</string>
     <string name="warning_widget_disabled">Вам необходимо включить этот виджет в настройках приложения.</string>
@@ -545,7 +545,7 @@
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="number_of_fraction_digits">Число дробных знаков</string>
     <string name="warning_auto_backup_deactivated">Авто-резервное копирование было отключено. Вы можете включить его снова из настроек после решения проблемы (например, выбрав другую папку для резервных копий).</string>
-    <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
+    <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его.</string>
     <string name="pref_tracking_title">Сбор данных об использовании</string>
     <string name="sync_database_error">Во время синхронизации произошла ошибка базы данных.</string>
     <string name="sync_io_error_cannot_connect">Не удается подключиться к серверу синхронизации.</string>
@@ -581,7 +581,7 @@
     <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
     <string name="professional_key">Professional-ключ</string>
     <string name="n_months">%d месяцев</string>
-    <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
+    <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС.</string>
     <string name="valid_until">До %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Продлите до %1$s за %2$s</string>
@@ -988,4 +988,8 @@
     <string name="merge_categories_prompt">Выберите категорию, которую хотите сохранить</string>
     <string name="not_enough_data">Недостаточно данных</string>
     <string name="pref_csv_export_category_separator_summary">Разделитель между уровнями иерархии категорий</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Перевод нельзя редактировать, так как соответствующая ему запись архивирована.</string>
+    <string name="content_description_exchange_rate">Курс обмена 1 %1$s в %2$s</string>
+    <string name="content_description_original_amount">Укажите исходную сумму транзакции, выбрав валюту и введя необходимую сумму. Вы также можете определить курс обмена, который будет применяться для расчета эффективной суммы.</string>
+    <string name="content_description_equivalent_amount">Укажите значение этой транзакции в вашей базовой валюте. Если хотите, можно ввести не сумму, а курс обмена для автоматического расчета.</string>
 </resources>

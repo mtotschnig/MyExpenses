@@ -854,7 +854,7 @@
     <string name="debt_lend_additional">Posuđujem %s.</string>
     <string name="debt_borrow_additional">Uzajmljujem %s.</string>
     <string name="debt_paid_off_other">Dug od %s je otplaćen.</string>
-    <string name="github_sponsors">Licencni ključevi se također daju &lt;a href=%s&gt;Github sponzorima&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Licencni ključevi se također daju <a href=%s>Github sponzorima</a>.]]></string>
     <string name="notifications_permission_required_webui">Davanjem dozvole za slanje obavijesti možeš kontrolirati stanje web poslužitelja.</string>
     <string name="notifications_permission_required_sync">Davanjem dozvole za slanje obavijesti možeš pratiti napredak sinkronizacije.</string>
     <string name="notifications_channel_required">Aktiviraj kanal %s.</string>
@@ -920,5 +920,15 @@
     <string name="pref_scroll_to_current_date_app_launch">samo kada se aplikacija pokrene</string>
     <string name="pref_scroll_to_current_date_title">Prolistaj popis transakcija na aktualni datum</string>
     <string name="pref_scroll_to_current_date_account_open">svaki put kada prijeđeš na račun</string>
-    <string name="archive">Arhiv</string>
+    <string name="archive">Arhiva</string>
+    <string name="warning_backend_deactivated">Pozadinski sustav nije spreman za sinkronizaciju.</string>
+    <string name="button_activate_again">Aktiviraj ponovo</string>
+    <string name="menu_unpack">Raspakiraj</string>
+    <string name="warning_unarchive">Arhiva će se raspakirati. Sve sadržane transakcije će se ponovo umetnuti u popis.</string>
+    <string name="dialog_title_warning_delete_archive">Izbrisati arhivu?</string>
+    <string name="warning_nested_archives">Ugniježđene arhive nisu podržane.</string>
+    <string name="warning_empty_archive">U odabranom datumskom rasponu nema transakcija.</string>
+    <string name="warning_delete_archive">Sve transakcije sadržane u ovoj arhivi (%d) će se izbrisati.</string>
+    <string name="archive_warning">Sve transakcije (%d) u odabranom datumskom rasponu će se arhivirati.</string>
+    <string name="warning_archive_inconsistent_state">Transakcije u odabranom datumskom rasponu imaju nedosljedna stanja (%s).</string>
 </resources>
