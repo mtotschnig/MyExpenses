@@ -177,6 +177,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}",
             )
 
+            "392" -> arrayOf(
+                "${t(R.string.menu_budget)}: ${t(R.string.synchronization)}",
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
