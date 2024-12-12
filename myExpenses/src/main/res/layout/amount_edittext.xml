@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AmountEditText"
     android:layout_width="0dp"
-    android:minHeight="@dimen/accessibility_clickable_minimum"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:layout_weight="1"
+    android:imeOptions="actionNext"
+    android:minHeight="@dimen/accessibility_clickable_minimum"
     app:layout_constraintEnd_toStartOf="@+id/Calculator"
     app:layout_constraintStart_toEndOf="@+id/AmountCurrency"
     tools:showIn="@layout/amount_input" />

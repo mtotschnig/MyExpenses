@@ -14,12 +14,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.AccessibilityDelegateCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewbinding.ViewBinding
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
@@ -36,25 +32,17 @@ import timber.log.Timber
 import java.math.BigDecimal
 
 class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
-    fun typeButton(): CompoundButton {
-        return (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).TaType else (viewBinding as AmountInputBinding?)!!.TaType)
-            .getRoot()
-    }
+    fun typeButton() = ((viewBinding as? AmountInputAlternateBinding)?.TaType
+        ?: (viewBinding as AmountInputBinding).TaType).root
 
-    private fun amountEditText(): AmountEditText {
-        return (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).AmountEditText else (viewBinding as AmountInputBinding?)!!.AmountEditText)
-            .getRoot()
-    }
+    private fun amountEditText() = ((viewBinding as? AmountInputAlternateBinding)?.AmountEditText
+        ?: (viewBinding as AmountInputBinding).AmountEditText).root
 
-    private fun calculator(): ImageView {
-        return (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).Calculator else (viewBinding as AmountInputBinding?)!!.Calculator)
-            .getRoot()
-    }
+    private fun calculator() = ((viewBinding as? AmountInputAlternateBinding)?.Calculator
+        ?: (viewBinding as AmountInputBinding).Calculator).root
 
-    private fun exchangeRateEdit(): ExchangeRateEdit {
-        return (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).AmountExchangeRate else (viewBinding as AmountInputBinding?)!!.AmountExchangeRate)
-            .getRoot()
-    }
+    private fun exchangeRateEdit() = ((viewBinding as? AmountInputAlternateBinding)?.AmountExchangeRate
+        ?: (viewBinding as AmountInputBinding).AmountExchangeRate).root
 
     private var viewBinding: ViewBinding? = null
     private var withTypeSwitch = false

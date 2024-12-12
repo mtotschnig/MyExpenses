@@ -109,7 +109,6 @@ class AmountEditText(
     private fun configDecimalSeparator(decimalSeparator: Char, fractionDigits: Int) {
         // TODO we should take into account the arab separator as well
         val otherSeparator = if (decimalSeparator == '.') ',' else '.'
-        imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI
         setRawInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
         filters = arrayOf(
             FractionDigitsInputFilter(decimalSeparator, otherSeparator, fractionDigits),
