@@ -239,7 +239,6 @@ class ManageBudgets : ProtectedFragmentActivity() {
         menu.findItem(R.id.SYNC_COMMAND_IMPORT)?.populateWithSync(
             GenericAccountService.getAccountNames(this)
         )
-        menu.prepareSync(this)
         lifecycleScope.launch {
             menu.findItem(R.id.GROUPING_COMMAND)?.subMenu
                 ?.findItem(viewModel.grouping().first().commandId)

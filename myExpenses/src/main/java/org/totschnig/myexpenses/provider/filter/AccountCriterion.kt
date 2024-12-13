@@ -25,9 +25,8 @@ const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
 @Parcelize
 class AccountCriterion(
     override val label: String,
-    override val operation: Operation,
     override val values: Array<Long>) : IdCriterion() {
-    constructor(label: String, vararg values: Long) : this(label, Operation.IN, values.toTypedArray())
+    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_ACCOUNT_COMMAND

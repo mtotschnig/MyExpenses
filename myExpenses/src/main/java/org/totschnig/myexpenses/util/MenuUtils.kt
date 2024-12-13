@@ -45,6 +45,7 @@ fun Menu.prepareSearch(filter: String?) {
 }
 
 fun MenuItem.populateWithSync(accountNames: Array<String>) {
+    setEnabledAndVisible(accountNames.isNotEmpty())
     subMenu?.let {
         it.clear()
         for (account in accountNames) {

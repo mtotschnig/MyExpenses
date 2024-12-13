@@ -25,11 +25,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 @Parcelize
 class MethodCriterion(
     override val label: String,
-    override val operation: WhereFilter.Operation,
     override val values: Array<Long>
 ) : IdCriterion() {
-    constructor() : this("", WhereFilter.Operation.ISNULL, emptyArray())
-    constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
+    constructor(label: String = "", vararg values: Long) : this(label, values.toTypedArray())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_METHOD_COMMAND

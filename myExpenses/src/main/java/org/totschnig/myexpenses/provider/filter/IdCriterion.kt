@@ -27,6 +27,9 @@ abstract class IdCriterion : Criterion<Long>() {
 
     abstract val label : String
 
+    final override val operation
+        get() = if (values.isEmpty()) Operation.ISNULL else Operation.IN
+
     override fun prettyPrint(context: Context): String {
         return if (operation == Operation.ISNULL) String.format(
             "%s: %s",
@@ -65,5 +68,6 @@ abstract class IdCriterion : Criterion<Long>() {
         private fun reportCannotParse(extra: String) {
             report(Exception("Cannot parse string extra $extra"))
         }
+
     }
 }

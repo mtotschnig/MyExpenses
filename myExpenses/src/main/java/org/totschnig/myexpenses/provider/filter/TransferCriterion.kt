@@ -29,9 +29,6 @@ class TransferCriterion(
 ) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
-    @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
-
     override fun getSelection(forExport: Boolean): String {
         val selection = operation.getOp(values.size)
         return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"

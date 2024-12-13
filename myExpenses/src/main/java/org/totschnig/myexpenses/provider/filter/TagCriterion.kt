@@ -15,9 +15,6 @@ class TagCriterion(
 ) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
-    @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
-
     override fun getSelection(forExport: Boolean): String =
         "$KEY_ROWID IN (SELECT $KEY_TRANSACTIONID FROM $TABLE_TRANSACTIONS_TAGS WHERE ${super.getSelection(
             false

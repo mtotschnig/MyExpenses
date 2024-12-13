@@ -372,21 +372,19 @@ fun Repository.importBudget(
             immediatePersist = false, restoreFromPreferences = false)
         categoryFilter?.mapNotNull { path ->
             ensureCategoryPath(path)?.let { path.last().label to it }
-        }?.takeIf { it.isNotEmpty() }?.let {
+        }?.let {
             val label = it.joinToString { it.first }
             val ids = it.map { it.second }.toLongArray()
             filterPersistence.addCriterion(CategoryCriterion(label, *ids))
         }
-        partyFilter?.takeIf { it.isNotEmpty() }?.map {
-            it to requireParty(it)
-        }?.let {
+        partyFilter?.map { it to requireParty(it) }?.let {
             val label = it.joinToString { it.first }
             val ids = it.map { it.second }.toLongArray()
             filterPersistence.addCriterion(PayeeCriterion(label, *ids))
         }
         methodFilter?.mapNotNull { method ->
             findPaymentMethod(method)?.let { method.translateIfPredefined(context) to it }
-        }?.takeIf { it.isNotEmpty() }?.let {
+        }?.let {
             val label = it.joinToString { it.first }
             val ids = it.map { it.second }.toLongArray()
             filterPersistence.addCriterion(MethodCriterion(label, *ids))

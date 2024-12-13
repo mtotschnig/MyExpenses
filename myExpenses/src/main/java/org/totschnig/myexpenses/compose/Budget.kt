@@ -521,6 +521,7 @@ fun ChipGroup(
     val context = LocalContext.current
     FlowRow(
         modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         ((budget?.let { listOf(stringResource(R.string.account) to it.label(context)) } ?: emptyList()) +

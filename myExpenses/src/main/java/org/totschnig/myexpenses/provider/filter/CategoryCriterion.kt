@@ -27,29 +27,30 @@ import org.totschnig.myexpenses.provider.categoryTreeSelect
 @Parcelize
 class CategoryCriterion(
     override val label: String,
-    override val operation: WhereFilter.Operation,
-    override val values: Array<Long>
+    override val values: Array<Long>,
 ) : IdCriterion() {
-    constructor() : this("", WhereFilter.Operation.ISNULL, emptyArray())
-    constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
+    constructor(label: String = "", vararg values: Long) : this(label, values.toTypedArray())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_CATEGORY_COMMAND
+
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_CATID
+
     @IgnoredOnParcel
     override val title = R.string.category
 
-    override fun getSelection(forExport: Boolean): String = if (operation === WhereFilter.Operation.ISNULL) {
-        super.getSelection(false)
-    } else "$column IN (" + categoryTreeSelect(
-        sortOrder = null,
-        matches = null,
-        projection = arrayOf(KEY_ROWID),
-        selection = null,
-        rootExpression = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(selectionArgs.size)}",
-        categorySeparator = null
-    ) + ")"
+    override fun getSelection(forExport: Boolean): String =
+        if (operation === WhereFilter.Operation.ISNULL) {
+            super.getSelection(false)
+        } else "$column IN (" + categoryTreeSelect(
+            sortOrder = null,
+            matches = null,
+            projection = arrayOf(KEY_ROWID),
+            selection = null,
+            rootExpression = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(selectionArgs.size)}",
+            categorySeparator = null
+        ) + ")"
 
     companion object {
 
