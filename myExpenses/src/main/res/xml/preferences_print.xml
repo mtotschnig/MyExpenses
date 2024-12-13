@@ -33,7 +33,7 @@
             my:useSimpleSummaryProvider="true" />
         <Preference
             android:key="@string/pref_help_key"
-            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Import-Export#how-to-configure-header-and-footer-on-the-pdf-printout"
+            android:summary="https://faq.myexpenses.mobi/pdf-layout"
             android:title="@string/menu_help" />
     </PreferenceCategory>
     <ListPreference

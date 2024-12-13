@@ -101,7 +101,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
                     Box {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
-                            text = stringResource(R.string.no_budgets)
+                            text = stringResource(R.string.no_budgets),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }

@@ -122,7 +122,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment3() {
         ButtonRow {
             TextButton(onClick = {
                 (requireActivity() as BaseActivity).startActionView(
-                    "https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#strategies-for-merging-duplicate-parties"
+                    "https://faq.myexpenses.mobi/parties-merge"
                 )
             }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)

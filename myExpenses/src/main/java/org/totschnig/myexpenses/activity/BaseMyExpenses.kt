@@ -1798,7 +1798,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
             )
 
-            R.id.OCR_FAQ_COMMAND -> startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR")
+            R.id.OCR_FAQ_COMMAND -> startActionView("https://faq.myexpenses.mobi/OCR")
 
             R.id.BACKUP_COMMAND -> startActivity(
                 Intent(

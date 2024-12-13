@@ -144,7 +144,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 append(toBold(R.string.expense))
                 append("/")
                 append(toBold(R.string.income))
-                append(": <a href='https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#expense-and-income-categories'>FAQ</a>")
+                append(": <a href='https://faq.myexpenses.mobi/category-types'>FAQ</a>")
             }
 
             else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)

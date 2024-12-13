@@ -159,7 +159,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     override fun onNeutral(args: Bundle) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL) == R.id.ENCRYPT_LEARN_MORE_COMMAND) {
-            startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#how-does-database-encryption-work")
+            startActionView("https://faq.myexpenses.mobi/data-encryption")
         }
     }
 

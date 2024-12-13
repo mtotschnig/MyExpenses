@@ -30,7 +30,7 @@
         <Preference
             android:key="@string/pref_help_key"
             android:title="@string/menu_help"
-            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options"
+            android:summary="https://faq.myexpenses.mobi/data-share"
             />
     </PreferenceCategory>
 </PreferenceScreen> 

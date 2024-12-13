@@ -42,6 +42,6 @@
     <Preference
         android:key="@string/pref_help_key"
         android:title="@string/menu_help"
-        android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#pros-and-cons-of-copying-or-linking-attachments"
+        android:summary="https://faq.myexpenses.mobi/data-attachments"
         />
 </PreferenceScreen>
