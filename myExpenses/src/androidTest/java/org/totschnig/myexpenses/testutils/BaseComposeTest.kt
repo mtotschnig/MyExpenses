@@ -47,11 +47,19 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
 
     fun clickContextItem(
         @StringRes resId: Int,
-        node: SemanticsNodeInteraction = listNode,
+        listNode: SemanticsNodeInteraction = this.listNode,
         position: Int = 0,
         onLongClick: Boolean = false
     ) {
-        node.onChildren()[position].performTouchInput {
+        clickContextItem(resId, listNode.onChildren()[position], onLongClick)
+    }
+
+    fun clickContextItem(
+        @StringRes resId: Int,
+        itemNode: SemanticsNodeInteraction,
+        onLongClick: Boolean = false
+    ) {
+        itemNode.performTouchInput {
             if (onLongClick) longClick() else click()
         }
         if (!isOrchestrated) {
@@ -59,4 +67,6 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         }
         composeTestRule.onNodeWithText(getString(resId)).performClick()
     }
+
+
 }

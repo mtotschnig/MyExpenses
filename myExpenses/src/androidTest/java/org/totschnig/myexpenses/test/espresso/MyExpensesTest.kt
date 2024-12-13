@@ -164,11 +164,10 @@ class MyExpensesTest : BaseMyExpensesTest() {
         }
     }
 
-    private fun clickContextItem(@StringRes resId: Int, position: Int = 1) {
+    private fun clickContextItem(@StringRes resId: Int) {
         clickContextItem(
             resId,
-            composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS),
-            position,
+            composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filterToOne(hasText("Test account 1")),
             onLongClick = true
         )
     }
@@ -190,7 +189,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Throws(InterruptedException::class)
     fun deleteConfirmationDialogDeleteButtonDeletes() {
         openDrawer()
-        clickContextItem(R.string.menu_delete, position = 1)
+        clickContextItem(R.string.menu_delete)
         onView(withText(dialogTitleWarningDeleteAccount))
             .check(matches(isDisplayed()))
         onView(
