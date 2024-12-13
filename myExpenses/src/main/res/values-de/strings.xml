@@ -997,4 +997,8 @@
     <string name="content_description_exchange_rate">Wechselkurs für 1 %1$s in %2$s</string>
     <string name="content_description_equivalent_amount">Definieren Sie den Wert dieser Transaktion in Ihrer Heimatwährung. Anstatt den Betrag einzugeben, können Sie auch den Umrechnungskurs für die Berechnung eingeben.</string>
     <string name="warning_archived_transfer_cannot_be_edited">Die Überweisung kann nicht bearbeitet werden, da die andere Seite archiviert ist.</string>
+    <string name="warning_budget_sync_import">Die Konfiguration dieses Budgets wird aus dem Synchronisations-Backend importiert. Alle lokalen Änderungen gehen verloren.</string>
+    <string name="budget_import_can_be_imported">Folgende Budgets können importiert werden:</string>
+    <string name="budget_import_cannot_be_imported">Die folgenden Budgets beziehen sich auf Konten, die nicht synchronisiert sind:</string>
+    <string name="budget_import_none_found">Keine Budgets gefunden.</string>
 </resources>
