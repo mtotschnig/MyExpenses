@@ -77,7 +77,7 @@
     <string name="form_date_time_help_text">Voer de datum en tijd in waarop de transactie heeft plaatsgevonden.</string>
     <string name="form_payer_or_payee_help_text">Dit veld onthoudt de waarden die je invoert en zal deze in de toekomst voorstellen.</string>
     <string name="form_amount_switch_help_text">Gebruik de schakelaar om te schakelen tussen uitgaven en inkomsten.</string>
-    <string name="form_calculator_help_text">De knop &lt;img src=\?calcIcon&gt; opent de rekenmachine.</string>
+    <string name="form_calculator_help_text">De knop &lt;img src=?calcIcon&gt; opent de rekenmachine.</string>
     <string name="form_date_time_help_text_link">Als de schakelaar &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; de gekoppelde status heeft, wordt ook de andere datum bijgewerkt als je de waardedatum of boekingsdatum instelt.</string>
     <string name="form_comment_help_text">Voer een opmerking over het object in.</string>
     <string name="form_attach_image_help_text">Met de knop &lt;img src=android:ic_menu_camera&gt; kun je een afbeelding (bijvoorbeeld uit de galerij of de camera) aan het object toevoegen.</string>
