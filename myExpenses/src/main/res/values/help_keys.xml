@@ -65,4 +65,6 @@
     <string name="menu_filter">@string/filter</string>
     <string name="menu_remove">@string/remove</string>
     <string name="menu_hide">@string/hide</string>
+    <string name="menu_budget_synchronization_help_text"><![CDATA[FAQ: <a href="https://faq.myexpenses.mobi/sync-budget">Synchronization of budgets</a>]]></string>
+    <string name="menu_budget_synchronization">@string/synchronization</string>
 </resources>

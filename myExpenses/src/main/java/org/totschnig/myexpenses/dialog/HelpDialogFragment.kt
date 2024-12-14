@@ -108,7 +108,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "debts" to R.drawable.balance_scale,
             "rollover" to null,
             "type_filter" to R.drawable.ic_filter,
-            "archive" to R.drawable.ic_archive
+            "archive" to R.drawable.ic_archive,
+            "budget_synchronization" to R.drawable.ic_sync
         )
 
         @JvmStatic
@@ -296,6 +297,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                     ?.takeIf { it.isNotEmpty() }
                     ?: throw Resources.NotFoundException(resIdString)
             }
+            rowBinding.helpText.movementMethod = LinkMovementMethod.getInstance()
             rowBinding.helpText.text = helpText
             container.addView(rowBinding.root)
         }

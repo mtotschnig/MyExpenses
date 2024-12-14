@@ -19,7 +19,7 @@
     </item>
     <item
         android:id="@id/SYNC_COMMAND_IMPORT"
-        android:title="@string/pref_category_title_import">
+        android:title="@string/synchronization">
         <menu/>
     </item>
 </menu>
