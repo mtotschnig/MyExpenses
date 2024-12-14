@@ -176,11 +176,10 @@ fun Repository.archive(
 fun Repository.unarchive(id: Long) {
     val ops = java.util.ArrayList<ContentProviderOperation>().apply {
         add(
-            ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
-                .withSelection(
-                    "$KEY_ROWID = ? AND $KEY_STATUS == $STATUS_ARCHIVE",
-                    arrayOf(id.toString())
-                )
+            ContentProviderOperation.newAssertQuery(
+                ContentUris.withAppendedId(TRANSACTIONS_URI, id)
+            )
+                .withSelection("$KEY_STATUS = $STATUS_ARCHIVE", null)
                 .withExpectedCount(1).build()
         )
         add(
