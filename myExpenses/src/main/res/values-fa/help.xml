@@ -87,7 +87,7 @@
     <string name="menu_scan_mode_help_text">برای اسکن سریع رسیدها حالت اسکن را فعال کنید.</string>
     <string name="help_ManageParties_manage_info">این صفحه، طرف هایی را که برای تکمیل خودکار فیلد پرداخت کننده/ گیرنده وجه استفاده شده اند، فهرست می کند.</string>
     <string name="help_ManageParties_select_mapping_info">یک فرد را با ضربه زدن روی آن انتخاب کنید.</string>
-    <string name="help_ManageParties_select_filter_info"></string>
+    <string name="help_ManageParties_select_filter_info"/>
     <string name="help_ManageTemplates_planner_title">بازرخدادهای آتی</string>
     <string name="help_ManageTemplates_plans_intro">هر تاریخ برجسته شده نمونه ای از طرح را نشان می دهد.</string>
     <string name="form_attach_image_help_text">دکمه &lt;img src=android:ic_menu_camera&gt; به شما امکان می دهد یک تصویر (مثلاً از گالری یا دوربین) را به موضوع متصل کنید.</string>
@@ -98,7 +98,7 @@
     <string name="form_date_time_help_text_configuration">در تنظیمات می توانید ورودی زمان را غیرفعال کنید و تمایز بین تاریخ ثبت و تاریخ ارزش را فعال کنید.</string>
     <string name="form_payer_or_payee_help_text">این فیلد مقادیری را که شما وارد می کنید به خاطر می آورد و در آینده آنها را پیشنهاد خواهد کرد.</string>
     <string name="form_amount_switch_help_text">از سوئیچ برای جابجایی بین هزینه و درآمد استفاده کنید.</string>
-    <string name="form_calculator_help_text">دکمه &lt;img src=\?calcIcon&gt; ماشین حساب را باز می کند.</string>
+    <string name="form_calculator_help_text">دکمه &lt;img src=?calcIcon&gt; ماشین حساب را باز می کند.</string>
     <string name="form_comment_help_text">هر گونه یادداشتی را در مورد این موضوع وارد کنید.</string>
     <string name="form_category_help_text">این دکمه فهرست دسته‌ها را باز می‌کند، جایی که می‌توانید دسته‌ای را که می‌خواهید به تراکنش نگاشت کنید، انتخاب کنید.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">حساب هایی را که این مورد، از یا به آن منتقل می شود را تعیین کنید.</string>
