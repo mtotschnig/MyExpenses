@@ -905,7 +905,7 @@
     <string name="encrypt_database">Криптиране на базата данни</string>
     <string name="encrypt_database_info">Базата данни ще бъде шифрована с парола, която не може да бъде извлечена от устройството. Също така, тя няма да бъде архивирана от услугата за архивиране на вашето устройство.</string>
     <string name="database_is_encrypted">Базата данни е шифрована.</string>
-    <string name="github_sponsors">Предоставени са лицензионни ключове и за &lt;a href=%s&gt;спонсори чрез Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Предоставят се лицензионни ключове за <a href="%s">Github спонсор и</a>.]]></string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> се нуждае от разрешение да ви изпраща известия, когато бъдат публикувани бъдещи транзакции.</string>
     <string name="notifications_permission_required_webui">Чрез предоставяне на разрешение за изпращане на известия, вие контролирате състоянието на уеб сървъра.</string>
     <string name="notifications_permission_required_sync">При предоставяне на разрешение за изпращане на известия, вие може да следите развитието на действията по синхронизиране.</string>
@@ -966,10 +966,39 @@
     <string name="roadmap_intro">Отворено е гласуването в Пътната карта 2024! Избери функциите и подобренията, които са най-важни за теб.</string>
     <string name="merge_categories_dialog_title">Обединяване на категории</string>
     <string name="warning_archived_transfer_cannot_be_edited">Преводът не може да бъде редактиран, защото отсрещната страна е архивирана.</string>
-    <string name="warning_unlink_transfer">Избраният превод ще бъде заменен от нормални транзакции в двете сметки</string>
+    <string name="warning_unlink_transfer">Избраният превод ще бъде заменен от нормални транзакции в двете сметки.</string>
     <string name="remap_date">Датата на всички избрани транзакции ще бъде сменена на %s.</string>
     <string name="pref_scroll_to_current_date_account_open">при всяко показване на сметката</string>
     <string name="pref_scroll_to_current_date_app_launch">само при стартиране на приложението</string>
     <string name="buy">Купи</string>
     <string name="pref_scroll_to_current_date_title">Превърти списъка с транзакции до текущата дата</string>
+    <string name="merge_categories_prompt">Изберете категорията, която искате да остане</string>
+    <string name="pref_csv_export_category_separator_summary">Разделител на нивата в иерархията на категориите</string>
+    <string name="not_enough_data">Недостатъчно данни</string>
+    <string name="warning_backend_deactivated">Бекенда не е готов за синхронизация.</string>
+    <string name="button_activate_again">Активирай отново</string>
+    <string name="credit_limit_reached">Достигнахте кредитния си лимит.</string>
+    <string name="saving_goal_reached">Достигнахте поставената цел за спестяване.</string>
+    <string name="credit_limit_exceeded">Превишихте кредитния си лимит.</string>
+    <string name="credit_limit_available_credit">Наличен кредит</string>
+    <string name="saving_goal_exceeded">Превишихте целта си за спестяване.</string>
+    <string name="saving_goal_short_fall">Оставащо до целта</string>
+    <string name="overage">Превишаване</string>
+    <string name="content_description_original_amount">Определете първоначалната сума на транзакцията като изберете валута и въведете сумата. Също може да определите обменен курс, който ще бъде използван за калкулиране на ефективната сума.</string>
+    <string name="budget_import_cannot_be_imported">Следните бюджети съдържат сметки, които не са синхронизирани:</string>
+    <string name="menu_unpack">Разопаковане</string>
+    <string name="warning_unarchive">Архивът ще бъде разопакован. Всички транзакции, които съдържа, ще бъдат отново добавени в списъка.</string>
+    <string name="warning_delete_archive">Всичките %d транзакции, съдържащи се в архива ще бъдат изтрити.</string>
+    <string name="dialog_title_warning_delete_archive">Да изтрия ли архива?</string>
+    <string name="warning_nested_archives">Вложени архиви не се поддържат.</string>
+    <string name="warning_archive_inconsistent_state">Транзакциите в избрания период са с различен статус (%s).</string>
+    <string name="content_description_exchange_rate">Обменен курс за 1 %1$s в %2$s</string>
+    <string name="archive_warning">Всичките %d транзакции от избрания период ще бъдат архивирани.</string>
+    <string name="warning_empty_archive">В избрания период няма транзакции за архивиране.</string>
+    <string name="content_description_equivalent_amount">Задайте стойността на транзакцията във вашата основна валута. Вместо да въведете сумата, може да въведете обменен курс за автоматично изчисляване.</string>
+    <string name="subcategories_merged_recursively">Ако в обединяваните категории има подкатегории с еднакви имена, те ще бъдат обединени първи, рекурсивно.</string>
+    <string name="pref_sync_now_all_summary">%s синхронизира всички сметки в този бекенд</string>
+    <string name="warning_budget_sync_import">Конфигурацията на този бюджет ще бъде импортирана от синхронизирания бекенд. Всички локални промени ще бъдат загубени.</string>
+    <string name="budget_import_can_be_imported">Следните бюджети могат да бъдат импортирана:</string>
+    <string name="budget_import_none_found">Не са намерени бюджети.</string>
 </resources>
