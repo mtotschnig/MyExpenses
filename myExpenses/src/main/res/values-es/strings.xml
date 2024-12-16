@@ -1010,4 +1010,8 @@
     <string name="content_description_exchange_rate">Tipo de cambio para 1 %1$s en %2$s</string>
     <string name="content_description_equivalent_amount">Define el valor de esta transacción en su moneda nacional. En lugar de introducir el importe, también puedes introducir el tipo de cambio para calcularlo.</string>
     <string name="warning_archived_transfer_cannot_be_edited">La transferencia no se puede editar porque su otro lado está archivado.</string>
+    <string name="warning_budget_sync_import">La configuración de este presupuesto se importará desde el backend de sincronización. Todos los cambios locales se perderán.</string>
+    <string name="budget_import_can_be_imported">Se pueden importar los siguientes presupuestos:</string>
+    <string name="budget_import_cannot_be_imported">Los presupuestos siguientes se refieren a cuentas que no están sincronizadas:</string>
+    <string name="budget_import_none_found">No se han encontrado presupuestos.</string>
 </resources>
