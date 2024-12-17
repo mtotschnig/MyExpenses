@@ -37,7 +37,7 @@
     <string name="help_ManageParties_mergeMode_info_2">צריך לבחור איזו גרסה תישמר.</string>
     <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
     <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
-    <string name="help_ManageTemplates_templates_info">&lt;img src=\"ic_menu_template\"&gt; בעוד שניתן לגזור תבניות מעסקאות באמצעות תפריט ההקשר שלהם, כאן ניתן ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורה.&lt;br&gt;&lt;img src=\"ic_event\"&gt; תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידיים של תוכנית.</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template"> בעוד שניתן לגזור תבניות מעסקאות באמצעות תפריט ההקשר שלהן, כאן ניתן ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורה.<br><img src="ic_event"> תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידיים של תוכנית.]]></string>
     <string name="help_ManageTemplates_planner_intro">לחיצה ארוכה על מופע פתוח מתחילה בחירה מרוכזת. הקשה על התחלה או סיום של טווח התאריכים מאפשרת להרחיב את הטווח לעבר או לעתיד.</string>
     <string name="help_ManageTemplates_plans_intro">כל תאריך מסומן מייצג מופע של התוכנית.</string>
     <string name="help_ManageTemplates_plans_info_header">מצב המופע מסומן על ידי הסמלים הבאים:</string>
@@ -182,7 +182,7 @@
     <string name="help_SetupSync_info">מסך זה מאפשר לך לבחור את הנתונים לסנכרון בין המכשיר והשרת. הוא מציג את כל החשבונות במכשיר שלך שטרם סונכרנו מול שרתים אחרים ואת כל החשבונות שמאוחסנים בשרת. לחיצה על &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; תבחר או תבטל את בחירת החשבון לסנכרון. בעת בחירה בחשבון שכבר קיים מקומית ובשרת, צריך להחליט בתחילה כיצד לסנכרן את הנתונים הקיימים, כך שהנתונים ששמורים במכשיר „ידרסו” את הנתונים השמורים בשרת או להפך.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">פותח את החלונית ליצירת תת־קטגוריה חדשה מתחת לקטגוריה הנבחרת. ניתן לקנן תת־קטגוריות בעומק שרירותי.</string>
     <string name="help_ManageCategories_manage_context">לחיצה על רשומה תציג את תפריט ההקשר שלה. לחיצה ארוכה תבחר כמה רשומות יחד.</string>
-    <string name="help_ManageCategories_expand_collapse">לחיצה על הסמל &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; תרחיב או תצמצם קטגוריה.</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[לחיצה על הסמל <"img src="ic_expand_more">/<img src="ic_expand_less> תרחיב או תצמצם קטגוריה.]]></string>
     <string name="cab_ManageCategories_move_help_text">אפשר להעביר כל קטגוריה שהיא (על תת־הקטגוריות שלה) לקטגוריית הורה חדשה. מותר גם להמיר תת־קטגוריות לקטגוריות ראשיות.</string>
     <string name="help_ManageCategories_select_filter_info">לחיצה על רשומה תתחיל בחירה מרובה.</string>
     <string name="help_Budget_spent_click">לחיצה על סכומי ההוצאות מציג את כל התנועות המתאימות לתקציב הנוכחי והקטגוריה המתאימה.</string>
