@@ -110,7 +110,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         baseDir.getFolder(collectionName, require)
 
     override fun childrenForCollection(folder: DocumentFile?) =
-        (folder ?: accountDir).listFiles().asList()
+        (folder ?: accountDir).listFiles().filter { it.length() > 0 }
 
     override fun nameForResource(resource: DocumentFile) = resource.name
 
@@ -139,10 +139,10 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): DocumentFile {
+    ) {
         val base = if (toAccountDir) accountDir else baseDir
         val dir = if (folder == null) base else base.getFolder(folder)!!
-        return saveFileContents(dir, fileName, fileContents, mimeType, maybeEncrypt)
+        saveFileContents(dir, fileName, fileContents, mimeType, maybeEncrypt)
     }
 
     private fun saveFileContents(
@@ -151,11 +151,10 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): DocumentFile {
+    ) {
         val file = (folder.findFile(fileName) ?: folder.createFile(mimeType, fileName)
         ?: throw IOException())
         saveFileContents(file, fileContents, maybeEncrypt)
-        return file
     }
 
     @Throws(IOException::class)

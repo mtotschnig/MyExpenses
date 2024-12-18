@@ -184,13 +184,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): DriveItem {
+    ) {
         val base = if (toAccountDir) accountPath else basePath
         val driveFolder = if (folder == null) base else {
             getFolderRequestBuilder(base, folder, true)
             base.appendPath(folder)
         }
-        return saveInputStream(
+        saveInputStream(
             itemWithPath(driveFolder.appendPath(fileName)),
             toInputStream(fileContents, maybeEncrypt)
         )
@@ -330,7 +330,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     override fun childrenForCollection(folder: DriveItem?): Collection<DriveItem> {
         return (folder ?: accountRes).let {
             itemWithId(it.id!!).children().safeGet()?.getAll()
-        } ?: emptyList()
+        }?.filter { it.size?.compareTo(0) != 0 } ?: emptyList()
     }
 
     override fun getInputStream(resource: DriveItem) =

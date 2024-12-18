@@ -242,7 +242,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): Metadata {
+    ) {
         val base = if (toAccountDir) accountPath else basePath
         val path = if (folder == null) {
             base
@@ -251,7 +251,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
                 requireFolder(it)
             }
         }
-        return saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
+        saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
     }
 
     @Throws(IOException::class)

@@ -229,7 +229,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): DavResource {
+    ) {
         val base = if (toAccountDir) accountRes else webDavClient.base
         val parent = if (folder != null) {
             webDavClient.mkCol(folder, base)
@@ -239,18 +239,16 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
                 }
             }
         } else base
-        return saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, parent)
+        saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, parent)
     }
 
-    private fun transform(e: HttpException): IOException? {
-        return if (e.cause is IOException) e.cause as IOException? else IOException(e)
-    }
+    private fun transform(e: HttpException) = e.cause as? IOException ?: IOException(e)
 
     @Throws(IOException::class)
     private fun saveFileContents(
         fileName: String, fileContents: String, mimeType: String,
         maybeEncrypt: Boolean, parent: DavResource
-    ): DavResource {
+    ) {
         val encrypt = isEncrypted && maybeEncrypt
         val mediaType: MediaType? = "$mimeType; charset=utf-8".toMediaTypeOrNull()
         val requestBody: RequestBody = if (encrypt) object : RequestBody() {
@@ -269,9 +267,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             }
         } else fileContents.toRequestBody(mediaType)
         try {
-            return webDavClient.upload(fileName, requestBody, parent)
+            webDavClient.upload(fileName, requestBody, parent)
         } catch (e: HttpException) {
-            throw transform(e)!!
+            throw transform(e)
         }
     }
 

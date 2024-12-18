@@ -413,7 +413,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): Res
+    )
 
     protected abstract fun readFileContents(
         fromAccountDir: Boolean,

@@ -115,7 +115,7 @@ class GoogleDriveBackendProvider internal constructor(
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ): File {
+    ) {
         val base = if (toAccountDir) accountFolder else baseFolder
         val driveFolder = if (folder == null) base else {
             getResInAccountDir(folder) ?: driveServiceHelper.createFolder(
@@ -125,7 +125,6 @@ class GoogleDriveBackendProvider internal constructor(
             )
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
-        return driveFolder
     }
 
     @Throws(IOException::class)
@@ -239,7 +238,10 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     override fun childrenForCollection(folder: File?) =
-        driveServiceHelper.listChildren(folder ?: accountFolder)
+        driveServiceHelper.listChildren(folder ?: accountFolder).filter {
+            @Suppress("UsePropertyAccessSyntax")
+            it.getSize() > 0
+        }
 
     override fun nameForResource(resource: File): String? = resource.name
 
