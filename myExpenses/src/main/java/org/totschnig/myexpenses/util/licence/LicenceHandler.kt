@@ -61,7 +61,7 @@ open class LicenceHandler(
     protected val prefHandler: PrefHandler,
     private val repository: Repository,
     private val currencyFormatter: ICurrencyFormatter,
-    private val clock: Clock = Clock.systemUTC()
+    private val clock: Clock = Clock.systemUTC(),
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
@@ -292,7 +292,7 @@ open class LicenceHandler(
     open val purchaseExtraInfo: String?
         get() = null
 
-    open val roadmapVoteKey: Pair<String,String>?
+    open val roadmapVoteKey: Pair<String, String>?
         get() = if (isProfessionalEnabled)
             prefHandler.getString(PrefKey.NEW_LICENCE)?.let {
                 DistributionHelper.Distribution.GITHUB.name to it
@@ -410,7 +410,7 @@ open class LicenceHandler(
     open suspend fun launchPurchase(
         aPackage: Package,
         shouldReplaceExisting: Boolean,
-        billingManager: BillingManager
+        billingManager: BillingManager,
     ) {
     }
 
@@ -465,7 +465,7 @@ open class LicenceHandler(
         contribBuyDo: (ProfessionalPackage?) -> Unit,
         validateLicence: () -> Unit,
         removeLicence: () -> Unit,
-        manageSubscription: (Uri) -> Unit
+        manageSubscription: (Uri) -> Unit,
     ) {
         AppTheme {
             key(licenceStatusFlow.collectAsState().value) {
@@ -481,7 +481,7 @@ open class LicenceHandler(
                             text = stringResource(id = R.string.thank_you),
                             style = MaterialTheme.typography.titleSmall
                         )
-                        if(hasOurLicence) {
+                        if (hasOurLicence) {
                             Text(
                                 prefHandler.getString(
                                     PrefKey.LICENCE_EMAIL,
