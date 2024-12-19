@@ -259,9 +259,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
 
         builder.setView(dialogView)
             .setIcon(R.mipmap.ic_launcher_alt)
-            .setPositiveButton(feature?.let {
-                if (licenceHandler.hasTrialAccessTo(it)) R.string.button_try else null
-            } ?: R.string.buy, null
+            .setPositiveButton( if (canTry) R.string.button_try else R.string.buy, null
             )
 
         if (licenceHandler.needsKeyEntry && !licenceHandler.hasValidKey()) {
@@ -293,6 +291,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         return dialog
     }
 
+    private val canTry = feature?.let { licenceHandler.hasTrialAccessTo(it)  } == true
+
     private fun View.setBackgroundColorFromLicenceStatus(licenceStatus: LicenceStatus) {
         setBackgroundColor(getColor(resources, licenceStatus.color, null))
     }
@@ -309,7 +309,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
             ctx.contribBuyDo(it)
             dismiss()
         } ?: run {
-            if (feature != null) {
+            if (canTry) {
                 ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null)
                 ctx.finish(false)
             } else {
