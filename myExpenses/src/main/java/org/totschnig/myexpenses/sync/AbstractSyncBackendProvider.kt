@@ -186,15 +186,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected fun maybeDecrypt(
         inputStream: InputStream,
         maybeDecrypt: Boolean = true
-    ): InputStream {
-        return try {
-            if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
-                inputStream,
-                encryptionPassword
-            ) else inputStream
-        } catch (e: GeneralSecurityException) {
-            throw IOException(e)
-        }
+    ) = try {
+        if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
+            inputStream,
+            encryptionPassword
+        ) else inputStream
+    } catch (e: GeneralSecurityException) {
+        throw IOException(e)
     }
 
     @Throws(IOException::class)
