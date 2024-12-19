@@ -291,7 +291,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         return dialog
     }
 
-    private val canTry = feature?.let { licenceHandler.hasTrialAccessTo(it)  } == true
+    private val canTry
+        get() = feature?.let { licenceHandler.hasTrialAccessTo(it)  } == true
 
     private fun View.setBackgroundColorFromLicenceStatus(licenceStatus: LicenceStatus) {
         setBackgroundColor(getColor(resources, licenceStatus.color, null))
