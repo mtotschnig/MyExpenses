@@ -123,7 +123,8 @@ public class EncryptionHelper {
   public static InputStream decrypt(InputStream inputStream, String password)
       throws IOException, GeneralSecurityException {
     byte[] magic = new byte[MAGIC_NUMBER.length()];
-    read(inputStream, magic);
+    int read = read(inputStream, magic);
+    if (read == 0) return inputStream;
     if (!MAGIC_NUMBER.equals(new String(magic))) {
       throw new GeneralSecurityException("Invalid Magic Number");
     }
