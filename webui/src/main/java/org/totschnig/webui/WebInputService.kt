@@ -16,15 +16,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.gson.gson
-import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.basic
 import io.ktor.server.cio.CIO
-import io.ktor.server.engine.ApplicationEngine
-import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.engine.sslConnector
@@ -145,7 +143,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         return LocalBinder(WeakReference(this))
     }
 
-    private var server: ApplicationEngine? = null
+    private var server: EmbeddedServer<*,*>? = null
 
     private var serverAddress: String? = null
 
@@ -195,30 +193,31 @@ class WebInputService : LifecycleService(), IWebInputService {
                 }
                 if (try {
                         (9000..9050).first { isAvailable(it) }
-                    } catch (e: NoSuchElementException) {
+                    } catch (_: NoSuchElementException) {
                         serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
                         0
                     }.let { port = it; it != 0 }
                 ) {
                     try {
                         val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
-                        val environment = applicationEngineEnvironment {
-                            if (useHttps) {
-                                val keystore = generateCertificate(keyAlias = "myKey")
-                                sslConnector(
-                                    keyStore = keystore,
-                                    keyAlias = "myKey",
-                                    keyStorePassword = { charArrayOf() },
-                                    privateKeyPassword = { charArrayOf() }) {
-                                    port = this@WebInputService.port
+                        server = embeddedServer(if (useHttps) Netty else CIO,
+                            configure = {
+                                if (useHttps) {
+                                    val keystore = generateCertificate(keyAlias = "myKey")
+                                    sslConnector(
+                                        keyStore = keystore,
+                                        keyAlias = "myKey",
+                                        keyStorePassword = { charArrayOf() },
+                                        privateKeyPassword = { charArrayOf() }) {
+                                        port = this@WebInputService.port
+                                    }
+                                } else {
+                                    connector {
+                                        port = this@WebInputService.port
+                                    }
                                 }
-                            } else {
-                                connector {
-                                    port = this@WebInputService.port
-                                }
-                            }
-                            watchPaths = emptyList()
-                            module {
+                            },
+                            module = {
                                 install(ContentNegotiation) {
                                     gson {
                                         registerTypeAdapter(
@@ -315,9 +314,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                     }
                                 }
                             }
-                        }
-
-                        server = embeddedServer(if (useHttps) Netty else CIO, environment).also {
+                        ).also {
                             lifecycleScope.launch(Dispatchers.Default) {
                                 it.start(wait = false)
                             }
@@ -524,7 +521,7 @@ class WebInputService : LifecycleService(), IWebInputService {
     private fun isAvailable(portNr: Int) = try {
         ServerSocket(portNr).close()
         true
-    } catch (e: IOException) {
+    } catch (_: IOException) {
         false
     }
 
