@@ -16,8 +16,36 @@
 
 package org.totschnig.myexpenses.compose.scrollbar
 
-import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.lazy.LazyListState
 import kotlin.math.abs
+
+/**
+ * Linearly interpolates the index for the first item for smooth scrollbar
+ * progression taking sticky header into account.
+ * @return a [Float] in the range [firstItemPosition..firstItemPosition+1) where nextItemPosition
+ * is the index of the consecutive item along the major axis.
+ * */
+internal fun LazyListState.interpolateFirstItemIndexSticky(): Float {
+    val visibleItems = layoutInfo.visibleItemsInfo
+    if (visibleItems.isEmpty()) return 0f
+
+    val headerSize = visibleItems.firstOrNull {
+        it.contentType == STICKY_HEADER_CONTENT_TYPE
+    }?.size ?: 0
+
+    val firstItem = visibleItems.first { it.offset + it.size > headerSize }
+    val firstItemIndex = firstItem.index
+
+    if (firstItemIndex < 0) return Float.NaN
+
+    val firstItemSize = firstItem.size
+    if (firstItemSize == 0) return Float.NaN
+
+    val itemOffset = (firstItem.offset - headerSize).toFloat()
+    val offsetPercentage = (abs(itemOffset) / firstItemSize)
+
+    return firstItemIndex + offsetPercentage
+}
 
 /**
  * Linearly interpolates the index for the first item in [visibleItems] for smooth scrollbar
@@ -33,32 +61,24 @@ import kotlin.math.abs
  * @return a [Float] in the range [firstItemPosition..nextItemPosition) where nextItemPosition
  * is the index of the consecutive item along the major axis.
  * */
-internal inline fun <LazyState : ScrollableState, LazyStateItem> LazyState.interpolateFirstItemIndex(
-    visibleItems: List<LazyStateItem>,
-    crossinline itemSize: LazyState.(LazyStateItem) -> Int,
-    crossinline offset: LazyState.(LazyStateItem) -> Int,
-    crossinline nextItemOnMainAxis: LazyState.(LazyStateItem) -> LazyStateItem?,
-    crossinline itemIndex: (LazyStateItem) -> Int,
-): Float {
+internal fun LazyListState.interpolateFirstItemIndex(): Float {
+    val visibleItems = layoutInfo.visibleItemsInfo
     if (visibleItems.isEmpty()) return 0f
 
     val firstItem = visibleItems.first()
-    val firstItemIndex = itemIndex(firstItem)
+    val firstItemIndex = firstItem.index
 
     if (firstItemIndex < 0) return Float.NaN
 
-    val firstItemSize = itemSize(firstItem)
+    val firstItemSize = firstItem.size
     if (firstItemSize == 0) return Float.NaN
 
-    val itemOffset = offset(firstItem).toFloat()
+    val itemOffset = firstItem.offset.toFloat()
     val offsetPercentage = abs(itemOffset) / firstItemSize
 
-    val nextItem = nextItemOnMainAxis(firstItem) ?: return firstItemIndex + offsetPercentage
-
-    val nextItemIndex = itemIndex(nextItem)
-
-    return firstItemIndex + ((nextItemIndex - firstItemIndex) * offsetPercentage)
+    return firstItemIndex + offsetPercentage
 }
+
 
 /**
  * Returns the percentage of an item that is currently visible in the view port.

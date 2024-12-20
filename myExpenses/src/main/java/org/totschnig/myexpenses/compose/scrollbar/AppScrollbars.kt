@@ -34,12 +34,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -58,9 +62,12 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.simpleStickyHeader
 
 /**
  * The time period for showing the scrollbar thumb after interacting with it, before it fades away
@@ -70,30 +77,47 @@ private const val SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS = 2_000L
 
 @Composable
 fun LazyColumnWithScrollbar(
-    modifier: Modifier,
+    state: LazyListState = rememberLazyListState(),
+    modifier: Modifier = Modifier,
+    withStickyHeaders: Boolean = true,
+    fastScroll: Boolean = false,
     itemsAvailable: Int,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit,
 ) {
     Box(modifier = modifier) {
-        val listState = rememberLazyListState()
         LazyColumn(
-            state = listState,
+            modifier = Modifier.wrapContentHeight(),
+            state = state,
             verticalArrangement = verticalArrangement,
             contentPadding = contentPadding,
             content = content
         )
-        listState.DecorativeScrollbar(
-            modifier = Modifier
-                .fillMaxHeight()
-                .align(Alignment.CenterEnd),
-            state = listState.scrollbarState(itemsAvailable),
-            orientation = Vertical
-        )
+        val scrollbarState = state.scrollbarState(itemsAvailable, withStickyHeaders)
+        if (fastScroll) {
+            state.DraggableScrollbar(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 2.dp)
+                    .align(Alignment.CenterEnd),
+                state = scrollbarState,
+                orientation = Vertical,
+                onThumbMoved = state.rememberDraggableScroller(
+                    itemsAvailable = itemsAvailable,
+                )
+            )
+        } else {
+            state.DecorativeScrollbar(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterEnd),
+                state = scrollbarState,
+                orientation = Vertical
+            )
+        }
     }
 }
-
 
 
 /**
@@ -125,6 +149,37 @@ fun ScrollableState.DecorativeScrollbar(
 }
 
 /**
+ * A [Scrollbar] that allows for fast scrolling of content by dragging its thumb.
+ * Its thumb disappears when the scrolling container is dormant.
+ * @param modifier a [Modifier] for the [Scrollbar]
+ * @param state the driving state for the [Scrollbar]
+ * @param orientation the orientation of the scrollbar
+ * @param onThumbMoved the fast scroll implementation
+ */
+@Composable
+fun ScrollableState.DraggableScrollbar(
+    state: ScrollbarState,
+    orientation: Orientation,
+    onThumbMoved: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Scrollbar(
+        modifier = modifier,
+        orientation = orientation,
+        interactionSource = interactionSource,
+        state = state,
+        thumb = {
+            DraggableScrollbarThumb(
+                interactionSource = interactionSource,
+                orientation = orientation,
+            )
+        },
+        onThumbMoved = onThumbMoved,
+    )
+}
+
+/**
  * A decorative scrollbar thumb used solely for communicating a user's position in a list.
  */
 @Composable
@@ -143,6 +198,27 @@ private fun ScrollableState.DecorativeScrollbarThumb(
             .scrollThumb(this, interactionSource),
     )
 }
+
+/**
+ * A scrollbar thumb that is intended to also be a touch target for fast scrolling.
+ */
+@Composable
+private fun ScrollableState.DraggableScrollbarThumb(
+    interactionSource: InteractionSource,
+    orientation: Orientation,
+) {
+    Box(
+        modifier = Modifier
+            .run {
+                when (orientation) {
+                    Vertical -> width(12.dp).fillMaxHeight()
+                    Horizontal -> height(12.dp).fillMaxWidth()
+                }
+            }
+            .scrollThumb(this, interactionSource),
+    )
+}
+
 
 @Composable
 private fun Modifier.scrollThumb(
@@ -232,4 +308,25 @@ private enum class ThumbState {
     Active,
     Inactive,
     Dormant,
+}
+
+@Preview
+@Composable
+fun ListWithScrollbar() {
+    val sections = 10
+    val itemsAvailable = 10
+    val totalItems = sections * (itemsAvailable + 1)
+    AppTheme {
+        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = false) {
+            repeat(sections) { section ->
+                simpleStickyHeader("section $section")
+                items(itemsAvailable) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "A long text message $section/$it"
+                    )
+                }
+            }
+        }
+    }
 }

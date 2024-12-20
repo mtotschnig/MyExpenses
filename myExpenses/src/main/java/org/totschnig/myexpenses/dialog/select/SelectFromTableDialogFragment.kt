@@ -94,7 +94,10 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
         } else {
             dataViewModel.selectionState.select(dataHolder.id)
         }
-        updateSubmitButton((dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE), dataHolder)
+        updateSubmitButton(
+            (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE),
+            dataHolder
+        )
     }
 
     @Composable
@@ -109,11 +112,14 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
                     )
                 }
             }
+
             is LoadState.Result -> {
                 if (data.items.isNotEmpty()) {
-                    LazyColumn(modifier = Modifier
-                        .dialogPadding()
-                        .testTag(TEST_TAG_SELECT_DIALOG)) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .dialogPadding()
+                            .testTag(TEST_TAG_SELECT_DIALOG)
+                    ) {
                         items(data.items.size) {
                             val dataHolder = data.items[it]
                             Row(
@@ -122,13 +128,20 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
                                     .clickable(onClick = { onSelect(dataHolder) }),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(modifier = Modifier.weight(1f),
-                                    text = dataHolder.label)
-                                val selected = dataViewModel.selectionState.value.contains(dataHolder.id)
+                                Text(
+                                    modifier = Modifier.weight(1f),
+                                    text = dataHolder.label
+                                )
+                                val selected =
+                                    dataViewModel.selectionState.value.contains(dataHolder.id)
                                 if (choiceMode == AbsListView.CHOICE_MODE_MULTIPLE) {
-                                    Checkbox(checked = selected, onCheckedChange = { onSelect(dataHolder) })
+                                    Checkbox(
+                                        checked = selected,
+                                        onCheckedChange = { onSelect(dataHolder) })
                                 } else {
-                                    RadioButton(selected = selected, onClick = { onSelect(dataHolder) })
+                                    RadioButton(
+                                        selected = selected,
+                                        onClick = { onSelect(dataHolder) })
                                 }
                             }
                         }

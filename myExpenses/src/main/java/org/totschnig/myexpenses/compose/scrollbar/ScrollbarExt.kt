@@ -16,7 +16,6 @@
 
 package org.totschnig.myexpenses.compose.scrollbar
 
-import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,31 +29,24 @@ import kotlin.math.min
  * Calculates a [ScrollbarState] driven by the changes in a [LazyListState].
  *
  * @param itemsAvailable the total amount of items available to scroll in the lazy list.
- * @param itemIndex a lookup function for index of an item in the list relative to [itemsAvailable].
- */
+ * */
 @Composable
 fun LazyListState.scrollbarState(
     itemsAvailable: Int,
-    itemIndex: (LazyListItemInfo) -> Int = LazyListItemInfo::index
+    withStickyHeaders: Boolean = true,
 ): ScrollbarState {
     val state = remember { ScrollbarState() }
     LaunchedEffect(this, itemsAvailable) {
         snapshotFlow {
             if (itemsAvailable == 0) return@snapshotFlow null
 
-            val visibleItemsInfo = layoutInfo.visibleItemsInfo.filterIndexed { index, item ->
-                index > 0 || item.contentType != STICKY_HEADER_CONTENT_TYPE
-            }
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
+
             if (visibleItemsInfo.isEmpty()) return@snapshotFlow null
 
             val firstIndex = min(
-                a = interpolateFirstItemIndex(
-                    visibleItems = visibleItemsInfo,
-                    itemSize = { it.size },
-                    offset = { it.offset },
-                    nextItemOnMainAxis = { first -> visibleItemsInfo.find { it != first } },
-                    itemIndex = itemIndex,
-                ),
+                a = if (withStickyHeaders) interpolateFirstItemIndexSticky() else
+                    interpolateFirstItemIndex(),
                 b = itemsAvailable.toFloat(),
             )
             if (firstIndex.isNaN()) return@snapshotFlow null

@@ -212,7 +212,8 @@ fun TransactionList(
                         collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
                     },
                 itemsAvailable = lazyPagingItems.itemCount +
-                        ((headerData as? HeaderData)?.groups?.size ?: 0)
+                        ((headerData as? HeaderData)?.groups?.size ?: 0),
+                fastScroll = true
             ) {
 
                 var lastHeader: Int? = null

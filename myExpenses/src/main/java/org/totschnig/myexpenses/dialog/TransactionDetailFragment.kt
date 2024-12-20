@@ -31,11 +31,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
@@ -96,6 +96,7 @@ import org.totschnig.myexpenses.compose.SumDetails
 import org.totschnig.myexpenses.compose.TEST_TAG_PART_LIST
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.compose.voidMarker
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -160,6 +161,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
     override val title: CharSequence
         get() = getString(R.string.loading)
 
+    override val horizontalPadding = 0.dp
+
     @Composable
     fun TableRow(
         modifier: Modifier = Modifier,
@@ -194,6 +197,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         Row {
             Text(
                 modifier = Modifier
+                    .padding(horizontal = super.horizontalPadding)
                     .weight(1f)
                     .align(Alignment.CenterVertically),
                 text = label
@@ -243,7 +247,10 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                     }
                 }
                 filter?.takeIf { !it.isEmpty }?.let {
-                    FilterCard(it)
+                    FilterCard(
+                        modifier = Modifier.padding(horizontal = super.horizontalPadding),
+                        whereFilter = it
+                    )
                 }
 
                 ExpandedRenderer(transaction)
@@ -259,12 +266,15 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
                     val parts = partsLiveData.observeAsState(emptyList())
 
-                    LazyColumn(modifier = Modifier
+                    LazyColumnWithScrollbar(modifier = Modifier
                         .testTag(TEST_TAG_PART_LIST)
                         .weight(1f, fill = false)
                         .semantics {
                             collectionInfo = CollectionInfo(parts.value.size, 1)
-                        }
+                        },
+                        contentPadding = PaddingValues(horizontal = super.horizontalPadding),
+                        itemsAvailable = parts.value.size,
+                        withStickyHeaders = false
                     ) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
                         items(parts.value) { part ->
@@ -411,7 +421,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                     Money(transaction.amount.currencyUnit, sums.first),
                     Money(transaction.amount.currencyUnit, sums.second),
                     Money(transaction.amount.currencyUnit, sums.third),
-                    alignStart = true
+                    alignStart = true,
+                    modifier = Modifier.padding(horizontal = super.horizontalPadding)
                 )
             }
         }
@@ -577,7 +588,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         text: String
     ) {
         Text(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = super.horizontalPadding),
             style = MaterialTheme.typography.titleMedium,
             text = text
         )

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Functions
@@ -48,6 +47,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -79,40 +79,41 @@ fun AccountList(
         expansionHandlerAccounts.collapsedIds.collectAsState(initial = null).value
 
     if (collapsedGroupIds != null && collapsedAccountIds != null) {
-        LazyColumn(
+        val grouped: Map<String, List<FullAccount>> =
+            accountData.groupBy { getHeaderId(grouping, it) }
+        LazyColumnWithScrollbar(
             state = listState,
-            modifier = Modifier.testTag(TEST_TAG_ACCOUNTS)
+            modifier = Modifier.testTag(TEST_TAG_ACCOUNTS),
+            itemsAvailable = accountData.size + grouped.size,
+            withStickyHeaders = false
         ) {
-            accountData.forEachIndexed { index, account ->
-                val headerId = getHeaderId(grouping, account)
-                val previousHeaderId =
-                    accountData.getOrNull(index - 1)?.let { getHeaderId(grouping, it) }
-                val nextHeaderId = accountData.getOrNull(index + 1)?.let { getHeaderId(grouping, it) }
+            grouped.forEach { group ->
+                val headerId = group.key
                 val isGroupHidden = collapsedGroupIds.contains(headerId)
-                if (headerId != previousHeaderId) {
-                    item {
-                        Header(getHeaderTitle(context, grouping, account), !isGroupHidden) {
-                            expansionHandlerGroups.toggle(headerId)
-                        }
+                item {
+                    Header(getHeaderTitle(context, grouping, group.value.first()), !isGroupHidden) {
+                        expansionHandlerGroups.toggle(headerId)
                     }
                 }
-                if (!isGroupHidden) {
-                    item(key = account.id) {
-                        AccountCard(
-                            account = account,
-                            isCollapsed = collapsedAccountIds.contains(account.id.toString()),
-                            isSelected = account.id == selectedAccount,
-                            onSelected = { onSelected(account.id) },
-                            onEdit = onEdit,
-                            onDelete = onDelete,
-                            onHide = onHide,
-                            onToggleSealed = onToggleSealed,
-                            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-                            toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
-                            bankIcon = bankIcon
-                        )
-                        if (nextHeaderId == headerId) {
-                            Spacer(Modifier.height(10.dp))
+                group.value.forEachIndexed { index, account ->
+                    if (!isGroupHidden) {
+                        item(key = account.id) {
+                            AccountCard(
+                                account = account,
+                                isCollapsed = collapsedAccountIds.contains(account.id.toString()),
+                                isSelected = account.id == selectedAccount,
+                                onSelected = { onSelected(account.id) },
+                                onEdit = onEdit,
+                                onDelete = onDelete,
+                                onHide = onHide,
+                                onToggleSealed = onToggleSealed,
+                                onToggleExcludeFromTotals = onToggleExcludeFromTotals,
+                                toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
+                                bankIcon = bankIcon
+                            )
+                            if (index != group.value.lastIndex) {
+                                Spacer(Modifier.height(10.dp))
+                            }
                         }
                     }
                 }
@@ -131,8 +132,10 @@ private fun Header(
         color = colorResource(id = androidx.appcompat.R.color.material_grey_300),
         thickness = 2.dp
     )
-    Row(modifier = Modifier.padding(start = dimensionResource(id = R.dimen.drawer_padding)),
-        verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.drawer_padding)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
             modifier = Modifier.weight(1f),
             text = header,

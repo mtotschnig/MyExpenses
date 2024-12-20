@@ -33,10 +33,11 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 fun FilterCard(
     whereFilter: WhereFilter,
     clearFilter: (() -> Unit)? = null,
-    editFilter: ((Int) -> Unit)? = null
+    editFilter: ((Int) -> Unit)? = null,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .testTag(TEST_TAG_FILTER_CARD)
             .background(color = colorResource(id = R.color.cardBackground))
             .padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),

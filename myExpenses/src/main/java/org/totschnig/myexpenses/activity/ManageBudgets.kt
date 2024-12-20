@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -60,6 +59,7 @@ import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
@@ -72,9 +72,10 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.populateWithSync
-import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import kotlin.collections.map
+import kotlin.collections.sum
 import kotlin.getValue
 
 class ManageBudgets : ProtectedFragmentActivity() {
@@ -172,11 +173,12 @@ class ManageBudgets : ProtectedFragmentActivity() {
                 ) {
                     val breakpoint = 400.dp
                     val narrowScreen = maxWidth < breakpoint
-                    LazyColumn(
+                    LazyColumnWithScrollbar(
                         modifier = Modifier
                             .testTag(TEST_TAG_LIST)
                             .fillMaxWidth(),
-                        contentPadding = PaddingValues(bottom = 72.dp)
+                        contentPadding = PaddingValues(bottom = 72.dp),
+                        itemsAvailable = data.map { it.second.size + 1 }.sum()
                     ) {
                         data.forEach { (header, list) ->
                             simpleStickyHeader(header)

@@ -206,12 +206,13 @@ fun SumDetails(
     incomeSum: Money,
     expenseSum: Money,
     transferSum: Money,
-    alignStart: Boolean
+    alignStart: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val amountFormatter = LocalCurrencyFormatter.current
 
     FlowRow(
-        modifier = Modifier
+        modifier = modifier
             .testTag(TEST_TAG_GROUP_SUMS)
             .fillMaxWidth(),
         horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center

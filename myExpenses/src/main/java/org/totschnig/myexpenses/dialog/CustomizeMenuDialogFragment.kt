@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import java.util.Collections
@@ -229,7 +230,11 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
         val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
         val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
 
-        LazyColumn(modifier = Modifier.weight(1f)) {
+        LazyColumnWithScrollbar(
+            modifier = Modifier.weight(1f),
+            itemsAvailable = MenuItem.values.size,
+            withStickyHeaders = false
+        ) {
             itemsIndexed(activeItems) { index, item ->
                 ItemRow(item, true,
                     onCheckedChange = if (item != MenuItem.Settings) {
