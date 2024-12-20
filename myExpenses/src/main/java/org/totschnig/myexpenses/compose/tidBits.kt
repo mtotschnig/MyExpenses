@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.Money
@@ -252,7 +253,7 @@ fun LazyListScope.simpleStickyHeader(text: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.simpleStickyHeader(content: @Composable (Modifier) -> Unit) {
-    stickyHeader {
+    stickyHeader(contentType = STICKY_HEADER_CONTENT_TYPE) {
         Surface(
             modifier = Modifier
                 .height(32.dp)

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +49,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -80,7 +81,7 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     startIndex: Pair<Int, Int>,
     sortDirection: SortDirection,
     headerData: HeaderDataResult,
-    collapsedIds: Set<String>
+    collapsedIds: Set<String>,
 ): Pair<Pair<Int, Int>?, Boolean> {
     var (index, visibleIndex) = startIndex
     var lastHeader: Int? = null
@@ -131,7 +132,7 @@ fun TransactionList(
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
-    renderer: ItemRenderer
+    renderer: ItemRenderer,
 ) {
     Timber.i("budget for all: $budgetData")
     val listState = rememberLazyListState()
@@ -202,14 +203,16 @@ fun TransactionList(
                 showSumDetails
             )
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
-            LazyColumn(
+
+            LazyColumnWithScrollbar(
                 modifier = modifier
                     .nestedScroll(nestedScrollInterop)
                     .testTag(TEST_TAG_LIST)
                     .semantics {
                         collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
                     },
-                state = listState
+                itemsAvailable = lazyPagingItems.itemCount +
+                        ((headerData as? HeaderData)?.groups?.size ?: 0)
             ) {
 
                 var lastHeader: Int? = null
@@ -219,7 +222,7 @@ fun TransactionList(
                     val headerId = item?.let { headerData.calculateGroupId(it) }
                     val isGroupHidden = collapsedIds?.contains(headerId.toString()) == true
                     if (headerId !== null && headerId != lastHeader) {
-                        stickyHeader(key = headerId) {
+                        stickyHeader(key = headerId, contentType = STICKY_HEADER_CONTENT_TYPE) {
                             when (headerData) {
                                 is HeaderData -> {
                                     headerData.groups[headerId]?.let { headerRow ->
@@ -247,7 +250,9 @@ fun TransactionList(
                                                 { expansionHandler.toggle(headerId.toString()) }
                                             },
                                             onBudgetClick = onBudgetClick,
-                                            showSumDetails = headersWithSumDetails.getValue(headerId),
+                                            showSumDetails = headersWithSumDetails.getValue(
+                                                headerId
+                                            ),
                                             showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
                                         ) {
                                             headersWithSumDetails[headerId] = it
@@ -263,7 +268,10 @@ fun TransactionList(
                                         "Error loading group header data. Click to start safe mode.",
                                         color = MaterialTheme.colorScheme.error,
                                         modifier = Modifier.clickable {
-                                            context?.dispatchCommand(R.id.SAFE_MODE_COMMAND, null)
+                                            context?.dispatchCommand(
+                                                R.id.SAFE_MODE_COMMAND,
+                                                null
+                                            )
                                         }
                                     )
                                 }
@@ -329,7 +337,7 @@ fun HeaderData(
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
     updateShowSumDetails: (Boolean) -> Unit,
-    alignStart: Boolean = false
+    alignStart: Boolean = false,
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
@@ -397,7 +405,7 @@ fun HeaderRenderer(
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
-    updateShowSumDetails: (Boolean) -> Unit = {}
+    updateShowSumDetails: (Boolean) -> Unit = {},
 ) {
 
     Box(

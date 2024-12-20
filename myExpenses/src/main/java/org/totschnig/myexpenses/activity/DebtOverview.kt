@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,6 +33,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -176,12 +176,13 @@ fun GroupedDebtList(
     onDelete: (DisplayDebt, Int) -> Unit = { _, _ -> },
     onToggle: (DisplayDebt) -> Unit = {},
     onShare: (DisplayDebt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
-    onTransactionClick: (Long) -> Unit = {}
+    onTransactionClick: (Long) -> Unit = {},
 ) {
-    LazyColumn(
+    LazyColumnWithScrollbar(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(vertical = 8.dp)
+        contentPadding = PaddingValues(vertical = 8.dp),
+        itemsAvailable = debts.map { it.value.size + 1 }.sum()
     ) {
         debts.forEach { item ->
             val list = item.value
@@ -233,10 +234,11 @@ fun DebtList(
     onDelete: (DisplayDebt, Int) -> Unit = { _, _ -> },
     onToggle: (DisplayDebt) -> Unit = {},
     onShare: (DisplayDebt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
-    onTransactionClick: (Long) -> Unit = {}
+    onTransactionClick: (Long) -> Unit = {},
 ) {
-    LazyColumn(
+    LazyColumnWithScrollbar(
         modifier = modifier,
+        itemsAvailable = debts.size,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
@@ -258,35 +260,32 @@ fun DebtList(
     }
 }
 
+private val previewList = buildList<DisplayDebt> {
+    repeat(7) { payeeId ->
+        repeat(7) {
+            add(
+                DisplayDebt(
+                    id = 1,
+                    label = "Debt $it",
+                    description = "some description",
+                    payeeId = payeeId.toLong(),
+                    amount = 4000,
+                    currency = CurrencyUnit.DebugInstance,
+                    date = LocalDate.now().toEpoch(),
+                    payeeName = "Joe $payeeId",
+                    sum = 3000
+                )
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun GroupedDebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         GroupedDebtList(
-            debts = listOf(
-                DisplayDebt(
-                    id = 1,
-                    label = "Debt 1",
-                    description = "some description",
-                    payeeId = 1,
-                    amount = 4000,
-                    currency = CurrencyUnit.DebugInstance,
-                    date = LocalDate.now().toEpoch(),
-                    payeeName = "Joe Doe",
-                    sum = 3000
-                ),
-                DisplayDebt(
-                    id = 2,
-                    label = "Debt 2",
-                    description = "",
-                    payeeId = 1,
-                    amount = -500,
-                    currency = CurrencyUnit.DebugInstance,
-                    date = LocalDate.now().toEpoch(),
-                    payeeName = "Joe Doe",
-                    sum = -200
-                )
-            ).groupBy { it.payeeId},
+            debts = previewList.groupBy { it.payeeId },
             loadTransactionsForDebt = {
                 remember { mutableStateOf(emptyList()) }
             }
@@ -300,30 +299,7 @@ private fun GroupedDebtListPreview() {
 private fun DebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         DebtList(
-            debts = listOf(
-                DisplayDebt(
-                    id = 1,
-                    label = "Debt 1",
-                    description = "some description",
-                    payeeId = 1,
-                    amount = 4000,
-                    currency = CurrencyUnit.DebugInstance,
-                    date = LocalDate.now().toEpoch(),
-                    payeeName = "Joe Doe",
-                    sum = 3000
-                ),
-                DisplayDebt(
-                    id = 2,
-                    label = "Debt 2",
-                    description = "",
-                    payeeId = 2,
-                    amount = -500,
-                    currency = CurrencyUnit.DebugInstance,
-                    date = LocalDate.now().toEpoch(),
-                    payeeName = "Klara Masterful",
-                    sum = -200
-                )
-            ),
+            debts = previewList,
             loadTransactionsForDebt = {
                 remember { mutableStateOf(emptyList()) }
             }
