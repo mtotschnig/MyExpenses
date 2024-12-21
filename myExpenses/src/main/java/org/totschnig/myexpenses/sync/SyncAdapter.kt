@@ -643,23 +643,26 @@ class SyncAdapter @JvmOverloads constructor(
     private fun appendToNotification(content: String, account: Account, newLine: Boolean) {
         log().i(content)
         if (shouldNotify) {
-            val contentBuilders = notificationContent[account.hashCode()]
-            val contentBuilder: StringBuilder
-            if (contentBuilders!!.isEmpty() || newLine) {
-                contentBuilder = StringBuilder()
-                contentBuilders.add(0, contentBuilder)
-            } else {
-                contentBuilder = contentBuilders[0]
+            notificationContent[account.hashCode()]?.let { contentArray ->
+                synchronized(contentArray) {
+                    val contentBuilder: StringBuilder
+                    if (contentArray.isEmpty() || newLine) {
+                        contentBuilder = StringBuilder()
+                        contentArray.add(0, contentBuilder)
+                    } else {
+                        contentBuilder = contentArray[0]
+                    }
+                    if (contentBuilder.isNotEmpty()) {
+                        contentBuilder.append(" ")
+                    }
+                    contentBuilder.append(content)
+                    notifyUser(
+                        notificationTitle,
+                        concat(contentArray),
+                        account
+                    )
+                }
             }
-            if (contentBuilder.isNotEmpty()) {
-                contentBuilder.append(" ")
-            }
-            contentBuilder.append(content)
-            notifyUser(
-                notificationTitle,
-                concat(contentBuilders),
-                account
-            )
         }
     }
 
