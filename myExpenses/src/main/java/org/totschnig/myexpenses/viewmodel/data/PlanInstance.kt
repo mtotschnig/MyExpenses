@@ -19,7 +19,16 @@ enum class PlanInstanceState {
 }
 
 @Parcelize
-data class PlanInstance(val templateId: Long, val transactionId: Long?, val title: String, val date: Long, val color: Int, val amount: Money, val state: PlanInstanceState, val sealed: Boolean) : Parcelable {
+data class PlanInstance(
+    val templateId: Long,
+    val transactionId: Long?,
+    val title: String,
+    val date: Long,
+    val color: Int,
+    val amount: Money,
+    val state: PlanInstanceState,
+    val sealed: Boolean,
+) : Parcelable {
     constructor(templateId: Long, instanceId: Long?, transactionId: Long?, title: String, date: Long, color: Int, amount: Money, sealed: Boolean) :
             this(templateId, transactionId, title, date, color, amount,
                     when {

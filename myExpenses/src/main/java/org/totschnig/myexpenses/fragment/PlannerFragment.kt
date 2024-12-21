@@ -259,7 +259,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
                     if (planInstance.sealed) {
                         warnSealed(templatesList)
                         true
-                    } else onSelection(planInstance, position)
+                    } else onSelection(planInstance, bindingAdapterPosition)
                 }
                 templatesList.configureOnClickPopup(root,
                     planInstance.let {
@@ -276,7 +276,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
                             warnSealed(templatesList)
                             return@configureOnClickPopup true
                         } else if (selectedInstances.size > 0) {
-                            if (onSelection(planInstance, position))
+                            if (onSelection(planInstance, bindingAdapterPosition))
                                 return@configureOnClickPopup true
                         }
                         false
