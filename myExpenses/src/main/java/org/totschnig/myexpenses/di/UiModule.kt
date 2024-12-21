@@ -51,7 +51,7 @@ open class UiModule {
                     licenceHandler,
                     configurator
                 ) as AdHandlerFactory
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             object : AdHandlerFactory {}
         }
 
@@ -66,7 +66,7 @@ open class UiModule {
         Class.forName("org.totschnig.myexpenses.util.distrib.PlatformReviewManager")
             .getConstructor(PrefHandler::class.java)
             .newInstance(prefHandler) as ReviewManager
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         object : ReviewManager {
             override fun onEditTransactionResult(activity: FragmentActivity) {
                 RemindRateDialogFragment.maybeShow(prefHandler, activity)
