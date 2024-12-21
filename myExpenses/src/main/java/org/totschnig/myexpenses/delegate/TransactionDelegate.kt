@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
@@ -263,7 +264,13 @@ abstract class TransactionDelegate<T : ITransaction>(
             //editText too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
         } else {
-            StateSaver.restoreInstanceState(this, savedInstanceState)
+            try {
+                StateSaver.restoreInstanceState(this, savedInstanceState)
+            } catch (e: Exception) {
+                //If user rotates device before delegate was initialized, restore crashes,
+                //because AndroidState does not handle enum correctly
+                CrashHandler.report(e)
+            }
         }
         viewBinding.toolbar.OperationType.isVisible = withTypeSpinner
         originTemplateId?.let { host.loadOriginTemplate(it) }
