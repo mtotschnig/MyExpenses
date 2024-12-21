@@ -19,6 +19,7 @@ package org.totschnig.myexpenses.compose.scrollbar
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.Orientation.Horizontal
 import androidx.compose.foundation.gestures.Orientation.Vertical
@@ -36,7 +37,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.simpleStickyHeader
+import timber.log.Timber
 
 /**
  * The time period for showing the scrollbar thumb after interacting with it, before it fades away
@@ -88,33 +89,35 @@ fun LazyColumnWithScrollbar(
 ) {
     Box(modifier = modifier) {
         LazyColumn(
-            modifier = Modifier.wrapContentHeight(),
             state = state,
             verticalArrangement = verticalArrangement,
             contentPadding = contentPadding,
             content = content
         )
         val scrollbarState = state.scrollbarState(itemsAvailable, withStickyHeaders)
-        if (fastScroll) {
-            state.DraggableScrollbar(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(horizontal = 2.dp)
-                    .align(Alignment.CenterEnd),
-                state = scrollbarState,
-                orientation = Vertical,
-                onThumbMoved = state.rememberDraggableScroller(
-                    itemsAvailable = itemsAvailable,
+        Timber.d("thumbSizePercent %f",scrollbarState.thumbSizePercent)
+        if (scrollbarState.thumbSizePercent < 1f) {
+            if (fastScroll) {
+                state.DraggableScrollbar(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = 2.dp)
+                        .align(Alignment.CenterEnd),
+                    state = scrollbarState,
+                    orientation = Vertical,
+                    onThumbMoved = state.rememberDraggableScroller(
+                        itemsAvailable = itemsAvailable,
+                    )
                 )
-            )
-        } else {
-            state.DecorativeScrollbar(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .align(Alignment.CenterEnd),
-                state = scrollbarState,
-                orientation = Vertical
-            )
+            } else {
+                state.DecorativeScrollbar(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterEnd),
+                    state = scrollbarState,
+                    orientation = Vertical
+                )
+            }
         }
     }
 }
@@ -315,9 +318,35 @@ private enum class ThumbState {
 fun ListWithScrollbar() {
     val sections = 10
     val itemsAvailable = 10
+    val withStickyHeaders = false
+    val totalItems = sections * (itemsAvailable + if (withStickyHeaders) 1 else 0)
+    AppTheme {
+        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = true, withStickyHeaders = false) {
+            repeat(sections) { section ->
+                if (withStickyHeaders) {
+                    simpleStickyHeader("section $section")
+                }
+                items(itemsAvailable) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "A long text message $section/$it"
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ShouldNotFillMaxSize() {
+    val sections = 3
+    val itemsAvailable = 3
     val totalItems = sections * (itemsAvailable + 1)
     AppTheme {
-        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = false) {
+        LazyColumnWithScrollbar(
+            modifier = Modifier.background(color = Color.Red),
+            itemsAvailable = totalItems, fastScroll = false, withStickyHeaders = false) {
             repeat(sections) { section ->
                 simpleStickyHeader("section $section")
                 items(itemsAvailable) {

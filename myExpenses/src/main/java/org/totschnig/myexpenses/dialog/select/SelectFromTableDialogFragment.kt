@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.select
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
@@ -115,10 +116,11 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
 
             is LoadState.Result -> {
                 if (data.items.isNotEmpty()) {
-                    LazyColumn(
+                    LazyColumnWithScrollbar(
                         modifier = Modifier
                             .dialogPadding()
-                            .testTag(TEST_TAG_SELECT_DIALOG)
+                            .testTag(TEST_TAG_SELECT_DIALOG),
+                        itemsAvailable = data.items.size
                     ) {
                         items(data.items.size) {
                             val dataHolder = data.items[it]
