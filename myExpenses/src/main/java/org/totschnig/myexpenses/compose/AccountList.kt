@@ -83,9 +83,8 @@ fun AccountList(
             accountData.groupBy { getHeaderId(grouping, it) }
         LazyColumnWithScrollbar(
             state = listState,
-            modifier = Modifier.testTag(TEST_TAG_ACCOUNTS),
+            testTag = TEST_TAG_ACCOUNTS,
             itemsAvailable = accountData.size + grouped.size,
-            withStickyHeaders = false
         ) {
             grouped.forEach { group ->
                 val headerId = group.key

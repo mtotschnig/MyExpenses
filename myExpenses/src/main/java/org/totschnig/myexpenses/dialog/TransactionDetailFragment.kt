@@ -266,15 +266,11 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
                     val parts = partsLiveData.observeAsState(emptyList())
 
-                    LazyColumnWithScrollbar(modifier = Modifier
-                        .testTag(TEST_TAG_PART_LIST)
-                        .weight(1f, fill = false)
-                        .semantics {
-                            collectionInfo = CollectionInfo(parts.value.size, 1)
-                        },
+                    LazyColumnWithScrollbar(
+                        modifier = Modifier.weight(1f, fill = false),
+                        testTag = TEST_TAG_PART_LIST,
                         contentPadding = PaddingValues(horizontal = super.horizontalPadding),
                         itemsAvailable = parts.value.size,
-                        withStickyHeaders = false
                     ) {
                         var selectedArchivedTransaction by mutableLongStateOf(0)
                         items(parts.value) { part ->

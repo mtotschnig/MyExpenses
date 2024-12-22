@@ -182,7 +182,8 @@ fun GroupedDebtList(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(vertical = 8.dp),
-        itemsAvailable = debts.map { it.value.size + 1 }.sum()
+        itemsAvailable = debts.map { it.value.size }.sum(),
+        groupCount = debts.size
     ) {
         debts.forEach { item ->
             val list = item.value

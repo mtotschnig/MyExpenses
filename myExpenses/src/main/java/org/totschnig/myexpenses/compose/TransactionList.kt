@@ -205,15 +205,10 @@ fun TransactionList(
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
 
             LazyColumnWithScrollbar(
-                modifier = modifier
-                    .nestedScroll(nestedScrollInterop)
-                    .testTag(TEST_TAG_LIST)
-                    .semantics {
-                        collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
-                    },
-                itemsAvailable = lazyPagingItems.itemCount +
-                        ((headerData as? HeaderData)?.groups?.size ?: 0),
-                fastScroll = true
+                modifier = modifier.nestedScroll(nestedScrollInterop),
+                itemsAvailable = lazyPagingItems.itemCount,
+                fastScroll = true,
+                groupCount = (headerData as? HeaderData)?.groups?.size ?: 0
             ) {
 
                 var lastHeader: Int? = null

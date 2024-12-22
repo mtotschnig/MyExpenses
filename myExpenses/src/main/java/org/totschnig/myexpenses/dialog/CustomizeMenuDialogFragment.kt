@@ -233,7 +233,6 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
         LazyColumnWithScrollbar(
             modifier = Modifier.weight(1f),
             itemsAvailable = MenuItem.values.size,
-            withStickyHeaders = false
         ) {
             itemsIndexed(activeItems) { index, item ->
                 ItemRow(item, true,

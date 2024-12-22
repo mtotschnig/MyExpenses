@@ -33,7 +33,6 @@ import kotlin.math.min
 @Composable
 fun LazyListState.scrollbarState(
     itemsAvailable: Int,
-    withStickyHeaders: Boolean = true,
 ): ScrollbarState {
     val state = remember { ScrollbarState() }
     LaunchedEffect(this, itemsAvailable) {
@@ -45,8 +44,7 @@ fun LazyListState.scrollbarState(
             if (visibleItemsInfo.isEmpty()) return@snapshotFlow null
 
             val firstIndex = min(
-                a = if (withStickyHeaders) interpolateFirstItemIndexSticky() else
-                    interpolateFirstItemIndex(),
+                a = interpolateFirstItemIndex(),
                 b = itemsAvailable.toFloat(),
             )
             if (firstIndex.isNaN()) return@snapshotFlow null

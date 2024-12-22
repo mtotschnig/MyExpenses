@@ -62,11 +62,16 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import timber.log.Timber
 
@@ -80,22 +85,29 @@ private const val SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS = 2_000L
 fun LazyColumnWithScrollbar(
     state: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
-    withStickyHeaders: Boolean = true,
     fastScroll: Boolean = false,
     itemsAvailable: Int,
+    groupCount: Int = 0,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    testTag: String = TEST_TAG_LIST,
     content: LazyListScope.() -> Unit,
 ) {
+    val totalItems = itemsAvailable + groupCount
     Box(modifier = modifier) {
         LazyColumn(
+            modifier = Modifier
+                .testTag(testTag)
+                .semantics {
+                    collectionInfo = CollectionInfo(itemsAvailable, 1)
+                },
             state = state,
             verticalArrangement = verticalArrangement,
             contentPadding = contentPadding,
             content = content
         )
-        val scrollbarState = state.scrollbarState(itemsAvailable, withStickyHeaders)
-        Timber.d("thumbSizePercent %f",scrollbarState.thumbSizePercent)
+        val scrollbarState = state.scrollbarState(totalItems)
+        Timber.d("thumbSizePercent %f", scrollbarState.thumbSizePercent)
         if (scrollbarState.thumbSizePercent < 1f) {
             if (fastScroll) {
                 state.DraggableScrollbar(
@@ -105,9 +117,7 @@ fun LazyColumnWithScrollbar(
                         .align(Alignment.CenterEnd),
                     state = scrollbarState,
                     orientation = Vertical,
-                    onThumbMoved = state.rememberDraggableScroller(
-                        itemsAvailable = itemsAvailable,
-                    )
+                    onThumbMoved = state.rememberDraggableScroller(totalItems)
                 )
             } else {
                 state.DecorativeScrollbar(
@@ -321,7 +331,7 @@ fun ListWithScrollbar() {
     val withStickyHeaders = false
     val totalItems = sections * (itemsAvailable + if (withStickyHeaders) 1 else 0)
     AppTheme {
-        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = true, withStickyHeaders = false) {
+        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = true) {
             repeat(sections) { section ->
                 if (withStickyHeaders) {
                     simpleStickyHeader("section $section")
@@ -346,7 +356,8 @@ fun ShouldNotFillMaxSize() {
     AppTheme {
         LazyColumnWithScrollbar(
             modifier = Modifier.background(color = Color.Red),
-            itemsAvailable = totalItems, fastScroll = false, withStickyHeaders = false) {
+            itemsAvailable = totalItems, fastScroll = false
+        ) {
             repeat(sections) { section ->
                 simpleStickyHeader("section $section")
                 items(itemsAvailable) {

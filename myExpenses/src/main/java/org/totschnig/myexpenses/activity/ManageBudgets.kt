@@ -175,10 +175,10 @@ class ManageBudgets : ProtectedFragmentActivity() {
                     val narrowScreen = maxWidth < breakpoint
                     LazyColumnWithScrollbar(
                         modifier = Modifier
-                            .testTag(TEST_TAG_LIST)
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(bottom = 72.dp),
-                        itemsAvailable = data.map { it.second.size + 1 }.sum()
+                        itemsAvailable = data.map { it.second.size }.sum(),
+                        groupCount = data.size
                     ) {
                         data.forEach { (header, list) ->
                             simpleStickyHeader(header)

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import okhttp3.OkHttpClient
@@ -59,7 +60,7 @@ class VersionInfoTest {
 
         val response = client.newCall(request).execute()
 
-        assertThat(response.code).isEqualTo(200)
+        Truth.assertWithMessage("Error retrieving $url").that(response.code).isEqualTo(200)
     }
 
 }
