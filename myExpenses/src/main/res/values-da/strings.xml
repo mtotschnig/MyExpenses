@@ -798,7 +798,7 @@
     <string name="title_activity_debt_overview">Gældsoversigt</string>
     <string name="cb_label_merge_accounts">Flet konti</string>
     <string name="pref_mlkit_script_title">Script til MlKit</string>
-    <string name="github_sponsors">Licensnøgler udleveres også til &lt;a href=%s&gt;Github-sponsorer&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Licensnøgler udleveres også til <a href=%s>Github-sponsorer</a>.]]></string>
     <string name="pref_backup_file_prefix_title">Filpræfiks</string>
     <string name="select_template">Vælg skabelon</string>
     <string name="search_tag">Søg efter etiket</string>
@@ -928,4 +928,12 @@
     <string name="overage">Overskud</string>
     <string name="credit_limit_available_credit">Tilgængelig kredit</string>
     <string name="saving_goal_short_fall">Underskud</string>
+    <string name="content_description_original_amount">Definer det oprindelige beløb for denne transaktion ved at vælge en valuta og indtaste beløbet. Du kan også definere en valutakurs, som bruges til at beregne det faktiske beløb.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Overførslen kan ikke redigeres, fordi den anden side er arkiveret.</string>
+    <string name="content_description_exchange_rate">Valutakurs for 1 %1$s i %2$s</string>
+    <string name="content_description_equivalent_amount">Definer værdien af denne transaktion i din hjemvaluta. I stedet for at indtaste beløbet kan du også indtaste valutakursen for at beregne det.</string>
+    <string name="warning_budget_sync_import">Konfigurationen af dette budget importeres fra synkroniseringsbackenden. Alle lokale ændringer går tabt.</string>
+    <string name="budget_import_can_be_imported">Følgende budgetter kan importeres:</string>
+    <string name="budget_import_cannot_be_imported">Følgende budgetter henviser til konti, der ikke er synkroniseret:</string>
+    <string name="budget_import_none_found">Ingen budgetter fundet.</string>
 </resources>
