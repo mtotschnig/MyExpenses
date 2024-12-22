@@ -97,6 +97,7 @@ fun AccountList(
                 group.value.forEachIndexed { index, account ->
                     if (!isGroupHidden) {
                         item(key = account.id) {
+                            //TODO add collectionItemInfo
                             AccountCard(
                                 account = account,
                                 isCollapsed = collapsedAccountIds.contains(account.id.toString()),

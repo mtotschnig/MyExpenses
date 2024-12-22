@@ -35,4 +35,4 @@ fun Modifier.amountSemantics(amount: Long) = if (BuildConfig.DEBUG)
     semantics { set(amountProperty, amount) } else this
 
 fun Modifier.headerSemantics(headerId: Int) = if (BuildConfig.DEBUG)
-    semantics { set(headerProperty, headerId) } else this
+    semantics(mergeDescendants = true) { set(headerProperty, headerId) } else this

@@ -217,9 +217,15 @@ fun SumDetails(
             .fillMaxWidth(),
         horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
     ) {
+        val incomeSumLabel = stringResource(R.string.sum_income)
+        val incomeSumFormatted = amountFormatter.formatMoney(incomeSum)
         Text(
-            modifier = Modifier.amountSemantics(incomeSum),
-            text = "⊕ " + amountFormatter.formatMoney(incomeSum),
+            modifier = Modifier
+                .amountSemantics(incomeSum)
+                .semantics {
+                    contentDescription = "$incomeSumLabel: $incomeSumFormatted"
+                },
+            text = "⊕ $incomeSumFormatted",
             color = LocalColors.current.income
         )
         val configureExpenseSum: (DecimalFormat) -> Unit = remember {
@@ -228,19 +234,30 @@ fun SumDetails(
                 it.positivePrefix = "+"
             }
         }
+        val expenseSumLabel = stringResource(R.string.sum_expenses)
+        val expenseSumFormatted = amountFormatter.formatMoney(
+            expenseSum,
+            configureExpenseSum
+        )
         Text(
             modifier = Modifier
                 .amountSemantics(expenseSum)
+                .semantics {
+                    contentDescription = "$expenseSumLabel: $expenseSumFormatted"
+                }
                 .padding(horizontal = generalPadding),
-            text = "⊖ " + amountFormatter.formatMoney(
-                expenseSum,
-                configureExpenseSum
-            ),
+            text = "⊖ $expenseSumFormatted",
             color = LocalColors.current.expense
         )
+        val transferSumLabel = stringResource(R.string.sum_transfer)
+        val transferSumFormatted = amountFormatter.formatMoney(transferSum)
         Text(
-            modifier = Modifier.amountSemantics(transferSum),
-            text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(transferSum),
+            modifier = Modifier
+                .amountSemantics(transferSum)
+                .semantics {
+                    contentDescription = "$transferSumLabel: $transferSumFormatted"
+                },
+            text = Transfer.BI_ARROW + " " + transferSumFormatted,
             color = LocalColors.current.transfer
         )
     }

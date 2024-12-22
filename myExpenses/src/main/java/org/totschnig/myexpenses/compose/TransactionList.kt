@@ -36,8 +36,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.CollectionInfo
-import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -289,6 +291,14 @@ fun TransactionList(
                                         modifier = Modifier
                                             .conditional(it.date >= futureCriterionDate) {
                                                 background(futureBackgroundColor)
+                                            }
+                                            .semantics {
+                                                collectionItemInfo = CollectionItemInfo(
+                                                    rowIndex = index,
+                                                    columnIndex = 1,
+                                                    rowSpan = 1,
+                                                    columnSpan = 1
+                                                )
                                             },
                                         selectionHandler = selectionHandler,
                                         menuGenerator = menuGenerator
@@ -348,8 +358,8 @@ fun HeaderData(
             ),
             style = MaterialTheme.typography.titleMedium,
         )
-        val delta =
-            (if (headerRow.delta.amountMinor >= 0) " + " else " - ") + amountFormatter.formatMoney(
+        val delta = " " +
+            (if (headerRow.delta.amountMinor >= 0) "+" else "\u2212") + " " + amountFormatter.formatMoney(
                 Money(
                     headerRow.delta.currencyUnit,
                     headerRow.delta.amountMinor.absoluteValue
@@ -371,6 +381,9 @@ fun HeaderData(
                 modifier = Modifier
                     .amountSemantics(headerRow.delta)
                     .padding(horizontal = 6.dp)
+                    .clearAndSetSemantics {
+                        contentDescription = delta
+                    }
                     .clickable {
                         updateShowSumDetails(!showSumDetails)
                     },
