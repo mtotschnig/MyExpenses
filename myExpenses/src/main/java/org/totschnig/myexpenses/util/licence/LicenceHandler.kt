@@ -279,7 +279,7 @@ open class LicenceHandler(
 
     @Suppress("MemberVisibilityCanBePrivate") //used from Amazon
     protected fun joinPriceInformation(vararg packages: Package) =
-        packages.map(::getFormattedPrice)
+        packages.mapNotNull(::getFormattedPrice)
             .joinToString(" ${context.getString(R.string.joining_or)} ")
 
     open val proPackagesForExtendOrSwitch: Array<ProfessionalPackage>?
