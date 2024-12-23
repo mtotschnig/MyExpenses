@@ -25,7 +25,8 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     ALLOCATED(0),
     SPENT(0),
     AVAILABLE(0),
-    PAYEE_NAME(R.id.SORT_PAYEE_NAME_COMMAND, false);
+    PAYEE_NAME(R.id.SORT_PAYEE_NAME_COMMAND, false),
+    DEBT_SUM(R.id.SORT_DEBT_SUM_COMMAND);
 
     private fun toDatabaseColumn(collate: String) = when (this) {
         USAGES -> KEY_USAGES

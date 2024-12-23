@@ -150,7 +150,7 @@ class DebtOverview : DebtActivity() {
                 true
             }
 
-            R.id.SORT_LABEL_COMMAND, R.id.SORT_AMOUNT_COMMAND, R.id.SORT_PAYEE_NAME_COMMAND -> {
+            R.id.SORT_LABEL_COMMAND, R.id.SORT_DEBT_SUM_COMMAND, R.id.SORT_PAYEE_NAME_COMMAND -> {
                 if (!item.isChecked) {
                     Sort.fromCommandId(item.itemId)?.let {
                         lifecycleScope.launch {

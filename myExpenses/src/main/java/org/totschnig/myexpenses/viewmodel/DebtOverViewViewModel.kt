@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import kotlin.math.absoluteValue
 
 class DebtOverViewViewModel(application: Application) : DebtViewModel(application) {
     private val showAllPrefKey = booleanPreferencesKey("showAll")
@@ -33,7 +34,9 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
 
     fun sortOrder() =
         dataStore.data.map { preferences ->
-            enumValueOrDefault<Sort>(preferences[sortOrderPrefKey], Sort.LABEL)
+            enumValueOrDefault<Sort>(preferences[sortOrderPrefKey], Sort.LABEL).let {
+                if (it == Sort.AMOUNT) Sort.DEBT_SUM else it
+            }
         }
 
 
@@ -53,6 +56,8 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
                 showSealed = showAll,
                 showZero = showAll,
                 sortOrder = sortOrder.toOrderBy(collate)
-            ).map { sortOrder to it }
+            ).map { sortOrder to if (sortOrder == Sort.DEBT_SUM)
+                it.sortedByDescending { it.currentEquivalentBalance.absoluteValue }
+            else it  }
         }.stateIn(viewModelScope, SharingStarted.Lazily, Sort.LABEL to emptyList())
 }

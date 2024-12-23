@@ -12,7 +12,7 @@
                     android:id="@id/SORT_LABEL_COMMAND"
                     android:title="@string/label" />
                 <item
-                    android:id="@id/SORT_AMOUNT_COMMAND"
+                    android:id="@id/SORT_DEBT_SUM_COMMAND"
                     android:title="@string/amount" />
                 <item
                     android:id="@id/SORT_PAYEE_NAME_COMMAND"
