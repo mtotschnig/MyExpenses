@@ -960,7 +960,7 @@
     <string name="widget_title_budget">Mon budget</string>
     <string name="budget_widget_configuration">Sélectionner un budget</string>
     <string name="budget_table_header_overspent">Dépassement</string>
-    <string name="pref_unmapped_transaction_as_transfer_title">Opérations sans liaison</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Opérations non assignées</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sont comptabilisés en tant que transferts</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">sont comptabilisés en tant que dépenses / revenus</string>
     <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
