@@ -117,9 +117,9 @@ class GoogleDriveBackendProvider internal constructor(
         maybeEncrypt: Boolean
     ) {
         val base = if (toAccountDir) accountFolder else baseFolder
-        val driveFolder = if (folder == null) base else {
-            getResInAccountDir(folder) ?: driveServiceHelper.createFolder(
-                accountFolder.id,
+        val driveFolder = if (folder == null) base else  {
+            driveServiceHelper.getFileByNameAndParent(base, folder) ?: driveServiceHelper.createFolder(
+                base.id,
                 folder,
                 null
             )
@@ -387,12 +387,14 @@ class GoogleDriveBackendProvider internal constructor(
         private const val LOCK_TOKEN_KEY = KEY_LOCK_TOKEN
         private const val IS_BACKUP_FOLDER = "isBackupFolder"
         private const val IS_ATTACHMENT_FOLDER = "isAttachmentFolder"
+        private const val IS_BUDGETS_FOLDER = "isBudgetsFolder"
         const val IS_SYNC_FOLDER = "isSyncFolder"
 
         private fun collectionPropertyKey(collectionName: String) =
             when (collectionName) {
                 BACKUP_FOLDER_NAME -> IS_BACKUP_FOLDER
                 ATTACHMENT_FOLDER_NAME -> IS_ATTACHMENT_FOLDER
+                BUDGETS_FOLDER_NAME -> IS_BUDGETS_FOLDER
                 else -> throw NotImplementedError()
             }
     }

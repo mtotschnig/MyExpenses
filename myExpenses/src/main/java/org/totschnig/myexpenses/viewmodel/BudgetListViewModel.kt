@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -189,18 +190,21 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
             GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
                 .mapCatching { backend ->
                     val allBudgets = allBudgets
-                    _importInfo.update {
-                        accountName to
-                                backend.budgets.filter { remote ->
-                                    allBudgets.none { local -> local.uuid == remote.first }
-                                }.map { (uuid, budget) ->
-                                    budget.accountUuid?.let {
-                                        repository.findAccountByUuid(it)?.let {
-                                            Importable(uuid, budget, it)
-                                        } ?: NotImportable(uuid, budget.title)
-                                    } ?: Importable(uuid, budget, 0L)
-                                }
-                    }
+                    val budgets = backend.budgets
+                    accountName to
+                            budgets.filter { remote ->
+                                allBudgets.none { local -> local.uuid == remote.first }
+                            }.map { (uuid, budget) ->
+                                budget.accountUuid?.let {
+                                    repository.findAccountByUuid(it)?.let {
+                                        Importable(uuid, budget, it)
+                                    } ?: NotImportable(uuid, budget.title)
+                                } ?: Importable(uuid, budget, 0L)
+                            }
+                }.onSuccess { result ->
+                    _importInfo.update { result }
+                }.onFailure {
+                    CrashHandler.report(it)
                 }
         }
     }

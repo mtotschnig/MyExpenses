@@ -465,6 +465,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     override fun writeBudget(uuid: String, budget: BudgetExport): String {
         val fileName = "$uuid.$extensionForData"
+        requireCollection(BUDGETS_FOLDER_NAME)
         saveFileContents(
             false,
             BUDGETS_FOLDER_NAME,
