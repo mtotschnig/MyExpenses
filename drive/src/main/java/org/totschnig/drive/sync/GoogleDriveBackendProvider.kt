@@ -240,7 +240,7 @@ class GoogleDriveBackendProvider internal constructor(
     override fun childrenForCollection(folder: File?) =
         driveServiceHelper.listChildren(folder ?: accountFolder).filter {
             @Suppress("UsePropertyAccessSyntax")
-            it.getSize() > 0
+            it.getSize()?.compareTo(0) != 0
         }
 
     override fun nameForResource(resource: File): String? = resource.name
