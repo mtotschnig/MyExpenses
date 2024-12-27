@@ -177,7 +177,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     aggregateNeutral = aggregateNeutral,
                     groupingInfo = grouping,
                     whereFilter = whereFilter,
-                    queryParameter = mapOf(TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY to allocatedOnly.toString())
+                    keepCriteria = if (allocatedOnly) { { !(it.budget == BudgetAllocation.EMPTY && it.sum == 0L) } } else null
                 ).map { it.copy(budget = budget) }
             }
     }

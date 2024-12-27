@@ -100,7 +100,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
@@ -297,9 +296,6 @@ fun categoryTreeWithSum(
             append(budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = $budgetId"))
         }
         append(" SELECT ${map.joinToString()} FROM Tree")
-        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY, false)) {
-            append(" WHERE $KEY_BUDGET IS NOT NULL OR $KEY_SUM IS NOT NULL")
-        }
     }
 }
 

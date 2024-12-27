@@ -350,8 +350,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String QUERY_PARAMETER_AGGREGATE_NEUTRAL = "aggregateNeutral";
 
-  public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
-
   /**
    * Colon separated list of account types
    */
