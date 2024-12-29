@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
-import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_RESTORE_PLAN_STRATEGY
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 
 class OnboardingActivity : SyncBackendSetupActivity() {
