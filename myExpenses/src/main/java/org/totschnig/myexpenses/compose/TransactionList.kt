@@ -29,8 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
@@ -43,8 +43,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -77,7 +75,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     startIndex: Pair<Int, Int>,
@@ -136,7 +133,6 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
 ) {
-    Timber.i("budget for all: $budgetData")
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
         expansionHandler.collapsedIds.collectAsState(initial = null).value
@@ -158,14 +154,6 @@ fun TransactionList(
         val scrollToCurrentDateResultIndex = remember {
             mutableIntStateOf(0)
         }
-        LaunchedEffect(lazyPagingItems.loadState.append.endOfPaginationReached) {
-            if (lazyPagingItems.loadState.append.endOfPaginationReached) {
-                scrollToCurrentDateStartIndex.value?.let {
-                    scrollToCurrentDateResultIndex.intValue = it.second
-                    scrollToCurrentDateStartIndex.value = null
-                }
-            }
-        }
         if (lazyPagingItems.itemCount > 0 && collapsedIds != null) {
             scrollToCurrentDateStartIndex.value?.let {
                 LaunchedEffect(lazyPagingItems.itemCount) {
@@ -184,8 +172,7 @@ fun TransactionList(
                 }
             }
         }
-        val headerCorrection =
-            with(LocalDensity.current) { TextUnit(59f, TextUnitType.Sp).toPx() }.roundToInt()
+        val headerCorrection = remember { mutableStateOf<Int?>(null) }
         if (scrollToCurrentDateStartIndex.value == null) {
             if (scrollToCurrentDate.value) {
                 LaunchedEffect(Unit) {
@@ -195,7 +182,7 @@ fun TransactionList(
                     )
                     listState.scrollToItem(
                         scrollToCurrentDateResultIndex.intValue,
-                        -headerCorrection
+                        headerCorrection.value ?: 0
                     )
                     scrollToCurrentDate.value = false
                 }
@@ -207,6 +194,7 @@ fun TransactionList(
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
 
             LazyColumnWithScrollbar(
+                state = listState,
                 modifier = modifier.nestedScroll(nestedScrollInterop),
                 itemsAvailable = lazyPagingItems.itemCount,
                 fastScroll = true,
@@ -251,7 +239,12 @@ fun TransactionList(
                                             showSumDetails = headersWithSumDetails.getValue(
                                                 headerId
                                             ),
-                                            showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
+                                            showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered,
+                                            onHeaderSize = if (headerCorrection.value == null) {
+                                                {
+                                                    headerCorrection.value = -it
+                                                }
+                                            } else null
                                         ) {
                                             headersWithSumDetails[headerId] = it
                                         }
@@ -359,12 +352,12 @@ fun HeaderData(
             style = MaterialTheme.typography.titleMedium,
         )
         val delta = " " +
-            (if (headerRow.delta.amountMinor >= 0) "+" else "\u2212") + " " + amountFormatter.formatMoney(
-                Money(
-                    headerRow.delta.currencyUnit,
-                    headerRow.delta.amountMinor.absoluteValue
-                )
+                (if (headerRow.delta.amountMinor >= 0) "+" else "\u2212") + " " + amountFormatter.formatMoney(
+            Money(
+                headerRow.delta.currencyUnit,
+                headerRow.delta.amountMinor.absoluteValue
             )
+        )
         FlowRow(
             modifier = Modifier
                 .testTag(TEST_TAG_GROUP_SUMMARY)
@@ -414,12 +407,18 @@ fun HeaderRenderer(
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
+    onHeaderSize: ((Int) -> Unit)? = null,
     updateShowSumDetails: (Boolean) -> Unit = {},
 ) {
 
     Box(
         modifier = Modifier
             .headerSemantics(headerId)
+            .optional(onHeaderSize) { onHeaderSize ->
+                onGloballyPositioned { layoutCoordinates ->
+                    onHeaderSize(layoutCoordinates.size.height)
+                }
+            }
             .background(MaterialTheme.colorScheme.background)
     ) {
         GroupDivider()
