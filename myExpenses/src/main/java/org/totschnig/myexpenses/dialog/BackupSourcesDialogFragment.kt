@@ -6,20 +6,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
-import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
-class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
-    CalendarRestoreStrategyChangedListener {
-    private lateinit var restorePlanStrategy: RadioGroup
-    private lateinit var mCalendarRestoreButtonCheckedChangeListener: RadioGroup.OnCheckedChangeListener
+class BackupSourcesDialogFragment() : ImportSourceDialogFragment() {
     private lateinit var encrypt: CheckBox
     override val withSelectFromAppFolder = true
 
@@ -37,12 +32,6 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
             if ((requireActivity() as BackupRestoreActivity).calledExternally) View.GONE else View.VISIBLE
         view.findViewById<View>(R.id.summary).visibility = selectorVisibility
         view.findViewById<View>(R.id.btn_browse).visibility = selectorVisibility
-        restorePlanStrategy = configureCalendarRestoreStrategy(view, prefHandler)
-        mCalendarRestoreButtonCheckedChangeListener =
-            DialogUtils.buildCalendarRestoreStrategyChangedListener(
-                activity, this
-            )
-        restorePlanStrategy.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener)
         encrypt = view.findViewById(R.id.encrypt_database)
         if (prefHandler.encryptDatabase) {
             encrypt.isVisible = true
@@ -94,32 +83,11 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
         if (id == AlertDialog.BUTTON_POSITIVE) {
             (activity as BackupRestoreActivity).onSourceSelected(
                 mUri!!,
-                restorePlanStrategy.checkedRadioButtonId,
                 prefHandler.encryptDatabase && encrypt.isChecked
             )
         } else {
             super.onClick(dialog, id)
         }
-    }
-
-    override val isReady: Boolean
-        get() = if (super.isReady) {
-            restorePlanStrategy.checkedRadioButtonId != -1
-        } else {
-            false
-        }
-
-    override fun onCheckedChanged() {
-        setButtonState()
-    }
-
-    override fun onCalendarPermissionDenied() {
-        with(restorePlanStrategy) {
-            setOnCheckedChangeListener(null)
-            clearCheck()
-            setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener)
-        }
-        setButtonState()
     }
 
     companion object {

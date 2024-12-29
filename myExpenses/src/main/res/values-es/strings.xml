@@ -432,12 +432,6 @@
     <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d cuentas con moneda de %2$s han sido actualizadas.</string>
     <string name="import_source_file">Archivo</string>
-    <string name="restore_calendar_handling">Manejo de datos desde el calendario</string>
-    <string name="restore_calendar_handling_configured">Restaurar los proyectos en el calendario configurado actualmente</string>
-    <string name="restore_calendar_handling_backup">Restaurar los proyectos en el calendario configurado en la copia de seguridad, si es posible</string>
-    <string name="restore_calendar_handling_ignore">No restaurar los proyectos</string>
-    <string name="restore_not_possible_target_calendar_missing">El calendario %s configurado en la copia de seguridad no existe a nivel loca. La restauración ha sido cancelada.</string>
-    <string name="restore_not_possible_local_calendar_missing">El actual calendario de planificación no está disponible.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Antiguas imágenes</string>
     <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>

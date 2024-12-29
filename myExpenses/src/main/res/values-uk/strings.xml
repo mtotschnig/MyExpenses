@@ -427,12 +427,6 @@
     <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої транзакції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Було оновлено %1$d рахунків з валютою %2$s.</string>
     <string name="import_source_file">Файл</string>
-    <string name="restore_calendar_handling">Обробка даних календаря</string>
-    <string name="restore_calendar_handling_configured">Відновити плани до поточного календаря</string>
-    <string name="restore_calendar_handling_backup">Відновити плани до календаря, визначеного в резервній копії (якщо він доступний)</string>
-    <string name="restore_calendar_handling_ignore">Не відновлювати плани</string>
-    <string name="restore_not_possible_target_calendar_missing">Календар %s, визначений в резервній копії, не існує локально. Відновлення було перервано.</string>
-    <string name="restore_not_possible_local_calendar_missing">Поточний календар планування недоступний.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Старі зображення</string>
     <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених транзакцій</string>

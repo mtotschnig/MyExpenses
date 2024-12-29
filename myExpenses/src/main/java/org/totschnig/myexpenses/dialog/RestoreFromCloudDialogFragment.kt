@@ -13,20 +13,18 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
-import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.BundleCompat
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.databinding.RestoreFromCloudBinding
-import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
-class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding>(), DialogInterface.OnClickListener,
-    OnItemClickListener, CalendarRestoreStrategyChangedListener {
-    private lateinit var restorePlanStrategy: RadioGroup
-    private lateinit var calendarRestoreButtonCheckedChangeListener: RadioGroup.OnCheckedChangeListener
+class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding>(),
+    DialogInterface.OnClickListener,
+    OnItemClickListener {
     private var backupAdapter: ArrayAdapter<String>? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -42,7 +40,7 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
             }
         })
 
-        if (backups.size > 0) {
+        if (backups.isNotEmpty()) {
             backupAdapter = ArrayAdapter(
                 requireActivity(),
                 android.R.layout.simple_list_item_single_choice, backups
@@ -50,14 +48,6 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
             binding.backupList.adapter = backupAdapter
             binding.backupList.choiceMode = AbsListView.CHOICE_MODE_SINGLE
             binding.backupList.onItemClickListener = this
-            restorePlanStrategy = configureCalendarRestoreStrategy(binding.backupListContainer, prefHandler)
-            calendarRestoreButtonCheckedChangeListener =
-                DialogUtils.buildCalendarRestoreStrategyChangedListener(
-                    activity, this
-                )
-            restorePlanStrategy.setOnCheckedChangeListener(
-                calendarRestoreButtonCheckedChangeListener
-            )
             binding.tabs.addTab(
                 binding.tabs.newTab().setText(R.string.backups)
                     .setTag(
@@ -65,7 +55,7 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
                     )
             )
         }
-        if (syncAccounts.size > 0) {
+        if (syncAccounts.isNotEmpty()) {
             binding.syncAccountList.adapter = ArrayAdapter(
                 requireActivity(),
                 android.R.layout.simple_list_item_multiple_choice, syncAccounts
@@ -75,8 +65,8 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
             binding.tabs.addTab(
                 binding.tabs.newTab()
                     .setText(R.string.onboarding_restore_from_cloud_sync_accounts).setTag(
-                    binding.syncAccountListContainer
-                )
+                        binding.syncAccountListContainer
+                    )
             )
         }
         binding.tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
@@ -130,9 +120,6 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
             val activeContent = activeContent
             val activeList = findListView(activeContent)
             if (activeContent.id == R.id.backup_list_container) {
-                if (restorePlanStrategy.checkedRadioButtonId == -1) {
-                    return false
-                }
                 if (binding.passwordLayout.passwordLayout.visibility == View.VISIBLE && TextUtils.isEmpty(
                         binding.passwordLayout.passwordEdit.text.toString()
                     )
@@ -157,20 +144,23 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
                     if (binding.passwordLayout.passwordLayout.visibility == View.VISIBLE) binding.passwordLayout.passwordEdit.text.toString() else null
                 activity.setupFromBackup(
                     backups[findListView(contentForTab)!!.checkedItemPosition],
-                    restorePlanStrategy.checkedRadioButtonId, password
+                    password
                 )
             } else if (id == R.id.sync_account_list_container) {
                 activity.setupFromSyncAccounts(syncAccounts.filterIndexed { index, _ ->
-                        findListView(
-                            contentForTab
-                        )!!.isItemChecked(index)
-                    })
+                    findListView(
+                        contentForTab
+                    )!!.isItemChecked(index)
+                })
             }
         }
     }
 
     private val syncAccounts: ArrayList<AccountMetaData>
-        get() = requireArguments().getParcelableArrayList(KEY_SYNC_ACCOUNT_LIST)!!
+        get() = BundleCompat.getParcelableArrayList(
+            requireArguments(), KEY_SYNC_ACCOUNT_LIST,
+            AccountMetaData::class.java
+        )!!
     private val backups: ArrayList<String>
         get() = requireArguments().getStringArrayList(KEY_BACKUP_LIST)!!
 
@@ -183,23 +173,12 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
         configureSubmit()
     }
 
-    override fun onCheckedChanged() {
-        configureSubmit()
-    }
-
-    override fun onCalendarPermissionDenied() {
-        restorePlanStrategy.setOnCheckedChangeListener(null)
-        restorePlanStrategy.clearCheck()
-        restorePlanStrategy.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener)
-        configureSubmit()
-    }
-
     companion object {
         private const val KEY_BACKUP_LIST = "backupList"
         private const val KEY_SYNC_ACCOUNT_LIST = "syncAccountList"
         fun newInstance(
             backupList: List<String>,
-            syncAccountList: List<AccountMetaData>
+            syncAccountList: List<AccountMetaData>,
         ): RestoreFromCloudDialogFragment {
             val arguments = Bundle(2)
             arguments.putStringArrayList(KEY_BACKUP_LIST, ArrayList(backupList))

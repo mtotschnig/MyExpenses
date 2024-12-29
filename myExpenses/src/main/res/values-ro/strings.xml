@@ -401,12 +401,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
     <string name="import_source_file">Fişier</string>
-    <string name="restore_calendar_handling">Manipulare date calendar</string>
-    <string name="restore_calendar_handling_configured">Restaurează scadenţe în calendarul curent configurat</string>
-    <string name="restore_calendar_handling_backup">Restaurează scadenţe în calendar din backup dacă-i disponibil</string>
-    <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
-    <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
-    <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
     <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
     <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
     <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>

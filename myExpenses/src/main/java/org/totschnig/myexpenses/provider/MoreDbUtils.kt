@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTEND
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -571,7 +572,6 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
         "$KEY_PLANID IS NOT null", null, null
     )?.use { planCursor ->
         if (planCursor.moveToFirst()) {
-            val projection = MyApplication.buildEventProjection()
             do {
                 val planId = planCursor.getLong(0)
                 val eventUri = ContentUris.withAppendedId(
@@ -579,11 +579,11 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
                     planId
                 )
                 cr.query(
-                    eventUri, projection,
+                    eventUri, PlannerUtils.eventProjection,
                     CalendarContract.Events.CALENDAR_ID + " = ?", arrayOf(plannerCalendarId), null
                 )?.use { eventCursor ->
                     if (eventCursor.moveToFirst()) {
-                        MyApplication.copyEventData(eventCursor, eventValues)
+                        eventValues.copyEventData(eventCursor)
                         cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues)
                     }
                 }

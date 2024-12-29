@@ -421,12 +421,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s monetako %1$d kontu eguneratu dira.</string>
     <string name="import_source_file">Fitxategia</string>
-    <string name="restore_calendar_handling">Egutegiko datuen kudeaketa</string>
-    <string name="restore_calendar_handling_configured">Berreskuratu planak orain konfiguratuta dagoen egutegira</string>
-    <string name="restore_calendar_handling_backup">Berreskuratu planak babeskopian ezarrita dagoen egutegira, baldin eta badago</string>
-    <string name="restore_calendar_handling_ignore">Ez berreskuratu planak</string>
-    <string name="restore_not_possible_target_calendar_missing">Babeskopian ezarritako %s egutegia ez dago zure gailuan. Berreskuratzea bertan behera utzi da.</string>
-    <string name="restore_not_possible_local_calendar_missing">Oraingo planifikazio egutegia ez dago erabilgarri.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Irudi soilak</string>
     <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>

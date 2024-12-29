@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
 import org.totschnig.myexpenses.io.ImportAccount
@@ -53,7 +54,7 @@ abstract class ImportDataViewModel(application: Application) :
     }
 
     private fun getDefaultAccountName(uri: Uri): String {
-        var displayName = DialogUtils.getDisplayName(uri)
+        var displayName = contentResolver.getDisplayName(uri)
         if (FileUtils.getExtension(displayName).equals("qif", ignoreCase = true)) {
             displayName = displayName.substring(0, displayName.lastIndexOf('.'))
         }

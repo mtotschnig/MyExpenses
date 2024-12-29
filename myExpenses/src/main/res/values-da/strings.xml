@@ -383,12 +383,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller blev annulleret.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdateret.</string>
     <string name="import_source_file">Fil</string>
-    <string name="restore_calendar_handling">Kalender datahåndtering</string>
-    <string name="restore_calendar_handling_configured">Gendan planer til den aktuelt konfigureret kalender</string>
-    <string name="restore_calendar_handling_backup">Gendan planer til kalenderen i sikkerhedskopien, hvis tilgængelig</string>
-    <string name="restore_calendar_handling_ignore">Gendan ikke planer</string>
-    <string name="restore_not_possible_target_calendar_missing">Kalenderen %s, som er angivet i sikkerhedskopiarkivet, findes ikke lokalt. Gendannelsen blev afbrudt.</string>
-    <string name="restore_not_possible_local_calendar_missing">Den aktuelle planlægningskalender er ikke tilgængelig.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrér restbilleder fra slettede transaktioner</string>

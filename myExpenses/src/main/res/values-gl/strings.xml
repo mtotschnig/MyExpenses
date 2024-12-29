@@ -210,7 +210,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">despois</string>
     <string name="import_source_file">Ficheiro</string>
-    <string name="restore_calendar_handling_ignore">Non restaurar plans</string>
     <string name="file_name">Nome do ficheiro</string>
     <string name="folder_name">Nome do cartafol</string>
     <string name="export_to_format">Exportación a %s</string>

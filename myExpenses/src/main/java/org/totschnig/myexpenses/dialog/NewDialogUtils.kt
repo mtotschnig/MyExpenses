@@ -1,16 +1,14 @@
 package org.totschnig.myexpenses.dialog
 
+import android.content.ContentResolver
 import android.content.Context
-import android.view.View
+import android.net.Uri
+import android.provider.OpenableColumns
 import android.widget.ArrayAdapter
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Spinner
 import eltos.simpledialogfragment.color.SimpleColorDialog
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 
 fun Spinner.configureDateFormat(
@@ -19,27 +17,11 @@ fun Spinner.configureDateFormat(
     prefName: String
 ) {
     adapter = ArrayAdapter(
-        context, android.R.layout.simple_spinner_item, QifDateFormat.values()
+        context, android.R.layout.simple_spinner_item, QifDateFormat.entries.toTypedArray()
     ).apply {
         setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
     setSelection(prefHandler.enumValueOrDefault(prefName, QifDateFormat.default).ordinal)
-}
-
-fun configureCalendarRestoreStrategy(view: View, prefHandler: PrefHandler): RadioGroup {
-    val restorePlanStrategy = view.findViewById<RadioGroup>(R.id.restore_calendar_handling)
-    val calendarId = prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID,"-1")
-    val calendarPath = prefHandler.requireString(PrefKey.PLANNER_CALENDAR_PATH,"")
-    val configured = view.findViewById<RadioButton>(R.id.restore_calendar_handling_configured)
-    if (calendarId == "-1" || calendarPath == "") {
-        configured.visibility = View.GONE
-    } else {
-        view.findViewById<View>(R.id.restore_calendar_handling_create_new).visibility = View.GONE
-        //noinspection SetTextI18n
-        configured.text =
-            "${view.context.getString(R.string.restore_calendar_handling_configured)} ($calendarPath)"
-    }
-    return restorePlanStrategy
 }
 
 fun buildColorDialog(color: Int): SimpleColorDialog = SimpleColorDialog.build()
@@ -47,3 +29,34 @@ fun buildColorDialog(color: Int): SimpleColorDialog = SimpleColorDialog.build()
     .cancelable(false)
     .neut()
     .colorPreset(color)
+
+fun ContentResolver.getDisplayName(
+    uri: Uri
+): String {
+
+    if (!"file".equals(uri.scheme, ignoreCase = true)) {
+        // The query, since it only applies to a single document, will only return
+        // one row. There's no need to filter, sort, or select fields, since we want
+        // all fields for one document.
+        try {
+            query(uri, null, null, null, null, null)?.use {
+                if (it.moveToFirst()) {
+                    // Note it's called "Display Name".  This is
+                    // provider-specific, and might not necessarily be the file name.
+                    val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (columnIndex != -1) {
+                        val displayName = it.getString(columnIndex)
+                        if (displayName != null) {
+                            return displayName
+                        }
+                    }
+                }
+            }
+        } catch (_: SecurityException) {
+            //this can happen if the user has restored a backup and
+            //we do not have a persistable permission
+            null
+        }
+    }
+    return uri.lastPathSegment ?: "UNKNOWN"
+}

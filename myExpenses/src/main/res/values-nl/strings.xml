@@ -368,8 +368,6 @@
     <string name="content_description_download_exchange_rate">Wisselkoers downloaden</string>
     <string name="budget_filter_all_parties">Alle partijen</string>
     <string name="import_source_file">Bestand</string>
-    <string name="restore_calendar_handling">Verwerking van kalendergegevens</string>
-    <string name="restore_calendar_handling_configured">Herstel plannen naar de momenteel geconfigureerde kalender</string>
     <string name="pref_auto_backup_title">Automatische back-up</string>
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
     <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
@@ -620,8 +618,6 @@
     <string name="comparison_operator_between">tussen</string>
     <string name="comparison_operator_date_before">voor</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Aankoop mislukt of geannuleerd.</string>
-    <string name="restore_not_possible_target_calendar_missing">De kalender %s die is ingesteld in het back-uparchief bestaat niet lokaal. Herstel is afgebroken.</string>
-    <string name="restore_not_possible_local_calendar_missing">De huidige planningskalender is niet beschikbaar.</string>
     <string name="pref_manage_stale_images_summary">Beheer foto\'s die zijn overgebleven van verwijderde transacties</string>
     <string name="transaction_deleted">Transactie is verwijderd</string>
     <string name="account_deleted">Rekening is verwijderd</string>
@@ -705,8 +701,6 @@
     <string name="menu_categories_setup_default">Stel standaard categorieën in</string>
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
     <string name="comparison_operator_equal">gelijk aan</string>
-    <string name="restore_calendar_handling_ignore">Plannen niet herstellen</string>
-    <string name="restore_calendar_handling_backup">Herstel plannen naar de agenda die is ingesteld in de back-up, indien beschikbaar</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
     <string name="pref_tracking_summary">Sta ons toe anonieme gegevens over gebruikspatronen te verzamelen die ons helpen bij het plannen van verbeteringen.</string>
     <string name="pref_tracking_title">Verzameling van gebruiksgegevens</string>

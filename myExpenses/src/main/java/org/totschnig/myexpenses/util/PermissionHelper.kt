@@ -94,7 +94,7 @@ object PermissionHelper {
 
         companion object {
             fun fromPermission(permission: String): PermissionGroup {
-                return PermissionGroup.values().first { it.androidPermissions.contains(permission) }
+                return PermissionGroup.entries.first { it.androidPermissions.contains(permission) }
             }
         }
     }

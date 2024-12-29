@@ -425,12 +425,6 @@
     <string name="hint_auto_fill">Azonos kedvezményezett/fizető esetén kitöltsük automatikusan az utolsó tranzakció adataival? Ez a viselkedés a beállításokban bármikor megváltoztatható.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d fiók frissítve, amely %2$s pénznemmel rendelkezik.</string>
     <string name="import_source_file">Fájl</string>
-    <string name="restore_calendar_handling">Naptári dátum kezelése</string>
-    <string name="restore_calendar_handling_configured">Tervek visszaállítása a jelenleg konfigurált naptárra</string>
-    <string name="restore_calendar_handling_backup">Állítsa vissza a terveket a biztonsági másolatban beállított naptárba, ha elérhető</string>
-    <string name="restore_calendar_handling_ignore">Ne állítsa vissza a terveket</string>
-    <string name="restore_not_possible_target_calendar_missing">A biztonsági mentési archívumban beállított %s naptár nem létezik helyileg. A visszaállítás megszakadt.</string>
-    <string name="restore_not_possible_local_calendar_missing">A jelenlegi tervezőnaptár nem érhető el.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Elavult képek</string>
     <string name="pref_manage_stale_images_summary">A törölt tranzakciókból maradt képek kezelése</string>

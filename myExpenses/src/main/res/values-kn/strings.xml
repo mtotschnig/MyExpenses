@@ -424,12 +424,6 @@
     <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d ಕರೆನ್ಸಿ %2$s ಹೊಂದಿರುವ ಖಾತೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</string>
     <string name="import_source_file">ಫೈಲ್</string>
-    <string name="restore_calendar_handling">ಕ್ಯಾಲೆಂಡರ್ ಡೇಟಾ ನಿರ್ವಹಣೆ</string>
-    <string name="restore_calendar_handling_configured">ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಿದ ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
-    <string name="restore_calendar_handling_backup">ಲಭ್ಯವಿದ್ದರೆ ಬ್ಯಾಕಪ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
-    <string name="restore_calendar_handling_ignore">ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಬೇಡಿ</string>
-    <string name="restore_not_possible_target_calendar_missing">ಬ್ಯಾಕಪ್ ಆರ್ಕೈವ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ %s ಸ್ಥಳೀಯವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ಮರುಸ್ಥಾಪನೆಯನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.</string>
-    <string name="restore_not_possible_local_calendar_missing">ಪ್ರಸ್ತುತ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
     <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>

@@ -19,6 +19,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.activity.viewModels
+import androidx.core.os.BundleCompat
 import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
@@ -39,7 +41,6 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_ENCRYPT
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_FILE_PATH
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
-import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_RESTORE_PLAN_STRATEGY
 
 class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     OnDialogResultListener {
@@ -213,7 +214,9 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title)
         val message = (getString(
             R.string.warning_restore,
-            DialogUtils.getDisplayName(bundle.getParcelable(KEY_FILE_PATH))
+            contentResolver.getDisplayName(
+                BundleCompat.getParcelable(bundle, KEY_FILE_PATH, Uri::class.java)!!
+            )
         )
                 + " " + getString(R.string.continue_confirmation))
         bundle.putString(
@@ -230,9 +233,8 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         )
     }
 
-    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int, encrypt: Boolean) =
+    private fun buildRestoreArgs(fileUri: Uri, encrypt: Boolean) =
         Bundle().apply {
-            putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
             putParcelable(KEY_FILE_PATH, fileUri)
             putBoolean(KEY_ENCRYPT, encrypt)
         }
@@ -251,10 +253,9 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
 
     fun onSourceSelected(
         mUri: Uri,
-        restorePlanStrategy: Int,
         encrypt: Boolean
     ) {
-        val args = buildRestoreArgs(mUri, restorePlanStrategy, encrypt)
+        val args = buildRestoreArgs(mUri, encrypt)
         backupViewModel.isEncrypted(mUri).observe(this) { result ->
             result.onFailure {
                 showDismissibleSnackBar(it.safeMessage, object : Snackbar.Callback() {
@@ -284,7 +285,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (DIALOG_TAG_PASSWORD == dialogTag) {
-            if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+            if (which == BUTTON_POSITIVE) {
                 if (calledFromOnboarding) {
                     doRestore(extras)
                 } else {

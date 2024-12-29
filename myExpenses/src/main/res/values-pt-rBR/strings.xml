@@ -432,12 +432,6 @@
     <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
     <string name="import_source_file">Arquivo</string>
-    <string name="restore_calendar_handling">Manipulação de dados da agenda</string>
-    <string name="restore_calendar_handling_configured">Restaurar os planos para a agenda configurada atualmente</string>
-    <string name="restore_calendar_handling_backup">Restaurar os planos para a agenda definida no backup, caso esteja disponível</string>
-    <string name="restore_calendar_handling_ignore">Não restaurar os planos</string>
-    <string name="restore_not_possible_target_calendar_missing">A agenda %s definida no arquivo de backup não existe localmente. A restauração foi cancelada.</string>
-    <string name="restore_not_possible_local_calendar_missing">A agenda de planejamento atual não está disponível.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
     <string name="pref_manage_stale_images_summary">Gerir imagens que sobraram de transações apagadas</string>

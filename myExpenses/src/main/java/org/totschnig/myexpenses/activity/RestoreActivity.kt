@@ -45,10 +45,16 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
                 }
             }
         }
+
+        restoreViewModel.permissionRequested.observe(this) {
+            if (it != null) {
+                checkPermissionsForPlaner()
+            }
+        }
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        // there is no need to enqueue planner now, will be done after restore
+        restoreViewModel.submitPermissionRequestResult(true)
     }
 
     fun doWithEncryptionCheck(block: () -> Unit) {
@@ -109,8 +115,7 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_RESTORE) as? DialogUtils.CalendarRestoreStrategyChangedListener)
-                ?.onCalendarPermissionDenied()
+           restoreViewModel.submitPermissionRequestResult(false)
         }
     }
 

@@ -211,11 +211,6 @@
     <string name="menu_parse">పార్స్</string>
     <string name="csv_import_preview">పరిదృశ్యం</string>
     <string name="pref_csv_import_delimiter">డీలిమిటర్</string>
-    <string name="restore_not_possible_target_calendar_missing">బ్యాకప్ ఆర్కైవ్‌లో సెట్ చేసిన క్యాలెండర్ %s స్థానికంగా లేదు. పునరుద్ధరణ నిలిపివేయబడింది.</string>
-    <string name="restore_calendar_handling_ignore">ప్రణాళికలను పునరుద్ధరించవద్దు</string>
-    <string name="restore_calendar_handling_backup">అందుబాటులో ఉంటే బ్యాకప్‌లో సెట్ చేసిన క్యాలెండర్‌కు ప్రణాళికలను పునరుద్ధరించండి</string>
-    <string name="restore_calendar_handling_configured">ప్రస్తుతం కాన్ఫిగర్ చేసిన క్యాలెండర్‌కు ప్రణాళికలను పునరుద్ధరించండి</string>
-    <string name="restore_calendar_handling">క్యాలెండర్ డేటా నిర్వహణ</string>
     <string name="import_source_file">ఫైల్</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s కరెన్సీ ఉన్న%1$d ఖాతాలు నవీకరించబడ్డాయి.</string>
     <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా\? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
@@ -522,7 +517,6 @@
     <string name="transaction_deleted">లావాదేవీ తొలగించబడింది</string>
     <string name="pref_manage_stale_images_summary">తొలగించిన లావాదేవీల నుండి మిగిలి ఉన్న చిత్రాలను నిర్వహించండి</string>
     <string name="pref_manage_stale_images_title">పాత చిత్రాలు</string>
-    <string name="restore_not_possible_local_calendar_missing">ప్రస్తుత ప్రణాళిక క్యాలెండర్ అందుబాటులో లేదు.</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">లావాదేవీల జాబితాను PDF కి ఎగుమతి చేయండి</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">అపరిమిత సంఖ్యలో ప్రణాళికలు</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">పై చార్ట్ (వర్గానికి పంపిణీ)</string>

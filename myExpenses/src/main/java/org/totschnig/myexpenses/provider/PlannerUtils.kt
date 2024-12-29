@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+import android.database.Cursor
 import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.ACCOUNT_TYPE_LOCAL
@@ -12,6 +13,7 @@ import android.provider.CalendarContract.Calendars.ACCOUNT_NAME
 import android.provider.CalendarContract.Calendars.ACCOUNT_TYPE
 import androidx.annotation.RequiresPermission
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Template
@@ -76,12 +78,52 @@ const val INVALID_CALENDAR_ID = "-1"
                 delete(calendarUri.buildUpon().appendEncodedPath(it).build(), null, null)
             } ?: 0
         }
+
+        val eventProjection = arrayOf(
+            CalendarContract.Events.DTSTART,
+            CalendarContract.Events.DTEND,
+            CalendarContract.Events.RRULE,
+            CalendarContract.Events.TITLE,
+            CalendarContract.Events.ALL_DAY,
+            CalendarContract.Events.EVENT_TIMEZONE,
+            CalendarContract.Events.DURATION,
+            CalendarContract.Events.DESCRIPTION,
+            CalendarContract.Events.CUSTOM_APP_PACKAGE,
+            CalendarContract.Events.CUSTOM_APP_URI
+        )
+
+        /**
+         * @param eventCursor must have been populated with a projection built by
+         * [eventProjection]
+         */
+        fun ContentValues.copyEventData(eventCursor: Cursor) {
+            put(CalendarContract.Events.DTSTART, eventCursor.getLongOrNull(0))
+            //older Android versions have populated both dtend and duration
+            //restoring those on newer versions leads to IllegalArgumentException
+            val dtEnd = eventCursor.getLongOrNull(1)
+            var duration: String? = null
+            if (dtEnd == null) {
+                duration = eventCursor.getString(6)
+                if (duration == null) {
+                    duration = "P0S"
+                }
+            }
+            put(CalendarContract.Events.DTEND, dtEnd)
+            put(CalendarContract.Events.RRULE, eventCursor.getString(2))
+            put(CalendarContract.Events.TITLE, eventCursor.getString(3))
+            put(CalendarContract.Events.ALL_DAY, eventCursor.getInt(4))
+            put(CalendarContract.Events.EVENT_TIMEZONE, eventCursor.getString(5))
+            put(CalendarContract.Events.DURATION, duration)
+            put(CalendarContract.Events.DESCRIPTION, eventCursor.getString(7))
+            put(CalendarContract.Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8))
+            put(CalendarContract.Events.CUSTOM_APP_URI, eventCursor.getString(9))
+        }
     }
 
     /**
-     * check if we already have a calendar in Account [.PLANNER_ACCOUNT_NAME]
+     * check if we already have a calendar in Account [PLANNER_ACCOUNT_NAME]
      * of type [CalendarContract.ACCOUNT_TYPE_LOCAL] with name
-     * [.PLANNER_ACCOUNT_NAME] if yes use it, otherwise create it
+     * [PLANNER_ACCOUNT_NAME] if yes use it, otherwise create it
      *
      * @return id if we have configured a usable calendar, or [INVALID_CALENDAR_ID]
      */
@@ -276,13 +318,13 @@ const val INVALID_CALENDAR_ID = "-1"
                             )
                             contentResolver.query(
                                 eventUri,
-                                MyApplication.buildEventProjection(),
+                                eventProjection,
                                 CalendarContract.Events.CALENDAR_ID + " = ?",
                                 arrayOf(oldValue),
                                 null
                             )?.use { event ->
                                 if (event.moveToFirst()) {
-                                    MyApplication.copyEventData(event, eventValues)
+                                    eventValues.copyEventData(event)
                                     if (insertEventAndUpdatePlan(contentResolver, eventValues, templateId)) {
                                         Timber.i("updated plan id in template %d", templateId)
                                         val deleted =

@@ -430,12 +430,6 @@
     <string name="hint_auto_fill">Compilare automaticamente i dati beneficiario / pagante in base all\'ultima transazione? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d conti in valuta %2$s sono stati aggiornati.</string>
     <string name="import_source_file">File</string>
-    <string name="restore_calendar_handling">Gestione dati di calendario</string>
-    <string name="restore_calendar_handling_configured">Ripristina i piani nel calendario correntemente configurato</string>
-    <string name="restore_calendar_handling_backup">Ripristina nel calendario i piani dal backup, se disponibili</string>
-    <string name="restore_calendar_handling_ignore">Non ripristinare i piani</string>
-    <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Il ripristino è stato interrotto.</string>
-    <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Immagini vecchie</string>
     <string name="pref_manage_stale_images_summary">Gestisci le immagini lasciate da transazioni eliminate</string>

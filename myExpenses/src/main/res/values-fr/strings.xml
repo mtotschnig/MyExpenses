@@ -432,12 +432,6 @@
     <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d comptes en devise %2$s ont été mis à jour.</string>
     <string name="import_source_file">Fichier</string>
-    <string name="restore_calendar_handling">Manipulation des données du calendrier</string>
-    <string name="restore_calendar_handling_configured">Restauration des échéances dans le calendrier actuellement configuré</string>
-    <string name="restore_calendar_handling_backup">Restaurez les échéances dans le calendrier spécifié dans la sauvegarde, si celui-ci existe</string>
-    <string name="restore_calendar_handling_ignore">Ne pas restaurer les échéances</string>
-    <string name="restore_not_possible_target_calendar_missing">Le calendrier %s situé dans l\'archive de sauvegarde n\'existe pas localement. La restauration a été abandonnée.</string>
-    <string name="restore_not_possible_local_calendar_missing">Le calendrier actuel d\'échéances n\'est pas disponible.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Images non utilisées</string>
     <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>

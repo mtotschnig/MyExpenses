@@ -35,7 +35,6 @@
 
             <include layout="@layout/filename" />
 
-            <include layout="@layout/backup_restore_calendar" />
         </TableLayout>
         <CheckBox
             android:visibility="gone"

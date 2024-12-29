@@ -111,11 +111,10 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    fun setupFromBackup(backup: String?, restorePlanStrategy: Int, password: String?) {
+    fun setupFromBackup(backup: String?, password: String?) {
         doRestore(Bundle(4).apply {
             putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
             putString(KEY_BACKUP_FROM_SYNC, backup)
-            putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
             putString(KEY_PASSWORD, password)
         })
     }

@@ -438,12 +438,6 @@
     <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="import_source_file">File</string>
-    <string name="restore_calendar_handling">Calendar data handling</string>
-    <string name="restore_calendar_handling_configured">Restore plans to currently configured calendar</string>
-    <string name="restore_calendar_handling_backup">Restore plans to calendar set in backup if available</string>
-    <string name="restore_calendar_handling_ignore">Do not restore plans</string>
-    <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
-    <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>

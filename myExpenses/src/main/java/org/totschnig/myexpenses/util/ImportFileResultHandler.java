@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.NewDialogUtilsKt;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
@@ -25,7 +26,7 @@ public class ImportFileResultHandler {
     EditText fileNameEditText = hostFragment.getFilenameEditText();
     if (uri != null) {
       fileNameEditText.setError(null);
-      String displayName = DialogUtils.getDisplayName(uri);
+      String displayName = NewDialogUtilsKt.getDisplayName(context.getContentResolver(), uri);
       fileNameEditText.setText(displayName);
       if (PermissionHelper.canReadUri(uri, context)) {
         String type = context.getContentResolver().getType(uri);
@@ -66,8 +67,9 @@ public class ImportFileResultHandler {
       String restoredUriString = prefHandler.getString(hostFragment.getPrefKey(), "");
       if (!"".equals(restoredUriString)) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        if (PermissionHelper.canReadUri(restoredUri, hostFragment.getContext())) {
-          String displayName = DialogUtils.getDisplayName(restoredUri);
+        Context context = hostFragment.getContext();
+        if (PermissionHelper.canReadUri(restoredUri, context)) {
+          String displayName = NewDialogUtilsKt.getDisplayName(context.getContentResolver(), restoredUri);
           hostFragment.setUri(restoredUri);
           hostFragment.getFilenameEditText().setText(displayName);
         }

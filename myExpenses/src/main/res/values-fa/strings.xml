@@ -328,8 +328,6 @@
     <string name="comparison_operator_date_after">بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریدن شکست خورد یا متوقف شد.</string>
     <string name="import_source_file">فایل</string>
-    <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
-    <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
     <string name="transaction_deleted">تراکنش حذف شده‌است</string>
     <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>
     <string name="export_handle_deleted_create_helper">ایجاد تراکنش کمک‌کننده</string>
@@ -500,7 +498,6 @@
     <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
     <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
-    <string name="restore_not_possible_target_calendar_missing">تقویم %s که در بایگانی پشتیبان تنظیم شده است به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
@@ -520,7 +517,6 @@
     <string name="warning_instantiate_template_from_widget_password_protected">نمونه‌برداری سریع از الگوها از این ویجت تنها در صورتی کار می‌کند که اجازه ورود داده‌ها از ویجت‌ها بدون رمز عبور را در تنظیمات برنامه بدهید.</string>
     <string name="import_parties_success">%1$d شخص با موفقیت درون ریزی شد</string>
     <string name="warning_change_fraction_digits_1">مقادیر موجود در پایگاه داده باید به روز شوند تا با تعداد جدید ارقام کسری مطابقت داشته باشند.</string>
-    <string name="restore_calendar_handling">مدیریت داده های تقویم</string>
     <string name="menu_parse">تجزیه</string>
     <string name="dialog_synced_to_other">یک حساب با uuid %s از قبل در پایگاه داده محلی وجود دارد و به یک سرور دیگر پیوند داده شده است.</string>
     <plurals name="warning_delete_main_category">
@@ -535,7 +531,6 @@
     <string name="move_category_failure">یک دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</string>
     <string name="import_parties_none">هیچ شخصی درون ریزی نشد</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d حساب با واحد پول %2$s به روز شده است.</string>
-    <string name="restore_calendar_handling_configured">برنامه‌ها را به تقویم پیکربندی‌شده فعلی بازیابی کنید</string>
     <string name="cvs_import_set_first_line_as_header">آیا خط اول باید به عنوان یک خط سربرگ در نظر گرفته شود؟</string>
     <string name="csv_import_no_mapping_found_for_amount">لطفاً یک ستون را به مبلغ، درآمد یا هزینه اختصاص دهید.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">اجازه دسترسی</string>
@@ -558,7 +553,6 @@
     <string name="warning_balance_account">لطفاً مجموع تسویه شده را با مانده پایانی صورت حساب بانکی خود مقایسه کنید. اگر ادامه دهید، تراکنش‌های پاک‌شده به‌عنوان تطبیق‌شده علامت‌گذاری می‌شوند.</string>
     <string name="warning_change_fraction_digits_3">اگر مقادیر به روز شوند، اطلاعات مربوط به بخش کسری آنها را از دست خواهید داد.</string>
     <string name="hint_auto_fill">آیا داده ها باید به طور خودکار از آخرین تراکنش برای همان گیرنده یا پرداخت کننده پر شود؟ همیشه می توانید این رفتار را از تنظیمات تغییر دهید.</string>
-    <string name="restore_calendar_handling_backup">در صورت وجود، برنامه‌ها را به مجموعه تقویم در نسخه پشتیبان بازیابی کنید</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر مقادیر به روز نشوند، پس از تغییر به صورت ضرب در %d نمایش داده خواهند شد.</string>
     <string name="pref_manage_stale_images_summary">تصاویر باقی مانده از تراکنش های حذف شده را مدیریت کنید</string>
     <string name="account_deleted">حساب حذف شده است</string>

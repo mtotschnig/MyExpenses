@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.databinding.FilenameBinding
 import org.totschnig.myexpenses.databinding.ImportCsvParseBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.configureDateFormat
+import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -182,7 +183,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             val restoredUriString = savedInstanceState.getString(prefKey)
             if (restoredUriString != null) {
                 val restoredUri = Uri.parse(restoredUriString)
-                val displayName = DialogUtils.getDisplayName(restoredUri)
+                val displayName = requireActivity().contentResolver.getDisplayName(restoredUri)
                 uri = restoredUri
                 fileNameBinding.Filename.setText(displayName)
             }

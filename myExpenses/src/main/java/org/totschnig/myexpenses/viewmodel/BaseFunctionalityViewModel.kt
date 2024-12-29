@@ -20,6 +20,7 @@ import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -87,7 +88,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
     private fun handleHttp(fileUris: List<Uri>, target: String): Result<Unit> =
         runCatching {
             for (uri in fileUris) {
-                val resourceName = DialogUtils.getDisplayName(uri)
+                val resourceName = contentResolver.getDisplayName(uri)
                 val requestBody: RequestBody = object : RequestBody() {
                     override fun contentLength(): Long = calculateSize(contentResolver, uri)
 

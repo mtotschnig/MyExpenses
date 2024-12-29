@@ -418,12 +418,6 @@
     <string name="hint_auto_fill">當交易對象 (收款人/付款人) 相同時，是否自動填入上次交易的內容？ 您始終可以透過\"程式設定\"更改此決定。</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 帳戶已經被更新了</string>
     <string name="import_source_file">檔案</string>
-    <string name="restore_calendar_handling">日曆資料處理中</string>
-    <string name="restore_calendar_handling_configured">將計畫復原到目前設定的日曆中</string>
-    <string name="restore_calendar_handling_backup">將計畫還原到備份中設定的日曆（如果有的話）</string>
-    <string name="restore_calendar_handling_ignore">不要還原計畫</string>
-    <string name="restore_not_possible_target_calendar_missing">備份中設定的日曆 %s 已經不存在於本機裝置。還原動作已被中止了。</string>
-    <string name="restore_not_possible_local_calendar_missing">目前的收支計畫日曆無法使用。</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除的交易，所留下的圖片</string>

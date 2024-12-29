@@ -164,7 +164,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
             val restoredUriString = savedInstanceState.getString(prefKey)
             if (restoredUriString != null) {
                 val restoredUri = Uri.parse(restoredUriString)
-                val displayName = DialogUtils.getDisplayName(restoredUri)
+                val displayName = requireActivity().contentResolver.getDisplayName(restoredUri)
                 mUri = restoredUri
                 mFilename!!.setText(displayName)
             }

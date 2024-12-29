@@ -414,12 +414,6 @@
     <string name="hint_auto_fill">Patutkah data diisi secara automatik dari transaksi terakhir untuk penerima/pembayar yang sama? Anda sentiasa boleh menukar tingkah laku ini daripada tetapan.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
     <string name="import_source_file">Fail</string>
-    <string name="restore_calendar_handling">Pengendalian data kalendar</string>
-    <string name="restore_calendar_handling_configured">Pulih plan ke kalender terkonfigur semasa</string>
-    <string name="restore_calendar_handling_backup">Pulihkan plan ke kalendar yang ditetapkan dalam sandar jika tersedia</string>
-    <string name="restore_calendar_handling_ignore">Jangan pulihkan plan</string>
-    <string name="restore_not_possible_target_calendar_missing">Kalendar %s ditetapkan dalam arkib sandar tidak wujud secara setempat. Pemulihan telah dihenti paksa.</string>
-    <string name="restore_not_possible_local_calendar_missing">Kalendar perancangan semasa tidak tersedia.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imej kaku</string>
     <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>

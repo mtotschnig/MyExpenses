@@ -431,8 +431,6 @@
     <string name="licence_validation_error_expired">Llicència caducada</string>
     <string name="before">abans de %s</string>
     <string name="import_categories_none">Cap categoria importada</string>
-    <string name="restore_not_possible_target_calendar_missing">El calendari %s desat a la còpia de seguretat no existeix localment. La restauració ha estat cancel·lada.</string>
-    <string name="restore_calendar_handling_configured">Restaura projectes al calendari configurat actualment</string>
     <string name="exchange_rate">Tipus de canvi</string>
     <string name="search_transfer">Cerca per transferència</string>
     <string name="menu_sync_unlink">Atura la sincronització</string>
@@ -456,7 +454,6 @@
     <string name="comparison_operator_equal">igual a</string>
     <string name="comparison_operator_greater_than">més gran que</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d comptes amb divisa %2$s s\'han actualitzat.</string>
-    <string name="restore_calendar_handling">Gestió de dades del calendari</string>
     <string name="file_name">Nom de l\'arxiu</string>
     <string name="slash_forbidden_in_filename">El caràcter / no està permès al nom de l\'arxiu</string>
     <string name="menu_parse">Analitza</string>
@@ -504,8 +501,6 @@
     <string name="menu_create_folder">Carpeta nova</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les quantitats no s\'actualitzen, es mostraran multiplicades per %d després del canvi.</string>
     <string name="and">i</string>
-    <string name="restore_calendar_handling_backup">Restaura projectes al calendari configurat a la còpia de seguretat, si existeix</string>
-    <string name="restore_not_possible_local_calendar_missing">El calendari actual de planificació està indisponible.</string>
     <string name="menu_undelete_transaction">Cancel·la l\'eliminació</string>
     <string name="io_error_unable_to_create_file">Impossible crear l\'arxiu %1$s a la carpeta %2$s</string>
     <string name="csv_import_field_mapped_more_than_once">%s ha estat assignada més d\'un cop.</string>
@@ -563,7 +558,6 @@
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancel·lada.</string>
-    <string name="restore_calendar_handling_ignore">No restauris projectes</string>
     <string name="pref_manage_stale_images_title">Magatzem d\'imatges</string>
     <string name="pref_manage_stale_images_summary">Gestiona imatges sobrants de transaccions eleminades</string>
     <string name="dialog_export_applied_to_filter">Només les transaccions que coincideixen amb el filtre actual es tenen en compte.</string>

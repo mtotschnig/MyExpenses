@@ -9,7 +9,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.TextUtils
+import androidx.core.os.BundleCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,6 +33,7 @@ import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
@@ -40,7 +45,9 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
@@ -58,6 +65,13 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
     private val _result: MutableStateFlow<Result<Unit>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Result<Unit>?> = _result
+
+    private val _permissionRequested = MutableLiveData<Unit?>(null)
+    val permissionRequested: LiveData<Unit?> = _permissionRequested
+    var permissionRequestFuture : CompletableDeferred<Boolean>? = null
+    fun submitPermissionRequestResult(granted: Boolean) {
+        permissionRequestFuture?.complete(granted)
+    }
 
     @Inject
     lateinit var versionPeekHelper: DatabaseVersionPeekHelper
@@ -95,8 +109,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun startRestore(args: Bundle) {
         viewModelScope.launch(coroutineDispatcher) {
-            val restorePlanStrategy: Int = args.getInt(KEY_RESTORE_PLAN_STRATEGY)
-            val fileUri: Uri? = args.getParcelable(KEY_FILE_PATH)
+            val fileUri: Uri? = BundleCompat.getParcelable(args, KEY_FILE_PATH, Uri::class.java)
             val syncAccountName: String? =
                 if (fileUri == null) args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME) else null
             val backupFromSync: String? =
@@ -204,54 +217,45 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     return@launch
                 }
                 val backupPref = application.getSharedPreferences("backup_temp", 0)
-                when (restorePlanStrategy) {
-                    R.id.restore_calendar_handling_create_new -> {
-                        //noinspection MissingPermission
-                        currentPlannerId = plannerUtils.createPlanner(false)
-                        currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
-                    }
-
-                    R.id.restore_calendar_handling_configured -> {
-                        currentPlannerId = plannerUtils.checkPlanner()
-                        currentPlannerPath =
-                            prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-                        if (INVALID_CALENDAR_ID == currentPlannerId) {
-                            failureResult(R.string.restore_not_possible_local_calendar_missing)
+                val calendarId = backupPref
+                    .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
+                val calendarPath = backupPref
+                    .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
+                if (!(calendarId == "-1" || calendarPath == "")) {
+                    if (!PermissionHelper.hasCalendarPermission(getApplication())) {
+                        _permissionRequested.postValue(Unit)
+                        val granted = CompletableDeferred<Boolean>().also {
+                            permissionRequestFuture = it
+                        }.await()
+                        _permissionRequested.postValue(null)
+                        if (granted != true) {
+                            failureResult(Utils.getTextWithAppName(getApplication(), R.string.notifications_permission_required_planner).toString())
                             return@launch
                         }
-                    }
-
-                    R.id.restore_calendar_handling_backup -> {
-                        var found = false
-                        val calendarId = backupPref
-                            .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
-                        val calendarPath = backupPref
-                            .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
-                        if (!(calendarId == "-1" || calendarPath == "")) {
-
-                            try {
-                                contentResolver.query(
-                                    CalendarContract.Calendars.CONTENT_URI,
-                                    arrayOf(CalendarContract.Calendars._ID),
-                                    "$CALENDAR_FULL_PATH_PROJECTION = ?",
-                                    arrayOf(calendarPath),
-                                    null
-                                )?.use {
-                                    if (it.moveToFirst()) {
-                                        found = true
-                                    }
-                                }
-                            } catch (e: SecurityException) {
-                                failureResult(e)
-                                return@launch
+                        if (try {
+                            contentResolver.query(
+                                CalendarContract.Calendars.CONTENT_URI,
+                                arrayOf(CalendarContract.Calendars._ID),
+                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                arrayOf(calendarPath),
+                                null
+                            )?.use {
+                                it.moveToFirst()
                             }
-                        }
-                        if (!found) {
-                            failureResult(
-                                R.string.restore_not_possible_target_calendar_missing,
-                                calendarPath
-                            )
+                        } catch (e: SecurityException) {
+                            failureResult(e)
                             return@launch
+                        } == false) {
+                            //the calendar configured in the backup does not exist
+                            currentPlannerId = plannerUtils.checkPlanner()
+                            currentPlannerPath =
+                                prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+                            if (INVALID_CALENDAR_ID == currentPlannerId) {
+                                //there is no locally configured calendar, we create a new one
+                                //noinspection MissingPermission
+                                currentPlannerId = plannerUtils.createPlanner(false)
+                                currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
+                            }
                         }
                     }
                 }
@@ -317,7 +321,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             }
                         }
                     }
-                    if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
+                    if (currentPlannerId != null) {
                         edit.putString(
                             prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH),
                             currentPlannerPath
@@ -326,9 +330,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID),
                             currentPlannerId
                         )
-                    } else if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
-                        edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
-                        edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
                     }
                     edit.putBoolean(prefHandler.getKey(PrefKey.ENCRYPT_DATABASE), encrypt)
                     edit.apply()
@@ -339,21 +340,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,
                         System.currentTimeMillis()
                     )
-                    //now handling plans
-                    if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
-                        //we remove all links to plans we did not restore
-                        val planValues = ContentValues(1)
-                        planValues.putNull(DatabaseConstants.KEY_PLANID)
-                        contentResolver.update(
-                            Template.CONTENT_URI,
-                            planValues, null, null
-                        )
-                    } else {
-                        publishProgress(
-                            R.string.restore_calendar_success,
-                            restorePlanner()
-                        )
-                    }
+                    publishProgress(
+                        R.string.restore_calendar_success,
+                        restorePlanner()
+                    )
                     application.settings
                         .registerOnSharedPreferenceChangeListener(application)
                     Timber.i("now emptying event cache")
@@ -620,13 +610,13 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                     )
                                     if (contentResolver.query(
                                             TransactionProvider.EVENT_CACHE_URI,
-                                            MyApplication.buildEventProjection(),
+                                            PlannerUtils.eventProjection,
                                             CalendarContract.Events.DESCRIPTION + " LIKE ?",
                                             arrayOf("%$uuid%"),
                                             null
                                         )?.use { event ->
                                             if (event.moveToFirst()) {
-                                                MyApplication.copyEventData(event, eventValues)
+                                                eventValues.copyEventData(event)
                                                 if (insertEventAndUpdatePlan(
                                                         contentResolver,
                                                         eventValues,
@@ -665,7 +655,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     companion object {
         const val KEY_BACKUP_FROM_SYNC = "backupFromSync"
-        const val KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy"
         const val KEY_PASSWORD = "passwordEncryption"
         const val KEY_FILE_PATH = "filePath"
         const val KEY_ENCRYPT = "encrypt"

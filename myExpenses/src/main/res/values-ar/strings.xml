@@ -453,12 +453,6 @@
     <string name="hint_auto_fill">هل يجب ملء البيانات تلقائياً من آخر معاملة لنفس المستفيد / الدافع؟ يمكنك دائماً تغيير هذا السلوك من الإعدادات.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">تم تحديث %1$d حسابات بعملة %2$s.</string>
     <string name="import_source_file">ملف</string>
-    <string name="restore_calendar_handling">معالجة بيانات التقويم</string>
-    <string name="restore_calendar_handling_configured">استعادة الخطط للتقويم المهيأ حالياً</string>
-    <string name="restore_calendar_handling_backup">استعادة الخطط إلى التقويم الذي تم تعيينه في نسخة احتياطية إذا كان ذلك متاحاً</string>
-    <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
-    <string name="restore_not_possible_target_calendar_missing">التقويم %s المعين في أرشيف النسخ الاحتياطي غير موجود محلياً. تم إحباط عملية الاستعادة.</string>
-    <string name="restore_not_possible_local_calendar_missing">تقويم التخطيط الحالي غير متاح.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">صور قديمة</string>
     <string name="pref_manage_stale_images_summary">إدارة الصور المتبقية من المعاملات المحذوفة</string>

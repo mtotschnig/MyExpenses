@@ -17,18 +17,14 @@ package org.totschnig.myexpenses
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
-import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.UriPermission
 import android.content.res.Configuration
-import android.database.Cursor
 import android.os.Build
 import android.os.Process
 import android.os.StrictMode
-import android.provider.CalendarContract
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.database.getLongOrNull
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -63,7 +59,6 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
-import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree
 import org.totschnig.myexpenses.util.ui.setNightMode
@@ -73,7 +68,6 @@ import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register
 import org.totschnig.myexpenses.widget.onConfigurationChanged
 import timber.log.Timber
 import java.io.IOException
-import java.util.Date
 import java.util.Locale
 import java.util.function.Consumer
 import javax.inject.Inject
@@ -401,51 +395,8 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             //from ACRA
             get() = try {
                 StreamReader("/proc/self/cmdline").read().trim { it <= ' ' }
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 null
             }
-
-        fun buildEventProjection(): Array<String?> {
-            val projection = arrayOfNulls<String>(10)
-            projection[0] = CalendarContract.Events.DTSTART
-            projection[1] = CalendarContract.Events.DTEND
-            projection[2] = CalendarContract.Events.RRULE
-            projection[3] = CalendarContract.Events.TITLE
-            projection[4] = CalendarContract.Events.ALL_DAY
-            projection[5] = CalendarContract.Events.EVENT_TIMEZONE
-            projection[6] = CalendarContract.Events.DURATION
-            projection[7] = CalendarContract.Events.DESCRIPTION
-            projection[8] = CalendarContract.Events.CUSTOM_APP_PACKAGE
-            projection[9] = CalendarContract.Events.CUSTOM_APP_URI
-            return projection
-        }
-
-        /**
-         * @param eventCursor must have been populated with a projection built by
-         * [.buildEventProjection]
-         * @param eventValues ContentValues where the extracted data is copied to
-         */
-        fun copyEventData(eventCursor: Cursor, eventValues: ContentValues) {
-            eventValues.put(CalendarContract.Events.DTSTART, eventCursor.getLongOrNull(0))
-            //older Android versions have populated both dtend and duration
-            //restoring those on newer versions leads to IllegalArgumentException
-            val dtEnd = eventCursor.getLongOrNull(1)
-            var duration: String? = null
-            if (dtEnd == null) {
-                duration = eventCursor.getString(6)
-                if (duration == null) {
-                    duration = "P0S"
-                }
-            }
-            eventValues.put(CalendarContract.Events.DTEND, dtEnd)
-            eventValues.put(CalendarContract.Events.RRULE, eventCursor.getString(2))
-            eventValues.put(CalendarContract.Events.TITLE, eventCursor.getString(3))
-            eventValues.put(CalendarContract.Events.ALL_DAY, eventCursor.getInt(4))
-            eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, eventCursor.getString(5))
-            eventValues.put(CalendarContract.Events.DURATION, duration)
-            eventValues.put(CalendarContract.Events.DESCRIPTION, eventCursor.getString(7))
-            eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8))
-            eventValues.put(CalendarContract.Events.CUSTOM_APP_URI, eventCursor.getString(9))
-        }
     }
 }

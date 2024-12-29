@@ -383,9 +383,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریداری ناکام یا منسوخ ہو گئی.</string>
     <string name="import_categories_none">کوئی زمرہ درآمد نہیں کیا گیا</string>
     <string name="app_dir_not_compatible_with_nougat">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال کنفیگر کردہ URI Android Nougat کے تحت تعاون یافتہ نہیں ہے۔ براہ کرم ایک فولڈر دوبارہ منتخب کریں.</string>
-    <string name="restore_calendar_handling">کیلنڈر ڈیٹا ہینڈلنگ</string>
-    <string name="restore_calendar_handling_configured">فی الحال کنفیگر کردہ کیلنڈر پر پلانز کو بحال کریں</string>
-    <string name="restore_calendar_handling_backup">اگر دستیاب ہو تو بیک اپ میں سیٹ کیلنڈر کے منصوبوں کو بحال کریں</string>
     <string name="pref_manage_stale_images_summary">حذف شدہ لین دین سے بچ جانے والی تصاویر کا نظم کریں</string>
     <string name="transaction_deleted">لین دین کو حذف کر دیا گیا ہے</string>
     <string name="account_deleted">اکاؤنٹ حذف کر دیا گیا ہے</string>
@@ -579,9 +576,6 @@
     <string name="redesign">دوبارہ ڈیزائن کریں</string>
     <string name="select_all_list_too_large">کمانڈ %s دستیاب نہیں ہے کیونکہ فہرست صرف جزوی طور پر بھری ہوئی ہے. فہرست کے سائز کو کم کرنے کے لیے براہ کرم تلاش کی فعالیت کا استعمال کریں.</string>
     <string name="dialog_confirm_sync_link_local">اس اکاؤنٹ کا ریموٹ ڈیٹا حذف کر دیا جائے گا۔ یقینی بنائیں کہ کوئی اور ڈیوائس اس سے منسلک نہیں ہے.</string>
-    <string name="restore_calendar_handling_ignore">منصوبوں کو بحال نہ کریں</string>
-    <string name="restore_not_possible_target_calendar_missing">بیک اپ آرکائیو میں سیٹ کردہ کیلنڈر %s مقامی طور پر موجود نہیں ہے۔ بحالی کو روک دیا گیا ہے.</string>
-    <string name="restore_not_possible_local_calendar_missing">موجودہ منصوبہ بندی کیلنڈر دستیاب نہیں ہے.</string>
     <string name="pref_manage_stale_images_title">باسی تصاویر</string>
     <string name="menu_show_transactions">لین دین دکھائیں</string>
     <string name="cvs_import_set_first_line_as_header">کیا پہلی لائن کو ہیڈر لائن سمجھا جانا چاہئے؟</string>

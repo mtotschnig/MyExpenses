@@ -375,12 +375,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili prekinuta.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d računi s valutom %2$s su aktualizirani.</string>
     <string name="import_source_file">Datoteka</string>
-    <string name="restore_calendar_handling">Upravljanje kalendarskim podacima</string>
-    <string name="restore_calendar_handling_configured">Obnovi planove za trenutačno postavljeni kalendar</string>
-    <string name="restore_calendar_handling_backup">Obnovi planove za kalendar postavljen u sigurnosnoj kopiji, ako postoji</string>
-    <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
-    <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
-    <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
     <string name="preferences_week_start_day_title">Tjedan počinje u</string>
     <string name="content_description_calculator">Kalkulator</string>
     <string name="template">Predložak</string>

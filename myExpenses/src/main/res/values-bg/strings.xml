@@ -425,12 +425,6 @@
     <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
     <string name="import_source_file">Файл</string>
-    <string name="restore_calendar_handling">Възстановяване на данни в календара</string>
-    <string name="restore_calendar_handling_configured">Възстанови плановете в текущия календар</string>
-    <string name="restore_calendar_handling_backup">Възстанови плановете в календар, записан в архива, ако има такъв</string>
-    <string name="restore_calendar_handling_ignore">Не възстановявай планове</string>
-    <string name="restore_not_possible_target_calendar_missing">Календарът %s, записан в архива, не съществува локално. Възстановяването е отменено.</string>
-    <string name="restore_not_possible_local_calendar_missing">Не е посочен текущ план календар.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ненужни изображения</string>
     <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>

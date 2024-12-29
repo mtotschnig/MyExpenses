@@ -29,12 +29,6 @@
                 android:layout_height="wrap_content" />
 
             <include
-                layout="@layout/backup_restore_calendar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/padding_dialog_side" />
-
-            <include
                 android:id="@+id/passwordLayout"
                 layout="@layout/simple_password_dialog"
                 android:visibility="gone" />

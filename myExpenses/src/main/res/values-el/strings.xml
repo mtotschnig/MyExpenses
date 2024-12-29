@@ -422,12 +422,6 @@
     <string name="hint_auto_fill">Θα πρέπει τα δεδομένα να συμπληρώνονται αυτόματα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτήν τη συμπεριφορά από τις ρυθμίσεις.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
     <string name="import_source_file">Αρχείο</string>
-    <string name="restore_calendar_handling">Χειρισμός δεδομένων ημερολογίου</string>
-    <string name="restore_calendar_handling_configured">Επαναφορά σχεδίων στο τρέχον ημερολόγιο</string>
-    <string name="restore_calendar_handling_backup">Επαναφορά σχεδίων στο εφεδρικό ημερολόγιο αν είναι διαθέσιμο</string>
-    <string name="restore_calendar_handling_ignore">Μην επαναφέρεις τα σχέδια</string>
-    <string name="restore_not_possible_target_calendar_missing">Το ημερολόγιο %s που ρυθμίστηκε στην αρχειοθήκη αντιγράφων ασφαλείας δεν υπάρχει τοπικά. Η επαναφορά ματαιώθηκε.</string>
-    <string name="restore_not_possible_local_calendar_missing">Το τρέχον ημερολόγιο προγραμματισμού δεν είναι διαθέσιμο.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
     <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>

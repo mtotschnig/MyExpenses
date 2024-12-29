@@ -131,55 +131,6 @@ public class DialogUtils {
     return builder.create();
   }
 
-  //https://developer.android.com/guide/topics/providers/document-provider.html
-
-  /**
-   * @return display name for document stored at mUri.
-   */
-  @SuppressLint("NewApi")
-  @NonNull
-  public static String getDisplayName(Uri uri) {//TODO pass in contentresolver
-
-    if (!"file".equalsIgnoreCase(uri.getScheme())) {
-      // The query, since it only applies to a single document, will only return
-      // one row. There's no need to filter, sort, or select fields, since we want
-      // all fields for one document.
-      try {
-        Cursor cursor = MyApplication.Companion.getInstance().getContentResolver()
-            .query(uri, null, null, null, null, null);
-
-        if (cursor != null) {
-          try {
-            if (cursor.moveToFirst()) {
-              // Note it's called "Display Name".  This is
-              // provider-specific, and might not necessarily be the file name.
-              int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-              if (columnIndex != -1) {
-                String displayName = cursor.getString(columnIndex);
-                if (displayName != null) {
-                  return displayName;
-                }
-              }
-            }
-          } catch (Exception ignored) {
-          } finally {
-            cursor.close();
-          }
-        }
-      } catch (SecurityException e) {
-        //this can happen if the user has restored a backup and
-        //we do not have a persistable permision
-        //return null;
-      }
-    }
-    List<String> filePathSegments = uri.getPathSegments();
-    if (!filePathSegments.isEmpty()) {
-      return filePathSegments.get(filePathSegments.size() - 1);
-    } else {
-      return "UNKNOWN";
-    }
-  }
-
   public interface PasswordDialogUnlockedCallback {
     void onPasswordDialogUnlocked();
   }
@@ -234,30 +185,6 @@ public class DialogUtils {
         }
       }
     }
-  }
-
-  public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
-      final Activity context, final CalendarRestoreStrategyChangedListener listener) {
-    return (group, checkedId) -> {
-      for (int i = 0; i < group.getChildCount(); i++) {
-        View child = group.getChildAt(i);
-        child.setSelected(child.getId() == checkedId);
-      }
-      if ((checkedId == R.id.restore_calendar_handling_backup) ||
-              (checkedId == R.id.restore_calendar_handling_create_new) ||
-              (checkedId == R.id.restore_calendar_handling_configured)) {
-        if (context instanceof ProtectedFragmentActivity) {
-          ((ProtectedFragmentActivity) context).checkPermissionsForPlaner();
-        }
-      }
-      listener.onCheckedChanged();
-    };
-  }
-
-  public interface CalendarRestoreStrategyChangedListener {
-    void onCheckedChanged();
-
-    void onCalendarPermissionDenied();
   }
 
   public static void configureEncoding(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {

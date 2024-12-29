@@ -429,12 +429,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$dkonta z walutą %2$s zostały zaktualizowane. </string>
     <string name="import_source_file">Plik</string>
-    <string name="restore_calendar_handling">Obsługa danych kalendarza</string>
-    <string name="restore_calendar_handling_configured">Przywróć plany do aktualnie skonfigurowanego kalendarza</string>
-    <string name="restore_calendar_handling_backup">Przywróć plany do kalendarza ustawionego w kopii zapasowej, jeśli jest dostępna</string>
-    <string name="restore_calendar_handling_ignore">Nie przywracaj planów</string>
-    <string name="restore_not_possible_target_calendar_missing">Kalendarz %s ustawiony w archiwum kopii zapasowej nie istnieje lokalnie. Przywracanie zostało przerwane.</string>
-    <string name="restore_not_possible_local_calendar_missing">Obecny kalendarz planowania nie jest dostępny.</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale obrazy</string>
     <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
