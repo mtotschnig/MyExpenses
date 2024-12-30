@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>773;3.9.2.1</item>
+        <item>774;3.9.3</item>
         <item>770;3.9.2</item>
         <item>766;3.9.1</item>
         <item>763;3.9.0</item>
@@ -109,7 +109,7 @@
     <string name="version_more_info_390">113319606766736436</string>
     <string name="version_more_info_391">113458152516861944</string>
     <string name="version_more_info_392">113647103106538634</string>
-    <string name="version_more_info_3921">113697299831001484</string>
+    <string name="version_more_info_393">113743697744453315</string>
 
     <!-- Github -->
     <string name="project_board_341">69#column-18649612</string>
@@ -164,7 +164,7 @@
     <string name="project_board_390">7</string>
     <string name="project_board_391">9</string>
     <string name="project_board_392">11</string>
-    <string name="project_board_3921">12</string>
+    <string name="project_board_393">13</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
