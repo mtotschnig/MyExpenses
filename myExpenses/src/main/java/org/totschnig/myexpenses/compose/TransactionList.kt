@@ -76,14 +76,24 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 
+data class  ScrollCalculationResult(
+    val index: Int,
+    val visibleIndex: Int,
+    val lastHeaderId: Int?,
+    val found: Boolean
+) {
+    companion object {
+        val INITIAL = ScrollCalculationResult(0, 0, null, false)
+    }
+}
+
 private fun LazyPagingItems<Transaction2>.getCurrentPosition(
-    startIndex: Pair<Int, Int>,
+    start: ScrollCalculationResult,
     sortDirection: SortDirection,
     headerData: HeaderDataResult,
     collapsedIds: Set<String>,
-): Pair<Pair<Int, Int>?, Boolean> {
-    var (index, visibleIndex) = startIndex
-    var lastHeader: Int? = null
+): ScrollCalculationResult {
+    var (index, visibleIndex, lastHeader) = start
     val limit = when (sortDirection) {
         SortDirection.ASC -> LocalDateTime.now()
             .truncatedTo(ChronoUnit.DAYS)
@@ -93,22 +103,26 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
             .plusDays(1)
             .toEpoch() //endOfToday
     }
+    Timber.d("limit: %d", limit)
     while (index < itemCount) {
-        val transaction2 = get(index) ?: return null to true
+        val transaction2 = get(index) ?: return start.copy(found = true)
         val comparisonResult = transaction2._date.compareTo(limit)
         if ((sortDirection == SortDirection.ASC && comparisonResult > 0) || sortDirection == SortDirection.DESC && comparisonResult < 0) {
-            return (index to visibleIndex) to true
+            Timber.d("index/visibleIndex: %d/%d", index, visibleIndex)
+            return ScrollCalculationResult(index, visibleIndex, lastHeader, true)
         }
         val headerId = headerData.calculateGroupId(transaction2)
         if (headerId != lastHeader) {
             visibleIndex++
+            Timber.d("increasing visibleIndex %d for header: %d", visibleIndex, headerId)
             lastHeader = headerId
         }
         val isVisible = !collapsedIds.contains(headerId.toString())
         index++
         if (isVisible) visibleIndex++
     }
-    return (index to visibleIndex) to false
+    Timber.d("index/visibleIndex: %d/%d", index, visibleIndex)
+    return ScrollCalculationResult(index, visibleIndex, lastHeader, false)
 }
 
 const val COMMENT_SEPARATOR = " / "
@@ -149,26 +163,27 @@ fun TransactionList(
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
         val scrollToCurrentDateStartIndex = remember(scrollToCurrentDate.value) {
-            mutableStateOf(if (scrollToCurrentDate.value) 0 to 0 else null)
+            mutableStateOf(if (scrollToCurrentDate.value) ScrollCalculationResult.INITIAL else null)
         }
         val scrollToCurrentDateResultIndex = remember {
             mutableIntStateOf(0)
         }
+
         if (lazyPagingItems.itemCount > 0 && collapsedIds != null) {
             scrollToCurrentDateStartIndex.value?.let {
                 LaunchedEffect(lazyPagingItems.itemCount) {
                     val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
-                        startIndex = it,
+                        start = it,
                         sortDirection = headerData.account.sortDirection,
                         headerData = headerData,
                         collapsedIds = collapsedIds
                     )
                     scrollToCurrentDateStartIndex.value =
-                        if (scrollCalculationResult.second || lazyPagingItems.loadState.append.endOfPaginationReached) {
+                        if (scrollCalculationResult.found || lazyPagingItems.loadState.append.endOfPaginationReached) {
                             scrollToCurrentDateResultIndex.intValue =
-                                scrollCalculationResult.first?.second ?: 0
+                                scrollCalculationResult.visibleIndex
                             null
-                        } else scrollCalculationResult.first
+                        } else scrollCalculationResult
                 }
             }
         }
@@ -224,7 +239,6 @@ fun TransactionList(
                                                     ?: 0L
                                             data.budgetId to amount + rollOverPrevious
                                         }
-                                        Timber.i("budget for $headerId: ${budget?.second}")
                                         HeaderRenderer(
                                             account = headerData.account,
                                             headerId = headerId,
@@ -319,7 +333,7 @@ fun TransactionList(
                     text = listOf(
                         stringResource(id = R.string.pref_scroll_to_current_date_title),
                         stringResource(id = R.string.loading),
-                        "(${scrollToCurrentDateStartIndex.value?.first})"
+                        "(${scrollToCurrentDateStartIndex.value?.index})"
                     ).joinToString("\n"), textAlign = TextAlign.Center
                 )
             }
