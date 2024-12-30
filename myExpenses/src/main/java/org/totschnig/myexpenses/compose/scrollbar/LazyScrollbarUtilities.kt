@@ -17,6 +17,8 @@
 package org.totschnig.myexpenses.compose.scrollbar
 
 import androidx.compose.foundation.lazy.LazyListState
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
 import kotlin.math.abs
 
 /**
@@ -33,7 +35,12 @@ internal fun LazyListState.interpolateFirstItemIndex(): Float {
     }
 
     val firstItem = header?.let {
-        visibleItems.first { it.offset + it.size > header.size }
+        visibleItems.firstOrNull { it.offset + it.size > header.size }.also {
+            if (it == null) {
+                Timber.w("visibleItems : %s", visibleItems.joinToString { "${it.offset}/${it.size}" })
+                CrashHandler.report(IllegalStateException("No item found"))
+            }
+        }
     } ?: visibleItems.first()
 
     val firstItemIndex = firstItem.index
