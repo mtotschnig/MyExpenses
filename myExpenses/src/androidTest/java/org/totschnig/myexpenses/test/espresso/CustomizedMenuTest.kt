@@ -16,7 +16,7 @@ class CustomizedMenuTest: BaseMyExpensesTest() {
     @Test
     fun startWithCustomizedMenu() {
         // App should not expect any item to be present
-        prefHandler.putStringSet(PrefKey.CUSTOMIZE_MAIN_MENU, setOf(MenuItem.Settings.name))
+        prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU, setOf(MenuItem.Settings.name))
         val account1 = buildAccount("Test account 1")
         launch(account1.id)
         composeTestRule.onNodeWithText(getString(R.string.no_expenses)).assertIsDisplayed()

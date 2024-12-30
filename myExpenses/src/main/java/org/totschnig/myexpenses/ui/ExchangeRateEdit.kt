@@ -6,6 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.Menu
+import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
@@ -14,7 +16,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.databinding.ExchangeRateBinding
 import org.totschnig.myexpenses.databinding.ExchangeRatesBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
@@ -81,9 +86,24 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     }
 
     init {
-        binding.ivDownload.getRoot().setOnClickListener {
+        val downloadButton = binding.ivDownload.getRoot()
+        downloadButton.setOnClickListener {
             if (::firstCurrency.isInitialized && ::secondCurrency.isInitialized && ::viewModel.isInitialized) {
-                viewModel.loadExchangeRate(firstCurrency.code, secondCurrency.code, host.date)
+                val providers =  ExchangeRateSource.configuredSources(context.injector.prefHandler()).toList()
+                if (providers.size == 1) {
+                    viewModel.loadExchangeRate(firstCurrency.code, secondCurrency.code, host.date, providers.first())
+                } else {
+                    PopupMenu(context, downloadButton).apply {
+                        setOnMenuItemClickListener { item ->
+                            viewModel.loadExchangeRate(firstCurrency.code, secondCurrency.code, host.date, providers.get(item.itemId))
+                            true
+                        }
+                        providers.forEachIndexed { index, s ->
+                            menu.add(Menu.NONE, index, Menu.NONE, s.id)
+                        }
+                        show()
+                    }
+                }
             }
         }
         rate1Edit = binding.ExchangeRate1.ExchangeRateText

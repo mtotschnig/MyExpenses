@@ -363,4 +363,8 @@
         <item>@string/landscape</item>
     </string-array>
 
+    <string-array name="pref_exchange_rate_provider_default">
+        <item>FRANKFURTER</item>
+    </string-array>
+
 </resources>

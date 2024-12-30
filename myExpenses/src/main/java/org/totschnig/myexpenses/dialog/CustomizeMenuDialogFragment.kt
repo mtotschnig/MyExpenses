@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -275,7 +274,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
                 Text(stringResource(id = R.string.menu_reset_plan_instance))
             }
             TextButton(onClick = {
-                prefHandler.putStringSet(
+                prefHandler.putOrderedStringSet(
                     PrefKey.CUSTOMIZE_MAIN_MENU,
                     LinkedHashSet(activeItems.map { it.name })
                 )

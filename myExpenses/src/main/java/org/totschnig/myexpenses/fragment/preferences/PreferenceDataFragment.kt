@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.ListPreference
+import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
 import kotlinx.coroutines.launch
@@ -76,7 +77,7 @@ class PreferenceDataFragment: BasePreferenceFragment() {
                 }
             }
         }
-        with(requirePreference<ListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
+        with(requirePreference<MultiSelectListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
             entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
             entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()
         }
@@ -84,14 +85,14 @@ class PreferenceDataFragment: BasePreferenceFragment() {
             requirePreference<Preference>(it.prefKey).summary =
                 getString(R.string.pref_exchange_rates_api_key_summary, it.host)
         }
-        configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
+        configureExchangeRatesPreference(ExchangeRateSource.configuredSources(prefHandler))
         requirePreference<Preference>(PrefKey.EXCHANGE_RATES_CLEAR_CACHE).title =
             "${getString(R.string.clear_cache)} (${getString(R.string.pref_category_exchange_rates)})"
     }
 
-    private fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
+    private fun configureExchangeRatesPreference(providers: Set<ExchangeRateSource>) {
         arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
-            requirePreference<Preference>(it.prefKey).isVisible = provider == it
+            requirePreference<Preference>(it.prefKey).isVisible = providers.contains(it)
         }
     }
 
@@ -117,8 +118,8 @@ class PreferenceDataFragment: BasePreferenceFragment() {
         when (key) {
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
                 configureExchangeRatesPreference(
-                    ExchangeRateSource.preferredSource(
-                        sharedPreferences.getString(key, null)
+                    ExchangeRateSource.configuredSources(
+                        prefHandler.getStringSet(key)
                     )
                 )
             }

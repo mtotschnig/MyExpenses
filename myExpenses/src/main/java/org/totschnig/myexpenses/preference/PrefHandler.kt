@@ -15,35 +15,65 @@ import java.util.Locale
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
-    fun getString(key: PrefKey, defValue: String? = null): String?
+
+
     fun getString(key: String, defValue: String? = null): String?
-    fun putString(key: PrefKey, value: String?)
     fun putString(key: String, value: String?)
-    fun getBoolean(key: PrefKey, defValue: Boolean): Boolean
+    fun getString(key: PrefKey, defValue: String? = null): String? = getString(getKey(key), defValue)
+    fun putString(key: PrefKey, value: String?) {
+        putString(getKey(key), value)
+    }
+
     fun getBoolean(key: String, defValue: Boolean): Boolean
-    fun putBoolean(key: PrefKey, value: Boolean)
     fun putBoolean(key: String, value: Boolean)
-    fun getInt(key: PrefKey, defValue: Int): Int
+    fun getBoolean(key: PrefKey, defValue: Boolean): Boolean = getBoolean(getKey(key), defValue)
+    fun putBoolean(key: PrefKey, value: Boolean) {
+        putBoolean(getKey(key), value)
+    }
+
     fun getInt(key: String, defValue: Int): Int
-    fun putInt(key: PrefKey, value: Int)
     fun putInt(key: String, value: Int)
-    fun getLong(key: PrefKey, defValue: Long): Long
+    fun getInt(key: PrefKey, defValue: Int): Int = getInt(getKey(key), defValue)
+    fun putInt(key: PrefKey, value: Int) {
+        putInt(getKey(key), value)
+    }
+
     fun getLong(key: String, defValue: Long): Long
-    fun putLong(key: PrefKey, value: Long)
     fun putLong(key: String, value: Long)
-    fun getFloat(key: PrefKey, defValue: Float): Float
+    fun getLong(key: PrefKey, defValue: Long): Long = getLong(getKey(key), defValue)
+    fun putLong(key: PrefKey, value: Long) {
+        putLong(getKey(key), value)
+    }
+
     fun getFloat(key: String, defValue: Float): Float
+    fun getFloat(key: PrefKey, defValue: Float): Float = getFloat(getKey(key), defValue)
 
-    fun getStringSet(key: PrefKey, separator: Char = ':'): Set<String>?
 
+    fun getOrderedStringSet(key: String, separator: Char = ':'): Set<String>?
+    fun getOrderedStringSet(key: PrefKey, separator: Char = ':') = getOrderedStringSet(getKey(key), separator)
     /**
      * @param separator no item in value must contain separator
      */
-    fun putStringSet(key: PrefKey, value: Set<String>, separator: Char = ':')
-    fun remove(key: PrefKey)
+    fun putOrderedStringSet(key: String, value: Set<String>, separator: Char = ':')
+    fun putOrderedStringSet(key: PrefKey, value: Set<String>, separator: Char = ':') {
+        putOrderedStringSet(getKey(key), value, separator)
+    }
+
+    fun getStringSet(key: String): Set<String>?
+    fun getStringSet(key: PrefKey) = getStringSet(getKey(key))
+    fun putStringSet(key: String, value: Set<String>)
+    fun putStringSet(key: PrefKey, value: Set<String>) {
+        putStringSet(getKey(key), value)
+    }
+
     fun remove(key: String)
-    fun isSet(key: PrefKey): Boolean
+    fun remove(key: PrefKey) {
+        remove(getKey(key))
+    }
+
     fun isSet(key: String): Boolean
+    fun isSet(key: PrefKey): Boolean = isSet(getKey(key))
+
     fun matches(key: String, vararg prefKeys: PrefKey): Boolean
     fun setDefaultValues(context: Context)
     fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat)
@@ -100,7 +130,7 @@ interface PrefHandler {
         get() = getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L).takeIf { it != -1L }
 
     val mainMenu: List<MenuItem>
-        get() = getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
+        get() = getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
             ?.let { stored ->
                 stored.mapNotNull {
                     try {

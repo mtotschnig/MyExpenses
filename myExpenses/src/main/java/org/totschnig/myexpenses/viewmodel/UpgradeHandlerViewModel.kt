@@ -95,8 +95,8 @@ class UpgradeHandlerViewModel(application: Application) :
             }
         }
         if (fromVersion < 754) {
-            prefHandler.getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
-                prefHandler.putStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
+            prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
+                prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
             }
         }
         viewModelScope.launch(context = coroutineContext()) {
@@ -562,6 +562,11 @@ class UpgradeHandlerViewModel(application: Application) :
                 if (fromVersion < 738) {
                     if (prefHandler.getString(PrefKey.PRINT_FOOTER_RIGHT, null) == "{@page}") {
                         prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
+                    }
+                }
+                if (fromVersion < 774) {
+                    prefHandler.getString("exchange_rate_provider")?.let {
+                        prefHandler.putStringSet(PrefKey.EXCHANGE_RATE_PROVIDER, setOf(it))
                     }
                 }
             } catch (e: Exception) {

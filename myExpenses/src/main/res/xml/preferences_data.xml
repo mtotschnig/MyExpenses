@@ -70,8 +70,8 @@
             android:key="@string/pref_home_currency_key"
             android:title="@string/pref_home_currency_title"
             my:useSimpleSummaryProvider="true" />
-        <ListPreference
-            android:defaultValue="FRANKFURTER"
+        <MultiSelectListPreference
+            android:defaultValue="@array/pref_exchange_rate_provider_default"
             android:key="@string/pref_exchange_rate_provider_key"
             android:summary="@string/pref_exchange_rate_provider_summary"
             android:title="@string/pref_exchange_rate_provider_title" />

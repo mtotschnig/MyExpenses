@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -31,10 +32,10 @@ class ExchangeRateViewModel(val application: MyApplication) {
     fun getData(): LiveData<Double> = exchangeRate
     fun getError(): LiveData<String> = error
 
-    fun loadExchangeRate(other: String, base: String, date: LocalDate) {
+    fun loadExchangeRate(other: String, base: String, date: LocalDate, source: ExchangeRateSource) {
         bgScope.launch {
             try {
-                postResult(repository.loadExchangeRate(other, base, date))
+                postResult(repository.loadExchangeRate(other, base, date, source))
             } catch (e: Exception) {
                 postException(other, base, e)
             }

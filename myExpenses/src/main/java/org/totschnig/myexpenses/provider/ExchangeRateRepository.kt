@@ -14,8 +14,7 @@ class ExchangeRateRepository(
     val service: ExchangeRateService
 ) {
     @Throws(IOException::class)
-    suspend fun loadExchangeRate(other: String, base: String, date: LocalDate): Double {
-        val source = ExchangeRateSource.preferredSource(prefHandler)
+    suspend fun loadExchangeRate(other: String, base: String, date: LocalDate, source: ExchangeRateSource): Double {
         /*        for (rate in dao.getAllRates()) {
                     Timber.d(rate.toString())
                 }*/

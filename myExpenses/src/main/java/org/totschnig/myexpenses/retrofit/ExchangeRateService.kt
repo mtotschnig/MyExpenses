@@ -25,11 +25,12 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
 
         val values = arrayOf(Frankfurter, OpenExchangeRates, CoinApi)
 
-        fun preferredSource(prefHandler: PrefHandler) =
-            preferredSource(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, null))
+        fun configuredSources(prefHandler: PrefHandler) =
+            configuredSources(prefHandler.getStringSet(PrefKey.EXCHANGE_RATE_PROVIDER))
 
-        fun preferredSource(preferenceValue: String?) =
-            values.firstOrNull { it.id == preferenceValue } ?: Frankfurter
+        fun configuredSources(preferenceValue: Set<String>?) = preferenceValue?.let { configured ->
+            values.filter { configured.contains(it.id) }
+        }?.takeIf { it.isNotEmpty() }?.toSet() ?: setOf(Frankfurter)
     }
 
     data object Frankfurter : ExchangeRateSource("FRANKFURTER", "api.frankfurter.app") {
