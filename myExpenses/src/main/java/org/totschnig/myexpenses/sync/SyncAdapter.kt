@@ -153,6 +153,11 @@ class SyncAdapter @JvmOverloads constructor(
                     return@runBlocking
                 }.onSuccess { backend ->
                     handleAutoBackupSync(account, provider, backend)
+                    if (extras.getBoolean(
+                            KEY_AUTO_BACKUP_ONLY
+                        )) {
+                        return@runBlocking
+                    }
                     val selectionArgs: Array<String>
                     var selection = "$KEY_SYNC_ACCOUNT_NAME = ?"
                     if (uuidFromExtras != null) {
@@ -920,6 +925,7 @@ class SyncAdapter @JvmOverloads constructor(
         const val KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account"
         const val KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri"
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
+        const val KEY_AUTO_BACKUP_ONLY = "auto_backup_only"
 
         private val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1L else 5L
         private val IO_DEFAULT_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(5)

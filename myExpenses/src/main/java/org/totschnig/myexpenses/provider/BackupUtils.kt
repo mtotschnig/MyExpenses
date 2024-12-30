@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentResolver
 import android.content.Context
+import android.os.Bundle
 import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
@@ -89,7 +90,9 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
             SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI,
             backupFile.uri.toString()
         )
-        GenericAccountService.requestSync(backend)
+        GenericAccountService.requestSync(backend, extras = Bundle().apply {
+            putBoolean(SyncAdapter.KEY_AUTO_BACKUP_ONLY, true)
+        })
     }
 }
 
