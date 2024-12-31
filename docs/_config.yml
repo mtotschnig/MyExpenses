@@ -134,6 +134,86 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.3
+      - '2024-12-31'
+      - bg: 'Доставчик на валутни курсове: Подобрения в потребителския интерфейс'
+        cs: 'Poskytovatel směnného kurzu: Zdokonalení uživatelského rozhraní'
+        de: 'Anbieter für Wechselkurse: Verfeinerung der Benutzeroberfläche'
+        el: 'Πάροχος συναλλαγματικής ισοτιμίας: Βελτίωση του περιβάλλοντος εργασίας
+          χρήστη'
+        es: 'Proveedor de tipo de cambio: Interfaz de usuario mejorada'
+        fr: 'Fournisseur de taux de change: Raffinement de l''interface utilisateur'
+        hr: 'Usluga za preuzimanje tečajeva: Poboljšanje korisničkog sučelja'
+        hu: 'Árfolyamszolgáltató: A felhasználói felület finomítása'
+        it: 'Fornitore dei Tassi di Cambio: Miglioramento dell''interfaccia utente'
+        iw: 'בחר לספק להוריד שערי חליפין: חידוד ממשק המשתמש'
+        nl: 'Wisselkoers Aanbieder: Verfijning van de gebruikersinterface'
+        pl: 'Dostawca kursów wymiany walut: Udoskonalenie interfejsu użytkownika'
+        pt: 'Provedor de taxa de câmbio: Melhorias na interface do usuário'
+        ro: 'Furnizor de cursuri de schimb: Perfecționarea interfeței cu utilizatorul'
+        tr: 'Döviz Kuru Sağlayıcısı: Kullanıcı arayüzü iyileştirildi'
+        vi: 'Nhà cung cấp tỷ giá hối đoái: Cải tiến giao diện người dùng'
+        en: 'Exchange Rate Provider: Refinement of the user interface'
+      - github2: '13'
+        mastodon: '113743697744453315'
+  -   - 3.9.2
+      - '2024-12-31'
+      - bg: 'Бюджетиране: Синхронизиране'
+        cs: 'Rozpočty: Synchronizace'
+        de: 'Budgetierung: Synchronisierung'
+        el: 'Προϋπολογισμός: Συγχρονισμός'
+        es: 'Presupuestar: Sincronización'
+        fr: 'Budgétisation: Synchronisation'
+        hr: 'Izrada proračuna: Sinkronizacija'
+        hu: 'Költségvetés: Szinkronizálás'
+        it: 'Bilancio: Sincronizzazione'
+        iw: 'תקצוב: סנכרון'
+        nl: 'Budgettering: Synchronisatie'
+        pl: 'Przydzielanie budżetu: Synchronizacja'
+        pt: 'Orçamento: Sincronização'
+        ro: 'Bugetare: Sincronizare'
+        tr: 'Bütçeleme: Eşzamanla'
+        vi: 'Ngân quỹ: Đồng bộ hóa'
+        en: 'Budgeting: Synchronization'
+      - github2: '11'
+        mastodon: '113647103106538634'
+  -   - 3.9.1
+      - '2024-12-31'
+      - bg: 'Архив: Подобрения в потребителския интерфейс. Бюджетиране: Подобрения
+          в потребителския интерфейс'
+        cs: 'Archiv: Zdokonalení uživatelského rozhraní. Rozpočty: Zdokonalení uživatelského
+          rozhraní'
+        de: 'Archiv: Verfeinerung der Benutzeroberfläche. Budgetierung: Verfeinerung
+          der Benutzeroberfläche'
+        el: 'Αρχείο: Βελτίωση του περιβάλλοντος εργασίας χρήστη. Προϋπολογισμός: Βελτίωση
+          του περιβάλλοντος εργασίας χρήστη'
+        es: 'Archivo: Interfaz de usuario mejorada. Presupuestar: Interfaz de usuario
+          mejorada'
+        fr: 'Archive: Raffinement de l''interface utilisateur. Budgétisation: Raffinement
+          de l''interface utilisateur'
+        hr: 'Arhiva: Poboljšanje korisničkog sučelja. Izrada proračuna: Poboljšanje
+          korisničkog sučelja'
+        hu: 'Archívum: A felhasználói felület finomítása. Költségvetés: A felhasználói
+          felület finomítása'
+        it: 'Archivio: Miglioramento dell''interfaccia utente. Bilancio: Miglioramento
+          dell''interfaccia utente'
+        iw: 'ארכיון: חידוד ממשק המשתמש. תקצוב: חידוד ממשק המשתמש'
+        nl: 'Archief: Verfijning van de gebruikersinterface. Budgettering: Verfijning
+          van de gebruikersinterface'
+        pl: 'Archiwum: Udoskonalenie interfejsu użytkownika. Przydzielanie budżetu:
+          Udoskonalenie interfejsu użytkownika'
+        pt: 'Arquivo: Melhorias na interface do usuário. Orçamento: Melhorias na interface
+          do usuário'
+        ro: 'Arhivă: Perfecționarea interfeței cu utilizatorul. Bugetare: Perfecționarea
+          interfeței cu utilizatorul'
+        tr: 'Arşiv: Kullanıcı arayüzü iyileştirildi. Bütçeleme: Kullanıcı arayüzü
+          iyileştirildi'
+        vi: 'Lưu trữ: Cải tiến giao diện người dùng. Ngân quỹ: Cải tiến giao diện
+          người dùng'
+        en: 'Archive: Refinement of the user interface. Budgeting: Refinement of the
+          user interface'
+      - github2: '9'
+        mastodon: '113458152516861944'
   -   - 3.9.0
       - '2024-10-21'
       - bg: 'Цел за спестяване / Кредитен лимит: Подобрения в потребителския интерфейс'
