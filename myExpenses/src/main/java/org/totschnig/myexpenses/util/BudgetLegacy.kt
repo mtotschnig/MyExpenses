@@ -9,10 +9,6 @@ import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import java.math.BigDecimal
 import java.util.*
 
-fun getBackgroundForAvailable(onBudget: Boolean): Int {
-    return if (onBudget) R.drawable.round_background_income else R.drawable.round_background_expense
-}
-
 fun buildAmountField(
     amount: Money, max: BigDecimal?, min: BigDecimal?,
     level: Int, context: Context

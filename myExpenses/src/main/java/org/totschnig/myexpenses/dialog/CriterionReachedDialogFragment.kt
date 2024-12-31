@@ -182,6 +182,7 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
                         AmountInputHostDialog.build().title(label)
                             .fields(
                                 AmountInput.plain(KEY_AMOUNT)
+                                    .label(label)
                                     .fractionDigits(currency.fractionDigits)
                                     .amount(criterion.asMoney.amountMajor)
                             )

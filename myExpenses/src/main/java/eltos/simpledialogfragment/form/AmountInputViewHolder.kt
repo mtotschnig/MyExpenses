@@ -29,6 +29,9 @@ internal class AmountInputViewHolder(field: AmountInput) : FormElementViewHolder
         amountInput = view.findViewById(R.id.amount)
         inputLayout.hint = field.getText(context)
         amountInput.setFractionDigits(field.fractionDigits)
+        field.getText(context)?.let {
+            amountInput.contentDescription = it
+        }
         field.withTypeSwitch?.also {
             amountInput.setWithTypeSwitch(true)
             amountInput.type = it

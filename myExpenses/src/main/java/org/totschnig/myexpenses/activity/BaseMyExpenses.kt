@@ -2016,6 +2016,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 AmountInputHostDialog.build().title(R.string.new_balance)
                                     .fields(
                                         AmountInput.plain(KEY_AMOUNT)
+                                            .label(R.string.new_balance)
                                             .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
                                             .withTypeSwitch(currentAccount!!.currentBalance > 0)
                                     ).show(this, DIALOG_TAG_NEW_BALANCE)
