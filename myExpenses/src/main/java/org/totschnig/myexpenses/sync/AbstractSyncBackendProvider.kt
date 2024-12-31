@@ -537,22 +537,21 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     private fun shouldOverrideLock(lockToken: String?): Boolean {
-        val result: Boolean
         val now = System.currentTimeMillis()
         val storedLockToken = sharedPreferences.getString(accountPrefKey(KEY_LOCK_TOKEN), "")
         val ownedByUs = sharedPreferences.getBoolean(accountPrefKey(KEY_OWNED_BY_US), false)
         val timestamp = sharedPreferences.getLong(accountPrefKey(KEY_TIMESTAMP), 0)
         val since = now - timestamp
         log().i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since)
-        if (lockToken == storedLockToken) {
-            result = ownedByUs || since > IO_LOCK_DELAY_MILLIS
-            log().i("tokens are equal, result: %b", result)
+        return if (lockToken == storedLockToken) {
+            (ownedByUs || since > IO_LOCK_DELAY_MILLIS).also {
+                log().i("tokens are equal, result: %b", it)
+            }
         } else {
             saveLockTokenToPreferences(lockToken, now, false)
-            result = false
-            log().i("tokens are not equal, result: %b", false)
+            log().i("tokens are not equal, result: false")
+            false
         }
-        return result
     }
 
     @SuppressLint("ApplySharedPref")
