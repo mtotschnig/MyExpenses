@@ -162,8 +162,11 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.SyncUnlink.setOnClickListener {
             DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
         }
-        binding.SyncHelp.setOnClickListener {
-            showHelp(getString(R.string.form_synchronization_help_text_add))
+        with(binding.SyncHelp) {
+            contentDescription = getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
+            setOnClickListener {
+                showHelp(getString(R.string.form_synchronization_help_text_add))
+            }
         }
         binding.TagRow.bindListener()
     }
