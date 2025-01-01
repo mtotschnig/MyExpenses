@@ -68,6 +68,7 @@ import kotlin.experimental.or
 fun ExpansionHandle(
     modifier: Modifier = Modifier,
     isExpanded: Boolean,
+    contentDescription: String? = null,
     toggle: () -> Unit,
 ) {
     val rotationAngle by animateFloatAsState(
@@ -77,10 +78,11 @@ fun ExpansionHandle(
         Icon(
             modifier = Modifier.rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,
-            contentDescription = stringResource(
-                id = if (isExpanded) R.string.collapse
-                else R.string.expand
-            )
+            contentDescription = (contentDescription?.let { "$it: " } ?: "") +
+                    stringResource(
+                        id = if (isExpanded) R.string.collapse
+                        else R.string.expand
+                    )
         )
     }
 }
@@ -140,10 +142,12 @@ fun DonutInABox(
         )
 
         Text(
-            modifier = Modifier.align(Alignment.Center).semantics {
-                this.contentDescription = DisplayProgress.contentDescription(context, progress)
-            },
-            text = progress.displayProgress ,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .semantics {
+                    this.contentDescription = DisplayProgress.contentDescription(context, progress)
+                },
+            text = progress.displayProgress,
             fontSize = fontSize,
         )
     }
@@ -207,7 +211,7 @@ fun SumDetails(
     expenseSum: Money,
     transferSum: Money,
     alignStart: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val amountFormatter = LocalCurrencyFormatter.current
 
@@ -274,15 +278,16 @@ fun LazyListScope.simpleStickyHeader(content: @Composable (Modifier) -> Unit) {
     stickyHeader(contentType = STICKY_HEADER_CONTENT_TYPE) {
         Surface(
             modifier = Modifier
-                .height(32.dp)
-            ,
+                .height(32.dp),
             tonalElevation = 1.dp
         ) {
             content(
-                Modifier.fillMaxWidth().padding(
-                    horizontal = dimensionResource(R.dimen.padding_main_screen),
-                    vertical = 4.dp
-                )
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.padding_main_screen),
+                        vertical = 4.dp
+                    )
             )
         }
     }

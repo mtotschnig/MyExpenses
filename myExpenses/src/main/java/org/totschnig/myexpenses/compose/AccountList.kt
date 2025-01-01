@@ -3,9 +3,11 @@ package org.totschnig.myexpenses.compose
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -25,20 +28,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -133,7 +139,9 @@ private fun Header(
         thickness = 2.dp
     )
     Row(
-        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.drawer_padding)),
+        modifier = Modifier.clickable(onClick = onHeaderClick)
+            .semantics(mergeDescendants = true) {}
+            .padding(start = dimensionResource(id = R.dimen.drawer_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -142,7 +150,17 @@ private fun Header(
             style = MaterialTheme.typography.titleMedium,
             color = colorResource(id = R.color.material_grey)
         )
-        ExpansionHandle(isExpanded = isExpanded, toggle = onHeaderClick)
+        val rotationAngle by animateFloatAsState(
+            targetValue = if (isExpanded) 0F else 180F
+        )
+        Icon(
+            modifier = Modifier.minimumInteractiveComponentSize().rotate(rotationAngle),
+            imageVector = Icons.Default.ExpandLess,
+            contentDescription = stringResource(
+                id = if (isExpanded) R.string.collapse
+                else R.string.expand
+            )
+        )
     }
 }
 
@@ -274,7 +292,7 @@ fun AccountCard(
                 }
             }
 
-            ExpansionHandle(isExpanded = !isCollapsed, toggle = toggleExpansion)
+            ExpansionHandle(isExpanded = !isCollapsed, contentDescription = account.label, toggle = toggleExpansion)
             val menu = Menu(
                 buildList {
                     if (account.id > 0) {
