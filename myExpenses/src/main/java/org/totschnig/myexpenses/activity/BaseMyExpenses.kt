@@ -525,7 +525,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         binding.viewPagerMain.viewPager.setContent {
             MainContent()
         }
-        setupToolbarClickHanlders()
+        setupToolbarClickHandlers()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -803,6 +803,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 val newState = !binding.accountPanel.root.isVisible
                 prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, newState)
                 binding.accountPanel.root.isVisible = newState
+                toolbar.setNavigationContentDescription(
+                    if (newState) R.string.drawer_close else R.string.drawer_open
+                )
             }
         }
         binding.drawer?.let { drawer ->
@@ -1989,7 +1992,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val hasItems
         get() = (sumInfo as? SumInfoLoaded)?.hasItems == true
 
-    private fun setupToolbarClickHanlders() {
+    private fun setupToolbarClickHandlers() {
         listOf(binding.toolbar.subtitle, binding.toolbar.title).forEach {
             it.setOnClickListener {
                 if (accountCount > 0) {
