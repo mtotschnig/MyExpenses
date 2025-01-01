@@ -119,6 +119,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
                     binding.trialInfoCard.setOnClickListener(this)
                     trialButton.setOnClickListener(this)
                     binding.trialInfo.text = trialString
+                    setSelectedForA11y(binding.trialInfoCard)
                 } else {
                     binding.trialInfoCard.isVisible = false
                     binding.intro.text = TextUtils.concat(trialString, " ", removePhrase)
@@ -370,15 +371,19 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         if (v.id == R.id.trial_info_card || v == trialButton) {
             selectedPackage = null
             updateButtons(trialButton)
+            setSelectedForA11y(binding.trialInfoCard)
         } else if (v.id == R.id.contrib_feature_container || v === contribButton) {
             selectedPackage = Package.Contrib
             updateButtons(contribButton)
+            setSelectedForA11y(binding.contribFeatureContainer.root)
         } else if (v.id == R.id.extended_feature_container || v === extendedButton) {
             selectedPackage = if (licenceStatus == null) Package.Extended else Package.Upgrade
             updateButtons(extendedButton)
+            setSelectedForA11y(binding.extendedFeatureContainer.root)
         } else if (v.id == R.id.single_feature_container || v === singleButton) {
             selectedPackage = getSinglePackage()
             updateButtons(singleButton)
+            setSelectedForA11y(binding.extendedFeatureContainer.root)
         } else {
             val proPackages = licenceHandler.proPackages
             if (proPackages.size == 1) {
@@ -390,6 +395,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
                     selectedPackage = proPackages[item.itemId]
                     updateProPrice(licenceStatus)
                     updateButtons(professionalButton)
+                    setSelectedForA11y(binding.professionalFeatureContainer.root)
                     true
                 }
                 for (aPackage in proPackages.withIndex()) {
@@ -422,6 +428,10 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
                 R.string.button_try
             } else R.string.buy
         )
+    }
+
+    private fun setSelectedForA11y(packageContainer: View) {
+        packageContainer.isSelected  = true
     }
 
     override fun onDestroyView() {
