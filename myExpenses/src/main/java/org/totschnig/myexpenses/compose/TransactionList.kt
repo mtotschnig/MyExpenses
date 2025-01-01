@@ -344,15 +344,13 @@ fun TransactionList(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HeaderData(
-    grouping: Grouping,
+    displayTitle: String,
     headerRow: HeaderRow,
-    dateInfo: DateInfo,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
     updateShowSumDetails: (Boolean) -> Unit,
     alignStart: Boolean = false,
 ) {
-    val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
 
     Column(
@@ -360,9 +358,7 @@ fun HeaderData(
         horizontalAlignment = if (alignStart) Alignment.Start else Alignment.CenterHorizontally
     ) {
         Text(
-            text = grouping.getDisplayTitle(
-                context, headerRow.year, headerRow.second, dateInfo, headerRow.weekStart
-            ),
+            text = displayTitle,
             style = MaterialTheme.typography.titleMedium,
         )
         val delta = " " +
@@ -436,9 +432,18 @@ fun HeaderRenderer(
             .background(MaterialTheme.colorScheme.background)
     ) {
         GroupDivider()
+        val context = LocalContext.current
+        val displayTitle = account.grouping.getDisplayTitle(
+            context,
+            headerRow.year,
+            headerRow.second,
+            dateInfo,
+            headerRow.weekStart
+        )
         toggle?.let {
             ExpansionHandle(
                 modifier = Modifier.align(Alignment.TopEnd),
+                contentDescription = displayTitle,
                 isExpanded = isExpanded,
                 toggle = toggle
             )
@@ -458,9 +463,8 @@ fun HeaderRenderer(
                 )
 
                 HeaderData(
-                    account.grouping,
+                    displayTitle,
                     headerRow,
-                    dateInfo,
                     showSumDetails,
                     showOnlyDelta,
                     updateShowSumDetails,
@@ -469,9 +473,8 @@ fun HeaderRenderer(
             }
         } else {
             HeaderData(
-                account.grouping,
+                displayTitle,
                 headerRow,
-                dateInfo,
                 showSumDetails,
                 showOnlyDelta,
                 updateShowSumDetails
