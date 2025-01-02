@@ -95,13 +95,12 @@ class FilterPersistence(
         }
     }
 
-    fun removeFilter(id: Int): Boolean = whereFilter[id]?.let {
+    fun removeFilter(id: Int): Boolean = whereFilter[id]?.also {
         _whereFilter.value = whereFilter.remove(id)
         if (immediatePersist) {
             prefHandler.remove(prefNameForCriteria(it))
         }
-        true
-    } ?: false
+    } != null
 
     fun persistAll() {
         arrayOf(

@@ -63,22 +63,15 @@ abstract class Criterion<T : Any> : Parcelable {
      * @return selection wrapped in a way that it also finds split transactions with parts
      * that are matched by the criteria
      */
-    private fun applyToSplitParts(selection: String, tableName: String): String {
-        val queryparts = buildList {
-            add(selection)
-            if (shouldApplyToSplitTransactions) {
-                add("($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $tableName children WHERE  $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection)))")
-            }
-            if (shouldApplyToArchive) {
-                add("($KEY_STATUS = $STATUS_ARCHIVE AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS grandchildren where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection)))")
-            }
+    private fun applyToSplitParts(selection: String, tableName: String) = buildList {
+        add(selection)
+        if (shouldApplyToSplitTransactions) {
+            add("($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $tableName children WHERE  $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection)))")
         }
-            "($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $tableName children WHERE  $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection)))"
-        "($KEY_STATUS = $STATUS_ARCHIVE AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS grandchildren where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection)))"
-
-
-        return queryparts.joinToString(separator = " OR ", prefix = "(", postfix = ")")
-    }
+        if (shouldApplyToArchive) {
+            add("($KEY_STATUS = $STATUS_ARCHIVE AND exists(select 1 from $tableName children WHERE $KEY_PARENTID in ($tableName.$KEY_ROWID, (select $KEY_ROWID from $TABLE_TRANSACTIONS grandchildren where $KEY_PARENTID = $tableName.$KEY_ROWID)) AND ($selection)))")
+        }
+    }.joinToString(separator = " OR ", prefix = "(", postfix = ")")
 
     /**
      * the sums are calculated based on split parts, hence here we must take care to select parts
