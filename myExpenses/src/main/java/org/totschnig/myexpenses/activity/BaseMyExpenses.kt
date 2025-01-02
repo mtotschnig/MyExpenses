@@ -147,7 +147,7 @@ import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
@@ -229,7 +229,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 ?.maxByOrNull { it.lastUsed }
         }
 
-    val currentFilter: FilterPersistence
+    val currentFilter: FilterPersistenceV2
         get() = viewModel.filterPersistence.getValue(selectedAccountId)
 
     val currentAccount: FullAccount?
@@ -975,8 +975,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .whereFilterAsFlow
                 .collectAsState(WhereFilter.empty())
                 .value
-                .takeIf { !it.isEmpty }?.let {
-                    FilterCard(it, ::clearFilter, ::editFilter)
+                ?.let {
+                    //FilterCard(it, ::clearFilter, ::editFilter)
                 }
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
@@ -1031,7 +1031,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         showDetails(
                                             transaction.id,
                                             transaction.isArchive,
-                                            currentFilter.takeIf { transaction.isArchive },
+                                            /*currentFilter.takeIf { transaction.isArchive }*/ null,
                                             currentAccount?.sortOrder.takeIf { transaction.isArchive }
                                         )
                                     })
@@ -1632,7 +1632,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.CLEAR_FILTER_COMMAND -> {
-                currentFilter.clear()
+                //currentFilter.clear()
                 invalidateOptionsMenu()
             }
 
@@ -2172,8 +2172,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
         putExtra(KEY_ACCOUNTID, currentAccount.id)
         putExtra(KEY_GROUPING, currentAccount.grouping)
-        if (!currentFilter.whereFilter.isEmpty) {
-            putParcelableArrayListExtra(KEY_FILTER, ArrayList(currentFilter.whereFilter.criteria))
+        if (currentFilter.whereFilter != null) {
+            putExtra(KEY_FILTER, currentFilter.whereFilter)
         }
     }
 
@@ -2347,7 +2347,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         currency,
                                         sealed,
                                         hasExported,
-                                        !currentFilter.whereFilter.isEmpty
+                                        currentFilter.whereFilter != null
                                     )
                                 ).show(supportFragmentManager, "EXPORT")
                             }
@@ -2416,9 +2416,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     private fun Bundle.addFilter() {
-        putParcelableArrayList(
+        putParcelable(
             KEY_FILTER,
-            ArrayList(currentFilter.whereFilter.criteria)
+            currentFilter.whereFilter
         )
     }
 
@@ -2477,12 +2477,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         currentFilter.addCriterion(c)
     }
 
-    fun removeFilter(id: Int) = if (currentFilter.removeFilter(id)) {
+    fun removeFilter(id: Int) = /*if (currentFilter.removeFilter(id)) {
         invalidateOptionsMenu()
         true
-    } else false
+    } else false*/ false
 
-    private fun clearFilter() {
+/*    private fun clearFilter() {
         ConfirmationDialogFragment.newInstance(Bundle().apply {
             putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
@@ -2493,7 +2493,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         filterHandler.handleFilter(
             itemId,
             currentFilter.whereFilter.criteria.find { it.id == itemId })
-    }
+    }*/
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)

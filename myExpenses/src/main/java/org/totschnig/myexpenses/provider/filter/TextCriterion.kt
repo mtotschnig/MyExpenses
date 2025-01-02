@@ -18,9 +18,11 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.util.Utils
 
-abstract class TextCriterion : Criterion<String>() {
+@Serializable
+abstract sealed class TextCriterion : Criterion<String>() {
 
     abstract val searchString : String
 

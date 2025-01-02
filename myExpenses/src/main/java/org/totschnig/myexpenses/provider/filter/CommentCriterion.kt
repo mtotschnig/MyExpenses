@@ -19,11 +19,15 @@ package org.totschnig.myexpenses.provider.filter
 
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class CommentCriterion(override val searchString: String) : TextCriterion() {
+@Serializable
+@SerialName(DatabaseConstants.KEY_COMMENT)
+data class CommentCriterion(override val searchString: String) : TextCriterion() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_COMMENT_COMMAND

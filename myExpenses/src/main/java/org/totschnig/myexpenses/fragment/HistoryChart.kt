@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
-import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -41,7 +40,6 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -50,12 +48,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
@@ -81,7 +77,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     val grouping: Grouping
         get() = viewModel.grouping.value
-    private var filter = WhereFilter.empty()
+    private var filter: BaseCriterion? = null
     private var valueTextSize = 10f
 
     @ColorInt
@@ -166,8 +162,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
         }
-        IntentCompat.getParcelableArrayListExtra(requireActivity().intent, KEY_FILTER, Criterion::class.java)?.let {
-            filter = WhereFilter(it)
+        IntentCompat.getParcelableExtra(requireActivity().intent, KEY_FILTER, BaseCriterion::class.java)?.let {
+            filter = it
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)
         includeTransfers =
@@ -198,9 +194,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                 grouping = grouping,
                                 groupingClause = listOfNotNull(
                                     buildGroupingClause(e.x.toInt()),
-                                    filter.getSelectionForParts().takeIf { it.isNotEmpty() }
+                                    filter?.getSelectionForParts()
                                 ).joinToString(" AND "),
-                                groupingArgs = filter.getSelectionArgsList(true),
+                                groupingArgs = filter?.getSelectionArgsList(true) ?: emptyList(),
                                 label = formatXValue(e.x),
                                 type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers
@@ -212,9 +208,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 override fun onNothingSelected() {}
             })
         }
-        if (!filter.isEmpty) {
+        if (filter != null) {
             binding.filterCard.setContent {
-                FilterCard(filter)
+                //FilterCard(filter)
             }
         }
         return binding.root

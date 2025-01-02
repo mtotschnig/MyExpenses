@@ -59,7 +59,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -516,7 +516,7 @@ fun Category.aggregateRollOverNext(rollOverMap: Map<Long, Long>?): Long {
 fun ChipGroup(
     modifier: Modifier = Modifier,
     budget: Budget?,
-    criteria: List<Criterion<*>>,
+    criteria: List<BaseCriterion>,
 ) {
     val context = LocalContext.current
     FlowRow(

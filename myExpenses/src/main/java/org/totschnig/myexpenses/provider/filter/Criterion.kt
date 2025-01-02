@@ -19,6 +19,7 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
 import android.os.Parcelable
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -28,17 +29,18 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
-abstract class Criterion<T : Any> : Parcelable {
+@Serializable
+abstract sealed class Criterion<T : Any> : BaseCriterion, Parcelable {
     abstract val operation: Operation
     abstract val values: Array<T>
 
-    open val selectionArgs: Array<String>
+    override val selectionArgs: Array<String>
         get() = values.map { it.toString() }.toTypedArray()
-    abstract val id: Int
-    abstract val column: String
-    abstract val title: Int
+    abstract override val id: Int
+    abstract override val column: String
+    abstract override val title: Int
 
-    open val key: String
+    override val key: String
         get() = column
 
     open val columnForExport: String
@@ -53,7 +55,7 @@ abstract class Criterion<T : Any> : Parcelable {
 
     fun size(): Int = values.size
 
-    open fun prettyPrint(context: Context) = values.joinToString()
+    override fun prettyPrint(context: Context) = values.joinToString()
 
     override fun toString(): String {
         throw UnsupportedOperationException("Only subclasses can be persisted")
@@ -86,14 +88,14 @@ abstract class Criterion<T : Any> : Parcelable {
         return "($selectParents OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
     }
 
-    fun getSelectionForParts(tableName: String) =
+    override fun getSelectionForParts(tableName: String) =
         applyToSplitParents(getSelection(false), tableName)
 
-    fun getSelectionForParents(tableName: String, forExport: Boolean) =
+    override fun getSelectionForParents(tableName: String, forExport: Boolean) =
         applyToSplitParts(getSelection(forExport), tableName)
 
-    open val shouldApplyToSplitTransactions get() = true
-    open val shouldApplyToArchive get() = true
+    override val shouldApplyToSplitTransactions get() = true
+    override val shouldApplyToArchive get() = true
 
     companion object {
         const val EXTRA_SEPARATOR = ";"

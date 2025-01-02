@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -225,7 +226,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         configureFilterDependents()
     }
 
-    private fun showFilterCriteria(c: Criterion<*>) {
+    private fun showFilterCriteria(c: BaseCriterion) {
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true

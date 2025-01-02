@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragmen
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -32,7 +33,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
             searchMenu.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.hasItems == true)
             (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
                 val whereFilter = currentFilter.whereFilter
-                searchMenu.isChecked = !whereFilter.isEmpty
+                searchMenu.isChecked = whereFilter != null
                 checkMenuIcon(searchMenu)
                 val filterMenu = searchMenu.subMenu!!
                 for (i in 0 until filterMenu.size()) {
@@ -68,7 +69,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                             enabled = currentAccount!!.isAggregate
                         }
                     }
-                    val c: Criterion<*>? = whereFilter[filterItem.itemId]
+                    val c: BaseCriterion? = null /*whereFilter[filterItem.itemId]*/
                     filterItem.setEnabledAndVisible(enabled || c != null)
                     if (c != null) {
                         filterItem.isChecked = true
@@ -79,7 +80,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         }
     }
 
-    fun handleFilter(itemId: Int, edit: Criterion<*>? = null): Boolean {
+    fun handleFilter(itemId: Int, edit: BaseCriterion? = null): Boolean {
         with(activity) {
             if (accountCount == 0) return false
             if (edit == null && removeFilter(itemId)) return true
