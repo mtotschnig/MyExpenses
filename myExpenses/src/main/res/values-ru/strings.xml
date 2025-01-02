@@ -992,4 +992,8 @@
     <string name="content_description_exchange_rate">Курс обмена 1 %1$s в %2$s</string>
     <string name="content_description_original_amount">Укажите исходную сумму транзакции, выбрав валюту и введя необходимую сумму. Вы также можете определить курс обмена, который будет применяться для расчета эффективной суммы.</string>
     <string name="content_description_equivalent_amount">Укажите значение этой транзакции в вашей базовой валюте. Если хотите, можно ввести не сумму, а курс обмена для автоматического расчета.</string>
+    <string name="warning_budget_sync_import">Конфигурация этого бюджета будет импортирована с сервера синхронизации. Все локальные изменения будут потеряны.</string>
+    <string name="budget_import_can_be_imported">Следующие бюджеты могут быть импортированы:</string>
+    <string name="budget_import_cannot_be_imported">Следующие бюджеты относятся к счетам, которые не синхронизированы:</string>
+    <string name="budget_import_none_found">Бюджеты не найдены.</string>
 </resources>
