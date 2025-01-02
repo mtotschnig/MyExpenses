@@ -60,6 +60,7 @@ junitparams = "1.1.1"
 junitVersion = "4.13.2"
 kotlin = "2.1.0"
 kotlinxHtml = "0.11.0"
+kotlinxSerializationJson = "1.7.3"
 ksp = "2.1.0-1.0.29"
 leakcanaryAndroid = "2.14"
 sealed-enum = "0.7.0"
@@ -218,6 +219,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 sealed-enum = { module = "com.github.livefront.sealed-enum:ksp", version.ref = "sealed-enum" }
 ktor-network-tls-certificates = { module = "io.ktor:ktor-network-tls-certificates", version.ref = "ktor" }
@@ -272,3 +274,4 @@ android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "a
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

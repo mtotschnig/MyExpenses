@@ -25,13 +25,13 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
@@ -282,7 +282,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         }
     }
 
-    fun print(account: FullAccount, whereFilter: WhereFilter) {
+    fun print(account: FullAccount, whereFilter: BaseCriterion?) {
         viewModelScope.launch(coroutineContext()) {
             _pdfResult.update {
                 AppDirHelper.checkAppDir(getApplication()).mapCatching {

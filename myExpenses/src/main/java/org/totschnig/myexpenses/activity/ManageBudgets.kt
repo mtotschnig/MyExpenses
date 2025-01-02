@@ -64,7 +64,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
@@ -185,7 +185,7 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     val currencyUnit = currencyContext[budget.currency]
                                     val allocated = remember { mutableLongStateOf(0) }
                                     val spent = remember { mutableLongStateOf(0) }
-                                    val criteria = remember { mutableStateListOf<Criterion<*>>() }
+                                    val criteria = remember { mutableStateListOf<BaseCriterion>() }
                                     LaunchedEffect(budget.id) {
                                         viewModel.budgetAmounts(budget).collect { (s, a) ->
                                             allocated.longValue = a
@@ -289,7 +289,7 @@ fun BudgetItem(
     narrowScreen: Boolean,
     grouping: BudgetListViewModel.Grouping,
     budget: Budget,
-    criteria: List<Criterion<*>>,
+    criteria: List<BaseCriterion>,
     currencyUnit: CurrencyUnit,
     allocated: Long,
     spent: Long,

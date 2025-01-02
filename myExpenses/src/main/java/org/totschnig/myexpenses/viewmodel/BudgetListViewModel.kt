@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -135,7 +135,7 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
 
-    fun budgetCriteria(budget: Budget): Flow<List<Criterion<*>>> = budgetFilterFlow(budget.id).map {
+    fun budgetCriteria(budget: Budget): Flow<List<BaseCriterion>> = budgetFilterFlow(budget.id).map {
         FilterPersistence(
             prefHandler,
             prefNameForCriteria(budget.id),

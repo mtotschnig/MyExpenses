@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -103,7 +103,7 @@ object PdfPrinter {
         context: Context,
         account: FullAccount,
         destDir: DocumentFile,
-        filter: WhereFilter,
+        filter: BaseCriterion?,
     ): Pair<Uri, String> {
         val currencyFormatter = context.injector.currencyFormatter()
         val currencyContext = context.injector.currencyContext()
@@ -115,7 +115,7 @@ object PdfPrinter {
         )
         var selection = "$KEY_PARENTID is null"
         val selectionArgs: Array<String>
-        if (!filter.isEmpty) {
+        if (filter != null) {
             selection += " AND " + filter.getSelectionForParents()
             selectionArgs = filter.getSelectionArgs(false)
         } else {
@@ -213,9 +213,7 @@ object PdfPrinter {
                                     account.currentBalance
                                 )
                             ),
-                    filter.takeIf { !it.isEmpty }?.let { whereFilter ->
-                        whereFilter.criteria.joinToString { it.prettyPrint(context) }
-                    }
+                    filter?.prettyPrint(context)
                 )
                 addTransactionList(
                     document,
@@ -257,7 +255,7 @@ object PdfPrinter {
         }
         document.add(preface)
         val empty = Paragraph()
-        addEmptyLine(empty, 1)
+        addEmptyLine(empty)
         document.add(empty)
     }
 
@@ -268,7 +266,7 @@ object PdfPrinter {
         helper: PdfHelper,
         context: Context,
         account: FullAccount,
-        filter: WhereFilter,
+        filter: BaseCriterion?,
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
         currencyContext: CurrencyContext,
@@ -343,7 +341,7 @@ object PdfPrinter {
                     currencyFormatter.convAmount(abs(amountMinor), currencyUnit)
                 )
                 cell = helper.printToCell(
-                    if (filter.isEmpty) String.format(
+                    if (filter == null) String.format(
                         "%s %s = %s",
                         currencyFormatter.formatMoney(headerRow.previousBalance), formattedDelta,
                         currencyFormatter.formatMoney(interimBalance)
@@ -438,7 +436,7 @@ object PdfPrinter {
             var isVoid = false
             try {
                 isVoid = transaction.crStatus == CrStatus.VOID
-            } catch (ignored: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
             }
             var cell = helper.printToCell(
                 Utils.convDateTime(transaction._date, itemDateFormat),
@@ -535,7 +533,7 @@ object PdfPrinter {
             if (hasComment || hasTags) {
                 table.addCell(emptyCell)
                 if (hasComment) {
-                    cell = helper.printToCell(transaction.comment!!, FontType.ITALIC)
+                    cell = helper.printToCell(transaction.comment, FontType.ITALIC)
                     if (isVoid) {
                         cell.phrase.chunks.getOrNull(0)?.also {
                             it.setGenericTag(VOID_MARKER)
@@ -572,9 +570,7 @@ object PdfPrinter {
         document.add(table)
     }
 
-    private fun addEmptyLine(paragraph: Paragraph, number: Int) {
-        for (i in 0 until number) {
-            paragraph.add(Paragraph(" "))
-        }
+    private fun addEmptyLine(paragraph: Paragraph) {
+        paragraph.add(Paragraph(" "))
     }
 }

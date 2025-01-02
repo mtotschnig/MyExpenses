@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.BaseCriterion
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -33,13 +33,12 @@ import java.time.Instant
 open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
-    val whereFilter: StateFlow<WhereFilter>,
+    val whereFilter: StateFlow<BaseCriterion?>,
     val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
-    prefHandler: PrefHandler
-) :
-    ClearingPagingSource<Int, Transaction2>() {
+    prefHandler: PrefHandler,
+) : ClearingPagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
@@ -99,11 +98,11 @@ open class TransactionPagingSource(
             Timber.i("Requesting data for account %d at position %d", account.id, position)
             var selection = "$KEY_PARENTID is null"
             var selectionArgs: Array<String>? = null
-            if (!whereFilter.value.isEmpty) {
-                val selectionForParents = whereFilter.value.getSelectionForParents()
+            whereFilter.value?.let { filter ->
+                val selectionForParents = filter.getSelectionForParents()
                 if (selectionForParents.isNotEmpty()) {
                     selection += " AND $selectionForParents"
-                    selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)
+                    selectionArgs = filter.getSelectionArgsIfNotEmpty(false)
                 }
             }
             val startTime = if (BuildConfig.DEBUG) Instant.now() else null
@@ -132,11 +131,13 @@ open class TransactionPagingSource(
                 }
             } ?: emptyList()
             val (dropHalfTransfer, mergedList) = if (account.isAggregate) {
-                val mergeResult = origList.mergeTransfers(account, currencyContext.homeCurrencyString)
+                val mergeResult =
+                    origList.mergeTransfers(account, currencyContext.homeCurrencyString)
                 //if the two halves of a transfer are split between two pages, we
                 //drop the half at the end of the list, and reduce the offset for the next load by 1
                 val dropHalfTransfer = mergeResult.lastOrNull()?.let {
-                    it.transferPeer != null && it.type != FLAG_NEUTRAL } ?: false
+                    it.transferPeer != null && it.type != FLAG_NEUTRAL
+                } == true
                 dropHalfTransfer to if (dropHalfTransfer) mergeResult.dropLast(1) else mergeResult
             } else false to origList
 
