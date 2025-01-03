@@ -18,12 +18,14 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
-abstract class IdCriterion : Criterion<Long>() {
+@Serializable
+sealed class IdCriterion : Criterion<Long>() {
 
     abstract val label : String
 

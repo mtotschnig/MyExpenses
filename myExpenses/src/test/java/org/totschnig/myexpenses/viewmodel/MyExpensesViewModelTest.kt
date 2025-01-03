@@ -86,13 +86,13 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private fun getReconciledAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
                 repository.getTransactionSum(account,
-                    WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED)))
+                    WhereFilter.empty().put(CrStatusCriterion(listOf(CrStatus.RECONCILED)))
                 )
 
     private fun getClearedAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
                 repository.getTransactionSum(account,
-                    WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.CLEARED)))
+                    WhereFilter.empty().put(CrStatusCriterion(listOf(CrStatus.CLEARED)))
                 )
 
     @Test

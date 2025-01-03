@@ -569,7 +569,7 @@ open class MyExpensesViewModel(
                     reset(
                         account = repository.loadAccount(accountId)!!,
                         filter = WhereFilter.empty()
-                            .put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
+                            .put(CrStatusCriterion(listOf(CrStatus.RECONCILED))),
                         handleDelete = EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
                         helperComment = null
                     )

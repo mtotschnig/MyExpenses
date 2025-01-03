@@ -12,21 +12,21 @@ class CriteriaTest {
         val today = LocalDate.now()
         val tomorrow = today.plusDays(1)
         val roundTrip = DateCriterion.fromStringExtra(DateCriterion(today, tomorrow).toString())
-        assertThat(roundTrip.values).asList().containsExactly(today, tomorrow)
+        assertThat(roundTrip.values).containsExactly(today, tomorrow)
     }
 
     @Test
     fun testCategoryCriterion() {
         val roundTrip = CategoryCriterion.fromStringExtra(CategoryCriterion("Housing", 1L).toString())
         assertThat(roundTrip!!.label).isEqualTo("Housing")
-        assertThat(roundTrip.values).asList().containsExactly( 1L)
+        assertThat(roundTrip.values).containsExactly( 1L)
     }
 
     @Test
     fun testAccountCriterion() {
         val roundTrip = AccountCriterion.fromStringExtra(AccountCriterion("Bank", 1L).toString())
         assertThat(roundTrip!!.label).isEqualTo("Bank")
-        assertThat(roundTrip.values).asList().containsExactly( 1L)
+        assertThat(roundTrip.values).containsExactly( 1L)
         assertThat(roundTrip.getSelection(false)).isEqualTo("account_id IN (?)")
         assertThat(roundTrip.selectionArgs).asList().containsExactly("1")
     }
@@ -40,15 +40,15 @@ class CriteriaTest {
     fun testTransferCriterion() {
         val roundTrip = TransferCriterion.fromStringExtra(TransferCriterion("Bank", 1L).toString())
         assertThat(roundTrip!!.label).isEqualTo("Bank")
-        assertThat(roundTrip.values).asList().containsExactly( 1L)
+        assertThat(roundTrip.values).containsExactly( 1L)
         assertThat(roundTrip.getSelection(false)).isEqualTo("transfer_peer IS NOT NULL AND (transfer_account IN (?) OR account_id IN (?))")
         assertThat(roundTrip.selectionArgs).asList().containsExactly("1","1")
     }
 
     @Test
     fun testCrStatusCriterion() {
-        val roundTrip = CrStatusCriterion.fromStringExtra(CrStatusCriterion(arrayOf(CrStatus.VOID)).toString())
-        assertThat(roundTrip.values).asList().containsExactly(CrStatus.VOID)
+        val roundTrip = CrStatusCriterion.fromStringExtra(CrStatusCriterion(listOf(CrStatus.VOID)).toString())
+        assertThat(roundTrip.values).containsExactly(CrStatus.VOID)
     }
 
     @Test

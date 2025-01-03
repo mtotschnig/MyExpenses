@@ -51,7 +51,7 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
         }
         if (result.isNotEmpty()) {
             (activity as SelectFilterDialog.Host).addFilterCriterion(
-                CrStatusCriterion(result.toTypedArray())
+                CrStatusCriterion(result)
             )
         }
         dismiss()

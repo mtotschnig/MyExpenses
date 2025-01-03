@@ -973,9 +973,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         ) {
             viewModel.filterPersistence.getValue(account.id)
                 .whereFilterAsFlow
-                .collectAsState(WhereFilter.empty())
+                .collectAsState(null)
                 .value
                 ?.let {
+                    Text(it.prettyPrint(this@BaseMyExpenses))
                     //FilterCard(it, ::clearFilter, ::editFilter)
                 }
             headerData.collectAsState().value.let { headerData ->
@@ -1203,7 +1204,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                                 TagCriterion(
                                                                     label,
                                                                     transaction.tagList.map { it.first }
-                                                                        .toTypedArray()
                                                                 )
                                                             )
                                                         }
@@ -1221,9 +1221,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                         addFilterCriterion(
                                                             AmountCriterion(
                                                                 operation = WhereFilter.Operation.EQ,
-                                                                values = arrayOf(transaction.amount.amountMinor),
+                                                                values = listOf(transaction.amount.amountMinor),
                                                                 currency = transaction.amount.currencyUnit.code,
-                                                                type = transaction.amount.amountMinor > 0
+                                                                sign = transaction.amount.amountMinor > 0
                                                             )
                                                         )
                                                     }

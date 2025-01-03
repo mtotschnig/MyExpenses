@@ -9,9 +9,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("not")
 data class NotCriterion(val criterion: BaseCriterion): BaseCriterion {
-    override fun getSelectionForParts(tableName: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSelectionForParts(tableName: String) =
+        "NOT(${criterion.getSelectionForParts(tableName)})"
 
     override fun getSelectionForParents(
         tableName: String,
@@ -20,18 +19,5 @@ data class NotCriterion(val criterion: BaseCriterion): BaseCriterion {
 
     override fun prettyPrint(context: Context) = "!(${criterion.prettyPrint(context)})"
 
-    override val shouldApplyToSplitTransactions: Boolean
-        get() = criterion.shouldApplyToSplitTransactions
-    override val shouldApplyToArchive: Boolean
-        get() = criterion.shouldApplyToArchive
-    override val selectionArgs: Array<String>
-        get() = criterion.selectionArgs
-    override val id: Int
-        get() = TODO("Not yet implemented")
-    override val column: String
-        get() = TODO("Not yet implemented")
-    override val title: Int
-        get() = TODO("Not yet implemented")
-    override val key: String
-        get() = TODO("Not yet implemented")
+    override fun getSelectionArgs(queryParts: Boolean) = criterion.getSelectionArgs(queryParts)
 }

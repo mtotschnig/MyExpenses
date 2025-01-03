@@ -16,17 +16,20 @@ package org.totschnig.myexpenses.provider.filter
 
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
 const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
 
 @Parcelize
-class AccountCriterion(
+@Serializable
+@SerialName(DatabaseConstants.KEY_ACCOUNTID)
+data class AccountCriterion(
     override val label: String,
-    override val values: Array<Long>) : IdCriterion() {
-    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
+    override val values: List<Long>) : IdCriterion() {
+    constructor(label: String, vararg values: Long) : this(label, values.asList())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_ACCOUNT_COMMAND

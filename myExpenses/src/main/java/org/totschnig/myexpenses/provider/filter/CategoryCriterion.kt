@@ -19,17 +19,21 @@ package org.totschnig.myexpenses.provider.filter
 
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.categoryTreeSelect
 
 @Parcelize
-class CategoryCriterion(
+@Serializable
+@SerialName(DatabaseConstants.KEY_CATID)
+data class CategoryCriterion(
     override val label: String,
-    override val values: Array<Long>,
+    override val values: List<Long>,
 ) : IdCriterion() {
-    constructor(label: String = "", vararg values: Long) : this(label, values.toTypedArray())
+    constructor(label: String = "", vararg values: Long) : this(label, values.toList())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_CATEGORY_COMMAND

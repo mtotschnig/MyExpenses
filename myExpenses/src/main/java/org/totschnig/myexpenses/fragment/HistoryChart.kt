@@ -196,7 +196,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                     buildGroupingClause(e.x.toInt()),
                                     filter?.getSelectionForParts()
                                 ).joinToString(" AND "),
-                                groupingArgs = filter?.getSelectionArgsList(true) ?: emptyList(),
+                                groupingArgs = filter?.getSelectionArgs(true) ?: emptyArray(),
                                 label = formatXValue(e.x),
                                 type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers

@@ -51,7 +51,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         binding.amount1.fractionDigits = fractionDigits
         binding.amount2.fractionDigits = fractionDigits
         requireArguments().criterion(AmountCriterion::class.java)?.let { criterion ->
-            if (criterion.type) {
+            if (criterion.sign) {
                 binding.type.check(R.id.income)
             }
             val transformed = criterion.transformForUi()

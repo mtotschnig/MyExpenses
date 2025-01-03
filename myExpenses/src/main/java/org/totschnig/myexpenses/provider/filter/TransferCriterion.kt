@@ -19,15 +19,20 @@ package org.totschnig.myexpenses.provider.filter
 
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 
 @Parcelize
+@Serializable
+@SerialName(KEY_TRANSFER_ACCOUNT)
 class TransferCriterion(
     override val label: String,
-    override val values: Array<Long>
+    override val values: List<Long>
 ) : IdCriterion() {
-    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
+    constructor(label: String, vararg values: Long) : this(label, values.toList())
 
     override fun getSelection(forExport: Boolean): String {
         val selection = operation.getOp(values.size)
@@ -40,7 +45,7 @@ class TransferCriterion(
     @IgnoredOnParcel
     override val id = R.id.FILTER_TRANSFER_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
+    override val column = KEY_TRANSFER_ACCOUNT
     @IgnoredOnParcel
     override val title = R.string.transfer
 

@@ -22,12 +22,12 @@ import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.util.Utils
 
 @Serializable
-abstract sealed class TextCriterion : Criterion<String>() {
+sealed class TextCriterion : Criterion<String>() {
 
     abstract val searchString : String
 
-    override val values: Array<String>
-        get() = arrayOf("%${Utils.escapeSqlLikeExpression(searchString)}%")
+    override val values: List<String>
+        get() = listOf("%${Utils.escapeSqlLikeExpression(searchString)}%")
 
     override val operation = WhereFilter.Operation.LIKE
 
