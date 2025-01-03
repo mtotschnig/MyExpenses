@@ -392,7 +392,7 @@ fun Repository.importBudget(
         statusFilter?.mapNotNull {
             try { CrStatus.valueOf(it) } catch (_: Exception) { null }
         }?.takeIf { it.isNotEmpty() }?.let {
-            filterPersistence.addCriterion(CrStatusCriterion(it.toTypedArray()))
+            filterPersistence.addCriterion(CrStatusCriterion(it))
         }
         tagFilter?.takeIf { it.isNotEmpty() }?.map {
             it to extractTagId(it)

@@ -20,6 +20,8 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
@@ -29,15 +31,17 @@ import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.absoluteValue
 
 @Parcelize
-class AmountCriterion(
+@Serializable
+@SerialName(DatabaseConstants.KEY_AMOUNT)
+data class AmountCriterion(
     override val operation: Operation,
-    override val values: Array<Long>,
+    override val values: List<Long>,
     private val currency: String,
-    val type: Boolean,
+    val sign: Boolean,
 ) : Criterion<Long>() {
 
     init {
-        if (type) {
+        if (sign) {
             require(values.all { it >= 0 })
         } else {
             require(values.all { it <= 0 })
@@ -64,7 +68,7 @@ class AmountCriterion(
         val currencyUnit = currencyContext[currency]
         val transformed = transformForUi()
         val amount1 = currencyFormatter.formatMoney(Money(currencyUnit, transformed.second[0]))
-        return context.getString(if (type) R.string.income else R.string.expense) + " " +
+        return context.getString(if (sign) R.string.income else R.string.expense) + " " +
                 when (transformed.first) {
                     Operation.EQ -> "= $amount1"
                     Operation.GTE -> "≥ $amount1"
@@ -81,7 +85,7 @@ class AmountCriterion(
 
     override fun toString(): String {
         var result =
-            operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + (if (type) "1" else "0") + EXTRA_SEPARATOR + values[0]
+            operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + (if (sign) "1" else "0") + EXTRA_SEPARATOR + values[0]
         if (operation == Operation.BTW) {
             result += EXTRA_SEPARATOR + values[1]
         }
@@ -93,13 +97,13 @@ class AmountCriterion(
         val value2 = values.getOrNull(1)?.absoluteValue
         return when (operation) {
             Operation.EQ, Operation.GTE -> operation to arrayOf(value1)
-            Operation.LTE -> if (!type) Operation.GTE to arrayOf(value1)
+            Operation.LTE -> if (!sign) Operation.GTE to arrayOf(value1)
             else throw IllegalStateException("LTE for income not expected")
 
             Operation.BTW -> when {
                 value1 == 0L -> Operation.LTE to arrayOf(value2!!)
                 value2 == 0L -> Operation.LTE to arrayOf(value1)
-                else -> operation to if (type) arrayOf(value1, value2!!) else arrayOf(
+                else -> operation to if (sign) arrayOf(value1, value2!!) else arrayOf(
                     value2!!,
                     value1
                 )
@@ -127,7 +131,7 @@ class AmountCriterion(
             type: Boolean,
             value1: Long,
             value2: Long?
-        ): Pair<Operation, Array<Long>> {
+        ): Pair<Operation, List<Long>> {
             val longAmount1: Long = if (type) value1 else -value1
             return when (operation) {
                 Operation.BTW -> {
@@ -136,20 +140,20 @@ class AmountCriterion(
                     }
                     val longAmount2 = if (type) value2 else -value2
                     val needSwap = longAmount2 < longAmount1
-                    Operation.BTW to arrayOf(
+                    Operation.BTW to listOf(
                         if (needSwap) longAmount2 else longAmount1,
                         if (needSwap) longAmount1 else longAmount2
                     )
                 }
 
                 Operation.LTE ->
-                    Operation.BTW to if (type) arrayOf(0, longAmount1) else arrayOf(longAmount1, 0)
+                    Operation.BTW to if (type) listOf(0, longAmount1) else listOf(longAmount1, 0)
 
                 Operation.GTE -> {
-                    (if (type) Operation.GTE else Operation.LTE) to arrayOf(longAmount1)
+                    (if (type) Operation.GTE else Operation.LTE) to listOf(longAmount1)
                 }
 
-                Operation.EQ -> operation to arrayOf(longAmount1)
+                Operation.EQ -> operation to listOf(longAmount1)
                 else -> throw UnsupportedOperationException("Operator not supported: " + operation.name)
             }
         }
@@ -160,13 +164,13 @@ class AmountCriterion(
                 AmountCriterion(
                     operation = Operation.valueOf(values[0]),
                     currency = values[1],
-                    type = values[2] == "1",
+                    sign = values[2] == "1",
                     values = if (Operation.valueOf(values[0]) == Operation.BTW)
-                        arrayOf(values[3].toLong(), values[4].toLong())
+                        listOf(values[3].toLong(), values[4].toLong())
                     else
-                        arrayOf(values[3].toLong())
+                        listOf(values[3].toLong())
                 )
-            } catch (e: NumberFormatException) {
+            } catch (_: NumberFormatException) {
                 null
             }
         }

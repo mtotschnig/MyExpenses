@@ -44,7 +44,7 @@ class TransactionListViewModel(
         val catId: Long = 0,
         val grouping: Grouping?,
         val groupingClause: String?,
-        val groupingArgs: List<String> = emptyList(),
+        val groupingArgs: Array<String> = emptyArray(),
         val label: String?,
         val type: Boolean,
         val aggregateNeutral: Boolean = false,
@@ -122,7 +122,7 @@ class TransactionListViewModel(
             selectionParts += WHERE_NOT_ARCHIVED
             groupingClause?.takeIf { it.isNotEmpty() }?.let {
                 selectionParts += it
-                selectionArgs.addAll(groupingArgs.toTypedArray())
+                selectionArgs.addAll(groupingArgs)
             }
             val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
             val typeExpression = when {

@@ -102,7 +102,7 @@ open class TransactionPagingSource(
                 val selectionForParents = filter.getSelectionForParents()
                 if (selectionForParents.isNotEmpty()) {
                     selection += " AND $selectionForParents"
-                    selectionArgs = filter.getSelectionArgsIfNotEmpty(false)
+                    selectionArgs = filter.getSelectionArgs(false).takeIf { it.isNotEmpty() }
                 }
             }
             val startTime = if (BuildConfig.DEBUG) Instant.now() else null

@@ -20,6 +20,14 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.toEndOfDayEpoch
@@ -30,24 +38,33 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+object LocalDateSerializer : KSerializer<LocalDate> {
+    // Serial names of descriptors should be unique, so choose app-specific name in case some library also would declare a serializer for Date.
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("org.totschnig.myexpenses.provider.filter.LocalDate", PrimitiveKind.STRING)
+    override fun serialize(encoder: Encoder, value: LocalDate) = encoder.encodeString(value.toString())
+    override fun deserialize(decoder: Decoder): LocalDate = LocalDate.parse(decoder.decodeString())
+}
+
 @Parcelize
-class DateCriterion(
+@Serializable
+@SerialName(DatabaseConstants.KEY_DATE)
+data class DateCriterion(
     override val operation: WhereFilter.Operation,
-    override val values: Array<LocalDate>
-) : Criterion<LocalDate>() {
+    override val values: List<@Serializable(with = LocalDateSerializer::class) LocalDate>
+) : Criterion<@Serializable(with = LocalDateSerializer::class) LocalDate>() {
     /**
      * filters transactions up to or from the provided value, depending on operation
      *
      * @param operation either [WhereFilter.Operation.LTE] or [WhereFilter.Operation.GTE]
      */
     constructor(operation: WhereFilter.Operation, value1: LocalDate) :
-            this(operation, arrayOf(value1))
+            this(operation, listOf(value1))
 
     /**
      * filters transaction between the provided values
      */
     constructor(value1: LocalDate, value2: LocalDate) :
-            this(WhereFilter.Operation.BTW, arrayOf(value1, value2))
+            this(WhereFilter.Operation.BTW, listOf(value1, value2))
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_DATE_COMMAND

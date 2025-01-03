@@ -30,17 +30,17 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
 @Serializable
-abstract sealed class Criterion<T : Any> : BaseCriterion, Parcelable {
+sealed class Criterion<T : Any> : BaseCriterion, Parcelable {
     abstract val operation: Operation
-    abstract val values: Array<T>
+    abstract val values: List<T>
 
-    override val selectionArgs: Array<String>
+    open val selectionArgs: Array<String>
         get() = values.map { it.toString() }.toTypedArray()
-    abstract override val id: Int
-    abstract override val column: String
-    abstract override val title: Int
+    abstract val id: Int
+    abstract val column: String
+    abstract val title: Int
 
-    override val key: String
+    open val key: String
         get() = column
 
     open val columnForExport: String
@@ -88,14 +88,20 @@ abstract sealed class Criterion<T : Any> : BaseCriterion, Parcelable {
         return "($selectParents OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
     }
 
+    override fun getSelectionArgs(queryParts: Boolean) = when {
+        queryParts || (shouldApplyToArchive xor shouldApplyToSplitTransactions ) -> selectionArgs + selectionArgs
+        shouldApplyToSplitTransactions && shouldApplyToArchive -> selectionArgs + selectionArgs + selectionArgs
+        else -> selectionArgs
+    }
+
     override fun getSelectionForParts(tableName: String) =
         applyToSplitParents(getSelection(false), tableName)
 
     override fun getSelectionForParents(tableName: String, forExport: Boolean) =
         applyToSplitParts(getSelection(forExport), tableName)
 
-    override val shouldApplyToSplitTransactions get() = true
-    override val shouldApplyToArchive get() = true
+    open val shouldApplyToSplitTransactions get() = true
+    open val shouldApplyToArchive get() = true
 
     companion object {
         const val EXTRA_SEPARATOR = ";"

@@ -19,8 +19,6 @@ class FilterPersistence(
     val immediatePersist: Boolean,
     restoreFromPreferences: Boolean = true
 ) {
-    val whereFilterAsFlow: StateFlow<WhereFilter>
-        get() = _whereFilter
     private val _whereFilter: MutableStateFlow<WhereFilter>
     val whereFilter: WhereFilter
         get() = _whereFilter.value

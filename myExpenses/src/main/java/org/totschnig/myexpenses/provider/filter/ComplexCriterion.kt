@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
 import kotlinx.serialization.Serializable
-import kotlin.collections.toTypedArray
 
 @Serializable
 sealed class ComplexCriterion() : BaseCriterion {
@@ -17,22 +16,14 @@ sealed class ComplexCriterion() : BaseCriterion {
     override fun getSelectionForParents(
         tableName: String,
         forExport: Boolean,
-    ) = criteria.joinToString(" AND ") {
+    ) = criteria.joinToString(" $operator ") {
         it.getSelectionForParents(tableName, forExport)
     }
+
+    override fun getSelectionArgs(queryParts: Boolean) =
+        criteria.flatMap { it.getSelectionArgs(queryParts).toList() }.toTypedArray()
 
     override fun prettyPrint(context: Context) = criteria.joinToString {
         it.prettyPrint(context)
     }
-
-    override val selectionArgs: Array<String>
-        get() = criteria.flatMap { it.selectionArgs.toList() }.toTypedArray()
-    override val id: Int
-        get() = TODO("Not yet implemented")
-    override val column: String
-        get() = TODO("Not yet implemented")
-    override val title: Int
-        get() = TODO("Not yet implemented")
-    override val key: String
-        get() = TODO("Not yet implemented")
 }

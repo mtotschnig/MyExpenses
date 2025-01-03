@@ -18,15 +18,18 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
-import android.text.TextUtils
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStatus>() {
+@Serializable
+@SerialName(DatabaseConstants.KEY_CR_STATUS)
+data class CrStatusCriterion(override val values: List<CrStatus>) : Criterion<CrStatus>() {
 
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_STATUS_COMMAND
@@ -50,9 +53,9 @@ class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStat
             CrStatusCriterion(extra.split(EXTRA_SEPARATOR).mapNotNull {
                 try {
                     CrStatus.valueOf(it)
-                } catch (e: java.lang.IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     null
                 }
-            }.toTypedArray())
+            }.toList())
     }
 }
