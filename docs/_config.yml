@@ -135,7 +135,7 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -   - 3.9.3
-      - '2024-12-31'
+      - '2025-01-01'
       - bg: 'Доставчик на валутни курсове: Подобрения в потребителския интерфейс'
         cs: 'Poskytovatel směnného kurzu: Zdokonalení uživatelského rozhraní'
         de: 'Anbieter für Wechselkurse: Verfeinerung der Benutzeroberfläche'
@@ -157,7 +157,7 @@ versions:
       - github2: '13'
         mastodon: '113743697744453315'
   -   - 3.9.2
-      - '2024-12-31'
+      - '2024-12-14'
       - bg: 'Бюджетиране: Синхронизиране'
         cs: 'Rozpočty: Synchronizace'
         de: 'Budgetierung: Synchronisierung'
@@ -178,7 +178,7 @@ versions:
       - github2: '11'
         mastodon: '113647103106538634'
   -   - 3.9.1
-      - '2024-12-31'
+      - '2024-11-11'
       - bg: 'Архив: Подобрения в потребителския интерфейс. Бюджетиране: Подобрения
           в потребителския интерфейс'
         cs: 'Archiv: Zdokonalení uživatelského rozhraní. Rozpočty: Zdokonalení uživatelského
