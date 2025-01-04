@@ -11,8 +11,6 @@ import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
 import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
 import java.util.*
@@ -47,7 +45,7 @@ open class AppModule {
         Class.forName(
             "org.totschnig.myexpenses.util.tracking.PlatformTracker"
         ).newInstance() as Tracker
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         NoOpTracker
     }
 

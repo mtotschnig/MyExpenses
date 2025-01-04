@@ -179,6 +179,11 @@ open class LicenceHandler(
 
     open suspend fun updateLicenceStatus(licence: Licence) {
         hasOurLicence = true
+        val licence = licence.let {
+            if (it.type == LicenceStatus.EXTENDED && it.fallback)
+                it.copy(type = LicenceStatus.EXTENDED_FALLBACK)
+            else it
+        }
         licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licence.type?.name ?: "null")
         if (licence.validSince != null) {
             val validSince =
