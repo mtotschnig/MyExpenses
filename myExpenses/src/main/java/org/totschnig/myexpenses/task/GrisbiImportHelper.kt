@@ -9,7 +9,7 @@ import timber.log.Timber
 
 object GrisbiImportHelper {
     private fun writeCategory(repository: Repository, label: String, parentId: Long? = null) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
+        repository.saveCategory(Category(label = label, parentId = parentId)) ?: -1
 
     fun importCats(catTree: CategoryTree, task: GrisbiImportTask): Int {
         var count = 0
