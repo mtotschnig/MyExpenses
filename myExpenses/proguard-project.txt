@@ -74,3 +74,5 @@
 
 # GrisbiHandler
 -keep class org.xml.sax.** { *;}
+
+-dontwarn com.google.j2objc.annotations.Weak

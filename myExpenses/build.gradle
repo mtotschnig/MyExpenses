@@ -15,7 +15,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
-    alias libs.plugins.compose.compiler
+    id 'org.jetbrains.kotlin.plugin.compose'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -301,6 +302,8 @@ dependencies {
     ksp(libs.sealed.enum)
 
     implementation libs.androidx.security.crypto
+
+    implementation libs.kotlinx.serialization.json
 
     debugImplementation(libs.androidx.fragment.testing.manifest)
     testImplementation(libs.androidx.fragment.testing)

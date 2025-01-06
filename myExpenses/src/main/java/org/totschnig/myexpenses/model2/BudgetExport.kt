@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.model2
 
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.model.Grouping
 
+@Serializable
 data class BudgetExport(
     val title: String,
     val description: String,
@@ -20,6 +22,7 @@ data class BudgetExport(
     val allocations: List<BudgetAllocationExport>  = emptyList()
 )
 
+@Serializable
 data class BudgetAllocationExport(
     val category: CategoryPath?,
     val year: Int?,
