@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.io.ImportAccount.Builder
 import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.io.IOException
+import java.math.BigDecimal
 
 /**
  * Created by IntelliJ IDEA.
@@ -102,7 +103,7 @@ class QifParser(
             do {
                 val t = readTransaction(r, dateFormat, currency)
                 if (t.isOpeningBalance) {
-                    account.openingBalance(t.amount)
+                    account.openingBalance(t.amount ?: BigDecimal.ZERO)
                     t.toAccount.takeIf { !it.isNullOrEmpty() }?.let {
                         account.memo(it)
                     }

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.export.qif
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.totschnig.myexpenses.io.ImportAccount
@@ -21,7 +20,7 @@ class QifReduceTransfersTest {
                 ImportTransaction.Builder()
                     .toAccount(account2)
                     .date(now)
-                    .amount(BigDecimal(-5)).build()
+                    .amount(BigDecimal(-5)).build()!!
             ))
         val reduced = QifUtils.reduceTransfers(listOf(fromAccount))
         assertThat(reduced[0].transactions.size).isEqualTo(1)
@@ -41,7 +40,7 @@ class QifReduceTransfersTest {
                         .toAccount(account2)
                         .date(now)
                         .amount(BigDecimal(-5)))
-                    .build()
+                    .build()!!
             ))
         val reduced = QifUtils.reduceTransfers(listOf(fromAccount))
         assertThat(reduced[0].transactions.size).isEqualTo(1)
@@ -58,14 +57,14 @@ class QifReduceTransfersTest {
                 ImportTransaction.Builder()
                     .toAccount(account2)
                     .date(now)
-                    .amount(BigDecimal(-5)).build()
+                    .amount(BigDecimal(-5)).build()!!
             ))
         val toAccount = ImportAccount(memo = account2,
             transactions = listOf(
                 ImportTransaction.Builder()
                     .toAccount(account1)
                     .date(now)
-                    .amount(BigDecimal(5)).build()
+                    .amount(BigDecimal(5)).build()!!
             ))
         val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount))
         assertThat(reduced[0].transactions.size).isEqualTo(0)
@@ -86,14 +85,14 @@ class QifReduceTransfersTest {
                         .toAccount(account2)
                         .date(now)
                         .amount(BigDecimal(-5)))
-                    .build()
+                    .build()!!
             ))
         val toAccount = ImportAccount(memo = account2,
             transactions = listOf(
                 ImportTransaction.Builder()
                     .toAccount(account1)
                     .date(now)
-                    .amount(BigDecimal(5)).build()
+                    .amount(BigDecimal(5)).build()!!
             ))
         val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount))
         assertThat(reduced[0].transactions.size).isEqualTo(1)
@@ -116,14 +115,14 @@ class QifReduceTransfersTest {
                         .toAccount(account2)
                         .date(now)
                         .amount(BigDecimal(5)))
-                    .build()
+                    .build()!!
             ))
         val toAccount = ImportAccount(memo = account2,
             transactions = listOf(
                 ImportTransaction.Builder()
                     .toAccount(account1)
                     .date(now)
-                    .amount(BigDecimal(-5)).build()
+                    .amount(BigDecimal(-5)).build()!!
             ))
         val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount))
         assertThat(reduced[0].transactions.size).isEqualTo(1)

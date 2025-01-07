@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.QifImportViewModel
 
@@ -55,7 +56,7 @@ class QifImport : ProtectedFragmentActivity() {
         mUri: Uri,
         qifDateFormat: QifDateFormat,
         accountId: Long,
-        currency: String?,
+        currency: String,
         withTransactions: Boolean,
         withCategories: Boolean,
         withParties: Boolean,
@@ -72,9 +73,10 @@ class QifImport : ProtectedFragmentActivity() {
                 ), PROGRESS_TAG
             )
             .commitNow()
-        importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency!!], withTransactions,
+        importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency], withTransactions,
             withCategories, withParties, encoding, autoFillCategories).observe(this) {
                 it.onFailure {
+                    CrashHandler.report(it)
                     progressDialogFragment?.appendToMessage(it.safeMessage)
                 }
                 progressDialogFragment?.onTaskCompleted()
