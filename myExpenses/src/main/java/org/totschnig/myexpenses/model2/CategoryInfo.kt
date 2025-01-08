@@ -4,6 +4,7 @@ import android.database.Cursor
 import android.os.Parcelable
 import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -39,6 +40,7 @@ data class Category(
 
 @Keep
 @Parcelize
+@Serializable
 data class CategoryInfo(
     override val uuid: String,
     override val label: String,

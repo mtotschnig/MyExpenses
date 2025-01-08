@@ -19,12 +19,12 @@ class QifUtilTwoSidesOfTheSameTransferTest : TestCase() {
             .toAccount(toAccount.memo)
             .date(now)
             .amount(BigDecimal(5))
-            .build()
+            .build()!!
         val toTransaction = ImportTransaction.Builder()
             .toAccount(fromAccount.memo)
             .date(now)
             .amount(BigDecimal(-5))
-            .build()
+            .build()!!
         Truth.assertThat(twoSidesOfTheSameTransfer(
             fromAccount,
             fromTransaction,
@@ -41,12 +41,12 @@ class QifUtilTwoSidesOfTheSameTransferTest : TestCase() {
             .toAccount(toAccount.memo)
             .date(now)
             .amount(BigDecimal(5))
-            .build()
+            .build()!!
         val toTransaction = ImportTransaction.Builder()
             .toAccount(fromAccount.memo)
             .date(Date(System.currentTimeMillis() - 100000))
             .amount(BigDecimal(-5))
-            .build()
+            .build()!!
         Truth.assertThat(twoSidesOfTheSameTransfer(
             fromAccount,
             fromTransaction,
@@ -63,12 +63,12 @@ class QifUtilTwoSidesOfTheSameTransferTest : TestCase() {
             .toAccount(toAccount.memo)
             .date(now)
             .amount(BigDecimal(5))
-            .build()
+            .build()!!
         val toTransaction = ImportTransaction.Builder()
             .toAccount("Konto 3")
             .date(now)
             .amount(BigDecimal(-5))
-            .build()
+            .build()!!
         Truth.assertThat(twoSidesOfTheSameTransfer(
             fromAccount,
             fromTransaction,

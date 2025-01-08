@@ -49,7 +49,7 @@ data class ImportAccount(
             memo = memo ?: "",
             desc = desc ?: "",
             openingBalance = openingBalance ?: BigDecimal.ZERO,
-            transactions = transactions.map { it.build() }
+            transactions = transactions.mapNotNull { it.build() }
         )
     }
 
@@ -74,7 +74,7 @@ data class ImportTransaction(
     class Builder {
         private var date: Date = Date()
         private var valueDate: Date? = null
-        lateinit var amount: BigDecimal
+        var amount: BigDecimal? = null
         var payee: String? = null
         private var memo: String? = null
         var category: String? = null
@@ -106,22 +106,24 @@ data class ImportTransaction(
 
         val isOpeningBalance get() = payee == "Opening Balance"
 
-        fun build(): ImportTransaction = ImportTransaction(
-            date,
-            valueDate,
-            amount,
-            payee,
-            memo,
-            category,
-            categoryClass,
-            toAccount,
-            toAmount,
-            status,
-            number,
-            method,
-            if (tags.isEmpty()) null else tags.toImmutableList(),
-            if (splits.isEmpty()) null else splits.map { split -> split.build() }
-        )
+        fun build(): ImportTransaction? = amount?.let {
+            ImportTransaction(
+                date,
+                valueDate,
+                it,
+                payee,
+                memo,
+                category,
+                categoryClass,
+                toAccount,
+                toAmount,
+                status,
+                number,
+                method,
+                if (tags.isEmpty()) null else tags.toImmutableList(),
+                if (splits.isEmpty()) null else splits.mapNotNull { split -> split.build() }
+            )
+        }
     }
 
     val isSplit get() = splits != null

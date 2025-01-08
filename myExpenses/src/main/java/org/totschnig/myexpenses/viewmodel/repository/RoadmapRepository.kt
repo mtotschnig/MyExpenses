@@ -87,7 +87,12 @@ class RoadmapRepository @Inject constructor(
             }
             ?.let { file ->
                 val listType = object : TypeToken<ArrayList<Issue>>() {}.type
-                gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)?.also {
+                try {
+                    gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)
+                } catch (e: Exception) {
+                    CrashHandler.report(e)
+                    null
+                }?.also {
                     Timber.i("Loaded %d issues from cache", it.size)
                 }
             }

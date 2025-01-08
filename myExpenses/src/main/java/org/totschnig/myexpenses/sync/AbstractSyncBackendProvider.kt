@@ -13,6 +13,9 @@ import androidx.annotation.CallSuper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -470,7 +473,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             false,
             BUDGETS_FOLDER_NAME,
             fileName,
-            gson.toJson(budget),
+            Json.encodeToString(budget),
             mimeTypeForData,
             true
         )
@@ -492,9 +495,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         get() = getCollection(BUDGETS_FOLDER_NAME)?.let { folder ->
             childrenForCollection(folder)
                 .mapNotNull { res ->
-                    nameForResource(res)?.let { getNameWithoutExtension(it) }?.let {
-                        it to BufferedReader(InputStreamReader(maybeDecrypt(getInputStream(res)))).use { bufferedReader ->
-                            gson.fromJson(bufferedReader, BudgetExport::class.java)
+                    nameForResource(res)?.let { getNameWithoutExtension(it) }?.let { uuid ->
+                        maybeDecrypt(getInputStream(res))?.let {
+                            uuid to Json.decodeFromStream(it)
                         }
                     }
                 }
@@ -577,7 +580,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val ATTACHMENT_FOLDER_NAME = "ATTACHMENTS"
-        const val BUDGETS_FOLDER_NAME ="BUDGETS"
+        const val BUDGETS_FOLDER_NAME ="BUDGETS_V2"
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
         private const val CATEGORIES_FILENAME = "categories"
