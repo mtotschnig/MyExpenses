@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.util.Utils
 
 @Serializable
-sealed class TextCriterion : Criterion<String>() {
+sealed class TextCriterion : SimpleCriterion<String>() {
 
     abstract val searchString : String
 

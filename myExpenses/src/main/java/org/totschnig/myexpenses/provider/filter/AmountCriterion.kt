@@ -38,7 +38,7 @@ data class AmountCriterion(
     override val values: List<Long>,
     private val currency: String,
     val sign: Boolean,
-) : Criterion<Long>() {
+) : SimpleCriterion<Long>() {
 
     init {
         if (sign) {

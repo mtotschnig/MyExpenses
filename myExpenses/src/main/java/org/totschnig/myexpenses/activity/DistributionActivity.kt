@@ -77,7 +77,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
@@ -206,7 +206,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val binding = setupView()
         injector.inject(viewModel)
 
-        val whereFilter = intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
+        val whereFilter = intent.getParcelableArrayListExtra<SimpleCriterion<*>>(KEY_FILTER)?.let {
             WhereFilter(it)
         }
         if (savedInstanceState == null) {

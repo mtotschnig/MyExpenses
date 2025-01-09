@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.BaseCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -33,7 +33,7 @@ import java.time.Instant
 open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
-    val whereFilter: StateFlow<BaseCriterion?>,
+    val whereFilter: StateFlow<Criterion?>,
     val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,

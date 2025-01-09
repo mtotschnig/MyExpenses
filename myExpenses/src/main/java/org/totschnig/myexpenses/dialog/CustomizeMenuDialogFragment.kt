@@ -55,8 +55,7 @@ sealed class MenuItem(
         R.id.SEARCH_COMMAND,
         R.string.menu_search,
         R.drawable.ic_menu_search,
-        R.menu.main_search,
-        true
+        isCheckable = true
     )
 
     data object Templates : MenuItem(

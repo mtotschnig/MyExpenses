@@ -5,7 +5,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.BaseCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 
 interface IAccount {
     val accountId: Long
@@ -24,7 +24,7 @@ interface IAccount {
 interface AccountInfoWithGrouping: IAccount {
     val grouping: Grouping
 
-    fun groupingQuery(filter: BaseCriterion?): Triple<Uri.Builder, String?, Array<String>?> {
+    fun groupingQuery(filter: Criterion?): Triple<Uri.Builder, String?, Array<String>?> {
         val selection = filter?.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT)
         val args = filter?.getSelectionArgs(true)
         return Triple(

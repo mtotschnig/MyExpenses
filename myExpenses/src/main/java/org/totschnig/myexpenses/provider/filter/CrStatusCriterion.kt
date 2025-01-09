@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 @Parcelize
 @Serializable
 @SerialName(DatabaseConstants.KEY_CR_STATUS)
-data class CrStatusCriterion(override val values: List<CrStatus>) : Criterion<CrStatus>() {
+data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriterion<CrStatus>() {
 
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_STATUS_COMMAND

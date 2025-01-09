@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.BaseCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -103,7 +103,7 @@ object PdfPrinter {
         context: Context,
         account: FullAccount,
         destDir: DocumentFile,
-        filter: BaseCriterion?,
+        filter: Criterion?,
     ): Pair<Uri, String> {
         val currencyFormatter = context.injector.currencyFormatter()
         val currencyContext = context.injector.currencyContext()
@@ -266,7 +266,7 @@ object PdfPrinter {
         helper: PdfHelper,
         context: Context,
         account: FullAccount,
-        filter: BaseCriterion?,
+        filter: Criterion?,
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
         currencyContext: CurrencyContext,

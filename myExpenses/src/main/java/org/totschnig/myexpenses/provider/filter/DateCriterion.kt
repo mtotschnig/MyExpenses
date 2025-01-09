@@ -51,7 +51,7 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 data class DateCriterion(
     override val operation: WhereFilter.Operation,
     override val values: List<@Serializable(with = LocalDateSerializer::class) LocalDate>
-) : Criterion<@Serializable(with = LocalDateSerializer::class) LocalDate>() {
+) : SimpleCriterion<@Serializable(with = LocalDateSerializer::class) LocalDate>() {
     /**
      * filters transactions up to or from the provided value, depending on operation
      *

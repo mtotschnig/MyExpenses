@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.CheckResult
 import androidx.core.os.BundleCompat
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -26,7 +25,7 @@ class FilterPersistence(
     init {
         _whereFilter = MutableStateFlow(
             savedInstanceState
-                ?.let { BundleCompat.getParcelableArrayList(it, KEY_FILTER, Criterion::class.java) }
+                ?.let { BundleCompat.getParcelableArrayList(it, KEY_FILTER, SimpleCriterion::class.java) }
                 ?.let { WhereFilter(it) }
                 ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
         )
@@ -35,7 +34,7 @@ class FilterPersistence(
     @CheckResult
     private fun WhereFilter.restoreColumn(
         column: String,
-        producer: (String) -> Criterion<*>?
+        producer: (String) -> SimpleCriterion<*>?
     ): WhereFilter {
         val prefNameForCriteria = prefNameForCriteria(column)
         return prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
@@ -86,7 +85,7 @@ class FilterPersistence(
             AccountCriterion.fromStringExtra(it)
         }
 
-    fun addCriterion(criterion: Criterion<*>) {
+    fun addCriterion(criterion: SimpleCriterion<*>) {
         _whereFilter.value = whereFilter.put(criterion)
         if (immediatePersist) {
             persist(criterion)
@@ -111,11 +110,11 @@ class FilterPersistence(
         }
     }
 
-    private fun persist(criterion: Criterion<*>) {
+    private fun persist(criterion: SimpleCriterion<*>) {
         prefHandler.putString(prefNameForCriteria(criterion), criterion.toString())
     }
 
-    private fun prefNameForCriteria(criterion: Criterion<*>) = prefNameForCriteria(criterion.key)
+    private fun prefNameForCriteria(criterion: SimpleCriterion<*>) = prefNameForCriteria(criterion.key)
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
 

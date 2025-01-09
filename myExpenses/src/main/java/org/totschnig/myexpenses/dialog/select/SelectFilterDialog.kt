@@ -5,7 +5,7 @@ import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.addToSelection
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.criterion
@@ -42,6 +42,6 @@ abstract class SelectFilterDialog<T : IdCriterion>(
         }
 
     interface Host {
-        fun addFilterCriterion(c: Criterion<*>)
+        fun addFilterCriterion(c: SimpleCriterion<*>)
     }
 }
