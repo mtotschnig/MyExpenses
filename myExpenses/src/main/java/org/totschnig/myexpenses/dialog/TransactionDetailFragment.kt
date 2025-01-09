@@ -57,12 +57,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.CollectionInfo
-import androidx.compose.ui.semantics.collectionInfo
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -112,7 +108,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -209,7 +205,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
     }
 
     private val filter by lazy {
-        BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, Criterion::class.java)?.let {
+        BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, SimpleCriterion::class.java)?.let {
             WhereFilter(it)
         }
     }

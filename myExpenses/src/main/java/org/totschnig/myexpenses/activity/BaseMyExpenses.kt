@@ -43,8 +43,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -146,11 +148,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.retrofit.Vote
@@ -210,7 +212,6 @@ const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
     OnConfirmListener, NewProgressDialogFragment.Host {
-
     override val fabActionName = "CREATE_TRANSACTION"
 
     private val accountData: List<FullAccount>
@@ -282,6 +283,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             field = value
             invalidateOptionsMenu()
         }
+
+    private var showFilterDialog by mutableStateOf<Long?>(null)
 
     fun finishActionMode() {
         actionMode?.finish()
@@ -457,9 +460,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 true
             }
 
+            R.id.SEARCH_COMMAND -> {
+                showFilterDialog = currentAccount?.id
+                true
+            }
+
             else -> handleGrouping(item) ||
                     handleSortDirection(item) ||
-                    filterHandler.handleFilter(item.itemId) ||
                     super.onOptionsItemSelected(item)
         }
     }
@@ -959,6 +966,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         } else null
 
         val headerData = remember(account) { viewModel.headerData(account) }
+        showFilterDialog?.let {
+            FilterDialog(it) {
+                showFilterDialog = null
+            }
+        }
         LaunchedEffect(selectionState.size) {
             if (selectionState.isNotEmpty()) {
                 startMyActionMode()
@@ -1958,9 +1970,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 menu.findItem(R.id.ARCHIVE_COMMAND)
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
-            menu.findItem(R.id.SEARCH_COMMAND)?.let {
-                filterHandler.configureSearchMenu(it)
-            }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
                 ?.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.mappedCategories == true)
             menu.findItem(R.id.HISTORY_COMMAND)?.setEnabledAndVisible(hasItems)
@@ -2472,7 +2481,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         return result
     }
 
-    fun addFilterCriterion(c: Criterion<*>) {
+    fun addFilterCriterion(c: SimpleCriterion<*>) {
         invalidateOptionsMenu()
         currentFilter.addCriterion(c)
     }

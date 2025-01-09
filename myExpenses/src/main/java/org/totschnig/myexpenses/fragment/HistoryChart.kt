@@ -50,7 +50,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.filter.BaseCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -77,7 +77,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     val grouping: Grouping
         get() = viewModel.grouping.value
-    private var filter: BaseCriterion? = null
+    private var filter: Criterion? = null
     private var valueTextSize = 10f
 
     @ColorInt
@@ -162,7 +162,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
         }
-        IntentCompat.getParcelableExtra(requireActivity().intent, KEY_FILTER, BaseCriterion::class.java)?.let {
+        IntentCompat.getParcelableExtra(requireActivity().intent, KEY_FILTER, Criterion::class.java)?.let {
             filter = it
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)

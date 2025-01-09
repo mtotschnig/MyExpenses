@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 @SerialName("not")
-data class NotCriterion(val criterion: BaseCriterion): BaseCriterion {
+data class NotCriterion(val criterion: Criterion): Criterion {
     override fun getSelectionForParts(tableName: String) =
         "NOT(${criterion.getSelectionForParts(tableName)})"
 

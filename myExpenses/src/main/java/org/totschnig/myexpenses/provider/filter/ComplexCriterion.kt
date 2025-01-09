@@ -4,8 +4,8 @@ import android.content.Context
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class ComplexCriterion() : BaseCriterion {
-    abstract val criteria: List<BaseCriterion>
+sealed class ComplexCriterion : Criterion {
+    abstract val criteria: List<Criterion>
     abstract val operator: String
     override fun getSelectionForParts(
         tableName: String
@@ -26,4 +26,18 @@ sealed class ComplexCriterion() : BaseCriterion {
     override fun prettyPrint(context: Context) = criteria.joinToString {
         it.prettyPrint(context)
     }
+
+    fun with(criteria: List<Criterion>): ComplexCriterion = when (this) {
+        is AndCriterion -> AndCriterion(criteria)
+        is OrCriterion -> OrCriterion(criteria)
+    }
+
+    fun plus(criterion: Criterion) = with(criteria = this.criteria + criterion)
+    fun minus(criterion: Criterion) = with(criteria = this.criteria - criterion)
+    fun negate(atIndex: Int) = with(criteria = this.criteria.mapIndexed { index, criterion ->
+        if (index == atIndex) if (criterion is NotCriterion) criterion.criterion else NotCriterion(
+            criterion
+        ) else criterion
+
+    })
 }

@@ -39,7 +39,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOM
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
@@ -146,7 +146,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                     val sepIndex = `val`.indexOf(";")
                                     edit.putString(
                                         key,
-                                        `val`.substring(sepIndex + 1) + ";" + Criterion.escapeSeparator(
+                                        `val`.substring(sepIndex + 1) + ";" + SimpleCriterion.escapeSeparator(
                                             `val`.substring(0, sepIndex)
                                         )
                                     )

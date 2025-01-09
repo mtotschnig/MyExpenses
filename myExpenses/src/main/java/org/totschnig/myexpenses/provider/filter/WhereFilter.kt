@@ -22,7 +22,7 @@ import androidx.compose.runtime.Immutable
 import org.totschnig.myexpenses.provider.CTE_SEARCH
 
 @Immutable
-data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
+data class WhereFilter(val criteria: List<SimpleCriterion<*>> = emptyList()) {
 
     /**
      * @param tableName If not null, we are guaranteed to be called in the context of single account,
@@ -54,7 +54,7 @@ data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
     fun getSelectionArgsIfNotEmpty(queryParts: Boolean) = getSelectionArgs(queryParts)
         .takeIf { it.isNotEmpty() }
 
-    operator fun get(id: Int): Criterion<*>? = criteria.find { it.id == id }
+    operator fun get(id: Int): SimpleCriterion<*>? = criteria.find { it.id == id }
 
     operator fun get(column: String) = criteria.find { it.column == column }
 
@@ -62,7 +62,7 @@ data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
      * returns a new filter with criterion added
      */
     @CheckResult
-    fun put(criterion: Criterion<*>): WhereFilter {
+    fun put(criterion: SimpleCriterion<*>): WhereFilter {
         val existing = indexOf(criterion.id)
         return if (existing > -1) {
             copy(criteria = criteria.toMutableList().also {

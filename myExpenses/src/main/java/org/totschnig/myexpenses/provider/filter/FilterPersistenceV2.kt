@@ -18,23 +18,23 @@ class FilterPersistenceV2(
     restoreFromPreferences: Boolean = true
 ) {
 
-    val whereFilterAsFlow: StateFlow<BaseCriterion?>
+    val whereFilterAsFlow: StateFlow<Criterion?>
         get() = _whereFilter
-    private val _whereFilter: MutableStateFlow<BaseCriterion?>
-    val whereFilter: BaseCriterion?
+    private val _whereFilter: MutableStateFlow<Criterion?>
+    val whereFilter: Criterion?
         get() = _whereFilter.value
 
     init {
         _whereFilter = MutableStateFlow(savedInstanceState
-            ?.let { BundleCompat.getParcelable(it, KEY_FILTER, BaseCriterion::class.java) }
+            ?.let { BundleCompat.getParcelable(it, KEY_FILTER, Criterion::class.java) }
             ?: if (restoreFromPreferences) restoreFromPreferences() else null)
     }
 
-    private fun restoreFromPreferences(): BaseCriterion? {
-        return prefHandler.getString(prefKey)?.let { Json.decodeFromString<BaseCriterion>(it) }
+    private fun restoreFromPreferences(): Criterion? {
+        return prefHandler.getString(prefKey)?.let { Json.decodeFromString<Criterion>(it) }
     }
 
-    fun addCriterion(criterion: Criterion<*>) {
+    fun addCriterion(criterion: SimpleCriterion<*>) {
         _whereFilter.update {
             when (it) {
                 null -> criterion

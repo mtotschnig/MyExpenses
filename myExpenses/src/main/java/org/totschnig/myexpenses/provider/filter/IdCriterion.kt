@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
 @Serializable
-sealed class IdCriterion : Criterion<Long>() {
+sealed class IdCriterion : SimpleCriterion<Long>() {
 
     abstract val label : String
 

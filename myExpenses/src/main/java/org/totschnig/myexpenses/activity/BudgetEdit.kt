@@ -32,7 +32,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
@@ -218,14 +218,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     private val getPayee = buildLauncher(::PickPayeeContract)
     private val getTags = buildLauncher(::PickTagContract)
 
-    override fun addFilterCriterion(c: Criterion<*>) {
+    override fun addFilterCriterion(c: SimpleCriterion<*>) {
         setDirty()
         filterPersistence.addCriterion(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }
 
-    private fun showFilterCriteria(c: Criterion<*>) {
+    private fun showFilterCriteria(c: SimpleCriterion<*>) {
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true

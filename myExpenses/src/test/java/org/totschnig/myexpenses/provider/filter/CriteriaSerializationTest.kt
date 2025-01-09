@@ -9,7 +9,7 @@ import java.time.LocalDate
 class CriteriaSerializationTest {
     @Test
     fun testRoundTrip() {
-        val criterion: BaseCriterion = AndCriterion(
+        val criterion: Criterion = AndCriterion(
             listOf(
                 NotCriterion(
                     OrCriterion(
@@ -26,7 +26,7 @@ class CriteriaSerializationTest {
         val encodeToString = Json.encodeToString(criterion)
         print(encodeToString)
         Truth.assertThat(
-            Json.decodeFromString<BaseCriterion>(encodeToString)
+            Json.decodeFromString<Criterion>(encodeToString)
         ).isEqualTo(criterion)
     }
 }
