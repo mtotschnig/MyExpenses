@@ -942,7 +942,7 @@
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Натисніть і утримуйте плаваючу кнопку дії, щоб безпосередньо відкрити форму для переказів, розділених транзакцій або доходу.</string>
     <string name="subcategories_merged_recursively">Якщо будь-яка з об’єднаних категорій має підкатегорії з однаковою міткою, їх буде об’єднано першими, рекурсивно.</string>
     <string name="budget_only_current_period">Використовувати тільки для %s</string>
-    <string name="github_sponsors">Ліцензійні ключі також надаються &lt;a href=%s&gt;Спонсорам Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Ліцензійні ключі також надаються <a href="%s">Спонсорам Github</a>.]]></string>
     <string name="notifications_permission_required_webui">Надавши дозвіл на надсилання сповіщень, ви можете контролювати стан веб-сервера.</string>
     <string name="image_optimize_quality_summary">Якість 0 означає стиснення до найменшого розміру. 100 означає стиснення до максимальної візуальної якості.</string>
     <string name="button_relink_keep_date">Перепривʼязати, але зберегти дату</string>
@@ -967,4 +967,13 @@
     <string name="buy">Купити</string>
     <string name="pref_scroll_to_current_date_app_launch">тільки під час запуску програми</string>
     <string name="pref_scroll_to_current_date_account_open">щоразу коли ви перемикаєте рахунки</string>
+    <string name="button_activate_again">Активувати знову</string>
+    <string name="saving_goal_reached">Ви досягли своєї мети заощадження.</string>
+    <string name="credit_limit_exceeded">Ви перевищили свій кредитний ліміт.</string>
+    <string name="overage">Перевищення</string>
+    <string name="credit_limit_available_credit">Доступний кредит</string>
+    <string name="saving_goal_short_fall">Дефіцит</string>
+    <string name="saving_goal_exceeded">Ви перевищили свою мету заощадження.</string>
+    <string name="warning_backend_deactivated">Сервер не готовий до синхронізації.</string>
+    <string name="credit_limit_reached">Ви досягли свого кредитного ліміту.</string>
 </resources>
