@@ -1,9 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import androidx.annotation.Nullable;
-import androidx.datastore.core.DataStore;
-import androidx.datastore.preferences.core.Preferences;
-
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +14,6 @@ import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.delegate.CategoryDelegate;
 import org.totschnig.myexpenses.delegate.SplitDelegate;
 import org.totschnig.myexpenses.delegate.TransferDelegate;
-import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ArchiveDialogFragment;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -95,6 +90,9 @@ import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.Nullable;
+import androidx.datastore.core.DataStore;
+import androidx.datastore.preferences.core.Preferences;
 import dagger.BindsInstance;
 import dagger.Component;
 import kotlinx.coroutines.CoroutineDispatcher;
@@ -213,8 +211,6 @@ public interface AppComponent {
   void inject(SyncNotificationDismissHandler syncNotificationDismissHandler);
 
   void inject(SyncBackendList syncBackendList);
-
-  void inject(AmountFilterDialog amountFilterDialog);
 
   void inject(CurrencyList currencyList);
 

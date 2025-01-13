@@ -81,20 +81,22 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         val amount2 = if (selectedOp == "BTW") {
             binding.amount2.getAmount(currency).getOrNull() ?: return
         } else null
-
-        ctx.addFilterCriterion(
-            create(
+        parentFragmentManager.setFragmentResult(RC_CONFIRM, Bundle().apply {
+            putParcelable(KEY_RESULT, create(
                 WhereFilter.Operation.valueOf(selectedOp),
                 currency.code,
                 type,
                 amount1.amountMinor,
                 amount2?.amountMinor
-            )
-        )
+            ))
+        })
+
         dismiss()
     }
 
     companion object {
+        const val RC_CONFIRM = "confirmAmountCriterion"
+        const val KEY_RESULT = "result"
         fun newInstance(currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
             AmountFilterDialog().apply {
                 arguments = Bundle().apply {
