@@ -30,9 +30,9 @@ const val HELP_VARIANT_SELECT_FILTER = "select_filter"
 
 val Intent.asAction get() = enumValueOrDefault(action, Action.SELECT_MAPPING)
 
-abstract class PickObjectContract<T : IdCriterion> : ActivityResultContract<Pair<Long?, T?>, T?>() {
+abstract class PickObjectContract : ActivityResultContract<Pair<Long?, IdCriterion?>, IdCriterion?>() {
     abstract val activityClass: Class<out Activity>
-    override fun createIntent(context: Context, input: Pair<Long?, T?>) =
+    override fun createIntent(context: Context, input: Pair<Long?, IdCriterion?>) =
         Intent(context, activityClass).apply {
             action = Action.SELECT_FILTER.name
             putExtra(KEY_ACCOUNTID, input.first)
@@ -47,7 +47,7 @@ abstract class PickObjectContract<T : IdCriterion> : ActivityResultContract<Pair
         }
 }
 
-class PickCategoryContract : PickObjectContract<CategoryCriterion>() {
+class PickCategoryContract : PickObjectContract() {
     override val activityClass = ManageCategories::class.java
 
     override fun parseResult(resultCode: Int, intent: Intent?) = intent?.extras?.let {
@@ -59,7 +59,7 @@ class PickCategoryContract : PickObjectContract<CategoryCriterion>() {
     }
 }
 
-class PickPayeeContract : PickObjectContract<PayeeCriterion>() {
+class PickPayeeContract : PickObjectContract() {
     override val activityClass = ManageParties::class.java
 
     override fun parseResult(resultCode: Int, intent: Intent?) = intent?.extras?.let {
@@ -71,7 +71,7 @@ class PickPayeeContract : PickObjectContract<PayeeCriterion>() {
     }
 }
 
-class PickTagContract : PickObjectContract<TagCriterion>() {
+class PickTagContract : PickObjectContract() {
     override val activityClass = ManageTags::class.java
 
     override fun parseResult(resultCode: Int, intent: Intent?) = intent?.extras

@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper;
  * are called
  */
 public class MyExpenses extends BaseMyExpenses implements
-    ConfirmationDialogListener, SelectFilterDialog.Host {
+    ConfirmationDialogListener {
 
   private AdHandler adHandler;
 

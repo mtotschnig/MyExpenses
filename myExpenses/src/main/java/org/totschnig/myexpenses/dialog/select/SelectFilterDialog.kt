@@ -5,6 +5,8 @@ import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.addToSelection
+import org.totschnig.myexpenses.dialog.confirmFilter
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
@@ -32,7 +34,7 @@ abstract class SelectFilterDialog<T : IdCriterion>(
 
     override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int) =
         if (itemIds.size == 1 || itemIds.indexOf(NULL_ITEM_ID) == -1) {
-            (activity as Host).addFilterCriterion(
+            parentFragmentManager.confirmFilter(
                 makeCriteria(TextUtils.join(",", labelList), *itemIds)
             )
             true
@@ -40,8 +42,4 @@ abstract class SelectFilterDialog<T : IdCriterion>(
             showSnackBar(R.string.unmapped_filter_only_single)
             false
         }
-
-    interface Host {
-        fun addFilterCriterion(c: SimpleCriterion<*>)
-    }
 }
