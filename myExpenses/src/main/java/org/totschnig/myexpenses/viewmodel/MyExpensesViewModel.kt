@@ -306,8 +306,8 @@ open class MyExpensesViewModel(
                 .appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
                 .build()
         ).mapToOne {
-            SumInfoLoaded.fromCursor(it)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfoUnknown)
+            SumInfo.fromCursor(it)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfo.EMPTY)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

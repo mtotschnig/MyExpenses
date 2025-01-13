@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.ComplexCriterion
@@ -62,6 +63,7 @@ import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 const val COMPLEX_AND = 0
@@ -70,10 +72,11 @@ const val COMPLEX_OR = 1
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterDialog(
-    account: Lazy<FullAccount>,
+    account: FullAccount?,
+    sumInfo: SumInfo,
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmRequest: (Criterion?) -> Unit = {}
+    onConfirmRequest: (Criterion?) -> Unit = {},
 ) {
     var selectedComplex by remember {
         mutableIntStateOf(
@@ -92,17 +95,19 @@ fun FilterDialog(
     val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
     val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
     val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
-    val activity = LocalContext.current as FragmentActivity
-    val supportFragmentManager = activity.supportFragmentManager
-    DisposableEffect(Unit) {
-        supportFragmentManager.setFragmentResultListener(
-            RC_CONFIRM_FILTER, activity
-        ) { _, result ->
-            BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
-                ?.let { edit.value += it }
-        }
-        onDispose {
-            supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
+    val activity = LocalContext.current as? FragmentActivity
+    activity?.let {
+        val supportFragmentManager = it.supportFragmentManager
+        DisposableEffect(Unit) {
+            supportFragmentManager.setFragmentResultListener(
+                RC_CONFIRM_FILTER, it
+            ) { _, result ->
+                BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
+                    ?.let { edit.value += it }
+            }
+            onDispose {
+                supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
+            }
         }
     }
 
@@ -147,39 +152,56 @@ fun FilterDialog(
                     }
                 }
 
-                val filters: List<Pair<Int, () -> Unit>> = listOf(
-                    R.string.category to { getCategory.launch(account.value.id to null) },
+                val filters: List<Pair<Int, () -> Unit>> = listOfNotNull(
+                    if (sumInfo.mappedCategories) {
+                        R.string.category to { getCategory.launch(account!!.id to null) }
+                    } else null,
                     R.string.amount to {
                         AmountFilterDialog.newInstance(
-                            account.value.currencyUnit, null
-                        ).show(supportFragmentManager, "AMOUNT_FILTER")
+                            account!!.currencyUnit, null
+                        ).show(activity!!.supportFragmentManager, "AMOUNT_FILTER")
                     },
                     R.string.notes to {
                         showCommentFilterPrompt = true
                     },
-                    R.string.status to {
-                        SelectCrStatusDialogFragment.newInstance(null)
-                            .show(supportFragmentManager, "STATUS_FILTER")
-                    },
-                    R.string.payer_or_payee to { getPayee.launch(account.value.id to null) },
-                    R.string.method to { SelectMethodDialogFragment.newInstance(
-                        account.value.id, null
-                    ).show(supportFragmentManager, "METHOD_FILTER") },
+                    if (account?.isAggregate == true || account?.type != AccountType.CASH) {
+                        R.string.status to {
+                            SelectCrStatusDialogFragment.newInstance(null)
+                                .show(activity!!.supportFragmentManager, "STATUS_FILTER")
+                        }
+                    } else null,
+                    if (sumInfo.mappedPayees) {
+                        R.string.payer_or_payee to { getPayee.launch(account!!.id to null) }
+                    } else null,
+                    if (sumInfo.mappedMethods) {
+                        R.string.method to {
+                            SelectMethodDialogFragment.newInstance(
+                                account!!.id, null
+                            ).show(activity!!.supportFragmentManager, "METHOD_FILTER")
+                        }
+                    } else null,
                     R.string.date to {
                         DateFilterDialog.newInstance(null)
-                            .show(supportFragmentManager, "DATE_FILTER")
+                            .show(activity!!.supportFragmentManager, "DATE_FILTER")
                     },
-                    R.string.transfer to {
-                        SelectTransferAccountDialogFragment.newInstance(account.value.id, null)
-                            .show(supportFragmentManager, "TRANSFER_FILTER")
-                    },
-                    R.string.tags to { getTags.launch(account.value.id to null) },
-                    R.string.accounts to {
-                        SelectMultipleAccountDialogFragment.newInstance(
-                            if (account.value.isHomeAggregate) null else account.value.currency, null
-                        )
-                            .show(supportFragmentManager, "ACCOUNT_FILTER")
-                    }
+                    if (sumInfo.hasTransfers) {
+                        R.string.transfer to {
+                            SelectTransferAccountDialogFragment.newInstance(account!!.id, null)
+                                .show(activity!!.supportFragmentManager, "TRANSFER_FILTER")
+                        }
+                    } else null,
+                    if (sumInfo.hasTags) {
+                        R.string.tags to { getTags.launch(account!!.id to null) }
+                    } else null,
+                    if (account?.isAggregate == true) {
+                        R.string.accounts to {
+                            SelectMultipleAccountDialogFragment.newInstance(
+                                if (account.isHomeAggregate) null else account.currency,
+                                null
+                            )
+                                .show(activity!!.supportFragmentManager, "ACCOUNT_FILTER")
+                        }
+                    } else null
                 )
                 FlowRow {
                     filters.forEach { (title, onClick) ->
@@ -280,7 +302,8 @@ val Criterion.displayTitle: Int
 @Composable
 fun FilterDialogPreview() {
     FilterDialog(
-        account = lazy { throw NotImplementedError() },
+        account = null,
+        sumInfo = SumInfo.EMPTY,
         criterion = AndCriterion(
             listOf(
                 NotCriterion(CommentCriterion("search"))
