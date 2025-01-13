@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 @SerialName("and")
-data class AndCriterion(override val criteria: List<Criterion>) : ComplexCriterion() {
+data class AndCriterion(override val criteria: Set<Criterion>) : ComplexCriterion() {
     @IgnoredOnParcel
     override val operator = "AND"
+    override val symbol = '∧'
 }

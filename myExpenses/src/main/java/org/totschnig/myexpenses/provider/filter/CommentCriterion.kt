@@ -17,6 +17,8 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Notes
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -31,13 +33,17 @@ data class CommentCriterion(override val searchString: String) : TextCriterion()
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_COMMENT_COMMAND
-    @IgnoredOnParcel
-    override val title = R.string.comment
+
+    override val displayInfo: DisplayInfo
+        get() = CommentCriterion
 
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_COMMENT
-    companion object {
+
+    companion object: DisplayInfo {
 
         fun fromStringExtra(extra: String) = CommentCriterion(extra)
+        override val title = R.string.comment
+        override val icon = Icons.AutoMirrored.Default.Notes
     }
 }

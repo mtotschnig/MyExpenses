@@ -525,7 +525,7 @@ fun ChipGroup(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         ((budget?.let { listOf(stringResource(R.string.account) to it.label(context)) } ?: emptyList()) +
-                criteria.map { stringResource(it.title) to  it.prettyPrint(context) })
+                criteria.map { stringResource(it.displayInfo.title) to  it.prettyPrint(context) })
             .forEach { FilterItem(it.first, it. second) }
     }
 }

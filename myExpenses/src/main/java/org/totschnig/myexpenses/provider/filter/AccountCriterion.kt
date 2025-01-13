@@ -14,6 +14,8 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalance
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -35,17 +37,21 @@ data class AccountCriterion(
     override val id = R.id.FILTER_ACCOUNT_COMMAND
     @IgnoredOnParcel
     override val column = ACCOUNT_COLUMN
-    @IgnoredOnParcel
-    override val title = R.string.account
+
+    override val displayInfo: DisplayInfo
+        get() = AccountCriterion
 
     override fun getSelection(forExport: Boolean): String {
         val selection = operation.getOp(values.size)
         return "$column $selection"
     }
 
-    companion object {
+    companion object: DisplayInfo {
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
             AccountCriterion(it.first, *it.second)
         }
+
+        override val title = R.string.account
+        override val icon = Icons.Default.AccountBalance
     }
 }

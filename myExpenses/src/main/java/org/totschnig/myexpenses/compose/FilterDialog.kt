@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,6 +26,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
@@ -36,8 +40,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.os.BundleCompat
@@ -55,16 +61,26 @@ import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AndCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.ComplexCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.IdCriterion
+import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.DisplayInfo
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.OrCriterion
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.lang.IllegalStateException
 
 const val COMPLEX_AND = 0
 const val COMPLEX_OR = 1
@@ -78,24 +94,67 @@ fun FilterDialog(
     onDismissRequest: () -> Unit = {},
     onConfirmRequest: (Criterion?) -> Unit = {},
 ) {
-    var selectedComplex by remember {
+    val (selectedComplex, oComplexSelected) = remember {
         mutableIntStateOf(
             if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
         )
     }
-    val edit: MutableState<List<Criterion>> =
+    val criteriaSet: MutableState<Set<Criterion>> =
         remember {
             mutableStateOf(
                 (criterion as? ComplexCriterion)?.criteria
-                    ?: criterion?.let { listOf(it) }
-                    ?: emptyList()
+                    ?: criterion?.let { setOf(it) }
+                    ?: emptySet()
             )
         }
-    val onResult: (IdCriterion?) -> Unit = { crit -> crit?.let { edit.value += it } }
+    val currentEdit: MutableState<Criterion?> = remember {
+        mutableStateOf(null)
+    }
+    val onResult: (Criterion?) -> Unit = { newValue ->
+        if (newValue != null) {
+            currentEdit.value?.also { current ->
+                criteriaSet.value = criteriaSet.value.map {
+                    if (it == current)
+                        if (it is NotCriterion) NotCriterion(newValue) else newValue
+                    else it
+                }.toSet()
+                currentEdit.value = null
+            } ?: run { criteriaSet.value += newValue }
+        }
+    }
+
     val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
     val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
     val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
+    var showCommentFilterPrompt by remember { mutableStateOf<CommentCriterion?>(null) }
     val activity = LocalContext.current as? FragmentActivity
+
+    fun handleAmountCriterion(criterion: AmountCriterion?) {
+        AmountFilterDialog.newInstance(
+            account!!.currencyUnit, criterion
+        ).show(activity!!.supportFragmentManager, "AMOUNT_FILTER")
+    }
+
+    fun handleCommentCriterion(criterion: CommentCriterion?) {
+        showCommentFilterPrompt = criterion ?: CommentCriterion("")
+    }
+
+    fun handleEdit(criterion: Criterion) {
+        when (criterion) {
+            is NotCriterion -> handleEdit(criterion.criterion)
+            is AmountCriterion -> handleAmountCriterion(criterion)
+            is CrStatusCriterion -> TODO()
+            is DateCriterion -> TODO()
+            is AccountCriterion -> TODO()
+            is CategoryCriterion -> TODO()
+            is MethodCriterion -> TODO()
+            is PayeeCriterion -> TODO()
+            is TagCriterion -> TODO()
+            is TransferCriterion -> TODO()
+            is CommentCriterion -> handleCommentCriterion(criterion)
+            else -> throw IllegalStateException("Nested complex not supported")
+        }
+    }
     activity?.let {
         val supportFragmentManager = it.supportFragmentManager
         DisposableEffect(Unit) {
@@ -103,15 +162,13 @@ fun FilterDialog(
                 RC_CONFIRM_FILTER, it
             ) { _, result ->
                 BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
-                    ?.let { edit.value += it }
+                    ?.let { onResult(it) }
             }
             onDispose {
                 supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
             }
         }
     }
-
-    var showCommentFilterPrompt by remember { mutableStateOf(false) }
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -125,7 +182,7 @@ fun FilterDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onDismissRequest) {
-                        androidx.compose.material3.Icon(
+                        Icon(
                             Icons.Filled.Clear,
                             contentDescription = stringResource(android.R.string.cancel)
                         )
@@ -137,64 +194,58 @@ fun FilterDialog(
                     IconButton(
                         onClick = {
                             onConfirmRequest(
-                                when (edit.value.size) {
+                                when (criteriaSet.value.size) {
                                     0 -> null
-                                    1 -> edit.value.first()
+                                    1 -> criteriaSet.value.first()
                                     else -> if (selectedComplex == COMPLEX_AND)
-                                        AndCriterion(edit.value) else OrCriterion(edit.value)
+                                        AndCriterion(criteriaSet.value) else OrCriterion(criteriaSet.value)
                                 }
                             )
                         }) {
-                        androidx.compose.material3.Icon(
+                        Icon(
                             Icons.Filled.Done,
                             contentDescription = stringResource(android.R.string.ok)
                         )
                     }
                 }
 
-                val filters: List<Pair<Int, () -> Unit>> = listOfNotNull(
+                val filters: List<Pair<DisplayInfo, () -> Unit>> = listOfNotNull(
                     if (sumInfo.mappedCategories) {
-                        R.string.category to { getCategory.launch(account!!.id to null) }
+                        CategoryCriterion to { getCategory.launch(account!!.id to null) }
                     } else null,
-                    R.string.amount to {
-                        AmountFilterDialog.newInstance(
-                            account!!.currencyUnit, null
-                        ).show(activity!!.supportFragmentManager, "AMOUNT_FILTER")
-                    },
-                    R.string.notes to {
-                        showCommentFilterPrompt = true
-                    },
+                    AmountCriterion to { handleAmountCriterion(null) },
+                    CommentCriterion to { handleCommentCriterion(null) },
                     if (account?.isAggregate == true || account?.type != AccountType.CASH) {
-                        R.string.status to {
+                        CrStatusCriterion to {
                             SelectCrStatusDialogFragment.newInstance(null)
                                 .show(activity!!.supportFragmentManager, "STATUS_FILTER")
                         }
                     } else null,
                     if (sumInfo.mappedPayees) {
-                        R.string.payer_or_payee to { getPayee.launch(account!!.id to null) }
+                        PayeeCriterion to { getPayee.launch(account!!.id to null) }
                     } else null,
                     if (sumInfo.mappedMethods) {
-                        R.string.method to {
+                        MethodCriterion to {
                             SelectMethodDialogFragment.newInstance(
                                 account!!.id, null
                             ).show(activity!!.supportFragmentManager, "METHOD_FILTER")
                         }
                     } else null,
-                    R.string.date to {
+                    DateCriterion to {
                         DateFilterDialog.newInstance(null)
                             .show(activity!!.supportFragmentManager, "DATE_FILTER")
                     },
                     if (sumInfo.hasTransfers) {
-                        R.string.transfer to {
+                        TransferCriterion to {
                             SelectTransferAccountDialogFragment.newInstance(account!!.id, null)
                                 .show(activity!!.supportFragmentManager, "TRANSFER_FILTER")
                         }
                     } else null,
                     if (sumInfo.hasTags) {
-                        R.string.tags to { getTags.launch(account!!.id to null) }
+                        TagCriterion to { getTags.launch(account!!.id to null) }
                     } else null,
                     if (account?.isAggregate == true) {
-                        R.string.accounts to {
+                        AccountCriterion to {
                             SelectMultipleAccountDialogFragment.newInstance(
                                 if (account.isHomeAggregate) null else account.currency,
                                 null
@@ -204,39 +255,60 @@ fun FilterDialog(
                     } else null
                 )
                 FlowRow {
-                    filters.forEach { (title, onClick) ->
+                    filters.forEach { (info, onClick) ->
                         TextButton(onClick = onClick) {
-                            androidx.compose.material3.Icon(
-                                imageVector = Icons.Default.Add,
+                            Icon(
+                                modifier = Modifier.padding(end = 4.dp),
+                                imageVector = info.icon,
                                 contentDescription = "Add filter"
                             )
-                            Text(stringResource(title))
+                            Text(stringResource(info.title))
                         }
                     }
                 }
-                Column {
+                Row(
+                    Modifier
+                        .minimumInteractiveComponentSize()
+                        .padding(horizontal = 16.dp)
+                        .selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
 
                     val options =
                         listOf("Alle Bedingungen erfüllen", "Mindestens eine Bedingung erfüllen")
                     options.forEachIndexed { index, label ->
-                        Row {
+                        Row(
+                            Modifier
+                                .weight(1f)
+                                .selectable(
+                                    selected = index == selectedComplex,
+                                    onClick = { oComplexSelected(index) },
+                                    role = Role.RadioButton
+                                ), verticalAlignment = Alignment.CenterVertically
+                        ) {
                             RadioButton(
-                                onClick = { selectedComplex = index },
+                                onClick = null,
                                 selected = index == selectedComplex
                             )
-                            Text(label)
+                            Text(text = label, modifier = Modifier.padding(start = 8.dp))
                         }
                     }
                 }
 
-                edit.value.forEachIndexed { index, criterion ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(criterion.displayTitle))
-                        Button(
-                            onClick = { edit.value = edit.value.negate(index) },
-                            modifier = Modifier.padding(8.dp)
+                criteriaSet.value.forEachIndexed { index, criterion ->
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = criterion.displayIcon,
+                            contentDescription = stringResource(criterion.displayTitle)
+                        )
+                        IconButton(
+                            onClick = { criteriaSet.value = criteriaSet.value.negate(index) }
                         ) {
-                            Text(if (criterion is NotCriterion) "!=" else "=")
+                            CharIcon(if (criterion is NotCriterion) '≠' else '=', size = 18.sp)
                         }
                         Text(
                             modifier = Modifier.weight(1f),
@@ -244,28 +316,40 @@ fun FilterDialog(
                                 ?: criterion).prettyPrint(LocalContext.current)
                         )
                         IconButton(
-                            onClick = { edit.value -= criterion }
+                            onClick = { criteriaSet.value -= criterion }
                         ) {
-                            androidx.compose.material3.Icon(
+                            Icon(
                                 Icons.Filled.Delete,
                                 contentDescription = stringResource(R.string.menu_delete)
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                currentEdit.value = criterion
+                                handleEdit(criterion)
+                            }
+                        ) {
+                            Icon(
+                                Icons.Filled.Edit,
+                                contentDescription = stringResource(R.string.menu_edit)
                             )
                         }
                     }
                 }
             }
-            if (showCommentFilterPrompt) {
-                var search by rememberSaveable { mutableStateOf("") }
+            showCommentFilterPrompt?.let {
+                var search by rememberSaveable { mutableStateOf(it.searchString) }
+
                 AlertDialog(
                     onDismissRequest = {
-                        showCommentFilterPrompt = false
+                        showCommentFilterPrompt = null
                     },
                     confirmButton = {
                         Button(onClick = {
                             if (search.isNotEmpty()) {
-                                edit.value += CommentCriterion(search)
+                                onResult(CommentCriterion(search))
                             }
-                            showCommentFilterPrompt = false
+                            showCommentFilterPrompt = null
                         }) {
                             Text(stringResource(id = android.R.string.ok))
                         }
@@ -285,28 +369,22 @@ fun FilterDialog(
     }
 }
 
-fun List<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
+fun Set<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
     if (index == atIndex) {
         if (criterion is NotCriterion) criterion.criterion else NotCriterion(criterion)
     } else criterion
-}
+}.toSet()
 
-val Criterion.displayTitle: Int
-    get() = when (this) {
-        is SimpleCriterion<*> -> title
-        is NotCriterion -> criterion.displayTitle
-        else -> throw NotImplementedError("Nested complex not supported")
-    }
-
-@Preview(device = "id:pixel_5")
+@Preview(device = "id:pixel")
 @Composable
 fun FilterDialogPreview() {
     FilterDialog(
         account = null,
         sumInfo = SumInfo.EMPTY,
         criterion = AndCriterion(
-            listOf(
-                NotCriterion(CommentCriterion("search"))
+            setOf(
+                NotCriterion(CommentCriterion("search")),
+                CommentCriterion("search")
             )
         )
     )

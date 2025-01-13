@@ -17,6 +17,9 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -46,13 +49,19 @@ class TransferCriterion(
     override val id = R.id.FILTER_TRANSFER_COMMAND
     @IgnoredOnParcel
     override val column = KEY_TRANSFER_ACCOUNT
-    @IgnoredOnParcel
-    override val title = R.string.transfer
 
-    companion object {
+    override val displayInfo: DisplayInfo
+        get() = TransferCriterion
+
+    companion object: DisplayInfo{
 
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
             TransferCriterion(it.first, *it.second)
         }
+
+        override val title: Int
+            get() = R.string.transfer
+        override val icon: ImageVector
+            get() = Icons.AutoMirrored.Default.ArrowForward
     }
 }

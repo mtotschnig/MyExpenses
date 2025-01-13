@@ -1,5 +1,8 @@
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Tag
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -13,7 +16,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TA
 @Parcelize
 @Serializable
 @SerialName(KEY_TAGID)
-class TagCriterion(
+data class TagCriterion(
     override val label: String,
     override val values: List<Long>
 ) : IdCriterion() {
@@ -29,12 +32,17 @@ class TagCriterion(
     override val id = R.id.FILTER_TAG_COMMAND
     @IgnoredOnParcel
     override val column = KEY_TAGID
-    @IgnoredOnParcel
-    override val title = R.string.tags
 
-    companion object {
+    override val displayInfo: DisplayInfo
+        get() = TagCriterion
+
+    companion object: DisplayInfo {
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
             TagCriterion(it.first, *it.second)
         }
+
+        override val title = R.string.tags
+        override val icon: ImageVector
+            get() = Icons.Default.Tag
     }
 }

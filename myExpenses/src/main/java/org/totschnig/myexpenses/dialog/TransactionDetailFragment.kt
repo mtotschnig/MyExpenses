@@ -242,12 +242,12 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     }
                 }
-                filter?.takeIf { !it.isEmpty }?.let {
+               /* filter?.takeIf { !it.isEmpty }?.let {
                     FilterCard(
                         modifier = Modifier.padding(horizontal = super.horizontalPadding),
                         whereFilter = it
                     )
-                }
+                }*/
 
                 ExpandedRenderer(transaction)
 

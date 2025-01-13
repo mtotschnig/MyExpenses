@@ -17,6 +17,8 @@
 */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Payment
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -37,16 +39,20 @@ data class MethodCriterion(
     override val id = R.id.FILTER_METHOD_COMMAND
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_METHODID
-    @IgnoredOnParcel
-    override val title = R.string.method
+
+    override val displayInfo: DisplayInfo
+        get() = MethodCriterion
 
     override val shouldApplyToSplitTransactions get() = false
 
-    companion object {
+    companion object: DisplayInfo {
         fun fromStringExtra(extra: String) =
             if (extra == "null") MethodCriterion() else
                 parseStringExtra(extra)?.let {
                     MethodCriterion(it.first, *it.second)
                 }
+
+        override val title = R.string.method
+        override val icon = Icons.Default.Payment
     }
 }

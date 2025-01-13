@@ -18,6 +18,9 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Square
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -37,8 +40,9 @@ data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriter
     override val column = DatabaseConstants.KEY_CR_STATUS
     @IgnoredOnParcel
     override val operation = WhereFilter.Operation.IN
-    @IgnoredOnParcel
-    override val title = R.string.status
+
+    override val displayInfo: DisplayInfo
+        get() = CrStatusCriterion
 
     override fun prettyPrint(context: Context) =
         values.joinToString(",") { context.getString(it.toStringRes()) }
@@ -47,7 +51,7 @@ data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriter
 
     override val shouldApplyToSplitTransactions get() = false
 
-    companion object {
+    companion object: DisplayInfo {
 
         fun fromStringExtra(extra: String) =
             CrStatusCriterion(extra.split(EXTRA_SEPARATOR).mapNotNull {
@@ -57,5 +61,10 @@ data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriter
                     null
                 }
             }.toList())
+
+        override val title: Int
+            get() = R.string.status
+        override val icon: ImageVector
+            get() = Icons.Default.Square
     }
 }

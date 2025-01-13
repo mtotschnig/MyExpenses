@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.preference.PrefHandler
-import timber.log.Timber
 
 class FilterPersistenceV2(
     val prefHandler: PrefHandler,
@@ -24,6 +23,9 @@ class FilterPersistenceV2(
     var whereFilter: Criterion?
         get() = _whereFilter.value
         set(value) {
+            if (immediatePersist) {
+                saveToPreferences(value)
+            }
             _whereFilter.update { value }
         }
 
@@ -34,20 +36,27 @@ class FilterPersistenceV2(
     }
 
     private fun restoreFromPreferences(): Criterion? {
-        return prefHandler.getString(prefKey)?.let { Json.decodeFromString<Criterion>(it) }
+        return prefHandler.getString(prefKey)?.let { Json.decodeFromString<Criterion?>(it) }
+    }
+
+    private fun saveToPreferences(value: Criterion?) {
+        if(value != null) {
+            prefHandler.putString(prefKey, Json.encodeToString(value))
+        } else {
+            prefHandler.remove(prefKey)
+        }
     }
 
     fun addCriterion(criterion: SimpleCriterion<*>) {
         _whereFilter.update { oldValue ->
             when (oldValue) {
                 null -> criterion
-                is ComplexCriterion -> AndCriterion(oldValue.criteria + criterion)
-                else -> AndCriterion(listOf(oldValue, criterion))
+                is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
+                is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
+                else -> AndCriterion(setOf(oldValue, criterion))
             }.also { newValue ->
                 if (immediatePersist) {
-                    prefHandler.putString(prefKey, Json.encodeToString(newValue).also {
-                        Timber.d("Filter : %s", it)
-                    })
+                    saveToPreferences(newValue)
                 }
             }
         }

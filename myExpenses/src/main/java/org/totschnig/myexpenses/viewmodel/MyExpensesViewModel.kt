@@ -852,6 +852,6 @@ open class MyExpensesViewModel(
     }
 
     companion object {
-        fun prefNameForCriteria(accountId: Long) = "filter_v2_%s_${accountId}"
+        fun prefNameForCriteria(accountId: Long) = "filter_v2_${accountId}"
     }
 }
