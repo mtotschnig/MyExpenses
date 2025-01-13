@@ -7,10 +7,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.FilterDateBinding
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
@@ -64,10 +62,9 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
         get() = resources.getStringArray(R.array.comparison_operator_date_values)
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx = activity as MyExpenses? ?: return
         val selectedOp = operations[binding.Operator.selectedItemPosition]
         val date1: LocalDate = binding.date1.selectedDate
-        ctx.addFilterCriterion(
+        parentFragmentManager.confirmFilter(
             if (selectedOp == "BTW") {
                 DateCriterion(date1, binding.date2.selectedDate)
             } else {

@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
-import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
@@ -136,8 +135,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         }
     }
 
-    private inline fun <reified I : IdCriterion, C : PickObjectContract<I>>
-            buildLauncher(createContract: () -> C) =
+    private inline fun buildLauncher(createContract: () -> PickObjectContract) =
         activity.registerForActivityResult(createContract()) { criterion ->
             criterion?.let { activity.addFilterCriterion(it) }
         }

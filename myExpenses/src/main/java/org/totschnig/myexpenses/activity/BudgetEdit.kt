@@ -10,6 +10,7 @@ import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
+import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
@@ -32,11 +34,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
@@ -48,8 +49,7 @@ import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
 import java.time.LocalDate
 
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
-    DatePicker.OnDateChangedListener,
-    SelectFilterDialog.Host {
+    DatePicker.OnDateChangedListener {
 
     private val viewModel: BudgetEditViewModel by viewModels()
     private lateinit var binding: OneBudgetBinding
@@ -201,6 +201,15 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         configureFilterDependents()
         setTitle(if (newInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
         linkInputsWithLabels()
+        supportFragmentManager.setFragmentResultListener(KEY_RESULT_FILTER, this) { _, result ->
+            BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
+                ?.let {
+                    setDirty()
+                    filterPersistence.addCriterion(it)
+                    showFilterCriteria(it)
+                    configureFilterDependents()
+                }
+        }
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -208,8 +217,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         filterPersistence.onSaveInstanceState(outState)
     }
 
-    private inline fun <reified I : IdCriterion, C : PickObjectContract<I>>
-            buildLauncher(createContract: () -> C) =
+    private inline fun buildLauncher(createContract: () -> PickObjectContract) =
         registerForActivityResult(createContract()) { criterion ->
             criterion?.let { addFilterCriterion(it) }
         }
@@ -218,7 +226,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     private val getPayee = buildLauncher(::PickPayeeContract)
     private val getTags = buildLauncher(::PickTagContract)
 
-    override fun addFilterCriterion(c: SimpleCriterion<*>) {
+    fun addFilterCriterion(c: SimpleCriterion<*>) {
         setDirty()
         filterPersistence.addCriterion(c)
         showFilterCriteria(c)

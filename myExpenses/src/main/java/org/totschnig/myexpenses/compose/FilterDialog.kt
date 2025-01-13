@@ -24,7 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,11 +44,21 @@ import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PickCategoryContract
+import org.totschnig.myexpenses.activity.PickPayeeContract
+import org.totschnig.myexpenses.activity.PickTagContract
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
+import org.totschnig.myexpenses.dialog.DateFilterDialog
+import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
+import org.totschnig.myexpenses.dialog.RC_CONFIRM_FILTER
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.ComplexCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
@@ -78,18 +88,21 @@ fun FilterDialog(
                     ?: emptyList()
             )
         }
-    val getCategory = rememberLauncherForActivityResult(PickCategoryContract()) { crit ->
-        crit?.let { edit.value += it }
-    }
+    val onResult: (IdCriterion?) -> Unit = { crit -> crit?.let { edit.value += it } }
+    val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
+    val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
+    val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
     val activity = LocalContext.current as FragmentActivity
-    LaunchedEffect(Unit) {
-        activity.supportFragmentManager.setFragmentResultListener(
-            AmountFilterDialog.RC_CONFIRM, activity
+    val supportFragmentManager = activity.supportFragmentManager
+    DisposableEffect(Unit) {
+        supportFragmentManager.setFragmentResultListener(
+            RC_CONFIRM_FILTER, activity
         ) { _, result ->
-            BundleCompat.getParcelable(result, AmountFilterDialog.KEY_RESULT, Criterion::class.java)
-                ?.let {
-                    edit.value += it
-                }
+            BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
+                ?.let { edit.value += it }
+        }
+        onDispose {
+            supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
         }
     }
 
@@ -139,19 +152,34 @@ fun FilterDialog(
                     R.string.amount to {
                         AmountFilterDialog.newInstance(
                             account.value.currencyUnit, null
-                        ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
+                        ).show(supportFragmentManager, "AMOUNT_FILTER")
                     },
                     R.string.notes to {
                         showCommentFilterPrompt = true
+                    },
+                    R.string.status to {
+                        SelectCrStatusDialogFragment.newInstance(null)
+                            .show(supportFragmentManager, "STATUS_FILTER")
+                    },
+                    R.string.payer_or_payee to { getPayee.launch(account.value.id to null) },
+                    R.string.method to { SelectMethodDialogFragment.newInstance(
+                        account.value.id, null
+                    ).show(supportFragmentManager, "METHOD_FILTER") },
+                    R.string.date to {
+                        DateFilterDialog.newInstance(null)
+                            .show(supportFragmentManager, "DATE_FILTER")
+                    },
+                    R.string.transfer to {
+                        SelectTransferAccountDialogFragment.newInstance(account.value.id, null)
+                            .show(supportFragmentManager, "TRANSFER_FILTER")
+                    },
+                    R.string.tags to { getTags.launch(account.value.id to null) },
+                    R.string.accounts to {
+                        SelectMultipleAccountDialogFragment.newInstance(
+                            if (account.value.isHomeAggregate) null else account.value.currency, null
+                        )
+                            .show(supportFragmentManager, "ACCOUNT_FILTER")
                     }
-//                    R.string.notes,
-//                    R.string.status,
-//                    R.string.payer_or_payee,
-//                    R.string.method,
-//                    R.string.date,
-//                    R.string.transfer,
-//                    R.string.tags,
-//                    R.string.accounts
                 )
                 FlowRow {
                     filters.forEach { (title, onClick) ->
@@ -212,7 +240,9 @@ fun FilterDialog(
                     },
                     confirmButton = {
                         Button(onClick = {
-                            edit.value += CommentCriterion(search)
+                            if (search.isNotEmpty()) {
+                                edit.value += CommentCriterion(search)
+                            }
                             showCommentFilterPrompt = false
                         }) {
                             Text(stringResource(id = android.R.string.ok))

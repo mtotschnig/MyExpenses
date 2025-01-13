@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
+import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.FilterAmountBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -23,7 +23,8 @@ import org.totschnig.myexpenses.util.ui.withOkClick
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     val currency: CurrencyUnit by lazy {
-        (requireArguments().getSerializable(DatabaseConstants.KEY_CURRENCY) as CurrencyUnit)
+        BundleCompat.getSerializable(requireArguments(), DatabaseConstants.KEY_CURRENCY,
+            CurrencyUnit::class.java)!!
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -73,7 +74,6 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         get() = resources.getStringArray(R.array.comparison_operator_values)
 
     private fun onOkClick() {
-        val ctx = activity as MyExpenses? ?: return
         val currency = this.currency
         val amount1 = binding.amount1.getAmount(currency).getOrNull() ?: return
         val selectedOp = operations[binding.Operator.selectedItemPosition]
@@ -81,22 +81,20 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         val amount2 = if (selectedOp == "BTW") {
             binding.amount2.getAmount(currency).getOrNull() ?: return
         } else null
-        parentFragmentManager.setFragmentResult(RC_CONFIRM, Bundle().apply {
-            putParcelable(KEY_RESULT, create(
+        parentFragmentManager.confirmFilter(
+            create(
                 WhereFilter.Operation.valueOf(selectedOp),
                 currency.code,
                 type,
                 amount1.amountMinor,
                 amount2?.amountMinor
-            ))
-        })
-
+            )
+        )
         dismiss()
     }
 
     companion object {
-        const val RC_CONFIRM = "confirmAmountCriterion"
-        const val KEY_RESULT = "result"
+
         fun newInstance(currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
             AmountFilterDialog().apply {
                 arguments = Bundle().apply {

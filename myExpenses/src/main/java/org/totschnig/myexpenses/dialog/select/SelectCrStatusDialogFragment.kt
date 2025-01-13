@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
+import org.totschnig.myexpenses.dialog.confirmFilter
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
@@ -50,7 +51,7 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
             (getDialog() as AlertDialog).listView.checkedItemPositions.get(index)
         }
         if (result.isNotEmpty()) {
-            (activity as SelectFilterDialog.Host).addFilterCriterion(
+            parentFragmentManager.confirmFilter(
                 CrStatusCriterion(result)
             )
         }
