@@ -26,18 +26,4 @@ sealed class ComplexCriterion : Criterion {
     override fun prettyPrint(context: Context) = criteria.joinToString {
         it.prettyPrint(context)
     }
-
-    fun with(criteria: List<Criterion>): ComplexCriterion = when (this) {
-        is AndCriterion -> AndCriterion(criteria)
-        is OrCriterion -> OrCriterion(criteria)
-    }
-
-    fun plus(criterion: Criterion) = with(criteria = this.criteria + criterion)
-    fun minus(criterion: Criterion) = with(criteria = this.criteria - criterion)
-    fun negate(atIndex: Int) = with(criteria = this.criteria.mapIndexed { index, criterion ->
-        if (index == atIndex) if (criterion is NotCriterion) criterion.criterion else NotCriterion(
-            criterion
-        ) else criterion
-
-    })
 }

@@ -284,7 +284,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             invalidateOptionsMenu()
         }
 
-    private var showFilterDialog by mutableStateOf<Long?>(null)
+    private var showFilterDialog by mutableStateOf(false)
 
     fun finishActionMode() {
         actionMode?.finish()
@@ -331,7 +331,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     R.id.SELECT_ALL_COMMAND,
                                     R.id.UNDELETE_COMMAND
                                 ).forEach {
-                                    menu.findItem(it).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                    menu.findItem(it)
+                                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
                                 }
                             }
                         }
@@ -461,7 +462,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.SEARCH_COMMAND -> {
-                showFilterDialog = currentAccount?.id
+                showFilterDialog = true
                 true
             }
 
@@ -966,10 +967,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         } else null
 
         val headerData = remember(account) { viewModel.headerData(account) }
-        showFilterDialog?.let {
-            FilterDialog(it) {
-                showFilterDialog = null
-            }
+        if (showFilterDialog) {
+            FilterDialog(
+                account = lazy { currentAccount!! },
+                criterion = currentFilter.whereFilter,
+                onDismissRequest = {
+                showFilterDialog = false
+            }, onConfirmRequest = {
+                currentFilter.whereFilter = it
+                showFilterDialog = false
+            })
         }
         LaunchedEffect(selectionState.size) {
             if (selectionState.isNotEmpty()) {
@@ -1030,7 +1037,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
                     headerData = headerData,
-                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }.collectAsState(null),
+                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }.collectAsState(
+                        null
+                    ),
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
                     menuGenerator = remember(modificationAllowed) {
                         { transaction ->
@@ -1044,7 +1053,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         showDetails(
                                             transaction.id,
                                             transaction.isArchive,
-                                            /*currentFilter.takeIf { transaction.isArchive }*/ null,
+                                            /*currentFilter.takeIf { transaction.isArchive }*/
+                                            null,
                                             currentAccount?.sortOrder.takeIf { transaction.isArchive }
                                         )
                                     })
@@ -2044,15 +2054,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             it.setOnClickListener {
                 currentAccount?.run {
                     criterion?.also {
-                        CriterionReachedDialogFragment.newInstance(CriterionInfo(
-                            id,
-                            currentBalance,
-                            criterion,
-                            0,
-                            _color,
-                            currencyUnit,
-                            label
-                        ), withAnimation = false)
+                        CriterionReachedDialogFragment.newInstance(
+                            CriterionInfo(
+                                id,
+                                currentBalance,
+                                criterion,
+                                0,
+                                _color,
+                                currencyUnit,
+                                label
+                            ), withAnimation = false
+                        )
                             .show(supportFragmentManager, "CRITERION")
                     } ?: run {
                         CrashHandler.report(Exception("Progress is visible, but no criterion is defined"))
@@ -2107,16 +2119,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             with(binding.toolbar.donutView) {
                 animateChanges = animateProgress
                 submitData(
-                    sections = DisplayProgress.calcProgressVisualRepresentation(progress).forViewSystem(
-                        account._color,
-                        getAmountColor(sign)
-                    ).also {
+                    sections = DisplayProgress.calcProgressVisualRepresentation(progress)
+                        .forViewSystem(
+                            account._color,
+                            getAmountColor(sign)
+                        ).also {
                         Timber.d("Sections: %s", progress)
                     }
                 )
                 contentDescription =
-                    getString(if(sign > 0) R.string.saving_goal else R.string.credit_limit) + ": " +
-                    DisplayProgress.contentDescription(this@BaseMyExpenses, progress)
+                    getString(if (sign > 0) R.string.saving_goal else R.string.credit_limit) + ": " +
+                            DisplayProgress.contentDescription(this@BaseMyExpenses, progress)
             }
 
             with(binding.toolbar.progressPercent) {
@@ -2491,18 +2504,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         true
     } else false*/ false
 
-/*    private fun clearFilter() {
-        ConfirmationDialogFragment.newInstance(Bundle().apply {
-            putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
-            putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
-        }).show(supportFragmentManager, "CLEAR_FILTER")
-    }
+    /*    private fun clearFilter() {
+            ConfirmationDialogFragment.newInstance(Bundle().apply {
+                putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
+                putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
+            }).show(supportFragmentManager, "CLEAR_FILTER")
+        }
 
-    private fun editFilter(itemId: Int) {
-        filterHandler.handleFilter(
-            itemId,
-            currentFilter.whereFilter.criteria.find { it.id == itemId })
-    }*/
+        private fun editFilter(itemId: Int) {
+            filterHandler.handleFilter(
+                itemId,
+                currentFilter.whereFilter.criteria.find { it.id == itemId })
+        }*/
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)

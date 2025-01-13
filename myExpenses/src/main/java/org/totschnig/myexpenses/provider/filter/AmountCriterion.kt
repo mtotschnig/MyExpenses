@@ -54,7 +54,7 @@ data class AmountCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DISPLAY_AMOUNT
     @IgnoredOnParcel
-    override val title = R.string.account
+    override val title = R.string.amount
 
     override val columnForExport: String
         get() = DatabaseConstants.KEY_AMOUNT

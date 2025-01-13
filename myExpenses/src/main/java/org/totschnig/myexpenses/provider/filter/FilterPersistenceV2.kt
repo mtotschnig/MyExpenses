@@ -14,15 +14,18 @@ class FilterPersistenceV2(
     val prefHandler: PrefHandler,
     val prefKey: String,
     savedInstanceState: Bundle? = null,
-    val immediatePersist: Boolean = true,
+    private val immediatePersist: Boolean = true,
     restoreFromPreferences: Boolean = true
 ) {
 
     val whereFilterAsFlow: StateFlow<Criterion?>
         get() = _whereFilter
     private val _whereFilter: MutableStateFlow<Criterion?>
-    val whereFilter: Criterion?
+    var whereFilter: Criterion?
         get() = _whereFilter.value
+        set(value) {
+            _whereFilter.update { value }
+        }
 
     init {
         _whereFilter = MutableStateFlow(savedInstanceState
@@ -35,14 +38,14 @@ class FilterPersistenceV2(
     }
 
     fun addCriterion(criterion: SimpleCriterion<*>) {
-        _whereFilter.update {
-            when (it) {
+        _whereFilter.update { oldValue ->
+            when (oldValue) {
                 null -> criterion
-                is ComplexCriterion -> AndCriterion(it.criteria + criterion)
-                else -> AndCriterion(listOf(it, criterion))
-            }.also {
+                is ComplexCriterion -> AndCriterion(oldValue.criteria + criterion)
+                else -> AndCriterion(listOf(oldValue, criterion))
+            }.also { newValue ->
                 if (immediatePersist) {
-                    prefHandler.putString(prefKey, Json.encodeToString(it).also {
+                    prefHandler.putString(prefKey, Json.encodeToString(newValue).also {
                         Timber.d("Filter : %s", it)
                     })
                 }
