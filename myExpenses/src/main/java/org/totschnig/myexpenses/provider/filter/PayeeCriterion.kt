@@ -17,6 +17,8 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -37,8 +39,9 @@ class PayeeCriterion(
     override val id: Int = R.id.FILTER_PAYEE_COMMAND
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_PAYEEID
-    @IgnoredOnParcel
-    override val title = R.string.payer_or_payee
+
+    override val displayInfo: DisplayInfo
+        get() = PayeeCriterion
 
     override fun getSelection(forExport: Boolean): String {
         return if (operation === WhereFilter.Operation.ISNULL) {
@@ -56,11 +59,14 @@ class PayeeCriterion(
 
     override val shouldApplyToSplitTransactions get() = false
 
-    companion object {
+    companion object: DisplayInfo {
         fun fromStringExtra(extra: String) =
             if (extra == "null") PayeeCriterion() else
                 parseStringExtra(extra)?.let {
                     PayeeCriterion(it.first, *it.second)
                 }
+
+        override val title = R.string.payer_or_payee
+        override val icon = Icons.Default.Person
     }
 }

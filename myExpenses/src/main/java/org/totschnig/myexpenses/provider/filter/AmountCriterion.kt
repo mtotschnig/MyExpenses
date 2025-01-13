@@ -18,6 +18,9 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Height
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -53,8 +56,8 @@ data class AmountCriterion(
 
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DISPLAY_AMOUNT
-    @IgnoredOnParcel
-    override val title = R.string.amount
+
+    override val displayInfo get() = AmountCriterion
 
     override val columnForExport: String
         get() = DatabaseConstants.KEY_AMOUNT
@@ -113,7 +116,7 @@ data class AmountCriterion(
         }
     }
 
-    companion object {
+    companion object: DisplayInfo {
 
         fun create(
             operation: Operation,
@@ -174,5 +177,10 @@ data class AmountCriterion(
                 null
             }
         }
+
+        override val title: Int
+            get() = R.string.amount
+        override val icon: ImageVector
+            get() = Icons.Default.Height
     }
 }

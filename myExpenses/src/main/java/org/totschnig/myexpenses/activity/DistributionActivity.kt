@@ -324,7 +324,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (!whereFilter.isEmpty) {
-                            FilterCard(whereFilter, clearFilter)
+                            //FilterCard(whereFilter)
                         }
                         LayoutHelper(
                             data = {
@@ -460,7 +460,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (!whereFilter.isEmpty) {
-                            FilterCard(whereFilter, clearFilter)
+                            //FilterCard(whereFilter, clearFilter)
                         }
                         LayoutHelper(
                             data = {

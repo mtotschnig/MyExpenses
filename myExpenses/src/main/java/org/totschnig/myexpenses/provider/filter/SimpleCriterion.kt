@@ -19,7 +19,9 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
 import android.os.Parcelable
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -28,6 +30,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
+
+interface DisplayInfo {
+    val title: Int
+    val icon: ImageVector
+}
 
 @Serializable
 sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
@@ -38,7 +45,7 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
         get() = values.map { it.toString() }.toTypedArray()
     abstract val id: Int
     abstract val column: String
-    abstract val title: Int
+    abstract val displayInfo: DisplayInfo
 
     open val key: String
         get() = column

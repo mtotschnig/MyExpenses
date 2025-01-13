@@ -18,6 +18,8 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Today
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.KSerializer
@@ -70,8 +72,9 @@ data class DateCriterion(
     override val id = R.id.FILTER_DATE_COMMAND
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DATE
-    @IgnoredOnParcel
-    override val title = R.string.date
+
+    override val displayInfo: DisplayInfo
+        get() = DateCriterion
 
     override fun toString(): String {
         var result: String = operation.name + EXTRA_SEPARATOR + values[0]
@@ -112,7 +115,7 @@ data class DateCriterion(
     override val shouldApplyToSplitTransactions get() = false
     override val shouldApplyToArchive: Boolean get() = false
 
-    companion object {
+    companion object: DisplayInfo {
 
         fun fromStringExtra(extra: String): DateCriterion {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
@@ -143,5 +146,8 @@ data class DateCriterion(
             return Instant.ofEpochSecond(epoch.toLong()).atZone(ZoneId.systemDefault())
                 .toLocalDate()
         }
+
+        override val title = R.string.date
+        override val icon = Icons.Default.Today
     }
 }

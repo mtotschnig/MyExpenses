@@ -17,6 +17,8 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Category
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -41,8 +43,8 @@ data class CategoryCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_CATID
 
-    @IgnoredOnParcel
-    override val title = R.string.category
+    override val displayInfo: DisplayInfo
+        get() = CategoryCriterion
 
     override fun getSelection(forExport: Boolean): String =
         if (operation === WhereFilter.Operation.ISNULL) {
@@ -56,12 +58,15 @@ data class CategoryCriterion(
             categorySeparator = null
         ) + ")"
 
-    companion object {
+    companion object: DisplayInfo {
 
         fun fromStringExtra(extra: String) =
             if (extra == "null") CategoryCriterion() else
                 parseStringExtra(extra)?.let {
                     CategoryCriterion(it.first, *it.second)
                 }
+
+        override val title = R.string.category
+        override val icon = Icons.Default.Category
     }
 }

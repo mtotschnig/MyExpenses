@@ -17,7 +17,7 @@ data class NotCriterion(val criterion: Criterion): Criterion {
         forExport: Boolean,
     ) = "NOT(${criterion.getSelectionForParents(tableName, forExport)})"
 
-    override fun prettyPrint(context: Context) = "!(${criterion.prettyPrint(context)})"
+    override fun prettyPrint(context: Context) = "¬(${criterion.prettyPrint(context)})"
 
     override fun getSelectionArgs(queryParts: Boolean) = criterion.getSelectionArgs(queryParts)
 }

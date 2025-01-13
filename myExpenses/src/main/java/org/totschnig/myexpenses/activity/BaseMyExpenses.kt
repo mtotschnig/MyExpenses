@@ -71,7 +71,6 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInput
 import eltos.simpledialogfragment.form.AmountInputHostDialog
-import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +79,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
@@ -401,7 +399,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     lateinit var remapHandler: RemapHandler
     lateinit var tagHandler: TagHandler
-    private lateinit var filterHandler: FilterHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -769,7 +766,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
         remapHandler = RemapHandler(this)
         tagHandler = TagHandler(this)
-        filterHandler = FilterHandler(this)
 
         viewModel.cloneAndRemapProgress.observe(
             this
@@ -970,11 +966,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 sumInfo = sumInfo.value,
                 criterion = currentFilter.whereFilter,
                 onDismissRequest = {
-                showFilterDialog = false
-            }, onConfirmRequest = {
-                currentFilter.whereFilter = it
-                showFilterDialog = false
-            })
+                    showFilterDialog = false
+                }, onConfirmRequest = {
+                    currentFilter.whereFilter = it
+                    showFilterDialog = false
+                    invalidateOptionsMenu()
+                })
         }
         LaunchedEffect(selectionState.size) {
             if (selectionState.isNotEmpty()) {
@@ -993,8 +990,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .collectAsState(null)
                 .value
                 ?.let {
-                    Text(it.prettyPrint(this@BaseMyExpenses))
-                    //FilterCard(it, ::clearFilter, ::editFilter)
+                    FilterCard(it)
                 }
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
@@ -1565,12 +1561,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         if (super.onResult(dialogTag, which, extras)) true
         else if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
-                FILTER_COMMENT_DIALOG -> {
-                    extras.getString(SimpleInputDialog.TEXT)?.let {
-                        addFilterCriterion(CommentCriterion(it))
-                    }
-                    true
-                }
 
                 DIALOG_TAG_GROUPING ->
                     handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
@@ -1978,6 +1968,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 menu.findItem(R.id.ARCHIVE_COMMAND)
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
+            menu.findItem(R.id.SEARCH_COMMAND)?.let {
+                it.isChecked = currentFilter.whereFilter != null
+                checkMenuIcon(it)
+            }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
                 ?.setEnabledAndVisible(sumInfo.value.mappedCategories)
             menu.findItem(R.id.HISTORY_COMMAND)?.setEnabledAndVisible(hasItems)
@@ -2122,8 +2116,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             account._color,
                             getAmountColor(sign)
                         ).also {
-                        Timber.d("Sections: %s", progress)
-                    }
+                            Timber.d("Sections: %s", progress)
+                        }
                 )
                 contentDescription =
                     getString(if (sign > 0) R.string.saving_goal else R.string.credit_limit) + ": " +

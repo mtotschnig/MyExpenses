@@ -5,8 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class ComplexCriterion : Criterion {
-    abstract val criteria: List<Criterion>
+    abstract val criteria: Set<Criterion>
     abstract val operator: String
+    abstract val symbol: Char
     override fun getSelectionForParts(
         tableName: String
     ) = criteria.joinToString(" $operator ") {
