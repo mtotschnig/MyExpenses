@@ -192,8 +192,6 @@ import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
-import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
-import org.totschnig.myexpenses.viewmodel.SumInfoUnknown
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -278,11 +276,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private val selectAllState: MutableState<Boolean> = mutableStateOf(false)
 
-    var sumInfo: SumInfo = SumInfoUnknown
-        set(value) {
-            field = value
-            invalidateOptionsMenu()
-        }
+    var sumInfo: MutableState<SumInfo> = mutableStateOf(SumInfo.EMPTY)
 
     private var showFilterDialog by mutableStateOf(false)
 
@@ -872,9 +866,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 configureUiWithCurrentAccount(this, false)
                 if (this != null) {
                     finishActionMode()
-                    sumInfo = SumInfoUnknown
+                    sumInfo.value = SumInfo.EMPTY
+                    invalidateOptionsMenu()
                     viewModel.sumInfo(toPageAccount).collect {
-                        sumInfo = it
+                        invalidateOptionsMenu()
+                        sumInfo.value = it
                     }
                 }
             }
@@ -889,7 +885,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         currentAccount?.let {
                             lifecycleScope.launch {
                                 viewModel.sumInfo(it.toPageAccount).collect {
-                                    sumInfo = it
+                                    invalidateOptionsMenu()
+                                    sumInfo.value = it
                                 }
                             }
                         }
@@ -969,7 +966,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val headerData = remember(account) { viewModel.headerData(account) }
         if (showFilterDialog) {
             FilterDialog(
-                account = lazy { currentAccount!! },
+                account = currentAccount,
+                sumInfo = sumInfo.value,
                 criterion = currentFilter.whereFilter,
                 onDismissRequest = {
                 showFilterDialog = false
@@ -1981,7 +1979,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
-                ?.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.mappedCategories == true)
+                ?.setEnabledAndVisible(sumInfo.value.mappedCategories)
             menu.findItem(R.id.HISTORY_COMMAND)?.setEnabledAndVisible(hasItems)
             menu.findItem(R.id.RESET_COMMAND)?.setEnabledAndVisible(hasItems)
             menu.findItem(R.id.PRINT_COMMAND)?.setEnabledAndVisible(hasItems)
@@ -2009,7 +2007,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     private val hasItems
-        get() = (sumInfo as? SumInfoLoaded)?.hasItems == true
+        get() = sumInfo.value.hasItems
 
     private fun setupToolbarClickHandlers() {
         listOf(binding.toolbar.subtitle, binding.toolbar.title).forEach {

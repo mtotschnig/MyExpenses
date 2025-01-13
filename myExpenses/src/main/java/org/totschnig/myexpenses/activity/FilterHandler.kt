@@ -24,13 +24,12 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.setEnabledAndVisible
-import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
 
 class FilterHandler(private val activity: BaseMyExpenses) {
     fun configureSearchMenu(searchMenu: MenuItem) {
         with(activity) {
-            searchMenu.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.hasItems == true)
-            (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
+            searchMenu.setEnabledAndVisible(sumInfo.value.hasItems)
+            (sumInfo.value).let { sumInfo ->
                 val whereFilter = currentFilter.whereFilter
                 searchMenu.isChecked = whereFilter != null
                 checkMenuIcon(searchMenu)
