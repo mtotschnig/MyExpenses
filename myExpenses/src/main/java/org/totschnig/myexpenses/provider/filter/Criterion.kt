@@ -11,7 +11,7 @@ sealed interface Criterion : Parcelable {
     fun getSelectionForParts(tableName: String = CTE_SEARCH): String
     fun getSelectionForParents(tableName: String = CTE_SEARCH, forExport: Boolean = false): String
     fun prettyPrint(context: Context): String
-    fun getSelectionArgs(queryParts: Boolean) : Array<String>
+    fun getSelectionArgs(queryParts: Boolean): Array<String>
 
     val displayTitle: Int
         get() = when (this) {
@@ -27,3 +27,11 @@ sealed interface Criterion : Parcelable {
             else -> throw NotImplementedError("Nested complex not supported")
         }
 }
+
+val Criterion?.asSet: Set<Criterion>
+    get() = (this as? ComplexCriterion)?.criteria
+        ?: this?.let { setOf(it) }
+        ?: emptySet()
+
+val Criterion?.asSimpleList: List<SimpleCriterion<*>>
+    get() = asSet.filterIsInstance(SimpleCriterion::class.java)

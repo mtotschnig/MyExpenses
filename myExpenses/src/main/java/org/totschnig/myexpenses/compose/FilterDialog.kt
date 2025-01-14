@@ -80,6 +80,7 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
+import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.lang.IllegalStateException
@@ -102,9 +103,7 @@ fun FilterDialog(
         )
     }
 
-    val initialSet = (criterion as? ComplexCriterion)?.criteria
-        ?: criterion?.let { setOf(it) }
-        ?: emptySet()
+    val initialSet = criterion.asSet
 
     val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable {
         mutableStateOf(initialSet)

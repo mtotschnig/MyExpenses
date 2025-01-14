@@ -36,8 +36,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -136,13 +137,11 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
 
 
     fun budgetCriteria(budget: Budget): Flow<List<SimpleCriterion<*>>> = budgetFilterFlow(budget.id).map {
-        FilterPersistence(
+        FilterPersistenceV2(
             prefHandler,
-            prefNameForCriteria(budget.id),
-            null,
+            prefNameForCriteriaV2(budget.id),
             immediatePersist = false,
-            restoreFromPreferences = true
-        ).whereFilter.criteria
+        ).whereFilter.asSimpleList
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

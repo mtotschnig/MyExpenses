@@ -19,6 +19,7 @@ class FilterPersistenceV2(
 
     val whereFilterAsFlow: StateFlow<Criterion?>
         get() = _whereFilter
+
     private val _whereFilter: MutableStateFlow<Criterion?>
     var whereFilter: Criterion?
         get() = _whereFilter.value
@@ -47,6 +48,10 @@ class FilterPersistenceV2(
         }
     }
 
+    fun persist() {
+        saveToPreferences(whereFilter)
+    }
+
     fun addCriterion(criterion: SimpleCriterion<*>) {
         _whereFilter.update { oldValue ->
             when (oldValue) {
@@ -58,6 +63,18 @@ class FilterPersistenceV2(
                 if (immediatePersist) {
                     saveToPreferences(newValue)
                 }
+            }
+        }
+    }
+
+    //Legacy: only used from BudgetEdit
+    fun removeFilter(id: Int) {
+        _whereFilter.update { oldValue ->
+            when (oldValue) {
+                is AndCriterion -> AndCriterion(oldValue.criteria.filterNot { (it as? SimpleCriterion<*>)?.id == id }.toSet())
+                is OrCriterion -> OrCriterion(oldValue.criteria.filterNot { (it as? SimpleCriterion<*>)?.id == id }.toSet())
+                is SimpleCriterion<*> -> if (oldValue.id == id) null else oldValue
+                else -> oldValue
             }
         }
     }

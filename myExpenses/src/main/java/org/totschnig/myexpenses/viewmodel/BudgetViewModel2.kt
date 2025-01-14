@@ -63,10 +63,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getIntOrNull
@@ -138,13 +139,11 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     }
                 }
                 _whereFilter.update {
-                    FilterPersistence(
-                        prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
+                    FilterPersistenceV2(
+                        prefHandler, BudgetViewModel.prefNameForCriteriaV2(budgetId), null,
                         immediatePersist = false,
                         restoreFromPreferences = true
-                    ).also {
-                        it.reloadFromPreferences()
-                    }.whereFilter
+                    ).whereFilter
                 }
             }
         }
@@ -348,6 +347,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     )?.use {
                         if (it.moveToFirst()) {
                             val grouping: Grouping = it.getEnum(KEY_GROUPING, Grouping.NONE)
+                            val criteria = whereFilter.value.asSet
                             it.getString(KEY_UUID) to BudgetExport(
                                 title = it.getString(KEY_TITLE),
                                 description = it.getString(KEY_DESCRIPTION),
@@ -357,32 +357,32 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                                 start = if (grouping == Grouping.NONE) it.getString(KEY_START) else null,
                                 end = if (grouping == Grouping.NONE) it.getString(KEY_END) else null,
                                 isDefault = it.getBoolean(KEY_IS_DEFAULT),
-                                categoryFilter = whereFilter.value.criteria
+                                categoryFilter = criteria
                                     .filterIsInstance<CategoryCriterion>()
                                     .firstOrNull()
                                     ?.values
                                     ?.mapNotNull { categoryInfo.getValue(it) },
-                                partyFilter = whereFilter.value.criteria
+                                partyFilter = criteria
                                     .filterIsInstance<PayeeCriterion>()
                                     .firstOrNull()
                                     ?.values
                                     ?.mapNotNull { repository.getParty(it) },
-                                methodFilter = whereFilter.value.criteria
+                                methodFilter = criteria
                                     .filterIsInstance<MethodCriterion>()
                                     .firstOrNull()
                                     ?.values
                                     ?.mapNotNull { repository.getMethod(it) },
-                                statusFilter = whereFilter.value.criteria
+                                statusFilter = criteria
                                     .filterIsInstance<CrStatusCriterion>()
                                     .firstOrNull()
                                     ?.values
                                     ?.map { it.name },
-                                tagFilter = whereFilter.value.criteria
+                                tagFilter = criteria
                                     .filterIsInstance<TagCriterion>()
                                     .firstOrNull()
                                     ?.values
                                     ?.mapNotNull { repository.getTag(it) },
-                                accountFilter = whereFilter.value.criteria
+                                accountFilter = criteria
                                     .filterIsInstance<AccountCriterion>()
                                     .firstOrNull()
                                     ?.values

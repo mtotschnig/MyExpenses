@@ -31,6 +31,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.CTE_SEARCH
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -42,7 +43,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
@@ -50,7 +50,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLongIfExistsOr0
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
@@ -72,9 +72,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     protected val _accountInfo = MutableStateFlow<T?>(null)
     val accountInfo: StateFlow<T?> = _accountInfo
 
-    protected val _whereFilter: MutableStateFlow<WhereFilter> =
-        MutableStateFlow(WhereFilter.empty())
-    val whereFilter: StateFlow<WhereFilter> = _whereFilter
+    protected val _whereFilter: MutableStateFlow<Criterion?> = MutableStateFlow(null)
+    val whereFilter: StateFlow<Criterion?> = _whereFilter
 
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
@@ -161,7 +160,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         isIncome: Boolean,
         aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
-        whereFilter: WhereFilter = WhereFilter.empty(),
+        whereFilter: Criterion? = null,
         keepCriteria: ((Category) -> Boolean)? = null,
         queryParameter: Map<String, String> = emptyMap(),
         idMapper: (Long) -> Long = { it }
@@ -178,7 +177,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     add(KEY_ONE_TIME)
                 }
             }.toTypedArray(),
-            additionalSelectionArgs = whereFilter.getSelectionArgs(true),
+            additionalSelectionArgs = whereFilter?.getSelectionArgs(true),
             queryParameter = queryParameter + buildMap {
                 put(KEY_TYPE, isIncome.toString())
                 put(
@@ -212,12 +211,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     private fun buildFilterClause(
         groupingInfo: GroupingInfo,
-        whereFilter: WhereFilter,
+        whereFilter: Criterion?,
         table: String? = null
     ): String {
         return listOfNotNull(
             dateFilterClause(groupingInfo),
-            whereFilter.getSelectionForParts(table).takeIf { it.isNotEmpty() }
+            whereFilter?.getSelectionForParts(table ?: CTE_SEARCH)
         ).joinToString(" AND ")
     }
 
@@ -286,7 +285,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     builder.build(),
                     sumProjection,
                     buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
-                    whereFilter.getSelectionArgs(true),
+                    whereFilter?.getSelectionArgs(true),
                     null, true
                 ).mapToOne {
                     Pair(

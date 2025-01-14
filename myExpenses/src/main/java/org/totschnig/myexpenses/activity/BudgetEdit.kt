@@ -22,8 +22,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
+import org.totschnig.myexpenses.dialog.RC_CONFIRM_FILTER
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.injector
@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
@@ -42,7 +41,6 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
@@ -58,7 +56,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     private var budget: Budget? = null
     private lateinit var typeSpinnerHelper: SpinnerHelper
     private lateinit var accountSpinnerHelper: SpinnerHelper
-    private lateinit var filterPersistence: FilterPersistence
 
     @State
     var accountId: Long = 0
@@ -98,7 +95,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
 
     private fun removeFilter(id: Int) {
         setDirty()
-        filterPersistence.removeFilter(id)
+        viewModel.criteria.removeAll { it.id == id }
         findViewById<ScrollingChip>(id)?.apply {
             when (id) {
                 R.id.FILTER_CATEGORY_COMMAND -> R.string.budget_filter_all_categories
@@ -115,7 +112,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     }
 
     private fun startFilterDialog(id: Int) {
-        val edit = filterPersistence.whereFilter.criteria.find { it.id == id }
+        val edit = viewModel.criteria.find{ it.id == id }
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(null to edit as? CategoryCriterion)
 
@@ -189,32 +186,20 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             setSelection(Grouping.MONTH.ordinal)
         }
         accountSpinnerHelper = SpinnerHelper(binding.Accounts)
-        filterPersistence = FilterPersistence(
-            prefHandler,
-            prefNameForCriteria(budgetId),
-            savedInstanceState,
-            false,
-            !newInstance
-        )
+        if (!newInstance) {
+            viewModel.initWith(budgetId)
+        }
 
-        filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
+        viewModel.criteria.forEach(this::showFilterCriteria)
         configureFilterDependents()
         setTitle(if (newInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
         linkInputsWithLabels()
-        supportFragmentManager.setFragmentResultListener(KEY_RESULT_FILTER, this) { _, result ->
+        supportFragmentManager.setFragmentResultListener(RC_CONFIRM_FILTER, this) { _, result ->
             BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
                 ?.let {
-                    setDirty()
-                    filterPersistence.addCriterion(it)
-                    showFilterCriteria(it)
-                    configureFilterDependents()
+                   addFilterCriterion(it)
                 }
         }
-    }
-
-    public override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        filterPersistence.onSaveInstanceState(outState)
     }
 
     private inline fun buildLauncher(createContract: () -> PickObjectContract) =
@@ -228,7 +213,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
 
     fun addFilterCriterion(c: SimpleCriterion<*>) {
         setDirty()
-        filterPersistence.addCriterion(c)
+        viewModel.criteria.add(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }
@@ -312,13 +297,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     }
 
     private fun configureFilterDependents() {
+        val isEmpty = viewModel.criteria.isEmpty()
         with(binding.DefaultBudget) {
-            filterPersistence.whereFilter.isEmpty.let {
-                if (!it) {
-                    isChecked = false
-                }
-                isEnabled = it
+            if (!isEmpty) {
+                isChecked = false
             }
+            isEnabled = isEmpty
         }
     }
 
@@ -357,7 +341,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
                     null,
                     binding.DefaultBudget.isChecked
                 )
-                viewModel.saveBudget(budget, initialAmount, filterPersistence.whereFilter)
+                viewModel.saveBudget(budget, initialAmount)
             }
         }
     }
