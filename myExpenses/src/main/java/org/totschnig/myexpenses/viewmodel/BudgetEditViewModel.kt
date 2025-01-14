@@ -8,15 +8,19 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.saveBudget
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.AndCriterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.viewmodel.data.Budget
 
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
-     /**
+    /**
      * provides id of budget on success, -1 on error
      */
     val databaseResult = MutableLiveData<Long>()
+
+    val criteria: MutableSet<SimpleCriterion<*>> = mutableSetOf()
 
     fun budget(budgetId: Long) = liveData(context = coroutineContext()) {
         contentResolver.query(
@@ -27,19 +31,29 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         }
     }
 
-    fun saveBudget(budget: Budget, initialAmount: Long?, whereFilter: WhereFilter) {
+    fun saveBudget(budget: Budget, initialAmount: Long?) {
         viewModelScope.launch(coroutineContext()) {
             val result = repository.saveBudget(budget, initialAmount)
-            if (result > -1) persistPreferences(result, whereFilter)
+            if (result > -1) persistPreferences(result)
             databaseResult.postValue(result)
         }
     }
 
-    fun persistPreferences(budgetId: Long, whereFilter: WhereFilter) {
-        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
-                immediatePersist = false, restoreFromPreferences = false)
-        whereFilter.criteria.forEach { filterPersistence.addCriterion(it) }
-        filterPersistence.persistAll()
+    fun initWith(budgetId: Long) {
+        criteria.addAll(
+            FilterPersistenceV2(
+                prefHandler,
+                prefNameForCriteriaV2(budgetId)
+            ).whereFilter.asSimpleList
+        )
+    }
+
+    fun persistPreferences(budgetId: Long) {
+        FilterPersistenceV2(
+            prefHandler,
+            prefNameForCriteriaV2(budgetId),
+            restoreFromPreferences = false
+        ).whereFilter = AndCriterion(criteria)
     }
 }
 

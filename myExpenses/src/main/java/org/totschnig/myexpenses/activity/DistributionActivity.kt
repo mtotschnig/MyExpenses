@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.IntentCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -77,9 +78,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
@@ -206,9 +206,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val binding = setupView()
         injector.inject(viewModel)
 
-        val whereFilter = intent.getParcelableArrayListExtra<SimpleCriterion<*>>(KEY_FILTER)?.let {
-            WhereFilter(it)
-        }
+        val whereFilter = IntentCompat.getParcelableExtra(intent, KEY_FILTER, Criterion::class.java)
         if (savedInstanceState == null) {
             viewModel.initWithAccount(
                 intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
@@ -258,7 +256,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
 
     @Composable
-    private fun RenderCombined(whereFilter: WhereFilter, clearFilter: () -> Unit) {
+    private fun RenderCombined(whereFilter: Criterion?, clearFilter: () -> Unit) {
         val isDark = isSystemInDarkTheme()
         val categoryState =
             viewModel.combinedCategoryTree.collectAsState(initial = Category.LOADING)
@@ -323,8 +321,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 } else {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
-                        if (!whereFilter.isEmpty) {
-                            //FilterCard(whereFilter)
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
                         }
                         LayoutHelper(
                             data = {
@@ -389,7 +387,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         })
 
     @Composable
-    private fun RenderSingle(showIncome: Boolean, whereFilter: WhereFilter, clearFilter: () -> Unit) {
+    private fun RenderSingle(showIncome: Boolean, whereFilter: Criterion?, clearFilter: () -> Unit) {
         val isDark = isSystemInDarkTheme()
         val categoryState =
             (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
@@ -459,8 +457,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 else -> {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
-                        if (!whereFilter.isEmpty) {
-                            //FilterCard(whereFilter, clearFilter)
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter)
                         }
                         LayoutHelper(
                             data = {
@@ -789,7 +787,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-        if (EDIT_COLOR_DIALOG == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
+        if (EDIT_COLOR_DIALOG == dialogTag && which == BUTTON_POSITIVE) {
             viewModel.updateColor(extras.getLong(KEY_ROWID), extras.getInt(SimpleColorDialog.COLOR))
             true
         } else false

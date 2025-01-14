@@ -77,6 +77,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
@@ -245,7 +246,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             ChipGroup(
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
                 budget = budget,
-                criteria = whereFilter.criteria
+                criteria = whereFilter.asSimpleList
             )
         }
     }

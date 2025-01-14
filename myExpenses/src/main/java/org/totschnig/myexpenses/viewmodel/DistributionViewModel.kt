@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
@@ -59,7 +59,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     fun initWithAccount(
         accountId: Long,
         defaultGrouping: Grouping,
-        whereFilter: WhereFilter?
+        whereFilter: Criterion?
     ) {
         val isAggregate = accountId < 0
         val base =
@@ -92,7 +92,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                 .collect { setGrouping(it) }
         }
 
-        _whereFilter.update { whereFilter ?: WhereFilter.empty() }
+        _whereFilter.update { whereFilter }
     }
 
     fun persistGrouping(grouping: Grouping) {
@@ -185,7 +185,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
 
 
     fun clearFilter() {
-        _whereFilter.update { WhereFilter.empty() }
+        _whereFilter.update { null }
     }
 
     companion object {

@@ -36,14 +36,14 @@ import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteriaV2
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -114,15 +114,15 @@ fun Repository.sumLoaderForBudget(
         aggregateNeutral.toString()
     )
     val filterPersistence =
-        FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
+        FilterPersistenceV2(prefHandler, prefNameForCriteriaV2(budget.id), null, false)
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
-    val selectionArgs: Array<String>? = if (!filterPersistence.whereFilter.isEmpty) {
-        filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
+    val selectionArgs: Array<String>? = filterPersistence.whereFilter?.let {
+        filterClause += " AND " + it.getSelectionForParts(
             DatabaseConstants.VIEW_WITH_ACCOUNT
         )
-        filterPersistence.whereFilter.getSelectionArgs(true)
-    } else null
+        it.getSelectionArgs(true)
+    }
     return Triple(sumBuilder.build(), filterClause, selectionArgs)
 }
 
@@ -368,7 +368,7 @@ fun Repository.importBudget(
         }
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
-        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
+        val filterPersistence = FilterPersistenceV2(prefHandler, prefNameForCriteriaV2(budgetId), null,
             immediatePersist = false, restoreFromPreferences = false)
         categoryFilter?.mapNotNull { path ->
             ensureCategoryPath(path)?.let { path.last().label to it }
@@ -408,7 +408,7 @@ fun Repository.importBudget(
             val ids = it.map { it.first }.toLongArray()
             filterPersistence.addCriterion(AccountCriterion(label, *ids))
         }
-        filterPersistence.persistAll()
+        filterPersistence.persist()
         budgetId
     }
 }
