@@ -43,10 +43,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -276,7 +274,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     var sumInfo: MutableState<SumInfo> = mutableStateOf(SumInfo.EMPTY)
 
-    private var showFilterDialog by mutableStateOf(false)
+    private var showFilterDialog
+        get() = viewModel.showFilterDialog
+        set(value) { viewModel.showFilterDialog = value }
 
     fun finishActionMode() {
         actionMode?.finish()
@@ -469,7 +469,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 viewModel.persistSortDirection(selectedAccountId, newSortDirection)
             }
             true
-        } ?: false
+        } == true
 
     private fun handleGrouping(item: MenuItem) =
         Utils.getGroupingFromMenuItemId(item.itemId)?.let { newGrouping ->
@@ -477,7 +477,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 viewModel.persistGrouping(selectedAccountId, newGrouping)
             }
             true
-        } ?: false
+        } == true
 
     private fun toggleScanMode() {
         if (isScanMode()) {
@@ -1880,7 +1880,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 Menu.NONE,
                 R.string.split_transaction
             ).setIcon(R.drawable.ic_menu_split)
-            //noinspection RestrictedApi
+            @Suppress("UsePropertyAccessSyntax", "RestrictedApi")
             (popup.menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             popup.show()
             true
@@ -2490,24 +2490,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         invalidateOptionsMenu()
         currentFilter.addCriterion(c)
     }
-
-    fun removeFilter(id: Int) = /*if (currentFilter.removeFilter(id)) {
-        invalidateOptionsMenu()
-        true
-    } else false*/ false
-
-    /*    private fun clearFilter() {
-            ConfirmationDialogFragment.newInstance(Bundle().apply {
-                putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
-                putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
-            }).show(supportFragmentManager, "CLEAR_FILTER")
-        }
-
-        private fun editFilter(itemId: Int) {
-            filterHandler.handleFilter(
-                itemId,
-                currentFilter.whereFilter.criteria.find { it.id == itemId })
-        }*/
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
