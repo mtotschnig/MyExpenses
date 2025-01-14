@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -100,14 +101,14 @@ fun FilterDialog(
         )
     }
     val criteriaSet: MutableState<Set<Criterion>> =
-        remember {
+        rememberSaveable {
             mutableStateOf(
                 (criterion as? ComplexCriterion)?.criteria
                     ?: criterion?.let { setOf(it) }
                     ?: emptySet()
             )
         }
-    val currentEdit: MutableState<Criterion?> = remember {
+    val currentEdit: MutableState<Criterion?> = rememberSaveable {
         mutableStateOf(null)
     }
     val onResult: (Criterion?) -> Unit = { newValue ->
@@ -126,7 +127,7 @@ fun FilterDialog(
     val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
     val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
     val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
-    var showCommentFilterPrompt by remember { mutableStateOf<CommentCriterion?>(null) }
+    var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
     val activity = LocalContext.current as? FragmentActivity
 
     fun handleAmountCriterion(criterion: AmountCriterion?) {
@@ -139,18 +140,59 @@ fun FilterDialog(
         showCommentFilterPrompt = criterion ?: CommentCriterion("")
     }
 
+    fun handleCrStatusCriterion(criterion: CrStatusCriterion?) {
+        SelectCrStatusDialogFragment.newInstance(criterion)
+            .show(activity!!.supportFragmentManager, "STATUS_FILTER")
+    }
+
+    fun handleDateCriterion(criterion: DateCriterion?) {
+        DateFilterDialog.newInstance(criterion)
+            .show(activity!!.supportFragmentManager, "DATE_FILTER")
+    }
+
+    fun handleAccountCriterion(criterion: AccountCriterion?) {
+        SelectMultipleAccountDialogFragment.newInstance(
+            if (account!!.isHomeAggregate) null else account.currency,
+            criterion
+        )
+            .show(activity!!.supportFragmentManager, "ACCOUNT_FILTER")
+    }
+
+    fun handleCategoryCriterion(criterion: CategoryCriterion?) {
+        getCategory.launch(account!!.id to criterion)
+    }
+
+    fun handleMethodCriterion(criterion: MethodCriterion?) {
+        SelectMethodDialogFragment.newInstance(
+            account!!.id, criterion
+        ).show(activity!!.supportFragmentManager, "METHOD_FILTER")
+    }
+
+    fun handlePayeeCriterion(criterion: PayeeCriterion?) {
+        getPayee.launch(account!!.id to criterion)
+    }
+
+    fun handleTagCriterion(criterion: TagCriterion?) {
+        getTags.launch(account!!.id to criterion)
+    }
+
+    fun handleTransferCriterion(criterion: TransferCriterion?) {
+        SelectTransferAccountDialogFragment.newInstance(account!!.id, criterion)
+            .show(activity!!.supportFragmentManager, "TRANSFER_FILTER")
+    }
+
     fun handleEdit(criterion: Criterion) {
         when (criterion) {
             is NotCriterion -> handleEdit(criterion.criterion)
             is AmountCriterion -> handleAmountCriterion(criterion)
-            is CrStatusCriterion -> TODO()
-            is DateCriterion -> TODO()
-            is AccountCriterion -> TODO()
-            is CategoryCriterion -> TODO()
-            is MethodCriterion -> TODO()
-            is PayeeCriterion -> TODO()
-            is TagCriterion -> TODO()
-            is TransferCriterion -> TODO()
+            is CrStatusCriterion -> handleCrStatusCriterion(criterion)
+            is DateCriterion -> handleDateCriterion(criterion)
+            is AccountCriterion -> handleAccountCriterion(criterion)
+            is CategoryCriterion -> handleCategoryCriterion(criterion)
+            is MethodCriterion -> handleMethodCriterion(criterion)
+            is PayeeCriterion -> handlePayeeCriterion(criterion)
+            is TagCriterion -> handleTagCriterion(criterion)
+            is TransferCriterion -> handleTransferCriterion(criterion)
             is CommentCriterion -> handleCommentCriterion(criterion)
             else -> throw IllegalStateException("Nested complex not supported")
         }
@@ -170,11 +212,15 @@ fun FilterDialog(
         }
     }
 
+    val isLarge = booleanResource(R.bool.isLarge)
+
     Dialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
+        properties = DialogProperties(usePlatformDefaultWidth = isLarge),
         onDismissRequest = onDismissRequest
     ) {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface(modifier = Modifier.conditional(!isLarge) {
+            fillMaxSize()
+        }) {
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -211,47 +257,28 @@ fun FilterDialog(
 
                 val filters: List<Pair<DisplayInfo, () -> Unit>> = listOfNotNull(
                     if (sumInfo.mappedCategories) {
-                        CategoryCriterion to { getCategory.launch(account!!.id to null) }
+                        CategoryCriterion to { handleCategoryCriterion(null) }
                     } else null,
                     AmountCriterion to { handleAmountCriterion(null) },
                     CommentCriterion to { handleCommentCriterion(null) },
                     if (account?.isAggregate == true || account?.type != AccountType.CASH) {
-                        CrStatusCriterion to {
-                            SelectCrStatusDialogFragment.newInstance(null)
-                                .show(activity!!.supportFragmentManager, "STATUS_FILTER")
-                        }
+                        CrStatusCriterion to { handleCrStatusCriterion(null) }
                     } else null,
                     if (sumInfo.mappedPayees) {
-                        PayeeCriterion to { getPayee.launch(account!!.id to null) }
+                        PayeeCriterion to { handlePayeeCriterion(null) }
                     } else null,
                     if (sumInfo.mappedMethods) {
-                        MethodCriterion to {
-                            SelectMethodDialogFragment.newInstance(
-                                account!!.id, null
-                            ).show(activity!!.supportFragmentManager, "METHOD_FILTER")
-                        }
+                        MethodCriterion to { handleMethodCriterion(null) }
                     } else null,
-                    DateCriterion to {
-                        DateFilterDialog.newInstance(null)
-                            .show(activity!!.supportFragmentManager, "DATE_FILTER")
-                    },
+                    DateCriterion to { handleDateCriterion(null) },
                     if (sumInfo.hasTransfers) {
-                        TransferCriterion to {
-                            SelectTransferAccountDialogFragment.newInstance(account!!.id, null)
-                                .show(activity!!.supportFragmentManager, "TRANSFER_FILTER")
-                        }
+                        TransferCriterion to { handleTransferCriterion(null) }
                     } else null,
                     if (sumInfo.hasTags) {
-                        TagCriterion to { getTags.launch(account!!.id to null) }
+                        TagCriterion to { handleTagCriterion(null) }
                     } else null,
                     if (account?.isAggregate == true) {
-                        AccountCriterion to {
-                            SelectMultipleAccountDialogFragment.newInstance(
-                                if (account.isHomeAggregate) null else account.currency,
-                                null
-                            )
-                                .show(activity!!.supportFragmentManager, "ACCOUNT_FILTER")
-                        }
+                        AccountCriterion to { handleAccountCriterion(null) }
                     } else null
                 )
                 FlowRow {

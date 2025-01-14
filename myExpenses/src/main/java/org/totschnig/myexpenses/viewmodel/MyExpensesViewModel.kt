@@ -10,8 +10,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -269,6 +271,8 @@ open class MyExpensesViewModel(
             it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] != false
         }
     }
+
+    var showFilterDialog by mutableStateOf(false)
 
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {
