@@ -30,6 +30,7 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -100,14 +101,18 @@ fun FilterDialog(
             if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
         )
     }
-    val criteriaSet: MutableState<Set<Criterion>> =
-        rememberSaveable {
-            mutableStateOf(
-                (criterion as? ComplexCriterion)?.criteria
-                    ?: criterion?.let { setOf(it) }
-                    ?: emptySet()
-            )
-        }
+
+    val initialSet = (criterion as? ComplexCriterion)?.criteria
+        ?: criterion?.let { setOf(it) }
+        ?: emptySet()
+
+    val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable {
+        mutableStateOf(initialSet)
+    }
+    val isDirty by remember { derivedStateOf { initialSet != criteriaSet.value } }
+
+    var confirmDiscard by remember { mutableStateOf(false) }
+
     val currentEdit: MutableState<Criterion?> = rememberSaveable {
         mutableStateOf(null)
     }
@@ -214,9 +219,17 @@ fun FilterDialog(
 
     val isLarge = booleanResource(R.bool.isLarge)
 
+    val onDismiss = {
+        if (isDirty) {
+            confirmDiscard = true
+        } else {
+            onDismissRequest()
+        }
+    }
+
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = isLarge),
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismiss
     ) {
         Surface(modifier = Modifier.conditional(!isLarge) {
             fillMaxSize()
@@ -227,7 +240,7 @@ fun FilterDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = onDismissRequest) {
+                    IconButton(onClick = onDismiss) {
                         Icon(
                             Icons.Filled.Clear,
                             contentDescription = stringResource(android.R.string.cancel)
@@ -391,6 +404,20 @@ fun FilterDialog(
                         )
                     }
                 )
+            }
+            if (confirmDiscard) {
+                AlertDialog(
+                    onDismissRequest = { confirmDiscard = false },
+                    confirmButton = {
+                        TextButton(onClick = onDismissRequest) {
+                            Text(stringResource(R.string.response_yes))
+                        }
+                    },
+                    text = {
+                        Text(stringResource(R.string.dialog_confirm_discard_changes))
+                    }
+                )
+
             }
         }
     }
