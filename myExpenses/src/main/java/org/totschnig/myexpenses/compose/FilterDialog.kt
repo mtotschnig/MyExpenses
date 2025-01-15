@@ -68,7 +68,6 @@ import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.ComplexCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
@@ -97,7 +96,7 @@ fun FilterDialog(
     onDismissRequest: () -> Unit = {},
     onConfirmRequest: (Criterion?) -> Unit = {},
 ) {
-    val (selectedComplex, oComplexSelected) = remember {
+    val (selectedComplex, setSelectedComplex) = remember {
         mutableIntStateOf(
             if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
         )
@@ -314,15 +313,14 @@ fun FilterDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    val options =
-                        listOf("Alle Bedingungen erfüllen", "Mindestens eine Bedingung erfüllen")
-                    options.forEachIndexed { index, label ->
+                    val options = listOf(R.string.matchAll, R.string.matchAny)
+                    options.forEachIndexed { index, labelRes ->
                         Row(
                             Modifier
                                 .weight(1f)
                                 .selectable(
                                     selected = index == selectedComplex,
-                                    onClick = { oComplexSelected(index) },
+                                    onClick = { setSelectedComplex(index) },
                                     role = Role.RadioButton
                                 ), verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -330,7 +328,7 @@ fun FilterDialog(
                                 onClick = null,
                                 selected = index == selectedComplex
                             )
-                            Text(text = label, modifier = Modifier.padding(start = 8.dp))
+                            Text(text = stringResource(labelRes), modifier = Modifier.padding(start = 8.dp))
                         }
                     }
                 }

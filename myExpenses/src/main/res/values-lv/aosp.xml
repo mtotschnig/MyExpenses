@@ -59,4 +59,6 @@
     <string name="wifi_not_connected">"Wi‑Fi nav savienots ar internetu."</string>
     <string name="action_archive">"Arhīvs"</string>
     <string name="percent_long">"{value,plural, =1{1 procents}zero{# procentu}one{# procents}other{# procenti}}"</string>
+    <string name="matchAll">"Atbilst visiem šiem noteikumiem"</string>
+    <string name="matchAny">"Atbilst jebkuram no šiem"</string>
 </resources>

@@ -68,4 +68,6 @@
     <string name="wifi_not_connected">"WiFi pole Internetiga ühendatud"</string>
     <string name="action_archive">"Arhiiv"</string>
     <string name="percent_long">"{value,plural, =1{1 protsent}other{# protsenti}}"</string>
+    <string name="matchAll">"Vastab kõigile tingimustele"</string>
+    <string name="matchAny">"Vastab vähemalt ühele tingimusele"</string>
 </resources>

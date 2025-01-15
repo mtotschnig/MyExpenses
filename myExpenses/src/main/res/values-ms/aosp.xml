@@ -111,4 +111,6 @@
     <string name="wifi_not_connected">"Wi-Fi tidak disambungkan ke Internet"</string>
     <string name="action_archive">"Arkib"</string>
     <string name="percent_long">"{value,plural, =1{1 peratus}other{# peratus}}"</string>
+    <string name="matchAll">"Sepadan semua yang berikut"</string>
+    <string name="matchAny">"Sepadan mana-mana yang berikut"</string>
 </resources>

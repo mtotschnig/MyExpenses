@@ -130,4 +130,6 @@
     <string name="wifi_not_connected">"Wifi heeft geen verbinding met internet"</string>
     <string name="action_archive">"Archiveren"</string>
     <string name="percent_long">"{value,plural, =1{1 procent}other{# procent}}"</string>
+    <string name="matchAll">"Moet voldoen aan al het volgende"</string>
+    <string name="matchAny">"Moet voldoen aan één van het volgende"</string>
 </resources>

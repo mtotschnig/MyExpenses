@@ -131,4 +131,6 @@
     <string name="wifi_not_connected">"此 WLAN 网络无法连接到互联网"</string>
     <string name="action_archive">"归档"</string>
     <string name="percent_long">"{value,plural, =1{百分之 1}other{百分之 #}}"</string>
+    <string name="matchAll">"满足所有以下条件"</string>
+    <string name="matchAny">"满足以下任一条件"</string>
 </resources>

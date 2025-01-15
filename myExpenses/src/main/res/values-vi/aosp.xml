@@ -129,4 +129,6 @@
     <string name="wifi_not_connected">"Wi‑Fi chưa kết nối với Internet"</string>
     <string name="action_archive">"Lưu trữ"</string>
     <string name="percent_long">"{value,plural, =1{1 phần trăm}other{# phần trăm}}"</string>
+    <string name="matchAll">"Phù hợp tất cả những tìm kiếm sau"</string>
+    <string name="matchAny">"Phù hợp bất kì tìm kiếm nào"</string>
 </resources>

@@ -67,4 +67,6 @@
     <string name="wifi_not_connected">"Wi‑Fi nie je pripojené k internetu"</string>
     <string name="action_archive">"Archivovať"</string>
     <string name="percent_long">"{value,plural, =1{1 percento}few{# percentá}many{# percenta}other{# percent}}"</string>
+    <string name="matchAll">"Správy spĺňajúce všetky nasledujúce podmienky"</string>
+    <string name="matchAny">"Správy spĺňajúce aspoň jednu podmienku"</string>
 </resources>

@@ -134,4 +134,6 @@
     <string name="wifi_not_connected">"Le réseau Wi‑Fi n'est pas connecté à Internet"</string>
     <string name="action_archive">"Archiver"</string>
     <string name="percent_long">"{value,plural, =1{1 pour cent}one{# pour cent}other{# pour cent}}"</string>
+    <string name="matchAll">"Valider toutes les conditions suivantes"</string>
+    <string name="matchAny">"Valider au moins une des conditions suivantes"</string>
 </resources>

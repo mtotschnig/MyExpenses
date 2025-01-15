@@ -68,4 +68,6 @@
     <string name="wifi_not_connected">"Wi-Fi tidak terhubung ke internet"</string>
     <string name="action_archive">"Arsipkan"</string>
     <string name="percent_long">"{value,plural, =1{1 persen}other{# persen}}"</string>
+    <string name="matchAll">"Sesuai dengan yang berikut"</string>
+    <string name="matchAny">"Sesuai dengan salah satu dari"</string>
 </resources>

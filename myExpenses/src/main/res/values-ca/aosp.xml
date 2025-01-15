@@ -134,4 +134,6 @@
     <string name="wifi_not_connected">"La Wi‑Fi no està connectada a Internet"</string>
     <string name="action_archive">"Arxiva"</string>
     <string name="percent_long">"{value,plural, =1{1 per cent}other{# per cent}}"</string>
+    <string name="matchAll">"Tots els següents"</string>
+    <string name="matchAny">"Qualsevol dels següents"</string>
 </resources>

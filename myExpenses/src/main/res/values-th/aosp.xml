@@ -67,4 +67,6 @@
     <string name="wifi_not_connected">"Wi-Fi ไม่ได้เชื่อมต่ออินเทอร์เน็ต"</string>
     <string name="action_archive">"เก็บถาวร"</string>
     <string name="percent_long">"{value,plural, =1{1 เปอร์เซ็นต์}other{# เปอร์เซ็นต์}}"</string>
+    <string name="matchAll">"ตรงกับเกณฑ์ดังต่อไปนี้ทั้งหมด"</string>
+    <string name="matchAny">"ตรงกับบางเกณฑ์ดังต่อไปนี้"</string>
 </resources>

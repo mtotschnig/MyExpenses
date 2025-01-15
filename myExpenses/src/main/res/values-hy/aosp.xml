@@ -65,4 +65,6 @@
     <string name="wifi_not_connected">"Wi‑Fi-ը միացված չէ համացանցին"</string>
     <string name="action_archive">"Արխիվ"</string>
     <string name="percent_long">"{value,plural, =1{1 տոկոս}one{# տոկոս}other{# տոկոս}}"</string>
+    <string name="matchAll">"Համապատասխան հետևյալին"</string>
+    <string name="matchAny">"Համապատասխան ցանկ. հետևյալին"</string>
 </resources>

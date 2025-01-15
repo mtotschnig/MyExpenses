@@ -50,4 +50,6 @@
     <string name="wifi_not_connected">"Omrežje Wi-Fi ni povezano z internetom"</string>
     <string name="action_archive">"Arhiviraj"</string>
     <string name="percent_long">"{value,plural, =1{1 odstotek}one{# odstotek}two{# odstotka}few{# odstotki}other{# odstotkov}}"</string>
+    <string name="matchAll">"Izpolni vsa merila"</string>
+    <string name="matchAny">"Izpolni vsaj eno merilo"</string>
 </resources>

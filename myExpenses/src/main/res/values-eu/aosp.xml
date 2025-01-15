@@ -131,4 +131,6 @@
     <string name="wifi_not_connected">"Wifi-sarea ez dago Internetera konektatuta"</string>
     <string name="action_archive">"Artxibatu"</string>
     <string name="percent_long">"{value,plural, =1{Ehuneko 1}other{Ehuneko #}}"</string>
+    <string name="matchAll">"Arau hauetako guztiak"</string>
+    <string name="matchAny">"Arau hauetako edozein"</string>
 </resources>

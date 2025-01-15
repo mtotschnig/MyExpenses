@@ -60,4 +60,6 @@
     <string name="wifi_not_connected">"„Wi‑Fi“ tinkle nėra interneto ryšio"</string>
     <string name="action_archive">"Archyvas"</string>
     <string name="percent_long">"{value,plural, =1{1 procentas}one{# procentas}few{# procentai}many{# procento}other{# procentų}}"</string>
+    <string name="matchAll">"visos sąlygos"</string>
+    <string name="matchAny">"bent viena iš sąlygų"</string>
 </resources>

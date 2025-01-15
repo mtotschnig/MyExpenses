@@ -42,4 +42,6 @@
     <string name="debug">"ਡੀਬਗ ਕਰੋ"</string>
     <string name="wifi_not_connected">"ਵਾਈ-ਫਾਈ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਹੈ"</string>
     <string name="percent_long">"{value,plural, =1{1 ਫ਼ੀਸਦ}one{# ਫ਼ੀਸਦ}other{# ਫ਼ੀਸਦ}}"</string>
+    <string name="matchAll">"ਹੇਠ ਦਿੱਤਿਆਂ ਵਿੱਚੋਂ ਸਭ ਮੇਲਾਓ"</string>
+    <string name="matchAny">"ਹੇਠ ਦਿੱਤਿਆਂ ਵਿੱਚੋਂ ਕੋਈ ਵੀ ਮੇਲਾਓ"</string>
 </resources>
