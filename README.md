@@ -3,11 +3,8 @@ MyExpenses
 
 GPL licenced Android Expense Tracking App.
 
-*My Expenses* is an Android app designed to keep
-  track of your expenses and incomes, and to export them as QIF files into a desktop
-  finance tool, like <a href="http://www.grisbi.org">Grisbi</a> (Open Source), <a
-  href="http://www.gnucash.org">Gnucash</a> (Open Source), MS Money, Quicken or Wiso Mein Geld.<br />
-  Works on Android 5.0 and above.
+*My Expenses* is an Android app designed to keep track of your expenses and income.
+Works on Android 5.0 and above.
  
 <a href="https://f-droid.org/packages/org.totschnig.myexpenses" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -16,18 +13,16 @@ GPL licenced Android Expense Tracking App.
 
 Features
 ========
-- Up to five accounts with transfers (unlimited in Contrib version)
-- Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
-- Group transactions per day, week, month, year and display sums per group
-- Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
-- Split transactions (Contrib version)
-- Calculator
-- Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
-- Password protection, recoverable with security question in Contrib version
-- Integrated Help
-- Data backup and restore
-- Aggregate financial situation over all accounts with same currency
-- Two themes: light and dark
+
+- **Effortless Expense Tracking**: Keep tabs on your expenses and income seamlessly, whether you're on your smartphone or tablet.
+- **Flexible Account Management**: Effortlessly manage multiple accounts, including transfers between different currencies.
+- **Streamlined Financial Planning**: Easily set up plans for recurring transactions.
+- **Seamless Data Management**: Export and import data with ease using QIF and CSV formats.
+- **Enhanced Security**: Protect your data with password or device lock screen security.
+- **Customizable Experience**: Tailor the app to your preferences with customizable themes and font sizes.
+- **Bank Statement Reconciliation**: Easily compare transaction status with your bank statements for accurate financial tracking.
+- **Quick Data Entry**: Enjoy convenient access with homescreen widgets and shortcuts.
+- **Powerful Data Analysis**: Filter your data based on various criteria and visualize distribution and historical trends with dynamic graphs.
 
 Credits
 =====
@@ -89,24 +84,14 @@ Code has also been contributed by:
 Build
 =====
 
+Requires Java 21
+
 ```sh
-git clone --depth 1 https://github.com/mtotschnig/MyExpenses.git
+git clone https://github.com/mtotschnig/MyExpenses.git
 cd MyExpenses
 export ANDROID_HOME={sdk-dir}
 ./gradlew build
 ```
-
-If gradlew gives you a "Failed to install the following Android SDK packages"
-error message, the packages can be installed manually with commands such as:
-
-```sh
-$ANDROID_HOME/cmdline-tools/bin/sdkmanager --install --sdk_root=$ANDROID_HOME "platforms;android-32"
-$ANDROID_HOME/cmdline-tools/bin/sdkmanager --install --sdk_root=$ANDROID_HOME "build-tools;30.0.3"
-```
-
-If gradlew errors out with "Could not dispatch a message to the daemon", just
-re-run the command. This can happen when the system is low on memory. The same
-is true for the "Gradle build daemon disappeared unexpectedly" error.
 
 Integrate
 =========
