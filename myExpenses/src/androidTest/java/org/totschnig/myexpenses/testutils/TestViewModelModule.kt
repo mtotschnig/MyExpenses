@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.di.ViewModelModule
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
@@ -79,7 +79,7 @@ class FakeSyncBackendViewModel(application: Application) :
 class DecoratedTransactionPagingSource(
     context: Context,
     account: PageAccount,
-    whereFilter: StateFlow<WhereFilter>,
+    whereFilter: StateFlow<Criterion?>,
     tags: StateFlow<Map<String, Pair<String, Int?>>>,
     currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,

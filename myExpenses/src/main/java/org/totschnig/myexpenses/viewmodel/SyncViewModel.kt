@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_URL
@@ -255,7 +255,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             ContentValues().apply {
                 put(KEY_SYNC_ACCOUNT_NAME, accountName)
             },
-            KEY_UUID + " " + WhereFilter.Operation.IN.getOp(uuids.size),
+            KEY_UUID + " " + Operation.IN.getOp(uuids.size),
             uuids
         )
     }

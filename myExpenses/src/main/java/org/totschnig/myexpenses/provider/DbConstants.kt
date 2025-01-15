@@ -92,7 +92,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
@@ -101,7 +100,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 
 private fun requireIdParameter(parameter: String) {
     require(parameter.isDigitsOnly())
@@ -595,9 +594,9 @@ fun associativeJoin(
 fun tagGroupBy(tableName: String): String =
     " GROUP BY $tableName.$KEY_ROWID"
 
-fun buildTransactionRowSelect(filter: WhereFilter?) =
+fun buildTransactionRowSelect(filter: Criterion?) =
     "SELECT $KEY_ROWID from $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?" +
-            if (filter?.isEmpty == false) {
+            if (filter != null) {
                 " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS)}"
             } else ""
 

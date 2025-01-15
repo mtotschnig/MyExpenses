@@ -85,7 +85,6 @@ import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ColoredAmountText
-import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.SumDetails
@@ -108,10 +107,9 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
@@ -205,9 +203,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
     }
 
     private val filter by lazy {
-        BundleCompat.getParcelableArrayList(requireArguments(), KEY_FILTER, SimpleCriterion::class.java)?.let {
-            WhereFilter(it)
-        }
+        BundleCompat.getParcelable(requireArguments(), KEY_FILTER, Criterion::class.java)
     }
 
     private val transactionLiveData: LiveData<Transaction> by lazy {
@@ -729,7 +725,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             id: Long,
             fragmentManager: FragmentManager,
             fullScreen: Boolean = false,
-            currentFilter: FilterPersistence? = null,
+            currentFilter: FilterPersistenceV2? = null,
             sortOrder: String? = null
         ) {
             with(fragmentManager) {
@@ -743,14 +739,14 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         private fun newInstance(
             id: Long,
             fullScreen: Boolean,
-            currentFilter: FilterPersistence?,
+            currentFilter: FilterPersistenceV2?,
             sortOrder: String?
         ): TransactionDetailFragment =
             TransactionDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(KEY_ROWID, id)
-                    currentFilter?.whereFilter?.criteria?.let {
-                        putParcelableArrayList(KEY_FILTER, ArrayList(it))
+                    currentFilter?.whereFilter?.let {
+                        putParcelable(KEY_FILTER, it)
                     }
                     sortOrder?.let {
                         putString(KEY_SORT_ORDER, it)

@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long) =
@@ -218,7 +218,7 @@ fun Repository.deleteAccount(accountId: Long): String? {
     return syncAccountName
 }
 
-fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
+fun Repository.markAsExported(accountId: Long, filter: Criterion?) {
     val ops = buildList {
         val debtUri = TransactionProvider.DEBTS_URI
         add(
@@ -229,7 +229,7 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
             "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_STATUS = ?"
         var selectionArgs: Array<String>? =
             arrayOf(accountId.toString(), STATUS_NONE.toString())
-        if (filter != null && !filter.isEmpty) {
+        if (filter != null) {
             selection += " AND " + filter.getSelectionForParents(TABLE_TRANSACTIONS)
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }

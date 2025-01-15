@@ -47,14 +47,14 @@ data class CategoryCriterion(
         get() = CategoryCriterion
 
     override fun getSelection(forExport: Boolean): String =
-        if (operation === WhereFilter.Operation.ISNULL) {
+        if (operation === Operation.ISNULL) {
             super.getSelection(false)
         } else "$column IN (" + categoryTreeSelect(
             sortOrder = null,
             matches = null,
             projection = arrayOf(KEY_ROWID),
             selection = null,
-            rootExpression = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(selectionArgs.size)}",
+            rootExpression = "$KEY_ROWID ${Operation.IN.getOp(selectionArgs.size)}",
             categorySeparator = null
         ) + ")"
 

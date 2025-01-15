@@ -13,6 +13,7 @@ import androidx.annotation.CallSuper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -30,7 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.fileName
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.SyncAdapter.Companion.IO_LOCK_DELAY_MILLIS
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
@@ -276,7 +277,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         val existing = context.contentResolver.query(
             TransactionProvider.ATTACHMENTS_URI,
             arrayOf(KEY_UUID),
-            "$KEY_UUID ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+            "$KEY_UUID ${Operation.IN.getOp(attachments.size)}",
             attachments.toTypedArray(),
             null
         )?.useAndMapToList { it.getString(0) } ?: emptyList()
@@ -343,7 +344,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             context.contentResolver.query(
                 TransactionProvider.ATTACHMENTS_URI,
                 arrayOf(KEY_UUID, KEY_URI),
-                "$KEY_UUID ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+                "$KEY_UUID ${Operation.IN.getOp(attachments.size)}",
                 attachments.toTypedArray(),
                 null
             )?.use { cursor ->
@@ -491,6 +492,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
 
+    @OptIn(ExperimentalSerializationApi::class)
     override val budgets: List<Pair<String, BudgetExport>>
         get() = getCollection(BUDGETS_FOLDER_NAME)?.let { folder ->
             childrenForCollection(folder)

@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
@@ -64,7 +64,7 @@ class TransactionDetailViewModel(application: Application) :
 
 
     @SuppressLint("Recycle")
-    fun parts(transactionId: Long, sortOrder: String?, filter: WhereFilter? = null): LiveData<List<Transaction>> =
+    fun parts(transactionId: Long, sortOrder: String?, filter: Criterion? = null): LiveData<List<Transaction>> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
@@ -74,7 +74,7 @@ class TransactionDetailViewModel(application: Application) :
                 ,
                 projection,
                 filter?.getSelectionForParents(),
-                filter?.getSelectionArgsIfNotEmpty(false),
+                filter?.getSelectionArgs(false)?.takeIf { it.isNotEmpty() },
                 sortOrder
             )?.useAndMapToList {
                 it.readTransaction(

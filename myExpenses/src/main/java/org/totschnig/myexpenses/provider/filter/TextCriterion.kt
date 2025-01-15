@@ -29,13 +29,9 @@ sealed class TextCriterion : SimpleCriterion<String>() {
     override val values: List<String>
         get() = listOf("%${Utils.escapeSqlLikeExpression(searchString)}%")
 
-    override val operation = WhereFilter.Operation.LIKE
+    override val operation = Operation.LIKE
 
     override fun prettyPrint(context: Context): String {
-        return searchString
-    }
-
-    override fun toString(): String {
         return searchString
     }
 }

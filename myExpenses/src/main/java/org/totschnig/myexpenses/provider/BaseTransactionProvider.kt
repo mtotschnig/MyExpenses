@@ -195,7 +195,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -1463,7 +1463,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "$KEY_ROWID = ?",
                         arrayOf(attachmentId)
                     )
-                } catch (e: SQLiteConstraintException) {
+                } catch (_: SQLiteConstraintException) {
                     //still in use
                     0
                 } == 1
@@ -1808,7 +1808,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             db.query(
                 TABLE_CATEGORIES,
                 arrayOf(KEY_TYPE),
-                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
+                "$KEY_ROWID ${Operation.IN.getOp(source.size + 1)}",
                 arrayOf(*source.toTypedArray(), target)
             ).useAndMapToSet { it.getInt(0) }.size == 1
         )

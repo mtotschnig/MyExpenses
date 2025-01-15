@@ -51,22 +51,22 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 @Serializable
 @SerialName(DatabaseConstants.KEY_DATE)
 data class DateCriterion(
-    override val operation: WhereFilter.Operation,
+    override val operation: Operation,
     override val values: List<@Serializable(with = LocalDateSerializer::class) LocalDate>
 ) : SimpleCriterion<@Serializable(with = LocalDateSerializer::class) LocalDate>() {
     /**
      * filters transactions up to or from the provided value, depending on operation
      *
-     * @param operation either [WhereFilter.Operation.LTE] or [WhereFilter.Operation.GTE]
+     * @param operation either [Operation.LTE] or [Operation.GTE]
      */
-    constructor(operation: WhereFilter.Operation, value1: LocalDate) :
+    constructor(operation: Operation, value1: LocalDate) :
             this(operation, listOf(value1))
 
     /**
      * filters transaction between the provided values
      */
     constructor(value1: LocalDate, value2: LocalDate) :
-            this(WhereFilter.Operation.BTW, listOf(value1, value2))
+            this(Operation.BTW, listOf(value1, value2))
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_DATE_COMMAND
@@ -76,19 +76,11 @@ data class DateCriterion(
     override val displayInfo: DisplayInfo
         get() = DateCriterion
 
-    override fun toString(): String {
-        var result: String = operation.name + EXTRA_SEPARATOR + values[0]
-        if (operation === WhereFilter.Operation.BTW) {
-            result += EXTRA_SEPARATOR + values[1]
-        }
-        return result
-    }
-
     override val selectionArgs: Array<String>
         get() = when (operation) {
-            WhereFilter.Operation.GTE, WhereFilter.Operation.LT -> arrayOf(toStartOfDay(values[0]))
-            WhereFilter.Operation.LTE, WhereFilter.Operation.GT -> arrayOf(toEndOfDay(values[0]))
-            WhereFilter.Operation.BTW -> arrayOf(toStartOfDay(values[0]), toEndOfDay(values[1]))
+            Operation.GTE, Operation.LT -> arrayOf(toStartOfDay(values[0]))
+            Operation.LTE, Operation.GT -> arrayOf(toEndOfDay(values[0]))
+            Operation.BTW -> arrayOf(toStartOfDay(values[0]), toEndOfDay(values[1]))
             else -> throw IllegalStateException("Unexpected value: $operation")
         }
 
@@ -101,9 +93,9 @@ data class DateCriterion(
         val df = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
         val date1 = df.format(values[0])
         when (operation) {
-            WhereFilter.Operation.GTE, WhereFilter.Operation.GT -> result = context.getString(R.string.after, date1)
-            WhereFilter.Operation.LTE, WhereFilter.Operation.LT -> result = context.getString(R.string.before, date1)
-            WhereFilter.Operation.BTW -> {
+            Operation.GTE, Operation.GT -> result = context.getString(R.string.after, date1)
+            Operation.LTE, Operation.LT -> result = context.getString(R.string.before, date1)
+            Operation.BTW -> {
                 val date2 = df.format(values[1])
                 result += context.getString(R.string.between_and, date1, date2)
             }
@@ -119,8 +111,8 @@ data class DateCriterion(
 
         fun fromStringExtra(extra: String): DateCriterion {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
-            val op = WhereFilter.Operation.valueOf(values[0])
-            return if (op == WhereFilter.Operation.BTW) {
+            val op = Operation.valueOf(values[0])
+            return if (op == Operation.BTW) {
                 DateCriterion(
                     LocalDate.parse(values[1]),
                     LocalDate.parse(values[2])
@@ -133,8 +125,8 @@ data class DateCriterion(
 
         fun fromLegacy(extra: String): DateCriterion {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
-            val op = WhereFilter.Operation.valueOf(values[0])
-            return if (op == WhereFilter.Operation.BTW) {
+            val op = Operation.valueOf(values[0])
+            return if (op == Operation.BTW) {
                 DateCriterion(
                     fromEpoch(values[1]),
                     fromEpoch(values[2])

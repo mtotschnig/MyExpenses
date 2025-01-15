@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import java.time.format.DateTimeFormatter
 
 /**
@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter
 class CsvExporter(
     account: Account,
     currencyContext: CurrencyContext,
-    filter: WhereFilter?,
+    filter: Criterion?,
     notYetExportedP: Boolean,
     dateFormat: String,
     decimalSeparator: Char,

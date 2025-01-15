@@ -7,29 +7,7 @@ import java.time.LocalDate
 
 class CriteriaTest {
 
-    @Test
-    fun testDateCriterion() {
-        val today = LocalDate.now()
-        val tomorrow = today.plusDays(1)
-        val roundTrip = DateCriterion.fromStringExtra(DateCriterion(today, tomorrow).toString())
-        assertThat(roundTrip.values).containsExactly(today, tomorrow)
-    }
 
-    @Test
-    fun testCategoryCriterion() {
-        val roundTrip = CategoryCriterion.fromStringExtra(CategoryCriterion("Housing", 1L).toString())
-        assertThat(roundTrip!!.label).isEqualTo("Housing")
-        assertThat(roundTrip.values).containsExactly( 1L)
-    }
-
-    @Test
-    fun testAccountCriterion() {
-        val roundTrip = AccountCriterion.fromStringExtra(AccountCriterion("Bank", 1L).toString())
-        assertThat(roundTrip!!.label).isEqualTo("Bank")
-        assertThat(roundTrip.values).containsExactly( 1L)
-        assertThat(roundTrip.getSelection(false)).isEqualTo("account_id IN (?)")
-        assertThat(roundTrip.selectionArgs).asList().containsExactly("1")
-    }
 
     @Test
     fun testAccountCriterionTransformation() {

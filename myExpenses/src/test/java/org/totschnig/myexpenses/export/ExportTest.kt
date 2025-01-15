@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
@@ -525,7 +525,7 @@ class ExportTest : BaseTestWithRepository() {
             exportAll(
                 insertData1(),
                 ExportFormat.QIF,
-                filter = WhereFilter(listOf(CategoryCriterion("Sub3", catForFilter)))
+                filter = CategoryCriterion("Sub3", catForFilter)
             ).isSuccess
         ).isTrue()
         compare(linesQIF)
@@ -750,7 +750,7 @@ class ExportTest : BaseTestWithRepository() {
         append: Boolean = false,
         withAccountColumn: Boolean = false,
         encoding: String = AbstractExporter.ENCODING_UTF_8,
-        filter: WhereFilter? = null
+        filter: Criterion? = null
     ) = when (format) {
         ExportFormat.CSV -> CsvExporter(
             account,

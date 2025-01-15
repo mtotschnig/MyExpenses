@@ -77,7 +77,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getIntOrNull
@@ -407,7 +407,7 @@ open class CategoryViewModel(
                 )
                 .build(),
             projection,
-            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(ids.size)}",
+            "$KEY_ROWID ${Operation.IN.getOp(ids.size)}",
             ids.map { it.toString() }.toTypedArray(), null
         )
 

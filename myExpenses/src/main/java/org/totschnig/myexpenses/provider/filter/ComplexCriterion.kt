@@ -10,14 +10,14 @@ sealed class ComplexCriterion : Criterion {
     abstract val symbol: Char
     override fun getSelectionForParts(
         tableName: String
-    ) = criteria.joinToString(" $operator ") {
+    ) = criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {
         it.getSelectionForParts(tableName)
     }
 
     override fun getSelectionForParents(
         tableName: String,
         forExport: Boolean,
-    ) = criteria.joinToString(" $operator ") {
+    ) = criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {
         it.getSelectionForParents(tableName, forExport)
     }
 

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.util;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
+import static org.totschnig.myexpenses.provider.filter.OperationKt.LIKE_ESCAPE_CHAR;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -54,9 +55,7 @@ import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
@@ -417,10 +416,10 @@ public class Utils {
 
   public static String escapeSqlLikeExpression(String str) {
     return str
-        .replace(WhereFilter.LIKE_ESCAPE_CHAR,
-            WhereFilter.LIKE_ESCAPE_CHAR + WhereFilter.LIKE_ESCAPE_CHAR)
-        .replace("%", WhereFilter.LIKE_ESCAPE_CHAR + "%")
-        .replace("_", WhereFilter.LIKE_ESCAPE_CHAR + "_");
+        .replace(LIKE_ESCAPE_CHAR,
+            LIKE_ESCAPE_CHAR + LIKE_ESCAPE_CHAR)
+        .replace("%", LIKE_ESCAPE_CHAR + "%")
+        .replace("_", LIKE_ESCAPE_CHAR + "_");
   }
 
   public static String printDebug(Object[] objects) {

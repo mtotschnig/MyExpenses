@@ -5,12 +5,12 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 
 class QifExporter(
     account: Account,
     currencyContext: CurrencyContext,
-    filter: WhereFilter?,
+    filter: Criterion?,
     notYetExportedP: Boolean,
     dateFormat: String,
     decimalSeparator: Char,

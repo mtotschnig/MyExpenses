@@ -147,10 +147,10 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -1047,8 +1047,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         showDetails(
                                             transaction.id,
                                             transaction.isArchive,
-                                            /*currentFilter.takeIf { transaction.isArchive }*/
-                                            null,
+                                            currentFilter.takeIf { transaction.isArchive },
                                             currentAccount?.sortOrder.takeIf { transaction.isArchive }
                                         )
                                     })
@@ -1236,7 +1235,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                     ) {
                                                         addFilterCriterion(
                                                             AmountCriterion(
-                                                                operation = WhereFilter.Operation.EQ,
+                                                                operation = Operation.EQ,
                                                                 values = listOf(transaction.amount.amountMinor),
                                                                 currency = transaction.amount.currencyUnit.code,
                                                                 sign = transaction.amount.amountMinor > 0

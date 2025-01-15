@@ -7,7 +7,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class AmountCriterionTransformationTest(
-    private val operation: WhereFilter.Operation,
+    private val operation: Operation,
     private val type: Boolean,
     private val value1: Long,
     private val value2: Long?,
@@ -39,32 +39,32 @@ class AmountCriterionTransformationTest(
         @Parameterized.Parameters(name = "input={0},{1},{2},{3}->{4}")
         fun data() = listOf(
             arrayOf(
-                WhereFilter.Operation.EQ, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.EQ, listOf(100L), CURRENCY, true)
+                Operation.EQ, true, 100L, null,
+                AmountCriterion(Operation.EQ, listOf(100L), CURRENCY, true)
             ),
             arrayOf(
-                WhereFilter.Operation.GTE, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.GTE, listOf(100L), CURRENCY, true)
+                Operation.GTE, true, 100L, null,
+                AmountCriterion(Operation.GTE, listOf(100L), CURRENCY, true)
             ),
             arrayOf(
-                WhereFilter.Operation.GTE, false, 100L, null,
-                AmountCriterion(WhereFilter.Operation.LTE, listOf(-100L), CURRENCY, false)
+                Operation.GTE, false, 100L, null,
+                AmountCriterion(Operation.LTE, listOf(-100L), CURRENCY, false)
             ),
             arrayOf(
-                WhereFilter.Operation.LTE, true, 100L, null,
-                AmountCriterion(WhereFilter.Operation.BTW, listOf(0L, 100L), CURRENCY, true)
+                Operation.LTE, true, 100L, null,
+                AmountCriterion(Operation.BTW, listOf(0L, 100L), CURRENCY, true)
             ),
             arrayOf(
-                WhereFilter.Operation.LTE, false, 100L, null,
-                AmountCriterion(WhereFilter.Operation.BTW, listOf(-100L, 0), CURRENCY, false)
+                Operation.LTE, false, 100L, null,
+                AmountCriterion(Operation.BTW, listOf(-100L, 0), CURRENCY, false)
             ),
             arrayOf(
-                WhereFilter.Operation.BTW, true, 100L, 200L,
-                AmountCriterion(WhereFilter.Operation.BTW, listOf(100L, 200L), CURRENCY, true)
+                Operation.BTW, true, 100L, 200L,
+                AmountCriterion(Operation.BTW, listOf(100L, 200L), CURRENCY, true)
             ),
             arrayOf(
-                WhereFilter.Operation.BTW, false, 100L, 200L,
-                AmountCriterion(WhereFilter.Operation.BTW, listOf(-200L, -100L), CURRENCY, false)
+                Operation.BTW, false, 100L, 200L,
+                AmountCriterion(Operation.BTW, listOf(-200L, -100L), CURRENCY, false)
             )
         )
     }
