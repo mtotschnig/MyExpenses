@@ -19,7 +19,6 @@ package org.totschnig.myexpenses.provider.filter
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -59,9 +58,8 @@ data class TransferCriterion(
             TransferCriterion(it.first, *it.second)
         }
 
-        override val title: Int
-            get() = R.string.transfer
-        override val icon: ImageVector
-            get() = Icons.AutoMirrored.Default.ArrowForward
+        override val title = R.string.transfer
+        override val extendedTitle = R.string.search_transfer
+        override val icon = Icons.AutoMirrored.Default.ArrowForward
     }
 }

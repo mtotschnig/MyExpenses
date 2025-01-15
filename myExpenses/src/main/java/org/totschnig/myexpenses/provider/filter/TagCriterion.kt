@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.provider.filter
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Tag
-import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -42,7 +41,8 @@ data class TagCriterion(
         }
 
         override val title = R.string.tags
-        override val icon: ImageVector
-            get() = Icons.Default.Tag
+        override val extendedTitle = R.string.search_tag
+        override val icon = Icons.Default.Tag
+        override val isPartial = true
     }
 }

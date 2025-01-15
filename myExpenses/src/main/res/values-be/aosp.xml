@@ -53,4 +53,6 @@
     <string name="percent_long">"{value,plural, =1{1 працэнт}one{# працэнт}few{# працэнты}many{# працэнтаў}other{# працэнта}}"</string>
     <string name="matchAll">"Адпавядаюць усім з наступных"</string>
     <string name="matchAny">"Адпавядаюць якому-небудзь з наступных"</string>
+    <string name="apply">"Прымяніць"</string>
+    <string name="add_filter">"Дадаць фільтр"</string>
 </resources>

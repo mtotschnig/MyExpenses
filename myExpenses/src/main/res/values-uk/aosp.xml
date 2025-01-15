@@ -136,4 +136,8 @@
     <string name="percent_long">"{value,plural, =1{1 відсоток}one{# відсоток}few{# відсотки}many{# відсотків}other{# відсотка}}"</string>
     <string name="matchAll">"За всіма наступними умовами"</string>
     <string name="matchAny">"За будь-якою з наступних умов"</string>
+    <string name="apply">"Застосувати"</string>
+    <string name="add_filter">"Додати фільтр"</string>
+    <string name="contains">"містить"</string>
+    <string name="does_not_contain">"не містить"</string>
 </resources>

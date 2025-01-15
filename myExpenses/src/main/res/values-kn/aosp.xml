@@ -123,4 +123,6 @@
     <string name="wifi_not_connected">"ವೈ-ಫೈ ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕ ಹೊಂದಿಲ್ಲ"</string>
     <string name="action_archive">"ಆರ್ಕೈವ್"</string>
     <string name="percent_long">"{value,plural, =1{ಶೇಕಡಾ 1}one{ಶೇಕಡಾ #}other{ಶೇಕಡಾ #}}"</string>
+    <string name="apply">"ಅನ್ವಯಿಸಿ"</string>
+    <string name="add_filter">"ಫಿಲ್ಟರ್ ಅನ್ನು ಸೇರಿಸು"</string>
 </resources>

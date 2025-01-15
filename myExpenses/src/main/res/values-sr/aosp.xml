@@ -50,4 +50,7 @@
     <string name="percent_long">"{value,plural, =1{1 посто}one{# посто}few{# посто}other{# посто}}"</string>
     <string name="matchAll">"Уклопи све од наведеног"</string>
     <string name="matchAny">"Уклопи било шта од наведеног"</string>
+    <string name="apply">"Примени"</string>
+    <string name="contains">"садржи"</string>
+    <string name="does_not_contain">"не садржи"</string>
 </resources>

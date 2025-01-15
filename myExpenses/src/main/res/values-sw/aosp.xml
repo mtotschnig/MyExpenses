@@ -48,4 +48,5 @@
     <string name="wifi_not_connected">"Muunganisho wa Wi-Fi umekatika"</string>
     <string name="action_archive">"Weka kwenye kumbukumbu"</string>
     <string name="percent_long">"{value,plural, =1{Asilimia 1}other{Asilimia #}}"</string>
+    <string name="apply">"Tumia"</string>
 </resources>

@@ -109,4 +109,5 @@
     <string name="wifi_not_connected">"‏Wi-Fi انٹرنیٹ سے منسلک نہیں ہے"</string>
     <string name="action_archive">"آرکائیو کریں"</string>
     <string name="percent_long">"{value,plural, =1{1 فیصد}other{# فیصد}}"</string>
+    <string name="apply">"لاگو کریں"</string>
 </resources>

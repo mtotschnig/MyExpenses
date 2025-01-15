@@ -63,4 +63,8 @@
     <string name="percent_long">"{value,plural, =1{1 пайыз}other{# пайыз}}"</string>
     <string name="matchAll">"Келесі шарттарға сай барлығын сәйкестеу"</string>
     <string name="matchAny">"Келесі шарттардың кез келгеніне сай сәйкестеу"</string>
+    <string name="apply">"Қолдану"</string>
+    <string name="add_filter">"Сүзгіні қосу"</string>
+    <string name="contains">"құрамында бар"</string>
+    <string name="does_not_contain">"құрамында жоқ"</string>
 </resources>

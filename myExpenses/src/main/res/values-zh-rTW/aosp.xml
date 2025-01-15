@@ -132,4 +132,8 @@
     <string name="percent_long">"{value,plural, =1{百分之 1}other{百分之 #}}"</string>
     <string name="matchAll">"符合下列全部"</string>
     <string name="matchAny">"符合下列任一項"</string>
+    <string name="apply">"套用"</string>
+    <string name="add_filter">"加入篩選"</string>
+    <string name="contains">"包含"</string>
+    <string name="does_not_contain">"不包含"</string>
 </resources>

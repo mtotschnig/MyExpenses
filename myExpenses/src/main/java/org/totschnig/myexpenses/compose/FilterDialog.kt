@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
@@ -43,10 +45,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.os.BundleCompat
@@ -268,7 +279,7 @@ fun FilterDialog(
                         }) {
                         Icon(
                             Icons.Filled.Done,
-                            contentDescription = stringResource(android.R.string.ok)
+                            contentDescription = stringResource(R.string.apply)
                         )
                     }
                 }
@@ -301,11 +312,19 @@ fun FilterDialog(
                 )
                 FlowRow {
                     filters.forEach { (info, onClick) ->
-                        TextButton(onClick = onClick) {
+                        val accessibleButtonText =
+                            stringResource(R.string.add_filter) + ": " +
+                            stringResource(info.extendedTitle)
+                        TextButton(
+                            modifier = Modifier.clearAndSetSemantics {
+                                contentDescription = accessibleButtonText
+                            },
+                            onClick = onClick
+                        ) {
                             Icon(
                                 modifier = Modifier.padding(end = 4.dp),
                                 imageVector = info.icon,
-                                contentDescription = "Add filter"
+                                contentDescription = null
                             )
                             Text(stringResource(info.title))
                         }
@@ -335,48 +354,99 @@ fun FilterDialog(
                                 onClick = null,
                                 selected = index == selectedComplex
                             )
-                            Text(text = stringResource(labelRes), modifier = Modifier.padding(start = 8.dp))
+                            Text(
+                                text = stringResource(labelRes),
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
                         }
                     }
                 }
 
-                criteriaSet.value.forEachIndexed { index, criterion ->
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = criterion.displayIcon,
-                            contentDescription = stringResource(criterion.displayTitle)
-                        )
-                        IconButton(
-                            onClick = { criteriaSet.value = criteriaSet.value.negate(index) }
-                        ) {
-                            CharIcon(if (criterion is NotCriterion) '≠' else '=', size = 18.sp)
+                Column(Modifier
+                    .verticalScroll(rememberScrollState())
+                    .semantics {
+                        collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
+                    }
+                ) {
+
+                    criteriaSet.value.forEachIndexed { index, criterion ->
+                        val negate = { criteriaSet.value = criteriaSet.value.negate(index) }
+                        val delete = { criteriaSet.value -= criterion }
+                        val edit = {
+                            currentEdit.value = criterion
+                            handleEdit(criterion)
                         }
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = ((criterion as? NotCriterion)?.criterion
-                                ?: criterion).prettyPrint(LocalContext.current)
-                        )
-                        IconButton(
-                            onClick = { criteriaSet.value -= criterion }
+                        val title = stringResource(criterion.displayTitle)
+                        val symbol  = criterion.displaySymbol.first
+                        val prettyPrint = ((criterion as? NotCriterion)?.criterion
+                            ?: criterion).prettyPrint(LocalContext.current)
+                        val contentDescription = criterion.contentDescription(LocalContext.current)
+                        val labelDelete = stringResource(R.string.menu_delete)
+                        val labelEdit = stringResource(R.string.menu_edit)
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .clearAndSetSemantics {
+                                    this.contentDescription = contentDescription
+                                    collectionItemInfo = CollectionItemInfo(index, 1, 1, 1)
+                                    customActions = listOf(
+                                        CustomAccessibilityAction(
+                                            label = "Negate",
+                                            action = {
+                                                negate()
+                                                true
+                                            }
+                                        ),
+                                        CustomAccessibilityAction(
+                                            label = labelDelete,
+                                            action = {
+                                                delete()
+                                                true
+                                            }
+                                        ),
+                                        CustomAccessibilityAction(
+                                            label = labelEdit,
+                                            action = {
+                                                edit
+                                                true
+                                            }
+                                        )
+                                    )
+                                },
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                Icons.Filled.Delete,
-                                contentDescription = stringResource(R.string.menu_delete)
+                                imageVector = criterion.displayIcon,
+                                contentDescription = title
                             )
-                        }
-                        IconButton(
-                            onClick = {
-                                currentEdit.value = criterion
-                                handleEdit(criterion)
+                            IconButton(
+                                modifier = Modifier.semantics {
+                                    invisibleToUser()
+                                },
+                                onClick = negate
+                            ) {
+                                CharIcon(symbol)
                             }
-                        ) {
-                            Icon(
-                                Icons.Filled.Edit,
-                                contentDescription = stringResource(R.string.menu_edit)
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                text = prettyPrint
                             )
+                            IconButton(
+                                onClick = delete
+                            ) {
+                                Icon(
+                                    Icons.Filled.Delete,
+                                    contentDescription = labelDelete
+                                )
+                            }
+                            IconButton(
+                                onClick = edit
+                            ) {
+                                Icon(
+                                    Icons.Filled.Edit,
+                                    contentDescription = labelEdit
+                                )
+                            }
                         }
                     }
                 }

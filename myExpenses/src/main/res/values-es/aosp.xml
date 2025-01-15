@@ -136,4 +136,8 @@
     <string name="percent_long">"{value,plural, =1{1 por ciento}other{# por ciento}}"</string>
     <string name="matchAll">"Todas estas reglas"</string>
     <string name="matchAny">"Cualquiera de estas reglas"</string>
+    <string name="apply">"Aplicar"</string>
+    <string name="add_filter">"Añadir filtro"</string>
+    <string name="contains">"contiene"</string>
+    <string name="does_not_contain">"no contiene"</string>
 </resources>

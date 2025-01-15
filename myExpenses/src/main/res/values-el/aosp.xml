@@ -135,4 +135,8 @@
     <string name="percent_long">"{value,plural, =1{1 τοις εκατό}other{# τοις εκατό}}"</string>
     <string name="matchAll">"Αντιστοίχιση όλων των παρακάτω"</string>
     <string name="matchAny">"Αντιστοίχιση οποιωνδήποτε από τα παρακάτω"</string>
+    <string name="apply">"Εφαρμογή"</string>
+    <string name="add_filter">"Προσθήκη φίλτρου"</string>
+    <string name="contains">"περιέχει"</string>
+    <string name="does_not_contain">"δεν περιέχει"</string>
 </resources>

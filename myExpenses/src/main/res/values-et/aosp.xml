@@ -70,4 +70,8 @@
     <string name="percent_long">"{value,plural, =1{1 protsent}other{# protsenti}}"</string>
     <string name="matchAll">"Vastab kõigile tingimustele"</string>
     <string name="matchAny">"Vastab vähemalt ühele tingimusele"</string>
+    <string name="apply">"Rakenda"</string>
+    <string name="add_filter">"Filtri lisamine"</string>
+    <string name="contains">"sisaldab"</string>
+    <string name="does_not_contain">"ei sisalda"</string>
 </resources>

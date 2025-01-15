@@ -138,4 +138,7 @@
     <string name="percent_long">"{value,plural, =1{1 في المئة}zero{# في المئة}two{# في المئة}few{# في المئة}many{# في المئة}other{# في المئة}}"</string>
     <string name="matchAll">"طابق كلّ التالي"</string>
     <string name="matchAny">"طابق أيًّا من التالي"</string>
+    <string name="apply">"تطبيق"</string>
+    <string name="add_filter">"أضف مرشّحا"</string>
+    <string name="does_not_contain">"لا يحوي"</string>
 </resources>

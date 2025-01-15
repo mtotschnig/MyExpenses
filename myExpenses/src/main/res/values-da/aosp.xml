@@ -136,4 +136,8 @@
     <string name="percent_long">"{value,plural, =1{1 procent}one{# procent}other{# procent}}"</string>
     <string name="matchAll">"Match alle de følgende"</string>
     <string name="matchAny">"Match en af følgende"</string>
+    <string name="apply">"Anvend"</string>
+    <string name="add_filter">"Tilføj filter"</string>
+    <string name="contains">"indeholder"</string>
+    <string name="does_not_contain">"indeholder ikke"</string>
 </resources>

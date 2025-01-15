@@ -31,7 +31,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 
 interface DisplayInfo {
     val title: Int
+    val extendedTitle: Int
     val icon: ImageVector
+    val isPartial: Boolean
+        get() = false
 }
 
 @Serializable

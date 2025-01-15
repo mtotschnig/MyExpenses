@@ -52,6 +52,7 @@ data class AccountCriterion(
         }
 
         override val title = R.string.account
+        override val extendedTitle = R.string.search_account
         override val icon = Icons.Default.AccountBalance
     }
 }

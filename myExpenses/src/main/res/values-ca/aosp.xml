@@ -136,4 +136,8 @@
     <string name="percent_long">"{value,plural, =1{1 per cent}other{# per cent}}"</string>
     <string name="matchAll">"Tots els següents"</string>
     <string name="matchAny">"Qualsevol dels següents"</string>
+    <string name="apply">"Aplica"</string>
+    <string name="add_filter">"Afegeix un filtre"</string>
+    <string name="contains">"conté"</string>
+    <string name="does_not_contain">"no conté"</string>
 </resources>

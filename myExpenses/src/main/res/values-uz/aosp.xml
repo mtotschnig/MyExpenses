@@ -54,4 +54,5 @@
     <string name="percent_long">"{value,plural, =1{1 foiz}other{# foiz}}"</string>
     <string name="matchAll">"Quyidagilardan barchasini topish"</string>
     <string name="matchAny">"Quyidagilardan har qaysisini topish"</string>
+    <string name="apply">"Tatbiq etish"</string>
 </resources>

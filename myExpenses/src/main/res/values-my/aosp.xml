@@ -56,4 +56,5 @@
     <string name="wifi_not_connected">"Wi-Fi သည် အင်တာနက်သို့ ချိတ်ဆက်မထားပါ"</string>
     <string name="action_archive">"မော်ကွန်းတင်ရန်"</string>
     <string name="percent_long">"{value,plural, =1{၁ ရာခိုင်နှုန်း}other{# ရာခိုင်နှုန်း}}"</string>
+    <string name="apply">"အသုံးပြုရန်"</string>
 </resources>

@@ -133,4 +133,8 @@
     <string name="percent_long">"{value,plural, =1{Ehuneko 1}other{Ehuneko #}}"</string>
     <string name="matchAll">"Arau hauetako guztiak"</string>
     <string name="matchAny">"Arau hauetako edozein"</string>
+    <string name="apply">"Aplikatu"</string>
+    <string name="add_filter">"Gehitu iragazkia"</string>
+    <string name="contains">"dauka"</string>
+    <string name="does_not_contain">"ez dauka"</string>
 </resources>

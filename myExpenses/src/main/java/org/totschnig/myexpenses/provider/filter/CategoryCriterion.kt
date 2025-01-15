@@ -67,6 +67,7 @@ data class CategoryCriterion(
                 }
 
         override val title = R.string.category
+        override val extendedTitle = R.string.search_category
         override val icon = Icons.Default.Category
     }
 }

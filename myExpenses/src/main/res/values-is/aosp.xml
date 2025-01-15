@@ -67,4 +67,8 @@
     <string name="percent_long">"{value,plural, =1{1 prósent}one{# prósent}other{# prósent}}"</string>
     <string name="matchAll">"Passar við allt af eftirtöldu"</string>
     <string name="matchAny">"Passar við eitthvað af eftirtöldu"</string>
+    <string name="apply">"Nota"</string>
+    <string name="add_filter">"Bæta við síu"</string>
+    <string name="contains">"inniheldur"</string>
+    <string name="does_not_contain">"inniheldur ekki"</string>
 </resources>

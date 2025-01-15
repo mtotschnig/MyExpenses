@@ -19,8 +19,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
@@ -34,35 +42,45 @@ fun FilterCard(
     whereFilter: Criterion,
     modifier: Modifier = Modifier,
 ) {
-    Row(
+    FlowRow(
         modifier = modifier
             .testTag(TEST_TAG_FILTER_CARD)
             .background(color = colorResource(id = R.color.cardBackground))
-            .padding(horizontal = dimensionResource(R.dimen.padding_main_screen), vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        FlowRow(
-            modifier = Modifier
-                .weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            if (whereFilter is ComplexCriterion) {
-                whereFilter.criteria.forEachIndexed { index, criterion ->
-                    FilterItem(criterion)
-                    if (index < whereFilter.criteria.size - 1) {
-                        CharIcon(whereFilter.symbol)
-                    }
+            .padding(horizontal = dimensionResource(R.dimen.padding_main_screen), vertical = 4.dp)
+            .optional(whereFilter as? ComplexCriterion) {
+                semantics {
+                    collectionInfo = CollectionInfo(it.criteria.size, 1)
                 }
-            } else {
-                FilterItem(whereFilter)
+            },
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        if (whereFilter is ComplexCriterion) {
+            val separatorDescription = stringResource(whereFilter.description)
+            whereFilter.criteria.forEachIndexed { index, criterion ->
+                FilterItem(criterion, index)
+                if (index < whereFilter.criteria.size - 1) {
+                    CharIcon(
+                        whereFilter.symbol,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .semantics { contentDescription = separatorDescription },
+                        size = 12.sp
+                    )
+                }
             }
+        } else {
+            FilterItem(whereFilter)
         }
     }
 }
 
 @Composable
-fun FilterItem(criterion: Criterion) {
-
+fun FilterItem(
+    criterion: Criterion,
+    index: Int? = null
+) {
+    val contentDescription = criterion.contentDescription(LocalContext.current)
     Row(
         Modifier
             .border(
@@ -70,7 +88,13 @@ fun FilterItem(criterion: Criterion) {
                 SuggestionChipDefaults.shape
             )
             .defaultMinSize(minHeight = 32.dp)
-            .padding(horizontal = 8.dp),
+            .padding(horizontal = 8.dp)
+            .clearAndSetSemantics {
+                this.contentDescription = contentDescription
+                index?.let {
+                    collectionItemInfo = CollectionItemInfo(index, 1, -1, -1)
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -88,7 +112,10 @@ fun FilterCardPreview() {
         AndCriterion(
             setOf(
                 NotCriterion(CommentCriterion("search")),
-                CommentCriterion("search")
+                CommentCriterion("search1"),
+                CommentCriterion("search2"),
+                CommentCriterion("search3"),
+                CommentCriterion("search4"),
             )
         )
     )

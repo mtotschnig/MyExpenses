@@ -134,4 +134,8 @@
     <string name="percent_long">"{value,plural, =1{yüzde 1}other{yüzde #}}"</string>
     <string name="matchAll">"Aşağıdakilerin tümüyle eşleştir"</string>
     <string name="matchAny">"Aşağıdakilerin herhangi biriyle eşleştir"</string>
+    <string name="apply">"Uygula"</string>
+    <string name="add_filter">"Süzgeç ekle"</string>
+    <string name="contains">"içerir"</string>
+    <string name="does_not_contain">"içermez"</string>
 </resources>
