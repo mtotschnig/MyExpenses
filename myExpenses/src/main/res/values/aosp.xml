@@ -243,7 +243,18 @@
     <string name="action_archive">"Archive"</string>
     <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -r "percent_long" res | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="percent_long" description="Percentage value with unit. [ICU SYNTAX][CHAR LIMIT=160]">{value, plural, =1 {1 percent} other {# percent}}</string>
-    <!-- thunderbird-l10n/es-AR/mail/chrome/messenger/searchTermOverlay.dtd matchAll.label -->
+    <!-- thunderbird-l10n/*/mail/chrome/messenger/searchTermOverlay.dtd -->
     <string name="matchAll">Match all of the following</string>
     <string name="matchAny">"Match any of the following"</string>
+    <!-- thunderbird-l10n/*/mail/chrome/messenger/search-operators.properties-->
+    <string name="filter_is">is</string>
+    <string name="filter_is_not">is not</string>
+    <!--/opt/extra/AOSP/packages/apps/Settings$ grep -r "\"apply\"" res | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
+    <string name="apply">"Apply"</string>
+    <!-- LibreOffice sc/messages.po VXEdh-->
+    <string name="add_filter">Add filter</string>
+    <!-- LibreOffice sc/messages.po 96Aos -->
+    <string name="contains">contains</string>
+    <!-- LibreOffice sc/messages.po X5K9F -->
+    <string name="does_not_contain">does not contain</string>
 </resources>

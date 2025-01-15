@@ -53,4 +53,5 @@
     <string name="percent_long">"{value,plural, =1{1 posto}one{# posto}few{# posto}other{# posto}}"</string>
     <string name="matchAll">"Podudara sa svime od sljedećeg"</string>
     <string name="matchAny">"Podudara s bilo čim od sljedećeg"</string>
+    <string name="apply">"Primijeni"</string>
 </resources>

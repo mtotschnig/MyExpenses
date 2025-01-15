@@ -66,4 +66,8 @@
     <string name="wifi_not_connected">"Wi‑Fi ከበይነመረብ ጋር አልተገናኘም"</string>
     <string name="action_archive">"ማኅደር"</string>
     <string name="percent_long">"{value,plural, =1{1 መቶኛ}one{# መቶኛ}other{# መቶኛ}}"</string>
+    <string name="apply">"ተግብር"</string>
+    <string name="add_filter">"ማጣሪያ መጨመሪያ"</string>
+    <string name="contains">"የያዘው"</string>
+    <string name="does_not_contain">"አልያዘም"</string>
 </resources>

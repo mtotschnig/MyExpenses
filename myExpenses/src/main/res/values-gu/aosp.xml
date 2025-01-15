@@ -56,4 +56,6 @@
     <string name="wifi_not_connected">"વાઇ-ફાઇ ઇન્ટરનેટ સાથે કનેક્ટેડ નથી"</string>
     <string name="action_archive">"આર્કાઇવ"</string>
     <string name="percent_long">"{value,plural, =1{1 ટકો}one{# ટકો}other{# ટકા}}"</string>
+    <string name="apply">"લાગુ કરો"</string>
+    <string name="add_filter">"ફિલ્ટર ઉમેરો"</string>
 </resources>

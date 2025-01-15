@@ -8,6 +8,7 @@ sealed class ComplexCriterion : Criterion {
     abstract val criteria: Set<Criterion>
     abstract val operator: String
     abstract val symbol: Char
+    abstract val description: Int
     override fun getSelectionForParts(
         tableName: String
     ) = criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {

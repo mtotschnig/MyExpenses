@@ -39,19 +39,28 @@ fun Icon(iconInfo: IIconInfo, size: TextUnit = 24.sp, color: Color? = null) {
                 tint = color ?: LocalContentColor.current
             )
         }
+
         is IconInfo -> {
-            CharIcon(iconInfo.unicode, iconInfo.fontFamily, size, color)
+            CharIcon(
+                iconInfo.unicode,
+                fontFamily = iconInfo.fontFamily,
+                size = size,
+                color = color
+            )
         }
     }
 }
+
 @Composable
 fun CharIcon(
     char: Char,
+    modifier: Modifier = Modifier,
     fontFamily: FontFamily? = null,
     size: TextUnit = 24.sp,
-    color: Color? = null
+    color: Color? = null,
 ) {
     Text(
+        modifier = modifier,
         text = char.toString(),
         style = TextStyle(
             lineHeight = size
@@ -61,7 +70,6 @@ fun CharIcon(
         color = color ?: Color.Unspecified
     )
 }
-
 
 
 @Preview

@@ -59,4 +59,7 @@
     <string name="wifi_not_connected">"Wi-Fi интернетэд холбогдоогүй байна"</string>
     <string name="action_archive">"Архивлах"</string>
     <string name="percent_long">"{value,plural, =1{1 хувь}other{# хувь}}"</string>
+    <string name="apply">"Хэрэгжүүлэх"</string>
+    <string name="contains">"агуулсан"</string>
+    <string name="does_not_contain">"агуулаагүй"</string>
 </resources>

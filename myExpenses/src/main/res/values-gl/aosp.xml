@@ -68,4 +68,8 @@
     <string name="percent_long">"{value,plural, =1{1 por cento}other{# por cento}}"</string>
     <string name="matchAll">"Coincidir con todo o seguinte"</string>
     <string name="matchAny">"Coincidir con calquera do seguinte"</string>
+    <string name="apply">"Aplicar"</string>
+    <string name="add_filter">"Engadir filtro"</string>
+    <string name="contains">"contén"</string>
+    <string name="does_not_contain">"non contén"</string>
 </resources>

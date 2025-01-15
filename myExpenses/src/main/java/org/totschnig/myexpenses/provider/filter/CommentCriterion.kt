@@ -44,6 +44,8 @@ data class CommentCriterion(override val searchString: String) : TextCriterion()
 
         fun fromStringExtra(extra: String) = CommentCriterion(extra)
         override val title = R.string.comment
+        override val extendedTitle = R.string.search_comment
         override val icon = Icons.AutoMirrored.Default.Notes
+        override val isPartial = true
     }
 }

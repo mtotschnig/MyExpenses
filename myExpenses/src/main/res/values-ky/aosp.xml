@@ -44,4 +44,5 @@
     <string name="wifi_not_connected">"Wi-Fi Интернет тармагына туташкан эмес"</string>
     <string name="action_archive">"Архивдөө"</string>
     <string name="percent_long">"{value,plural, =1{1 пайыз}other{# пайыз}}"</string>
+    <string name="apply">"Колдонуу"</string>
 </resources>

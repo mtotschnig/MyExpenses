@@ -61,4 +61,8 @@
     <string name="percent_long">"{value,plural, =1{1 procents}zero{# procentu}one{# procents}other{# procenti}}"</string>
     <string name="matchAll">"Atbilst visiem šiem noteikumiem"</string>
     <string name="matchAny">"Atbilst jebkuram no šiem"</string>
+    <string name="apply">"Lietot"</string>
+    <string name="add_filter">"Uzlikt filtru"</string>
+    <string name="contains">"satur"</string>
+    <string name="does_not_contain">"nesatur"</string>
 </resources>

@@ -67,4 +67,8 @@
     <string name="percent_long">"{value,plural, =1{1 persent}other{# persent}}"</string>
     <string name="matchAll">"Pas al die volgende"</string>
     <string name="matchAny">"Pas enige van die volgende"</string>
+    <string name="apply">"Pas toe"</string>
+    <string name="add_filter">"Filter byvoeg"</string>
+    <string name="contains">"bevat"</string>
+    <string name="does_not_contain">"bevat nie"</string>
 </resources>

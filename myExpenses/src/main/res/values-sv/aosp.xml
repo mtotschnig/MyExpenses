@@ -70,4 +70,8 @@
     <string name="percent_long">"{value,plural, =1{1 procent}other{# procent}}"</string>
   <string name="matchAll">"Matcha alla följande"</string>
   <string name="matchAny">"Matcha någon av följande"</string>
+    <string name="apply">"Tillämpa"</string>
+    <string name="add_filter">"Lägg till filter"</string>
+    <string name="contains">"innehåller"</string>
+    <string name="does_not_contain">"innehåller inte"</string>
 </resources>

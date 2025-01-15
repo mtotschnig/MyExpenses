@@ -138,4 +138,8 @@
     <string name="percent_long">"{value,plural, =1{1 procento}few{# procenta}many{# procenta}other{# procent}}"</string>
     <string name="matchAll">"Odpovídající všem pravidlům"</string>
     <string name="matchAny">"Odpovídající některému pravidlu"</string>
+    <string name="apply">"Použít"</string>
+    <string name="add_filter">"Přidat filtr"</string>
+    <string name="contains">"obsahuje"</string>
+    <string name="does_not_contain">"neobsahuje"</string>
 </resources>

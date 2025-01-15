@@ -133,4 +133,8 @@
     <string name="percent_long">"{value,plural, =1{1 パーセント}other{# パーセント}}"</string>
     <string name="matchAll">"すべての条件に一致"</string>
     <string name="matchAny">"いずれかの条件に一致"</string>
+    <string name="apply">"適用"</string>
+    <string name="add_filter">"フィルターを追加"</string>
+    <string name="contains">"次を含む"</string>
+    <string name="does_not_contain">"次を含まない"</string>
 </resources>

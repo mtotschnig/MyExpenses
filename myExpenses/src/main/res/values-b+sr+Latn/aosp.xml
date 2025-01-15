@@ -50,4 +50,5 @@
     <string name="show">"Prikaži"</string>
     <string name="wifi_not_connected">"Wi‑Fi mreža nije povezana na internet"</string>
     <string name="percent_long">"{value,plural, =1{1 posto}one{# posto}few{# posto}other{# posto}}"</string>
+    <string name="apply">"Primeni"</string>
 </resources>

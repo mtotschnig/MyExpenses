@@ -123,4 +123,6 @@
     <string name="percent_long">"{value,plural, =1{1 ភាគ​រយ}other{# ភាគ​រយ}}"</string>
     <string name="matchAll">"Համապատասխան հետևյալին"</string>
     <string name="matchAny">"Համապատասխան ցանկ. հետևյալին"</string>
+    <string name="apply">"អនុវត្ត"</string>
+    <string name="add_filter">"បន្ថែម​តម្រង"</string>
 </resources>

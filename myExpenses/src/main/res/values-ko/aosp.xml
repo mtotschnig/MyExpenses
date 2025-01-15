@@ -127,4 +127,6 @@
     <string name="percent_long">"{value,plural, =1{1퍼센트}other{#퍼센트}}"</string>
     <string name="matchAll">"모든 조건 검색"</string>
     <string name="matchAny">"모든 조건 중 하나라도 일치"</string>
+    <string name="apply">"적용"</string>
+    <string name="add_filter">"필터 추가"</string>
 </resources>

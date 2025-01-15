@@ -20,7 +20,6 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Height
-import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -168,9 +167,8 @@ data class AmountCriterion(
             }
         }
 
-        override val title: Int
-            get() = R.string.amount
-        override val icon: ImageVector
-            get() = Icons.Default.Height
+        override val title = R.string.amount
+        override val extendedTitle = R.string.search_amount
+        override val icon = Icons.Default.Height
     }
 }
