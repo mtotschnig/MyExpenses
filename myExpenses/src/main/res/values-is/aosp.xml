@@ -65,4 +65,6 @@
     <string name="wifi_not_connected">"Wi-Fi er ekki tengt internetinu"</string>
     <string name="action_archive">"Setja í geymslu"</string>
     <string name="percent_long">"{value,plural, =1{1 prósent}one{# prósent}other{# prósent}}"</string>
+    <string name="matchAll">"Passar við allt af eftirtöldu"</string>
+    <string name="matchAny">"Passar við eitthvað af eftirtöldu"</string>
 </resources>

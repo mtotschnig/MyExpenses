@@ -61,4 +61,6 @@
     <string name="wifi_not_connected">"Wi-Fi желісі интернетке қосылмаған"</string>
     <string name="action_archive">"Мұрағаттау"</string>
     <string name="percent_long">"{value,plural, =1{1 пайыз}other{# пайыз}}"</string>
+    <string name="matchAll">"Келесі шарттарға сай барлығын сәйкестеу"</string>
+    <string name="matchAny">"Келесі шарттардың кез келгеніне сай сәйкестеу"</string>
 </resources>

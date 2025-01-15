@@ -133,4 +133,6 @@
     <string name="wifi_not_connected">"Wi-Fi non connesso a Internet"</string>
     <string name="action_archive">"Archivia"</string>
     <string name="percent_long">"{value,plural, =1{1 per cento}other{# per cento}}"</string>
+    <string name="matchAll">"Soddisfano tutte le condizioni"</string>
+    <string name="matchAny">"Soddisfano anche una sola condizione"</string>
 </resources>

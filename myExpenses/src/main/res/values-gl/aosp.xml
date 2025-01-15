@@ -66,4 +66,6 @@
     <string name="wifi_not_connected">"A wifi non está conectada a Internet"</string>
     <string name="action_archive">"Arquivar"</string>
     <string name="percent_long">"{value,plural, =1{1 por cento}other{# por cento}}"</string>
+    <string name="matchAll">"Coincidir con todo o seguinte"</string>
+    <string name="matchAny">"Coincidir con calquera do seguinte"</string>
 </resources>

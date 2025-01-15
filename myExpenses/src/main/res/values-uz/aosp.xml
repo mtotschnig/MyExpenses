@@ -52,4 +52,6 @@
     <string name="wifi_not_connected">"Wi-Fi aloqasi bor, lekin Internetga ulanmagansiz"</string>
     <string name="action_archive">"Arxivlash"</string>
     <string name="percent_long">"{value,plural, =1{1 foiz}other{# foiz}}"</string>
+    <string name="matchAll">"Quyidagilardan barchasini topish"</string>
+    <string name="matchAny">"Quyidagilardan har qaysisini topish"</string>
 </resources>

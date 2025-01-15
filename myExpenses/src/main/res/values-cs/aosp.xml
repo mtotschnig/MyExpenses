@@ -136,4 +136,6 @@
     <string name="wifi_not_connected">"Síť Wi‑Fi nemá přístup k internetu"</string>
     <string name="action_archive">"Archivovat"</string>
     <string name="percent_long">"{value,plural, =1{1 procento}few{# procenta}many{# procenta}other{# procent}}"</string>
+    <string name="matchAll">"Odpovídající všem pravidlům"</string>
+    <string name="matchAny">"Odpovídající některému pravidlu"</string>
 </resources>

@@ -130,4 +130,6 @@
     <string name="wifi_not_connected">"Wi-Fi 無法連上網際網路"</string>
     <string name="action_archive">"封存"</string>
     <string name="percent_long">"{value,plural, =1{百分之 1}other{百分之 #}}"</string>
+    <string name="matchAll">"符合下列全部"</string>
+    <string name="matchAny">"符合下列任一項"</string>
 </resources>

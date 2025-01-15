@@ -125,4 +125,6 @@
     <string name="wifi_not_connected">"Wi‑Fi가 인터넷에 연결되어 있지 않음"</string>
     <string name="action_archive">"보관처리"</string>
     <string name="percent_long">"{value,plural, =1{1퍼센트}other{#퍼센트}}"</string>
+    <string name="matchAll">"모든 조건 검색"</string>
+    <string name="matchAny">"모든 조건 중 하나라도 일치"</string>
 </resources>

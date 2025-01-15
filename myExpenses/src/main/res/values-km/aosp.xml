@@ -121,4 +121,6 @@
     <string name="wifi_not_connected">"Wi-Fi មិនត្រូវបានភ្ជាប់ទៅអ៊ីនធឺណិតទេ"</string>
     <string name="action_archive">"ប័ណ្ណសារ"</string>
     <string name="percent_long">"{value,plural, =1{1 ភាគ​រយ}other{# ភាគ​រយ}}"</string>
+    <string name="matchAll">"Համապատասխան հետևյալին"</string>
+    <string name="matchAny">"Համապատասխան ցանկ. հետևյալին"</string>
 </resources>

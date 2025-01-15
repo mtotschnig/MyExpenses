@@ -54,4 +54,6 @@
     <string name="debug">"Korrigjo"</string>
     <string name="wifi_not_connected">"Wi-Fi nuk është i lidhur me internetin"</string>
     <string name="percent_long">"{value,plural, =1{1 për qind}other{# për qind}}"</string>
+    <string name="matchAll">"Kanë përputhje me krejt sa vijon"</string>
+    <string name="matchAny">"Kanë përputhje me ndonjë nga sa vijon"</string>
 </resources>

@@ -68,4 +68,6 @@
     <string name="wifi_not_connected">"Ingen internetanslutning med wifi"</string>
     <string name="action_archive">"Arkivera"</string>
     <string name="percent_long">"{value,plural, =1{1 procent}other{# procent}}"</string>
+  <string name="matchAll">"Matcha alla följande"</string>
+  <string name="matchAny">"Matcha någon av följande"</string>
 </resources>

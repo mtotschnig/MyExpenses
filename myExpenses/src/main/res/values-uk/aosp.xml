@@ -134,4 +134,6 @@
     <string name="wifi_not_connected">"Мережу Wi-Fi не під’єднано до Інтернету"</string>
     <string name="action_archive">"Архів"</string>
     <string name="percent_long">"{value,plural, =1{1 відсоток}one{# відсоток}few{# відсотки}many{# відсотків}other{# відсотка}}"</string>
+    <string name="matchAll">"За всіма наступними умовами"</string>
+    <string name="matchAny">"За будь-якою з наступних умов"</string>
 </resources>

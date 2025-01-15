@@ -65,4 +65,6 @@
     <string name="wifi_not_connected">"Wi‑Fi is nie aan die internet gekoppel nie"</string>
     <string name="action_archive">"Argiveer"</string>
     <string name="percent_long">"{value,plural, =1{1 persent}other{# persent}}"</string>
+    <string name="matchAll">"Pas al die volgende"</string>
+    <string name="matchAny">"Pas enige van die volgende"</string>
 </resources>

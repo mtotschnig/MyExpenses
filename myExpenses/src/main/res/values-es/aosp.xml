@@ -134,4 +134,6 @@
     <string name="wifi_not_connected">"La red Wi‑Fi no tiene conexión a Internet"</string>
     <string name="action_archive">"Archivar"</string>
     <string name="percent_long">"{value,plural, =1{1 por ciento}other{# por ciento}}"</string>
+    <string name="matchAll">"Todas estas reglas"</string>
+    <string name="matchAny">"Cualquiera de estas reglas"</string>
 </resources>
