@@ -4,20 +4,27 @@ import com.google.common.truth.Truth
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Test
+import org.totschnig.myexpenses.model.CrStatus
 import java.time.LocalDate
 
 class CriteriaSerializationTest {
     @Test
     fun testRoundTrip() {
         val criterion: Criterion = AndCriterion(
-            listOf(
+            setOf(
                 NotCriterion(
                     OrCriterion(
-                        listOf(
-                            CommentCriterion("suche"),
-                            AmountCriterion(WhereFilter.Operation.EQ, listOf(1), "EUR", true),
+                        setOf(
+                            AccountCriterion("Bank", 1L),
+                            AmountCriterion(Operation.EQ, listOf(1), "EUR", true),
                             CategoryCriterion("Food", 1),
-                            DateCriterion(LocalDate.now(), LocalDate.now().plusDays(1))
+                            CommentCriterion("suche"),
+                            CrStatusCriterion(listOf(CrStatus.VOID)),
+                            DateCriterion(LocalDate.now(), LocalDate.now().plusDays(1)),
+                            MethodCriterion("CHEQUE", 1),
+                            PayeeCriterion("Joe", 1),
+                            TagCriterion("Tag", 1),
+                            TransferCriterion("Bank", 1L),
                         )
                     )
                 )

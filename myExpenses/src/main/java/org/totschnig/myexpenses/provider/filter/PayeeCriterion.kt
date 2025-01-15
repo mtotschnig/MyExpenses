@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 @Parcelize
 @Serializable
 @SerialName(DatabaseConstants.KEY_PAYEEID)
-class PayeeCriterion(
+data class PayeeCriterion(
     override val label: String,
     override val values: List<Long>
 ) : IdCriterion() {
@@ -44,10 +44,10 @@ class PayeeCriterion(
         get() = PayeeCriterion
 
     override fun getSelection(forExport: Boolean): String {
-        return if (operation === WhereFilter.Operation.ISNULL) {
+        return if (operation === Operation.ISNULL) {
             super.getSelection(false)
         } else {
-            val selection = WhereFilter.Operation.IN.getOp(values.size)
+            val selection = Operation.IN.getOp(values.size)
             (column + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
                     + DatabaseConstants.TABLE_PAYEES + " WHERE " + DatabaseConstants.KEY_PARENTID + " " + selection + " OR "
                     + DatabaseConstants.KEY_ROWID + " " + selection + ")")

@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 @Parcelize
 @Serializable
 @SerialName(KEY_TRANSFER_ACCOUNT)
-class TransferCriterion(
+data class TransferCriterion(
     override val label: String,
     override val values: List<Long>
 ) : IdCriterion() {

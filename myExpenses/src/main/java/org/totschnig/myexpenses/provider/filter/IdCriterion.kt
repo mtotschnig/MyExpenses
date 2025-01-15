@@ -21,7 +21,6 @@ import android.content.Context
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
 @Serializable
@@ -48,10 +47,6 @@ sealed class IdCriterion : SimpleCriterion<Long>() {
         }
         return column
     }
-
-    override fun toString() =
-        if (operation == Operation.ISNULL) "null" else escapeSeparator(label) +
-                EXTRA_SEPARATOR + values.joinToString(EXTRA_SEPARATOR)
 
     companion object {
 

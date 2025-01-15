@@ -39,15 +39,13 @@ data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriter
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_CR_STATUS
     @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
+    override val operation = Operation.IN
 
     override val displayInfo: DisplayInfo
         get() = CrStatusCriterion
 
     override fun prettyPrint(context: Context) =
         values.joinToString(",") { context.getString(it.toStringRes()) }
-
-    override fun toString() = values.joinToString(EXTRA_SEPARATOR)
 
     override val shouldApplyToSplitTransactions get() = false
 

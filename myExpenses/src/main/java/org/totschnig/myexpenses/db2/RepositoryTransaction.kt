@@ -31,8 +31,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
@@ -43,8 +41,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
@@ -144,11 +142,11 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
 
 }
 
-fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? = null): Long {
+fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = null): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
     var selectionArgs: Array<String>? = arrayOf(account.id.toString())
-    if (filter != null && !filter.isEmpty) {
+    if (filter != null) {
         selection += " AND " + filter.getSelectionForParents()
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }

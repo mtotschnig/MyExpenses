@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDateTime
 
@@ -60,7 +60,7 @@ class GroupQueryTest : BaseTestWithRepository() {
     @Test
     fun groupQueryFilterWithCategoryFilter() {
         insertTransactions()
-        val filter = WhereFilter(listOf(CategoryCriterion("Neutral", neutralCategoryId)))
+        val filter = CategoryCriterion("Neutral", neutralCategoryId)
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
@@ -88,12 +88,8 @@ class GroupQueryTest : BaseTestWithRepository() {
     @Test
     fun groupQueryFilterWithAmountFilter() {
         insertTransactions()
-        val filter = WhereFilter(
-            listOf(
-                AmountCriterion.create(
-                    WhereFilter.Operation.EQ, "EUR", true, 400L, null
-                )
-            )
+        val filter = AmountCriterion.create(
+            Operation.EQ, "EUR", true, 400L, null
         )
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),

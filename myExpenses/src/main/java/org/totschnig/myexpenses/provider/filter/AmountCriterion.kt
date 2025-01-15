@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.absoluteValue
 
@@ -84,15 +83,6 @@ data class AmountCriterion(
 
                     else -> throw IllegalArgumentException()
                 }
-    }
-
-    override fun toString(): String {
-        var result =
-            operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + (if (sign) "1" else "0") + EXTRA_SEPARATOR + values[0]
-        if (operation == Operation.BTW) {
-            result += EXTRA_SEPARATOR + values[1]
-        }
-        return result
     }
 
     fun transformForUi(): Pair<Operation, Array<Long>> {

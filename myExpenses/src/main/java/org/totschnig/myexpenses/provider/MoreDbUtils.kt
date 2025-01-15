@@ -17,7 +17,6 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.DEFAULT_CATEGORY_PATH_SEPARATOR
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
@@ -73,7 +72,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMM
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.sync.SyncAdapter
@@ -741,7 +740,7 @@ fun checkSyncAccounts(context: Context) {
     val validAccounts = getAccountNames(context)
     val where =
         if (validAccounts.isNotEmpty())
-            "$KEY_SYNC_ACCOUNT_NAME NOT " + WhereFilter.Operation.IN.getOp(validAccounts.size)
+            "$KEY_SYNC_ACCOUNT_NAME NOT " + Operation.IN.getOp(validAccounts.size)
         else null
     context.contentResolver.update(
         TransactionProvider.ACCOUNTS_URI, ContentValues(1).apply {

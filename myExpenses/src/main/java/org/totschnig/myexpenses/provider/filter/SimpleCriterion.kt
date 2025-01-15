@@ -21,7 +21,6 @@ import android.content.Context
 import android.os.Parcelable
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -29,7 +28,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
 interface DisplayInfo {
     val title: Int
@@ -63,10 +61,6 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
     fun size(): Int = values.size
 
     override fun prettyPrint(context: Context) = values.joinToString()
-
-    override fun toString(): String {
-        throw UnsupportedOperationException("Only subclasses can be persisted")
-    }
 
     /**
      * @return selection wrapped in a way that it also finds split transactions with parts

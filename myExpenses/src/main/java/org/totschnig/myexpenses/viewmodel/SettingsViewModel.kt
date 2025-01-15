@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalend
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils

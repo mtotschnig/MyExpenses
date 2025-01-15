@@ -159,7 +159,7 @@ import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
@@ -652,7 +652,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
         String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST).split(";");
 
-        selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type " + WhereFilter.Operation.IN.getOp(accountTypes.length);
+        selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type " + Operation.IN.getOp(accountTypes.length);
         selectionArgs = accountTypes;
         if (sortOrder == null) {
           sortOrder = localizedLabel + " COLLATE " + getCollate();

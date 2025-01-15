@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import java.lang.reflect.Type
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -28,7 +28,7 @@ import java.time.ZonedDateTime
 class JSONExporter(
     account: Account,
     currencyContext: CurrencyContext,
-    filter: WhereFilter?,
+    filter: Criterion?,
     notYetExportedP: Boolean,
     dateFormat: String,
     decimalSeparator: Char,

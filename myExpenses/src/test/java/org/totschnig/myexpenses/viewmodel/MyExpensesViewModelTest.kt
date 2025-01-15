@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 
@@ -86,13 +85,13 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private fun getReconciledAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
                 repository.getTransactionSum(account,
-                    WhereFilter.empty().put(CrStatusCriterion(listOf(CrStatus.RECONCILED)))
+                    CrStatusCriterion(listOf(CrStatus.RECONCILED))
                 )
 
     private fun getClearedAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
                 repository.getTransactionSum(account,
-                    WhereFilter.empty().put(CrStatusCriterion(listOf(CrStatus.CLEARED)))
+                    CrStatusCriterion(listOf(CrStatus.CLEARED))
                 )
 
     @Test
@@ -111,7 +110,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         insertData()
         val initialTotalBalance = getTotalAccountBalance(account1)
         assertThat(count()).isEqualTo(6)
-        val filter = WhereFilter.empty().put(CategoryCriterion(TEST_CAT, categoryId))
+        val filter = CategoryCriterion(TEST_CAT, categoryId)
         viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         assertThat(count()).isEqualTo(5) //1 Transaction deleted
         assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
@@ -125,7 +124,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(1)
         assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(0)
 
-        val filter = WhereFilter.empty().put(CategoryCriterion(TEST_CAT, categoryId))
+        val filter = CategoryCriterion(TEST_CAT, categoryId)
         viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_CREATE_HELPER, null)
 
         assertThat(count()).isEqualTo(6) //-1 Transaction deleted;+1 helper

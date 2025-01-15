@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.os.BundleCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -33,7 +34,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -89,8 +89,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val currency = args.getString(KEY_CURRENCY)
                     val encoding = args.getString(KEY_ENCODING)!!
                     val handleDelete = args.getInt(KEY_EXPORT_HANDLE_DELETED)
-                    val filter =
-                        WhereFilter(args.getParcelableArrayList(KEY_FILTER)!!)
+                    val filter = BundleCompat.getParcelable(args, KEY_FILTER, Criterion::class.java)
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
 

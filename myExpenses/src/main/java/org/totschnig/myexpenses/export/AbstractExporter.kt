@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACH
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.calculateEquivalentAmount
 import org.totschnig.myexpenses.provider.fileName
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -43,7 +43,7 @@ abstract class AbstractExporter
     (
     val account: Account,
     val currencyContext: CurrencyContext,
-    private val filter: WhereFilter?,
+    private val filter: Criterion?,
     private val notYetExportedP: Boolean,
     private val dateFormat: String,
     private val decimalSeparator: Char,
@@ -92,7 +92,7 @@ abstract class AbstractExporter
         //first we check if there are any exportable transactions
         var selection = "$KEY_PARENTID is null"
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
-        val selectionArgs = if (filter != null && !filter.isEmpty) {
+        val selectionArgs = if (filter != null) {
             selection += " AND " + filter.getSelectionForParents()
             filter.getSelectionArgs(false)
         } else null

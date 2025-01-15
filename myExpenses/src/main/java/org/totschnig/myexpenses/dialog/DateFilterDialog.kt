@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.FilterDateBinding
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.filter.criterion
 import java.time.LocalDate
 
@@ -69,7 +69,7 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
                 DateCriterion(date1, binding.date2.selectedDate)
             } else {
                 DateCriterion(
-                    WhereFilter.Operation.valueOf(selectedOp),
+                    Operation.valueOf(selectedOp),
                     date1
                 )
             }

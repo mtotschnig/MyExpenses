@@ -129,7 +129,7 @@ import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -166,7 +166,7 @@ open class MyExpensesViewModel(
 
     fun showStatusHandle() =
         dataStore.data.map { preferences ->
-            preferences[showStatusHandlePrefKey] ?: true
+            preferences[showStatusHandlePrefKey] != false
         }
 
     suspend fun persistShowStatusHandle(showStatus: Boolean) {
@@ -572,8 +572,7 @@ open class MyExpensesViewModel(
                 if (reset) {
                     reset(
                         account = repository.loadAccount(accountId)!!,
-                        filter = WhereFilter.empty()
-                            .put(CrStatusCriterion(listOf(CrStatus.RECONCILED))),
+                        filter = CrStatusCriterion(listOf(CrStatus.RECONCILED)),
                         handleDelete = EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
                         helperComment = null
                     )
@@ -587,7 +586,7 @@ open class MyExpensesViewModel(
             contentResolver.update(
                 ACCOUNTS_URI,
                 ContentValues().apply { put(KEY_HIDDEN, hidden) },
-                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(itemIds.size)}",
+                "$KEY_ROWID ${Operation.IN.getOp(itemIds.size)}",
                 itemIds.map { it.toString() }.toTypedArray()
             )
         }
@@ -781,7 +780,7 @@ open class MyExpensesViewModel(
                         it.crStatus = crStatus
                     }
                     val operations = parent.buildSaveOperations(contentResolver, false)
-                    val where = KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(count)
+                    val where = KEY_ROWID + " " + Operation.IN.getOp(count)
                     val selectionArgs = ids.map { it.toString() }.toTypedArray()
                     operations.add(
                         ContentProviderOperation.newUpdate(TRANSACTIONS_URI)

@@ -66,7 +66,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.checkForSealedDebt
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -311,7 +311,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      */
     fun reset(
         account: Account,
-        filter: WhereFilter?,
+        filter: Criterion?,
         handleDelete: Int,
         helperComment: String?
     ) {
@@ -334,7 +334,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
         val rowSelect = buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())
-        if (filter != null && !filter.isEmpty) {
+        if (filter != null) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)

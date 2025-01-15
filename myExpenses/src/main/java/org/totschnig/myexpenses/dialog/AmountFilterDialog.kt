@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion.Companion.create
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.filter.criterion
 import org.totschnig.myexpenses.util.ui.withOkClick
 
@@ -83,7 +83,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         } else null
         parentFragmentManager.confirmFilter(
             create(
-                WhereFilter.Operation.valueOf(selectedOp),
+                Operation.valueOf(selectedOp),
                 currency.code,
                 type,
                 amount1.amountMinor,
