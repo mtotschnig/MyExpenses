@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -104,12 +105,18 @@ fun FilterDialog(
 
     val initialSet = criterion.asSet
 
-    val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable {
+    val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable(
+        saver = Saver(
+            save = { ArrayList(it.value) },
+            restore = { mutableStateOf(it.toSet()) }
+        )
+    ) {
         mutableStateOf(initialSet)
     }
+
     val isDirty by remember { derivedStateOf { initialSet != criteriaSet.value } }
 
-    var confirmDiscard by remember { mutableStateOf(false) }
+    var confirmDiscard by rememberSaveable { mutableStateOf(false) }
 
     val currentEdit: MutableState<Criterion?> = rememberSaveable {
         mutableStateOf(null)
