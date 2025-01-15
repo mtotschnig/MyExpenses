@@ -20,7 +20,6 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
 @Serializable
@@ -32,20 +31,7 @@ sealed class IdCriterion : SimpleCriterion<Long>() {
         get() = if (values.isEmpty()) Operation.ISNULL else Operation.IN
 
     override fun prettyPrint(context: Context): String {
-        return if (operation == Operation.ISNULL) String.format(
-            "%s: %s",
-            columnName2Label(context),
-            context.getString(R.string.unmapped)
-        ) else label
-    }
-
-    private fun columnName2Label(context: Context): String {
-        when (column) {
-            DatabaseConstants.KEY_CATID -> return context.getString(R.string.category)
-            DatabaseConstants.KEY_PAYEEID -> return context.getString(R.string.payer_or_payee)
-            DatabaseConstants.KEY_METHODID -> return context.getString(R.string.method)
-        }
-        return column
+        return if (operation == Operation.ISNULL) context.getString(R.string.unmapped) else label
     }
 
     companion object {
