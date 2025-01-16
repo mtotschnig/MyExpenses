@@ -67,6 +67,8 @@
     <string name="percent_long">"{value,plural, =1{1 տոկոս}one{# տոկոս}other{# տոկոս}}"</string>
     <string name="matchAll">"Համապատասխան հետևյալին"</string>
     <string name="matchAny">"Համապատասխան ցանկ. հետևյալին"</string>
+    <string name="filter_is">համընկնում է</string>
+    <string name="filter_is_not">չի համընկնում</string>
     <string name="apply">"Կիրառել"</string>
     <string name="add_filter">"Ավելացնել զտիչ"</string>
     <string name="contains">"պարունակում է"</string>

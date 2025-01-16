@@ -138,6 +138,8 @@
     <string name="percent_long">"{value,plural, =1{1 procent}few{# procent}many{# procent}other{# procent}}"</string>
     <string name="matchAll">"Wszystkie warunki spełnione"</string>
     <string name="matchAny">"Spełniony dowolny z warunków"</string>
+    <string name="filter_is">to</string>
+    <string name="filter_is_not">to nie</string>
     <string name="apply">"Zastosuj"</string>
     <string name="add_filter">"Dodaj filtr"</string>
     <string name="contains">"zawiera"</string>

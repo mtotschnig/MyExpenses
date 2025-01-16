@@ -127,6 +127,8 @@
     <string name="percent_long">"{value,plural, =1{אחוז אחד}one{# אחוזים}two{# אחוזים}other{# אחוזים}}"</string>
     <string name="matchAll">"התאם את כל התנאים הבאים"</string>
     <string name="matchAny">"התאם לפחות לתנאי אחד מהבאים"</string>
+    <string name="filter_is">הינו</string>
+    <string name="filter_is_not">אינו</string>
     <string name="apply">"אישור"</string>
     <string name="add_filter">"הוספת מסנן"</string>
     <string name="contains">"מכיל"</string>

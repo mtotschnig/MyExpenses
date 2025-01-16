@@ -131,6 +131,8 @@
     <string name="percent_long">"{value,plural, =1{1 phần trăm}other{# phần trăm}}"</string>
     <string name="matchAll">"Phù hợp tất cả những tìm kiếm sau"</string>
     <string name="matchAny">"Phù hợp bất kì tìm kiếm nào"</string>
+    <string name="filter_is">là</string>
+    <string name="filter_is_not">không là</string>
     <string name="apply">"Áp dụng"</string>
     <string name="contains">"chứa"</string>
     <string name="does_not_contain">"không chứa"</string>

@@ -56,5 +56,7 @@
     <string name="percent_long">"{value,plural, =1{1 për qind}other{# për qind}}"</string>
     <string name="matchAll">"Kanë përputhje me krejt sa vijon"</string>
     <string name="matchAny">"Kanë përputhje me ndonjë nga sa vijon"</string>
+    <string name="filter_is">është</string>
+    <string name="filter_is_not">s’është</string>
     <string name="apply">"Zbato"</string>
 </resources>

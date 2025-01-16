@@ -62,5 +62,7 @@
     <string name="percent_long">"{value,plural, =1{1 პროცენტი}other{# პროცენტი}}"</string>
     <string name="matchAll">"ემთხვევა ყველას შემდეგიდან"</string>
     <string name="matchAny">"ემთხვევა რომელიმეს შემდეგიდან"</string>
+    <string name="filter_is">ემთხვევა</string>
+    <string name="filter_is_not">არ ემთხვევა</string>
     <string name="apply">"მისადაგება"</string>
 </resources>

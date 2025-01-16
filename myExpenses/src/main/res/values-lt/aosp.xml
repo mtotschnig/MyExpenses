@@ -62,6 +62,8 @@
     <string name="percent_long">"{value,plural, =1{1 procentas}one{# procentas}few{# procentai}many{# procento}other{# procentų}}"</string>
     <string name="matchAll">"visos sąlygos"</string>
     <string name="matchAny">"bent viena iš sąlygų"</string>
+    <string name="filter_is">yra</string>
+    <string name="filter_is_not">nėra</string>
     <string name="apply">"Taikyti"</string>
     <string name="add_filter">"Pridėti filtrą"</string>
 </resources>

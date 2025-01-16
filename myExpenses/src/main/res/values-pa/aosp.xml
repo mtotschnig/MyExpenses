@@ -44,5 +44,7 @@
     <string name="percent_long">"{value,plural, =1{1 ਫ਼ੀਸਦ}one{# ਫ਼ੀਸਦ}other{# ਫ਼ੀਸਦ}}"</string>
     <string name="matchAll">"ਹੇਠ ਦਿੱਤਿਆਂ ਵਿੱਚੋਂ ਸਭ ਮੇਲਾਓ"</string>
     <string name="matchAny">"ਹੇਠ ਦਿੱਤਿਆਂ ਵਿੱਚੋਂ ਕੋਈ ਵੀ ਮੇਲਾਓ"</string>
+    <string name="filter_is">ਹੈ</string>
+    <string name="filter_is_not">ਨਹੀਂ ਹੈ</string>
     <string name="apply">"ਲਾਗੂ ਕਰੋ"</string>
 </resources>
