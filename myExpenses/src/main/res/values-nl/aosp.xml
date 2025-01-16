@@ -132,6 +132,8 @@
     <string name="percent_long">"{value,plural, =1{1 procent}other{# procent}}"</string>
     <string name="matchAll">"Moet voldoen aan al het volgende"</string>
     <string name="matchAny">"Moet voldoen aan één van het volgende"</string>
+    <string name="filter_is">is</string>
+    <string name="filter_is_not">is niet</string>
     <string name="apply">"Toepassen"</string>
     <string name="add_filter">"Filter toevoegen"</string>
     <string name="contains">"bevat"</string>

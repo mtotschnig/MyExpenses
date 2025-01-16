@@ -52,5 +52,7 @@
     <string name="percent_long">"{value,plural, =1{1 odstotek}one{# odstotek}two{# odstotka}few{# odstotki}other{# odstotkov}}"</string>
     <string name="matchAll">"Izpolni vsa merila"</string>
     <string name="matchAny">"Izpolni vsaj eno merilo"</string>
+    <string name="filter_is">je</string>
+    <string name="filter_is_not">ni</string>
     <string name="apply">"Uporabi"</string>
 </resources>

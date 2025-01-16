@@ -55,5 +55,7 @@
     <string name="percent_long">"{value,plural, =1{1 процент}one{# процент}other{# проценти}}"</string>
     <string name="matchAll">"Сите да се совпаѓаат"</string>
     <string name="matchAny">"Да се совпаѓа било кој од следниве"</string>
+    <string name="filter_is">е</string>
+    <string name="filter_is_not">не е</string>
     <string name="apply">"Примени"</string>
 </resources>

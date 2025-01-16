@@ -69,6 +69,8 @@
     <string name="percent_long">"{value,plural, =1{1 เปอร์เซ็นต์}other{# เปอร์เซ็นต์}}"</string>
     <string name="matchAll">"ตรงกับเกณฑ์ดังต่อไปนี้ทั้งหมด"</string>
     <string name="matchAny">"ตรงกับบางเกณฑ์ดังต่อไปนี้"</string>
+    <string name="filter_is">เป็น</string>
+    <string name="filter_is_not">ไม่ใช่</string>
     <string name="apply">"ใช้"</string>
     <string name="add_filter">"เพิ่มปุ่มตัวกรอง"</string>
     <string name="contains">"เนื้อหามี"</string>

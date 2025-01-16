@@ -69,6 +69,8 @@
     <string name="percent_long">"{value,plural, =1{1 percento}few{# percentá}many{# percenta}other{# percent}}"</string>
     <string name="matchAll">"Správy spĺňajúce všetky nasledujúce podmienky"</string>
     <string name="matchAny">"Správy spĺňajúce aspoň jednu podmienku"</string>
+    <string name="filter_is">je</string>
+    <string name="filter_is_not">nie je</string>
     <string name="apply">"Použiť"</string>
     <string name="add_filter">"Pridať filter"</string>
     <string name="contains">"obsahuje"</string>

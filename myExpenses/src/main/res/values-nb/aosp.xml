@@ -69,6 +69,8 @@
     <string name="percent_long">"{value,plural, =1{1 prosent}other{# prosent}}"</string>
     <string name="matchAll">"Alle reglene passer"</string>
     <string name="matchAny">"En av reglene passer"</string>
+    <string name="filter_is">er</string>
+    <string name="filter_is_not">er ikke</string>
     <string name="apply">"Bruk"</string>
     <string name="add_filter">"Legg til filter"</string>
     <string name="contains">"inneholder"</string>

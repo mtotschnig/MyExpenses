@@ -137,6 +137,8 @@
     <string name="percent_long">"{value,plural, =1{1 процент}other{# процента}}"</string>
     <string name="matchAll">"Съвпадат с всички"</string>
     <string name="matchAny">"Съвпадат с някое"</string>
+    <string name="filter_is">е</string>
+    <string name="filter_is_not">не е</string>
     <string name="apply">"Прилагане"</string>
     <string name="add_filter">"Добавяне на филтър"</string>
     <string name="contains">"съдържа"</string>

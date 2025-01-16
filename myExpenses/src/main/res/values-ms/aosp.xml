@@ -113,5 +113,7 @@
     <string name="percent_long">"{value,plural, =1{1 peratus}other{# peratus}}"</string>
     <string name="matchAll">"Sepadan semua yang berikut"</string>
     <string name="matchAny">"Sepadan mana-mana yang berikut"</string>
+    <string name="filter_is">adalah</string>
+    <string name="filter_is_not">bukan</string>
     <string name="apply">"Gunakan"</string>
 </resources>

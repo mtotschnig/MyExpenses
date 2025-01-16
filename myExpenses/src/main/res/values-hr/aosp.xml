@@ -128,6 +128,8 @@
     <string name="percent_long">"{value,plural, =1{1 posto}one{# posto}few{# posto}other{# posto}}"</string>
     <string name="matchAll">"Podudara sa svime od sljedećeg"</string>
     <string name="matchAny">"Podudara s bilo čime od sljedećeg"</string>
+    <string name="filter_is">je</string>
+    <string name="filter_is_not">nije</string>
     <string name="apply">"Primijeni"</string>
     <string name="add_filter">"Dodaj filter"</string>
     <string name="contains">"sadržava"</string>

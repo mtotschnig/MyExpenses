@@ -128,6 +128,8 @@
     <string name="percent_long">"{value,plural, =1{Un procent}few{# procente}other{# de procente}}"</string>
     <string name="matchAll">"Toate condițiile de mai jos"</string>
     <string name="matchAny">"Oricare din condițiile de mai jos"</string>
+    <string name="filter_is">este</string>
+    <string name="filter_is_not">nu este</string>
     <string name="apply">"Aplică"</string>
     <string name="add_filter">"Adaugă un filtru"</string>
 </resources>

@@ -137,6 +137,8 @@
     <string name="percent_long">"{value,plural, =1{1 százalék}other{# százalék}}"</string>
     <string name="matchAll">"A következők mind illeszkedjenek"</string>
     <string name="matchAny">"A következők bármelyike illeszkedjen"</string>
+    <string name="filter_is">van</string>
+    <string name="filter_is_not">nem</string>
     <string name="apply">"Alkalmaz"</string>
     <string name="add_filter">"Szűrő hozzáadása"</string>
     <string name="contains">"tartalmazza"</string>

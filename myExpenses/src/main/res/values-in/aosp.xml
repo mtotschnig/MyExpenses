@@ -70,6 +70,8 @@
     <string name="percent_long">"{value,plural, =1{1 persen}other{# persen}}"</string>
     <string name="matchAll">"Sesuai dengan yang berikut"</string>
     <string name="matchAny">"Sesuai dengan salah satu dari"</string>
+    <string name="filter_is">tidak mengandung</string>
+    <string name="filter_is_not">sama dengan</string>
     <string name="apply">"Terapkan"</string>
     <string name="add_filter">"Tambah penapis"</string>
     <string name="contains">"memuat"</string>
