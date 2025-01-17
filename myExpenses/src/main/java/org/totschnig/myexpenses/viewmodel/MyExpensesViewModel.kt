@@ -128,7 +128,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNSPLIT
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -368,8 +368,8 @@ open class MyExpensesViewModel(
             prefHandler
         )
 
-    val filterPersistence: Map<Long, FilterPersistenceV2> = lazyMap {
-        FilterPersistenceV2(
+    val filterPersistence: Map<Long, FilterPersistence> = lazyMap {
+        FilterPersistence(
             dataStore,
             prefNameForCriteria(it),
             viewModelScope
@@ -856,6 +856,7 @@ open class MyExpensesViewModel(
     }
 
     companion object {
-        fun prefNameForCriteria(accountId: Long) = "filter_v2_${accountId}"
+        fun prefNameForCriteriaLegacy(accountId: Long) = "filter_%s_${accountId}"
+        fun prefNameForCriteria(accountId: Long) = "filter_${accountId}"
     }
 }

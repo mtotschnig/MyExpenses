@@ -34,18 +34,17 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
-import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteriaV2
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -116,7 +115,7 @@ suspend fun Repository.sumLoaderForBudget(
         aggregateNeutral.toString()
     )
     val filterPersistence =
-        FilterPersistenceV2(dataStore, prefNameForCriteriaV2(budget.id))
+        FilterPersistence(dataStore, prefNameForCriteria(budget.id))
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
     val selectionArgs: Array<String>? = filterPersistence.getValue()?.let {
@@ -370,7 +369,7 @@ suspend fun Repository.importBudget(
         }
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
-        val filterPersistence = FilterPersistenceV2(dataStore, prefNameForCriteriaV2(budgetId))
+        val filterPersistence = FilterPersistence(dataStore, prefNameForCriteria(budgetId))
         val criteria: List<Criterion> = buildList {
             categoryFilter?.mapNotNull { path ->
                 ensureCategoryPath(path)?.let { path.last().label to it }
@@ -411,11 +410,7 @@ suspend fun Repository.importBudget(
                 add(AccountCriterion(label, *ids))
             }
         }
-        filterPersistence.persist(when(criteria.size) {
-            0 -> null
-            1 -> criteria.first()
-            else -> AndCriterion(criteria.toSet())
-        })
+        filterPersistence.persist(criteria)
         budgetId
     }
 }

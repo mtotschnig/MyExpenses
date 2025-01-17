@@ -78,7 +78,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.Operation
@@ -330,7 +330,7 @@ open class CategoryViewModel(
             null,
             null
         )?.use { cursor ->
-            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteriaV2)
+            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
         }
     }
 
@@ -378,7 +378,7 @@ open class CategoryViewModel(
         while (!cursor.isAfterLast) {
             val id = cursor.getLong(KEY_ROWID)
             val filterKey = prefNameCreator(id)
-            val filterPersistence = FilterPersistenceV2(dataStore, filterKey)
+            val filterPersistence = FilterPersistence(dataStore, filterKey)
             filterPersistence.getValue()?.let {
                 val newValue = updateCriterion(it, old, new)
                 if (newValue != it) {

@@ -1,137 +1,65 @@
 package org.totschnig.myexpenses.provider.filter
 
-import android.os.Bundle
-import androidx.annotation.CheckResult
-import androidx.core.os.BundleCompat
-import kotlinx.coroutines.flow.MutableStateFlow
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.time.format.DateTimeParseException
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlin.collections.first
 
-const val KEY_FILTER = "filter"
-
+/**
+ * Scope must be passed in, if value is read as flow
+ */
 class FilterPersistence(
-    val prefHandler: PrefHandler,
-    private val keyTemplate: String,
-    savedInstanceState: Bundle?,
-    val immediatePersist: Boolean,
-    restoreFromPreferences: Boolean = true
+    val dataStore: DataStore<Preferences>,
+    val prefKey: String,
+    scope: CoroutineScope? = null,
 ) {
-    private val _whereFilter: MutableStateFlow<WhereFilter>
-    val whereFilter: WhereFilter
-        get() = _whereFilter.value
 
-    init {
-        _whereFilter = MutableStateFlow(
-            savedInstanceState
-                ?.let { BundleCompat.getParcelableArrayList(it, KEY_FILTER, SimpleCriterion::class.java) }
-                ?.let { WhereFilter(it) }
-                ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
-        )
+    private val preferenceKey = stringPreferencesKey(prefKey)
+
+    private val data = dataStore.data.map {
+        it[preferenceKey]?.let { Json.decodeFromString<Criterion?>(it) }
     }
 
-    @CheckResult
-    private fun WhereFilter.restoreColumn(
-        column: String,
-        producer: (String) -> SimpleCriterion<*>?
-    ): WhereFilter {
-        val prefNameForCriteria = prefNameForCriteria(column)
-        return prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
-            producer(prefValue)?.let {
-                put(it)
-            } ?: kotlin.run {
-                prefHandler.remove(prefNameForCriteria)
-                this
-            }
-        } ?: this
+    val whereFilter: StateFlow<Criterion?> by lazy {
+        data.stateIn(scope!!, SharingStarted.Lazily, null)
     }
 
-    @CheckResult
-    private fun restoreFromPreferences() = WhereFilter.empty()
-        .restoreColumn(KEY_CATID) {
-            CategoryCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_AMOUNT) {
-            AmountCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_COMMENT) {
-            CommentCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_CR_STATUS) {
-            CrStatusCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_PAYEEID) {
-            PayeeCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_METHODID) {
-            MethodCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_DATE) {
-            try {
-                DateCriterion.fromStringExtra(it)
-            } catch (e: DateTimeParseException) {
-                CrashHandler.report(e)
-                null
+    suspend fun getValue() = data.first()
+
+    suspend fun persist(list: Collection<Criterion>) {
+        persist(when(list.size) {
+            0 -> null
+            1 -> list.first()
+            else -> AndCriterion(list.toSet())
+        })
+    }
+
+    suspend fun persist(value: Criterion?) {
+        dataStore.edit {
+            if (value != null) {
+                it[preferenceKey] = Json.encodeToString(value)
+            } else {
+                it.remove(preferenceKey)
             }
         }
-        .restoreColumn(KEY_TRANSFER_ACCOUNT) {
-            TransferCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(KEY_TAGID) {
-            TagCriterion.fromStringExtra(it)
-        }
-        .restoreColumn(ACCOUNT_COLUMN) {
-            AccountCriterion.fromStringExtra(it)
-        }
-
-    fun addCriterion(criterion: SimpleCriterion<*>) {
-        _whereFilter.value = whereFilter.put(criterion)
-        if (immediatePersist) {
-            persist(criterion)
-        }
     }
 
-    fun removeFilter(id: Int): Boolean = whereFilter[id]?.also {
-        _whereFilter.value = whereFilter.remove(id)
-        if (immediatePersist) {
-            prefHandler.remove(prefNameForCriteria(it))
-        }
-    } != null
-
-    fun persistAll() {
-        arrayOf(
-            KEY_CATID, KEY_AMOUNT, KEY_COMMENT, KEY_CR_STATUS, KEY_PAYEEID, KEY_METHODID, KEY_DATE,
-            KEY_TRANSFER_ACCOUNT, KEY_TAGID, ACCOUNT_COLUMN
-        ).forEach { column ->
-            whereFilter[column]?.let {
-                persist(it)
-            } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(column)) }
-        }
-    }
-
-    private fun persist(criterion: SimpleCriterion<*>) {
-        prefHandler.putString(prefNameForCriteria(criterion), criterion.toString())
-    }
-
-    private fun prefNameForCriteria(criterion: SimpleCriterion<*>) = prefNameForCriteria(criterion.key)
-
-    private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
-
-    fun clear() {
-        if (immediatePersist) {
-            whereFilter.criteria.forEach { criteria ->
-                prefHandler.remove(prefNameForCriteria(criteria))
-            }
-        }
-        _whereFilter.value = WhereFilter.empty()
-    }
-
-    fun reloadFromPreferences() {
-        _whereFilter.value = restoreFromPreferences()
-    }
-
-    fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArrayList(KEY_FILTER, ArrayList(whereFilter.criteria))
+   suspend fun addCriterion(criterion: SimpleCriterion<*>) {
+       val oldValue = whereFilter.value
+       persist(when (oldValue) {
+           null -> criterion
+           is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
+           is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
+           else -> AndCriterion(setOf(oldValue, criterion))
+       })
     }
 }

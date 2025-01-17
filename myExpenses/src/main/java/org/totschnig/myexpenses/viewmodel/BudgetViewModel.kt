@@ -26,10 +26,10 @@ open class BudgetViewModel(application: Application) :
     }
 
     companion object {
-        fun prefNameForCriteriaV2(budgetId: Long): String =
+        fun prefNameForCriteria(budgetId: Long): String =
             "budgetFilter_%d".format(Locale.ROOT, budgetId)
 
-        fun prefNameForCriteria(budgetId: Long): String =
+        fun prefNameForCriteriaLegacy(budgetId: Long): String =
             "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
     }
 }

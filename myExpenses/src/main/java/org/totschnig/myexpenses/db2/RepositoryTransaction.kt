@@ -100,14 +100,11 @@ fun Repository.createTransaction(transaction: Transaction): Long {
     return id
 }
 
-fun Repository.loadTransactions(accountId: Long): List<Transaction> {
+suspend fun Repository.loadTransactions(accountId: Long): List<Transaction> {
     val filter = FilterPersistence(
-        prefHandler = prefHandler,
-        keyTemplate = MyExpensesViewModel.prefNameForCriteria(accountId),
-        savedInstanceState = null,
-        immediatePersist = false,
-        restoreFromPreferences = true
-    ).whereFilter.takeIf { !it.isEmpty }?.let {
+        dataStore = dataStore,
+        prefKey = MyExpensesViewModel.prefNameForCriteria(accountId),
+    ).getValue()?.let {
         it.getSelectionForParents() to it.getSelectionArgs(false)
     }
     //noinspection Recycle

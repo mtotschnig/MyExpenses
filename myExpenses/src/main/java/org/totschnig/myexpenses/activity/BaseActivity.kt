@@ -111,7 +111,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -1311,7 +1310,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun showDetails(
         transactionId: Long,
         fullScreen: Boolean = false,
-        currentFilter: FilterPersistenceV2? = null,
+        currentFilter: FilterPersistence? = null,
         sortOrder: String? = null
     ) {
         lifecycleScope.launchWhenResumed {
