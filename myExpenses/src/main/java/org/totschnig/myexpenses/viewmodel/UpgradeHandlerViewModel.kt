@@ -607,7 +607,9 @@ class UpgradeHandlerViewModel(application: Application) :
         while (!cursor.isAfterLast) {
             val id = cursor.getLong(KEY_ROWID)
             val old = FilterPersistenceLegacy(prefHandler, prefNameCreatorLegacy(id))
-            val new = FilterPersistence(dataStore, prefNameCreator(id))
+            val prefKey = prefNameCreator(id)
+            val new = FilterPersistence(dataStore, prefKey)
+            Timber.d("migrating %s", prefKey)
             new.persist(old.whereFilter.criteria)
             cursor.moveToNext()
         }
