@@ -19,4 +19,16 @@
     <string name="synchronization_title">மேகக்கணினி ஒத்திசைவு</string>
     <string name="webui_title">வலை பயனர் இடைமுகம்</string>
     <string name="professional_benefit_1">பிரீமியம் அம்சங்களைத் திறக்கவும்</string>
+    <string name="categorytree_title">வகை மரம்</string>
+    <string name="categorytree_description">தன்னிச்சையாக ஆழமான வகை வரிசைமுறை</string>
+    <string name="adfree_description">விளம்பரங்கள் இல்லை.</string>
+    <string name="distribution_title">பை விளக்கப்படம்</string>
+    <string name="csvimport_description">அதிநவீன, தனிப்பயனாக்கக்கூடிய சி.எச்.வி இறக்குமதி (விரிதாள் பயன்பாடுகள்)</string>
+    <string name="distribution_description">வெவ்வேறு காலங்களில் (ஆண்டுகள், மாதங்கள், வாரங்கள், நாட்கள்) ஒரு வகைக்கு பரிவர்த்தனைகளின் புள்ளிவிவர விநியோகத்தை காட்சிப்படுத்துங்கள்</string>
+    <string name="print_description">பரிவர்த்தனை பட்டியலை PDF கோப்பில் அச்சிடுக</string>
+    <string name="synchronization_description">பல சாதனங்களுக்கு இடையில் தரவை ஒத்திசைக்க முடியும்.</string>
+    <string name="ocr_description">தொகை, தேதி மற்றும் பணம் செலுத்துபவர் தானாகவே பிரித்தெடுக்கவும்</string>
+    <string name="plansunlimited_description">தொடர்ச்சியான பரிவர்த்தனைகளுக்கு மூன்று திட்டங்களுக்கு மேல் உருவாக்கும் திறனைத் திறக்கவும்.</string>
+    <string name="splittransaction_description">ஒரு பரிவர்த்தனையை பல பகுதிகளாக (வகைகள் மற்றும் இடமாற்றங்கள்) பிரிக்கலாம்.</string>
+    <string name="webui_description">தரவு உள்ளீட்டிற்கு உங்கள் டெச்க்டாப் உலாவியைப் பயன்படுத்தவும்</string>
 </resources>
