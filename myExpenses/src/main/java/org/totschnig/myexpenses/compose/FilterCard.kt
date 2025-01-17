@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SuggestionChipDefaults
@@ -40,10 +41,10 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 @Composable
 fun FilterCard(
     whereFilter: Criterion,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     FlowRow(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
             .testTag(TEST_TAG_FILTER_CARD)
             .background(color = colorResource(id = R.color.cardBackground))
             .padding(horizontal = dimensionResource(R.dimen.padding_main_screen), vertical = 4.dp)
@@ -105,7 +106,7 @@ fun FilterItem(
     }
 }
 
-@Preview
+@Preview(widthDp = 350)
 @Composable
 fun FilterCardPreview() {
     FilterCard(
@@ -113,9 +114,6 @@ fun FilterCardPreview() {
             setOf(
                 NotCriterion(CommentCriterion("search")),
                 CommentCriterion("search1"),
-                CommentCriterion("search2"),
-                CommentCriterion("search3"),
-                CommentCriterion("search4"),
             )
         )
     )

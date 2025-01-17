@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -140,11 +141,18 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 }
                 _whereFilter.update {
                     FilterPersistenceV2(
-                        prefHandler, BudgetViewModel.prefNameForCriteriaV2(budgetId), null,
-                        immediatePersist = false,
-                        restoreFromPreferences = true
-                    ).whereFilter
+                        dataStore, BudgetViewModel.prefNameForCriteriaV2(budgetId),
+                        viewModelScope
+                    ).getValue()
                 }
+            }
+        }
+
+        viewModelScope.launch {
+            FilterPersistenceV2(
+                dataStore, BudgetViewModel.prefNameForCriteriaV2(budgetId), viewModelScope
+            ).whereFilter.collect {
+                _whereFilter.update { it }
             }
         }
 

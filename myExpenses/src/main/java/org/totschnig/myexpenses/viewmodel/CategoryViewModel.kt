@@ -75,9 +75,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.Operation
+import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getIntOrNull
@@ -97,7 +102,6 @@ import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.FileNotFoundException
-import java.util.Locale
 
 sealed class LoadingState {
     data object Loading : LoadingState()
@@ -310,7 +314,7 @@ open class CategoryViewModel(
         }
     }
 
-    private fun updateCategoryFilters(old: Set<Long>, new: Long) {
+    private suspend fun updateCategoryFilters(old: Set<Long>, new: Long) {
         contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
             ?.use { cursor ->
                 updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
@@ -318,7 +322,7 @@ open class CategoryViewModel(
     }
 
 
-    private fun updateCategoryBudgets(old: Set<Long>, new: Long) {
+    private suspend fun updateCategoryBudgets(old: Set<Long>, new: Long) {
         contentResolver.query(
             BUDGETS_URI,
             arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
@@ -326,26 +330,18 @@ open class CategoryViewModel(
             null,
             null
         )?.use { cursor ->
-            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
+            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteriaV2)
         }
     }
 
-    private fun updateFilterHelper(
+    private fun updateCriterion(
+        criterion: Criterion,
         old: Set<Long>,
         new: Long,
-        cursor: Cursor,
-        prefNameCreator: (Long) -> String
-    ) {
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val filterKey = prefNameCreator(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)))
-                .format(Locale.ROOT, KEY_CATID)
-            val oldFilterValue = prefHandler.getString(filterKey, null)
-            val oldCriteria = oldFilterValue?.let {
-                CategoryCriterion.fromStringExtra(it)
-            }
-            if (oldCriteria != null) {
-                val oldSet = oldCriteria.values.toSet()
+    ): Criterion {
+        return when(criterion) {
+            is CategoryCriterion -> {
+                val oldSet = criterion.values.toSet()
                 val newSet: Set<Long> = oldSet.replace(old, new)
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
@@ -359,17 +355,35 @@ open class CategoryViewModel(
                             it.moveToNext()
                         }
                     }
-                    val newFilterValue = CategoryCriterion(
+                    CategoryCriterion(
                         labelList.joinToString(","),
                         *newSet.toLongArray()
-                    ).toString()
-                    Timber.d(
-                        "Updating %s (%s -> %s",
-                        filterKey,
-                        oldFilterValue,
-                        newFilterValue
                     )
-                    prefHandler.putString(filterKey, newFilterValue)
+                } else criterion
+            }
+            is NotCriterion -> NotCriterion(updateCriterion(criterion.criterion, old, new))
+            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            else -> criterion
+        }
+    }
+
+    private suspend fun updateFilterHelper(
+        old: Set<Long>,
+        new: Long,
+        cursor: Cursor,
+        prefNameCreator: (Long) -> String
+    ) {
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val id = cursor.getLong(KEY_ROWID)
+            val filterKey = prefNameCreator(id)
+            val filterPersistence = FilterPersistenceV2(dataStore, filterKey)
+            filterPersistence.getValue()?.let {
+                val newValue = updateCriterion(it, old, new)
+                if (newValue != it) {
+                    Timber.i("updating categories in filter %s: %s -> %s", filterKey, it, newValue)
+                    filterPersistence.persist(newValue)
                 }
             }
             cursor.moveToNext()

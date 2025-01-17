@@ -316,7 +316,7 @@ open class MyExpensesViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val headerData: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
-        filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
+        filterPersistence.getValue(account.id).whereFilter.flatMapLatest { filter ->
             val groupingQuery = account.groupingQuery(filter)
             contentResolver.observeQuery(
                 uri = groupingQuery.first.build(),
@@ -361,7 +361,7 @@ open class MyExpensesViewModel(
         TransactionPagingSource(
             getApplication(),
             account,
-            filterPersistence.getValue(account.id).whereFilterAsFlow,
+            filterPersistence.getValue(account.id).whereFilter,
             tags,
             currencyContext,
             viewModelScope,
@@ -370,8 +370,9 @@ open class MyExpensesViewModel(
 
     val filterPersistence: Map<Long, FilterPersistenceV2> = lazyMap {
         FilterPersistenceV2(
-            prefHandler,
-            prefNameForCriteria(it)
+            dataStore,
+            prefNameForCriteria(it),
+            viewModelScope
         )
     }
 

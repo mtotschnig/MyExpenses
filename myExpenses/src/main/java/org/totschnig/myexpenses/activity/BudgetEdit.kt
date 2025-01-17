@@ -95,24 +95,11 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
 
     private fun removeFilter(id: Int) {
         setDirty()
-        viewModel.criteria.removeAll { it.id == id }
-        findViewById<ScrollingChip>(id)?.apply {
-            when (id) {
-                R.id.FILTER_CATEGORY_COMMAND -> R.string.budget_filter_all_categories
-                R.id.FILTER_PAYEE_COMMAND -> R.string.budget_filter_all_parties
-                R.id.FILTER_METHOD_COMMAND -> R.string.budget_filter_all_methods
-                R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_states
-                R.id.FILTER_TAG_COMMAND -> R.string.budget_filter_all_tags
-                R.id.FILTER_ACCOUNT_COMMAND -> R.string.budget_filter_all_accounts
-                else -> 0
-            }.takeIf { it != 0 }?.let { text = getString(it) }
-            isCloseIconVisible = false
-        }
-        configureFilterDependents()
+        viewModel.removeFilter(id)
     }
 
     private fun startFilterDialog(id: Int) {
-        val edit = viewModel.criteria.find{ it.id == id }
+        val edit = viewModel.criteria.value.find { it.id == id }
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(null to edit as? CategoryCriterion)
 
@@ -189,15 +176,33 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         if (!newInstance) {
             viewModel.initWith(budgetId)
         }
-
-        viewModel.criteria.forEach(this::showFilterCriteria)
-        configureFilterDependents()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.criteria.collect { criteria ->
+                    listOf(
+                        R.id.FILTER_CATEGORY_COMMAND to R.string.budget_filter_all_categories,
+                        R.id.FILTER_PAYEE_COMMAND to R.string.budget_filter_all_parties,
+                        R.id.FILTER_METHOD_COMMAND to R.string.budget_filter_all_methods,
+                        R.id.FILTER_STATUS_COMMAND to R.string.budget_filter_all_states,
+                        R.id.FILTER_TAG_COMMAND to R.string.budget_filter_all_tags,
+                        R.id.FILTER_ACCOUNT_COMMAND to R.string.budget_filter_all_accounts
+                    ).forEach { (id, label) ->
+                        findViewById<ScrollingChip>(id)?.apply {
+                            val criterion = criteria.find { it.id == id }
+                            text = criterion?.prettyPrint(this@BudgetEdit) ?: getText(label)
+                            isCloseIconVisible = criterion != null
+                        }
+                    }
+                    configureFilterDependents(criteria.isEmpty())
+                }
+            }
+        }
         setTitle(if (newInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
         linkInputsWithLabels()
         supportFragmentManager.setFragmentResultListener(RC_CONFIRM_FILTER, this) { _, result ->
             BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
                 ?.let {
-                   addFilterCriterion(it)
+                    addFilterCriterion(it)
                 }
         }
     }
@@ -213,16 +218,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
 
     fun addFilterCriterion(c: SimpleCriterion<*>) {
         setDirty()
-        viewModel.criteria.add(c)
-        showFilterCriteria(c)
-        configureFilterDependents()
-    }
-
-    private fun showFilterCriteria(c: SimpleCriterion<*>) {
-        findViewById<ScrollingChip>(c.id)?.apply {
-            text = c.prettyPrint(this@BudgetEdit)
-            isCloseIconVisible = true
-        }
+        viewModel.addFilterCriterion(c)
     }
 
     override fun onResume() {
@@ -296,8 +292,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         binding.DefaultBudget.isVisible = grouping != Grouping.NONE
     }
 
-    private fun configureFilterDependents() {
-        val isEmpty = viewModel.criteria.isEmpty()
+    private fun configureFilterDependents(isEmpty: Boolean) {
         with(binding.DefaultBudget) {
             if (!isEmpty) {
                 isChecked = false

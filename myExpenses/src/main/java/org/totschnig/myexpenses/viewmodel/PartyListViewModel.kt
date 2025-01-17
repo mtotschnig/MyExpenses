@@ -49,15 +49,20 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_HIE
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.filter.AndCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.NotCriterion
+import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
-import java.util.Locale
 
 const val KEY_EXPANDED_ITEM = "expandedItem"
 
@@ -177,7 +182,7 @@ class PartyListViewModel(
         }
     }
 
-    private fun updatePartyFilters(old: Set<Long>, new: Long) {
+    private suspend fun updatePartyFilters(old: Set<Long>, new: Long) {
         contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
             ?.use { cursor ->
                 updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
@@ -185,7 +190,7 @@ class PartyListViewModel(
     }
 
 
-    private fun updatePartyBudgets(old: Set<Long>, new: Long) {
+    private suspend fun updatePartyBudgets(old: Set<Long>, new: Long) {
         contentResolver.query(
             BUDGETS_URI,
             arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
@@ -193,29 +198,18 @@ class PartyListViewModel(
             null,
             null
         )?.use { cursor ->
-            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
+            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteriaV2)
         }
     }
 
-    private fun updateFilterHelper(
+    private fun updateCriterion(
+        criterion: Criterion,
         old: Set<Long>,
         new: Long,
-        cursor: Cursor,
-        prefNameCreator: (Long) -> String
-    ) {
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val payeeFilterKey =
-                prefNameCreator(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))).format(
-                    Locale.ROOT,
-                    KEY_PAYEEID
-                )
-            val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
-            val oldCriteria: PayeeCriterion? = oldPayeeFilterValue?.let {
-                PayeeCriterion.fromStringExtra(it)
-            }
-            if (oldCriteria != null) {
-                val oldSet = oldCriteria.values.toSet()
+    ): Criterion {
+        return when(criterion) {
+            is PayeeCriterion -> {
+                val oldSet = criterion.values.toSet()
                 val newSet: Set<Long> = oldSet.replace(old, new)
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
@@ -229,17 +223,35 @@ class PartyListViewModel(
                             it.moveToNext()
                         }
                     }
-                    val newPayeeFilterValue = PayeeCriterion(
+                    PayeeCriterion(
                         labelList.joinToString(","),
                         *newSet.toLongArray()
-                    ).toString()
-                    Timber.d(
-                        "Updating %s (%s -> %s",
-                        payeeFilterKey,
-                        oldPayeeFilterValue,
-                        newPayeeFilterValue
                     )
-                    prefHandler.putString(payeeFilterKey, newPayeeFilterValue)
+                } else criterion
+            }
+            is NotCriterion -> NotCriterion(updateCriterion(criterion.criterion, old, new))
+            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            else -> criterion
+        }
+    }
+
+    private suspend fun updateFilterHelper(
+        old: Set<Long>,
+        new: Long,
+        cursor: Cursor,
+        prefNameCreator: (Long) -> String
+    ) {
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val id = cursor.getLong(KEY_ROWID)
+            val filterKey = prefNameCreator(id)
+            val filterPersistence = FilterPersistenceV2(dataStore, filterKey)
+            filterPersistence.getValue()?.let {
+                val newValue = updateCriterion(it, old, new)
+                if (newValue != it) {
+                    Timber.i("updating parties in filter %s: %s -> %s", filterKey, it, newValue)
+                    filterPersistence.persist(newValue)
                 }
             }
             cursor.moveToNext()
@@ -338,7 +350,7 @@ class PartyListViewModel(
                 try {
                     if (id == 0L) repository.createParty(party) else repository.saveParty(party)
                     true
-                } catch (e: SQLiteConstraintException) {
+                } catch (_: SQLiteConstraintException) {
                     false
                 }
             )

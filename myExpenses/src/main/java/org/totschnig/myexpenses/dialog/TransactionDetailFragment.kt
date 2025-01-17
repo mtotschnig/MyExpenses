@@ -745,7 +745,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             TransactionDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(KEY_ROWID, id)
-                    currentFilter?.whereFilter?.let {
+                    currentFilter?.whereFilter?.value?.let {
                         putParcelable(KEY_FILTER, it)
                     }
                     sortOrder?.let {

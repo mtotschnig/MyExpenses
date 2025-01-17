@@ -34,8 +34,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
@@ -100,7 +102,7 @@ fun budgetAllocationQueryUri(
     } else this
 }
 
-fun Repository.sumLoaderForBudget(
+suspend fun Repository.sumLoaderForBudget(
     budget: Budget,
     aggregateNeutral: Boolean,
     period: Pair<Int, Int>?,
@@ -114,10 +116,10 @@ fun Repository.sumLoaderForBudget(
         aggregateNeutral.toString()
     )
     val filterPersistence =
-        FilterPersistenceV2(prefHandler, prefNameForCriteriaV2(budget.id), null, false)
+        FilterPersistenceV2(dataStore, prefNameForCriteriaV2(budget.id))
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
-    val selectionArgs: Array<String>? = filterPersistence.whereFilter?.let {
+    val selectionArgs: Array<String>? = filterPersistence.getValue()?.let {
         filterClause += " AND " + it.getSelectionForParts(
             DatabaseConstants.VIEW_WITH_ACCOUNT
         )
@@ -313,7 +315,7 @@ fun Repository.saveBudgetOp(
     }
 }
 
-fun Repository.importBudget(
+suspend fun Repository.importBudget(
     budgetExport: BudgetExport,
     budgetId: Long,
     accountId: Long,
@@ -368,47 +370,52 @@ fun Repository.importBudget(
         }
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)
-        val filterPersistence = FilterPersistenceV2(prefHandler, prefNameForCriteriaV2(budgetId), null,
-            immediatePersist = false, restoreFromPreferences = false)
-        categoryFilter?.mapNotNull { path ->
-            ensureCategoryPath(path)?.let { path.last().label to it }
-        }?.let {
-            val label = it.joinToString { it.first }
-            val ids = it.map { it.second }.toLongArray()
-            filterPersistence.addCriterion(CategoryCriterion(label, *ids))
+        val filterPersistence = FilterPersistenceV2(dataStore, prefNameForCriteriaV2(budgetId))
+        val criteria: List<Criterion> = buildList {
+            categoryFilter?.mapNotNull { path ->
+                ensureCategoryPath(path)?.let { path.last().label to it }
+            }?.let {
+                val label = it.joinToString { it.first }
+                val ids = it.map { it.second }.toLongArray()
+                add(CategoryCriterion(label, *ids))
+            }
+            partyFilter?.map { it to requireParty(it) }?.let {
+                val label = it.joinToString { it.first }
+                val ids = it.map { it.second }.toLongArray()
+                add(PayeeCriterion(label, *ids))
+            }
+            methodFilter?.mapNotNull { method ->
+                findPaymentMethod(method)?.let { method.translateIfPredefined(context) to it }
+            }?.let {
+                val label = it.joinToString { it.first }
+                val ids = it.map { it.second }.toLongArray()
+                add(MethodCriterion(label, *ids))
+            }
+            statusFilter?.mapNotNull {
+                try { CrStatus.valueOf(it) } catch (_: Exception) { null }
+            }?.takeIf { it.isNotEmpty() }?.let {
+                add(CrStatusCriterion(it))
+            }
+            tagFilter?.takeIf { it.isNotEmpty() }?.map {
+                it to extractTagId(it)
+            }?.let {
+                val label = it.joinToString { it.first }
+                val ids = it.map { it.second }.toLongArray()
+                add(TagCriterion(label, *ids))
+            }
+            accountFilter?.mapNotNull { accountUuid ->
+                findAccountByUuidWithExtraColumn(accountUuid, KEY_LABEL)
+            }?.takeIf { it.isNotEmpty() }?.let {
+                val label = it.joinToString { it.second!! }
+                val ids = it.map { it.first }.toLongArray()
+                add(AccountCriterion(label, *ids))
+            }
         }
-        partyFilter?.map { it to requireParty(it) }?.let {
-            val label = it.joinToString { it.first }
-            val ids = it.map { it.second }.toLongArray()
-            filterPersistence.addCriterion(PayeeCriterion(label, *ids))
-        }
-        methodFilter?.mapNotNull { method ->
-            findPaymentMethod(method)?.let { method.translateIfPredefined(context) to it }
-        }?.let {
-            val label = it.joinToString { it.first }
-            val ids = it.map { it.second }.toLongArray()
-            filterPersistence.addCriterion(MethodCriterion(label, *ids))
-        }
-        statusFilter?.mapNotNull {
-            try { CrStatus.valueOf(it) } catch (_: Exception) { null }
-        }?.takeIf { it.isNotEmpty() }?.let {
-            filterPersistence.addCriterion(CrStatusCriterion(it))
-        }
-        tagFilter?.takeIf { it.isNotEmpty() }?.map {
-            it to extractTagId(it)
-        }?.let {
-            val label = it.joinToString { it.first }
-            val ids = it.map { it.second }.toLongArray()
-            filterPersistence.addCriterion(TagCriterion(label, *ids))
-        }
-        accountFilter?.mapNotNull { accountUuid ->
-            findAccountByUuidWithExtraColumn(accountUuid, KEY_LABEL)
-        }?.takeIf { it.isNotEmpty() }?.let {
-            val label = it.joinToString { it.second!! }
-            val ids = it.map { it.first }.toLongArray()
-            filterPersistence.addCriterion(AccountCriterion(label, *ids))
-        }
-        filterPersistence.persist()
+        filterPersistence.persist(when(criteria.size) {
+            0 -> null
+            1 -> criteria.first()
+            else -> AndCriterion(criteria.toSet())
+        })
         budgetId
     }
 }

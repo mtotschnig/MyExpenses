@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
@@ -45,6 +46,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -960,17 +962,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         } else null
 
         val headerData = remember(account) { viewModel.headerData(account) }
+        val coroutineScope = rememberCoroutineScope()
         if (showFilterDialog) {
             FilterDialog(
                 account = currentAccount,
                 sumInfo = sumInfo.value,
-                criterion = currentFilter.whereFilter,
+                //we are only interested in the current value, since as soon as we persist new value,
+                //the dialog is dismissed
+                //noinspection StateFlowValueCalledInComposition
+                criterion = currentFilter.whereFilter.value,
                 onDismissRequest = {
                     showFilterDialog = false
                 }, onConfirmRequest = {
-                    currentFilter.whereFilter = it
-                    showFilterDialog = false
-                    invalidateOptionsMenu()
+                    coroutineScope.launch {
+                        currentFilter.persist(it)
+                        showFilterDialog = false
+                        invalidateOptionsMenu()
+                    }
                 })
         }
         LaunchedEffect(selectionState.size) {
@@ -986,7 +994,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .background(MaterialTheme.colorScheme.background)
         ) {
             viewModel.filterPersistence.getValue(account.id)
-                .whereFilterAsFlow
+                .whereFilter
                 .collectAsState(null)
                 .value
                 ?.let {
@@ -1968,7 +1976,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
-                it.isChecked = currentFilter.whereFilter != null
+                it.isChecked = currentFilter.whereFilter.value != null
                 checkMenuIcon(it)
             }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
@@ -2185,8 +2193,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
         putExtra(KEY_ACCOUNTID, currentAccount.id)
         putExtra(KEY_GROUPING, currentAccount.grouping)
-        if (currentFilter.whereFilter != null) {
-            putExtra(KEY_FILTER, currentFilter.whereFilter)
+        if (currentFilter.whereFilter.value != null) {
+            putExtra(KEY_FILTER, currentFilter.whereFilter.value)
         }
     }
 
@@ -2226,7 +2234,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     showProgressSnackBar(
                         getString(R.string.progress_dialog_printing, "PDF")
                     )
-                    exportViewModel.print(currentAccount, currentFilter.whereFilter)
+                    exportViewModel.print(currentAccount, currentFilter.whereFilter.value)
                 }
 
                 ContribFeature.BUDGET -> {
@@ -2431,7 +2439,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private fun Bundle.addFilter() {
         putParcelable(
             KEY_FILTER,
-            currentFilter.whereFilter
+            currentFilter.whereFilter.value
         )
     }
 
@@ -2487,7 +2495,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     fun addFilterCriterion(c: SimpleCriterion<*>) {
         invalidateOptionsMenu()
-        currentFilter.addCriterion(c)
+        lifecycleScope.launch {
+            currentFilter.addCriterion(c)
+        }
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {

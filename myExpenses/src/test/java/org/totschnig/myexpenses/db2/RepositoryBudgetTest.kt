@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.db2
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.BaseTestWithRepository
@@ -16,41 +17,43 @@ class RepositoryBudgetTest : BaseTestWithRepository() {
     fun importBudget() {
         val accountId = insertAccount("Test Account")
         val category = writeCategory("Category", uuid = "categoryUuid")
-        val budgetId = repository.importBudget(
-            BudgetExport(
-                "Budget Title",
-                "Budget Description",
-                Grouping.MONTH,
-                "accountUuid",
-                "EUR",
-                null,
-                null,
-                false,
-                allocations = listOf(
-                    BudgetAllocationExport(
-                        category = null,
-                        year = null,
-                        second = null,
-                        budget = 1234L,
-                        rolloverPrevious = null,
-                        rolloverNext = null,
-                        oneTime = false
-                    ),
-                    BudgetAllocationExport(
-                        category = listOf(CategoryInfo("categoryUuid", "Category")),
-                        year = 2024,
-                        second = 1,
-                        budget = 1000L,
-                        rolloverPrevious = null,
-                        rolloverNext = null,
-                        oneTime = false
+        val budgetId = runBlocking {
+            repository.importBudget(
+                BudgetExport(
+                    "Budget Title",
+                    "Budget Description",
+                    Grouping.MONTH,
+                    "accountUuid",
+                    "EUR",
+                    null,
+                    null,
+                    false,
+                    allocations = listOf(
+                        BudgetAllocationExport(
+                            category = null,
+                            year = null,
+                            second = null,
+                            budget = 1234L,
+                            rolloverPrevious = null,
+                            rolloverNext = null,
+                            oneTime = false
+                        ),
+                        BudgetAllocationExport(
+                            category = listOf(CategoryInfo("categoryUuid", "Category")),
+                            year = 2024,
+                            second = 1,
+                            budget = 1000L,
+                            rolloverPrevious = null,
+                            rolloverNext = null,
+                            oneTime = false
+                        )
                     )
-                )
-            ),
-            0,
-            accountId,
-            null
-        )
+                ),
+                0,
+                accountId,
+                null
+            )
+        }
         with(repository.loadBudget(budgetId)!!) {
             assertThat(title).isEqualTo("Budget Title")
             assertThat(description).isEqualTo("Budget Description")

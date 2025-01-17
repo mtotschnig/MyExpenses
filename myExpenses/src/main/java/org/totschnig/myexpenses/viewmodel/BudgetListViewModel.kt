@@ -1,28 +1,20 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -47,7 +39,6 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNe
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
 import timber.log.Timber
-import javax.inject.Inject
 
 class BudgetListViewModel(application: Application) : BudgetViewModel(application) {
     private val groupingSortKey = stringPreferencesKey("budgetListGrouping")
@@ -70,33 +61,6 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
 
     private val _importInfo = MutableStateFlow<Pair<String, List<ImportInfo>>?>(null)
     val importInfo: StateFlow<Pair<String, List<ImportInfo>>?> = _importInfo.asStateFlow()
-
-    @Inject
-    lateinit var settings: SharedPreferences
-
-    val budgetFilterPreferenceFlow by lazy {
-        callbackFlow<Long> {
-            val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                if (key?.startsWith("budgetFilter") == true) {
-                    try {
-                        key.substringAfterLast('_').toLong()
-                    } catch (_: Exception) {
-                        null
-                    }?.let { trySend(it) }
-                }
-            }
-            settings.registerOnSharedPreferenceChangeListener(listener)
-            awaitClose {
-                settings.unregisterOnSharedPreferenceChangeListener(listener)
-            }
-        }.buffer(Channel.UNLIMITED).shareIn(viewModelScope, SharingStarted.Lazily)
-    }
-
-    private fun budgetFilterFlow(budgetId: Long) = budgetFilterPreferenceFlow.mapNotNull {
-        if (it == budgetId) Unit else null
-    }.onStart {
-        emit(Unit)
-    }
 
     fun grouping() = dataStore.data.map { preferences ->
         enumValueOrDefault(preferences[groupingSortKey], Grouping.Account)
@@ -136,17 +100,15 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
 
-    fun budgetCriteria(budget: Budget): Flow<List<SimpleCriterion<*>>> = budgetFilterFlow(budget.id).map {
-        FilterPersistenceV2(
-            prefHandler,
-            prefNameForCriteriaV2(budget.id),
-            immediatePersist = false,
-        ).whereFilter.asSimpleList
-    }
+    fun budgetCriteria(budget: Budget): Flow<List<SimpleCriterion<*>>> = FilterPersistenceV2(
+        dataStore,
+        prefNameForCriteriaV2(budget.id),
+        viewModelScope
+    ).whereFilter.map { it.asSimpleList }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun budgetAmounts(budget: Budget): Flow<Pair<Long, Long>> =
-        combine(budgetFilterFlow(budget.id), dataStore.data) { _, data -> data }
+        combine(budgetCriteria(budget), dataStore.data) { _, data -> data }
             .map {
                 it[aggregateNeutralPrefKey(budget.id)] == true
             }.flatMapLatest { aggregateNeutral ->

@@ -5,6 +5,9 @@ import android.content.ContentUris
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.saveBudget
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -20,7 +23,8 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
      */
     val databaseResult = MutableLiveData<Long>()
 
-    val criteria: MutableSet<SimpleCriterion<*>> = mutableSetOf()
+    val _criteria : MutableStateFlow<Set<SimpleCriterion<*>>> = MutableStateFlow(emptySet())
+    val criteria:  StateFlow<Set<SimpleCriterion<*>>> = _criteria
 
     fun budget(budgetId: Long) = liveData(context = coroutineContext()) {
         contentResolver.query(
@@ -40,20 +44,35 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
     fun initWith(budgetId: Long) {
-        criteria.addAll(
+        viewModelScope.launch {
             FilterPersistenceV2(
-                prefHandler,
+                dataStore,
                 prefNameForCriteriaV2(budgetId)
-            ).whereFilter.asSimpleList
-        )
+            ).getValue()?.asSimpleList?.let { criteria ->
+                _criteria.update { criteria.toSet() }
+            }
+        }
     }
 
     fun persistPreferences(budgetId: Long) {
-        FilterPersistenceV2(
-            prefHandler,
-            prefNameForCriteriaV2(budgetId),
-            restoreFromPreferences = false
-        ).whereFilter = AndCriterion(criteria)
+        viewModelScope.launch {
+            FilterPersistenceV2(
+                dataStore,
+                prefNameForCriteriaV2(budgetId)
+            ).persist(AndCriterion(criteria.value))
+        }
+    }
+
+    fun addFilterCriterion(criterion: SimpleCriterion<*>) {
+        _criteria.update {
+            it.filterNot { it::class == criterion::class }.toSet() + criterion
+        }
+    }
+
+    fun removeFilter(id: Int) {
+        _criteria.update {
+            it.filterNot { it.id == id }.toSet()
+        }
     }
 }
 

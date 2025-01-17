@@ -1,81 +1,56 @@
 package org.totschnig.myexpenses.provider.filter
 
-import android.os.Bundle
-import androidx.core.os.BundleCompat
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.totschnig.myexpenses.preference.PrefHandler
 
+/**
+ * Scope must be passed in, if value is read as flow
+ */
 class FilterPersistenceV2(
-    val prefHandler: PrefHandler,
+    val dataStore: DataStore<Preferences>,
     val prefKey: String,
-    savedInstanceState: Bundle? = null,
-    private val immediatePersist: Boolean = true,
-    restoreFromPreferences: Boolean = true
+    scope: CoroutineScope? = null,
 ) {
 
-    val whereFilterAsFlow: StateFlow<Criterion?>
-        get() = _whereFilter
+    private val preferenceKey = stringPreferencesKey(prefKey)
 
-    private val _whereFilter: MutableStateFlow<Criterion?>
-    var whereFilter: Criterion?
-        get() = _whereFilter.value
-        set(value) {
-            if (immediatePersist) {
-                saveToPreferences(value)
-            }
-            _whereFilter.update { value }
-        }
-
-    init {
-        _whereFilter = MutableStateFlow(savedInstanceState
-            ?.let { BundleCompat.getParcelable(it, KEY_FILTER, Criterion::class.java) }
-            ?: if (restoreFromPreferences) restoreFromPreferences() else null)
+    private val data = dataStore.data.map {
+        it[preferenceKey]?.let { Json.decodeFromString<Criterion?>(it) }
     }
 
-    private fun restoreFromPreferences(): Criterion? {
-        return prefHandler.getString(prefKey)?.let { Json.decodeFromString<Criterion?>(it) }
+    val whereFilter: StateFlow<Criterion?> by lazy {
+        data.stateIn(scope!!, SharingStarted.Lazily, null)
     }
 
-    private fun saveToPreferences(value: Criterion?) {
-        if(value != null) {
-            prefHandler.putString(prefKey, Json.encodeToString(value))
-        } else {
-            prefHandler.remove(prefKey)
-        }
-    }
+    suspend fun getValue() = data.first()
 
-    fun persist() {
-        saveToPreferences(whereFilter)
-    }
-
-    fun addCriterion(criterion: SimpleCriterion<*>) {
-        _whereFilter.update { oldValue ->
-            when (oldValue) {
-                null -> criterion
-                is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
-                is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
-                else -> AndCriterion(setOf(oldValue, criterion))
-            }.also { newValue ->
-                if (immediatePersist) {
-                    saveToPreferences(newValue)
-                }
+    suspend fun persist(value: Criterion?) {
+        dataStore.edit {
+            if (value != null) {
+                it[preferenceKey] = Json.encodeToString(value)
+            } else {
+                it.remove(preferenceKey)
             }
         }
     }
 
-    //Legacy: only used from BudgetEdit
-    fun removeFilter(id: Int) {
-        _whereFilter.update { oldValue ->
-            when (oldValue) {
-                is AndCriterion -> AndCriterion(oldValue.criteria.filterNot { (it as? SimpleCriterion<*>)?.id == id }.toSet())
-                is OrCriterion -> OrCriterion(oldValue.criteria.filterNot { (it as? SimpleCriterion<*>)?.id == id }.toSet())
-                is SimpleCriterion<*> -> if (oldValue.id == id) null else oldValue
-                else -> oldValue
-            }
-        }
+   suspend fun addCriterion(criterion: SimpleCriterion<*>) {
+       val oldValue = whereFilter.value
+       persist(when (oldValue) {
+           null -> criterion
+           is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
+           is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
+           else -> AndCriterion(setOf(oldValue, criterion))
+       })
     }
 }
