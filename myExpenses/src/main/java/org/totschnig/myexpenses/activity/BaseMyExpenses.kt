@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
@@ -146,7 +145,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.Operation
@@ -226,7 +225,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 ?.maxByOrNull { it.lastUsed }
         }
 
-    val currentFilter: FilterPersistenceV2
+    val currentFilter: FilterPersistence
         get() = viewModel.filterPersistence.getValue(selectedAccountId)
 
     val currentAccount: FullAccount?

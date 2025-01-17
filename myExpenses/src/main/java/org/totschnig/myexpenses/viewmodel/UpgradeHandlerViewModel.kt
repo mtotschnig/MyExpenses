@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.SharedPreferences
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
@@ -35,12 +36,15 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceLegacy
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -569,6 +573,21 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.putStringSet(PrefKey.EXCHANGE_RATE_PROVIDER, setOf(it))
                     }
                 }
+                if (fromVersion < 775) {
+                    contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
+                        ?.use { cursor ->
+                            migrateFilterHelper(cursor,MyExpensesViewModel::prefNameForCriteriaLegacy, MyExpensesViewModel::prefNameForCriteria)
+                        }
+                    contentResolver.query(
+                        BUDGETS_URI,
+                        arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
+                        null,
+                        null,
+                        null
+                    )?.use { cursor ->
+                        migrateFilterHelper(cursor, BudgetViewModel::prefNameForCriteriaLegacy, BudgetViewModel::prefNameForCriteria)
+                    }
+                }
             } catch (e: Exception) {
                 throw Exception("upgrade from $fromVersion to $toVersion failed", e)
             }
@@ -576,6 +595,21 @@ class UpgradeHandlerViewModel(application: Application) :
             if (upgradeInfoList.isNotEmpty()) {
                 postNextUpgradeInfo()
             }
+        }
+    }
+
+    private suspend fun migrateFilterHelper(
+        cursor: Cursor,
+        prefNameCreatorLegacy: (Long) -> String,
+        prefNameCreator: (Long) -> String
+    ) {
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val id = cursor.getLong(KEY_ROWID)
+            val old = FilterPersistenceLegacy(prefHandler, prefNameCreatorLegacy(id))
+            val new = FilterPersistence(dataStore, prefNameCreator(id))
+            new.persist(old.whereFilter.criteria)
+            cursor.moveToNext()
         }
     }
 

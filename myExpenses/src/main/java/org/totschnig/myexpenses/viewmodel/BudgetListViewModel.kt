@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.provider.getLong
@@ -100,9 +100,9 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
 
-    fun budgetCriteria(budget: Budget): Flow<List<SimpleCriterion<*>>> = FilterPersistenceV2(
+    fun budgetCriteria(budget: Budget): Flow<List<SimpleCriterion<*>>> = FilterPersistence(
         dataStore,
-        prefNameForCriteriaV2(budget.id),
+        prefNameForCriteria(budget.id),
         viewModelScope
     ).whereFilter.map { it.asSimpleList }
 

@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.test.R
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.cleanup
@@ -104,7 +104,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
     )
 
     private fun saveBudgetFilter(budgetId: Long, categoryId: Long) {
-        val filterPersistence = FilterPersistenceV2(prefHandler, BudgetViewModel.prefNameForCriteriaV2(budgetId), null,
+        val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
             immediatePersist = false, restoreFromPreferences = false)
         filterPersistence.addCriterion(CategoryCriterion("A", categoryId))
     }

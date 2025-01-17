@@ -108,7 +108,7 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
@@ -725,7 +725,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             id: Long,
             fragmentManager: FragmentManager,
             fullScreen: Boolean = false,
-            currentFilter: FilterPersistenceV2? = null,
+            currentFilter: FilterPersistence? = null,
             sortOrder: String? = null
         ) {
             with(fragmentManager) {
@@ -739,7 +739,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         private fun newInstance(
             id: Long,
             fullScreen: Boolean,
-            currentFilter: FilterPersistenceV2?,
+            currentFilter: FilterPersistence?,
             sortOrder: String?
         ): TransactionDetailFragment =
             TransactionDetailFragment().apply {

@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -64,7 +63,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
@@ -140,8 +139,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     }
                 }
                 _whereFilter.update {
-                    FilterPersistenceV2(
-                        dataStore, BudgetViewModel.prefNameForCriteriaV2(budgetId),
+                    FilterPersistence(
+                        dataStore, BudgetViewModel.prefNameForCriteria(budgetId),
                         viewModelScope
                     ).getValue()
                 }
@@ -149,8 +148,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
 
         viewModelScope.launch {
-            FilterPersistenceV2(
-                dataStore, BudgetViewModel.prefNameForCriteriaV2(budgetId), viewModelScope
+            FilterPersistence(
+                dataStore, BudgetViewModel.prefNameForCriteria(budgetId), viewModelScope
             ).whereFilter.collect {
                 _whereFilter.update { it }
             }

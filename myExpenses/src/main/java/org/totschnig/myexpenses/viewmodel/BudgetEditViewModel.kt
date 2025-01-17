@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.saveBudget
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.AndCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceV2
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -45,9 +44,9 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
 
     fun initWith(budgetId: Long) {
         viewModelScope.launch {
-            FilterPersistenceV2(
+            FilterPersistence(
                 dataStore,
-                prefNameForCriteriaV2(budgetId)
+                prefNameForCriteria(budgetId)
             ).getValue()?.asSimpleList?.let { criteria ->
                 _criteria.update { criteria.toSet() }
             }
@@ -56,10 +55,10 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
 
     fun persistPreferences(budgetId: Long) {
         viewModelScope.launch {
-            FilterPersistenceV2(
+            FilterPersistence(
                 dataStore,
-                prefNameForCriteriaV2(budgetId)
-            ).persist(AndCriterion(criteria.value))
+                prefNameForCriteria(budgetId)
+            ).persist(criteria.value)
         }
     }
 
