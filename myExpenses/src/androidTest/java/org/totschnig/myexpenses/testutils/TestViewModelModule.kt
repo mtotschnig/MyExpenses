@@ -40,7 +40,7 @@ class DecoratingMyExpensesViewModel(application: Application,
         DecoratedTransactionPagingSource(
             getApplication(),
             account,
-            filterPersistence.getValue(account.id).whereFilterAsFlow,
+            filterPersistence.getValue(account.id).whereFilter,
             tags,
             currencyContext,
             viewModelScope,
