@@ -976,4 +976,12 @@
     <string name="saving_goal_exceeded">Ви перевищили свою мету заощадження.</string>
     <string name="warning_backend_deactivated">Сервер не готовий до синхронізації.</string>
     <string name="credit_limit_reached">Ви досягли свого кредитного ліміту.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Переказ не може бути відредагований, оскільки його друга сторона заархівована.</string>
+    <string name="content_description_original_amount">Визначте початкову суму цієї транзакції, вибравши валюту і ввівши суму. Ви також можете вказати обмінний курс, який буде використано для розрахунку ефективної суми.</string>
+    <string name="content_description_equivalent_amount">Визначте вартість цієї транзакції у вашій рідній валюті. Замість суми ви також можете ввести курс для її розрахунку.</string>
+    <string name="budget_import_can_be_imported">Можна імпортувати такі бюджети:</string>
+    <string name="budget_import_none_found">Бюджетів не знайдено.</string>
+    <string name="budget_import_cannot_be_imported">Наступні бюджети стосуються рахунків, які не синхронізовані:</string>
+    <string name="content_description_exchange_rate">Курс обміну 1 %1$s в %2$s</string>
+    <string name="warning_budget_sync_import">Конфігурація цього бюджету буде імпортована з сервера синхронізації. Всі локальні зміни будуть втрачені.</string>
 </resources>
