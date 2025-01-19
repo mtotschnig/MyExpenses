@@ -7,11 +7,17 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,13 +47,62 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 @Composable
 fun FilterCard(
     whereFilter: Criterion,
-    modifier: Modifier = Modifier
+    clearFilter: (() -> Unit)? = null,
 ) {
+    if (clearFilter != null) {
+        val dismissState = rememberSwipeToDismissBoxState(
+            confirmValueChange = { newValue ->
+                if (newValue != SwipeToDismissBoxValue.Settled) {
+                    clearFilter()
+                    true
+                } else {
+                    false
+                }
+            }
+        )
+        SwipeToDismissBox(
+            state = dismissState,
+            backgroundContent = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.padding_main_screen)
+                        ),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    listOf(
+                        SwipeToDismissBoxValue.StartToEnd,
+                        SwipeToDismissBoxValue.EndToStart
+                    ).forEach {
+                        Icon(
+                            imageVector = Icons.Filled.Clear,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        ) {
+            FilterCardImpl(whereFilter)
+        }
+    } else {
+        FilterCardImpl(whereFilter)
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FilterCardImpl(whereFilter: Criterion) {
     FlowRow(
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .testTag(TEST_TAG_FILTER_CARD)
             .background(color = colorResource(id = R.color.cardBackground))
-            .padding(horizontal = dimensionResource(R.dimen.padding_main_screen), vertical = 4.dp)
+            .padding(
+                horizontal = dimensionResource(R.dimen.padding_main_screen),
+                vertical = 4.dp
+            )
             .optional(whereFilter as? ComplexCriterion) {
                 semantics {
                     collectionInfo = CollectionInfo(it.criteria.size, 1)
@@ -56,6 +111,7 @@ fun FilterCard(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+
         if (whereFilter is ComplexCriterion) {
             val separatorDescription = stringResource(whereFilter.description)
             whereFilter.criteria.forEachIndexed { index, criterion ->
@@ -79,7 +135,7 @@ fun FilterCard(
 @Composable
 fun FilterItem(
     criterion: Criterion,
-    index: Int? = null
+    index: Int? = null,
 ) {
     val contentDescription = criterion.contentDescription(LocalContext.current)
     Row(
