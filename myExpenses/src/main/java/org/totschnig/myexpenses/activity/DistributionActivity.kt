@@ -313,6 +313,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     rememberMutableStateListOf()
                 )
                 if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                    if (whereFilter != null) {
+                        FilterCard(whereFilter, clearFilter)
+                    }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = stringResource(id = R.string.no_mapped_transactions),
@@ -447,6 +450,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 }
 
                 categoryTree.value.children.isEmpty() -> {
+                    if (whereFilter != null) {
+                        FilterCard(whereFilter, clearFilter)
+                    }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = stringResource(id = R.string.no_mapped_transactions),
