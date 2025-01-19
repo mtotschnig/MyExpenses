@@ -21,6 +21,7 @@ import java.util.Locale
 
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
+const val BACKUP_DATASTORE_FILE_NAME = "ui_settings.preferences_pb"
 
 @Synchronized
 fun doBackup(
@@ -110,5 +111,5 @@ private fun requireBackupFile(
 }
 
 fun getBackupDbFile(backupDir: File?) = File(backupDir, BACKUP_DB_FILE_NAME)
-
 fun getBackupPrefFile(backupDir: File?) = File(backupDir, BACKUP_PREF_FILE_NAME)
+fun getBackupDataStoreFile(backupDir: File?) = File(backupDir, BACKUP_DATASTORE_FILE_NAME)

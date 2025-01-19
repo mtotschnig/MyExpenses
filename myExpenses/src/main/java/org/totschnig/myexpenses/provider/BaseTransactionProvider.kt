@@ -18,6 +18,7 @@ import androidx.core.os.BundleCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
@@ -250,6 +251,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Named(AppComponent.DATABASE_NAME)
     @JvmSuppressWildcards
     lateinit var provideDatabaseName: (Boolean) -> String
+
+    @Inject
+    @Named(AppComponent.UI_SETTINGS_DATASTORE_NAME)
+    lateinit var uiSettingsDataStoreName: String
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -827,6 +832,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         })
             .mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
+                val backupDataStoreFile = getBackupDataStoreFile(backupDir)
                 // Samsung has special path on some devices
                 // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
                 val sharedPrefPath = "/shared_prefs/" + context.packageName + "_preferences.xml"
@@ -842,13 +848,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         throw Throwable(message)
                     }
                 }
-                dirty = if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
+                val copyPref = FileCopyUtils.copy(sharedPrefFile, backupPrefFile)
+                val preferencesDataStoreFile =
+                    context.preferencesDataStoreFile(uiSettingsDataStoreName)
+                dirty = if (copyPref && FileCopyUtils.copy(
+                        preferencesDataStoreFile,
+                        backupDataStoreFile
+                    )
+                ) {
                     prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
                     false
                 } else {
-                    val message = "Unable to copy preference file from  " +
-                            sharedPrefFile.path + " to " + backupPrefFile.path
-                    throw Throwable(message)
+                    throw Throwable(
+                        "Unable to copy  file from  " +
+                                (if (copyPref) sharedPrefFile else preferencesDataStoreFile).path +
+                                " to " +
+                                (if (copyPref) backupPrefFile else backupDataStoreFile).path
+                    )
                 }
             }
     }
@@ -1256,11 +1272,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
     ): Cursor {
 
         val projection = buildList {
-            val isExpense = "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
+            val isExpense =
+                "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
 
             add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
 
-            val isIncome = "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
+            val isIncome =
+                "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
 
             add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
 

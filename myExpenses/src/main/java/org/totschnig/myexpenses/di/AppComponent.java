@@ -105,6 +105,7 @@ import okhttp3.OkHttpClient;
 public interface AppComponent {
   String USER_COUNTRY = "userCountry";
   String DATABASE_NAME = "databaseName";
+  String UI_SETTINGS_DATASTORE_NAME = "uiSettings";
 
   @Component.Builder
   interface Builder {
