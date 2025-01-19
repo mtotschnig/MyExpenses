@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -15,20 +16,26 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
@@ -42,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
@@ -251,36 +259,43 @@ fun FilterDialog(
             fillMaxSize()
         }) {
             Column {
-                Row(
+                Box(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = onDismiss) {
-                        Icon(
-                            Icons.Filled.Clear,
-                            contentDescription = stringResource(android.R.string.cancel)
-                        )
-                    }
+                    ActionButton(
+                        stringResource(android.R.string.cancel),
+                        Icons.Filled.Clear,
+                        Modifier.align(Alignment.CenterStart),
+                        onDismiss
+                    )
                     Text(
                         text = stringResource(R.string.menu_search),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.align(Alignment.Center)
                     )
-                    IconButton(
-                        onClick = {
+                    Row(modifier = Modifier.align(Alignment.CenterEnd)) {
+                        ActionButton(
+                            stringResource(R.string.clear_all_filters),
+                            Icons.Filled.ClearAll
+
+                        ) {
+                            criteriaSet.value = emptySet()
+                        }
+                        ActionButton(
+                            stringResource(R.string.apply),
+                            Icons.Filled.Done
+                        ) {
                             onConfirmRequest(
                                 when (criteriaSet.value.size) {
                                     0 -> null
                                     1 -> criteriaSet.value.first()
                                     else -> if (selectedComplex == COMPLEX_AND)
-                                        AndCriterion(criteriaSet.value) else OrCriterion(criteriaSet.value)
+                                        AndCriterion(criteriaSet.value) else OrCriterion(
+                                        criteriaSet.value
+                                    )
                                 }
                             )
-                        }) {
-                        Icon(
-                            Icons.Filled.Done,
-                            contentDescription = stringResource(R.string.apply)
-                        )
+                        }
                     }
                 }
 
@@ -314,7 +329,7 @@ fun FilterDialog(
                     filters.forEach { (info, onClick) ->
                         val accessibleButtonText =
                             stringResource(R.string.add_filter) + ": " +
-                            stringResource(info.extendedTitle)
+                                    stringResource(info.extendedTitle)
                         TextButton(
                             modifier = Modifier.clearAndSetSemantics {
                                 contentDescription = accessibleButtonText
@@ -377,7 +392,7 @@ fun FilterDialog(
                             handleEdit(criterion)
                         }
                         val title = stringResource(criterion.displayTitle)
-                        val symbol  = criterion.displaySymbol.first
+                        val symbol = criterion.displaySymbol.first
                         val prettyPrint = ((criterion as? NotCriterion)?.criterion
                             ?: criterion).prettyPrint(LocalContext.current)
                         val contentDescription = criterion.contentDescription(LocalContext.current)
@@ -493,6 +508,29 @@ fun FilterDialog(
                 )
 
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActionButton(
+    hintText: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+    onclick: () -> Unit,
+) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = { PlainTooltip { Text(hintText) } },
+        state = rememberTooltipState(),
+        modifier = modifier
+    ) {
+        IconButton(onClick = onclick) {
+            Icon(
+                imageVector = icon,
+                contentDescription = hintText
+            )
         }
     }
 }
