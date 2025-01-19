@@ -19,6 +19,7 @@ package org.totschnig.myexpenses.provider.filter
 
 import androidx.annotation.CheckResult
 
+@Deprecated("This is only used by FilterPersistenceLegacy for migration to version 3.9.4A")
 data class WhereFilter(val criteria: List<SimpleCriterion<*>> = emptyList()) {
 
     operator fun get(id: Int): SimpleCriterion<*>? = criteria.find { it.id == id }

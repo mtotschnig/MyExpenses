@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.SumDetails
@@ -238,12 +239,11 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         )
                     }
                 }
-               /* filter?.takeIf { !it.isEmpty }?.let {
+                filter?.let {
                     FilterCard(
-                        modifier = Modifier.padding(horizontal = super.horizontalPadding),
                         whereFilter = it
                     )
-                }*/
+                }
 
                 ExpandedRenderer(transaction)
 
