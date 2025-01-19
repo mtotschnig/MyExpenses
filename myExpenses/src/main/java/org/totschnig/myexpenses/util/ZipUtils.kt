@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.fileName
+import org.totschnig.myexpenses.provider.getBackupDataStoreFile
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
@@ -43,6 +44,7 @@ object ZipUtils {
         )
         addFileToZip("", getBackupDbFile(cacheDir), zip)
         addFileToZip("", getBackupPrefFile(cacheDir), zip)
+        addFileToZip("", getBackupDataStoreFile(cacheDir), zip)
         try {
             resolver
                 .query(
@@ -67,7 +69,7 @@ object ZipUtils {
                                 zip
                             )
                         }
-                    } catch (e: FileNotFoundException) {
+                    } catch (_: FileNotFoundException) {
                         //File has been removed
                         //Timber.e(e);
                     }

@@ -48,30 +48,38 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     open val uiSettingsName = "UI-Settings"
 
     @Provides
+    @Named(AppComponent.UI_SETTINGS_DATASTORE_NAME)
+    @Singleton
+    open fun provideUiSettingsDataStoreName(): String = uiSettingsName
+
+    @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
     @JvmSuppressWildcards
-    open fun provideDatabaseName(): (Boolean) -> String =
+    fun provideDatabaseName(): (Boolean) -> String =
         { if (it) "${databaseName}.enc" else databaseName }
 
     @Provides
     @Singleton
     open fun providePrefHandler(
         context: MyApplication,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
     ): PrefHandler = PrefHandlerImpl(context, sharedPreferences)
 
     @Singleton
     @Provides
     open fun provideSharedPreferences(
-        application: MyApplication
+        application: MyApplication,
     ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
     @Singleton
     @Provides
-    fun providePreferencesDataStore(appContext: MyApplication): DataStore<Preferences> {
+    fun providePreferencesDataStore(
+        appContext: MyApplication,
+        @Named(AppComponent.UI_SETTINGS_DATASTORE_NAME) uiSettingsDataStoreName: String
+    ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
-            produceFile = { appContext.preferencesDataStoreFile(uiSettingsName) }
+            produceFile = { appContext.preferencesDataStoreFile(uiSettingsDataStoreName) }
         )
     }
 
@@ -79,7 +87,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     fun provideSQLiteOpenHelper(
         appContext: MyApplication,
         prefHandler: PrefHandler,
-        @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
+        @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String,
     ): SupportSQLiteOpenHelper {
         val encryptDatabase = prefHandler.encryptDatabase
         Timber.w("building SupportSQLiteOpenHelper (encryptDatabase %b)", encryptDatabase)
@@ -89,7 +97,11 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
         }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
-                    TransactionDatabase(appContext, prefHandler, shouldInsertDefaultTransferCategory)
+                    TransactionDatabase(
+                        appContext,
+                        prefHandler,
+                        shouldInsertDefaultTransferCategory
+                    )
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)
@@ -108,15 +120,15 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                     doRepairRequerySchema(path)
                     null
                 }?.use { database ->
-                        database.version.also {
-                            if (it > DATABASE_VERSION)
-                                throw Throwable(
-                                    context.getString(
-                                        R.string.restore_cannot_downgrade, it, DATABASE_VERSION
-                                    )
+                    database.version.also {
+                        if (it > DATABASE_VERSION)
+                            throw Throwable(
+                                context.getString(
+                                    R.string.restore_cannot_downgrade, it, DATABASE_VERSION
                                 )
-                        }
+                            )
                     }
+                }
                 if (version == 132 || version == 133) {
                     doRepairRequerySchema(path)
                 }

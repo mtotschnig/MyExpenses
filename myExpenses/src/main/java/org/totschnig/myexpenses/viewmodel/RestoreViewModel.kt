@@ -10,6 +10,9 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.os.BundleCompat
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,6 +21,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -37,6 +41,7 @@ import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
+import org.totschnig.myexpenses.provider.getBackupDataStoreFile
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
 import org.totschnig.myexpenses.provider.getCalendarPath
@@ -259,6 +264,20 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         }
                     }
                 }
+
+                val dataStoreBackup = getBackupDataStoreFile(workingDir).takeIf { it.exists() }?.let {
+                    PreferenceDataStoreFactory.create(
+                        produceFile = { it }
+                    )
+                }
+
+                dataStore.edit {
+                    it.clear()
+                    if (dataStoreBackup != null) {
+                        it.plusAssign(dataStoreBackup.data.first())
+                    }
+                }
+
                 val encrypt = args.getBoolean(KEY_ENCRYPT, false)
                 if (DbUtils.restore(getApplication(), backupFile, encrypt)) {
                     publishProgress(R.string.restore_db_success)
