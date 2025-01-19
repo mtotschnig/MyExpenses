@@ -277,7 +277,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private var showFilterDialog
         get() = viewModel.showFilterDialog
-        set(value) { viewModel.showFilterDialog = value }
+        set(value) {
+            viewModel.showFilterDialog = value
+        }
 
     fun finishActionMode() {
         actionMode?.finish()
@@ -1038,9 +1040,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
                     headerData = headerData,
-                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }.collectAsState(
-                        null
-                    ),
+                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }
+                        .collectAsState(null),
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
                     menuGenerator = remember(modificationAllowed) {
                         { transaction ->
@@ -1645,11 +1646,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
                 viewModel.triggerAccountListRefresh()
                 contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
-            }
-
-            R.id.CLEAR_FILTER_COMMAND -> {
-                //currentFilter.clear()
-                invalidateOptionsMenu()
             }
 
             R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
@@ -2367,7 +2363,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                         currency,
                                         sealed,
                                         hasExported,
-                                        currentFilter.whereFilter != null
+                                        currentFilter.whereFilter.value != null
                                     )
                                 ).show(supportFragmentManager, "EXPORT")
                             }

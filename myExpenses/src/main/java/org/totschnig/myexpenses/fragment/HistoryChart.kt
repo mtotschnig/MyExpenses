@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -208,9 +209,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 override fun onNothingSelected() {}
             })
         }
-        if (filter != null) {
+        filter?.let {
             binding.filterCard.setContent {
-                //FilterCard(filter)
+                FilterCard(it)
             }
         }
         return binding.root
