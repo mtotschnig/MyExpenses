@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.delegate
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
@@ -43,6 +44,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
+import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -64,7 +66,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Locale
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 abstract class TransactionDelegate<T : ITransaction>(
     val viewBinding: OneExpenseBinding,
@@ -98,6 +102,11 @@ abstract class TransactionDelegate<T : ITransaction>(
         currencyContext.homeCurrencyUnit
     }
 
+    open val createNewOverride
+        // when we edit a split part and the amount equals the remaining unsplit amount,
+        // we finish activity even when createNew is set, and we want to reflect this on the FAB icon
+        get() = !isSplitPart || lastFilledAmount?.compareTo(viewBinding.Amount.typedValue)?.absoluteValue == 1
+
     private val methodSpinner = SpinnerHelper(methodRowBinding.Method.MethodSpinner)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
@@ -112,7 +121,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 seekBar.requestFocusFromTouch() //prevent jump to first EditText https://stackoverflow.com/a/6177270/1199911
-                viewBinding.advanceExecutionValue.text = progress.toString()
+                viewBinding.advanceExecutionValue.text = String.format(Locale.getDefault(), "%d", progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -353,6 +362,19 @@ abstract class TransactionDelegate<T : ITransaction>(
             resetCategory()
         }
         setCategoryButton()
+        val textWatcher = object : MyTextWatcher() {
+            override fun afterTextChanged(s: Editable) {
+                onAmountChanged()
+            }
+        }
+        viewBinding.Amount.addTextChangedListener(textWatcher)
+        viewBinding.EquivalentAmount.addTextChangedListener(textWatcher)
+    }
+
+    open fun onAmountChanged() {
+        if (isSplitPart) {
+            host.configureFloatingActionButton()
+        }
     }
 
     /**

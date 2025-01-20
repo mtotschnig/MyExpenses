@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.delegate
 import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -42,7 +41,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED
@@ -86,13 +84,7 @@ abstract class MainDelegate<T : ITransaction>(
             recurrence,
             withAutoFill
         )
-        val textWatcher = object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                onAmountChanged()
-            }
-        }
-        viewBinding.Amount.addTextChangedListener(textWatcher)
-        viewBinding.EquivalentAmount.addTextChangedListener(textWatcher)
+
         payeeId = host.parentPayeeId
     }
 
@@ -103,7 +95,8 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    open fun onAmountChanged() {
+    override fun onAmountChanged() {
+        super.onAmountChanged()
         if (debtId != null) {
             updateDebtCheckBox(debts.find { it.id == debtId })
         }
@@ -275,7 +268,7 @@ abstract class MainDelegate<T : ITransaction>(
         val infoText = installment?.let {
             try {
                 formatDebtHelp(debt, it)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }

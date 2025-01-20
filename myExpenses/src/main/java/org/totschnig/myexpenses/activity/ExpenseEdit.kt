@@ -920,7 +920,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         shouldShowCreateTemplate = transaction.originTemplateId == null
         if (!isTemplate) {
             createNew = newInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
-            updateFab()
+            configureFloatingActionButton()
         }
         invalidateOptionsMenu()
         cached?.tags?.let {
@@ -1162,7 +1162,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew
                 prefHandler.putBoolean(saveAndNewPrefKey, createNew)
-                updateFab()
+                configureFloatingActionButton()
                 invalidateOptionsMenu()
                 return true
             }
@@ -1668,20 +1668,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (delegate.rowId == 0L) {
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
-        updateFab()
         updateDateLink()
         if (!isSplitPartOrTemplate) {
             delegate.setCreateTemplate(createTemplate)
         }
     }
 
-    private fun updateFab() {
-        floatingActionButton.let {
-            it.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
-            it.contentDescription =
-                getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
-        }
-    }
+    override val fabIcon: Int
+        get() = if (createNew && delegate.createNewOverride) R.drawable.ic_action_save_new else super.fabIcon
+    override val fabDescription: Int
+        get() = if (createNew && delegate.createNewOverride)  R.string.menu_save_and_new_content_description else super.fabDescription
 
     fun showPlanMonthFragment(originTemplate: Template, color: Int) {
         PlanMonthFragment.newInstance(
