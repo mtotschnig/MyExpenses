@@ -960,7 +960,7 @@
     <string name="dialog_confirm_rollover_delete">இந்த காலத்திற்கான அனைத்து ரோல்ஓவர் தொகைகளும் நீக்கப்படும்.</string>
     <string name="content_description_attachment">இணைப்பு</string>
     <string name="database_is_encrypted">தரவுத்தளம் குறியாக்கம் செய்யப்பட்டுள்ளது.</string>
-    <string name="github_sponsors">&lt;!</string>
+    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">கிதுப் ஸ்பான்சர்கள்</a>.]]></string>
     <string name="pref_backup_file_prefix_title">கோப்பு முன்னொட்டு</string>
     <string name="orphaned_transaction_relink">பரிவர்த்தனையை %s இல் நிகழ்வு நிகழ்வுடன் மறுபரிசீலனை செய்யலாம்.</string>
     <string name="orphaned_transaction_align_date">விருப்பமாக பரிவர்த்தனையுடன் சேமிக்கப்பட்ட தேதியும் நிகழ்வு தேதியுடன் சீரமைக்கப்படலாம்.</string>
