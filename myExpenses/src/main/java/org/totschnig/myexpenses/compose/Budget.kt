@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -461,7 +462,7 @@ private fun RowScope.BudgetNumbers(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             if (isError) {
-                val context = LocalContext.current as BaseActivity
+                val context = LocalActivity.current as BaseActivity
                 val message = stringResource(R.string.rollover_edit_invalid)
                 Icon(
                     modifier = Modifier.clickable { context.showSnackBar(message) },

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -157,7 +158,7 @@ fun FilterDialog(
     val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
     val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
     var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
-    val activity = LocalContext.current as? FragmentActivity
+    val activity = LocalActivity.current as? FragmentActivity
 
     fun handleAmountCriterion(criterion: AmountCriterion?) {
         AmountFilterDialog.newInstance(

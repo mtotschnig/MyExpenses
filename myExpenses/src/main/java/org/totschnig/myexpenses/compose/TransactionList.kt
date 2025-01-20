@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -268,7 +269,7 @@ fun TransactionList(
 
                                 is HeaderDataEmpty -> {}
                                 is HeaderDataError -> {
-                                    val context = LocalContext.current as? BaseActivity
+                                    val context = LocalActivity.current as? BaseActivity
                                     Text(
                                         "Error loading group header data. Click to start safe mode.",
                                         color = MaterialTheme.colorScheme.error,
