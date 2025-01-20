@@ -179,7 +179,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         val resId = if (name.startsWith("?")) {
             with(name.substring(1)) {
                 when (this) {
-                    "calcIcon" -> R.drawable.ic_action_equal
+                    "calcIcon" -> R.drawable.ic_calculate
                     else -> {
                         val value = TypedValue()
                         context.theme.resolveAttribute(resolve(this, "attr"), value, true)
@@ -192,9 +192,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 resolveSystem(name.substring(8), "drawable")
             } else {
                 when (name) {
-                    //Keeping the legacy attribute reference in order to not have to update all
-                    //translations
-                    "ic_action_equal" -> R.drawable.ic_action_equal
+                    //Keeping the legacy drawable name
                     "ic_hchain" -> R.drawable.ic_link
                     "ic_hchain_broken" -> R.drawable.ic_link_off
                     else -> resolve(name, "drawable")

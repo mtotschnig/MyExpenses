@@ -9,5 +9,5 @@
     android:layout_gravity="center_vertical"
     android:contentDescription="@string/content_description_calculator"
     android:focusable="true"
-    app:srcCompat="@drawable/ic_action_equal"
+    app:srcCompat="@drawable/ic_calculate"
     tools:showIn="@layout/amount_input" />
