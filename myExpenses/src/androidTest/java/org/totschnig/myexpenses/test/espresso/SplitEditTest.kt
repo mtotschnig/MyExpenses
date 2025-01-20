@@ -235,6 +235,8 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         clickFab()//save part
+        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        setAmount(200)
         clickFab()//save parent succeeds
         assertFinishing()
     }

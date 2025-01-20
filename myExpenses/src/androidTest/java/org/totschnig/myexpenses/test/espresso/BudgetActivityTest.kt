@@ -13,6 +13,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
@@ -104,9 +105,10 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
     )
 
     private fun saveBudgetFilter(budgetId: Long, categoryId: Long) {
-        val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
-            immediatePersist = false, restoreFromPreferences = false)
-        filterPersistence.addCriterion(CategoryCriterion("A", categoryId))
+        val filterPersistence = FilterPersistence(dataStore, BudgetViewModel.prefNameForCriteria(budgetId))
+        runBlocking {
+            filterPersistence.addCriterion(CategoryCriterion("A", categoryId))
+        }
     }
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {

@@ -62,7 +62,7 @@ class SplitDelegate(
             withAutoFill,
             isCached
         )
-        if (transaction?.amount?.amountMinor != 0L && isCached) {
+        if (!newInstance || transaction?.amount?.amountMinor != 0L && isCached) {
             userSetAmount = true
         }
 

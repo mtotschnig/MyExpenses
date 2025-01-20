@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onIdle
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.db2.createParty
@@ -23,8 +24,10 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         account1 = buildAccount(accountLabel1)
         party = repository.createParty(Party.create(name = "John", iban = withIban))
         testScenario = ActivityScenario.launch(intentForNewTransaction)
-        assertThat(repository.loadTransactions(account1.id)).isEmpty()
+        assertThat(load()).isEmpty()
     }
+
+    private fun load() = runBlocking  { repository.loadTransactions(account1.id) }
 
     @After
     fun clearDb() {
@@ -53,6 +56,6 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         setAmount(101)
         clickFab()
         onIdle()
-        assertThat(repository.loadTransactions(account1.id).first().party).isEqualTo(party.id)
+        assertThat(load().first().party).isEqualTo(party.id)
     }
 }

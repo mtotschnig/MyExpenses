@@ -73,6 +73,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
 
+    val dataStore: DataStore<Preferences>
+        get() = app.appComponent.preferencesDataStore()
+
     val plannerUtils: PlannerUtils
         get() = app.appComponent.plannerUtils()
 
