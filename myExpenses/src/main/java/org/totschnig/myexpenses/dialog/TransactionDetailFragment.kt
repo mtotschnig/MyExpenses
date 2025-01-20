@@ -189,10 +189,9 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         label: String,
         content: @Composable () -> Unit
     ) {
-        Row {
+        Row(modifier = Modifier.padding(horizontal = super.horizontalPadding)) {
             Text(
                 modifier = Modifier
-                    .padding(horizontal = super.horizontalPadding)
                     .weight(1f)
                     .align(Alignment.CenterVertically),
                 text = label
@@ -304,7 +303,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 }
             }
         }
-        ButtonRow {
+        ButtonRow(modifier = Modifier.padding(horizontal = super.horizontalPadding)) {
             TextButton(onClick = { dismiss() }) {
                 Text(stringResource(id = android.R.string.ok))
             }
