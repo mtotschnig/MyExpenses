@@ -17,27 +17,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="?attr/selectableItemBackground">
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="32dp"
+    android:orientation="horizontal">
 
     <ImageView
-        android:layout_gravity="center_vertical"
         android:id="@+id/icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:importantForAccessibility="no" />
 
     <TextView
-        android:layout_marginStart="4dp"
-        android:layout_weight="1"
         android:id="@+id/category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
+        android:layout_weight="1"
         tools:text="CATEGORY" />
 
     <TextView
-        android:layout_gravity="center_vertical"
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         tools:text="AMOUNT" />
 </LinearLayout>
