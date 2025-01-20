@@ -21,6 +21,7 @@ import android.content.Context
 import android.os.Parcelable
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
+import org.totschnig.myexpenses.provider.CTE_SEARCH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -98,11 +99,11 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
         else -> selectionArgs
     }
 
-    override fun getSelectionForParts(tableName: String) =
-        applyToSplitParents(getSelection(false), tableName)
+    override fun getSelectionForParts(tableName: String?) =
+        applyToSplitParents(getSelection(false), tableName ?: CTE_SEARCH)
 
-    override fun getSelectionForParents(tableName: String, forExport: Boolean) =
-        applyToSplitParts(getSelection(forExport), tableName)
+    override fun getSelectionForParents(tableName: String?, forExport: Boolean) =
+        applyToSplitParts(getSelection(forExport), tableName ?: CTE_SEARCH)
 
     open val shouldApplyToSplitTransactions get() = true
     open val shouldApplyToArchive get() = true

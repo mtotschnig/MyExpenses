@@ -138,20 +138,14 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                         groupingInfo = GroupingInfo(budget.grouping, groupingYear, groupingSecond)
                     }
                 }
-                _whereFilter.update {
-                    FilterPersistence(
-                        dataStore, BudgetViewModel.prefNameForCriteria(budgetId),
-                        viewModelScope
-                    ).getValue()
-                }
             }
         }
 
         viewModelScope.launch {
             FilterPersistence(
                 dataStore, BudgetViewModel.prefNameForCriteria(budgetId), viewModelScope
-            ).whereFilter.collect {
-                _whereFilter.update { it }
+            ).whereFilter.collect { newValue ->
+                _whereFilter.update { newValue }
             }
         }
 

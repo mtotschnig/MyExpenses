@@ -9,11 +9,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("not")
 data class NotCriterion(val criterion: Criterion): Criterion {
-    override fun getSelectionForParts(tableName: String) =
+    override fun getSelectionForParts(tableName: String?) =
         "NOT(${criterion.getSelectionForParts(tableName)})"
 
     override fun getSelectionForParents(
-        tableName: String,
+        tableName: String?,
         forExport: Boolean,
     ) = "NOT(${criterion.getSelectionForParents(tableName, forExport)})"
 

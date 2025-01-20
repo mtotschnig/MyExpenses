@@ -216,7 +216,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     ): String {
         return listOfNotNull(
             dateFilterClause(groupingInfo),
-            whereFilter?.getSelectionForParts(table ?: CTE_SEARCH)
+            whereFilter?.getSelectionForParts(table)
         ).joinToString(" AND ")
     }
 
@@ -258,7 +258,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             //then transactions from neutral categories would appear on both sides, giving meaningless results
             if (withIncomeSum) flowOf(false) else aggregateNeutral,
             groupingInfoFlow,
-            whereFilter
+            _whereFilter
         ) { accountInfo, aggregateNeutral, grouping, whereFilter ->
             grouping?.let {
                 Tuple4(
