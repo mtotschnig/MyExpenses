@@ -900,4 +900,8 @@
     <string name="content_description_equivalent_amount">Definieer de waarde van deze transactie in je eigen valuta. In plaats van het bedrag in te voeren, kun je ook de wisselkoers invoeren om deze te berekenen.</string>
     <string name="content_description_original_amount">Definieer het oorspronkelijke bedrag van deze transactie door een valuta te selecteren en het bedrag in te voeren. Je kunt ook een wisselkoers definiëren die zal worden gebruikt om het effectieve bedrag te berekenen.</string>
     <string name="content_description_exchange_rate">Wisselkoers voor 1 %1$s in %2$s</string>
+    <string name="warning_budget_sync_import">De configuratie van dit budget wordt geïmporteerd vanuit de synchronisatiebackend. Alle lokale wijzigingen gaan verloren.</string>
+    <string name="budget_import_can_be_imported">De volgende budgetten kunnen worden geïmporteerd:</string>
+    <string name="budget_import_cannot_be_imported">De volgende budgetten verwijzen naar rekeningen die niet zijn gesynchroniseerd:</string>
+    <string name="budget_import_none_found">Geen budgetten gevonden.</string>
 </resources>
