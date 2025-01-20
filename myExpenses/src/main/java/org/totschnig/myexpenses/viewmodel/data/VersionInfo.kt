@@ -185,7 +185,8 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.pref_exchange_rate_provider_title)}: ${t(R.string.ui_refinement)}"
             )
             "394" -> arrayOf(
-                "${t(R.string.menu_search)} 2.0"
+                "${t(R.string.menu_search)} 2.0",
+                "${t(R.string.split_transaction)}: ${t(R.string.ui_refinement)}"
             )
 
             else -> {
