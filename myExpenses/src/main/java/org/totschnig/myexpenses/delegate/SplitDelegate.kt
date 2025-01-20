@@ -91,10 +91,15 @@ class SplitDelegate(
                 true
             )
         ) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
-        viewBinding.CREATEPARTCOMMAND.contentDescription = concatResStrings(
-            context, ". ",
-            R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
-        )
+        with(viewBinding.CREATEPARTCOMMAND) {
+            contentDescription = concatResStrings(
+                context, ". ",
+                R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
+            )
+            setOnClickListener {
+                host.createRow(unsplitAmount?.amountMajor)
+            }
+        }
         viewBinding.unsplitLine.setOnClickListener {
             unsplitAmountFormatted?.let {
                 host.copyToClipboard(it)
@@ -115,7 +120,7 @@ class SplitDelegate(
     override fun buildMainTransaction(account: Account): ISplit =
         if (isTemplate) buildTemplate(account) else SplitTransaction(account.id)
 
-    override fun prepareForNew() {
+    override fun prepareForNew(): Boolean {
         super.prepareForNew()
         val account = currentAccount()!!
         rowId = SplitTransaction.getNewInstance(
@@ -125,6 +130,7 @@ class SplitDelegate(
             true
         ).id
         host.viewModel.loadSplitParts(rowId, isTemplate)
+        return true
     }
 
     override fun configureType() {

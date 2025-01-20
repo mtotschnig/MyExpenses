@@ -58,6 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
@@ -1578,7 +1579,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
                         putExtra(
                             KEY_AMOUNT,
-                            (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                            (BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java))!! -
                                     Money(
                                         currentAccount!!.currencyUnit,
                                         currentAccount!!.currentBalance

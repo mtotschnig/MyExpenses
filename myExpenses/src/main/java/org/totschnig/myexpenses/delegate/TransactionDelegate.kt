@@ -210,6 +210,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     @State
     var debtId: Long? = null
 
+    @State
+    var lastFilledAmount: BigDecimal? = null
+
     protected var mAccounts = mutableListOf<Account>()
 
     val planButton: DateButton
@@ -461,6 +464,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
             if (amount.signum() != 0) {
+                lastFilledAmount = amount
                 setAmount(amount)
             }
             requestFocus()
@@ -1086,21 +1090,33 @@ abstract class TransactionDelegate<T : ITransaction>(
         planButton.visibility = View.GONE
     }
 
-    private fun resetAmounts() {
+    private fun resetAmounts(): Boolean {
         isProcessingLinkedAmountInputs = true
-        viewBinding.Amount.clear()
+        lastFilledAmount?.takeIf { isSplitPart }?.also { lastFilled ->
+            viewBinding.Amount.getAmount(false)?.let { currentSet ->
+                (lastFilled - currentSet).takeIf { it.compareTo(BigDecimal.ZERO) != 0 }?.also {
+                    fillAmount(it)
+                } ?: run {
+                    viewBinding.Amount.clear()
+                    return false
+                }
+            }
+        } ?: run {
+            viewBinding.Amount.clear()
+        }
         viewBinding.TransferAmount.clear()
         isProcessingLinkedAmountInputs = false
+        return true
     }
 
-    open fun prepareForNew() {
+    open fun prepareForNew() = if (resetAmounts()) {
         rowId = 0L
         uuid = null
         crStatus = CrStatus.UNRECONCILED
         resetRecurrence()
-        resetAmounts()
         populateStatusSpinner()
-    }
+        true
+    } else false
 
     open fun onDestroy() {
     }

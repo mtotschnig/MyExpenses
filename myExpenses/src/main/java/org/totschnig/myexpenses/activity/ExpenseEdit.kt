@@ -42,6 +42,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
+import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -202,6 +203,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     @State
     var createNew = false
+        set(value) {
+            field = value
+            updateFab()
+            invalidateOptionsMenu()
+        }
 
     @State
     var createTemplate = false
@@ -339,9 +345,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
         //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
-        rootBinding.CREATEPARTCOMMAND.setOnClickListener {
-            createRow()
-        }
+
         if (savedInstanceState != null) {
             delegate = TransactionDelegate.create(
                 operationType,
@@ -830,14 +834,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             }
         }
-        intent.getParcelableExtra<Uri>(KEY_URI)?.let {
+        IntentCompat.getParcelableExtra(intent, KEY_URI, Uri::class.java)?.let {
             viewModel.addAttachmentUris(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
         }
-        (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let {
-            amountInput.setAmount(it)
+        IntentCompat.getSerializableExtra(intent, KEY_AMOUNT, BigDecimal::class.java)?.let {
+            delegate.fillAmount(it)
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
@@ -1161,10 +1165,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
 
             R.id.SAVE_AND_NEW_COMMAND -> {
-                createNew = !createNew
                 prefHandler.putBoolean(saveAndNewPrefKey, createNew)
-                updateFab()
-                invalidateOptionsMenu()
+                createNew = !createNew
                 return true
             }
 
@@ -1206,7 +1208,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         return false
     }
 
-    private fun createRow() {
+    fun createRow(prefillAmount: BigDecimal?) {
         val account = currentAccount
         if (account == null) {
             showSnackBar(R.string.account_list_not_yet_loaded)
@@ -1223,6 +1225,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
             putExtra(KEY_COLOR, color)
+            prefillAmount?.let { putExtra(KEY_AMOUNT, prefillAmount) }
         }, EDIT_REQUEST)
     }
 
@@ -1493,13 +1496,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             }
             if (createNew) {
-                delegate.prepareForNew()
-                newInstance = true
-                clearDirty()
-                showSnackBar(
-                    getString(R.string.save_transaction_and_new_success),
-                    Snackbar.LENGTH_SHORT
-                )
+                if (delegate.prepareForNew()) {
+                    newInstance = true
+                    clearDirty()
+                    showSnackBar(
+                        getString(R.string.save_transaction_and_new_success),
+                        Snackbar.LENGTH_SHORT
+                    )
+                } else doFinish()
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     if (isTemplate) {
