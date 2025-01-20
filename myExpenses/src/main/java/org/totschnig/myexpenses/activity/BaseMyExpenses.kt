@@ -1237,7 +1237,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                     MenuEntry(
                                                         label = UiText.StringValue(
                                                             currencyFormatter.formatMoney(
-                                                                transaction.amount
+                                                                transaction.displayAmount
                                                             )
                                                         ),
                                                         command = "FILTER_FOR_AMOUNT"
@@ -1245,9 +1245,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                         addFilterCriterion(
                                                             AmountCriterion(
                                                                 operation = Operation.EQ,
-                                                                values = listOf(transaction.amount.amountMinor),
-                                                                currency = transaction.amount.currencyUnit.code,
-                                                                sign = transaction.amount.amountMinor > 0
+                                                                values = listOf(transaction.displayAmount.amountMinor),
+                                                                currency = transaction.displayAmount.currencyUnit.code,
+                                                                sign = transaction.displayAmount.amountMinor > 0
                                                             )
                                                         )
                                                     }

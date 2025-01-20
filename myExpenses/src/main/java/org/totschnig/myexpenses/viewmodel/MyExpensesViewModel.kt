@@ -220,7 +220,7 @@ open class MyExpensesViewModel(
         constructor(transaction: Transaction2) : this(
             transaction.id,
             transaction.accountId,
-            transaction.amount,
+            transaction.displayAmount,
             transaction.transferAccount,
             transaction.isSplit,
             transaction.crStatus,

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -90,7 +91,8 @@ data class Transaction2(
     val _date: Long,
     val _valueDate: Long = _date,
     val currency: String? = null,
-    val amount: Money,
+    val amount: Money? = null,
+    val displayAmount: Money,
     val originalAmount: Money? = null,
     val parentId: Long? = null,
     val comment: String? = null,
@@ -162,10 +164,8 @@ data class Transaction2(
                     prefHandler
                 )
             )
-            if (prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)) {
-                add(KEY_ORIGINAL_CURRENCY)
-                add(KEY_ORIGINAL_AMOUNT)
-            }
+            add(KEY_ORIGINAL_CURRENCY)
+            add(KEY_ORIGINAL_AMOUNT)
             if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
@@ -180,6 +180,7 @@ data class Transaction2(
                 KEY_ROWID,
                 KEY_DATE,
                 KEY_VALUE_DATE,
+                KEY_AMOUNT,
                 KEY_DISPLAY_AMOUNT,
                 KEY_COMMENT,
                 KEY_CATID,
@@ -230,15 +231,17 @@ data class Transaction2(
             tags: Map<String, Pair<String, Int?>>,
             accountCurrency: CurrencyUnit? = null
         ): Transaction2 {
-            val currency = cursor.getStringIfExists(KEY_CURRENCY)
+            val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
-            val money = Money(accountCurrency ?: currencyContext[currency!!], amountRaw)
+            val currencyUnit = currencyContext[currency]
+            val displayAmount = Money(accountCurrency ?: currencyUnit, amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 currency = currency,
-                amount = money,
+                amount = if (accountCurrency != null && currencyUnit.code != accountCurrency.code) Money(currencyUnit, cursor.getLong(KEY_AMOUNT)) else null,
+                displayAmount = displayAmount,
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),

@@ -44,7 +44,7 @@ class SelectTransformToTransferTargetDialogFragment : SelectSingleAccountDialogF
                         TRANSFORM_TO_TRANSFER_REQUEST, listOf(transaction.accountId)
                     ).apply {
                         putLong(KEY_TRANSACTIONID, transaction.id)
-                        putBoolean(KEY_IS_INCOME, transaction.amount.amountMinor > 0)
+                        putBoolean(KEY_IS_INCOME, transaction.displayAmount.amountMinor > 0)
                     }
             }
     }

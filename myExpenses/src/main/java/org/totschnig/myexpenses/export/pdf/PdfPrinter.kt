@@ -463,7 +463,7 @@ object PdfPrinter {
                         var splitText = splits.getString(DatabaseConstants.KEY_PATH)
                         if (splitText.isNotEmpty()) {
                             if (splits.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
-                                splitText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + splits.getStringOrNull(
+                                splitText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + splits.getStringOrNull(
                                     DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
                                 ) + ") "
                             }
@@ -493,7 +493,7 @@ object PdfPrinter {
                     if (catText.isNotEmpty()) {
                         catText += " "
                     }
-                    catText += "(" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccountLabel + ")"
+                    catText += "(" + Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + transaction.transferAccountLabel + ")"
                 }
             }
             if (!transaction.referenceNumber.isNullOrEmpty()) catText =
@@ -508,11 +508,11 @@ object PdfPrinter {
             }
 
             val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
-                if (transaction.amount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
+                if (transaction.displayAmount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
 
             cell = helper.printToCell(
                 currencyFormatter.formatMoney(
-                    if (transaction.type == FLAG_NEUTRAL) transaction.amount.absolute() else transaction.amount
+                    if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
                 ), fontType
             )
             cell.horizontalAlignment = Element.ALIGN_RIGHT
@@ -522,7 +522,7 @@ object PdfPrinter {
                 table.addCell(
                     transaction.originalAmount?.let {
                         helper.printToCell(
-                            currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) transaction.amount.absolute() else transaction.amount),
+                            currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount),
                             fontType
                         )
                     }?.apply { horizontalAlignment = Element.ALIGN_RIGHT } ?: emptyCell

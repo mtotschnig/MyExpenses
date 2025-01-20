@@ -88,12 +88,12 @@ enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
     private val colorSource: ColorSource,
-    private val onToggleCrStatus: ((Long) -> Unit)?
+    private val onToggleCrStatus: ((Long) -> Unit)?,
 ) {
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
-        forLegacy: Boolean
+        forLegacy: Boolean,
     ) = buildAnnotatedString {
         if (isSplit) {
             append(context.getString(R.string.split_transaction))
@@ -111,7 +111,7 @@ abstract class ItemRenderer(
                 if (categoryPath != null) append(" (")
                 accountLabel?.let { append("$it ") }
                 if (forLegacy || accountLabel != null) {
-                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                    append(Transfer.getIndicatorPrefixForLabel(displayAmount.amountMinor))
                 }
                 transferAccountLabel?.let { append(it) }
                 if (categoryPath != null) append(")")
@@ -121,7 +121,7 @@ abstract class ItemRenderer(
 
     fun Transaction2.buildSecondaryInfo(
         context: Context,
-        withTags: Boolean
+        withTags: Boolean,
     ): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (attachmentCount > 0) "paperclip" else null
         val methodInfo = getMethodInfo(context)
@@ -198,7 +198,7 @@ abstract class ItemRenderer(
         transaction: Transaction2,
         modifier: Modifier = Modifier,
         selectionHandler: SelectionHandler? = null,
-        menuGenerator: (Transaction2) -> Menu? = { null }
+        menuGenerator: (Transaction2) -> Menu? = { null },
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -273,7 +273,7 @@ abstract class ItemRenderer(
 
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
-                            amount.amountMinor > 0
+                            displayAmount.amountMinor > 0
                         )
                     )
 
@@ -308,7 +308,7 @@ abstract class ItemRenderer(
     fun TextWithInlineContent(
         modifier: Modifier = Modifier,
         text: AnnotatedString,
-        icons: List<String>
+        icons: List<String>,
     ) {
         Text(modifier = modifier, text = text, inlineContent = buildMap {
             icons.forEach {
@@ -330,9 +330,8 @@ abstract class ItemRenderer(
     @Composable
     fun Transaction2.ColoredAmountText(
         style: TextStyle = LocalTextStyle.current,
-        showOriginalAmount: Boolean = false
+        displayAmount: Money = this.displayAmount,
     ) {
-        val displayAmount = if (showOriginalAmount) originalAmount!! else amount
         ColoredAmountText(
             money = if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount,
             style = style,
@@ -347,7 +346,7 @@ abstract class ItemRenderer(
 
 data class DateTimeFormatInfo(
     val dateTimeFormatter: DateTimeFormatter,
-    val emSize: Float
+    val emSize: Float,
 )
 
 class CompactTransactionRenderer(
@@ -355,7 +354,7 @@ class CompactTransactionRenderer(
     withCategoryIcon: Boolean = true,
     private val withOriginalAmount: Boolean = false,
     colorSource: ColorSource = ColorSource.TYPE,
-    onToggleCrStatus: ((Long) -> Unit)? = null
+    onToggleCrStatus: ((Long) -> Unit)? = null,
 ) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
 
     @Composable
@@ -392,12 +391,11 @@ class CompactTransactionRenderer(
             text = description,
             icons = secondaryInfo.second
         )
-        if (withOriginalAmount && transaction.originalAmount != null) {
-            Column(horizontalAlignment = Alignment.End) {
-                transaction.ColoredAmountText(showOriginalAmount = true)
-                transaction.ColoredAmountText()
+        Column(horizontalAlignment = Alignment.End) {
+            if (withOriginalAmount) {
+                transaction.originalAmount?.let { transaction.ColoredAmountText(displayAmount = it) }
             }
-        } else {
+            transaction.amount?.let { transaction.ColoredAmountText(displayAmount = it) }
             transaction.ColoredAmountText()
         }
     }
@@ -409,7 +407,7 @@ class NewTransactionRenderer(
     private val dateTimeFormatter: DateTimeFormatter?,
     withCategoryIcon: Boolean = true,
     colorSource: ColorSource = ColorSource.TYPE,
-    onToggleCrStatus: ((Long) -> Unit)? = null
+    onToggleCrStatus: ((Long) -> Unit)? = null,
 ) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
@@ -512,7 +510,7 @@ private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Tran
 @Composable
 private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"),4f),
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
         withOriginalAmount = true
     ).Render(transaction)
 }
@@ -523,7 +521,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
         Transaction2(
             id = -1,
             _date = System.currentTimeMillis() / 1000,
-            amount = Money(CurrencyUnit.DebugInstance, 8000),
+            displayAmount = Money(CurrencyUnit.DebugInstance, 8000),
             originalAmount = Money(originalCurrency, 1234500),
             methodLabel = "CHEQUE",
             //methodIcon = "credit-card",
@@ -540,13 +538,13 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             crStatus = CrStatus.VOID,
             tagList = listOf(
                 Triple(1, "Hund", android.graphics.Color.RED),
-                Triple(2,"Katz", android.graphics.Color.GREEN)
+                Triple(2, "Katz", android.graphics.Color.GREEN)
             )
         ),
         Transaction2(
             id = -1,
             _date = System.currentTimeMillis() / 1000,
-            amount = Money(CurrencyUnit.DebugInstance, 7000),
+            displayAmount = Money(CurrencyUnit.DebugInstance, 7000),
             originalAmount = Money(originalCurrency, 2345600),
             accountId = -1,
             catId = SPLIT_CATID,
@@ -557,7 +555,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             week = 1,
             tagList = listOf(
                 Triple(1, "Hund", android.graphics.Color.RED),
-                Triple(2,"Katz", android.graphics.Color.GREEN)
+                Triple(2, "Katz", android.graphics.Color.GREEN)
             ),
             accountType = AccountType.BANK
         )
