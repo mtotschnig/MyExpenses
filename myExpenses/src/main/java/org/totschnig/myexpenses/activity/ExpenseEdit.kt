@@ -203,11 +203,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     @State
     var createNew = false
-        set(value) {
-            field = value
-            updateFab()
-            invalidateOptionsMenu()
-        }
 
     @State
     var createTemplate = false
@@ -1165,8 +1160,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
 
             R.id.SAVE_AND_NEW_COMMAND -> {
-                prefHandler.putBoolean(saveAndNewPrefKey, createNew)
                 createNew = !createNew
+                prefHandler.putBoolean(saveAndNewPrefKey, createNew)
+                updateFab()
+                invalidateOptionsMenu()
                 return true
             }
 
