@@ -307,7 +307,7 @@
     <string name="restore_db_failure">ಡೇಟಾಬೇಸ್ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ.</string>
     <string name="restore_db_success">ಡೇಟಾಬೇಸ್ ಅನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
     <string name="restore_preferences_failure">ಆದ್ಯತೆಗಳ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ</string>
-    <string name="restore_backup_file_not_found">"%2$s" ಆರ್ಕೈವ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
+    <string name="restore_backup_file_not_found">%2$s ಆರ್ಕೈವ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="restore_preferences_success">ಆದ್ಯತೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ಯೋಜನೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ</string>
     <string name="save_transaction_and_new_success">ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ</string>
