@@ -10,7 +10,6 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.After
 import org.junit.Before
@@ -18,11 +17,9 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG_ROOT
 import org.totschnig.myexpenses.compose.TEST_TAG_FILTER_CARD
-import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PART_LIST
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -41,7 +38,7 @@ class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
     companion object {
         private const val amount1 = -1200L
         private const val amount2 = -3400L
-        private val archiveTotal = amount1 + amount2
+        private const val archiveTotal = amount1 + amount2
     }
 
     @Before
@@ -69,11 +66,11 @@ class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
     @Test
     fun showDetailWithSearch() {
         launch(account.id)
-        onView(withId(R.id.SEARCH_COMMAND)).perform(click())
-        onView(ViewMatchers.withText(R.string.amount)).perform(click())
-        onView(withId(R.id.amount1)).perform(typeText("12"))
-        closeSoftKeyboard()
-        onView(withId(android.R.id.button1)).perform(click())
+        selectFilter(R.string.amount) {
+            onView(withId(R.id.amount1)).perform(typeText("12"))
+            closeSoftKeyboard()
+            onView(withId(android.R.id.button1)).perform(click())
+        }
         assertTextAtPosition((archiveTotal.absoluteValue / 100).toString(), 0)
         clickContextItem(R.string.details)
         composeTestRule.onNode(

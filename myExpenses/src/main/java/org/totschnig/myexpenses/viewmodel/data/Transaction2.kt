@@ -180,6 +180,7 @@ data class Transaction2(
                 KEY_ROWID,
                 KEY_DATE,
                 KEY_VALUE_DATE,
+                KEY_CURRENCY,
                 KEY_AMOUNT,
                 KEY_DISPLAY_AMOUNT,
                 KEY_COMMENT,
@@ -211,7 +212,6 @@ data class Transaction2(
                 "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
             ).let {
                 if (extended) it + listOf(
-                    KEY_CURRENCY,
                     KEY_TRANSFER_PEER_IS_PART,
                     KEY_TRANSFER_PEER_IS_ARCHIVED,
                     KEY_ATTACHMENT_COUNT

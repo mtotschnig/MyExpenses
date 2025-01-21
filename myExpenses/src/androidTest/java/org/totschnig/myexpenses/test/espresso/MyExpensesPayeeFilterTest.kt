@@ -6,7 +6,6 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.After
 import org.junit.Before
@@ -14,7 +13,6 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.setParentId
 import org.totschnig.myexpenses.fragment.PartiesList
@@ -71,7 +69,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         filterOn(payee1)
         assertListSize(1)
         payeeIsDisplayed(payee1,0)
-        filterOff(payee1)
+        clearFilters()
         checkOriginalState()
     }
 
@@ -82,7 +80,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         assertListSize(2)
         payeeIsDisplayed(payee2,0)
         payeeIsDisplayed(duplicate, 1)
-        filterOff(payee2)
+        clearFilters()
         checkOriginalState()
     }
 
@@ -95,17 +93,12 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     }
 
     private fun filterOn(payee: String) {
-        onView(withId(R.id.SEARCH_COMMAND)).perform(click())
-        onView(withText(R.string.payer_or_payee)).perform(click())
-        onView(withId(R.id.list))
-            .perform(RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
-                hasDescendant(withText(payee)), clickOnViewChild(R.id.checkBox)))
-        clickFab()
-    }
-
-    private fun filterOff(payee: String) {
-        onView(withId(R.id.SEARCH_COMMAND)).perform(click())
-        onView(withText(payee)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
+        selectFilter(R.string.payer_or_payee) {
+            onView(withId(R.id.list))
+                .perform(RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
+                    hasDescendant(withText(payee)), clickOnViewChild(R.id.checkBox)))
+            clickFab()
+        }
     }
 
     private fun clickOnViewChild(viewId: Int) = object : ViewAction {

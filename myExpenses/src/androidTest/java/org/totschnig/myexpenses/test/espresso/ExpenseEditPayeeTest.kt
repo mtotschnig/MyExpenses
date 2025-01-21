@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onIdle
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.db2.createParty
@@ -19,7 +19,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
 
     private lateinit var party: Party
 
-    fun fixture(withIban: String?) {
+    suspend fun fixture(withIban: String?) {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
         party = repository.createParty(Party.create(name = "John", iban = withIban))
@@ -27,7 +27,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         assertThat(load()).isEmpty()
     }
 
-    private fun load() = runBlocking  { repository.loadTransactions(account1.id) }
+    private suspend fun load() =  repository.loadTransactions(account1.id)
 
     @After
     fun clearDb() {
@@ -51,11 +51,13 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
     }
 
     private fun doTheTest(withIban: String?) {
-        fixture(withIban)
-        setStoredPayee("John")
-        setAmount(101)
-        clickFab()
-        onIdle()
-        assertThat(load().first().party).isEqualTo(party.id)
+        runTest {
+            fixture(withIban)
+            setStoredPayee("John")
+            setAmount(101)
+            clickFab()
+            onIdle()
+            assertThat(load().first().party).isEqualTo(party.id)
+        }
     }
 }

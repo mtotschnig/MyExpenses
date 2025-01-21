@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -44,16 +44,13 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
         assertListSize(2)
         commentIsDisplayed(comment1, 0)
         commentIsDisplayed(comment2, 1)
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.notes)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(eltos.simpledialogfragment.R.id.editText))
-            .perform(ViewActions.typeText(comment1), ViewActions.closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+        selectFilter(R.string.notes) {
+            composeTestRule.onNodeWithText(getString(R.string.search_comment)).performTextInput(comment1)
+            composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()
+        }
         assertListSize(1)
         commentIsDisplayed(comment1, 0)
-        //switch off filter
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(comment1)).perform(ViewActions.click())
+        clearFilters()
         assertListSize(2)
         commentIsDisplayed(comment2, 1)
     }

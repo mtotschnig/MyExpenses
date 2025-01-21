@@ -58,7 +58,7 @@ class GroupedHeaderTest : BaseMyExpensesTest() {
         expense: Long,
         transfer: Long
     ) {
-        val parent = listNode.onChildren()
+        val parent = listNodeUnmerged.onChildren()
             .filter(hasHeaderId(headerId))
             .onFirst()
         parent.printToLog("DEBUGG")

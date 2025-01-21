@@ -4,11 +4,16 @@ import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.compose.ui.test.*
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.idling.CountingIdlingResource
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.After
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestMyExpenses
+import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
@@ -53,6 +58,28 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
         listNode.onChildren().onFirst()
             .performTouchInput { longClick() }
         command?.let { clickMenuItem(it, true) }
+    }
+
+    fun selectFilter(column: Int, dialogActions: () -> Unit) {
+        onView(withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
+        composeTestRule.onNodeWithText(getString(column), useUnmergedTree = true)
+            .performClick()
+        dialogActions()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.apply)).performClick()
+        waitForDialogClosed()
+    }
+
+    fun clearFilters() {
+        onView(withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
+        composeTestRule.onNodeWithContentDescription(getString(R.string.clear_all_filters)).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.apply)).performClick()
+        waitForDialogClosed()
+    }
+
+    private fun waitForDialogClosed() {
+        composeTestRule.waitUntil {
+            composeTestRule.onNodeWithTag(TEST_TAG_DIALOG).isNotDisplayed()
+        }
     }
 
     @After

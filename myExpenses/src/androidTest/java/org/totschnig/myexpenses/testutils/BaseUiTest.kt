@@ -249,7 +249,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             currencyContext,
             DebugCurrencyFormatter,
             prefHandler,
-            Mockito.mock(DataStore::class.java) as DataStore<Preferences>
+            dataStore
         )
 
     val contentResolver: ContentResolver = repository.contentResolver

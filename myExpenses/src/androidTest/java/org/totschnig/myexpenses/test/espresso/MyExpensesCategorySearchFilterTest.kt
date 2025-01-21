@@ -5,10 +5,6 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +37,7 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         catLabel1Sub = "Sub category 1"
         catLabel2 = "Test category 2"
         val currency = DebugInstance
-        account =  buildAccount("Test account 1")
+        account = buildAccount("Test account 1")
         categoryId1 = writeCategory(catLabel1)
         categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
         categoryId2 = writeCategory(catLabel2)
@@ -57,8 +53,6 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         id1Sub = ContentUris.parseId(op.saveAsNew(contentResolver))
         launch(account.id)
         allLabelsAreDisplayed()
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.category)).perform(ViewActions.click())
     }
 
     @After
@@ -77,11 +71,8 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         catIsDisplayed(catLabel1Sub, 2, true)
     }
 
-    private fun endSearch(text: String?) {
-        //switch off filter
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(text)).inRoot(RootMatchers.isPlatformPopup())
-            .perform(ViewActions.click())
+    private fun endSearch() {
+        clearFilters()
         allLabelsAreDisplayed()
         testScenario.close()
     }
@@ -93,28 +84,35 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
 
     @Test
     fun catFilterChildShouldHideTransaction() {
-        composeTestRule.onNodeWithText(catLabel1).performSemanticsAction(SemanticsActions.Expand)
-        select(catLabel1Sub)
+        selectFilter(R.string.category) {
+            composeTestRule.onNodeWithText(catLabel1)
+                .performSemanticsAction(SemanticsActions.Expand)
+            select(catLabel1Sub)
+        }
         assertListSize(1)
         catIsDisplayed(catLabel1Sub, 0, true)
-        endSearch(catLabel1Sub)
+        endSearch()
     }
 
     @Test
     fun catFilterMainWithChildrenShouldHideTransaction() {
-        select(catLabel1)
+        selectFilter(R.string.category) {
+            select(catLabel1)
+        }
         assertListSize(2)
         catIsDisplayed(catLabel1, 0)
         catIsDisplayed(catLabel1Sub, 1, true)
-        endSearch(catLabel1)
+        endSearch()
     }
 
     @Test
     fun catFilterMainWithoutChildrenShouldHideTransaction() {
-        select(catLabel2)
+        selectFilter(R.string.category) {
+            select(catLabel2)
+        }
         assertListSize(1)
         catIsDisplayed(catLabel2, 0)
-        endSearch(catLabel2)
+        endSearch()
     }
 
     private fun catIsDisplayed(label: String, position: Int, subString: Boolean = false) {

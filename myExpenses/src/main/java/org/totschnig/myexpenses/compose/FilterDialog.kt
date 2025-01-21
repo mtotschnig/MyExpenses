@@ -52,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
@@ -256,7 +257,7 @@ fun FilterDialog(
         properties = DialogProperties(usePlatformDefaultWidth = isLarge),
         onDismissRequest = onDismiss
     ) {
-        Surface(modifier = Modifier.conditional(!isLarge) {
+        Surface(modifier = Modifier.testTag(TEST_TAG_DIALOG).conditional(!isLarge) {
             fillMaxSize()
         }) {
             Column {
@@ -490,7 +491,7 @@ fun FilterDialog(
                             onValueChange = {
                                 search = it
                             },
-                            label = { Text(text = stringResource(R.string.menu_search)) },
+                            label = { Text(text = stringResource(R.string.search_comment)) },
                         )
                     }
                 )

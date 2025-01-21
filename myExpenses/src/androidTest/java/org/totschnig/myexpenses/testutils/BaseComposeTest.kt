@@ -15,6 +15,9 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     val listNode: SemanticsNodeInteraction
         get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
+    val listNodeUnmerged: SemanticsNodeInteraction
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST, useUnmergedTree = true)
+
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
