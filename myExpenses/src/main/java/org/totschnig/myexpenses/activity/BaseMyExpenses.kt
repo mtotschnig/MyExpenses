@@ -2490,9 +2490,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     fun addFilterCriterion(c: SimpleCriterion<*>) {
-        invalidateOptionsMenu()
         lifecycleScope.launch {
             currentFilter.addCriterion(c)
+            invalidateOptionsMenu()
         }
     }
 
