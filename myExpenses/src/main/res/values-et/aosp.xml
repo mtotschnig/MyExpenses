@@ -76,4 +76,5 @@
     <string name="add_filter">"Filtri lisamine"</string>
     <string name="contains">"sisaldab"</string>
     <string name="does_not_contain">"ei sisalda"</string>
+    <string name="no_matches_found">Vasteid ei leitud</string>
 </resources>

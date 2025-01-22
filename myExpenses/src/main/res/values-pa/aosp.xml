@@ -47,4 +47,5 @@
     <string name="filter_is">ਹੈ</string>
     <string name="filter_is_not">ਨਹੀਂ ਹੈ</string>
     <string name="apply">"ਲਾਗੂ ਕਰੋ"</string>
+    <string name="no_matches_found">ਕੋਈ ਮੇਲ ਨਹੀਂ ਲੱਭਿਆ</string>
 </resources>

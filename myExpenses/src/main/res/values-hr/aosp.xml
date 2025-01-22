@@ -134,4 +134,5 @@
     <string name="add_filter">"Dodaj filter"</string>
     <string name="contains">"sadržava"</string>
     <string name="does_not_contain">"ne sadržava"</string>
+    <string name="no_matches_found">Nema podudaranja</string>
 </resources>

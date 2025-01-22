@@ -67,4 +67,5 @@
     <string name="add_filter">"Uzlikt filtru"</string>
     <string name="contains">"satur"</string>
     <string name="does_not_contain">"nesatur"</string>
+    <string name="no_matches_found">Atbilstība nav atrasta</string>
 </resources>

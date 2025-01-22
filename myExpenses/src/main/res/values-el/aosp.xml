@@ -141,4 +141,5 @@
     <string name="add_filter">"Προσθήκη φίλτρου"</string>
     <string name="contains">"περιέχει"</string>
     <string name="does_not_contain">"δεν περιέχει"</string>
+    <string name="no_matches_found">Δεν βρέθηκαν ταιριάσματα</string>
 </resources>

@@ -138,4 +138,5 @@
     <string name="add_filter">"Filter toevoegen"</string>
     <string name="contains">"bevat"</string>
     <string name="does_not_contain">"bevat niet"</string>
+    <string name="no_matches_found">Geen overeenkomsten gevonde</string>
 </resources>

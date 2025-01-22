@@ -139,4 +139,5 @@
     <string name="add_filter">"添加「筛选」"</string>
     <string name="contains">"包含了"</string>
     <string name="does_not_contain">"不包含"</string>
+    <string name="no_matches_found">未发现符合条件的消息</string>
 </resources>

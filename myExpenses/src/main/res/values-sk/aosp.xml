@@ -75,4 +75,5 @@
     <string name="add_filter">"Pridať filter"</string>
     <string name="contains">"obsahuje"</string>
     <string name="does_not_contain">"neobsahuje"</string>
+    <string name="no_matches_found">Neboli nájdené žiadne výsledky</string>
 </resources>

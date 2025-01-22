@@ -77,11 +77,11 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 
-data class  ScrollCalculationResult(
+data class ScrollCalculationResult(
     val index: Int,
     val visibleIndex: Int,
     val lastHeaderId: Int?,
-    val found: Boolean
+    val found: Boolean,
 ) {
     companion object {
         val INITIAL = ScrollCalculationResult(0, 0, null, false)
@@ -147,6 +147,7 @@ fun TransactionList(
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
+    isFiltered: Boolean
 ) {
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
@@ -158,7 +159,10 @@ fun TransactionList(
             Text(
                 modifier = modifier
                     .fillMaxWidth()
-                    .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
+                    .wrapContentSize(),
+                text = stringResource(
+                    id = if (isFiltered) R.string.no_matches_found else R.string.no_expenses
+                )
             )
         }
     } else {

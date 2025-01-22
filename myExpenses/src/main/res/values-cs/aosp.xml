@@ -144,4 +144,5 @@
     <string name="add_filter">"Přidat filtr"</string>
     <string name="contains">"obsahuje"</string>
     <string name="does_not_contain">"neobsahuje"</string>
+    <string name="no_matches_found">Nic nebylo nalezeno</string>
 </resources>

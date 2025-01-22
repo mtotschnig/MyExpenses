@@ -69,4 +69,5 @@
     <string name="add_filter">"Сүзгіні қосу"</string>
     <string name="contains">"құрамында бар"</string>
     <string name="does_not_contain">"құрамында жоқ"</string>
+    <string name="no_matches_found">Сәйкестіктер табылмады</string>
 </resources>

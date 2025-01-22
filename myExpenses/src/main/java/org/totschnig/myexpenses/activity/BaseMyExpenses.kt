@@ -995,13 +995,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            viewModel.filterPersistence.getValue(account.id)
+
+            val filter = viewModel.filterPersistence.getValue(account.id)
                 .whereFilter
                 .collectAsState(null)
-                .value
-                ?.let {
-                    FilterCard(it)
-                }
+            filter.value?.let { FilterCard(it) }
+
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
                     viewModel.withCategoryIcon.collectAsState(initial = true).value
@@ -1311,7 +1310,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 onToggleCrStatus
                             )
                         }
-                    }
+                    },
+                    isFiltered = filter.value != null
                 )
             }
         }

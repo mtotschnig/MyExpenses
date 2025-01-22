@@ -143,4 +143,5 @@
     <string name="add_filter">"Добавяне на филтър"</string>
     <string name="contains">"съдържа"</string>
     <string name="does_not_contain">"не съдържа"</string>
+    <string name="no_matches_found">Няма съвпадения</string>
 </resources>

@@ -75,4 +75,5 @@
     <string name="add_filter">"Legg til filter"</string>
     <string name="contains">"inneholder"</string>
     <string name="does_not_contain">"inneholder ikke"</string>
+    <string name="no_matches_found">Ingen treff</string>
 </resources>

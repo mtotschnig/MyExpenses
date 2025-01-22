@@ -257,4 +257,6 @@
     <string name="contains">contains</string>
     <!-- LibreOffice sc/messages.po X5K9F -->
     <string name="does_not_contain">does not contain</string>
+    <!-- thunderbird-l10n/*/mail/chrome/messenger/search.properties -->
+    <string name="no_matches_found">No matches found</string>
 </resources>

@@ -141,4 +141,5 @@
     <string name="add_filter">"Aggiungi filtro"</string>
     <string name="contains">"contiene"</string>
     <string name="does_not_contain">"non contiene"</string>
+    <string name="no_matches_found">Nessuna corrispondenza</string>
 </resources>

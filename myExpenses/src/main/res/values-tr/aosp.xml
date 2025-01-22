@@ -140,4 +140,5 @@
     <string name="add_filter">"Süzgeç ekle"</string>
     <string name="contains">"içerir"</string>
     <string name="does_not_contain">"içermez"</string>
+    <string name="no_matches_found">Eşleşme bulunamadı</string>
 </resources>

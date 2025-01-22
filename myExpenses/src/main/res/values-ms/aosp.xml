@@ -116,4 +116,5 @@
     <string name="filter_is">adalah</string>
     <string name="filter_is_not">bukan</string>
     <string name="apply">"Gunakan"</string>
+    <string name="no_matches_found">Tiada padanan ditemui</string>
 </resources>

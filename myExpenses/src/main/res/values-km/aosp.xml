@@ -125,4 +125,5 @@
     <string name="matchAny">"Համապատասխան ցանկ. հետևյալին"</string>
     <string name="apply">"អនុវត្ត"</string>
     <string name="add_filter">"បន្ថែម​តម្រង"</string>
+    <string name="no_matches_found">Չի գտնվե</string>
 </resources>

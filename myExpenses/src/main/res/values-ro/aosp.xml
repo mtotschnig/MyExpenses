@@ -132,4 +132,5 @@
     <string name="filter_is_not">nu este</string>
     <string name="apply">"Aplică"</string>
     <string name="add_filter">"Adaugă un filtru"</string>
+    <string name="no_matches_found">Niciun rezultat</string>
 </resources>

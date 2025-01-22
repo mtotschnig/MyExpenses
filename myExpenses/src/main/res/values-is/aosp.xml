@@ -73,4 +73,5 @@
     <string name="add_filter">"Bæta við síu"</string>
     <string name="contains">"inniheldur"</string>
     <string name="does_not_contain">"inniheldur ekki"</string>
+    <string name="no_matches_found">Engin samsvörun fannst</string>
 </resources>

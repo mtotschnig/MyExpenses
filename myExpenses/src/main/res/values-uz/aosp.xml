@@ -57,4 +57,5 @@
     <string name="filter_is">–</string>
     <string name="filter_is_not">– emas</string>
     <string name="apply">"Tatbiq etish"</string>
+    <string name="no_matches_found">Hech nima topilmadi</string>
 </resources>

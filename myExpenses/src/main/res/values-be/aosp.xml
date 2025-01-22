@@ -57,4 +57,5 @@
     <string name="filter_is_not">не супадае з</string>
     <string name="apply">"Прымяніць"</string>
     <string name="add_filter">"Дадаць фільтр"</string>
+    <string name="no_matches_found">Супадзенні не знойдзены</string>
 </resources>

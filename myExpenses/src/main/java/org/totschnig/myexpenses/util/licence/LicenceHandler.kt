@@ -132,7 +132,7 @@ open class LicenceHandler(
         (this.licenceStatus?.compareTo(licenceStatus) ?: -1) >= 0
 
     val isUpgradeable: Boolean
-        get() = licenceStatus?.isUpgradeable ?: true
+        get() = licenceStatus?.isUpgradeable != false
 
     open fun init() {
         this.licenceStatus = enumValueOrNull<LicenceStatus>(
@@ -429,7 +429,7 @@ open class LicenceHandler(
         licenseStatusPrefs.getString(LICENSE_FEATURES, null)?.split(',')?.mapNotNull {
             try {
                 ContribFeature.valueOf(it)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }?.let { addFeatures(it) }

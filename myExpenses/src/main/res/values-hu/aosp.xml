@@ -143,4 +143,5 @@
     <string name="add_filter">"Szűrő hozzáadása"</string>
     <string name="contains">"tartalmazza"</string>
     <string name="does_not_contain">"nem tartalmazza"</string>
+    <string name="no_matches_found">Nincs találat</string>
 </resources>

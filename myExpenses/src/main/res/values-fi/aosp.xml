@@ -75,4 +75,5 @@
     <string name="add_filter">"Lisää suodatin"</string>
     <string name="contains">"sisältää"</string>
     <string name="does_not_contain">"ei sisällä"</string>
+    <string name="no_matches_found">Ei yhtään osumaa</string>
 </resources>
