@@ -504,6 +504,11 @@ fun FilterDialog(
                             Text(stringResource(R.string.response_yes))
                         }
                     },
+                    dismissButton = {
+                        TextButton(onClick = { confirmDiscard = false }) {
+                            Text(stringResource(R.string.response_no))
+                        }
+                    },
                     text = {
                         Text(stringResource(R.string.dialog_confirm_discard_changes))
                     }
