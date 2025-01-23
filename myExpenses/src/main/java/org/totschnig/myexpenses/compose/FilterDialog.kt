@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -257,9 +258,12 @@ fun FilterDialog(
         properties = DialogProperties(usePlatformDefaultWidth = isLarge),
         onDismissRequest = onDismiss
     ) {
-        Surface(modifier = Modifier.testTag(TEST_TAG_DIALOG).conditional(!isLarge) {
-            fillMaxSize()
-        }) {
+        Surface(modifier = Modifier.testTag(TEST_TAG_DIALOG)
+            .conditional(
+                isLarge,
+                ifTrue = { defaultMinSize(minHeight = 400.dp) },
+                ifFalse = { fillMaxSize() }
+            ) ) {
             Column {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
