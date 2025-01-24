@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
@@ -281,7 +280,7 @@ data class Transaction2(
                 attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
                 type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
                     ?: if (amountRaw > 0) FLAG_INCOME else FLAG_EXPENSE,
-                isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) ?: true,
+                isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) != false,
                 originalAmount = cursor.getStringIfExists(KEY_ORIGINAL_CURRENCY)?.let {
                     Money(currencyContext[it], cursor.getLong(KEY_ORIGINAL_AMOUNT))
                 }
