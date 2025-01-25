@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
+import kotlin.collections.contains
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
     SyncBackendProvider, ResourceStorage<Res> {
@@ -575,7 +576,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     protected fun verifyRemoteAccountFolderName(folderName: String?) =
-        folderName != null && folderName != BACKUP_FOLDER_NAME && folderName != ATTACHMENT_FOLDER_NAME
+        folderName != null && folderName !in specialFolders
 
     companion object {
         const val LOCK_FILE = ".lock.txt"
@@ -583,6 +584,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val ATTACHMENT_FOLDER_NAME = "ATTACHMENTS"
         const val BUDGETS_FOLDER_NAME ="BUDGETS_V2"
+        //BUDGETS was used for first broken version of Budget sync
+        val specialFolders = listOf(BACKUP_FOLDER_NAME, ATTACHMENT_FOLDER_NAME, "BUDGETS", BUDGETS_FOLDER_NAME)
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
         private const val CATEGORIES_FILENAME = "categories"
