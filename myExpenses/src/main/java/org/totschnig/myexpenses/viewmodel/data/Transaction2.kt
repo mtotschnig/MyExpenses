@@ -232,6 +232,7 @@ data class Transaction2(
         ): Transaction2 {
             val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
+            val typeRaw = amountRaw > 0
             val currencyUnit = currencyContext[currency]
             val displayAmount = Money(accountCurrency ?: currencyUnit, amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
@@ -279,10 +280,15 @@ data class Transaction2(
                 icon = cursor.getStringIfExists(KEY_ICON),
                 attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
                 type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
-                    ?: if (amountRaw > 0) FLAG_INCOME else FLAG_EXPENSE,
+                    ?: if (typeRaw) FLAG_INCOME else FLAG_EXPENSE,
                 isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) != false,
                 originalAmount = cursor.getStringIfExists(KEY_ORIGINAL_CURRENCY)?.let {
-                    Money(currencyContext[it], cursor.getLong(KEY_ORIGINAL_AMOUNT))
+                    //for historical reasons, original amount is stored unsigned in DB, we convert it
+                    //with the sign stored for amount
+                    val originalAmountRaw = cursor.getLong(KEY_ORIGINAL_AMOUNT).let {
+                        if (typeRaw) it else -it
+                    }
+                    Money(currencyContext[it], originalAmountRaw)
                 }
             )
         }
