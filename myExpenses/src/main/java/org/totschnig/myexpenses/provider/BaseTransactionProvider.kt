@@ -848,22 +848,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         throw Throwable(message)
                     }
                 }
-                val copyPref = FileCopyUtils.copy(sharedPrefFile, backupPrefFile)
+                val copyPrefSuccess = FileCopyUtils.copy(sharedPrefFile, backupPrefFile)
                 val preferencesDataStoreFile =
                     context.preferencesDataStoreFile(uiSettingsDataStoreName)
-                dirty = if (copyPref && FileCopyUtils.copy(
+                dirty = if (copyPrefSuccess && (!preferencesDataStoreFile.exists() || FileCopyUtils.copy(
                         preferencesDataStoreFile,
                         backupDataStoreFile
-                    )
+                    ))
                 ) {
                     prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
                     false
                 } else {
                     throw Throwable(
-                        "Unable to copy  file from  " +
-                                (if (copyPref) sharedPrefFile else preferencesDataStoreFile).path +
+                        "Unable to copy file from " +
+                                (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path +
                                 " to " +
-                                (if (copyPref) backupPrefFile else backupDataStoreFile).path
+                                (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path
                     )
                 }
             }

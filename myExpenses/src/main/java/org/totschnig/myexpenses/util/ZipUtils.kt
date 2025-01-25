@@ -44,7 +44,10 @@ object ZipUtils {
         )
         addFileToZip("", getBackupDbFile(cacheDir), zip)
         addFileToZip("", getBackupPrefFile(cacheDir), zip)
-        addFileToZip("", getBackupDataStoreFile(cacheDir), zip)
+        val backupDataStoreFile = getBackupDataStoreFile(cacheDir)
+        if (backupDataStoreFile.exists()) {
+            addFileToZip("", backupDataStoreFile, zip)
+        }
         try {
             resolver
                 .query(
