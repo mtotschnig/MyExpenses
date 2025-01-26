@@ -262,4 +262,10 @@
     <!-- /opt/extra/AOSP/packages/modules/Permission/PermissionController$ grep -r safety_center_info_label res | sed 's/ msgid="[[:digit:]]*"//' | sed 's/safety_center_info_label/information/' | sed 's/-v33//' | aosp_helper -->
     <string name="information">"Information"</string>
     <string name="menu_create_folder">"New folder"</string>
+    <!-- LibreOffice helpcontent2/source/text/shared/00.po bSbST -->
+    <string name="delimiter_comma">"comma"</string>
+    <!-- LibreOffice helpcontent2/source/text/shared/00.po 4j2Fs -->
+    <string name="delimiter_semicolon">"semicolon"</string>
+    <!-- LibreOffice helpcontent2/source/text/shared/00.po pZvut -->
+    <string name="delimiter_tab">"Tabulator"</string>
 </resources>

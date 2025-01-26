@@ -141,4 +141,7 @@
     <string name="no_matches_found">Geen overeenkomsten gevonde</string>
     <string name="information">"Informatie"</string>
     <string name="menu_create_folder">"Nieuwe map"</string>
+    <string name="delimiter_comma">"Komma"</string>
+    <string name="delimiter_semicolon">"Puntkomma"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

@@ -452,9 +452,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו.</string>
     <string name="csv_import_subcategory_requires_category">אם אתה ממפה קטגוריית משנה, עליך גם למפות את הקטגוריה.</string>
     <string name="cvs_import_set_first_line_as_header">האם יש להתייחס לקו הראשון כאל שורת כותרת?</string>
-    <string name="csv_import_delimiter_comma">פסיק</string>
-    <string name="csv_import_delimiter_semicolon">פסיק נקודה</string>
-    <string name="csv_import_delimiter_tab">לשונית</string>
     <string name="csv_import_no_mapping_found_for_amount">נא למפות עמודה אחת לסכום, הכנסה או הוצאה.</string>
     <string name="menu_show_transactions">הצג עסקאות</string>
     <string name="pref_custom_decimal_format_title">מבנה מספר</string>

@@ -78,4 +78,7 @@
     <string name="no_matches_found">Ingen treff</string>
     <string name="information">"Informasjon"</string>
     <string name="menu_create_folder">"Ny mappe"</string>
+    <string name="delimiter_comma">"Komma"</string>
+    <string name="delimiter_semicolon">"Semikolon"</string>
+    <string name="delimiter_tab">"Tabulator"</string>
 </resources>

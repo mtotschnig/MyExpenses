@@ -143,4 +143,7 @@
     <string name="no_matches_found">Eşleşme bulunamadı</string>
     <string name="information">"Bilgi"</string>
     <string name="menu_create_folder">"Yeni klasör"</string>
+    <string name="delimiter_comma">"Virgül"</string>
+    <string name="delimiter_semicolon">"Noktalı virgül"</string>
+    <string name="delimiter_tab">"Sekme"</string>
 </resources>

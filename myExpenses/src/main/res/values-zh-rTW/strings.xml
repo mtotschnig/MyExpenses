@@ -438,9 +438,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d個紀錄被捨棄了。</string>
     <string name="csv_import_subcategory_requires_category">如果您要對應子類別，則還必須對應主類別。</string>
     <string name="cvs_import_set_first_line_as_header">是否將第一行當作標題行？</string>
-    <string name="csv_import_delimiter_comma">逗號</string>
-    <string name="csv_import_delimiter_semicolon">分號</string>
-    <string name="csv_import_delimiter_tab">Tab 製表鍵</string>
     <string name="csv_import_no_mapping_found_for_amount">請對應到金額、收入或支出其中一欄。</string>
     <string name="menu_show_transactions">顯示交易紀錄</string>
     <string name="pref_custom_decimal_format_title">數字格式</string>

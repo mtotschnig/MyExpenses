@@ -384,7 +384,6 @@
     <string name="pref_manage_stale_images_title">Verouderde beelden</string>
     <string name="export_handle_deleted_update_balance">Openingssaldo bijwerken</string>
     <string name="io_error_unable_to_create_file">Kan bestand %1$s niet maken in map %2$s</string>
-    <string name="csv_import_delimiter_comma">Komma</string>
     <string name="import_accounts_success">%1$d rekeningen succesvol geïmporteerd.</string>
     <string name="import_parties_none">Geen partijen geïmporteerd</string>
     <string name="pref_custom_decimal_format_summary">Als je niet tevreden bent met het standaardformaat voor je landinstelling, pas dit dan aan je behoeften aan. Laat leeg om het standaardformaat te herstellen.</string>
@@ -573,7 +572,6 @@
     <string name="warning_party_delete_debt">Bij het verwijderen van deze partij worden ook de schulden die voor deze partij zijn gedefinieerd, verwijderd.</string>
     <string name="paypal_callback_info">Je transactie is voltooid en er is een ontvangstbewijs voor je aankoop naar je gemaild. Je kunt inloggen op je rekening op www.paypal.com om de details van deze transactie te bekijken.</string>
     <string name="search_amount">Zoek op bedrag</string>
-    <string name="csv_import_delimiter_semicolon">Puntkomma</string>
     <string name="donate_button_invoice">Factuur</string>
     <string name="pref_sync_changes_immediately_summary">Schrijf lokale wijzigingen onmiddellijk naar de backend</string>
     <string name="credit_limit">Kredietlimiet</string>
@@ -724,7 +722,6 @@
     <string name="search_category">Zoek op categorie</string>
     <string name="csv_import_preview">Voorbeeld</string>
     <string name="hint_url">URL</string>
-    <string name="csv_import_delimiter_tab">Tabblad</string>
     <string name="plan_instance_state_applied">toegepast</string>
     <string name="contributed_by">Bijgedragen door %s</string>
     <string name="pref_sync_notification_summary">Informeren over synchronisatievoortgang</string>

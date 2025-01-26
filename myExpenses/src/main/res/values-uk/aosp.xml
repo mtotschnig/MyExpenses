@@ -145,4 +145,7 @@
     <string name="no_matches_found">Збігів немає</string>
     <string name="information">"Інформація"</string>
     <string name="menu_create_folder">"Нова папка"</string>
+    <string name="delimiter_comma">"Кома"</string>
+    <string name="delimiter_semicolon">"Крапка з комою"</string>
+    <string name="delimiter_tab">"Табуляція"</string>
 </resources>

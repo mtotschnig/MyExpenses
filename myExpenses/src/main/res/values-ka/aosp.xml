@@ -68,4 +68,7 @@
     <string name="no_matches_found">თანხვედრა ვერ მოიძებნა</string>
     <string name="information">"ინფორმაცია"</string>
     <string name="menu_create_folder">"ახალი საქაღალდე"</string>
+    <string name="delimiter_comma">"მძიმე"</string>
+    <string name="delimiter_semicolon">"წერტილ-მძიმე"</string>
+    <string name="delimiter_tab">"ჩანართი"</string>
 </resources>

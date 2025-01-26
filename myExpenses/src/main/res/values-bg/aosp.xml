@@ -146,4 +146,7 @@
     <string name="no_matches_found">Няма съвпадения</string>
     <string name="information">"Информация"</string>
     <string name="menu_create_folder">"Нова папка"</string>
+    <string name="delimiter_comma">"Запетая"</string>
+    <string name="delimiter_semicolon">"Точка и запетая"</string>
+    <string name="delimiter_tab">"Табулация"</string>
 </resources>

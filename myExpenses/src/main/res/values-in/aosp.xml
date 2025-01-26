@@ -79,4 +79,7 @@
     <string name="no_matches_found">Tidak ada yang cocok</string>
     <string name="information">"Informasi"</string>
     <string name="menu_create_folder">"Folder baru"</string>
+    <string name="delimiter_comma">"Koma"</string>
+    <string name="delimiter_semicolon">"Titik koma"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

@@ -69,4 +69,7 @@
     <string name="no_matches_found">Nerasta</string>
     <string name="information">"Informacija"</string>
     <string name="menu_create_folder">"Naujas aplankas"</string>
+    <string name="delimiter_comma">"Kablelis"</string>
+    <string name="delimiter_semicolon">"Kabliataškis"</string>
+    <string name="delimiter_tab">"Tabuliavimo ženklas"</string>
 </resources>

@@ -445,9 +445,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
     <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
     <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
-    <string name="csv_import_delimiter_comma">Virgül</string>
-    <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
-    <string name="csv_import_delimiter_tab">Sekme</string>
     <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
     <string name="menu_show_transactions">Muameleleri göster</string>
     <string name="pref_custom_decimal_format_title">Sayı biçimi</string>

@@ -155,7 +155,7 @@
                         <Button
                             android:id="@+id/delimiter_tab"
                             style="@style/Widget.Material3.Button.OutlinedButton.Dense"
-                            android:text="@string/csv_import_delimiter_tab"
+                            android:text="@string/delimiter_tab"
                             tools:ignore="HardcodedText" />
                     </com.google.android.material.button.MaterialButtonToggleGroup>
                 </HorizontalScrollView>

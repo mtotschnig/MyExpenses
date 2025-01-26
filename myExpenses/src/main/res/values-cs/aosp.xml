@@ -147,4 +147,7 @@
     <string name="no_matches_found">Nic nebylo nalezeno</string>
     <string name="information">"Informace"</string>
     <string name="menu_create_folder">"Nová složka"</string>
+    <string name="delimiter_comma">"Čárka"</string>
+    <string name="delimiter_semicolon">"Středník"</string>
+    <string name="delimiter_tab">"Tabulátor"</string>
 </resources>

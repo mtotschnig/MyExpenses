@@ -62,4 +62,7 @@
     <string name="no_matches_found">S’u gjetën përputhje</string>
     <string name="information">"Informacione"</string>
     <string name="menu_create_folder">"Dosje e re"</string>
+    <string name="delimiter_comma">"~Presje"</string>
+    <string name="delimiter_semicolon">"Gabim: Pikëpresje e pavlefshme"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

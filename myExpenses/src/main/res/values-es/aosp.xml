@@ -145,4 +145,7 @@
     <string name="no_matches_found">No se han encontrado coincidencias</string>
     <string name="information">"Información"</string>
     <string name="menu_create_folder">"Nueva carpeta"</string>
+    <string name="delimiter_comma">"Coma"</string>
+    <string name="delimiter_semicolon">"Punto y coma"</string>
+    <string name="delimiter_tab">"Tabulador"</string>
 </resources>

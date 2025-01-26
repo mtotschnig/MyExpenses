@@ -488,7 +488,6 @@
     <string name="search_category">Cerca categoria</string>
     <string name="search_comment">Cerca notes</string>
     <string name="search_date">Cerca data</string>
-    <string name="csv_import_delimiter_tab">Tabulador</string>
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vagi a %s per a establir el bloqueig de pantalla.</string>
@@ -560,8 +559,6 @@
     <string name="pref_manage_stale_images_summary">Gestiona imatges sobrants de transaccions eleminades</string>
     <string name="dialog_export_applied_to_filter">Només les transaccions que coincideixen amb el filtre actual es tenen en compte.</string>
     <string name="folder_name">Nom de la carpeta</string>
-    <string name="csv_import_delimiter_comma">Coma</string>
-    <string name="csv_import_delimiter_semicolon">Punt i coma</string>
     <string name="progress_dialog_updating_split_parts">Actualitzant parts dividides</string>
     <string name="plan_instance_state_applied">aplicat</string>
     <string name="pref_custom_decimal_format_summary">Si no us satisfà el format per defecte de la llengua, el podeu adaptar. Deixi en blanc per restaurar el format per defecte.</string>

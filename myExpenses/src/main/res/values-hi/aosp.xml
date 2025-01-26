@@ -61,4 +61,7 @@
     <string name="apply">"लागू करें"</string>
     <string name="information">"जानकारी"</string>
     <string name="menu_create_folder">"नया फ़ोल्डर"</string>
+    <string name="delimiter_comma">"विराम चिह्न"</string>
+    <string name="delimiter_semicolon">"अर्द्ध विराम"</string>
+    <string name="delimiter_tab">"टैब"</string>
 </resources>

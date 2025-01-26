@@ -452,9 +452,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros foram descartados.</string>
     <string name="csv_import_subcategory_requires_category">Se você mapear a subcategoria, deverá mapear também a categoria.</string>
     <string name="cvs_import_set_first_line_as_header">A primeira linha deve ser tratada como uma linha de cabeçalho?</string>
-    <string name="csv_import_delimiter_comma">Vírgula</string>
-    <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
-    <string name="csv_import_delimiter_tab">Tabulação</string>
     <string name="csv_import_no_mapping_found_for_amount">Por favor, mapeie uma coluna para quantia, receita ou despesa.</string>
     <string name="menu_show_transactions">Exibir transações</string>
     <string name="pref_custom_decimal_format_title">Formato de número</string>

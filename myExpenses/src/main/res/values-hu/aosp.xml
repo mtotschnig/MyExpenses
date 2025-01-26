@@ -146,4 +146,7 @@
     <string name="no_matches_found">Nincs találat</string>
     <string name="information">"Információ"</string>
     <string name="menu_create_folder">"Új mappa"</string>
+    <string name="delimiter_comma">"Vessző"</string>
+    <string name="delimiter_semicolon">"Pontosvessző"</string>
+    <string name="delimiter_tab">"Tabulátor"</string>
 </resources>

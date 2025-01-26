@@ -144,4 +144,7 @@
     <string name="no_matches_found">Nessuna corrispondenza</string>
     <string name="information">"Informazioni"</string>
     <string name="menu_create_folder">"Nuova cartella"</string>
+    <string name="delimiter_comma">"Virgola"</string>
+    <string name="delimiter_semicolon">"Punto e virgola"</string>
+    <string name="delimiter_tab">"Tabulazione"</string>
 </resources>

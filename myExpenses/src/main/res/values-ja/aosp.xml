@@ -142,4 +142,7 @@
     <string name="no_matches_found">見つかりませんでした</string>
     <string name="information">"情報"</string>
     <string name="menu_create_folder">"新しいフォルダ"</string>
+    <string name="delimiter_comma">"コンマ"</string>
+    <string name="delimiter_semicolon">"セミコロン"</string>
+    <string name="delimiter_tab">"タブ"</string>
 </resources>

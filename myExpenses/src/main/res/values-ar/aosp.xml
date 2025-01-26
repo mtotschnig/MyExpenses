@@ -146,4 +146,5 @@
     <string name="no_matches_found">م يُعثر على أي تطابق</string>
     <string name="information">"المعلومات"</string>
     <string name="menu_create_folder">"مجلد جديد"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

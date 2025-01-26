@@ -79,4 +79,7 @@
     <string name="no_matches_found">Vasteid ei leitud</string>
     <string name="information">"Teave"</string>
     <string name="menu_create_folder">"Uus kaust"</string>
+    <string name="delimiter_comma">"Koma"</string>
+    <string name="delimiter_semicolon">"Semikoolon"</string>
+    <string name="delimiter_tab">"Tabeldusmärk"</string>
 </resources>

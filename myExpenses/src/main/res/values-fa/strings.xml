@@ -337,9 +337,6 @@
     <string name="io_error_unable_to_create_file">امکان ساخت فایل %1$s در پوشهٔ %2$s نیست</string>
     <string name="export_to_format">برون ریزی به %s</string>
     <string name="csv_import_preview">پیش‌نمایش</string>
-    <string name="csv_import_delimiter_comma">ویرگول</string>
-    <string name="csv_import_delimiter_semicolon">نقطه‌ویرگول</string>
-    <string name="csv_import_delimiter_tab">تب</string>
     <string name="menu_show_transactions">نمایش تراکنش‌ها</string>
     <string name="pref_custom_decimal_format_title">فرمت عدد</string>
     <string name="pref_auto_backup_title">بک‌آپ‌ گیری خودکار</string>

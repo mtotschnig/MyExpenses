@@ -445,9 +445,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
     <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
     <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>
-    <string name="csv_import_delimiter_comma">Komma</string>
-    <string name="csv_import_delimiter_semicolon">Semikolon</string>
-    <string name="csv_import_delimiter_tab">Tabulator</string>
     <string name="csv_import_no_mapping_found_for_amount">Bitte ordnen Sie eine Spalte entweder, Betrag, Einnahme oder Ausgabe zu.</string>
     <string name="menu_show_transactions">Buchungen anzeigen</string>
     <string name="pref_custom_decimal_format_title">Zahlenformat</string>

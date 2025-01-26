@@ -546,9 +546,6 @@
     <string name="pref_custom_decimal_format_title">Format brojeva</string>
     <string name="menu_show_transactions">Prikaži transakcije</string>
     <string name="csv_import_no_mapping_found_for_amount">Postavi jedan stupac kao iznos, prihod ili trošak.</string>
-    <string name="csv_import_delimiter_tab">Tabulator</string>
-    <string name="csv_import_delimiter_semicolon">Točka zarez</string>
-    <string name="csv_import_delimiter_comma">Zarez</string>
     <string name="cvs_import_set_first_line_as_header">Da li prvi redak koristiti kao redak zaglavlja\?</string>
     <string name="csv_import_subcategory_requires_category">Ako povežeš podkategoriju, moraš povezati i kategoriju.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d zapisi su odbačeni.</string>

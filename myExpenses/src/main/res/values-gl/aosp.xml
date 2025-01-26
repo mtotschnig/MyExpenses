@@ -77,4 +77,7 @@
     <string name="no_matches_found">Non se atoparon coincidencias</string>
     <string name="information">"Información"</string>
     <string name="menu_create_folder">"Novo cartafol"</string>
+    <string name="delimiter_comma">"Coma"</string>
+    <string name="delimiter_semicolon">"Punto e coma"</string>
+    <string name="delimiter_tab">"Tabulación"</string>
 </resources>

@@ -58,4 +58,7 @@
     <string name="apply">"প্রয়োগ করুন"</string>
     <string name="information">"তথ্য"</string>
     <string name="menu_create_folder">"নতুন ফোল্ডার"</string>
+    <string name="delimiter_comma">"কমা"</string>
+    <string name="delimiter_semicolon">"সেমিকোলন"</string>
+    <string name="delimiter_tab">"ট্যাব"</string>
 </resources>

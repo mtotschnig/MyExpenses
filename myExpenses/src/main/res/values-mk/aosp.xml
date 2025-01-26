@@ -60,4 +60,7 @@
     <string name="apply">"Примени"</string>
     <string name="information">"Информации"</string>
     <string name="menu_create_folder">"Нова папка"</string>
+    <string name="delimiter_comma">"Запирка"</string>
+    <string name="delimiter_semicolon">"Точка запирка"</string>
+    <string name="delimiter_tab">"Табулатор"</string>
 </resources>

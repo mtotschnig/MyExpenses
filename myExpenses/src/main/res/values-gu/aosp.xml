@@ -60,4 +60,7 @@
     <string name="add_filter">"ફિલ્ટર ઉમેરો"</string>
     <string name="information">"માહિતી"</string>
     <string name="menu_create_folder">"નવું ફોલ્ડર"</string>
+    <string name="delimiter_comma">"Comma"</string>
+    <string name="delimiter_semicolon">"Semicolon"</string>
+    <string name="delimiter_tab">"ટેબ"</string>
 </resources>

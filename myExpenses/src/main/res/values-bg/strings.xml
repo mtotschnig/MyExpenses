@@ -445,9 +445,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>
     <string name="csv_import_subcategory_requires_category">Ако свържете подкатегория, ще трябва да свържете и главната категория.</string>
     <string name="cvs_import_set_first_line_as_header">Да се приеме ли първия ред като заглавен?</string>
-    <string name="csv_import_delimiter_comma">Запетая</string>
-    <string name="csv_import_delimiter_semicolon">Точка и запетая</string>
-    <string name="csv_import_delimiter_tab">Табулатор</string>
     <string name="csv_import_no_mapping_found_for_amount">Моля, свържете колона със сума, приход или разход.</string>
     <string name="menu_show_transactions">Покажи транзакциите</string>
     <string name="pref_custom_decimal_format_title">Формат на числата</string>

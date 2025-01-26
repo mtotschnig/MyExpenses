@@ -408,9 +408,6 @@
     <string name="pref_csv_import_delimiter">Delimitator</string>
     <string name="csv_import_preview">Preview</string>
     <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
-    <string name="csv_import_delimiter_comma">Virgula</string>
-    <string name="csv_import_delimiter_semicolon">Punct si virgula</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
     <string name="menu_show_transactions">Arata Tranzacţia</string>
     <string name="pref_custom_decimal_format_title">Format numar</string>
     <string name="pref_auto_backup_title">Activează auto-backup</string>

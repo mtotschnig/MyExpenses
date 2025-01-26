@@ -106,4 +106,7 @@
     <string name="no_matches_found">Nenhuma ocorrência encontrada</string>
     <string name="information">"Informações"</string>
     <string name="menu_create_folder">"Nova pasta"</string>
+    <string name="delimiter_comma">"Vírgula"</string>
+    <string name="delimiter_semicolon">"Ponto e vírgula"</string>
+    <string name="delimiter_tab">"Tabulação"</string>
 </resources>

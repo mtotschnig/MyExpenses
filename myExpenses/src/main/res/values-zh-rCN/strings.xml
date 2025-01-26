@@ -438,9 +438,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
     <string name="csv_import_subcategory_requires_category">如果您映射子类别，则还必须映射主类别。</string>
     <string name="cvs_import_set_first_line_as_header">是否应把第一行当作标题行？</string>
-    <string name="csv_import_delimiter_comma">逗号</string>
-    <string name="csv_import_delimiter_semicolon">分号</string>
-    <string name="csv_import_delimiter_tab">Tab制表符</string>
     <string name="csv_import_no_mapping_found_for_amount">请映射到金额、收入或支出其中一列。</string>
     <string name="menu_show_transactions">显示交易</string>
     <string name="pref_custom_decimal_format_title">数字格式</string>

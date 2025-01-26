@@ -72,4 +72,7 @@
     <string name="does_not_contain">"አልያዘም"</string>
     <string name="information">"መረጃ"</string>
     <string name="menu_create_folder">"አዲስ አቃፊ"</string>
+    <string name="delimiter_comma">"ኮማ"</string>
+    <string name="delimiter_semicolon">"ሴሚኮለን"</string>
+    <string name="delimiter_tab">"ማስረጊያ"</string>
 </resources>

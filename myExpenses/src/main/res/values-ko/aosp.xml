@@ -134,4 +134,7 @@
     <string name="no_matches_found">검색 결과가 없습니다.</string>
     <string name="information">"정보"</string>
     <string name="menu_create_folder">"새 폴더"</string>
+    <string name="delimiter_comma">"쉼표"</string>
+    <string name="delimiter_semicolon">"세미콜론"</string>
+    <string name="delimiter_tab">"탭"</string>
 </resources>

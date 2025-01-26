@@ -430,9 +430,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d bản ghi bị huỷ bỏ.</string>
     <string name="csv_import_subcategory_requires_category">Nếu bạn ánh xạ các danh mục con, bạn cũng phải ánh xạ các danh mục.</string>
     <string name="cvs_import_set_first_line_as_header">Có nên coi dòng đầu như dòng đầu trang cố định (header) ?</string>
-    <string name="csv_import_delimiter_comma">Dấu phẩy</string>
-    <string name="csv_import_delimiter_semicolon">Dấu chấm phẩy</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_no_mapping_found_for_amount">Vui lòng trỏ một cột tới số tiền, thu hoặc chi.</string>
     <string name="menu_show_transactions">Hiện các giao dịch</string>
     <string name="pref_custom_decimal_format_title">Định dạng số</string>

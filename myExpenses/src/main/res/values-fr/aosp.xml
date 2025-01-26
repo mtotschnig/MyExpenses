@@ -145,4 +145,7 @@
     <string name="no_matches_found">Aucune occurrence trouvée</string>
     <string name="information">"Informations"</string>
     <string name="menu_create_folder">"Nouveau dossier"</string>
+    <string name="delimiter_comma">"Virgule"</string>
+    <string name="delimiter_semicolon">"Point-virgule"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

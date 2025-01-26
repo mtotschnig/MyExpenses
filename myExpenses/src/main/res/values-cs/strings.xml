@@ -459,9 +459,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d záznamů bylo zahozeno.</string>
     <string name="csv_import_subcategory_requires_category">Pokud mapujete podkategorii, musíte také mapovat kategorii.</string>
     <string name="cvs_import_set_first_line_as_header">Měl by první řádek fungovat jako řádek nadpisu?</string>
-    <string name="csv_import_delimiter_comma">Čárka</string>
-    <string name="csv_import_delimiter_semicolon">Středník</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_no_mapping_found_for_amount">Namapujte jeden sloupec buď na částku, příjem, nebo na výdaj.</string>
     <string name="menu_show_transactions">Ukázat transakce</string>
     <string name="pref_custom_decimal_format_title">Formát čísla</string>

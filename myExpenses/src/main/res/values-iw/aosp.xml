@@ -136,4 +136,7 @@
     <string name="no_matches_found">לא נמצאו התאמות</string>
     <string name="information">"מידע"</string>
     <string name="menu_create_folder">"תיקיה חדשה"</string>
+    <string name="delimiter_comma">"Comma"</string>
+    <string name="delimiter_semicolon">"Semicolon"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

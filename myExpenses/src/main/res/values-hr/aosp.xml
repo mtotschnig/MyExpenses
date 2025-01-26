@@ -137,4 +137,7 @@
     <string name="no_matches_found">Nema podudaranja</string>
     <string name="information">"Podatak"</string>
     <string name="menu_create_folder">"Nova mapa"</string>
+    <string name="delimiter_comma">"Zarez"</string>
+    <string name="delimiter_semicolon">"Točka-zarez"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

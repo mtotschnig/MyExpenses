@@ -144,4 +144,7 @@
     <string name="no_matches_found">Δεν βρέθηκαν ταιριάσματα</string>
     <string name="information">"Πληροφορίες"</string>
     <string name="menu_create_folder">"Νέος φάκελος"</string>
+    <string name="delimiter_comma">"Κόμμα"</string>
+    <string name="delimiter_semicolon">"Άνω τελεία"</string>
+    <string name="delimiter_tab">"Στηλοθέτης"</string>
 </resources>

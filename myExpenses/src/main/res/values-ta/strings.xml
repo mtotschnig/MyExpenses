@@ -445,9 +445,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
     <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், அதன் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
     <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>
-    <string name="csv_import_delimiter_comma">காற்புள்ளி</string>
-    <string name="csv_import_delimiter_semicolon">அரைப்புள்ளி</string>
-    <string name="csv_import_delimiter_tab">தாவல்</string>
     <string name="csv_import_no_mapping_found_for_amount">ஒரு வரிசையை தயவுசெய்து தொகை, வருமானம் அல்லது செலவுடன் தொடற்பு படுத்தவும்.</string>
     <string name="menu_show_transactions">பரிவர்த்தனைகளைக் காட்டு</string>
     <string name="pref_custom_decimal_format_title">எண் வடிவம் </string>

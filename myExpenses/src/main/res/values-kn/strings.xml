@@ -443,9 +443,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ತ್ಯಜಿಸಲಾಗಿದೆ.</string>
     <string name="csv_import_subcategory_requires_category">ನೀವು ಉಪವರ್ಗವನ್ನು ನಕ್ಷೆ ಮಾಡಿದರೆ, ನೀವು ವರ್ಗವನ್ನು ಸಹ ನಕ್ಷೆ ಮಾಡಬೇಕು.</string>
     <string name="cvs_import_set_first_line_as_header">ಮೊದಲ ಸಾಲನ್ನು ಹೆಡರ್ ಲೈನ್ ಎಂದು ಪರಿಗಣಿಸಬೇಕೇ?</string>
-    <string name="csv_import_delimiter_comma">ಅಲ್ಪವಿರಾಮ</string>
-    <string name="csv_import_delimiter_semicolon">ಸೆಮಿಕೋಲನ್</string>
-    <string name="csv_import_delimiter_tab">ಟ್ಯಾಬ್</string>
     <string name="csv_import_no_mapping_found_for_amount">ಮೊತ್ತ, ಆದಾಯ ಅಥವಾ ಖರ್ಚಿಗೆ ದಯವಿಟ್ಟು ಒಂದು ಕಾಲಮ್ ಅನ್ನು ನಕ್ಷೆ ಮಾಡಿ.</string>
     <string name="menu_show_transactions">ವಹಿವಾಟುಗಳನ್ನು ತೋರಿಸಿ</string>
     <string name="pref_custom_decimal_format_title">ಸಂಖ್ಯೆ ಸ್ವರೂಪ</string>

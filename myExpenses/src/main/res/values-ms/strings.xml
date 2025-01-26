@@ -433,9 +433,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d rekod telah disingkirkan.</string>
     <string name="csv_import_subcategory_requires_category">Jika anda petakan subkategori, anda juga petakan kategori.</string>
     <string name="cvs_import_set_first_line_as_header">Patutkah baris pertama dianggap sebagai tajuk?</string>
-    <string name="csv_import_delimiter_comma">Koma</string>
-    <string name="csv_import_delimiter_semicolon">Titik Bertindih</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_no_mapping_found_for_amount">Sila petakan salah satu lajur sama ada amaun, pendapatan atau perbelanjaan.</string>
     <string name="menu_show_transactions">Tunjuk transaksi</string>
     <string name="pref_custom_decimal_format_title">Format nombor</string>

@@ -70,4 +70,7 @@
     <string name="no_matches_found">Atbilstība nav atrasta</string>
     <string name="information">"Informācija"</string>
     <string name="menu_create_folder">"Jauna mape"</string>
+    <string name="delimiter_comma">"Komats"</string>
+    <string name="delimiter_semicolon">"Semikols"</string>
+    <string name="delimiter_tab">"Cilne"</string>
 </resources>

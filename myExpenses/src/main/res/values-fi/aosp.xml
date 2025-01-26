@@ -78,4 +78,7 @@
     <string name="no_matches_found">Ei yhtään osumaa</string>
     <string name="information">"Tiedot"</string>
     <string name="menu_create_folder">"Uusi kansio"</string>
+    <string name="delimiter_comma">"Pilkku"</string>
+    <string name="delimiter_semicolon">"Puolipiste"</string>
+    <string name="delimiter_tab">"Sarkain"</string>
 </resources>

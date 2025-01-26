@@ -139,4 +139,7 @@
     <string name="no_matches_found">Không tìm thấy</string>
     <string name="information">"Thông tin"</string>
     <string name="menu_create_folder">"Thư mục mới"</string>
+    <string name="delimiter_comma">"Dấu phẩy"</string>
+    <string name="delimiter_semicolon">"Dấu chấm phẩy"</string>
+    <string name="delimiter_tab">"Khoảng Tab"</string>
 </resources>

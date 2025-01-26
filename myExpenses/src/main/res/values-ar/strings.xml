@@ -472,9 +472,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها.</string>
     <string name="csv_import_subcategory_requires_category">إذا قمت بتعيين فئة فرعية، يجب عليك أيضاً تعيين الفئة.</string>
     <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>
-    <string name="csv_import_delimiter_comma">فاصلة</string>
-    <string name="csv_import_delimiter_semicolon">نقطة وفاصلة</string>
-    <string name="csv_import_delimiter_tab">لسان تبويب</string>
     <string name="csv_import_no_mapping_found_for_amount">يُرجى تعيين عمود واحد إما للمبلغ أو الدخل أو المصاريف.</string>
     <string name="menu_show_transactions">أظهر العمليات</string>
     <string name="pref_custom_decimal_format_title">تنسيق الرقم</string>

@@ -405,9 +405,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
     <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
     <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>
-    <string name="csv_import_delimiter_comma">콤마</string>
-    <string name="csv_import_delimiter_semicolon">세미콜론</string>
-    <string name="csv_import_delimiter_tab">탭</string>
     <string name="csv_import_no_mapping_found_for_amount">하나의 열을 금액, 수입 또는 지출로 배치하세요.</string>
     <string name="menu_show_transactions">거래 내역 표시</string>
     <string name="pref_custom_decimal_format_title">숫자 형식</string>

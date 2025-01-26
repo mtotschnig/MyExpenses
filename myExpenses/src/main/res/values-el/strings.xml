@@ -441,9 +441,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
     <string name="csv_import_subcategory_requires_category">Εάν αντιστοιχίσετε την υποκατηγορία, πρέπει επίσης να αντιστοιχίσετε την κατηγορία.</string>
     <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>
-    <string name="csv_import_delimiter_comma">Κόμμα</string>
-    <string name="csv_import_delimiter_semicolon">Άνω τελεία</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_no_mapping_found_for_amount">Παρακαλούμε αντιστοιχίστε μία στήλη είτε στο ποσό, στα έσοδα ή έξοδα.</string>
     <string name="menu_show_transactions">Εμφάνιση συναλλαγών</string>
     <string name="pref_custom_decimal_format_title">Μορφή αριθμού</string>

@@ -145,4 +145,7 @@
     <string name="no_matches_found">No s\'ha trobat cap coincidència</string>
     <string name="information">"Informació"</string>
     <string name="menu_create_folder">"Carpeta nova"</string>
+    <string name="delimiter_comma">"Coma"</string>
+    <string name="delimiter_semicolon">"Punt i coma"</string>
+    <string name="delimiter_tab">"Tabulador"</string>
 </resources>

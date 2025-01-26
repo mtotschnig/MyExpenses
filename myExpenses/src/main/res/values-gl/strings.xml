@@ -211,8 +211,6 @@
     <string name="file_name">Nome do ficheiro</string>
     <string name="folder_name">Nome do cartafol</string>
     <string name="export_to_format">Exportación a %s</string>
-    <string name="csv_import_delimiter_comma">Coma</string>
-    <string name="csv_import_delimiter_semicolon">Punto e coma</string>
     <string name="menu_show_transactions">Mostrar transaccións</string>
     <string name="pref_custom_decimal_format_title">Formato de número</string>
     <string name="pref_auto_backup_title">Copia de seguranza automática</string>

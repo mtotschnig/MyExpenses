@@ -147,4 +147,7 @@
     <string name="no_matches_found">Wyszukiwany ciąg nie został znaleziony</string>
     <string name="information">"Informacje"</string>
     <string name="menu_create_folder">"Nowy folder"</string>
+    <string name="delimiter_comma">"Przecinek"</string>
+    <string name="delimiter_semicolon">"Średnik"</string>
+    <string name="delimiter_tab">"Tab"</string>
 </resources>

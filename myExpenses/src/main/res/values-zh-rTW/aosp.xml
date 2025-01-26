@@ -141,4 +141,7 @@
     <string name="no_matches_found">找不到符合的項目</string>
     <string name="information">"資訊"</string>
     <string name="menu_create_folder">"新資料夾"</string>
+    <string name="delimiter_comma">"逗號"</string>
+    <string name="delimiter_semicolon">"分號"</string>
+    <string name="delimiter_tab">"定位鍵"</string>
 </resources>

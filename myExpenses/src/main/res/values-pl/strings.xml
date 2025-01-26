@@ -449,9 +449,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%drekordy zostały odrzucone. </string>
     <string name="csv_import_subcategory_requires_category">Jeśli zmapujesz podkategorię, musisz także odwzorować kategorię.</string>
     <string name="cvs_import_set_first_line_as_header">Czy pierwszy wiersz powinien być traktowany jako linia nagłówka?</string>
-    <string name="csv_import_delimiter_comma">Przecinek</string>
-    <string name="csv_import_delimiter_semicolon">Średnik</string>
-    <string name="csv_import_delimiter_tab">Etykieta</string>
     <string name="csv_import_no_mapping_found_for_amount">Proszę odwzorować jedną kolumnę na kwotę, dochód lub wydatek.</string>
     <string name="menu_show_transactions">Pokaż transakcje</string>
     <string name="pref_custom_decimal_format_title">Format liczb</string>

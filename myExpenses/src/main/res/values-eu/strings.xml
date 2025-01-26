@@ -440,9 +440,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>
     <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
     <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>
-    <string name="csv_import_delimiter_comma">Koma</string>
-    <string name="csv_import_delimiter_semicolon">Puntu eta koma</string>
-    <string name="csv_import_delimiter_tab">Tabulazioa</string>
     <string name="csv_import_no_mapping_found_for_amount">Lotu zutabe bat kopuru, sarrera, edo gastu batetara.</string>
     <string name="menu_show_transactions">Bistaratu transakzioak</string>
     <string name="pref_custom_decimal_format_title">Zenbaki formatua</string>

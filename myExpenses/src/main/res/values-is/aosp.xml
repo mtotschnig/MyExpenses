@@ -76,4 +76,7 @@
     <string name="no_matches_found">Engin samsvörun fannst</string>
     <string name="information">"Upplýsingar"</string>
     <string name="menu_create_folder">"Ný mappa"</string>
+    <string name="delimiter_comma">"Komma"</string>
+    <string name="delimiter_semicolon">"Semikomma"</string>
+    <string name="delimiter_tab">"Dálklykill (Tab)"</string>
 </resources>

@@ -577,9 +577,6 @@
     <string name="pref_manage_stale_images_title">باسی تصاویر</string>
     <string name="menu_show_transactions">لین دین دکھائیں</string>
     <string name="cvs_import_set_first_line_as_header">کیا پہلی لائن کو ہیڈر لائن سمجھا جانا چاہئے؟</string>
-    <string name="csv_import_delimiter_comma">کوما</string>
-    <string name="csv_import_delimiter_semicolon">سیمی کالون</string>
-    <string name="csv_import_delimiter_tab">ٹیب</string>
     <string name="csv_import_no_mapping_found_for_amount">براہ کرم ایک کالم کو رقم، آمدنی یا اخراجات کے مطابق بنائیں.</string>
     <string name="transform_subcategory_to_main">طریقہ منتخب کرنا</string>
     <string name="preferences_week_start_day_title">ہفتہ شروع ہو رہا ہے</string>
