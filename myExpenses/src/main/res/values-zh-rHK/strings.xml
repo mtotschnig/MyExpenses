@@ -280,4 +280,94 @@
     <string name="debt_managment">债务管理</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">错误修复</string>
     <string name="ui_refinement">完善用户界面</string>
+    <string name="pref_ui_home_screen_shortcuts">主螢幕快捷方式</string>
+    <string name="account_type_bank_plural">銀行帳戶</string>
+    <string name="account_type_ccard_plural">信用卡</string>
+    <string name="account_type_cash_plural">現金帳戶</string>
+    <string name="account_types">帳戶類型</string>
+    <string name="account_type_asset_plural">資產帳戶</string>
+    <string name="contrib_feature_split_template_label">無限數量的分割模板</string>
+    <string name="dialog_confirm_discard_changes">放棄更改？</string>
+    <string name="contrib_feature_csv_import_label">CSV 導入</string>
+    <string name="dialog_balance_delete">刪除對帳交易</string>
+    <string name="dialog_command_disabled_insert_transfer">轉帳交易需要第二個帳戶。</string>
+    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d 帳戶已成功匯入。</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">從小部件和快捷方式輸入數據</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">無需密碼即可允許。</string>
+    <string name="pref_restore_summary">選擇用於還原資料庫和首選項的備份。</string>
+    <string name="total_cleared">已清除總數</string>
+    <string name="warning_balance_account">請將清算總額與銀行對帳單中的期末餘額進行比較。如果繼續，已清算的交易將被標記為已調節。</string>
+    <string name="import_transactions_none">沒有交易導入帳戶 %1$s</string>
+    <string name="dialog_command_disabled_balance">沒有已清算的交易需要對帳。</string>
+    <string name="contrib_feature_ad_free_label">無廣告</string>
+    <string name="account_type_liability_plural">負債帳戶</string>
+    <string name="default_account_name">預算書</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="other">%1$d 所選類別有子類別，這些子類別也將被刪除。</item>
+    </plurals>
+    <string name="warning_delete_reconciled">刪除對帳交易將導致您的記錄與銀行對帳單不同。</string>
+    <string name="pref_manage_sync_backends_summary">新增用於同步帳戶的後端 (%s)。</string>
+    <string name="warning_delete_category_with_budget">對於至少一個選定的類別，有預算分配，該預算分配也將被刪除。</string>
+    <string name="total_reconciled">調節總數</string>
+    <string name="import_source_select_error">請提供 %1$s 類型的文件</string>
+    <string name="qif_parse_failure_found_multiple_accounts">在 %s 檔案中找到多個帳戶。</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
+    <plurals name="warning_delete_template">
+        <item quantity="other">%1$d 選定的模板將會被刪除。</item>
+    </plurals>
+    <string name="warning_password_protected">應用程式受密碼保護。</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d交易已成功導入帳戶%2$s</string>
+    <string name="import_categories_none">沒有導入類別</string>
+    <string name="import_parties_none">沒有導入任何一方</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="other">%1$d 已成功從範本儲存新交易。</item>
+    </plurals>
+    <string name="move_category_success">已成功移動一個類別。</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">請設定%1$d和%2$d之間的數字</string>
+    <string name="warning_change_fraction_digits_1">需要更新資料庫中的金額以符合新的小數位數。</string>
+    <string name="restore_backup_file_not_found">在存檔「%2$s\\ 中找不到檔案 %1$s</string>
+    <string name="pref_shortcut_not_added">沒有可用的主螢幕接受快捷方式。</string>
+    <string name="progress_dialog_printing">生成%s</string>
+    <string name="qif_parse_result">解析：%1$s 帳戶； %2$s 類別和 %3$s 各方</string>
+    <string name="select_payee">選擇付款人/收款人</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">只有當您在應用程式設定中允許在沒有密碼的情況下從小部件輸入資料時，才能從此小部件快速實例化模板。</string>
+    <string name="warning_change_fraction_digits_checkbox_label">更新資料庫中的金額</string>
+    <string name="menu_categories_setup_default">設定預設類別</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 記錄已被丟棄。</string>
+    <string name="dialog_contrib_reminder_remove_limitation">透過升級 <i>{app_name}</i> 消除此限制並存取更多功能。</string>
+    <string name="warning_reset_account_matched">如果繼續，當前過濾器匹配的交易將從資料庫中刪除並且無法恢復。</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">您目前的許可證狀態 (%2$s) 可讓您建立 %1$d 計畫。</string>
+    <string name="warning_widget_disabled">您需要在應用程式設定中啟用此小工具。</string>
+    <string name="import_accounts_none">沒有導入帳戶</string>
+    <string name="contrib_feature_category_tree_label">類別樹</string>
+    <string name="dialog_contrib_text_2">請透過升級 <i>{app_name}</i> 做出貢獻，並獲得對以下功能的無限存取：</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">您目前的許可證狀態 (%1$s) 允許您嘗試 %2$s %3$d 天（直到 %4$s）。</string>
+    <string name="dialog_contrib_trial_info_play">此免費試用永遠不會轉換為任何類型的訂閱。</string>
+    <string name="dialog_contrib_subscription_info_play">此訂閱立即生效，按月或按年計費，並且可以隨時取消。</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">您目前的授權狀態 (%2$s) 可讓您建立 %1$d 帳戶。</string>
+    <string name="dialog_contrib_usage_limit_split_templates">您目前的許可證狀態 (%1$s) 可讓您建立 1 個分割範本。</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">根據您目前的許可證狀態 (%1$s)，每次使用時都會顯示此對話方塊。</string>
+    <string name="dialog_remind_rate_how_many_stars">您會給 {app_name} 多少顆星？</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">請花一點時間向我們發送您的改進建議。</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">需要密碼。</string>
+    <string name="move_category_failure">某一類別未移動，因為目標處已存在相同的標籤。</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果金額未更新，更改後將顯示為除以 %d。</string>
+    <plurals name="warning_delete_transaction">
+        <item quantity="other">%1$d 選定的交易將會被刪除。</item>
+    </plurals>
+    <string name="cvs_import_set_first_line_as_header">第一行應該被視為標題行嗎？</string>
+    <string name="progress_dialog_deleting">刪除對象</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 計劃已從備份中恢復</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果金額未更新，更改後將顯示為乘以 %d。</string>
+    <string name="warning_change_fraction_digits_3">如果金額更新，您將丟失有關其小數部分的資訊。</string>
+    <string name="decimal_separator">小數點分隔符</string>
+    <string name="contrib_feature_distribution_label">餅圖（每個類別的分佈）</string>
+    <string name="contrib_feature_pro_support_label"><b>電子郵件支援</b>，保證在 2 個工作天內回复</string>
+    <string name="contrib_feature_roadmap_voting_label">對<b>開發路線圖</b>投票</string>
+    <string name="contrib_feature_history_label">歷史圖表</string>
+    <string name="licence_status_free">自由的</string>
+    <string name="contrib_key_requires">需要%1$s。</string>
+    <string name="number_format_illegal">號碼格式非法</string>
+    <string name="status_void">空白</string>
+    <string name="csv_import_subcategory_requires_category">如果您對應子類別，則也必須對應類別。</string>
 </resources>
