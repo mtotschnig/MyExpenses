@@ -59,4 +59,5 @@
     <string name="action_archive">"Ingobo yomlando"</string>
     <string name="percent_long">"{value,plural, =1{iphesenti eli-1}one{amaphesenti angu-#}other{amaphesenti angu-#}}"</string>
     <string name="apply">"Faka"</string>
+    <string name="information">"Ulwazi"</string>
 </resources>

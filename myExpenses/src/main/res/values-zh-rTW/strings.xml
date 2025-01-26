@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">馬上評分</string>
     <string name="dialog_security_answer">答案</string>
     <string name="dialog_security_question">安全問題</string>
-    <string name="dialog_title_information">資訊</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">結平%1$s </string>
     <string name="dialog_title_contrib_feature">高級功能</string>

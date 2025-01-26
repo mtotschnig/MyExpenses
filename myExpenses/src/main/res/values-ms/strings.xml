@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">Beri penarafan sekarang</string>
     <string name="dialog_security_answer">Jawapan</string>
     <string name="dialog_security_question">Soalan</string>
-    <string name="dialog_title_information">Maklumat</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Baki %1$s</string>
     <string name="dialog_title_contrib_feature">Fitur premium</string>

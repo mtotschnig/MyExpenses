@@ -57,4 +57,5 @@
     <string name="filter_is_not">nije</string>
     <string name="apply">"Primijeni"</string>
     <string name="no_matches_found">Nema podudaranja</string>
+    <string name="information">"Informacije"</string>
 </resources>

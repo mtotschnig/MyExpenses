@@ -62,4 +62,5 @@
     <string name="apply">"Хэрэгжүүлэх"</string>
     <string name="contains">"агуулсан"</string>
     <string name="does_not_contain">"агуулаагүй"</string>
+    <string name="information">"Мэдээлэл"</string>
 </resources>

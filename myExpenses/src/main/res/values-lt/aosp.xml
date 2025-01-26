@@ -67,4 +67,5 @@
     <string name="apply">"Taikyti"</string>
     <string name="add_filter">"Pridėti filtrą"</string>
     <string name="no_matches_found">Nerasta</string>
+    <string name="information">"Informacija"</string>
 </resources>

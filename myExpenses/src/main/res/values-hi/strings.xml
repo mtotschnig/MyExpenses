@@ -70,7 +70,6 @@
     <string name="dialog_remind_rate_yes">मूल्यांकन करें</string>
     <string name="dialog_security_answer">उत्तर</string>
     <string name="dialog_security_question">प्रश्न</string>
-    <string name="dialog_title_information">जानकारी</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">बैलेंस %1$s</string>
     <string name="dialog_title_contrib_feature">प्रीमियम सुविधा</string>

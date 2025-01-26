@@ -77,4 +77,5 @@
     <string name="contains">"memuat"</string>
     <string name="does_not_contain">"tidak memuat"</string>
     <string name="no_matches_found">Tidak ada yang cocok</string>
+    <string name="information">"Informasi"</string>
 </resources>

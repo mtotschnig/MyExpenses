@@ -56,4 +56,5 @@
     <string name="filter_is_not">ni</string>
     <string name="apply">"Uporabi"</string>
     <string name="no_matches_found">Ni zadetkov</string>
+    <string name="information">"Informacije"</string>
 </resources>

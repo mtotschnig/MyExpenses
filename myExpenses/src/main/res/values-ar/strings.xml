@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">تقييم الآن</string>
     <string name="dialog_security_answer">الإجابة</string>
     <string name="dialog_security_question">السؤال</string>
-    <string name="dialog_title_information">معلومات</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">رصيد %1$s</string>
     <string name="dialog_title_contrib_feature">المميزات الكاملة</string>

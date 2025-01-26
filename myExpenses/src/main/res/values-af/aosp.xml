@@ -74,4 +74,5 @@
     <string name="contains">"bevat"</string>
     <string name="does_not_contain">"bevat nie"</string>
     <string name="no_matches_found">Geen resultate gevind nie</string>
+    <string name="information">"Inligting"</string>
 </resources>

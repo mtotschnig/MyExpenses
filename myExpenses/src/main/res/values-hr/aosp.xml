@@ -135,4 +135,5 @@
     <string name="contains">"sadržava"</string>
     <string name="does_not_contain">"ne sadržava"</string>
     <string name="no_matches_found">Nema podudaranja</string>
+    <string name="information">"Podatak"</string>
 </resources>

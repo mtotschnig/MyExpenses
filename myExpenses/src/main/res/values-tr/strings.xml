@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">Şimdi not ver</string>
     <string name="dialog_security_answer">Cevap</string>
     <string name="dialog_security_question">Soru</string>
-    <string name="dialog_title_information">Bilgi</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
     <string name="dialog_title_contrib_feature">Ücretli işlev</string>

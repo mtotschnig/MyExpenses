@@ -75,4 +75,5 @@
     <string name="contains">"contén"</string>
     <string name="does_not_contain">"non contén"</string>
     <string name="no_matches_found">Non se atoparon coincidencias</string>
+    <string name="information">"Información"</string>
 </resources>

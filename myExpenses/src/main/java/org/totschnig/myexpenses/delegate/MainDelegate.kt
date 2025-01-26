@@ -207,7 +207,7 @@ abstract class MainDelegate<T : ITransaction>(
                             } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
                                 ConfirmationDialogFragment.newInstance(Bundle().apply {
                                     putLong(KEY_ROWID, it)
-                                    putInt(KEY_TITLE, R.string.dialog_title_information)
+                                    putInt(KEY_TITLE, R.string.information)
                                     putString(
                                         KEY_MESSAGE,
                                         context.getString(R.string.hint_auto_fill)

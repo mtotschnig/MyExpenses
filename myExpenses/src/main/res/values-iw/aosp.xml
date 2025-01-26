@@ -134,4 +134,5 @@
     <string name="contains">"מכיל"</string>
     <string name="does_not_contain">"לא מכיל"</string>
     <string name="no_matches_found">לא נמצאו התאמות</string>
+    <string name="information">"מידע"</string>
 </resources>

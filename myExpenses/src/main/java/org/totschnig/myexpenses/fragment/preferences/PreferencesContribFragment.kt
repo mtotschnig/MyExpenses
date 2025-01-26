@@ -56,7 +56,7 @@ class PreferencesContribFragment : Fragment() {
                         ConfirmationDialogFragment.newInstance(Bundle().apply {
                             putInt(
                                 ConfirmationDialogFragment.KEY_TITLE,
-                                R.string.dialog_title_information
+                                R.string.information
                             )
                             putString(
                                 ConfirmationDialogFragment.KEY_MESSAGE,

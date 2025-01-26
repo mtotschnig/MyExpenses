@@ -120,4 +120,5 @@
     <string name="percent_long">"{value,plural, =1{1 శాతం}other{# శాతం}}"</string>
     <string name="apply">"వర్తింపజేయి"</string>
     <string name="add_filter">"వడపోత జతచేయి"</string>
+    <string name="information">"సమాచారం"</string>
 </resources>

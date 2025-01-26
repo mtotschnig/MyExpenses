@@ -60,4 +60,5 @@
     <string name="filter_is_not">s’është</string>
     <string name="apply">"Zbato"</string>
     <string name="no_matches_found">S’u gjetën përputhje</string>
+    <string name="information">"Informacione"</string>
 </resources>

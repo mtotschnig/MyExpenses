@@ -49,4 +49,5 @@
     <string name="action_archive">"I-archive"</string>
     <string name="percent_long">"{value,plural, =1{1 porsyento}one{# porsyento}other{# na porsyento}}"</string>
     <string name="apply">"Ilapat"</string>
+    <string name="information">"Impormasyon"</string>
 </resources>

@@ -77,7 +77,6 @@
     <string name="dialog_remind_rate_yes">지금 평가하기</string>
     <string name="dialog_security_answer">정답</string>
     <string name="dialog_security_question">질문</string>
-    <string name="dialog_title_information">정보</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">잔고 %1$s</string>
     <string name="dialog_title_contrib_feature">프리미엄 기능</string>

@@ -140,4 +140,5 @@
     <string name="contains">"次を含む"</string>
     <string name="does_not_contain">"次を含まない"</string>
     <string name="no_matches_found">見つかりませんでした</string>
+    <string name="information">"情報"</string>
 </resources>

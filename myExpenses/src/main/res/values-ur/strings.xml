@@ -58,7 +58,6 @@
     <string name="dialog_remind_rate_yes">ابھی درجہ بندی کریں</string>
     <string name="dialog_security_answer">جواب دیں</string>
     <string name="dialog_security_question">سوال</string>
-    <string name="dialog_title_information">معلومات</string>
     <string name="dialog_title_balance_account">بیلنس %1$s</string>
     <string name="dialog_title_contrib_feature">پریمیم خصوصیت</string>
     <string name="account">کھاتہ</string>

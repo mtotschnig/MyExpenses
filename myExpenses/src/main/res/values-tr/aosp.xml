@@ -141,4 +141,5 @@
     <string name="contains">"içerir"</string>
     <string name="does_not_contain">"içermez"</string>
     <string name="no_matches_found">Eşleşme bulunamadı</string>
+    <string name="information">"Bilgi"</string>
 </resources>

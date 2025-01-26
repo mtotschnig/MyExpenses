@@ -74,4 +74,5 @@
     <string name="contains">"պարունակում է"</string>
     <string name="does_not_contain">"չի պարունակում"</string>
     <string name="no_matches_found">Չի գտնվել</string>
+    <string name="information">"Տեղեկություններ"</string>
 </resources>

@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">Avaliar agora</string>
     <string name="dialog_security_answer">Resposta</string>
     <string name="dialog_security_question">Pergunta</string>
-    <string name="dialog_title_information">Informação</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balanço de %1$s</string>
     <string name="dialog_title_contrib_feature">Recurso premium</string>

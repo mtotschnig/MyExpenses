@@ -132,4 +132,5 @@
     <string name="apply">"적용"</string>
     <string name="add_filter">"필터 추가"</string>
     <string name="no_matches_found">검색 결과가 없습니다.</string>
+    <string name="information">"정보"</string>
 </resources>

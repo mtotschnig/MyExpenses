@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">இப்போது மதிப்பிடு</string>
     <string name="dialog_security_answer">பதில்</string>
     <string name="dialog_security_question">கேள்வி</string>
-    <string name="dialog_title_information">தகவல்</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">இருப்பு %1$s</string>
     <string name="dialog_title_contrib_feature">மதிப்பு அம்சம்</string>

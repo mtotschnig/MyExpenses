@@ -76,4 +76,5 @@
     <string name="contains">"เนื้อหามี"</string>
     <string name="does_not_contain">"เนื้อหาไม่มี"</string>
     <string name="no_matches_found">ไม่พบที่ตรงกัน</string>
+    <string name="information">"ข้อมูล"</string>
 </resources>

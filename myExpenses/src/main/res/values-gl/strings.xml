@@ -51,7 +51,6 @@
     <string name="dialog_remind_rate_yes">Valorar agora</string>
     <string name="dialog_security_answer">Resposta</string>
     <string name="dialog_security_question">Pregunta</string>
-    <string name="dialog_title_information">Información</string>
     <string name="dialog_title_contrib_feature">Funcionalidade Premium</string>
     <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
     <string name="dialog_title_warning_delete_transaction">Eliminar transacción?</string>

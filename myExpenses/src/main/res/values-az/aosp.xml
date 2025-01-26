@@ -51,4 +51,5 @@
     <string name="action_archive">"Arxiv"</string>
     <string name="percent_long">"{value,plural, =1{1 faiz}other{# faiz}}"</string>
     <string name="apply">"Tətbiq edin"</string>
+    <string name="information">"Məlumat"</string>
 </resources>

@@ -144,4 +144,5 @@
     <string name="add_filter">"أضف مرشّحا"</string>
     <string name="does_not_contain">"لا يحوي"</string>
     <string name="no_matches_found">م يُعثر على أي تطابق</string>
+    <string name="information">"المعلومات"</string>
 </resources>

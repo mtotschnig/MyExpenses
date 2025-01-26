@@ -66,7 +66,6 @@
     <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
     <string name="dialog_security_answer">Resposta</string>
     <string name="dialog_security_question">Pregunta</string>
-    <string name="dialog_title_information">Informació</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balanç %1$s</string>
     <string name="dialog_title_contrib_feature">Característica premium</string>

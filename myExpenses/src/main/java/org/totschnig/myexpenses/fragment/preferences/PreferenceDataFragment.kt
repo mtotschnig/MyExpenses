@@ -40,7 +40,7 @@ class PreferenceDataFragment: BasePreferenceFragment() {
             OnPreferenceChangeListener { _, newValue ->
                 if (newValue != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
                 MessageDialogFragment.newInstance(
-                    getString(R.string.dialog_title_information),
+                    getString(R.string.information),
                     TextUtils.concatResStrings(
                         requireContext(),
                         " ",

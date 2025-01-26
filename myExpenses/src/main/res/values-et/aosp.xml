@@ -77,4 +77,5 @@
     <string name="contains">"sisaldab"</string>
     <string name="does_not_contain">"ei sisalda"</string>
     <string name="no_matches_found">Vasteid ei leitud</string>
+    <string name="information">"Teave"</string>
 </resources>

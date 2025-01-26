@@ -144,4 +144,5 @@
     <string name="contains">"содержит"</string>
     <string name="does_not_contain">"не содержит"</string>
     <string name="no_matches_found">Совпадений нет</string>
+    <string name="information">"Информация"</string>
 </resources>

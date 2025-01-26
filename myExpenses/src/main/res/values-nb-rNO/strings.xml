@@ -242,7 +242,6 @@
         <item quantity="other">Slett %1$d kontoer\?</item>
     </plurals>
     <string name="dialog_title_contrib_feature">Premiumsfunksjon</string>
-    <string name="dialog_title_information">Info</string>
     <string name="dialog_security_question">Spørsmål</string>
     <string name="dialog_security_answer">Svar</string>
     <string name="dialog_remind_rate_yes">Vurder nå</string>

@@ -145,4 +145,5 @@
     <string name="contains">"zawiera"</string>
     <string name="does_not_contain">"nie zawiera"</string>
     <string name="no_matches_found">Wyszukiwany ciąg nie został znaleziony</string>
+    <string name="information">"Informacje"</string>
 </resources>

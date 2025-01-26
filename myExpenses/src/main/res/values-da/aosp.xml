@@ -143,4 +143,5 @@
     <string name="contains">"indeholder"</string>
     <string name="does_not_contain">"indeholder ikke"</string>
     <string name="no_matches_found">Ingen forekomster fundet</string>
+    <string name="information">"Information"</string>
 </resources>

@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">همن حالا امتیاز دهید</string>
     <string name="dialog_security_answer">پاسخ</string>
     <string name="dialog_security_question">پرسش</string>
-    <string name="dialog_title_information">اطلاعات</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">توازن %1$s</string>
     <string name="dialog_title_contrib_feature">ویژگی نسخه سفارشی</string>

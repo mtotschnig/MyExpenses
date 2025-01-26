@@ -259,4 +259,6 @@
     <string name="does_not_contain">does not contain</string>
     <!-- thunderbird-l10n/*/mail/chrome/messenger/search.properties -->
     <string name="no_matches_found">No matches found</string>
+    <!-- /opt/extra/AOSP/packages/modules/Permission/PermissionController$ grep -r safety_center_info_label res | sed 's/ msgid="[[:digit:]]*"//' | sed 's/safety_center_info_label/information/' | sed 's/-v33//' | aosp_helper -->
+    <string name="information">"Information"</string>
 </resources>

@@ -133,4 +133,5 @@
     <string name="contains">"contém"</string>
     <string name="does_not_contain">"não contém"</string>
     <string name="no_matches_found">Nenhum item encontrado</string>
+    <string name="information">"Informações"</string>
 </resources>

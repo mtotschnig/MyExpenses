@@ -58,4 +58,5 @@
     <string name="percent_long">"{value,plural, =1{१ टक्का}other{# टक्के}}"</string>
     <string name="apply">"लागू करा"</string>
     <string name="add_filter">"फिल्टर समाविष्ट करा"</string>
+    <string name="information">"माहिती"</string>
 </resources>

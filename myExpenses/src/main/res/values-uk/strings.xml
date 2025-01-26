@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">Оцінити зараз</string>
     <string name="dialog_security_answer">Відповідь</string>
     <string name="dialog_security_question">Запитання</string>
-    <string name="dialog_title_information">Інформація</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Преміум функція</string>

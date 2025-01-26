@@ -75,7 +75,6 @@
     <string name="dialog_remind_rate_yes">De acord</string>
     <string name="dialog_security_answer">Răspuns</string>
     <string name="dialog_security_question">Întrebare</string>
-    <string name="dialog_title_information">Informare</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Sold  %1$s</string>
     <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>

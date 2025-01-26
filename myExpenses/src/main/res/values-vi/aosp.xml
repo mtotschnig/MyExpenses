@@ -137,4 +137,5 @@
     <string name="contains">"chứa"</string>
     <string name="does_not_contain">"không chứa"</string>
     <string name="no_matches_found">Không tìm thấy</string>
+    <string name="information">"Thông tin"</string>
 </resources>

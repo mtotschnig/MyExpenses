@@ -70,4 +70,5 @@
     <string name="add_filter">"ማጣሪያ መጨመሪያ"</string>
     <string name="contains">"የያዘው"</string>
     <string name="does_not_contain">"አልያዘም"</string>
+    <string name="information">"መረጃ"</string>
 </resources>

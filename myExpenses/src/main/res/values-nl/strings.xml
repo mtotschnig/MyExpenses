@@ -112,7 +112,6 @@
     <string name="dialog_remind_rate_yes">Beoordeel nu</string>
     <string name="dialog_security_answer">Antwoord</string>
     <string name="dialog_security_question">Vraag</string>
-    <string name="dialog_title_information">Informatie</string>
     <string name="dialog_title_balance_account">Saldo %1$s</string>
     <string name="dialog_title_contrib_feature">Premium-functie</string>
     <string name="dialog_title_warning_delete_template">Sjabloon verwijderen\?</string>

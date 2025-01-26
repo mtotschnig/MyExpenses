@@ -56,4 +56,5 @@
     <string name="contains">"садржи"</string>
     <string name="does_not_contain">"не садржи"</string>
     <string name="no_matches_found">Нема подударања</string>
+    <string name="information">"Информације"</string>
 </resources>

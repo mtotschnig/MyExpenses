@@ -143,4 +143,5 @@
     <string name="contains">"conté"</string>
     <string name="does_not_contain">"no conté"</string>
     <string name="no_matches_found">No s\'ha trobat cap coincidència</string>
+    <string name="information">"Informació"</string>
 </resources>

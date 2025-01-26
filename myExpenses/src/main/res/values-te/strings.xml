@@ -460,7 +460,6 @@
     </plurals>
     <string name="dialog_title_contrib_feature">ప్రీమియం ఫీచర్</string>
     <string name="dialog_title_balance_account">బ్యాలెన్స్ %1$s</string>
-    <string name="dialog_title_information">సమాచారం</string>
     <string name="dialog_security_question">ప్రశ్న</string>
     <string name="dialog_security_answer">సమాధానం</string>
     <string name="dialog_remind_rate_yes">ఇప్పుడే రేట్ చేయండి</string>

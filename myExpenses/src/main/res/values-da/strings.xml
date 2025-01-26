@@ -70,7 +70,6 @@
     <string name="dialog_remind_rate_yes">Bedøm nu</string>
     <string name="dialog_security_answer">Svar</string>
     <string name="dialog_security_question">Spørgsmål</string>
-    <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Saldo %1$s</string>
     <string name="dialog_title_contrib_feature">Premiumfunktion</string>

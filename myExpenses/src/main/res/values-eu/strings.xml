@@ -86,7 +86,6 @@
     <string name="dialog_remind_rate_yes">Baloratu orain</string>
     <string name="dialog_security_answer">Erantzuna</string>
     <string name="dialog_security_question">Galdera</string>
-    <string name="dialog_title_information">Informazioa</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s saldoa</string>
     <string name="dialog_title_contrib_feature">Premium ezaugarria</string>

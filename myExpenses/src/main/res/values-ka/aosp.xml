@@ -66,4 +66,5 @@
     <string name="filter_is_not">არ ემთხვევა</string>
     <string name="apply">"მისადაგება"</string>
     <string name="no_matches_found">თანხვედრა ვერ მოიძებნა</string>
+    <string name="information">"ინფორმაცია"</string>
 </resources>

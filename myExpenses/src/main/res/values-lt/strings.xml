@@ -57,7 +57,6 @@
     <string name="dialog_password_new_password_confirmation">Naujas slaptažodis (patvirtinimui)</string>
     <string name="dialog_remind_later">Vėliau</string>
     <string name="dialog_security_question">Klausimas</string>
-    <string name="dialog_title_information">Informacija</string>
     <string name="dialog_title_warning_delete_template">Ištrinti šabloną?</string>
     <string name="dialog_title_warning_delete_transaction">Ištrinti operaciją?</string>
     <string name="grouping_day">Diena</string>
