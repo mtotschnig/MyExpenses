@@ -13,9 +13,8 @@
             android:targetPackage="@string/application_id" />
     </Preference>
     <SeekBarPreference
-        my:min="1"
+        my:min="0"
         my:showSeekBarValue="true"
-        my:updatesContinuously="true"
         android:defaultValue="12"
         android:key="@string/pref_sync_frequency_key"
         android:max="99"

@@ -17,8 +17,7 @@
             android:summary="@string/pref_protection_delay_seconds_summary"
             android:title="@string/pref_protection_delay_seconds_title"
             my:min="1"
-            my:showSeekBarValue="true"
-            my:updatesContinuously="true" />
+            my:showSeekBarValue="true" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_protection_allow_screenshot_key"

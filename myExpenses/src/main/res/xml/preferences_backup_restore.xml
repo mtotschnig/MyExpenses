@@ -97,8 +97,7 @@
             android:max="100"
             android:summary="@string/pref_purge_backup_keep_title"
             my:min="1"
-            my:showSeekBarValue="true"
-            my:updatesContinuously="true" />
+            my:showSeekBarValue="true" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"

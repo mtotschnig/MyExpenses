@@ -30,8 +30,7 @@
         android:summary="@string/image_optimize_quality_summary"
         android:title="@string/quality"
         my:min="0"
-        my:showSeekBarValue="true"
-        my:updatesContinuously="true" />
+        my:showSeekBarValue="true" />
     <SwitchPreferenceCompat
         my:allowDividerAbove="true"
         android:defaultValue="true"
