@@ -372,7 +372,6 @@
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">براہ کرم %1$d اور %2$d کے درمیان نمبر سیٹ کریں</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے ضرب کے طور پر دکھائی جائیں گی.</string>
     <string name="import_parties_success">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</string>
-    <string name="menu_create_folder">نیا فولڈر</string>
     <string name="import_transactions_none">اکاؤنٹ %1$s میں کوئی لین دین درآمد نہیں کیا گیا</string>
     <string name="app_dir_not_accessible">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال منتخب کردہ فولڈر قابل رسائی نہیں ہے۔ براہ کرم ایک مختلف منتخب کریں.</string>
     <string name="comparison_operator_greater_than">سے بڑا</string>

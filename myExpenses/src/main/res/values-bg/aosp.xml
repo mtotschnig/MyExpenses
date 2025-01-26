@@ -145,4 +145,5 @@
     <string name="does_not_contain">"не съдържа"</string>
     <string name="no_matches_found">Няма съвпадения</string>
     <string name="information">"Информация"</string>
+    <string name="menu_create_folder">"Нова папка"</string>
 </resources>

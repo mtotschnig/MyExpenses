@@ -63,4 +63,5 @@
     <string name="contains">"агуулсан"</string>
     <string name="does_not_contain">"агуулаагүй"</string>
     <string name="information">"Мэдээлэл"</string>
+    <string name="menu_create_folder">"Шинэ фолдер"</string>
 </resources>

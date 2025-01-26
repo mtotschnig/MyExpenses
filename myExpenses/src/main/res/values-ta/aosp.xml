@@ -127,4 +127,5 @@
     <string name="apply">"பயன்படுத்து"</string>
     <string name="add_filter">"வடிகட்டியைச் சேர்"</string>
     <string name="information">"தகவல்கள்"</string>
+    <string name="menu_create_folder">"புதிய ஃபோல்டர்"</string>
 </resources>

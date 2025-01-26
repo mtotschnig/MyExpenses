@@ -59,4 +59,5 @@
     <string name="add_filter">"Дадаць фільтр"</string>
     <string name="no_matches_found">Супадзенні не знойдзены</string>
     <string name="information">"Інфармацыя"</string>
+    <string name="menu_create_folder">"Новая папка"</string>
 </resources>

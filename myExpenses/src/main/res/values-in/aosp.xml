@@ -78,4 +78,5 @@
     <string name="does_not_contain">"tidak memuat"</string>
     <string name="no_matches_found">Tidak ada yang cocok</string>
     <string name="information">"Informasi"</string>
+    <string name="menu_create_folder">"Folder baru"</string>
 </resources>

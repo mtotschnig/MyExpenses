@@ -407,7 +407,6 @@
     <string name="import_transactions_none">No transactions imported into account %1$s</string>
     <string name="import_source_select_error">Please provide a file of type %1$s</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
-    <string name="menu_create_folder">New folder</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
     <string name="app_dir_not_accessible">The currently selected folder for backups and exports (%1$s) is not accessible. Please select a different one.</string>

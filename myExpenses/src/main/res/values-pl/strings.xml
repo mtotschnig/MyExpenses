@@ -399,7 +399,6 @@
     <string name="import_transactions_none">Brak transakcji zaimportowanych na konto %1$s</string>
     <string name="import_source_select_error">Proszę wskazać plik w formacie %1$s</string>
     <string name="menu_categories_setup_default">Ustaw domyślne kategorie</string>
-    <string name="menu_create_folder">Nowy folder</string>
     <string name="widget_title_accounts">Moje konta</string>
     <string name="widget_title_templates">Moje szablony</string>
     <string name="app_dir_not_accessible">Aktualnie wybrany folder na kopie zapasowe i eksport (%1$s) jest niedostępny. Proszę wybrać inny.</string>

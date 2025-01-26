@@ -71,4 +71,5 @@
     <string name="does_not_contain">"құрамында жоқ"</string>
     <string name="no_matches_found">Сәйкестіктер табылмады</string>
     <string name="information">"Ақпарат"</string>
+    <string name="menu_create_folder">"Жаңа қалта"</string>
 </resources>

@@ -401,7 +401,6 @@
     <string name="import_transactions_none">לא יובאו עסקאות לחשבון %1$s</string>
     <string name="import_source_select_error">אנא ספק  קובץ מסוג %1$s</string>
     <string name="menu_categories_setup_default">הגדר קטגוריות ברירת מחדל</string>
-    <string name="menu_create_folder">תקייה חדשה</string>
     <string name="widget_title_accounts">החשבונות שלי</string>
     <string name="widget_title_templates">התבניות שלי</string>
     <string name="app_dir_not_accessible">התיקיה הנוכחית שנבחרה לגיבויים ולייצוא (%1$s) אינה נגישה. בחר אחת אחרת.</string>

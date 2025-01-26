@@ -61,4 +61,5 @@
     <string name="apply">"Zbato"</string>
     <string name="no_matches_found">S’u gjetën përputhje</string>
     <string name="information">"Informacione"</string>
+    <string name="menu_create_folder">"Dosje e re"</string>
 </resources>

@@ -59,4 +59,5 @@
     <string name="apply">"Tatbiq etish"</string>
     <string name="no_matches_found">Hech nima topilmadi</string>
     <string name="information">"Axborot"</string>
+    <string name="menu_create_folder">"Yangi jild"</string>
 </resources>

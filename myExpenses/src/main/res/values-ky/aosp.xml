@@ -46,4 +46,5 @@
     <string name="percent_long">"{value,plural, =1{1 пайыз}other{# пайыз}}"</string>
     <string name="apply">"Колдонуу"</string>
     <string name="information">"Маалымат"</string>
+    <string name="menu_create_folder">"Жаңы папка"</string>
 </resources>

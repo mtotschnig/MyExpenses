@@ -385,7 +385,6 @@
     <string name="import_transactions_none">勘定 %1$s にインポートされた取引はありません</string>
     <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
     <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
-    <string name="menu_create_folder">新しいフォルダー</string>
     <string name="widget_title_accounts">マイ勘定</string>
     <string name="widget_title_templates">マイ テンプレート</string>
     <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>

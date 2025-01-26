@@ -603,7 +603,6 @@
     <string name="import_parties_success">%1$d partijen succesvol geïmporteerd.</string>
     <string name="import_categories_none">Geen categorieën geïmporteerd</string>
     <string name="import_transactions_none">Geen transacties geïmporteerd in account %1$s</string>
-    <string name="menu_create_folder">Nieuwe map</string>
     <string name="warning_change_fraction_digits_1">Bedragen in de database moeten worden bijgewerkt om overeen te komen met het nieuwe aantal breukcijfers.</string>
     <string name="widget_title_accounts">Mijn rekeningen</string>
     <string name="widget_title_templates">Mijn sjablonen</string>

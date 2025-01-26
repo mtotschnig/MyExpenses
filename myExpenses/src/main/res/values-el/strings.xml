@@ -391,7 +391,6 @@
     <string name="import_transactions_none">Δεν έχουν εισαχθεί συναλλαγές στον λογαριασμό %1$s</string>
     <string name="import_source_select_error">Παρακαλείσθε να παράσχετε ένα αρχείο τύπου %1$s</string>
     <string name="menu_categories_setup_default">Εργοστασιακές ρυθμίσεις κατηγοριών</string>
-    <string name="menu_create_folder">Νέος φάκελος</string>
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
     <string name="widget_title_templates">Τα πρότυπά μου</string>
     <string name="app_dir_not_accessible">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν είναι προσβάσιμος. παρακαλώ επιλέξτε έναν άλλο.</string>

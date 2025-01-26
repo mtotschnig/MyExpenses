@@ -394,7 +394,6 @@
     <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
     <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
     <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
-    <string name="menu_create_folder">Yeni klasör</string>
     <string name="widget_title_accounts">Hesaplarım</string>
     <string name="widget_title_templates">Şablonlarım</string>
     <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için seçili olan klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>

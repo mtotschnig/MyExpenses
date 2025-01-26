@@ -77,4 +77,5 @@
     <string name="does_not_contain">"neobsahuje"</string>
     <string name="no_matches_found">Neboli nájdené žiadne výsledky</string>
     <string name="information">"Informácie"</string>
+    <string name="menu_create_folder">"Nový priečinok"</string>
 </resources>

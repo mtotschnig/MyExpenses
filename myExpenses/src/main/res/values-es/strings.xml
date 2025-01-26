@@ -401,7 +401,6 @@
     <string name="import_transactions_none">Ninguna transacción fue importada a la cuenta %1$s</string>
     <string name="import_source_select_error">Por favor, proporcione un archivo de tipo %1$s</string>
     <string name="menu_categories_setup_default">Instalar categorías por defecto</string>
-    <string name="menu_create_folder">Nueva carpeta</string>
     <string name="widget_title_accounts">Mis cuentas</string>
     <string name="widget_title_templates">Mis plantillas</string>
     <string name="app_dir_not_accessible">La carpeta seleccionada actualmente para copias de seguridad y exportaciones (%1$s) no es accesible. Por favor, seleccione otra.</string>

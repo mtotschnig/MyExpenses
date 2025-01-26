@@ -58,4 +58,5 @@
     <string name="percent_long">"{value,plural, =1{1 ശതമാനം}other{# ശതമാനം}}"</string>
     <string name="apply">"ബാധകമാക്കുക"</string>
     <string name="information">"വിവരങ്ങൾ"</string>
+    <string name="menu_create_folder">"പുതിയ ഫോൾഡർ"</string>
 </resources>

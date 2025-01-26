@@ -58,4 +58,5 @@
     <string name="percent_long">"{value,plural, =1{၁ ရာခိုင်နှုန်း}other{# ရာခိုင်နှုန်း}}"</string>
     <string name="apply">"အသုံးပြုရန်"</string>
     <string name="information">"အချက်အလက်"</string>
+    <string name="menu_create_folder">"ဖိုင်တွဲအသစ်"</string>
 </resources>

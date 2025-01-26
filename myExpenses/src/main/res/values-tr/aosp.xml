@@ -142,4 +142,5 @@
     <string name="does_not_contain">"içermez"</string>
     <string name="no_matches_found">Eşleşme bulunamadı</string>
     <string name="information">"Bilgi"</string>
+    <string name="menu_create_folder">"Yeni klasör"</string>
 </resources>

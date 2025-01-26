@@ -237,7 +237,6 @@
     <string name="app_dir_not_accessible">బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ ప్రాప్యత చేయబడదు. దయచేసి వేరేదాన్ని ఎంచుకోండి.</string>
     <string name="widget_title_templates">నా టెంప్లేట్లు</string>
     <string name="widget_title_accounts">నా ఖాతాలు</string>
-    <string name="menu_create_folder">క్రొత్త ఫోల్డర్</string>
     <string name="menu_categories_setup_default">డిఫాల్ట్ వర్గాలను సెటప్ చేయండి</string>
     <string name="import_source_select_error">దయచేసి %1$s రకం ఫైల్‌ను అందించండి</string>
     <string name="import_transactions_none">%1$s ఖాతాలోకి లావాదేవీలు దిగుమతి చేయబడలేదు</string>

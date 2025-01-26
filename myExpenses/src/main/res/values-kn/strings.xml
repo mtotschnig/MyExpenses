@@ -393,7 +393,6 @@
     <string name="import_transactions_none">%1$s ಖಾತೆಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
     <string name="import_source_select_error">ದಯವಿಟ್ಟು %1$s ಪ್ರಕಾರದ ಫೈಲ್ ಅನ್ನು ಒದಗಿಸಿ</string>
     <string name="menu_categories_setup_default">ಡೀಫಾಲ್ಟ್ ವಿಭಾಗಗಳನ್ನು ಹೊಂದಿಸಿ</string>
-    <string name="menu_create_folder">ಹೊಸ ಫೋಲ್ಡರ್</string>
     <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
     <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
     <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>

@@ -69,4 +69,5 @@
     <string name="does_not_contain">"nesatur"</string>
     <string name="no_matches_found">Atbilstība nav atrasta</string>
     <string name="information">"Informācija"</string>
+    <string name="menu_create_folder">"Jauna mape"</string>
 </resources>

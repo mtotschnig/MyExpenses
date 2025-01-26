@@ -111,4 +111,5 @@
     <string name="percent_long">"{value,plural, =1{1 فیصد}other{# فیصد}}"</string>
     <string name="apply">"لاگو کریں"</string>
     <string name="information">"معلومات"</string>
+    <string name="menu_create_folder">"نیا فولڈر"</string>
 </resources>

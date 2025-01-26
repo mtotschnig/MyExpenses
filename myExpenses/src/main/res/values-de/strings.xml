@@ -394,7 +394,6 @@
     <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
     <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
     <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
-    <string name="menu_create_folder">Neuer Ordner</string>
     <string name="widget_title_accounts">Meine Konten</string>
     <string name="widget_title_templates">Meine Vorlagen</string>
     <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>

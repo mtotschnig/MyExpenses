@@ -140,4 +140,5 @@
     <string name="does_not_contain">"不包含"</string>
     <string name="no_matches_found">找不到符合的項目</string>
     <string name="information">"資訊"</string>
+    <string name="menu_create_folder">"新資料夾"</string>
 </resources>

@@ -377,7 +377,6 @@
     <string name="import_transactions_none">Não foi importada nenhuma transação para a conta %1$s</string>
     <string name="import_source_select_error">Por favor, forneça um ficheiro do tipo %1$s</string>
     <string name="menu_categories_setup_default">Configurar categorias padrão</string>
-    <string name="menu_create_folder">Nova pasta</string>
     <string name="widget_title_accounts">Minhas contas</string>
     <string name="widget_title_templates">Meus modelos</string>
     <string name="app_dir_not_accessible">A pasta atualmente selecionada para backups e exportações (%1$s) não está acessível. Por favor, selecione outra.</string>

@@ -71,4 +71,5 @@
     <string name="contains">"የያዘው"</string>
     <string name="does_not_contain">"አልያዘም"</string>
     <string name="information">"መረጃ"</string>
+    <string name="menu_create_folder">"አዲስ አቃፊ"</string>
 </resources>

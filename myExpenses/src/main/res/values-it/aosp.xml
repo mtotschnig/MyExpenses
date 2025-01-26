@@ -143,4 +143,5 @@
     <string name="does_not_contain">"non contiene"</string>
     <string name="no_matches_found">Nessuna corrispondenza</string>
     <string name="information">"Informazioni"</string>
+    <string name="menu_create_folder">"Nuova cartella"</string>
 </resources>

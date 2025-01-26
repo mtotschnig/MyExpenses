@@ -356,7 +356,6 @@
     <string name="import_transactions_none">Ingen transaktioner importeret til konto %1$s</string>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
-    <string name="menu_create_folder">Ny mappe</string>
     <string name="widget_title_accounts">Mine konti</string>
     <string name="widget_title_templates">Mine skabeloner</string>
     <string name="search_amount">Søg efter beløb</string>

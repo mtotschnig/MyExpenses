@@ -145,4 +145,5 @@
     <string name="does_not_contain">"nem tartalmazza"</string>
     <string name="no_matches_found">Nincs találat</string>
     <string name="information">"Információ"</string>
+    <string name="menu_create_folder">"Új mappa"</string>
 </resources>

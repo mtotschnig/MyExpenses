@@ -75,4 +75,5 @@
     <string name="does_not_contain">"չի պարունակում"</string>
     <string name="no_matches_found">Չի գտնվել</string>
     <string name="information">"Տեղեկություններ"</string>
+    <string name="menu_create_folder">"Նոր պանակ"</string>
 </resources>

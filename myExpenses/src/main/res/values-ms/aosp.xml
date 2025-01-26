@@ -118,4 +118,5 @@
     <string name="apply">"Gunakan"</string>
     <string name="no_matches_found">Tiada padanan ditemui</string>
     <string name="information">"Maklumat"</string>
+    <string name="menu_create_folder">"Folder baharu"</string>
 </resources>

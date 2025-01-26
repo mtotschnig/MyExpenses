@@ -78,4 +78,5 @@
     <string name="does_not_contain">"innehåller inte"</string>
     <string name="no_matches_found">Inga träffar hittades</string>
     <string name="information">"Information"</string>
+    <string name="menu_create_folder">"Ny mapp"</string>
 </resources>

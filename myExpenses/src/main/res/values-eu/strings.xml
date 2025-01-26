@@ -391,7 +391,6 @@
     <string name="import_transactions_none">Ez da transakziorik inportatu %1$s kontura</string>
     <string name="import_source_select_error">Aukeratu %1$s motako fitxategi bat</string>
     <string name="menu_categories_setup_default">Ezarri lehenetsitako kategoriak</string>
-    <string name="menu_create_folder">Karpeta berria</string>
     <string name="widget_title_accounts">Nire kontuak</string>
     <string name="widget_title_templates">Nire txantiloiak</string>
     <string name="app_dir_not_accessible">Babeskopia eta esportazioetarako aukeratutako karpeta (%1$s) ezin da atzitu. mesedez aukeratu beste bat.</string>

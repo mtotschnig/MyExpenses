@@ -143,4 +143,5 @@
     <string name="does_not_contain">"enthält nicht"</string>
     <string name="no_matches_found">Keine Übereinstimmungen gefunden</string>
     <string name="information">"Informationen"</string>
+    <string name="menu_create_folder">"Neuer Ordner"</string>
 </resources>

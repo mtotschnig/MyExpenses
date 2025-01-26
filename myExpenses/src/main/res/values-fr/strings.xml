@@ -401,7 +401,6 @@
     <string name="import_transactions_none">Aucune opération importée dans le compte %1$s</string>
     <string name="import_source_select_error">Veuillez fournir un fichier de type %1$s</string>
     <string name="menu_categories_setup_default">Charger les catégories par défaut</string>
-    <string name="menu_create_folder">Nouveau dossier</string>
     <string name="widget_title_accounts">Mes comptes</string>
     <string name="widget_title_templates">Mes modèles</string>
     <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>

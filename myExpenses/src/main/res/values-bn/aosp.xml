@@ -57,4 +57,5 @@
     <string name="percent_long">"{value,plural, =1{১ শতাংশ}one{# শতাংশ}other{# শতাংশ}}"</string>
     <string name="apply">"প্রয়োগ করুন"</string>
     <string name="information">"তথ্য"</string>
+    <string name="menu_create_folder">"নতুন ফোল্ডার"</string>
 </resources>

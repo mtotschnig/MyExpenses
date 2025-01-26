@@ -141,4 +141,5 @@
     <string name="does_not_contain">"不包含"</string>
     <string name="no_matches_found">未发现符合条件的消息</string>
     <string name="information">"信息"</string>
+    <string name="menu_create_folder">"新建文件夹"</string>
 </resources>

@@ -387,7 +387,6 @@
     <string name="import_transactions_none">没有交易被导入账户 %1$s</string>
     <string name="import_source_select_error">请提供 %1$s类型的文件</string>
     <string name="menu_categories_setup_default">设置应用程序默认的类别</string>
-    <string name="menu_create_folder">新建文件夹</string>
     <string name="widget_title_accounts">我的账户</string>
     <string name="widget_title_templates">我的模板</string>
     <string name="app_dir_not_accessible">无法使用您所选的文件夹(%1$s)，请选择其他文件夹。</string>

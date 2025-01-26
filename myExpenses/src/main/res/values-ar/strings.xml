@@ -422,7 +422,6 @@
     <string name="import_transactions_none">لم يتم استيراد أي معاملات إلى الحساب %1$s</string>
     <string name="import_source_select_error">يرجى تقديم ملف من نوع %1$s</string>
     <string name="menu_categories_setup_default">إعداد الفئات الافتراضية</string>
-    <string name="menu_create_folder">مجلد جديد</string>
     <string name="widget_title_accounts">حساباتي</string>
     <string name="widget_title_templates">نماذجي</string>
     <string name="app_dir_not_accessible">لا يمكن الوصول إلى المجلد المحدد حالياً للنسخ الاحتياطية والتصدير (%1$s). يُرجى اختيار مجلد مختلف.</string>

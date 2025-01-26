@@ -121,7 +121,6 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Tipas</string>
     <string name="warning_password_protected">Programa yra apsaugota slaptažodžiu.</string>
-    <string name="menu_create_folder">Naujas aplankas</string>
     <string name="widget_title_accounts">Mano sąskaitos</string>
     <string name="widget_title_templates">Mano šablonai</string>
     <string name="menu_show_transactions">Rodyti operacijas</string>

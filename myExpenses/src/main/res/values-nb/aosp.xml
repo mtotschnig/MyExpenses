@@ -77,4 +77,5 @@
     <string name="does_not_contain">"inneholder ikke"</string>
     <string name="no_matches_found">Ingen treff</string>
     <string name="information">"Informasjon"</string>
+    <string name="menu_create_folder">"Ny mappe"</string>
 </resources>

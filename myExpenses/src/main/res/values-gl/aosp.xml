@@ -76,4 +76,5 @@
     <string name="does_not_contain">"non contén"</string>
     <string name="no_matches_found">Non se atoparon coincidencias</string>
     <string name="information">"Información"</string>
+    <string name="menu_create_folder">"Novo cartafol"</string>
 </resources>

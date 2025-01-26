@@ -59,4 +59,5 @@
     <string name="filter_is_not">не е</string>
     <string name="apply">"Примени"</string>
     <string name="information">"Информации"</string>
+    <string name="menu_create_folder">"Нова папка"</string>
 </resources>

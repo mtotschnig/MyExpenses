@@ -310,7 +310,6 @@
     <string name="import_transactions_none">කිසම ගනුදෙනුවක්  %1$s ගිණුමට ආනයනය කලේ නැත </string>
     <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
     <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
-    <string name="menu_create_folder">නව ගොනුව </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>
     <string name="widget_title_templates">මගේ අච්චු </string>
     <string name="preferences_week_start_day_title">සතිය ආරම්භ වන්නේ</string>

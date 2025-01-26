@@ -146,4 +146,5 @@
     <string name="does_not_contain">"nie zawiera"</string>
     <string name="no_matches_found">Wyszukiwany ciąg nie został znaleziony</string>
     <string name="information">"Informacje"</string>
+    <string name="menu_create_folder">"Nowy folder"</string>
 </resources>

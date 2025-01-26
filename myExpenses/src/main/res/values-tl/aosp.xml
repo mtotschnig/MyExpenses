@@ -50,4 +50,5 @@
     <string name="percent_long">"{value,plural, =1{1 porsyento}one{# porsyento}other{# na porsyento}}"</string>
     <string name="apply">"Ilapat"</string>
     <string name="information">"Impormasyon"</string>
+    <string name="menu_create_folder">"Bagong folder"</string>
 </resources>

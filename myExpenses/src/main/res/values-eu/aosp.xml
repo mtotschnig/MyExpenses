@@ -141,4 +141,5 @@
     <string name="does_not_contain">"ez dauka"</string>
     <string name="no_matches_found">Ez da aurkitu bat datorrenik</string>
     <string name="information">"Informazioa"</string>
+    <string name="menu_create_folder">"Karpeta berria"</string>
 </resources>

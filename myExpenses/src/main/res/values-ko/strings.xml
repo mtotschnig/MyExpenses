@@ -359,7 +359,6 @@
     <string name="import_transactions_none">%1$s 계좌로 가져온 거래 내역이 없습니다</string>
     <string name="import_source_select_error">%1$s 형식의 파일을 제공해주세요</string>
     <string name="menu_categories_setup_default">기본 카테고리 설정</string>
-    <string name="menu_create_folder">새 폴더</string>
     <string name="widget_title_accounts">내 계좌</string>
     <string name="widget_title_templates">내 템플릿</string>
     <string name="app_dir_not_accessible">백업과 내보내기를 위해 현재 선택된 폴더(%1$s)가 접근 가능하지 않습니다. 다른 폴더를 선택하세요.</string>

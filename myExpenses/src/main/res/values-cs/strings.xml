@@ -408,7 +408,6 @@
     <string name="import_transactions_none">Do účtu %1$s nebyly importovány žádné transakce</string>
     <string name="import_source_select_error">Poskytněte prosím soubor typu %1$s</string>
     <string name="menu_categories_setup_default">Nastavit výchozí kategorie</string>
-    <string name="menu_create_folder">Nová složka</string>
     <string name="widget_title_accounts">Moje účty</string>
     <string name="widget_title_templates">Moje šablony</string>
     <string name="app_dir_not_accessible">Momentálně zvolená složka pro zálohy a exporty (%1$s) není přístupná. Zvolte prosím jinou.</string>

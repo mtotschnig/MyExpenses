@@ -75,4 +75,5 @@
     <string name="does_not_contain">"bevat nie"</string>
     <string name="no_matches_found">Geen resultate gevind nie</string>
     <string name="information">"Inligting"</string>
+    <string name="menu_create_folder">"Nuwe vouer"</string>
 </resources>

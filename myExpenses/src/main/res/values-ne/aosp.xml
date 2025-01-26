@@ -60,4 +60,5 @@
     <string name="percent_long">"{value,plural, =1{१ प्रतिशत}other{# प्रतिशत}}"</string>
     <string name="apply">"लागू गर्नुहोस्"</string>
     <string name="information">"जानकारी"</string>
+    <string name="menu_create_folder">"नयाँ फोल्डर"</string>
 </resources>
