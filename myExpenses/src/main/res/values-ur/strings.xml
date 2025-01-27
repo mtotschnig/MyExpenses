@@ -392,7 +392,6 @@
     <string name="slash_forbidden_in_filename">فائل ناموں میں / کردار کی اجازت نہیں ہے</string>
     <string name="export_to_format">%s میں برآمد کریں</string>
     <string name="pref_csv_import_delimiter">حد بندی کرنے والا</string>
-    <string name="csv_import_preview">پیش نظار</string>
     <string name="menu_parse">تجزیہ کریں</string>
     <string name="csv_import_field_mapped_more_than_once">%s کو ایک سے زیادہ مرتبہ میپ کیا گیا ہے.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ریکارڈز ضائع کر دیے گئے.</string>

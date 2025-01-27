@@ -150,4 +150,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Activé"</string>
     <string name="disabled">"Désactivé"</string>
+    <string name="preview">"Prévisualiser"</string>
 </resources>

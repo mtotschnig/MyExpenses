@@ -437,7 +437,6 @@
     <string name="io_error_unable_to_create_file">Не мога да създам файл %1$s в папка %2$s</string>
     <string name="export_to_format">Експорт в %s</string>
     <string name="pref_csv_import_delimiter">Разделител</string>
-    <string name="csv_import_preview">Предварителен оглед</string>
     <string name="menu_parse">Анализирай</string>
     <string name="csv_import_field_mapped_more_than_once">%s е свързан повече от веднъж.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>

@@ -121,4 +121,5 @@
     <string name="menu_create_folder">"Folder baharu"</string>
     <string name="enabled">"Didayakan"</string>
     <string name="disabled">"Dilumpuhkan"</string>
+    <string name="preview">"Pratonton"</string>
 </resources>

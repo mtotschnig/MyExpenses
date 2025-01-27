@@ -60,4 +60,5 @@
     <string name="menu_create_folder">"Nova mapa"</string>
     <string name="enabled">"Omogočeno"</string>
     <string name="disabled">"Onemogočeno"</string>
+    <string name="preview">"Predogled"</string>
 </resources>

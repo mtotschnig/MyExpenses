@@ -78,4 +78,5 @@
     <string name="menu_create_folder">"Նոր պանակ"</string>
     <string name="enabled">"Միացված է"</string>
     <string name="disabled">"Անջատված է"</string>
+    <string name="preview">"Նախադիտում"</string>
 </resources>

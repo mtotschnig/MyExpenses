@@ -149,4 +149,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"مفعّل"</string>
     <string name="disabled">"غير مفعّل"</string>
+    <string name="preview">"معاينة"</string>
 </resources>

@@ -404,7 +404,6 @@
     <string name="folder_name">Numele folder</string>
     <string name="export_to_format">Export ca %s</string>
     <string name="pref_csv_import_delimiter">Delimitator</string>
-    <string name="csv_import_preview">Preview</string>
     <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
     <string name="menu_show_transactions">Arata Tranzacţia</string>
     <string name="pref_custom_decimal_format_title">Format numar</string>

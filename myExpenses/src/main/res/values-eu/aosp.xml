@@ -147,4 +147,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Gaituta"</string>
     <string name="disabled">"Desgaituta"</string>
+    <string name="preview">"Aurreikusi"</string>
 </resources>

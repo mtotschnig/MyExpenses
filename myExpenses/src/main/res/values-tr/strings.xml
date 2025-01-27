@@ -437,7 +437,6 @@
     <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
     <string name="export_to_format">%s olarak dışa aktar</string>
     <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
-    <string name="csv_import_preview">Önizle</string>
     <string name="menu_parse">Çözümle</string>
     <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>

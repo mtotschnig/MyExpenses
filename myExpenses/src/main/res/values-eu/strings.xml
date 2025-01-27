@@ -432,7 +432,6 @@
     <string name="io_error_unable_to_create_file">Ezin izan da %1$s fitxategia sortu %2$s karpetan</string>
     <string name="export_to_format">Esportatu %s fitxategira</string>
     <string name="pref_csv_import_delimiter">Bereizlea</string>
-    <string name="csv_import_preview">Aurreikusi</string>
     <string name="menu_parse">Prozesatu</string>
     <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>

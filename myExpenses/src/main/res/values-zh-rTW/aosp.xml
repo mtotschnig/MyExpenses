@@ -146,4 +146,5 @@
     <string name="delimiter_tab">"定位鍵"</string>
     <string name="enabled">"已啟用"</string>
     <string name="disabled">"已停用"</string>
+    <string name="preview">"預覽"</string>
 </resources>

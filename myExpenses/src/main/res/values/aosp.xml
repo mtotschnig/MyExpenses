@@ -272,4 +272,6 @@
     <string name="enabled">Enabled</string>
     <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"disabled\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="disabled">Disabled</string>
+    <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -r preview_attachment res | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_attachment//' | aosp_helper -->
+    <string name="preview">Preview</string>
 </resources>

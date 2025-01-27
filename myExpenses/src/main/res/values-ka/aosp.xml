@@ -73,4 +73,5 @@
     <string name="delimiter_tab">"ჩანართი"</string>
     <string name="enabled">"ჩართულია"</string>
     <string name="disabled">"გათიშულია"</string>
+    <string name="preview">"გადახედვა"</string>
 </resources>

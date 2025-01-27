@@ -91,7 +91,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     override fun getTitle(position: Int) = when(position) {
         0 -> getString(R.string.menu_parse)
-        1 -> getString(R.string.csv_import_preview)
+        1 -> getString(R.string.preview)
         else -> throw IllegalArgumentException()
     }
 

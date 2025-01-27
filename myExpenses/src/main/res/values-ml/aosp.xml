@@ -61,4 +61,5 @@
     <string name="menu_create_folder">"പുതിയ ഫോൾഡർ"</string>
     <string name="enabled">"പ്രവർത്തനക്ഷമമാക്കി"</string>
     <string name="disabled">"പ്രവർത്തനരഹിതമാക്കി"</string>
+    <string name="preview">"പ്രിവ്യൂ നടത്തുക"</string>
 </resources>

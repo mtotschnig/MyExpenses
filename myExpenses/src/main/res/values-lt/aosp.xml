@@ -74,4 +74,5 @@
     <string name="delimiter_tab">"Tabuliavimo ženklas"</string>
     <string name="enabled">"Įgalinta"</string>
     <string name="disabled">"Išjungta"</string>
+    <string name="preview">"Peržiūrėti"</string>
 </resources>

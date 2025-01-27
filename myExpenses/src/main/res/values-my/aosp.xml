@@ -61,4 +61,5 @@
     <string name="menu_create_folder">"ဖိုင်တွဲအသစ်"</string>
     <string name="enabled">"ဖွင့်ထားသည်"</string>
     <string name="disabled">"ပိတ်ထားသည်"</string>
+    <string name="preview">"အစမ်းကြည့်မှု"</string>
 </resources>

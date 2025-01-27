@@ -152,4 +152,5 @@
     <string name="delimiter_tab">"Tabulátor"</string>
     <string name="enabled">"Zapnuto"</string>
     <string name="disabled">"Vypnuto"</string>
+    <string name="preview">"Náhled"</string>
 </resources>

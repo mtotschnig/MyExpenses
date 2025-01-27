@@ -142,4 +142,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Omogućeno"</string>
     <string name="disabled">"Onemogućeno"</string>
+    <string name="preview">"Pregled"</string>
 </resources>

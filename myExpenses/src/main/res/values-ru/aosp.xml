@@ -151,4 +151,5 @@
     <string name="delimiter_tab">"Табуляция"</string>
     <string name="enabled">"Включено"</string>
     <string name="disabled">"Отключено"</string>
+    <string name="preview">"Просмотр"</string>
 </resources>

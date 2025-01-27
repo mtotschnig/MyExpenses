@@ -444,7 +444,6 @@
     <string name="io_error_unable_to_create_file">לא ניתן ליצור קובץ %1$s בתיקייה %2$s</string>
     <string name="export_to_format">יצא ל- %s</string>
     <string name="pref_csv_import_delimiter">תוחם - מציב גבול</string>
-    <string name="csv_import_preview">תצוגה מקדימה</string>
     <string name="menu_parse">ביטוי</string>
     <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו.</string>

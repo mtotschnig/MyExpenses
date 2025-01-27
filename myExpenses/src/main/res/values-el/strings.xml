@@ -433,7 +433,6 @@
     <string name="io_error_unable_to_create_file">Δεν είναι δυνατή η δημιουργία του αρχείου %1$s στο φάκελο %2$s</string>
     <string name="export_to_format">Εξαγωγή σε %s</string>
     <string name="pref_csv_import_delimiter">Οριοθέτης</string>
-    <string name="csv_import_preview">Προεπισκόπηση</string>
     <string name="menu_parse">Ανάλυση</string>
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>

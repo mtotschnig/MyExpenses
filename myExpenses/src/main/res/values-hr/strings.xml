@@ -549,7 +549,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d zapisi su odbačeni.</string>
     <string name="csv_import_field_mapped_more_than_once">%s je povezano više od jednom.</string>
     <string name="menu_parse">Obradi</string>
-    <string name="csv_import_preview">Pregled</string>
     <string name="pref_csv_import_delimiter">Znak razdvajanja</string>
     <string name="export_to_format">Izvezi u %s</string>
     <string name="io_error_unable_to_create_file">Neuspjelo stvaranje datoteke %1$s u mapi %2$s</string>

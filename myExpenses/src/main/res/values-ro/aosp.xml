@@ -137,4 +137,5 @@
     <string name="menu_create_folder">"Dosar nou"</string>
     <string name="enabled">"Activat"</string>
     <string name="disabled">"Dezactivat"</string>
+    <string name="preview">"Previzual."</string>
 </resources>

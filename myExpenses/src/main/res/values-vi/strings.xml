@@ -422,7 +422,6 @@
     <string name="io_error_unable_to_create_file">Không thể tạo tập tin %1$s trong thư mục %2$s</string>
     <string name="export_to_format">Xuất ra dạng %s</string>
     <string name="pref_csv_import_delimiter">Dấu phân tách</string>
-    <string name="csv_import_preview">xem trước</string>
     <string name="menu_parse">Phân tích</string>
     <string name="csv_import_field_mapped_more_than_once">%s được ánh xạ nhiều hơn một lần.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d bản ghi bị huỷ bỏ.</string>

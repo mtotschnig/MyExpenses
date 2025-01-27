@@ -427,7 +427,6 @@
     <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
     <string name="export_to_format">%s にエクスポート</string>
     <string name="pref_csv_import_delimiter">デリミタ</string>
-    <string name="csv_import_preview">プレビュー</string>
     <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>

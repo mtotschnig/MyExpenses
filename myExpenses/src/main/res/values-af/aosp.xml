@@ -78,4 +78,5 @@
     <string name="menu_create_folder">"Nuwe vouer"</string>
     <string name="enabled">"Geaktiveer"</string>
     <string name="disabled">"Gedeaktiveer"</string>
+    <string name="preview">"Voorskou"</string>
 </resources>

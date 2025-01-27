@@ -437,7 +437,6 @@
     <string name="io_error_unable_to_create_file">%1$s fájl nem hozható létre %2$s mappában</string>
     <string name="export_to_format">Exportálás %s-be </string>
     <string name="pref_csv_import_delimiter">Elválasztó</string>
-    <string name="csv_import_preview">Előnézet</string>
     <string name="menu_parse">Elemzés</string>
     <string name="csv_import_field_mapped_more_than_once">%s többször van hozzárendelve.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d feljegyzés el lett vetve.</string>

@@ -206,7 +206,6 @@
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d రికార్డులు విస్మరించబడ్డాయి.</string>
     <string name="csv_import_field_mapped_more_than_once">%s ఒకటి కంటే ఎక్కువసార్లు మ్యాప్ చేయబడింది.</string>
     <string name="menu_parse">పార్స్</string>
-    <string name="csv_import_preview">పరిదృశ్యం</string>
     <string name="pref_csv_import_delimiter">డీలిమిటర్</string>
     <string name="import_source_file">ఫైల్</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s కరెన్సీ ఉన్న%1$d ఖాతాలు నవీకరించబడ్డాయి.</string>

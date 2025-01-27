@@ -62,4 +62,5 @@
     <string name="menu_create_folder">"नवीन फोल्डर"</string>
     <string name="enabled">"सुरू आहे"</string>
     <string name="disabled">"बंद आहे"</string>
+    <string name="preview">"पूर्वावलोकन"</string>
 </resources>

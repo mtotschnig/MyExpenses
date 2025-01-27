@@ -149,4 +149,5 @@
     <string name="delimiter_tab">"Στηλοθέτης"</string>
     <string name="enabled">"Ενεργή"</string>
     <string name="disabled">"Ανενεργή"</string>
+    <string name="preview">"Προεπισκ."</string>
 </resources>

@@ -81,4 +81,5 @@
     <string name="delimiter_tab">"Dálklykill (Tab)"</string>
     <string name="enabled">"Virkt"</string>
     <string name="disabled">"Óvirkt"</string>
+    <string name="preview">"Forskoða"</string>
 </resources>

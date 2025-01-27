@@ -129,4 +129,5 @@
     <string name="menu_create_folder">"ಹೊಸ ಫೋಲ್ಡರ್"</string>
     <string name="enabled">"ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
     <string name="disabled">"ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
+    <string name="preview">"ಪೂರ್ವವೀಕ್ಷಣೆ"</string>
 </resources>

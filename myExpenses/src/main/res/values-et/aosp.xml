@@ -84,4 +84,5 @@
     <string name="delimiter_tab">"Tabeldusmärk"</string>
     <string name="enabled">"Lubatud"</string>
     <string name="disabled">"Keelatud"</string>
+    <string name="preview">"Eelvaade"</string>
 </resources>

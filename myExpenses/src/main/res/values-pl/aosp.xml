@@ -152,4 +152,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Włączone"</string>
     <string name="disabled">"Wyłączone"</string>
+    <string name="preview">"Podgląd"</string>
 </resources>

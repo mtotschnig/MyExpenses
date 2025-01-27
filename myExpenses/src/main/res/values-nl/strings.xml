@@ -718,7 +718,6 @@
     <string name="comparison_operator_greater_than">groter dan</string>
     <string name="app_dir_not_compatible_with_nougat">De huidige geconfigureerde URI voor back-ups en exports (%1$s) wordt niet ondersteund onder Android Nougat. Selecteer opnieuw een map.</string>
     <string name="search_category">Zoek op categorie</string>
-    <string name="csv_import_preview">Voorbeeld</string>
     <string name="hint_url">URL</string>
     <string name="plan_instance_state_applied">toegepast</string>
     <string name="contributed_by">Bijgedragen door %s</string>

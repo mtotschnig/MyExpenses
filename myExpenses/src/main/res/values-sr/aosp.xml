@@ -60,4 +60,5 @@
     <string name="menu_create_folder">"Нови фолдер"</string>
     <string name="enabled">"Омогућено"</string>
     <string name="disabled">"Онемогућено"</string>
+    <string name="preview">"Прикажи"</string>
 </resources>

@@ -65,4 +65,5 @@
     <string name="delimiter_tab">"Табулатор"</string>
     <string name="enabled">"Овозможено"</string>
     <string name="disabled">"Оневозможено"</string>
+    <string name="preview">"Преглед"</string>
 </resources>

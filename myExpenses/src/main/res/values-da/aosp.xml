@@ -150,4 +150,5 @@
     <string name="delimiter_tab">"Tabulator"</string>
     <string name="enabled">"Aktiveret"</string>
     <string name="disabled">"Deaktiveret"</string>
+    <string name="preview">"Vis eks."</string>
 </resources>

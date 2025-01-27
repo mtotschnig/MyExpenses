@@ -455,7 +455,6 @@
     <string name="slash_forbidden_in_filename">El caràcter / no està permès al nom de l\'arxiu</string>
     <string name="menu_parse">Analitza</string>
     <string name="pref_csv_import_delimiter">Delimitador</string>
-    <string name="csv_import_preview">Previsualització</string>
     <string name="csv_import_subcategory_requires_category">Si asigna una subcategoria, també ha d\'assignar una categoria.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registres han estat descartats.</string>
     <string name="dialog_title_select_target">Seleccioneu destí</string>

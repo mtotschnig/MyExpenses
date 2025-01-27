@@ -65,4 +65,5 @@
     <string name="delimiter_tab">"ટેબ"</string>
     <string name="enabled">"ચાલુ છે"</string>
     <string name="disabled">"બંધ છે"</string>
+    <string name="preview">"પૂર્વાવલોકન કરો"</string>
 </resources>

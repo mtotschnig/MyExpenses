@@ -150,4 +150,5 @@
     <string name="delimiter_tab">"Tabulador"</string>
     <string name="enabled">"Activat"</string>
     <string name="disabled">"Desactivat"</string>
+    <string name="preview">"Previsual."</string>
 </resources>

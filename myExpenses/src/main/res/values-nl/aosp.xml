@@ -146,4 +146,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Aangezet"</string>
     <string name="disabled">"Uitgezet"</string>
+    <string name="preview">"Voorbeeld"</string>
 </resources>

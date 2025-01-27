@@ -49,4 +49,5 @@
     <string name="menu_create_folder">"Жаңы папка"</string>
     <string name="enabled">"Күйүк"</string>
     <string name="disabled">"Өчүк"</string>
+    <string name="preview">"Алдын ала көрүү"</string>
 </resources>

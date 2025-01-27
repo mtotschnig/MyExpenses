@@ -149,4 +149,5 @@
     <string name="delimiter_tab">"Tabulazione"</string>
     <string name="enabled">"Attivato"</string>
     <string name="disabled">"Disattivato"</string>
+    <string name="preview">"Anteprima"</string>
 </resources>

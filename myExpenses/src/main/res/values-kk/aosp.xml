@@ -74,4 +74,5 @@
     <string name="menu_create_folder">"Жаңа қалта"</string>
     <string name="enabled">"Қосулы"</string>
     <string name="disabled">"Өшірулі"</string>
+    <string name="preview">"Алдын ала қарау"</string>
 </resources>

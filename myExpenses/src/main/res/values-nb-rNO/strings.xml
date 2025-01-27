@@ -77,7 +77,6 @@
     <string name="pref_auto_backup_title">Automatisk sikkerhetskopi</string>
     <string name="pref_custom_decimal_format_title">Nummerformat</string>
     <string name="menu_show_transactions">Vis overføringer</string>
-    <string name="csv_import_preview">Forhåndsvis</string>
     <string name="export_to_format">Eksporter til %s</string>
     <string name="folder_name">Mappenavn</string>
     <string name="file_name">Filnavn</string>

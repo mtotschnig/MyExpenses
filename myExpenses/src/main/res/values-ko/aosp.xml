@@ -139,4 +139,5 @@
     <string name="delimiter_tab">"탭"</string>
     <string name="enabled">"사용 설정됨"</string>
     <string name="disabled">"사용 안함"</string>
+    <string name="preview">"미리보기"</string>
 </resources>

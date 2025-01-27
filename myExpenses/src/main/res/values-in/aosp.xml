@@ -84,4 +84,5 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Aktif"</string>
     <string name="disabled">"Nonaktif"</string>
+    <string name="preview">"Pratinjau"</string>
 </resources>

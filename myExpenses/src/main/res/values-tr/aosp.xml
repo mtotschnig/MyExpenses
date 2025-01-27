@@ -148,4 +148,5 @@
     <string name="delimiter_tab">"Sekme"</string>
     <string name="enabled">"Etkin"</string>
     <string name="disabled">"Devre dışı"</string>
+    <string name="preview">"Önizle"</string>
 </resources>

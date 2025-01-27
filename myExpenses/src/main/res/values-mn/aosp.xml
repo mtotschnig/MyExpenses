@@ -66,4 +66,5 @@
     <string name="menu_create_folder">"Шинэ фолдер"</string>
     <string name="enabled">"Идэвхжүүлсэн"</string>
     <string name="disabled">"Идэвхгүй болгосон"</string>
+    <string name="preview">"Урдьчилж харах"</string>
 </resources>

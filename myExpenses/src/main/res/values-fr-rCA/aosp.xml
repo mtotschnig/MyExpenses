@@ -7,4 +7,5 @@
     <string name="percent_long">"{value,plural, =1{1 pour cent}one{# pour cent}other{# pour cent}}"</string>
     <string name="enabled">"Activé"</string>
     <string name="disabled">"Désactivé"</string>
+    <string name="preview">"Aperçu"</string>
 </resources>

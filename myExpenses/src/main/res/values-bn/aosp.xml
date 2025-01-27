@@ -63,4 +63,5 @@
     <string name="delimiter_tab">"ট্যাব"</string>
     <string name="enabled">"চালু করা আছে"</string>
     <string name="disabled">"বন্ধ করা আছে"</string>
+    <string name="preview">"পূর্বরূপ"</string>
 </resources>

@@ -144,4 +144,5 @@
     <string name="delimiter_tab">"Khoảng Tab"</string>
     <string name="enabled">"Đã bật"</string>
     <string name="disabled">"Đã tắt"</string>
+    <string name="preview">"Xem trước"</string>
 </resources>

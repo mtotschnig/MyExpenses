@@ -437,7 +437,6 @@
     <string name="io_error_unable_to_create_file">கோப்புறை %2$s-இல் %1$s கோப்பை உருவாக்க முடியவில்லை</string>
     <string name="export_to_format">%s ஆக ஏற்றுமதி செய்</string>
     <string name="pref_csv_import_delimiter">வரம்புச் சுட்டி</string>
-    <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>
     <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டுள்ளது.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>

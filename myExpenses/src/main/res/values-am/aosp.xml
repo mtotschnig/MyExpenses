@@ -77,4 +77,5 @@
     <string name="delimiter_tab">"ማስረጊያ"</string>
     <string name="enabled">"ነቅቷል"</string>
     <string name="disabled">"ተሰናክሏል"</string>
+    <string name="preview">"ቅድመ-ዕይታ"</string>
 </resources>
