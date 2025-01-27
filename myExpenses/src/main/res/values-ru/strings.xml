@@ -982,4 +982,6 @@
     <string name="budget_import_can_be_imported">Следующие бюджеты могут быть импортированы:</string>
     <string name="budget_import_cannot_be_imported">Следующие бюджеты относятся к счетам, которые не синхронизированы:</string>
     <string name="budget_import_none_found">Бюджеты не найдены.</string>
+    <string name="pref_sync_frequency_summary_0">Установите значение 0, чтобы отключить автоматическую синхронизацию.</string>
+    <string name="webui_download_no_data">После печати, экспорта или создания резервных копий в приложении, файлы будут доступны для загрузки отсюда.</string>
 </resources>
