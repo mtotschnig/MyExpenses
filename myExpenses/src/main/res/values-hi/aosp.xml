@@ -64,4 +64,6 @@
     <string name="delimiter_comma">"विराम चिह्न"</string>
     <string name="delimiter_semicolon">"अर्द्ध विराम"</string>
     <string name="delimiter_tab">"टैब"</string>
+    <string name="enabled">"चालू है"</string>
+    <string name="disabled">"बंद है"</string>
 </resources>

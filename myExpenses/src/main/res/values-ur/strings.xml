@@ -214,8 +214,6 @@
     <string name="pref_category_title_manage">انتظام کریں</string>
     <string name="pref_category_title_more_information">مزید معلومات</string>
     <string name="pref_category_title_ui">یوزر انٹرفیس</string>
-    <string name="pref_checkbox_enabled">فعال</string>
-    <string name="pref_checkbox_disabled">معذور</string>
     <string name="pref_contrib_purchase_title_upgrade">اپ گریڈ کلید</string>
     <string name="pref_custom_currency_title">کرنسیوں کو اپنی مرضی کے مطابق بنائیں</string>
     <string name="pref_enter_licence_title">کلید درج کریں</string>

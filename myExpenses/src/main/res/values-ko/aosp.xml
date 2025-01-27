@@ -137,4 +137,6 @@
     <string name="delimiter_comma">"쉼표"</string>
     <string name="delimiter_semicolon">"세미콜론"</string>
     <string name="delimiter_tab">"탭"</string>
+    <string name="enabled">"사용 설정됨"</string>
+    <string name="disabled">"사용 안함"</string>
 </resources>

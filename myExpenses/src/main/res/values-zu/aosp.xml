@@ -61,4 +61,6 @@
     <string name="apply">"Faka"</string>
     <string name="information">"Ulwazi"</string>
     <string name="menu_create_folder">"Ifolda entsha"</string>
+    <string name="enabled">"Kunikwe amandla"</string>
+    <string name="disabled">"Kukhutshaziwe"</string>
 </resources>

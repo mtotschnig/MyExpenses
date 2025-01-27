@@ -72,4 +72,6 @@
     <string name="no_matches_found">Сәйкестіктер табылмады</string>
     <string name="information">"Ақпарат"</string>
     <string name="menu_create_folder">"Жаңа қалта"</string>
+    <string name="enabled">"Қосулы"</string>
+    <string name="disabled">"Өшірулі"</string>
 </resources>

@@ -81,4 +81,6 @@
     <string name="delimiter_comma">"Čiarka"</string>
     <string name="delimiter_semicolon">"Bodkočiarka"</string>
     <string name="delimiter_tab">"Tabulátor"</string>
+    <string name="enabled">"Aktivované"</string>
+    <string name="disabled">"Deaktivované"</string>
 </resources>

@@ -249,8 +249,6 @@
     <string name="pref_category_title_manage">Gestione</string>
     <string name="pref_category_title_more_information">Maggiori informazioni</string>
     <string name="pref_category_title_ui">Interfaccia utente</string>
-    <string name="pref_checkbox_enabled">Abilitato</string>
-    <string name="pref_checkbox_disabled">Non abilitato</string>
     <string name="pref_contrib_purchase_title_upgrade">Aggiorna la licenza</string>
     <string name="pref_custom_currency_title">Personalizzare le valute</string>
     <string name="pref_enter_licence_title">Inserisci la licenza</string>

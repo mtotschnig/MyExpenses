@@ -53,4 +53,6 @@
     <string name="apply">"Tətbiq edin"</string>
     <string name="information">"Məlumat"</string>
     <string name="menu_create_folder">"Yeni qovluq"</string>
+    <string name="enabled">"Aktiv edilib"</string>
+    <string name="disabled">"Deaktiv edilib"</string>
 </resources>

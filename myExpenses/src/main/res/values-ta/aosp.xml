@@ -130,4 +130,6 @@
     <string name="menu_create_folder">"புதிய ஃபோல்டர்"</string>
     <string name="delimiter_comma">"காற்புள்ளி"</string>
     <string name="delimiter_semicolon">"அரைக்காற்புள்ளி"</string>
+    <string name="enabled">"இயக்கப்பட்டுள்ளது"</string>
+    <string name="disabled">"முடக்கப்பட்டுள்ளது"</string>
 </resources>

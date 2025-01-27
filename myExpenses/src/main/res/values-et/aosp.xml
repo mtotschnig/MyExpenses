@@ -82,4 +82,6 @@
     <string name="delimiter_comma">"Koma"</string>
     <string name="delimiter_semicolon">"Semikoolon"</string>
     <string name="delimiter_tab">"Tabeldusmärk"</string>
+    <string name="enabled">"Lubatud"</string>
+    <string name="disabled">"Keelatud"</string>
 </resources>

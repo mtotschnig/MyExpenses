@@ -5,4 +5,6 @@
     <string name="wifi_not_connected">"Le Wi‑Fi n'est pas connecté à Internet"</string>
     <string name="action_archive">"Archiver"</string>
     <string name="percent_long">"{value,plural, =1{1 pour cent}one{# pour cent}other{# pour cent}}"</string>
+    <string name="enabled">"Activé"</string>
+    <string name="disabled">"Désactivé"</string>
 </resources>

@@ -249,8 +249,6 @@
     <string name="pref_category_title_manage">Gerir</string>
     <string name="pref_category_title_more_information">Mais informações</string>
     <string name="pref_category_title_ui">Interface do utilizador</string>
-    <string name="pref_checkbox_enabled">Ativado</string>
-    <string name="pref_checkbox_disabled">Desativado</string>
     <string name="pref_contrib_purchase_title_upgrade">Atualizar chave</string>
     <string name="pref_custom_currency_title">Personalizar moedas</string>
     <string name="pref_enter_licence_title">Digite a chave</string>

@@ -58,4 +58,6 @@
     <string name="no_matches_found">Ni zadetkov</string>
     <string name="information">"Informacije"</string>
     <string name="menu_create_folder">"Nova mapa"</string>
+    <string name="enabled">"Omogočeno"</string>
+    <string name="disabled">"Onemogočeno"</string>
 </resources>

@@ -63,4 +63,6 @@
     <string name="delimiter_comma">"Comma"</string>
     <string name="delimiter_semicolon">"Semicolon"</string>
     <string name="delimiter_tab">"ટેબ"</string>
+    <string name="enabled">"ચાલુ છે"</string>
+    <string name="disabled">"બંધ છે"</string>
 </resources>

@@ -145,4 +145,6 @@
     <string name="delimiter_comma">"逗号"</string>
     <string name="delimiter_semicolon">"分号"</string>
     <string name="delimiter_tab">"制表符"</string>
+    <string name="enabled">"已启用"</string>
+    <string name="disabled">"已停用"</string>
 </resources>

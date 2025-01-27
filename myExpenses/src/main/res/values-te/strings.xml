@@ -385,8 +385,6 @@
     <string name="pref_enter_licence_title">కీని నమోదు చేయండి</string>
     <string name="pref_custom_currency_title">కరెన్సీలను అనుకూలీకరించండి</string>
     <string name="pref_contrib_purchase_title_upgrade">కీని అప్‌గ్రేడ్ చేయండి</string>
-    <string name="pref_checkbox_disabled">నిలిపివేయబడింది</string>
-    <string name="pref_checkbox_enabled">ప్రారంభించబడింది</string>
     <string name="pref_category_title_ui">వినియోగ మార్గము</string>
     <string name="pref_category_title_more_information">మరింత సమాచారం</string>
     <string name="pref_category_title_manage">నిర్వహించడానికి</string>

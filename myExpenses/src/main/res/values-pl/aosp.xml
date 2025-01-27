@@ -150,4 +150,6 @@
     <string name="delimiter_comma">"Przecinek"</string>
     <string name="delimiter_semicolon">"Średnik"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"Włączone"</string>
+    <string name="disabled">"Wyłączone"</string>
 </resources>

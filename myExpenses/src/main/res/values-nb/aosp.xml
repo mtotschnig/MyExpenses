@@ -81,4 +81,6 @@
     <string name="delimiter_comma">"Komma"</string>
     <string name="delimiter_semicolon">"Semikolon"</string>
     <string name="delimiter_tab">"Tabulator"</string>
+    <string name="enabled">"Slått på"</string>
+    <string name="disabled">"Slått av"</string>
 </resources>

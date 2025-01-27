@@ -60,4 +60,6 @@
     <string name="add_filter">"फिल्टर समाविष्ट करा"</string>
     <string name="information">"माहिती"</string>
     <string name="menu_create_folder">"नवीन फोल्डर"</string>
+    <string name="enabled">"सुरू आहे"</string>
+    <string name="disabled">"बंद आहे"</string>
 </resources>

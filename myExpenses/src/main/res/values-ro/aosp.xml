@@ -135,4 +135,6 @@
     <string name="no_matches_found">Niciun rezultat</string>
     <string name="information">"Informații"</string>
     <string name="menu_create_folder">"Dosar nou"</string>
+    <string name="enabled">"Activat"</string>
+    <string name="disabled">"Dezactivat"</string>
 </resources>

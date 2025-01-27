@@ -322,8 +322,6 @@
     <string name="pref_category_title_manage">Beheren</string>
     <string name="pref_category_title_more_information">Meer informatie</string>
     <string name="pref_category_title_ui">Gebruikersinterface</string>
-    <string name="pref_checkbox_enabled">Ingeschakeld</string>
-    <string name="pref_checkbox_disabled">Uitgeschakeld</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgradesleutel</string>
     <string name="pref_enter_licence_title">Voer sleutel in</string>
     <string name="pref_export_format_title">Data formaat</string>

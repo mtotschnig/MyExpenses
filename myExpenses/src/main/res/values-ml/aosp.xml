@@ -59,4 +59,6 @@
     <string name="apply">"ബാധകമാക്കുക"</string>
     <string name="information">"വിവരങ്ങൾ"</string>
     <string name="menu_create_folder">"പുതിയ ഫോൾഡർ"</string>
+    <string name="enabled">"പ്രവർത്തനക്ഷമമാക്കി"</string>
+    <string name="disabled">"പ്രവർത്തനരഹിതമാക്കി"</string>
 </resources>

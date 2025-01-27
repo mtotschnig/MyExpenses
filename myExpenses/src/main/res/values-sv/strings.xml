@@ -198,7 +198,6 @@
     <string name="no_calendar_app_installed">Ingen app hittades för redigering av kalender-händelser.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ta bort den här begränsningen och kom åt fler funktioner genom att uppgradera <i>{app_name}</i>.</string>
     <string name="pref_custom_currency_title">Anpassa valutor</string>
-    <string name="pref_checkbox_enabled">Aktiverad</string>
     <string name="status">Status</string>
     <string name="menu_save_and_new">Spara och ny</string>
     <string name="restore_db_failure">Återställning av databasen misslyckades.</string>
@@ -218,7 +217,6 @@
     <string name="subcategory">Underkategori</string>
     <string name="ftp_uri_malformed">Felutformad URI %1$s</string>
     <string name="no_parties">Inga parter.</string>
-    <string name="pref_checkbox_disabled">Inaktiverad</string>
     <string name="pref_ui_theme_title">Tema</string>
     <string name="restore_preferences_failure">Återställning av egenskaper misslyckades</string>
     <string name="pref_share_target_title">URL för uppladdning</string>

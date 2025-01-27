@@ -154,8 +154,6 @@
     <string name="pref_import_from_grisbi_title">Importer fra Grisbi</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pref_contrib_purchase_title_upgrade">Oppgrader nøkkel</string>
-    <string name="pref_checkbox_disabled">Avskrudd</string>
-    <string name="pref_checkbox_enabled">Påskrudd</string>
     <string name="pref_category_title_ui">Brukergrensesnitt</string>
     <string name="pref_category_title_more_information">Mer info</string>
     <string name="pref_category_title_manage">Håndter</string>

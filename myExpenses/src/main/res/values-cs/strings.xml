@@ -252,8 +252,6 @@
     <string name="pref_category_title_manage">Správa</string>
     <string name="pref_category_title_more_information">Více informací</string>
     <string name="pref_category_title_ui">Uživatelské rozhraní</string>
-    <string name="pref_checkbox_enabled">Aktivováno</string>
-    <string name="pref_checkbox_disabled">Zakázáno</string>
     <string name="pref_contrib_purchase_title_upgrade">Klíč pro upgrade</string>
     <string name="pref_custom_currency_title">Přizpůsobit měny</string>
     <string name="pref_enter_licence_title">Vložte klíč</string>

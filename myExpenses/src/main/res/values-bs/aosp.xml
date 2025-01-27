@@ -62,4 +62,6 @@
     <string name="delimiter_comma">"Zarez"</string>
     <string name="delimiter_semicolon">"Tačka-zarez"</string>
     <string name="delimiter_tab">"Tabulator"</string>
+    <string name="enabled">"Omogućeno"</string>
+    <string name="disabled">"Onemogućeno"</string>
 </resources>

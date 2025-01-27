@@ -241,8 +241,6 @@
     <string name="pref_category_title_manage">Urus</string>
     <string name="pref_category_title_more_information">Lagi maklumat</string>
     <string name="pref_category_title_ui">Antaramuka pengguna</string>
-    <string name="pref_checkbox_enabled">Dibenarkan</string>
-    <string name="pref_checkbox_disabled">Dilumpuhkan</string>
     <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
     <string name="pref_custom_currency_title">Suaikan matawang</string>
     <string name="pref_enter_licence_title">Masukkan kunci</string>

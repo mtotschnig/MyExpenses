@@ -150,4 +150,6 @@
     <string name="delimiter_comma">"Čárka"</string>
     <string name="delimiter_semicolon">"Středník"</string>
     <string name="delimiter_tab">"Tabulátor"</string>
+    <string name="enabled">"Zapnuto"</string>
+    <string name="disabled">"Vypnuto"</string>
 </resources>

@@ -268,4 +268,8 @@
     <string name="delimiter_semicolon">"semicolon"</string>
     <!-- LibreOffice helpcontent2/source/text/shared/00.po pZvut -->
     <string name="delimiter_tab">"Tabulator"</string>
+    <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"enabled\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="enabled">Enabled</string>
+    <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"disabled\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="disabled">Disabled</string>
 </resources>

@@ -82,4 +82,6 @@
     <string name="delimiter_comma">"Koma"</string>
     <string name="delimiter_semicolon">"Titik koma"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"Aktif"</string>
+    <string name="disabled">"Nonaktif"</string>
 </resources>

@@ -60,4 +60,6 @@
     <string name="apply">"ນຳໃຊ້"</string>
     <string name="information">"ຂໍ້ມູນ"</string>
     <string name="menu_create_folder">"ໂຟນເດີໃໝ່"</string>
+    <string name="enabled">"ເປີດການນຳໃຊ້ແລ້ວ"</string>
+    <string name="disabled">"ປິດການນຳໃຊ້ແລ້ວ"</string>
 </resources>

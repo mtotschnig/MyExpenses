@@ -147,4 +147,6 @@
     <string name="information">"المعلومات"</string>
     <string name="menu_create_folder">"مجلد جديد"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"مفعّل"</string>
+    <string name="disabled">"غير مفعّل"</string>
 </resources>

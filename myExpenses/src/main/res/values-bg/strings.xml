@@ -246,8 +246,6 @@
     <string name="pref_category_title_manage">Управление</string>
     <string name="pref_category_title_more_information">Повече информация</string>
     <string name="pref_category_title_ui">Потребителски интерфейс</string>
-    <string name="pref_checkbox_enabled">Разрешено</string>
-    <string name="pref_checkbox_disabled">Забранено</string>
     <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
     <string name="pref_custom_currency_title">Персонализирайте валути</string>
     <string name="pref_enter_licence_title">Въведете ключ</string>

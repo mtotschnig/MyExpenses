@@ -81,4 +81,6 @@
     <string name="delimiter_comma">"Pilkku"</string>
     <string name="delimiter_semicolon">"Puolipiste"</string>
     <string name="delimiter_tab">"Sarkain"</string>
+    <string name="enabled">"Päällä"</string>
+    <string name="disabled">"Ei käytössä"</string>
 </resources>

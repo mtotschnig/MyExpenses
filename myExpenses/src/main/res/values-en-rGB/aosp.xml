@@ -9,4 +9,6 @@
     <string name="color_component_title">"Choose colour"</string>
     <string name="action_archive">"Archive"</string>
     <string name="percent_long">"{value,plural, =1{1 per cent}other{# per cent}}"</string>
+    <string name="enabled">"Enabled"</string>
+    <string name="disabled">"Disabled"</string>
 </resources>

@@ -149,4 +149,6 @@
     <string name="delimiter_comma">"Запетая"</string>
     <string name="delimiter_semicolon">"Точка и запетая"</string>
     <string name="delimiter_tab">"Табулация"</string>
+    <string name="enabled">"Активирано"</string>
+    <string name="disabled">"Деактивирано"</string>
 </resources>

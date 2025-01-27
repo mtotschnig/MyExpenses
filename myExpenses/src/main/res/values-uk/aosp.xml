@@ -148,4 +148,6 @@
     <string name="delimiter_comma">"Кома"</string>
     <string name="delimiter_semicolon">"Крапка з комою"</string>
     <string name="delimiter_tab">"Табуляція"</string>
+    <string name="enabled">"Увімкнено"</string>
+    <string name="disabled">"Вимкнено"</string>
 </resources>

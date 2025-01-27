@@ -58,4 +58,6 @@
     <string name="no_matches_found">Нема подударања</string>
     <string name="information">"Информације"</string>
     <string name="menu_create_folder">"Нови фолдер"</string>
+    <string name="enabled">"Омогућено"</string>
+    <string name="disabled">"Онемогућено"</string>
 </resources>

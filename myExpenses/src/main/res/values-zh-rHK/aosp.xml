@@ -114,4 +114,6 @@
     <string name="apply">"套用"</string>
     <string name="information">"資料"</string>
     <string name="menu_create_folder">"新資料夾"</string>
+    <string name="enabled">"已啟用"</string>
+    <string name="disabled">"已停用"</string>
 </resources>

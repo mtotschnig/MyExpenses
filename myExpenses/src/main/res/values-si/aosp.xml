@@ -122,4 +122,6 @@
     <string name="apply">"යොදන්න"</string>
     <string name="information">"තොරතුරු"</string>
     <string name="menu_create_folder">"නව ෆෝල්ඩරය"</string>
+    <string name="enabled">"සබලයි"</string>
+    <string name="disabled">"අබලයි"</string>
 </resources>

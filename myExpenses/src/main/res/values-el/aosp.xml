@@ -147,4 +147,6 @@
     <string name="delimiter_comma">"Κόμμα"</string>
     <string name="delimiter_semicolon">"Άνω τελεία"</string>
     <string name="delimiter_tab">"Στηλοθέτης"</string>
+    <string name="enabled">"Ενεργή"</string>
+    <string name="disabled">"Ανενεργή"</string>
 </resources>

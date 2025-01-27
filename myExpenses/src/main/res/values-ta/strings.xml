@@ -246,8 +246,6 @@
     <string name="pref_category_title_manage">நிர்வகி</string>
     <string name="pref_category_title_more_information">மேலும் தகவல்</string>
     <string name="pref_category_title_ui">பயனர் இடைமுகம்</string>
-    <string name="pref_checkbox_enabled">இயக்கப்பட்டது</string>
-    <string name="pref_checkbox_disabled">முடக்கப்பட்டது</string>
     <string name="pref_contrib_purchase_title_upgrade">திறவுகோலை மேம்படுத்துதல்</string>
     <string name="pref_custom_currency_title">நாணயங்களைத் தனி விருப்பமாக்குதல்</string>
     <string name="pref_enter_licence_title">திறவுகோலை உள்ளிடவும்</string>

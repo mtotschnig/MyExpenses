@@ -60,4 +60,6 @@
     <string name="no_matches_found">Hech nima topilmadi</string>
     <string name="information">"Axborot"</string>
     <string name="menu_create_folder">"Yangi jild"</string>
+    <string name="enabled">"Yoniq"</string>
+    <string name="disabled">"Oʻchiq"</string>
 </resources>

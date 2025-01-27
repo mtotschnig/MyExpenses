@@ -233,8 +233,6 @@
     <string name="pref_category_title_manage">Gestionează</string>
     <string name="pref_category_title_more_information">Mai multe informaţii</string>
     <string name="pref_category_title_ui">Interfaţa utilizator</string>
-    <string name="pref_checkbox_enabled">Activat</string>
-    <string name="pref_checkbox_disabled">Dezactivat</string>
     <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
     <string name="pref_custom_currency_title">Personalizează valutele</string>
     <string name="pref_enter_licence_title">Introduceţi cheia</string>

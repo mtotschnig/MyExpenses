@@ -249,8 +249,6 @@
     <string name="pref_category_title_manage">Gestion</string>
     <string name="pref_category_title_more_information">Plus d\'information</string>
     <string name="pref_category_title_ui">Interface utilisateur</string>
-    <string name="pref_checkbox_enabled">Activé</string>
-    <string name="pref_checkbox_disabled">Désactivé</string>
     <string name="pref_contrib_purchase_title_upgrade">Mettre la clé à niveau</string>
     <string name="pref_custom_currency_title">Personnaliser les devises</string>
     <string name="pref_enter_licence_title">Saisir la clé</string>

@@ -59,4 +59,6 @@
     <string name="apply">"အသုံးပြုရန်"</string>
     <string name="information">"အချက်အလက်"</string>
     <string name="menu_create_folder">"ဖိုင်တွဲအသစ်"</string>
+    <string name="enabled">"ဖွင့်ထားသည်"</string>
+    <string name="disabled">"ပိတ်ထားသည်"</string>
 </resources>

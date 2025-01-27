@@ -217,8 +217,6 @@
     <string name="pref_category_title_manage">Upravljaj</string>
     <string name="pref_category_title_more_information">VIše informacija</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
-    <string name="pref_checkbox_enabled">Aktivirano</string>
-    <string name="pref_checkbox_disabled">Deaktivirano</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
     <string name="pref_enter_licence_title">Upiši ključ</string>
     <string name="pref_export_format_title">Format podataka</string>

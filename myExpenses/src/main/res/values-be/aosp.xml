@@ -60,4 +60,6 @@
     <string name="no_matches_found">Супадзенні не знойдзены</string>
     <string name="information">"Інфармацыя"</string>
     <string name="menu_create_folder">"Новая папка"</string>
+    <string name="enabled">"Уключана"</string>
+    <string name="disabled">"Выключана"</string>
 </resources>

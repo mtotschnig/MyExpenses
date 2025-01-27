@@ -217,8 +217,6 @@
     <string name="pref_category_title_manage">مدیریت</string>
     <string name="pref_category_title_more_information">اطلاعات بیشتر</string>
     <string name="pref_category_title_ui">رابط کاربری</string>
-    <string name="pref_checkbox_enabled">فعال شد</string>
-    <string name="pref_checkbox_disabled">غیرفعال شد</string>
     <string name="pref_contrib_purchase_title_upgrade">کلید ارتقاء</string>
     <string name="pref_custom_currency_title">سفارشی‌سازی واحد پول</string>
     <string name="pref_enter_licence_title">کلید را وارد کنید</string>

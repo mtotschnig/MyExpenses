@@ -145,4 +145,6 @@
     <string name="delimiter_comma">"Koma"</string>
     <string name="delimiter_semicolon">"Puntu eta koma"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"Gaituta"</string>
+    <string name="disabled">"Desgaituta"</string>
 </resources>

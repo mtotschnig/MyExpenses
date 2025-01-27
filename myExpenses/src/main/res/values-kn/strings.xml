@@ -245,8 +245,6 @@
     <string name="pref_category_title_manage">ನಿರ್ವಹಿಸು</string>
     <string name="pref_category_title_more_information">ಹೆಚ್ಚಿನ ಮಾಹಿತಿ</string>
     <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
-    <string name="pref_checkbox_enabled">ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-    <string name="pref_checkbox_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
     <string name="pref_contrib_purchase_title_upgrade">ಕೀಲಿಯನ್ನು ನವೀಕರಿಸಿ</string>
     <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
     <string name="pref_enter_licence_title">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>

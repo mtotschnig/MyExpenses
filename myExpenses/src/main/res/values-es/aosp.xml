@@ -148,4 +148,6 @@
     <string name="delimiter_comma">"Coma"</string>
     <string name="delimiter_semicolon">"Punto y coma"</string>
     <string name="delimiter_tab">"Tabulador"</string>
+    <string name="enabled">"Habilitado"</string>
+    <string name="disabled">"Inhabilitado"</string>
 </resources>

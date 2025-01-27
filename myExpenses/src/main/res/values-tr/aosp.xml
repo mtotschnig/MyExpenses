@@ -146,4 +146,6 @@
     <string name="delimiter_comma">"Virgül"</string>
     <string name="delimiter_semicolon">"Noktalı virgül"</string>
     <string name="delimiter_tab">"Sekme"</string>
+    <string name="enabled">"Etkin"</string>
+    <string name="disabled">"Devre dışı"</string>
 </resources>

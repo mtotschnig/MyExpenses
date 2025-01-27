@@ -144,4 +144,6 @@
     <string name="delimiter_comma">"逗號"</string>
     <string name="delimiter_semicolon">"分號"</string>
     <string name="delimiter_tab">"定位鍵"</string>
+    <string name="enabled">"已啟用"</string>
+    <string name="disabled">"已停用"</string>
 </resources>

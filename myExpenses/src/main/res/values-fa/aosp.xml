@@ -63,4 +63,6 @@
     <string name="does_not_contain">"شامل نباشد"</string>
     <string name="information">"اطلاعات"</string>
     <string name="menu_create_folder">"پوشهٔ جدید"</string>
+    <string name="enabled">"فعال"</string>
+    <string name="disabled">"غیرفعال"</string>
 </resources>

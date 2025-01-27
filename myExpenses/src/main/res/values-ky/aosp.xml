@@ -47,4 +47,6 @@
     <string name="apply">"Колдонуу"</string>
     <string name="information">"Маалымат"</string>
     <string name="menu_create_folder">"Жаңы папка"</string>
+    <string name="enabled">"Күйүк"</string>
+    <string name="disabled">"Өчүк"</string>
 </resources>

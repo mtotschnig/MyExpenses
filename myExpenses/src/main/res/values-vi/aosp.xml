@@ -142,4 +142,6 @@
     <string name="delimiter_comma">"Dấu phẩy"</string>
     <string name="delimiter_semicolon">"Dấu chấm phẩy"</string>
     <string name="delimiter_tab">"Khoảng Tab"</string>
+    <string name="enabled">"Đã bật"</string>
+    <string name="disabled">"Đã tắt"</string>
 </resources>

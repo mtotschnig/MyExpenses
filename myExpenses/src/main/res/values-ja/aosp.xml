@@ -145,4 +145,6 @@
     <string name="delimiter_comma">"コンマ"</string>
     <string name="delimiter_semicolon">"セミコロン"</string>
     <string name="delimiter_tab">"タブ"</string>
+    <string name="enabled">"有効"</string>
+    <string name="disabled">"無効"</string>
 </resources>

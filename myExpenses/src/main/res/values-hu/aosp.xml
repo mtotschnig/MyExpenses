@@ -149,4 +149,6 @@
     <string name="delimiter_comma">"Vessző"</string>
     <string name="delimiter_semicolon">"Pontosvessző"</string>
     <string name="delimiter_tab">"Tabulátor"</string>
+    <string name="enabled">"Engedélyezve"</string>
+    <string name="disabled">"Letiltva"</string>
 </resources>

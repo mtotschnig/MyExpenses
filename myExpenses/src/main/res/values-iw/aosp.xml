@@ -139,4 +139,6 @@
     <string name="delimiter_comma">"Comma"</string>
     <string name="delimiter_semicolon">"Semicolon"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"מופעלת"</string>
+    <string name="disabled">"מושבתת"</string>
 </resources>

@@ -51,4 +51,6 @@
     <string name="apply">"Tumia"</string>
     <string name="information">"Maelezo"</string>
     <string name="menu_create_folder">"Folda mpya"</string>
+    <string name="enabled">"Imewashwa"</string>
+    <string name="disabled">"Imezimwa"</string>
 </resources>

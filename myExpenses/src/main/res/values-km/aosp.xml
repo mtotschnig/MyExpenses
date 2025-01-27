@@ -131,4 +131,6 @@
     <string name="delimiter_comma">"សញ្ញា​​ក្បៀស"</string>
     <string name="delimiter_semicolon">"សញ្ញា​ចំណុច​ក្បៀស"</string>
     <string name="delimiter_tab">"ថេប"</string>
+    <string name="enabled">"បាន​បើក"</string>
+    <string name="disabled">"បាន​បិទ"</string>
 </resources>

@@ -76,4 +76,6 @@
     <string name="no_matches_found">Geen resultate gevind nie</string>
     <string name="information">"Inligting"</string>
     <string name="menu_create_folder">"Nuwe vouer"</string>
+    <string name="enabled">"Geaktiveer"</string>
+    <string name="disabled">"Gedeaktiveer"</string>
 </resources>

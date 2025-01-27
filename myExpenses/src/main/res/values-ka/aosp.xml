@@ -71,4 +71,6 @@
     <string name="delimiter_comma">"მძიმე"</string>
     <string name="delimiter_semicolon">"წერტილ-მძიმე"</string>
     <string name="delimiter_tab">"ჩანართი"</string>
+    <string name="enabled">"ჩართულია"</string>
+    <string name="disabled">"გათიშულია"</string>
 </resources>

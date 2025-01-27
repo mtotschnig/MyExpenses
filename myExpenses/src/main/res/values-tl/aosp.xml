@@ -51,4 +51,6 @@
     <string name="apply">"Ilapat"</string>
     <string name="information">"Impormasyon"</string>
     <string name="menu_create_folder">"Bagong folder"</string>
+    <string name="enabled">"Naka-enable"</string>
+    <string name="disabled">"Naka-disable"</string>
 </resources>

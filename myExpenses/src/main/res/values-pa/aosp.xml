@@ -50,4 +50,6 @@
     <string name="no_matches_found">ਕੋਈ ਮੇਲ ਨਹੀਂ ਲੱਭਿਆ</string>
     <string name="information">"ਜਾਣਕਾਰੀ"</string>
     <string name="menu_create_folder">"ਨਵਾਂ ਫੋਲਡਰ"</string>
+    <string name="enabled">"ਚਾਲੂ ਕੀਤਾ ਗਿਆ"</string>
+    <string name="disabled">"ਬੰਦ ਕੀਤਾ ਗਿਆ"</string>
 </resources>

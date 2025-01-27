@@ -347,8 +347,6 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Amb la vostra llicència actual (%1$s), aquest diàleg es mostrarà a cada ús.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Siusplau, preneu-vos un segon per enviar-nos suggeriments de millora.</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dades des de widget o drecera</string>
-    <string name="pref_checkbox_enabled">Activat</string>
-    <string name="pref_checkbox_disabled">Desactivat</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No es pot fusionar amb el compte existent.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autoritzar sense contrasenya.</string>
     <string name="menu_balance">Conciliar compte</string>

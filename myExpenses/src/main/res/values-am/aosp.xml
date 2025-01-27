@@ -75,4 +75,6 @@
     <string name="delimiter_comma">"ኮማ"</string>
     <string name="delimiter_semicolon">"ሴሚኮለን"</string>
     <string name="delimiter_tab">"ማስረጊያ"</string>
+    <string name="enabled">"ነቅቷል"</string>
+    <string name="disabled">"ተሰናክሏል"</string>
 </resources>

@@ -246,8 +246,6 @@
     <string name="pref_category_title_manage">Zarządzaj</string>
     <string name="pref_category_title_more_information">Więcej informacji</string>
     <string name="pref_category_title_ui">Interfejs użytkownika</string>
-    <string name="pref_checkbox_enabled">Włączone</string>
-    <string name="pref_checkbox_disabled">Wyłączone</string>
     <string name="pref_contrib_purchase_title_upgrade">Klucz aktualizacji</string>
     <string name="pref_custom_currency_title">Dostosuj waluty</string>
     <string name="pref_enter_licence_title">Wprowadź klucz</string>

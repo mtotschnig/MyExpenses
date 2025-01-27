@@ -65,4 +65,6 @@
     <string name="delimiter_comma">"~Presje"</string>
     <string name="delimiter_semicolon">"Gabim: Pikëpresje e pavlefshme"</string>
     <string name="delimiter_tab">"Tab"</string>
+    <string name="enabled">"Aktiv"</string>
+    <string name="disabled">"Joaktiv"</string>
 </resources>

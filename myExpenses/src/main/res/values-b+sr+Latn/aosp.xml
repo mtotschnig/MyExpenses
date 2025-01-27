@@ -53,4 +53,6 @@
     <string name="apply">"Primeni"</string>
     <string name="information">"Informacije"</string>
     <string name="menu_create_folder">"Novi folder"</string>
+    <string name="enabled">"Omogućeno"</string>
+    <string name="disabled">"Onemogućeno"</string>
 </resources>

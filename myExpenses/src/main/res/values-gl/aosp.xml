@@ -80,4 +80,6 @@
     <string name="delimiter_comma">"Coma"</string>
     <string name="delimiter_semicolon">"Punto e coma"</string>
     <string name="delimiter_tab">"Tabulación"</string>
+    <string name="enabled">"Activouse"</string>
+    <string name="disabled">"Desactivouse"</string>
 </resources>

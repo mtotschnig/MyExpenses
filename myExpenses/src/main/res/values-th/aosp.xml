@@ -78,4 +78,6 @@
     <string name="no_matches_found">ไม่พบที่ตรงกัน</string>
     <string name="information">"ข้อมูล"</string>
     <string name="menu_create_folder">"โฟลเดอร์ใหม่"</string>
+    <string name="enabled">"เปิดใช้"</string>
+    <string name="disabled">"ปิดใช้"</string>
 </resources>

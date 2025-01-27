@@ -64,4 +64,6 @@
     <string name="delimiter_comma">"अल्पविराम"</string>
     <string name="delimiter_semicolon">"अर्धविराम"</string>
     <string name="delimiter_tab">"ट्याब"</string>
+    <string name="enabled">"सक्षम पारिएको छ"</string>
+    <string name="disabled">"असक्षम पारिएको छ"</string>
 </resources>

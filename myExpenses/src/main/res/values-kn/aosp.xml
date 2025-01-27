@@ -127,4 +127,6 @@
     <string name="add_filter">"ಫಿಲ್ಟರ್ ಅನ್ನು ಸೇರಿಸು"</string>
     <string name="information">"ಮಾಹಿತಿ"</string>
     <string name="menu_create_folder">"ಹೊಸ ಫೋಲ್ಡರ್"</string>
+    <string name="enabled">"ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
+    <string name="disabled">"ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
 </resources>
