@@ -987,4 +987,6 @@
     <string name="budget_import_can_be_imported">Folgende Budgets können importiert werden:</string>
     <string name="budget_import_cannot_be_imported">Die folgenden Budgets beziehen sich auf Konten, die nicht synchronisiert sind:</string>
     <string name="budget_import_none_found">Keine Budgets gefunden.</string>
+    <string name="pref_sync_frequency_summary_0">Setzen Sie diesen Wert auf 0, um die automatische Synchronisierung zu deaktivieren.</string>
+    <string name="webui_download_no_data">Nach dem Drucken, Exportieren oder Erstellen von Backups in der App stehen die Dateien hier zum Download bereit.</string>
 </resources>

@@ -1000,4 +1000,6 @@
     <string name="warning_budget_sync_import">La configuration de ce budget sera importée depuis le backend de synchronisation. Tous les changements locaux seront perdus.</string>
     <string name="budget_import_can_be_imported">Les budgets suivants peuvent être importés :</string>
     <string name="budget_import_none_found">Aucun budget trouvé.</string>
+    <string name="pref_sync_frequency_summary_0">Réglez sur 0 afin de désactiver la synchronisation automatique.</string>
+    <string name="webui_download_no_data">Après avoir imprimé, exporté ou créé des sauvegardes dans l\'application, les fichiers seront disponibles à partir d\'ici pour téléchargement.</string>
 </resources>
