@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.util
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.text.format.Formatter
+import androidx.annotation.WorkerThread
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
@@ -16,18 +18,32 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Result
 
+data class FileInfo(val name: String, val size: Long) {
+    fun format(context: Context) = "$name (${Formatter.formatFileSize(context, size)})"
+}
+
 object AppDirHelper {
     /**
      * @return the directory user has configured in the settings, if not configured yet
      * returns [android.content.ContextWrapper.getExternalFilesDir] with argument null
      */
-    @JvmStatic
     fun getAppDir(context: Context): Result<DocumentFile> =
         getAppDirFromPref(context).mapCatching {
             it ?: getDefaultAppDir(context)
         }.onFailure { CrashHandler.report(it) }
 
-    fun getAppDirLegacy(context: Context) = getAppDir(context).getOrNull()
+    @WorkerThread
+    fun getAppDirFiles(context: Context): Result<List<FileInfo>> = getAppDir(context).map {
+        it.listFiles()
+            .filter { (it.length() > 0) && !it.isDirectory }
+            .mapNotNull { file ->
+                file.name?.let {
+                    Triple(it, file.length(), file.lastModified())
+                }
+            }
+            .sortedByDescending { it.third }
+            .map { FileInfo(it.first, it.second) }
+    }
 
     fun getAppDirWithDefault(context: Context): Result<Pair<DocumentFile, Boolean>> =
         getAppDirFromPref(context).mapCatching {

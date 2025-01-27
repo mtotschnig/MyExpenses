@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+          line-height: 1.6;
+        }
+        .container {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 20px;
+        }
+        .card {
+          border: 1px solid #ddd;
+          border-radius: 10px;
+          padding: 10px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s;
+        }
+        .card:hover {
+          transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="dataContainer"></div>
+
+<p id="emptyState" class="empty-state" style="display: none;">${no_results}</p>
+
+<template id="cardTemplate">
+    <div class="card">
+        <a class="file"></a>
+    </div>
+</template>
+
+<script>
+    // Data array
+    const data = ${data};
+
+    // References
+    const container = document.getElementById("dataContainer");
+    const emptyStateMessage = document.getElementById("emptyState");
+    const template = document.getElementById("cardTemplate");
+
+    // Populate the container with data
+
+    if (data.length === 0) {
+        emptyStateMessage.style.display = "block";
+      } else {
+
+    data.forEach(item => {
+      // Clone the template
+      const card = template.content.cloneNode(true);
+
+      // Update the template with data
+      const a = card.querySelector(".file")
+      a.textContent = item.name;
+      a.href = item.link;
+
+      // Append to the container
+      container.appendChild(card);
+    });
+    }
+</script>
+</body>
+</html>

@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.FileInfo
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
@@ -59,8 +60,8 @@ class SettingsViewModel(
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
 
-    private val _appData: MutableLiveData<List<Pair<String, Long>>> = MutableLiveData()
-    val appData: LiveData<List<Pair<String, Long>>> = _appData
+    private val _appData: MutableLiveData<List<FileInfo>> = MutableLiveData()
+    val appData: LiveData<List<FileInfo>> = _appData
 
     val hasStaleImages: Flow<Boolean>
         get() = contentResolver.observeQuery(
@@ -82,18 +83,8 @@ class SettingsViewModel(
 
     fun loadAppData() {
         viewModelScope.launch(coroutineContext()) {
-            AppDirHelper.getAppDir(getApplication()).onSuccess { dir ->
-                _appData.postValue(
-                    dir.listFiles()
-                        .filter { (it.length() > 0) && !it.isDirectory }
-                        .mapNotNull { file ->
-                            file.name?.let {
-                                Triple(it, file.length(), file.lastModified())
-                            }
-                        }
-                        .sortedByDescending { it.third }
-                        .map { it.first to it.second }
-                )
+            AppDirHelper.getAppDirFiles(getApplication()).onSuccess { list ->
+                _appData.postValue(list)
             }
         }
     }

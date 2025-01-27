@@ -39,6 +39,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.routing.routing
+import io.ktor.utils.io.jvm.javaio.toByteReadChannel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.text.StringSubstitutor
@@ -79,6 +80,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.FileInfo
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -300,7 +303,8 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         ${i18nJson("no_expenses", R.string.no_expenses)},
                                         ${i18nJson("webui_warning_move_transaction", R.string.webui_warning_move_transaction)},
                                         ${i18nJson("validate_error_not_empty", R.string.validate_error_not_empty)},
-                                        ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)}
+                                        ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)},
+                                        ${i18nJson("action_download", R.string.action_download)}
                                         };
                                     """.trimIndent(), ContentType.Text.JavaScript
                                         )
@@ -515,6 +519,47 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         get("/transactions") {
             call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
+        }
+
+        get("/download") {
+            val lookup = StringLookup { key ->
+                when (key) {
+                    "data" -> {
+                        gson.toJson(
+                            AppDirHelper
+                                .getAppDirFiles(this@WebInputService)
+                                .getOrThrow()
+                                .map<FileInfo, Map<String, String>> { it ->
+                                    mapOf(
+                                        "name" to it.format(this@WebInputService),
+                                        "link" to "download/${it.name}"
+                                    )
+                                }
+                        )
+                    }
+                    "no_results" -> getString(R.string.webui_download_no_data)
+                    else -> throw IllegalStateException("Unknown substitution key $key")
+                }
+            }
+            val stringSubstitutor = StringSubstitutor(
+                lookup,
+                DEFAULT_PREFIX,
+                DEFAULT_SUFFIX,
+                DEFAULT_ESCAPE
+            )
+            val text = stringSubstitutor.replace(readTextFromAssets("download.html"))
+            call.respondText(text, ContentType.Text.Html)
+        }
+
+        get("/download/{file}") {
+            val appDir = AppDirHelper.getAppDir(this@WebInputService).getOrThrow()
+            val inputStream = contentResolver.openInputStream(
+                appDir.findFile(call.parameters["file"]!!)!!.uri.let {
+                    AppDirHelper.ensureContentUri(it, this@WebInputService)
+                }
+            )!!
+            val channel = inputStream.toByteReadChannel()
+            call.respond(channel)
         }
     }
 

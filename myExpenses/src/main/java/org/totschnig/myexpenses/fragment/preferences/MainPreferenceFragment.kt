@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.Formatter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.*
@@ -18,7 +17,6 @@ import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
-import timber.log.Timber
 import java.util.Locale
 
 class MainPreferenceFragment : BasePreferenceFragment(),
@@ -110,15 +108,8 @@ class MainPreferenceFragment : BasePreferenceFragment(),
                     isVisible = false
                 } else {
                     isVisible = true
-                    entries = it.map {
-                        "${it.first} (${
-                            Formatter.formatFileSize(
-                                requireContext(),
-                                it.second
-                            )
-                        })"
-                    }.toTypedArray()
-                    entryValues = it.map { it.first }.toTypedArray()
+                    entries = it.map { it.format(requireContext()) }.toTypedArray()
+                    entryValues = it.map { it.name }.toTypedArray()
                 }
             }
         }
@@ -164,7 +155,6 @@ class MainPreferenceFragment : BasePreferenceFragment(),
                                 AppDirHelper.ensureContentUri(it, requireContext())
                             }
                         })
-                    Timber.d("ATTACHMENTS" + arrayList.joinToString())
                     putParcelableArrayListExtra(
                         Intent.EXTRA_STREAM,
                         arrayList
@@ -253,7 +243,7 @@ class MainPreferenceFragment : BasePreferenceFragment(),
     private fun pickAppDir(appDirInfo: SettingsViewModel.AppDirInfo?) {
         try {
             pickFolder.launch(appDirInfo?.documentFile?.uri)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             preferenceActivity.showSnackBar(
                 "No activity found for picking application directory."
             )

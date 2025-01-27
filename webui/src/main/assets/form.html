@@ -12,7 +12,7 @@
 
         <link rel="icon" href="/favicon.ico">
 
-        <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+        <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
         <script src="data.js"></script>
         <script src="messages.js"></script>
     </head>
@@ -168,6 +168,7 @@
                     </div>
 
                     <div class="relative">
+                        <a class="absolute bottom-0 left-0" href="download" x-text="messages.action_download">Download</a>
                         <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
                                 type="button" :disabled="amount == ''" @click="submitForm"><span
                                 x-text="messages.menu_save"></span><br>
