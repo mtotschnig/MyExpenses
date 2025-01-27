@@ -521,7 +521,7 @@ WITH now as (
                   ) * $KEY_AMOUNT
                 ELSE $KEY_EQUIVALENT_AMOUNT
             END,
-            coalesce($KEY_EXCHANGE_RATE, 1) * amount
+            coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
         ) AS $KEY_EQUIVALENT_AMOUNT,
         $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
     FROM ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
