@@ -27,7 +27,6 @@ abstract class NotifyingBaseWorker(context: Context, workerParameters: WorkerPar
     private val notificationTitle: String
         get() = TextUtils.concatResStrings(
             wrappedContext,
-            " ",
             R.string.app_name,
             notificationTitleResId
         )

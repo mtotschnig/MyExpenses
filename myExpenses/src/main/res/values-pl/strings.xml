@@ -503,7 +503,7 @@
     <string name="menu_sync_unlink">Zatrzymaj synchronizację</string>
     <string name="menu_sync_link">Uruchom synchronizację</string>
     <string name="menu_sync_download">Pobierz i synchronizuj</string>
-    <string name="pref_sync_frequency_summary">Jak często dane powinny być synchronizowane (w godzinach)</string>
+    <string name="pref_sync_frequency_summary">Jak często dane powinny być synchronizowane (w godzinach).</string>
     <string name="dialog_confirm_sync_unlink">Jeśli odłączysz to konto od %s, status synchronizacji zostanie utracony. Ponowne połączenie ich później wymaga ponownego wykonania pełnej synchronizacji.</string>
     <string name="dialog_sync_link">Konto z uuid %s istnieje zarówno w lokalnej bazie danych, jak i na zdalnym zapleczu. Po połączeniu obydwu musisz zdecydować, czy na początku chcesz przesłać dane lokalne do zdalnego serwera lub pobrać zdalne dane do lokalnej bazy danych.</string>
     <string name="dialog_command_sync_link_remote">Pobierz zdalnie</string>

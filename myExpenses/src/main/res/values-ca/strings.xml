@@ -411,7 +411,7 @@
     <string name="validate_error_webdav_404">L\'URL no existeix al servidor.</string>
     <string name="url_not_valid">ULR invàlida</string>
     <string name="menu_sync_download">Descarrega i sincronitza</string>
-    <string name="pref_sync_frequency_summary">Cada quant s\'han de sincronitzar les dades (en hores)</string>
+    <string name="pref_sync_frequency_summary">Cada quant s\'han de sincronitzar les dades (en hores).</string>
     <string name="dialog_command_sync_link_remote">Descarrega del remot</string>
     <string name="dialog_confirm_sync_link_local">Les dades remotes d\'aquest compte s\'eliminaran. Assegureu-vos que no hi ha connectats altres dispostius.</string>
     <string name="progress_dialog_checking_sync_backend">Verificant sistema de servei</string>

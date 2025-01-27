@@ -43,7 +43,6 @@ class PreferenceDataFragment: BasePreferenceFragment() {
                     getString(R.string.information),
                     TextUtils.concatResStrings(
                         requireContext(),
-                        " ",
                         R.string.home_currency_change_warning,
                         R.string.continue_confirmation
                     ),

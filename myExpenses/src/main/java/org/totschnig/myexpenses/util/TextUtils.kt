@@ -22,6 +22,10 @@ object TextUtils {
         EnumSet.allOf(enumClass).joinToString(",") { "'${it.name}'" }
 
     @JvmStatic
+    fun concatResStrings(ctx: Context, vararg resIds: Int): String =
+        concatResStrings(ctx, " ", *resIds)
+
+    @JvmStatic
     fun concatResStrings(ctx: Context, separator: String, vararg resIds: Int): String =
         resIds.joinToString(separator) { ctx.getString(it) }
 

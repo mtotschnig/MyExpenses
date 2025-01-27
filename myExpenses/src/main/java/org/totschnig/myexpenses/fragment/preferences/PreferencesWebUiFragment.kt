@@ -70,7 +70,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
                         )
                         putString(
                             ConfirmationDialogFragment.KEY_MESSAGE,
-                            TextUtils.concatResStrings(requireContext(), " ", R.string.wifi_not_connected, R.string.continue_confirmation)
+                            TextUtils.concatResStrings(requireContext(), R.string.wifi_not_connected, R.string.continue_confirmation)
                         )
                         putInt(
                             ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,

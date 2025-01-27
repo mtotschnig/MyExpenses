@@ -525,7 +525,7 @@
     <string name="crash_dialog_comment_prompt">Puteți adăuga comentariile dvs. despre problemă mai jos:</string>
     <string name="description_webdav_trust_certificate">Site-ul web utilizează un certificat, care nu este de încredere pentru Android.</string>
     <string name="validate_error_webdav_invalid_certificate">Nu se putea avea încredere în certificat. Pare invalid.</string>
-    <string name="pref_sync_frequency_summary">Cât de des trebuie sincronizate datele (în ore)</string>
+    <string name="pref_sync_frequency_summary">Cât de des trebuie sincronizate datele (în ore).</string>
     <string name="dialog_sync_link">Un cont cu uuid %s există atât în baza de date locală, cât și pe backend-ul de la distanță. Când le conectați pe ambele, trebuie să decideți dacă, inițial, doriți să încărcați date locale în backend-ul de la distanță sau să descărcați date de la distanță în baza de date locală.</string>
     <string name="dialog_command_sync_link_remote">Descărcați de la distanță</string>
     <string name="validate_error_not_empty">Nu trebuie să fie goală</string>

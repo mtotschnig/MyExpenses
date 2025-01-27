@@ -492,7 +492,7 @@
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">开始同步</string>
     <string name="menu_sync_download">下载并同步</string>
-    <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）</string>
+    <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）。</string>
     <string name="dialog_confirm_sync_unlink">如果您将该账户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>
     <string name="dialog_sync_link">具有通用唯一识别码UUID %s的账户在本地数据库和远程后端中都存在的情况下。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
     <string name="dialog_command_sync_link_remote">从远程下载</string>

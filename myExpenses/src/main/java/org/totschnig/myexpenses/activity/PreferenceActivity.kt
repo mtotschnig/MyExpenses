@@ -258,7 +258,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
 
             getKey(PrefKey.SYNC_FREQUCENCY) ->
                 for (account in GenericAccountService.getAccounts(this)) {
-                    GenericAccountService.addPeriodicSync(account, prefHandler)
+                    GenericAccountService.configureAutomaticAndPeriod(account, prefHandler)
                 }
 
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {

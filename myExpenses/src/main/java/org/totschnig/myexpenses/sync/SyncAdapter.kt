@@ -102,7 +102,7 @@ class SyncAdapter @JvmOverloads constructor(
         if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
             !isConnectedWifi(context)
         ) {
-            val message = concatResStrings(context, " ", R.string.wifi_not_connected, R.string.synchronization_postponed)
+            val message = concatResStrings(context, R.string.wifi_not_connected, R.string.synchronization_postponed)
             log().i(message)
             if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
                 maybeNotifyUser(notificationTitle, message, account)
@@ -144,7 +144,6 @@ class SyncAdapter @JvmOverloads constructor(
                         appendToNotification(
                             concatResStrings(
                                 context,
-                                " ",
                                 R.string.sync_io_error_cannot_connect,
                                 R.string.sync_error_will_try_again_later
                             ), account, true
@@ -751,7 +750,7 @@ class SyncAdapter @JvmOverloads constructor(
     }
 
     private val notificationTitle: String
-        get() = concatResStrings(context, " ", R.string.app_name, R.string.synchronization)
+        get() = concatResStrings(context, R.string.app_name, R.string.synchronization)
 
     @Throws(RemoteException::class)
     private fun getLocalChanges(

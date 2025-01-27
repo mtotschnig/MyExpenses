@@ -44,7 +44,6 @@ internal class TextUtilsTest {
         assertThat(
             concatResStrings(
                 ctx,
-                " ",
                 R.string.Main_1,
                 R.string.Main_2
             )

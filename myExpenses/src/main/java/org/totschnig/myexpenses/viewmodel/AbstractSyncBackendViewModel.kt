@@ -71,7 +71,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                 ) {
                     throw Exception(
                         TextUtils.concatResStrings(
-                            getApplication(), " ",
+                            getApplication(),
                             R.string.link_account_failure_2, R.string.link_account_failure_3
                         )
                                 + "(" + TextUtils.concatResStrings(

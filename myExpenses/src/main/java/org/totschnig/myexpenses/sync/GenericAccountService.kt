@@ -274,16 +274,25 @@ class GenericAccountService : Service() {
         }
 
         private fun activateSync(account: Account, prefHandler: PrefHandler) {
-            ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true)
             ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1)
-            addPeriodicSync(account, prefHandler)
+            configureAutomaticAndPeriod(account, prefHandler)
         }
 
-        fun addPeriodicSync(account: Account, prefHandler: PrefHandler) {
-            ContentResolver.addPeriodicSync(
-                account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-                getSyncFrequency(prefHandler)
-            )
+        fun configureAutomaticAndPeriod(account: Account, prefHandler: PrefHandler) {
+            val pollFrequency = getSyncFrequency(prefHandler)
+            ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, pollFrequency > 0)
+            if (pollFrequency > 0) {
+                ContentResolver.addPeriodicSync(
+                    account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+                    pollFrequency
+                )
+            } else {
+                ContentResolver.removePeriodicSync(
+                    account,
+                    TransactionProvider.AUTHORITY,
+                    Bundle.EMPTY
+                )
+            }
         }
 
         private fun getSyncFrequency(prefHandler: PrefHandler) =

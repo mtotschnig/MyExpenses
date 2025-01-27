@@ -499,7 +499,7 @@
     <string name="menu_sync_unlink">Synchronisierung stoppen</string>
     <string name="menu_sync_link">Synchronisierung starten</string>
     <string name="menu_sync_download">Herunterladen und synchronisieren</string>
-    <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden)</string>
+    <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden).</string>
     <string name="dialog_confirm_sync_unlink">Wenn Sie dieses Konto von %s entkoppeln, geht der Status der Synchronisierung verloren. Wenn Sie die Verknüpfung später wiederherstellen, erfordert dies eine erneute vollständige Synchronisierung.</string>
     <string name="dialog_sync_link">Ein Konto mit UUID %s existiert sowohl in der lokalen Datenbank als auch auf dem entfernten Backend. Wenn Sie beide verknüpfen, müssen Sie entscheiden, ob zunächst lokale Daten auf das Backend hochgeladen werden sollen, oder entfernte Daten in die lokale Datenbank geschrieben werden sollen.</string>
     <string name="dialog_command_sync_link_remote">Herunterladen von Entfernt</string>

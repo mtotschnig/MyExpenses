@@ -238,7 +238,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
             binding.githubExtraInfo.isVisible = true
             binding.githubExtraInfo.text = concatResStrings(
                 requireActivity(),
-                " ", R.string.professional_key_fallback_info, R.string.eu_vat_info
+                R.string.professional_key_fallback_info, R.string.eu_vat_info
             )
             binding.githubSponsors.isVisible = true
             binding.githubSponsors.text = HtmlCompat.fromHtml(

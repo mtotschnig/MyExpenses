@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.localizedQuote
 
 @Keep
@@ -34,5 +35,7 @@ class PreferencesSyncFragment : BasePreferenceFragment() {
                 R.string.pref_sync_now_all_summary,
                 preferenceActivity.localizedQuote(getString(R.string.menu_sync_now))
             )
+        requirePreference<Preference>(PrefKey.SYNC_FREQUCENCY).summary =
+            TextUtils.concatResStrings(requireContext(), R.string.pref_sync_frequency_summary, R.string.pref_sync_frequency_summary_0)
     }
 }

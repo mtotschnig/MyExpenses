@@ -511,7 +511,7 @@
     <string name="menu_sync_unlink">Остановить синхронизацию</string>
     <string name="menu_sync_link">Начать синхронизацию</string>
     <string name="menu_sync_download">Скачать и синхронизировать</string>
-    <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
+    <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах).</string>
     <string name="dialog_confirm_sync_unlink">Если вы отсоедините этот счет от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
     <string name="dialog_sync_link">Счет с uuid %s существует как в локальной базе данных, так и на удаленном сервере. Когда вы свяжете оба, вам нужно решить, сначала Вы хотите загрузить локальные данные на удаленный сервер, или загрузить удаленные данные в локальную базу данных.</string>
     <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>

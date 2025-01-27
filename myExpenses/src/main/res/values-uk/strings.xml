@@ -500,7 +500,7 @@
     <string name="menu_sync_unlink">Зупинити синхронізацію</string>
     <string name="menu_sync_link">Почати синхронізацію</string>
     <string name="menu_sync_download">Завантажити та синхронізувати</string>
-    <string name="pref_sync_frequency_summary">Як часто потрібно синхронізувати дані (у годинах)</string>
+    <string name="pref_sync_frequency_summary">Як часто потрібно синхронізувати дані (у годинах).</string>
     <string name="dialog_confirm_sync_unlink">Якщо ви відв\'яжете цей рахунок від %s, статус синхронізації втратиться. Зв\'завши їх знову пізніше, потрібно буде ще раз виконати повну синхронізацію.</string>
     <string name="dialog_sync_link">Рахунок з uuid %s існує як у локальній базі даних, так і на віддаленому сервері. Коли ви зв\'яжете обидва, вам потрібно вирішити, чи спочатку Ви хочете завантажити локальні дані на віддалений сервер, чи завантажити віддалені дані до локальної бази даних.</string>
     <string name="dialog_command_sync_link_remote">Завантажити з віддаленого сервера</string>

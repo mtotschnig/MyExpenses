@@ -489,7 +489,7 @@
     <string name="menu_sync_unlink">同期を停止</string>
     <string name="menu_sync_link">同期を開始</string>
     <string name="menu_sync_download">ダウンロードと同期</string>
-    <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)</string>
+    <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)。</string>
     <string name="dialog_confirm_sync_unlink">%s からこのアカウントのリンクを解除すると、同期ステータスが失われます。 後で再度リンクするには、完全な同期を再度実行する必要があります。</string>
     <string name="dialog_sync_link">uuid %s のアカウントが、ローカルデータベースとリモートバックエンドの両方に存在します。 両方をリンクするときは、最初にローカルデータをリモートバックエンドにアップロードするか、リモートデータをローカルデータベースにダウンロードするかどうかを決定する必要があります。</string>
     <string name="dialog_command_sync_link_remote">リモートからダウンロード</string>

@@ -494,8 +494,7 @@
     <string name="menu_sync_unlink">Gelditu sinkronizazioa</string>
     <string name="menu_sync_link">Hasi sinkronizazioa</string>
     <string name="menu_sync_download">Deskargatu eta sinkronizatu</string>
-    <string name="pref_sync_frequency_summary">Zenbat orduetan behin sinkronizatu behar litzateke datuak
-</string>
+    <string name="pref_sync_frequency_summary">Zenbat orduetan behin sinkronizatu behar litzateke datuak.</string>
     <string name="dialog_confirm_sync_unlink">Kontu hau %s-(e)tik desestekatzen baduzu, sinkronizazioaren egoera galdu egingo da. Beraiek aurrerago berriro estekatzeko sinkronizazio oso bat exekutatu beharko da berriro.</string>
     <string name="dialog_sync_link">%s UUIDa duen kontu bat datu-base lokalean eta urruneko atzealdekoan dago. Biak estekatzen dituzunean, erabaki beharko duzu hasieran datu lokalak urruneko atzealdekora kargatu edo urruneko datuak datu-base lokalera deskargatu nahi dituzun.</string>
     <string name="dialog_command_sync_link_remote">Deskargatu urruneko helbidetik</string>

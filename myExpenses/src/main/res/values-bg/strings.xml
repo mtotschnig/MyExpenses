@@ -499,7 +499,7 @@
     <string name="menu_sync_unlink">Спри синхронизирането</string>
     <string name="menu_sync_link">Започни синхронизиране</string>
     <string name="menu_sync_download">Зареждане и синхронизиране</string>
-    <string name="pref_sync_frequency_summary">Колко често да се синхронизират данните (в часове)</string>
+    <string name="pref_sync_frequency_summary">Колко често да се синхронизират данните (в часове).</string>
     <string name="dialog_confirm_sync_unlink">Ако развържете тази сметка от %s, ще се загуби състоянието на синхронизиране. При последващо ново свързване ще трябва да се извърши пълно синхронизиране.</string>
     <string name="dialog_sync_link">Сметката %s съществува и в локалната и в отдалечената бази от данни. Когато ги свържете ще трябва да решите дали първоначално да се пренесат локалните данни в отдалечената база или да се заредят данните от отдалечената в локалната.</string>
     <string name="dialog_command_sync_link_remote">Зареди от отдалечената</string>

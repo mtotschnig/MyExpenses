@@ -369,7 +369,7 @@
     <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
     <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
     <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
-    <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت)</string>
+    <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت).</string>
     <string name="dialog_confirm_sync_link_remote">داده‌های محلی این حساب حذف خواهند شد.</string>
     <string name="warning_trial_limit_reached">دورهٔ امتحانی تست کردن ویژگی %s تمام شده‌است.</string>
     <string name="template">قالب</string>

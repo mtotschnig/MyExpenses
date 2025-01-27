@@ -484,7 +484,7 @@
     <string name="menu_sync_unlink">Dừng đồng bộ hóa</string>
     <string name="menu_sync_link">Bắt đầu đồng bộ hóa</string>
     <string name="menu_sync_download">Tải xuống và đồng bộ hóa</string>
-    <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ</string>
+    <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ.</string>
     <string name="dialog_confirm_sync_unlink">Nếu bạn bỏ liên kết từ tài khoản này tới %s, việc đồng bộ hoá sẽ bị ngưng. Việc liên kết lại chúng yêu cầu thực hiện một lần đồng bộ hoá đầy đủ.</string>
     <string name="dialog_sync_link">Một tài khoản với UUID %s tồn tại cả ở trong cơ sở dữ liệu nội bộ và ở backend từ xa. Khi bạn liên kết cả hai, bạn cần quyết định rằng có muốn tải lên dữ liệu trong máy tới backend từ xa hay là tải dữ liệu từ bên ngoài vào CSDL trong máy.</string>
     <string name="dialog_command_sync_link_remote">Tải xuống từ bên ng</string>

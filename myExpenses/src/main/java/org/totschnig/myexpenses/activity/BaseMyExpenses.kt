@@ -2347,7 +2347,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         if (sealedDebt) {
             resIds.add(R.string.object_sealed_debt)
         }
-        showSnackBar(TextUtils.concatResStrings(this, " ", *resIds.toIntArray()))
+        showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
     }
 
     private fun doReset() {

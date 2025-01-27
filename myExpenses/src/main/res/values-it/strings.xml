@@ -504,7 +504,7 @@
     <string name="menu_sync_unlink">Interrompere la sincronizzazione</string>
     <string name="menu_sync_link">Avviare la sincronizzazione</string>
     <string name="menu_sync_download">Download e sincronizzazione</string>
-    <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
+    <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore).</string>
     <string name="dialog_confirm_sync_unlink">Se si rimuove il collegamento di questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
     <string name="dialog_sync_link">Un conto con uuid %s è presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
     <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>

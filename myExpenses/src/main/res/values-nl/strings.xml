@@ -361,7 +361,7 @@
         <item quantity="other">%1$d geselecteerde transacties worden verwijderd.</item>
     </plurals>
     <string name="url_not_valid">URL niet geldig</string>
-    <string name="pref_sync_frequency_summary">Hoe vaak moeten gegevens worden gesynchroniseerd (in uren)</string>
+    <string name="pref_sync_frequency_summary">Hoe vaak moeten gegevens worden gesynchroniseerd (in uren).</string>
     <string name="dialog_command_sync_link_remote">Downloaden op afstand</string>
     <string name="button_label_no_encryption">Zonder versleuteling</string>
     <string name="content_description_download_exchange_rate">Wisselkoers downloaden</string>

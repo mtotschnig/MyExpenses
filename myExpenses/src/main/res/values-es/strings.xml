@@ -506,7 +506,7 @@
     <string name="menu_sync_unlink">Parar sincronización</string>
     <string name="menu_sync_link">Comenzar sincronización</string>
     <string name="menu_sync_download">Descargar y sincronizar</string>
-    <string name="pref_sync_frequency_summary">Cada cuánto se debería sincronizar los datos (en horas)</string>
+    <string name="pref_sync_frequency_summary">Cada cuánto se debería sincronizar los datos (en horas).</string>
     <string name="dialog_confirm_sync_unlink">Si desliga esta cuenta de %s, el estado de sincronización será interrumpido. Si la vuelve a unir más adelante, requerirá una sincronización completa de nuevo.</string>
     <string name="dialog_sync_link">La cuenta con UUID %s existe tanto en la base de datos local como en el servicio remoto. Cuando una las dos, necesitará decidir si, inicialmente, quiere subir los datos locales al servicio remoto o descargar los datos remotos en la base de datos local.</string>
     <string name="dialog_command_sync_link_remote">Descargar desde el servicio remoto</string>

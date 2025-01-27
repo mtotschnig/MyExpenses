@@ -18,7 +18,6 @@
         android:defaultValue="12"
         android:key="@string/pref_sync_frequency_key"
         android:max="99"
-        android:summary="@string/pref_sync_frequency_summary"
         android:title="@string/frequency" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
