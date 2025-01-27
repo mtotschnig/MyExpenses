@@ -553,13 +553,16 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         get("/download/{file}") {
             val appDir = AppDirHelper.getAppDir(this@WebInputService).getOrThrow()
-            val inputStream = contentResolver.openInputStream(
-                appDir.findFile(call.parameters["file"]!!)!!.uri.let {
-                    AppDirHelper.ensureContentUri(it, this@WebInputService)
-                }
-            )!!
-            val channel = inputStream.toByteReadChannel()
-            call.respond(channel)
+            val file = appDir.findFile(call.parameters["file"]!!)?.uri?.let {
+                AppDirHelper.ensureContentUri(it, this@WebInputService)
+            }
+            if (file == null) {
+                call.respond(HttpStatusCode.NotFound, "File not found")
+            } else {
+                call.respond(
+                    contentResolver.openInputStream(file)!!.toByteReadChannel()
+                )
+            }
         }
     }
 
