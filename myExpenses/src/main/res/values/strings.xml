@@ -1045,4 +1045,5 @@
     <string name="budget_import_cannot_be_imported">The following budgets refer to accounts that are not synchronized:</string>
     <string name="budget_import_none_found">No budgets found.</string>
     <string name="webui_download_no_data">After printing, exporting or creating backups in the app, files will be available from here for download.</string>
+    <string name="filter_dialog_empty">No criteria added yet. Tap the buttons above to define your query and refine your results.</string>
 </resources>

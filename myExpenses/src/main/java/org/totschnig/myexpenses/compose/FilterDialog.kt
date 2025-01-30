@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -72,6 +74,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -263,21 +266,26 @@ fun FilterDialog(
         properties = DialogProperties(usePlatformDefaultWidth = isLarge),
         onDismissRequest = onDismiss
     ) {
-        Surface(modifier = Modifier.testTag(TEST_TAG_DIALOG)
+        Surface(modifier = Modifier
+            .testTag(TEST_TAG_DIALOG)
             .conditional(
                 isLarge,
                 ifTrue = { defaultMinSize(minHeight = 400.dp) },
                 ifFalse = { fillMaxSize() }
-            ) ) {
-            Column {
+            )) {
+            Column(modifier = Modifier
+                .conditional(isLarge && criteriaSet.value.isEmpty()) {
+                    height(400.dp)
+                }
+            ) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     ActionButton(
-                        stringResource(android.R.string.cancel),
-                        Icons.Filled.Clear,
-                        Modifier.align(Alignment.CenterStart),
-                        onDismiss
+                        hintText = stringResource(android.R.string.cancel),
+                        icon = Icons.Filled.Clear,
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        onclick = onDismiss
                     )
                     Text(
                         text = stringResource(R.string.menu_search),
@@ -286,15 +294,16 @@ fun FilterDialog(
                     )
                     Row(modifier = Modifier.align(Alignment.CenterEnd)) {
                         ActionButton(
-                            stringResource(R.string.clear_all_filters),
-                            Icons.Filled.ClearAll
-
+                            hintText = stringResource(R.string.clear_all_filters),
+                            icon = Icons.Filled.ClearAll,
+                            enabled = criteriaSet.value.isNotEmpty()
                         ) {
                             criteriaSet.value = emptySet()
                         }
                         ActionButton(
-                            stringResource(R.string.apply),
-                            Icons.Filled.Done
+                            hintText = stringResource(R.string.apply),
+                            icon = Icons.Filled.Done,
+                            enabled = isDirty
                         ) {
                             onConfirmRequest(
                                 when (criteriaSet.value.size) {
@@ -356,127 +365,142 @@ fun FilterDialog(
                         }
                     }
                 }
-                Row(
-                    Modifier
-                        .minimumInteractiveComponentSize()
-                        .padding(horizontal = 16.dp)
-                        .selectableGroup(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
 
-                    val options = listOf(R.string.matchAll, R.string.matchAny)
-                    options.forEachIndexed { index, labelRes ->
-                        Row(
-                            Modifier
-                                .weight(1f)
-                                .selectable(
-                                    selected = index == selectedComplex,
-                                    onClick = { setSelectedComplex(index) },
-                                    role = Role.RadioButton
-                                ), verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                onClick = null,
-                                selected = index == selectedComplex
-                            )
-                            Text(
-                                text = stringResource(labelRes),
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
+                if (criteriaSet.value.isEmpty()) {
+                    Text(
+                        text= stringResource(R.string.filter_dialog_empty),
+                        modifier = Modifier
+                            .padding(horizontal = 24.dp)
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .wrapContentHeight(),
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    Row(
+                        Modifier
+                            .minimumInteractiveComponentSize()
+                            .padding(horizontal = 16.dp)
+                            .selectableGroup(),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        val options = listOf(R.string.matchAll, R.string.matchAny)
+                        options.forEachIndexed { index, labelRes ->
+                            Row(
+                                Modifier
+                                    .weight(1f)
+                                    .selectable(
+                                        selected = index == selectedComplex,
+                                        onClick = { setSelectedComplex(index) },
+                                        role = Role.RadioButton
+                                    ), verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    onClick = null,
+                                    selected = index == selectedComplex
+                                )
+                                Text(
+                                    text = stringResource(labelRes),
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
                         }
                     }
-                }
 
-                Column(Modifier
-                    .verticalScroll(rememberScrollState())
-                    .semantics {
-                        collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
-                    }
-                ) {
-
-                    criteriaSet.value.forEachIndexed { index, criterion ->
-                        val negate = { criteriaSet.value = criteriaSet.value.negate(index) }
-                        val delete = { criteriaSet.value -= criterion }
-                        val edit = {
-                            currentEdit.value = criterion
-                            handleEdit(criterion)
+                    Column(Modifier
+                        .verticalScroll(rememberScrollState())
+                        .semantics {
+                            collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
                         }
-                        val title = stringResource(criterion.displayTitle)
-                        val symbol = criterion.displaySymbol.first
-                        val prettyPrint = ((criterion as? NotCriterion)?.criterion
-                            ?: criterion).prettyPrint(LocalContext.current)
-                        val contentDescription = criterion.contentDescription(LocalContext.current)
-                        val labelDelete = stringResource(R.string.menu_delete)
-                        val labelEdit = stringResource(R.string.menu_edit)
-                        Row(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .clearAndSetSemantics {
-                                    this.contentDescription = contentDescription
-                                    collectionItemInfo = CollectionItemInfo(index, 1, 1, 1)
-                                    customActions = listOf(
-                                        CustomAccessibilityAction(
-                                            label = "Negate",
-                                            action = {
-                                                negate()
-                                                true
-                                            }
-                                        ),
-                                        CustomAccessibilityAction(
-                                            label = labelDelete,
-                                            action = {
-                                                delete()
-                                                true
-                                            }
-                                        ),
-                                        CustomAccessibilityAction(
-                                            label = labelEdit,
-                                            action = {
-                                                edit
-                                                true
-                                            }
+                    ) {
+
+                        criteriaSet.value.forEachIndexed { index, criterion ->
+                            val negate = { criteriaSet.value = criteriaSet.value.negate(index) }
+                            val delete = { criteriaSet.value -= criterion }
+                            val edit = {
+                                currentEdit.value = criterion
+                                handleEdit(criterion)
+                            }
+                            val title = stringResource(criterion.displayTitle)
+                            val symbol = criterion.displaySymbol.first
+                            val prettyPrint = ((criterion as? NotCriterion)?.criterion
+                                ?: criterion).prettyPrint(LocalContext.current)
+                            val contentDescription =
+                                criterion.contentDescription(LocalContext.current)
+                            val labelDelete = stringResource(R.string.menu_delete)
+                            val labelEdit = stringResource(R.string.menu_edit)
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .clearAndSetSemantics {
+                                        this.contentDescription = contentDescription
+                                        collectionItemInfo = CollectionItemInfo(index, 1, 1, 1)
+                                        customActions = listOf(
+                                            CustomAccessibilityAction(
+                                                label = "Negate",
+                                                action = {
+                                                    negate()
+                                                    true
+                                                }
+                                            ),
+                                            CustomAccessibilityAction(
+                                                label = labelDelete,
+                                                action = {
+                                                    delete()
+                                                    true
+                                                }
+                                            ),
+                                            CustomAccessibilityAction(
+                                                label = labelEdit,
+                                                action = {
+                                                    edit
+                                                    true
+                                                }
+                                            )
                                         )
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = criterion.displayIcon,
+                                    contentDescription = title
+                                )
+                                IconButton(
+                                    modifier = Modifier.semantics {
+                                        invisibleToUser()
+                                    },
+                                    onClick = negate
+                                ) {
+                                    CharIcon(symbol)
+                                }
+                                Text(
+                                    modifier = Modifier.weight(1f),
+                                    text = prettyPrint
+                                )
+                                IconButton(
+                                    onClick = delete
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Delete,
+                                        contentDescription = labelDelete
                                     )
-                                },
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = criterion.displayIcon,
-                                contentDescription = title
-                            )
-                            IconButton(
-                                modifier = Modifier.semantics {
-                                    invisibleToUser()
-                                },
-                                onClick = negate
-                            ) {
-                                CharIcon(symbol)
-                            }
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = prettyPrint
-                            )
-                            IconButton(
-                                onClick = delete
-                            ) {
-                                Icon(
-                                    Icons.Filled.Delete,
-                                    contentDescription = labelDelete
-                                )
-                            }
-                            IconButton(
-                                onClick = edit
-                            ) {
-                                Icon(
-                                    Icons.Filled.Edit,
-                                    contentDescription = labelEdit
-                                )
+                                }
+                                IconButton(
+                                    onClick = edit
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Edit,
+                                        contentDescription = labelEdit
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
+
             showCommentFilterPrompt?.let {
                 var search by rememberSaveable { mutableStateOf(it.searchString) }
 
@@ -498,7 +522,8 @@ fun FilterDialog(
                         val focusRequester = remember { FocusRequester() }
                         val keyboardController = LocalSoftwareKeyboardController.current
                         OutlinedTextField(
-                            modifier = Modifier.focusRequester(focusRequester)
+                            modifier = Modifier
+                                .focusRequester(focusRequester)
                                 .onFocusChanged {
                                     if (it.isFocused) {
                                         keyboardController?.show()
@@ -545,6 +570,7 @@ fun ActionButton(
     hintText: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onclick: () -> Unit,
 ) {
     TooltipBox(
@@ -553,7 +579,7 @@ fun ActionButton(
         state = rememberTooltipState(),
         modifier = modifier
     ) {
-        IconButton(onClick = onclick) {
+        IconButton(onClick = onclick, enabled = enabled) {
             Icon(
                 imageVector = icon,
                 contentDescription = hintText
@@ -568,7 +594,16 @@ fun Set<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
     } else criterion
 }.toSet()
 
-@Preview(device = "id:pixel")
+@Preview
+@Composable
+fun FilterDialogEmpty() {
+    FilterDialog(
+        account = null,
+        sumInfo = SumInfo.EMPTY
+    )
+}
+
+@Preview
 @Composable
 fun FilterDialogPreview() {
     FilterDialog(
