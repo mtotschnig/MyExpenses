@@ -234,13 +234,11 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
     fun mastodonLink(context: Context) =
         resolveMoreInfo(context, "version_more_info_")?.let { context.getString(it) }
 
-    fun githubUrl(context: Context) =
-        githubLink(context)?.let {
-            "https://github.com/users/mtotschnig/projects/$it"
+    fun githubUrl(context: Context) = githubLink(context)?.let {
+        (if (code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it
         }
 
-    fun mastodonUrl(context: Context) =
-        mastodonLink(context)?.let {
+    fun mastodonUrl(context: Context) = mastodonLink(context)?.let {
             "https://mastodon.social/@myexpenses/$it"
         }
 
