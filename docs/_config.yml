@@ -134,6 +134,29 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.4
+      - '2025-01-31'
+      - bg: 'Търсене 2.0. Разпределяне на транзакция: Подобрения в потребителския
+          интерфейс'
+        cs: 'Vyhledávání 2.0. Rozdělení transakce: Zdokonalení uživatelského rozhraní'
+        de: 'Suche 2.0. Mehrteilige Buchung: Verfeinerung der Benutzeroberfläche'
+        el: 'Αναζήτηση 2.0. Διαιρεμένη συναλλαγή: Βελτίωση του περιβάλλοντος εργασίας
+          χρήστη'
+        es: 'Búsqueda 2.0. Transacción dividida: Interfaz de usuario mejorada'
+        fr: 'Recherche 2.0. Opération ventilée: Raffinement de l''interface utilisateur'
+        hr: 'Pretraži 2.0. Višedjelna transakcija: Poboljšanje korisničkog sučelja'
+        hu: 'Keresés 2.0. Tranzakció felosztása: A felhasználói felület finomítása'
+        it: 'Ricerca 2.0. Operazione frazionata: Miglioramento dell''interfaccia utente'
+        iw: 'חיפוש 2.0. עסקה מפוצלת: חידוד ממשק המשתמש'
+        nl: 'Zoeken 2.0. Transactie splitsen: Verfijning van de gebruikersinterface'
+        pl: 'Wyszukiwanie 2.0. Podział transakcji: Udoskonalenie interfejsu użytkownika'
+        pt: 'Pesquisar 2.0. Transação dividida: Melhorias na interface do usuário'
+        ro: 'Căutați 2.0. Tranzacţie repartizată: Perfecționarea interfeței cu utilizatorul'
+        tr: 'Ara 2.0. Bölünmüş muamele: Kullanıcı arayüzü iyileştirildi'
+        vi: 'Tìm kiếm 2.0. GD phân tách: Cải tiến giao diện người dùng'
+        en: 'Search 2.0. Split transaction: Refinement of the user interface'
+      - github2: '14'
+        mastodon: '113874508405517227'
   -   - 3.9.3
       - '2025-01-01'
       - bg: 'Доставчик на валутни курсове: Подобрения в потребителския интерфейс'
