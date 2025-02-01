@@ -117,6 +117,7 @@ import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
 import org.totschnig.myexpenses.util.ui.getBestForeground
 import org.totschnig.myexpenses.util.ui.getDateMode
+import org.totschnig.myexpenses.viewmodel.LoadResult
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import java.time.format.DateTimeFormatter
@@ -206,7 +207,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         BundleCompat.getParcelable(requireArguments(), KEY_FILTER, Criterion::class.java)
     }
 
-    private val transactionLiveData: LiveData<Transaction> by lazy {
+    private val transactionLiveData: LiveData<LoadResult> by lazy {
         viewModel.transaction(rowId)
     }
 
@@ -216,14 +217,17 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
     @Composable
     override fun ColumnScope.MainContent() {
-        val transactionInfo = transactionLiveData.observeAsState()
-        transactionInfo.value.let { transaction ->
-            if (transaction == null) {
-                Text(stringResource(R.string.transaction_deleted))
+        val loadResult = transactionLiveData.observeAsState()
+        loadResult.value.let { loadResult ->
+            if (loadResult == null) {
+                Text(stringResource(R.string.loading))
             } else {
-                val isIncome = transaction.amount.amountMinor > 0
-                LaunchedEffect(transaction) {
-                    transactionInfo.value?.let {
+                val transaction = loadResult.transaction
+                if (transaction == null) {
+                    Text(stringResource(R.string.transaction_deleted))
+                } else {
+                    val isIncome = transaction.amount.amountMinor > 0
+                    LaunchedEffect(transaction) {
                         (dialog as? AlertDialog)?.setTitle(
                             when {
                                 transaction.isSplit -> getString(R.string.split_transaction)
@@ -237,65 +241,65 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                             }
                         )
                     }
-                }
-                filter?.let {
-                    FilterCard(
-                        whereFilter = it
-                    )
-                }
-
-                ExpandedRenderer(transaction)
-
-                if (transaction.isSplit || transaction.isArchive) {
-
-                    HeadingRenderer(
-                        stringResource(
-                            if (transaction.isSplit) R.string.split_parts_heading
-                            else R.string.import_select_transactions
+                    filter?.let {
+                        FilterCard(
+                            whereFilter = it
                         )
-                    )
+                    }
 
-                    val parts = partsLiveData.observeAsState(emptyList())
+                    ExpandedRenderer(transaction)
 
-                    LazyColumnWithScrollbar(
-                        modifier = Modifier.weight(1f, fill = false),
-                        testTag = TEST_TAG_PART_LIST,
-                        contentPadding = PaddingValues(horizontal = super.horizontalPadding),
-                        itemsAvailable = parts.value.size,
-                    ) {
-                        var selectedArchivedTransaction by mutableLongStateOf(0)
-                        items(parts.value) { part ->
-                            AnimatedContent(
-                                targetState = selectedArchivedTransaction == part.id,
-                                label = "ExpandedTransactionCard"
-                            ) { expanded ->
-                                if (expanded) {
-                                    OutlinedCard(modifier = Modifier
-                                        .voidMarker(part.crStatus)
-                                        .clickable {
-                                            selectedArchivedTransaction = 0
-                                        }
-                                    ) {
-                                        Column(modifier = Modifier.padding(8.dp)) {
-                                            ExpandedRenderer(part, true)
-                                            if (part.isSplit) {
-                                                HeadingRenderer(stringResource(R.string.split_parts_heading))
-                                                viewModel.parts(part.id, sortOrder)
-                                                    .observeAsState(emptyList())
-                                                    .value.forEach {
-                                                        CondensedRenderer(part = it)
-                                                    }
+                    if (transaction.isSplit || transaction.isArchive) {
+
+                        HeadingRenderer(
+                            stringResource(
+                                if (transaction.isSplit) R.string.split_parts_heading
+                                else R.string.import_select_transactions
+                            )
+                        )
+
+                        val parts = partsLiveData.observeAsState(emptyList())
+
+                        LazyColumnWithScrollbar(
+                            modifier = Modifier.weight(1f, fill = false),
+                            testTag = TEST_TAG_PART_LIST,
+                            contentPadding = PaddingValues(horizontal = super.horizontalPadding),
+                            itemsAvailable = parts.value.size,
+                        ) {
+                            var selectedArchivedTransaction by mutableLongStateOf(0)
+                            items(parts.value) { part ->
+                                AnimatedContent(
+                                    targetState = selectedArchivedTransaction == part.id,
+                                    label = "ExpandedTransactionCard"
+                                ) { expanded ->
+                                    if (expanded) {
+                                        OutlinedCard(modifier = Modifier
+                                            .voidMarker(part.crStatus)
+                                            .clickable {
+                                                selectedArchivedTransaction = 0
+                                            }
+                                        ) {
+                                            Column(modifier = Modifier.padding(8.dp)) {
+                                                ExpandedRenderer(part, true)
+                                                if (part.isSplit) {
+                                                    HeadingRenderer(stringResource(R.string.split_parts_heading))
+                                                    viewModel.parts(part.id, sortOrder)
+                                                        .observeAsState(emptyList())
+                                                        .value.forEach {
+                                                            CondensedRenderer(part = it)
+                                                        }
+                                                }
                                             }
                                         }
+                                    } else {
+                                        CondensedRenderer(
+                                            Modifier.conditional(transaction.isArchive) {
+                                                clickable { selectedArchivedTransaction = part.id }
+                                            },
+                                            part,
+                                            parentIsArchive = transaction.isArchive
+                                        )
                                     }
-                                } else {
-                                    CondensedRenderer(
-                                        Modifier.conditional(transaction.isArchive) {
-                                            clickable { selectedArchivedTransaction = part.id }
-                                        },
-                                        part,
-                                        parentIsArchive = transaction.isArchive
-                                    )
                                 }
                             }
                         }
@@ -307,7 +311,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
             TextButton(onClick = { dismiss() }) {
                 Text(stringResource(id = android.R.string.ok))
             }
-            transactionInfo.value
+            loadResult.value?.transaction
                 ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
