@@ -345,7 +345,7 @@ open class MyExpensesViewModel(
         }.stateIn(viewModelScope, SharingStarted.Lazily, HeaderDataEmpty(account))
     }
 
-    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> =
+    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2, *>> =
         lazyMap {
             ClearingLastPagingSourceFactory {
                 buildTransactionPagingSource(it)
