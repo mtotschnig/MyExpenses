@@ -1380,7 +1380,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }.toTypedArray()
 
         val sql = buildTransactionGroupCte(
-            listOfNotNull(accountQuery, selection).joinToString(" AND "),
+            accountQuery,
+            selection,
             forHome,
             typeWithFallBack
         ) + " " +

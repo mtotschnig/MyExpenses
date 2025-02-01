@@ -475,6 +475,8 @@ public class DatabaseConstants {
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_NOT_ARCHIVED =
     KEY_STATUS + " != " + STATUS_ARCHIVED;
+  public static final String WHERE_NOT_ARCHIVE =
+          KEY_STATUS + " != " + STATUS_ARCHIVE;
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";

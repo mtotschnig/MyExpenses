@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
@@ -650,10 +651,15 @@ fun buildSearchCte(
 
 
 fun buildTransactionGroupCte(
-    selection: String,
+    accountQuery: String,
+    selection: String?,
     forHome: String?,
     typeWithFallBack: String
 ): String {
+    // If a filter is applied to the transaction list, we need to calculate with the contents
+    // of the archive otherwise we just take the archive itself into account
+    val withFilter = selection != null
+    val selection = listOfNotNull(accountQuery, selection).joinToString(" AND ")
     return buildString {
         append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
         append(KEY_DATE)
@@ -665,7 +671,7 @@ fun buildTransactionGroupCte(
         append(getAmountCalculation(forHome, VIEW_WITH_ACCOUNT))
         append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
         append(" FROM $VIEW_WITH_ACCOUNT")
-        append(" WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $selection)")
+        append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection)")
     }
 }
 
@@ -721,13 +727,6 @@ AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection
     SELECT ${columns.joinToString()}"""
     }
 }
-
-//when either both sides are homeCurrency, or both sides are foreign currency, we select based on amount
-//otherwise we only select the part from the homeCurrency
-fun grandTotalAccountKeepTransferPartCriterion(homeCurrency: String) = """
-CASE WHEN ($KEY_CURRENCY = '$homeCurrency') = ((SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) = '$homeCurrency') 
-THEN $KEY_AMOUNT < 0 ELSE $KEY_CURRENCY = '$homeCurrency' END
-"""
 
 fun archiveSumCTE(
     archiveId: Long,
