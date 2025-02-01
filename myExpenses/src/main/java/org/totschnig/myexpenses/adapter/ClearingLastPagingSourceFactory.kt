@@ -2,18 +2,20 @@ package org.totschnig.myexpenses.adapter
 
 import androidx.paging.PagingSource
 
-abstract class ClearingPagingSource<Key : Any, Value : Any> : PagingSource<Key, Value>() {
+abstract class ClearingPagingSource<Key : Any, Value : Any, Source: ClearingPagingSource<Key, Value, Source>> : PagingSource<Key, Value>() {
     abstract fun clear()
+    abstract fun compareWithLast(lastPagingSource: Source?)
 }
 
-class ClearingLastPagingSourceFactory<Key : Any, Value : Any>(
-    private val pagingSourceFactory: () -> ClearingPagingSource<Key, Value>
-) : () -> PagingSource<Key, Value> {
+class ClearingLastPagingSourceFactory<Key : Any, Value : Any, Source: ClearingPagingSource<Key, Value, Source>> (
+    private val pagingSourceFactory: () -> Source
+) : () -> Source {
 
-    private var lastPagingSource: ClearingPagingSource<Key, Value>? = null
+    private var lastPagingSource: Source? = null
 
-    override fun invoke(): PagingSource<Key, Value> {
+    override fun invoke(): Source {
         return pagingSourceFactory().also {
+            it.compareWithLast(lastPagingSource)
             lastPagingSource = it
         }
     }

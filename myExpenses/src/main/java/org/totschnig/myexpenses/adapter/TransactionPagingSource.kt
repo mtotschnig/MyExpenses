@@ -38,13 +38,15 @@ open class TransactionPagingSource(
     val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
     prefHandler: PrefHandler,
-) : ClearingPagingSource<Int, Transaction2>() {
+) : ClearingPagingSource<Int, Transaction2, TransactionPagingSource>() {
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
     private val uri: Uri
     private val projection: Array<String>
     private val observer: ContentObserver
+    private var criterion: Criterion? = null
+    private var hasNewCriterion: Boolean = false
 
     init {
         account.loadingInfo(prefHandler).also {
@@ -63,6 +65,7 @@ open class TransactionPagingSource(
             true,
             observer
         )
+        criterion = whereFilter.value
         coroutineScope.launch {
             whereFilter.drop(1).collect {
                 invalidate()
@@ -79,14 +82,17 @@ open class TransactionPagingSource(
         contentResolver.unregisterContentObserver(observer)
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
-        val result = state.anchorPosition?.let { anchorPosition ->
-            (anchorPosition - state.config.pageSize / 2).coerceAtLeast(0)
-        }
-        Timber.i("Calculating refreshKey for anchorPosition %d: %d", state.anchorPosition, result)
-        return result
-
+    override fun compareWithLast(lastPagingSource: TransactionPagingSource?) {
+        hasNewCriterion = criterion != lastPagingSource?.criterion
     }
+
+    override fun getRefreshKey(state: PagingState<Int, Transaction2>) =
+        if (hasNewCriterion) null
+        else state.anchorPosition?.let<Int, Int> { anchorPosition ->
+            (anchorPosition - state.config.pageSize / 2).coerceAtLeast(0)
+        }.also<Int?> {
+            Timber.i("Calculating refreshKey for anchorPosition %d: %d", state.anchorPosition, it)
+        }
 
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
