@@ -23,6 +23,8 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.projection
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.readTransaction
 
+data class LoadResult(val transaction: Transaction?)
+
 class TransactionDetailViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
 
@@ -35,7 +37,7 @@ class TransactionDetailViewModel(application: Application) :
     }
 
     @SuppressLint("Recycle")
-    fun transaction(transactionId: Long): LiveData<Transaction> =
+    fun transaction(transactionId: Long): LiveData<LoadResult> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon()
@@ -50,7 +52,7 @@ class TransactionDetailViewModel(application: Application) :
                     currencyContext,
                     currencyContext.homeCurrencyUnit
                 )
-            }?.let { emit(it) }
+            }.let { emit(LoadResult(it)) }
         }
 
     fun sums(archiveId: Long): LiveData<Triple<Long, Long, Long>> = liveData(context = coroutineContext()) {
