@@ -844,7 +844,9 @@ open class MyExpensesViewModel(
     }
 
     fun unarchive(id: Long) {
-        repository.unarchive(id)
+        viewModelScope.launch(coroutineContext()) {
+            repository.unarchive(id)
+        }
     }
 
     val banks: StateFlow<List<Bank>> by lazy {

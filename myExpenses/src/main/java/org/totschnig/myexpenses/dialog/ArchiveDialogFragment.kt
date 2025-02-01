@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DateRangePickerDefaults
@@ -24,7 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
@@ -85,6 +88,7 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
         val state = rememberDateRangePickerState()
 
         var archiveInfo by remember { mutableStateOf<ArchiveInfo?>(null) }
+        var archiving by remember { mutableStateOf(false) }
 
         LaunchedEffect(state) {
             snapshotFlow { state.range }.collect {
@@ -139,19 +143,29 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                     fontWeight = FontWeight.Bold
                 )
             }
+
             ButtonRow(modifier = Modifier.padding(horizontal = 24.dp)) {
-                TextButton(onClick = { dismiss() }) {
-                    Text(stringResource(id = android.R.string.cancel))
-                }
-                TextButton(
-                    enabled = archiveInfo?.canArchive == true,
-                    onClick = {
-                        state.range?.let { repository.archive(accountId, it) }
-                        dismiss()
-                    }) {
-                    Text(
-                        text = stringResource(id = R.string.action_archive)
-                    )
+                if (archiving) {
+                    CircularProgressIndicator(modifier = Modifier.padding(bottom = 8.dp))
+                } else {
+                    TextButton(onClick = { dismiss() }) {
+                        Text(stringResource(id = android.R.string.cancel))
+                    }
+                    TextButton(
+                        enabled = archiveInfo?.canArchive == true,
+                        onClick = {
+                            lifecycleScope.launch {
+                                archiving = true
+                                withContext(Dispatchers.IO) {
+                                    state.range?.let { repository.archive(accountId, it) }
+                                }
+                                dismiss()
+                            }
+                        }) {
+                        Text(
+                            text = stringResource(id = R.string.action_archive)
+                        )
+                    }
                 }
             }
         }
