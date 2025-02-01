@@ -122,4 +122,6 @@
     <string name="enabled">"Didayakan"</string>
     <string name="disabled">"Dilumpuhkan"</string>
     <string name="preview">"Pratonton"</string>
+    <string name="show_password">"Tunjukkan kata laluan"</string>
+    <string name="hide_password">"Sembunyikan kata laluan"</string>
 </resources>

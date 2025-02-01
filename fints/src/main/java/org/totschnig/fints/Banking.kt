@@ -1,6 +1,5 @@
 package org.totschnig.fints
 
-import android.app.Activity
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -249,7 +248,7 @@ class Banking : ProtectedFragmentActivity() {
                 if (tanRequested.value == null && tanMediumRequested.value == null && pushTanRequested.value == null && secMechRequested.value == null) {
                     SetupDialog(dialogState, workState.value, bankingCredentials, errorState) {
                         if (calledFromOnboarding) {
-                            setResult(if (it) Activity.RESULT_OK else Activity.RESULT_CANCELED)
+                            setResult(if (it) RESULT_OK else RESULT_CANCELED)
                             finish()
                         } else {
                             dialogState = DialogState.NoShow
@@ -412,7 +411,7 @@ class Banking : ProtectedFragmentActivity() {
                                             onValueChange = {
                                                 nrDays = try {
                                                     it.toLong()
-                                                } catch (e: NumberFormatException) {
+                                                } catch (_: NumberFormatException) {
                                                     0
                                                 }
                                             },

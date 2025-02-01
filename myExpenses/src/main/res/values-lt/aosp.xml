@@ -75,4 +75,6 @@
     <string name="enabled">"Įgalinta"</string>
     <string name="disabled">"Išjungta"</string>
     <string name="preview">"Peržiūrėti"</string>
+    <string name="show_password">"Rodyti slaptažodį"</string>
+    <string name="hide_password">"Slėpti slaptažodį"</string>
 </resources>

@@ -150,4 +150,6 @@
     <string name="enabled">"مفعّل"</string>
     <string name="disabled">"غير مفعّل"</string>
     <string name="preview">"معاينة"</string>
+    <string name="show_password">"إظهار كلمة المرور"</string>
+    <string name="hide_password">"إخفاء كلمة المرور"</string>
 </resources>

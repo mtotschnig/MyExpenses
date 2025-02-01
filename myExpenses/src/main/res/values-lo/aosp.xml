@@ -63,4 +63,6 @@
     <string name="enabled">"ເປີດການນຳໃຊ້ແລ້ວ"</string>
     <string name="disabled">"ປິດການນຳໃຊ້ແລ້ວ"</string>
     <string name="preview">"ຕົວຢ່າງ"</string>
+    <string name="show_password">"ສະແດງລະຫັດຜ່ານ"</string>
+    <string name="hide_password">"ເຊື່ອງ​ລະຫັດ​ຜ່ານ"</string>
 </resources>

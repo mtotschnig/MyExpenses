@@ -143,4 +143,6 @@
     <string name="enabled">"Omogućeno"</string>
     <string name="disabled">"Onemogućeno"</string>
     <string name="preview">"Pregled"</string>
+    <string name="show_password">"Prikaži zaporku"</string>
+    <string name="hide_password">"Sakrij zaporku"</string>
 </resources>

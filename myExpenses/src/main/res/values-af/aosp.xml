@@ -79,4 +79,6 @@
     <string name="enabled">"Geaktiveer"</string>
     <string name="disabled">"Gedeaktiveer"</string>
     <string name="preview">"Voorskou"</string>
+    <string name="show_password">"Wys wagwoord"</string>
+    <string name="hide_password">"Versteek wagwoord"</string>
 </resources>

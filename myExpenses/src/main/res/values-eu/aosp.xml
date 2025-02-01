@@ -148,4 +148,6 @@
     <string name="enabled">"Gaituta"</string>
     <string name="disabled">"Desgaituta"</string>
     <string name="preview">"Aurreikusi"</string>
+    <string name="show_password">"Erakutsi pasahitza"</string>
+    <string name="hide_password">"Ezkutatu pasahitza"</string>
 </resources>

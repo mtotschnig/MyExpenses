@@ -149,4 +149,6 @@
     <string name="enabled">"Etkin"</string>
     <string name="disabled">"Devre dışı"</string>
     <string name="preview">"Önizle"</string>
+    <string name="show_password">"Şifreyi göster"</string>
+    <string name="hide_password">"Şifreyi gizle"</string>
 </resources>

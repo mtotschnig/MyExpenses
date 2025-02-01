@@ -84,4 +84,6 @@
     <string name="enabled">"Slått på"</string>
     <string name="disabled">"Slått av"</string>
     <string name="preview">"Forhåndsvisning"</string>
+    <string name="show_password">"Vis passord"</string>
+    <string name="hide_password">"Skjul passordet"</string>
 </resources>

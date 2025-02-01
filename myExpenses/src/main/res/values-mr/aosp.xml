@@ -63,4 +63,6 @@
     <string name="enabled">"सुरू आहे"</string>
     <string name="disabled">"बंद आहे"</string>
     <string name="preview">"पूर्वावलोकन"</string>
+    <string name="show_password">"पासवर्ड दाखवा"</string>
+    <string name="hide_password">"पासवर्ड लपवा"</string>
 </resources>

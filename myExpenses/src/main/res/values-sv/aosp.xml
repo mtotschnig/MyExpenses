@@ -85,4 +85,6 @@
     <string name="enabled">"Aktiverad"</string>
     <string name="disabled">"Inaktiverad"</string>
     <string name="preview">"Förhandsgranska"</string>
+    <string name="show_password">"Visa lösenord"</string>
+    <string name="hide_password">"Dölj lösenord"</string>
 </resources>

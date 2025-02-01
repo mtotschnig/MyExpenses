@@ -145,4 +145,6 @@
     <string name="enabled">"Đã bật"</string>
     <string name="disabled">"Đã tắt"</string>
     <string name="preview">"Xem trước"</string>
+    <string name="show_password">"Hiện mật khẩu"</string>
+    <string name="hide_password">"Ẩn mật khẩu"</string>
 </resources>

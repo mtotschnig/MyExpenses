@@ -67,4 +67,6 @@
     <string name="enabled">"सक्षम पारिएको छ"</string>
     <string name="disabled">"असक्षम पारिएको छ"</string>
     <string name="preview">"पूर्वावलोकन"</string>
+    <string name="show_password">"पासवर्ड देखाइयोस्"</string>
+    <string name="hide_password">"पासवर्ड लुकाउनुहोस्"</string>
 </resources>

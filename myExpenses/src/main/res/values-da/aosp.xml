@@ -151,4 +151,6 @@
     <string name="enabled">"Aktiveret"</string>
     <string name="disabled">"Deaktiveret"</string>
     <string name="preview">"Vis eks."</string>
+    <string name="show_password">"Vis adgangskode"</string>
+    <string name="hide_password">"Skjul adgangskoden"</string>
 </resources>

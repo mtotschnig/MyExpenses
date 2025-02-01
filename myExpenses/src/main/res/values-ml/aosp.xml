@@ -62,4 +62,6 @@
     <string name="enabled">"പ്രവർത്തനക്ഷമമാക്കി"</string>
     <string name="disabled">"പ്രവർത്തനരഹിതമാക്കി"</string>
     <string name="preview">"പ്രിവ്യൂ നടത്തുക"</string>
+    <string name="show_password">"പാസ്‌വേഡ് കാണിക്കുക"</string>
+    <string name="hide_password">"പാസ്‌വേഡ് മറയ്‌ക്കുക"</string>
 </resources>

@@ -83,4 +83,6 @@
     <string name="enabled">"Activouse"</string>
     <string name="disabled">"Desactivouse"</string>
     <string name="preview">"Vista previa"</string>
+    <string name="show_password">"Mostrar contrasinal"</string>
+    <string name="hide_password">"Ocultar contrasinal"</string>
 </resources>

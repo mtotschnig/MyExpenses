@@ -152,4 +152,6 @@
     <string name="enabled">"Engedélyezve"</string>
     <string name="disabled">"Letiltva"</string>
     <string name="preview">"Előnézet"</string>
+    <string name="show_password">"Jelszó megjelenítése"</string>
+    <string name="hide_password">"Jelszó elrejtése"</string>
 </resources>

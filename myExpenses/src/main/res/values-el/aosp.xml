@@ -150,4 +150,6 @@
     <string name="enabled">"Ενεργή"</string>
     <string name="disabled">"Ανενεργή"</string>
     <string name="preview">"Προεπισκ."</string>
+    <string name="show_password">"Εμφάνιση κωδικού πρόσβασης"</string>
+    <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
 </resources>

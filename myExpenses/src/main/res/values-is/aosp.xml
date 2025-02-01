@@ -82,4 +82,6 @@
     <string name="enabled">"Virkt"</string>
     <string name="disabled">"Óvirkt"</string>
     <string name="preview">"Forskoða"</string>
+    <string name="show_password">"Sýna aðgangsorð"</string>
+    <string name="hide_password">"Fela aðgangsorð"</string>
 </resources>

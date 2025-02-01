@@ -112,4 +112,6 @@
     <string name="enabled">"Ativado"</string>
     <string name="disabled">"Desativado"</string>
     <string name="preview">"Pré-vis."</string>
+    <string name="show_password">"Mostrar palavra-passe"</string>
+    <string name="hide_password">"Ocultar palavra-passe"</string>
 </resources>

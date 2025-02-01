@@ -61,4 +61,6 @@
     <string name="enabled">"Омогућено"</string>
     <string name="disabled">"Онемогућено"</string>
     <string name="preview">"Прикажи"</string>
+    <string name="show_password">"Прикажи лозинку"</string>
+    <string name="hide_password">"Сакриј лозинку"</string>
 </resources>

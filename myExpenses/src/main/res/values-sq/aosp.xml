@@ -67,4 +67,6 @@
     <string name="delimiter_tab">"Tab"</string>
     <string name="enabled">"Aktiv"</string>
     <string name="disabled">"Joaktiv"</string>
+    <string name="show_password">"Shfaq fjalëkalimin"</string>
+    <string name="hide_password">"Fshih fjalëkalimin"</string>
 </resources>

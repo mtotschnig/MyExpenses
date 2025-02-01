@@ -134,4 +134,6 @@
     <string name="enabled">"បាន​បើក"</string>
     <string name="disabled">"បាន​បិទ"</string>
     <string name="preview">"មើល​ជាមុន"</string>
+    <string name="show_password">"បង្ហាញ​ពាក្យ​សម្ងាត់"</string>
+    <string name="hide_password">"លាក់​ពាក្យសម្ងាត់"</string>
 </resources>

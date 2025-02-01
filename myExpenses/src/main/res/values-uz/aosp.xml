@@ -63,4 +63,6 @@
     <string name="enabled">"Yoniq"</string>
     <string name="disabled">"Oʻchiq"</string>
     <string name="preview">"Oldindan ko‘rish"</string>
+    <string name="show_password">"Parol berkitilmasin"</string>
+    <string name="hide_password">"Parolni yashirish"</string>
 </resources>

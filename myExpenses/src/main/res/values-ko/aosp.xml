@@ -140,4 +140,6 @@
     <string name="enabled">"사용 설정됨"</string>
     <string name="disabled">"사용 안함"</string>
     <string name="preview">"미리보기"</string>
+    <string name="show_password">"비밀번호 표시"</string>
+    <string name="hide_password">"비밀번호 숨김"</string>
 </resources>

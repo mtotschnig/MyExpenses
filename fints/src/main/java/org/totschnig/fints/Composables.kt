@@ -20,14 +20,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -51,6 +53,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.job
@@ -103,11 +106,12 @@ fun ColumnScope.BankingCredentials(
                 }
             }
         }
+    var showPassword by remember { mutableStateOf(false) }
     OutlinedTextField(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .optional(focusRequester) { this.focusRequester(it) },
-        visualTransformation = PasswordVisualTransformation(),
+        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done
@@ -122,14 +126,29 @@ fun ColumnScope.BankingCredentials(
             bankingCredentials.value = credentials.copy(password = it.trim())
         },
         label = { Text(text = stringResource(id = RB.string.password)) },
-        singleLine = true
+        singleLine = true,
+        supportingText = {
+            Text(text = stringResource(id = R.string.pin_info))
+        },
+        trailingIcon = {
+            PasswordVisibilityToggleIcon(
+                showPassword = showPassword,
+                onTogglePasswordVisibility = { showPassword = !showPassword })
+        }
     )
-    // Not using supportingText parameter of OutlinedTextField, because of
-    // https://issuetracker.google.com/issues/270523016
-    Text(
-        modifier = Modifier.width(OutlinedTextFieldDefaults.MinWidth),
-        text = stringResource(id = R.string.pin_info)
-    )
+}
+
+@Composable
+fun PasswordVisibilityToggleIcon(
+    showPassword: Boolean,
+    onTogglePasswordVisibility: () -> Unit
+) {
+    val image = if (showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+    val contentDescription = stringResource(if (showPassword) RB.string.hide_password else RB.string.show_password)
+
+    IconButton(onClick = onTogglePasswordVisibility) {
+        Icon(imageVector = image, contentDescription = contentDescription)
+    }
 }
 
 @Composable
@@ -172,7 +191,9 @@ fun TanDialog(tanRequest: TanRequest?) {
                     Text(tanRequest.message)
                     tanRequest.bitmap?.let {
                         Image(
-                            modifier = Modifier.height(200.dp).width(200.dp),
+                            modifier = Modifier
+                                .height(200.dp)
+                                .width(200.dp),
                             bitmap = it.asImageBitmap(),
                             contentDescription = null
                         )
@@ -420,7 +441,7 @@ private fun TanMediaPreview() {
 @Preview
 @Composable
 private fun TanPreview() {
-    val bmp = createRandomBitmap(50,50)
+    val bmp = createRandomBitmap(50, 50)
     TanDialog(TanRequest("Please scan", bmp) {})
 }
 

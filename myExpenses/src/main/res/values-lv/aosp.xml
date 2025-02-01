@@ -76,4 +76,6 @@
     <string name="enabled">"Iespējots"</string>
     <string name="disabled">"Atspējots"</string>
     <string name="preview">"Priekšsk."</string>
+    <string name="show_password">"Rādīt paroli"</string>
+    <string name="hide_password">"Slēpt paroli"</string>
 </resources>

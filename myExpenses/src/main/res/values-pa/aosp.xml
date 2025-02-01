@@ -52,4 +52,6 @@
     <string name="menu_create_folder">"ਨਵਾਂ ਫੋਲਡਰ"</string>
     <string name="enabled">"ਚਾਲੂ ਕੀਤਾ ਗਿਆ"</string>
     <string name="disabled">"ਬੰਦ ਕੀਤਾ ਗਿਆ"</string>
+    <string name="show_password">"ਪਾਸਵਰਡ ਦਿਖਾਓ"</string>
+    <string name="hide_password">"ਪਾਸਵਰਡ ਲੁਕਾਓ"</string>
 </resources>

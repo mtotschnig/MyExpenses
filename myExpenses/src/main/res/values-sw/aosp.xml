@@ -54,4 +54,6 @@
     <string name="enabled">"Imewashwa"</string>
     <string name="disabled">"Imezimwa"</string>
     <string name="preview">"Hakiki"</string>
+    <string name="show_password">"Onyesha nenosiri"</string>
+    <string name="hide_password">"Ficha nenosiri"</string>
 </resources>

@@ -147,4 +147,6 @@
     <string name="enabled">"Aangezet"</string>
     <string name="disabled">"Uitgezet"</string>
     <string name="preview">"Voorbeeld"</string>
+    <string name="show_password">"Wachtwoord tonen"</string>
+    <string name="hide_password">"Wachtwoord verbergen"</string>
 </resources>

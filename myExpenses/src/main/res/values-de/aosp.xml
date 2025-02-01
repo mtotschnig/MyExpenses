@@ -150,4 +150,6 @@
     <string name="enabled">"Aktiviert"</string>
     <string name="disabled">"Deaktiviert"</string>
     <string name="preview">"Vorschau"</string>
+    <string name="show_password">"Passwort anzeigen"</string>
+    <string name="hide_password">"Passwort ausblenden"</string>
 </resources>

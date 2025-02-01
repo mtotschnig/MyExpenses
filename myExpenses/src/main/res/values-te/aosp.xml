@@ -125,4 +125,6 @@
     <string name="enabled">"ఎనేబుల్ చేయబడింది"</string>
     <string name="disabled">"డిజేబుల్ చేయబడింది"</string>
     <string name="preview">"పరిదృశ్యం"</string>
+    <string name="show_password">"పాస్‌వర్డ్‌ను చూపండి"</string>
+    <string name="hide_password">"పాస్‌వర్డ్‌ను దాచు"</string>
 </resources>

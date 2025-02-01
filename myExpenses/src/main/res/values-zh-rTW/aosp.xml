@@ -147,4 +147,6 @@
     <string name="enabled">"已啟用"</string>
     <string name="disabled">"已停用"</string>
     <string name="preview">"預覽"</string>
+    <string name="show_password">"顯示密碼"</string>
+    <string name="hide_password">"隱藏密碼"</string>
 </resources>

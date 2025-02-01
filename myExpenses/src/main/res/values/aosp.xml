@@ -274,4 +274,8 @@
     <string name="disabled">Disabled</string>
     <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -r preview_attachment res | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_attachment//' | aosp_helper -->
     <string name="preview">Preview</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "\"wifi_show_password\"" res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/wifi_//' |  aosp_helper -->
+    <string name="show_password">Show password</string>
+    <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"text_obfuscation_toggle_caption\"" res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/text_obfuscation_toggle_caption/hide_password/' | aosp_helper -->
+    <string name="hide_password">Hide password</string>
 </resources>

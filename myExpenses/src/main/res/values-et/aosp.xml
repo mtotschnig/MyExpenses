@@ -85,4 +85,6 @@
     <string name="enabled">"Lubatud"</string>
     <string name="disabled">"Keelatud"</string>
     <string name="preview">"Eelvaade"</string>
+    <string name="show_password">"Kuva parool"</string>
+    <string name="hide_password">"Peida parool"</string>
 </resources>

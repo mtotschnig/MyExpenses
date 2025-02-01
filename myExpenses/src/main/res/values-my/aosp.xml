@@ -62,4 +62,6 @@
     <string name="enabled">"ဖွင့်ထားသည်"</string>
     <string name="disabled">"ပိတ်ထားသည်"</string>
     <string name="preview">"အစမ်းကြည့်မှု"</string>
+    <string name="show_password">"စကားဝှက်ကို ပြသရန်"</string>
+    <string name="hide_password">"စကားဝှက် ဝှက်ထားရန်"</string>
 </resources>

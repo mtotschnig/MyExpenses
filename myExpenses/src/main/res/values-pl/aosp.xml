@@ -153,4 +153,6 @@
     <string name="enabled">"Włączone"</string>
     <string name="disabled">"Wyłączone"</string>
     <string name="preview">"Podgląd"</string>
+    <string name="show_password">"Pokaż hasło"</string>
+    <string name="hide_password">"Ukryj hasło"</string>
 </resources>

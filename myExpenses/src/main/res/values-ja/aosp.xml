@@ -148,4 +148,6 @@
     <string name="enabled">"有効"</string>
     <string name="disabled">"無効"</string>
     <string name="preview">"プレビュー"</string>
+    <string name="show_password">"パスワードを表示する"</string>
+    <string name="hide_password">"パスワードを隠す"</string>
 </resources>

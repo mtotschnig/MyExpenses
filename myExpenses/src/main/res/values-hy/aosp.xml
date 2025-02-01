@@ -79,4 +79,6 @@
     <string name="enabled">"Միացված է"</string>
     <string name="disabled">"Անջատված է"</string>
     <string name="preview">"Նախադիտում"</string>
+    <string name="show_password">"Ցույց տալ գաղտնաբառը"</string>
+    <string name="hide_password">"Թաքցնել գաղտնաբառը"</string>
 </resources>

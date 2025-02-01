@@ -142,4 +142,6 @@
     <string name="enabled">"מופעלת"</string>
     <string name="disabled">"מושבתת"</string>
     <string name="preview">"תצוגה מקדימה"</string>
+    <string name="show_password">"הצגת הסיסמה"</string>
+    <string name="hide_password">"הסתר סיסמה"</string>
 </resources>

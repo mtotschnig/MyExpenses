@@ -81,4 +81,6 @@
     <string name="enabled">"เปิดใช้"</string>
     <string name="disabled">"ปิดใช้"</string>
     <string name="preview">"ดูตัวอย่าง"</string>
+    <string name="show_password">"แสดงรหัสผ่าน"</string>
+    <string name="hide_password">"ซ่อนรหัสผ่าน"</string>
 </resources>

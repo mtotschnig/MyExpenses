@@ -64,4 +64,6 @@
     <string name="enabled">"Kunikwe amandla"</string>
     <string name="disabled">"Kukhutshaziwe"</string>
     <string name="preview">"Buka kuqala"</string>
+    <string name="show_password">"Bonisa iphasiwedi"</string>
+    <string name="hide_password">"Fihla iphasiwedi"</string>
 </resources>

@@ -66,4 +66,6 @@
     <string name="enabled">"فعال"</string>
     <string name="disabled">"غیرفعال"</string>
     <string name="preview">"پیش‌نمایش"</string>
+    <string name="show_password">"نمایش گذرواژه"</string>
+    <string name="hide_password">"پنهان کردن گذرواژه"</string>
 </resources>

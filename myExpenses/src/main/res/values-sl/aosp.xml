@@ -61,4 +61,6 @@
     <string name="enabled">"Omogočeno"</string>
     <string name="disabled">"Onemogočeno"</string>
     <string name="preview">"Predogled"</string>
+    <string name="show_password">"Pokaži geslo"</string>
+    <string name="hide_password">"Skrij geslo"</string>
 </resources>

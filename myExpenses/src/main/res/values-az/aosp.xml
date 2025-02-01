@@ -56,4 +56,6 @@
     <string name="enabled">"Aktiv edilib"</string>
     <string name="disabled">"Deaktiv edilib"</string>
     <string name="preview">"Önizləmə"</string>
+    <string name="show_password">"Parol görünsün"</string>
+    <string name="hide_password">"Şifrəni gizlət"</string>
 </resources>

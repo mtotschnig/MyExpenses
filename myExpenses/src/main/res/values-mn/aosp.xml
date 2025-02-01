@@ -67,4 +67,6 @@
     <string name="enabled">"Идэвхжүүлсэн"</string>
     <string name="disabled">"Идэвхгүй болгосон"</string>
     <string name="preview">"Урдьчилж харах"</string>
+    <string name="show_password">"Нууц үгийг харуулах"</string>
+    <string name="hide_password">"Нууц үгийг нуух"</string>
 </resources>

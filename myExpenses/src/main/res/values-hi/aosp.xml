@@ -67,4 +67,6 @@
     <string name="enabled">"चालू है"</string>
     <string name="disabled">"बंद है"</string>
     <string name="preview">"पूर्वावलोकन"</string>
+    <string name="show_password">"पासवर्ड दिखाएं"</string>
+    <string name="hide_password">"पासवर्ड छिपाएं"</string>
 </resources>

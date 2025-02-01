@@ -151,4 +151,6 @@
     <string name="enabled">"Увімкнено"</string>
     <string name="disabled">"Вимкнено"</string>
     <string name="preview">"Перегляд"</string>
+    <string name="show_password">"Показати пароль"</string>
+    <string name="hide_password">"Сховати пароль"</string>
 </resources>

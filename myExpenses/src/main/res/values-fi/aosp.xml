@@ -84,4 +84,6 @@
     <string name="enabled">"Päällä"</string>
     <string name="disabled">"Ei käytössä"</string>
     <string name="preview">"Esikatselu"</string>
+    <string name="show_password">"Näytä salasana"</string>
+    <string name="hide_password">"Piilota salasana"</string>
 </resources>

@@ -84,4 +84,6 @@
     <string name="enabled">"Aktivované"</string>
     <string name="disabled">"Deaktivované"</string>
     <string name="preview">"Ukážka"</string>
+    <string name="show_password">"Zobrazovať heslo"</string>
+    <string name="hide_password">"Skryť heslo"</string>
 </resources>

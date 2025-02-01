@@ -54,4 +54,6 @@
     <string name="enabled">"Naka-enable"</string>
     <string name="disabled">"Naka-disable"</string>
     <string name="preview">"I-preview"</string>
+    <string name="show_password">"Ipakita ang password"</string>
+    <string name="hide_password">"Itago ang password"</string>
 </resources>

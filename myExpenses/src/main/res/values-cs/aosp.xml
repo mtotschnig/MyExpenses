@@ -153,4 +153,6 @@
     <string name="enabled">"Zapnuto"</string>
     <string name="disabled">"Vypnuto"</string>
     <string name="preview">"Náhled"</string>
+    <string name="show_password">"Zobrazovat heslo"</string>
+    <string name="hide_password">"Skrýt heslo"</string>
 </resources>
