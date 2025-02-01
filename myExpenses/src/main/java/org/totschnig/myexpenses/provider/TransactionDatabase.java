@@ -34,6 +34,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.SPLIT_
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TAGS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PARENT_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE;
@@ -493,6 +494,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
     db.execSQL(TRANSACTIONS_PAYEE_ID_INDEX);
     db.execSQL("CREATE INDEX templates_payee_id_index on " + TABLE_TEMPLATES + "(" + KEY_PAYEEID + ")");
+    db.execSQL(TRANSACTIONS_PARENT_ID_INDEX);
 
     db.execSQL(TAGS_CREATE);
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
@@ -2112,6 +2114,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 171) {
         upgradeTo171(db);
+      }
+
+      if (oldVersion < 172) {
+        db.execSQL(TRANSACTIONS_PARENT_ID_INDEX);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

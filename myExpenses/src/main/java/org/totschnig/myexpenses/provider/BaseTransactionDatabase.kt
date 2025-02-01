@@ -106,7 +106,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 171
+const val DATABASE_VERSION = 172
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -317,6 +317,9 @@ const val TRANSACTIONS_CAT_ID_INDEX =
 
 const val TRANSACTIONS_PAYEE_ID_INDEX =
     "CREATE INDEX transactions_payee_id_index on $TABLE_TRANSACTIONS($KEY_PAYEEID)"
+
+const val TRANSACTIONS_PARENT_ID_INDEX =
+    "CREATE INDEX transactions_parent_id_index on $TABLE_TRANSACTIONS($KEY_PARENTID)"
 
 private const val RAISE_UPDATE_SEALED_ACCOUNT =
     "SELECT RAISE (FAIL, 'attempt to update sealed account');"
