@@ -15,4 +15,5 @@
     <string name="whats_new_384">إعداد مبسط للنسخ الاحتياطي السحابي</string>
     <string name="whats_new_386">يمكن عرض التوزيع لكل مصروفات والتوزيع لكل دخل معا في مخطط دونات مزدوج الحلقة.</string>
     <string name="whats_new_388">يمكن أرشفة المعاملات.</string>
+    <string name="whats_new_395">يمكن تنزيل الملفات المصدرة (PDF ، النسخ الاحتياطي ، QIF ، CSV ، JSON) عبر واجهة مستخدم الويب.</string>
 </resources>
