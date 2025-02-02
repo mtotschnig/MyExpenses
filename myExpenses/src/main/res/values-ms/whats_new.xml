@@ -2,4 +2,5 @@
 <resources>
     <string name="whats_new_384">Persediaan sandaran awan yang dipermudahkan</string>
     <string name="whats_new_388">Transaksi boleh diarkibkan.</string>
+    <string name="whats_new_395">Fail yang dieksport (PDF, sandaran, QIF, CSV, JSON) boleh dimuat turun melalui Antara Muka Pengguna Web.</string>
 </resources>
