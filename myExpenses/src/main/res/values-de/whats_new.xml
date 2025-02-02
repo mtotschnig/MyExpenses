@@ -21,4 +21,5 @@
     <string name="whats_new_384">Vereinfachte Einrichtung von Cloud-Backups</string>
     <string name="whats_new_386">Die Verteilung pro Ausgaben und die Verteilung pro Einkommen können zusammen in einem Doppelring-Donut-Diagramm dargestellt werden.</string>
     <string name="whats_new_388">Buchungen können archiviert werden.</string>
+    <string name="whats_new_395">Exportierte Dateien (PDF, Backup, QIF, CSV, JSON) können über die Web-Benutzeroberfläche heruntergeladen werden.</string>
 </resources>
