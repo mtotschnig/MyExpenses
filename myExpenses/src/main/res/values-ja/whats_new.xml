@@ -5,4 +5,5 @@
     <string name="whats_new_384">クラウドバックアップのセットアップを簡素化</string>
     <string name="whats_new_388">トランザクションはアーカイブできます。</string>
     <string name="whats_new_386">費用ごとの分布と収入ごとの分布をダブルリングドーナツグラフでまとめて表示することができます。</string>
+    <string name="whats_new_395">エクスポートされたファイル(PDF、バックアップ、QIF、CSV、JSON)は、Webユーザーインターフェースからダウンロードできます。</string>
 </resources>
