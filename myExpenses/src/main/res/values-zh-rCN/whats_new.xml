@@ -2,4 +2,5 @@
 <resources>
     <string name="whats_new_384">简化云备份设置</string>
     <string name="whats_new_388">交易可以存档。</string>
+    <string name="whats_new_395">导出的文件（PDF、备份、QIF、CSV、JSON）可以通过 Web 用户界面下载。</string>
 </resources>
