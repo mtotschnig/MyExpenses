@@ -5,4 +5,5 @@
     <string name="whats_new_384">A felhőalapú biztonsági mentés egyszerűsített beállítása</string>
     <string name="whats_new_386">A kiadások szerinti eloszlás és a jövedelemenkénti eloszlás együtt mutatható be a kettős gyűrűs fánkdiagramon.</string>
     <string name="whats_new_388">A tranzakciók archiválhatók.</string>
+    <string name="whats_new_395">Az exportált fájlok (PDF, backup, QIF, CSV, JSON) letölthetők a webes felhasználói felületen keresztül.</string>
 </resources>
