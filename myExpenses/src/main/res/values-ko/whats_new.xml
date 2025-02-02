@@ -2,4 +2,5 @@
 <resources>
     <string name="whats_new_384">클라우드 백업 설정 간소화</string>
     <string name="whats_new_388">거래내역을 보관할 수 있습니다.</string>
+    <string name="whats_new_395">내보낸 파일(PDF, 백업, QIF, CSV, JSON)은 웹 사용자 인터페이스를 통해 다운로드할 수 있습니다.</string>
 </resources>
