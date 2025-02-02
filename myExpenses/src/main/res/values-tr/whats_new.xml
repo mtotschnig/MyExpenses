@@ -21,4 +21,5 @@
     <string name="whats_new_384">Bulut yedekleme için kurulum basitleştirildi</string>
     <string name="whats_new_386">Gider başına dağıtım ve gelir başına dağıtım çift halkalı simit grafiğinde birlikte gösterilebilir.</string>
     <string name="whats_new_388">Muameleler arşivlenebilir.</string>
+    <string name="whats_new_395">Dışa aktarılan dosyalar (PDF, yedekleme, QIF, CSV, JSON) Web Kullanıcı Arayüzü aracılığıyla indirilebilir.</string>
 </resources>
