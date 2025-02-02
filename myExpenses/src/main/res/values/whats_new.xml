@@ -22,4 +22,5 @@
     <string name="whats_new_384">Simplified setup of cloud backup</string>
     <string name="whats_new_386">Distribution per expenses and distribution per income can be shown together in double-ring donut chart.</string>
     <string name="whats_new_388">Transactions can be archived.</string>
+    <string name="whats_new_395">Exported files (PDF, backup, QIF, CSV, JSON) can be downloaded via Web User Interface.</string>
 </resources>

@@ -189,6 +189,11 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.split_transaction)}: ${t(R.string.ui_refinement)}"
             )
 
+            "395" -> arrayOf(
+                t(R.string.whats_new_395),
+                t(R.string.performance_enhancement)
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
