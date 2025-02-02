@@ -17,4 +17,5 @@
     <string name="whats_new_384">Απλοποιημένη ρύθμιση της δημιουργίας αντιγράφων ασφαλείας στο cloud</string>
     <string name="whats_new_386">Η διανομή ανά έξοδα και η διανομή ανά εισόδημα μπορούν να εμφανιστούν μαζί στο γράφημα ντόνατ με διπλό δακτύλιο.</string>
     <string name="whats_new_388">Οι συναλλαγές μπορούν να αρχειοθετηθούν.</string>
+    <string name="whats_new_395">Τα εξαγόμενα αρχεία (PDF, backup, QIF, CSV, JSON) μπορούν να μεταφορτωθούν μέσω του Web User Interface.</string>
 </resources>
