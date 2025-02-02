@@ -21,4 +21,5 @@
     <string name="whats_new_384">Configuración simplificada de la copia de seguridad en la nube</string>
     <string name="whats_new_386">La distribución por gastos y la distribución por ingresos pueden mostrarse juntas en un gráfico de doble anillo.</string>
     <string name="whats_new_388">Las transacciones se pueden archivar.</string>
+    <string name="whats_new_395">Los archivos exportados (PDF, copia de seguridad, QIF, CSV, JSON) se pueden descargar a través de la interfaz de usuario web.</string>
 </resources>
