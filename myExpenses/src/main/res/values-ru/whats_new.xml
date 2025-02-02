@@ -21,4 +21,5 @@
     <string name="whats_new_378">Графики теперь учитывают фильтры поиска.</string>
     <string name="whats_new_382">Функция %1$s может быть вызвана из виджета %2$s.</string>
     <string name="whats_new_388">Транзакции можно архивировать.</string>
+    <string name="whats_new_395">Экспортированные файлы (PDF, резервные копии, QIF, CSV, JSON) можно загрузить через веб-интерфейс пользователя.</string>
 </resources>
