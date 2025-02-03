@@ -300,7 +300,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
-  public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
@@ -742,26 +741,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         selection = Companion.getSTALE_ATTACHMENT_SELECTION() + " AND " + KEY_ROWID + " = ?";
         selectionArgs = new String[] { uri.getPathSegments().get(1) };
         projection = new String[]{KEY_URI};
-        break;
-      case TRANSACTIONS_LASTEXCHANGE:
-        String currency1 = uri.getPathSegments().get(2);
-        String currency2 = uri.getPathSegments().get(3);
-        selection = "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS +
-            " WHERE " + KEY_ROWID + " = " + KEY_ACCOUNTID + ") = ? AND " +
-            "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " +
-            "(SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
-            " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + ")) = ?";
-        selectionArgs = new String[]{currency1, currency2};
-        projection = new String[]{
-            "'" + currency1 + "'", // we pass the currency codes back so that the receiver
-            "'" + currency2 + "'", // can check if the data is still relevant for him
-            "abs(" + KEY_AMOUNT + ")",
-            "abs((SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
-                " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + "))"
-        };
-        sortOrder = KEY_DATE + " DESC";
-        limit = "1";
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_COMMITTED);
         break;
       case CHANGES:
         selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
@@ -1627,7 +1606,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_SUMS_FOR_ACCOUNTS, TRANSACTIONS_SUMS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/#", UNCOMMITTED_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
