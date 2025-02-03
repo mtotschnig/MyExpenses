@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
@@ -119,7 +118,6 @@ class TransactionListViewModel(
             if (catId == 0L) {
                 selectionParts += WHERE_NOT_SPLIT
             }
-            selectionParts += WHERE_NOT_ARCHIVED
             groupingClause?.takeIf { it.isNotEmpty() }?.let {
                 selectionParts += it
                 selectionArgs.addAll(groupingArgs)

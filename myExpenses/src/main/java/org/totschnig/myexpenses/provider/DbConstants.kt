@@ -281,8 +281,6 @@ fun categoryTreeWithSum(
         val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
         append(", amounts as (select $amountCalculation AS $KEY_DISPLAY_AMOUNT from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
-        append(" AND ")
-        append(WHERE_NOT_ARCHIVED)
         append(" AND +$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
             append(" AND $it")
@@ -704,7 +702,7 @@ fun transactionSumQuery(
             else -> throw IllegalArgumentException()
         }
         """SELECT $aggregateFunction($amountCalculation) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
-AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection)"""
+AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"""
     } else {
         val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
         val columns = projection.map {
@@ -723,7 +721,7 @@ AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection
      $KEY_CURRENCY,
      $KEY_EQUIVALENT_AMOUNT
     FROM $VIEW_WITH_ACCOUNT
-    WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $WHERE_NOT_VOID AND $selection))
+    WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection))
     SELECT ${columns.joinToString()}"""
     }
 }

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 
 interface DisplayInfo {
@@ -88,9 +89,7 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
      * matched by the criteria
      */
     private fun applyToSplitParents(selection: String, tableName: String): String {
-        val selectParents = if (shouldApplyToSplitTransactions) selection else
-            "($selection AND $KEY_PARENTID IS NULL)"
-        return "($selectParents OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
+        return "($selection OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
     }
 
     override fun getSelectionArgs(queryParts: Boolean) = when {
