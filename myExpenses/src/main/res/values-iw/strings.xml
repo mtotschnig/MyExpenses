@@ -628,7 +628,7 @@
     <string name="goal_or_limit">יעד / מגבלה</string>
     <string name="saving_goal">מטרת חיסכון</string>
     <string name="credit_limit">מסגרת אשראי</string>
-    <string name="clear_all_filters">בטל את כל המסננים</string>
+    <string name="clear_all_filters">ביטול כל המסננים</string>
     <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
     <string name="menu_budget">תקצוב</string>
     <string name="dialog_title_edit_budget">ערוך תקציב</string>
@@ -968,4 +968,15 @@
     <string name="warning_empty_archive">אין עסקאות בטווח התאריכים הנבחר.</string>
     <string name="warning_archive_inconsistent_state">לעסקאות בטווח התאריכים הנבחר יש מצבים מגוונים (%s).</string>
     <string name="archive_warning">כל העסקאות (%d) בטווח התאריכים הנבחר תישלחנה לארכיון.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">יש לעבור אל %s כדי להגדיר נעילת מסך.</string>
+    <string name="pref_sync_frequency_summary_0">הגדרה ל־0 תשבית את הסנכרון האוטומטי.</string>
+    <string name="budget_import_cannot_be_imported">התקציבים הבאים מתייחסים לחשבונות שאינם מסונכרנים:</string>
+    <string name="budget_import_can_be_imported">אפשר לייבא את התקציבים הבאים:</string>
+    <string name="webui_download_no_data">לאחר הדפסה, ייצוא או יצירת גיבויים ביישומון, הקבצים יהיו זמינים דרך כאן להורדה.</string>
+    <string name="budget_import_none_found">לא נמצאו תקציבים.</string>
+    <string name="filter_dialog_empty">לא נוספו עדיין קריטריונים. נגיעה בכפתור שלעיל תאפשר להגדיר את השאילתה ולדייק את התוצאות שלך.</string>
+    <string name="buy">רכישה</string>
+    <string name="pref_scroll_to_current_date_title">גלילת רשימת העסקאות לתאריך הנוכחי</string>
+    <string name="pref_scroll_to_current_date_app_launch">רק עם עליית היישום</string>
+    <string name="pref_scroll_to_current_date_account_open">עם כל ניווט לחשבון</string>
 </resources>
