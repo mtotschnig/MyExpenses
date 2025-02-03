@@ -83,7 +83,11 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
 
     /**
      * the sums are calculated based on split parts, hence here we must take care to select parts
-     * where the parents match
+     * where the parents match.
+     * Previously we excluded parent transactions explicitly here, if criterion was not supposed to
+     * be applied to split parts. This broke the calculation of sums when search results were inside
+     * archives. We now assume that the query where the filter is used takes care of excluding split
+     * parents and archives.
      *
      * @return selection wrapped in a way that is also finds split parts where parents are
      * matched by the criteria
