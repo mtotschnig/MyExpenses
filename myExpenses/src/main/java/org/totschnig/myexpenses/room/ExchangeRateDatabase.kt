@@ -17,20 +17,15 @@ abstract class ExchangeRateDatabase : RoomDatabase() {
         private var INSTANCE: ExchangeRateDatabase? = null
 
         @JvmStatic
-        fun getDatabase(context: Context): ExchangeRateDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ExchangeRateDatabase::class.java,
-                    "exchange_rates.db")
-                    .build()
-                INSTANCE = instance
-                return instance
-            }
+        fun getDatabase(context: Context) = INSTANCE ?: synchronized(this) {
+            Room.databaseBuilder(
+                context.applicationContext,
+                ExchangeRateDatabase::class.java,
+                "exchange_rates.db"
+            )
+                .build().also {
+                    INSTANCE = it
+                }
         }
     }
 }

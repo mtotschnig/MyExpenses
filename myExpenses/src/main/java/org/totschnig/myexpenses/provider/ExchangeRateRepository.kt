@@ -20,12 +20,9 @@ class ExchangeRateRepository(
                 }*/
         val apiKey = (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler)
         return if (date == LocalDate.now()) {
-            loadFromNetwork(source, apiKey, date, other, base).second
+            loadFromNetwork(source, apiKey, date, other, base)
         } else dao.getRate(base, other, date, source.id)
-            ?: loadFromNetwork(source, apiKey, date, other, base).let {
-                dao.insert(ExchangeRate(base, other, it.first, it.second, source.id))
-                it.second
-            }
+            ?: loadFromNetwork(source, apiKey, date, other, base)
     }
 
     private suspend fun loadFromNetwork(
@@ -34,7 +31,9 @@ class ExchangeRateRepository(
         date: LocalDate,
         other: String,
         base: String
-    ) = service.getRate(source, apiKey, date, other, base)
+    ) = service.getRate(source, apiKey, date, other, base).also {
+        dao.insert(ExchangeRate(base, other, it.first, it.second, source.id))
+    }.second
 
     suspend fun deleteAll() = dao.deleteALL()
 }
