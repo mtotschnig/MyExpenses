@@ -323,9 +323,6 @@ open class LicenceHandler(
             R.string.donate_button_invoice else null
     )
 
-    open val usesIap: Boolean
-        get() = false
-
     open val needsKeyEntry: Boolean
         get() = true
 
