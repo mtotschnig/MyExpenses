@@ -222,7 +222,13 @@ open class LicenceHandler(
 
     @Suppress("RedundantNullableReturnType")
     fun getFormattedPriceWithExtra(aPackage: Package, withExtra: Boolean): String? {
-        return aPackage.getFormattedPrice(context, currencyFormatter, currencyUnit, withExtra)
+        return aPackage.getFormattedPrice(
+            context,
+            currencyFormatter,
+            currencyUnit,
+            withExtra,
+            usesSubscriptions
+        )
     }
 
     fun getFormattedPriceWithSaving(aPackage: ProfessionalPackage): String? {
@@ -317,11 +323,14 @@ open class LicenceHandler(
             R.string.donate_button_invoice else null
     )
 
-    open val doesUseIAP: Boolean
+    open val usesIap: Boolean
         get() = false
 
     open val needsKeyEntry: Boolean
         get() = true
+
+    open val usesSubscriptions: Boolean
+        get() = false
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"

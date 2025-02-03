@@ -23,13 +23,19 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
         context: Context,
         currencyFormatter: ICurrencyFormatter,
         currencyUnit: CurrencyUnit,
-        withExtra: Boolean
+        withExtra: Boolean,
+        usesSubscription: Boolean,
     ): String {
         val formatted = getFormattedPriceRaw(currencyUnit, currencyFormatter)
-        return getFormattedPrice(context, formatted, withExtra)
+        return getFormattedPrice(context, formatted, withExtra, usesSubscription)
     }
 
-    open fun getFormattedPrice(context: Context, formatted: String, withExtra: Boolean) = formatted
+    open fun getFormattedPrice(
+        context: Context,
+        formatted: String,
+        withExtra: Boolean,
+        usesSubscription: Boolean
+    ) = formatted
 
     fun getFormattedPriceRaw(currencyUnit: CurrencyUnit, currencyFormatter: ICurrencyFormatter) =
         currencyFormatter.formatMoney(Money(currencyUnit, defaultPrice))
@@ -75,8 +81,13 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
         return if (withExtra) base + DURATION_EXTRA else base
     }
 
-    override fun getFormattedPrice(context: Context, formatted: String, withExtra: Boolean) =
-        formatWithDuration(context, formatted, withExtra)
+    override fun getFormattedPrice(
+        context: Context,
+        formatted: String,
+        withExtra: Boolean,
+        usesSubscription: Boolean
+    ) =
+        formatWithDuration(context, formatted, withExtra, usesSubscription)
 
 /*    fun getMonthlyPrice(withExtra: Boolean) =
             ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()*/
@@ -84,18 +95,17 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     private fun formatWithDuration(
         context: Context,
         formattedPrice: String?,
-        withExtra: Boolean
+        withExtra: Boolean,
+        usesSubscription: Boolean
     ): String {
         val duration = getDuration(withExtra)
         val formattedDuration: String
         var format = "%s (%s)"
-        when (duration) {
-            1 -> formattedDuration = context.getString(R.string.monthly_plain)
-            12 -> formattedDuration = context.getString(R.string.yearly_plain)
-            else -> {
-                format = "%s / %s"
-                formattedDuration = context.getString(R.string.n_months, duration)
-            }
+        if (usesSubscription && duration == 1) formattedDuration = context.getString(R.string.monthly_plain)
+        else if (usesSubscription && duration == 12) formattedDuration = context.getString(R.string.yearly_plain)
+        else {
+            format = "%s / %s"
+            formattedDuration = context.getString(R.string.n_months, duration)
         }
         return String.format(format, formattedPrice, formattedDuration)
     }
