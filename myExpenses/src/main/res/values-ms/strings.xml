@@ -609,7 +609,6 @@
     <string name="saving_goal">Matlamat simpanan</string>
     <string name="credit_limit">Had kredit</string>
     <string name="clear_all_filters">Kosongkan semua penapis</string>
-    <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
     <string name="menu_budget">Pembelanjawan</string>
     <string name="dialog_title_edit_budget">Sunting bajet</string>
     <string name="budget_table_header_budgeted">Dibajetkan</string>

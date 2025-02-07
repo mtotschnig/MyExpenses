@@ -623,7 +623,6 @@
     <string name="saving_goal">Cél mentése</string>
     <string name="credit_limit">Hitelkeret</string>
     <string name="clear_all_filters">Összes szűrő törlése</string>
-    <string name="professional_key_fallback_info">Egy Professional Key előfizetés, amely legalább egy éve aktív, és amelyet nem hosszabbítanak meg, automatikusan korlátlan kibővített kulccsá alakul át.</string>
     <string name="menu_budget">Költségvetés</string>
     <string name="dialog_title_edit_budget">Költségvetés szerkesztése</string>
     <string name="budget_table_header_budgeted">Költségvetési</string>

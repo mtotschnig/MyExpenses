@@ -662,7 +662,6 @@
     <string name="dialog_title_edit_budget">Editează bugetul</string>
     <string name="budget_table_header_budgeted">Bugetate</string>
     <string name="budget_table_header_overspent">Cheltuieli depășite</string>
-    <string name="professional_key_fallback_info">Un abonament la cheia profesională care a fost activ timp de cel puțin un an și nu este reînnoit, va fi transformat automat într-o cheie extinsă nelimitată.</string>
     <string name="budget_exceeded_error_1_2">Tot bugetul tău a fost alocat altor categorii.</string>
     <string name="sub_budget_exceeded_error_1_1">Totalitatea, cu excepția a %s din suma alocată categoriei principale, a fost alocată altor subcategorii.</string>
     <string name="sub_budget_exceeded_error_2">Creșteți suma alocată categoriei principale sau eliminați bani din alte subcategorii.</string>

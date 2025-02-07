@@ -624,7 +624,6 @@
     <string name="saving_goal">Ціль заощадження</string>
     <string name="credit_limit">Кредитний ліміт</string>
     <string name="clear_all_filters">Очистити всі фільтри</string>
-    <string name="professional_key_fallback_info">Підписку на Професійну версію, яка була активною протягом принаймні одного року та не була поновлена, буде автоматично перетворено в необмежену Розширену версію.</string>
     <string name="menu_budget">Бюджетування</string>
     <string name="dialog_title_edit_budget">Редагувати бюджет</string>
     <string name="budget_table_header_budgeted">Розподілено</string>

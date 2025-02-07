@@ -614,7 +614,6 @@
     <string name="saving_goal">儲蓄目標</string>
     <string name="credit_limit">信用額度</string>
     <string name="clear_all_filters">清除所有的篩選條件</string>
-    <string name="professional_key_fallback_info">\"專業版金鑰(Professional Key)\"的訂閱已啟用滿一年且未續訂的情況下，將自動轉換為無限期的\"延伸版金鑰( Extended Key)\"。</string>
     <string name="menu_budget">預算編訂</string>
     <string name="dialog_title_edit_budget">編輯預算</string>
     <string name="budget_table_header_budgeted">預算</string>

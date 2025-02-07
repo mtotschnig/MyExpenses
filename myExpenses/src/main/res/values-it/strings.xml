@@ -627,7 +627,6 @@
     <string name="saving_goal">Obiettivo risparmio</string>
     <string name="credit_limit">Limite di credito</string>
     <string name="clear_all_filters">Cancella tutti i filtri</string>
-    <string name="professional_key_fallback_info">Una sottoscrizione alla Licenza Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Licenza Funzionalità Estese illimitata.</string>
     <string name="menu_budget">Bilancio</string>
     <string name="dialog_title_edit_budget">Modifica il budget</string>
     <string name="budget_table_header_budgeted">Preventivato</string>

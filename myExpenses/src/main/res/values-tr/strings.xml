@@ -622,7 +622,6 @@
     <string name="saving_goal">Tasarruf hedefi </string>
     <string name="credit_limit">Kredi sınırı</string>
     <string name="clear_all_filters">Tüm filtreleri temizle</string>
-    <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
     <string name="menu_budget">Bütçeleme</string>
     <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>
     <string name="budget_table_header_budgeted">Bütçelenmiş</string>

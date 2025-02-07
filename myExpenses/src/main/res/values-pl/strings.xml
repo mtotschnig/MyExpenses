@@ -618,7 +618,6 @@
     <string name="saving_goal">Cel oszczędzania</string>
     <string name="credit_limit">Limit kredytu</string>
     <string name="clear_all_filters">Wyczyść wszystkie filtry</string>
-    <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>
     <string name="menu_budget">Przydzielanie budżetu</string>
     <string name="dialog_title_edit_budget">Edycja budżetu</string>
     <string name="budget_table_header_budgeted">Rozdzielono</string>

@@ -630,7 +630,6 @@
     <string name="saving_goal">Meta de ahorro</string>
     <string name="credit_limit">Límite de crédito</string>
     <string name="clear_all_filters">Limpiar todos los filtros</string>
-    <string name="professional_key_fallback_info">Una suscripción de Llave Profesional que lleve activa durante un año y no se renueve, se convertirá automáticamente en una Llave Extendida ilimitada.</string>
     <string name="menu_budget">Presupuestar</string>
     <string name="dialog_title_edit_budget">Editar presupuesto</string>
     <string name="budget_table_header_budgeted">Presupuestado</string>

@@ -387,7 +387,6 @@
     <string name="pref_custom_decimal_format_summary">Als je niet tevreden bent met het standaardformaat voor je landinstelling, pas dit dan aan je behoeften aan. Laat leeg om het standaardformaat te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
-    <string name="professional_key_fallback_info">Een abonnement op de Professional Key dat minimaal een jaar actief is en niet wordt verlengd, wordt automatisch omgezet in een onbeperkte Extended Key.</string>
     <string name="date_format_hour">Uur</string>
     <string name="validate_error_webdav_404">De URL bestaat niet op de server.</string>
     <string name="dialog_confirm_sync_unlink">Als je deze rekening ontkoppelt van %s, gaat de synchronisatiestatus verloren. Als je ze later opnieuw wilt koppelen, moet een volledige synchronisatie opnieuw worden uitgevoerd.</string>

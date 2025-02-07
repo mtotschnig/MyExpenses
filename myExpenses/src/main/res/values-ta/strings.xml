@@ -622,7 +622,6 @@
     <string name="saving_goal">சேமிப்பு இலக்கு</string>
     <string name="credit_limit">கடன் வரம்பு</string>
     <string name="clear_all_filters">அனைத்து வடிப்பான்களையும் நீக்கு</string>
-    <string name="professional_key_fallback_info">குறைந்தபட்சம் ஒரு வருடத்திற்கு செயலில் உள்ள நிபுணத்துவ திறவுகோலுக்கான சந்தா புதுப்பிக்கப்படவில்லையெனில், தானாகவே வரம்பற்ற விரிவாக்கப்பட்ட திறவுகோலாக மாற்றப்படும்.</string>
     <string name="menu_budget">வரவு செலவுத் திட்டம்</string>
     <string name="dialog_title_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
     <string name="budget_table_header_budgeted">திட்டமிடப்பட்டது</string>

@@ -629,7 +629,6 @@
     <string name="saving_goal">מטרת חיסכון</string>
     <string name="credit_limit">מסגרת אשראי</string>
     <string name="clear_all_filters">ביטול כל המסננים</string>
-    <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
     <string name="menu_budget">תקצוב</string>
     <string name="dialog_title_edit_budget">ערוך תקציב</string>
     <string name="budget_table_header_budgeted">מתוקצב</string>

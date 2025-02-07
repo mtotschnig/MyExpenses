@@ -638,7 +638,6 @@
     <string name="saving_goal">Ukládání cíle</string>
     <string name="credit_limit">Kreditní limit</string>
     <string name="clear_all_filters">Vymazat všechny filtry</string>
-    <string name="professional_key_fallback_info">Předplatné profesionálního klíče, které je aktivní alespoň jeden rok a není obnoveno, bude automaticky převedeno na neomezený rozšířený klíč.</string>
     <string name="menu_budget">Rozpočty</string>
     <string name="dialog_title_edit_budget">Upravit rozpočet</string>
     <string name="budget_table_header_budgeted">V rozpočtu</string>

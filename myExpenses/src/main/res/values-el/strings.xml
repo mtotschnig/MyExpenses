@@ -592,7 +592,6 @@
     <string name="saving_goal">Στόχος Αποταμίευσης</string>
     <string name="credit_limit">Πιστωτικό όριο</string>
     <string name="clear_all_filters">Απαλοιφή όλων των φίλτρων</string>
-    <string name="professional_key_fallback_info">Μια συνδρομή στο Επαγγελματικό Κλειδί που είναι ενεργή για τουλάχιστον ένα έτος και δεν ανανεωθεί, θα μετατραπεί αυτόματα σε απεριόριστο Εκτεταμένο Κλειδί.</string>
     <string name="menu_budget">Προϋπολογισμός</string>
     <string name="dialog_title_edit_budget">Επεξεργασία προϋπολογισμού</string>
     <string name="budget_table_header_budgeted">Προϋπολογισμένο</string>

@@ -611,7 +611,6 @@
     <string name="saving_goal">貯蓄目標</string>
     <string name="credit_limit">クレジット限度</string>
     <string name="clear_all_filters">すべてのフィルターをクリア</string>
-    <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
     <string name="menu_budget">予算作成</string>
     <string name="dialog_title_edit_budget">予算を編集</string>
     <string name="budget_table_header_budgeted">予算計画済</string>

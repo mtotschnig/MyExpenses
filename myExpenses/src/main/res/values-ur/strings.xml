@@ -706,7 +706,6 @@
     <string name="warning_auto_backup_deactivated">آٹو بیک اپ کو غیر فعال کر دیا گیا ہے. آپ مسئلہ کو حل کرنے کے بعد سیٹنگز سے اسے دوبارہ آن کر سکتے ہیں (مثلاً بیک اپ کے لیے ایک مختلف فولڈر کا انتخاب کرنا).</string>
     <string name="synchronization_start">اکاؤنٹ %s کے لیے مطابقت پذیری شروع ہو رہی ہے.</string>
     <string name="pref_warning_only_one_protection">اس سے پہلے کہ آپ %1$s تک تحفظ استعمال کر سکیں، آپ کو %2$s تک تحفظ کو بند کرنا چاہیے.</string>
-    <string name="professional_key_fallback_info">پروفیشنل کلید کی رکنیت جو کم از کم ایک سال سے فعال ہے اور اس کی تجدید نہیں ہوئی ہے، خود بخود ایک لامحدود توسیعی کلید میں تبدیل ہو جائے گی.</string>
     <string name="history_chart_in_label">آمدنی</string>
     <string name="home_currency_change_warning">اگر آپ اپنی گھریلو کرنسی تبدیل کرتے ہیں تو مساوی رقم اور شرح مبادلہ ضائع ہو جائیں گے، اور اس کی دوبارہ وضاحت کرنے کی ضرورت ہے.</string>
     <string name="licence_has_expired_n_days">آپ کی پروفیشنل کلید کی میعاد %d دن پہلے ختم ہو گئی ہے.</string>

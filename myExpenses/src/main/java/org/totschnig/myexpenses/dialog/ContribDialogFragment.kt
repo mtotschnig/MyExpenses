@@ -236,10 +236,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         //FOOTER
         if (isGithub) {
             binding.githubExtraInfo.isVisible = true
-            binding.githubExtraInfo.text = concatResStrings(
-                requireActivity(),
-                R.string.professional_key_fallback_info, R.string.eu_vat_info
-            )
+            binding.githubExtraInfo.text = getString(R.string.eu_vat_info)
             binding.githubSponsors.isVisible = true
             binding.githubSponsors.text = HtmlCompat.fromHtml(
                 getString(R.string.github_sponsors, "https://github.com/sponsors/mtotschnig"),

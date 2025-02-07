@@ -630,7 +630,6 @@
     <string name="saving_goal">Objectif d’épargne</string>
     <string name="credit_limit">Limite de crédit</string>
     <string name="clear_all_filters">Effacer tous les filtres</string>
-    <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
     <string name="menu_budget">Budgétisation</string>
     <string name="dialog_title_edit_budget">Modifier le budget</string>
     <string name="budget_table_header_budgeted">Budgétisé</string>

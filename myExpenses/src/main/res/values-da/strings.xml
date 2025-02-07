@@ -644,7 +644,6 @@
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
     <string name="pref_value_date_summary">Tillad at angive værdidato ud over bogføringsdatoen. Transaktionstiden vil være skjult. Denne indstilling gælder ikke for kontantkonti.</string>
     <string name="booking_date">Bogføringsdato</string>
-    <string name="professional_key_fallback_info">Et abonnement på den Professionelle Nøgle, der har været aktiv i mindst et år og ikke fornyes, ændres automatisk til en ubegrænset Udvidet Nøgle.</string>
     <string name="budget_under_allocated_error">%s er allerede blevet tildelt kategorier. Medmindre du fjerner penge fra dem, skal du mindst budgettere det beløb.</string>
     <string name="sub_budget_under_allocated_error">%s er allerede blevet tildelt andre underkategorier. Medmindre du fjerner penge fra dem, skal du mindst tildele det beløb til hovedkategorien.</string>
     <string name="unmapped_filter_only_single">\'Ikke tilknyttet\'-filteret kan ikke inkluderes i flervalg</string>

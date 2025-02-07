@@ -622,7 +622,6 @@
     <string name="saving_goal">Цел за спестяване</string>
     <string name="credit_limit">Кредитен лимит</string>
     <string name="clear_all_filters">Премахни филтрите</string>
-    <string name="professional_key_fallback_info">Абонамент за Професионален ключ, който е бил активен най-малко една година и не е подновен, ще бъде автоматично преобразуван в неограничен Разширен ключ.</string>
     <string name="menu_budget">Бюджетиране</string>
     <string name="dialog_title_edit_budget">Редактиране на бюджет</string>
     <string name="budget_table_header_budgeted">В бюджета</string>

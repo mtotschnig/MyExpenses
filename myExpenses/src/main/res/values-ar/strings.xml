@@ -653,7 +653,6 @@
     <string name="saving_goal">هدف الإدخار</string>
     <string name="credit_limit">سقف الائتمان</string>
     <string name="clear_all_filters">مسح كل عوامل التصفية</string>
-    <string name="professional_key_fallback_info">سيتم تحويل الاشتراك في المفتاح المهني الذي كان نشطاً لمدة عام واحد على الأقل ولم يتم تجديده، تلقائياً إلى مفتاح ممتد غير محدود.</string>
     <string name="menu_budget">وضع الميزانية</string>
     <string name="dialog_title_edit_budget">تحرير الميزانية</string>
     <string name="budget_table_header_budgeted">مدرج في الميزانية</string>

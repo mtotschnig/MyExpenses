@@ -614,7 +614,6 @@
     <string name="saving_goal">储蓄目标</string>
     <string name="credit_limit">信用额度</string>
     <string name="clear_all_filters">清除所有的筛选条件</string>
-    <string name="professional_key_fallback_info">\"专业版密钥(Professional Key)\"的订阅已激活满一年且未续订的情况下，将自动转换为无限期的\"延伸版密钥( Extended Key)\"。</string>
     <string name="menu_budget">预算编制</string>
     <string name="dialog_title_edit_budget">编辑预算</string>
     <string name="budget_table_header_budgeted">预算</string>

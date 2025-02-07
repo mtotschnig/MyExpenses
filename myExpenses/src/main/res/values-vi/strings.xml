@@ -649,7 +649,6 @@
     <string name="object_sealed_debt">Đối tượng đề cập đến một khoản nợ đã đóng.</string>
     <string name="pref_csv_export_split_categories_summary">Sử dụng các cột riêng biệt cho mỗi cấp phân cấp danh mục</string>
     <string name="remap_date">Trên tất cả các giao dịch đã chọn, ngày sẽ được đặt thành %s.</string>
-    <string name="professional_key_fallback_info">Đăng ký Khóa chuyên nghiệp đã hoạt động ít nhất một năm và không được gia hạn sẽ tự động được chuyển đổi thành Khóa mở rộng không giới hạn.</string>
     <string name="sub_budget_exceeded_error_2">Tăng số tiền được phân bổ cho danh mục chính hoặc xóa tiền khỏi các danh mục phụ khác.</string>
     <string name="pref_security_export_passphrase_summary">Các bản sao lưu sẽ được mã hóa bằng cụm mật khẩu này</string>
     <string name="content_description_dates_are_linked">Ngày đặt phòng và ngày giá trị được cập nhật cùng nhau</string>

@@ -674,7 +674,6 @@
     <string name="budget_table_header_budgeted">Orçado</string>
     <string name="dialog_title_edit_budget">Editar o orçamento</string>
     <string name="menu_budget">Orçamento</string>
-    <string name="professional_key_fallback_info">Uma assinatura da Chave Profissional que esteve ativa por pelo menos um ano e não foi renovada será automaticamente transformada em uma Chave Estendida ilimitada.</string>
     <string name="clear_all_filters">Limpar todos os filtros</string>
     <string name="credit_limit">Limite de crédito</string>
     <string name="saving_goal">Meta de poupança</string>

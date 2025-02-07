@@ -728,7 +728,6 @@
     <string name="budget_table_header_budgeted">Proračunato</string>
     <string name="dialog_title_edit_budget">Uredi proračun</string>
     <string name="menu_budget">Izrada proračuna</string>
-    <string name="professional_key_fallback_info">Pretplata na profesionalni ključ koji je aktivan najmanje godinu dana i koji nije obnovljen, automatski će se pretvoriti u neograničeni prošireni ključ.</string>
     <string name="clear_all_filters">Isprazni sve filtre</string>
     <string name="credit_limit">Kreditno ograničenje</string>
     <string name="saving_goal">Cilj štednje</string>

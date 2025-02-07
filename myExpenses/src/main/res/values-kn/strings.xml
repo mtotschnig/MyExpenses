@@ -620,7 +620,6 @@
     <string name="saving_goal">ಗುರಿ ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="credit_limit">ಸಾಲದ ಮಿತಿ</string>
     <string name="clear_all_filters">ಎಲ್ಲಾ ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
-    <string name="professional_key_fallback_info">ವೃತ್ತಿಪರ ಕೀಗೆ ಚಂದಾದಾರಿಕೆ ಕನಿಷ್ಠ ಒಂದು ವರ್ಷ ಸಕ್ರಿಯವಾಗಿದೆ ಮತ್ತು ನವೀಕರಿಸಲಾಗಿಲ್ಲ, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅನಿಯಮಿತ ವಿಸ್ತೃತ ಕೀ ಆಗಿ ಪರಿವರ್ತನೆಗೊಳ್ಳುತ್ತದೆ.</string>
     <string name="menu_budget">ಬಜೆಟ್</string>
     <string name="dialog_title_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
     <string name="budget_table_header_budgeted">ಬಜೆಟ್ ಮಾಡಲಾಗಿದೆ</string>

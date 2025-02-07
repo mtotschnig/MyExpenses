@@ -636,7 +636,6 @@
     <string name="saving_goal">Сохранение цели</string>
     <string name="credit_limit">Кредитный лимит</string>
     <string name="clear_all_filters">Очистите все фильтры</string>
-    <string name="professional_key_fallback_info">Подписка на Профессиональный ключ, действующая не менее одного года и которая не продлена, будет автоматически преобразована в неограниченный продленный ключ.</string>
     <string name="menu_budget">Бюджетирование</string>
     <string name="dialog_title_edit_budget">Изменить бюджет</string>
     <string name="budget_table_header_budgeted">в бюджете</string>

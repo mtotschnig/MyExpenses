@@ -307,7 +307,6 @@
     <string name="menu_budget">బడ్జెట్లో</string>
     <string name="budget_table_header_budgeted">బడ్జెట్</string>
     <string name="dialog_title_edit_budget">బడ్జెట్‌ను సవరించండి</string>
-    <string name="professional_key_fallback_info">కనీసం ఒక సంవత్సరం పాటు చురుకుగా ఉన్న మరియు పునరుద్ధరించబడని ప్రొఫెషనల్ కీకి చందా స్వయంచాలకంగా అపరిమిత విస్తరించిన కీగా మార్చబడుతుంది.</string>
     <string name="clear_all_filters">అన్ని ఫిల్టర్‌లను క్లియర్ చేయండి</string>
     <string name="credit_limit">క్రెడిట్ పరిమితి</string>
     <string name="saving_goal">లక్ష్యాన్ని ఆదా చేస్తోంది</string>

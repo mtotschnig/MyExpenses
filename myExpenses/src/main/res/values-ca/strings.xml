@@ -621,7 +621,6 @@
     <string name="saving_goal">Objectiu d\'estalvi</string>
     <string name="credit_limit">Límit de crèdit</string>
     <string name="clear_all_filters">Neteja tots els filtres</string>
-    <string name="professional_key_fallback_info">Una susbscripció a Clau Professional que hagi estat activa com a mínim un any i no es renovi es convertirà actualment en una Clau Extesa il·limitada.</string>
     <string name="budget_exceeded_error_2">Incrementa la quantitat pressupostada o retira diners d\'altres categories.</string>
     <string name="sub_budget_exceeded_error_1_1">Tot excepte %s de la quantitat assignada a la categoria principal ha estat assignat a altres subcategories.</string>
     <string name="split_transaction_one_success">Transacció convertida a transacció dividida amb èxit.</string>

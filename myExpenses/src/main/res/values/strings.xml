@@ -644,7 +644,6 @@
     <string name="pref_scroll_to_current_date_title">Scroll transaction list to current date</string>
     <string name="pref_scroll_to_current_date_app_launch">only when app launches</string>
     <string name="pref_scroll_to_current_date_account_open">every time you navigate to account</string>
-    <string name="professional_key_fallback_info">A subscription to the Professional Key that has been active for at least one year and is not renewed, will be automatically transformed into an unlimited Extended Key.</string>
     <string name="menu_budget">Budgeting</string>
     <string name="dialog_title_edit_budget">Edit budget</string>
     <string name="budget_table_header_budgeted">Budgeted</string>
