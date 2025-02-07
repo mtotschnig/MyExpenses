@@ -1,0 +1,5 @@
+• Экспортированные файлы (PDF, резервные копии, QIF, CSV, JSON) можно загрузить через веб-интерфейс пользователя.
+• Улучшение производительности
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

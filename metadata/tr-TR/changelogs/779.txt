@@ -1,0 +1,5 @@
+• Dışa aktarılan dosyalar (PDF, yedekleme, QIF, CSV, JSON) Web Kullanıcı Arayüzü aracılığıyla indirilebilir.
+• Performans arttırıldı
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

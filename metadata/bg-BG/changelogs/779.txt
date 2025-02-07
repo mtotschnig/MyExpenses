@@ -1,0 +1,5 @@
+• Експортираните файлове (PDF, архивиране, QIF, CSV, JSON) могат да бъдат изтеглени чрез уеб потребителски интерфейс.
+• Подобрено бързодействие
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

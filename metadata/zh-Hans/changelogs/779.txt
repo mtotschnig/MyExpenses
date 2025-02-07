@@ -1,0 +1,5 @@
+• 导出的文件（PDF、备份、QIF、CSV、JSON）可以通过 Web 用户界面下载。
+• 性能增强
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

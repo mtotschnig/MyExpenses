@@ -1,0 +1,5 @@
+• Exported files (PDF, backup, QIF, CSV, JSON) can be downloaded via Web User Interface.
+• Performance enhancement
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

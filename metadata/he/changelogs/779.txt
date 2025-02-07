@@ -1,0 +1,5 @@
+• קבצים מיוצאים (PDF, גיבוי, QIF,‏ CSV,‏ JSON) ניתנים להורדה באמצעות ממשק משתמש באינטרנט.
+• שיפור בעיצועים
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

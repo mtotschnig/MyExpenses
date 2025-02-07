@@ -1,0 +1,5 @@
+• Fail yang dieksport (PDF, sandaran, QIF, CSV, JSON) boleh dimuat turun melalui Antara Muka Pengguna Web.
+• Penambahbaikan prestasi
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

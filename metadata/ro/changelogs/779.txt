@@ -1,0 +1,5 @@
+• Fișierele exportate (PDF, backup, QIF, CSV, JSON) pot fi descărcate prin intermediul interfeței web cu utilizatorul.
+• Îmbunătățirea performanței
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421
