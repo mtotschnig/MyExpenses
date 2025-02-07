@@ -1,0 +1,5 @@
+• يمكن تنزيل الملفات المصدرة (PDF ، النسخ الاحتياطي ، QIF ، CSV ، JSON) عبر واجهة مستخدم الويب.
+• تحسينات علي الأداء
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421

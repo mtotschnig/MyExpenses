@@ -1,0 +1,5 @@
+• 내보낸 파일(PDF, 백업, QIF, CSV, JSON)은 웹 사용자 인터페이스를 통해 다운로드할 수 있습니다.
+• Performance enhancement
+
+https://github.com/users/mtotschnig/projects/15
+https://mastodon.social/@myexpenses/113933510952312421
