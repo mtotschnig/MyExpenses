@@ -26,7 +26,7 @@
     <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Stvori transakcije u vrijeme odabranih instanci događaja i odmah ih spremi.</string>
     <string name="help_ManageCategories_select_filter_info">Pritisni na unos za pokretanje višestrukog odabira.</string>
     <string name="help_ManageCategories_manage_context">Pritisni na unos za prikaz kontekstualnog izbornika. Dugim dodirom pokreni višestruki odabir.</string>
-    <string name="help_ManageCategories_expand_collapse">Pritisni ikonu &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; za rasklapanje ili sklapanje kategorije.</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[Pritisni ikonu <img src="ic_expand_more">/<img src="ic_expand_less"> za rasklapanje ili sklapanje kategorije.]]></string>
     <string name="popup_MyExpenses_toolbar_intro">Dodirom na alatnoj traci (oznaka računa ili trenutačni saldo) otvara se izbornik sa sljedećim unosima:</string>
     <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim proračunima za trenutačno prikazani račun.</string>
     <string name="menu_print_help_text">Generira prikaz ispisa trenutačno prikazanih transakcija.</string>
@@ -82,7 +82,7 @@
     <string name="help_ManageParties_floating_action_button">Koristi plutajući gumb radnji za dodavanje novog unosa.</string>
     <string name="menu_merge_help_text">Ako se ista stranka u popisu pojavljuje više puta u različitim varijantama pisanja, možeš ih spojiti.</string>
     <string name="help_ManageParties_mergeMode_info_2">Morat ćeš odlučiti koju varijantu želiš zadržati.</string>
-    <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;Dok se predlošci mogu izvesti iz transakcija putem njihovog kontekstnog izbornika, ovdje možeš stvoriti nove predloške (za transakcije ili prijenose) pritiskom na plutajući gumb radnji. Pritiskom na predložak stvorit ćeš instancu za transakciju ili prijenos.&lt;br&gt;&lt;img src=ic_event&gt;Plan je predložak za koji si stvorio/la događaj (jednokratan ili ponavljajući) u kalendaru planova. Pritiskom na plan otvorit će se prikaz kalendara koji prikazuje prošle i nadolazeće instance plana.</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">Dok se predlošci mogu izvesti iz transakcija putem njihovog kontekstnog izbornika, ovdje možeš stvoriti nove predloške (za transakcije ili prijenose) pritiskom na plutajući gumb radnji. Pritiskom na predložak stvorit ćeš instancu za transakciju ili prijenos.<br><img src="ic_event">Plan je predložak za koji si stvorio/la događaj (jednokratan ili ponavljajući) u kalendaru planova. Pritiskom na plan otvorit će se prikaz kalendara koji prikazuje prošle i nadolazeće instance plana.]]></string>
     <string name="help_ManageTemplates_plans_intro">Svaki istaknuti datum predstavlja instancu plana.</string>
     <string name="help_ManageTemplates_plans_info_header">Stanje instance označeno je sljedećim ikonama:</string>
     <string name="help_ManageTemplates_plans_info_open">Instanca još nije primijenjena.</string>
@@ -93,7 +93,7 @@
     <string name="help_ExpenseEdit_splitPartCategory_title">Obrazac za kategorije podjela</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">Obrazac za prijenos podjela</string>
     <string name="form_amount_switch_help_text">Koristi sklopku za prikazivanje troškova ili prihoda.</string>
-    <string name="form_calculator_help_text">Gumb &lt;img src=?calcIcon&gt; otvara kalukulator.</string>
+    <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> gumb otvara kalukulator.]]></string>
     <string name="menu_HistoryActivity_history_transfers_help_text">Uključi/Isključi, ako se prijenosi trebaju tretirati kao redovni prihod ili trošak.</string>
     <string name="form_account_help_text">Odaberi račun kojemu transakcija pripada.</string>
     <string name="form_date_time_help_text">Upiši datum i vrijeme izvršavanja transakcije.</string>
@@ -105,16 +105,16 @@
     <string name="help_ExpenseEdit_templateCategory_info">Koristi ovaj obrazac za unos nove transakcije ili za uređivanje postojeće. Koristi padajući izbornik u traci radnji za prebacivanje na obrazce za transakcije, prijenose i višedjelne transakcije.</string>
     <string name="help_ExpenseEdit_split_info">Višedjelna transakcija je transakcija podijeljena na dijelove, pri čemu se svaki dio može dodijeliti jednoj drugoj kategoriji ili prenijeti na jedan drugi račun.</string>
     <string name="form_comment_help_text">Upiši bilo koju napomenu o objektu.</string>
-    <string name="form_attach_image_help_text">Gumb &lt;img src=android:ic_menu_camera&gt; omogućuje prilaganje slike objektu (npr. iz galerije ili pomoću kamere).</string>
+    <string name="form_attach_image_help_text"><![CDATA[The <img src="android:ic_menu_camera"> gumb omogućuje prilaganje slike objektu (npr. iz galerije ili pomoću kamere).]]></string>
     <string name="form_category_help_text">Ovaj gumb otvara popis kategorija, gdje možeš odabrati kategoriju za transakciju.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Odaberi kategoriju za ovaj dio podjele.</string>
     <string name="form_exchange_rate_help_text">Tečaj možeš odrediti u oba smjera prijenosa. Inverzni tečaj i iznos koji odgovara ovisnom dijelu tečaja izračunavaju se automatski.</string>
     <string name="form_split_parts_heading_help_text_1">Koristi ikonu + za dodavanje dijelova po potrebi.</string>
     <string name="form_split_parts_heading_help_text_2">Polje iznosa će se automatski akatualizirati sa zbrojem dijelova, osim ako ručno ne uneseš iznos. U tom slučaju će se prikazati razlika između zbroja dijelova i iznosa (nepodijeljeni iznos).</string>
     <string name="form_split_parts_heading_help_text_3">Višedjeljnu transakciju možeš spremiti samo ako je iznos transakcije točno dodijeljen.</string>
-    <string name="form_date_time_help_text_link">Ako je prekidač &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; u povezanom stanju, postavljanje datuma vrijednosti ili datuma uknjiženja aktualizirat će i drugi datum.</string>
+    <string name="form_date_time_help_text_link"><![CDATA[Ako je <img src="ic_hchain">/<img src="ic_hchain_broken"> prekidač u povezanom stanju, postavljanje datuma vrijednosti ili datuma uknjiženja će aktualizirati i drugi datum.]]></string>
     <string name="form_crstatus_help_text">Za transakcije koje pripadaju bankovnim računima možeš promijeniti stanje transakcije u „odobreno”. Za postavljanje na „usklađeno” moraš koristiti naredbu „Uskladi račun” iz popisa transakcija. Ako je stanje postavljen na „anulirano” transakcija se neće računati.</string>
-    <string name="help_ExportDialog_date_format">Tekst se može citirati jednostrukim navodnicima (\') kako bi se izbjeglo tumačenje. \'\' (dva jednostruka navodnika) predstavljaju jednostruki navodnik. Više pojedinosti potraži u &lt;a href=%s&gt;specifikaciji&lt;/a&gt; ili kontaktiraj support@myexpenses.mobi za pomoć.</string>
+    <string name="help_ExportDialog_date_format"><![CDATA[Tekst se može citirati jednostrukim navodnicima (\') kako bi se izbjeglo tumačenje. \'\' (dva jednostruka navodnika) predstavljaju jednostruki navodnik. Pojedinosti potraži u <a href="%s">specifikaciji</a> ili kontaktiraj support@myexpenses.mobi za pomoć.]]></string>
     <string name="cab_MyExpenses_select_help_text">Višestruki odabir se može pokrenuti odabirom ove naredbe ili dugim pritiskom na unos popisa.</string>
     <string name="menu_show_all_help_text">Dugovi koji su zatvoreni ili otplaćeni (čiji je saldo 0) prikazat će se samo ako je ova opcija označena.</string>
     <string name="help_DebtOverview_info">Pritisni na unos za rasklapanje/sklapanje.</string>
