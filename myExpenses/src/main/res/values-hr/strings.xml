@@ -914,4 +914,22 @@
     <string name="warning_delete_archive">Sve transakcije sadržane u ovoj arhivi (%d) će se izbrisati.</string>
     <string name="archive_warning">Sve transakcije (%d) u odabranom datumskom rasponu će se arhivirati.</string>
     <string name="warning_archive_inconsistent_state">Transakcije u odabranom datumskom rasponu imaju nedosljedna stanja (%s).</string>
+    <string name="credit_limit_available_credit">Dostupni kredit</string>
+    <string name="saving_goal_exceeded">Premašio/la si svoj cilj štednje.</string>
+    <string name="saving_goal_short_fall">Deficit</string>
+    <string name="credit_limit_reached">Dosegnuo/la si svoje kreditno ograničenje.</string>
+    <string name="saving_goal_reached">Postigao/la si svoj cilj štednje.</string>
+    <string name="credit_limit_exceeded">Premašio/la si svoje kreditno ograničenje.</string>
+    <string name="overage">Premašeni iznos</string>
+    <string name="content_description_exchange_rate">Tečaj za 1 %1$s u %2$s</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Prijenos se ne može uređivati jer je druga strana arhivirana.</string>
+    <string name="warning_budget_sync_import">Konfiguracija ovog proračunu će se uvesti iz pozadinskog sustava za sinkronizaciju. Svi lokalni unosi će se izgubiti.</string>
+    <string name="budget_import_can_be_imported">Sljedeći proračuni se mogu uvesti:</string>
+    <string name="budget_import_none_found">Nema proračuna.</string>
+    <string name="filter_dialog_empty">Još nema kriterija. Dodirni gornje gumbe za definiranje upita i za dobivanje preciznijih rezultata.</string>
+    <string name="budget_import_cannot_be_imported">Sljedeći proračuni se odnose na račune koji nisu sinkronizirani:</string>
+    <string name="content_description_original_amount">Definiraj izvorni iznos ove transakcije odabirom valute i unosom iznosa. Za izračun stvarnog iznosa možeš definirati i tečaj koji će se koristiti.</string>
+    <string name="pref_sync_frequency_summary_0">Postavi na 0 za deaktiviranje automatske sinkronizacije.</string>
+    <string name="webui_download_no_data">Nakon ispisa, izvoza ili izrade sigurnosnih kopija u aplikaciji, datoteke će ovdje biti dostupne za preuzimanje.</string>
+    <string name="content_description_equivalent_amount">Definiraj vrijednost ove transakcije u svojoj domaćoj valuti. Umjesto unosa iznosa, za izračunavanje vrijednosti možeš unijeti tečaj.</string>
 </resources>
