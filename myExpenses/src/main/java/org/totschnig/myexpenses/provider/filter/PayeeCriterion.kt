@@ -35,6 +35,9 @@ data class PayeeCriterion(
 ) : IdCriterion() {
     constructor(label: String = "", vararg values: Long) : this(label, values.toList())
 
+    override val isNullable: Boolean
+        get() = true
+
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_PAYEE_COMMAND
     @IgnoredOnParcel

@@ -37,6 +37,9 @@ data class CategoryCriterion(
 ) : IdCriterion() {
     constructor(label: String = "", vararg values: Long) : this(label, values.toList())
 
+    override val isNullable: Boolean
+        get() = true
+
     @IgnoredOnParcel
     override val id = R.id.FILTER_CATEGORY_COMMAND
 
