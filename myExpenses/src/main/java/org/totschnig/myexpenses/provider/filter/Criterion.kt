@@ -14,6 +14,9 @@ sealed interface Criterion : Parcelable {
     fun prettyPrint(context: Context): String
     fun getSelectionArgs(queryParts: Boolean): Array<String>
 
+    val isNullable
+        get() = false
+
     val displayTitle: Int
         get() = when (this) {
             is SimpleCriterion<*> -> displayInfo.title
