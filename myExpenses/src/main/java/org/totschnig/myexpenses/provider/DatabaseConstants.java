@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelSqlColumn;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.calcEquivalentAmountForSplitParts;
 
 import android.content.Context;
 
@@ -450,6 +451,8 @@ public class DatabaseConstants {
 
   public static final String TABLE_ACCOUNT_ATTRIBUTES = "account_attributes";
 
+  public static final String TABLE_EQUIVALENT_AMOUNTS = "equivalent_amounts";
+
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
@@ -565,27 +568,12 @@ public class DatabaseConstants {
     return PROJECTION_EXTENDED;
   }
 
-  public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
+  public static String getAmountHomeEquivalent(String forTable) {
     return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable, KEY_ACCOUNTID, homeCurrency) + " * " + KEY_AMOUNT + ") as integer)";
-  }
-
-  private static String calcEquivalentAmountForSplitParts(String forTable) {
-    return "CASE WHEN " + forTable + "." + KEY_PARENTID
-        + " THEN " +
-        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " parent WHERE " +
-        KEY_ROWID + " = " + forTable + "." + KEY_PARENTID + ") * " + KEY_AMOUNT +
-        " ELSE "
-        + KEY_EQUIVALENT_AMOUNT + " END";
-  }
-
-  public static String getExchangeRate(String forTable, String accountIdColumn, String homeCurrency) {
-    final String accountReference = forTable  + "."+ accountIdColumn;
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
+        KEY_EXCHANGE_RATE + " * " + KEY_AMOUNT + ") as integer)";
   }
 
   static String getAmountCalculation(String homeCurrency, String forTable) {
-    return homeCurrency != null ? getAmountHomeEquivalent(forTable, homeCurrency) : KEY_AMOUNT;
+    return homeCurrency != null ? getAmountHomeEquivalent(forTable) : KEY_AMOUNT;
   }
 }

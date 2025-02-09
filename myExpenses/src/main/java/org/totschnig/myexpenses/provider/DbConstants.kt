@@ -83,6 +83,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANG
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
@@ -100,6 +101,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.Criterion
 
@@ -135,13 +137,14 @@ val Uri.templateQuerySelector: String?
     }
 
 /**
- * with paramter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
+ * with parameter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
  * accounts with given currency (if not excluded from totals), otherwise all transactions (if not
- * excluded from totals) = Grand total account
+ * excluded from totals) = Grand total account. With include_all passed in exclude from totals is ignored
  */
 
 val Uri.accountSelector: String
-    get() = KEY_ACCOUNTID + (
+    get() = if (getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, false)) ""
+    else KEY_ACCOUNTID + (
             getQueryParameter(KEY_ACCOUNTID)?.let {
                 requireIdParameter(it)
                 "= $it"
@@ -150,10 +153,6 @@ val Uri.accountSelector: String
                         "AND $KEY_CURRENCY = '$it'"
                     } ?: "") + ")")
             )
-
-fun Uri.amountCalculation(tableName: String, homeCurrency: String): String =
-    (if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
-        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency))
 
 fun checkSealedWithAlias(baseTable: String) =
     "max(" + checkForSealedAccount(
@@ -167,7 +166,7 @@ fun checkSealedWithAlias(baseTable: String) =
  */
 fun checkForSealedAccount(baseTable: String, innerTable: String, withTransfer: Boolean = true) =
     if (withTransfer)
-        "(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
+        "(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $baseTable.$KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
     else "(SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID)"
 
 /**
@@ -190,7 +189,7 @@ fun categoryTreeSelect(
     selection: String? = null,
     rootExpression: String? = null,
     categorySeparator: String? = null,
-    typeParameter: String? = null
+    typeParameter: String? = null,
 ) = categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
@@ -234,7 +233,7 @@ fun subSelectFromAllocations(
     column: String,
     year: String?,
     second: String?,
-    withAlias: Boolean = true
+    withAlias: Boolean = true,
 ) =
     "(SELECT $column from Allocations ${budgetSelectForGroup(year, second)})" +
             if (withAlias) " AS $column" else ""
@@ -245,7 +244,7 @@ fun categoryTreeWithSum(
     sortOrder: String? = null,
     selection: String? = null,
     projection: Array<String>,
-    uri: Uri
+    uri: Uri,
 ): String {
     val year = uri.getQueryParameter(KEY_YEAR)
     val second = uri.getQueryParameter(KEY_SECOND_GROUP)
@@ -278,10 +277,20 @@ fun categoryTreeWithSum(
                 type = type
             )
         )
-        val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
-        append(", amounts as (select $amountCalculation AS $KEY_DISPLAY_AMOUNT from $VIEW_WITH_ACCOUNT WHERE ")
+        val forHome =
+            uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
+        val amountCalculation =
+            if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) else KEY_AMOUNT
+        append(", $CTE_TRANSACTION_AMOUNTS AS (SELECT $amountCalculation AS $KEY_DISPLAY_AMOUNT FROM ")
+        if (forHome) {
+            append(exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency))
+            append(equivalentAmountJoin(homeCurrency))
+        } else {
+            append(VIEW_WITH_ACCOUNT)
+        }
+        append(" WHERE ")
         append(WHERE_NOT_VOID)
-        append(" AND +$accountSelector")
+        append(" AND +$VIEW_WITH_ACCOUNT.$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
             append(" AND $it")
         }
@@ -323,7 +332,7 @@ fun budgetAllocation(uri: Uri): String {
 fun categoryTreeWithMappedObjects(
     selection: String,
     projection: Array<String>,
-    aggregate: Boolean
+    aggregate: Boolean,
 ): String {
     fun wrapQuery(query: String, key: String, aggregate: Boolean) = query.let {
         if (aggregate) "sum($it)" else it
@@ -368,7 +377,7 @@ fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
 @JvmOverloads
 fun getCategoryTreeForView(
     rootExpression: String = "$KEY_PARENTID IS NULL",
-    withRootLabel: Boolean = true
+    withRootLabel: Boolean = true,
 ): String {
     val rootPath = if (withRootLabel) "main.$KEY_LABEL" else "''"
     val separator = if (withRootLabel) "' > '" else
@@ -414,7 +423,7 @@ fun categoryTreeCTE(
     sortOrder: String? = null,
     matches: String? = null,
     categorySeparator: String? = null,
-    type: Byte? = null
+    type: Byte? = null,
 ): String {
     val where = rootExpression ?: buildString {
         append("$KEY_PARENTID IS NULL")
@@ -492,7 +501,7 @@ fun accountQueryCTE(
     homeCurrency: String,
     futureStartsNow: Boolean,
     aggregateFunction: String,
-    typeWithFallBack: String
+    typeWithFallBack: String,
 ): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
@@ -513,17 +522,13 @@ WITH now as (
         $KEY_CR_STATUS,
         $KEY_DATE,
         coalesce(
-            CASE
-                WHEN $KEY_PARENTID
-                THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $TABLE_TRANSACTIONS
-                    WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID
-                  ) * $KEY_AMOUNT
-                ELSE $KEY_EQUIVALENT_AMOUNT
-            END,
+        ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT)},
             coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
         ) AS $KEY_EQUIVALENT_AMOUNT,
         $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
-    FROM ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
+    FROM 
+    ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)} 
+    ${equivalentAmountJoin(homeCurrency)}
     WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
 ), aggregates AS (
     SELECT
@@ -550,13 +555,16 @@ fun exchangeRateJoin(
     table: String,
     colum: String,
     homeCurrency: String,
-    joinTable: String = table
-) = """
-    $table LEFT JOIN $TABLE_ACCOUNT_EXCHANGE_RATES
-        ON $joinTable.$colum = $TABLE_ACCOUNT_EXCHANGE_RATES.$KEY_ACCOUNTID
-        AND $KEY_CURRENCY_SELF = $joinTable.$KEY_CURRENCY
-        AND $KEY_CURRENCY_OTHER = '$homeCurrency'
-""".trimIndent()
+    joinTable: String = table,
+) =
+    " $table LEFT JOIN $TABLE_ACCOUNT_EXCHANGE_RATES ON $joinTable.$colum = $TABLE_ACCOUNT_EXCHANGE_RATES.$KEY_ACCOUNTID AND $KEY_CURRENCY_SELF = $joinTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER = '$homeCurrency'"
+
+@JvmOverloads
+fun equivalentAmountJoin(
+    homeCurrency: String,
+    idColumn: String = KEY_ROWID,
+) =
+    " LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS ON $idColumn = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency'"
 
 fun transactionMappedObjectQuery(selection: String): String = """
 with data as
@@ -586,7 +594,7 @@ fun associativeJoin(
     joinTable: String,
     associatedTable: String,
     mainColumn: String,
-    associateColumn: String
+    associateColumn: String,
 ) =
     " LEFT JOIN $joinTable ON $joinTable.$mainColumn = $mainTable.$KEY_ROWID LEFT JOIN $associatedTable ON $associateColumn= $associatedTable.$KEY_ROWID"
 
@@ -614,7 +622,7 @@ private fun transactionsJoin(
     tableName: String = TABLE_TRANSACTIONS,
     withPlanInstance: Boolean = tableName == TABLE_TRANSACTIONS,
     withDisplayAmount: Boolean = false,
-    forHome: String? = null
+    forHome: String? = null,
 ) = buildString {
     append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE,  $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
     if (withPlanInstance) {
@@ -624,18 +632,30 @@ private fun transactionsJoin(
         append(", ${getAmountCalculation(forHome, tableName)} AS $KEY_DISPLAY_AMOUNT")
     }
     append(", $TAG_LIST_EXPRESSION")
-    append(", $KEY_CURRENCY")
+    append(", $TABLE_ACCOUNTS.$KEY_CURRENCY")
     append(
         """ FROM $tableName
         | LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID
         | LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID
-        | LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID
+        | LEFT JOIN $TABLE_ACCOUNTS ON $tableName.$KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID
         | LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID""".trimMargin()
     )
     if (withPlanInstance) {
         append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
     }
     append(tagJoin(tableName))
+    if (forHome != null) {
+        append(
+            exchangeRateJoin(
+                table = "",
+                colum = KEY_ROWID,
+                homeCurrency = forHome,
+                joinTable = TABLE_ACCOUNTS
+            )
+        )
+        append(equivalentAmountJoin(forHome, "$tableName.$KEY_ROWID"))
+    }
+
 }
 
 const val CTE_TRANSACTION_GROUPS = "cte_transaction_groups"
@@ -644,15 +664,22 @@ const val CTE_SEARCH = "cte_search"
 
 fun buildSearchCte(
     forTable: String,
-    forHome: String?
-) = "WITH $CTE_SEARCH AS (SELECT *, ${getAmountCalculation(forHome, forTable)} AS $KEY_DISPLAY_AMOUNT FROM $forTable)"
+    forHome: String?,
+) = "WITH $CTE_SEARCH AS (SELECT *, ${
+    getAmountCalculation(
+        forHome,
+        forTable
+    )
+} AS $KEY_DISPLAY_AMOUNT FROM " +
+        (forHome?.let { exchangeRateJoin(forTable, KEY_ACCOUNTID, it) + equivalentAmountJoin(it) }
+            ?: forTable) + ")"
 
 
 fun buildTransactionGroupCte(
     accountQuery: String,
     selection: String?,
     forHome: String?,
-    typeWithFallBack: String
+    typeWithFallBack: String,
 ): String {
     // If a filter is applied to the transaction list, we need to calculate with the contents
     // of the archive otherwise we just take the archive itself into account
@@ -668,7 +695,14 @@ fun buildTransactionGroupCte(
         append(", cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
         append(getAmountCalculation(forHome, VIEW_WITH_ACCOUNT))
         append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
-        append(" FROM $VIEW_WITH_ACCOUNT")
+        append(" FROM ")
+        append(forHome?.let {
+            exchangeRateJoin(
+                VIEW_WITH_ACCOUNT,
+                KEY_ACCOUNTID,
+                it
+            ) + equivalentAmountJoin(it)
+        } ?: VIEW_WITH_ACCOUNT)
         append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection)")
     }
 }
@@ -685,13 +719,24 @@ fun transactionSumQuery(
     selectionIn: String?,
     typeWithFallBack: String,
     aggregateFunction: String,
-    homeCurrency: String
+    homeCurrency: String,
 ): String {
-    val accountSelector: String = uri.accountSelector
+    val accountSelector: String = "$VIEW_WITH_ACCOUNT.${uri.accountSelector}"
     val selection =
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"
     val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
-    val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
+    val forHome =
+        uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
+    val amountCalculation =
+        if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) else KEY_AMOUNT
+    val tableExpression = if (forHome)
+        exchangeRateJoin(
+            VIEW_WITH_ACCOUNT,
+            KEY_ACCOUNTID,
+            homeCurrency
+        ) + " " + equivalentAmountJoin(homeCurrency)
+    else
+        VIEW_WITH_ACCOUNT
 
     return if (aggregateNeutral) {
         require(projection.size == 1)
@@ -701,8 +746,7 @@ fun transactionSumQuery(
             KEY_SUM_EXPENSES -> FLAG_EXPENSE
             else -> throw IllegalArgumentException()
         }
-        """SELECT $aggregateFunction($amountCalculation) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
-AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"""
+        "SELECT $aggregateFunction($amountCalculation) AS $column FROM $tableExpression WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL) AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"
     } else {
         val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
         val columns = projection.map {
@@ -713,22 +757,19 @@ AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"""
             }
         }
         require(columns.isNotEmpty())
-        """WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT
-     ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE,
-     $amountCalculation AS $KEY_DISPLAY_AMOUNT,
-     $KEY_PARENTID,
-     $KEY_ACCOUNTID,
-     $KEY_CURRENCY,
-     $KEY_EQUIVALENT_AMOUNT
-    FROM $VIEW_WITH_ACCOUNT
-    WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection))
-    SELECT ${columns.joinToString()}"""
+        val cteColumns = buildList {
+            add("${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE")
+            add("$amountCalculation AS $KEY_DISPLAY_AMOUNT")
+        }
+        """WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT ${cteColumns.joinToString()} FROM $tableExpression 
+            WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection))
+            SELECT ${columns.joinToString()}"""
     }
 }
 
 fun archiveSumCTE(
     archiveId: Long,
-    typeWithFallBack: String
+    typeWithFallBack: String,
 ): String {
     return buildString {
         append("WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT ")
@@ -741,3 +782,22 @@ fun archiveSumCTE(
     }
 }
 
+fun calcEquivalentAmountForSplitParts(forTable: String) =
+    "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
+
+fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: String) = """
+    coalesce((SELECT $KEY_EXCHANGE_RATE FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_ACCOUNTID = $forTable.$accountIdColumn AND $KEY_CURRENCY_SELF=$forTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER='$homeCurrency'), 1)""".trimIndent()
+
+fun amountCteForDebts(homeCurrency: String) =
+    """$CTE_TRANSACTION_AMOUNTS AS (
+    SELECT 
+    $KEY_ROWID,
+    ${getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)} AS $KEY_EQUIVALENT_AMOUNT,
+    $KEY_AMOUNT,
+    $VIEW_WITH_ACCOUNT.$KEY_CURRENCY,
+    $KEY_DEBT_ID
+    FROM 
+    ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
+    ${equivalentAmountJoin(homeCurrency)}
+    )
+    """.trimIndent()

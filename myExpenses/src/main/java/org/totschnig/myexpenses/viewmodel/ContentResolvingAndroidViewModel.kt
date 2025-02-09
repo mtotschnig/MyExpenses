@@ -286,7 +286,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     ) =
         contentResolver.observeQuery(
             uri = with(DEBTS_URI.buildUpon()) {
-                rowId?.let {
+                rowId?.takeIf { it != 0L }?.let {
                     appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
                 }
                 build()

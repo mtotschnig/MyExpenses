@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
@@ -86,7 +87,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
@@ -283,6 +286,15 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 );
 """
 
+const val EQUIVALENT_AMOUNTS_CREATE = """
+    CREATE TABLE $TABLE_EQUIVALENT_AMOUNTS (
+    $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_CURRENCY text not null references $TABLE_CURRENCIES ($KEY_CODE),
+    $KEY_EQUIVALENT_AMOUNT integer not null,
+    primary key ($KEY_TRANSACTIONID, $KEY_CURRENCY)
+);
+"""
+
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """
 CREATE TABLE $TABLE_TRANSACTION_ATTACHMENTS (
     $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
@@ -339,7 +351,7 @@ const val TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
 //we allow update of status
 const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_transaction_update
- BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID, $KEY_CR_STATUS
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID, $KEY_CR_STATUS
  ON $TABLE_TRANSACTIONS
  WHEN (SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID IN (new.$KEY_ACCOUNTID,old.$KEY_ACCOUNTID)) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
@@ -347,7 +359,7 @@ const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
 //we allow update of cr_status and status
 const val TRANSFER_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_tranfer_update
- BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID
  ON $TABLE_TRANSACTIONS
  WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_TRANSFER_ACCOUNT) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""

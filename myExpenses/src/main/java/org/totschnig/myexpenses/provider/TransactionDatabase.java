@@ -27,6 +27,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACH
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_TYPE_UPDATE_TRIGGER_MAIN;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.EQUIVALENT_AMOUNTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
@@ -127,7 +128,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
-          + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
@@ -454,6 +454,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   public void onCreate(SupportSQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
+    db.execSQL(EQUIVALENT_AMOUNTS_CREATE);
     db.execSQL(ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);

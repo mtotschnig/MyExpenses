@@ -170,6 +170,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
@@ -179,7 +180,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
-import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart
@@ -344,23 +344,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_PAYEE_NAME,
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
-            if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((select sum(${
-                getAmountHomeEquivalent(
-                    VIEW_EXTENDED,
-                    homeCurrency
-                )
-            }) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
+            if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
     private val debtSumExpression
-        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${
-            getAmountHomeEquivalent(
-                VIEW_EXTENDED,
-                homeCurrency
-            )
-        } ELSE $KEY_AMOUNT END"
+        get() = "CASE WHEN $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' AND $KEY_CURRENCY != '$homeCurrency' THEN $KEY_EQUIVALENT_AMOUNT ELSE $KEY_AMOUNT END"
+
+    private val debtEquivalentSumExpression
+        get() = "CASE WHEN $KEY_CURRENCY != '$homeCurrency' THEN $KEY_EQUIVALENT_AMOUNT ELSE $KEY_AMOUNT END"
+
+    fun needsExtendedJoin(
+        projection: Array<String>
+    ) = projection.contains(KEY_EQUIVALENT_AMOUNT) ||
+            projection.contains(KEY_EXCHANGE_RATE) ||
+            projection.contains(KEY_AMOUNT_HOME_EQUIVALENT) ||
+            projection.contains(KEY_DISPLAY_AMOUNT)
 
     fun prepareProjectionForTransactions(
         projectionIn: Array<String>?,
@@ -374,9 +374,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_TRANSFER_PEER_IS_ARCHIVED -> "(SELECT $KEY_STATUS FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) = $STATUS_ARCHIVED AS $it"
             KEY_TRANSFER_AMOUNT -> "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"
             KEY_SEALED -> checkSealedWithAlias(table)
-            KEY_EXCHANGE_RATE -> "${getExchangeRate(table, KEY_ACCOUNTID, homeCurrency)} AS $it"
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)
-                "${getAmountHomeEquivalent(table, homeCurrency)} AS $it" else it
+                "${getAmountHomeEquivalent(table)} AS $it" else it
 
             KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table)})"
             KEY_HAS_SEALED_ACCOUNT -> """
@@ -387,9 +386,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
                 """.trimIndent()
 
-            KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
-                    getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
-
+            KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $table.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
+                    getAmountHomeEquivalent(table) + " END AS $it"
+            KEY_CURRENCY -> "$table.$KEY_CURRENCY"
+            KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID"
             else -> it
         }
     }?.toTypedArray()
@@ -1966,5 +1966,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             endTransaction()
         }
+    }
+
+    /**
+     * @param transactionId can be passed in as Long or String
+     */
+    fun SupportSQLiteDatabase.storeEquivalentAmount(transactionId: Any, equivalentAmount: Long) {
+        execSQL(
+            "INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT) VALUES(?,?,?)",
+            arrayOf(transactionId, homeCurrency, equivalentAmount)
+        )
     }
 }
