@@ -83,8 +83,5 @@
             android:key="@string/pref_coin_api_api_key_key"
             android:title="CoinApi API Key"
             my:isPreferenceVisible="false" />
-        <Preference
-            android:key="@string/pref_exchange_rates_clear_cache_key"
-            android:title="@string/clear_cache" />
     </PreferenceCategory>
 </PreferenceScreen> 

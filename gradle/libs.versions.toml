@@ -89,7 +89,6 @@ relinker = "1.4.4"
 requery = "3.36.0"
 retrofitVersion = "2.11.0"
 robolectricVersion = "4.14.1"
-roomVersion = "2.6.1"
 runner = "1.6.2"
 runtime = "0.7.0"
 screengrab = "2.1.1"
@@ -157,15 +156,12 @@ androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-orchestrator = { module = "androidx.test:orchestrator", version.ref = "orchestrator" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
-androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }
 androidx-rules = { module = "androidx.test:rules", version.ref = "androidSupportTestVersion" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidxSqlite" }
+androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = "androidxSqlite" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
 compose-ui = { module = "androidx.compose.ui:ui" }

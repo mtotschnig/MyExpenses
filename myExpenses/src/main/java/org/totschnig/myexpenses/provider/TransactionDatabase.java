@@ -31,6 +31,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.EQUIVA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PRICES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.SPLIT_PART_CR_STATUS_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TAGS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
@@ -539,6 +540,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     //insertTestData(db, 50, 50);
 
     insertNullRows(db);
+
+    db.execSQL(PRICES_CREATE);
     super.onCreate(db);
   }
 

@@ -503,8 +503,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun populateOriginalCurrency() {
-        viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] }
-            ?: homeCurrency)
+        viewBinding.OriginalAmount.setSelectedCurrency(
+            originalCurrencyCode?.let { currencyContext[it] } ?: homeCurrency
+        )
     }
 
     protected fun addCurrencyToInput(
@@ -561,7 +562,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         showToUser = false
                     ) == null
                 ) {
-                    val rate = BigDecimal(it.exchangeRate)
+                    val rate = BigDecimal.valueOf(it.exchangeRate)
                     viewBinding.EquivalentAmount.exchangeRate = rate
                 }
             }

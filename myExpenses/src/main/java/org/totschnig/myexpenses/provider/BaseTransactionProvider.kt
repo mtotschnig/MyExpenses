@@ -74,6 +74,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
@@ -129,6 +130,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
@@ -172,6 +174,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
@@ -356,7 +359,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         get() = "CASE WHEN $KEY_CURRENCY != '$homeCurrency' THEN $KEY_EQUIVALENT_AMOUNT ELSE $KEY_AMOUNT END"
 
     fun needsExtendedJoin(
-        projection: Array<String>
+        projection: Array<String>,
     ) = projection.contains(KEY_EQUIVALENT_AMOUNT) ||
             projection.contains(KEY_EXCHANGE_RATE) ||
             projection.contains(KEY_AMOUNT_HOME_EQUIVALENT) ||
@@ -388,6 +391,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
             KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $table.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
                     getAmountHomeEquivalent(table) + " END AS $it"
+
             KEY_CURRENCY -> "$table.$KEY_CURRENCY"
             KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID"
             else -> it
@@ -554,6 +558,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_TRANSFORM_TO_TRANSFER = 76
         protected const val UNARCHIVE = 77
         protected const val ARCHIVE_SUMS = 78
+        protected const val PRICES = 79
     }
 
     val homeCurrency: String
@@ -850,21 +855,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 val copyPrefSuccess = FileCopyUtils.copy(sharedPrefFile, backupPrefFile)
                 val preferencesDataStoreFile =
                     context.preferencesDataStoreFile(uiSettingsDataStoreName)
-                dirty = if (copyPrefSuccess && (!preferencesDataStoreFile.exists() || FileCopyUtils.copy(
-                        preferencesDataStoreFile,
-                        backupDataStoreFile
-                    ))
-                ) {
-                    prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
-                    false
-                } else {
-                    throw Throwable(
-                        "Unable to copy file from " +
-                                (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path +
-                                " to " +
-                                (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path
-                    )
-                }
+                dirty =
+                    if (copyPrefSuccess && (!preferencesDataStoreFile.exists() || FileCopyUtils.copy(
+                            preferencesDataStoreFile,
+                            backupDataStoreFile
+                        ))
+                    ) {
+                        prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
+                        false
+                    } else {
+                        throw Throwable(
+                            "Unable to copy file from " +
+                                    (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path +
+                                    " to " +
+                                    (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path
+                        )
+                    }
             }
     }
 
@@ -1971,7 +1977,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     /**
      * @param transactionId can be passed in as Long or String
      */
-    fun SupportSQLiteDatabase.storeEquivalentAmount(transactionId: Any, equivalentAmount: Long) {
+    fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(transactionId: Any, equivalentAmount: Long) {
         execSQL(
             "INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT) VALUES(?,?,?)",
             arrayOf(transactionId, homeCurrency, equivalentAmount)

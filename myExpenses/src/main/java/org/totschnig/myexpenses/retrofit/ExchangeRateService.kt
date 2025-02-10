@@ -15,6 +15,8 @@ import java.time.ZonedDateTime
 
 sealed class ExchangeRateSource(val id: String, val host: String) {
 
+    open val limitToOneRequestPerDay: Boolean = false
+
     fun convertError(e: HttpException) = e.response()?.errorBody()?.let { body ->
         extractError(body)?.let { IOException(it) }
     } ?: e
@@ -34,6 +36,8 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
     }
 
     data object Frankfurter : ExchangeRateSource("FRANKFURTER", "api.frankfurter.app") {
+
+        override val limitToOneRequestPerDay = true
 
         val SUPPORTED_CURRENCIES = arrayOf(
             "AUD",
@@ -111,6 +115,9 @@ class ExchangeRateService(
     private val openExchangeRates: OpenExchangeRates,
     private val coinApi: CoinApi,
 ) {
+    /**
+     * Load the value of 1 unit of base currency expressed in symbol
+     */
     suspend fun getRate(
         source: ExchangeRateSource,
         apiKey: String?,
@@ -118,10 +125,10 @@ class ExchangeRateService(
         symbol: String,
         base: String,
     ): Pair<LocalDate, Double> = try {
+        val today = LocalDate.now()
         when (source) {
             ExchangeRateSource.Frankfurter -> {
                 if (symbol in ExchangeRateSource.Frankfurter.SUPPORTED_CURRENCIES && base in ExchangeRateSource.Frankfurter.SUPPORTED_CURRENCIES) {
-                    val today = LocalDate.now()
                     val (dateOfResult, result) = if (date < today) {
                         date to frankfurter.getHistorical(date, symbol, base).await()
                     } else {
@@ -137,7 +144,6 @@ class ExchangeRateService(
 
             is ExchangeRateSource.OpenExchangeRates -> {
                 requireNotNull(apiKey)
-                val today = LocalDate.now()
                 val call = if (date < today) {
                     openExchangeRates.getHistorical(date, "$symbol,$base", apiKey)
                 } else {
@@ -153,7 +159,6 @@ class ExchangeRateService(
 
             ExchangeRateSource.CoinApi -> {
                 requireNotNull(apiKey)
-                val today = LocalDate.now()
                 if (date < today) {
                     val call = coinApi.getHistory(base, symbol, date, date.plusDays(1), apiKey)
                     val result = call.await().first()

@@ -87,6 +87,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
@@ -296,6 +297,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/attachments");
 
   public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
+
+  public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -909,6 +912,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
+      case PRICES: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PRICES);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -949,7 +956,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = TRANSACTIONS_URI + "/" + id;
         if (equivalentAmount != null) {
-          storeEquivalentAmount(db, id, equivalentAmount);
+          insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
         }
       }
       case ACCOUNTS -> {
@@ -976,9 +983,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case PLANINSTANCE_TRANSACTION_STATUS -> {
         long templateId = values.getAsLong(KEY_TEMPLATEID);
-        long instancId = values.getAsLong(KEY_INSTANCEID);
+        long instanceId = values.getAsLong(KEY_INSTANCEID);
         db.insert(TABLE_PLAN_INSTANCE_STATUS, CONFLICT_REPLACE, values);
-        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instancId);
+        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instanceId);
         notifyChange(changeUri, false);
         return changeUri;
       }
@@ -1098,6 +1105,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGET_ALLOCATIONS -> {
         MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
         return BUDGET_ALLOCATIONS_URI;
+      }
+      case PRICES -> {
+        db.insert(TABLE_PRICES, CONFLICT_REPLACE, values);
+        return PRICES_URI;
+
       }
       default -> throw unknownUri(uri);
     }
@@ -1319,7 +1331,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
               whereArgs);
         if (equivalentAmount != null) {
-          storeEquivalentAmount(db, lastPathSegment, equivalentAmount);
+          insertOrReplaceEquivalentAmount(db, lastPathSegment, equivalentAmount);
         }
     }
       case TRANSACTION_UNDELETE -> {
@@ -1702,6 +1714,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments/#/#", TRANSACTION_ID_ATTACHMENT_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
   }
 
   /**

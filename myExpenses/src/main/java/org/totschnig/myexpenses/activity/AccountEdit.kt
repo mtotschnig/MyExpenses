@@ -237,7 +237,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         excludeFromTotals = account.excludeFromTotals
         uuid = account.uuid
         dataLoaded = true
-        binding.ERR.ExchangeRate.setRate(BigDecimal(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency)), true)
+        binding.ERR.ExchangeRate.setRate(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency), true)
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
@@ -294,7 +294,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
             excludeFromTotals = excludeFromTotals,
             exchangeRate = (if (currencyContext.homeCurrencyString != currency) {
-                binding.ERR.ExchangeRate.getRate(false)?.toDouble()?.let {
+                binding.ERR.ExchangeRate.getRate(false)?.let {
                     calculateRawExchangeRate(it, currencyUnit, homeCurrency)
                 }
             } else null) ?: 1.0
@@ -489,9 +489,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         }
         return false
     }
-
-    override val date: LocalDate
-        get() = LocalDate.now()
 
     override val amountLabel: TextView
         get() = binding.AmountLabel

@@ -106,8 +106,7 @@ data class SecMech(val id: String, val name: String) {
     }
 }
 
-class BankingViewModel(application: Application) :
-    ContentResolvingAndroidViewModel(application) {
+class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     @Inject
     lateinit var tracker: Tracker
     @Inject

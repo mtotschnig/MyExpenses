@@ -20,6 +20,7 @@ import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.ComponentActivity
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.util.fastRoundToInt
@@ -295,6 +296,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
 
+
 fun preferredTimePickerBuilder(context: Context) = MaterialTimePicker.Builder()
     .setTimeFormat(if (DateFormat.is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
     .apply {
@@ -333,6 +335,11 @@ fun EditText.setHintForA11yOnly(hint: CharSequence) {
             info.hintText = hint
         }
     })
+}
+
+fun ImageView.setEnabledWithColor(enabled: Boolean) {
+    imageAlpha =if (enabled) 0xFF else 0x3F
+    this.isEnabled = isEnabled
 }
 
 val Float.displayProgress

@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
@@ -59,6 +60,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
@@ -93,6 +95,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOU
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
@@ -292,6 +295,18 @@ const val EQUIVALENT_AMOUNTS_CREATE = """
     $KEY_CURRENCY text not null references $TABLE_CURRENCIES ($KEY_CODE),
     $KEY_EQUIVALENT_AMOUNT integer not null,
     primary key ($KEY_TRANSACTIONID, $KEY_CURRENCY)
+);
+"""
+
+const val PRICES_CREATE = """
+    CREATE TABLE $TABLE_PRICES (
+    $KEY_COMMODITY text NOT NULL,
+    $KEY_CURRENCY text NOT NULL,
+    $KEY_DATE datetime NOT NULL,
+    $KEY_SOURCE text NOT NULL,
+    $KEY_TYPE text default 'unknown',
+    $KEY_VALUE real not NULL,
+    primary key($KEY_COMMODITY, $KEY_CURRENCY, $KEY_DATE, $KEY_SOURCE, $KEY_TYPE)
 );
 """
 

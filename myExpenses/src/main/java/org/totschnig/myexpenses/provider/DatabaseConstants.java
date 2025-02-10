@@ -372,6 +372,10 @@ public class DatabaseConstants {
 
   public static final String KEY_VERSION = "version";
 
+  // Prices
+  public static final String KEY_COMMODITY = "commodity";
+  public static final String KEY_SOURCE = "source";
+
   /**
    * No special status
    */
@@ -452,6 +456,8 @@ public class DatabaseConstants {
   public static final String TABLE_ACCOUNT_ATTRIBUTES = "account_attributes";
 
   public static final String TABLE_EQUIVALENT_AMOUNTS = "equivalent_amounts";
+
+  public static final String TABLE_PRICES = "prices";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 

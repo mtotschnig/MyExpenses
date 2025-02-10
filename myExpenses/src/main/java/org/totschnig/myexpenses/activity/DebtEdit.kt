@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.time.LocalDate
 import kotlin.math.sign
 
-class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
+class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private lateinit var binding: OneDebtBinding
     private val viewModel: DebtViewModel by viewModels()
     private val currencyViewModel: CurrencyViewModel by viewModels()

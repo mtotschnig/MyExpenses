@@ -85,8 +85,6 @@ class PreferenceDataFragment: BasePreferenceFragment() {
                 getString(R.string.pref_exchange_rates_api_key_summary, it.host)
         }
         configureExchangeRatesPreference(ExchangeRateSource.configuredSources(prefHandler))
-        requirePreference<Preference>(PrefKey.EXCHANGE_RATES_CLEAR_CACHE).title =
-            "${getString(R.string.clear_cache)} (${getString(R.string.pref_category_exchange_rates)})"
     }
 
     private fun configureExchangeRatesPreference(providers: Set<ExchangeRateSource>) {
@@ -99,18 +97,6 @@ class PreferenceDataFragment: BasePreferenceFragment() {
         findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
             it.value = currencyCode
         }
-    }
-
-    override fun onPreferenceTreeClick(preference: Preference) = when {
-        super.onPreferenceTreeClick(preference) -> true
-        matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {
-            viewModel.clearExchangeRateCache().observe(this) {
-                preferenceActivity.showSnackBar("${getString(R.string.clear_cache)} ($it)")
-            }
-            true
-        }
-
-        else -> false
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {

@@ -1,18 +1,19 @@
 package org.totschnig.myexpenses.util
 
 import org.totschnig.myexpenses.model.CurrencyUnit
+import java.math.BigDecimal
 import kotlin.math.pow
 
 fun calculateRealExchangeRate(
     raw: Double,
     currencyUnit: CurrencyUnit,
     homeCurrency: CurrencyUnit
-) = raw * 10.0.pow(currencyUnit.minorUnitDelta(homeCurrency))
+) = BigDecimal.valueOf(raw).movePointRight(currencyUnit.minorUnitDelta(homeCurrency))
 
 fun calculateRawExchangeRate(
-    real: Double,
+    real: BigDecimal,
     currencyUnit: CurrencyUnit,
     homeCurrency: CurrencyUnit
-) = real * 10.0.pow(homeCurrency.minorUnitDelta(currencyUnit))
+) = real.movePointRight(homeCurrency.minorUnitDelta(currencyUnit)).toDouble()
 
 fun CurrencyUnit.minorUnitDelta(other: CurrencyUnit) = fractionDigits - other.fractionDigits

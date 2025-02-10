@@ -13,15 +13,11 @@ import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.retrofit.CoinApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.Frankfurter
 import org.totschnig.myexpenses.retrofit.OpenExchangeRates
 import org.totschnig.myexpenses.retrofit.RoadmapService
-import org.totschnig.myexpenses.room.ExchangeRateDatabase.Companion.getDatabase
 import org.totschnig.myexpenses.util.DelegatingSocketFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
@@ -165,17 +161,6 @@ open class NetworkModule {
             api2: OpenExchangeRates,
             api3: CoinApi
         ) = ExchangeRateService(api1, api2, api3)
-
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideExchangeRateRepository(
-            application: MyApplication, service: ExchangeRateService, prefHandler: PrefHandler
-        ) = ExchangeRateRepository(
-            getDatabase(application).exchangeRateDao(),
-            prefHandler,
-            service
-        )
 
         @JvmStatic
         @Provides

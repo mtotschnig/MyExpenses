@@ -249,6 +249,7 @@ dependencies {
     implementation libs.pageindicatorview
 
     implementation libs.androidx.sqlite.ktx
+    implementation libs.androidx.sqlite.framework
 
     // dynamic feature module compilation fails with
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
@@ -258,11 +259,6 @@ dependencies {
     implementation(libs.arrow.core)
 
     implementation libs.fontdrawable
-
-    // Room components
-    implementation libs.androidx.room.runtime
-    implementation libs.androidx.room.ktx
-    ksp libs.androidx.room.compiler
 
     implementation libs.sqlite.android
 
@@ -324,7 +320,6 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
     androidTestImplementation libs.kotlin.test.junit
-    androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.compose.ui.test.junit4
     //noinspection GradleDependency
     androidTestImplementation libs.assertj.core
