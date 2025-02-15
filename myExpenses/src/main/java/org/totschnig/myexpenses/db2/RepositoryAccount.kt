@@ -142,6 +142,7 @@ fun Account.toContentValues() = ContentValues().apply {
     bankId?.let {
         put(KEY_BANK_ID, it)
     }
+    put(KEY_DYNAMIC, dynamicExchangeRates)
 }
 
 fun Repository.createAccount(account: Account): Account {

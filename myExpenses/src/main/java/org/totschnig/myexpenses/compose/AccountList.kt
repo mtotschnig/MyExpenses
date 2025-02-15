@@ -69,6 +69,7 @@ fun AccountList(
     grouping: AccountGrouping,
     selectedAccount: Long,
     listState: LazyListState,
+    showEquivalentWorth: Boolean,
     onSelected: (Long) -> Unit,
     onEdit: (FullAccount) -> Unit,
     onDelete: (FullAccount) -> Unit,
@@ -115,7 +116,8 @@ fun AccountList(
                                 onToggleSealed = onToggleSealed,
                                 onToggleExcludeFromTotals = onToggleExcludeFromTotals,
                                 toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
-                                bankIcon = bankIcon
+                                bankIcon = bankIcon,
+                                showEquivalentWorth = showEquivalentWorth
                             )
                             if (index != group.value.lastIndex) {
                                 Spacer(Modifier.height(10.dp))
@@ -139,7 +141,8 @@ private fun Header(
         thickness = 2.dp
     )
     Row(
-        modifier = Modifier.clickable(onClick = onHeaderClick)
+        modifier = Modifier
+            .clickable(onClick = onHeaderClick)
             .semantics(mergeDescendants = true) {}
             .padding(start = dimensionResource(id = R.dimen.drawer_padding)),
         verticalAlignment = Alignment.CenterVertically
@@ -154,7 +157,9 @@ private fun Header(
             targetValue = if (isExpanded) 0F else 180F
         )
         Icon(
-            modifier = Modifier.minimumInteractiveComponentSize().rotate(rotationAngle),
+            modifier = Modifier
+                .minimumInteractiveComponentSize()
+                .rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,
             contentDescription = stringResource(
                 id = if (isExpanded) R.string.collapse
@@ -201,6 +206,7 @@ fun AccountCard(
     account: FullAccount,
     isCollapsed: Boolean = false,
     isSelected: Boolean = false,
+    showEquivalentWorth: Boolean = false,
     onSelected: () -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
@@ -292,7 +298,11 @@ fun AccountCard(
                 }
             }
 
-            ExpansionHandle(isExpanded = !isCollapsed, contentDescription = account.label, toggle = toggleExpansion)
+            ExpansionHandle(
+                isExpanded = !isCollapsed,
+                contentDescription = account.label,
+                toggle = toggleExpansion
+            )
             val menu = Menu(
                 buildList {
                     if (account.id > 0) {
@@ -342,50 +352,65 @@ fun AccountCard(
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
                 account.description?.let { Text(it) }
+                val homeCurrency = LocalHomeCurrency.current
+                val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
+                val currency = if(showEquivalent) homeCurrency else account.currencyUnit
                 SumRow(
-                    R.string.opening_balance,
-                    format.convAmount(account.openingBalance, account.currencyUnit)
+                    if (showEquivalent) R.string.initial_value else R.string.opening_balance,
+                    format.convAmount(if (showEquivalent) account.equivalentOpeningBalance else account.openingBalance, currency)
                 )
-                SumRow(
-                    R.string.sum_income,
-                    format.convAmount(account.sumIncome, account.currencyUnit)
-                )
-                SumRow(
-                    R.string.sum_expenses,
-                    format.convAmount(account.sumExpense, account.currencyUnit)
-                )
-
-                if (account.sumTransfer != 0L) {
+                val displayIncome = if (showEquivalent) account.equivalentSumIncome else account.sumIncome
+                if (displayIncome != 0L) {
                     SumRow(
-                        R.string.sum_transfer,
-                        format.convAmount(account.sumTransfer, account.currencyUnit)
+                        R.string.sum_income,
+                        format.convAmount(displayIncome, currency)
+                    )
+                }
+                val displayExpense = if (showEquivalent) account.equivalentSumExpense else account.sumExpense
+                if (displayExpense != 0L) {
+                    SumRow(
+                        R.string.sum_expenses,
+                        format.convAmount(displayExpense, currency)
                     )
                 }
 
-                account.total?.let {
+                val displayTransfer = if (showEquivalent) account.equivalentSumTransfer else account.sumTransfer
+
+                if (displayTransfer != 0L) {
                     SumRow(
-                        R.string.menu_aggregates,
-                        format.convAmount(it, account.currencyUnit),
+                        R.string.sum_transfer,
+                        format.convAmount(displayTransfer, currency)
+                    )
+                }
+
+                (if (showEquivalent) account.equivalentTotal else account.total)?.let {
+                    SumRow(
+                        if (showEquivalent) R.string.total_value else R.string.menu_aggregates,
+                        format.convAmount(it, currency),
                         Modifier.drawSumLine()
                     )
                 }
 
                 SumRow(
-                    R.string.current_balance,
-                    format.convAmount(account.currentBalance, account.currencyUnit),
+                    if (showEquivalent) R.string.current_value else R.string.current_balance,
+                    format.convAmount(if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance, currency),
                     Modifier.conditional(account.total == null) {
                         drawSumLine()
                     }
                 )
 
-                account.criterion?.let {
+                if (showEquivalent && !account.isAggregate) {
+                    Text("Exchange rate: TODO")
+                }
+
+                account.criterion?.takeIf { !showEquivalent }?.let {
                     SumRow(
                         if (it > 0) R.string.saving_goal else R.string.credit_limit,
                         format.convAmount(it, account.currencyUnit)
                     )
                 }
 
-                if (!(account.isAggregate || account.type == AccountType.CASH)) {
+                if (!(showEquivalent || account.isAggregate || account.type == AccountType.CASH)) {
                     SumRow(
                         R.string.total_cleared,
                         format.convAmount(account.clearedTotal, account.currencyUnit)

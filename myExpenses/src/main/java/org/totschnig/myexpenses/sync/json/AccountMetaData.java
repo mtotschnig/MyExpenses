@@ -95,7 +95,8 @@ public abstract class  AccountMetaData implements Parcelable {
             SortDirection.DESC,
             exchangeRate,
             Grouping.NONE,
-            null
+            null,
+            false
     );
   }
 

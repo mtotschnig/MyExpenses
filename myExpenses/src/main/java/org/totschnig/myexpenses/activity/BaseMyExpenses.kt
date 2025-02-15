@@ -56,6 +56,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -436,10 +437,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.SHOW_STATUS_HANDLE_COMMAND -> {
                 currentAccount?.let {
-                    lifecycleScope.launch {
-                        viewModel.persistShowStatusHandle(!item.isChecked)
-                        invalidateOptionsMenu()
-                    }
+                    viewModel.persistShowStatusHandle(!item.isChecked)
+                    invalidateOptionsMenu()
                 }
                 true
             }
@@ -701,6 +700,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             } else {
                                 viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId)
                             }
+                            navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible = data.any { it.isHomeAggregate }
                         }
                         AccountList(
                             accountData = data,
@@ -728,6 +728,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 toggleExcludeFromTotals(it)
                             },
                             listState = viewModel.listState,
+                            showEquivalentWorth = viewModel.showEquivalentWorth().collectAsState(false).value,
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
                             bankIcon = { modifier, id ->
@@ -843,6 +844,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 R.id.TRANSFORM_TO_TRANSFER_COMMAND
             ) {
                 putAll(bundle)
+            }
+        }
+        with(navigationView) {
+            setNavigationItemSelectedListener(::handleNavigationClick)
+            getChildAt(0)?.isVerticalScrollBarEnabled = false
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.showEquivalentWorth().collect {
+                        configureEquivalentWorthMenuItemIcon(
+                            menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND),
+                            it
+                        )
+                    }
+                }
             }
         }
     }
@@ -1624,6 +1639,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         createAccount.launch(createAccountIntent)
     }
 
+    private fun configureEquivalentWorthMenuItemIcon(menuItem: MenuItem, checked: Boolean) {
+        menuItem.isChecked = checked
+        menuItem.icon = if (checked) {
+            ContextCompat.getDrawable(this, R.drawable.checkbox_checked)
+        } else {
+            ContextCompat.getDrawable(this, R.drawable.checkbox_not_checked)
+        }
+    }
+
+    fun handleNavigationClick(item: MenuItem) = when (item.itemId) {
+        R.id.EQUIVALENT_WORTH_COMMAND -> {
+            viewModel.persistShowEquivalentWorth(!item.isChecked)
+            true
+        }
+
+        else -> dispatchCommand(item.itemId, null)
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
             return true
@@ -2100,7 +2133,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         val isHome = account.id == HOME_AGGREGATE_ID
         currentBalance = (if (isHome) " ≈ " else "") +
-                currencyFormatter.formatMoney(Money(account.currencyUnit, account.currentBalance))
+                currencyFormatter.formatMoney(Money(account.currencyUnit,
+                    if (isHome) account.equivalentCurrentBalance else account.currentBalance))
         binding.toolbar.title.text =
             if (isHome) getString(R.string.grand_total) else account.label
         with(binding.toolbar.subtitle) {

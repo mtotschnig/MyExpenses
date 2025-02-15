@@ -36,7 +36,6 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
@@ -74,7 +73,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
@@ -82,7 +80,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
@@ -90,7 +87,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
@@ -108,6 +111,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
@@ -130,7 +135,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
@@ -174,7 +178,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
@@ -559,6 +562,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val UNARCHIVE = 77
         protected const val ARCHIVE_SUMS = 78
         protected const val PRICES = 79
+
+        const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
     }
 
     val homeCurrency: String
@@ -569,39 +574,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
-
-    private val fullAccountProjection = arrayOf(
-        "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
-        KEY_LABEL,
-        "$TABLE_ACCOUNTS.$KEY_DESCRIPTION AS $KEY_DESCRIPTION",
-        KEY_OPENING_BALANCE,
-        "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
-        KEY_COLOR,
-        "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
-        KEY_TYPE,
-        KEY_SORT_KEY,
-        KEY_EXCLUDE_FROM_TOTALS,
-        KEY_SYNC_ACCOUNT_NAME,
-        KEY_UUID,
-        KEY_SORT_BY,
-        KEY_SORT_DIRECTION,
-        KEY_CRITERION,
-        KEY_SEALED,
-        "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
-        KEY_SUM_INCOME,
-        KEY_SUM_EXPENSES,
-        KEY_SUM_TRANSFERS,
-        "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
-        "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
-        "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
-        KEY_USAGES,
-        "0 AS $KEY_IS_AGGREGATE",//this is needed in the union with the aggregates to sort real accounts first
-        KEY_HAS_FUTURE,
-        KEY_HAS_CLEARED,
-        AccountType.sqlOrderExpression(),
-        KEY_LAST_USED,
-        KEY_BANK_ID
-    )
 
     val aggregateFunction: String
         get() = aggregateFunction(prefHandler)
@@ -628,26 +600,20 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } == FutureCriterion.Current
 
-        val cte =
+        val cte = if (minimal) "" else
             accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction, typeWithFallBack)
 
-        val joinWithAggregates =
-            "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID"
+        val minimalProjection = arrayOf(
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_CURRENCY,
+            KEY_TYPE,
+            "0 AS $KEY_IS_AGGREGATE"
+        )
 
         val query = if (mergeAggregate == null) {
-            (if (minimal)
-                SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
-                    .columns(fullAccountProjection)
-            else SupportSQLiteQueryBuilder.builder(
-                exchangeRateJoin(
-                    joinWithAggregates,
-                    KEY_ROWID,
-                    homeCurrency,
-                    TABLE_ACCOUNTS
-                )
-            )
-                .columns(fullAccountProjection + KEY_EXCHANGE_RATE)
-                    )
+            SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS)
+                .columns(if (minimal) minimalProjection else null)
                 .selection(selection, emptyArray())
                 .orderBy("$KEY_HIDDEN, $sortOrder")
                 .create().sql
@@ -656,24 +622,59 @@ abstract class BaseTransactionProvider : ContentProvider() {
             if (mergeAggregate == "1") {
                 subQueries.add(
                     SupportSQLiteQueryBuilder
-                        .builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
+                        .builder(if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS)
                         .columns(
-                            if (minimal) arrayOf(
+                            if (minimal) minimalProjection else arrayOf(
                                 KEY_ROWID,
                                 KEY_LABEL,
+                                KEY_DESCRIPTION,
+                                KEY_OPENING_BALANCE,
+                                KEY_EQUIVALENT_OPENING_BALANCE,
                                 KEY_CURRENCY,
+                                KEY_COLOR,
+                                KEY_GROUPING,
                                 KEY_TYPE,
-                                "0 AS $KEY_IS_AGGREGATE"
-                            ) else fullAccountProjection
+                                KEY_SORT_KEY,
+                                KEY_EXCLUDE_FROM_TOTALS,
+                                KEY_SYNC_ACCOUNT_NAME,
+                                KEY_UUID,
+                                KEY_SORT_BY,
+                                KEY_SORT_DIRECTION,
+                                KEY_CRITERION,
+                                KEY_SEALED,
+                                KEY_CURRENT_BALANCE,
+                                KEY_EQUIVALENT_CURRENT_BALANCE,
+                                KEY_SUM_INCOME,
+                                KEY_SUM_EXPENSES,
+                                KEY_SUM_TRANSFERS,
+                                KEY_EQUIVALENT_INCOME,
+                                KEY_EQUIVALENT_EXPENSES,
+                                KEY_EQUIVALENT_TRANSFERS,
+                                KEY_TOTAL,
+                                KEY_EQUIVALENT_TOTAL,
+                                KEY_CLEARED_TOTAL,
+                                KEY_RECONCILED_TOTAL,
+                                KEY_USAGES,
+                                "0 AS $KEY_IS_AGGREGATE",
+                                KEY_HAS_FUTURE,
+                                KEY_HAS_CLEARED,
+                                KEY_SORT_KEY_TYPE,
+                                KEY_LAST_USED,
+                                KEY_BANK_ID,
+                                KEY_LATEST_EXCHANGE_RATE,
+                                KEY_LATEST_EXCHANGE_RATE_DATE
+                            )
                         )
                         .selection(selection, emptyArray())
                         .create().sql
                 )
             }
+            val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE)"
+            val openingBalanceSumEquivalent = "$aggregateFunction($KEY_EQUIVALENT_OPENING_BALANCE)"
             //Currency query
             if (mergeAggregate != HOME_AGGREGATE_ID.toString()) {
                 val qb = SupportSQLiteQueryBuilder.builder(
-                    "$joinWithAggregates LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
+                    "$CTE_TABLE_NAME_FULL_ACCOUNTS LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
                 )
                 val rowIdColumn = "0 - $TABLE_CURRENCIES.$KEY_ROWID AS $KEY_ROWID"
                 val labelColumn = "$KEY_CURRENCY AS $KEY_LABEL"
@@ -685,12 +686,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     "'AGGREGATE' AS $KEY_TYPE",
                     aggregateColumn
                 ) else {
-                    val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE)"
                     arrayOf(
                         rowIdColumn,  //we use negative ids for aggregate accounts
                         labelColumn,
                         "'' AS $KEY_DESCRIPTION",
                         "$openingBalanceSum AS $KEY_OPENING_BALANCE",
+                        "$openingBalanceSumEquivalent AS $KEY_EQUIVALENT_OPENING_BALANCE",
                         KEY_CURRENCY,
                         "-1 AS $KEY_COLOR",
                         "$TABLE_CURRENCIES.$KEY_GROUPING",
@@ -703,11 +704,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "$TABLE_CURRENCIES.$KEY_SORT_DIRECTION",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
-                        "$openingBalanceSum + coalesce($aggregateFunction($KEY_CURRENT),0) AS $KEY_CURRENT_BALANCE",
+                        "$aggregateFunction($KEY_CURRENT_BALANCE) AS $KEY_CURRENT_BALANCE",
+                        "$aggregateFunction($KEY_EQUIVALENT_CURRENT_BALANCE) AS $KEY_EQUIVALENT_CURRENT_BALANCE",
                         "$aggregateFunction($KEY_SUM_INCOME) AS $KEY_SUM_INCOME",
                         "$aggregateFunction($KEY_SUM_EXPENSES) AS $KEY_SUM_EXPENSES",
                         "$aggregateFunction($KEY_SUM_TRANSFERS) AS $KEY_SUM_TRANSFERS",
-                        "$openingBalanceSum + coalesce($aggregateFunction($KEY_TOTAL),0) AS $KEY_TOTAL",
+                        "$aggregateFunction($KEY_EQUIVALENT_INCOME) AS $KEY_EQUIVALENT_INCOME",
+                        "$aggregateFunction($KEY_EQUIVALENT_EXPENSES) AS $KEY_EQUIVALENT_EXPENSES",
+                        "$aggregateFunction($KEY_EQUIVALENT_TRANSFERS) AS $KEY_EQUIVALENT_TRANSFERS",
+                        "$aggregateFunction($KEY_TOTAL) AS $KEY_TOTAL",
+                        "$aggregateFunction($KEY_EQUIVALENT_TOTAL) AS $KEY_EQUIVALENT_TOTAL",
                         "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
@@ -716,7 +722,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
-                        "null AS $KEY_BANK_ID"
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_LATEST_EXCHANGE_RATE",
+                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
                     )
                 }
                 subQueries.add(
@@ -731,9 +739,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             //home query
             if (mergeAggregate == HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
-                val qb = SupportSQLiteQueryBuilder.builder(
-                    exchangeRateJoin(joinWithAggregates, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
-                )
+                val qb = SupportSQLiteQueryBuilder.builder(CTE_TABLE_NAME_FULL_ACCOUNTS)
 
                 val grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE")
                 val sortBy = prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)
@@ -752,13 +758,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         aggregateColumn
                     )
                 } else {
-                    val openingBalanceSum =
-                        "$aggregateFunction($KEY_OPENING_BALANCE * coalesce($KEY_EXCHANGE_RATE, 1))"
                     arrayOf(
                         rowIdColumn,
                         labelColumn,
                         "'' AS $KEY_DESCRIPTION",
-                        "$openingBalanceSum AS $KEY_OPENING_BALANCE",
+                        "0 AS $KEY_OPENING_BALANCE",
+                        "$openingBalanceSumEquivalent AS $KEY_EQUIVALENT_OPENING_BALANCE",
                         currencyColumn,
                         "-1 AS $KEY_COLOR",
                         "'$grouping' AS $KEY_GROUPING",
@@ -771,11 +776,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "'$sortDirection' AS $KEY_SORT_DIRECTION",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
-                        "$openingBalanceSum + coalesce($aggregateFunction(equivalent_current),0) AS $KEY_CURRENT_BALANCE",
-                        "$aggregateFunction(equivalent_income) AS $KEY_SUM_INCOME",
-                        "$aggregateFunction(equivalent_expense) AS $KEY_SUM_EXPENSES",
+                        "0 AS $KEY_CURRENT_BALANCE",
+                        "$aggregateFunction($KEY_EQUIVALENT_CURRENT_BALANCE) AS $KEY_EQUIVALENT_CURRENT_BALANCE",
+                        "0 AS $KEY_SUM_INCOME",
+                        "0 AS $KEY_SUM_EXPENSES",
                         "0 AS $KEY_SUM_TRANSFERS",
-                        "$openingBalanceSum + coalesce($aggregateFunction(equivalent_total),0) AS $KEY_TOTAL",
+                        "$aggregateFunction($KEY_EQUIVALENT_INCOME) AS $KEY_EQUIVALENT_INCOME",
+                        "$aggregateFunction($KEY_EQUIVALENT_EXPENSES) AS $KEY_EQUIVALENT_EXPENSES",
+                        "$aggregateFunction($KEY_EQUIVALENT_TRANSFERS) AS $KEY_EQUIVALENT_TRANSFERS",
+                        "0 AS $KEY_TOTAL",
+                        "$aggregateFunction($KEY_EQUIVALENT_TOTAL) AS $KEY_EQUIVALENT_TOTAL",
                         "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
@@ -784,7 +794,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
-                        "null AS $KEY_BANK_ID"
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_LATEST_EXCHANGE_RATE",
+                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
                     )
                 }
                 subQueries.add(
@@ -1977,7 +1989,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     /**
      * @param transactionId can be passed in as Long or String
      */
-    fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(transactionId: Any, equivalentAmount: Long) {
+    fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
+        transactionId: Any,
+        equivalentAmount: Long,
+    ) {
         execSQL(
             "INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT) VALUES(?,?,?)",
             arrayOf(transactionId, homeCurrency, equivalentAmount)

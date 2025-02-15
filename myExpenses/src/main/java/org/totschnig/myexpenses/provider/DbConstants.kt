@@ -9,9 +9,12 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CTE_TABLE_NAME_FULL_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
@@ -19,25 +22,40 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_P
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES
@@ -51,6 +69,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
@@ -59,11 +78,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
@@ -75,6 +99,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
@@ -87,6 +112,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOU
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS
@@ -510,10 +536,70 @@ fun accountQueryCTE(
     val isIncome =
         "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0)"
     val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
+
+    val fullAccountProjection = arrayOf(
+        "latest_rates.$KEY_VALUE AS $KEY_LATEST_EXCHANGE_RATE",
+        "latest_rates.$KEY_DATE AS $KEY_LATEST_EXCHANGE_RATE_DATE",
+        KEY_EXCHANGE_RATE,
+        "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
+        KEY_LABEL,
+        "$TABLE_ACCOUNTS.$KEY_DESCRIPTION AS $KEY_DESCRIPTION",
+        KEY_OPENING_BALANCE,
+        "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_OPENING_BALANCE ELSE $KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_OPENING_BALANCE",
+        "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
+        KEY_COLOR,
+        "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
+        KEY_TYPE,
+        KEY_SORT_KEY,
+        KEY_EXCLUDE_FROM_TOTALS,
+        KEY_SYNC_ACCOUNT_NAME,
+        KEY_UUID,
+        KEY_SORT_BY,
+        KEY_SORT_DIRECTION,
+        KEY_CRITERION,
+        KEY_SEALED,
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 else latest_rates.$KEY_VALUE END AS $KEY_EQUIVALENT_CURRENT_BALANCE",
+        KEY_SUM_INCOME,
+        KEY_SUM_EXPENSES,
+        KEY_SUM_TRANSFERS,
+        KEY_EQUIVALENT_INCOME,
+        KEY_EQUIVALENT_EXPENSES,
+        KEY_EQUIVALENT_TRANSFERS,
+        "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 else latest_rates.$KEY_VALUE END AS $KEY_EQUIVALENT_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
+        KEY_USAGES,
+        KEY_HAS_FUTURE,
+        KEY_HAS_CLEARED,
+        AccountType.sqlOrderExpression(),
+        KEY_LAST_USED,
+        KEY_BANK_ID,
+        KEY_HIDDEN,
+    )
     return """
 WITH now as (
     SELECT
         cast(strftime('%s', $futureCriterion) as integer) AS now
+), latest_rates as (
+SELECT
+    p1.$KEY_COMMODITY,
+    p1.$KEY_VALUE,
+    p1.$KEY_DATE
+FROM
+    $TABLE_PRICES p1
+JOIN (
+    SELECT
+        $KEY_COMMODITY,
+        MAX($KEY_DATE) AS max_date
+    FROM
+        $TABLE_PRICES WHERE $KEY_CURRENCY = '$homeCurrency'
+    GROUP BY
+        $KEY_COMMODITY
+) p2 ON
+    p1.$KEY_COMMODITY = p2.$KEY_COMMODITY AND
+    p1.$KEY_DATE = p2.max_date AND $KEY_CURRENCY = '$homeCurrency'
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
@@ -521,10 +607,16 @@ WITH now as (
         $KEY_TRANSFER_PEER,
         $KEY_CR_STATUS,
         $KEY_DATE,
-        coalesce(
-        ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT)},
-            coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
-        ) AS $KEY_EQUIVALENT_AMOUNT,
+        CASE WHEN $VIEW_WITH_ACCOUNT.$KEY_CURRENCY != '$homeCurrency'
+          THEN
+            coalesce(
+              CASE WHEN $KEY_DYNAMIC
+                THEN ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT)}
+              END,
+              coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
+            )
+          ELSE $KEY_AMOUNT
+          END AS $KEY_EQUIVALENT_AMOUNT,
         $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
     FROM 
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)} 
@@ -534,19 +626,21 @@ WITH now as (
     SELECT
         $KEY_ACCOUNTID,
         $aggregateFunction($KEY_AMOUNT) as $KEY_TOTAL,
-        $aggregateFunction($KEY_EQUIVALENT_AMOUNT) as equivalent_total,
         $aggregateFunction(CASE WHEN $isIncome THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_INCOME,
-        $aggregateFunction(CASE WHEN $isIncome THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_income,
+        $aggregateFunction(CASE WHEN ($isIncome) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as $KEY_EQUIVALENT_INCOME,
         $aggregateFunction(CASE WHEN $isExpense THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_EXPENSES,
-        $aggregateFunction(CASE WHEN $isExpense THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_expense,
+        $aggregateFunction(CASE WHEN ($isExpense) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as $KEY_EQUIVALENT_EXPENSES,
         $aggregateFunction(CASE WHEN $isTransfer THEN $KEY_AMOUNT ELSE 0  END) as $KEY_SUM_TRANSFERS,
+        $aggregateFunction(CASE WHEN ($isTransfer) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0  END) as $KEY_EQUIVALENT_TRANSFERS,
         $aggregateFunction(CASE WHEN $KEY_DATE < (select now from now) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CURRENT,
-        $aggregateFunction(CASE WHEN $KEY_DATE < (select now from now) THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_current,
         $aggregateFunction(CASE WHEN $KEY_CR_STATUS IN ( 'RECONCILED', 'CLEARED' ) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CLEARED_TOTAL,
         $aggregateFunction(CASE WHEN $KEY_CR_STATUS = 'RECONCILED' THEN $KEY_AMOUNT ELSE 0 END) as $KEY_RECONCILED_TOTAL,
         max(CASE WHEN $KEY_CR_STATUS = 'CLEARED' THEN 1 ELSE 0 END) as $KEY_HAS_CLEARED,
         max($KEY_DATE) >= (select now from now) as $KEY_HAS_FUTURE
    from amounts group by $KEY_ACCOUNTID
+), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
+    SELECT ${fullAccountProjection.joinToString()}
+    FROM accounts LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN latest_rates ON $TABLE_ACCOUNTS.$KEY_CURRENCY = latest_rates.$KEY_COMMODITY  ${exchangeRateJoin("", KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)}
 )
 """
 }

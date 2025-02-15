@@ -232,4 +232,5 @@
     <item name="GROUPING_BUDGETS_GROUPING_COMMAND" type="id" />
     <item name="GROUPING_BUDGETS_ACCOUNT_COMMAND" type="id" />
     <item name="SORT_DEBT_SUM_COMMAND" type="id" />
+    <item name="DYNAMIC_EXCHANGE_RATE_COMMAND" type="id" />
 </resources>

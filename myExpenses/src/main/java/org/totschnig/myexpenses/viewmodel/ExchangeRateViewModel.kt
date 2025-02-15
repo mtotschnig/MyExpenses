@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentValues
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -64,9 +65,9 @@ class ExchangeRateViewModel(application: Application) :
         base: String,
         date: LocalDate,
         source: ExchangeRateSource,
-    ): Double {
+    ): Double = withContext(coroutineContext()) {
         val apiKey = (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler)
-        return if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
+        if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
             loadFromNetwork(
                 source = source,
                 apiKey = apiKey,

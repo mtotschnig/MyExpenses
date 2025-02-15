@@ -163,15 +163,31 @@ open class MyExpensesViewModel(
     val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
+    private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
 
     fun showStatusHandle() =
         dataStore.data.map { preferences ->
             preferences[showStatusHandlePrefKey] != false
         }
 
-    suspend fun persistShowStatusHandle(showStatus: Boolean) {
-        dataStore.edit { preference ->
-            preference[showStatusHandlePrefKey] = showStatus
+    fun showEquivalentWorth() =
+        dataStore.data.map { preferences ->
+            preferences[showEquivalentWorthPrefKey] != false
+        }
+
+    fun persistShowStatusHandle(showStatus: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preference ->
+                preference[showStatusHandlePrefKey] = showStatus
+            }
+        }
+    }
+
+    fun persistShowEquivalentWorth(showEquivalentWort: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preference ->
+                preference[showEquivalentWorthPrefKey] = showEquivalentWort
+            }
         }
     }
 
@@ -273,6 +289,7 @@ open class MyExpensesViewModel(
     }
 
     var showFilterDialog by mutableStateOf(false)
+
 
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {

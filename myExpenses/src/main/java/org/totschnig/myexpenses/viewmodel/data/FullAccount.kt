@@ -23,6 +23,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
@@ -43,6 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
@@ -50,6 +57,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
+import kotlin.math.roundToLong
 import kotlin.math.sign
 
 abstract class BaseAccount : DataBaseAccount() {
@@ -72,6 +80,11 @@ data class FullAccount(
     val sumIncome: Long,
     val sumExpense: Long,
     val sumTransfer: Long = 0L,
+    val equivalentOpeningBalance: Long = openingBalance,
+    val equivalentCurrentBalance: Long = currentBalance,
+    val equivalentSumIncome: Long = sumIncome,
+    val equivalentSumExpense: Long = sumExpense,
+    val equivalentSumTransfer: Long = sumTransfer,
     override val grouping: Grouping = Grouping.NONE,
     override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
@@ -82,9 +95,10 @@ data class FullAccount(
     val uuid: String? = null,
     val criterion: Long?,
     val total: Long? = null,
+    val equivalentTotal: Long? = null,
     val excludeFromTotals: Boolean = false,
     val lastUsed: Long = 0L,
-    val bankId: Long? = null
+    val bankId: Long? = null,
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -100,14 +114,17 @@ data class FullAccount(
     val progress: Pair<Int, Float>?
         get() = criterion?.let {
             it.sign to
-            if (it > 0 == currentBalance > 0) {
-                (currentBalance * 100F / it)
-            } else 0f
+                    if (it > 0 == currentBalance > 0) {
+                        (currentBalance * 100F / it)
+                    } else 0f
         }
 
     companion object {
 
-        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): FullAccount {
+        fun fromCursor(
+            cursor: Cursor,
+            currencyContext: CurrencyContext,
+        ): FullAccount {
             val sortBy = cursor.getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
@@ -124,7 +141,10 @@ data class FullAccount(
                 sumIncome = cursor.getLong(KEY_SUM_INCOME),
                 sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
                 sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
-                grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
+                    KEY_GROUPING,
+                    Grouping.NONE
+                ) else Grouping.NONE,
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
@@ -134,9 +154,15 @@ data class FullAccount(
                 uuid = cursor.getStringOrNull(KEY_UUID),
                 criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
                 total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null,
+                equivalentTotal = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getDouble(KEY_EQUIVALENT_TOTAL).roundToLong() else null,
                 excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 lastUsed = cursor.getLong(KEY_LAST_USED),
-                bankId = cursor.getLongOrNull(KEY_BANK_ID)
+                bankId = cursor.getLongOrNull(KEY_BANK_ID),
+                equivalentOpeningBalance = cursor.getLong(KEY_EQUIVALENT_OPENING_BALANCE),
+                equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE).roundToLong(),
+                equivalentSumIncome = cursor.getLong(KEY_EQUIVALENT_INCOME),
+                equivalentSumExpense = cursor.getLong(KEY_EQUIVALENT_EXPENSES),
+                equivalentSumTransfer = cursor.getLong(KEY_EQUIVALENT_TRANSFERS),
             )
         }
     }
@@ -152,7 +178,7 @@ data class PageAccount(
     val currencyUnit: CurrencyUnit,
     val sealed: Boolean,
     val openingBalance: Long,
-    override val _color: Int
+    override val _color: Int,
 ) : BaseAccount() {
     override val currency: String = currencyUnit.code
 

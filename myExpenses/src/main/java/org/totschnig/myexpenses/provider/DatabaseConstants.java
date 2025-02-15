@@ -183,6 +183,7 @@ public class DatabaseConstants {
   public static final String KEY_CURRENCY = "currency";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
+  public static final String KEY_EQUIVALENT_OPENING_BALANCE = "equivalent_opening_balance";
   public static final String KEY_USAGES = "usages";
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
@@ -222,13 +223,18 @@ public class DatabaseConstants {
   public static final String KEY_THIS_YEAR_OF_MONTH_START = "this_year_of_month_start";
   public static final String KEY_MAX_VALUE = "max_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
+  public static final String KEY_EQUIVALENT_CURRENT_BALANCE = "equivalent_current_balance";
   public static final String KEY_TOTAL = "total";
+  public static final String KEY_EQUIVALENT_TOTAL = "equivalent_total";
   public static final String KEY_CURRENT = "current";
   public static final String KEY_CLEARED_TOTAL = "cleared_total";
   public static final String KEY_RECONCILED_TOTAL = "reconciled_total";
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
   public static final String KEY_SUM_INCOME = "sum_income";
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
+  public static final String KEY_EQUIVALENT_EXPENSES = "equivalent_expenses";
+  public static final String KEY_EQUIVALENT_INCOME = "equivalent_income";
+  public static final String KEY_EQUIVALENT_TRANSFERS = "equivalent_transfers";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_MAPPED_PAYEES = "mapped_payees";
   public static final String KEY_MAPPED_METHODS = "mapped_methods";
@@ -375,6 +381,13 @@ public class DatabaseConstants {
   // Prices
   public static final String KEY_COMMODITY = "commodity";
   public static final String KEY_SOURCE = "source";
+
+  /**
+   * flag for accounts with dynamic exchange rates
+   */
+  public static final String KEY_DYNAMIC = "dynamic";
+  public static final String KEY_LATEST_EXCHANGE_RATE = "latest_exchange_rate";
+  public static final String KEY_LATEST_EXCHANGE_RATE_DATE = "latest_exchange_rate_date";
 
   /**
    * No special status

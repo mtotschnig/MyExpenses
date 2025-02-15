@@ -66,11 +66,6 @@ public class MyExpenses extends BaseMyExpenses implements
       CrashHandler.report(e);
     }
 
-    getNavigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
-    View navigationMenuView = getNavigationView().getChildAt(0);
-    if (navigationMenuView != null) {
-      navigationMenuView.setVerticalScrollBarEnabled(false);
-    }
     floatingActionButton = binding.fab.CREATECOMMAND;
     updateFab();
     setupFabSubMenu();
