@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.text.DecimalFormat
 
 @Composable
 fun AccountList(
@@ -353,20 +354,31 @@ fun AccountCard(
 
                 account.description?.let { Text(it) }
                 val homeCurrency = LocalHomeCurrency.current
+                val isFx = account.currency != homeCurrency.code
                 val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
-                val currency = if(showEquivalent) homeCurrency else account.currencyUnit
+                val currency = if (showEquivalent) homeCurrency else account.currencyUnit
+
+                val fXformat = remember { DecimalFormat("#.#####") }
                 SumRow(
                     if (showEquivalent) R.string.initial_value else R.string.opening_balance,
-                    format.convAmount(if (showEquivalent) account.equivalentOpeningBalance else account.openingBalance, currency)
+                    format.convAmount(
+                        if (showEquivalent) account.equivalentOpeningBalance else account.openingBalance,
+                        currency
+                    )
                 )
-                val displayIncome = if (showEquivalent) account.equivalentSumIncome else account.sumIncome
+                if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
+                    Text("1 ${account.currencyUnit.symbol} = ${fXformat.format(account.initialExchangeRate)} ${homeCurrency.symbol}")
+                }
+                val displayIncome =
+                    if (showEquivalent) account.equivalentSumIncome else account.sumIncome
                 if (displayIncome != 0L) {
                     SumRow(
                         R.string.sum_income,
                         format.convAmount(displayIncome, currency)
                     )
                 }
-                val displayExpense = if (showEquivalent) account.equivalentSumExpense else account.sumExpense
+                val displayExpense =
+                    if (showEquivalent) account.equivalentSumExpense else account.sumExpense
                 if (displayExpense != 0L) {
                     SumRow(
                         R.string.sum_expenses,
@@ -374,7 +386,8 @@ fun AccountCard(
                     )
                 }
 
-                val displayTransfer = if (showEquivalent) account.equivalentSumTransfer else account.sumTransfer
+                val displayTransfer =
+                    if (showEquivalent) account.equivalentSumTransfer else account.sumTransfer
 
                 if (displayTransfer != 0L) {
                     SumRow(
@@ -393,14 +406,19 @@ fun AccountCard(
 
                 SumRow(
                     if (showEquivalent) R.string.current_value else R.string.current_balance,
-                    format.convAmount(if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance, currency),
+                    format.convAmount(
+                        if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance,
+                        currency
+                    ),
                     Modifier.conditional(account.total == null) {
                         drawSumLine()
                     }
                 )
 
-                if (showEquivalent && !account.isAggregate) {
-                    Text("Exchange rate: TODO")
+                if (showEquivalent && (account.equivalentTotal != 0L || account.equivalentCurrentBalance != 0L))  {
+                    account.latestExchangeRate?.let { (date, rate) ->
+                        Text("1 ${account.currencyUnit.symbol} = ${fXformat.format(rate)} ${homeCurrency.symbol} (${LocalDateFormatter.current.format(date)}) ")
+                    }
                 }
 
                 account.criterion?.takeIf { !showEquivalent }?.let {
@@ -424,6 +442,7 @@ fun AccountCard(
         }
     }
 }
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

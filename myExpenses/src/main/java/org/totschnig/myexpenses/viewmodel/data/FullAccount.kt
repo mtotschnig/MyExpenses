@@ -29,12 +29,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -50,6 +53,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
@@ -57,6 +61,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
+import java.time.LocalDate
 import kotlin.math.roundToLong
 import kotlin.math.sign
 
@@ -99,6 +104,8 @@ data class FullAccount(
     val excludeFromTotals: Boolean = false,
     val lastUsed: Long = 0L,
     val bankId: Long? = null,
+    val initialExchangeRate: Double? = null,
+    val latestExchangeRate: Pair<LocalDate, Double>? = null
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -163,6 +170,10 @@ data class FullAccount(
                 equivalentSumIncome = cursor.getLong(KEY_EQUIVALENT_INCOME),
                 equivalentSumExpense = cursor.getLong(KEY_EQUIVALENT_EXPENSES),
                 equivalentSumTransfer = cursor.getLong(KEY_EQUIVALENT_TRANSFERS),
+                initialExchangeRate = cursor.getDoubleOrNull(KEY_EXCHANGE_RATE),
+                latestExchangeRate = cursor.getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
+                    LocalDate.parse(cursor.getString(KEY_LATEST_EXCHANGE_RATE_DATE)) to it
+                }
             )
         }
     }

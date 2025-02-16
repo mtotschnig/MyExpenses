@@ -172,9 +172,6 @@ abstract class TransactionDelegate<T : ITransaction>(
     var originalAmountVisible = false
 
     @State
-    var equivalentAmountVisible = false
-
-    @State
     var originalCurrencyCode: String? = null
 
     @State
@@ -354,9 +351,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (originalAmountVisible) {
             configureOriginalAmountVisibility()
         }
-        if (equivalentAmountVisible) {
-            configureEquivalentAmountVisibility()
-        }
 
         viewBinding.ClearCategory.setOnClickListener {
             resetCategory()
@@ -461,7 +455,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         populateOriginalCurrency()
         fillAmount(transaction.amount.amountMajor)
         transaction.equivalentAmount?.let {
-            equivalentAmountVisible = true
             viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
             viewBinding.EquivalentAmount.post {
                 viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
@@ -492,10 +485,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             requestFocus()
             selectAll()
         }
-    }
-
-    private fun configureEquivalentAmountVisibility() {
-        viewBinding.EquivalentAmountRow.isVisible = equivalentAmountVisible
     }
 
     private fun configureOriginalAmountVisibility() {
@@ -548,29 +537,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             }
             return null
         }
-
-    fun toggleEquivalentAmount() {
-        equivalentAmountVisible = !equivalentAmountVisible
-        configureEquivalentAmount()
-    }
-
-    fun configureEquivalentAmount() {
-        configureEquivalentAmountVisibility()
-        if (equivalentAmountVisible) {
-            currentAccount()?.let {
-                if (viewBinding.EquivalentAmount.getAmount(
-                        showToUser = false
-                    ) == null
-                ) {
-                    val rate = BigDecimal.valueOf(it.exchangeRate)
-                    viewBinding.EquivalentAmount.exchangeRate = rate
-                }
-            }
-            viewBinding.EquivalentAmount.requestFocus()
-        } else {
-            viewBinding.EquivalentAmount.clear()
-        }
-    }
 
     private fun setMethodSelection(methodId: Long?) {
         this.methodId = methodId
@@ -981,10 +947,9 @@ abstract class TransactionDelegate<T : ITransaction>(
             R.string.amount
         )
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
-        if (hasHomeCurrency(account)) {
-            equivalentAmountVisible = false
-            configureEquivalentAmountVisibility()
-        } else {
+        val needsEquivalentAmount = !hasHomeCurrency(account) && account.dynamicExchangeRates
+        viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
+        if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
         }
         configureDateInput(account)

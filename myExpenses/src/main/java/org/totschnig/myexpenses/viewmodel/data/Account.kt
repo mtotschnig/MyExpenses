@@ -13,7 +13,8 @@ data class Account(
     val type: AccountType = AccountType.CASH,
     val exchangeRate: Double = 1.0,
     val criterion: Long?,
-    var currentBalance: Long
+    val dynamicExchangeRates: Boolean = false,
+    var currentBalance: Long,
 ) : IdHolder, Serializable {
     override fun toString(): String {
         return label

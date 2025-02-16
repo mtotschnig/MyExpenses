@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.database.Cursor
+import androidx.core.database.getDoubleOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -64,6 +65,8 @@ fun Cursor.getStringIfExists(column: String) =
 
 fun Cursor.getDoubleIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
+fun Cursor.getDoubleOrNull(column: String) = getDoubleOrNull(getColumnIndexOrThrow(column))
+
 
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1

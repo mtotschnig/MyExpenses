@@ -538,8 +538,8 @@ fun accountQueryCTE(
     val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
 
     val fullAccountProjection = arrayOf(
-        "latest_rates.$KEY_VALUE AS $KEY_LATEST_EXCHANGE_RATE",
-        "latest_rates.$KEY_DATE AS $KEY_LATEST_EXCHANGE_RATE_DATE",
+        "CASE WHEN $KEY_DYNAMIC THEN latest_rates.$KEY_VALUE END AS $KEY_LATEST_EXCHANGE_RATE ",
+        "CASE WHEN $KEY_DYNAMIC THEN latest_rates.$KEY_DATE END AS $KEY_LATEST_EXCHANGE_RATE_DATE",
         KEY_EXCHANGE_RATE,
         "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
         KEY_LABEL,
@@ -577,6 +577,7 @@ fun accountQueryCTE(
         KEY_LAST_USED,
         KEY_BANK_ID,
         KEY_HIDDEN,
+        KEY_DYNAMIC
     )
     return """
 WITH now as (
@@ -815,6 +816,7 @@ fun transactionSumQuery(
     aggregateFunction: String,
     homeCurrency: String,
 ): String {
+
     val accountSelector: String = "$VIEW_WITH_ACCOUNT.${uri.accountSelector}"
     val selection =
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"

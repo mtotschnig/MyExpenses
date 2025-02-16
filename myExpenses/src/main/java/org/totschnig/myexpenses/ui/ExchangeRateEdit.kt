@@ -166,7 +166,6 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         group.ExchangeRateLabel2.text = symbol2
     }
 
-
     private inner class LinkedExchangeRateTextWatcher(
         /**
          * true if we are linked to exchange rate where unit is from account currency

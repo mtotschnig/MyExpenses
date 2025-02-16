@@ -995,13 +995,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)?.let {
                 it.isChecked = delegate.originalAmountVisible
             }
-            val currentAccount = currentAccount
-            menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)?.let {
-                it.setEnabledAndVisible(
-                    !(currentAccount == null || hasHomeCurrency(currentAccount))
-                )
-                it.isChecked = delegate.equivalentAmountVisible
-            }
             menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.let {
                 it.subMenu?.let { subMenu ->
                     subMenu.clear()
@@ -1064,14 +1057,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     R.id.ORIGINAL_AMOUNT_COMMAND,
                     0,
                     R.string.menu_original_amount
-                ).isCheckable = true
-            }
-            if (!isSplitPartOrTemplate) {
-                menu.add(
-                    Menu.NONE,
-                    R.id.EQUIVALENT_AMOUNT_COMMAND,
-                    0,
-                    R.string.menu_equivalent_amount
                 ).isCheckable = true
             }
         }
@@ -1177,14 +1162,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
                 if (::delegate.isInitialized) {
                     delegate.toggleOriginalAmount()
-                    invalidateOptionsMenu()
-                    return true
-                }
-            }
-
-            R.id.EQUIVALENT_AMOUNT_COMMAND -> {
-                if (::delegate.isInitialized) {
-                    delegate.toggleEquivalentAmount()
                     invalidateOptionsMenu()
                     return true
                 }

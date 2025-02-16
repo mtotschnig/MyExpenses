@@ -381,12 +381,6 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
-        if (debt.currency != currentAccount()!!.currency) {
-            if (!equivalentAmountVisible) {
-                equivalentAmountVisible = true
-                configureEquivalentAmount()
-            }
-        }
         if (viewBinding.Payee.text.isEmpty()) {
             val focussed: Boolean = viewBinding.Payee.hasFocus()
             if (focussed) {

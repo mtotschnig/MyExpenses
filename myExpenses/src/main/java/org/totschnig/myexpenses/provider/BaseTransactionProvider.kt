@@ -661,6 +661,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 KEY_SORT_KEY_TYPE,
                                 KEY_LAST_USED,
                                 KEY_BANK_ID,
+                                KEY_EXCHANGE_RATE,
                                 KEY_LATEST_EXCHANGE_RATE,
                                 KEY_LATEST_EXCHANGE_RATE_DATE
                             )
@@ -723,6 +724,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
                         "null AS $KEY_BANK_ID",
+                        "null AS $KEY_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
                     )
@@ -795,6 +797,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
                         "null AS $KEY_BANK_ID",
+                        "null AS $KEY_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
                     )
