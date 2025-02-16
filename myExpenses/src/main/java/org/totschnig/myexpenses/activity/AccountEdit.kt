@@ -394,11 +394,13 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         super.dispatchCommand(command, tag) || when (command) {
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> {
                 excludeFromTotals = !excludeFromTotals
+                setDirty()
                 true
             }
 
             R.id.DYNAMIC_EXCHANGE_RATE_COMMAND -> {
                 dynamicExchangeRates = !dynamicExchangeRates
+                setDirty()
                 true
             }
 
