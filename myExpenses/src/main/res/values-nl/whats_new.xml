@@ -17,8 +17,8 @@
     <string name="whats_new_376_1">Kloon meerdere transacties met een nieuwe datum.</string>
     <string name="whats_new_376_2">De webgebruikersinterface kan worden bediend vanaf het hoofdscherm.</string>
     <string name="whats_new_378">Grafieken voldoen aan het zoekfilter.</string>
-    <string name="whats_new_384">Vereenvoudigde installatie van cloudback-up</string>
-    <string name="whats_new_386">De verdeling per uitgaven en de verdeling per inkomen kunnen samen worden weergegeven in een ringdiagram met dubbele ringen.</string>
+    <string name="whats_new_384">Vereenvoudigde configuratie van cloudback-up</string>
+    <string name="whats_new_386">De verdeling per uitgave en de verdeling per opbrengst kunnen samen worden weergegeven in een dubbelringdiagram.</string>
     <string name="whats_new_388">Transacties kunnen worden gearchiveerd.</string>
     <string name="whats_new_382">%1$s wordt vervangen door een label tussen aanhalingstekens voor de functionaliteit \"Scan bon\". %2$s wordt vervangen door een label tussen aanhalingstekens voor de widget \"Mijn accounts\"\n%1$s-functie kan worden aangeroepen vanuit widget %2$s.</string>
     <string name="whats_new_395">Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload via de webgebruikersinterface.</string>
