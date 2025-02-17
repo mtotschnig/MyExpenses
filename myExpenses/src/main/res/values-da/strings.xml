@@ -919,4 +919,7 @@
     <string name="budget_import_can_be_imported">Følgende budgetter kan importeres:</string>
     <string name="budget_import_cannot_be_imported">Følgende budgetter henviser til konti, der ikke er synkroniseret:</string>
     <string name="budget_import_none_found">Ingen budgetter fundet.</string>
+    <string name="filter_dialog_empty">Ingen kriterier tilføjet endnu. Tryk på knapperne ovenfor for at definere din søgning og præcisere resultaterne.</string>
+    <string name="pref_sync_frequency_summary_0">Sæt til 0 for at deaktivere automatisk synk.</string>
+    <string name="webui_download_no_data">Efter udskrivning, eksport eller sikkerhedskopiering i appen kan filerne hentes herfra.</string>
 </resources>
