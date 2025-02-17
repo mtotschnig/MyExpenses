@@ -523,6 +523,8 @@ fun categoryPathFromLeave(rowId: String): String {
 const val TRANSFER_ACCOUNT_LABEL =
     "CASE WHEN $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS $KEY_TRANSFER_ACCOUNT_LABEL"
 
+
+//the latest_rates table makes use of sqlite's Bare columns in an aggregate query https://www.sqlite.org/lang_select.html#bareagg
 fun accountQueryCTE(
     homeCurrency: String,
     futureStartsNow: Boolean,
@@ -584,23 +586,14 @@ WITH now as (
     SELECT
         cast(strftime('%s', $futureCriterion) as integer) AS now
 ), latest_rates as (
-SELECT
-    p1.$KEY_COMMODITY,
-    p1.$KEY_VALUE,
-    p1.$KEY_DATE
-FROM
-    $TABLE_PRICES p1
-JOIN (
-    SELECT
-        $KEY_COMMODITY,
-        MAX($KEY_DATE) AS max_date
-    FROM
+ SELECT
+     $KEY_COMMODITY,
+     $KEY_VALUE,
+     MAX($KEY_DATE) AS $KEY_DATE
+ FROM
         $TABLE_PRICES WHERE $KEY_CURRENCY = '$homeCurrency'
     GROUP BY
         $KEY_COMMODITY
-) p2 ON
-    p1.$KEY_COMMODITY = p2.$KEY_COMMODITY AND
-    p1.$KEY_DATE = p2.max_date AND $KEY_CURRENCY = '$homeCurrency'
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
