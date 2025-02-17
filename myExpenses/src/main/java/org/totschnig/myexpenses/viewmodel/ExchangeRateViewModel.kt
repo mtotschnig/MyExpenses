@@ -23,6 +23,9 @@ import javax.inject.Inject
 class ExchangeRateViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
 
+    @Inject
+    lateinit var exchangeRateService: ExchangeRateService
+
     private fun loadFromDb(
         base: String,
         other: String,
@@ -53,9 +56,6 @@ class ExchangeRateViewModel(application: Application) :
             put(KEY_VALUE, rate)
         })
     }
-
-    @Inject
-    lateinit var exchangeRateService: ExchangeRateService
 
     /**
      * Load the value of 1 unit of other currency expressed in base currency

@@ -42,4 +42,8 @@ abstract class NotifyingBaseWorker(context: Context, workerParameters: WorkerPar
     protected fun notify(notification: Notification) {
         notificationManager.notify(notificationId, notification)
     }
+
+    fun notify(message: String) {
+        notify(buildMessage(message).build())
+    }
 }

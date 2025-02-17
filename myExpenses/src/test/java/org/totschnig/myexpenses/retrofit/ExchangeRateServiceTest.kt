@@ -36,8 +36,8 @@ class ExchangeRateServiceTest {
     @Test
     fun frankfurterIsAlive() {
         runBlocking {
-            val rate = service.getRate(ExchangeRateSource.Frankfurter, null, date, "USD", "EUR")
-            Truth.assertThat(rate.first).isEqualTo(date)
+            val rate = service.getRate(ExchangeRateSource.Frankfurter, null, date, "GBP", "EUR")
+            Truth.assertThat(rate.first).isNotNull()
             println(rate.second.toString())
         }
     }
@@ -49,6 +49,36 @@ class ExchangeRateServiceTest {
             val rate = service.getRate(ExchangeRateSource.CoinApi, BuildConfig.COIN_API_API_KEY, date, "USD", "EUR")
             Truth.assertThat(rate.first).isEqualTo(date)
             println(rate.second.toString())
+        }
+    }
+
+
+    @Test
+    fun frankfurterLatest() {
+        runBlocking {
+            val rates = service.getLatest(ExchangeRateSource.Frankfurter, null, "EUR", listOf("AUD", "GBP", "CHF"))
+            Truth.assertThat(rates).hasSize(3)
+            println(rates.joinToString())
+        }
+    }
+
+    @Test
+    fun openExchangeRateLatest() {
+        Assume.assumeFalse(BuildConfig.OPEN_EXCHANGE_RATES_API_KEY.isEmpty())
+        runBlocking {
+            val rates = service.getLatest(ExchangeRateSource.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))
+            Truth.assertThat(rates).hasSize(3)
+            println(rates.joinToString())
+        }
+    }
+
+    @Test
+    fun coinApiRateLatest() {
+        Assume.assumeFalse(BuildConfig.COIN_API_API_KEY.isEmpty())
+        runBlocking {
+            val rates = service.getLatest(ExchangeRateSource.CoinApi, BuildConfig.COIN_API_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))
+            Truth.assertThat(rates).hasSize(3)
+            println(rates.joinToString())
         }
     }
 }

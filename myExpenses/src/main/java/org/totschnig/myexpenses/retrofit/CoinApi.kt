@@ -9,6 +9,14 @@ import retrofit2.http.Query
 import java.time.LocalDate
 
 interface CoinApi {
+
+    @GET("v1/exchangerate/{base}?invert=true")
+    fun getAllCurrent(
+        @Path("base") base: String,
+        @Query("filter_asset_id") symbols: String,
+        @Header("X-CoinAPI-Key") apiKey: String
+    ): Call<AllCurrentResult>
+
     @GET("v1/exchangerate/{base}/{symbol}")
     fun getExchangeRate(
         @Path("base") base: String,
@@ -26,7 +34,10 @@ interface CoinApi {
     ): Call<List<HistoryResult>>
 
     @Keep
-    data class ExchangeRateResult(val rate: Double)
+    data class AllCurrentResult(val rates: List<ExchangeRateResult>)
+
+    @Keep
+    data class ExchangeRateResult(val time: String, val rate: Double, val asset_id_quote: String)
 
     @Keep
     data class HistoryResult(val rate_open: Double, val rate_high: Double, val rate_low: Double, val rate_close: Double)

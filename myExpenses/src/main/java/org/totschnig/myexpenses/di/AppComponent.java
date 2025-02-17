@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
+import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.SyncAdapter;
@@ -319,4 +320,5 @@ public interface AppComponent {
 
   void inject(BudgetListViewModel budgetListViewModel);
 
+  void inject(DailyExchangeRateDownloadService dailyExchangeRateService);
 }

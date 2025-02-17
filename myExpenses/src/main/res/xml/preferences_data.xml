@@ -87,6 +87,7 @@
             my:isPreferenceVisible="false" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
+            my:singleLineTitle="false"
             android:key="@string/pref_automatic_exchange_rate_download_key"
             android:title="@string/enable_automatic_daily_exchange_rate_download" />
     </PreferenceCategory>
