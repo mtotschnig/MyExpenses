@@ -893,4 +893,7 @@
     <string name="budget_import_can_be_imported">De volgende budgetten kunnen worden geïmporteerd:</string>
     <string name="budget_import_cannot_be_imported">De volgende budgetten verwijzen naar rekeningen die niet zijn gesynchroniseerd:</string>
     <string name="budget_import_none_found">Geen budgetten gevonden.</string>
+    <string name="pref_sync_frequency_summary_0">Stel in op 0 om automatische synchronisatie uit te schakelen.</string>
+    <string name="webui_download_no_data">Na het afdrukken, exporteren of maken van back-ups in de app kunnen de bestanden hier worden gedownload.</string>
+    <string name="filter_dialog_empty">Nog geen criteria toegevoegd. Tik op de bovenstaande knoppen om je vraag te definiëren en je resultaten te verfijnen.</string>
 </resources>
