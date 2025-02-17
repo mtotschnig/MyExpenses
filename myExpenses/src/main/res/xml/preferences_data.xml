@@ -58,7 +58,9 @@
         android:title="@string/pref_unmapped_transaction_as_transfer_title"
         android:summaryOff="@string/pref_unmapped_transaction_as_transfer_summary_off"
         android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on" />
-    <PreferenceCategory android:title="@string/currencies_exchange">
+    <PreferenceCategory
+        android:key="@string/pref_category_currencies_key"
+        android:title="@string/currencies_exchange">
         <Preference
             android:title="@string/pref_custom_currency_title">
             <intent
@@ -83,5 +85,9 @@
             android:key="@string/pref_coin_api_api_key_key"
             android:title="CoinApi API Key"
             my:isPreferenceVisible="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_automatic_exchange_rate_download_key"
+            android:title="@string/enable_automatic_daily_exchange_rate_download" />
     </PreferenceCategory>
 </PreferenceScreen> 

@@ -62,12 +62,14 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         downloadButton.setOnClickListener {
             if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
                 val providers =  ExchangeRateSource.configuredSources(context.injector.prefHandler()).toList()
-                if (providers.size == 1) {
-                    lifecycleScope?.launch {
+                when (providers.size) {
+                    0 -> (host as? BaseActivity)?.showSnackBar(
+                        context.getString(R.string.pref_exchange_rate_provider_title) + ": " + context.getString(androidx.preference.R.string.not_set)
+                    )
+                    1 -> lifecycleScope?.launch {
                         handleResult(host.loadExchangeRate(otherCurrency.code, baseCurrency.code,  providers.first()))
                     }
-                } else {
-                    PopupMenu(context, downloadButton).apply {
+                    else -> PopupMenu(context, downloadButton).apply {
                         setOnMenuItemClickListener { item ->
                             lifecycleScope?.launch {
                                 handleResult(host.loadExchangeRate(otherCurrency.code, baseCurrency.code,

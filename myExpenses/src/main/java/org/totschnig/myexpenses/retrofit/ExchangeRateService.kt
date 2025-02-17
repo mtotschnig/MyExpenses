@@ -23,7 +23,11 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
 
     abstract fun extractError(body: ResponseBody): String?
 
+    open fun isSupported(vararg currency: String) = true
+
     companion object {
+
+        fun getById(id: String) = values.first() { it.id == id }
 
         val values = arrayOf(Frankfurter, OpenExchangeRates, CoinApi)
 
@@ -32,14 +36,18 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
 
         fun configuredSources(preferenceValue: Set<String>?) = preferenceValue?.let { configured ->
             values.filter { configured.contains(it.id) }
-        }?.takeIf { it.isNotEmpty() }?.toSet() ?: setOf(Frankfurter)
+        }?.toSet() ?: emptySet()
     }
 
     data object Frankfurter : ExchangeRateSource("FRANKFURTER", "api.frankfurter.app") {
 
         override val limitToOneRequestPerDay = true
 
-        val SUPPORTED_CURRENCIES = arrayOf(
+        override fun isSupported(vararg currency: String): Boolean {
+            return SUPPORTED_CURRENCIES.containsAll(currency.toList())
+        }
+
+        val SUPPORTED_CURRENCIES = listOf(
             "AUD",
             "BGN",
             "BRL",
@@ -128,7 +136,7 @@ class ExchangeRateService(
         val today = LocalDate.now()
         when (source) {
             ExchangeRateSource.Frankfurter -> {
-                if (symbol in ExchangeRateSource.Frankfurter.SUPPORTED_CURRENCIES && base in ExchangeRateSource.Frankfurter.SUPPORTED_CURRENCIES) {
+                if (source.isSupported(symbol, base)) {
                     val (dateOfResult, result) = if (date < today) {
                         date to frankfurter.getHistorical(date, symbol, base).await()
                     } else {
@@ -142,7 +150,7 @@ class ExchangeRateService(
                 }
             }
 
-            is ExchangeRateSource.OpenExchangeRates -> {
+            ExchangeRateSource.OpenExchangeRates -> {
                 requireNotNull(apiKey)
                 val call = if (date < today) {
                     openExchangeRates.getHistorical(date, "$symbol,$base", apiKey)

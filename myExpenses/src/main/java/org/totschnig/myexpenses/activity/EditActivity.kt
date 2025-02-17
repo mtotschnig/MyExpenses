@@ -28,14 +28,15 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.newI
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
-import org.totschnig.myexpenses.ui.AmountInput
+import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
 import java.time.LocalDate
 
-abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host, ExchangeRateEdit.Host {
+abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host,
+    ExchangeRateEdit.Host {
     protected var isSaving = false
 
     @State
@@ -154,8 +155,27 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     override suspend fun loadExchangeRate(
         other: String,
         base: String,
-        source: ExchangeRateSource
+        source: ExchangeRateSource,
     ) = runCatching {
         exchangeRateViewModel.loadExchangeRate(other, base, date, source)
-    }
+    }.fold(
+        onSuccess = { Result.success(it) },
+        onFailure = {
+            Result.failure(
+                when (it) {
+                    is java.lang.UnsupportedOperationException ->
+                        Exception(
+                            getString(R.string.exchange_rate_not_supported, other, base)
+                        )
+
+                    is MissingApiKeyException ->
+                        Exception(
+                            getString(R.string.pref_exchange_rates_api_key_summary, it.source.host)
+                        )
+
+                    else -> it
+                }
+            )
+        }
+    )
 }
