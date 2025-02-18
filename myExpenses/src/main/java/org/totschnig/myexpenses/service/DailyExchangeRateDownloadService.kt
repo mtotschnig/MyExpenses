@@ -11,8 +11,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
@@ -54,12 +57,33 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
             }.build()
         }
 
-        fun enqueueSelf(context: Context) {
-            WorkManager.getInstance(context).enqueueUniqueWork(
+        private fun WorkManager.cancelWork() = cancelUniqueWork(WORK_NAME)
+
+        private fun WorkManager.enqueue(initialDelayMillis: Long?) {
+            enqueueUniqueWork(
                 WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
-                buildWorkRequest(null)
+                buildWorkRequest(initialDelayMillis)
             )
+        }
+
+        fun enqueueOrCancel(context: Context, prefHandler: PrefHandler) {
+            val workManager = WorkManager.getInstance(context)
+            if (prefHandler.getBoolean(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD, false)) {
+                workManager.enqueue(
+                    TimePreference.getScheduledTime(12, 0)
+                )
+            } else {
+                workManager.cancelWork()
+            }
+        }
+
+        fun cancel(context: Context) {
+            WorkManager.getInstance(context).cancelWork()
+        }
+
+        fun enqueue(context: Context) {
+            WorkManager.getInstance(context).enqueue(null)
         }
     }
 
@@ -105,6 +129,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     notify(it.safeMessage)
                 }
             }
+        enqueueOrCancel(applicationContext, prefHandler)
         return Result.success()
     }
 

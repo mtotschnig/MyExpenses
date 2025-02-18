@@ -17,6 +17,7 @@ import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
@@ -50,6 +51,7 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import java.math.BigDecimal
 import kotlin.math.sign
@@ -66,6 +68,13 @@ abstract class MainDelegate<T : ITransaction>(
     methodRowBinding,
     isTemplate
 ) {
+
+    @State
+    var originalAmountVisible = false
+
+    @State
+    var originalCurrencyCode: String? = null
+
     private var debts: List<DisplayDebt> = emptyList()
     private lateinit var payeeAdapter: SimpleCursorAdapter
 
@@ -86,7 +95,63 @@ abstract class MainDelegate<T : ITransaction>(
         )
 
         payeeId = host.parentPayeeId
+        viewBinding.EquivalentAmount.addTextChangedListener(amountChangeWatcher)
+
+        if (isSplitPart) {
+            disableAccountSpinner()
+            host.parentOriginalAmountExchangeRate?.let {
+                originalAmountVisible = true
+                originalCurrencyCode = it.second.code
+                with(viewBinding.OriginalAmount) {
+                    exchangeRate = it.first
+                    disableCurrencySelection()
+                    disableExchangeRateEdit()
+                    requestFocus()
+                }
+            }
+        }
+
+        if (originalAmountVisible) {
+            configureOriginalAmountVisibility()
+        }
     }
+
+    private fun configureOriginalAmountVisibility() {
+        viewBinding.OriginalAmountRow.isVisible = originalAmountVisible
+    }
+
+    private fun populateOriginalCurrency() {
+        viewBinding.OriginalAmount.setSelectedCurrency(
+            originalCurrencyCode?.let { currencyContext[it] } ?: homeCurrency
+        )
+    }
+
+    fun setCurrencies(currencies: List<Currency>) {
+        viewBinding.OriginalAmount.setCurrencies(currencies)
+        populateOriginalCurrency()
+    }
+
+    fun toggleOriginalAmount() {
+        originalAmountVisible = !originalAmountVisible
+        configureOriginalAmountVisibility()
+        if (originalAmountVisible) {
+            viewBinding.OriginalAmount.requestFocus()
+        } else {
+            viewBinding.OriginalAmount.clear()
+        }
+    }
+
+    val originalAmountExchangeRate: Pair<BigDecimal, Currency>?
+        get() {
+            if (originalAmountVisible) {
+                val exchangeRate = viewBinding.OriginalAmount.exchangeRate
+                val currency = viewBinding.OriginalAmount.selectedCurrency
+                if (exchangeRate != null && currency != null) {
+                    return exchangeRate to currency
+                }
+            }
+            return null
+        }
 
     override fun configureType() {
         super.configureType()
@@ -159,8 +224,33 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun populateFields(transaction: T, withAutoFill: Boolean) {
         super.populateFields(transaction, withAutoFill)
-        if (!isSplitPart)
+        if (!isSplitPart) {
             viewBinding.Payee.setText(transaction.payee)
+        }
+        transaction.equivalentAmount?.let {
+            viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
+            viewBinding.EquivalentAmount.post {
+                viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
+            }
+        }
+        transaction.originalAmount?.let {
+            originalAmountVisible = true
+            configureOriginalAmountVisibility()
+            viewBinding.OriginalAmount.setFractionDigits(it.currencyUnit.fractionDigits)
+            viewBinding.OriginalAmount.setAmount(it.amountMajor)
+            originalCurrencyCode = it.currencyUnit.code
+        } ?: run {
+            originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
+        }
+        populateOriginalCurrency()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val originalInputSelectedCurrency = viewBinding.OriginalAmount.selectedCurrency
+        if (originalInputSelectedCurrency != null) {
+            originalCurrencyCode = originalInputSelectedCurrency.code
+        }
+        super.onSaveInstanceState(outState)
     }
 
     abstract fun buildMainTransaction(account: Account): T
@@ -495,6 +585,18 @@ abstract class MainDelegate<T : ITransaction>(
                     debtId = null
                 }
             }
+        }
+    }
+
+    override fun configureAccountDependent(account: Account) {
+        super.configureAccountDependent(account)
+        val currencyUnit = account.currency
+        viewBinding.OriginalAmount.configureExchange(currencyUnit)
+        val needsEquivalentAmount = !hasHomeCurrency(account) && account.latestExchangeRate != null
+        viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
+        if (needsEquivalentAmount) {
+            viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
+            viewBinding.EquivalentAmount.exchangeRate = BigDecimal(account.latestExchangeRate)
         }
     }
 }

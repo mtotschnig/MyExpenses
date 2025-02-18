@@ -17,7 +17,7 @@ class ExecutionTrigger : BroadcastReceiver() {
                 "TRIGGER_SYNC" -> GenericAccountService.requestSync(intent.getStringExtra("ACCOUNT")!!)
                 "TRIGGER_PLANNER" -> PlanExecutor.enqueueSelf(context, prefHandler, true)
                 "TRIGGER_BACKUP" -> AutoBackupWorker.enqueue(context)
-                "TRIGGER_EXCHANGE_RATE_DOWNLOAD" -> DailyExchangeRateDownloadService.enqueueSelf(context)
+                "TRIGGER_EXCHANGE_RATE_DOWNLOAD" -> DailyExchangeRateDownloadService.enqueue(context)
             }
         }
     }

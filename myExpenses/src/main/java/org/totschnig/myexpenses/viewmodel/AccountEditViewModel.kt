@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.util.calculateRawExchangeRate
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
     : TagHandlingViewModel(application, savedStateHandle) {

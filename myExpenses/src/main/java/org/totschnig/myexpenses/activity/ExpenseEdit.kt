@@ -758,7 +758,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launchWhenStarted {
             currencyViewModel.currencies.collect { currencies ->
                 if (::delegate.isInitialized) {
-                    delegate.setCurrencies(currencies)
+                    (delegate as? MainDelegate)?.setCurrencies(currencies)
                 }
             }
         }
@@ -993,7 +993,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 checkMenuIcon(it)
             }
             menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)?.let {
-                it.isChecked = delegate.originalAmountVisible
+                it.isChecked = (delegate as? MainDelegate)?.originalAmountVisible == true
             }
             menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.let {
                 it.subMenu?.let { subMenu ->
@@ -1161,7 +1161,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
                 if (::delegate.isInitialized) {
-                    delegate.toggleOriginalAmount()
+                    (delegate as? MainDelegate)?.toggleOriginalAmount()
                     invalidateOptionsMenu()
                     return true
                 }
@@ -1194,7 +1194,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_ACCOUNTID, account.id)
             putExtra(KEY_PARENTID, delegate.rowId)
             putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
-            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, delegate.originalAmountExchangeRate)
+            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, (delegate as? MainDelegate)?.originalAmountExchangeRate)
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)

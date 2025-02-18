@@ -169,12 +169,6 @@ abstract class TransactionDelegate<T : ITransaction>(
     var isProcessingLinkedAmountInputs = false
 
     @State
-    var originalAmountVisible = false
-
-    @State
-    var originalCurrencyCode: String? = null
-
-    @State
     var passedInAccountId: Long? = null
 
     @State
@@ -334,35 +328,17 @@ abstract class TransactionDelegate<T : ITransaction>(
         configurePlan((transaction as? Template)?.plan, false)
         configureLastDayButton()
 
-        if (isSplitPart) {
-            disableAccountSpinner()
-            host.parentOriginalAmountExchangeRate?.let {
-                originalAmountVisible = true
-                originalCurrencyCode = it.second.code
-                with(viewBinding.OriginalAmount) {
-                    exchangeRate = it.first
-                    disableCurrencySelection()
-                    disableExchangeRateEdit()
-                    requestFocus()
-                }
-            }
-        }
-
-        if (originalAmountVisible) {
-            configureOriginalAmountVisibility()
-        }
-
         viewBinding.ClearCategory.setOnClickListener {
             resetCategory()
         }
         setCategoryButton()
-        val textWatcher = object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                onAmountChanged()
-            }
+        viewBinding.Amount.addTextChangedListener(amountChangeWatcher)
+    }
+
+    val amountChangeWatcher = object : MyTextWatcher() {
+        override fun afterTextChanged(s: Editable) {
+            onAmountChanged()
         }
-        viewBinding.Amount.addTextChangedListener(textWatcher)
-        viewBinding.EquivalentAmount.addTextChangedListener(textWatcher)
     }
 
     open fun onAmountChanged() {
@@ -443,23 +419,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             methodRowBinding.Number.setText(transaction.referenceNumber)
         }
 
-        transaction.originalAmount?.let {
-            originalAmountVisible = true
-            configureOriginalAmountVisibility()
-            viewBinding.OriginalAmount.setFractionDigits(it.currencyUnit.fractionDigits)
-            viewBinding.OriginalAmount.setAmount(it.amountMajor)
-            originalCurrencyCode = it.currencyUnit.code
-        } ?: run {
-            originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
-        }
-        populateOriginalCurrency()
         fillAmount(transaction.amount.amountMajor)
-        transaction.equivalentAmount?.let {
-            viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
-            viewBinding.EquivalentAmount.post {
-                viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
-            }
-        }
         if (withAutoFill && isMainTemplate) {
             viewBinding.Title.requestFocus()
         }
@@ -487,16 +447,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    private fun configureOriginalAmountVisibility() {
-        viewBinding.OriginalAmountRow.isVisible = originalAmountVisible
-    }
-
-    private fun populateOriginalCurrency() {
-        viewBinding.OriginalAmount.setSelectedCurrency(
-            originalCurrencyCode?.let { currencyContext[it] } ?: homeCurrency
-        )
-    }
-
     protected fun addCurrencyToInput(
         label: TextView,
         amountInput: AmountInput,
@@ -510,33 +460,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                 appendCurrencyDescription(label.context, textResId, currencyUnit)
         }
     }
-
-    fun setCurrencies(currencies: List<Currency>) {
-        viewBinding.OriginalAmount.setCurrencies(currencies)
-        populateOriginalCurrency()
-    }
-
-    fun toggleOriginalAmount() {
-        originalAmountVisible = !originalAmountVisible
-        configureOriginalAmountVisibility()
-        if (originalAmountVisible) {
-            viewBinding.OriginalAmount.requestFocus()
-        } else {
-            viewBinding.OriginalAmount.clear()
-        }
-    }
-
-    val originalAmountExchangeRate: Pair<BigDecimal, Currency>?
-        get() {
-            if (originalAmountVisible) {
-                val exchangeRate = viewBinding.OriginalAmount.exchangeRate
-                val currency = viewBinding.OriginalAmount.selectedCurrency
-                if (exchangeRate != null && currency != null) {
-                    return exchangeRate to currency
-                }
-            }
-            return null
-        }
 
     private fun setMethodSelection(methodId: Long?) {
         this.methodId = methodId
@@ -938,7 +861,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             showToUser = forSave
         )
 
-    private fun configureAccountDependent(account: Account) {
+    open fun configureAccountDependent(account: Account) {
         val currencyUnit = account.currency
         addCurrencyToInput(
             viewBinding.AmountLabel,
@@ -946,19 +869,13 @@ abstract class TransactionDelegate<T : ITransaction>(
             currencyUnit,
             R.string.amount
         )
-        viewBinding.OriginalAmount.configureExchange(currencyUnit)
-        val needsEquivalentAmount = !hasHomeCurrency(account) && account.dynamicExchangeRates
-        viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
-        if (needsEquivalentAmount) {
-            viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
-        }
         configureDateInput(account)
         configureStatusSpinner()
-        viewBinding.Amount.setFractionDigits(account.currency.fractionDigits)
+        viewBinding.Amount.setFractionDigits(currencyUnit.fractionDigits)
         host.updateContentColor(account.color)
     }
 
-    private fun hasHomeCurrency(account: Account): Boolean {
+    protected fun hasHomeCurrency(account: Account): Boolean {
         return account.currency == homeCurrency
     }
 
@@ -1061,14 +978,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
-        val originalInputSelectedCurrency = viewBinding.OriginalAmount.selectedCurrency
-        if (originalInputSelectedCurrency != null) {
-            originalCurrencyCode = originalInputSelectedCurrency.code
-        }
         StateSaver.saveInstanceState(this, outState)
     }
 
-    private fun disableAccountSpinner() {
+    protected fun disableAccountSpinner() {
         accountSpinner.isEnabled = false
     }
 

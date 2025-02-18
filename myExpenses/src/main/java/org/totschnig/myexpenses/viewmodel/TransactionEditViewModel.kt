@@ -50,9 +50,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
@@ -95,7 +95,6 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
 import java.io.IOException
 import javax.inject.Inject
-import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
@@ -167,18 +166,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         val currency =
             currencyContext[cursor.getString(KEY_CURRENCY)]
         return Account(
-            cursor.getLong(KEY_ROWID),
-            cursor.getString(KEY_LABEL),
+            id = cursor.getLong(KEY_ROWID),
+            label = cursor.getString(KEY_LABEL),
             currency,
-            cursor.getInt(KEY_COLOR),
-            cursor.getEnum(KEY_TYPE, AccountType.CASH),
-            adjustExchangeRate(
-                cursor.getDouble(KEY_EXCHANGE_RATE),
-                currency
-            ),
-            cursor.getLongOrNull(KEY_CRITERION),
-            cursor.getBoolean(KEY_DYNAMIC),
-            cursor.getLong(KEY_CURRENT_BALANCE)
+            color = cursor.getInt(KEY_COLOR),
+            type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
+            criterion = cursor.getLongOrNull(KEY_CRITERION),
+            latestExchangeRate = if (cursor.getBoolean(KEY_DYNAMIC)) cursor.getDouble(KEY_LATEST_EXCHANGE_RATE) else null,
+            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
         )
     }
 
@@ -200,7 +195,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             listOf(
                                 ShortcutHelper.buildTemplateShortcut(
                                     getApplication(),
-                                    TemplateInfo.fromTemplate(transaction as Template)
+                                    TemplateInfo.fromTemplate(transaction)
                                 )
                             )
                         )
@@ -291,12 +286,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     SplitTransaction.cleanupCanceledEdit(contentResolver, id)
             )
         }
-
-    private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
-        val minorUnitDelta: Int =
-            currencyUnit.fractionDigits - currencyContext.homeCurrencyUnit.fractionDigits
-        return raw * 10.0.pow(minorUnitDelta.toDouble())
-    }
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
@@ -475,7 +464,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
             }
             emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
+            pair.second?.takeIf { it.isNotEmpty() }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
                 val uriList = repository.loadAttachments(transactionId)
                 //If we clone a transaction the attachments need to be considered new for the clone in order to get saved

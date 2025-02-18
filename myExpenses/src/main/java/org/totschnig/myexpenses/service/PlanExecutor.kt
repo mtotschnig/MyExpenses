@@ -120,10 +120,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     }
 
     private fun scheduleNextRun() {
-        enqueueSelf(
-            applicationContext,
-            (applicationContext as MyApplication).appComponent.prefHandler()
-        )
+        enqueueSelf(applicationContext, prefHandler)
     }
 
     private fun logAndNotifyError(message: String) {

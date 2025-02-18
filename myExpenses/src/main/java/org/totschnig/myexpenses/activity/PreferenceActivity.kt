@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker
+import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -289,6 +290,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             }
 
             getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()
+
+            getKey(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD) -> DailyExchangeRateDownloadService.enqueueOrCancel(this, prefHandler)
         }
     }
 

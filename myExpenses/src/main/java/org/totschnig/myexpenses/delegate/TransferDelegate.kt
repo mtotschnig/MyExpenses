@@ -335,8 +335,8 @@ class TransferDelegate(
         val transferAccountId = transferAccountSpinner.selectedItemId
         if (transferAccountId != AdapterView.INVALID_ROW_ID) {
             mTransferAccountId = transferAccountId
-            super.onSaveInstanceState(outState)
         }
+        super.onSaveInstanceState(outState)
     }
 
     fun invert() {

@@ -49,6 +49,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
         }
 
         private const val WORK_NAME = "AutoBackupService"
+
         fun enqueueOrCancel(context: Context, prefHandler: PrefHandler) {
             val workManager = WorkManager.getInstance(context)
             if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false) &&
