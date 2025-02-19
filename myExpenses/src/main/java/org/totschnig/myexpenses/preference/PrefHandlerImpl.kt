@@ -80,7 +80,7 @@ open class PrefHandlerImpl(
     }
 
     open fun setDefaultValues(context: Context, resId: Int) {
-        PreferenceManager.setDefaultValues(context, resId, false)
+        PreferenceManager.setDefaultValues(context, resId, true)
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {
