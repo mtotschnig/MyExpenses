@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentValues
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -41,22 +41,6 @@ class ExchangeRateViewModel(application: Application) :
         if (it.moveToFirst()) it.getDouble(0) else null
     }
 
-    private fun storeInDb(
-        base: String,
-        other: String,
-        date: LocalDate,
-        rate: Double,
-        source: ExchangeRateSource,
-    ) {
-        contentResolver.insert(TransactionProvider.PRICES_URI, ContentValues().apply {
-            put(KEY_CURRENCY, base)
-            put(KEY_COMMODITY, other)
-            put(KEY_DATE, date.toString())
-            put(KEY_SOURCE, source.id)
-            put(KEY_VALUE, rate)
-        })
-    }
-
     /**
      * Load the value of 1 unit of other currency expressed in base currency
      */
@@ -88,7 +72,7 @@ class ExchangeRateViewModel(application: Application) :
         base: String,
     ) = exchangeRateService.getRate(source, apiKey, date, base, other).also {
         Timber.d("loadFromNetwork: %s", it)
-        storeInDb(base = base, other = other, date = it.first, rate = it.second, source = source)
+        repository.savePrice(base, other, it.first, source.id, it.second)
     }.second
 
 }

@@ -8,6 +8,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -41,6 +43,9 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var repository: Repository
 
     init {
         context.injector.inject(this)
@@ -122,7 +127,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     )
                     symbols.forEachIndexed { index, currency ->
                         val (date, rate) = rates[index]
-                        storeInDb(base, currency, date, rate, source)
+                        repository.savePrice(base, currency, date, source.id, rate)
                     }
                 }.onFailure {
                     CrashHandler.report(it)
@@ -131,23 +136,5 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
             }
         enqueueOrCancel(applicationContext, prefHandler)
         return Result.success()
-    }
-
-    private fun storeInDb(
-        base: String,
-        other: String,
-        date: LocalDate,
-        rate: Double,
-        source: ExchangeRateSource,
-    ) {
-        applicationContext.contentResolver.insert(
-            TransactionProvider.PRICES_URI,
-            ContentValues().apply {
-                put(KEY_CURRENCY, base)
-                put(KEY_COMMODITY, other)
-                put(KEY_DATE, date.toString())
-                put(KEY_SOURCE, source.id)
-                put(KEY_VALUE, rate)
-            })
     }
 }

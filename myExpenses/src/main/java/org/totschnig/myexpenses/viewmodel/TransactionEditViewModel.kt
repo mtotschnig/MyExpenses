@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
@@ -87,6 +88,7 @@ import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
@@ -94,6 +96,8 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
 import java.io.IOException
+import java.math.BigDecimal
+import java.time.LocalDate
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -172,12 +176,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             color = cursor.getInt(KEY_COLOR),
             type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
             criterion = cursor.getLongOrNull(KEY_CRITERION),
-            latestExchangeRate = if (cursor.getBoolean(KEY_DYNAMIC)) cursor.getDouble(KEY_LATEST_EXCHANGE_RATE) else null,
+            latestExchangeRate = if (cursor.getBoolean(KEY_DYNAMIC))
+                cursor.getDouble(KEY_LATEST_EXCHANGE_RATE) else null,
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
         )
     }
 
-    fun save(transaction: ITransaction): LiveData<Result<Unit>> =
+    fun save(transaction: ITransaction, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             emit(runCatching {
 
@@ -209,7 +214,24 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val attachments =
                     (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
                 repository.addAttachments(transaction.id, attachments)
-                (transaction as? Transfer)?.transferPeer?.let { repository.addAttachments(it, attachments) }
+                (transaction as? Transfer)?.transferPeer?.let {
+                    repository.addAttachments(
+                        it,
+                        attachments
+                    )
+                }
+                val date = epoch2LocalDate(transaction.date)
+                if (date <= LocalDate.now()) {
+                    userSetExchangeRate?.let {
+                        repository.savePrice(
+                            currencyContext.homeCurrencyString,
+                            transaction.amount.currencyUnit.code,
+                            date,
+                            "user",
+                            it.toDouble()
+                        )
+                    }
+                }
                 Unit
             })
         }
@@ -296,7 +318,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     private fun Transaction.applyDefaultTransferCategory() {
         if (isTransfer) {
             prefHandler.defaultTransferCategory?.let { id ->
-                repository.getCategoryPath(id)?.let {  path ->
+                repository.getCategoryPath(id)?.let { path ->
                     catId = id
                     categoryPath = path
                 }
@@ -306,7 +328,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     suspend fun newTemplate(
         operationType: Int,
-        parentId: Long?
+        parentId: Long?,
     ): Template? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
             Template.getTypedNewInstance(
@@ -324,7 +346,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private suspend fun ensureLoadData(
         accountId: Long,
-        currencyUnit: CurrencyUnit?
+        currencyUnit: CurrencyUnit?,
     ): Pair<Long, CurrencyUnit>? {
         return if (accountId > 0 && currencyUnit != null)
             accountId to currencyUnit
@@ -340,7 +362,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     suspend fun newTransaction(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
-        parentId: Long?
+        parentId: Long?,
     ): Transaction? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
         Transaction.getNewInstance(accountId, currencyUnit, parentId)
     }
@@ -349,7 +371,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         transferAccountId: Long?,
-        parentId: Long?
+        parentId: Long?,
     ): Transfer? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
         Transfer.getNewInstance(accountId, currencyUnit, transferAccountId, parentId).apply {
             applyDefaultTransferCategory()
@@ -421,7 +443,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         task: InstantiationTask,
         clone: Boolean,
         forEdit: Boolean,
-        extras: Bundle?
+        extras: Bundle?,
     ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         when (task) {
             InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(
@@ -569,7 +591,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         val amount: Money?,
         val methodId: Long?,
         val accountId: Long?,
-        val debtId: Long?
+        val debtId: Long?,
     ) {
         companion object {
             fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = AutoFillData(

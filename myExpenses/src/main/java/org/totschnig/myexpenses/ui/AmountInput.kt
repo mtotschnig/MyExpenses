@@ -177,6 +177,9 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         }
     }
 
+    val userSetExchangeRate: BigDecimal?
+        get() = exchangeRateEdit().userSetExchangeRate
+
     var exchangeRate: BigDecimal?
         get() = exchangeRateEdit().getRate(false)
         set(rate) {

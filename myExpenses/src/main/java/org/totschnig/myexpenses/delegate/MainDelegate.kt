@@ -61,7 +61,7 @@ abstract class MainDelegate<T : ITransaction>(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
-    isTemplate: Boolean
+    isTemplate: Boolean,
 ) : TransactionDelegate<T>(
     viewBinding,
     dateEditBinding,
@@ -75,6 +75,9 @@ abstract class MainDelegate<T : ITransaction>(
     @State
     var originalCurrencyCode: String? = null
 
+    val userSetExchangeRate: BigDecimal?
+        get() = viewBinding.EquivalentAmount.userSetExchangeRate
+
     private var debts: List<DisplayDebt> = emptyList()
     private lateinit var payeeAdapter: SimpleCursorAdapter
 
@@ -84,7 +87,7 @@ abstract class MainDelegate<T : ITransaction>(
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
-        withAutoFill: Boolean
+        withAutoFill: Boolean,
     ) {
         super.bind(
             transaction,
@@ -169,7 +172,7 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun buildTransaction(
         forSave: Boolean,
-        account: Account
+        account: Account,
     ): T? {
         val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
             ?: //Snackbar is shown in validateAmountInput
@@ -206,8 +209,8 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    override fun updateAccount(account: Account) {
-        super.updateAccount(account)
+    override fun updateAccount(account: Account, isInitialSetup: Boolean) {
+        super.updateAccount(account, isInitialSetup)
         if (!isSplitPart) {
             host.loadMethods(account)
         }
@@ -588,15 +591,18 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    override fun configureAccountDependent(account: Account) {
-        super.configureAccountDependent(account)
+    override fun configureAccountDependent(account: Account, isInitialSetup: Boolean) {
+        super.configureAccountDependent(account, isInitialSetup)
         val currencyUnit = account.currency
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         val needsEquivalentAmount = !hasHomeCurrency(account) && account.latestExchangeRate != null
         viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
         if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
-            viewBinding.EquivalentAmount.exchangeRate = BigDecimal(account.latestExchangeRate)
+            if (isInitialSetup) {
+                viewBinding.EquivalentAmount.exchangeRate =
+                    BigDecimal.valueOf(account.latestExchangeRate)
+            }
         }
     }
 }

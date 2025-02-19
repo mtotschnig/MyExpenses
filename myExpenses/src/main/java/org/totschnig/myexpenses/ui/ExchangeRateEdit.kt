@@ -7,10 +7,8 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.Menu
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.widget.PopupMenu
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +29,10 @@ import timber.log.Timber
 import java.math.BigDecimal
 import java.math.MathContext
 
+enum class Source {
+    Code, Download, User
+}
+
 class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
     fun interface ExchangeRateWatcher {
         fun afterExchangeRateChanged(rate: BigDecimal, inverse: BigDecimal)
@@ -41,16 +43,23 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     val downloadButton: ImageView
     private lateinit var exchangeRateWatcher: ExchangeRateWatcher
     private var blockWatcher = false
+
     private lateinit var otherCurrency: CurrencyUnit
     private lateinit var baseCurrency: CurrencyUnit
+
     private val binding = ExchangeRatesBinding.inflate(LayoutInflater.from(getContext()), this)
+
+    private var source: Source? = null
+
+    val userSetExchangeRate: BigDecimal?
+        get() = if (source == Source.User) getRate(false) else null
+
     fun setExchangeRateWatcher(exchangeRateWatcher: ExchangeRateWatcher) {
         this.exchangeRateWatcher = exchangeRateWatcher
     }
 
     val lifecycleScope: CoroutineScope?
         get() = findViewTreeLifecycleOwner()?.lifecycleScope
-
 
 
     fun setBlockWatcher(blockWatcher: Boolean) {
@@ -61,20 +70,34 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         downloadButton = binding.ivDownload.getRoot()
         downloadButton.setOnClickListener {
             if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
-                val providers =  ExchangeRateSource.configuredSources(context.injector.prefHandler()).toList()
+                val providers =
+                    ExchangeRateSource.configuredSources(context.injector.prefHandler()).toList()
                 when (providers.size) {
                     0 -> (host as? BaseActivity)?.showSnackBar(
-                        context.getString(R.string.pref_exchange_rate_provider_title) + ": " + context.getString(androidx.preference.R.string.not_set)
+                        context.getString(R.string.pref_exchange_rate_provider_title) + ": " + context.getString(
+                            androidx.preference.R.string.not_set
+                        )
                     )
+
                     1 -> lifecycleScope?.launch {
-                        handleResult(host.loadExchangeRate(otherCurrency.code, baseCurrency.code,  providers.first()))
+                        handleResult(
+                            host.loadExchangeRate(
+                                otherCurrency.code,
+                                baseCurrency.code,
+                                providers.first()
+                            )
+                        )
                     }
+
                     else -> PopupMenu(context, downloadButton).apply {
                         setOnMenuItemClickListener { item ->
                             lifecycleScope?.launch {
-                                handleResult(host.loadExchangeRate(otherCurrency.code, baseCurrency.code,
-                                    providers[item.itemId]
-                                ))
+                                handleResult(
+                                    host.loadExchangeRate(
+                                        otherCurrency.code, baseCurrency.code,
+                                        providers[item.itemId]
+                                    )
+                                )
                             }
                             true
                         }
@@ -113,6 +136,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             inverseExchangeRate = a1Abs.divide(a2Abs, MathContext.DECIMAL64)
             rate1Edit.setAmount(exchangeRate)
             rate2Edit.setAmount(inverseExchangeRate)
+            source = Source.User
         }
         blockWatcher = false
     }
@@ -128,6 +152,8 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             rate1Edit.setAmount(rate)
             if (blockWatcher) {//watcher takes care of setting inverse rate
                 rate2Edit.setAmount(calculateInverse(rate))
+            } else {
+                source = Source.Code
             }
             this.blockWatcher = false
         }
@@ -141,7 +167,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
 
     fun setCurrencies(first: CurrencyUnit?, second: CurrencyUnit?) {
         first?.let {
-            otherCurrency  = it
+            otherCurrency = it
         }
         second?.let {
             baseCurrency = it
@@ -149,16 +175,20 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
             setSymbols(binding.ExchangeRate1, otherCurrency.symbol, baseCurrency.symbol)
             setSymbols(binding.ExchangeRate2, baseCurrency.symbol, otherCurrency.symbol)
-            rate1Edit.setHintForA11yOnly(context.getString(
-                R.string.content_description_exchange_rate,
-                otherCurrency.description,
-                baseCurrency.description
-            ))
-            rate2Edit.setHintForA11yOnly(context.getString(
-                R.string.content_description_exchange_rate,
-                baseCurrency.description,
-                otherCurrency.description
-            ))
+            rate1Edit.setHintForA11yOnly(
+                context.getString(
+                    R.string.content_description_exchange_rate,
+                    otherCurrency.description,
+                    baseCurrency.description
+                )
+            )
+            rate2Edit.setHintForA11yOnly(
+                context.getString(
+                    R.string.content_description_exchange_rate,
+                    baseCurrency.description,
+                    otherCurrency.description
+                )
+            )
             downloadButton.setEnabledWithColor(otherCurrency.code != baseCurrency.code)
         }
     }
@@ -190,6 +220,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
                     exchangeRateWatcher.afterExchangeRateChanged(inverseInputRate, inputRate)
                 }
             }
+            source = Source.User
             blockWatcher = false
         }
     }
@@ -209,6 +240,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         result.onSuccess {
             Timber.d("result: $it")
             rate1Edit.setAmount(BigDecimal.valueOf(it))
+            source = Source.Download
         }.onFailure {
             complain(it.safeMessage)
         }
@@ -231,7 +263,11 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         }
 
     interface Host {
-        suspend fun loadExchangeRate(other: String, base: String, source: ExchangeRateSource): Result<Double>
+        suspend fun loadExchangeRate(
+            other: String,
+            base: String,
+            source: ExchangeRateSource,
+        ): Result<Double>
     }
 
     companion object {

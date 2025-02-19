@@ -104,7 +104,7 @@ class CategoryDelegate(
             while (i < mAccounts.size) {
                 if (mAccounts[i].id == accountId) {
                     accountSpinner.setSelection(i)
-                    updateAccount(mAccounts[i])
+                    updateAccount(mAccounts[i], false)
                     break
                 }
                 i++

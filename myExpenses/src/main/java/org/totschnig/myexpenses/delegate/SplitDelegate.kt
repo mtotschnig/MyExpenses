@@ -180,17 +180,17 @@ class SplitDelegate(
         }
     }
 
-    override fun updateAccount(account: Account) {
+    override fun updateAccount(account: Account, isInitialSetup: Boolean) {
         requireAdapter()
         if (adapter.itemCount > 0) { //call background task for moving parts to new account
             host.startMoveSplitParts(rowId, account.id)
         } else {
-            updateAccountDo(account)
+            updateAccountDo(account, isInitialSetup)
         }
     }
 
-    private fun updateAccountDo(account: Account) {
-        super.updateAccount(account)
+    private fun updateAccountDo(account: Account, isInitialSetup: Boolean) {
+        super.updateAccount(account, isInitialSetup)
         adapter.currencyUnit = account.currency
         //noinspection NotifyDataSetChanged
         adapter.notifyDataSetChanged()
@@ -200,7 +200,7 @@ class SplitDelegate(
     fun onUncommittedSplitPartsMoved(success: Boolean) {
         val account = mAccounts[accountSpinner.selectedItemPosition]
         if (success) {
-            super.updateAccount(account)
+            super.updateAccount(account, false)
         } else {
             for ((index, a) in mAccounts.withIndex()) {
                 if (a.id == accountId) {

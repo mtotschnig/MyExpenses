@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -641,7 +640,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
             accountSpinner.id -> {
                 val account = mAccounts[position]
-                updateAccount(account)
+                updateAccount(account, false)
                 host.maybeApplyDynamicColor()
             }
 
@@ -861,7 +860,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             showToUser = forSave
         )
 
-    open fun configureAccountDependent(account: Account) {
+    open fun configureAccountDependent(account: Account, isInitialSetup: Boolean) {
         val currencyUnit = account.currency
         addCurrencyToInput(
             viewBinding.AmountLabel,
@@ -898,7 +897,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    open fun setAccount() {
+    open fun setAccount(isInitialSetup: Boolean) {
         //if the accountId we have been passed does not exist, we select the first entry
         var selected = 0
         for (item in mAccounts.indices) {
@@ -909,10 +908,10 @@ abstract class TransactionDelegate<T : ITransaction>(
             }
         }
         accountSpinner.setSelection(selected)
-        updateAccount(mAccounts[selected])
+        updateAccount(mAccounts[selected], isInitialSetup)
     }
 
-    open fun setAccounts(data: List<Account>, firstLoad: Boolean) {
+    open fun setAccounts(data: List<Account>, firstLoad: Boolean, isInitialSetup: Boolean) {
         if (firstLoad) {
             mAccounts.clear()
             mAccounts.addAll(data)
@@ -923,7 +922,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             isProcessingLinkedAmountInputs = true
             configureType()
             isProcessingLinkedAmountInputs = false
-            setAccount()
+            setAccount(isInitialSetup)
         } else {
             data.forEach { newData ->
                 mAccounts.find { it.id == newData.id }?.currentBalance = newData.currentBalance
@@ -938,10 +937,10 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    open fun updateAccount(account: Account) {
+    open fun updateAccount(account: Account, isInitialSetup: Boolean) {
         accountId = account.id
         host.loadActiveTags(account.id)
-        configureAccountDependent(account)
+        configureAccountDependent(account, isInitialSetup)
     }
 
     fun setType(type: Boolean) {

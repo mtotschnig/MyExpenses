@@ -586,14 +586,25 @@ WITH now as (
     SELECT
         cast(strftime('%s', $futureCriterion) as integer) AS now
 ), latest_rates as (
- SELECT
-     $KEY_COMMODITY,
-     $KEY_VALUE,
-     MAX($KEY_DATE) AS $KEY_DATE
- FROM
-        $TABLE_PRICES WHERE $KEY_CURRENCY = '$homeCurrency'
-    GROUP BY
-        $KEY_COMMODITY
+  SELECT p.$KEY_COMMODITY, p.$KEY_VALUE, p.$KEY_DATE
+  FROM $TABLE_PRICES p
+  WHERE p.$KEY_CURRENCY = '$homeCurrency'
+  AND p.$KEY_DATE = (
+      -- Get the most recent date per commodity
+      SELECT MAX(p2.$KEY_DATE)
+      FROM $TABLE_PRICES p2
+      WHERE p2.$KEY_COMMODITY = p.$KEY_COMMODITY AND p2.$KEY_CURRENCY = '$homeCurrency'
+  )
+  AND p.$KEY_SOURCE = (
+      -- Select the highest priority source on the latest date
+      SELECT p3.$KEY_SOURCE
+      FROM $TABLE_PRICES p3
+      WHERE p3.$KEY_COMMODITY = p.$KEY_COMMODITY
+        AND p3.$KEY_CURRENCY = '$homeCurrency'
+        AND p3.$KEY_DATE = p.$KEY_DATE
+      ORDER BY CASE WHEN p3.$KEY_SOURCE = 'user' THEN 1 ELSE 0 END DESC
+      LIMIT 1
+  )
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
