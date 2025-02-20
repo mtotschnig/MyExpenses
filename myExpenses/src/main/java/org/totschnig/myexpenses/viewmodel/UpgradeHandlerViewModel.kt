@@ -605,13 +605,17 @@ class UpgradeHandlerViewModel(application: Application) :
     ) {
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            val id = cursor.getLong(KEY_ROWID)
-            val old = FilterPersistenceLegacy(prefHandler, prefNameCreatorLegacy(id))
-            val prefKey = prefNameCreator(id)
-            val new = FilterPersistence(dataStore, prefKey)
-            Timber.d("migrating %s", prefKey)
-            new.persist(old.whereFilter.criteria)
-            cursor.moveToNext()
+            try {
+                val id = cursor.getLong(KEY_ROWID)
+                val old = FilterPersistenceLegacy(prefHandler, prefNameCreatorLegacy(id))
+                val prefKey = prefNameCreator(id)
+                val new = FilterPersistence(dataStore, prefKey)
+                Timber.d("migrating %s", prefKey)
+                new.persist(old.whereFilter.criteria)
+                cursor.moveToNext()
+            } catch (e: Exception) {
+                CrashHandler.report(e)
+            }
         }
     }
 
