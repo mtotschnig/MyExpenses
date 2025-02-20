@@ -967,4 +967,7 @@
     <string name="budget_import_cannot_be_imported">Наступні бюджети стосуються рахунків, які не синхронізовані:</string>
     <string name="content_description_exchange_rate">Курс обміну 1 %1$s в %2$s</string>
     <string name="warning_budget_sync_import">Конфігурація цього бюджету буде імпортована з сервера синхронізації. Всі локальні зміни будуть втрачені.</string>
+    <string name="pref_sync_frequency_summary_0">Встановіть 0, щоб вимкнути автоматичну синхронізацію.</string>
+    <string name="webui_download_no_data">Після друку, експорту або створення резервних копій у програмі, файли будуть доступні для завантаження звідси.</string>
+    <string name="filter_dialog_empty">Критерії ще не додано. Натисніть на кнопки вище, щоб визначити свій запит і уточнити результати.</string>
 </resources>
