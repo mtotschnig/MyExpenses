@@ -91,4 +91,7 @@
             android:key="@string/pref_automatic_exchange_rate_download_key"
             android:title="@string/enable_automatic_daily_exchange_rate_download" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/pref_category_prices_key"
+        android:title="Historic prices" />
 </PreferenceScreen> 

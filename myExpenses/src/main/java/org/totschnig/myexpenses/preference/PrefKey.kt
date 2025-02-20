@@ -53,6 +53,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CATEGORY_SECURITY(R.string.pref_category_security_key),
     CATEGORY_PROTECTION(R.string.pref_category_protection_key),
     CATEGORY_CURRENCIES(R.string.pref_category_currencies_key),
+    CATEGORY_PRICES(R.string.pref_category_prices_key),
     ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
     PLANNER_CALENDAR_PATH("planner_calendar_path"),
     CURRENT_VERSION("currentversion"),

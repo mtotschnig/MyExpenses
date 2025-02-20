@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.Keep
@@ -16,6 +17,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.HistoricPrices
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -89,6 +91,17 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                     configureCurrenciesForAutomaticFXDownload(
                         ExchangeRateSource.configuredSources(prefHandler), it
                     )
+                    with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRICES)) {
+                        isVisible = it.isNotEmpty()
+                        removeAll()
+                        it.forEach {
+                            Preference(requireContext()).apply {
+                                title = it.code
+                                intent = Intent(requireContext(), HistoricPrices::class.java)
+                                addPreference(this)
+                            }
+                        }
+                    }
                 }
             }
         }
