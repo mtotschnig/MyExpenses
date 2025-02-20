@@ -233,11 +233,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         val base = if (toAccountDir) accountRes else webDavClient.base
         val parent = if (folder != null) {
             webDavClient.mkCol(folder, base)
-            webDavClient.getCollection(folder, accountUuid).also {
-                if (!it.exists()) {
-                    throw IOException("Cannot make folder")
-                }
-            }
         } else base
         saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, parent)
     }
