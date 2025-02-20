@@ -2,6 +2,7 @@
 <resources>
     <string-array name="versions">
         <item>779;3.9.5</item>
+        <item>777;3.9.4</item>
         <item>774;3.9.3</item>
         <item>770;3.9.2</item>
         <item>766;3.9.1</item>
