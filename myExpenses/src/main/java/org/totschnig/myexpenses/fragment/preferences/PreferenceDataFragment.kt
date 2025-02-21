@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -87,17 +88,19 @@ class PreferenceDataFragment : BasePreferenceFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                currencyViewModel.usedCurrencies.collect {
+                currencyViewModel.usedCurrencies.collect { currencies ->
                     configureCurrenciesForAutomaticFXDownload(
-                        ExchangeRateSource.configuredSources(prefHandler), it
+                        ExchangeRateSource.configuredSources(prefHandler), currencies
                     )
                     with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRICES)) {
-                        isVisible = it.isNotEmpty()
+                        isVisible = currencies.isNotEmpty()
                         removeAll()
-                        it.forEach {
+                        currencies.forEach {
                             Preference(requireContext()).apply {
                                 title = it.code
-                                intent = Intent(requireContext(), HistoricPrices::class.java)
+                                intent = Intent(requireContext(), HistoricPrices::class.java).apply {
+                                    putExtra(KEY_COMMODITY, it.code)
+                                }
                                 addPreference(this)
                             }
                         }

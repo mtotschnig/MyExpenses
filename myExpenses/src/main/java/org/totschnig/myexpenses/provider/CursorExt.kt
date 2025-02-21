@@ -66,6 +66,7 @@ fun Cursor.getStringIfExists(column: String) =
 
 fun Cursor.getDoubleIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
+
 fun Cursor.getDoubleOrNull(column: String) = getDoubleOrNull(getColumnIndexOrThrow(column))
 
 
@@ -93,6 +94,7 @@ fun Cursor.splitStringList(colum: String) = getString(colum)
     ?.split('')
     ?: emptyList()
 
-fun Cursor.getLocalDate(column: String) = LocalDate.parse(getString(column))
+fun Cursor.getLocalDate(columnIndex: Int) = LocalDate.parse(getString(columnIndex))
+fun Cursor.getLocalDate(column: String) = getLocalDate(getColumnIndexOrThrow(column))
 fun Cursor.getLocalDateIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { LocalDate.parse(getString(it)) }
+    getColumnIndex(column).takeIf { it != -1 }?.let { getLocalDate(it) }

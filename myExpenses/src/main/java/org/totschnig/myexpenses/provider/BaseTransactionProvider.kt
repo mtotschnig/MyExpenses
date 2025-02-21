@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
@@ -116,6 +117,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
@@ -209,6 +211,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import timber.log.Timber
 import java.io.File
@@ -611,8 +614,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "0 AS $KEY_IS_AGGREGATE"
         )
 
+        val tableName = if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS
         val query = if (mergeAggregate == null) {
-            SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS)
+            SupportSQLiteQueryBuilder.builder(tableName)
                 .columns(if (minimal) minimalProjection else null)
                 .selection(selection, emptyArray())
                 .orderBy("$KEY_HIDDEN, $sortOrder")
@@ -622,7 +626,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             if (mergeAggregate == "1") {
                 subQueries.add(
                     SupportSQLiteQueryBuilder
-                        .builder(if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS)
+                        .builder(tableName)
                         .columns(
                             if (minimal) minimalProjection else arrayOf(
                                 KEY_ROWID,
@@ -675,7 +679,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             //Currency query
             if (mergeAggregate != HOME_AGGREGATE_ID.toString()) {
                 val qb = SupportSQLiteQueryBuilder.builder(
-                    "$CTE_TABLE_NAME_FULL_ACCOUNTS LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
+                    "$tableName LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
                 )
                 val rowIdColumn = "0 - $TABLE_CURRENCIES.$KEY_ROWID AS $KEY_ROWID"
                 val labelColumn = "$KEY_CURRENCY AS $KEY_LABEL"
@@ -741,7 +745,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             //home query
             if (mergeAggregate == HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
-                val qb = SupportSQLiteQueryBuilder.builder(CTE_TABLE_NAME_FULL_ACCOUNTS)
+                val qb = SupportSQLiteQueryBuilder.builder(tableName)
 
                 val grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE")
                 val sortBy = prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)
@@ -1008,7 +1012,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             .use { it.takeIf { it.moveToFirst() }?.getLong(0) }
     }
 
-    fun hiddenAccountCount(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+    fun hiddenAccountCount(db: SupportSQLiteDatabase) = Bundle(1).apply {
         putInt(
             KEY_COUNT,
             db.query("select count(*) from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1").use {
@@ -1017,7 +1021,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun hasCategories(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+    fun oldestTransactionForCurrency(db: SupportSQLiteDatabase, currency: String) = Bundle(1).apply {
+        db.query(
+            TABLE_TRANSACTIONS,
+            arrayOf("min($KEY_DATE)"),
+            "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_DYNAMIC)",
+            arrayOf(currency)
+        ).use {
+            if (it.moveToFirst() && !it.isNull(0)) epoch2LocalDate(it.getLong(0)) else null
+        }?.let { putSerializable(KEY_MAX_VALUE, it) }
+    }
+
+    fun hasCategories(db: SupportSQLiteDatabase) = Bundle(1).apply {
         val defaultCatIds =
             listOfNotNull(SPLIT_CATID, prefHandler.defaultTransferCategory).joinToString()
         putBoolean(

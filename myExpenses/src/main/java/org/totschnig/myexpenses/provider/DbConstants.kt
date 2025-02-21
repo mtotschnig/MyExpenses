@@ -285,7 +285,7 @@ fun categoryTreeWithSum(
                 //the ELSE in the CASE statement is FLAG_NEUTRAL because the categoryTreeCTE
                 // returns categories which are either the requested type or neutral
                     "CASE $KEY_TYPE WHEN $type THEN $KEY_DISPLAY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_DISPLAY_AMOUNT, 0) END"
-                append("(SELECT $aggregateFunction($amountStatement) FROM amounts ")
+                append("(SELECT $aggregateFunction($amountStatement) FROM $CTE_TRANSACTION_AMOUNTS ")
                 append(") AS $KEY_SUM")
             }
 

@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -172,7 +173,7 @@ data class FullAccount(
                 equivalentSumTransfer = cursor.getLong(KEY_EQUIVALENT_TRANSFERS),
                 initialExchangeRate = cursor.getDoubleOrNull(KEY_EXCHANGE_RATE),
                 latestExchangeRate = cursor.getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
-                    LocalDate.parse(cursor.getString(KEY_LATEST_EXCHANGE_RATE_DATE)) to it
+                    cursor.getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 }
             )
         }

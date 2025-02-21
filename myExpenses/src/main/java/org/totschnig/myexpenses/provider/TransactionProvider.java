@@ -29,6 +29,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -914,6 +915,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case PRICES: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_PRICES);
+        String commodity = uri.getQueryParameter(KEY_COMMODITY);
+        if (commodity != null) {
+          selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";
+          selectionArgs = new String[]{getHomeCurrency(), commodity};
+          extras = oldestTransactionForCurrency(db, commodity);
+        }
         break;
       }
       default:
