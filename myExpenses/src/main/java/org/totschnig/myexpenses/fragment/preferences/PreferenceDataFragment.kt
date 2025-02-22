@@ -111,7 +111,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
 
         with(requirePreference<MultiSelectListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
             entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
-            entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()
+            entryValues = ExchangeRateSource.values.map { it.name }.toTypedArray()
         }
         arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
             requirePreference<Preference>(it.prefKey).summary =
@@ -146,7 +146,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                     title = it.code
                     entries = arrayOf(getString(R.string.disabled)) + providers.map { it.host }
                         .toTypedArray()
-                    entryValues = arrayOf(SERVICE_DEACTIVATED) + providers.map { it.id }.toTypedArray()
+                    entryValues = arrayOf(SERVICE_DEACTIVATED) + providers.map { it.name }.toTypedArray()
                     setDefaultValue(SERVICE_DEACTIVATED)
                     setSummaryProvider(SimpleSummaryProvider.getInstance())
                     addPreference(this)
@@ -164,7 +164,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
     val automaticChangeRateCurrencyOnChangeListener =
         OnPreferenceChangeListener { preference, newValue ->
             if (newValue == SERVICE_DEACTIVATED) return@OnPreferenceChangeListener true
-            val source = ExchangeRateSource.getById(newValue as String)
+            val source = ExchangeRateSource.getByName(newValue as String)!!
             if (source is ExchangeRateSource.SourceWithApiKey && source.getApiKey(prefHandler).isNullOrEmpty()) {
                 preferenceActivity.showSnackBar(getString(R.string.pref_exchange_rates_api_key_summary, source.host))
                 return@OnPreferenceChangeListener false

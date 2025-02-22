@@ -232,4 +232,8 @@
     <item name="GROUPING_BUDGETS_ACCOUNT_COMMAND" type="id" />
     <item name="SORT_DEBT_SUM_COMMAND" type="id" />
     <item name="DYNAMIC_EXCHANGE_RATE_COMMAND" type="id" />
+    <item name="SELECT_SOURCE_MENU_ID" type="id" />
+    <item name="FRANKFURTER_ID" type="id" />
+    <item name="COIN_API_ID" type="id" />
+    <item name="OPENEXCHANGERATES_ID" type="id" />
 </resources>

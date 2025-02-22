@@ -19,7 +19,11 @@ import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
-fun Icon(icon: String, size: TextUnit = 24.sp, color: Color? = null) {
+fun Icon(
+    icon: String,
+    size: TextUnit = 24.sp,
+    color: Color? = null,
+) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon)
@@ -29,7 +33,11 @@ fun Icon(icon: String, size: TextUnit = 24.sp, color: Color? = null) {
 }
 
 @Composable
-fun Icon(iconInfo: IIconInfo, size: TextUnit = 24.sp, color: Color? = null) {
+fun Icon(
+    iconInfo: IIconInfo,
+    size: TextUnit = 24.sp,
+    color: Color? = null,
+) {
     when (iconInfo) {
         is ExtraIcon -> {
             Icon(

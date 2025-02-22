@@ -953,7 +953,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("INSERT Uri: %s, values: %s", uri, values);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     long id;
-    String newUri;
+    Uri newUri;
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
@@ -961,7 +961,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
-        newUri = TRANSACTIONS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
         if (equivalentAmount != null) {
           insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
         }
@@ -969,24 +969,24 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS -> {
         Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTS, values);
-        newUri = ACCOUNTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ACCOUNTS_URI, id);
       }
       case METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_METHODS, values);
-        newUri = METHODS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(METHODS_URI, id);
       }
       case ACCOUNTTYPES_METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTTYES_METHODS, values);
         //we are not interested in accessing individual entries in this table, but have to return a uri
-        newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ACCOUNTTYPES_METHODS_URI, id);
       }
       case TEMPLATES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
-        newUri = TEMPLATES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TEMPLATES_URI, id);
       }
       case PAYEES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_PAYEES, values);
-        newUri = PAYEES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(PAYEES_URI, id);
       }
       case PLANINSTANCE_TRANSACTION_STATUS -> {
         long templateId = values.getAsLong(KEY_TEMPLATEID);
@@ -998,26 +998,26 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case EVENT_CACHE -> {
         id = MoreDbUtilsKt.insert(db, TABLE_EVENT_CACHE, values);
-        newUri = EVENT_CACHE_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(EVENT_CACHE_URI, id);
       }
       case ACCOUNT_EXCHANGE_RATE -> {
         values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
         values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
         values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
         id = db.insert(TABLE_ACCOUNT_EXCHANGE_RATES, CONFLICT_REPLACE, values);
-        newUri = uri.toString();
+        newUri = uri;
       }
       case DUAL -> {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
           id = pauseChangeTrigger(db);
-          newUri = TABLE_SYNC_STATE + "/" + id;
+          newUri = uri;
         } else {
           throw unknownUri(uri);
         }
       }
       case SETTINGS -> {
         id = db.insert(TABLE_SETTINGS, CONFLICT_REPLACE, values);
-        newUri = SETTINGS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(SETTINGS_URI, id);
       }
       case BUDGETS -> {
         Long budget = values.getAsLong(KEY_BUDGET);
@@ -1032,7 +1032,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           budgetInitialAmount.put(KEY_CATID, 0);
           MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
         }
-        newUri = BUDGETS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(BUDGETS_URI, id);
       }
       case CURRENCIES -> {
         try {
@@ -1040,11 +1040,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         } catch (SQLiteConstraintException e) {
           return null;
         }
-        newUri = CURRENCIES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(CURRENCIES_URI, id);
       }
       case TAGS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TAGS, values);
-        newUri = TAGS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TAGS_URI, id);
       }
       case TRANSACTIONS_TAGS -> {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
@@ -1067,11 +1067,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case DEBTS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
-        newUri = DEBTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(DEBTS_URI, id);
       }
       case BANKS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
-        newUri = BANKS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(BANKS_URI, id);
       }
       // Currently not needed, until we implement Custom attributes
 /*      case ATTRIBUTES -> {
@@ -1088,7 +1088,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ATTACHMENTS ->  {
         id = requireAttachment(db, values.getAsString(KEY_URI), values.getAsString(KEY_UUID));
-        newUri = ATTACHMENTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_ATTACHMENTS -> {
         String uuid = values.getAsString(KEY_UUID);
@@ -1103,19 +1103,19 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         values.put(KEY_ATTACHMENT_ID, id);
         db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
-        newUri = ATTACHMENTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
         id = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
-        newUri = TRANSACTIONS_URI + "/" +id;
+        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
       }
       case BUDGET_ALLOCATIONS -> {
         MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
         return BUDGET_ALLOCATIONS_URI;
       }
       case PRICES -> {
-        db.insert(TABLE_PRICES, CONFLICT_REPLACE, values);
-        return PRICES_URI;
+        id = db.insert(TABLE_PRICES, CONFLICT_REPLACE, values);
+        newUri = ContentUris.withAppendedId(PRICES_URI, id);
 
       }
       default -> throw unknownUri(uri);
@@ -1143,7 +1143,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
     }
-    return id > 0 ? Uri.parse(newUri) : null;
+    return id > 0 ? newUri : null;
   }
 
   @Override
@@ -1282,6 +1282,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.delete(db, TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
+      case PRICES ->  count = MoreDbUtilsKt.delete(db, TABLE_PRICES, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {

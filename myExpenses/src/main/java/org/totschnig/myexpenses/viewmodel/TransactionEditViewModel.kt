@@ -227,7 +227,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             currencyContext.homeCurrencyString,
                             transaction.amount.currencyUnit.code,
                             date,
-                            "user",
+                            null,
                             it.toDouble()
                         )
                     }

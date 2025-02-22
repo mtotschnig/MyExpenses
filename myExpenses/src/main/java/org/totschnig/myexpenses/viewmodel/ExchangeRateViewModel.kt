@@ -35,7 +35,7 @@ class ExchangeRateViewModel(application: Application) :
         TransactionProvider.PRICES_URI,
         arrayOf(KEY_VALUE),
         "$KEY_CURRENCY = ? AND $KEY_COMMODITY = ? AND $KEY_DATE = ? AND $KEY_SOURCE = ?",
-        arrayOf(base, other, date.toString(), source.id),
+        arrayOf(base, other, date.toString(), source.name),
         null, null
     )?.use {
         if (it.moveToFirst()) it.getDouble(0) else null
@@ -50,29 +50,33 @@ class ExchangeRateViewModel(application: Application) :
         date: LocalDate,
         source: ExchangeRateSource,
     ): Double = withContext(coroutineContext()) {
-        val apiKey = (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler)
         if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
             loadFromNetwork(
                 source = source,
-                apiKey = apiKey,
                 date = date,
                 other = other,
                 base = base
             )
         } else loadFromDb(base, other, date, source)
-            ?: loadFromNetwork(source, apiKey, date, other, base)
+            ?: loadFromNetwork(source, date, other, base)
     }
 
 
-    private suspend fun loadFromNetwork(
+    suspend fun loadFromNetwork(
         source: ExchangeRateSource,
-        apiKey: String?,
         date: LocalDate,
         other: String,
         base: String,
-    ) = exchangeRateService.getRate(source, apiKey, date, base, other).also {
-        Timber.d("loadFromNetwork: %s", it)
-        repository.savePrice(base, other, it.first, source.id, it.second)
-    }.second
-
+    ) = withContext(coroutineContext()) {
+        exchangeRateService.getRate(
+            source,
+            (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler),
+            date,
+            base,
+            other
+        ).also {
+            Timber.d("loadFromNetwork: %s", it)
+            repository.savePrice(base, other, it.first, source, it.second)
+        }.second
+    }
 }

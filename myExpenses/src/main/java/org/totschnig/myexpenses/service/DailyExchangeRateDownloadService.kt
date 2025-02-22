@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.service
 
-import android.content.ContentValues
 import android.content.Context
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -10,7 +9,6 @@ import androidx.work.WorkerParameters
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.savePrice
-import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -18,11 +16,8 @@ import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHA
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
@@ -31,7 +26,6 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
-import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -109,7 +103,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 val currency = it.getString(0)
                 prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${currency}")
                     ?.takeIf { it != SERVICE_DEACTIVATED }
-                    ?.let { ExchangeRateSource.getById(it) to currency }
+                    ?.let { ExchangeRateSource.getByName(it)!! to currency }
             }
             ?.filterNotNull()
             ?.groupBy({ it.first }, { it.second })
@@ -127,7 +121,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     )
                     symbols.forEachIndexed { index, currency ->
                         val (date, rate) = rates[index]
-                        repository.savePrice(base, currency, date, source.id, rate)
+                        repository.savePrice(base, currency, date, source, rate)
                     }
                 }.onFailure {
                     CrashHandler.report(it)

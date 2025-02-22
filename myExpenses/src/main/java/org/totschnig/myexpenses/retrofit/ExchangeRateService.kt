@@ -2,17 +2,16 @@ package org.totschnig.myexpenses.retrofit
 
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
 import retrofit2.await
 import java.io.IOException
 import java.lang.UnsupportedOperationException
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 
-sealed class ExchangeRateSource(val id: String, val host: String) {
+sealed class ExchangeRateSource(val id: Int, val name: String, val host: String) {
 
     open val limitToOneRequestPerDay: Boolean = false
 
@@ -26,7 +25,9 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
 
     companion object {
 
-        fun getById(id: String) = values.first { it.id == id }
+        fun getByName(name: String) = values.find { it.name == name }
+        fun getById(id: Int) = values.find { it.id == id }
+
 
         val values = arrayOf(Frankfurter, OpenExchangeRates, CoinApi)
 
@@ -34,11 +35,11 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
             configuredSources(prefHandler.getStringSet(PrefKey.EXCHANGE_RATE_PROVIDER))
 
         fun configuredSources(preferenceValue: Set<String>?) = preferenceValue?.let { configured ->
-            values.filter { configured.contains(it.id) }
+            values.filter { configured.contains(it.name) }
         }?.toSet() ?: emptySet()
     }
 
-    data object Frankfurter : ExchangeRateSource("FRANKFURTER", "api.frankfurter.app") {
+    data object Frankfurter : ExchangeRateSource(R.id.FRANKFURTER_ID,"FRANKFURTER", "api.frankfurter.app") {
 
         override val limitToOneRequestPerDay = true
 
@@ -86,10 +87,11 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
     }
 
     sealed class SourceWithApiKey(
-        val prefKey: PrefKey,
+        id: Int,
+        name: String,
         host: String,
-        id: String,
-    ) : ExchangeRateSource(id, host) {
+        val prefKey: PrefKey
+    ) : ExchangeRateSource(id, name, host) {
         fun getApiKey(prefHandler: PrefHandler) = prefHandler.getString(prefKey)
         fun requireApiKey(prefHandler: PrefHandler): String =
             getApiKey(prefHandler) ?: throw MissingApiKeyException(this)
@@ -98,7 +100,8 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
     data object OpenExchangeRates : SourceWithApiKey(
         prefKey = PrefKey.OPEN_EXCHANGE_RATES_APP_ID,
         host = "openexchangerates.org",
-        id = "OPENEXCHANGERATES"
+        id = R.id.OPENEXCHANGERATES_ID,
+        name = "OPENEXCHANGERATES"
     ) {
         override fun extractError(body: ResponseBody): String =
             JSONObject(body.string()).getString("description")
@@ -107,7 +110,8 @@ sealed class ExchangeRateSource(val id: String, val host: String) {
     data object CoinApi : SourceWithApiKey(
         prefKey = PrefKey.COIN_API_API_KEY,
         host = "coinapi.io",
-        id = "COIN_API"
+        id = R.id.COIN_API_ID,
+        name = "COIN_API"
     ) {
         override fun extractError(body: ResponseBody): String =
             JSONObject(body.string()).getString("error")
@@ -150,7 +154,9 @@ class ExchangeRateService(
                     symbols.map { symbol ->
                         val result = resultList.find { it.asset_id_quote == symbol }
                             ?: throw IOException("Unable to retrieve data for $symbol")
-                        parseIso8601(result.time) to result.rate
+                        //We ignore the time returned as part of the response, since it might relate to a different
+                        //day then the requested one (due to time zone difference)
+                        LocalDate.now() to result.rate
                     }
                 }
 
@@ -161,9 +167,10 @@ class ExchangeRateService(
                             .await()
                     val baseRate =
                         result.rates[base] ?: throw IOException("Unable to retrieve data")
-                    val localDate = toLocalDate(result.timestamp)
                     symbols.map { symbol ->
-                        localDate to baseRate / (result.rates[symbol]
+                        //We ignore the time returned as part of the response, since it might relate to a different
+                        //day then the requested one (due to time zone difference)
+                        LocalDate.now() to baseRate / (result.rates[symbol]
                             ?: throw IOException("Unable to retrieve data $symbol"))
                     }
                 }
@@ -192,6 +199,9 @@ class ExchangeRateService(
                     } else {
                         frankfurter.getLatest(symbol, base)
                     }).await()
+                    //Frankfurter only returns values for business days, e.g. when we request a rate for
+                    //Saturday or Sunday, it will return the previous Friday, we want to store the result
+                    //for this actual date, so that user is aware of the nature of the result
                     result.date to (result.rates[symbol]
                         ?: throw IOException("Unable to retrieve data for $symbol"))
                 } else {
@@ -209,40 +219,22 @@ class ExchangeRateService(
                 val otherRate = result.rates[symbol]
                 val baseRate = result.rates[base]
                 if (otherRate != null && baseRate != null) {
-                    toLocalDate(result.timestamp) to otherRate / baseRate
+                    //We ignore the time returned as part of the response, since it might relate to a different
+                    //day then the requested one (due to time zone difference)
+                    date to otherRate / baseRate
                 } else throw IOException("Unable to retrieve data for $symbol")
             }
 
             ExchangeRateSource.CoinApi -> {
                 requireNotNull(apiKey)
-                if (date < today) {
-                    val call = coinApi.getHistory(base, symbol, date, date.plusDays(1), apiKey)
-                    val result = call.await().first()
-                    date to arrayOf(
-                        result.rate_close,
-                        result.rate_high,
-                        result.rate_low,
-                        result.rate_close
-                    ).average()
-                } else {
-                    val call = coinApi.getExchangeRate(base, symbol, apiKey)
-                    val result = call.await()
-                    parseIso8601(result.time) to result.rate
-                }
+                val call = coinApi.getExchangeRate(base, symbol, date.takeIf { it < today }, apiKey)
+                val result = call.await()
+                //We ignore the time returned as part of the response, since it might relate to a different
+                //day then the requested one
+                date to result.rate
             }
         }
     } catch (e: HttpException) {
         throw source.convertError(e)
     }
-
-    private fun toLocalDate(timestamp: Long) =
-        LocalDate.ofInstant(
-            Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()
-        )
-
-    private fun parseIso8601(input: String) =
-        LocalDate.ofInstant(
-            Instant.parse(input),
-            ZoneId.systemDefault()
-        )
 }

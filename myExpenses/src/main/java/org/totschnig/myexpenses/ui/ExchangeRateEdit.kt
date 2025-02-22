@@ -102,7 +102,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
                             true
                         }
                         providers.forEachIndexed { index, s ->
-                            menu.add(Menu.NONE, index, Menu.NONE, s.id)
+                            menu.add(Menu.NONE, index, Menu.NONE, s.name)
                         }
                         show()
                     }

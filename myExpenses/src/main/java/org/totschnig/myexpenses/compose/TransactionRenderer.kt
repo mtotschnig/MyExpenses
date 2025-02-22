@@ -229,10 +229,8 @@ abstract class ItemRenderer(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RenderInner(transaction = transaction)
-            if (showMenu.value) {
-                remember { menuGenerator(transaction) }?.let {
-                    HierarchicalMenu(showMenu, it)
-                }
+            remember { menuGenerator(transaction) }?.let {
+                HierarchicalMenu(showMenu, it)
             }
         }
 

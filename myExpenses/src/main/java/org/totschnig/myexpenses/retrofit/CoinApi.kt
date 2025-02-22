@@ -21,6 +21,7 @@ interface CoinApi {
     fun getExchangeRate(
         @Path("base") base: String,
         @Path("symbol") symbol: String,
+        @Query("time") time: LocalDate?,
         @Header("X-CoinAPI-Key") apiKey: String
     ): Call<ExchangeRateResult>
 

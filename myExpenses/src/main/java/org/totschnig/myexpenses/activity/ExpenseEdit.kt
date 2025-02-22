@@ -712,7 +712,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.templates.collect { templates ->
                     menuItem2TemplateMap.clear()
                     for (template in templates) {
-                        val menuId = ViewCompat.generateViewId()
+                        val menuId = View.generateViewId()
                         menuItem2TemplateMap[menuId] = template
                         invalidateOptionsMenu()
                     }
@@ -1009,10 +1009,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currency == homeCurrency
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
