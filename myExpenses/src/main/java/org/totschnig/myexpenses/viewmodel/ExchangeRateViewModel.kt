@@ -20,7 +20,7 @@ import javax.inject.Inject
  * APIs usually have the opposite understanding of base. They express the value of 1 unit
  * of the base currency relative to other currency
  */
-class ExchangeRateViewModel(application: Application) :
+open class ExchangeRateViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
 
     @Inject
@@ -56,9 +56,9 @@ class ExchangeRateViewModel(application: Application) :
                 date = date,
                 other = other,
                 base = base
-            )
+            ).second
         } else loadFromDb(base, other, date, source)
-            ?: loadFromNetwork(source, date, other, base)
+            ?: loadFromNetwork(source, date, other, base).second
     }
 
 
@@ -77,6 +77,6 @@ class ExchangeRateViewModel(application: Application) :
         ).also {
             Timber.d("loadFromNetwork: %s", it)
             repository.savePrice(base, other, it.first, source, it.second)
-        }.second
+        }
     }
 }

@@ -26,7 +26,7 @@ import java.time.LocalDate
 data class Price(val date: LocalDate, val source: ExchangeRateSource?, val value: Double)
 
 class HistoricPricesViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
-    ContentResolvingAndroidViewModel(application) {
+    ExchangeRateViewModel(application) {
 
     val commodity: String
         get() = savedStateHandle.get<String>(KEY_COMMODITY)!!
