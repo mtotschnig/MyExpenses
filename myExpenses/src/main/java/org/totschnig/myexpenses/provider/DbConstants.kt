@@ -763,15 +763,14 @@ const val CTE_SEARCH = "cte_search"
 
 fun buildSearchCte(
     forTable: String,
-    forHome: String?,
+    homeCurrency: String,
+    forHome: Boolean,
 ) = "WITH $CTE_SEARCH AS (SELECT *, ${
     getAmountCalculation(
-        forHome,
+        homeCurrency.takeIf { forHome },
         forTable
     )
-} AS $KEY_DISPLAY_AMOUNT FROM " +
-        (forHome?.let { exchangeRateJoin(forTable, KEY_ACCOUNTID, it) + equivalentAmountJoin(it) }
-            ?: forTable) + ")"
+} AS $KEY_DISPLAY_AMOUNT FROM " + exchangeRateJoin(forTable, KEY_ACCOUNTID, homeCurrency) + equivalentAmountJoin(homeCurrency) + ")"
 
 
 fun buildTransactionGroupCte(

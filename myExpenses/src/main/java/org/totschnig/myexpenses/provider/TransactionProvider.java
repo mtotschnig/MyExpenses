@@ -449,10 +449,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (sortOrder == null) {
           sortOrder = KEY_DATE + " DESC";
         }
-        String forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null ? getHomeCurrency() : null;
+        boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
           projection = prepareProjectionForTransactions(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
-          String sql = transactionListAsCTE(forCatId, forHome) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
+          String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
@@ -460,7 +460,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         String tableForQueryBuilder;
         if (hasSearch) {
-            cte = buildSearchCte(table, forHome);
+            cte = buildSearchCte(table, getHomeCurrency(), forHome);
             table = CTE_SEARCH;
             tableForQueryBuilder = CTE_SEARCH;
         } else {
