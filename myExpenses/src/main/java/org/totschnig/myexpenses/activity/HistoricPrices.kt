@@ -67,14 +67,13 @@ import java.time.LocalDate
 class HistoricPrices : ProtectedFragmentActivity() {
 
     val viewModel: HistoricPricesViewModel by viewModels()
-    val exchangeRateViewModel: ExchangeRateViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
-        injector.inject(exchangeRateViewModel)
         val binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = currencyContext[viewModel.commodity].description
         setupToolbar()
         binding.composeView.setContent {
             AppTheme {
@@ -90,7 +89,11 @@ class HistoricPrices : ProtectedFragmentActivity() {
                     onDownload = { date ->
                         viewModel.effectiveSource?.also {
                             lifecycleScope.launch {
-                                exchangeRateViewModel.loadFromNetwork(it, date, viewModel.commodity, currencyContext.homeCurrencyString)
+                                viewModel.loadFromNetwork(it, date, viewModel.commodity, currencyContext.homeCurrencyString).also {
+                                    if(it.first != date) {
+                                        showSnackBar(it.first.toString())
+                                    }
+                                }
                             }
                         }
                             ?: run {
