@@ -14,7 +14,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.apache.commons.lang3.StringUtils
@@ -50,7 +49,6 @@ import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
-import kotlin.collections.contains
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
     SyncBackendProvider, ResourceStorage<Res> {

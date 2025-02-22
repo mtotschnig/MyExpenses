@@ -134,11 +134,10 @@ class WebDavClient(
     }
 
     @Throws(IOException::class)
-    fun mkCol(folderName: String, parent: DavResource) {
-        val folder =
-            LockableDavResource(httpClient, buildCollectionUri(folderName, parent.location))
-        folder.mkColWithLock(buildIfHeader(parent.location))
-    }
+    fun mkCol(folderName: String, parent: DavResource) =
+        LockableDavResource(httpClient, buildCollectionUri(folderName, parent.location)).also {
+            it.mkColWithLock(buildIfHeader(parent.location))
+        }
 
     /**
      * @param folderPath if null, members of base uri are returned
