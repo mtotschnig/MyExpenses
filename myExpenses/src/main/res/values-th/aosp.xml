@@ -84,4 +84,5 @@
     <string name="show_password">"แสดงรหัสผ่าน"</string>
     <string name="hide_password">"ซ่อนรหัสผ่าน"</string>
     <string name="user">"ผู้ใช้"</string>
+    <string name="source">"ที่มา"</string>
 </resources>

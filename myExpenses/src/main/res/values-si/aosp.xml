@@ -128,4 +128,5 @@
     <string name="show_password">"මුරපදය පෙන්වන්න"</string>
     <string name="hide_password">"මුරපදය සඟවන්න"</string>
     <string name="user">"පරිශීලක"</string>
+    <string name="source">"මූලය"</string>
 </resources>

@@ -70,4 +70,5 @@
     <string name="show_password">"Нууц үгийг харуулах"</string>
     <string name="hide_password">"Нууц үгийг нуух"</string>
     <string name="user">"Хэрэглэгч"</string>
+    <string name="source">"Source"</string>
 </resources>

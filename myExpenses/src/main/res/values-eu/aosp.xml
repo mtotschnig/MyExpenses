@@ -151,4 +151,5 @@
     <string name="show_password">"Erakutsi pasahitza"</string>
     <string name="hide_password">"Ezkutatu pasahitza"</string>
     <string name="user">"Erabiltzailea"</string>
+    <string name="source">"Iturburua"</string>
 </resources>

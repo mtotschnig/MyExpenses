@@ -67,4 +67,5 @@
     <string name="show_password">"Prikaži lozinku"</string>
     <string name="hide_password">"Sakrij lozinku"</string>
     <string name="user">"Korisnički"</string>
+    <string name="source">"Izvor"</string>
 </resources>

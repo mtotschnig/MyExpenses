@@ -70,4 +70,5 @@
     <string name="show_password">"पासवर्ड देखाइयोस्"</string>
     <string name="hide_password">"पासवर्ड लुकाउनुहोस्"</string>
     <string name="user">"प्रयोगकर्ता"</string>
+    <string name="source">"स्रोत"</string>
 </resources>

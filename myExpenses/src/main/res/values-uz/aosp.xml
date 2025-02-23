@@ -66,4 +66,5 @@
     <string name="show_password">"Parol berkitilmasin"</string>
     <string name="hide_password">"Parolni yashirish"</string>
     <string name="user">"Foydalanuvchi"</string>
+    <string name="source">Source"</string>
 </resources>

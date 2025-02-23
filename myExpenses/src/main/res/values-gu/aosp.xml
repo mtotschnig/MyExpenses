@@ -69,4 +69,5 @@
     <string name="show_password">"પાસવર્ડ બતાવો"</string>
     <string name="hide_password">"પાસવર્ડ છુપાવો"</string>
     <string name="user">"વપરાશકર્તા"</string>
+    <string name="source">Source"</string>
 </resources>

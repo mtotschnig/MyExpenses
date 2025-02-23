@@ -64,4 +64,5 @@
     <string name="show_password">"Прикажи лозинку"</string>
     <string name="hide_password">"Сакриј лозинку"</string>
     <string name="user">"Корисник"</string>
+    <string name="source">Source"</string>
 </resources>

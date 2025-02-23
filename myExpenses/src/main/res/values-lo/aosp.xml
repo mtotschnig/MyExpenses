@@ -66,4 +66,5 @@
     <string name="show_password">"ສະແດງລະຫັດຜ່ານ"</string>
     <string name="hide_password">"ເຊື່ອງ​ລະຫັດ​ຜ່ານ"</string>
     <string name="user">"ຜູ້ໃຊ້"</string>
+    <string name="source">"ແຫຼ່ງ"</string>
 </resources>

@@ -127,7 +127,7 @@ class PriceHistory : ProtectedFragmentActivity() {
         super.onCreateOptionsMenu(menu)
         val relevantSources = viewModel.relevantSources
         if (relevantSources.size > 1) {
-            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, "Source").apply {
+            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, getString(R.string.source)).apply {
                 item.setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
                 relevantSources.forEach { source ->
                     add(1, source.id, Menu.NONE, source.name)

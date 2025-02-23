@@ -78,4 +78,5 @@
     <string name="show_password">"Құпия сөзді көрсету"</string>
     <string name="hide_password">"Құпия сөзді жасыру"</string>
     <string name="user">"Пайдаланушы"</string>
+    <string name="source">"Қайнар көзі"</string>
 </resources>

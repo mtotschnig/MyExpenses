@@ -67,4 +67,5 @@
     <string name="show_password">"পাসওয়ার্ড দেখুন"</string>
     <string name="hide_password">"পাসওয়ার্ড লুকান"</string>
     <string name="user">"ব্যবহারকারী"</string>
+    <string name="source">"Source"</string>
 </resources>

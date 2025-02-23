@@ -154,4 +154,5 @@
     <string name="show_password">"Mostrar contraseña"</string>
     <string name="hide_password">"Ocultar contraseña"</string>
     <string name="user">"Usuario"</string>
+    <string name="source">"Origen"</string>
 </resources>

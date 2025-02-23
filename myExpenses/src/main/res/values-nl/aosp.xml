@@ -150,4 +150,5 @@
     <string name="show_password">"Wachtwoord tonen"</string>
     <string name="hide_password">"Wachtwoord verbergen"</string>
     <string name="user">"Gebruiker"</string>
+    <string name="source">"Bron"</string>
 </resources>

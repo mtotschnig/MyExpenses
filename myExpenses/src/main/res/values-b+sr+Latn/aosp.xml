@@ -58,4 +58,5 @@
     <string name="show_password">"Prikaži lozinku"</string>
     <string name="hide_password">"Sakrij lozinku"</string>
     <string name="user">"Korisnik"</string>
+    <string name="source">Source"</string>
 </resources>

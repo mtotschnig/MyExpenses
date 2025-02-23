@@ -88,4 +88,5 @@
     <string name="show_password">"Visa lösenord"</string>
     <string name="hide_password">"Dölj lösenord"</string>
     <string name="user">"Användare"</string>
+    <string name="source">"Källa"</string>
 </resources>

@@ -153,4 +153,5 @@
     <string name="show_password">"Εμφάνιση κωδικού πρόσβασης"</string>
     <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
     <string name="user">"Χρήστης"</string>
+    <string name="source">"Πηγή"</string>
 </resources>

@@ -280,4 +280,6 @@
     <string name="hide_password">Hide password</string>
     <!-- /opt/extra/AOSP/packages/apps/MusicFX$  grep -r "\"8392147515328861077\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="user">User</string>
+    <!-- LibreOffice sfx2/messages.po ex26g -->
+    <string name="source">Source</string>
 </resources>

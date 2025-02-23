@@ -145,4 +145,5 @@
     <string name="show_password">"הצגת הסיסמה"</string>
     <string name="hide_password">"הסתר סיסמה"</string>
     <string name="user">"משתמש"</string>
+    <string name="source">"מקור"</string>
 </resources>

@@ -142,4 +142,5 @@
     <string name="disabled">"Desativado"</string>
     <string name="show_password">"Mostrar senha"</string>
     <string name="hide_password">"Ocultar senha"</string>
+    <string name="source">"Fonte"</string>
 </resources>

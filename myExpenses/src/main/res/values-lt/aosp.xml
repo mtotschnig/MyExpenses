@@ -78,4 +78,5 @@
     <string name="show_password">"Rodyti slaptažodį"</string>
     <string name="hide_password">"Slėpti slaptažodį"</string>
     <string name="user">"Naudotojo"</string>
+    <string name="source">"Šaltinis"</string>
 </resources>

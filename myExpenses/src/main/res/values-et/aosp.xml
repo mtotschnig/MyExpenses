@@ -88,4 +88,5 @@
     <string name="show_password">"Kuva parool"</string>
     <string name="hide_password">"Peida parool"</string>
     <string name="user">"Kasutaja"</string>
+    <string name="source">"Allikas"</string>
 </resources>

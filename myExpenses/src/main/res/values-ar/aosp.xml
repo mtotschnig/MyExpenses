@@ -153,4 +153,5 @@
     <string name="show_password">"إظهار كلمة المرور"</string>
     <string name="hide_password">"إخفاء كلمة المرور"</string>
     <string name="user">"مستخدم"</string>
+    <string name="source">"المصدر"</string>
 </resources>
