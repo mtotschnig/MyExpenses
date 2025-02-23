@@ -152,4 +152,5 @@
     <string name="preview">"Anteprima"</string>
     <string name="show_password">"Mostra password"</string>
     <string name="hide_password">"Nascondi password"</string>
+    <string name="user">"Utente"</string>
 </resources>

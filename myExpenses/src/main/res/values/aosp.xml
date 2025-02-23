@@ -278,4 +278,6 @@
     <string name="show_password">Show password</string>
     <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"text_obfuscation_toggle_caption\"" res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/text_obfuscation_toggle_caption/hide_password/' | aosp_helper -->
     <string name="hide_password">Hide password</string>
+    <!-- /opt/extra/AOSP/packages/apps/MusicFX$  grep -r "\"8392147515328861077\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="user">User</string>
 </resources>

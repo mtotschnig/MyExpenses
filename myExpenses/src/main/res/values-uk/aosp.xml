@@ -153,4 +153,5 @@
     <string name="preview">"Перегляд"</string>
     <string name="show_password">"Показати пароль"</string>
     <string name="hide_password">"Сховати пароль"</string>
+    <string name="user">"Параметри користувача"</string>
 </resources>

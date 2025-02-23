@@ -147,4 +147,5 @@
     <string name="preview">"Xem trước"</string>
     <string name="show_password">"Hiện mật khẩu"</string>
     <string name="hide_password">"Ẩn mật khẩu"</string>
+    <string name="user">"Người dùng"</string>
 </resources>

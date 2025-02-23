@@ -114,4 +114,5 @@
     <string name="preview">"Pré-vis."</string>
     <string name="show_password">"Mostrar palavra-passe"</string>
     <string name="hide_password">"Ocultar palavra-passe"</string>
+    <string name="user">"Utilizador"</string>
 </resources>

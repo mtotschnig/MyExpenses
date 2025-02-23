@@ -135,4 +135,5 @@
     <string name="preview">"மாதிரிக்காட்சி"</string>
     <string name="show_password">"கடவுச்சொல்லைக் காட்டு"</string>
     <string name="hide_password">"கடவுச்சொல்லை மறை"</string>
+    <string name="user">"பயனர்"</string>
 </resources>

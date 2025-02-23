@@ -140,4 +140,5 @@
     <string name="preview">"Previzual."</string>
     <string name="show_password">"Afișează parola"</string>
     <string name="hide_password">"Ascunde parola"</string>
+    <string name="user">"Utilizator"</string>
 </resources>

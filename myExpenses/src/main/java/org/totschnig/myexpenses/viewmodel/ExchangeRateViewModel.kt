@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Context
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
@@ -11,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
@@ -61,7 +64,6 @@ open class ExchangeRateViewModel(application: Application) :
             ?: loadFromNetwork(source, date, other, base).second
     }
 
-
     suspend fun loadFromNetwork(
         source: ExchangeRateSource,
         date: LocalDate,
@@ -79,4 +81,18 @@ open class ExchangeRateViewModel(application: Application) :
             repository.savePrice(base, other, it.first, source, it.second)
         }
     }
+}
+
+fun Throwable.transformForUser(context: Context, other: String, base: String) = when (this) {
+    is java.lang.UnsupportedOperationException ->
+        Exception(
+            context.getString(R.string.exchange_rate_not_supported, other, base)
+        )
+
+    is MissingApiKeyException ->
+        Exception(
+            context. getString(R.string.pref_exchange_rates_api_key_summary, source.host)
+        )
+
+    else -> this
 }

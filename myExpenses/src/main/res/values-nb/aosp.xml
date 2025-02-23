@@ -86,4 +86,5 @@
     <string name="preview">"Forhåndsvisning"</string>
     <string name="show_password">"Vis passord"</string>
     <string name="hide_password">"Skjul passordet"</string>
+    <string name="user">"Bruker"</string>
 </resources>

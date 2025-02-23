@@ -65,4 +65,5 @@
     <string name="preview">"पूर्वावलोकन"</string>
     <string name="show_password">"पासवर्ड दाखवा"</string>
     <string name="hide_password">"पासवर्ड लपवा"</string>
+    <string name="user">"वापरकर्ता"</string>
 </resources>

@@ -76,4 +76,5 @@
     <string name="preview">"გადახედვა"</string>
     <string name="show_password">"პაროლის გამოჩენა"</string>
     <string name="hide_password">"პაროლის დამალვა"</string>
+    <string name="user">"მომხმარებელი"</string>
 </resources>

@@ -69,4 +69,5 @@
     <string name="disabled">"Joaktiv"</string>
     <string name="show_password">"Shfaq fjalëkalimin"</string>
     <string name="hide_password">"Fshih fjalëkalimin"</string>
+    <string name="user">"Përdoruesi"</string>
 </resources>

@@ -64,4 +64,5 @@
     <string name="disabled">"Выключана"</string>
     <string name="show_password">"Паказваць пароль"</string>
     <string name="hide_password">"Схаваць пароль"</string>
+    <string name="user">"Налады карыстальніка"</string>
 </resources>

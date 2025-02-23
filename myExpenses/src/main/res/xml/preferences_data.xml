@@ -15,7 +15,8 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/data">
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/data">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
         android:key="manage_categories"
@@ -55,14 +56,13 @@
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="@string/pref_unmapped_transaction_as_transfer_key"
-        android:title="@string/pref_unmapped_transaction_as_transfer_title"
         android:summaryOff="@string/pref_unmapped_transaction_as_transfer_summary_off"
-        android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on" />
+        android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on"
+        android:title="@string/pref_unmapped_transaction_as_transfer_title" />
     <PreferenceCategory
         android:key="@string/pref_category_currencies_key"
         android:title="@string/currencies_exchange">
-        <Preference
-            android:title="@string/pref_custom_currency_title">
+        <Preference android:title="@string/pref_custom_currency_title">
             <intent
                 android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
                 android:targetPackage="@string/application_id" />
@@ -87,9 +87,10 @@
             my:isPreferenceVisible="false" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            my:singleLineTitle="false"
             android:key="@string/pref_automatic_exchange_rate_download_key"
-            android:title="@string/enable_automatic_daily_exchange_rate_download" />
+            android:title="@string/enable_automatic_daily_exchange_rate_download"
+            my:allowDividerAbove="true"
+            my:singleLineTitle="false" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/pref_category_prices_key"

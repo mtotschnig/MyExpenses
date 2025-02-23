@@ -81,4 +81,5 @@
     <string name="preview">"Նախադիտում"</string>
     <string name="show_password">"Ցույց տալ գաղտնաբառը"</string>
     <string name="hide_password">"Թաքցնել գաղտնաբառը"</string>
+    <string name="user">"Օգտատեր"</string>
 </resources>

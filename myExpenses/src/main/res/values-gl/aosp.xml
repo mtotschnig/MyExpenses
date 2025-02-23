@@ -85,4 +85,5 @@
     <string name="preview">"Vista previa"</string>
     <string name="show_password">"Mostrar contrasinal"</string>
     <string name="hide_password">"Ocultar contrasinal"</string>
+    <string name="user">"Usuario"</string>
 </resources>

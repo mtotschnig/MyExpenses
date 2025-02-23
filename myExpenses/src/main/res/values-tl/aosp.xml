@@ -56,4 +56,5 @@
     <string name="preview">"I-preview"</string>
     <string name="show_password">"Ipakita ang password"</string>
     <string name="hide_password">"Itago ang password"</string>
+    <string name="user">"User"</string>
 </resources>

@@ -119,4 +119,5 @@
     <string name="preview">"預覽"</string>
     <string name="show_password">"顯示密碼"</string>
     <string name="hide_password">"隱藏密碼"</string>
+    <string name="user">"使用者"</string>
 </resources>

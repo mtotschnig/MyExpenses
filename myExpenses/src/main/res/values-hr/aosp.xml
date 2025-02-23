@@ -145,4 +145,5 @@
     <string name="preview">"Pregled"</string>
     <string name="show_password">"Prikaži zaporku"</string>
     <string name="hide_password">"Sakrij zaporku"</string>
+    <string name="user">"Korisnik"</string>
 </resources>

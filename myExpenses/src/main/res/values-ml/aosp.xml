@@ -64,4 +64,5 @@
     <string name="preview">"പ്രിവ്യൂ നടത്തുക"</string>
     <string name="show_password">"പാസ്‌വേഡ് കാണിക്കുക"</string>
     <string name="hide_password">"പാസ്‌വേഡ് മറയ്‌ക്കുക"</string>
+    <string name="user">"ഉപയോക്താവ്"</string>
 </resources>

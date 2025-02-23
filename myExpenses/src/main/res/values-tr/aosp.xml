@@ -151,4 +151,5 @@
     <string name="preview">"Önizle"</string>
     <string name="show_password">"Şifreyi göster"</string>
     <string name="hide_password">"Şifreyi gizle"</string>
+    <string name="user">"Kullanıcı"</string>
 </resources>

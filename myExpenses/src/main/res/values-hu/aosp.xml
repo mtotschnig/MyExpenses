@@ -154,4 +154,5 @@
     <string name="preview">"Előnézet"</string>
     <string name="show_password">"Jelszó megjelenítése"</string>
     <string name="hide_password">"Jelszó elrejtése"</string>
+    <string name="user">"Felhasználó"</string>
 </resources>

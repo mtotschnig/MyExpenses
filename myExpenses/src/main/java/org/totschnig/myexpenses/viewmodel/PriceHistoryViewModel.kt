@@ -25,7 +25,7 @@ import java.time.LocalDate
 
 data class Price(val date: LocalDate, val source: ExchangeRateSource?, val value: Double)
 
-class HistoricPricesViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ExchangeRateViewModel(application) {
 
     val commodity: String
@@ -92,7 +92,8 @@ class HistoricPricesViewModel(application: Application, val savedStateHandle: Sa
             .toList()
 
         return allDates.associateWithTo(LinkedHashMap()) { date ->
-            this.find { it.date == date }
+            // User provided rates have priority
+            this.sortedBy { if(it.source == null) 0 else 1 } .find { it.date == date }
         }
     }
 

@@ -228,4 +228,7 @@
     <string name="cab_MyExpenses_filter_help_text">Search for transactions with same properties.</string>
     <string name="menu_archive_help_text">After selecting a date range, all transactions for this period will be rolled up into a summary archive transaction. This will clear up the transaction list, but the transactions in the archive can still be inspected, and, if needed, unpacked again.</string>
     <string name="menu_ManageBudgets_grouping_help_text">The budget list can be grouped either by account or by type of budget.</string>
+    <string name="help_PriceHistory_info">Foreign currency accounts can be configured to use dynamic exchange rates. For every day you can either download or enter a specific rate relative to your home currency. This screen lists stored rates for a given currency for every day back to the date of the oldest transaction. The source of the rate is indicated as follows:</string>
+    <string name="cab_PriceHistory_download_help_text">Download the rate for the given date from one of the configured providers. Some providers will not provide rates for every date, e.g. for week ends or public holidays, and instead return an earlier rate.</string>
+    <string name="cab_PriceHistory_add_help_text">Manually enter the rate for the given date. The user provided rate has priority over downloaded rates.</string>
 </resources>

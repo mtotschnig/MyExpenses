@@ -81,4 +81,5 @@
     <string name="preview">"Voorskou"</string>
     <string name="show_password">"Wys wagwoord"</string>
     <string name="hide_password">"Versteek wagwoord"</string>
+    <string name="user">"Gebruiker"</string>
 </resources>

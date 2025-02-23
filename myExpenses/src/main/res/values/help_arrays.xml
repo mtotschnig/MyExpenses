@@ -475,6 +475,12 @@
         <item>set_weight</item>
     </string-array>
 
+    <string-array name="PriceHistory_cabitems">
+        <item>edit</item>
+        <item>add</item>
+        <item>download</item>
+        <item>delete</item>
+    </string-array>
 
     <string-array name="HistoryActivity_menuitems">
         <item>grouping</item>

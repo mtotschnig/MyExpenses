@@ -63,4 +63,5 @@
     <string name="preview">"Predogled"</string>
     <string name="show_password">"Pokaži geslo"</string>
     <string name="hide_password">"Skrij geslo"</string>
+    <string name="user">"Uporabnik"</string>
 </resources>

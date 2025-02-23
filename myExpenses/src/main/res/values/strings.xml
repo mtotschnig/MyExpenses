@@ -1050,4 +1050,5 @@
     <string name="current_value">Current value</string>
     <string name="total_value">Total value</string>
     <string name="enable_automatic_daily_exchange_rate_download">Enable automatic daily exchange rate download</string>
+    <string name="price_history">Price history</string>
 </resources>

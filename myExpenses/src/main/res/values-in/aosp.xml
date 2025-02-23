@@ -87,4 +87,5 @@
     <string name="preview">"Pratinjau"</string>
     <string name="show_password">"Tampilkan sandi"</string>
     <string name="hide_password">"Sembunyikan sandi"</string>
+    <string name="user">"Pengguna"</string>
 </resources>

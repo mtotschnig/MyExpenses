@@ -155,4 +155,5 @@
     <string name="preview">"Podgląd"</string>
     <string name="show_password">"Pokaż hasło"</string>
     <string name="hide_password">"Ukryj hasło"</string>
+    <string name="user">"Własna"</string>
 </resources>

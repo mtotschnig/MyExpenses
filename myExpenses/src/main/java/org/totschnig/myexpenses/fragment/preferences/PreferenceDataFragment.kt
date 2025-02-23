@@ -17,7 +17,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.HistoricPrices
+import org.totschnig.myexpenses.activity.PriceHistory
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -97,8 +97,8 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                         removeAll()
                         currencies.forEach {
                             Preference(requireContext()).apply {
-                                title = it.code
-                                intent = Intent(requireContext(), HistoricPrices::class.java).apply {
+                                title = viewModel.currencyContext[it.code].description
+                                intent = Intent(requireContext(), PriceHistory::class.java).apply {
                                     putExtra(KEY_COMMODITY, it.code)
                                 }
                                 addPreference(this)
@@ -143,7 +143,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
             currencies.forEach {
                 ListPreference(requireContext()).apply {
                     key = "${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${it.code}"
-                    title = it.code
+                    title = viewModel.currencyContext[it.code].description
                     entries = arrayOf(getString(R.string.disabled)) + providers.map { it.host }
                         .toTypedArray()
                     entryValues = arrayOf(SERVICE_DEACTIVATED) + providers.map { it.name }.toTypedArray()

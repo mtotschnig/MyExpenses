@@ -18,12 +18,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,24 +55,26 @@ import org.totschnig.myexpenses.compose.mainScreenPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
-import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
-import org.totschnig.myexpenses.viewmodel.HistoricPricesViewModel
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.Price
+import org.totschnig.myexpenses.viewmodel.transformForUser
 import java.math.BigDecimal
 import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.time.LocalDate
 
-class HistoricPrices : ProtectedFragmentActivity() {
+class PriceHistory : ProtectedFragmentActivity() {
 
-    val viewModel: HistoricPricesViewModel by viewModels()
+    val viewModel: PriceHistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
         val binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = currencyContext[viewModel.commodity].description
+        val commodity = viewModel.commodity
+        title = currencyContext[commodity].description
         setupToolbar()
         binding.composeView.setContent {
             AppTheme {
@@ -89,15 +90,32 @@ class HistoricPrices : ProtectedFragmentActivity() {
                     onDownload = { date ->
                         viewModel.effectiveSource?.also {
                             lifecycleScope.launch {
-                                viewModel.loadFromNetwork(it, date, viewModel.commodity, currencyContext.homeCurrencyString).also {
-                                    if(it.first != date) {
-                                        showSnackBar(it.first.toString())
+                                val homeCurrencyString = currencyContext.homeCurrencyString
+                                try {
+
+                                    viewModel.loadFromNetwork(
+                                        it,
+                                        date,
+                                        commodity,
+                                        homeCurrencyString
+                                    ).also {
+                                        if (it.first != date) {
+                                            showSnackBar(it.first.toString())
+                                        }
                                     }
+                                } catch (e: Exception) {
+                                    showSnackBar(e.transformForUser(this@PriceHistory, commodity, homeCurrencyString).safeMessage)
                                 }
                             }
                         }
                             ?: run {
-                                showSnackBar(getString(R.string.exchange_rate_not_supported, currencyContext.homeCurrencyString, viewModel.commodity))
+                                showSnackBar(
+                                    getString(
+                                        R.string.exchange_rate_not_supported,
+                                        currencyContext.homeCurrencyString,
+                                        viewModel.commodity
+                                    )
+                                )
                             }
                     }
                 )
@@ -109,7 +127,7 @@ class HistoricPrices : ProtectedFragmentActivity() {
         super.onCreateOptionsMenu(menu)
         val relevantSources = viewModel.relevantSources
         if (relevantSources.size > 1) {
-            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1,"Source").apply {
+            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, "Source").apply {
                 item.setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
                 relevantSources.forEach { source ->
                     add(1, source.id, Menu.NONE, source.name)
@@ -175,9 +193,11 @@ fun PriceListScreen(
                                 )
                             )
                         }
-                        val isValid = remember { derivedStateOf {
-                            valueForEdit > BigDecimal.ZERO
-                        } }
+                        val isValid = remember {
+                            derivedStateOf {
+                                valueForEdit > BigDecimal.ZERO
+                            }
+                        }
                         AmountEdit(
                             value = valueForEdit,
                             onValueChange = {
@@ -219,13 +239,11 @@ fun PriceListScreen(
                         }
                     }
                     Row(Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
-                        if (price?.source == null) {
-                            IconButton(onClick = { editedDate.value = date }) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = stringResource(R.string.menu_edit)
-                                )
-                            }
+                        IconButton(onClick = { editedDate.value = date }) {
+                            Icon(
+                                imageVector = if (price != null && price.source == null) Icons.Default.Edit else Icons.Default.Add,
+                                contentDescription = stringResource(R.string.menu_edit)
+                            )
                         }
                         if (price == null) {
                             IconButton(onClick = { onDownload(date) }) {
