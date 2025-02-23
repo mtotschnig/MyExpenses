@@ -69,4 +69,5 @@
     <string name="menu_budget_synchronization">@string/synchronization</string>
     <string name="help_PriceHistory_title">@string/price_history</string>
     <string name="menu_download">@string/action_download</string>
+    <string name="menu_dynamic_exchange_rate">@string/dynamic_exchange_rate</string>
 </resources>

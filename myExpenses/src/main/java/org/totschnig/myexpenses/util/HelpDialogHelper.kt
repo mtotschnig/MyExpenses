@@ -170,6 +170,9 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 append(toBold(R.string.income))
                 append(": <a href='https://faq.myexpenses.mobi/category-types'>FAQ</a>")
             }
+            "dynamic_exchange_rate_help_text_3" -> getString(R.string.dynamic_exchange_rate_help_text_3,
+                context.localizedQuote(getString(R.string.enable_automatic_daily_exchange_rate_download))
+            )
 
             else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
         }

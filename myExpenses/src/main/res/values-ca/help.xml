@@ -136,7 +136,7 @@
     <string name="form_transfer_from_account_transfer_to_account_help_text">Assigna els comptes d\'on es transfereix aquest objecte.</string>
     <string name="form_exchange_rate_help_text">Podeu especificar la taxa en qualsevol de les dues direccions de la transferència. El tipus invers i l\'import corresponent a la part dependent del tipus de canvi es calculen automàticament.</string>
     <string name="menu_save_and_new_help_text">Si està marcada, després de desar les dades, el formulari es deixa obert per a crear una operació nova amb les mateixes dades.</string>
-    <string name="menu_equivalent_amount_help_text">Per calcular un total en tots els comptes, les operacions dels comptes de divises es multipliquen amb un tipus de canvi que heu establert per al compte. Però també podeu anul·lar aquesta quantitat calculada implícitament, establint una quantitat equivalent per a qualsevol operació individual.</string>
+    <string name="menu_equivalent_amount_help_text">Per calcular un total en tots els comptes, les operacions dels comptes de divises es multipliquen amb un tipus de canvi que heu establert per al compte.</string>
     <string name="form_goal_or_limit_help_text">Aquest camp permet especificar un objectiu d\'estalvi positiu o un límit de crèdit negatiu. En qualsevol cas, a la llista de comptes, un indicador de progrés visualitza la distància entre el saldo actual i l\'objectiu o el límit.</string>
     <string name="menu_create_template_from_transaction_help_text">Si està marcada, l\'assentament també es desarà com a plantilla. Podeu definir el seu títol i opcionalment establir un pla per a la recurrència automàtica.</string>
     <string name="form_description_help_text">La descripció només té finalitat informativa.</string>

@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PriceHistory
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
@@ -127,6 +128,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
         with(requirePreference<TwoStatePreference>(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD)) {
             isVisible = currencies.isNotEmpty()
             isEnabled = providers.isNotEmpty()
+            summary = ContribFeature.AUTOMATIC_FX_DOWNLOAD.buildRequiresString(requireActivity())
         }
         with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_CURRENCIES)) {
             buildList {

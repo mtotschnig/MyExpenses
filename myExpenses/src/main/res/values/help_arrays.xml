@@ -355,6 +355,18 @@
 
     <string-array name="AccountEdit_menuitems">
         <item>exclude_from_totals</item>
+        <item>dynamic_exchange_rate</item>
+    </string-array>
+
+    <string-array name="menu_dynamic_exchange_rate_help_text">
+        <item>dynamic_exchange_rate_help_text_1</item>
+        <item>dynamic_exchange_rate_help_text_2</item>
+        <item>dynamic_exchange_rate_help_text_3</item>
+    </string-array>
+
+    <string-array name="menu_equivalent_amount_help_text">
+        <item>menu_equivalent_amount_help_text</item>
+        <item>dynamic_exchange_rate_help_text_1</item>
     </string-array>
 
     <string-array name="AccountEdit_formfields">
