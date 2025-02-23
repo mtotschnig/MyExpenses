@@ -226,7 +226,6 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     override fun populateFields(transaction: T, withAutoFill: Boolean) {
-        super.populateFields(transaction, withAutoFill)
         if (!isSplitPart) {
             viewBinding.Payee.setText(transaction.payee)
         }
@@ -246,6 +245,7 @@ abstract class MainDelegate<T : ITransaction>(
             originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
         }
         populateOriginalCurrency()
+        super.populateFields(transaction, withAutoFill)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
