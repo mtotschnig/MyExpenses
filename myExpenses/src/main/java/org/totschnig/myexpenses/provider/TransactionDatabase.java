@@ -2130,6 +2130,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 173) {
         upgradeTo173(db);
         createOrRefreshTransactionTriggers(db);
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
