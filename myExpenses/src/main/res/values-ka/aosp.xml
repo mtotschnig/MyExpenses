@@ -78,4 +78,5 @@
     <string name="hide_password">"პაროლის დამალვა"</string>
     <string name="user">"მომხმარებელი"</string>
     <string name="source">"წყარო"</string>
+    <string name="value">"მნიშვნელობა"</string>
 </resources>

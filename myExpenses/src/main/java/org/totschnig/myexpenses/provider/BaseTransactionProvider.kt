@@ -1937,7 +1937,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             val parentUUidTemplate = parentUuidExpression(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS)
             db.execSQL(
                 """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
-                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
+                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS ${equivalentAmountJoin(homeCurrency)} WHERE $KEY_ACCOUNTID = ?""",
                 accountIdBindArgs
             )
             db.execSQL(
@@ -2004,16 +2004,33 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
+    fun SupportSQLiteDatabase.insertEquivalentAmount(
+        transactionId: Long,
+        equivalentAmount: Long,
+    ) {
+        insert(TABLE_EQUIVALENT_AMOUNTS, ContentValues(3).apply {
+            put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+            put(KEY_TRANSACTIONID, transactionId)
+            put(KEY_CURRENCY, homeCurrency)
+        })
+    }
+
     /**
      * @param transactionId can be passed in as Long or String
      */
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
-        transactionId: Any,
+        transactionId: Long,
         equivalentAmount: Long,
     ) {
-        execSQL(
-            "INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT) VALUES(?,?,?)",
-            arrayOf(transactionId, homeCurrency, equivalentAmount)
+        // we do not use "Insert or replace" because we would receive insert trigger instead of
+        // update trigger and we would not be able to check if value has changed
+        val count = update(TABLE_EQUIVALENT_AMOUNTS,
+            ContentValues(1).apply<ContentValues> {
+                put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+            }, "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?", arrayOf(transactionId, homeCurrency)
         )
+        if (count == 0) {
+           insertEquivalentAmount(transactionId, equivalentAmount)
+        }
     }
 }

@@ -89,4 +89,5 @@
     <string name="hide_password">"Dölj lösenord"</string>
     <string name="user">"Användare"</string>
     <string name="source">"Källa"</string>
+    <string name="value">"Värde"</string>
 </resources>

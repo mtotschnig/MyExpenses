@@ -153,4 +153,5 @@
     <string name="hide_password">"Şifreyi gizle"</string>
     <string name="user">"Kullanıcı"</string>
     <string name="source">"Kaynak"</string>
+    <string name="value">"Değer"</string>
 </resources>

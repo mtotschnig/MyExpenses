@@ -152,4 +152,5 @@
     <string name="hide_password">"Ezkutatu pasahitza"</string>
     <string name="user">"Erabiltzailea"</string>
     <string name="source">"Iturburua"</string>
+    <string name="value">"Balioa"</string>
 </resources>

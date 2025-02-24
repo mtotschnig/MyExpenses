@@ -178,16 +178,6 @@ class SettingsViewModel(
         return result
     }
 
-    fun resetEquivalentAmounts() = liveData(context = coroutineContext()) {
-        emit(
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_RESET_EQUIVALENT_AMOUNTS, null, null
-            )
-                ?.getInt(TransactionProvider.KEY_RESULT)
-        )
-    }
-
     fun deleteAppFiles(files: Array<String>) = liveData(context = coroutineContext()) {
         with(appDirInfo.value?.getOrThrow()!!.documentFile) {
             emit(files.sumBy {

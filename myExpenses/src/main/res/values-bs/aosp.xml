@@ -68,4 +68,5 @@
     <string name="hide_password">"Sakrij lozinku"</string>
     <string name="user">"Korisnički"</string>
     <string name="source">"Izvor"</string>
+    <string name="value">"Vrijednost"</string>
 </resources>

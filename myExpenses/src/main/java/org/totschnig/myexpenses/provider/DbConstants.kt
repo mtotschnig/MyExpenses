@@ -561,7 +561,7 @@ fun accountQueryCTE(
         KEY_CRITERION,
         KEY_SEALED,
         "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
-        "($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 else latest_rates.$KEY_VALUE END AS $KEY_EQUIVALENT_CURRENT_BALANCE",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $KEY_DYNAMIC THEN coalesce(latest_rates.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_CURRENT_BALANCE",
         KEY_SUM_INCOME,
         KEY_SUM_EXPENSES,
         KEY_SUM_TRANSFERS,
@@ -569,7 +569,7 @@ fun accountQueryCTE(
         KEY_EQUIVALENT_EXPENSES,
         KEY_EQUIVALENT_TRANSFERS,
         "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
-        "($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 else latest_rates.$KEY_VALUE END AS $KEY_EQUIVALENT_TOTAL",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $KEY_DYNAMIC THEN coalesce(latest_rates.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_TOTAL",
         "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
         "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
         KEY_USAGES,
@@ -889,13 +889,13 @@ fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: Str
 
 fun amountCteForDebts(homeCurrency: String) =
     """$CTE_TRANSACTION_AMOUNTS AS (
-    SELECT 
+    SELECT
     $KEY_ROWID,
     ${getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)} AS $KEY_EQUIVALENT_AMOUNT,
     $KEY_AMOUNT,
     $VIEW_WITH_ACCOUNT.$KEY_CURRENCY,
     $KEY_DEBT_ID
-    FROM 
+    FROM
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
     ${equivalentAmountJoin(homeCurrency)}
     )

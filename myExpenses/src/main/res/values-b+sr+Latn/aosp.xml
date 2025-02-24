@@ -59,4 +59,5 @@
     <string name="hide_password">"Sakrij lozinku"</string>
     <string name="user">"Korisnik"</string>
     <string name="source">Source"</string>
+    <string name="value">Value"</string>
 </resources>

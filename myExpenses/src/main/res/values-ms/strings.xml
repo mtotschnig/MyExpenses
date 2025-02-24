@@ -763,7 +763,6 @@
     <string name="debt_balance_they_owe">%1$s sekarang berhutang %2$s.</string>
     <string name="budget_filter_all_parties">Semua pihak</string>
     <string name="tags_create_or_select">Cipta atau pilih tag</string>
-    <string name="reset_equivalent_amounts_success">Jumlah yang setara telah ditetapkan semula</string>
     <string name="debt_I_owe">Saya berhutang %s</string>
     <string name="merge_parties_strategy_delete">Pendua dipadamkan.</string>
     <string name="button_relink_update_date">Paut semula dan kemas kini tarikh</string>

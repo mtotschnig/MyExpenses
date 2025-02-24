@@ -155,4 +155,5 @@
     <string name="hide_password">"Masquer le mot de passe"</string>
     <string name="user">"Utilisateur"</string>
     <string name="source">"Source"</string>
+    <string name="value">"Valeur"</string>
 </resources>

@@ -152,4 +152,5 @@
     <string name="hide_password">"隐藏密码"</string>
     <string name="user">"用户"</string>
     <string name="source">"来源"</string>
+    <string name="value">"值"</string>
 </resources>

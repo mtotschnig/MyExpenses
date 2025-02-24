@@ -129,4 +129,5 @@
     <string name="hide_password">"పాస్‌వర్డ్‌ను దాచు"</string>
     <string name="user">"యూజర్"</string>
     <string name="source">Source"</string>
+    <string name="value">"విలువ"</string>
 </resources>

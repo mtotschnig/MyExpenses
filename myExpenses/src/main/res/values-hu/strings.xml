@@ -788,7 +788,6 @@
     <string name="template_default_action_without_amount_hint">Az összeg nélküli sablont el kell menteni az alapértelmezett \"Szerkesztés\" művelettel</string>
     <string name="plan_automatic_without_amount_hint">Az összeg nélküli terveket ne mentse el automatikus végrehajtással</string>
     <string name="content_description_edit_plan">Terv szerkesztése a naptár alkalmazásban</string>
-    <string name="reset_equivalent_amounts_success">Az egyenértékű összegek visszaállításra kerültek</string>
     <string name="menu_save_and_new_content_description">Mentse el az adatokat, hagyja nyitva az űrlapot, hogy új tranzakciót készíthessen ugyanazokkal az adatokkal.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Motor a szövegfelismeréshez</string>

@@ -137,4 +137,5 @@
     <string name="hide_password">"கடவுச்சொல்லை மறை"</string>
     <string name="user">"பயனர்"</string>
     <string name="source">"மூலம்"</string>
+    <string name="value">"மதிப்பு"</string>
 </resources>

@@ -155,4 +155,5 @@
     <string name="hide_password">"Amaga la contrasenya"</string>
     <string name="user">"Usuari"</string>
     <string name="source">"Origen"</string>
+    <string name="value">"Valor"</string>
 </resources>

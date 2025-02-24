@@ -116,4 +116,5 @@
     <string name="hide_password">"Ocultar palavra-passe"</string>
     <string name="user">"Utilizador"</string>
     <string name="source">"Origem"</string>
+    <string name="value">"valor"</string>
 </resources>

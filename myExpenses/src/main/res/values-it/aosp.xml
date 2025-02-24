@@ -154,4 +154,5 @@
     <string name="hide_password">"Nascondi password"</string>
     <string name="user">"Utente"</string>
     <string name="source">"Origine"</string>
+    <string name="value">"Valore"</string>
 </resources>

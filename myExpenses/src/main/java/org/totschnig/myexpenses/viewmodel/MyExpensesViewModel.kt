@@ -172,7 +172,7 @@ open class MyExpensesViewModel(
 
     fun showEquivalentWorth() =
         dataStore.data.map { preferences ->
-            preferences[showEquivalentWorthPrefKey] != false
+            preferences[showEquivalentWorthPrefKey] == true
         }
 
     fun persistShowStatusHandle(showStatus: Boolean) {

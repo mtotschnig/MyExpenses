@@ -147,4 +147,5 @@
     <string name="hide_password">"Sakrij zaporku"</string>
     <string name="user">"Korisnik"</string>
     <string name="source">"Izvor"</string>
+    <string name="value">"Vrijednost"</string>
 </resources>

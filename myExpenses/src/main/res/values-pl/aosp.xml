@@ -157,4 +157,5 @@
     <string name="hide_password">"Ukryj hasło"</string>
     <string name="user">"Własna"</string>
     <string name="source">"Źródło"</string>
+    <string name="value">"Wartość"</string>
 </resources>

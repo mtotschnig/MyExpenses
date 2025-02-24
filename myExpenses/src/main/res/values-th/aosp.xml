@@ -85,4 +85,5 @@
     <string name="hide_password">"ซ่อนรหัสผ่าน"</string>
     <string name="user">"ผู้ใช้"</string>
     <string name="source">"ที่มา"</string>
+    <string name="value">"ค่า"</string>
 </resources>

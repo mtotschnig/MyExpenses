@@ -843,7 +843,6 @@
     <string name="notifications_permission_required_sync">Udzielając zgody na wysyłanie powiadomień, możesz monitorować postęp operacji synchronizacji.</string>
     <string name="content_description_attachment">Załącznik</string>
     <string name="debt_lend_additional">Udzielam pożyczki %s.</string>
-    <string name="reset_equivalent_amounts_success">Równoważne kwoty zostały wyzerowane</string>
     <string name="sub_budget_under_allocated_error">%s zostało już przydzielonych do podkategorii. Jeśli nie usuniesz od nich pieniędzy, musisz przynajmniej przeznaczyć tę kwotę na kategorię główną.</string>
     <string name="default_transfer_category">Domyślna kategoria transferu</string>
     <string name="rollover_edit_invalid">Suma kumulacji przypisanej do kategorii i kumulacji przypisanych do podkategorii nie może przekroczyć pozostałej kwoty.</string>

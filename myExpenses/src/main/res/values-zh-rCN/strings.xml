@@ -777,7 +777,6 @@
     <string name="template_default_action_without_amount_hint">应该使用默认操作“编辑”来保存没有金额的模板</string>
     <string name="plan_automatic_without_amount_hint">没有金额的计划不应该将其储存成自动执行模式</string>
     <string name="content_description_edit_plan">在日历应用程序中编辑计划</string>
-    <string name="reset_equivalent_amounts_success">等价金额已重置</string>
     <string name="menu_save_and_new_content_description">交易保存后，表单仍维持打开状态并保留相同的数据内容，方便多次新建类似的交易。</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">文字识别引擎</string>

@@ -70,4 +70,5 @@
     <string name="hide_password">"پنهان کردن گذرواژه"</string>
     <string name="user">"کاربر"</string>
     <string name="source">Source"</string>
+    <string name="value">"مقدار"</string>
 </resources>

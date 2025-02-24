@@ -501,7 +501,6 @@
     <string name="pref_criterion_future_end_of_day">Einde van de dag</string>
     <string name="scan_result_no_payee">Geen begunstigde gevonden</string>
     <string name="content_description_edit_plan">Bewerk plan in kalender-app</string>
-    <string name="reset_equivalent_amounts_success">Equivalente bedragen zijn opnieuw ingesteld</string>
     <string name="tesseract_download_confirmation">Wil je tekstherkenningsgegevens downloaden voor %s?</string>
     <string name="title_webui">Web-gebruikersinterface</string>
     <string name="single_feature_info">Als alternatief kun je onbeperkte toegang kopen tot alleen deze functie.</string>

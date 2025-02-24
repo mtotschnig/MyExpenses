@@ -630,7 +630,6 @@
     <string name="pref_tesseract_language_title">టెస్రాక్ట్ కోసం భాష</string>
     <string name="pref_ocr_engine_title">టెక్స్ట్ గుర్తింపు కోసం ఇంజిన్</string>
     <string name="menu_save_and_new_content_description">డేటాను సేవ్ చేయండి, అదే డేటాతో క్రొత్త లావాదేవీని సృష్టించడానికి ఫారమ్‌ను తెరిచి ఉంచండి.</string>
-    <string name="reset_equivalent_amounts_success">సమాన మొత్తాలు రీసెట్ చేయబడ్డాయి</string>
     <string name="content_description_edit_plan">క్యాలెండర్ అనువర్తనంలో ప్రణాళికను సవరించండి</string>
     <string name="plan_automatic_without_amount_hint">మొత్తం లేకుండా ప్రణాళిక ఆటోమేటిక్ ప్లాన్ అమలుతో సేవ్ చేయకూడదు</string>
     <string name="template_default_action_without_amount_hint">మొత్తం లేకుండా మూస డిఫాల్ట్ చర్య \'సవరించు\' తో సేవ్ చేయాలి</string>

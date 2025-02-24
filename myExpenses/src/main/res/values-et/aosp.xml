@@ -89,4 +89,5 @@
     <string name="hide_password">"Peida parool"</string>
     <string name="user">"Kasutaja"</string>
     <string name="source">"Allikas"</string>
+    <string name="value">"väärtus"</string>
 </resources>

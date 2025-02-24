@@ -838,7 +838,6 @@
     <string name="advance_exexcution_in_days">Execució anticipada (en dies)</string>
     <string name="tesseract_download_confirmation">Voleu baixar les dades de reconeixement de text per a %s?</string>
     <string name="ocr_download_info">La capacitat de reconeixement de text ve proporcionada per una aplicació externa.</string>
-    <string name="reset_equivalent_amounts_success">S\'han restablert quantitats equivalents</string>
     <string name="button_label_clone_and_remap">Clona i reassigna</string>
     <string name="dialog_title_warning_delete_tag">Eliminar etiqueta?</string>
     <string name="menu_edit_tag">Edita l\'etiqueta</string>

@@ -149,4 +149,5 @@
     <string name="hide_password">"Ẩn mật khẩu"</string>
     <string name="user">"Người dùng"</string>
     <string name="source">"Nguồn"</string>
+    <string name="value">"Giá trị"</string>
 </resources>

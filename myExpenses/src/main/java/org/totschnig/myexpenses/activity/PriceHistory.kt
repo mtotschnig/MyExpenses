@@ -54,10 +54,11 @@ import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.mainScreenPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.Price
+import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.transformForUser
 import java.math.BigDecimal
 import java.security.SecureRandom
@@ -80,6 +81,7 @@ class PriceHistory : ProtectedFragmentActivity() {
             AppTheme {
                 PriceListScreen(
                     viewModel.prices.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
+                    currencyContext.homeCurrencyUnit,
                     Modifier.padding(start = mainScreenPadding),
                     onDelete = {
                         viewModel.deletePrice(it)
@@ -160,6 +162,7 @@ class PriceHistory : ProtectedFragmentActivity() {
 @Composable
 fun PriceListScreen(
     prices: Map<LocalDate, Price?>,
+    homeCurrency: CurrencyUnit,
     modifier: Modifier = Modifier,
     onDelete: (Price) -> Unit,
     onSave: (LocalDate, Double) -> Unit,
@@ -173,8 +176,8 @@ fun PriceListScreen(
     Column(modifier = modifier) {
         Row {
             TableCell(stringResource(R.string.date), column1Weight, true)
-            TableCell("Value", column2Weight, true)
-            TableCell("Source", column3Weight, true)
+            TableCell("${stringResource(R.string.value)} (${homeCurrency.symbol})", column2Weight, true)
+            TableCell(stringResource(R.string.source), column3Weight, true)
             Spacer(Modifier.width(96.dp))
         }
         HorizontalDivider()
@@ -246,7 +249,12 @@ fun PriceListScreen(
                             )
                         }
                         if (price == null) {
-                            IconButton(onClick = { onDownload(date) }) {
+                            IconButton(onClick = {
+                                if (editedDate.value == date) {
+                                    editedDate.value = null
+                                }
+                                onDownload(date) }
+                            ) {
                                 Icon(
                                     imageVector = Icons.Default.Download,
                                     contentDescription = stringResource(R.string.action_download)
@@ -297,6 +305,7 @@ fun HistoricPricesPreview() {
                 put(date, Price(date, ExchangeRateSource.Frankfurter, random.nextDouble()))
             }
         },
+        homeCurrency = CurrencyUnit.DebugInstance,
         onDelete = {},
         onSave = { _, _ -> },
         onDownload = {}

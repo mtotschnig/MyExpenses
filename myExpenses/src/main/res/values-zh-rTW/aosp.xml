@@ -151,4 +151,5 @@
     <string name="hide_password">"隱藏密碼"</string>
     <string name="user">"使用者自訂"</string>
     <string name="source">"來源"</string>
+    <string name="value">"值"</string>
 </resources>

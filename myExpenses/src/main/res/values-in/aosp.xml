@@ -89,4 +89,5 @@
     <string name="hide_password">"Sembunyikan sandi"</string>
     <string name="user">"Pengguna"</string>
     <string name="source">"Sumber"</string>
+    <string name="value">"Nilai"</string>
 </resources>

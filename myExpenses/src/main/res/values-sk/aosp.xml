@@ -88,4 +88,5 @@
     <string name="hide_password">"Skryť heslo"</string>
     <string name="user">"Používateľ"</string>
     <string name="source">"Zdroj"</string>
+    <string name="value">"Hodnota"</string>
 </resources>

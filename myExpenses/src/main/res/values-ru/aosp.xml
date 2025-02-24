@@ -156,4 +156,5 @@
     <string name="hide_password">"Скрыть пароль"</string>
     <string name="user">"Пользовательские настройки"</string>
     <string name="source">"Источник"</string>
+    <string name="value">"Значение"</string>
 </resources>

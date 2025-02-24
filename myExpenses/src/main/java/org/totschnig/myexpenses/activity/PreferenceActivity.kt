@@ -153,22 +153,6 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                     prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
                 }
                 requireApplication().invalidateHomeCurrency()
-                showSnackBarIndefinite(R.string.saving)
-                viewModel?.resetEquivalentAmounts()?.observe(this) { integer ->
-                    dismissSnackBar()
-                    if (integer != null) {
-                        showSnackBar(
-                            String.format(
-                                getLocale(),
-                                "%s (%d)",
-                                getString(R.string.reset_equivalent_amounts_success),
-                                integer
-                            )
-                        )
-                    } else {
-                        showSnackBar("Equivalent amount reset failed")
-                    }
-                }
                 true
             }
 

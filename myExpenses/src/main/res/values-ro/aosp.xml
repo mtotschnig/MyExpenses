@@ -142,4 +142,5 @@
     <string name="hide_password">"Ascunde parola"</string>
     <string name="user">"Utilizator"</string>
     <string name="source">"Sursă"</string>
+    <string name="value">"Valoare"</string>
 </resources>

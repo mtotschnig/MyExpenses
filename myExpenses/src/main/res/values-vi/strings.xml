@@ -706,7 +706,6 @@
     <string name="roadmap_intro">Cuộc bỏ phiếu Lộ trình năm 2024 hiện đã mở! Bình chọn cho các tính năng và cải tiến quan trọng nhất đối với bạn.</string>
     <string name="auto_fill_focus">Đặt trọng tâm vào người nhận thanh toán</string>
     <string name="tags_create_or_select">Tạo hoặc chọn thẻ</string>
-    <string name="reset_equivalent_amounts_success">Số tiền tương đương đã được đặt lại</string>
     <string name="cb_label_merge_accounts">Hợp nhất tài khoản</string>
     <string name="pref_attachment_mime_types_title">Các loại MIME được phép cho phần đính kèm</string>
     <string name="attachments">Đính kèm</string>

@@ -695,7 +695,6 @@
     <string name="pref_criterion_future_end_of_day">Кінець дня</string>
     <string name="exchange_rate_not_supported">Налаштований провайдер не надає курс %1$s: %2$s. Ви можете спробувати вибрати іншого в налаштуваннях.</string>
     <string name="feature_downloaded">Функцію %s встановлено.</string>
-    <string name="reset_equivalent_amounts_success">Еквівалентні суми скинуто</string>
     <string name="download_completed">Завантаження (%s) завершено.</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Видалити рахунок\?</item>

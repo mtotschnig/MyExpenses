@@ -154,4 +154,5 @@
     <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
     <string name="user">"Χρήστης"</string>
     <string name="source">"Πηγή"</string>
+    <string name="value">"Τιμή"</string>
 </resources>

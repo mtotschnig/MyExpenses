@@ -788,7 +788,6 @@
     <string name="ocr_download_info">ಪಠ್ಯ ಗುರುತಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಬಾಹ್ಯ ಅಪ್ಲಿಕೇಶನ್‌ನಿಂದ ಒದಗಿಸಲಾಗಿದೆ.</string>
     <string name="pref_tesseract_language_title">ಟೆಸ್ಸೆರಾಕ್ಟ್ ಭಾಷೆ</string>
     <string name="pref_ocr_engine_title">ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆಗಾಗಿ ಎಂಜಿನ್</string>
-    <string name="reset_equivalent_amounts_success">ಸಮಾನ ಮೊತ್ತವನ್ನು ಮರುಹೊಂದಿಸಲಾಗಿದೆ</string>
     <string name="content_description_edit_plan">ಕ್ಯಾಲೆಂಡರ್ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಯೋಜನೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="plan_automatic_without_amount_hint">ಮೊತ್ತವಿಲ್ಲದ ಯೋಜನೆಯನ್ನು ಸ್ವಯಂಚಾಲಿತ ಯೋಜನೆ ಕಾರ್ಯಗತಗೊಳಿಸುವಿಕೆಯೊಂದಿಗೆ ಉಳಿಸಬಾರದು</string>
     <string name="template_default_action_without_amount_hint">ಮೊತ್ತವಿಲ್ಲದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಡೀಫಾಲ್ಟ್ ಕ್ರಿಯೆಯೊಂದಿಗೆ ಉಳಿಸಬೇಕು \'ಸಂಪಾದಿಸು\'</string>

@@ -71,4 +71,5 @@
     <string name="hide_password">"पासवर्ड लुकाउनुहोस्"</string>
     <string name="user">"प्रयोगकर्ता"</string>
     <string name="source">"स्रोत"</string>
+    <string name="value">Value"</string>
 </resources>

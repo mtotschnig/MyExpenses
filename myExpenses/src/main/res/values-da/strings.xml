@@ -705,7 +705,6 @@
     <string name="pref_ocr_total_indicators_summary">En liste over strenge, der angiver det samlede beløb på en kvittering. Placér hvert beløb på en ny linje. Lad det være tomt for at gendanne standardværdien.</string>
     <string name="select_package">Vælg venligst en licenspakke.</string>
     <string name="plan_automatic_without_amount_hint">Planer uden beløb bør ikke gemmes med automatisk planudførelse</string>
-    <string name="reset_equivalent_amounts_success">Tilsvarende beløb blev nulstillet</string>
     <string name="new_balance">Ny saldo</string>
     <string name="title_webui">Webbrugergrænseflade</string>
     <string name="translated_by">Oversat af</string>

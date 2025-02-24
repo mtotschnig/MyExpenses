@@ -146,4 +146,5 @@
     <string name="hide_password">"הסתר סיסמה"</string>
     <string name="user">"משתמש"</string>
     <string name="source">"מקור"</string>
+    <string name="value">"ערך"</string>
 </resources>

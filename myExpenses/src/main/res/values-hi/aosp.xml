@@ -71,4 +71,5 @@
     <string name="hide_password">"पासवर्ड छिपाएं"</string>
     <string name="user">"उपयोगकर्ता"</string>
     <string name="source">"स्रोत"</string>
+    <string name="value">"मान"</string>
 </resources>

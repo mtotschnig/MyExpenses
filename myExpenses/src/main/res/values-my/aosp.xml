@@ -66,4 +66,5 @@
     <string name="hide_password">"စကားဝှက် ဝှက်ထားရန်"</string>
     <string name="user">"အသုံးပြုသူ"</string>
     <string name="source">"မူရင်း"</string>
+    <string name="value">Value"</string>
 </resources>

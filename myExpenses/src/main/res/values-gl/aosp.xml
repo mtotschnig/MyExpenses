@@ -87,4 +87,5 @@
     <string name="hide_password">"Ocultar contrasinal"</string>
     <string name="user">"Usuario"</string>
     <string name="source">"Fonte"</string>
+    <string name="value">"Valor"</string>
 </resources>

@@ -282,4 +282,6 @@
     <string name="user">User</string>
     <!-- LibreOffice sfx2/messages.po ex26g -->
     <string name="source">Source</string>
+    <!-- LibreOffice sc/messages.po 6Gdng -->
+    <string name="value">Value</string>
 </resources>

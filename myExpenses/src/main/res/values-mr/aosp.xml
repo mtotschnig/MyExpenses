@@ -67,4 +67,5 @@
     <string name="hide_password">"पासवर्ड लपवा"</string>
     <string name="user">"वापरकर्ता"</string>
     <string name="source">Source"</string>
+    <string name="value">"मूल्य"</string>
 </resources>

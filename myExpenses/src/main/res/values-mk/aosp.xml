@@ -70,4 +70,5 @@
     <string name="hide_password">"Сокриј ја лозинката"</string>
     <string name="user">"Корисник"</string>
     <string name="source">"Извор"</string>
+    <string name="value">Value"</string>
 </resources>

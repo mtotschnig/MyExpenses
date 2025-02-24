@@ -79,4 +79,5 @@
     <string name="hide_password">"Slėpti slaptažodį"</string>
     <string name="user">"Naudotojo"</string>
     <string name="source">"Šaltinis"</string>
+    <string name="value">"Reikšmė"</string>
 </resources>

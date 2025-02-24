@@ -66,4 +66,5 @@
     <string name="hide_password">"പാസ്‌വേഡ് മറയ്‌ക്കുക"</string>
     <string name="user">"ഉപയോക്താവ്"</string>
     <string name="source">"ഉറവിടം"</string>
+    <string name="value">Value"</string>
 </resources>

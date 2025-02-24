@@ -377,7 +377,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
   public static final String METHOD_SETUP_CATEGORIES_DRY_RUN = "setup_categories_dry_run";
-  public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
   public static final String METHOD_DELETE_ATTACHMENTS = "deleteAttachments";
@@ -963,7 +962,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
         if (equivalentAmount != null) {
-          insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
+          insertEquivalentAmount(db, id, equivalentAmount);
         }
       }
       case ACCOUNTS -> {
@@ -1339,7 +1338,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
               whereArgs);
         if (equivalentAmount != null) {
-          insertOrReplaceEquivalentAmount(db, lastPathSegment, equivalentAmount);
+          insertOrReplaceEquivalentAmount(db, Long.parseLong(lastPathSegment), equivalentAmount);
         }
     }
       case TRANSACTION_UNDELETE -> {
@@ -1582,16 +1581,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_SETUP_CATEGORIES_DRY_RUN ->  {
         Bundle result = new Bundle(1);
         result.putParcelable(KEY_RESULT, MoreDbUtilsKt.getImportableCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
-        return result;
-      }
-      case METHOD_RESET_EQUIVALENT_AMOUNTS -> {
-        final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
-        Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
-          ContentValues resetValues = new ContentValues(1);
-          resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
-          return MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null);
-        }));
         return result;
       }
       case METHOD_CHECK_CORRUPTED_DATA_987 -> {

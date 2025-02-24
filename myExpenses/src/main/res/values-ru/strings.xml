@@ -778,7 +778,6 @@
     <string name="tesseract_download_confirmation">Вы хотите загрузить данные распознавания текста для %s\?</string>
     <string name="pref_tesseract_language_title">Язык для Tesseract</string>
     <string name="pref_ocr_engine_title">Движок распознавания текста</string>
-    <string name="reset_equivalent_amounts_success">Эквивалентные суммы сброшены</string>
     <string name="content_description_edit_plan">Изменить план в приложении календаря</string>
     <string name="plan_automatic_without_amount_hint">План без суммы не следует сохранять при автоматическом выполнении плана</string>
     <string name="template_default_action_without_amount_hint">Шаблон без суммы должен быть сохранен с действием по умолчанию «Редактировать»</string>

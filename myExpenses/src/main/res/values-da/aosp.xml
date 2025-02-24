@@ -155,4 +155,5 @@
     <string name="hide_password">"Skjul adgangskoden"</string>
     <string name="user">"Bruger"</string>
     <string name="source">"Kilde"</string>
+    <string name="value">"Værdi"</string>
 </resources>

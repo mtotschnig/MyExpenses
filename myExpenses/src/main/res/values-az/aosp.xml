@@ -59,4 +59,5 @@
     <string name="show_password">"Parol görünsün"</string>
     <string name="hide_password">"Şifrəni gizlət"</string>
     <string name="user">"İstifadəçi"</string>
+    <string name="value">"Dәyәr"</string>
 </resources>

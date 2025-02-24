@@ -80,4 +80,5 @@
     <string name="hide_password">"Slēpt paroli"</string>
     <string name="user">"Lietotājs"</string>
     <string name="source">"Avots"</string>
+    <string name="value">"Vērtība"</string>
 </resources>

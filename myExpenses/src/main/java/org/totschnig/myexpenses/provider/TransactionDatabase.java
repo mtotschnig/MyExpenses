@@ -49,6 +49,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.create
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
+import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshEquivalentAmountTriggers;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -511,6 +512,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
     createCategoryTypeTriggers(db);
+    createOrRefreshEquivalentAmountTriggers(db);
 
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
@@ -2123,6 +2125,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 172) {
         db.execSQL(TRANSACTIONS_PARENT_ID_INDEX);
+      }
+
+      if (oldVersion < 173) {
+        upgradeTo173(db);
+        createOrRefreshTransactionTriggers(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

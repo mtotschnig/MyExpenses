@@ -759,7 +759,6 @@
     <string name="widget_title_budget">Bugetul meu</string>
     <string name="pref_attachment_mime_types_title">Tipuri MIME permise pentru atașări</string>
     <string name="content_description_edit_plan">Editați planul în aplicația calendar</string>
-    <string name="reset_equivalent_amounts_success">Sumele echivalente au fost resetate</string>
     <string name="pref_group_header_show_details_summary">Afișați sumele detaliate în antetul grupului</string>
     <string name="debt_borrow_additional">Împrumut %s.</string>
     <string name="budget_filter_all_accounts">Toate conturile</string>

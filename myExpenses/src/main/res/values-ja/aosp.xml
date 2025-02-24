@@ -152,4 +152,5 @@
     <string name="hide_password">"パスワードを隠す"</string>
     <string name="user">"ユーザー"</string>
     <string name="source">"ソース"</string>
+    <string name="value">"値"</string>
 </resources>

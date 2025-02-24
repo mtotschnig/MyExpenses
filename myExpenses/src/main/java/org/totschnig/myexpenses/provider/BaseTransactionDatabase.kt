@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -113,7 +114,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 172
+const val DATABASE_VERSION = 173
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -293,7 +294,7 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 const val EQUIVALENT_AMOUNTS_CREATE = """
     CREATE TABLE $TABLE_EQUIVALENT_AMOUNTS (
     $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
-    $KEY_CURRENCY text not null references $TABLE_CURRENCIES ($KEY_CODE),
+    $KEY_CURRENCY text not null references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
     $KEY_EQUIVALENT_AMOUNT integer not null,
     primary key ($KEY_TRANSACTIONID, $KEY_CURRENCY)
 );
@@ -302,7 +303,7 @@ const val EQUIVALENT_AMOUNTS_CREATE = """
 const val PRICES_CREATE = """
     CREATE TABLE $TABLE_PRICES (
     $KEY_COMMODITY text NOT NULL,
-    $KEY_CURRENCY text NOT NULL,
+    $KEY_CURRENCY text NOT NULL references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
     $KEY_DATE datetime NOT NULL,
     $KEY_SOURCE text NOT NULL,
     $KEY_TYPE text default 'unknown',
@@ -427,7 +428,6 @@ fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
     linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS)
 }
 
-
 fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
     table: String
@@ -468,7 +468,7 @@ fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTI
 
 private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
     TABLE_TRANSACTIONS -> "$reference.$column"
-    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_EQUIVALENT_AMOUNTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
     else -> throw IllegalArgumentException()
 }
 
@@ -1022,6 +1022,55 @@ abstract class BaseTransactionDatabase(
                     )
                 }
             }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo173() {
+        //create new tables
+        execSQL("CREATE TABLE prices (commodity text NOT NULL, currency text NOT NULL references currency(code) ON DELETE CASCADE, date datetime NOT NULL, source text NOT NULL, type text default 'unknown', value real not NULL, primary key(commodity, currency, date, source, type));")
+        execSQL("CREATE TABLE equivalent_amounts (transaction_id integer references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));")
+        //ADD column dynamic
+        execSQL("ALTER TABLE accounts add column dynamic boolean default 0;")
+        //set dynamic flag for accounts where we have equivalent amounts
+        execSQL("UPDATE accounts set dynamic = true where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)")
+        //Migrate equivalent amounts from transactions table to new join table
+        execSQL(
+            "INSERT INTO equivalent_amounts (transaction_id, currency, equivalent_amount) SELECT _id, '${context.injector.currencyContext().homeCurrencyString}', equivalent_amount FROM transactions WHERE equivalent_amount IS NOT NULL;"
+        )
+        createOrRefreshEquivalentAmountTriggers()
+        //DROP column equivalent_amount
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            execSQL("ALTER TABLE transactions RENAME TO transactions_old")
+            execSQL(
+                "CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date datetime not null, value_date datetime not null, amount integer not null, cat_id integer references categories(_id), account_id integer not null references accounts(_id) ON DELETE CASCADE, payee_id integer references payee(_id), transfer_peer integer references transactions(_id), transfer_account integer references accounts(_id),method_id integer references paymentmethods(_id),parent_id integer references transactions(_id) ON DELETE CASCADE, status integer default 0, cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', number text, uuid text, original_amount integer, original_currency text, debt_id integer references debts(_id) ON DELETE SET NULL);\n"
+            )
+            execSQL(
+                "INSERT INTO transactions (" +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id) " +
+                        "SELECT " +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id FROM transactions_old"
+            )
+            execSQL("DROP TABLE transactions_old")
+            createOrRefreshTransactionUsageTriggers()
+            createOrRefreshTransactionDebtTriggers()
+            execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_UUID_INDEX_CREATE)
+            execSQL(TRANSACTIONS_CAT_ID_INDEX)
+            execSQL(TRANSACTIONS_PAYEE_ID_INDEX)
+            execSQL(TRANSACTIONS_PARENT_ID_INDEX)
+            execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE)
+            createArchiveTriggers()
+        } else {
+            execSQL("DROP TRIGGER IF EXISTS insert_change_log")
+            execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
+            execSQL("DROP TRIGGER IF EXISTS update_change_log")
+            execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+            execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
+            execSQL("ALTER TABLE transactions DROP COLUMN equivalent_amount")
+        }
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

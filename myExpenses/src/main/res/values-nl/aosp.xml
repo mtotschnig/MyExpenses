@@ -151,4 +151,5 @@
     <string name="hide_password">"Wachtwoord verbergen"</string>
     <string name="user">"Gebruiker"</string>
     <string name="source">"Bron"</string>
+    <string name="value">"Waarde"</string>
 </resources>

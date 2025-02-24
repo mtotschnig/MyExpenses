@@ -155,4 +155,5 @@
     <string name="hide_password">"Сховати пароль"</string>
     <string name="user">"Параметри користувача"</string>
     <string name="source">"Джерело"</string>
+    <string name="value">"Значення"</string>
 </resources>

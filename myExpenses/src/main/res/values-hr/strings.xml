@@ -601,7 +601,6 @@
     <string name="pref_tesseract_language_title">Jezik za Tesseract</string>
     <string name="pref_ocr_engine_title">Pogon za prepoznavanje teksta</string>
     <string name="menu_save_and_new_content_description">Spremi podatke, ostavi obrazac otvorenim za stvaranje nove transakcije s istim podacima.</string>
-    <string name="reset_equivalent_amounts_success">Jednaki iznosi su obnovljeni</string>
     <string name="content_description_edit_plan">Uredi plan u programu kalendara</string>
     <string name="plan_automatic_without_amount_hint">Plan bez iznosa se ne treba spremati s automatskom izvedbom plana</string>
     <string name="template_default_action_without_amount_hint">Predložak bez iznosa trebao bi se spremiti sa zadanom radnjom „Uredi”</string>

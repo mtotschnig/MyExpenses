@@ -144,4 +144,5 @@
     <string name="hide_password">"비밀번호 숨김"</string>
     <string name="user">"사용자 지정"</string>
     <string name="source">"출처"</string>
+    <string name="value">"값"</string>
 </resources>
