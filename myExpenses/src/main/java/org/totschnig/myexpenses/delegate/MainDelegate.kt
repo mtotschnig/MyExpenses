@@ -595,7 +595,7 @@ abstract class MainDelegate<T : ITransaction>(
         super.configureAccountDependent(account, isInitialSetup)
         val currencyUnit = account.currency
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
-        val needsEquivalentAmount = !hasHomeCurrency(account) && account.latestExchangeRate != null
+        val needsEquivalentAmount = !isSplitPart && !isTemplate && !hasHomeCurrency(account) && account.latestExchangeRate != null
         viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
         if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
