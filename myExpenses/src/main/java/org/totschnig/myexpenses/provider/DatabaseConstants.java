@@ -388,6 +388,7 @@ public class DatabaseConstants {
   public static final String KEY_DYNAMIC = "dynamic";
   public static final String KEY_LATEST_EXCHANGE_RATE = "latest_exchange_rate";
   public static final String KEY_LATEST_EXCHANGE_RATE_DATE = "latest_exchange_rate_date";
+  public static final String KEY_ONLY_MISSING = "only_missing";
 
   /**
    * No special status

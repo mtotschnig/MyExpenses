@@ -608,7 +608,7 @@
     <string name="grand_total">Grand total</string>
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
-    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again.</string>
+    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts will be recalculated if applicable stored exchange rates are available.</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
     <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

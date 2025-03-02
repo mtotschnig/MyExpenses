@@ -14,10 +14,12 @@ import org.totschnig.myexpenses.db2.deletePrice
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONLY_MISSING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -99,14 +101,14 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         contentResolver.query(
             TransactionProvider.PRICES_URI,
             arrayOf(KEY_DATE, KEY_SOURCE, KEY_VALUE, KEY_CURRENCY, KEY_COMMODITY),
-            "$KEY_SOURCE != ?",
-            arrayOf(ExchangeRateSource.Calculation.name),
+            null,
+            null,
             null
         )
             ?.useAndMapToList {
                 FullPrice(
                     date = it.getLocalDate(0),
-                    source = ExchangeRateApi.getByName(it.getString(1)),
+                    source = ExchangeRateSource.getByName(it.getString(1)),
                     value = it.getDouble(2),
                     currency = it.getString(3),
                     commodity = it.getString(4)
@@ -118,11 +120,19 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                 val existingPrices = mutableListOf<Pair<String, Double>>()
                 existingPrices.addAll(prices.filter { it.currency == newHomeCurrency }
                     .map { it.commodity to it.value })
+                Timber.d("Existing prices %s", existingPrices.joinToString())
+                val pricesNotCalculated =
+                    prices.filter { it.source != ExchangeRateSource.Calculation }
                 // Go through all prices that we can just invert
-                prices.filter { it.commodity == newHomeCurrency && it.currency !in existingPrices.map { it.first } }
-                    .forEach { price ->
+                pricesNotCalculated.forEach { price ->
+                    if (price.commodity == newHomeCurrency && existingPrices.none { it.first == price.currency }) {
                         val inverseValue = 1 / price.value
-                        Timber.d("calculating %s:%s (from inverse): %f", price.currency, newHomeCurrency, inverseValue)
+                        Timber.d(
+                            "calculating %s:%s (from inverse): %f",
+                            price.currency,
+                            newHomeCurrency,
+                            inverseValue
+                        )
                         repository.savePrice(
                             newHomeCurrency,
                             price.currency,
@@ -133,12 +143,19 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                         existingPrices.add(price.currency to inverseValue)
                         count++
                     }
-                prices.forEach { price ->
+                }
+                pricesNotCalculated.forEach { price ->
                     if (price.commodity != newHomeCurrency && existingPrices.none { it.first == price.commodity }) {
                         existingPrices.find { it.first == price.currency }?.let { reference ->
                             val value = reference.second * price.value
                             //noinspection TimberArgCount
-                            Timber.d("calculating %1\$s:%2\$s from (%1\$s:%3\$s and %3\$s:%2\$s): %4\$f", price.commodity, newHomeCurrency, price.currency, value)
+                            Timber.d(
+                                "calculating %1\$s:%2\$s from (%1\$s:%3\$s and %3\$s:%2\$s): %4\$f",
+                                price.commodity,
+                                newHomeCurrency,
+                                price.currency,
+                                value
+                            )
                             repository.savePrice(
                                 newHomeCurrency,
                                 price.commodity,
@@ -155,16 +172,21 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         count
     }
 
-    suspend fun reCalculateEquivalentAmounts(newHomeCurrency: String) =
+    suspend fun reCalculateEquivalentAmounts(
+        newHomeCurrency: String,
+        accountId: Long? = null,
+        onlyMissing: Boolean = true,
+    ): Pair<Int, Int> =
         withContext(coroutineContext()) {
             contentResolver.call(
                 TransactionProvider.DUAL_URI,
                 TransactionProvider.METHOD_RECALCULATE_EQUIVALENT_AMOUNTS, null,
                 Bundle(1).apply {
                     putString(KEY_CURRENCY, newHomeCurrency)
+                    accountId?.let { putLong(KEY_ACCOUNTID, it) }
+                    putBoolean(KEY_ONLY_MISSING, onlyMissing)
                 }
-            )
-                ?.getInt(TransactionProvider.KEY_RESULT)
+            )!!.getSerializable(TransactionProvider.KEY_RESULT) as Pair<Int, Int>
         }
 
     fun List<Price>.fillInMissingDates(

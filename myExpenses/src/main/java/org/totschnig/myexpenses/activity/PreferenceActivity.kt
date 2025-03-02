@@ -162,12 +162,15 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                     )
                     .commitNow()
                 lifecycleScope.launch {
-                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.pref_category_exchange_rates))
+                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.price_history))
                     val updatedPrices = priceHistoryViewModel.reCalculatePrices(currencyCode)
                     progressViewModel.appendToMessage(updatedPrices.toString())
+                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.pref_category_exchange_rates))
+                    val updatedExchangeRates = priceHistoryViewModel.reCalculatePrices(currencyCode)
+                    progressViewModel.appendToMessage(updatedExchangeRates.toString())
                     progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.equivalent_amount_plural))
                     val updatedTransactions = priceHistoryViewModel.reCalculateEquivalentAmounts(currencyCode)
-                    progressViewModel.appendToMessage(updatedTransactions.toString())
+                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }.toString() )
                     val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
                     if (dataFragment != null) {
                         dataFragment.updateHomeCurrency(currencyCode)

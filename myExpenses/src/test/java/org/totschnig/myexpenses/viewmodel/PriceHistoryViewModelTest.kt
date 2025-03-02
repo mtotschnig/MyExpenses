@@ -9,10 +9,12 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PRICES_URI
 import org.totschnig.myexpenses.provider.requireString
@@ -96,7 +98,11 @@ class PriceHistoryViewModelTest: BaseTestWithRepository() {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
         val transactionId = insertTransaction(accountId, 100)
-        viewModel.recalculateAmountsAndAssert(transactionId.first, "USD", null)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to null),
+            accountExpectedRates = listOf(accountId to null)
+        )
     }
 
     @Test
@@ -107,7 +113,11 @@ class PriceHistoryViewModelTest: BaseTestWithRepository() {
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         prefHandler.putString(PrefKey.HOME_CURRENCY, "USD")
-        viewModel.recalculateAmountsAndAssert(transactionId.first, "USD", null)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to null),
+            accountExpectedRates = listOf(accountId to 1.5)
+        )
     }
 
     @Test
@@ -117,7 +127,11 @@ class PriceHistoryViewModelTest: BaseTestWithRepository() {
         val transactionId = insertTransaction(accountId, 100)
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
-        viewModel.recalculateAmountsAndAssert(transactionId.first, "USD", 150)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to 150),
+            accountExpectedRates = listOf(accountId to 1.5)
+        )
     }
 
     @Test
@@ -127,27 +141,151 @@ class PriceHistoryViewModelTest: BaseTestWithRepository() {
         val transactionId = insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1))
         repository.savePrice("USD", "EUR", LocalDate.now(),
             ExchangeRateApi.Frankfurter, 1.5)
-        viewModel.recalculateAmountsAndAssert(transactionId.first, "USD", null)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to null),
+            accountExpectedRates = listOf(accountId to null)
+        )
     }
 
+    @Test
+    fun recalculateOnlyMissing() = runTest {
+        val viewModel = buildViewModel()
+        val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
+        repository.storeExchangeRate(accountId, 1.6, "EUR", "USD")
+        val transactionId = insertTransaction(accountId, 100, equivalentAmount = 160)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.5)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to 160),
+            expectedResultCountTransactions = 0,
+            accountExpectedRates = listOf(accountId to 1.6),
+            expectedResultCountAccounts = 0
+        )
+    }
+
+    @Test
+    fun recalculateEquivalentAmountsAll() = runTest {
+        val viewModel = buildViewModel()
+        val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
+        repository.storeExchangeRate(accountId, 1.6, "EUR", "USD")
+        val transactionId = insertTransaction(accountId, 100, equivalentAmount = 160)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.5)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            false,
+            transactionExpectedAmounts = listOf(transactionId.first to 150),
+            accountExpectedRates = listOf(accountId to 1.5)
+        )
+    }
+
+    @Test
+    fun recalculateEquivalentAmountsForAllAccounts() = runTest {
+        val viewModel = buildViewModel()
+        val account1Id = insertAccount("Test account 1", currency = "EUR", dynamic = true)
+        val transaction1Id = insertTransaction(account1Id, 100)
+        val account2Id = insertAccount("Test account 2", currency = "EUR", dynamic = true)
+        val transaction2Id = insertTransaction(account2Id, 100)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.5)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transaction1Id.first to 150, transaction2Id.first to 150),
+            accountExpectedRates = listOf(account1Id to 1.5, account2Id to 1.5)
+        )
+    }
+
+    @Test
+    fun recalculateEquivalentAmountsForOneAccount() = runTest {
+        val viewModel = buildViewModel()
+        val account1Id = insertAccount("Test account 1", currency = "EUR", dynamic = true)
+        val transaction1Id = insertTransaction(account1Id, 100)
+        val account2Id = insertAccount("Test account 2", currency = "EUR", dynamic = true)
+        val transaction2Id = insertTransaction(account2Id, 100)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.5)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            onlyAccount = account1Id,
+            transactionExpectedAmounts = listOf(transaction1Id.first to 150, transaction2Id.first to null),
+            accountExpectedRates = listOf(account1Id to 1.5)
+        )
+    }
+
+
+    @Test
+    fun recalculateAccountExchangeRateWithoutTransaction() = runTest {
+        val viewModel = buildViewModel()
+        val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
+        repository.savePrice("USD", "EUR", LocalDate.now(),
+            ExchangeRateApi.Frankfurter, 1.5)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = emptyList(),
+            accountExpectedRates = listOf(accountId to 1.5)
+        )
+    }
+
+    @Test
+    fun recalculateAccountExchangeRateWithTransaction() = runTest {
+        val viewModel = buildViewModel()
+        val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
+        insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1), equivalentAmount = 160)
+        repository.savePrice("USD", "EUR", LocalDate.now(),
+            ExchangeRateApi.Frankfurter, 1.5)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.6)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = emptyList(),
+            accountExpectedRates = listOf(accountId to 1.6)
+        )
+    }
+
+
     private suspend fun PriceHistoryViewModel.recalculateAmountsAndAssert(
-        transactionId: Long,
         newHomeCurrency: String,
-        expected: Long?,
+        onlyMissing: Boolean = true,
+        onlyAccount: Long? = null,
+        transactionExpectedAmounts: List<Pair<Long, Long?>>,
+        accountExpectedRates: List<Pair<Long, Double?>> = emptyList(),
+        expectedResultCountTransactions: Int = transactionExpectedAmounts.count { it.second != null },
+        expectedResultCountAccounts: Int = accountExpectedRates.count { it.second != null }
     ) {
         prefHandler.putString(PrefKey.HOME_CURRENCY, newHomeCurrency)
-        assertThat(reCalculateEquivalentAmounts(newHomeCurrency)).isEqualTo(if (expected == null) 0 else 1)
-        contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId),
-            arrayOf(KEY_EQUIVALENT_AMOUNT),
-            null, null, null
-        ).useAndAssert {
-            movesToFirst()
-            if (expected == null) {
-                isNull(0)
-            } else {
-                hasLong(0, expected)
+        val result = reCalculateEquivalentAmounts(newHomeCurrency, onlyAccount, onlyMissing)
+        assertThat(result.first).isEqualTo(expectedResultCountTransactions)
+        assertThat(result.second).isEqualTo(expectedResultCountAccounts)
+        transactionExpectedAmounts.forEach { (transactionId, expectedEquivalentAmount) ->
+            contentResolver.query(
+                ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId),
+                arrayOf(KEY_EQUIVALENT_AMOUNT),
+                null, null, null
+            ).useAndAssert {
+                movesToFirst()
+                if (expectedEquivalentAmount == null) {
+                    isNull(0)
+                } else {
+                    hasLong(0, expectedEquivalentAmount)
+                }
             }
+        }
+        accountExpectedRates.forEach { (accountId, expectedRate) ->
+            contentResolver.query(
+                ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+                arrayOf(KEY_EXCHANGE_RATE),
+                null, null, null
+            ).useAndAssert {
+                movesToFirst()
+                if (expectedRate == null) {
+                    isNull(0)
+                } else {
+                    hasDouble(0, expectedRate)
+                }
+            }
+
         }
     }
 

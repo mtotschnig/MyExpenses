@@ -1634,7 +1634,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS -> {
         Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), extras.getString(KEY_CURRENCY)));
+        result.putSerializable(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
         return result;
       }
     }

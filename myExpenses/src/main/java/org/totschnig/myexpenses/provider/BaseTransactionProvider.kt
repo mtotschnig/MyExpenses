@@ -121,6 +121,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONLY_MISSING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
@@ -221,6 +222,7 @@ import java.io.File
 import java.io.IOException
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
@@ -2037,14 +2039,51 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun SupportSQLiteDatabase.recalculateEquivalentAmounts(currency: String): Int {
+    /**
+     * also populates account exchange rates where missing and possible
+     */
+    fun SupportSQLiteDatabase.recalculateEquivalentAmounts(extras: Bundle): Pair<Int, Int> {
+        val currency = extras.getString(KEY_CURRENCY)!!
+        val onlyMissing = extras.getBoolean(KEY_ONLY_MISSING, true)
+        val conflictResolution = if (onlyMissing) "OR IGNORE" else "OR REPLACE"
+        val accountId = extras.getLong(KEY_ACCOUNTID).takeIf { it != 0L }
+        var accountIdClause =  if (accountId != null) "AND $KEY_ACCOUNTID = ?" else ""
 
-        val sql = """INSERT INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
-          SELECT $KEY_ROWID, ?, $KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS ON $KEY_TRANSACTIONID = $KEY_ROWID AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = ? WHERE $KEY_DYNAMIC AND $VIEW_WITH_ACCOUNT.$KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL AND $KEY_EQUIVALENT_AMOUNT IS NULL AND new_equivalent_amount IS NOT NULL
+        val sql1 = """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
+          SELECT $KEY_ROWID, ?, $KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
-        return compileStatement(sql).use {
-            it.bindAllArgsAsStrings(listOf(currency, currency, currency, currency))
+        val count1 = compileStatement(sql1).use {
+            it.bindAllArgsAsStrings(listOf(currency, currency, currency))
+            if (accountId != null) {
+                it.bindLong(4, accountId)
+            }
             it.executeUpdateDelete()
         }
+
+        accountIdClause =  if (accountId != null) "AND $KEY_ROWID = ?" else ""
+        val sql2 = """INSERT $conflictResolution INTO $TABLE_ACCOUNT_EXCHANGE_RATES ($KEY_ACCOUNTID, $KEY_CURRENCY_SELF, $KEY_CURRENCY_OTHER, $KEY_EXCHANGE_RATE)
+            SELECT $KEY_ROWID, $KEY_CURRENCY, ?,
+            (
+                SELECT $KEY_VALUE FROM $TABLE_PRICES
+                WHERE
+                    $TABLE_PRICES.$KEY_CURRENCY = ? AND
+                    $TABLE_PRICES.$KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY AND
+                    $TABLE_PRICES.$KEY_DATE <= coalesce(
+                        strftime('%Y-%m-%d', (SELECT min($KEY_DATE) FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID), 'unixepoch', 'localtime'), 
+                        ?
+                    )
+            )
+            FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != ? $accountIdClause
+
+        """
+        val count2 = compileStatement(sql2).use {
+            it.bindAllArgsAsStrings(listOf(currency, currency, LocalDate.now().toString(), currency))
+            if (accountId != null) {
+                it.bindLong(5, accountId)
+            }
+            it.executeUpdateDelete()
+        }
+
+        return count1 to count2
     }
 }
