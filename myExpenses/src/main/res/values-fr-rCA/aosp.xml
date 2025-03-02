@@ -9,4 +9,5 @@
     <string name="disabled">"Désactivé"</string>
     <string name="preview">"Aperçu"</string>
     <string name="user">"Utilisateur"</string>
+    <string name="done_label">"Terminé"</string>
 </resources>

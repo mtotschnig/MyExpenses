@@ -5,13 +5,35 @@ import org.json.JSONObject
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi.Companion.values
 import retrofit2.HttpException
 import retrofit2.await
 import java.io.IOException
 import java.lang.UnsupportedOperationException
 import java.time.LocalDate
+import kotlin.collections.find
 
-sealed class ExchangeRateSource(val id: Int, val name: String, val host: String) {
+sealed class ExchangeRateSource(val name: String) {
+    object User : ExchangeRateSource("user")
+
+    object Calculation : ExchangeRateSource("calculation")
+
+    companion object {
+        val values
+            get() = arrayOf(
+                ExchangeRateApi.Frankfurter,
+                ExchangeRateApi.OpenExchangeRates,
+                ExchangeRateApi.CoinApi,
+                User,
+                Calculation
+            )
+
+        fun getByName(name: String) = values.first { it.name == name }
+    }
+}
+
+sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
+    ExchangeRateSource(name) {
 
     open val limitToOneRequestPerDay: Boolean = false
 
@@ -25,11 +47,11 @@ sealed class ExchangeRateSource(val id: Int, val name: String, val host: String)
 
     companion object {
 
-        fun getByName(name: String) = values.find { it.name == name }
         fun getById(id: Int) = values.find { it.id == id }
+        fun getByName(name: String) = values.first { it.name == name }
 
-
-        val values = arrayOf(Frankfurter, OpenExchangeRates, CoinApi)
+        val values
+            get() = arrayOf(Frankfurter, OpenExchangeRates, CoinApi)
 
         fun configuredSources(prefHandler: PrefHandler) =
             configuredSources(prefHandler.getStringSet(PrefKey.EXCHANGE_RATE_PROVIDER))
@@ -39,7 +61,8 @@ sealed class ExchangeRateSource(val id: Int, val name: String, val host: String)
         }?.toSet() ?: emptySet()
     }
 
-    data object Frankfurter : ExchangeRateSource(R.id.FRANKFURTER_ID,"FRANKFURTER", "api.frankfurter.app") {
+    data object Frankfurter :
+        ExchangeRateApi(R.id.FRANKFURTER_ID, "FRANKFURTER", "api.frankfurter.app") {
 
         override val limitToOneRequestPerDay = true
 
@@ -90,8 +113,8 @@ sealed class ExchangeRateSource(val id: Int, val name: String, val host: String)
         id: Int,
         name: String,
         host: String,
-        val prefKey: PrefKey
-    ) : ExchangeRateSource(id, name, host) {
+        val prefKey: PrefKey,
+    ) : ExchangeRateApi(id, name, host) {
         fun getApiKey(prefHandler: PrefHandler) = prefHandler.getString(prefKey)
         fun requireApiKey(prefHandler: PrefHandler): String =
             getApiKey(prefHandler) ?: throw MissingApiKeyException(this)
@@ -118,7 +141,7 @@ sealed class ExchangeRateSource(val id: Int, val name: String, val host: String)
     }
 }
 
-class MissingApiKeyException(val source: ExchangeRateSource.SourceWithApiKey) :
+class MissingApiKeyException(val source: ExchangeRateApi.SourceWithApiKey) :
     java.lang.IllegalStateException("${source.prefKey.name} not configured")
 
 class ExchangeRateService(
@@ -128,7 +151,7 @@ class ExchangeRateService(
 ) {
 
     suspend fun getLatest(
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
         apiKey: String?,
         base: String,
         symbols: List<String>,
@@ -136,7 +159,7 @@ class ExchangeRateService(
         return try {
             val symbolsArg = symbols.joinToString(",")
             when (source) {
-                ExchangeRateSource.Frankfurter -> {
+                ExchangeRateApi.Frankfurter -> {
                     if (source.isSupported(base, *symbols.toTypedArray())) {
                         val result = frankfurter.getLatest(symbolsArg, base).await()
                         symbols.map { symbol ->
@@ -148,7 +171,7 @@ class ExchangeRateService(
                     }
                 }
 
-                ExchangeRateSource.CoinApi -> {
+                ExchangeRateApi.CoinApi -> {
                     requireNotNull(apiKey)
                     val resultList = coinApi.getAllCurrent(base, symbolsArg, apiKey).await().rates
                     symbols.map { symbol ->
@@ -160,7 +183,7 @@ class ExchangeRateService(
                     }
                 }
 
-                ExchangeRateSource.OpenExchangeRates -> {
+                ExchangeRateApi.OpenExchangeRates -> {
                     requireNotNull(apiKey)
                     val result =
                         openExchangeRates.getLatest("$symbolsArg,$base", apiKey)
@@ -184,7 +207,7 @@ class ExchangeRateService(
      * Load the value of 1 unit of base currency expressed in symbol
      */
     suspend fun getRate(
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
         apiKey: String?,
         date: LocalDate,
         symbol: String,
@@ -192,7 +215,7 @@ class ExchangeRateService(
     ): Pair<LocalDate, Double> = try {
         val today = LocalDate.now()
         when (source) {
-            ExchangeRateSource.Frankfurter -> {
+            ExchangeRateApi.Frankfurter -> {
                 if (source.isSupported(symbol, base)) {
                     val result = (if (date < today) {
                         frankfurter.getHistorical(date, symbol, base)
@@ -209,7 +232,7 @@ class ExchangeRateService(
                 }
             }
 
-            ExchangeRateSource.OpenExchangeRates -> {
+            ExchangeRateApi.OpenExchangeRates -> {
                 requireNotNull(apiKey)
                 val result = (if (date < today) {
                     openExchangeRates.getHistorical(date, "$symbol,$base", apiKey)
@@ -225,7 +248,7 @@ class ExchangeRateService(
                 } else throw IOException("Unable to retrieve data for $symbol")
             }
 
-            ExchangeRateSource.CoinApi -> {
+            ExchangeRateApi.CoinApi -> {
                 requireNotNull(apiKey)
                 val call = coinApi.getExchangeRate(base, symbol, date.takeIf { it < today }, apiKey)
                 val result = call.await()

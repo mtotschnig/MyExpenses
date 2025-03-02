@@ -158,4 +158,5 @@
     <string name="user">"Uživatel"</string>
     <string name="source">"Zdroj"</string>
     <string name="value">"Hodnota"</string>
+    <string name="done_label">"Hotovo"</string>
 </resources>

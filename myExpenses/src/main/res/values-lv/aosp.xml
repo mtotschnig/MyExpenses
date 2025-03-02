@@ -81,4 +81,5 @@
     <string name="user">"Lietotājs"</string>
     <string name="source">"Avots"</string>
     <string name="value">"Vērtība"</string>
+    <string name="done_label">"Gatavs"</string>
 </resources>

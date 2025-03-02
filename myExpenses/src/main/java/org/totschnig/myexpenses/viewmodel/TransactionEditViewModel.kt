@@ -84,6 +84,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -227,7 +228,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             currencyContext.homeCurrencyString,
                             transaction.amount.currencyUnit.code,
                             date,
-                            null,
+                            ExchangeRateSource.User,
                             it.toDouble()
                         )
                     }

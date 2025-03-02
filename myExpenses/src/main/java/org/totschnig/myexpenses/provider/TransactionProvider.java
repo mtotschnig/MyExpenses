@@ -399,6 +399,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_ARCHIVE = "archive";
   public static final String METHOD_CAN_BE_ARCHIVED = "canBeArchived";
 
+  public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
+
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -1629,6 +1631,11 @@ public class TransactionProvider extends BaseTransactionProvider {
          Bundle result = new Bundle(1);
          result.putParcelable(KEY_RESULT, canBeArchived(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
          return result;
+      }
+      case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS -> {
+        Bundle result = new Bundle(1);
+        result.putInt(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), extras.getString(KEY_CURRENCY)));
+        return result;
       }
     }
     return null;

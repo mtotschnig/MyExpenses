@@ -125,4 +125,5 @@
     <string name="show_password">"Tunjukkan kata laluan"</string>
     <string name="hide_password">"Sembunyikan kata laluan"</string>
     <string name="user">"Pengguna"</string>
+    <string name="done_label">"Selesai"</string>
 </resources>

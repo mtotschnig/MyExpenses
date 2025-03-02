@@ -156,4 +156,5 @@
     <string name="user">"Параметри користувача"</string>
     <string name="source">"Джерело"</string>
     <string name="value">"Значення"</string>
+    <string name="done_label">"Готово"</string>
 </resources>

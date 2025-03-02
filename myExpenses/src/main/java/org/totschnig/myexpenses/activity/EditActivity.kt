@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.newInstance
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.linkInputsWithLabels
@@ -155,7 +155,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     override suspend fun loadExchangeRate(
         other: String,
         base: String,
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
     ) = runCatching {
         exchangeRateViewModel.loadExchangeRate(other, base, date, source)
     }.fold(

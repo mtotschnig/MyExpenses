@@ -89,4 +89,5 @@
     <string name="user">"Käyttäjä"</string>
     <string name="source">"Lähde"</string>
     <string name="value">"Arvo"</string>
+    <string name="done_label">"Valmis"</string>
 </resources>

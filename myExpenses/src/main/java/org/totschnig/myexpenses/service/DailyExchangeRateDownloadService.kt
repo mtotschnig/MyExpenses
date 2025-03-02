@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
@@ -21,9 +22,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
+import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -40,6 +43,9 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
 
     @Inject
     lateinit var repository: Repository
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     init {
         context.injector.inject(this)
@@ -92,6 +98,12 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
     override val notificationTitleResId = R.string.pref_category_exchange_rates
 
     override suspend fun doWork(): Result {
+
+        if (!licenceHandler.hasTrialAccessTo(ContribFeature.AUTOMATIC_FX_DOWNLOAD)) {
+            prefHandler.putBoolean(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD, false)
+            ContribUtils.showContribNotification(applicationContext, ContribFeature.AUTOMATIC_FX_DOWNLOAD)
+            return Result.failure()
+        }
         applicationContext.contentResolver.query(
             TransactionProvider.ACCOUNTS_URI,
             arrayOf("distinct $KEY_CURRENCY"),
@@ -103,7 +115,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 val currency = it.getString(0)
                 prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${currency}")
                     ?.takeIf { it != SERVICE_DEACTIVATED }
-                    ?.let { ExchangeRateSource.getByName(it)!! to currency }
+                    ?.let { ExchangeRateApi.getByName(it)!! to currency }
             }
             ?.filterNotNull()
             ?.groupBy({ it.first }, { it.second })
@@ -111,7 +123,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 runCatching {
                     Timber.d("Loading ${symbols.joinToString()} from $source")
                     val apiKey =
-                        (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler)
+                        (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler)
                     val base = currencyContext.homeCurrencyString
                     val rates = exchangeRateService.getLatest(
                         source,

@@ -13,7 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
@@ -63,7 +63,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 getString(R.string.help_PriceHistory_info),
                 " ",
                 SpannableStringBuilder().apply {
-                    ExchangeRateSource.values.forEach {
+                    ExchangeRateApi.values.forEach {
                         bold { append(it.name.first()) }
                         append(" ")
                         append(it.name)
@@ -71,14 +71,11 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     }
                 },
                 HtmlCompat.fromHtml(
-                    "<img src=icon:user>",
+                    "<img src=icon:user> ${getString(R.string.help_user_exchange_rate)}, <img src=ic_calculate> ${getString(R.string.help_calculated_exchange_rate)}",
                     HtmlCompat.FROM_HTML_MODE_LEGACY,
                     this@HelpDialogHelper,
                     null
-                ),
-                " ",
-                getString(R.string.user),
-                "."
+                )
             )
 
             else -> {

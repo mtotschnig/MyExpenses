@@ -148,4 +148,5 @@
     <string name="user">"Korisnik"</string>
     <string name="source">"Izvor"</string>
     <string name="value">"Vrijednost"</string>
+    <string name="done_label">"Gotovo"</string>
 </resources>

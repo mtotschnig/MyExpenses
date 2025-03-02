@@ -79,4 +79,5 @@
     <string name="user">"მომხმარებელი"</string>
     <string name="source">"წყარო"</string>
     <string name="value">"მნიშვნელობა"</string>
+    <string name="done_label">"დასრულდა"</string>
 </resources>

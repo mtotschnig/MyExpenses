@@ -1051,4 +1051,6 @@
     <string name="enable_automatic_daily_exchange_rate_download">Automatic daily exchange rate download</string>
     <string name="price_history">Price history</string>
     <string name="dynamic_exchange_rate">Dynamic exchange rate</string>
+    <string name="progress_recalculating">Recalculating</string>
+    <string name="equivalent_amount_plural">Equivalent amounts</string>
 </resources>

@@ -156,4 +156,5 @@
     <string name="user">"Usuari"</string>
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
+    <string name="done_label">"Fet"</string>
 </resources>

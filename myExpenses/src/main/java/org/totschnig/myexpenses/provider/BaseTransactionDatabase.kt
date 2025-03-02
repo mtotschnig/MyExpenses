@@ -293,9 +293,9 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 
 const val EQUIVALENT_AMOUNTS_CREATE = """
     CREATE TABLE $TABLE_EQUIVALENT_AMOUNTS (
-    $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
-    $KEY_CURRENCY text not null references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
-    $KEY_EQUIVALENT_AMOUNT integer not null,
+    $KEY_TRANSACTIONID integer NOT NULL references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_CURRENCY text NOT NULL references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
+    $KEY_EQUIVALENT_AMOUNT integer NOT NULL,
     primary key ($KEY_TRANSACTIONID, $KEY_CURRENCY)
 );
 """
@@ -1027,7 +1027,7 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo173() {
         //create new tables
         execSQL("CREATE TABLE prices (commodity text NOT NULL, currency text NOT NULL references currency(code) ON DELETE CASCADE, date datetime NOT NULL, source text NOT NULL, type text default 'unknown', value real not NULL, primary key(commodity, currency, date, source, type));")
-        execSQL("CREATE TABLE equivalent_amounts (transaction_id integer references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));")
+        execSQL("CREATE TABLE equivalent_amounts (transaction_id integer not null references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));")
         //ADD column dynamic
         execSQL("ALTER TABLE accounts add column dynamic boolean default 0;")
         //set dynamic flag for accounts where we have equivalent amounts

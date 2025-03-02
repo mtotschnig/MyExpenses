@@ -143,4 +143,5 @@
     <string name="user">"Utilizator"</string>
     <string name="source">"Sursă"</string>
     <string name="value">"Valoare"</string>
+    <string name="done_label">"Terminat"</string>
 </resources>

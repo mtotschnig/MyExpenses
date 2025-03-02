@@ -577,7 +577,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     if (exportFormat == ExportFormat.CSV) {
                                         add(
                                             OpenAction(
-                                                label = getString(R.string.menu_open),
                                                 mimeType = exportFormat.mimeType,
                                                 targets = uriList
                                             )
@@ -585,7 +584,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     }
                                     add(
                                         ShareAction(
-                                            label = getString(R.string.share),
                                             mimeType = exportFormat.mimeType,
                                             targets = uriList
                                         )

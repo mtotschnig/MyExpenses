@@ -80,4 +80,5 @@
     <string name="user">"Пайдаланушы"</string>
     <string name="source">"Қайнар көзі"</string>
     <string name="value">"Мәні"</string>
+    <string name="done_label">"Дайын"</string>
 </resources>

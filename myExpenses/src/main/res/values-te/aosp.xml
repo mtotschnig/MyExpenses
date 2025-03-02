@@ -130,4 +130,5 @@
     <string name="user">"యూజర్"</string>
     <string name="source">Source"</string>
     <string name="value">"విలువ"</string>
+    <string name="done_label">"పూర్తయింది"</string>
 </resources>

@@ -120,4 +120,5 @@
     <string name="show_password">"顯示密碼"</string>
     <string name="hide_password">"隱藏密碼"</string>
     <string name="user">"使用者"</string>
+    <string name="done_label">"完成"</string>
 </resources>

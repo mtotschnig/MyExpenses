@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
@@ -180,12 +181,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
@@ -2031,6 +2034,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         if (count == 0) {
            insertEquivalentAmount(transactionId, equivalentAmount)
+        }
+    }
+
+    fun SupportSQLiteDatabase.recalculateEquivalentAmounts(currency: String): Int {
+
+        val sql = """INSERT INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
+          SELECT $KEY_ROWID, ?, $KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS ON $KEY_TRANSACTIONID = $KEY_ROWID AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = ? WHERE $KEY_DYNAMIC AND $VIEW_WITH_ACCOUNT.$KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL AND $KEY_EQUIVALENT_AMOUNT IS NULL AND new_equivalent_amount IS NOT NULL
+        """
+        return compileStatement(sql).use {
+            it.bindAllArgsAsStrings(listOf(currency, currency, currency, currency))
+            it.executeUpdateDelete()
         }
     }
 }

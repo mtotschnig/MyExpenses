@@ -71,4 +71,5 @@
     <string name="user">"વપરાશકર્તા"</string>
     <string name="source">Source"</string>
     <string name="value">"કિંમત"</string>
+    <string name="done_label">"થઈ ગયું"</string>
 </resources>

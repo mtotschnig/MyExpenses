@@ -69,4 +69,5 @@
     <string name="user">"ব্যবহারকারী"</string>
     <string name="source">"Source"</string>
     <string name="value">"মান"</string>
+    <string name="done_label">"সম্পন্ন হয়েছে"</string>
 </resources>

@@ -89,4 +89,5 @@
     <string name="user">"Bruker"</string>
     <string name="source">"Kilde"</string>
     <string name="value">"Verdi"</string>
+    <string name="done_label">"Ferdig"</string>
 </resources>

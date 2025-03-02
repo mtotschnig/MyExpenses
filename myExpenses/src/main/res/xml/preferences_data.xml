@@ -94,5 +94,5 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/pref_category_prices_key"
-        android:title="Historic prices" />
+        android:title="@string/price_history" />
 </PreferenceScreen> 

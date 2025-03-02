@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.compose.mainScreenPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.Price
@@ -80,7 +82,7 @@ class PriceHistory : ProtectedFragmentActivity() {
         binding.composeView.setContent {
             AppTheme {
                 PriceListScreen(
-                    viewModel.prices.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
+                    viewModel.pricesWithMissingDates.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
                     currencyContext.homeCurrencyUnit,
                     Modifier.padding(start = mainScreenPadding),
                     onDelete = {
@@ -106,7 +108,13 @@ class PriceHistory : ProtectedFragmentActivity() {
                                         }
                                     }
                                 } catch (e: Exception) {
-                                    showSnackBar(e.transformForUser(this@PriceHistory, commodity, homeCurrencyString).safeMessage)
+                                    showSnackBar(
+                                        e.transformForUser(
+                                            this@PriceHistory,
+                                            commodity,
+                                            homeCurrencyString
+                                        ).safeMessage
+                                    )
                                 }
                             }
                         }
@@ -129,13 +137,14 @@ class PriceHistory : ProtectedFragmentActivity() {
         super.onCreateOptionsMenu(menu)
         val relevantSources = viewModel.relevantSources
         if (relevantSources.size > 1) {
-            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, getString(R.string.source)).apply {
-                item.setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
-                relevantSources.forEach { source ->
-                    add(1, source.id, Menu.NONE, source.name)
+            menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, getString(R.string.source))
+                .apply {
+                    item.setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
+                    relevantSources.forEach { source ->
+                        add(1, source.id, Menu.NONE, source.name)
+                    }
+                    setGroupCheckable(1, true, true)
                 }
-                setGroupCheckable(1, true, true)
-            }
         }
         return true
     }
@@ -148,15 +157,11 @@ class PriceHistory : ProtectedFragmentActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item) || run {
-            ExchangeRateSource.getById(item.itemId)?.let {
+    override fun onOptionsItemSelected(item: MenuItem) = super.onOptionsItemSelected(item) ||
+            ExchangeRateApi.getById(item.itemId)?.also {
                 viewModel.userSelectedSource = it
                 invalidateOptionsMenu()
-            }
-            true
-        }
-    }
+            } != null
 }
 
 @Composable
@@ -176,7 +181,11 @@ fun PriceListScreen(
     Column(modifier = modifier) {
         Row {
             TableCell(stringResource(R.string.date), column1Weight, true)
-            TableCell("${stringResource(R.string.value)} (${homeCurrency.symbol})", column2Weight, true)
+            TableCell(
+                "${stringResource(R.string.value)} (${homeCurrency.symbol})",
+                column2Weight,
+                true
+            )
             TableCell(stringResource(R.string.source), column3Weight, true)
             Spacer(Modifier.width(96.dp))
         }
@@ -234,17 +243,27 @@ fun PriceListScreen(
                     }
                     Box(Modifier.weight(column3Weight), contentAlignment = Alignment.Center) {
                         if (price != null) {
-                            if (price.source != null) {
-                                CharIcon(price.source.name.first(), size = 12.sp)
-                            } else {
-                                org.totschnig.myexpenses.compose.Icon("user", size = 12.sp)
+                            when (price.source) {
+                                is ExchangeRateApi -> {
+                                    CharIcon(price.source.name.first(), size = 12.sp)
+                                }
+
+                                ExchangeRateSource.User -> org.totschnig.myexpenses.compose.Icon(
+                                    "user",
+                                    size = 12.sp
+                                )
+
+                                ExchangeRateSource.Calculation -> Icon(
+                                    imageVector = Icons.Default.Calculate,
+                                    contentDescription = null
+                                )
                             }
                         }
                     }
                     Row(Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
                         IconButton(onClick = { editedDate.value = date }) {
                             Icon(
-                                imageVector = if (price != null && price.source == null) Icons.Default.Edit else Icons.Default.Add,
+                                imageVector = if (price?.source == ExchangeRateSource.User) Icons.Default.Edit else Icons.Default.Add,
                                 contentDescription = stringResource(R.string.menu_edit)
                             )
                         }
@@ -253,7 +272,8 @@ fun PriceListScreen(
                                 if (editedDate.value == date) {
                                     editedDate.value = null
                                 }
-                                onDownload(date) }
+                                onDownload(date)
+                            }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Download,
@@ -302,7 +322,7 @@ fun HistoricPricesPreview() {
         buildMap {
             repeat(250) {
                 val date = LocalDate.now().minusDays(it.toLong())
-                put(date, Price(date, ExchangeRateSource.Frankfurter, random.nextDouble()))
+                put(date, Price(date, ExchangeRateApi.Frankfurter, random.nextDouble()))
             }
         },
         homeCurrency = CurrencyUnit.DebugInstance,

@@ -235,4 +235,6 @@
     <string name="dynamic_exchange_rate_help_text_2">The current value of a foreign currency account with dynamic exchange rates is calculated based on the most recent exchange rate.</string>
     <!--%s is replaced by option "Enable automatic daily exchange rate download" -->
     <string name="dynamic_exchange_rate_help_text_3">The option %s allows you to track the up-to-date net worth of all your accounts.</string>
+    <string name="help_user_exchange_rate">This rate has been provided by the user while editing the equivalent amount of a transaction.</string>
+    <string name="help_calculated_exchange_rate">This rate has been calculated automatically from existing rates, when the home currency was reconfigured.</string>
 </resources>

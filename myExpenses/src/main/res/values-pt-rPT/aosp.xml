@@ -117,4 +117,5 @@
     <string name="user">"Utilizador"</string>
     <string name="source">"Origem"</string>
     <string name="value">"valor"</string>
+    <string name="done_label">"Concluído"</string>
 </resources>

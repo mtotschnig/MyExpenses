@@ -158,4 +158,5 @@
     <string name="user">"Własna"</string>
     <string name="source">"Źródło"</string>
     <string name="value">"Wartość"</string>
+    <string name="done_label">"Gotowe"</string>
 </resources>

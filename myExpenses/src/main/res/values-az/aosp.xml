@@ -60,4 +60,5 @@
     <string name="hide_password">"Şifrəni gizlət"</string>
     <string name="user">"İstifadəçi"</string>
     <string name="value">"Dәyәr"</string>
+    <string name="done_label">"Hazırdır"</string>
 </resources>

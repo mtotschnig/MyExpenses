@@ -150,4 +150,5 @@
     <string name="user">"Người dùng"</string>
     <string name="source">"Nguồn"</string>
     <string name="value">"Giá trị"</string>
+    <string name="done_label">"Xong"</string>
 </resources>

@@ -67,4 +67,5 @@
     <string name="user">"ഉപയോക്താവ്"</string>
     <string name="source">"ഉറവിടം"</string>
     <string name="value">Value"</string>
+    <string name="done_label">"പൂർത്തിയാക്കി"</string>
 </resources>

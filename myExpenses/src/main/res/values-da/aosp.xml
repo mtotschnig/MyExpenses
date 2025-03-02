@@ -156,4 +156,5 @@
     <string name="user">"Bruger"</string>
     <string name="source">"Kilde"</string>
     <string name="value">"Værdi"</string>
+    <string name="done_label">"Udfør"</string>
 </resources>

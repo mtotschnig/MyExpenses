@@ -155,4 +155,5 @@
     <string name="user">"Χρήστης"</string>
     <string name="source">"Πηγή"</string>
     <string name="value">"Τιμή"</string>
+    <string name="done_label">"Τέλος"</string>
 </resources>

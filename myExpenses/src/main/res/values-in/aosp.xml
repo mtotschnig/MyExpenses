@@ -90,4 +90,5 @@
     <string name="user">"Pengguna"</string>
     <string name="source">"Sumber"</string>
     <string name="value">"Nilai"</string>
+    <string name="done_label">"Selesai"</string>
 </resources>

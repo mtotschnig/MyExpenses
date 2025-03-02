@@ -84,4 +84,5 @@
     <string name="user">"Օգտատեր"</string>
     <string name="source">"Աղբյուր"</string>
     <string name="value">"Արժեք"</string>
+    <string name="done_label">"Պատրաստ է"</string>
 </resources>

@@ -71,4 +71,5 @@
     <string name="user">"Корисник"</string>
     <string name="source">"Извор"</string>
     <string name="value">Value"</string>
+    <string name="done_label">"Готово"</string>
 </resources>

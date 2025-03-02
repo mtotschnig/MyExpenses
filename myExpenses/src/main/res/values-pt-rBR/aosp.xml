@@ -144,4 +144,5 @@
     <string name="hide_password">"Ocultar senha"</string>
     <string name="source">"Fonte"</string>
     <string name="value">"Valor"</string>
+    <string name="done_label">"Concluído"</string>
 </resources>

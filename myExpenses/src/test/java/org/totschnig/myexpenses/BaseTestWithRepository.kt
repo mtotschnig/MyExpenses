@@ -2,46 +2,38 @@ package org.totschnig.myexpenses
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ApplicationProvider
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TemplateInfo
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
-import java.util.Currency
+import java.time.LocalDateTime
 
 abstract class BaseTestWithRepository {
-    val currencyContext: CurrencyContext =
-        mock(CurrencyContext::class.java).also { currencyContext ->
-            `when`(currencyContext[ArgumentMatchers.anyString()]).thenAnswer {
-                CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
-            }
-            `when`(currencyContext.homeCurrencyString).thenReturn("EUR")
-        }
+
+    val application = ApplicationProvider.getApplicationContext<MyApplication>()
+
+    val currencyContext = application.appComponent.currencyContext()
+
+    val prefHandler = application.appComponent.prefHandler()
+
+    val dataStore = application.appComponent.preferencesDataStore()
+
     val repository: Repository = Repository(
-        ApplicationProvider.getApplicationContext<MyApplication>(),
+        application,
         currencyContext,
-        mock(CurrencyFormatter::class.java),
-        mock(PrefHandler::class.java),
-        mock(DataStore::class.java) as DataStore<Preferences>
+        application.appComponent.currencyFormatter(),
+        prefHandler,
+        dataStore
     )
 
     val contentResolver: ContentResolver = repository.contentResolver
@@ -54,14 +46,16 @@ abstract class BaseTestWithRepository {
         amount: Long,
         parentId: Long? = null,
         categoryId: Long? = null,
-        crStatus: CrStatus = CrStatus.UNRECONCILED
+        crStatus: CrStatus = CrStatus.UNRECONCILED,
+        date: LocalDateTime = LocalDateTime.now()
     ): Pair<Long, String> {
         val contentValues = TransactionInfo(
             accountId = accountId,
             amount = amount,
             catId = categoryId,
             crStatus = crStatus,
-            parentId = parentId
+            parentId = parentId,
+            date = date
         ).contentValues
         val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)
@@ -97,9 +91,11 @@ abstract class BaseTestWithRepository {
     protected fun insertAccount(
         label: String,
         openingBalance: Long = 0,
-        accountType: AccountType = AccountType.CASH
+        accountType: AccountType = AccountType.CASH,
+        currency: String = currencyContext.homeCurrencyString,
+        dynamic: Boolean = false
     ) = ContentUris.parseId(contentResolver.insert(
         TransactionProvider.ACCOUNTS_URI,
-        AccountInfo(label, accountType, openingBalance).contentValues
+        AccountInfo(label, accountType, openingBalance, currency, dynamic).contentValues
     )!!)
 }

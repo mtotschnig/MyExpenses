@@ -84,4 +84,5 @@
     <string name="user">"Gebruiker"</string>
     <string name="source">"Bron"</string>
     <string name="value">"Waarde"</string>
+    <string name="done_label">"Klaar"</string>
 </resources>

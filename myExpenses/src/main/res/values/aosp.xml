@@ -284,4 +284,6 @@
     <string name="source">Source</string>
     <!-- LibreOffice sc/messages.po 6Gdng -->
     <string name="value">Value</string>
+    <!--  Android/Sdk/platforms/android-35/data grep -r "\"done_label\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper-->
+    <string name="done_label">"Done"</string>
 </resources>

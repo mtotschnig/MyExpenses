@@ -119,4 +119,5 @@
     <string name="hide_password">"پاس ورڈ چھپائیں"</string>
     <string name="user">"صارف"</string>
     <string name="value">"قیمت"</string>
+    <string name="done_label">"ہو گیا"</string>
 </resources>

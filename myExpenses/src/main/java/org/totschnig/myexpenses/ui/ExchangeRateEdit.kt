@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.databinding.ExchangeRateBinding
 import org.totschnig.myexpenses.databinding.ExchangeRatesBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.setEnabledWithColor
 import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
@@ -71,7 +71,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         downloadButton.setOnClickListener {
             if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
                 val providers =
-                    ExchangeRateSource.configuredSources(context.injector.prefHandler()).toList()
+                    ExchangeRateApi.configuredSources(context.injector.prefHandler()).toList()
                 when (providers.size) {
                     0 -> (host as? BaseActivity)?.showSnackBar(
                         context.getString(R.string.pref_exchange_rate_provider_title) + ": " + context.getString(
@@ -266,7 +266,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         suspend fun loadExchangeRate(
             other: String,
             base: String,
-            source: ExchangeRateSource,
+            source: ExchangeRateApi,
         ): Result<Double>
     }
 

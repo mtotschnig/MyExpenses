@@ -57,4 +57,5 @@
     <string name="show_password">"Onyesha nenosiri"</string>
     <string name="hide_password">"Ficha nenosiri"</string>
     <string name="user">"Mtumiaji"</string>
+    <string name="done_label">"Imekamilika"</string>
 </resources>

@@ -71,4 +71,5 @@
     <string name="user">"کاربر"</string>
     <string name="source">Source"</string>
     <string name="value">"مقدار"</string>
+    <string name="done_label">"تمام"</string>
 </resources>

@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import timber.log.Timber
 import java.time.LocalDate
@@ -33,7 +33,7 @@ open class ExchangeRateViewModel(application: Application) :
         base: String,
         other: String,
         date: LocalDate,
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
     ) = contentResolver.query(
         TransactionProvider.PRICES_URI,
         arrayOf(KEY_VALUE),
@@ -51,7 +51,7 @@ open class ExchangeRateViewModel(application: Application) :
         other: String,
         base: String,
         date: LocalDate,
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
     ): Double = withContext(coroutineContext()) {
         if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
             loadFromNetwork(
@@ -65,14 +65,14 @@ open class ExchangeRateViewModel(application: Application) :
     }
 
     suspend fun loadFromNetwork(
-        source: ExchangeRateSource,
+        source: ExchangeRateApi,
         date: LocalDate,
         other: String,
         base: String,
     ) = withContext(coroutineContext()) {
         exchangeRateService.getRate(
             source,
-            (source as? ExchangeRateSource.SourceWithApiKey)?.requireApiKey(prefHandler),
+            (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),
             date,
             base,
             other

@@ -27,8 +27,10 @@ import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment3
+import org.totschnig.myexpenses.viewmodel.CloseAction
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
+import org.totschnig.myexpenses.viewmodel.TargetAction
 
 class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
 
@@ -65,36 +67,39 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
                 TextButton(
                     onClick = {
                         viewmodel.onDismissMessage()
+                        host?.onAction(CloseAction)
                         dismiss()
                     }
                 ) {
                     Text(stringResource(R.string.menu_close))
                 }
                 actions.forEach {
-                    Box {
-                        val showOptions = remember { mutableStateOf(false) }
-                        TextButton(
-                            onClick = {
-                                if (it.bulk || it.targets.size == 1) {
-                                    host?.onAction(it)
-                                } else {
-                                    showOptions.value = true
+                    if (it is TargetAction) {
+                        Box {
+                            val showOptions = remember { mutableStateOf(false) }
+                            TextButton(
+                                onClick = {
+                                    if ( it.bulk || it.targets.size == 1) {
+                                        host?.onAction(it)
+                                    } else {
+                                        showOptions.value = true
+                                    }
                                 }
+                            ) {
+                                Text(stringResource(it.label))
                             }
-                        ) {
-                            Text(it.label)
-                        }
-                        it.takeIf { !it.bulk && it.targets.size > 1 }?.let { action ->
-                            HierarchicalMenu(expanded = showOptions, menu = Menu(
-                                action.targets.mapIndexed { index, uri ->
-                                    MenuEntry(
-                                        command = action::class.simpleName ?: "action",
-                                        label = UiText.StringValue(
-                                            uri.lastPathSegment ?: uri.toString()
-                                        )
-                                    ) { host?.onAction(action, index) }
-                                }
-                            ))
+                            it.takeIf { !it.bulk && it.targets.size > 1 }?.let { action ->
+                                HierarchicalMenu(expanded = showOptions, menu = Menu(
+                                    action.targets.mapIndexed { index, uri ->
+                                        MenuEntry(
+                                            command = action::class.simpleName ?: "action",
+                                            label = UiText.StringValue(
+                                                uri.lastPathSegment ?: uri.toString()
+                                            )
+                                        ) { host?.onAction(action, index) }
+                                    }
+                                ))
+                            }
                         }
                     }
                 }
@@ -111,6 +116,7 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
 
     companion object {
         private const val KEY_TITLE = "title"
+
         fun newInstance(title: CharSequence) = NewProgressDialogFragment().apply {
             arguments = Bundle().apply {
                 putCharSequence(KEY_TITLE, title)

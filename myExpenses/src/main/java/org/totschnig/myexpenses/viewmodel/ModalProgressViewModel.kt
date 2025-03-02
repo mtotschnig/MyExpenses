@@ -6,25 +6,32 @@ import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import org.totschnig.myexpenses.R
 
-sealed class CompletedAction(
-    val label: String,
+interface CompletedAction {
+    val label: Int
+}
+
+object CloseAction: CompletedAction {
+    override val label: Int = R.string.menu_close
+}
+
+sealed class TargetAction(
+    override val label: Int,
     val mimeType: String,
     val targets: List<Uri>,
     val bulk: Boolean
-)
+) : CompletedAction
 
 class ShareAction(
-    label: String,
     mimeType: String,
     targets: List<Uri>
-) : CompletedAction(label, mimeType, targets, true)
+) : TargetAction(R.string.share, mimeType, targets, true)
 
 class OpenAction(
-    label: String,
     mimeType: String,
     targets: List<Uri>
-) : CompletedAction(label, mimeType, targets, false)
+) : TargetAction(R.string.menu_open, mimeType, targets, false)
 
 class ModalProgressViewModel(application: Application) : AndroidViewModel(application) {
     private val _completed: MutableStateFlow<List<CompletedAction>?> = MutableStateFlow(null)
