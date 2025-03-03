@@ -60,7 +60,6 @@
     <string name="menu_ungroup_split_transaction">సమూహ విభజన</string>
     <string name="warning_ungroup_split_transactions">ఎంచుకున్న స్ప్లిట్ లావాదేవీలు సమూహపరచబడవు, అనగా వాటి స్ప్లిట్ భాగాలు సాధారణ లావాదేవీలుగా మారతాయి.</string>
     <string name="warning_split_transactions">ఎంచుకున్న లావాదేవీలు ఒక స్ప్లిట్ లావాదేవీలుగా వర్గీకరించబడతాయి. వారి తేదీ సమాచారం పోతుంది, అనగా వాటి సగటుతో భర్తీ చేయబడుతుంది.</string>
-    <string name="home_currency_change_warning">మీరు మీ ఇంటి కరెన్సీని మార్చుకుంటే, సమానమైన మొత్తాలు మరియు మార్పిడి రేట్లు పోతాయి మరియు మళ్ళీ నిర్వచించాల్సిన అవసరం ఉంది.</string>
     <string name="menu_equivalent_amount">సమానమైన మొత్తం</string>
     <string name="menu_original_amount">అసలు మొత్తం</string>
     <string name="grand_total">సంపూర్ణ మొత్తము</string>

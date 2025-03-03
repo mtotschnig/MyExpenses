@@ -37,12 +37,7 @@ open class CurrencyViewModel(application: Application) :
 
     val usedCurrencies: StateFlow<List<CurrencyUnit>> by lazy {
         contentResolver.observeQuery(
-            TransactionProvider.ACCOUNTS_URI,
-            arrayOf("distinct $KEY_CURRENCY"),
-            "$KEY_DYNAMIC AND $KEY_CURRENCY != ?",
-            arrayOf(currencyContext.homeCurrencyString),
-            null,
-            true
+            TransactionProvider.DYNAMIC_CURRENCIES_URI,
         ).mapToList(dispatcher = coroutineDispatcher) { currencyContext[it.getString(0)] }
             .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     }

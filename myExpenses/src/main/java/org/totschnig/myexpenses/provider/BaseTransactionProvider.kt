@@ -165,6 +165,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WITH_ACCOUNT_EXCHANGE_RATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
@@ -570,6 +571,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val UNARCHIVE = 77
         protected const val ARCHIVE_SUMS = 78
         protected const val PRICES = 79
+        protected const val DYNAMIC_CURRENCIES = 80
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
     }
@@ -672,7 +674,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 KEY_BANK_ID,
                                 KEY_EXCHANGE_RATE,
                                 KEY_LATEST_EXCHANGE_RATE,
-                                KEY_LATEST_EXCHANGE_RATE_DATE
+                                KEY_LATEST_EXCHANGE_RATE_DATE,
+                                KEY_DYNAMIC
                             )
                         )
                         .selection(selection, emptyArray())
@@ -735,7 +738,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "null AS $KEY_BANK_ID",
                         "null AS $KEY_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE",
-                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
+                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE",
+                        "0 AS $KEY_DYNAMIC"
                     )
                 }
                 subQueries.add(
@@ -808,7 +812,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "null AS $KEY_BANK_ID",
                         "null AS $KEY_EXCHANGE_RATE",
                         "null AS $KEY_LATEST_EXCHANGE_RATE",
-                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE"
+                        "null AS $KEY_LATEST_EXCHANGE_RATE_DATE",
+                        "0 AS $KEY_DYNAMIC"
                     )
                 }
                 subQueries.add(
@@ -2044,13 +2049,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
      */
     fun SupportSQLiteDatabase.recalculateEquivalentAmounts(extras: Bundle): Pair<Int, Int> {
         val currency = extras.getString(KEY_CURRENCY)!!
-        val onlyMissing = extras.getBoolean(KEY_ONLY_MISSING, true)
-        val conflictResolution = if (onlyMissing) "OR IGNORE" else "OR REPLACE"
+        val conflictResolution = if (extras.getBoolean(KEY_ONLY_MISSING, true)) "OR IGNORE" else "OR REPLACE"
         val accountId = extras.getLong(KEY_ACCOUNTID).takeIf { it != 0L }
         var accountIdClause =  if (accountId != null) "AND $KEY_ACCOUNTID = ?" else ""
 
         val sql1 = """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
-          SELECT $KEY_ROWID, ?, $KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
+          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
         val count1 = compileStatement(sql1).use {
             it.bindAllArgsAsStrings(listOf(currency, currency, currency))
@@ -2060,8 +2064,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             it.executeUpdateDelete()
         }
 
-        accountIdClause =  if (accountId != null) "AND $KEY_ROWID = ?" else ""
-        val sql2 = """INSERT $conflictResolution INTO $TABLE_ACCOUNT_EXCHANGE_RATES ($KEY_ACCOUNTID, $KEY_CURRENCY_SELF, $KEY_CURRENCY_OTHER, $KEY_EXCHANGE_RATE)
+        val count2 = if (extras.getBoolean(KEY_WITH_ACCOUNT_EXCHANGE_RATES, true)) {
+            accountIdClause = if (accountId != null) "AND $KEY_ROWID = ?" else ""
+            val sql2 =
+                """INSERT $conflictResolution INTO $TABLE_ACCOUNT_EXCHANGE_RATES ($KEY_ACCOUNTID, $KEY_CURRENCY_SELF, $KEY_CURRENCY_OTHER, $KEY_EXCHANGE_RATE)
             SELECT $KEY_ROWID, $KEY_CURRENCY, ?,
             (
                 SELECT $KEY_VALUE FROM $TABLE_PRICES
@@ -2076,13 +2082,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
             FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != ? $accountIdClause
 
         """
-        val count2 = compileStatement(sql2).use {
-            it.bindAllArgsAsStrings(listOf(currency, currency, LocalDate.now().toString(), currency))
-            if (accountId != null) {
-                it.bindLong(5, accountId)
+            compileStatement(sql2).use {
+                it.bindAllArgsAsStrings(
+                    listOf(
+                        currency,
+                        currency,
+                        LocalDate.now().toString(),
+                        currency
+                    )
+                )
+                if (accountId != null) {
+                    it.bindLong(5, accountId)
+                }
+                it.executeUpdateDelete()
             }
-            it.executeUpdateDelete()
-        }
+        } else 0
 
         return count1 to count2
     }

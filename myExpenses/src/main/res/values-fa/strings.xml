@@ -637,7 +637,6 @@
         <item quantity="one">یک شئ با موفقیت حذف شد.</item>
         <item quantity="other">%d شئ با موفقیت حذف شد.</item>
     </plurals>
-    <string name="home_currency_change_warning">اگر ارز اصلی را تغییر دهید، مقادیر معادل و نرخ‌های تبادل از دست می‌روند و نیاز است که دوباره تعریف شوند.</string>
     <string name="menu_equivalent_amount">مقدار معادل</string>
     <string name="history_chart_in_label">درآمد‌ها</string>
     <string name="warning_device_lock_screen_not_set_up_1">قفل صفحه روی دستگاه تنظیم نشده است.</string>

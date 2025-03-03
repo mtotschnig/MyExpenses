@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
+import android.os.Bundle
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
@@ -49,16 +52,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -217,6 +225,7 @@ fun AccountCard(
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
+    val context = LocalActivity.current as FragmentActivity
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -331,6 +340,33 @@ fun AccountCard(
                         ) {
                             onToggleExcludeFromTotals(account)
                         })
+                        if (account.dynamic) {
+                            add(
+                                MenuEntry(
+                                    label = R.string.menu_recalculate,
+                                    icon = Icons.Default.Calculate,
+                                    command = "RECALCULATE",
+                                    action = {
+                                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                                            putCharSequence(
+                                                KEY_MESSAGE,
+                                                context.getString(R.string.recalculate_equivalent_amounts_warning)
+                                            )
+                                            putInt(KEY_COMMAND_POSITIVE, R.id.RECALCULATE_COMMAND)
+                                            putString(
+                                                ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                                                context.getString(R.string.recalculate_only_missing)
+                                            )
+                                            putBoolean(
+                                                ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
+                                                true
+                                            )
+                                            putLong(KEY_ROWID, account.id)
+                                        }).show(context.supportFragmentManager, "RECALCULATE")
+                                    }
+                                )
+                            )
+                        }
                     }
                 }
             )
@@ -358,7 +394,7 @@ fun AccountCard(
                 val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
                 val currency = if (showEquivalent) homeCurrency else account.currencyUnit
 
-                val fXformat = remember { DecimalFormat("#.#####") }
+                val fXFormat = remember { DecimalFormat("#.#####") }
                 SumRow(
                     if (showEquivalent) R.string.initial_value else R.string.opening_balance,
                     format.convAmount(
@@ -367,7 +403,7 @@ fun AccountCard(
                     )
                 )
                 if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
-                    Text("1 ${account.currencyUnit.symbol} = ${fXformat.format(account.initialExchangeRate)} ${homeCurrency.symbol}")
+                    Text("1 ${account.currencyUnit.symbol} = ${fXFormat.format(account.initialExchangeRate)} ${homeCurrency.symbol}")
                 }
                 val displayIncome =
                     if (showEquivalent) account.equivalentSumIncome else account.sumIncome
@@ -415,9 +451,13 @@ fun AccountCard(
                     }
                 )
 
-                if (showEquivalent && (account.equivalentTotal != 0L || account.equivalentCurrentBalance != 0L))  {
+                if (showEquivalent && (account.equivalentTotal != 0L || account.equivalentCurrentBalance != 0L)) {
+
                     account.latestExchangeRate?.let { (date, rate) ->
-                        Text("1 ${account.currencyUnit.symbol} = ${fXformat.format(rate)} ${homeCurrency.symbol} (${LocalDateFormatter.current.format(date)}) ")
+                        val dateFormatted = LocalDateFormatter.current.format(date)
+                        Text(
+                            "1 ${account.currencyUnit.symbol} = ${fXFormat.format(rate)} ${homeCurrency.symbol} ($dateFormatted)"
+                        )
                     }
                 }
 

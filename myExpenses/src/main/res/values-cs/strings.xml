@@ -605,7 +605,6 @@
     <string name="grand_total">Celkový součet</string>
     <string name="menu_original_amount">Původní částka</string>
     <string name="menu_equivalent_amount">Ekvivalentní částka</string>
-    <string name="home_currency_change_warning">Pokud změníte domácí měnu, odpovídající částky a směnné kurzy budou ztraceny a bude nutné je znovu definovat.</string>
     <string name="warning_split_transactions">Zvolené transakce budou seskupeny do jedné rozdělené transakce. Jejich informace o datech budou ztraceny, tj. nahrazeny jejich průměrem.</string>
     <string name="warning_ungroup_split_transactions">U zvolených rozdělených transakcí bude zrušeno seskupení, tzn., že jejich rozdělené části se stanou běžnými transakcemi.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

@@ -576,7 +576,6 @@
     <string name="grand_total">Jumlah keseluruhan</string>
     <string name="menu_original_amount">Amaun asal</string>
     <string name="menu_equivalent_amount">Amaun setara</string>
-    <string name="home_currency_change_warning">Jika anda mengubah matawang negara anda, amaun setara dan kadar pertukaran akan hilang, dan perlu ditakrif sekali lagi.</string>
     <string name="warning_split_transactions">Transaksi terpilih akan dikumpulkan menjadi satu transaksi pengasingan. Maklumat tarikhnya akan hilang iaitu diganti secara purata.</string>
     <string name="warning_ungroup_split_transactions">Transaksi pengasingan terpilih akan dinyahkumpulkan, iaitu bahagian asing mereka akan menjadi transaksi biasa.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

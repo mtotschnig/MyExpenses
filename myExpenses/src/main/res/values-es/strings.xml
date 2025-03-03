@@ -597,7 +597,6 @@
     <string name="grand_total">Total general</string>
     <string name="menu_original_amount">Cantidad original</string>
     <string name="menu_equivalent_amount">Cantidad equivalente</string>
-    <string name="home_currency_change_warning">Si cambia la moneda local, las cantidades equivalentes y los tipos de cambio se perderán, necesitando definirse nuevamente.</string>
     <string name="warning_split_transactions">Las transacciones seleccionadas se agruparán en una transacción dividida. La información se perderá. Por ejemplo, reemplazada por su media.</string>
     <string name="warning_ungroup_split_transactions">Las transacciones divididas seleccionas se desagruparán. Por ejemplo, las partes divididas se convertirán en transacciones normales.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

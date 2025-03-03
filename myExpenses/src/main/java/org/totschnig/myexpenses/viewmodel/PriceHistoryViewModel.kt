@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONLY_MISSING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WITH_ACCOUNT_EXCHANGE_RATES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.mapToListWithExtra
@@ -97,6 +98,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     }
 
     suspend fun reCalculatePrices(newHomeCurrency: String) = withContext(coroutineContext()) {
+
         var count = 0
         contentResolver.query(
             TransactionProvider.PRICES_URI,
@@ -173,9 +175,10 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     }
 
     suspend fun reCalculateEquivalentAmounts(
-        newHomeCurrency: String,
+        newHomeCurrency: String = currencyContext.homeCurrencyString,
         accountId: Long? = null,
         onlyMissing: Boolean = true,
+        withAccountExchangeRates: Boolean = true
     ): Pair<Int, Int> =
         withContext(coroutineContext()) {
             contentResolver.call(
@@ -185,6 +188,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                     putString(KEY_CURRENCY, newHomeCurrency)
                     accountId?.let { putLong(KEY_ACCOUNTID, it) }
                     putBoolean(KEY_ONLY_MISSING, onlyMissing)
+                    putBoolean(KEY_WITH_ACCOUNT_EXCHANGE_RATES, withAccountExchangeRates)
                 }
             )!!.getSerializable(TransactionProvider.KEY_RESULT) as Pair<Int, Int>
         }

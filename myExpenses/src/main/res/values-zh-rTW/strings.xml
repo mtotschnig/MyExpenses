@@ -581,7 +581,6 @@
     <string name="grand_total">累計</string>
     <string name="menu_original_amount">原始金額</string>
     <string name="menu_equivalent_amount">等價金額</string>
-    <string name="home_currency_change_warning">如果您更改本地貨幣，等價金額和匯率的資訊將會遺失並需要重新定義。</string>
     <string name="warning_split_transactions">選定的交易將被組成一個分割交易。它們原有的日期資訊將會遺失，改由它們的平均值來代替。</string>
     <string name="warning_ungroup_split_transactions">您所選定的分割交易將被解散群組，也就是說，它們的分割款項將各自成為一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

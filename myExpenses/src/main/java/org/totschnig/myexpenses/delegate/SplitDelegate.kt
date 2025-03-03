@@ -48,7 +48,7 @@ class SplitDelegate(
 
     override fun bindUnsafe(
         transaction: ITransaction?,
-        newInstance: Boolean,
+        withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean,
@@ -56,7 +56,7 @@ class SplitDelegate(
     ) {
         super.bindUnsafe(
             transaction,
-            newInstance,
+            withTypeSpinner,
             savedInstanceState,
             recurrence,
             withAutoFill,

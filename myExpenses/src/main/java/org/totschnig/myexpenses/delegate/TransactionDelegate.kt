@@ -221,7 +221,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     open fun bindUnsafe(
         transaction: ITransaction?,
-        newInstance: Boolean,
+        withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean,
@@ -229,7 +229,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     ) {
         bind(
             transaction as T?,
-            newInstance,
+            withTypeSpinner,
             savedInstanceState,
             recurrence,
             withAutoFill

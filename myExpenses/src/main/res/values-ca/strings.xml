@@ -587,7 +587,6 @@
     <string name="pref_protection_device_lock_screen_title">Bloqueig de pantalla</string>
     <string name="pref_warning_only_one_protection">Abans d\'emprar la protecció per %1$s, ha de desactivar la protecció per %2$s.</string>
     <string name="menu_history_totals">Mostra totals</string>
-    <string name="home_currency_change_warning">Si canvia la seva divisa local, les quantitats equivalents i els tipus de canvis es perdran, caldrà definir-los de nou.</string>
     <string name="menu_ungroup_split_transaction">Desagrupa divisió</string>
     <string name="grand_total">Total general</string>
     <string name="ungroup_split_transaction_success">La transacció dividida s\'ha desagregat amb èxit.</string>f

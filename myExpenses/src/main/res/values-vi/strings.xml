@@ -571,7 +571,6 @@
     <string name="grand_total">Tất cả</string>
     <string name="menu_original_amount">Khoản gốc</string>
     <string name="menu_equivalent_amount">Khoản tương đương</string>
-    <string name="home_currency_change_warning">Nếu bạn đổi tiền tệ của quốc gia bạn, khoản tương đương và tỷ giá hối đoái sẽ bị mất, chúng sẽ cần được thiết đặt lại.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Bỏ gộp nhóm các giao dịch con</string>
     <string name="ungroup_split_transaction_success">1 giao dịch tách đã được bỏ gộp nhóm.</string>

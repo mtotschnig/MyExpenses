@@ -591,7 +591,6 @@
     <string name="grand_total">Suma całkowita</string>
     <string name="menu_original_amount">Pierwotna kwota</string>
     <string name="menu_equivalent_amount">Kwota równoważna</string>
-    <string name="home_currency_change_warning">Jeżeli zmienisz swoją rodzimą walutę, wartości równoważne i kursy wymiany zostaną utracone i trzeba je będzie definiować od nowa.</string>
     <string name="warning_split_transactions">Wybrane transakcje zostaną zgrupowane w jedną transakcję podzieloną. Ich informacje o datach zostaną stracone, tj. zastąpione zostaną wartością uśrednioną.</string>
     <string name="warning_ungroup_split_transactions">Zaznaczone podzielone transakcje zostaną rozgrupowane, tj. ich podzielone części staną się zwykłymi transakcjami.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

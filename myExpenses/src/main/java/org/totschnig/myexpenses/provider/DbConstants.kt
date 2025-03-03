@@ -579,7 +579,7 @@ fun accountQueryCTE(
         KEY_LAST_USED,
         KEY_BANK_ID,
         KEY_HIDDEN,
-        KEY_DYNAMIC
+        "$KEY_CURRENCY != '$homeCurrency' AND $KEY_DYNAMIC AS $KEY_DYNAMIC"
     )
     return """
 WITH now as (

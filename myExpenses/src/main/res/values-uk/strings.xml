@@ -592,7 +592,6 @@
     <string name="grand_total">Загальна сума</string>
     <string name="menu_original_amount">Оригінальна сума</string>
     <string name="menu_equivalent_amount">Еквівалентна сума</string>
-    <string name="home_currency_change_warning">Якщо Ви зміните свою домашню валюту, еквівалентні суми та курси обміну будуть втрачені, і їх потрібно буде знову визначити.</string>
     <string name="warning_split_transactions">Вибрані транзакції будуть згруповані в одну поділену транзакцію. Їх інформація про дату буде втрачена, тобто замінена на середнє значення.</string>
     <string name="warning_ungroup_split_transactions">Вибрані розділені транзакції будуть розгруповані, тобто їх частини поділу стануть звичайними транзакціями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

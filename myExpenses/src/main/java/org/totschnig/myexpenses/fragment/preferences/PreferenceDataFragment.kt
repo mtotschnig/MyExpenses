@@ -48,17 +48,18 @@ class PreferenceDataFragment : BasePreferenceFragment() {
 
         requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener =
             OnPreferenceChangeListener { _, newValue ->
-                if (newValue != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
+                val newHomeCurrency = newValue as String
+                if (newHomeCurrency != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
                     MessageDialogFragment.newInstance(
-                        getString(R.string.information),
+                        getString(R.string.pref_home_currency_title) + ": " + viewModel.currencyContext[newHomeCurrency].description ,
                         TextUtils.concatResStrings(
                             requireContext(),
-                            R.string.home_currency_change_warning,
+                            R.string.recalculate_equivalent_amounts_warning,
                             R.string.continue_confirmation
                         ),
                         MessageDialogFragment.Button(
                             android.R.string.ok, R.id.CHANGE_COMMAND,
-                            newValue as String
+                            newHomeCurrency
                         ),
                         null, MessageDialogFragment.noButton()
                     ).show(parentFragmentManager, "CONFIRM")

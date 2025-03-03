@@ -608,7 +608,6 @@
     <string name="grand_total">Grand total</string>
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
-    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts will be recalculated if applicable stored exchange rates are available.</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
     <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -1053,4 +1052,7 @@
     <string name="dynamic_exchange_rate">Dynamic exchange rate</string>
     <string name="progress_recalculating">Recalculating</string>
     <string name="equivalent_amount_plural">Equivalent amounts</string>
+    <string name="menu_recalculate">Recalculate</string>
+    <string name="recalculate_equivalent_amounts_warning">Equivalent amounts will be (re)calculated if applicable stored exchange rates are available.</string>
+    <string name="recalculate_only_missing">Only fill in missing values</string>
 </resources>

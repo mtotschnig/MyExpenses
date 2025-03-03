@@ -700,7 +700,6 @@
     <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
     <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
     <string name="warning_split_transactions">As transações atuais serão agrupadas em uma transação dividida. A informação das datas será perdida, sendo substituída pela sua média.</string>
-    <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente.</string>
     <string name="menu_equivalent_amount">Quantia equivalente</string>
     <string name="menu_original_amount">Quantia original</string>
     <string name="grand_total">Total geral</string>

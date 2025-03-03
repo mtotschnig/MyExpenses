@@ -589,7 +589,6 @@
     <string name="grand_total">Genel toplam</string>
     <string name="menu_original_amount">Orijinal meblağ</string>
     <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
-    <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir.</string>
     <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
     <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

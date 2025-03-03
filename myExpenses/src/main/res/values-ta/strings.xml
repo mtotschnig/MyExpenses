@@ -589,7 +589,6 @@
     <string name="grand_total">ஆக மொத்தம்</string>
     <string name="menu_original_amount">அசல் தொகை</string>
     <string name="menu_equivalent_amount">நிகரான தொகை</string>
-    <string name="home_currency_change_warning">நீங்கள் உங்கள் வீட்டு நாணயத்தை மாற்றினால், நிகரான தொகை மற்றும் மாற்று விகிதங்கள் இழக்கப்படும், மேலும் அவை மீண்டும் வரையறுக்கப்பட வேண்டும்.</string>
     <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியாக மாற்றப்படும்.</string>
     <string name="warning_ungroup_split_transactions">தேர்ந்தெடுக்கப்பட்ட பிரிவு பரிவர்த்தனைகள் கலைக்கப்படும், அதாவது அவற்றின் பிளவுப் பகுதிகள் சாதாரண பரிவர்த்தனைகளாக மாற்றப்படும்.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

@@ -214,6 +214,20 @@ class PriceHistoryViewModelTest: BaseTestWithRepository() {
         )
     }
 
+    @Test
+    fun recalculateEquivalentAmountsRounding() = runTest {
+        val viewModel = buildViewModel()
+        val accountId = insertAccount("Test account 1", currency = "EUR", dynamic = true)
+        val transactionId = insertTransaction(accountId, 100)
+        repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
+            ExchangeRateApi.Frankfurter, 1.666666666)
+        viewModel.recalculateAmountsAndAssert(
+            "USD",
+            transactionExpectedAmounts = listOf(transactionId.first to 167),
+            accountExpectedRates = listOf(accountId to 1.666666666)
+        )
+    }
+
 
     @Test
     fun recalculateAccountExchangeRateWithoutTransaction() = runTest {

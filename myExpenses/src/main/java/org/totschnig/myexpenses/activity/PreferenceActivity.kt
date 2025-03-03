@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -165,9 +166,6 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                     progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.price_history))
                     val updatedPrices = priceHistoryViewModel.reCalculatePrices(currencyCode)
                     progressViewModel.appendToMessage(updatedPrices.toString())
-                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.pref_category_exchange_rates))
-                    val updatedExchangeRates = priceHistoryViewModel.reCalculatePrices(currencyCode)
-                    progressViewModel.appendToMessage(updatedExchangeRates.toString())
                     progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.equivalent_amount_plural))
                     val updatedTransactions = priceHistoryViewModel.reCalculateEquivalentAmounts(currencyCode)
                     progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }.toString() )
@@ -178,6 +176,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                         prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
                     }
                     requireApplication().invalidateHomeCurrency()
+                    contentResolver.notifyChange(DYNAMIC_CURRENCIES_URI, null, false)
 
                     progressViewModel.appendToMessage(getString(R.string.done_label))
                     progressViewModel.onTaskCompleted(emptyList())

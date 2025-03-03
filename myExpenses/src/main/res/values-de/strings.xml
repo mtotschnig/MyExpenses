@@ -589,7 +589,6 @@
     <string name="grand_total">Gesamtsumme</string>
     <string name="menu_original_amount">Originalbetrag</string>
     <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
-    <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden.</string>
     <string name="warning_split_transactions">Die ausgewählten Buchungen werden in einer mehrteiligen Buchung zusammengefasst. Ihre Datumsinformation wird verloren gehen, d. H. durch ihren Durchschnitt ersetzt werden.</string>
     <string name="warning_ungroup_split_transactions">Die Gruppierung der ausgewählten mehrteiligen Buchungen wird aufgelöst, d.h. ihre Teile werden zu normale Buchungen.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

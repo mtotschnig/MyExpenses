@@ -620,7 +620,6 @@
     <string name="grand_total">المجموع الكلي</string>
     <string name="menu_original_amount">المبلغ الأصلي</string>
     <string name="menu_equivalent_amount">المبلغ المعادل</string>
-    <string name="home_currency_change_warning">إذا قمت بتغيير عملتك المحلية، فستفقد المبالغ المعادلة وأسعار الصرف وستحتاج إلى تحديدها مرة أخرى.</string>
     <string name="warning_split_transactions">سيتم تجميع المعاملات المحددة في معاملة واحدة مجزأة. سيتم فقد معلومات التاريخ الخاصة بهم، أي استبدالها بمتوسطها.</string>
     <string name="warning_ungroup_split_transactions">سيتم إلغاء تجميع المعاملات المجزأة المحددة، أي ستصبح أجزائها المجزأة معاملات عادية.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

@@ -188,6 +188,7 @@ import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
+import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
@@ -254,6 +255,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val exportViewModel: ExportViewModel by viewModels()
     private val roadmapViewModel: RoadmapViewModel by viewModels()
     private val progressViewModel: ModalProgressViewModel by viewModels()
+    private val pricesViewModel: PriceHistoryViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
 
@@ -513,6 +515,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
             inject(roadmapViewModel)
+            inject(pricesViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -698,7 +701,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             } else {
                                 viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId)
                             }
-                            navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible = data.any { it.isHomeAggregate }
+                            navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible =
+                                data.any { it.isHomeAggregate }
                         }
                         AccountList(
                             accountData = data,
@@ -726,7 +730,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 toggleExcludeFromTotals(it)
                             },
                             listState = viewModel.listState,
-                            showEquivalentWorth = viewModel.showEquivalentWorth().collectAsState(false).value,
+                            showEquivalentWorth = viewModel.showEquivalentWorth()
+                                .collectAsState(false).value,
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
                             bankIcon = { modifier, id ->
@@ -1592,7 +1597,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
                         putExtra(
                             KEY_AMOUNT,
-                            (BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java))!! -
+                            (BundleCompat.getSerializable(
+                                extras,
+                                KEY_AMOUNT,
+                                BigDecimal::class.java
+                            ))!! -
                                     Money(
                                         currentAccount!!.currencyUnit,
                                         currentAccount!!.currentBalance
@@ -2131,8 +2140,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         val isHome = account.id == HOME_AGGREGATE_ID
         currentBalance = (if (isHome) " ≈ " else "") +
-                currencyFormatter.formatMoney(Money(account.currencyUnit,
-                    if (isHome) account.equivalentCurrentBalance else account.currentBalance))
+                currencyFormatter.formatMoney(
+                    Money(
+                        account.currencyUnit,
+                        if (isHome) account.equivalentCurrentBalance else account.currentBalance
+                    )
+                )
         binding.toolbar.title.text =
             if (isHome) getString(R.string.grand_total) else account.label
         with(binding.toolbar.subtitle) {
@@ -2599,6 +2612,36 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.UNARCHIVE_COMMAND -> {
                 viewModel.unarchive(args.getLong(KEY_ROWID))
+            }
+
+            R.id.RECALCULATE_COMMAND -> {
+                lifecycleScope.launch {
+                    supportFragmentManager.beginTransaction()
+                        .add(
+                            NewProgressDialogFragment.newInstance(
+                                getString(R.string.menu_recalculate)
+                            ),
+                            PROGRESS_TAG
+                        )
+                        .commitNow()
+                    progressViewModel.appendToMessage(
+                        TextUtils.concatResStrings(
+                            this@BaseMyExpenses,
+                            ": ",
+                            R.string.progress_recalculating,
+                            R.string.equivalent_amount_plural
+                        )
+                    )
+                    val updatedTransactions = pricesViewModel.reCalculateEquivalentAmounts(
+                        accountId = args.getLong(KEY_ROWID),
+                        onlyMissing = checked,
+                        withAccountExchangeRates = false
+                    )
+                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }
+                        .toString())
+                    progressViewModel.appendToMessage(getString(R.string.done_label))
+                    progressViewModel.onTaskCompleted(emptyList())
+                }
             }
         }
     }

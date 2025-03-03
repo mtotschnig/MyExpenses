@@ -590,7 +590,6 @@
     <string name="grand_total">Végösszeg</string>
     <string name="menu_original_amount">Eredeti összeg</string>
     <string name="menu_equivalent_amount">Egyenértékű összeg</string>
-    <string name="home_currency_change_warning">Ha megváltoztatja a hazai pénznemét, akkor az egyenértékű összegek és árfolyamok elvesznek, és újra meg kell határozni őket.</string>
     <string name="warning_split_transactions">A kiválasztott tranzakciók egyetlen osztott tranzakcióba csoportosulnak. A dátuminformációik elvesznek, azaz az átlaguk váltják fel.</string>
     <string name="warning_ungroup_split_transactions">A megjelölt felosztott tranzakciók szétbontódnak, azaz az egyes részek rendes tranzakciókká válnak.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

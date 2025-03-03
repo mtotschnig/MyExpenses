@@ -236,4 +236,5 @@
     <item name="FRANKFURTER_ID" type="id" />
     <item name="COIN_API_ID" type="id" />
     <item name="OPENEXCHANGERATES_ID" type="id" />
+    <item name="RECALCULATE_COMMAND" type="id" />
 </resources>

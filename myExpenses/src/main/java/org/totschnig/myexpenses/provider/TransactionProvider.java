@@ -37,6 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_O
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
@@ -300,6 +301,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
   public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
+  public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -922,6 +924,14 @@ public class TransactionProvider extends BaseTransactionProvider {
           selectionArgs = new String[]{getHomeCurrency(), commodity};
           extras = oldestTransactionForCurrency(db, commodity);
         }
+        break;
+      }
+      // This uses a separate Uri so that notify can be called on it and triggers reload with new home currency
+      case DYNAMIC_CURRENCIES: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+        projection = new String[] { "distinct " + KEY_CURRENCY };
+        selection = KEY_DYNAMIC + " AND " + KEY_CURRENCY + " != ?";
+        selectionArgs = new String[] { getHomeCurrency() };
         break;
       }
       default:
@@ -1635,6 +1645,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS -> {
         Bundle result = new Bundle(1);
         result.putSerializable(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
         return result;
       }
     }
@@ -1719,6 +1731,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
+    URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
   }
 
   /**

@@ -603,7 +603,6 @@
     <string name="grand_total">Общий итог</string>
     <string name="menu_original_amount">Начальный баланс</string>
     <string name="menu_equivalent_amount">Эквивалентное количество</string>
-    <string name="home_currency_change_warning">При смене внутренней валюты, соответствующие ей суммы и обменные курсы будут утеряны, и должны быть установлены вновь.</string>
     <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
     <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

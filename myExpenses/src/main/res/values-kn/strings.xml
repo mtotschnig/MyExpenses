@@ -587,7 +587,6 @@
     <string name="grand_total">ಒಟ್ಟು ಮೊತ್ತ</string>
     <string name="menu_original_amount">ಮೂಲ ಮೊತ್ತ</string>
     <string name="menu_equivalent_amount">ಸಮಾನ ಮೊತ್ತ</string>
-    <string name="home_currency_change_warning">ನಿಮ್ಮ ಮನೆಯ ಕರೆನ್ಸಿಯನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ, ಸಮಾನ ಮೊತ್ತ ಮತ್ತು ವಿನಿಮಯ ದರಗಳು ಕಳೆದುಹೋಗುತ್ತವೆ, ಮತ್ತು ಅದನ್ನು ಮತ್ತೆ ವ್ಯಾಖ್ಯಾನಿಸಬೇಕಾಗುತ್ತದೆ.</string>
     <string name="warning_split_transactions">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗುತ್ತದೆ. ಅವರ ದಿನಾಂಕದ ಮಾಹಿತಿಯು ಕಳೆದುಹೋಗುತ್ತದೆ, ಅಂದರೆ ಅವುಗಳ ಸರಾಸರಿಯಿಂದ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="warning_ungroup_split_transactions">ಆಯ್ದ ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗುವುದಿಲ್ಲ, ಅಂದರೆ ಅವುಗಳ ವಿಭಜಿತ ಭಾಗಗಳು ಸಾಮಾನ್ಯ ವಹಿವಾಟುಗಳಾಗಿ ಮಾರ್ಪಡುತ್ತವೆ.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

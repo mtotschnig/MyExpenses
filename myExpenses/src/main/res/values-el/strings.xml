@@ -569,7 +569,6 @@
     <string name="grand_total">Γενικό σύνολο</string>
     <string name="menu_original_amount">Αρχικό ποσό</string>
     <string name="menu_equivalent_amount">Ισοδύναμο ποσό</string>
-    <string name="home_currency_change_warning">Εάν αλλάξετε το εγχώριο νόμισμά σας, τα ισοδύναμα ποσά και οι συναλλαγματικές ισοτιμίες θα χαθούν, και πρέπει να καθοριστούν πάλι.</string>
     <string name="warning_split_transactions">Οι επιλεγμένες συναλλαγές θα ομαδοποιηθούν σε μία διαιρεμένη συναλλαγή. Οι πληροφορίες ημερομηνίας τους θα χαθούν, δηλαδή θα αντικατασταθούν από τον μέσο όρο τους.</string>
     <string name="warning_ungroup_split_transactions">Οι επιλεγμένες διαιρεμένες συναλλαγές θα απομαδοποιηθούν, δηλαδή τα διαχωρισμένα τμήματα θα γίνουν κανονικές συναλλαγές.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

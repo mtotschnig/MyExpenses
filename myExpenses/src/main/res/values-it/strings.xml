@@ -594,7 +594,6 @@
     <string name="grand_total">somma totale</string>
     <string name="menu_original_amount">Importo originario</string>
     <string name="menu_equivalent_amount">Importo equivalente</string>
-    <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e dovranno essere nuovamente definiti.</string>
     <string name="warning_split_transactions">Le operazioni selezionate saranno raggruppate in una operazione frazionata. Le loro informazioni sulla data andranno perse, cioè sostituite dalla loro media.</string>
     <string name="warning_ungroup_split_transactions">Le operazioni frazionate selezionate verranno separate, ovvero le loro parti divise diventeranno normali operazioni.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

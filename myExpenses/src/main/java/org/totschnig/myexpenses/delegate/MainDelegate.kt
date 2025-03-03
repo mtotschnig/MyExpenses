@@ -599,7 +599,7 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
         if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
-            if (isInitialSetup) {
+            if (isInitialSetup && viewBinding.EquivalentAmount.exchangeRate == null) {
                 viewBinding.EquivalentAmount.exchangeRate =
                     BigDecimal.valueOf(account.latestExchangeRate)
             }

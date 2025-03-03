@@ -597,7 +597,6 @@
     <string name="grand_total">Somme finale</string>
     <string name="menu_original_amount">Montant original</string>
     <string name="menu_equivalent_amount">Montant équivalent</string>
-    <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau.</string>
     <string name="warning_split_transactions">Les opérations sélectionnées seront regroupées en une seule opération ventilée. Les informations de date seront perdues, c\'est-à-dire remplacées par leur moyenne.</string>
     <string name="warning_ungroup_split_transactions">Les opérations ventilées sélectionnées seront dissociées, c\'est-à-dire que leurs parties après division deviendront des opérations normales.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

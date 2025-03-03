@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_INCOME
@@ -106,7 +107,8 @@ data class FullAccount(
     val lastUsed: Long = 0L,
     val bankId: Long? = null,
     val initialExchangeRate: Double? = null,
-    val latestExchangeRate: Pair<LocalDate, Double>? = null
+    val latestExchangeRate: Pair<LocalDate, Double>? = null,
+    val dynamic: Boolean = false
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -174,7 +176,8 @@ data class FullAccount(
                 initialExchangeRate = cursor.getDoubleOrNull(KEY_EXCHANGE_RATE),
                 latestExchangeRate = cursor.getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
                     cursor.getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
-                }
+                },
+                dynamic = cursor.getBoolean(KEY_DYNAMIC)
             )
         }
     }

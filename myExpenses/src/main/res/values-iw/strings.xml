@@ -596,7 +596,6 @@
     <string name="grand_total">סכום סופי</string>
     <string name="menu_original_amount">סכום מקורי</string>
     <string name="menu_equivalent_amount">סכום שווה ערך</string>
-    <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב.</string>
     <string name="warning_split_transactions">העסקאות שנבחרו יקובצו לעסקה מפוצלת אחת. תאריך התאריך שלהם יאבד, כלומר מוחלף על ידי הממוצע שלהם.</string>
     <string name="warning_ungroup_split_transactions">העסקאות המפוצלות שנבחרו לא יקובצו, כלומר החלקים המפוצלים שלהן יהפכו לעסקאות רגילות.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

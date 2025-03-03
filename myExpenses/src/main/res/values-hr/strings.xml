@@ -410,7 +410,6 @@
     <string name="menu_ungroup_split_transaction">Razgrupiraj višedjelnu transakciju</string>
     <string name="warning_ungroup_split_transactions">Odabrane višedjelne transakcije će se razgrupirati, tj. njihovi dijelovi će postati obične transakcije.</string>
     <string name="warning_split_transactions">Odabrane transakcije će se grupirati u jednu višedjelnu transakciju. Njihovi podaci o datumu će se izgubiti, tj. zamijeniti s njihovim prosjekom.</string>
-    <string name="home_currency_change_warning">Ako promijeniš domaću valutu, jednake vrijednosti i tečajevi će se izgubiti i moraju se ponovo odrediti.</string>
     <string name="menu_equivalent_amount">Jednaki iznos</string>
     <string name="menu_original_amount">Izvorni iznos</string>
     <string name="grand_total">Sveukupno</string>
