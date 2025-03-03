@@ -124,8 +124,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
@@ -524,7 +522,6 @@ const val TRANSFER_ACCOUNT_LABEL =
     "CASE WHEN $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS $KEY_TRANSFER_ACCOUNT_LABEL"
 
 
-//the latest_rates table makes use of sqlite's Bare columns in an aggregate query https://www.sqlite.org/lang_select.html#bareagg
 fun accountQueryCTE(
     homeCurrency: String,
     futureStartsNow: Boolean,
@@ -605,6 +602,9 @@ WITH now as (
       ORDER BY CASE WHEN p3.$KEY_SOURCE = 'user' THEN 1 ELSE 0 END DESC
       LIMIT 1
   )
+), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM
+    ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
+    ${equivalentAmountJoin(homeCurrency)}
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
@@ -612,20 +612,18 @@ WITH now as (
         $KEY_TRANSFER_PEER,
         $KEY_CR_STATUS,
         $KEY_DATE,
-        CASE WHEN $VIEW_WITH_ACCOUNT.$KEY_CURRENCY != '$homeCurrency'
+        CASE WHEN $KEY_CURRENCY != '$homeCurrency'
           THEN
             coalesce(
               CASE WHEN $KEY_DYNAMIC
-                THEN ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT, homeCurrency)}
+                THEN ${calcEquivalentAmountForSplitParts("base")}
               END,
               coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
             )
           ELSE $KEY_AMOUNT
           END AS $KEY_EQUIVALENT_AMOUNT,
-        $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
-    FROM 
-    ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)} 
-    ${equivalentAmountJoin(homeCurrency)}
+        $KEY_ACCOUNTID
+    FROM base
     WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
 ), aggregates AS (
     SELECT
@@ -645,7 +643,14 @@ WITH now as (
    from amounts group by $KEY_ACCOUNTID
 ), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
     SELECT ${fullAccountProjection.joinToString()}
-    FROM accounts LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN latest_rates ON $TABLE_ACCOUNTS.$KEY_CURRENCY = latest_rates.$KEY_COMMODITY  ${exchangeRateJoin("", KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)}
+    FROM accounts LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN latest_rates ON $TABLE_ACCOUNTS.$KEY_CURRENCY = latest_rates.$KEY_COMMODITY  ${
+        exchangeRateJoin(
+            "",
+            KEY_ROWID,
+            homeCurrency,
+            TABLE_ACCOUNTS
+        )
+    }
 )
 """
 }
@@ -770,7 +775,11 @@ fun buildSearchCte(
         homeCurrency.takeIf { forHome },
         forTable
     )
-} AS $KEY_DISPLAY_AMOUNT FROM " + exchangeRateJoin(forTable, KEY_ACCOUNTID, homeCurrency) + equivalentAmountJoin(homeCurrency) + ")"
+} AS $KEY_DISPLAY_AMOUNT FROM " + exchangeRateJoin(
+    forTable,
+    KEY_ACCOUNTID,
+    homeCurrency
+) + equivalentAmountJoin(homeCurrency) + ")"
 
 
 fun buildTransactionGroupCte(
@@ -784,15 +793,13 @@ fun buildTransactionGroupCte(
     val withFilter = selection != null
     val selection = listOfNotNull(accountQuery, selection).joinToString(" AND ")
     return buildString {
-        append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
-        append(KEY_DATE)
-        append(",")
-        append(KEY_TRANSFER_PEER)
-        append(",")
-        append("$typeWithFallBack AS $KEY_TYPE")
-        append(", cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
-        append(getAmountCalculation(forHome, VIEW_WITH_ACCOUNT))
-        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
+        append("WITH amounts as (SELECT $VIEW_WITH_ACCOUNT.* ")
+        if(forHome != null) {
+            append(",")
+            append(KEY_EQUIVALENT_AMOUNT)
+            append(",")
+            append(KEY_EXCHANGE_RATE)
+        }
         append(" FROM ")
         append(forHome?.let {
             exchangeRateJoin(
@@ -801,7 +808,19 @@ fun buildTransactionGroupCte(
                 it
             ) + equivalentAmountJoin(it)
         } ?: VIEW_WITH_ACCOUNT)
-        append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection)")
+        append("), $CTE_TRANSACTION_GROUPS AS (SELECT ")
+        append(KEY_DATE)
+        append(",")
+        append(KEY_TRANSFER_PEER)
+        append(",")
+        append("$typeWithFallBack AS $KEY_TYPE")
+        append(",")
+        append(" cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
+        append(getAmountCalculation(forHome, "amounts"))
+        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
+        append(" FROM amounts ")
+        append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection")
+        append(")")
     }
 }
 
@@ -881,11 +900,19 @@ fun archiveSumCTE(
     }
 }
 
-fun calcEquivalentAmountForSplitParts(forTable: String, homeCurrency: String) =
-    "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS ON $KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency' WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
+//@formatter:off
+fun getAmountHomeEquivalent(forTable: String, homeCurrency: String) =
+    """case WHEN $forTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(${calcEquivalentAmountForSplitParts(forTable)},coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END"""
+//@formatter:on
+
+fun calcEquivalentAmountForSplitParts(forTable: String) =
+    "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
 
 fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: String) = """
     coalesce((SELECT $KEY_EXCHANGE_RATE FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_ACCOUNTID = $forTable.$accountIdColumn AND $KEY_CURRENCY_SELF=$forTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER='$homeCurrency'), 1)""".trimIndent()
+
+fun getAmountCalculation(homeCurrency: String?, forTable: String) =
+    if (homeCurrency != null) getAmountHomeEquivalent(forTable, homeCurrency) else KEY_AMOUNT
 
 fun amountCteForDebts(homeCurrency: String) =
     """$CTE_TRANSACTION_AMOUNTS AS (

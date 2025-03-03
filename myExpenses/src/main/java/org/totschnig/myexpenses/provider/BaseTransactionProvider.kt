@@ -192,7 +192,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart
@@ -401,8 +400,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
                 """.trimIndent()
 
-            KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $table.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
-                    getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
+            KEY_AMOUNT_HOME_EQUIVALENT ->  getAmountHomeEquivalent(table, homeCurrency) + " AS $it"
 
             KEY_CURRENCY -> "$table.$KEY_CURRENCY"
             KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID"
