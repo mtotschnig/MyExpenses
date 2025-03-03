@@ -728,12 +728,12 @@ private fun transactionsJoin(
     withDisplayAmount: Boolean = false,
     forHome: String? = null,
 ) = buildString {
-    append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE,  $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
+    append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
     if (withPlanInstance) {
         append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID")
     }
     if (withDisplayAmount) {
-        append(", ${getAmountCalculation(forHome, tableName)} AS $KEY_DISPLAY_AMOUNT")
+        append(", ${getAmountCalculation(forHome, tableName, TABLE_ACCOUNTS)} AS $KEY_DISPLAY_AMOUNT")
     }
     append(", $TAG_LIST_EXPRESSION")
     append(", $TABLE_ACCOUNTS.$KEY_CURRENCY")
@@ -793,7 +793,7 @@ fun buildTransactionGroupCte(
     val withFilter = selection != null
     val selection = listOfNotNull(accountQuery, selection).joinToString(" AND ")
     return buildString {
-        append("WITH amounts as (SELECT $VIEW_WITH_ACCOUNT.* ")
+        append("WITH $CTE_SEARCH as (SELECT $VIEW_WITH_ACCOUNT.* ")
         if(forHome != null) {
             append(",")
             append(KEY_EQUIVALENT_AMOUNT)
@@ -816,9 +816,9 @@ fun buildTransactionGroupCte(
         append("$typeWithFallBack AS $KEY_TYPE")
         append(",")
         append(" cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
-        append(getAmountCalculation(forHome, "amounts"))
+        append(getAmountCalculation(forHome, CTE_SEARCH))
         append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
-        append(" FROM amounts ")
+        append(" FROM $CTE_SEARCH ")
         append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection")
         append(")")
     }
@@ -901,8 +901,8 @@ fun archiveSumCTE(
 }
 
 //@formatter:off
-fun getAmountHomeEquivalent(forTable: String, homeCurrency: String) =
-    """case WHEN $forTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(${calcEquivalentAmountForSplitParts(forTable)},coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END"""
+fun getAmountHomeEquivalent(forTable: String, homeCurrency: String, currencyTable: String = forTable) =
+    """case WHEN $currencyTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(${calcEquivalentAmountForSplitParts(forTable)},coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END"""
 //@formatter:on
 
 fun calcEquivalentAmountForSplitParts(forTable: String) =
@@ -911,8 +911,8 @@ fun calcEquivalentAmountForSplitParts(forTable: String) =
 fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: String) = """
     coalesce((SELECT $KEY_EXCHANGE_RATE FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_ACCOUNTID = $forTable.$accountIdColumn AND $KEY_CURRENCY_SELF=$forTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER='$homeCurrency'), 1)""".trimIndent()
 
-fun getAmountCalculation(homeCurrency: String?, forTable: String) =
-    if (homeCurrency != null) getAmountHomeEquivalent(forTable, homeCurrency) else KEY_AMOUNT
+fun getAmountCalculation(homeCurrency: String?, forTable: String, currencyTable: String = forTable) =
+    if (homeCurrency != null) getAmountHomeEquivalent(forTable, homeCurrency, currencyTable) else KEY_AMOUNT
 
 fun amountCteForDebts(homeCurrency: String) =
     """$CTE_TRANSACTION_AMOUNTS AS (

@@ -48,6 +48,6 @@ data class TransactionInfo(
             put(KEY_CATID, catId)
             put(KEY_METHODID, methodId)
             put(KEY_PARENTID, parentId)
-            put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+            equivalentAmount?.let { put(KEY_EQUIVALENT_AMOUNT, it) }
         }
 }

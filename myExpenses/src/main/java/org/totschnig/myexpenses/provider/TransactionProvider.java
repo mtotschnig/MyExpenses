@@ -453,7 +453,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
-          String selector = transactionQuerySelector(uri, table);
+          String selector = transactionQuerySelector(uri, CTE_SEARCH);
           selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
           projection = prepareProjectionForTransactions(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
           String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)

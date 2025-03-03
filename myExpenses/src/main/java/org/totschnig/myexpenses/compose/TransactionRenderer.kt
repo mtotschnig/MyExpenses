@@ -229,7 +229,7 @@ abstract class ItemRenderer(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RenderInner(transaction = transaction)
-            remember { menuGenerator(transaction) }?.let {
+            menuGenerator(transaction)?.let {
                 HierarchicalMenu(showMenu, it)
             }
         }

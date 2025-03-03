@@ -1229,7 +1229,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(transaction, (delegate as MainDelegate).userSetExchangeRate).observe(this) {
+                viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate).observe(this) {
                     onSaved(it, transaction)
                 }
                 if (wasStartedFromWidget) {
