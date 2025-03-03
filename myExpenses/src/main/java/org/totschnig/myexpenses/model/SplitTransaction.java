@@ -97,7 +97,7 @@ public class SplitTransaction extends Transaction implements ISplit {
       ops.add(ContentProviderOperation.newAssertQuery(TransactionProvider.TRANSACTIONS_URI)
                       .withSelection(KEY_PARENTID + " = ? AND " + KEY_ACCOUNTID + " != ?",
                               new String[] {idStr, String.valueOf(getAccountId())})
-              .withExpectedCount(0) .build());
+              .withValue("count(*)", 0).build());
     }
     return ops;
   }

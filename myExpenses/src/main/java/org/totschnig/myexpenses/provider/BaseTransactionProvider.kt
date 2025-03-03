@@ -372,10 +372,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun needsExtendedJoin(
         projection: Array<String>,
-    ) = projection.contains(KEY_EQUIVALENT_AMOUNT) ||
+    ) = projection.any { it.contains(KEY_EQUIVALENT_AMOUNT) }  || // also cover cases where sum(equivalent_amount) is requested
             projection.contains(KEY_EXCHANGE_RATE) ||
             projection.contains(KEY_AMOUNT_HOME_EQUIVALENT) ||
-            projection.contains(KEY_DISPLAY_AMOUNT)
+            projection.any { it.contains(KEY_DISPLAY_AMOUNT) }
 
     fun prepareProjectionForTransactions(
         projectionIn: Array<String>?,
@@ -390,7 +390,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_TRANSFER_AMOUNT -> "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"
             KEY_SEALED -> checkSealedWithAlias(table)
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)
-                "${getAmountHomeEquivalent(table)} AS $it" else it
+                "${getAmountHomeEquivalent(table, homeCurrency)} AS $it" else it
 
             KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table)})"
             KEY_HAS_SEALED_ACCOUNT -> """
@@ -402,7 +402,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 """.trimIndent()
 
             KEY_AMOUNT_HOME_EQUIVALENT -> "CASE WHEN $table.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE " +
-                    getAmountHomeEquivalent(table) + " END AS $it"
+                    getAmountHomeEquivalent(table, homeCurrency) + " END AS $it"
 
             KEY_CURRENCY -> "$table.$KEY_CURRENCY"
             KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID"

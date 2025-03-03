@@ -125,9 +125,9 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionListAsCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.dualQuery;
@@ -441,11 +441,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           return c;
         }
         boolean hasSearch = uri.getBooleanQueryParameter(QUERY_PARAMETER_SEARCH, false);
-        String selector = getTransactionQuerySelector(uri);
-        selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
         String forCatId = uri.getQueryParameter(KEY_CATID);
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
         String table = extended ? VIEW_EXTENDED : VIEW_COMMITTED;
+
         if (projection == null) {
           projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
         }
@@ -454,6 +453,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
+          String selector = transactionQuerySelector(uri, table);
+          selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
           projection = prepareProjectionForTransactions(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
           String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
@@ -470,6 +471,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           tableForQueryBuilder = needsExtendedJoin(projection) ?
                   exchangeRateJoin(table, KEY_ACCOUNTID, getHomeCurrency(), table) + equivalentAmountJoin(getHomeCurrency()) : table;
         }
+        String selector = transactionQuerySelector(uri, table);
+        selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
         projection = prepareProjectionForTransactions(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), !hasSearch);
         qb = SupportSQLiteQueryBuilder.builder(tableForQueryBuilder);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {

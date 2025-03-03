@@ -588,12 +588,12 @@ public class DatabaseConstants {
     return PROJECTION_EXTENDED;
   }
 
-  public static String getAmountHomeEquivalent(String forTable) {
-    return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
+  public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
+    return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable, homeCurrency) + "," +
         KEY_EXCHANGE_RATE + " * " + KEY_AMOUNT + ") as integer)";
   }
 
   static String getAmountCalculation(String homeCurrency, String forTable) {
-    return homeCurrency != null ? getAmountHomeEquivalent(forTable) : KEY_AMOUNT;
+    return homeCurrency != null ? getAmountHomeEquivalent(forTable, homeCurrency) : KEY_AMOUNT;
   }
 }

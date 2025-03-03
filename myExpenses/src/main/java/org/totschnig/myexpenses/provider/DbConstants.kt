@@ -143,8 +143,8 @@ private fun requireIdParameter(parameter: String) {
  *   (used from Edit split)
  * - otherwise accountSelector logic is applied
  */
-val Uri.transactionQuerySelector: String
-    get() = getQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST)?.let { idList ->
+fun Uri.transactionQuerySelector(table: String) =
+    getQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST)?.let { idList ->
         idList.split(',').forEach { requireIdParameter(it.trim()) }
         "$KEY_ROWID IN ($idList)"
     } ?: getQueryParameter(KEY_TRANSACTIONID)?.let {
@@ -153,7 +153,7 @@ val Uri.transactionQuerySelector: String
     } ?: getQueryParameter(KEY_PARENTID)?.let {
         requireIdParameter(it)
         "$KEY_PARENTID = $it"
-    } ?: accountSelector
+    } ?: accountSelector.let { if (it.isEmpty()) it else "$table.$it" }
 
 
 val Uri.templateQuerySelector: String?
@@ -306,7 +306,7 @@ fun categoryTreeWithSum(
         val forHome =
             uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
         val amountCalculation =
-            if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) else KEY_AMOUNT
+            if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) else KEY_AMOUNT
         append(", $CTE_TRANSACTION_AMOUNTS AS (SELECT $amountCalculation AS $KEY_DISPLAY_AMOUNT FROM ")
         if (forHome) {
             append(exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency))
@@ -616,7 +616,7 @@ WITH now as (
           THEN
             coalesce(
               CASE WHEN $KEY_DYNAMIC
-                THEN ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT)}
+                THEN ${calcEquivalentAmountForSplitParts(VIEW_WITH_ACCOUNT, homeCurrency)}
               END,
               coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
             )
@@ -827,7 +827,7 @@ fun transactionSumQuery(
     val forHome =
         uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
     val amountCalculation =
-        if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) else KEY_AMOUNT
+        if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) else KEY_AMOUNT
     val tableExpression = if (forHome)
         exchangeRateJoin(
             VIEW_WITH_ACCOUNT,
@@ -881,8 +881,8 @@ fun archiveSumCTE(
     }
 }
 
-fun calcEquivalentAmountForSplitParts(forTable: String) =
-    "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
+fun calcEquivalentAmountForSplitParts(forTable: String, homeCurrency: String) =
+    "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS ON $KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency' WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
 
 fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: String) = """
     coalesce((SELECT $KEY_EXCHANGE_RATE FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_ACCOUNTID = $forTable.$accountIdColumn AND $KEY_CURRENCY_SELF=$forTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER='$homeCurrency'), 1)""".trimIndent()
@@ -891,7 +891,7 @@ fun amountCteForDebts(homeCurrency: String) =
     """$CTE_TRANSACTION_AMOUNTS AS (
     SELECT
     $KEY_ROWID,
-    ${getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)} AS $KEY_EQUIVALENT_AMOUNT,
+    ${getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT,
     $KEY_AMOUNT,
     $VIEW_WITH_ACCOUNT.$KEY_CURRENCY,
     $KEY_DEBT_ID
