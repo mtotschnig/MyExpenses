@@ -589,7 +589,6 @@
     <string name="menu_history_transfers">Inkludér overførsler</string>
     <string name="history_chart_out_label">Forbrug</string>
     <string name="pref_home_currency_title">Hjemmevaluta</string>
-    <string name="home_currency_change_warning">Hvis du ændrer din hjemmevaluta, vil tilsvarende beløb og valutakurser gå tabt og skal angives igen.</string>
     <string name="warning_ungroup_split_transactions">De valgte opdelte transaktioner skilles ad; dvs. deres opdelte dele bliver til normale transaktioner.</string>
     <string name="split_transaction_not_possible">Kun transaktioner, der har samme konto, modtager og status kan grupperes i én opdelt transaktion.</string>
     <string name="pref_transaction_time_summary">Tillad at angive præcis transaktionstid.</string>
@@ -705,7 +704,6 @@
     <string name="pref_ocr_total_indicators_summary">En liste over strenge, der angiver det samlede beløb på en kvittering. Placér hvert beløb på en ny linje. Lad det være tomt for at gendanne standardværdien.</string>
     <string name="select_package">Vælg venligst en licenspakke.</string>
     <string name="plan_automatic_without_amount_hint">Planer uden beløb bør ikke gemmes med automatisk planudførelse</string>
-    <string name="reset_equivalent_amounts_success">Tilsvarende beløb blev nulstillet</string>
     <string name="new_balance">Ny saldo</string>
     <string name="title_webui">Webbrugergrænseflade</string>
     <string name="translated_by">Oversat af</string>

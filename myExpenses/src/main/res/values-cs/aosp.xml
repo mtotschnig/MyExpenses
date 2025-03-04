@@ -155,4 +155,8 @@
     <string name="preview">"Náhled"</string>
     <string name="show_password">"Zobrazovat heslo"</string>
     <string name="hide_password">"Skrýt heslo"</string>
+    <string name="user">"Uživatel"</string>
+    <string name="source">"Zdroj"</string>
+    <string name="value">"Hodnota"</string>
+    <string name="done_label">"Hotovo"</string>
 </resources>

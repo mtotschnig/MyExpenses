@@ -90,12 +90,14 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         openingBalance: Long = 0L,
         currency: String = homeCurrency.code,
         excludeFromTotals: Boolean = false,
+        dynamicExchangeRates: Boolean = false
     ) =
         Account(
             label = label,
             openingBalance = openingBalance,
             currency = currency,
-            excludeFromTotals = excludeFromTotals
+            excludeFromTotals = excludeFromTotals,
+            dynamicExchangeRates = dynamicExchangeRates
         ).createIn(repository)
 
     fun deleteAccount(label: String) {

@@ -57,4 +57,8 @@
     <string name="disabled">"Onemogućeno"</string>
     <string name="show_password">"Prikaži lozinku"</string>
     <string name="hide_password">"Sakrij lozinku"</string>
+    <string name="user">"Korisnik"</string>
+    <string name="source">Source"</string>
+    <string name="value">Value"</string>
+    <string name="done_label">"Gotovo"</string>
 </resources>

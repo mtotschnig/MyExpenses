@@ -545,7 +545,6 @@
     <string name="tesseract_download_confirmation">Quer baixar dados de reconhecimento de texto para %s\?</string>
     <string name="pref_tesseract_language_title">Idioma para o Tesseract</string>
     <string name="pref_ocr_engine_title">Mecanismo para reconhecimento de texto</string>
-    <string name="reset_equivalent_amounts_success">Quantias equivalentes foram redefinidas</string>
     <string name="content_description_edit_plan">Editar o plano no aplicativo de agenda</string>
     <string name="plan_automatic_without_amount_hint">Um plano sem quantia não deve ser salvo com a execução automática ativada</string>
     <string name="template_default_action_without_amount_hint">O modelo sem quantia deve ser salvo com a ação padrão \'Editar\'</string>
@@ -701,7 +700,6 @@
     <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
     <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
     <string name="warning_split_transactions">As transações atuais serão agrupadas em uma transação dividida. A informação das datas será perdida, sendo substituída pela sua média.</string>
-    <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente.</string>
     <string name="menu_equivalent_amount">Quantia equivalente</string>
     <string name="menu_original_amount">Quantia original</string>
     <string name="grand_total">Total geral</string>

@@ -144,4 +144,8 @@
     <string name="preview">"תצוגה מקדימה"</string>
     <string name="show_password">"הצגת הסיסמה"</string>
     <string name="hide_password">"הסתר סיסמה"</string>
+    <string name="user">"משתמש"</string>
+    <string name="source">"מקור"</string>
+    <string name="value">"ערך"</string>
+    <string name="done_label">"סיום"</string>
 </resources>

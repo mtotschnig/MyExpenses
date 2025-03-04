@@ -84,7 +84,6 @@ class ExportTest : BaseTestWithRepository() {
     @Before
     fun setUp() {
         outFile = File(context.cacheDir, FILE_NAME)
-        Mockito.`when`(currencyContext[any()]).thenReturn(CurrencyUnit.DebugInstance)
     }
 
     private val context: Context = ApplicationProvider.getApplicationContext()

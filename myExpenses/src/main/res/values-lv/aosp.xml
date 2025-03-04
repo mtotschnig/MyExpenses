@@ -78,4 +78,8 @@
     <string name="preview">"Priekšsk."</string>
     <string name="show_password">"Rādīt paroli"</string>
     <string name="hide_password">"Slēpt paroli"</string>
+    <string name="user">"Lietotājs"</string>
+    <string name="source">"Avots"</string>
+    <string name="value">"Vērtība"</string>
+    <string name="done_label">"Gatavs"</string>
 </resources>

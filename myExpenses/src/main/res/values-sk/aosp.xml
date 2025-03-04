@@ -86,4 +86,8 @@
     <string name="preview">"Ukážka"</string>
     <string name="show_password">"Zobrazovať heslo"</string>
     <string name="hide_password">"Skryť heslo"</string>
+    <string name="user">"Používateľ"</string>
+    <string name="source">"Zdroj"</string>
+    <string name="value">"Hodnota"</string>
+    <string name="done_label">"Hotovo"</string>
 </resources>

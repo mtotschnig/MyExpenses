@@ -154,4 +154,8 @@
     <string name="preview">"Előnézet"</string>
     <string name="show_password">"Jelszó megjelenítése"</string>
     <string name="hide_password">"Jelszó elrejtése"</string>
+    <string name="user">"Felhasználó"</string>
+    <string name="source">"Forrás"</string>
+    <string name="value">"Érték"</string>
+    <string name="done_label">"Kész"</string>
 </resources>

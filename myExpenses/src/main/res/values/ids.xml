@@ -149,7 +149,6 @@
     <item name="TOGGLE_INCLUDE_TRANSFERS_COMMAND" type="id" />
     <item name="TOGGLE_TOTALS_COMMAND" type="id" />
     <item name="ORIGINAL_AMOUNT_COMMAND" type="id" />
-    <item name="EQUIVALENT_AMOUNT_COMMAND" type="id" />
     <item name="ExchangeRateEdit1" type="id" />
     <item name="ExchangeRateEdit2" type="id" />
     <item name="UNGROUP_SPLIT_COMMAND" type="id" />
@@ -232,4 +231,10 @@
     <item name="GROUPING_BUDGETS_GROUPING_COMMAND" type="id" />
     <item name="GROUPING_BUDGETS_ACCOUNT_COMMAND" type="id" />
     <item name="SORT_DEBT_SUM_COMMAND" type="id" />
+    <item name="DYNAMIC_EXCHANGE_RATE_COMMAND" type="id" />
+    <item name="SELECT_SOURCE_MENU_ID" type="id" />
+    <item name="FRANKFURTER_ID" type="id" />
+    <item name="COIN_API_ID" type="id" />
+    <item name="OPENEXCHANGERATES_ID" type="id" />
+    <item name="RECALCULATE_COMMAND" type="id" />
 </resources>

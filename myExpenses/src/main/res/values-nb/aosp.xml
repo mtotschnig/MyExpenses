@@ -86,4 +86,8 @@
     <string name="preview">"Forhåndsvisning"</string>
     <string name="show_password">"Vis passord"</string>
     <string name="hide_password">"Skjul passordet"</string>
+    <string name="user">"Bruker"</string>
+    <string name="source">"Kilde"</string>
+    <string name="value">"Verdi"</string>
+    <string name="done_label">"Ferdig"</string>
 </resources>

@@ -29,6 +29,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -36,6 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_O
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
@@ -87,6 +89,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
@@ -108,6 +111,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildSearchCte;
@@ -116,12 +120,14 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithSum;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.equivalentAmountJoin;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionListAsCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.dualQuery;
@@ -294,6 +300,9 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
+  public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
+  public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -335,6 +344,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   public static final String QUERY_PARAMETER_SEARCH = "search";
+  /**
+   * do not honour EXCLUDE_FROM_TOTAL flag
+   */
+  public static final String QUERY_PARAMETER_INCLUDE_ALL = "includeAll";
 
   /**
    * 1 -> mapped objects for each row
@@ -366,7 +379,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
   public static final String METHOD_SETUP_CATEGORIES_DRY_RUN = "setup_categories_dry_run";
-  public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
   public static final String METHOD_DELETE_ATTACHMENTS = "deleteAttachments";
@@ -388,6 +400,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String METHOD_ARCHIVE = "archive";
   public static final String METHOD_CAN_BE_ARCHIVED = "canBeArchived";
+
+  public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -427,32 +441,40 @@ public class TransactionProvider extends BaseTransactionProvider {
           return c;
         }
         boolean hasSearch = uri.getBooleanQueryParameter(QUERY_PARAMETER_SEARCH, false);
-        String selector = getTransactionQuerySelector(uri);
-        selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
         String forCatId = uri.getQueryParameter(KEY_CATID);
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
         String table = extended ? VIEW_EXTENDED : VIEW_COMMITTED;
+
         if (projection == null) {
           projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
         }
         if (sortOrder == null) {
           sortOrder = KEY_DATE + " DESC";
         }
-        String forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null ? getHomeCurrency() : null;
+        boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
-          projection = prepareProjectionForTransactions(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
-          String sql = transactionListAsCTE(forCatId, forHome) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
+          String selector = transactionQuerySelector(uri, CTE_SEARCH);
+          selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
+          projection = prepareProjectionForTransactions(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
+          String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
+        String tableForQueryBuilder;
         if (hasSearch) {
-            cte = buildSearchCte(table, forHome);
+            cte = buildSearchCte(table, getHomeCurrency(), forHome);
             table = CTE_SEARCH;
+            tableForQueryBuilder = CTE_SEARCH;
+        } else {
+          tableForQueryBuilder = needsExtendedJoin(projection) ?
+                  exchangeRateJoin(table, KEY_ACCOUNTID, getHomeCurrency(), table) + equivalentAmountJoin(getHomeCurrency()) : table;
         }
+        String selector = transactionQuerySelector(uri, table);
+        selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
         projection = prepareProjectionForTransactions(projection, table, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), !hasSearch);
-        qb = SupportSQLiteQueryBuilder.builder(table);
+        qb = SupportSQLiteQueryBuilder.builder(tableForQueryBuilder);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.distinct();
         }
@@ -464,7 +486,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = DatabaseConstants.getProjectionBase();
         break;
       case TRANSACTION_ID:
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL  + equivalentAmountJoin(getHomeCurrency()));
         projection = prepareProjectionForTransactions(projection, VIEW_ALL, false, true);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
@@ -844,6 +866,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case DEBTS: {
+        cte = "WITH " + amountCteForDebts(getHomeCurrency());
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
           additionalWhere.append("not exists(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_DEBT_ID + " IS NOT NULL AND " + KEY_PARENTID + " = ")
@@ -896,6 +919,24 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
+      case PRICES: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PRICES);
+        String commodity = uri.getQueryParameter(KEY_COMMODITY);
+        if (commodity != null) {
+          selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";
+          selectionArgs = new String[]{getHomeCurrency(), commodity};
+          extras = oldestTransactionForCurrency(db, commodity);
+        }
+        break;
+      }
+      // This uses a separate Uri so that notify can be called on it and triggers reload with new home currency
+      case DYNAMIC_CURRENCIES: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+        projection = new String[] { "distinct " + KEY_CURRENCY };
+        selection = KEY_DYNAMIC + " AND " + KEY_CURRENCY + " != ?";
+        selectionArgs = new String[] { getHomeCurrency() };
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -926,66 +967,71 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("INSERT Uri: %s, values: %s", uri, values);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     long id;
-    String newUri;
+    Uri newUri;
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
       case TRANSACTIONS, UNCOMMITTED -> {
+        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        values.remove(KEY_EQUIVALENT_AMOUNT);
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
-        newUri = TRANSACTIONS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
+        if (equivalentAmount != null) {
+          insertEquivalentAmount(db, id, equivalentAmount);
+        }
       }
       case ACCOUNTS -> {
         Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTS, values);
-        newUri = ACCOUNTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ACCOUNTS_URI, id);
       }
       case METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_METHODS, values);
-        newUri = METHODS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(METHODS_URI, id);
       }
       case ACCOUNTTYPES_METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTTYES_METHODS, values);
         //we are not interested in accessing individual entries in this table, but have to return a uri
-        newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ACCOUNTTYPES_METHODS_URI, id);
       }
       case TEMPLATES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
-        newUri = TEMPLATES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TEMPLATES_URI, id);
       }
       case PAYEES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_PAYEES, values);
-        newUri = PAYEES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(PAYEES_URI, id);
       }
       case PLANINSTANCE_TRANSACTION_STATUS -> {
         long templateId = values.getAsLong(KEY_TEMPLATEID);
-        long instancId = values.getAsLong(KEY_INSTANCEID);
+        long instanceId = values.getAsLong(KEY_INSTANCEID);
         db.insert(TABLE_PLAN_INSTANCE_STATUS, CONFLICT_REPLACE, values);
-        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instancId);
+        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instanceId);
         notifyChange(changeUri, false);
         return changeUri;
       }
       case EVENT_CACHE -> {
         id = MoreDbUtilsKt.insert(db, TABLE_EVENT_CACHE, values);
-        newUri = EVENT_CACHE_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(EVENT_CACHE_URI, id);
       }
       case ACCOUNT_EXCHANGE_RATE -> {
         values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
         values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
         values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
         id = db.insert(TABLE_ACCOUNT_EXCHANGE_RATES, CONFLICT_REPLACE, values);
-        newUri = uri.toString();
+        newUri = uri;
       }
       case DUAL -> {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
           id = pauseChangeTrigger(db);
-          newUri = TABLE_SYNC_STATE + "/" + id;
+          newUri = uri;
         } else {
           throw unknownUri(uri);
         }
       }
       case SETTINGS -> {
         id = db.insert(TABLE_SETTINGS, CONFLICT_REPLACE, values);
-        newUri = SETTINGS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(SETTINGS_URI, id);
       }
       case BUDGETS -> {
         Long budget = values.getAsLong(KEY_BUDGET);
@@ -1000,7 +1046,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           budgetInitialAmount.put(KEY_CATID, 0);
           MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
         }
-        newUri = BUDGETS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(BUDGETS_URI, id);
       }
       case CURRENCIES -> {
         try {
@@ -1008,11 +1054,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         } catch (SQLiteConstraintException e) {
           return null;
         }
-        newUri = CURRENCIES_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(CURRENCIES_URI, id);
       }
       case TAGS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TAGS, values);
-        newUri = TAGS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(TAGS_URI, id);
       }
       case TRANSACTIONS_TAGS -> {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
@@ -1035,11 +1081,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case DEBTS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
-        newUri = DEBTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(DEBTS_URI, id);
       }
       case BANKS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
-        newUri = BANKS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(BANKS_URI, id);
       }
       // Currently not needed, until we implement Custom attributes
 /*      case ATTRIBUTES -> {
@@ -1056,7 +1102,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ATTACHMENTS ->  {
         id = requireAttachment(db, values.getAsString(KEY_URI), values.getAsString(KEY_UUID));
-        newUri = ATTACHMENTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_ATTACHMENTS -> {
         String uuid = values.getAsString(KEY_UUID);
@@ -1071,15 +1117,20 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         values.put(KEY_ATTACHMENT_ID, id);
         db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
-        newUri = ATTACHMENTS_URI + "/" + id;
+        newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
         id = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
-        newUri = TRANSACTIONS_URI + "/" +id;
+        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
       }
       case BUDGET_ALLOCATIONS -> {
         MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
         return BUDGET_ALLOCATIONS_URI;
+      }
+      case PRICES -> {
+        id = db.insert(TABLE_PRICES, CONFLICT_REPLACE, values);
+        newUri = ContentUris.withAppendedId(PRICES_URI, id);
+
       }
       default -> throw unknownUri(uri);
     }
@@ -1106,7 +1157,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
     }
-    return id > 0 ? Uri.parse(newUri) : null;
+    return id > 0 ? newUri : null;
   }
 
   @Override
@@ -1245,6 +1296,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.delete(db, TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
+      case PRICES ->  count = MoreDbUtilsKt.delete(db, TABLE_PRICES, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1290,13 +1342,20 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     log("UPDATE Uri: %s, values: %s", uri, values);
+    final String lastPathSegment = uri.getLastPathSegment();
     switch (uriMatch) {
       case TRANSACTIONS, UNCOMMITTED ->
               count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
-      case TRANSACTION_ID, UNCOMMITTED_ID ->
-              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
-                      KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
-                      whereArgs);
+      case TRANSACTION_ID, UNCOMMITTED_ID -> {
+        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        values.remove(KEY_EQUIVALENT_AMOUNT);
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
+              whereArgs);
+        if (equivalentAmount != null) {
+          insertOrReplaceEquivalentAmount(db, Long.parseLong(lastPathSegment), equivalentAmount);
+        }
+    }
       case TRANSACTION_UNDELETE -> {
         segment = uri.getPathSegments().get(1);
         whereArgs = new String[]{segment, segment, segment};
@@ -1306,13 +1365,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ACCOUNTS -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);
       case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TEMPLATES -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
       case TEMPLATE_ID -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case PAYEE_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_PAYEES, values,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+                KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
         notifyChange(TRANSACTIONS_URI, false);
       }
       case CATEGORIES ->
@@ -1328,12 +1387,12 @@ public class TransactionProvider extends BaseTransactionProvider {
             values.putNull(KEY_COLOR);
           }
         }
-        segment = uri.getLastPathSegment();
+        segment = lastPathSegment;
         count = MoreDbUtilsKt.update(db, TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
                 whereArgs);
       }
       case METHOD_ID ->
-              count = MoreDbUtilsKt.update(db, TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
+              count = MoreDbUtilsKt.update(db, TABLE_METHODS, values, KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
                       whereArgs);
       case TEMPLATES_INCREASE_USAGE -> {
         db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
@@ -1396,23 +1455,23 @@ public class TransactionProvider extends BaseTransactionProvider {
       case UNSPLIT -> count = unsplit(db, values, callerIsNotSyncAdapter(uri));
       case UNARCHIVE -> count = unarchive(db, values, callerIsNotSyncAdapter(uri));
       case BUDGET_ID -> count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case BANK_ID -> count = MoreDbUtilsKt.update(db, TABLE_BANKS, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case BUDGET_CATEGORY -> count = budgetCategoryUpsert(db, uri, values);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
       case CURRENCIES_CODE -> {
-        final String currency = uri.getLastPathSegment();
+        final String currency = lastPathSegment;
         count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
                 currency, prefixAnd(where)), whereArgs);
       }
       case TAG_ID -> count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TRANSACTION_LINK_TRANSFER -> count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
-      case TRANSACTION_UNLINK_TRANSFER -> count = MoreDbUtilsKt.unlinkTransfers(db, Objects.requireNonNull(uri.getLastPathSegment()));
+      case TRANSACTION_UNLINK_TRANSFER -> count = MoreDbUtilsKt.unlinkTransfers(db, Objects.requireNonNull(lastPathSegment));
       case DEBTS -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
       case DEBT_ID -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
-              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case PLANINSTANCE_TRANSACTION_STATUS -> count = MoreDbUtilsKt.update(db, TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
 
       //used during restore
@@ -1539,16 +1598,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         result.putParcelable(KEY_RESULT, MoreDbUtilsKt.getImportableCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         return result;
       }
-      case METHOD_RESET_EQUIVALENT_AMOUNTS -> {
-        final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
-        Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
-          ContentValues resetValues = new ContentValues(1);
-          resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
-          return MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null);
-        }));
-        return result;
-      }
       case METHOD_CHECK_CORRUPTED_DATA_987 -> {
         return checkCorruptedData987();
       }
@@ -1595,6 +1644,13 @@ public class TransactionProvider extends BaseTransactionProvider {
          Bundle result = new Bundle(1);
          result.putParcelable(KEY_RESULT, canBeArchived(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
          return result;
+      }
+      case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS -> {
+        Bundle result = new Bundle(1);
+        result.putSerializable(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
+        return result;
       }
     }
     return null;
@@ -1677,6 +1733,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments/#/#", TRANSACTION_ID_ATTACHMENT_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
+    URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
   }
 
   /**

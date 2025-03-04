@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
+import android.os.Bundle
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
@@ -49,19 +52,25 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.text.DecimalFormat
 
 @Composable
 fun AccountList(
@@ -69,6 +78,7 @@ fun AccountList(
     grouping: AccountGrouping,
     selectedAccount: Long,
     listState: LazyListState,
+    showEquivalentWorth: Boolean,
     onSelected: (Long) -> Unit,
     onEdit: (FullAccount) -> Unit,
     onDelete: (FullAccount) -> Unit,
@@ -115,7 +125,8 @@ fun AccountList(
                                 onToggleSealed = onToggleSealed,
                                 onToggleExcludeFromTotals = onToggleExcludeFromTotals,
                                 toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
-                                bankIcon = bankIcon
+                                bankIcon = bankIcon,
+                                showEquivalentWorth = showEquivalentWorth
                             )
                             if (index != group.value.lastIndex) {
                                 Spacer(Modifier.height(10.dp))
@@ -139,7 +150,8 @@ private fun Header(
         thickness = 2.dp
     )
     Row(
-        modifier = Modifier.clickable(onClick = onHeaderClick)
+        modifier = Modifier
+            .clickable(onClick = onHeaderClick)
             .semantics(mergeDescendants = true) {}
             .padding(start = dimensionResource(id = R.dimen.drawer_padding)),
         verticalAlignment = Alignment.CenterVertically
@@ -154,7 +166,9 @@ private fun Header(
             targetValue = if (isExpanded) 0F else 180F
         )
         Icon(
-            modifier = Modifier.minimumInteractiveComponentSize().rotate(rotationAngle),
+            modifier = Modifier
+                .minimumInteractiveComponentSize()
+                .rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,
             contentDescription = stringResource(
                 id = if (isExpanded) R.string.collapse
@@ -201,6 +215,7 @@ fun AccountCard(
     account: FullAccount,
     isCollapsed: Boolean = false,
     isSelected: Boolean = false,
+    showEquivalentWorth: Boolean = false,
     onSelected: () -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
@@ -210,6 +225,7 @@ fun AccountCard(
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
+    val context = LocalActivity.current as FragmentActivity
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -292,7 +308,11 @@ fun AccountCard(
                 }
             }
 
-            ExpansionHandle(isExpanded = !isCollapsed, contentDescription = account.label, toggle = toggleExpansion)
+            ExpansionHandle(
+                isExpanded = !isCollapsed,
+                contentDescription = account.label,
+                toggle = toggleExpansion
+            )
             val menu = Menu(
                 buildList {
                     if (account.id > 0) {
@@ -320,6 +340,33 @@ fun AccountCard(
                         ) {
                             onToggleExcludeFromTotals(account)
                         })
+                        if (account.dynamic) {
+                            add(
+                                MenuEntry(
+                                    label = R.string.menu_recalculate,
+                                    icon = Icons.Default.Calculate,
+                                    command = "RECALCULATE",
+                                    action = {
+                                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                                            putCharSequence(
+                                                KEY_MESSAGE,
+                                                context.getString(R.string.recalculate_equivalent_amounts_warning)
+                                            )
+                                            putInt(KEY_COMMAND_POSITIVE, R.id.RECALCULATE_COMMAND)
+                                            putString(
+                                                ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                                                context.getString(R.string.recalculate_only_missing)
+                                            )
+                                            putBoolean(
+                                                ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
+                                                true
+                                            )
+                                            putLong(KEY_ROWID, account.id)
+                                        }).show(context.supportFragmentManager, "RECALCULATE")
+                                    }
+                                )
+                            )
+                        }
                     }
                 }
             )
@@ -342,50 +389,86 @@ fun AccountCard(
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
                 account.description?.let { Text(it) }
-                SumRow(
-                    R.string.opening_balance,
-                    format.convAmount(account.openingBalance, account.currencyUnit)
-                )
-                SumRow(
-                    R.string.sum_income,
-                    format.convAmount(account.sumIncome, account.currencyUnit)
-                )
-                SumRow(
-                    R.string.sum_expenses,
-                    format.convAmount(account.sumExpense, account.currencyUnit)
-                )
+                val homeCurrency = LocalHomeCurrency.current
+                val isFx = account.currency != homeCurrency.code
+                val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
+                val currency = if (showEquivalent) homeCurrency else account.currencyUnit
 
-                if (account.sumTransfer != 0L) {
+                val fXFormat = remember { DecimalFormat("#.#####") }
+                SumRow(
+                    if (showEquivalent) R.string.initial_value else R.string.opening_balance,
+                    format.convAmount(
+                        if (showEquivalent) account.equivalentOpeningBalance else account.openingBalance,
+                        currency
+                    )
+                )
+                if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
+                    Text("1 ${account.currencyUnit.symbol} = ${fXFormat.format(account.initialExchangeRate)} ${homeCurrency.symbol}")
+                }
+                val displayIncome =
+                    if (showEquivalent) account.equivalentSumIncome else account.sumIncome
+                if (displayIncome != 0L) {
                     SumRow(
-                        R.string.sum_transfer,
-                        format.convAmount(account.sumTransfer, account.currencyUnit)
+                        R.string.sum_income,
+                        format.convAmount(displayIncome, currency)
+                    )
+                }
+                val displayExpense =
+                    if (showEquivalent) account.equivalentSumExpense else account.sumExpense
+                if (displayExpense != 0L) {
+                    SumRow(
+                        R.string.sum_expenses,
+                        format.convAmount(displayExpense, currency)
                     )
                 }
 
-                account.total?.let {
+                val displayTransfer =
+                    if (showEquivalent) account.equivalentSumTransfer else account.sumTransfer
+
+                if (displayTransfer != 0L) {
                     SumRow(
-                        R.string.menu_aggregates,
-                        format.convAmount(it, account.currencyUnit),
+                        R.string.sum_transfer,
+                        format.convAmount(displayTransfer, currency)
+                    )
+                }
+
+                (if (showEquivalent) account.equivalentTotal else account.total)?.let {
+                    SumRow(
+                        if (showEquivalent) R.string.total_value else R.string.menu_aggregates,
+                        format.convAmount(it, currency),
                         Modifier.drawSumLine()
                     )
                 }
 
                 SumRow(
-                    R.string.current_balance,
-                    format.convAmount(account.currentBalance, account.currencyUnit),
+                    if (showEquivalent) R.string.current_value else R.string.current_balance,
+                    format.convAmount(
+                        if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance,
+                        currency
+                    ),
                     Modifier.conditional(account.total == null) {
                         drawSumLine()
                     }
                 )
 
-                account.criterion?.let {
+                if (showEquivalent && (account.equivalentTotal != 0L || account.equivalentCurrentBalance != 0L)) {
+
+                    account.latestExchangeRate?.let { (date, rate) ->
+                        val dateFormatted = LocalDateFormatter.current.format(date)
+                        Text(
+                            "1 ${account.currencyUnit.symbol} = ${fXFormat.format(rate)} ${homeCurrency.symbol} ($dateFormatted)"
+                        )
+                    }
+                }
+
+                account.criterion?.takeIf { !showEquivalent }?.let {
                     SumRow(
                         if (it > 0) R.string.saving_goal else R.string.credit_limit,
                         format.convAmount(it, account.currencyUnit)
                     )
                 }
 
-                if (!(account.isAggregate || account.type == AccountType.CASH)) {
+                if (!(showEquivalent || account.isAggregate || account.type == AccountType.CASH)) {
                     SumRow(
                         R.string.total_cleared,
                         format.convAmount(account.clearedTotal, account.currencyUnit)
@@ -399,6 +482,7 @@ fun AccountCard(
         }
     }
 }
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

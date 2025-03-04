@@ -532,7 +532,6 @@
     <string name="template_default_action_without_amount_hint">رقم کے بغیر ٹیمپلیٹ کو ڈیفالٹ ایکشن \'ترمیم\' کے ساتھ محفوظ کیا جانا چاہیے</string>
     <string name="plan_automatic_without_amount_hint">بغیر رقم کے پلان کو خودکار پلان پر عمل درآمد کے ساتھ محفوظ نہیں کیا جانا چاہیے</string>
     <string name="content_description_edit_plan">کیلنڈر ایپ میں پلان میں ترمیم کریں</string>
-    <string name="reset_equivalent_amounts_success">‫مساوی رقم دوبارہ ترتیب دی گئی ہے</string>
     <string name="pref_ocr_engine_title">متن کی شناخت کے لیے انجن</string>
     <string name="pref_tesseract_language_title">ٹیسریکٹ کے لیے زبان</string>
     <string name="tesseract_download_confirmation">کیا آپ %s کے لیے ٹیکسٹ ریکگنیشن ڈیٹا ڈاؤن لوڈ کرنا چاہتے ہیں؟</string>
@@ -707,7 +706,6 @@
     <string name="synchronization_start">اکاؤنٹ %s کے لیے مطابقت پذیری شروع ہو رہی ہے.</string>
     <string name="pref_warning_only_one_protection">اس سے پہلے کہ آپ %1$s تک تحفظ استعمال کر سکیں، آپ کو %2$s تک تحفظ کو بند کرنا چاہیے.</string>
     <string name="history_chart_in_label">آمدنی</string>
-    <string name="home_currency_change_warning">اگر آپ اپنی گھریلو کرنسی تبدیل کرتے ہیں تو مساوی رقم اور شرح مبادلہ ضائع ہو جائیں گے، اور اس کی دوبارہ وضاحت کرنے کی ضرورت ہے.</string>
     <string name="licence_has_expired_n_days">آپ کی پروفیشنل کلید کی میعاد %d دن پہلے ختم ہو گئی ہے.</string>
     <string name="menu_equivalent_amount">مساوی رقم</string>
     <string name="warning_ungroup_split_transactions">منتخب کردہ اسپلٹ ٹرانزیکشنز کو غیر گروپ کیا جائے گا، یعنی ان کے تقسیم شدہ حصے عام لین دین بن جائیں گے.</string>

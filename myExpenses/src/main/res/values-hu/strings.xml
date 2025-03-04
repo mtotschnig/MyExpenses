@@ -590,7 +590,6 @@
     <string name="grand_total">Végösszeg</string>
     <string name="menu_original_amount">Eredeti összeg</string>
     <string name="menu_equivalent_amount">Egyenértékű összeg</string>
-    <string name="home_currency_change_warning">Ha megváltoztatja a hazai pénznemét, akkor az egyenértékű összegek és árfolyamok elvesznek, és újra meg kell határozni őket.</string>
     <string name="warning_split_transactions">A kiválasztott tranzakciók egyetlen osztott tranzakcióba csoportosulnak. A dátuminformációik elvesznek, azaz az átlaguk váltják fel.</string>
     <string name="warning_ungroup_split_transactions">A megjelölt felosztott tranzakciók szétbontódnak, azaz az egyes részek rendes tranzakciókká válnak.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -788,7 +787,6 @@
     <string name="template_default_action_without_amount_hint">Az összeg nélküli sablont el kell menteni az alapértelmezett \"Szerkesztés\" művelettel</string>
     <string name="plan_automatic_without_amount_hint">Az összeg nélküli terveket ne mentse el automatikus végrehajtással</string>
     <string name="content_description_edit_plan">Terv szerkesztése a naptár alkalmazásban</string>
-    <string name="reset_equivalent_amounts_success">Az egyenértékű összegek visszaállításra kerültek</string>
     <string name="menu_save_and_new_content_description">Mentse el az adatokat, hagyja nyitva az űrlapot, hogy új tranzakciót készíthessen ugyanazokkal az adatokkal.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Motor a szövegfelismeréshez</string>

@@ -136,4 +136,8 @@
     <string name="preview">"មើល​ជាមុន"</string>
     <string name="show_password">"បង្ហាញ​ពាក្យ​សម្ងាត់"</string>
     <string name="hide_password">"លាក់​ពាក្យសម្ងាត់"</string>
+    <string name="user">"អ្នក​ប្រើប្រាស់"</string>
+    <string name="source">"Source"</string>
+    <string name="value">"តម្លៃ"</string>
+    <string name="done_label">"រួចរាល់"</string>
 </resources>

@@ -194,7 +194,7 @@
     <string name="cab_MyExpenses_select_help_text">可以透過選取此指令或長按列表項目來開始多選。</string>
     <string name="debt_help_overflow">對於每筆債務，請使用右上角的選單進行編輯、結清、刪除或分享。外幣債務可以選擇以本國貨幣的等值金額列出。</string>
     <string name="menu_status_handle_help_text">交易狀態以彩色矩形表示：灰色表示未核對，藍色表示已清算，綠色表示已核對。點選矩形可更改狀態。</string>
-    <string name="menu_equivalent_amount_help_text">為了計算所有帳戶的總計，外幣帳戶的交易會乘以您為該帳戶設定的匯率。但是，您也可以透過為任何單筆交易設定等值金額來覆蓋這個隱含計算的金額。</string>
+    <string name="menu_equivalent_amount_help_text">為了計算所有帳戶的總計，外幣帳戶的交易會乘以您為該帳戶設定的匯率。</string>
     <string name="cab_NavigationDrawer_hide_help_text">從列表中移除帳戶。</string>
     <string name="help_ManageParties_mergeMode_info_1">選擇您要合併的重複交易對象。</string>
     <string name="help_ExpenseEdit_split_title">分割表單</string>

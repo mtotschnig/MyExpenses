@@ -120,19 +120,12 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     }
 
     private fun scheduleNextRun() {
-        enqueueSelf(
-            applicationContext,
-            (applicationContext as MyApplication).appComponent.prefHandler()
-        )
+        enqueueSelf(applicationContext, prefHandler)
     }
 
     private fun logAndNotifyError(message: String) {
         log(message)
-        notifyError(message)
-    }
-
-    private fun notifyError(message: String) {
-        notify(buildMessage(message).build())
+        notify(message)
     }
 
     @SuppressLint("InlinedApi")
@@ -187,7 +180,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         } catch (e: Exception) {
             //} catch (SecurityException | IllegalArgumentException e) {
             report(e, TAG)
-            notifyError(e.safeMessage)
+            notify(e.safeMessage)
             //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing (SecurityException)
             //buggy calendar provider implementation on Sony (IllegalArgumentException)
             //sqlite database not yet available observed on samsung GT-N7100 (SQLiteException)

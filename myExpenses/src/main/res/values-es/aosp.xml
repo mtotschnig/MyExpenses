@@ -153,4 +153,8 @@
     <string name="preview">"Vista previa"</string>
     <string name="show_password">"Mostrar contraseña"</string>
     <string name="hide_password">"Ocultar contraseña"</string>
+    <string name="user">"Usuario"</string>
+    <string name="source">"Origen"</string>
+    <string name="value">"Valor"</string>
+    <string name="done_label">"Hecho"</string>
 </resources>

@@ -636,7 +636,6 @@
     <string name="ungroup_split_transaction_success">Tranzacția divizată a fost degrupată cu succes.</string>
     <string name="licence_expires_tomorrow">Cheia profesională va expira mâine.</string>
     <string name="menu_ungroup_split_transaction">Anularea divizării grupului</string>
-    <string name="home_currency_change_warning">Dacă vă schimbați moneda de origine, sumele echivalente și ratele de schimb se vor pierde și vor trebui definite din nou.</string>
     <string name="split_transaction_not_possible">Numai tranzacțiile care au același cont, beneficiar și statut pot fi grupate într-o singură tranzacție.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Accesați %s pentru a configura un ecran de blocare.</string>
     <string name="menu_history_show_balance">Afișați echilibrul</string>
@@ -759,7 +758,6 @@
     <string name="widget_title_budget">Bugetul meu</string>
     <string name="pref_attachment_mime_types_title">Tipuri MIME permise pentru atașări</string>
     <string name="content_description_edit_plan">Editați planul în aplicația calendar</string>
-    <string name="reset_equivalent_amounts_success">Sumele echivalente au fost resetate</string>
     <string name="pref_group_header_show_details_summary">Afișați sumele detaliate în antetul grupului</string>
     <string name="debt_borrow_additional">Împrumut %s.</string>
     <string name="budget_filter_all_accounts">Toate conturile</string>

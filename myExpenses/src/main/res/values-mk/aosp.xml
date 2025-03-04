@@ -68,4 +68,8 @@
     <string name="preview">"Преглед"</string>
     <string name="show_password">"Прикажи лозинка"</string>
     <string name="hide_password">"Сокриј ја лозинката"</string>
+    <string name="user">"Корисник"</string>
+    <string name="source">"Извор"</string>
+    <string name="value">Value"</string>
+    <string name="done_label">"Готово"</string>
 </resources>

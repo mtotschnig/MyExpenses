@@ -581,7 +581,6 @@
     <string name="grand_total">累計</string>
     <string name="menu_original_amount">原始金額</string>
     <string name="menu_equivalent_amount">等價金額</string>
-    <string name="home_currency_change_warning">如果您更改本地貨幣，等價金額和匯率的資訊將會遺失並需要重新定義。</string>
     <string name="warning_split_transactions">選定的交易將被組成一個分割交易。它們原有的日期資訊將會遺失，改由它們的平均值來代替。</string>
     <string name="warning_ungroup_split_transactions">您所選定的分割交易將被解散群組，也就是說，它們的分割款項將各自成為一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -777,7 +776,6 @@
     <string name="template_default_action_without_amount_hint">沒有金額的範本應使用預設操作，即以“編輯”來存檔</string>
     <string name="plan_automatic_without_amount_hint">沒有金額的計畫不應該將其儲存成自動執行模式</string>
     <string name="content_description_edit_plan">在日曆應用程式中編輯計畫交易</string>
-    <string name="reset_equivalent_amounts_success">等值金額已重設</string>
     <string name="menu_save_and_new_content_description">交易存檔後，表單仍維持打開狀態並保留相同的數據內容，方便多次新增類同的交易。</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">請選擇文字辨識引擎</string>

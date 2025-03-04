@@ -25,7 +25,7 @@ interface AccountInfoWithGrouping: IAccount {
     val grouping: Grouping
 
     fun groupingQuery(filter: Criterion?): Triple<Uri.Builder, String?, Array<String>?> {
-        val selection = filter?.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT)
+        val selection = filter?.getSelectionForParts()
         val args = filter?.getSelectionArgs(true)
         return Triple(
             BaseTransactionProvider.groupingUriBuilder(grouping).apply {

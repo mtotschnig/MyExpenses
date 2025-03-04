@@ -8,7 +8,7 @@
     <string name="cab_edit_help_text">Das ausgewählte Element verändern.</string>
     <string name="help_MyExpenses_title">Buchungsliste</string>
     <string name="help_MyExpenses_info">Dieses Fenster listet alle Buchungen für das aktuelle Konto auf. Verwenden Sie die schwebende Aktionsschaltfläche zum Öffnen des Formulars für die Schaffung einer neuen Buchung. </string>
-    <string name="help_MyExpenses_fab_long_press">Durch langes Drücken der schwebenden Aktionstaste wird ein Menü geöffnet, in dem das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen vorbereitet werden kann.</string>
+    <string name="help_MyExpenses_fab_long_press">Durch langes Drücken der schwebenden Aktionstaste wird ein Menü geöffnet, in dem das Formular für Umbuchungen, mehrteilige Buchungen oder Einnahmen vorbereitet werden kann.</string>
     <string name="popup_MyExpenses_toolbar_intro">Durch Tippen auf die Symbolleiste (Kontobezeichnung oder aktueller Kontostand) wird ein Menü mit den folgenden Einträgen geöffnet:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopieren Sie den aktuellen Kontostand in die Zwischenablage.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Berechnen Sie die Differenz zwischen dem aktuellen Kontostand und einem neuen Wert.</string>
@@ -103,7 +103,7 @@
     <string name="menu_save_help_text">Abspeichern und Formular schließen.</string>
     <string name="menu_save_and_new_help_text">Wenn dies aktiviert ist, bleibt das Formular nach dem Speichern der Daten offen, um eine neue Buchung mit denselben Daten zu erstellen.</string>
     <string name="menu_original_amount_help_text">Zeigt ein Feld an, in dem Sie einen zusätzlichen Betrag definieren können. Wenn Sie beispielsweise mit Ihrer Kreditkarte in einer fremden Währung bezahlen, können Sie sich den Originalpreis zusätzlich zu dem von Ihrer Karte abgebuchten Betrag merken. Der Originalbetrag wird bei der Summenberechnung ignoriert.</string>
-    <string name="menu_equivalent_amount_help_text">Bei der Berechnung einer Gesamtsumme für alle Konten werden Buchungen von Konten in Fremdwährungen mit einem Wechselkurs multipliziert, den Sie für das Konto festgelegt haben. Sie können diesen implizit berechneten Betrag jedoch auch überschreiben, indem Sie für jede einzelne Buchung einen gleichwertigen Betrag festlegen.</string>
+    <string name="menu_equivalent_amount_help_text">Bei der Berechnung einer Gesamtsumme für alle Konten werden Buchungen von Konten in Fremdwährungen mit einem Wechselkurs multipliziert, den Sie für das Konto festgelegt haben.</string>
     <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten \'Von\' und \'Nach\' ihre Position wechseln.</string>
     <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Wenn die Währungen der \'Von\' und \'Nach\' Konten unterschiedlich sind, geben Sie den Betrag für nur eines der beiden an. Der andere wird beim Erstellen von Instanzen aus der Vorlage berechnet.</string>
     <string name="form_goal_or_limit_help_text">In diesem Feld kann entweder ein positives Sparziel oder ein negatives Kreditlimit angegeben werden. In beiden Fällen zeigt eine Fortschrittsanzeige in der Kontenliste die Entfernung zwischen dem aktuellen Kontostand und dem Ziel oder dem Limit an.</string>
@@ -192,7 +192,7 @@
     <string name="menu_parent_category_selection_help_text">Mit dieser Option passen Sie das Tippen auf eine Kategorie an, die Unterkategorien hat: Wenn sie aktiviert ist, wird die Kategorie durch kurzes Antippen ausgewählt; wenn sie nicht aktiviert ist, wird die Kategorie durch kurzes Antippen erweitert bzw. reduziert. In letzterem Fall ist die Auswahl über das Kontextmenü möglich.</string>
     <string name="form_split_parts_heading_help_text_2">Das Betragsfeld wird automatisch mit der Summe der Teile aktualisiert, es sei denn, Sie geben manuell einen Betrag ein. In diesem Fall wird die Differenz zwischen der Summe der Teile und dem Betrag (ungeteilter Betrag) angezeigt.</string>
     <string name="help_WebUI_info_1">Rufen Sie die im Untertitel angegebene URL über einen Webbrowser auf Ihrem Desktop-Computer auf.</string>
-    <string name="help_WebUI_info_2">Derzeit unterstützt die Web-Benutzeroberfläche keine Überweisungen oder mehrteilige Buchungen.</string>
+    <string name="help_WebUI_info_2">Derzeit unterstützt die Web-Benutzeroberfläche keine Umbuchungen oder mehrteilige Buchungen.</string>
     <string name="help_WebUI_info_4">Bei der Anzeige der Buchungen für das ausgewählte Konto verwendet die Web-Benutzeroberfläche die gleichen Filter, die Sie mit der App auf dem Android-Gerät eingestellt haben.</string>
     <string name="help_WebUI_info_3">Sie können ein Passwort festlegen, um den Zugang zu schützen. In dem vom Webbrowser angezeigten Dialog wird nur das Passwort berücksichtigt, der Benutzername wird ignoriert.</string>
     <string name="help_Budget_amount_click_1">Die Änderung eines Betrags wirkt sich niemals auf vergangene Zeiträume aus. Sofern Sie sich nicht entscheiden, es nur für den aktuellen Zeitraum festzulegen, wirkt es sich auf zukünftige Zeiträume aus.</string>

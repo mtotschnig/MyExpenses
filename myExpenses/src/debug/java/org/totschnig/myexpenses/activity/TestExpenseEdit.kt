@@ -20,8 +20,8 @@ class TestExpenseEdit: ExpenseEdit() {
     }
 
     @SuppressLint("VisibleForTests")
-    override fun setAccounts(accounts: List<Account>) {
-        super.setAccounts(accounts)
+    override fun setAccounts(accounts: List<Account>, isInitialSetup: Boolean) {
+        super.setAccounts(accounts, isInitialSetup)
         if (activityIsRecreated) {
             activityIsRecreated = false
         }

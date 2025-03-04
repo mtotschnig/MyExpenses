@@ -578,7 +578,6 @@
     <string name="grand_total">総合計</string>
     <string name="menu_original_amount">当初金額</string>
     <string name="menu_equivalent_amount">相当金額</string>
-    <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。</string>
     <string name="warning_split_transactions">選択した取引は、1つの分割取引にグループ化されます。 それらの日付情報は失われます。すなわち平均で置き換えられます。</string>
     <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@id/EXCLUDE_FROM_TOTALS_COMMAND"
+        android:title="@string/menu_exclude_from_totals" android:checkable="true" />
+    <item android:id="@+id/DYNAMIC_EXCHANGE_RATE_COMMAND"
+        android:title="@string/dynamic_exchange_rate" android:checkable="true" />
+</menu>

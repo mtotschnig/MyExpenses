@@ -576,7 +576,6 @@
     <string name="grand_total">Jumlah keseluruhan</string>
     <string name="menu_original_amount">Amaun asal</string>
     <string name="menu_equivalent_amount">Amaun setara</string>
-    <string name="home_currency_change_warning">Jika anda mengubah matawang negara anda, amaun setara dan kadar pertukaran akan hilang, dan perlu ditakrif sekali lagi.</string>
     <string name="warning_split_transactions">Transaksi terpilih akan dikumpulkan menjadi satu transaksi pengasingan. Maklumat tarikhnya akan hilang iaitu diganti secara purata.</string>
     <string name="warning_ungroup_split_transactions">Transaksi pengasingan terpilih akan dinyahkumpulkan, iaitu bahagian asing mereka akan menjadi transaksi biasa.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -763,7 +762,6 @@
     <string name="debt_balance_they_owe">%1$s sekarang berhutang %2$s.</string>
     <string name="budget_filter_all_parties">Semua pihak</string>
     <string name="tags_create_or_select">Cipta atau pilih tag</string>
-    <string name="reset_equivalent_amounts_success">Jumlah yang setara telah ditetapkan semula</string>
     <string name="debt_I_owe">Saya berhutang %s</string>
     <string name="merge_parties_strategy_delete">Pendua dipadamkan.</string>
     <string name="button_relink_update_date">Paut semula dan kemas kini tarikh</string>

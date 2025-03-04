@@ -80,4 +80,8 @@
     <string name="preview">"ቅድመ-ዕይታ"</string>
     <string name="show_password">"የይለፍ ቃል አሳይ"</string>
     <string name="hide_password">"የይለፍ ቃልድ ደብቅ"</string>
+    <string name="user">"ተጠቃሚ"</string>
+    <string name="source">"ምንጭ"</string>
+    <string name="value">"ዋጋ"</string>
+    <string name="done_label">"ተከናውኗል"</string>
 </resources>

@@ -350,7 +350,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 methodRowBinding,
                 injector
             )
-            setupObservers()
+            setupObservers(false)
             delegate.bind(
                 null,
                 withTypeSpinner,
@@ -647,8 +647,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun setupObservers() {
-        loadAccounts()
+    private fun setupObservers(isInitialSetup: Boolean) {
+        loadAccounts(isInitialSetup)
         loadTemplates()
         linkInputsWithLabels()
         loadTags()
@@ -712,7 +712,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.templates.collect { templates ->
                     menuItem2TemplateMap.clear()
                     for (template in templates) {
-                        val menuId = ViewCompat.generateViewId()
+                        val menuId = View.generateViewId()
                         menuItem2TemplateMap[menuId] = template
                         invalidateOptionsMenu()
                     }
@@ -722,14 +722,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     @VisibleForTesting
-    open fun setAccounts(accounts: List<Account>) {
+    open fun setAccounts(accounts: List<Account>, isInitialSetup: Boolean) {
         if (accounts.isEmpty()) {
             abortWithMessage(getString(R.string.warning_no_account))
         } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
             abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
         } else {
             if (::delegate.isInitialized) {
-                delegate.setAccounts(accounts, !accountsLoaded)
+                delegate.setAccounts(accounts, !accountsLoaded, isInitialSetup)
                 loadDebts()
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
@@ -737,12 +737,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun loadAccounts() {
+    private fun loadAccounts(isInitialSetup: Boolean) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.accounts.collect {
                     val firstLoad = !accountsLoaded
-                    setAccounts(it)
+                    setAccounts(it, isInitialSetup)
                     if (firstLoad) {
                         collectSplitParts()
                         if (isSplitParent) {
@@ -758,7 +758,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launchWhenStarted {
             currencyViewModel.currencies.collect { currencies ->
                 if (::delegate.isInitialized) {
-                    delegate.setCurrencies(currencies)
+                    (delegate as? MainDelegate)?.setCurrencies(currencies)
                 }
             }
         }
@@ -896,7 +896,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             methodRowBinding,
             injector
         )
-        setupObservers()
+        setupObservers(true)
         if (intent.getBooleanExtra(KEY_CREATE_TEMPLATE, false)) {
             createTemplate = true
             delegate.setCreateTemplate(true)
@@ -913,7 +913,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             delegate.planButton.setDate(it)
         }
         if (accountsLoaded) {
-            delegate.setAccount()
+            delegate.setAccount(true)
         }
         setHelpVariant(delegate.helpVariant)
         setTitle()
@@ -993,14 +993,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 checkMenuIcon(it)
             }
             menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)?.let {
-                it.isChecked = delegate.originalAmountVisible
-            }
-            val currentAccount = currentAccount
-            menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)?.let {
-                it.setEnabledAndVisible(
-                    !(currentAccount == null || hasHomeCurrency(currentAccount))
-                )
-                it.isChecked = delegate.equivalentAmountVisible
+                it.isChecked = (delegate as? MainDelegate)?.originalAmountVisible == true
             }
             menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.let {
                 it.subMenu?.let { subMenu ->
@@ -1016,10 +1009,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currency == homeCurrency
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1064,14 +1053,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     R.id.ORIGINAL_AMOUNT_COMMAND,
                     0,
                     R.string.menu_original_amount
-                ).isCheckable = true
-            }
-            if (!isSplitPartOrTemplate) {
-                menu.add(
-                    Menu.NONE,
-                    R.id.EQUIVALENT_AMOUNT_COMMAND,
-                    0,
-                    R.string.menu_equivalent_amount
                 ).isCheckable = true
             }
         }
@@ -1176,15 +1157,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
                 if (::delegate.isInitialized) {
-                    delegate.toggleOriginalAmount()
-                    invalidateOptionsMenu()
-                    return true
-                }
-            }
-
-            R.id.EQUIVALENT_AMOUNT_COMMAND -> {
-                if (::delegate.isInitialized) {
-                    delegate.toggleEquivalentAmount()
+                    (delegate as? MainDelegate)?.toggleOriginalAmount()
                     invalidateOptionsMenu()
                     return true
                 }
@@ -1217,7 +1190,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_ACCOUNTID, account.id)
             putExtra(KEY_PARENTID, delegate.rowId)
             putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
-            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, delegate.originalAmountExchangeRate)
+            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, (delegate as? MainDelegate)?.originalAmountExchangeRate)
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
@@ -1256,7 +1229,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(transaction).observe(this) {
+                viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate).observe(this) {
                     onSaved(it, transaction)
                 }
                 if (wasStartedFromWidget) {

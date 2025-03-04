@@ -132,4 +132,8 @@
     <string name="preview">"ಪೂರ್ವವೀಕ್ಷಣೆ"</string>
     <string name="show_password">"ಪಾಸ್‌ವರ್ಡ್‌ ತೋರಿಸು"</string>
     <string name="hide_password">"ಪಾಸ್‌ವರ್ಡ್ ಮರೆಮಾಡಿ"</string>
+    <string name="user">"ಬಳಕೆದಾರರು"</string>
+    <string name="source">"ಮೂಲ"</string>
+    <string name="value">"ಮೌಲ್ಯ"</string>
+    <string name="done_label">"ಆಯಿತು"</string>
 </resources>

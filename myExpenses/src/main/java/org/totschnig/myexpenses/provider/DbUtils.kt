@@ -25,9 +25,8 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.service.AutoBackupWorker
-import org.totschnig.myexpenses.service.AutoBackupWorker.Companion.enqueueOrCancel
+import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.service.PlanExecutor
-import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import java.io.File
 import java.util.Locale
@@ -37,6 +36,7 @@ object DbUtils {
         val result = try {
             AutoBackupWorker.cancel(app)
             PlanExecutor.cancel(app)
+            DailyExchangeRateDownloadService.cancel(app)
             if (backupFile.exists()) {
                 val client =
                     app.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!
@@ -50,8 +50,9 @@ object DbUtils {
             false
         }
         val prefHandler = app.appComponent.prefHandler()
-        enqueueSelf(app, prefHandler, true)
-        enqueueOrCancel(app, prefHandler)
+        PlanExecutor.enqueueSelf(app, prefHandler, true)
+        AutoBackupWorker.enqueueOrCancel(app, prefHandler)
+        DailyExchangeRateDownloadService.enqueueOrCancel(app, prefHandler)
         return result
     }
 

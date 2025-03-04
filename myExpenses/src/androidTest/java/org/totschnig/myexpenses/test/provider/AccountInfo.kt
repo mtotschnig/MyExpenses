@@ -5,7 +5,7 @@ import android.content.ContentValues
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
-data class AccountInfo @JvmOverloads internal constructor(
+data class AccountInfo(
     val label: String,
     val type: AccountType,
     val openingBalance: Long,

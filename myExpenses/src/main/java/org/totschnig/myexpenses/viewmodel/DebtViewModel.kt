@@ -35,13 +35,10 @@ import kotlinx.html.unsafe
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -89,7 +86,8 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         var runningTotal: Long = 0
         var runningEquivalentTotal: Long = 0
         return contentResolver.observeQuery(
-            uri = TransactionProvider.EXTENDED_URI,
+            uri = TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1").build(),
             projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),

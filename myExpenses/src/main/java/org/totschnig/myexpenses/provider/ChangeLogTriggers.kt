@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
@@ -26,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.sync.json.TransactionChange
 
@@ -78,7 +80,7 @@ val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
         new.$KEY_ACCOUNTID = old.$KEY_ACCOUNTID AND 
         new.$KEY_TRANSFER_PEER IS old.$KEY_TRANSFER_PEER AND 
         new.$KEY_UUID IS NOT NULL
-        BEGIN INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_ACCOUNTID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
+        BEGIN INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_ACCOUNTID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_CATID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
         VALUES ('${TransactionChange.Type.updated}', 
         ${sequenceNumberSelect("old")},
         new.$KEY_UUID, 
@@ -90,7 +92,6 @@ val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
         ${buildChangeTriggerDefinitionForColumnNotNull(KEY_AMOUNT)},
         ${buildChangeTriggerDefinitionForIntegerColumn(KEY_ORIGINAL_AMOUNT)},
         ${buildChangeTriggerDefinitionForTextColumn(KEY_ORIGINAL_CURRENCY)},
-        ${buildChangeTriggerDefinitionForIntegerColumn(KEY_EQUIVALENT_AMOUNT)}, 
         ${buildChangeTriggerDefinitionForReferenceColumn(KEY_CATID)}, 
         ${buildChangeTriggerDefinitionForReferenceColumn(KEY_PAYEEID)},
         ${buildChangeTriggerDefinitionForIntegerColumn(KEY_TRANSFER_ACCOUNT)},
@@ -101,12 +102,12 @@ val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
         END;"""
 
 val INSERT_TRIGGER_ACTION =
-    """INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
+    """INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
         VALUES ('${TransactionChange.Type.created}',
         ${sequenceNumberSelect("new")},
         new.$KEY_UUID,
         ${parentUuidExpression("new")},
-        new.$KEY_COMMENT, new.$KEY_DATE, new.$KEY_VALUE_DATE, new.$KEY_AMOUNT, new.$KEY_ORIGINAL_AMOUNT, new.$KEY_ORIGINAL_CURRENCY, new.$KEY_EQUIVALENT_AMOUNT, new.$KEY_CATID, new.$KEY_ACCOUNTID, new.$KEY_PAYEEID, new.$KEY_TRANSFER_ACCOUNT, new.$KEY_METHODID, new.$KEY_CR_STATUS, new.$KEY_STATUS, new.$KEY_REFERENCE_NUMBER);"""
+        new.$KEY_COMMENT, new.$KEY_DATE, new.$KEY_VALUE_DATE, new.$KEY_AMOUNT, new.$KEY_ORIGINAL_AMOUNT, new.$KEY_ORIGINAL_CURRENCY, new.$KEY_CATID, new.$KEY_ACCOUNTID, new.$KEY_PAYEEID, new.$KEY_TRANSFER_ACCOUNT, new.$KEY_METHODID, new.$KEY_CR_STATUS, new.$KEY_STATUS, new.$KEY_REFERENCE_NUMBER);"""
 
 val TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER uuid_update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS 
@@ -149,4 +150,35 @@ fun SupportSQLiteDatabase.createOrRefreshChangeLogTriggers() {
     execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE)
     execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE)
     execSQL(TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE)
+}
+
+fun SupportSQLiteDatabase.createOrRefreshEquivalentAmountTriggers() {
+    execSQL("DROP TRIGGER IF EXISTS insert_equivalent_amount")
+    execSQL("DROP TRIGGER IF EXISTS update_equivalent_amount")
+
+    //KEY_STATUS Is set to 0 by default, so we explicitly set it to null
+    execSQL(
+        """
+CREATE TRIGGER insert_equivalent_amount AFTER INSERT ON $TABLE_EQUIVALENT_AMOUNTS
+    WHEN ${shouldWriteChangeTemplate("new", TABLE_EQUIVALENT_AMOUNTS)}
+        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_ACCOUNTID, $KEY_EQUIVALENT_AMOUNT, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_STATUS)
+        VALUES ('${TransactionChange.Type.updated.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = new.$KEY_TRANSACTIONID),
+        (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = new.$KEY_TRANSACTIONID),
+        new.$KEY_EQUIVALENT_AMOUNT,
+        ${sequenceNumberSelect("new", TABLE_EQUIVALENT_AMOUNTS)},
+        null); END
+""")
+
+    execSQL(
+        """
+CREATE TRIGGER update_equivalent_amount AFTER UPDATE ON $TABLE_EQUIVALENT_AMOUNTS
+    WHEN ${shouldWriteChangeTemplate("old", TABLE_EQUIVALENT_AMOUNTS)}
+            AND old.$KEY_EQUIVALENT_AMOUNT != new.$KEY_EQUIVALENT_AMOUNT
+        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_ACCOUNTID, $KEY_EQUIVALENT_AMOUNT, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_STATUS)
+        VALUES ('${TransactionChange.Type.updated.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = old.$KEY_TRANSACTIONID),
+        (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = old.$KEY_TRANSACTIONID),
+        new.$KEY_EQUIVALENT_AMOUNT,
+        ${sequenceNumberSelect("old", TABLE_EQUIVALENT_AMOUNTS)},
+        null); END
+""")
 }

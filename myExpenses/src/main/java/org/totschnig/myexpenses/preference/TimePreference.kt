@@ -59,6 +59,14 @@ class TimePreference(context: Context, attrs: AttributeSet) : Preference(context
             val value = prefHandler.getInt(prefKey, DEFAULT_VALUE)
             val hh = value / 100
             val mm = value - 100 * hh
+            return getScheduledTime(hh, mm, clock)
+        }
+
+        fun getScheduledTime(
+            hh: Int,
+            mm: Int,
+            clock: Clock = Clock.systemDefaultZone()
+        ): Long {
             val now = clock.instant()
             val scheduledTime = ZonedDateTime.of(LocalDate.now(), LocalTime.of(hh, mm), ZoneId.systemDefault()).toInstant().let {
                 if (now > it) it.plus(1, ChronoUnit.DAYS) else it

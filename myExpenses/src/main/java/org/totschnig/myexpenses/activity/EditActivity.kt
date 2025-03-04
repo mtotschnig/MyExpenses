@@ -20,16 +20,23 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.newInstance
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.ui.AmountInput
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.ui.ButtonWithDialog
+import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.linkInputsWithLabels
+import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
+import org.totschnig.myexpenses.viewmodel.transformForUser
+import java.time.LocalDate
 
-abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host {
+abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host,
+    ExchangeRateEdit.Host {
     protected var isSaving = false
 
     @State
@@ -39,6 +46,8 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     @State
     var newInstance = true
+
+    val exchangeRateViewModel: ExchangeRateViewModel by viewModels()
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -100,6 +109,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        injector.inject(exchangeRateViewModel)
         onBackPressedCallback = object : OnBackPressedCallback(isDirty) {
             override fun handleOnBackPressed() {
                 if (isDirty) {
@@ -139,4 +149,19 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }
 
     override val snackBarContainerId = R.id.edit_container
+
+    open val date: LocalDate = LocalDate.now()
+
+    override suspend fun loadExchangeRate(
+        other: String,
+        base: String,
+        source: ExchangeRateApi,
+    ) = runCatching {
+        exchangeRateViewModel.loadExchangeRate(other, base, date, source)
+    }.fold(
+        onSuccess = { Result.success(it) },
+        onFailure = {
+            Result.failure( it.transformForUser(this, other, base))
+        }
+    )
 }

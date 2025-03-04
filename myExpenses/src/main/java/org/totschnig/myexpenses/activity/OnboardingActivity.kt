@@ -40,7 +40,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     var accountName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        prefHandler.setDefaultValues(this)
+        if (savedInstanceState == null) {
+            prefHandler.setDefaultValues(this)
+        }
         super.onCreate(savedInstanceState)
         binding = OnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)

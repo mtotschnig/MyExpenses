@@ -12,4 +12,5 @@
     <string name="enabled">"Enabled"</string>
     <string name="disabled">"Disabled"</string>
     <string name="preview">"Preview"</string>
+    <string name="user">"User"</string>
 </resources>

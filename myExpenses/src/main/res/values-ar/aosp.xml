@@ -152,4 +152,8 @@
     <string name="preview">"معاينة"</string>
     <string name="show_password">"إظهار كلمة المرور"</string>
     <string name="hide_password">"إخفاء كلمة المرور"</string>
+    <string name="user">"مستخدم"</string>
+    <string name="source">"المصدر"</string>
+    <string name="value">"القيمة"</string>
+    <string name="done_label">"تم"</string>
 </resources>

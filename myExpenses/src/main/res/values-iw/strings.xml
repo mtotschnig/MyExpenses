@@ -596,7 +596,6 @@
     <string name="grand_total">סכום סופי</string>
     <string name="menu_original_amount">סכום מקורי</string>
     <string name="menu_equivalent_amount">סכום שווה ערך</string>
-    <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב.</string>
     <string name="warning_split_transactions">העסקאות שנבחרו יקובצו לעסקה מפוצלת אחת. תאריך התאריך שלהם יאבד, כלומר מוחלף על ידי הממוצע שלהם.</string>
     <string name="warning_ungroup_split_transactions">העסקאות המפוצלות שנבחרו לא יקובצו, כלומר החלקים המפוצלים שלהן יהפכו לעסקאות רגילות.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -796,7 +795,6 @@
     <string name="template_default_action_without_amount_hint">יש לשמור תבנית ללא סכום עם פעולת ברירת המחדל \'ערוך\'</string>
     <string name="plan_automatic_without_amount_hint">אין לשמור תוכנית ללא סכום עם ביצוע תוכנית אוטומטית</string>
     <string name="content_description_edit_plan">עריכת התכנית ביישומון לוח שנה</string>
-    <string name="reset_equivalent_amounts_success">סכומים שווים אופסו</string>
     <string name="menu_save_and_new_content_description">שמור את הנתונים, השאר את הטופס פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">מנוע לזיהוי טקסט</string>

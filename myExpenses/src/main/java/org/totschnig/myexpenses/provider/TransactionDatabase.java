@@ -27,9 +27,11 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACH
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_TYPE_UPDATE_TRIGGER_MAIN;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.EQUIVALENT_AMOUNTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PRICES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.SPLIT_PART_CR_STATUS_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TAGS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
@@ -47,6 +49,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.create
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
+import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshEquivalentAmountTriggers;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -127,7 +130,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
-          + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
@@ -160,6 +162,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_CRITERION + " integer,"
           + KEY_HIDDEN + " boolean default 0,"
           + KEY_SEALED + " boolean default 0,"
+          + KEY_DYNAMIC + " boolean default 0,"
           + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String SYNC_STATE_CREATE =
@@ -454,6 +457,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   public void onCreate(SupportSQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
+    db.execSQL(EQUIVALENT_AMOUNTS_CREATE);
     db.execSQL(ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
@@ -508,6 +512,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
     createCategoryTypeTriggers(db);
+    createOrRefreshEquivalentAmountTriggers(db);
 
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
@@ -538,6 +543,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     //insertTestData(db, 50, 50);
 
     insertNullRows(db);
+
+    db.execSQL(PRICES_CREATE);
     super.onCreate(db);
   }
 
@@ -2118,6 +2125,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 172) {
         db.execSQL(TRANSACTIONS_PARENT_ID_INDEX);
+      }
+
+      if (oldVersion < 173) {
+        upgradeTo173(db);
+        createOrRefreshTransactionTriggers(db);
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

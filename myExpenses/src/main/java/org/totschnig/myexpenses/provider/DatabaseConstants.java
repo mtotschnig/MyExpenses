@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelSqlColumn;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.calcEquivalentAmountForSplitParts;
 
 import android.content.Context;
 
@@ -182,6 +183,7 @@ public class DatabaseConstants {
   public static final String KEY_CURRENCY = "currency";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
+  public static final String KEY_EQUIVALENT_OPENING_BALANCE = "equivalent_opening_balance";
   public static final String KEY_USAGES = "usages";
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
@@ -221,13 +223,18 @@ public class DatabaseConstants {
   public static final String KEY_THIS_YEAR_OF_MONTH_START = "this_year_of_month_start";
   public static final String KEY_MAX_VALUE = "max_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
+  public static final String KEY_EQUIVALENT_CURRENT_BALANCE = "equivalent_current_balance";
   public static final String KEY_TOTAL = "total";
+  public static final String KEY_EQUIVALENT_TOTAL = "equivalent_total";
   public static final String KEY_CURRENT = "current";
   public static final String KEY_CLEARED_TOTAL = "cleared_total";
   public static final String KEY_RECONCILED_TOTAL = "reconciled_total";
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
   public static final String KEY_SUM_INCOME = "sum_income";
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
+  public static final String KEY_EQUIVALENT_EXPENSES = "equivalent_expenses";
+  public static final String KEY_EQUIVALENT_INCOME = "equivalent_income";
+  public static final String KEY_EQUIVALENT_TRANSFERS = "equivalent_transfers";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_MAPPED_PAYEES = "mapped_payees";
   public static final String KEY_MAPPED_METHODS = "mapped_methods";
@@ -371,6 +378,18 @@ public class DatabaseConstants {
 
   public static final String KEY_VERSION = "version";
 
+  // Prices
+  public static final String KEY_COMMODITY = "commodity";
+  public static final String KEY_SOURCE = "source";
+
+  /**
+   * flag for accounts with dynamic exchange rates
+   */
+  public static final String KEY_DYNAMIC = "dynamic";
+  public static final String KEY_LATEST_EXCHANGE_RATE = "latest_exchange_rate";
+  public static final String KEY_LATEST_EXCHANGE_RATE_DATE = "latest_exchange_rate_date";
+  public static final String KEY_ONLY_MISSING = "only_missing";
+  public static final String KEY_WITH_ACCOUNT_EXCHANGE_RATES = "with_account_exchange_rates";
   /**
    * No special status
    */
@@ -449,6 +468,10 @@ public class DatabaseConstants {
   public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
 
   public static final String TABLE_ACCOUNT_ATTRIBUTES = "account_attributes";
+
+  public static final String TABLE_EQUIVALENT_AMOUNTS = "equivalent_amounts";
+
+  public static final String TABLE_PRICES = "prices";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
@@ -563,29 +586,5 @@ public class DatabaseConstants {
   public static String[] getProjectionExtended() {
     ensureLocalized();
     return PROJECTION_EXTENDED;
-  }
-
-  public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
-    return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable, KEY_ACCOUNTID, homeCurrency) + " * " + KEY_AMOUNT + ") as integer)";
-  }
-
-  private static String calcEquivalentAmountForSplitParts(String forTable) {
-    return "CASE WHEN " + forTable + "." + KEY_PARENTID
-        + " THEN " +
-        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " parent WHERE " +
-        KEY_ROWID + " = " + forTable + "." + KEY_PARENTID + ") * " + KEY_AMOUNT +
-        " ELSE "
-        + KEY_EQUIVALENT_AMOUNT + " END";
-  }
-
-  public static String getExchangeRate(String forTable, String accountIdColumn, String homeCurrency) {
-    final String accountReference = forTable  + "."+ accountIdColumn;
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
-  }
-
-  static String getAmountCalculation(String homeCurrency, String forTable) {
-    return homeCurrency != null ? getAmountHomeEquivalent(forTable, homeCurrency) : KEY_AMOUNT;
   }
 }

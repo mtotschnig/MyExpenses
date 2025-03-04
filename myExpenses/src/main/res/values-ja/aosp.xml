@@ -150,4 +150,8 @@
     <string name="preview">"プレビュー"</string>
     <string name="show_password">"パスワードを表示する"</string>
     <string name="hide_password">"パスワードを隠す"</string>
+    <string name="user">"ユーザー"</string>
+    <string name="source">"ソース"</string>
+    <string name="value">"値"</string>
+    <string name="done_label">"完了"</string>
 </resources>

@@ -154,4 +154,8 @@
     <string name="preview">"Визуал."</string>
     <string name="show_password">"Показване на паролата"</string>
     <string name="hide_password">"Скриване на паролата"</string>
+    <string name="user">"Потребител"</string>
+    <string name="source">"Източник"</string>
+    <string name="value">"Стойност"</string>
+    <string name="done_label">"Готово"</string>
 </resources>

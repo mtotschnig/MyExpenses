@@ -25,6 +25,10 @@
         tools:ignore="PrivateResource">
     </item>
     <item
+        android:id="@+id/EQUIVALENT_WORTH_COMMAND"
+        android:title="@string/menu_show_equivalent_value"
+        android:icon="@drawable/checkbox_not_checked" />
+    <item
         android:id="@id/HELP_COMMAND_DRAWER"
         android:orderInCategory="40"
         android:icon="@drawable/ic_menu_help"

@@ -58,12 +58,14 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         val checkedLabel = bundle.getInt(KEY_POSITIVE_BUTTON_CHECKED_LABEL)
         val positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL)
         val negativeLabel = bundle.getInt(KEY_NEGATIVE_BUTTON_LABEL)
+        val initiallyChecked = bundle.getBoolean(KEY_CHECKBOX_INITIALLY_CHECKED, false)
 
         if (bundle.getString(KEY_PREFKEY) != null || checkboxLabel != null) {
             val cb = LayoutInflater.from(builder.context).inflate(R.layout.checkbox, null)
+
             checkBox = cb.findViewById<CheckBox?>(R.id.checkBox).apply {
                 text = checkboxLabel ?: getString(R.string.do_not_show_again)
-                isChecked = bundle.getBoolean(KEY_CHECKBOX_INITIALLY_CHECKED, false)
+                isChecked = initiallyChecked
                 if (checkedLabel != 0) {
                     setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                         (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
@@ -77,7 +79,11 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         }
 
         builder.setPositiveButton(
-            if (positiveLabel == 0) android.R.string.ok else positiveLabel,
+            when {
+                positiveLabel == 0 -> android.R.string.ok
+                initiallyChecked -> checkedLabel
+                else -> positiveLabel
+            },
             this
         )
         builder.setNegativeButton(

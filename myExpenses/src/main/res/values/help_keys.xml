@@ -67,4 +67,7 @@
     <string name="menu_hide">@string/hide</string>
     <string name="menu_budget_synchronization_help_text"><![CDATA[FAQ: <a href="https://faq.myexpenses.mobi/sync-budget">Synchronization of budgets</a>]]></string>
     <string name="menu_budget_synchronization">@string/synchronization</string>
+    <string name="help_PriceHistory_title">@string/price_history</string>
+    <string name="menu_download">@string/action_download</string>
+    <string name="menu_dynamic_exchange_rate">@string/dynamic_exchange_rate</string>
 </resources>

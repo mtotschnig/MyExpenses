@@ -1,72 +1,98 @@
 package org.totschnig.myexpenses.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
-import org.totschnig.myexpenses.MyApplication
+import android.app.Application
+import android.content.Context
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.ExchangeRateRepository
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.retrofit.ExchangeRateService
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.safeMessage
-import java.io.IOException
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ExchangeRateViewModel(val application: MyApplication) {
-    private val exchangeRate: MutableLiveData<Double> = MutableLiveData()
-    private val error: MutableLiveData<String> = MutableLiveData()
+/**
+ * We want to store the price of a foreign currency relative to our base currency
+ * APIs usually have the opposite understanding of base. They express the value of 1 unit
+ * of the base currency relative to other currency
+ */
+open class ExchangeRateViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
 
     @Inject
-    lateinit var repository: ExchangeRateRepository
-    private val viewModelJob = SupervisorJob()
-    private val bgScope = CoroutineScope(Dispatchers.Default + viewModelJob)
+    lateinit var exchangeRateService: ExchangeRateService
 
-    init {
-        bgScope.launch {
-            application.appComponent.inject(this@ExchangeRateViewModel)
+    private fun loadFromDb(
+        base: String,
+        other: String,
+        date: LocalDate,
+        source: ExchangeRateApi,
+    ) = contentResolver.query(
+        TransactionProvider.PRICES_URI,
+        arrayOf(KEY_VALUE),
+        "$KEY_CURRENCY = ? AND $KEY_COMMODITY = ? AND $KEY_DATE = ? AND $KEY_SOURCE = ?",
+        arrayOf(base, other, date.toString(), source.name),
+        null, null
+    )?.use {
+        if (it.moveToFirst()) it.getDouble(0) else null
+    }
+
+    /**
+     * Load the value of 1 unit of other currency expressed in base currency
+     */
+    suspend fun loadExchangeRate(
+        other: String,
+        base: String,
+        date: LocalDate,
+        source: ExchangeRateApi,
+    ): Double = withContext(coroutineContext()) {
+        if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
+            loadFromNetwork(
+                source = source,
+                date = date,
+                other = other,
+                base = base
+            ).second
+        } else loadFromDb(base, other, date, source)
+            ?: loadFromNetwork(source, date, other, base).second
+    }
+
+    suspend fun loadFromNetwork(
+        source: ExchangeRateApi,
+        date: LocalDate,
+        other: String,
+        base: String,
+    ) = withContext(coroutineContext()) {
+        exchangeRateService.getRate(
+            source,
+            (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),
+            date,
+            base,
+            other
+        ).also {
+            Timber.d("loadFromNetwork: %s", it)
+            repository.savePrice(base, other, it.first, source, it.second)
         }
     }
+}
 
-    fun getData(): LiveData<Double> = exchangeRate
-    fun getError(): LiveData<String> = error
+fun Throwable.transformForUser(context: Context, other: String, base: String) = when (this) {
+    is java.lang.UnsupportedOperationException ->
+        Exception(
+            context.getString(R.string.exchange_rate_not_supported, other, base)
+        )
 
-    fun loadExchangeRate(other: String, base: String, date: LocalDate, source: ExchangeRateSource) {
-        bgScope.launch {
-            try {
-                postResult(repository.loadExchangeRate(other, base, date, source))
-            } catch (e: Exception) {
-                postException(other, base, e)
-            }
-        }
-    }
+    is MissingApiKeyException ->
+        Exception(
+            context. getString(R.string.pref_exchange_rates_api_key_summary, source.host)
+        )
 
-    private suspend fun postResult(rate: Double) = withContext(Dispatchers.Main) {
-        exchangeRate.postValue(rate)
-    }
-
-    private suspend fun postException(other: String, base: String, exception: java.lang.Exception) =
-        withContext(Dispatchers.Main) {
-            if (exception !is IOException &&
-                exception !is UnsupportedOperationException &&
-                exception !is MissingApiKeyException
-            ) {
-                CrashHandler.report(Exception("Failed to load rate for $other/$base", exception))
-            }
-            error.postValue(
-                when (exception) {
-                    is java.lang.UnsupportedOperationException -> application.wrappedContext.getString(
-                        R.string.exchange_rate_not_supported, other, base
-                    )
-
-                    is MissingApiKeyException -> application.wrappedContext.getString(R.string.pref_exchange_rates_api_key_summary, exception.source.host)
-                    else -> exception.safeMessage
-                }
-            )
-        }
-
-    fun clear() {
-        viewModelJob.cancel()
-    }
+    else -> this
 }

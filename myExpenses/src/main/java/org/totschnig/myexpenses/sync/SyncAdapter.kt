@@ -776,7 +776,12 @@ class SyncAdapter @JvmOverloads constructor(
             provider.query(changesUri, null, null, null, null)?.use { changesCursor ->
                 if (changesCursor.moveToFirst()) {
                     do {
-                        var transactionChange = TransactionChange.create(changesCursor)
+                        var transactionChange = TransactionChange.create(changesCursor).let {
+                            if (it.equivalentAmount() != null) {
+                                val homeCurrency = currencyContext.homeCurrencyString
+                                it.toBuilder().setEquivalentCurrency(homeCurrency).build()
+                            } else it
+                        }
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
                             if (catId == NULL_ROW_ID) {
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(

@@ -142,4 +142,8 @@
     <string name="preview">"미리보기"</string>
     <string name="show_password">"비밀번호 표시"</string>
     <string name="hide_password">"비밀번호 숨김"</string>
+    <string name="user">"사용자 지정"</string>
+    <string name="source">"출처"</string>
+    <string name="value">"값"</string>
+    <string name="done_label">"완료"</string>
 </resources>

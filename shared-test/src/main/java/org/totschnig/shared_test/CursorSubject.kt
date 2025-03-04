@@ -52,6 +52,10 @@ class CursorSubject private constructor(
         check("hasInt").that(actual.getInt(columnIndex)).isEqualTo(expected)
     }
 
+    fun hasDouble(columnIndex: Int, expected: Double) {
+        check("hasDouble").that(actual.getDouble(columnIndex)).isEqualTo(expected)
+    }
+
     fun isNull(columnIndex: Int) {
         check("isNull").that(actual.isNull(columnIndex)).isTrue()
     }

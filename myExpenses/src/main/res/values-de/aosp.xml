@@ -152,4 +152,8 @@
     <string name="preview">"Vorschau"</string>
     <string name="show_password">"Passwort anzeigen"</string>
     <string name="hide_password">"Passwort ausblenden"</string>
+    <string name="user">"Nutzer"</string>
+    <string name="source">"Quelle"</string>
+    <string name="value">"Wert"</string>
+    <string name="done_label">"Fertig"</string>
 </resources>

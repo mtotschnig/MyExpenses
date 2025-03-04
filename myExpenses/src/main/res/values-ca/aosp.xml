@@ -153,4 +153,8 @@
     <string name="preview">"Previsual."</string>
     <string name="show_password">"Mostra la contrasenya"</string>
     <string name="hide_password">"Amaga la contrasenya"</string>
+    <string name="user">"Usuari"</string>
+    <string name="source">"Origen"</string>
+    <string name="value">"Valor"</string>
+    <string name="done_label">"Fet"</string>
 </resources>

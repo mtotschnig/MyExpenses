@@ -13,7 +13,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 class HelpDialogHelper(val context: Context) : ImageGetter {
     val resources: Resources = context.resources
@@ -55,6 +57,25 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             "help_ManageStaleImages_info" -> getString(
                 R.string.help_ManageStaleImages_info,
                 "Documents/MyExpenses.Attachments.Archive"
+            )
+
+            "help_PriceHistory_info" -> TextUtils.concat(
+                getString(R.string.help_PriceHistory_info),
+                " ",
+                SpannableStringBuilder().apply {
+                    ExchangeRateApi.values.forEach {
+                        bold { append(it.name.first()) }
+                        append(" ")
+                        append(it.name)
+                        append(", ")
+                    }
+                },
+                HtmlCompat.fromHtml(
+                    "<img src=icon:user> ${getString(R.string.help_user_exchange_rate)}, <img src=ic_calculate> ${getString(R.string.help_calculated_exchange_rate)}",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY,
+                    this@HelpDialogHelper,
+                    null
+                )
             )
 
             else -> {
@@ -146,6 +167,9 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 append(toBold(R.string.income))
                 append(": <a href='https://faq.myexpenses.mobi/category-types'>FAQ</a>")
             }
+            "dynamic_exchange_rate_help_text_3" -> getString(R.string.dynamic_exchange_rate_help_text_3,
+                context.localizedQuote(getString(R.string.enable_automatic_daily_exchange_rate_download))
+            )
 
             else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
         }
@@ -174,7 +198,9 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         packageName: String,
     ) = resources.getIdentifier(resIdString, defType, packageName)
 
-    override fun getDrawable(name: String) = try {
+    override fun getDrawable(name: String) = (if (name.startsWith("icon:")) {
+        IIconInfo.resolveIcon(name.substringAfter(':'))?.asDrawable(context)
+    } else try {
         //Keeping the legacy attribute reference in order to not have to update all translations
         val resId = if (name.startsWith("?")) {
             with(name.substring(1)) {
@@ -187,24 +213,22 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     }
                 }
             }
+        } else if (name.startsWith("android:")) {
+            resolveSystem(name.substringAfter(':'), "drawable")
         } else {
-            if (name.startsWith("android:")) {
-                resolveSystem(name.substring(8), "drawable")
-            } else {
-                when (name) {
-                    //Keeping the legacy drawable name
-                    "ic_hchain" -> R.drawable.ic_link
-                    "ic_hchain_broken" -> R.drawable.ic_link_off
-                    else -> resolve(name, "drawable")
-                }
+            when (name) {
+                //Keeping the legacy drawable name
+                "ic_hchain" -> R.drawable.ic_link
+                "ic_hchain_broken" -> R.drawable.ic_link_off
+                else -> resolve(name, "drawable")
             }
         }
+        ResourcesCompat.getDrawable(resources, resId, context.theme)
+    } catch (_: Resources.NotFoundException) {
+        null
+    })?.apply {
         val dimensionPixelSize =
             resources.getDimensionPixelSize(R.dimen.help_text_inline_icon_size)
-        ResourcesCompat.getDrawable(resources, resId, context.theme)?.apply {
-            setBounds(0, 0, dimensionPixelSize, dimensionPixelSize)
-        }
-    } catch (e: Resources.NotFoundException) {
-        null
+        setBounds(0, 0, dimensionPixelSize, dimensionPixelSize)
     }
 }

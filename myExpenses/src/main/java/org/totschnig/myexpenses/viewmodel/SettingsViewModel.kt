@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
@@ -40,15 +39,11 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class SettingsViewModel(
     application: Application,
     val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
-
-    @Inject
-    lateinit var exchangeRateRepository: ExchangeRateRepository
 
     data class AppDirInfo(
         val documentFile: DocumentFile,
@@ -181,20 +176,6 @@ class SettingsViewModel(
             delay(delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start))
         }
         return result
-    }
-
-    fun resetEquivalentAmounts() = liveData(context = coroutineContext()) {
-        emit(
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_RESET_EQUIVALENT_AMOUNTS, null, null
-            )
-                ?.getInt(TransactionProvider.KEY_RESULT)
-        )
-    }
-
-    fun clearExchangeRateCache() = liveData(context = coroutineContext()) {
-        emit(exchangeRateRepository.deleteAll())
     }
 
     fun deleteAppFiles(files: Array<String>) = liveData(context = coroutineContext()) {

@@ -148,6 +148,11 @@ interface PrefHandler {
     val cloudStorage: String?
         get() = getString(PrefKey.AUTO_BACKUP_CLOUD)
             ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
+
+    companion object {
+        const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX = "automatic_exchange_rate_download_"
+        const val SERVICE_DEACTIVATED = "no"
+    }
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
@@ -158,12 +163,12 @@ inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: String,
 
 fun PrefHandler.getStringSafe(prefKey: PrefKey, default: String) = try {
     getString(prefKey, default)
-} catch (e: ClassCastException) {
+} catch (_: ClassCastException) {
     default
 }
 
 fun PrefHandler.getStringSafe(prefKey: String, default: String) = try {
     getString(prefKey, default)
-} catch (e: ClassCastException) {
+} catch (_: ClassCastException) {
     default
 }

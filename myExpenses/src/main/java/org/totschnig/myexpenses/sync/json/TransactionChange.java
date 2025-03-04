@@ -33,7 +33,6 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.model2.CategoryInfo;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
@@ -64,19 +63,7 @@ public abstract class TransactionChange {
   };
 
   public static TransactionChange create(Cursor cursor) {
-    final AutoValue_TransactionChange fromCursor = AutoValue_TransactionChange.createFromCursor(cursor);
-    if (fromCursor.equivalentAmount() != null) {
-      final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-      final Builder builder = fromCursor.toBuilder();
-      if (homeCurrency != null) {
-        builder.setEquivalentCurrency(homeCurrency);
-      } else {
-        builder.setEquivalentAmount(null);
-      }
-      return builder.setEquivalentCurrency(homeCurrency).build();
-    } else {
-      return fromCursor;
-    }
+    return AutoValue_TransactionChange.createFromCursor(cursor);
   }
 
   public static TypeAdapter<TransactionChange> typeAdapter(Gson gson) {

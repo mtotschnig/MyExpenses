@@ -3,7 +3,7 @@
 Hauptmerkmale:
 
      • <b>Mühelose Ausgabenverfolgung</b>: Behalten Sie Ihre Ausgaben und Einnahmen nahtlos im Auge, egal ob Sie auf Ihrem Smartphone oder Tablet sind.
-     • <b>Flexible Kontoverwaltung</b>: Verwalten Sie mühelos mehrere Konten, einschließlich Überweisungen zwischen verschiedenen Währungen.
+     • <b>Flexible Kontoverwaltung</b>: Verwalten Sie mühelos mehrere Konten, einschließlich Umbuchungen zwischen verschiedenen Währungen.
      • <b>Optimierte Finanzplanung</b>: Erstellen Sie ganz einfach Pläne für wiederkehrende Transaktionen.
      • <b>Nahtloses Datenmanagement</b>: Einfaches Exportieren und Importieren von Daten mithilfe der Formate QIF und CSV.
      • <b>Erhöhte Sicherheit</b>: Schützen Sie Ihre Daten mit Passwort oder Gerätesperrbildschirmsicherheit.

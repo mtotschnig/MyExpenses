@@ -26,11 +26,14 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import kotlinx.coroutines.launch
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
@@ -55,6 +58,7 @@ import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
@@ -65,7 +69,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.math.BigDecimal
-import java.time.LocalDate
 
 /**
  * Activity for editing an account
@@ -96,6 +99,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     @State
     var excludeFromTotals = false
+
+    @State
+    var dynamicExchangeRates = false
 
     @State
     var uuid: String? = null
@@ -163,7 +169,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
         }
         with(binding.SyncHelp) {
-            contentDescription = getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
+            contentDescription =
+                getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
             setOnClickListener {
                 showHelp(getString(R.string.form_synchronization_help_text_add))
             }
@@ -178,14 +185,16 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     private fun setup(fromSavedState: Boolean) {
         configureSyncBackendAdapter(fromSavedState)
-        lifecycleScope.launchWhenStarted {
-            currencyViewModel.currencies.collect { currencies: List<Currency?> ->
-                currencyAdapter.addAll(currencies)
-                currencySpinner.setSelection(
-                    currencyAdapter.getPosition(
-                        create(currencyUnit.code, this@AccountEdit)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                currencyViewModel.currencies.collect { currencies: List<Currency?> ->
+                    currencyAdapter.addAll(currencies)
+                    currencySpinner.setSelection(
+                        currencyAdapter.getPosition(
+                            create(currencyUnit.code, this@AccountEdit)
+                        )
                     )
-                )
+                }
             }
         }
         UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
@@ -235,9 +244,16 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         _currencyUnit = currencyContext[account.currency]
         color = account.color
         excludeFromTotals = account.excludeFromTotals
+        dynamicExchangeRates = account.dynamicExchangeRates
         uuid = account.uuid
         dataLoaded = true
-        binding.ERR.ExchangeRate.setRate(BigDecimal(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency)), true)
+        binding.ERR.ExchangeRate.setRate(
+            calculateRealExchangeRate(
+                account.exchangeRate,
+                currencyUnit,
+                homeCurrency
+            ), true
+        )
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
@@ -281,6 +297,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val openingBalance: BigDecimal = validateAmountInput(true) ?: return
         val currency = (currencySpinner.selectedItem as Currency).code
         val currencyUnit = currencyContext[currency]
+        val isForeignExchange = currencyContext.homeCurrencyString != currency
         val account = Account(
             id = rowId,
             label = label,
@@ -290,11 +307,12 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             type = accountTypeSpinner.selectedItem as AccountType,
             color = color,
             uuid = uuid,
-            syncAccountName =  if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
+            syncAccountName = if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
             criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
             excludeFromTotals = excludeFromTotals,
-            exchangeRate = (if (currencyContext.homeCurrencyString != currency) {
-                binding.ERR.ExchangeRate.getRate(false)?.toDouble()?.let {
+            dynamicExchangeRates = dynamicExchangeRates && isForeignExchange,
+            exchangeRate = (if (isForeignExchange) {
+                binding.ERR.ExchangeRate.getRate(false)?.let {
                     calculateRawExchangeRate(it, currencyUnit, homeCurrency)
                 }
             } else null) ?: 1.0
@@ -304,7 +322,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             result.onFailure {
                 CrashHandler.report(it)
                 showSnackBar(it.safeMessage)
-            }.onSuccess { (id , uuid) ->
+            }.onSuccess { (id, uuid) ->
                 account.syncAccountName?.let {
                     requestSync(
                         accountName = it,
@@ -323,7 +341,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     override fun onItemSelected(
         parent: AdapterView<*>, view: View?, position: Int,
-        id: Long
+        id: Long,
     ) {
         setDirty()
         val parentId = parent.id
@@ -333,7 +351,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                     _currencyUnit = currencyContext[it]
                     configureForCurrency(currencyUnit)
                 }
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 //will be reported to user when he tries so safe
             }
         } else if (parentId == R.id.Sync) {
@@ -349,43 +367,43 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Amount.setFractionDigits(currencyUnit.fractionDigits)
         binding.Criterion.setFractionDigits(currencyUnit.fractionDigits)
         setExchangeRateVisibility(currencyUnit)
+        invalidateOptionsMenu()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        menu.add(
-            Menu.NONE,
-            R.id.EXCLUDE_FROM_TOTALS_COMMAND,
-            0,
-            R.string.menu_exclude_from_totals
-        ).isCheckable =
-            true
+        menuInflater.inflate(R.menu.account_edit, menu)
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
-        if (item == null) {
-            CrashHandler.report(NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"))
-        } else {
-            item.isChecked = excludeFromTotals
+        menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND).isChecked = excludeFromTotals
+        with(menu.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
+            val isFX = currencyUnit.code != homeCurrency.code
+            this.setEnabledAndVisible(isFX)
+            isChecked = isFX && dynamicExchangeRates
         }
         return super.onPrepareOptionsMenu(menu)
     }
 
     override val fabActionName = "SAVE_ACCOUNT"
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
-        }
-        when (command) {
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        super.dispatchCommand(command, tag) || when (command) {
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> {
                 excludeFromTotals = !excludeFromTotals
-                return true
+                setDirty()
+                true
             }
+
+            R.id.DYNAMIC_EXCHANGE_RATE_COMMAND -> {
+                dynamicExchangeRates = !dynamicExchangeRates
+                setDirty()
+                true
+            }
+
             R.id.SYNC_UNLINK_COMMAND -> {
                 uuid?.let { uuid ->
                     syncViewModel.syncUnlink(uuid).observe(this) { result ->
@@ -398,28 +416,29 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                         }
                     }
                 }
-                return true
+                true
             }
+
             R.id.SYNC_SETTINGS_COMMAND -> {
                 syncSettings.launch(
                     Intent(this, ManageSyncBackends::class.java).apply {
                         putExtra(KEY_UUID, uuid)
                     }
                 )
-                return true
+                true
             }
-            else -> return false
-        }
-    }
 
-    private val syncSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_FIRST_USER) {
-            finish()
-        } else {
-            configureSyncBackendAdapter(true)
+            else -> false
         }
-    }
 
+    private val syncSettings =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_FIRST_USER) {
+                finish()
+            } else {
+                configureSyncBackendAdapter(true)
+            }
+        }
 
 
     override fun setupListeners() {
@@ -480,7 +499,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (EDIT_COLOR_DIALOG == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
+        if (EDIT_COLOR_DIALOG == dialogTag && which == BUTTON_POSITIVE) {
             color = extras.getInt(SimpleColorDialog.COLOR)
             if (!maybeApplyDynamicColor()) {
                 UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
@@ -489,9 +508,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         }
         return false
     }
-
-    override val date: LocalDate
-        get() = LocalDate.now()
 
     override val amountLabel: TextView
         get() = binding.AmountLabel

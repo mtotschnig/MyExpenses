@@ -64,4 +64,8 @@
     <string name="preview">"အစမ်းကြည့်မှု"</string>
     <string name="show_password">"စကားဝှက်ကို ပြသရန်"</string>
     <string name="hide_password">"စကားဝှက် ဝှက်ထားရန်"</string>
+    <string name="user">"အသုံးပြုသူ"</string>
+    <string name="source">"မူရင်း"</string>
+    <string name="value">Value"</string>
+    <string name="done_label">"ပြီးပါပြီ"</string>
 </resources>

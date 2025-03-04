@@ -133,6 +133,9 @@
     <string name="pref_camera_chooser_key">camera_chooser</string>
     <string name="pref_transaction_amount_color_source_key">transaction_amount_color_source</string>
     <string name="pref_sync_now_all_key">sync_now_all</string>
+    <string name="pref_automatic_exchange_rate_download_key">automatic_exchange_rate_download</string>
+    <string name="pref_category_currencies_key">category_currencies</string>
+    <string name="pref_category_prices_key">category_prices</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
@@ -258,7 +261,6 @@
     <string name="pref_db_safe_mode_key">db_safe_mode</string>
     <string name="safe_mode">Safe mode</string>
     <string name="corrupted_data_detected">Corrupted data detected: You can inspect the corrupted records from Settings -> Debug -> Corrupted Data. Contact support@myexpenses.mobi for assistance.</string>
-    <string name="pref_exchange_rates_clear_cache_key">exchange_rates_clear_cache</string>
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
     <string name="pref_csv_export_key">csv_export</string>
     <string name="pref_csv_export_split_categories_key">csv_export_split_categories</string>

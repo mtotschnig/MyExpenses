@@ -87,7 +87,7 @@ import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
 
-fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T) : T {
+fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T): T {
     beginTransaction()
     try {
         ContentValues(1).apply {
@@ -147,7 +147,7 @@ fun linkTransfers(
     db: SupportSQLiteDatabase,
     uuid1: String,
     uuid2: String,
-    writeChange: Boolean
+    writeChange: Boolean,
 ): Int {
     db.beginTransaction()
     try {
@@ -330,7 +330,7 @@ val expenseCategories = arrayOf(
 
 fun getImportableCategories(
     database: SupportSQLiteDatabase,
-    resources: Resources
+    resources: Resources,
 ) = Category(children = (incomeCategories + expenseCategories)
     .mapIndexedNotNull { indexMain, (categoriesResId, _, uuidResId) ->
         val categories = resources.getStringArray(categoriesResId)
@@ -353,7 +353,7 @@ fun getImportableCategories(
                             database.findSubCategory(main, subLabel)
                         } ?: database.findCategoryByUuid(subUuid)) == null) {
                         Category(
-                            id = indexMain * 100L + indexSub  +1,
+                            id = indexMain * 100L + indexSub + 1,
                             parentId = indexMain.toLong(),
                             label = subLabel,
                             level = 2
@@ -373,7 +373,7 @@ private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
     resources: Resources,
     categoryDefinitions: Array<Triple<Int, Int, Int>>,
-    typeFlag: Byte
+    typeFlag: Byte,
 ): Pair<Int, Int> {
     var totalInserted = 0
     var totalUpdated = 0
@@ -595,7 +595,7 @@ fun SupportSQLiteDatabase.update(
     table: String,
     values: ContentValues,
     whereClause: String?,
-    whereArgs: Array<Any>?
+    whereArgs: Array<Any>?,
 ) = //https://github.com/sqlcipher/sqlcipher-android/issues/50
     update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs ?: emptyArray())
 
@@ -620,7 +620,7 @@ fun SupportSQLiteDatabase.query(
     groupBy: String? = null,
     having: String? = null,
     orderBy: String? = null,
-    limit: String? = null
+    limit: String? = null,
 ): Cursor = query(
     SupportSQLiteQueryBuilder.builder(table)
         .columns(columns)
@@ -636,7 +636,7 @@ fun SupportSQLiteDatabase.query(
         .create())
 
 fun SupportSQLiteDatabase.dualQuery(
-    columns: Array<String>
+    columns: Array<String>,
 ): Cursor = query(SimpleSQLiteQuery("SELECT ${columns.joinToString(", ")}"))
 
 fun suggestNewCategoryColor(db: SupportSQLiteDatabase) = db.query(
@@ -656,7 +656,7 @@ fun buildUnionQuery(
     subQueries: Array<String?>,
     sortOrder: String? = null,
     limit: String? = null,
-    distinct: Boolean = false
+    distinct: Boolean = false,
 ): String = subQueries.joinToString(if (distinct) " UNION " else " UNION ALL ") +
         (if (sortOrder != null) " ORDER BY $sortOrder" else "") +
         if (limit != null) " LIMIT $limit" else ""
@@ -670,7 +670,7 @@ fun backup(
     backupDir: File,
     context: Context,
     prefHandler: PrefHandler,
-    lenientMode: Boolean
+    lenientMode: Boolean,
 ): Result<Unit> {
     try {
         cacheEventData(context, prefHandler)
@@ -753,7 +753,7 @@ fun checkSyncAccounts(context: Context) {
 fun insertEventAndUpdatePlan(
     contentResolver: ContentResolver,
     eventValues: ContentValues,
-    templateId: Long
+    templateId: Long,
 ): Boolean {
     val uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
     val planId = ContentUris.parseId(uri!!)
@@ -770,11 +770,9 @@ fun insertEventAndUpdatePlan(
 fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Money) =
     getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let { Money(homeCurrency, it) } ?: Money(
         homeCurrency, baseAmount.amountMajor.multiply(
-            BigDecimal(
-                calculateRealExchangeRate(
-                    getDouble(KEY_EXCHANGE_RATE),
-                    baseAmount.currencyUnit, homeCurrency
-                )
+            calculateRealExchangeRate(
+                getDouble(KEY_EXCHANGE_RATE),
+                baseAmount.currencyUnit, homeCurrency
             )
         )
     )

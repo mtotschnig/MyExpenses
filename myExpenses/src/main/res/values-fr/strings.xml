@@ -597,7 +597,6 @@
     <string name="grand_total">Somme finale</string>
     <string name="menu_original_amount">Montant original</string>
     <string name="menu_equivalent_amount">Montant équivalent</string>
-    <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau.</string>
     <string name="warning_split_transactions">Les opérations sélectionnées seront regroupées en une seule opération ventilée. Les informations de date seront perdues, c\'est-à-dire remplacées par leur moyenne.</string>
     <string name="warning_ungroup_split_transactions">Les opérations ventilées sélectionnées seront dissociées, c\'est-à-dire que leurs parties après division deviendront des opérations normales.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -795,7 +794,6 @@
     <string name="template_default_action_without_amount_hint">Le modèle sans montant doit être enregistré avec l\'action par défaut « Modifier »</string>
     <string name="plan_automatic_without_amount_hint">Une échéance sans montant ne peut pas être sauvegardée avec exécution automatique</string>
     <string name="content_description_edit_plan">Modifier le plan dans l\'application de calendrier</string>
-    <string name="reset_equivalent_amounts_success">Les montants équivalents ont été réinitialisés</string>
     <string name="menu_save_and_new_content_description">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Moteur de reconnaissance de texte</string>

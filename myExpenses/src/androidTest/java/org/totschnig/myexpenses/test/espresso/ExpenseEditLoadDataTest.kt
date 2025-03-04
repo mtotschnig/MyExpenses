@@ -80,7 +80,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun buildForeignAccount(): Account =
-        buildAccount("Test account 2", currency = foreignCurrency.code)
+        buildAccount("Test account 2", currency = foreignCurrency.code, dynamicExchangeRates = true)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
         putExtra(DatabaseConstants.KEY_ROWID, id)

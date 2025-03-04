@@ -32,9 +32,6 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
 
     private lateinit var viewModel: MyExpensesViewModel
 
-    private val application: MyApplication
-        get() = ApplicationProvider.getApplicationContext()
-
     private lateinit var account1: Account
     private val openingBalance = 100L
     private val expense1 = 10L

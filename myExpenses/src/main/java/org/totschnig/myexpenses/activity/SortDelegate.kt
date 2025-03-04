@@ -27,7 +27,7 @@ class SortDelegate(
                 prefHandler.putString(prefKey, it.name)
             }
             true
-        } ?: false
+        } == true
 
     val currentSortOrder: Sort
         get() = enumValueOrNull<Sort>(

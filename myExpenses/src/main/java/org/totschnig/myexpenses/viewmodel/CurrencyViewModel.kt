@@ -1,12 +1,19 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import org.totschnig.myexpenses.model.CurrencyEnum
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -20,8 +27,20 @@ open class CurrencyViewModel(application: Application) :
             TransactionProvider.CURRENCIES_URI, null, null, null,
             KEY_CODE, true
         )
-            .mapToList(dispatcher = coroutineDispatcher) { Currency.create(it, userPreferredLocale) }
+            .mapToList(dispatcher = coroutineDispatcher) {
+                Currency.create(
+                    it,
+                    userPreferredLocale
+                )
+            }
             .map { it.sorted() }
+
+    val usedCurrencies: StateFlow<List<CurrencyUnit>> by lazy {
+        contentResolver.observeQuery(
+            TransactionProvider.DYNAMIC_CURRENCIES_URI,
+        ).mapToList(dispatcher = coroutineDispatcher) { currencyContext[it.getString(0)] }
+            .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
 
     val currenciesFromEnum: List<Currency>
         get() = CurrencyEnum.entries
@@ -43,7 +62,7 @@ open class CurrencyViewModel(application: Application) :
 
     val default: Currency
         get() = Currency.create(
-            currencyContext.homeCurrencyUnit.code,
+            currencyContext.homeCurrencyString,
             userPreferredLocale
         )
 }

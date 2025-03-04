@@ -151,4 +151,8 @@
     <string name="preview">"Önizle"</string>
     <string name="show_password">"Şifreyi göster"</string>
     <string name="hide_password">"Şifreyi gizle"</string>
+    <string name="user">"Kullanıcı"</string>
+    <string name="source">"Kaynak"</string>
+    <string name="value">"Değer"</string>
+    <string name="done_label">"Bitti"</string>
 </resources>

@@ -109,7 +109,9 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "rollover" to null,
             "type_filter" to R.drawable.ic_filter,
             "archive" to R.drawable.ic_archive,
-            "budget_synchronization" to R.drawable.ic_sync
+            "budget_synchronization" to R.drawable.ic_sync,
+            "download" to R.drawable.ic_menu_download,
+            "add" to R.drawable.ic_menu_add
         )
 
         @JvmStatic
@@ -235,7 +237,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "ManageCategories_manage_cabitems",
             "ManageCategories_select_filter_cabitems",
             "MyExpenses_cabitems",
-            "RoadmapVoteActivity_cabitems"
+            "RoadmapVoteActivity_cabitems",
+            "PriceHistory_cabitems"
         )
             .contains(componentName)
 

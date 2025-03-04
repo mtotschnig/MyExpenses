@@ -149,7 +149,7 @@
     <string name="popup_MyExpenses_toolbar_new_balance">Oblicz różnicę między bieżącym saldem a nową wartością.</string>
     <string name="menu_BudgetActivity_rollover_edit">Ta opcja pozwala na precyzyjne skonfigurowanie najazdu. Na przykład można ustawić częściowe rolowanie tylko dla niektórych kategorii lub podkategorii, a pozostałą część w całkowitym budżecie.</string>
     <string name="menu_HistoryActivity_grouping_help_text">Przełączaj się między dziennym, tygodniowym, miesięcznym lub rocznym grupowaniem danych dotyczących przepływów pieniężnych.</string>
-    <string name="menu_equivalent_amount_help_text">Aby obliczyć sumę całkowitą dla wszystkich rachunków, transakcje na rachunkach walutowych są mnożone przez kurs wymiany ustawiony dla konta. Można jednak również zastąpić tę niejawnie obliczoną kwotę, ustawiając równoważną kwotę dla dowolnej pojedynczej transakcji.</string>
+    <string name="menu_equivalent_amount_help_text">Aby obliczyć sumę całkowitą dla wszystkich rachunków, transakcje na rachunkach walutowych są mnożone przez kurs wymiany ustawiony dla konta.</string>
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Definiując budżet, określasz ogólną kwotę, jaką chcesz wydać w danym okresie. Możesz także przydzielać kwoty na kategorie i podkategorie. Następnie monitorujesz, ile wydałeś i ile jeszcze pozostało do wydania.</string>
     <string name="help_BudgetEdit_title">Formularz dla budżetów</string>
     <string name="help_ManageParties_select_mapping_info">Wybierz imprezę, dotykając jej.</string>

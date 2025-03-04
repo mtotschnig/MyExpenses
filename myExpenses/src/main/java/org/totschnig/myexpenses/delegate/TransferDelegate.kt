@@ -140,8 +140,8 @@ class TransferDelegate(
         }
     }
 
-    override fun setAccount() {
-        super.setAccount()
+    override fun setAccount(isInitialSetup: Boolean) {
+        super.setAccount(isInitialSetup)
         val selectedPosition = setTransferAccountFilterMap()
         transferAccountSpinner.setSelection(selectedPosition)
         mTransferAccountId = transferAccountSpinner.selectedItemId
@@ -324,8 +324,8 @@ class TransferDelegate(
         }
     }
 
-    override fun updateAccount(account: Account) {
-        super.updateAccount(account)
+    override fun updateAccount(account: Account, isInitialSetup: Boolean) {
+        super.updateAccount(account, isInitialSetup)
         transferAccountSpinner.setSelection(setTransferAccountFilterMap())
         mTransferAccountId = transferAccountSpinner.selectedItemId
         configureTransferInput()
@@ -335,8 +335,8 @@ class TransferDelegate(
         val transferAccountId = transferAccountSpinner.selectedItemId
         if (transferAccountId != AdapterView.INVALID_ROW_ID) {
             mTransferAccountId = transferAccountId
-            super.onSaveInstanceState(outState)
         }
+        super.onSaveInstanceState(outState)
     }
 
     fun invert() {

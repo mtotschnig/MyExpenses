@@ -10,17 +10,20 @@ import java.time.LocalDate
 interface Frankfurter {
     @GET("latest")
     fun getLatest(
-        @Query("to") symbol: String,
-        @Query("from") base: String
+        @Query("symbols") symbols: String,
+        @Query("base") base: String
     ): Call<Result>
 
     @GET("{date}")
     fun getHistorical(
         @Path("date") date: LocalDate,
-        @Query("to") symbol: String,
-        @Query("from") base: String
+        @Query("symbols") symbols: String,
+        @Query("base") base: String
     ): Call<Result>
 
     @Keep
-    data class Result(val rates: Map<String, Double>)
+    data class Result(
+        val date: LocalDate,
+        val rates: Map<String, Double>
+    )
 }

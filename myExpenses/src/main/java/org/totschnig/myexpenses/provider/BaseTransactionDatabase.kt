@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -27,8 +28,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
@@ -36,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
@@ -58,6 +62,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
@@ -86,10 +91,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
@@ -106,7 +114,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 172
+const val DATABASE_VERSION = 173
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -283,6 +291,27 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 );
 """
 
+const val EQUIVALENT_AMOUNTS_CREATE = """
+    CREATE TABLE $TABLE_EQUIVALENT_AMOUNTS (
+    $KEY_TRANSACTIONID integer NOT NULL references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_CURRENCY text NOT NULL references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
+    $KEY_EQUIVALENT_AMOUNT integer NOT NULL,
+    primary key ($KEY_TRANSACTIONID, $KEY_CURRENCY)
+);
+"""
+
+const val PRICES_CREATE = """
+    CREATE TABLE $TABLE_PRICES (
+    $KEY_COMMODITY text NOT NULL,
+    $KEY_CURRENCY text NOT NULL references $TABLE_CURRENCIES ($KEY_CODE) ON DELETE CASCADE,
+    $KEY_DATE datetime NOT NULL,
+    $KEY_SOURCE text NOT NULL,
+    $KEY_TYPE text default 'unknown',
+    $KEY_VALUE real not NULL,
+    primary key($KEY_COMMODITY, $KEY_CURRENCY, $KEY_DATE, $KEY_SOURCE, $KEY_TYPE)
+);
+"""
+
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """
 CREATE TABLE $TABLE_TRANSACTION_ATTACHMENTS (
     $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
@@ -339,7 +368,7 @@ const val TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
 //we allow update of status
 const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_transaction_update
- BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID, $KEY_CR_STATUS
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID, $KEY_CR_STATUS
  ON $TABLE_TRANSACTIONS
  WHEN (SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID IN (new.$KEY_ACCOUNTID,old.$KEY_ACCOUNTID)) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
@@ -347,7 +376,7 @@ const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
 //we allow update of cr_status and status
 const val TRANSFER_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_tranfer_update
- BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID
  ON $TABLE_TRANSACTIONS
  WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_TRANSFER_ACCOUNT) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
@@ -371,7 +400,7 @@ private const val TRANSACTIONS_UNARCHIVE_TRIGGER =
     """
 
 const val VIEW_WITH_ACCOUNT_DEFINITION =
-    """CREATE VIEW $VIEW_WITH_ACCOUNT AS SELECT $TABLE_TRANSACTIONS.*, $TABLE_CATEGORIES.$KEY_TYPE, $TABLE_ACCOUNTS.$KEY_COLOR, $KEY_CURRENCY, $KEY_EXCLUDE_FROM_TOTALS, $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL FROM $TABLE_TRANSACTIONS LEFT JOIN $TABLE_CATEGORIES on $KEY_CATID = $TABLE_CATEGORIES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID WHERE $KEY_STATUS != $STATUS_UNCOMMITTED"""
+    """CREATE VIEW $VIEW_WITH_ACCOUNT AS SELECT $TABLE_TRANSACTIONS.*, $TABLE_CATEGORIES.$KEY_TYPE, $TABLE_ACCOUNTS.$KEY_COLOR, $KEY_CURRENCY, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL FROM $TABLE_TRANSACTIONS LEFT JOIN $TABLE_CATEGORIES on $KEY_CATID = $TABLE_CATEGORIES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID WHERE $KEY_STATUS != $STATUS_UNCOMMITTED"""
 
 const val SPLIT_PART_CR_STATUS_TRIGGER_CREATE =
     """CREATE TRIGGER split_part_cr_status_trigger
@@ -398,7 +427,6 @@ fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
     linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS)
     linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS)
 }
-
 
 fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
@@ -440,7 +468,7 @@ fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTI
 
 private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
     TABLE_TRANSACTIONS -> "$reference.$column"
-    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_EQUIVALENT_AMOUNTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
     else -> throw IllegalArgumentException()
 }
 
@@ -994,6 +1022,55 @@ abstract class BaseTransactionDatabase(
                     )
                 }
             }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo173() {
+        //create new tables
+        execSQL("CREATE TABLE prices (commodity text NOT NULL, currency text NOT NULL references currency(code) ON DELETE CASCADE, date datetime NOT NULL, source text NOT NULL, type text default 'unknown', value real not NULL, primary key(commodity, currency, date, source, type));")
+        execSQL("CREATE TABLE equivalent_amounts (transaction_id integer not null references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));")
+        //ADD column dynamic
+        execSQL("ALTER TABLE accounts add column dynamic boolean default 0;")
+        //set dynamic flag for accounts where we have equivalent amounts
+        execSQL("UPDATE accounts set dynamic = true where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)")
+        //Migrate equivalent amounts from transactions table to new join table
+        execSQL(
+            "INSERT INTO equivalent_amounts (transaction_id, currency, equivalent_amount) SELECT _id, '${context.injector.currencyContext().homeCurrencyString}', equivalent_amount FROM transactions WHERE equivalent_amount IS NOT NULL;"
+        )
+        createOrRefreshEquivalentAmountTriggers()
+        //DROP column equivalent_amount
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            execSQL("ALTER TABLE transactions RENAME TO transactions_old")
+            execSQL(
+                "CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date datetime not null, value_date datetime not null, amount integer not null, cat_id integer references categories(_id), account_id integer not null references accounts(_id) ON DELETE CASCADE, payee_id integer references payee(_id), transfer_peer integer references transactions(_id), transfer_account integer references accounts(_id),method_id integer references paymentmethods(_id),parent_id integer references transactions(_id) ON DELETE CASCADE, status integer default 0, cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', number text, uuid text, original_amount integer, original_currency text, debt_id integer references debts(_id) ON DELETE SET NULL);\n"
+            )
+            execSQL(
+                "INSERT INTO transactions (" +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id) " +
+                        "SELECT " +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id FROM transactions_old"
+            )
+            execSQL("DROP TABLE transactions_old")
+            createOrRefreshTransactionUsageTriggers()
+            createOrRefreshTransactionDebtTriggers()
+            execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_UUID_INDEX_CREATE)
+            execSQL(TRANSACTIONS_CAT_ID_INDEX)
+            execSQL(TRANSACTIONS_PAYEE_ID_INDEX)
+            execSQL(TRANSACTIONS_PARENT_ID_INDEX)
+            execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE)
+            createArchiveTriggers()
+        } else {
+            execSQL("DROP TRIGGER IF EXISTS insert_change_log")
+            execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
+            execSQL("DROP TRIGGER IF EXISTS update_change_log")
+            execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+            execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
+            execSQL("ALTER TABLE transactions DROP COLUMN equivalent_amount")
+        }
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

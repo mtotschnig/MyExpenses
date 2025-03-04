@@ -380,6 +380,7 @@
             android:exported="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
+        <activity android:name="org.totschnig.myexpenses.activity.PriceHistory" />
 
         <service
             android:name=".sync.GenericAccountService"

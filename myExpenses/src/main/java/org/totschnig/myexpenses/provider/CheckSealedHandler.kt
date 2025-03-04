@@ -22,7 +22,8 @@ open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
         startQuery(
             TOKEN,
             listener,
-            TransactionProvider.TRANSACTIONS_URI,
+            TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1").build(),
             arrayOf(
                 if (withTransfer) KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER else KEY_HAS_SEALED_ACCOUNT,
                 KEY_HAS_SEALED_DEBT

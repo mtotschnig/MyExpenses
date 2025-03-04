@@ -501,7 +501,6 @@
     <string name="pref_criterion_future_end_of_day">Einde van de dag</string>
     <string name="scan_result_no_payee">Geen begunstigde gevonden</string>
     <string name="content_description_edit_plan">Bewerk plan in kalender-app</string>
-    <string name="reset_equivalent_amounts_success">Equivalente bedragen zijn opnieuw ingesteld</string>
     <string name="tesseract_download_confirmation">Wil je tekstherkenningsgegevens downloaden voor %s?</string>
     <string name="title_webui">Web-gebruikersinterface</string>
     <string name="single_feature_info">Als alternatief kun je onbeperkte toegang kopen tot alleen deze functie.</string>
@@ -724,7 +723,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Overstappen naar een maandabonnement</string>
     <string name="extend_validity">Geldigheid verlengen</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Gegevens ophalen uit een externe backend. Dit kan enige tijd duren.</string>
-    <string name="home_currency_change_warning">Als je uw thuis valuta wijzigt, gaan equivalente bedragen en wisselkoersen verloren en moeten deze opnieuw worden gedefinieerd.</string>
     <string name="pref_transaction_time_summary">Toestaan om de exacte transactietijd in te stellen.</string>
     <string name="pref_value_date_summary">Toestaan om valutadatum in te stellen naast de boekingsdatum. De transactietijd wordt verborgen. Deze instelling wordt niet toegepast op geldrekeningen.</string>
     <string name="sort_order">Sorteervolgorde</string>

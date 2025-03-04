@@ -69,4 +69,8 @@
     <string name="preview">"Урдьчилж харах"</string>
     <string name="show_password">"Нууц үгийг харуулах"</string>
     <string name="hide_password">"Нууц үгийг нуух"</string>
+    <string name="user">"Хэрэглэгч"</string>
+    <string name="source">"Source"</string>
+    <string name="value">"Утга"</string>
+    <string name="done_label">"Дууссан"</string>
 </resources>

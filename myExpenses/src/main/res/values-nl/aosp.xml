@@ -149,4 +149,8 @@
     <string name="preview">"Voorbeeld"</string>
     <string name="show_password">"Wachtwoord tonen"</string>
     <string name="hide_password">"Wachtwoord verbergen"</string>
+    <string name="user">"Gebruiker"</string>
+    <string name="source">"Bron"</string>
+    <string name="value">"Waarde"</string>
+    <string name="done_label">"Klaar"</string>
 </resources>

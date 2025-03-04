@@ -589,7 +589,6 @@
     <string name="grand_total">Общо</string>
     <string name="menu_original_amount">Оригинална сума</string>
     <string name="menu_equivalent_amount">Еквивалентна сума</string>
-    <string name="home_currency_change_warning">Ако промените основната валута, еквивалентните суми и валутните курсове ще бъдат загубени и ще трябва да бъдат зададени отново.</string>
     <string name="warning_split_transactions">Избраните транзакции ще бъдат групирани в една разпределена транзакция. Информацията им за дата ще бъде изгубена, т.е. заменена от средната им стойност.</string>
     <string name="warning_ungroup_split_transactions">Избраните разпределени транзакции ще бъдат разгрупирани, т.е. разпределените им части ще станат отделни транзакции.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -786,7 +785,6 @@
     <string name="template_default_action_without_amount_hint">Шаблон без сума трябва да бъде запазен с действие по подразбиране „Редактиране“</string>
     <string name="plan_automatic_without_amount_hint">План без сума не трябва да се записва при автоматично изпълнение на плана</string>
     <string name="content_description_edit_plan">Редактиране на план в приложението календар</string>
-    <string name="reset_equivalent_amounts_success">Еквивалентните суми са нулирани</string>
     <string name="menu_save_and_new_content_description">Запазва данните, но оставя отворена бланката - за създаване на нова транзакция със същите данни.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Софтуер за разпознаване на текст</string>

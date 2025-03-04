@@ -68,4 +68,8 @@
     <string name="preview">"پیش‌نمایش"</string>
     <string name="show_password">"نمایش گذرواژه"</string>
     <string name="hide_password">"پنهان کردن گذرواژه"</string>
+    <string name="user">"کاربر"</string>
+    <string name="source">Source"</string>
+    <string name="value">"مقدار"</string>
+    <string name="done_label">"تمام"</string>
 </resources>

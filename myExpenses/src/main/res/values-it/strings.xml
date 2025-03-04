@@ -594,7 +594,6 @@
     <string name="grand_total">somma totale</string>
     <string name="menu_original_amount">Importo originario</string>
     <string name="menu_equivalent_amount">Importo equivalente</string>
-    <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e dovranno essere nuovamente definiti.</string>
     <string name="warning_split_transactions">Le operazioni selezionate saranno raggruppate in una operazione frazionata. Le loro informazioni sulla data andranno perse, cioè sostituite dalla loro media.</string>
     <string name="warning_ungroup_split_transactions">Le operazioni frazionate selezionate verranno separate, ovvero le loro parti divise diventeranno normali operazioni.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -792,7 +791,6 @@
     <string name="template_default_action_without_amount_hint">Il modello senza importo deve essere salvato con l\'azione predefinita \'Modifica\'</string>
     <string name="plan_automatic_without_amount_hint">Il piano senza importo non deve essere salvato con l\'esecuzione automatica del piano</string>
     <string name="content_description_edit_plan">Modifica il piano nell\'applicazione del calendario</string>
-    <string name="reset_equivalent_amounts_success">Gli importi equivalenti sono stati ripristinati</string>
     <string name="menu_save_and_new_content_description">Salva i dati e lascia il modulo aperto per la creazione di una nuova transazione con gli stessi dati.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Motore per il riconoscimento del testo</string>

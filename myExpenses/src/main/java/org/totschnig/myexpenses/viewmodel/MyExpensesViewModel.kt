@@ -91,6 +91,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
@@ -105,6 +106,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
@@ -163,15 +165,31 @@ open class MyExpensesViewModel(
     val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
+    private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
 
     fun showStatusHandle() =
         dataStore.data.map { preferences ->
             preferences[showStatusHandlePrefKey] != false
         }
 
-    suspend fun persistShowStatusHandle(showStatus: Boolean) {
-        dataStore.edit { preference ->
-            preference[showStatusHandlePrefKey] = showStatus
+    fun showEquivalentWorth() =
+        dataStore.data.map { preferences ->
+            preferences[showEquivalentWorthPrefKey] == true
+        }
+
+    fun persistShowStatusHandle(showStatus: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preference ->
+                preference[showStatusHandlePrefKey] = showStatus
+            }
+        }
+    }
+
+    fun persistShowEquivalentWorth(showEquivalentWort: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preference ->
+                preference[showEquivalentWorthPrefKey] = showEquivalentWort
+            }
         }
     }
 
@@ -273,6 +291,7 @@ open class MyExpensesViewModel(
     }
 
     var showFilterDialog by mutableStateOf(false)
+
 
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {
@@ -734,14 +753,15 @@ open class MyExpensesViewModel(
             KEY_PAYEEID,
             KEY_CR_STATUS,
             "avg($KEY_DATE) AS $KEY_DATE",
-            "sum($KEY_AMOUNT) AS $KEY_AMOUNT"
+            "sum($KEY_AMOUNT) AS $KEY_AMOUNT",
+            "sum($KEY_EQUIVALENT_AMOUNT) AS $KEY_EQUIVALENT_AMOUNT"
         )
 
         val groupBy = String.format(
             Locale.ROOT,
             "%s, %s, %s, %s",
-            KEY_ACCOUNTID,
-            KEY_CURRENCY,
+            "$VIEW_EXTENDED.$KEY_ACCOUNTID",
+            "$VIEW_EXTENDED.$KEY_CURRENCY",
             KEY_PAYEEID,
             KEY_CR_STATUS
         )
@@ -762,6 +782,7 @@ open class MyExpensesViewModel(
                         currencyUnit,
                         cursor.getLong(KEY_AMOUNT)
                     )
+                    val equivalentAmount = Money(currencyContext.homeCurrencyUnit, cursor.getLong(KEY_EQUIVALENT_AMOUNT))
                     val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                     val date = cursor.getLong(KEY_DATE)
                     val crStatus =
@@ -779,6 +800,7 @@ open class MyExpensesViewModel(
                         it.date = date
                         it.payeeId = payeeId
                         it.crStatus = crStatus
+                        it.equivalentAmount = equivalentAmount
                     }
                     val operations = parent.buildSaveOperations(contentResolver, false)
                     val where = KEY_ROWID + " " + Operation.IN.getOp(count)

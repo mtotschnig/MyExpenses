@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.database.Cursor
+import androidx.core.database.getDoubleOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -20,11 +21,12 @@ fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) = use {
     it.asSequence.map(mapper).toSet()
 }
 
-fun <K, V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K, V>) = use {
+fun <K, V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K, V>?) = use {
     buildMap {
         it.asSequence.forEach {
-            val (key, value) = mapper(it)
-            put(key, value)
+            mapper(it)?.let { (key, value) ->
+                put(key, value)
+            }
         }
     }
 }
@@ -65,6 +67,9 @@ fun Cursor.getStringIfExists(column: String) =
 fun Cursor.getDoubleIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
 
+fun Cursor.getDoubleOrNull(column: String) = getDoubleOrNull(getColumnIndexOrThrow(column))
+
+
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
 
@@ -89,6 +94,7 @@ fun Cursor.splitStringList(colum: String) = getString(colum)
     ?.split('')
     ?: emptyList()
 
-fun Cursor.getLocalDate(column: String) = LocalDate.parse(getString(column))
+fun Cursor.getLocalDate(columnIndex: Int) = LocalDate.parse(getString(columnIndex))
+fun Cursor.getLocalDate(column: String) = getLocalDate(getColumnIndexOrThrow(column))
 fun Cursor.getLocalDateIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { LocalDate.parse(getString(it)) }
+    getColumnIndex(column).takeIf { it != -1 }?.let { getLocalDate(it) }

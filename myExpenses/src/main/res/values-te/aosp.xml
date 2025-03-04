@@ -127,4 +127,8 @@
     <string name="preview">"పరిదృశ్యం"</string>
     <string name="show_password">"పాస్‌వర్డ్‌ను చూపండి"</string>
     <string name="hide_password">"పాస్‌వర్డ్‌ను దాచు"</string>
+    <string name="user">"యూజర్"</string>
+    <string name="source">Source"</string>
+    <string name="value">"విలువ"</string>
+    <string name="done_label">"పూర్తయింది"</string>
 </resources>

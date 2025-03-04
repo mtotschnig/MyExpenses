@@ -158,7 +158,7 @@
     <string name="help_ManageStaleImages_info">此屏幕允许您处理已删除交易中留下的图像文件。长按条目，以便删除它们，或将它们从(可能是内部)存储文件夹移至外部存储上的备份文件夹(%s) 。</string>
     <string name="help_ManageCurrencies_new">对于自定义货币，您还需要定义一个标签和一个字母代码，标签显示在用于选择货币的菜单中，字母代码按照惯例由三个字符组成。</string>
     <string name="form_MethodEdit_numbered_help_text">当对一个方法进行编号时，映射到该方法的事务将有一个用于输入参考编号的附加字段。</string>
-    <string name="menu_equivalent_amount_help_text">为了计算所有账户的总金额，将外币账户的交易乘以你为该账户设置的汇率。但你也可以通过为任意单个交易设置一个等效的金额来覆盖这个隐式计算的金额。</string>
+    <string name="menu_equivalent_amount_help_text">为了计算所有账户的总金额，将外币账户的交易乘以你为该账户设置的汇率。</string>
     <string name="form_default_action_help_text">对于每个模板，你可以配置在模板列表中对其短暂轻按，是立即保存实例，还是进入其编辑表单，以便在保存之前对其进行修改。你总是可以通过长按来访问这两个操作。</string>
     <string name="help_debt_managment">将债务与交易方进行关联，检查交易列表并计算所剩余额。</string>
     <string name="cab_ManageCategories_select_help_text">将选定的类别映射到交易，并返回到交易表单。</string>

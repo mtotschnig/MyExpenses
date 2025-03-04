@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.util.Utils
@@ -30,8 +32,12 @@ import java.text.DecimalFormatSymbols
 fun AmountEdit(
     value: BigDecimal,
     onValueChange: (BigDecimal) -> Unit,
+    modifier: Modifier = Modifier,
     fractionDigits: Int = 2,
-    isError: Boolean
+    isError: Boolean = false,
+    allowNegative: Boolean = true,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     val decimalSeparator = remember { Utils.getDefaultDecimalSeparator() }
     // TODO we should take into account the arab separator as well
@@ -42,7 +48,7 @@ fun AmountEdit(
         symbols.decimalSeparator = decimalSeparator
         var pattern = "#0"
         if (fractionDigits > 0) {
-            pattern += "." + String(CharArray(fractionDigits)).replace("\u0000", "#")
+            pattern += "." + "#".repeat(fractionDigits)
         }
         DecimalFormat(pattern, symbols).also {
             it.isGroupingUsed = false
@@ -59,7 +65,7 @@ fun AmountEdit(
             val input = newValue.replace(otherSeparator, decimalSeparator)
             val decimalSeparatorCount = input.count { it == decimalSeparator }
             if (
-                input.all { it.isDigit() || it == decimalSeparator || it == '-' } &&
+                input.all { it.isDigit() || it == decimalSeparator || (it == '-' && allowNegative)  } &&
                 decimalSeparatorCount <= (if (fractionDigits == 0) 0 else 1) &&
                 (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length <= fractionDigits) &&
                 input.lastIndexOf('-') <= 0
@@ -72,7 +78,10 @@ fun AmountEdit(
                 }
             }
         },
+        modifier = modifier,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardActions = keyboardActions,
+        trailingIcon = trailingIcon,
         isError = isError
     )
 }
@@ -83,6 +92,8 @@ fun DenseTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -95,8 +106,9 @@ fun DenseTextField(
         enabled = true,
         singleLine = true,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.error),
-        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onSurface),
+        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.End),
     ) {
         OutlinedTextFieldDefaults.DecorationBox(
             value = value,
@@ -115,6 +127,7 @@ fun DenseTextField(
             container = {
                 OutlinedTextFieldDefaults.ContainerBox(true, isError, interactionSource, colors)
             },
+            trailingIcon = trailingIcon
         )
     }
 }

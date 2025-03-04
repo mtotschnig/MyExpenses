@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -21,6 +20,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
@@ -35,17 +35,21 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
 import org.totschnig.myexpenses.service.AutoBackupWorker
+import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
 import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
+import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
+import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -70,6 +74,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             ?.viewModel
 
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
+
+    private val progressViewModel: ModalProgressViewModel by viewModels()
+
+    private val priceHistoryViewModel: PriceHistoryViewModel by viewModels()
 
     private val dismissCallback = object : Snackbar.Callback() {
         override fun onDismissed(
@@ -109,8 +117,9 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             Timber.i("Using DECOR_PADDING_WORKAROUND")
             window.decorView
         }
-        injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
+        injector.inject(licenceValidationViewModel)
+        injector.inject(priceHistoryViewModel)
         setupWithFragment(savedInstanceState == null, false) {
             TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
         }
@@ -145,28 +154,32 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
 
             R.id.CHANGE_COMMAND -> {
                 val currencyCode = tag as String
-                val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
-                if (dataFragment != null) {
-                    dataFragment.updateHomeCurrency(currencyCode)
-                } else {
-                    prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
-                }
-                requireApplication().invalidateHomeCurrency()
-                showSnackBarIndefinite(R.string.saving)
-                viewModel?.resetEquivalentAmounts()?.observe(this) { integer ->
-                    dismissSnackBar()
-                    if (integer != null) {
-                        showSnackBar(
-                            String.format(
-                                getLocale(),
-                                "%s (%d)",
-                                getString(R.string.reset_equivalent_amounts_success),
-                                integer
-                            )
-                        )
+                supportFragmentManager.beginTransaction()
+                    .add(
+                        NewProgressDialogFragment.newInstance(
+                            getString(R.string.pref_home_currency_title) + ": " + currencyContext[currencyCode].description
+                        ).apply { isCancelable = false },
+                        PROGRESS_TAG
+                    )
+                    .commitNow()
+                lifecycleScope.launch {
+                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.price_history))
+                    val updatedPrices = priceHistoryViewModel.reCalculatePrices(currencyCode)
+                    progressViewModel.appendToMessage(updatedPrices.toString())
+                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.equivalent_amount_plural))
+                    val updatedTransactions = priceHistoryViewModel.reCalculateEquivalentAmounts(currencyCode)
+                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }.toString() )
+                    val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
+                    if (dataFragment != null) {
+                        dataFragment.updateHomeCurrency(currencyCode)
                     } else {
-                        showSnackBar("Equivalent amount reset failed")
+                        prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
                     }
+                    requireApplication().invalidateHomeCurrency()
+                    contentResolver.notifyChange(DYNAMIC_CURRENCIES_URI, null, false)
+
+                    progressViewModel.appendToMessage(getString(R.string.done_label))
+                    progressViewModel.onTaskCompleted(emptyList())
                 }
                 true
             }
@@ -289,6 +302,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             }
 
             getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()
+
+            getKey(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD) -> DailyExchangeRateDownloadService.enqueueOrCancel(this, prefHandler)
         }
     }
 
@@ -369,6 +384,9 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
             }
+            ContribFeature.AUTOMATIC_FX_DOWNLOAD -> {
+                twoPanePreference.getDetailFragment<PreferenceDataFragment>()?.activateAutomaticDownload()
+            }
 
             else -> super.contribFeatureCalled(feature, tag)
         }
@@ -403,8 +421,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
     fun getTranslatorsArrayResId(language: String, country: String?): Int {
         var result = 0
         val prefix = "translators_"
-        if (!TextUtils.isEmpty(language)) {
-            if (!TextUtils.isEmpty(country)) {
+        if (language.isEmpty()) {
+            if (!country.isNullOrEmpty()) {
                 result = resources.getIdentifier(
                     prefix + language + "_" + country,
                     "array", packageName

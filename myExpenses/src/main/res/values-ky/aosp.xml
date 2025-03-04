@@ -52,4 +52,6 @@
     <string name="preview">"Алдын ала көрүү"</string>
     <string name="show_password">"Сырсөздү көрсөтүү"</string>
     <string name="hide_password">"Сырсөздү жашыруу"</string>
+    <string name="user">"Колдонуучу"</string>
+    <string name="done_label">"Даяр"</string>
 </resources>

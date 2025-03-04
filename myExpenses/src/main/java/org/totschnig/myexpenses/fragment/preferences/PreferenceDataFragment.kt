@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.Keep
@@ -8,21 +9,30 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.ListPreference
+import androidx.preference.ListPreference.SimpleSummaryProvider
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
+import androidx.preference.PreferenceCategory
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.PriceHistory
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
+import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
+import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 
 @Keep
-class PreferenceDataFragment: BasePreferenceFragment() {
+class PreferenceDataFragment : BasePreferenceFragment() {
 
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
@@ -36,23 +46,24 @@ class PreferenceDataFragment: BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener  =
+        requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener =
             OnPreferenceChangeListener { _, newValue ->
-                if (newValue != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
-                MessageDialogFragment.newInstance(
-                    getString(R.string.information),
-                    TextUtils.concatResStrings(
-                        requireContext(),
-                        R.string.home_currency_change_warning,
-                        R.string.continue_confirmation
-                    ),
-                    MessageDialogFragment.Button(
-                        android.R.string.ok, R.id.CHANGE_COMMAND,
-                        newValue as String
-                    ),
-                    null, MessageDialogFragment.noButton()
-                ).show(parentFragmentManager, "CONFIRM")
-            }
+                val newHomeCurrency = newValue as String
+                if (newHomeCurrency != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
+                    MessageDialogFragment.newInstance(
+                        getString(R.string.pref_home_currency_title) + ": " + viewModel.currencyContext[newHomeCurrency].description ,
+                        TextUtils.concatResStrings(
+                            requireContext(),
+                            R.string.recalculate_equivalent_amounts_warning,
+                            R.string.continue_confirmation
+                        ),
+                        MessageDialogFragment.Button(
+                            android.R.string.ok, R.id.CHANGE_COMMAND,
+                            newHomeCurrency
+                        ),
+                        null, MessageDialogFragment.noButton()
+                    ).show(parentFragmentManager, "CONFIRM")
+                }
                 false
             }
 
@@ -76,50 +87,135 @@ class PreferenceDataFragment: BasePreferenceFragment() {
                 }
             }
         }
-        with(requirePreference<MultiSelectListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
-            entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
-            entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                currencyViewModel.usedCurrencies.collect { currencies ->
+                    configureCurrenciesForAutomaticFXDownload(
+                        ExchangeRateApi.configuredSources(prefHandler), currencies
+                    )
+                    with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRICES)) {
+                        isVisible = currencies.isNotEmpty()
+                        removeAll()
+                        currencies.forEach {
+                            Preference(requireContext()).apply {
+                                title = viewModel.currencyContext[it.code].description
+                                intent = Intent(requireContext(), PriceHistory::class.java).apply {
+                                    putExtra(KEY_COMMODITY, it.code)
+                                }
+                                addPreference(this)
+                            }
+                        }
+                    }
+                }
+            }
         }
-        arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
+
+        with(requirePreference<MultiSelectListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
+            entries = ExchangeRateApi.values.map { it.host }.toTypedArray()
+            entryValues = ExchangeRateApi.values.map { it.name }.toTypedArray()
+        }
+        arrayOf(ExchangeRateApi.OpenExchangeRates, ExchangeRateApi.CoinApi).forEach {
             requirePreference<Preference>(it.prefKey).summary =
                 getString(R.string.pref_exchange_rates_api_key_summary, it.host)
         }
-        configureExchangeRatesPreference(ExchangeRateSource.configuredSources(prefHandler))
-        requirePreference<Preference>(PrefKey.EXCHANGE_RATES_CLEAR_CACHE).title =
-            "${getString(R.string.clear_cache)} (${getString(R.string.pref_category_exchange_rates)})"
+        configureExchangeRatesPreference(ExchangeRateApi.configuredSources(prefHandler))
     }
 
-    private fun configureExchangeRatesPreference(providers: Set<ExchangeRateSource>) {
-        arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
+    private fun configureCurrenciesForAutomaticFXDownload(
+        providers: Set<ExchangeRateApi>,
+        currencies: List<CurrencyUnit>,
+    ) {
+        with(requirePreference<TwoStatePreference>(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD)) {
+            isVisible = currencies.isNotEmpty()
+            isEnabled = providers.isNotEmpty()
+            summary = ContribFeature.AUTOMATIC_FX_DOWNLOAD.buildRequiresString(requireActivity())
+            onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
+                if (newValue as Boolean) {
+                    preferenceActivity.contribFeatureRequested(ContribFeature.AUTOMATIC_FX_DOWNLOAD)
+                    false
+                } else true
+            }
+        }
+        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_CURRENCIES)) {
+            buildList {
+                for (i in 0 until preferenceCount) {
+                    getPreference(i)
+                        .takeIf {
+                            it.key?.startsWith(AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX) == true
+                        }
+                        ?.let { add(it) }
+                }
+            }.forEach {
+                removePreference(it)
+            }
+            currencies.forEach {
+                ListPreference(requireContext()).apply {
+                    key = "${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${it.code}"
+                    title = viewModel.currencyContext[it.code].description
+                    entries = arrayOf(getString(R.string.disabled)) + providers.map { it.host }
+                        .toTypedArray()
+                    entryValues = arrayOf(SERVICE_DEACTIVATED) + providers.map { it.name }.toTypedArray()
+                    setDefaultValue(SERVICE_DEACTIVATED)
+                    setSummaryProvider(SimpleSummaryProvider.getInstance())
+                    addPreference(this)
+                    dependency =
+                        prefHandler.getKey(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD)
+                    onPreferenceChangeListener = automaticChangeRateCurrencyOnChangeListener
+                }
+            }
+        }
+    }
+
+    val homeCurrency: String
+        get() = currencyViewModel.currencyContext.homeCurrencyString
+
+    val automaticChangeRateCurrencyOnChangeListener =
+        OnPreferenceChangeListener { preference, newValue ->
+            if (newValue == SERVICE_DEACTIVATED) return@OnPreferenceChangeListener true
+            val source = ExchangeRateApi.getByName(newValue as String)!!
+            if (source is ExchangeRateApi.SourceWithApiKey && source.getApiKey(prefHandler).isNullOrEmpty()) {
+                preferenceActivity.showSnackBar(getString(R.string.pref_exchange_rates_api_key_summary, source.host))
+                return@OnPreferenceChangeListener false
+            }
+            val currency = preference.key.substringAfterLast("_")
+            checkIsExchangeRateSupported(
+                source,
+                currency
+            ).also {
+                if (!it) {
+                    preferenceActivity.showSnackBar(getString(R.string.exchange_rate_not_supported, currency, homeCurrency))
+                }
+            }
+        }
+
+    private fun checkIsExchangeRateSupported(source: ExchangeRateApi, currency: String) =
+        source.isSupported(currency, homeCurrency)
+
+    private fun configureExchangeRatesPreference(providers: Set<ExchangeRateApi>) {
+        arrayOf(ExchangeRateApi.OpenExchangeRates, ExchangeRateApi.CoinApi).forEach {
             requirePreference<Preference>(it.prefKey).isVisible = providers.contains(it)
         }
     }
 
     fun updateHomeCurrency(currencyCode: String) {
-        findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
-            it.value = currencyCode
-        }
+        requirePreference<ListPreference>(PrefKey.HOME_CURRENCY).value = currencyCode
     }
 
-    override fun onPreferenceTreeClick(preference: Preference) = when {
-        super.onPreferenceTreeClick(preference) -> true
-        matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {
-            viewModel.clearExchangeRateCache().observe(this) {
-                preferenceActivity.showSnackBar("${getString(R.string.clear_cache)} ($it)")
-            }
-            true
-        }
-
-        else -> false
+    fun activateAutomaticDownload() {
+        requirePreference<TwoStatePreference>(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD).isChecked = true
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureExchangeRatesPreference(
-                    ExchangeRateSource.configuredSources(
-                        prefHandler.getStringSet(key)
-                    )
+                val providers = ExchangeRateApi.configuredSources(
+                    prefHandler.getStringSet(key)
+                )
+                configureExchangeRatesPreference(providers)
+                configureCurrenciesForAutomaticFXDownload(
+                    providers,
+                    currencyViewModel.usedCurrencies.value
                 )
             }
         }
