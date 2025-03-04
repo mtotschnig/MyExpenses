@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -76,7 +77,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     private fun launch(
         excludeFromTotals: Boolean = false,
-        configureIntent: Intent.() -> Unit = {}
+        configureIntent: Intent.() -> Unit = {},
     ) {
         account1 = buildAccount(accountLabel1, excludeFromTotals = excludeFromTotals)
         launchForResult(baseIntent.apply(configureIntent))
@@ -118,6 +119,26 @@ class SplitEditTest : BaseExpenseEditTest() {
         cleanup {
             repository.deleteAccount(account2.id)
         }
+    }
+
+    /*
+    Verify https://github.com/mtotschnig/MyExpenses/issues/1633 and
+    resolution of https://github.com/mtotschnig/MyExpenses/issues/1664
+ */
+    @Test
+    fun bug1664() {
+        buildAccount("Test Account 2") //for transfer
+        launch()
+        setAmount(10)
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND)
+        setAmount(3)
+        clickFab()//save part and new
+        checkAmount(7)
+        setOperationType(Transactions.TYPE_TRANSFER)
+        checkAmount(7)
+        clickFab()//saves part and returns to main
+        checkPartCount(2)
     }
 
     @Test
@@ -194,14 +215,18 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun withAccountExcludedFromTotalsEditExistingSplit() {
         launchEdit(excludeFromTotals = true)
-        onView(withId(R.id.list)).check(matches(hasChildCount(2)))
+        checkPartCount(2)
+    }
+
+    private fun checkPartCount(count: Int) {
+        onView(withId(R.id.list)).check(matches(hasChildCount(count)))
     }
 
     private fun createParts(
         times: Int,
         amount: Int = 50,
         toggleType: Boolean = false,
-        initialChildCount: Int = 0
+        initialChildCount: Int = 0,
     ) {
         repeat(times) {
             closeSoftKeyboard()
@@ -213,14 +238,14 @@ class SplitEditTest : BaseExpenseEditTest() {
             }
             setAmount(amount)
             clickFab()//save part
-            onView(withId(R.id.list)).check(matches(hasChildCount(initialChildCount + it + 1)))
+            checkPartCount(initialChildCount + it + 1)
         }
     }
 
     @Test
     fun loadEditSaveSplit() {
         launchEdit()
-        onView(withId(R.id.list)).check(matches(hasChildCount(2)))
+        checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
         onView(withId(R.id.list))
@@ -275,7 +300,12 @@ class SplitEditTest : BaseExpenseEditTest() {
         })
         createParts(2, 50)
         checkAccount(accountLabel2)
-        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(0, click()))
+        onView(withId(R.id.list)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onData(menuIdMatcher(R.id.DELETE_COMMAND)).perform(click())
         checkAccount(accountLabel2)
         createParts(2, 50, initialChildCount = 1)

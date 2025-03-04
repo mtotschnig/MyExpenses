@@ -834,10 +834,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
-        }
-        IntentCompat.getSerializableExtra(intent, KEY_AMOUNT, BigDecimal::class.java)?.let {
-            delegate.fillAmount(it)
-            (delegate as? TransferDelegate)?.configureTransferDirection()
+            IntentCompat.getSerializableExtra(intent, KEY_AMOUNT, BigDecimal::class.java)?.let {
+                delegate.fillAmount(it)
+                (delegate as? TransferDelegate)?.configureTransferDirection()
+            }
         }
     }
 
@@ -1363,15 +1363,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         cleanup {
             val restartIntent = intent.apply {
                 putExtra(Transactions.OPERATION_TYPE, newType)
-                if (isDirty) {
-                    delegate.syncStateAndValidate(false)?.let {
-                        putExtra(
-                            KEY_CACHED_DATA, it.toCached(
-                                delegate.recurrenceSpinner.selectedItem as? Recurrence,
-                                delegate.planButton.date
-                            )
+                delegate.syncStateAndValidate(false)?.let {
+                    putExtra(
+                        KEY_CACHED_DATA, it.toCached(
+                            delegate.recurrenceSpinner.selectedItem as? Recurrence,
+                            delegate.planButton.date
                         )
-                    }
+                    )
                 }
                 putExtra(KEY_CREATE_TEMPLATE, createTemplate)
                 val attachments = viewModel.attachmentUris.value
