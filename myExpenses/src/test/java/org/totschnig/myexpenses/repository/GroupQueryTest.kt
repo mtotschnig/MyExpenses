@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
@@ -64,7 +63,7 @@ class GroupQueryTest : BaseTestWithRepository() {
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
-            filter.getSelectionForParts(VIEW_WITH_ACCOUNT),
+            filter.getSelectionForParts(),
             filter.getSelectionArgs(true),
             null
         ).useAndAssert {
@@ -94,7 +93,7 @@ class GroupQueryTest : BaseTestWithRepository() {
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
-            filter.getSelectionForParts(VIEW_WITH_ACCOUNT),
+            filter.getSelectionForParts(),
             filter.getSelectionArgs(true),
             null
         ).useAndAssert {
