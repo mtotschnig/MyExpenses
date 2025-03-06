@@ -159,9 +159,9 @@ fun FilterDialog(
                         if (it is NotCriterion) NotCriterion(newValue) else newValue
                     else it
                 }.toSet()
-                currentEdit.value = null
             } ?: run { criteriaSet.value += newValue }
         }
+        currentEdit.value = null
     }
 
     val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
@@ -243,8 +243,9 @@ fun FilterDialog(
             supportFragmentManager.setFragmentResultListener(
                 RC_CONFIRM_FILTER, it
             ) { _, result ->
+                onResult(
                 BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
-                    ?.let { onResult(it) }
+                )
             }
             onDispose {
                 supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
@@ -507,6 +508,7 @@ fun FilterDialog(
                 AlertDialog(
                     onDismissRequest = {
                         showCommentFilterPrompt = null
+                        onResult(null)
                     },
                     confirmButton = {
                         Button(onClick = {

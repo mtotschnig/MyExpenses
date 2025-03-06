@@ -76,6 +76,11 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
         )
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        parentFragmentManager.confirmFilter(null)
+    }
+
     companion object {
         fun newInstance(dateCriterion: DateCriterion?) = DateFilterDialog().apply {
             arguments = Bundle().apply {

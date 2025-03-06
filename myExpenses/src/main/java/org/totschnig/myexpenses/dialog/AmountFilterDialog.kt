@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -91,6 +92,11 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
             )
         )
         dismiss()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        parentFragmentManager.confirmFilter(null)
     }
 
     companion object {

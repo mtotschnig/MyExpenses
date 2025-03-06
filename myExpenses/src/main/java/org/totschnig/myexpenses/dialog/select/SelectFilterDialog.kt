@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog.select
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
@@ -42,4 +43,9 @@ abstract class SelectFilterDialog<T : IdCriterion>(
             showSnackBar(R.string.unmapped_filter_only_single)
             false
         }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        parentFragmentManager.confirmFilter(null)
+    }
 }

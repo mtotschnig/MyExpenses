@@ -58,6 +58,11 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
         dismiss()
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        parentFragmentManager.confirmFilter(null)
+    }
+
     companion object {
         private const val KEY_WITH_VOID = "withVoid"
         fun newInstance(

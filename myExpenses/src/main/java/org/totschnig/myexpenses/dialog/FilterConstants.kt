@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 const val RC_CONFIRM_FILTER = "confirmFilter"
 const val KEY_RESULT_FILTER = "result"
 
-fun FragmentManager.confirmFilter(criterion: SimpleCriterion<*>) {
+fun FragmentManager.confirmFilter(criterion: SimpleCriterion<*>?) {
     setFragmentResult(RC_CONFIRM_FILTER, Bundle().apply {
         putParcelable(KEY_RESULT_FILTER, criterion)
     }
