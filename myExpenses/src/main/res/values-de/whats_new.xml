@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_355">Der Name der Sicherungsdatei ist jetzt konfigurierbar.</string>
-    <string name="whats_new_358">Das Widget folgt der Themenkonfiguration (hell/dunkel).</string>
-    <string name="whats_new_359">Symbole für Zahlungsmethoden können angepasst werden.</string>
     <string name="whats_new_361_1">Die Buchungsliste kann nach Betrag sortiert werden.</string>
     <string name="whats_new_361_2">Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.</string>
     <string name="whats_new_364_1">Import in mehrere Konten aus einer CSV-Datei</string>

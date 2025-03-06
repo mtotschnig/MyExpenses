@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_355">Ahora se puede configurar el nombre del archivo de la copia de seguridad.</string>
-    <string name="whats_new_358">El widget sigue la configuración del tema (claro/oscuro).</string>
-    <string name="whats_new_359">Los iconos de los métodos de pago pueden personalizarse.</string>
     <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
     <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
     <string name="whats_new_364_2">Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios</string>

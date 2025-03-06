@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_359">A fizetési módok ikonjai testre szabhatók.</string>
     <string name="whats_new_374">Egyedi színek a címkékhez</string>
     <string name="whats_new_384">A felhőalapú biztonsági mentés egyszerűsített beállítása</string>
     <string name="whats_new_386">A kiadások szerinti eloszlás és a jövedelemenkénti eloszlás együtt mutatható be a kettős gyűrűs fánkdiagramon.</string>

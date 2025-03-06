@@ -14,10 +14,7 @@
     <string name="whats_new_378">Diagrammer ærer søgefilteret.</string>
     <string name="whats_new_361_1">Transaktionslisten kan sorteres efter beløb.</string>
     <string name="whats_new_367">Kategorier kan nu konfigureres som udgifts- eller indtægtskategorier, hvilket påvirker, hvordan udgifts- og indtægtssummerne beregnes.</string>
-    <string name="whats_new_355">Sikkerhedskopifilens navn kan nu konfigureres.</string>
     <string name="whats_new_382">%1$s funktion kan kaldes fra widget %2$s.</string>
-    <string name="whats_new_358">Widget følger temaets konfiguration (lys/mørk).</string>
-    <string name="whats_new_359">Ikoner for betalingsmetoder kan tilpasses.</string>
     <string name="whats_new_384">Enkel opsætning af cloud-sikkerhedskopiering</string>
     <string name="whats_new_386">Fordeling pr. udgift og fordeling pr. indtægt kan vises sammen i et donutdiagram med dobbelt ring.</string>
     <string name="whats_new_388">Transaktioner kan arkiveres.</string>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_355">Le nom du fichier de sauvegarde est désormais configurable.</string>
-    <string name="whats_new_358">Le widget suit la configuration du thème (clair/sombre).</string>
-    <string name="whats_new_359">Les icônes des modes de paiement peuvent être personnalisées.</string>
     <string name="whats_new_361_1">La liste des opérations peut être triée par montant.</string>
     <string name="whats_new_361_2">Les fichiers dans le dossier d\'application (sauvegardes et exportations) peuvent être partagés ou supprimés.</string>
     <string name="whats_new_364_2">Nouvelle stratégie pour la gestion des tiers doublons</string>

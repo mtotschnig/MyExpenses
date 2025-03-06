@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_355">أصبح الآن اسم ملف النسخ الاحتياطي قابلاً للتكوين.</string>
-    <string name="whats_new_358">القطعة تتبع تكوين الموضوع (فاتح / داكن).</string>
-    <string name="whats_new_359">يمكن تخصيص أيقونات طرق الدفع.</string>
     <string name="whats_new_361_1">يمكن فرز قائمة المعاملات حسب المبلغ.</string>
     <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
     <string name="whats_new_364_1">الاستيراد إلى حسابات متعددة من ملف CSV واحد</string>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_355">現在可以自訂備份檔案名稱。</string>
-    <string name="whats_new_358">小工具會跟隨主題設定（淺色／深色）。</string>
-    <string name="whats_new_359">現在可以自訂付款方式的圖示。</string>
     <string name="whats_new_361_1">交易清單可以依金額排序。</string>
     <string name="whats_new_361_2">現在可以分享或刪除應用程式資料夾中的檔案（備份和匯出）。</string>
     <string name="whats_new_364_1">可以從單一 CSV 檔案匯入至多個帳戶</string>
