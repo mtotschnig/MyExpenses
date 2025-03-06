@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
-        minSdk 21
+        minSdk project.minSdkVersion
         consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations = resConfig
