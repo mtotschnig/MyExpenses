@@ -127,13 +127,13 @@ fun FilterDialog(
     onDismissRequest: () -> Unit = {},
     onConfirmRequest: (Criterion?) -> Unit = {},
 ) {
-    val (selectedComplex, setSelectedComplex) = remember {
-        mutableIntStateOf(
-            if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
-        )
-    }
 
     val initialSet = criterion.asSet
+    val initialSelectedComplex = if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
+
+    var selectedComplex by remember {
+        mutableIntStateOf(initialSelectedComplex)
+    }
 
     val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable(
         saver = Saver(
@@ -144,7 +144,11 @@ fun FilterDialog(
         mutableStateOf(initialSet)
     }
 
-    val isDirty by remember { derivedStateOf { initialSet != criteriaSet.value } }
+    val isDirty by remember {
+        derivedStateOf {
+            initialSet != criteriaSet.value || initialSelectedComplex != selectedComplex
+        }
+    }
 
     var confirmDiscard by rememberSaveable { mutableStateOf(false) }
 
@@ -244,7 +248,11 @@ fun FilterDialog(
                 RC_CONFIRM_FILTER, it
             ) { _, result ->
                 onResult(
-                BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
+                    BundleCompat.getParcelable(
+                        result,
+                        KEY_RESULT_FILTER,
+                        SimpleCriterion::class.java
+                    )
                 )
             }
             onDispose {
@@ -369,7 +377,7 @@ fun FilterDialog(
 
                 if (criteriaSet.value.isEmpty()) {
                     Text(
-                        text= stringResource(R.string.filter_dialog_empty),
+                        text = stringResource(R.string.filter_dialog_empty),
                         modifier = Modifier
                             .padding(horizontal = 24.dp)
                             .fillMaxWidth()
@@ -394,7 +402,7 @@ fun FilterDialog(
                                     .weight(1f)
                                     .selectable(
                                         selected = index == selectedComplex,
-                                        onClick = { setSelectedComplex(index) },
+                                        onClick = { selectedComplex = index },
                                         role = Role.RadioButton
                                     ), verticalAlignment = Alignment.CenterVertically
                             ) {
