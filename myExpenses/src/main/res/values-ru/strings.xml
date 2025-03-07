@@ -394,7 +394,7 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как умноженные на %d после изменения.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как разделенные на %d после изменения.</string>
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
-    <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Обновить суммы в базе данных</string>
     <string name="import_categories_success">%1$d категорий успешно импортированы.</string>
     <string name="import_parties_success">%1$d участников успешно импортированы.</string>
     <string name="import_accounts_success">%1$d счета успешно импортированы.</string>
@@ -926,7 +926,7 @@
     <string name="webui_warning_move_transaction">Транзакция будет перенесена в счёт {account}.</string>
     <string name="budget_table_header_rollover">Перенос</string>
     <string name="rollover_edit_invalid">Сумма переноса, назначенного категории, и переносов, назначенных подкатегориям, не может превышать остаток.</string>
-    <string name="dialog_confirm_rollover_delete">Все суммы переноса за этот период будут удалены.</string>
+    <string name="dialog_confirm_rollover_delete">Все перенесенные суммы за этот период будут удалены.</string>
     <string name="select_all_list_too_large">Команда %s не доступна, так как список загружен не полностью. Пожалуйста, используйте функцию поиска, чтобы сократить размер списка.</string>
     <string name="notifications_permission_required_webui">Разрешив отправку уведомлений, вы сможете управлять статусом веб-сервера.</string>
     <string name="notifications_channel_required">Пожалуйста, включите канал %s.</string>
@@ -982,4 +982,16 @@
     <string name="pref_sync_frequency_summary_0">Установите значение 0, чтобы отключить автоматическую синхронизацию.</string>
     <string name="webui_download_no_data">После печати, экспорта или создания резервных копий в приложении, файлы будут доступны для загрузки отсюда.</string>
     <string name="filter_dialog_empty">Критерии ещё не заданы. Нажмите кнопки выше, чтобы определить запрос и уточнить результаты.</string>
+    <string name="menu_show_equivalent_value">Показать эквивалентную стоимость</string>
+    <string name="initial_value">Начальная стоимость</string>
+    <string name="current_value">Текущая стоимость</string>
+    <string name="total_value">Общая стоимость</string>
+    <string name="dynamic_exchange_rate">Динамический курс обмена</string>
+    <string name="progress_recalculating">Перерасчет</string>
+    <string name="equivalent_amount_plural">Эквивалентные суммы</string>
+    <string name="menu_recalculate">Пересчитать</string>
+    <string name="recalculate_equivalent_amounts_warning">Эквивалентные суммы будут (пере)рассчитаны, если доступны соответствующие сохраненные курсы обмена.</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Автоматическая ежедневная загрузка курса обмена</string>
+    <string name="recalculate_only_missing">Заполнить только недостающие значения</string>
+    <string name="price_history">История курсов</string>
 </resources>
