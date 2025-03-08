@@ -22,11 +22,9 @@ android {
         jvmTarget = "17"
     }
     packagingOptions {
-        jniLibs {
-            excludes += ['META-INF/*']
-        }
         resources {
-            excludes += ['META-INF/*']
+            excludes += ["META-INF/services/reactor.blockhound.integration.BlockHoundIntegration"]
+            merges -= "/META-INF/services/**"
         }
     }
     namespace 'org.totschnig.onedrive'
