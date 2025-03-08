@@ -81,10 +81,24 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.AccountList
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.ColorSource
+import org.totschnig.myexpenses.compose.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.DateTimeFormatInfo
+import org.totschnig.myexpenses.compose.FilterCard
+import org.totschnig.myexpenses.compose.FilterDialog
+import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
+import org.totschnig.myexpenses.compose.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.SubMenuEntry
+import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
+import org.totschnig.myexpenses.compose.TransactionList
+import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -699,11 +713,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             if (selectedIndex == -1) {
                                 selectedAccountId = data.firstOrNull()?.id ?: 0L
                             } else {
-                                viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId)
+                                viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId, false)
                             }
                             navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible =
                                 data.any { it.isHomeAggregate }
                         }
+
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping.value,
@@ -923,7 +938,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }
                     LaunchedEffect(pagerState.settledPage) {
                         selectedAccountId = accountData[pagerState.settledPage].id
-                        viewModel.scrollToAccountIfNeeded(pagerState.currentPage, selectedAccountId)
+                        viewModel.scrollToAccountIfNeeded(pagerState.currentPage, selectedAccountId, true)
                     }
                     HorizontalPager(
                         modifier = Modifier
@@ -1063,7 +1078,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
                     menuGenerator = remember(modificationAllowed) {
                         { transaction ->
-                            Menu(
+                            org.totschnig.myexpenses.compose.Menu(
                                 buildList {
                                     add(MenuEntry(
                                         icon = Icons.Filled.Loupe,
@@ -1168,7 +1183,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     add(SubMenuEntry(
                                         icon = Icons.Filled.Search,
                                         label = R.string.filter,
-                                        subMenu = Menu(
+                                        subMenu = org.totschnig.myexpenses.compose.Menu(
                                             buildList {
                                                 if (transaction.catId != null && !transaction.isSplit) {
                                                     if (transaction.categoryPath != null) {

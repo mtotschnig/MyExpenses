@@ -158,7 +158,7 @@ enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
 open class MyExpensesViewModel(
     application: Application,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -195,9 +195,13 @@ open class MyExpensesViewModel(
 
     val listState = LazyListState(0, 0)
 
-    suspend fun scrollToAccountIfNeeded(position: Int, key: Long) {
+    suspend fun scrollToAccountIfNeeded(position: Int, key: Long, animate: Boolean) {
         if (!listState.layoutInfo.visibleItemsInfo.any { it.key == key })
-            listState.animateScrollToItem(position)
+            if (animate) {
+                listState.animateScrollToItem(position)
+            } else {
+                listState.requestScrollToItem(position)
+            }
     }
 
     fun expansionHandlerForTransactionGroups(account: PageAccount) =
@@ -233,7 +237,7 @@ open class MyExpensesViewModel(
         val transferAccount: Long?,
         val isSplit: Boolean,
         val crStatus: CrStatus,
-        val accountType: AccountType?
+        val accountType: AccountType?,
     ) : Parcelable {
         constructor(transaction: Transaction2) : this(
             transaction.id,
@@ -773,7 +777,8 @@ open class MyExpensesViewModel(
                 .build(),
             projection, null, null, null
         )?.use { cursor ->
-            emit(when (cursor.count) {
+            emit(
+                when (cursor.count) {
                 1 -> {
                     cursor.moveToFirst()
                     val accountId = cursor.getLong(KEY_ACCOUNTID)
@@ -782,7 +787,10 @@ open class MyExpensesViewModel(
                         currencyUnit,
                         cursor.getLong(KEY_AMOUNT)
                     )
-                    val equivalentAmount = Money(currencyContext.homeCurrencyUnit, cursor.getLong(KEY_EQUIVALENT_AMOUNT))
+                    val equivalentAmount = Money(
+                        currencyContext.homeCurrencyUnit,
+                        cursor.getLong(KEY_EQUIVALENT_AMOUNT)
+                    )
                     val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                     val date = cursor.getLong(KEY_DATE)
                     val crStatus =
