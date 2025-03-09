@@ -35,6 +35,7 @@
         <item>sort</item>
         <item>grouping</item>
         <item>hidden_accounts</item>
+        <item>show_equivalent_value</item>
     </string-array>
 
     <string-array name="NavigationDrawer_cabitems">

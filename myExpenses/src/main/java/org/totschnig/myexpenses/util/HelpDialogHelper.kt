@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
+import androidx.core.text.parseAsHtml
 
 class HelpDialogHelper(val context: Context) : ImageGetter {
     val resources: Resources = context.resources
@@ -70,12 +71,11 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                         append(", ")
                     }
                 },
-                HtmlCompat.fromHtml(
-                    "<img src=icon:user> ${getString(R.string.help_user_exchange_rate)}, <img src=ic_calculate> ${getString(R.string.help_calculated_exchange_rate)}",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY,
-                    this@HelpDialogHelper,
-                    null
-                )
+                "<img src=icon:user> ${getString(R.string.help_user_exchange_rate)}, <img src=ic_calculate> ${
+                    getString(
+                        R.string.help_calculated_exchange_rate
+                    )
+                }".parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this@HelpDialogHelper)
             )
 
             else -> {
@@ -86,10 +86,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     if (stringId == 0) {
                         null
                     } else {
-                        HtmlCompat.fromHtml(
-                            getString(stringId),
-                            HtmlCompat.FROM_HTML_MODE_LEGACY, this, null
-                        )
+                        getString(stringId).parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this)
                     }
                 } else {
 
@@ -99,11 +96,9 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     TextUtils.concat(*buildList {
                         for (i in components.indices) {
                             this.add(
-                                HtmlCompat.fromHtml(
-                                    components[i],
+                                components[i].parseAsHtml(
                                     HtmlCompat.FROM_HTML_MODE_LEGACY,
-                                    this@HelpDialogHelper,
-                                    null
+                                    this@HelpDialogHelper
                                 )
                             )
                             if (i < components.size - 1) {
