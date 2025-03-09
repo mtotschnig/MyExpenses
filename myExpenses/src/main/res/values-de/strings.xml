@@ -987,4 +987,16 @@
     <string name="pref_sync_frequency_summary_0">Setzen Sie diesen Wert auf 0, um die automatische Synchronisierung zu deaktivieren.</string>
     <string name="webui_download_no_data">Nach dem Drucken, Exportieren oder Erstellen von Backups in der App stehen die Dateien hier zum Download bereit.</string>
     <string name="filter_dialog_empty">Es wurden noch keine Kriterien hinzugefügt. Tippen Sie auf die Schaltflächen oben, um Ihre Abfrage zu definieren und Ihre Ergebnisse zu verfeinern.</string>
+    <string name="menu_show_equivalent_value">Äquivalenter Wert</string>
+    <string name="initial_value">Anfangswert</string>
+    <string name="current_value">Aktueller Wert</string>
+    <string name="total_value">Gesamtwert</string>
+    <string name="recalculate_only_missing">Nur fehlende Werte ergänzen</string>
+    <string name="recalculate_equivalent_amounts_warning">Gegenbeträge werden (neu) berechnet, wenn anwendbare gespeicherte Wechselkurse verfügbar sind.</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Automatischer täglicher Wechselkurs-Download</string>
+    <string name="progress_recalculating">Neuberechnung</string>
+    <string name="price_history">Preisverlauf</string>
+    <string name="dynamic_exchange_rate">Dynamischer Wechselkurs</string>
+    <string name="equivalent_amount_plural">Gleichwertige Beträge</string>
+    <string name="menu_recalculate">Neuberechnung</string>
 </resources>
