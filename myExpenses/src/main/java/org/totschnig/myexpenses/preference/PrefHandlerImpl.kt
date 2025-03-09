@@ -6,10 +6,11 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import org.totschnig.myexpenses.R
+import androidx.core.content.edit
 
 open class PrefHandlerImpl(
     private val context: Application,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) : PrefHandler {
     override fun getKey(key: PrefKey) =
         if (key.resId == 0) key._key!! else context.getString(key.resId)
@@ -17,24 +18,24 @@ open class PrefHandlerImpl(
     override fun getString(key: String, defValue: String?) =
         sharedPreferences.getString(key, defValue)
     override fun putString(key: String, value: String?) {
-        sharedPreferences.edit().putString(key, value).apply()
+        sharedPreferences.edit { putString(key, value) }
     }
 
     override fun getBoolean(key: String, defValue: Boolean) =
         sharedPreferences.getBoolean(key, defValue)
     override fun putBoolean(key: String, value: Boolean) {
-        sharedPreferences.edit().putBoolean(key, value).apply()
+        sharedPreferences.edit { putBoolean(key, value) }
     }
 
     override fun getInt(key: String, defValue: Int) = sharedPreferences.getInt(key, defValue)
     override fun putInt(key: String, value: Int) {
-        sharedPreferences.edit().putInt(key, value).apply()
+        sharedPreferences.edit { putInt(key, value) }
     }
 
     override fun getLong(key: String, defValue: Long) =
         sharedPreferences.getLong(key, defValue)
     override fun putLong(key: String, value: Long) {
-        sharedPreferences.edit().putLong(key, value).apply()
+        sharedPreferences.edit { putLong(key, value) }
     }
 
     override fun getFloat(key: String, defValue: Float) =
@@ -47,16 +48,16 @@ open class PrefHandlerImpl(
 
     override fun putOrderedStringSet(key: String, value: Set<String>, separator: Char) {
         require(value.none { it.contains(separator) }) { "Cannot marshall set if any value contains '$separator'" }
-        sharedPreferences.edit().putString(key, value.joinToString(separator.toString())).apply()
+        sharedPreferences.edit { putString(key, value.joinToString(separator.toString())) }
     }
 
     override fun getStringSet(key: String): Set<String>? =  sharedPreferences.getStringSet(key, null)
     override fun putStringSet(key: String, value: Set<String>) {
-        sharedPreferences.edit().putStringSet(key, value).apply()
+        sharedPreferences.edit { putStringSet(key, value) }
     }
 
     override fun remove(key: String) {
-        sharedPreferences.edit().remove(key).apply()
+        sharedPreferences.edit { remove(key) }
     }
 
     override fun isSet(key: String) = sharedPreferences.contains(key)
