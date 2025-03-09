@@ -5,13 +5,10 @@ import org.json.JSONObject
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.retrofit.ExchangeRateApi.Companion.values
 import retrofit2.HttpException
 import retrofit2.await
 import java.io.IOException
-import java.lang.UnsupportedOperationException
 import java.time.LocalDate
-import kotlin.collections.find
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -56,9 +53,14 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         fun configuredSources(prefHandler: PrefHandler) =
             configuredSources(prefHandler.getStringSet(PrefKey.EXCHANGE_RATE_PROVIDER))
 
-        fun configuredSources(preferenceValue: Set<String>?) = preferenceValue?.let { configured ->
-            values.filter { configured.contains(it.name) }
-        }?.toSet() ?: emptySet()
+        fun configuredSources(preferenceValue: Set<String>?): Set<ExchangeRateApi> =
+            if (preferenceValue?.isEmpty() == true) emptySet() else
+                preferenceValue?.let { configured ->
+                    values.filter { configured.contains(it.name) }
+                }
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.toSet()
+                    ?: setOf(Frankfurter)
     }
 
     data object Frankfurter :
