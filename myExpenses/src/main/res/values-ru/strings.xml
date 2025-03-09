@@ -982,7 +982,7 @@
     <string name="pref_sync_frequency_summary_0">Установите значение 0, чтобы отключить автоматическую синхронизацию.</string>
     <string name="webui_download_no_data">После печати, экспорта или создания резервных копий в приложении, файлы будут доступны для загрузки отсюда.</string>
     <string name="filter_dialog_empty">Критерии ещё не заданы. Нажмите кнопки выше, чтобы определить запрос и уточнить результаты.</string>
-    <string name="menu_show_equivalent_value">Показать эквивалентную стоимость</string>
+    <string name="menu_show_equivalent_value">Эквивалентное значение</string>
     <string name="initial_value">Начальная стоимость</string>
     <string name="current_value">Текущая стоимость</string>
     <string name="total_value">Общая стоимость</string>

@@ -35,6 +35,8 @@
         android:layout_gravity="start"
         android:visibility="gone"
         app:elevation="0dp"
+        app:itemMaxLines="2"
+        app:itemTextAppearanceActiveBoldEnabled="false"
         app:menu="@menu/accounts" />
 
     <androidx.compose.ui.platform.ComposeView
