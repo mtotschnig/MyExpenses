@@ -17,12 +17,12 @@ class PictureDirHelperTest {
 
     @Test
     fun unProtectedPictureIsBuildAndHasUriScheme() {
-        Assert.assertEquals("content", getOutputMediaUri(false, app)!!.scheme)
+        Assert.assertEquals("content", getOutputMediaUri(false, app).scheme)
     }
 
     @Test
     fun protectedPictureIsBuildAndHasUriScheme() {
-        Assert.assertEquals("content", getOutputMediaUri(false, app)!!.scheme)
+        Assert.assertEquals("content", getOutputMediaUri(false, app).scheme)
     }
 
     @Test
@@ -31,7 +31,7 @@ class PictureDirHelperTest {
             val uri = getOutputMediaUri(false, app)
             //then
             val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
-            val file = getFileForUri(targetContext, uri!!)
+            val file = getFileForUri(targetContext, uri)
             Assert.assertEquals(getContentUriForFile(targetContext, file), uri)
         }
 
@@ -41,7 +41,7 @@ class PictureDirHelperTest {
             val uri = getOutputMediaUri(false, app)
             //then
             val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
-            val file = getFileForUri(targetContext, uri!!)
+            val file = getFileForUri(targetContext, uri)
             Assert.assertEquals(getContentUriForFile(targetContext, file), uri)
         }
 }
