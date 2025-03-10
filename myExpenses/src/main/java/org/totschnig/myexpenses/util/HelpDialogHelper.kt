@@ -77,6 +77,15 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     )
                 }".parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this@HelpDialogHelper)
             )
+            "menu_NavigationDrawer_show_equivalent_value_help_text" -> TextUtils.concat(
+                getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_intro),
+                "\n• ",
+                getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1),
+                "\n• ",
+                getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2),
+                "\n• ",
+                getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3)
+            )
 
             else -> {
                 val resIdString = resString.replace('.', '_')
