@@ -19,4 +19,5 @@
     <string name="whats_new_386">La distribuzione per spese e la distribuzione per reddito possono essere mostrate insieme nel grafico a ciambella a doppio anello.</string>
     <string name="whats_new_388">Le transazioni possono essere archiviate.</string>
     <string name="whats_new_395">I file esportati (PDF, backup, QIF, CSV, JSON) possono essere scaricati tramite l\'interfaccia utente Web.</string>
+    <string name="whats_new_396">Gestione avanzata dei conti in valuta estera con aggiornamenti automatici del tasso di cambio e monitoraggio del valore in tempo reale.</string>
 </resources>
