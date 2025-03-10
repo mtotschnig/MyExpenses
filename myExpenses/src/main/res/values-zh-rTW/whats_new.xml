@@ -19,4 +19,5 @@
     <string name="whats_new_386">可以同時顯示支出分佈和收入分佈在雙環圓餅圖中。</string>
     <string name="whats_new_388">可以封存交易。</string>
     <string name="whats_new_395">導出的檔（PDF、備份、QIF、CSV、JSON）可以通過 Web 使用者介面下載。</string>
+    <string name="whats_new_396">通過自動更新 匯率 和實時價值跟蹤，增強外幣 帳戶 管理。</string>
 </resources>
