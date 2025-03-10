@@ -4,4 +4,5 @@
     <string name="whats_new_386">Distribuția pe cheltuieli și distribuția pe venit pot fi afișate împreună în diagrama gogoși cu inel dublu.</string>
     <string name="whats_new_388">Tranzacțiile pot fi arhivate.</string>
     <string name="whats_new_395">Fișierele exportate (PDF, backup, QIF, CSV, JSON) pot fi descărcate prin intermediul interfeței web cu utilizatorul.</string>
+    <string name="whats_new_396">Gestionarea îmbunătățită a conturilor în valută cu actualizări automate ale cursului de schimb și urmărirea valorii în timp real.</string>
 </resources>
