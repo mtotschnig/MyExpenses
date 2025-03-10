@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
-import android.net.Uri
 import android.text.TextUtils
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
@@ -33,7 +33,7 @@ object ZipUtils {
         cacheDir: File?,
         destZipFile: DocumentFile,
         password: String?,
-        lenientMode: Boolean
+        lenientMode: Boolean,
     ) {
         val resolver = context.contentResolver
         val out = resolver.openOutputStream(destZipFile.uri)
@@ -62,7 +62,7 @@ object ZipUtils {
         }?.use {
                 it.asSequence.forEach { cursor ->
                     val rowId = cursor.getLong(0)
-                    val uri = Uri.parse(cursor.getString(1))
+                    val uri = cursor.getString(1).toUri()
                     val fileName = "${rowId}_${uri.fileName(context)}"
                     try {
                         resolver.openInputStream(uri)?.use { inputStream ->
@@ -88,7 +88,7 @@ object ZipUtils {
     @Throws(IOException::class)
     private fun addFileToZip(
         path: String, srcFile: File,
-        zip: ZipOutputStream
+        zip: ZipOutputStream,
     ) {
         FileInputStream(srcFile).use {
             val filePath = path + (if (path == "") "" else "/") + srcFile.name
@@ -99,7 +99,7 @@ object ZipUtils {
     @Throws(IOException::class)
     private fun addInputStreamToZip(
         path: String, inputStream: InputStream,
-        zip: ZipOutputStream
+        zip: ZipOutputStream,
     ) {
         val buf = ByteArray(1024)
         var len: Int

@@ -33,8 +33,9 @@ fun doBackup(
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
     val cloudStorage = if (withSync) prefHandler.cloudStorage else null
     return AppDirHelper.checkAppDir(context).mapCatching { appDir ->
+        val encrypted = !TextUtils.isEmpty(password)
         val backupFile =
-            requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
+            requireBackupFile(appDir, prefHandler.backupFilePrefix, encrypted)
                 ?: throw localizedThrowable(context, R.string.io_error_backupdir_null)
         val cacheDir = AppDirHelper.newWorkingDirectory(context, "backup").getOrThrow()
         backup(cacheDir, context, prefHandler, lenientMode).getOrThrow()
@@ -46,9 +47,11 @@ fun doBackup(
                 if (!lenientMode) throw e
             }
             backupFile to listOldBackups(appDir, prefHandler)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             CrashHandler.report(e)
-            throw e
+            throw if (e is OutOfMemoryError && encrypted) {
+                Exception("Encrypting large backup file has failed. Unencrypted backups should work.")
+            } else e
         } finally {
             cacheDir.deleteRecursively()
         }
