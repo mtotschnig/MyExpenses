@@ -1000,4 +1000,16 @@
     <string name="pref_sync_frequency_summary_0">Réglez sur 0 afin de désactiver la synchronisation automatique.</string>
     <string name="webui_download_no_data">Après avoir imprimé, exporté ou créé des sauvegardes dans l\'application, les fichiers seront disponibles à partir d\'ici pour téléchargement.</string>
     <string name="filter_dialog_empty">Aucun critère n\'a encore été ajouté. Appuyez sur les boutons ci-dessus pour définir votre requête et affiner vos résultats.</string>
+    <string name="menu_show_equivalent_value">Valeur équivalente</string>
+    <string name="initial_value">Valeur initiale</string>
+    <string name="total_value">Valeur totale</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Téléchargement automatique du taux de change quotidien</string>
+    <string name="price_history">Historique des prix</string>
+    <string name="progress_recalculating">Recalculation</string>
+    <string name="equivalent_amount_plural">Montants équivalents</string>
+    <string name="menu_recalculate">Recalculer</string>
+    <string name="recalculate_only_missing">Remplissez uniquement les valeurs manquantes</string>
+    <string name="recalculate_equivalent_amounts_warning">Les montants équivalents seront (re)calculés si les taux de change stockés applicables sont disponibles.</string>
+    <string name="dynamic_exchange_rate">Taux de change dynamique</string>
+    <string name="current_value">Valeur actuelle</string>
 </resources>
