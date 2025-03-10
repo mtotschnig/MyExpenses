@@ -19,4 +19,5 @@
     <string name="whats_new_386">La répartition par dépenses et la répartition par revenu peuvent être affichées ensemble dans un graphique à double anneau.</string>
     <string name="whats_new_388">Les opérations peuvent être archivées.</string>
     <string name="whats_new_395">Les fichiers exportés (PDF, sauvegarde, QIF, CSV, JSON) peuvent être téléchargés via l’interface utilisateur Web.</string>
+    <string name="whats_new_396">Gestion améliorée des comptes en devises étrangères avec mises à jour automatiques des taux de change et suivi de la valeur en temps réel.</string>
 </resources>
