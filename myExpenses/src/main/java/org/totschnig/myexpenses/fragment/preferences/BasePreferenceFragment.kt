@@ -198,6 +198,8 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     fun getKey(prefKey: PrefKey) = prefHandler.getKey(prefKey)
 
+    open val helpExtra: CharSequence? = null
+
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         trackPreferenceClick(preference)
         if (matches(preference, PrefKey.HELP)) {
@@ -210,6 +212,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
                         HelpDialogFragment.KEY_TITLE,
                         preferenceScreen.title
                     )
+                    putExtra(HelpDialogFragment.KEY_EXTRA, helpExtra)
                 })
             }
             return true

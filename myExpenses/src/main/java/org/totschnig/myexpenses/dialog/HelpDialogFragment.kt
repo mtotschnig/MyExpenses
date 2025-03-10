@@ -43,6 +43,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         const val KEY_VARIANT = "variant"
         const val KEY_CONTEXT = "context"
         const val KEY_TITLE = "title"
+        const val KEY_EXTRA = "extra"
         private val iconMap: Map<String, Int?> = mapOf(
             "edit" to R.drawable.ic_menu_edit,
             "back" to R.drawable.ic_menu_back,
@@ -115,18 +116,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         )
 
         @JvmStatic
-        fun newInstance(context: String?, variant: String?, title: String?) =
-            HelpDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_CONTEXT, context)
-                    if (variant != null) {
-                        putString(KEY_VARIANT, variant)
-                    }
-                    if (title != null) {
-                        putString(KEY_TITLE, title)
-                    }
-                }
-            }
+        fun newInstance(extras: Bundle?) =
+            HelpDialogFragment().apply { arguments = extras }
     }
 
     private var context: String? = null
@@ -136,7 +127,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         val ctx = requireActivity()
         val res = resources
         val args = requireArguments()
-        helper = HelpDialogHelper(ctx)
+        helper = HelpDialogHelper(ctx, args.getCharSequence(KEY_EXTRA))
         context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         if (context == null) return onError("context extra missing")

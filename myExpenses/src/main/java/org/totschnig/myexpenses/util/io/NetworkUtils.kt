@@ -55,19 +55,17 @@ private fun ConnectivityManager.getConnectionTypeLegacy() =
         else -> 0
     }
 
-fun getWifiIpAddress(context: Context): String? =
+fun getActiveIpAddress(context: Context): String? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        getWifiIpAddress23(context)
+        getActiveAddress23(context)
     else
         getWifiIpAddressLegacy(context)
 
 @RequiresApi(Build.VERSION_CODES.M)
-private fun getWifiIpAddress23(context: Context) =
+private fun getActiveAddress23(context: Context) =
     (context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.let { cm ->
-        cm.activeNetwork?.let {
-            if (cm.getNetworkCapabilities(it)?.hasTransport(TRANSPORT_WIFI) == true)
-                cm.getLinkProperties(it) else null
-        }
+        cm.activeNetwork
+            ?.let { cm.getLinkProperties(it) }
             ?.linkAddresses
             ?.find { it.address is Inet4Address }
             ?.address

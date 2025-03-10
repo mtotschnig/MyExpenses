@@ -12,13 +12,13 @@ import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
+import androidx.core.text.parseAsHtml
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
-import androidx.core.text.parseAsHtml
 
-class HelpDialogHelper(val context: Context) : ImageGetter {
+class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : ImageGetter {
     val resources: Resources = context.resources
 
     @Throws(Resources.NotFoundException::class)
@@ -77,6 +77,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     )
                 }".parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this@HelpDialogHelper)
             )
+
             "menu_NavigationDrawer_show_equivalent_value_help_text" -> TextUtils.concat(
                 getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_intro),
                 "\n• ",
@@ -171,9 +172,14 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 append(toBold(R.string.income))
                 append(": <a href='https://faq.myexpenses.mobi/category-types'>FAQ</a>")
             }
-            "dynamic_exchange_rate_help_text_3" -> getString(R.string.dynamic_exchange_rate_help_text_3,
+
+            "dynamic_exchange_rate_help_text_3" -> getString(
+                R.string.dynamic_exchange_rate_help_text_3,
                 context.localizedQuote(getString(R.string.enable_automatic_daily_exchange_rate_download))
             )
+
+            "help_WebUI_info_1" -> if (extra == null || extra.startsWith("http"))
+                getString(R.string.help_WebUI_info_1) + (extra?.let { "($it)" } ?: "") else ""
 
             else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
         }

@@ -85,7 +85,7 @@ import org.totschnig.myexpenses.util.FileInfo
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.getWifiIpAddress
+import org.totschnig.myexpenses.util.io.getActiveIpAddress
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.io.IOException
 import java.lang.ref.WeakReference
@@ -161,7 +161,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private fun getProtocol(useHttps: Boolean): String = if (useHttps) "https" else "http"
 
-    private fun getAddress(useHttps: Boolean) = getWifiIpAddress(this)?.let {
+    private fun getAddress(useHttps: Boolean) = getActiveIpAddress(this)?.let {
         "${getProtocol(useHttps)}://$it:$port"
     } ?: "Listening on port $port"
 

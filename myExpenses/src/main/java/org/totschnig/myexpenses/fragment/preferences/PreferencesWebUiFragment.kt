@@ -8,7 +8,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.io.isConnectedWifi
@@ -23,6 +22,9 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
     private val webUiViewModel: WebUiViewModel by viewModels()
 
     private var serverIsRunning = false
+
+    override val helpExtra: CharSequence?
+        get() = requirePreference<Preference>(PrefKey.UI_WEB).summary
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +64,8 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
                 prefHandler.putBoolean(PrefKey.UI_WEB, false)
                 preferenceActivity.resultCode = BaseActivity.RESULT_INVALIDATE_OPTIONS_MENU
             } else {
-                if (!isConnectedWifi(requireContext())) {
+                val prefKey = "wifi_not_connected_warning_shown"
+                if (!(isConnectedWifi(requireContext()) || prefHandler.getBoolean(prefKey, false))) {
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
                         putInt(
                             ConfirmationDialogFragment.KEY_TITLE,
@@ -76,6 +79,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
                             ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                             R.id.WEB_UI_COMMAND
                         )
+                        putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
                     }).show(parentFragmentManager, "NO_WIFI")
                 } else {
                     preferenceActivity.onStartWebUi()
