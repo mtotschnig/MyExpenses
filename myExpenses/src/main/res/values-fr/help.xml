@@ -214,4 +214,5 @@
     <string name="cab_MyExpenses_filter_help_text">Recherchez des transactions avec les mêmes propriétés.</string>
     <string name="menu_archive_help_text">Après avoir sélectionné une plage de dates, toutes les opérations de cette période seront regroupées dans une opération récapitulative. Cela permettra de nettoyer la liste des opérations, mais les opérations de l\'archive pourront toujours être inspectées et, si nécessaire, désarchivées à nouveau.</string>
     <string name="menu_ManageBudgets_grouping_help_text">La liste des budgets peut être regroupée par compte ou par type de budget.</string>
+    <string name="help_PriceHistory_info">Les comptes en devises étrangères peuvent être configurés pour utiliser des taux de change dynamiques. Pour chaque jour, vous pouvez télécharger ou saisir un taux spécifique par rapport à votre devise locale. Cet écran répertorie les taux stockés pour une devise donnée pour chaque jour depuis la date de la transaction la plus ancienne. La source du taux est indiquée comme suit :</string>
 </resources>
