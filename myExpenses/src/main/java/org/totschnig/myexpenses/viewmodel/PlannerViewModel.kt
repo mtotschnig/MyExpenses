@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -45,7 +46,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
     @Inject
     lateinit var plannerUtils: PlannerUtils
 
-    data class Month(val year: Int, val month: Int) {
+    data class Month(val year: Int, val month: Int, val startDay: Int = 1) {
         init {
             if (month < 0 || month > 12) throw IllegalArgumentException()
         }
@@ -56,7 +57,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                 nextMonth = 1
                 year + 1
             } else year
-            return Month(nextYear, nextMonth)
+            return Month(nextYear, nextMonth, startDay)
         }
 
         fun prev(): Month {
@@ -65,16 +66,18 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                 prevMonth = 12
                 year - 1
             } else year
-            return Month(prevYear, prevMonth)
+            return Month(prevYear, prevMonth, startDay)
         }
 
         fun startMillis() = startDate().atTime(LocalTime.MIN).toEpochMillis()
 
         fun endMillis() = endDate().atTime(LocalTime.MAX).toEpochMillis()
 
-        fun endDate(): LocalDate = startDate().with(TemporalAdjusters.lastDayOfMonth())
+        fun endDate(): LocalDate = if (startDay == 1)
+            startDate().with(TemporalAdjusters.lastDayOfMonth()) else
+            startDate().minusDays(1).plusMonths(1)
 
-        fun startDate(): LocalDate = LocalDate.of(year, month, 1)
+        fun startDate(): LocalDate = LocalDate.of(year, month, startDay)
     }
 
     var first: Month
@@ -85,8 +88,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
     private var updateMap: MutableMap<Uri, Flow<PlanInstanceUpdate>> = mutableMapOf()
 
     init {
+        application.injector.inject(this)
         val nowZDT = ZonedDateTime.now().toLocalDate()
-        first = Month(nowZDT.year, nowZDT.monthValue)
+        first = Month(nowZDT.year, nowZDT.monthValue, prefHandler.monthStart)
         last = first.next()
         formatter = getDateTimeFormatter(application)
     }

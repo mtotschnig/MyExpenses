@@ -88,7 +88,6 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
                 ResourcesCompat.getColor(resources, R.color.cardBackground, null)
             )
         )
-        (requireActivity().application as MyApplication).appComponent.inject(viewModel)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
