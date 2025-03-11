@@ -1031,7 +1031,7 @@ abstract class BaseTransactionDatabase(
         //ADD column dynamic
         execSQL("ALTER TABLE accounts add column dynamic boolean default 0;")
         //set dynamic flag for accounts where we have equivalent amounts
-        execSQL("UPDATE accounts set dynamic = true where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)")
+        execSQL("UPDATE accounts set dynamic = 1 where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)")
         //Migrate equivalent amounts from transactions table to new join table
         execSQL(
             "INSERT INTO equivalent_amounts (transaction_id, currency, equivalent_amount) SELECT _id, '${context.injector.currencyContext().homeCurrencyString}', equivalent_amount FROM transactions WHERE equivalent_amount IS NOT NULL;"
