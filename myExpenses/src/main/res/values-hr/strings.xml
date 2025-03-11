@@ -814,7 +814,7 @@
     </plurals>
     <string name="pref_debug_logging_share_summary">Dijeli datoteke dnevnika</string>
     <string name="pref_purge_backup_keep_title">Maksimalni broj najnovijih datoteka sigurnosnih kopija koje će se zadržati</string>
-    <string name="contrib_feature_category_tree_label">Stablo kategorija</string>
+    <string name="contrib_feature_category_tree_label">Proizvoljna razina hijerarhije kategorija</string>
     <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s) će se ovaj dijalog prikazati pri svakoj upotrebi.</string>
     <string name="menu_parent_category_selection">Odaberi nadređenu kategoriju kratkim dodirom</string>
     <string name="webui_warning_move_transaction">Transakcija će se premjestiti na račun {account}.</string>

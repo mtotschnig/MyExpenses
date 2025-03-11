@@ -18,7 +18,6 @@
     <string name="category">শ্রেণী</string>
     <string name="contrib_feature_csv_import_label">CSV ইম্পোর্ট</string>
     <string name="contrib_feature_history_label">ইতিহাস চার্ট</string>
-    <string name="contrib_feature_category_tree_label">ক্যাটাগরি ট্রি</string>
     <string name="contrib_feature_synchronization_label">ক্লাউড সিঙ্ক্রোনাইজেশন</string>
     <string name="contrib_key">কনট্রিবিউশন কী</string>
     <string name="currency">মুদ্রা</string>

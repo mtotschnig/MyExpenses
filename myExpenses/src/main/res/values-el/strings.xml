@@ -900,7 +900,7 @@
     <string name="pref_purge_backup_keep_title">Μέγιστος αριθμός των πιο πρόσφατων αρχείων αντιγράφων ασφαλείας προς διατήρηση</string>
     <string name="pref_copy_attachments_summary_off">Τα αρχεία δεν αντιγράφονται, αποθηκεύεται μόνο μια αναφορά.</string>
     <string name="webui_warning_move_transaction">Η συναλλαγή θα μεταφερθεί στο λογαριασμό {account}.</string>
-    <string name="contrib_feature_category_tree_label">Δέντρο κατηγοριών</string>
+    <string name="contrib_feature_category_tree_label">Αυθαίρετα βαθιά ιεραρχία κατηγοριών</string>
     <string name="show_duplicates">Εμφάνιση διπλότυπων</string>
     <string name="debt_paid_off_self">Το χρέος μου εξοφλήθηκε.</string>
     <string name="select_all_list_too_large">Η εντολή %s δεν είναι διαθέσιμη επειδή η λίστα έχει φορτωθεί μόνο μερικώς. Παρακαλούμε χρησιμοποιήστε τη λειτουργία αναζήτησης για να μειώσετε το μέγεθος της λίστας.</string>

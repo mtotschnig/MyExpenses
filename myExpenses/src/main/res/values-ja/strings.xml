@@ -750,7 +750,7 @@
     <string name="ui_refinement">ユーザーインターフェースの洗練</string>
     <string name="dialog_title_purge_backups">古いバックアップをパージする</string>
     <string name="icons_for_categories">分類のアイコン</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">カテゴリツリー</string>
+    <string name="contrib_feature_category_tree_label">任意に深いカテゴリー階層</string>
     <string name="redesign">デザイン</string>
     <string name="add_shortcut">ショートカットを追加</string>
     <string name="one_time_payment">１回限りの課金</string>

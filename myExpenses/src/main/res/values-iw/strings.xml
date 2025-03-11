@@ -868,7 +868,7 @@
         <item quantity="other">%1$d קטגוריות עודכנו עם סמלים.</item>
     </plurals>
     <string name="setup_completed">ההקמה הושלמה</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">עץ קטגוריות</string>
+    <string name="contrib_feature_category_tree_label">היררכיית קטגוריות עמוקה שרירותית</string>
     <string name="dialog_contrib_usage_limit_with_dialog">עם מצב הרישיון הנוכחי שלך (%1$s), חלונית זאת תוצג עם כל הפעלה.</string>
     <string name="menu_parent_category_selection">אפשר לבחור קטגוריית הורה בנקישה קצרה</string>
     <string name="purge_backups">הגיבויים הישנים הבאים יימחקו:</string>

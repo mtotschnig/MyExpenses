@@ -92,7 +92,7 @@
     <string name="menu_create_instance_edit">Toepassen en bewerken</string>
     <string name="menu_create_instance_save">Toepassen en opslaan</string>
     <string name="menu_create_account">Nieuwe rekening</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Categorie boom</string>
+    <string name="contrib_feature_category_tree_label">Willekeurig diepe categoriehiërarchie</string>
     <string name="contrib_key_requires">Vereist %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Huidig saldo</string>

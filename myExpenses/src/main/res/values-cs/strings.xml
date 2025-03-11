@@ -915,7 +915,7 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Nenamapované transakce</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">se počítají jako náklad/výnos</string>
     <string name="warning_delete_default_transfer_category">Kategorie %s je nakonfigurována jako výchozí kategorie přenosu a neměla by být odstraněna.</string>
-    <string name="contrib_feature_category_tree_label">Strom kategorií</string>
+    <string name="contrib_feature_category_tree_label">Libovolně hluboká hierarchie kategorií</string>
     <string name="merge_categories_dialog_title">Sloučit kategorie</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">se počítají jako převod</string>
     <string name="budget_table_header_overspent">Překročil rozpočet</string>

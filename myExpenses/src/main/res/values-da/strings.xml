@@ -454,7 +454,7 @@
     <string name="warning_delete_category_with_budget">For mindst én valgt kategori er der budgetfordelinger, som også slettes.</string>
     <string name="all_extended_key_features">Alle funktioner i Udvidet Nøgle</string>
     <string name="all_contrib_key_features">Alle funktioner i Bidragsnøgle</string>
-    <string name="contrib_feature_category_tree_label">Kategoritræ</string>
+    <string name="contrib_feature_category_tree_label">Arbitrært dybt kategorihierarki</string>
     <string name="number_format_illegal">Ugyldigt talformat</string>
     <string name="move_category_failure">Én kategori blev ikke flyttet, fordi det samme mærkat allerede findes ved målet.</string>
     <string name="warning_change_fraction_digits_3">Hvis beløb opdateres, mister du oplysningerne om deres decimaldel.</string>

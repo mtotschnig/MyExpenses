@@ -825,7 +825,7 @@
     <string name="budget_table_header_overspent">超支</string>
     <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">你目前的許可證狀態（%1$s）允許你試用 %2$s %3$d 天（直至 %4$s）。</string>
     <string name="active_tags">活躍標籤</string>
-    <string name="contrib_feature_category_tree_label">類別樹</string>
+    <string name="contrib_feature_category_tree_label">任意深度的類別階層</string>
     <string name="debt_owes_me">%s 欠我</string>
     <string name="pref_category_title_crash_reports">當機報告</string>
     <string name="pref_enable_acra">允許自動回傳當機報告</string>

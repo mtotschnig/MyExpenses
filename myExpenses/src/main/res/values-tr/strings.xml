@@ -856,7 +856,7 @@
         <item quantity="other">%1$d kategori simgesiyle güncellendi.</item>
     </plurals>
     <string name="setup_completed">Kurulum tamamlandı</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategori ağacı</string>
+    <string name="contrib_feature_category_tree_label">İstenilen derinlikte kategori hiyerarşisi</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Geçerli lisans durumunuzla (%1$s), bu iletişim kutusu her kullanımda görüntülenecektir.</string>
     <string name="menu_parent_category_selection">Kısa dokunuşla üst kategoriyi seç</string>
     <string name="dialog_title_purge_backups">Eski yedekleri temizle</string>

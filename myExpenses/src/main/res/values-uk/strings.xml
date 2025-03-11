@@ -733,7 +733,7 @@
     <string name="pref_ocr_time_formats_title">Формати часу</string>
     <string name="pref_criterion_future_current">Поточний час</string>
     <string name="dialog_contrib_usage_limit_with_dialog">З вашим поточним статусом ліцензії (%1$s) цей діалог відображатиметься під час кожного використання.</string>
-    <string name="contrib_feature_category_tree_label">Дерево категорıй</string>
+    <string name="contrib_feature_category_tree_label">Довільна глибока ієрархія категорій</string>
     <string name="dialog_title_warning_delete_category">Видалити категорію\?</string>
     <string name="select_payee">Виберіть платника/отримувача</string>
     <string name="account_deleted">Рахунок видалено</string>

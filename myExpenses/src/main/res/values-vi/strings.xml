@@ -751,7 +751,7 @@
     <string name="pref_transaction_amount_color_source_title">Màu sắc cho số lượng</string>
     <string name="menu_unlink_transfer">Hủy liên kết chuyển</string>
     <string name="merge_parties_strategy_delete">Các bản sao sẽ bị xóa.</string>
-    <string name="contrib_feature_category_tree_label">Cây thể loại</string>
+    <string name="contrib_feature_category_tree_label">Hệ thống phân cấp danh mục sâu tùy ý</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> được cung cấp mã nguồn mở.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Với trạng thái giấy phép hiện tại của bạn (%1$s), hộp thoại này sẽ được hiển thị trên mọi lần sử dụng.</string>
     <string name="warning_ungroup_split_transactions">Các giao dịch phân tách đã chọn sẽ được hủy nhóm, tức là các phần phân tách của chúng sẽ trở thành giao dịch bình thường.</string>

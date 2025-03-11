@@ -500,7 +500,7 @@
     <string name="calendar_permission_required"><i>{app_name}</i> are nevoie de permisiune pentru a vă accesa calendarul, pentru a crea planuri pentru tranzacții viitoare și recurente.</string>
     <string name="progress_dialog_updating_split_parts">Actualizarea părților divizate</string>
     <string name="io_error_unable_to_create_file">Imposibil de creat fișierul %1$s în folderul %2$s</string>
-    <string name="contrib_feature_category_tree_label">Arborele categoriilor</string>
+    <string name="contrib_feature_category_tree_label">Ierarhie de categorii arbitrar de profundă</string>
     <string name="warning_delete_category_with_budget">Pentru cel puțin o categorie selectată, există alocări bugetare, care vor fi, de asemenea, șterse.</string>
     <string name="warning_reset_account_matched">Dacă continuați, tranzacțiile corelate cu filtrul curent vor fi șterse din baza de date și nu vor putea fi restaurate.</string>
     <string name="mark_void_instead_of_delete">Nu ștergeți tranzacția, marcați în schimb ca nulă.</string>
