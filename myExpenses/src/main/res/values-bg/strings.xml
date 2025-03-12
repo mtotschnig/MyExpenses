@@ -984,4 +984,15 @@
     <string name="warning_budget_sync_import">Конфигурацията на този бюджет ще бъде импортирана от синхронизирания бекенд. Всички локални промени ще бъдат загубени.</string>
     <string name="budget_import_can_be_imported">Следните бюджети могат да бъдат импортирана:</string>
     <string name="budget_import_none_found">Не са намерени бюджети.</string>
+    <string name="pref_sync_frequency_summary_0">Задайте стойност 0, за да спрете автоматичната синхронизация.</string>
+    <string name="webui_download_no_data">След печат, експорт или създаване на архивно копие в приложението, файловете ще бъдат налични тук за сваляне.</string>
+    <string name="initial_value">Начална стойност</string>
+    <string name="current_value">Текуща стойност</string>
+    <string name="total_value">Обща стойност</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Автоматично зареждане на дневния обменен курс</string>
+    <string name="price_history">История на обменния курс</string>
+    <string name="menu_show_equivalent_value">Еквивалентна стойност</string>
+    <string name="progress_recalculating">Преизчисляване</string>
+    <string name="filter_dialog_empty">Все още не са зададени критерии. Натиснете бутоните по-горе, за да определите заявката и да прецизирате резултатите.</string>
+    <string name="dynamic_exchange_rate">Динамичен обменен курс</string>
 </resources>
