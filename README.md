@@ -70,6 +70,7 @@ Credits
 - [HBCI4Java](https://github.com/hbci4j/hbci4java)
 - [Hibiscus](https://github.com/willuhn/hibiscus)
 - [sealed-enum](https://github.com/livefront/sealed-enum)
+- [Reorderable](https://github.com/Calvin-LL/Reorderable)
 
 and on the contribution of many users that helped make My Expenses available in 34 different 
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>.

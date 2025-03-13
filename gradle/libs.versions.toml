@@ -90,7 +90,6 @@ requery = "3.36.0"
 retrofitVersion = "2.11.0"
 robolectricVersion = "4.14.1"
 runner = "1.6.2"
-runtime = "0.7.0"
 screengrab = "2.1.1"
 securityCrypto = "1.1.0-alpha06"
 simpledialogfragments = "09a642bc42"
@@ -106,6 +105,7 @@ truthVersion = "1.4.4"
 viewpager2 = "1.1.0"
 workManager = "2.10.0"
 xercesimpl = "2.12.2"
+reorderable = "2.4.3"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
@@ -218,7 +218,8 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
-sealed-enum = { module = "com.github.livefront.sealed-enum:ksp", version.ref = "sealed-enum" }
+sealed-enum-ksp = { module = "com.github.livefront.sealed-enum:ksp", version.ref = "sealed-enum" }
+sealed-enum-runtime = { module = "com.github.livefront.sealed-enum:runtime", version.ref = "sealed-enum" }
 ktor-network-tls-certificates = { module = "io.ktor:ktor-network-tls-certificates", version.ref = "ktor" }
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
@@ -245,7 +246,6 @@ play-services-mlkit-text-recognition-common = { module = "com.google.android.gms
 relinker = { module = "com.getkeepsafe.relinker:relinker", version.ref = "relinker" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }
-runtime = { module = "com.github.livefront.sealed-enum:runtime", version.ref = "runtime" }
 screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
 simpledialogfragments = { module = "com.github.eltos:SimpleDialogFragments", version.ref = "simpledialogfragments" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
@@ -263,6 +263,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 truth = { module = "com.google.truth:truth", version.ref = "truthVersion" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 xercesimpl = { module = "xerces:xercesImpl", version.ref = "xercesimpl" }
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

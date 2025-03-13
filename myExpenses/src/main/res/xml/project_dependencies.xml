@@ -219,4 +219,9 @@
         <url>https://github.com/livefront/sealed-enum</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>Reorderable</name>
+        <url>https://github.com/Calvin-LL/Reorderable</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>

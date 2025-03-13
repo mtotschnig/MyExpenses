@@ -294,12 +294,14 @@ dependencies {
 
     implementation libs.androidx.browser
 
-    implementation(libs.runtime)
-    ksp(libs.sealed.enum)
+    implementation(libs.sealed.enum.runtime)
+    ksp(libs.sealed.enum.ksp)
 
     implementation libs.androidx.security.crypto
 
     implementation libs.kotlinx.serialization.json
+
+    implementation(libs.reorderable)
 
     debugImplementation(libs.androidx.fragment.testing.manifest)
     testImplementation(libs.androidx.fragment.testing)

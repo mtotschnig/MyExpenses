@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.content.ComponentName
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
@@ -511,9 +512,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private fun toggleWebUI() {
         if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
             prefHandler.putBoolean(PrefKey.UI_WEB, false)
-            invalidateOptionsMenu()
         } else {
             contribFeatureRequested(ContribFeature.WEB_UI, false)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        if (key != null && prefHandler.matches(key, PrefKey.UI_WEB)) {
+            invalidateOptionsMenu()
         }
     }
 

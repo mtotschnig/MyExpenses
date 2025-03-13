@@ -6,28 +6,27 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.parcelize.Parcelize
@@ -38,16 +37,19 @@ import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
-import java.util.Collections
+import sh.calvin.reorderable.ReorderableCollectionItemScope
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Parcelize
+@Stable
 sealed class MenuItem(
     @IdRes val id: Int,
     @StringRes private val labelRes: Int,
     @DrawableRes val icon: Int? = null,
     @MenuRes val subMenu: Int? = null,
     val isCheckable: Boolean = false,
-    val isEnabledByDefault: Boolean = true
+    val isEnabledByDefault: Boolean = true,
 ) : Parcelable {
     open fun getLabel(context: Context) = context.getString(labelRes)
 
@@ -160,7 +162,7 @@ sealed class MenuItem(
         R.menu.main_manage
     )
 
-    data object Archive: MenuItem(
+    data object Archive : MenuItem(
         R.id.ARCHIVE_COMMAND,
         R.string.action_archive,
         R.drawable.ic_archive,
@@ -196,7 +198,8 @@ sealed class MenuItem(
         R.id.WEB_UI_COMMAND,
         R.string.title_webui,
         R.drawable.ic_computer,
-        isEnabledByDefault = false
+        isEnabledByDefault = false,
+        isCheckable = true
     )
 
     data object Restore : MenuItem(
@@ -215,6 +218,10 @@ sealed class MenuItem(
 
 class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
 
+    override val horizontalPadding = 12.dp
+
+    override val fullScreenIfNotLarge = true
+
     override val title: CharSequence
         get() = TextUtils.concatResStrings(
             requireContext(),
@@ -228,38 +235,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
         val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
         val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
 
-        LazyColumnWithScrollbar(
-            modifier = Modifier.weight(1f),
-            itemsAvailable = MenuItem.values.size,
-        ) {
-            itemsIndexed(activeItems) { index, item ->
-                ItemRow(item, true,
-                    onCheckedChange = if (item != MenuItem.Settings) {
-                        {
-                            activeItems.remove(item)
-                            inactiveItems.add(item)
-                        }
-                    } else null,
-                    onUp = if (index == 0) null else {
-                        { Collections.swap(activeItems, index - 1, index) }
-                    },
-                    onDown = if (index < activeItems.lastIndex) {
-                        { Collections.swap(activeItems, index, index + 1) }
-                    } else null
-                )
-            }
-            if (activeItems.isNotEmpty() && inactiveItems.isNotEmpty()) {
-                item {
-                    HorizontalDivider(thickness = 1.dp)
-                }
-            }
-            items(inactiveItems) { item ->
-                ItemRow(item, false, onCheckedChange = {
-                    activeItems.add(item)
-                    inactiveItems.remove(item)
-                })
-            }
-        }
+        MenuConfigurator(activeItems, inactiveItems, Modifier.weight(1f))
         ButtonRow {
             TextButton(onClick = { dismiss() }) {
                 Text(stringResource(id = android.R.string.cancel))
@@ -283,47 +259,110 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
             }
         }
     }
+}
 
-    @Composable
-    private fun ItemRow(
-        item: MenuItem,
-        checked: Boolean,
-        onCheckedChange: (() -> Unit)?,
-        onUp: (() -> Unit)? = null,
-        onDown: (() -> Unit)? = null
+@Composable
+private fun MenuConfigurator(
+    activeItems: SnapshotStateList<MenuItem>,
+    inactiveItems: SnapshotStateList<MenuItem>,
+    modifier: Modifier = Modifier,
+) {
+    val lazyListState = rememberLazyListState()
+    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+        if (to.index < activeItems.size) {
+            activeItems.add(to.index, activeItems.removeAt(from.index))
+        }
+    }
+
+    LazyColumnWithScrollbar(
+        modifier = modifier,
+        state = lazyListState,
+        itemsAvailable = MenuItem.values.size,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
-                onCheckedChange?.invoke()
-            })
-            item.icon?.let {
-                Icon(
-                    modifier = Modifier.padding(end = 8.dp),
-                    painter = painterResource(id = it),
-                    contentDescription = null
+        itemsIndexed(activeItems, key = { _, item -> item.id }) { index, item ->
+            ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
+                ItemRow(
+                    this, item,
+                    true,
+                    onCheckedChange = if (item != MenuItem.Settings) {
+                        {
+                            activeItems.remove(item)
+                            inactiveItems.add(item)
+                        }
+                    } else null
                 )
             }
-            Text(text = item.getLabel(LocalContext.current), modifier = Modifier.weight(1f))
-            if (onUp != null || onDown != null) {
-                Row(modifier = Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
-                    onUp?.let {
-                        IconButton(onClick = it) {
-                            Icon(
-                                Icons.Filled.KeyboardArrowUp,
-                                contentDescription = stringResource(id = R.string.action_move_up)
-                            )
-                        }
-                    }
-                    onDown?.let {
-                        IconButton(onClick = it) {
-                            Icon(
-                                Icons.Filled.KeyboardArrowDown,
-                                contentDescription = stringResource(id = R.string.action_move_down)
-                            )
-                        }
-                    }
+        }
+        if (activeItems.isNotEmpty() && inactiveItems.isNotEmpty()) {
+            item {
+                ReorderableItem(reorderableLazyListState, 0, enabled = false) {
+                    HorizontalDivider(thickness = 1.dp)
                 }
             }
         }
+        itemsIndexed(inactiveItems, key = { _, item -> item.id }) { index, item ->
+            ReorderableItem(reorderableLazyListState, item.id, enabled = false) {
+                ItemRow(
+                    null, item,
+                    false,
+                    onCheckedChange = {
+                        activeItems.add(item)
+                        inactiveItems.remove(item)
+                    }
+                )
+            }
+        }
     }
+}
+
+@Composable
+private fun ItemRow(
+    reorderScope: ReorderableCollectionItemScope?,
+    item: MenuItem,
+    checked: Boolean,
+    onCheckedChange: (() -> Unit)?,
+) {
+    Row(
+        modifier = Modifier.padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
+            onCheckedChange?.invoke()
+        })
+        item.icon?.let {
+            Icon(
+                modifier = Modifier.padding(end = 8.dp),
+                painter = painterResource(id = it),
+                contentDescription = null
+            )
+        }
+        Text(
+            text = item.getLabel(LocalContext.current),
+            modifier = Modifier
+                .weight(1f)
+        )
+        if (reorderScope != null) {
+            with(reorderScope) {
+                Icon(
+                    Icons.Rounded.DragHandle,
+                    contentDescription = "Reorder",
+                    modifier = Modifier.draggableHandle()
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun DragAndDropDemo() {
+    val activeItems: SnapshotStateList<MenuItem> =
+        rememberMutableStateListOf(MenuItem.values.subList(0, 15))
+    val inActiveItems: SnapshotStateList<MenuItem> = rememberMutableStateListOf(
+        MenuItem.values.subList(
+            15,
+            MenuItem.values.size
+        )
+    )
+    MenuConfigurator(activeItems, inActiveItems)
 }
