@@ -120,4 +120,6 @@
     <string name="user">"صارف"</string>
     <string name="value">"قیمت"</string>
     <string name="done_label">"ہو گیا"</string>
+    <string name="action_move_top">"اوپر منتقل کریں"</string>
+    <string name="action_move_bottom">"نیچے منتقل کریں"</string>
 </resources>

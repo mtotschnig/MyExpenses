@@ -87,4 +87,6 @@
     <string name="source">"ที่มา"</string>
     <string name="value">"ค่า"</string>
     <string name="done_label">"เสร็จสิ้น"</string>
+    <string name="action_move_top">"เลื่อนไปบนสุด"</string>
+    <string name="action_move_bottom">"เลื่อนไปสุดด้านล่าง"</string>
 </resources>

@@ -72,4 +72,6 @@
     <string name="source">"Извор"</string>
     <string name="value">Value"</string>
     <string name="done_label">"Готово"</string>
+    <string name="action_move_top">"Премести најгоре"</string>
+    <string name="action_move_bottom">"Премести најдолу"</string>
 </resources>

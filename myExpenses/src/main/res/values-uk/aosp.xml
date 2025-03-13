@@ -157,4 +157,6 @@
     <string name="source">"Джерело"</string>
     <string name="value">"Значення"</string>
     <string name="done_label">"Готово"</string>
+    <string name="action_move_top">"На початок"</string>
+    <string name="action_move_bottom">"У кінець"</string>
 </resources>

@@ -149,4 +149,6 @@
     <string name="source">"Izvor"</string>
     <string name="value">"Vrijednost"</string>
     <string name="done_label">"Gotovo"</string>
+    <string name="action_move_top">"Premještanje na vrh"</string>
+    <string name="action_move_bottom">"Premještanje na dno"</string>
 </resources>

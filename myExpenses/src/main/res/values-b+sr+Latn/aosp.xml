@@ -61,4 +61,6 @@
     <string name="source">Source"</string>
     <string name="value">Value"</string>
     <string name="done_label">"Gotovo"</string>
+    <string name="action_move_top">"Premesti na vrh"</string>
+    <string name="action_move_bottom">"Premesti na dno"</string>
 </resources>

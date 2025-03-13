@@ -72,4 +72,6 @@
     <string name="source">Source"</string>
     <string name="value">"مقدار"</string>
     <string name="done_label">"تمام"</string>
+    <string name="action_move_top">"انتقال به بالا"</string>
+    <string name="action_move_bottom">"انتقال به آخر"</string>
 </resources>

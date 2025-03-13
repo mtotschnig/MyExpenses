@@ -72,4 +72,6 @@
     <string name="source">Source"</string>
     <string name="value">"કિંમત"</string>
     <string name="done_label">"થઈ ગયું"</string>
+    <string name="action_move_top">"ઉપર ખસેડો"</string>
+    <string name="action_move_bottom">"તળિયા પર ખસેડો"</string>
 </resources>

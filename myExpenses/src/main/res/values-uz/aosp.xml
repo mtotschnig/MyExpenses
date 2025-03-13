@@ -69,4 +69,6 @@
     <string name="source">Source"</string>
     <string name="value">Value"</string>
     <string name="done_label">"Tayyor"</string>
+    <string name="action_move_top">"Tepaga o‘tkazish"</string>
+    <string name="action_move_bottom">"Oxiriga o‘tkazish"</string>
 </resources>

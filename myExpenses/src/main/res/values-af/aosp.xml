@@ -85,4 +85,6 @@
     <string name="source">"Bron"</string>
     <string name="value">"Waarde"</string>
     <string name="done_label">"Klaar"</string>
+    <string name="action_move_top">"Skuif na bo"</string>
+    <string name="action_move_bottom">"Skuif na onder"</string>
 </resources>

@@ -65,4 +65,6 @@
     <string name="hide_password">"Skrij geslo"</string>
     <string name="user">"Uporabnik"</string>
     <string name="done_label">"Dokončano"</string>
+    <string name="action_move_top">"Premakni na vrh"</string>
+    <string name="action_move_bottom">"Premakni na dno"</string>
 </resources>

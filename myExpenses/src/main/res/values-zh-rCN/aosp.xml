@@ -154,4 +154,6 @@
     <string name="source">"来源"</string>
     <string name="value">"值"</string>
     <string name="done_label">"完成"</string>
+    <string name="action_move_top">"移至顶部"</string>
+    <string name="action_move_bottom">"移至底部"</string>
 </resources>

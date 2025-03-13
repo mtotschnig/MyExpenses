@@ -89,4 +89,6 @@
     <string name="source">"Fonte"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Feito"</string>
+    <string name="action_move_top">"Situar arriba"</string>
+    <string name="action_move_bottom">"Situar abaixo"</string>
 </resources>

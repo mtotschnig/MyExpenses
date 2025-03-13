@@ -70,4 +70,6 @@
     <string name="source">"Izvor"</string>
     <string name="value">"Vrijednost"</string>
     <string name="done_label">"Gotovo"</string>
+    <string name="action_move_top">"Pomjeri na vrh"</string>
+    <string name="action_move_bottom">"Pomjeri na dno"</string>
 </resources>

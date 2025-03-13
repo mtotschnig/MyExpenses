@@ -157,4 +157,6 @@
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Hecho"</string>
+    <string name="action_move_top">"Mover al principio"</string>
+    <string name="action_move_bottom">"Mover al final"</string>
 </resources>

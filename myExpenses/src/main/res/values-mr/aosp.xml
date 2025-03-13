@@ -69,4 +69,6 @@
     <string name="source">Source"</string>
     <string name="value">"मूल्य"</string>
     <string name="done_label">"पूर्ण झाले"</string>
+    <string name="action_move_top">"शीर्षस्थानी हलवा"</string>
+    <string name="action_move_bottom">"तळाशी हलवा"</string>
 </resources>

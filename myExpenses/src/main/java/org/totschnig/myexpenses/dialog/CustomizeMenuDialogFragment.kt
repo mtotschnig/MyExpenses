@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Checkbox
@@ -26,6 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.livefront.sealedenum.GenSealedEnum
@@ -33,6 +40,7 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.preference.PrefKey
@@ -268,11 +276,19 @@ private fun MenuConfigurator(
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
-    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-        if (to.index < activeItems.size) {
-            activeItems.add(to.index, activeItems.removeAt(from.index))
+    fun onMove(from: Int, to: Int) {
+        if (to < activeItems.size) {
+            activeItems.add(to, activeItems.removeAt(from))
         }
     }
+
+    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+        onMove(from.index, to.index)
+    }
+    val moveUpLabel = stringResource(id = R.string.action_move_up)
+    val moveDownLabel = stringResource(id = R.string.action_move_down)
+    val moveTopLabel = stringResource(id = R.string.action_move_top)
+    val moveBottomLabel = stringResource(id = R.string.action_move_bottom)
 
     LazyColumnWithScrollbar(
         modifier = modifier,
@@ -281,15 +297,56 @@ private fun MenuConfigurator(
     ) {
         itemsIndexed(activeItems, key = { _, item -> item.id }) { index, item ->
             ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
+                val customActions = buildList {
+                    if (index > 0) {
+                        add(
+                            CustomAccessibilityAction(
+                            label = moveUpLabel,
+                            action = {
+                                onMove(index, index - 1)
+                                true
+                            }
+                        ))
+                        add(
+                            CustomAccessibilityAction(
+                            label = moveTopLabel,
+                            action = {
+                                onMove(index, 0)
+                                true
+                            }
+                        ))
+                    }
+                    if (index < activeItems.lastIndex) {
+                        add(
+                            CustomAccessibilityAction(
+                            label = moveDownLabel,
+                            action = {
+                                onMove(index, index + 1)
+                                true
+                            }
+                        ))
+                        add(
+                            CustomAccessibilityAction(
+                            label = moveBottomLabel,
+                            action = {
+                                onMove(index, activeItems.lastIndex)
+                                true
+                            }
+                        ))
+                    }
+                }
                 ItemRow(
-                    this, item,
-                    true,
+                    reorderScope = this,
+                    item = item,
+                    index = index,
+                    checked = true,
                     onCheckedChange = if (item != MenuItem.Settings) {
                         {
                             activeItems.remove(item)
                             inactiveItems.add(item)
                         }
-                    } else null
+                    } else null,
+                    customActions = customActions
                 )
             }
         }
@@ -303,12 +360,15 @@ private fun MenuConfigurator(
         itemsIndexed(inactiveItems, key = { _, item -> item.id }) { index, item ->
             ReorderableItem(reorderableLazyListState, item.id, enabled = false) {
                 ItemRow(
-                    null, item,
-                    false,
+                    reorderScope = null,
+                    item = item,
+                    index = activeItems.size + index,
+                    checked = false,
                     onCheckedChange = {
                         activeItems.add(item)
                         inactiveItems.remove(item)
-                    }
+                    },
+                    customActions = null
                 )
             }
         }
@@ -319,19 +379,36 @@ private fun MenuConfigurator(
 private fun ItemRow(
     reorderScope: ReorderableCollectionItemScope?,
     item: MenuItem,
+    index: Int,
     checked: Boolean,
     onCheckedChange: (() -> Unit)?,
+    customActions: List<CustomAccessibilityAction>?,
 ) {
     Row(
-        modifier = Modifier.padding(horizontal = 12.dp),
+        modifier = Modifier.semantics {
+            collectionItemInfo = CollectionItemInfo(
+                rowIndex = index,
+                rowSpan = 1,
+                columnIndex =  0,
+                columnSpan = 1
+            )
+        }
+            .padding(12.dp)
+            .toggleable(
+                value = checked,
+                role = Role.Checkbox,
+                enabled = onCheckedChange != null,
+                onValueChange = { onCheckedChange?.invoke() }
+            )
+            .optional(customActions?.takeIf { it.isNotEmpty() }) {
+                semantics { this.customActions = it }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
-            onCheckedChange?.invoke()
-        })
+        Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = null)
         item.icon?.let {
             Icon(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 painter = painterResource(id = it),
                 contentDescription = null
             )
@@ -345,7 +422,7 @@ private fun ItemRow(
             with(reorderScope) {
                 Icon(
                     Icons.Rounded.DragHandle,
-                    contentDescription = "Reorder",
+                    contentDescription = null,
                     modifier = Modifier.draggableHandle()
                 )
             }

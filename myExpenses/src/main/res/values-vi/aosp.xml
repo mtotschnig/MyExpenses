@@ -151,4 +151,6 @@
     <string name="source">"Nguồn"</string>
     <string name="value">"Giá trị"</string>
     <string name="done_label">"Xong"</string>
+    <string name="action_move_top">"Chuyển lên trên cùng"</string>
+    <string name="action_move_bottom">"Chuyển xuống dưới cùng"</string>
 </resources>

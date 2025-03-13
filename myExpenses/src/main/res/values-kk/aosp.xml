@@ -81,4 +81,6 @@
     <string name="source">"Қайнар көзі"</string>
     <string name="value">"Мәні"</string>
     <string name="done_label">"Дайын"</string>
+    <string name="action_move_top">"Басына жылжыту"</string>
+    <string name="action_move_bottom">"Төменге жылжыту"</string>
 </resources>

@@ -91,4 +91,6 @@
     <string name="source">"Källa"</string>
     <string name="value">"Värde"</string>
     <string name="done_label">"Klart"</string>
+    <string name="action_move_top">"Flytta högst upp"</string>
+    <string name="action_move_bottom">"Flytta längst ned"</string>
 </resources>

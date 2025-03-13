@@ -157,4 +157,6 @@
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Fet"</string>
+    <string name="action_move_top">"Mou a la part superior"</string>
+    <string name="action_move_bottom">"Mou a la part inferior"</string>
 </resources>

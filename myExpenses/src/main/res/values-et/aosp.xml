@@ -91,4 +91,6 @@
     <string name="source">"Allikas"</string>
     <string name="value">"väärtus"</string>
     <string name="done_label">"Valmis"</string>
+    <string name="action_move_top">"Teisalda kõige üles"</string>
+    <string name="action_move_bottom">"Teisalda kõige alla"</string>
 </resources>

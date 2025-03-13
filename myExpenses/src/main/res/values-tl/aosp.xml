@@ -58,4 +58,6 @@
     <string name="hide_password">"Itago ang password"</string>
     <string name="user">"User"</string>
     <string name="done_label">"Tapos na"</string>
+    <string name="action_move_top">"Ilipat sa itaas"</string>
+    <string name="action_move_bottom">"Ilipat sa ibaba"</string>
 </resources>

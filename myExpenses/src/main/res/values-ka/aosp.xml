@@ -80,4 +80,6 @@
     <string name="source">"წყარო"</string>
     <string name="value">"მნიშვნელობა"</string>
     <string name="done_label">"დასრულდა"</string>
+    <string name="action_move_top">"თავში გადატანა"</string>
+    <string name="action_move_bottom">"ბოლოში გადატანა"</string>
 </resources>

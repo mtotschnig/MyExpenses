@@ -140,4 +140,6 @@
     <string name="source">"Source"</string>
     <string name="value">"តម្លៃ"</string>
     <string name="done_label">"រួចរាល់"</string>
+    <string name="action_move_top">"ផ្លាស់ទីទៅកំពូល"</string>
+    <string name="action_move_bottom">"ផ្លាស់ទីទៅបាត"</string>
 </resources>

@@ -69,4 +69,6 @@
     <string name="source">"ແຫຼ່ງ"</string>
     <string name="value">"ຄ່າ"</string>
     <string name="done_label">"ແລ້ວໆ"</string>
+    <string name="action_move_top">"ຍ້າຍໄປເທິງສຸດ"</string>
+    <string name="action_move_bottom">"ຍ້າຍໄປລຸ່ມສຸດ"</string>
 </resources>

@@ -73,4 +73,6 @@
     <string name="source">"स्रोत"</string>
     <string name="value">Value"</string>
     <string name="done_label">"भयो"</string>
+    <string name="action_move_top">"माथिल्लो भागमा सार्नुहोस्"</string>
+    <string name="action_move_bottom">"तल्लो भागमा सार्नुहोस्"</string>
 </resources>

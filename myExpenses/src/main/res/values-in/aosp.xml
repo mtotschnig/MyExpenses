@@ -91,4 +91,6 @@
     <string name="source">"Sumber"</string>
     <string name="value">"Nilai"</string>
     <string name="done_label">"Selesai"</string>
+    <string name="action_move_top">"Pindahkan ke atas"</string>
+    <string name="action_move_bottom">"Pindahkan ke bawah"</string>
 </resources>

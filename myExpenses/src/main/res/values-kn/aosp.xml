@@ -136,4 +136,6 @@
     <string name="source">"ಮೂಲ"</string>
     <string name="value">"ಮೌಲ್ಯ"</string>
     <string name="done_label">"ಆಯಿತು"</string>
+    <string name="action_move_top">"ಮೇಲಕ್ಕೆ ಸರಿಸು"</string>
+    <string name="action_move_bottom">"ಕೆಳಕ್ಕೆ ಸರಿಸು"</string>
 </resources>

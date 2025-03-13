@@ -68,4 +68,6 @@
     <string name="source">"ഉറവിടം"</string>
     <string name="value">Value"</string>
     <string name="done_label">"പൂർത്തിയാക്കി"</string>
+    <string name="action_move_top">"മുകളിലേക്ക് നീക്കുക"</string>
+    <string name="action_move_bottom">"താഴേക്ക് നീക്കുക"</string>
 </resources>

@@ -90,4 +90,6 @@
     <string name="source">"Kilde"</string>
     <string name="value">"Verdi"</string>
     <string name="done_label">"Ferdig"</string>
+    <string name="action_move_top">"Flytt til toppen"</string>
+    <string name="action_move_bottom">"Flytt nederst"</string>
 </resources>

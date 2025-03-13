@@ -90,4 +90,6 @@
     <string name="source">"Zdroj"</string>
     <string name="value">"Hodnota"</string>
     <string name="done_label">"Hotovo"</string>
+    <string name="action_move_top">"Presunúť na začiatok"</string>
+    <string name="action_move_bottom">"Presunúť na koniec"</string>
 </resources>

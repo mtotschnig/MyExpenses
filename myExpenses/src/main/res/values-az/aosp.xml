@@ -61,4 +61,6 @@
     <string name="user">"İstifadəçi"</string>
     <string name="value">"Dәyәr"</string>
     <string name="done_label">"Hazırdır"</string>
+    <string name="action_move_top">"Ən yuxarı"</string>
+    <string name="action_move_bottom">"Aşağı köçürün"</string>
 </resources>

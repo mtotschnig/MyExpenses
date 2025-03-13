@@ -126,4 +126,6 @@
     <string name="hide_password">"Sembunyikan kata laluan"</string>
     <string name="user">"Pengguna"</string>
     <string name="done_label">"Selesai"</string>
+    <string name="action_move_top">"Alih ke paling atas"</string>
+    <string name="action_move_bottom">"Alih ke paling bawah"</string>
 </resources>

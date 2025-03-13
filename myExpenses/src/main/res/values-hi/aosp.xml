@@ -73,4 +73,6 @@
     <string name="source">"स्रोत"</string>
     <string name="value">"मान"</string>
     <string name="done_label">"हो गया"</string>
+    <string name="action_move_top">"शीर्ष पर ले जाएं"</string>
+    <string name="action_move_bottom">"सबसे नीचे ले जाएं"</string>
 </resources>

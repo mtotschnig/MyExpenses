@@ -68,4 +68,6 @@
     <string name="source">"Крыніца"</string>
     <string name="value">"Значэнне"</string>
     <string name="done_label">"Гатова"</string>
+    <string name="action_move_top">"Перамясціць уверх"</string>
+    <string name="action_move_bottom">"Перамясціць уніз"</string>
 </resources>

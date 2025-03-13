@@ -146,4 +146,6 @@
     <string name="source">"출처"</string>
     <string name="value">"값"</string>
     <string name="done_label">"완료"</string>
+    <string name="action_move_top">"맨 위로 이동"</string>
+    <string name="action_move_bottom">"맨 아래로 이동"</string>
 </resources>

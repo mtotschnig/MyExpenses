@@ -70,4 +70,6 @@
     <string name="source">"Source"</string>
     <string name="value">"মান"</string>
     <string name="done_label">"সম্পন্ন হয়েছে"</string>
+    <string name="action_move_top">"শীর্ষে সরান"</string>
+    <string name="action_move_bottom">"নিচে সরান"</string>
 </resources>

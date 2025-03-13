@@ -81,4 +81,6 @@
     <string name="source">"Šaltinis"</string>
     <string name="value">"Reikšmė"</string>
     <string name="done_label">"Atlikta"</string>
+    <string name="action_move_top">"Perkelti į viršų"</string>
+    <string name="action_move_bottom">"Perkelti į apačią"</string>
 </resources>

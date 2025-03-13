@@ -155,4 +155,6 @@
     <string name="source">"Kaynak"</string>
     <string name="value">"Değer"</string>
     <string name="done_label">"Bitti"</string>
+    <string name="action_move_top">"En üste taşı"</string>
+    <string name="action_move_bottom">"En alta taşı"</string>
 </resources>

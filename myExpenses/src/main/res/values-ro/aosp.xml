@@ -144,4 +144,6 @@
     <string name="source">"Sursă"</string>
     <string name="value">"Valoare"</string>
     <string name="done_label">"Terminat"</string>
+    <string name="action_move_top">"Mută sus"</string>
+    <string name="action_move_bottom">"Mută jos"</string>
 </resources>

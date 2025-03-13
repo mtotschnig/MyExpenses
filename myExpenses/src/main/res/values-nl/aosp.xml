@@ -153,4 +153,6 @@
     <string name="source">"Bron"</string>
     <string name="value">"Waarde"</string>
     <string name="done_label">"Klaar"</string>
+    <string name="action_move_top">"Bovenaan zetten"</string>
+    <string name="action_move_bottom">"Onderaan zetten"</string>
 </resources>

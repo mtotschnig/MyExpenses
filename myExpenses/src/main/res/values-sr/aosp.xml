@@ -67,4 +67,6 @@
     <string name="source">Source"</string>
     <string name="value">"Вредност"</string>
     <string name="done_label">"Готово"</string>
+    <string name="action_move_top">"Премести на врх"</string>
+    <string name="action_move_bottom">"Премести на дно"</string>
 </resources>

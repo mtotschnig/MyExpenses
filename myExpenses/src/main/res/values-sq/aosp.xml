@@ -73,4 +73,6 @@
     <string name="source">"Burimi"</string>
     <string name="value">"Vlera"</string>
     <string name="done_label">"U krye"</string>
+    <string name="action_move_top">"Lëvize në krye"</string>
+    <string name="action_move_bottom">"Lëvize në fund"</string>
 </resources>

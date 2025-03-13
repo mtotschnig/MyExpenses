@@ -156,4 +156,6 @@
     <string name="source">"Πηγή"</string>
     <string name="value">"Τιμή"</string>
     <string name="done_label">"Τέλος"</string>
+    <string name="action_move_top">"Μετακίνηση επάνω"</string>
+    <string name="action_move_bottom">"Μετακίνηση κάτω"</string>
 </resources>

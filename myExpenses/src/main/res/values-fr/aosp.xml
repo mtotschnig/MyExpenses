@@ -157,4 +157,6 @@
     <string name="source">"Source"</string>
     <string name="value">"Valeur"</string>
     <string name="done_label">"OK"</string>
+    <string name="action_move_top">"Placer en premier"</string>
+    <string name="action_move_bottom">"Placer en dernier"</string>
 </resources>

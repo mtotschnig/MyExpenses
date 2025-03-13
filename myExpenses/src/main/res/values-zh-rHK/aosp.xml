@@ -121,4 +121,6 @@
     <string name="hide_password">"隱藏密碼"</string>
     <string name="user">"使用者"</string>
     <string name="done_label">"完成"</string>
+    <string name="action_move_top">"移至頂端"</string>
+    <string name="action_move_bottom">"移到底端"</string>
 </resources>

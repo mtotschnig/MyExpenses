@@ -68,4 +68,6 @@
     <string name="source">"မူရင်း"</string>
     <string name="value">Value"</string>
     <string name="done_label">"ပြီးပါပြီ"</string>
+    <string name="action_move_top">"အပေါ်ဆုံးသို့ ရွှေ့ပါ"</string>
+    <string name="action_move_bottom">"အောက်ပိုင်းသို့ ရွှေ့ပါ"</string>
 </resources>

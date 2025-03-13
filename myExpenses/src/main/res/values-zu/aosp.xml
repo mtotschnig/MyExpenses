@@ -70,4 +70,6 @@
     <string name="source">Source"</string>
     <string name="value">"Inani"</string>
     <string name="done_label">"Kwenziwe"</string>
+    <string name="action_move_top">"Thumela Phezulu"</string>
+    <string name="action_move_bottom">"Isa phansi"</string>
 </resources>
