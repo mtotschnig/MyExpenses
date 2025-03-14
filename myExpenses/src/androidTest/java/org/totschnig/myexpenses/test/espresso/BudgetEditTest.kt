@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
@@ -77,12 +76,13 @@ class BudgetEditTest : BaseUiTest<BudgetEdit>() {
     }
 
     private fun testFilterWithIntent(@IdRes command: Int, activity: KClass<out BaseActivity>) {
+        closeSoftKeyboard()
         onView(withId(command)).perform(click())
         intended(hasComponent(activity.java.name))
     }
 
     private fun testFilterWithDialog(@IdRes command: Int, @StringRes dialogTitle: Int) {
-        Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
         onView(withId(command)).perform(click())
         onView(withText(dialogTitle)).check(matches(isDisplayed()))
     }
