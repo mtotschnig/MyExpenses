@@ -130,7 +130,7 @@ abstract class AbstractOcrHandlerImpl(
         val amountCandidates = lines.filter { line ->
             for (totalIndicator in totalIndicators) {
                 if (line.text.filter { c -> c.isLetter() }
-                        .startsWith(totalIndicator.replace(" ", ""))) return@filter true
+                        .startsWith(totalIndicator, ignoreCase = true)) return@filter true
                 var matchesAllSplits = true
                 for (split in totalIndicator.split(' ')) {
                     var found = false
