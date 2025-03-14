@@ -402,8 +402,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
             KEY_AMOUNT_HOME_EQUIVALENT ->  getAmountHomeEquivalent(table, homeCurrency) + " AS $it"
 
-            KEY_CURRENCY -> "$table.$KEY_CURRENCY"
-            KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID"
+            KEY_CURRENCY -> "$table.$KEY_CURRENCY AS $KEY_CURRENCY"
+            KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID AS $KEY_ACCOUNTID"
             else -> it
         }
     }?.toTypedArray()

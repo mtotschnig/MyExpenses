@@ -770,7 +770,7 @@ fun buildSearchCte(
     forTable: String,
     homeCurrency: String,
     forHome: Boolean,
-) = "WITH $CTE_SEARCH AS (SELECT *, ${
+) = "WITH $CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, ${
     getAmountCalculation(
         homeCurrency.takeIf { forHome },
         forTable
