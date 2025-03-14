@@ -177,6 +177,7 @@ fun PriceListScreen(
     val column2Weight = .4f
     val column3Weight = .2f
     val format = remember { DecimalFormat("#.################") }
+    val inverseFormat = remember { DecimalFormat("#.########") }
     val editedDate = remember { mutableStateOf<LocalDate?>(null) }
     Column(modifier = modifier) {
         Row {
@@ -236,7 +237,21 @@ fun PriceListScreen(
                         )
                     } else {
                         if (price != null) {
-                            TableCell(format.format(price.value), column2Weight)
+                            Column(Modifier
+                                .weight(column2Weight)
+                                .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = format.format(price.value),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Text(
+                                    text = "(" + inverseFormat.format(1/price.value) + ")",
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1
+                                )
+                            }
                         } else {
                             Spacer(Modifier.weight(column2Weight))
                         }
