@@ -58,18 +58,19 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             currency: String,
             shortenComment: Boolean = false,
             extended: Boolean = true
-        ): Uri.Builder = when {
-            !isAggregate(id) -> uriBuilderForTransactionList(shortenComment, extended).apply {
-                appendQueryParameter(KEY_ACCOUNTID, id.toString())
-            }
+        ): Uri.Builder {
+            val uriBuilder =
+                uriBuilderForTransactionList(shortenComment, extended)
+            return when {
+                !isAggregate(id) -> uriBuilder.apply {
+                    appendQueryParameter(KEY_ACCOUNTID, id.toString())
+                }
 
-            isHomeAggregate(id) -> uriBuilderForTransactionList(
-                shortenComment,
-                extended
-            )
+                isHomeAggregate(id) -> uriBuilder
 
-            else -> uriBuilderForTransactionList(shortenComment, extended).apply {
-                appendQueryParameter(KEY_CURRENCY, currency)
+                else -> uriBuilder.apply {
+                    appendQueryParameter(KEY_CURRENCY, currency)
+                }
             }
         }
 
