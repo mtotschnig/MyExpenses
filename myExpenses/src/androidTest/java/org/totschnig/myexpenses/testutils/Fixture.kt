@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
@@ -325,12 +326,7 @@ class Fixture(inst: Instrumentation) {
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
         val result = appContext.contentResolver.update(
-            ContentUris.withAppendedId(
-                ContentUris.withAppendedId(
-                    TransactionProvider.BUDGETS_URI,
-                    budgetId
-                ), categoryId
-            ),
+            BaseTransactionProvider.budgetAllocationUri(budgetId, categoryId),
             ContentValues().apply {
                 put(KEY_BUDGET, amount)
                 put(KEY_YEAR, LocalDate.now().year)

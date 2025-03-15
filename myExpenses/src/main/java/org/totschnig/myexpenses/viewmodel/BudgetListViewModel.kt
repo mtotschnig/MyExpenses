@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -81,7 +80,8 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                 grouping to if (grouping == Grouping.Account)
                     it.groupBy { it.accountId }
                         .values
-                        .sortedWith(compareBy(
+                        .sortedWith(
+                            compareBy(
                             { it.first().accountId < 0 },
                             { it.first().accountName }
                         ))
@@ -119,9 +119,7 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
 
                 val allocationUri = budgetAllocationQueryUri(
                     budget.id,
-                    0,
-                    budget.grouping,
-                    THIS_YEAR,
+                    if (budget.grouping == org.totschnig.myexpenses.model.Grouping.NONE) null else THIS_YEAR,
                     budget.grouping.queryArgumentForThisSecond
                 )
 
@@ -131,11 +129,9 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                         arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
                     )
                         .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
-                    contentResolver.observeQuery(allocationUri)
+                    contentResolver.observeQuery(allocationUri, projection = arrayOf(KEY_BUDGET))
                         .mapToOne(0) {
-                            it.getLong(KEY_BUDGET) + it.getLong(
-                                KEY_BUDGET_ROLLOVER_PREVIOUS
-                            )
+                            it.getLong(0)
                         }
                 ) { spent, allocated ->
                     Timber.d("Emitting, %d", budget.id)

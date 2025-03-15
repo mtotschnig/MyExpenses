@@ -125,6 +125,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.totalBudgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionListAsCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionQuerySelector;
@@ -817,21 +818,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         extras.putLong(KEY_BUDGETID, budgetId);
         break;
       }
-      case BUDGET_CATEGORY: {
-        if (projection == null) {
-          String sql = budgetAllocation(uri);
-          c = measureAndLogQuery(db, uri, sql, null, null);
-          return c;
-        } else {
-          if (uri.getQueryParameter(KEY_YEAR) != null || uri.getQueryParameter(KEY_SECOND_GROUP) != null) {
-            CrashHandler.throwOrReport(
-                    "When querying budget_category with projection, grouping parameters are ignored ", TAG
-            );
-          }
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
-          additionalWhere.append(budgetSelect(uri));
-          break;
-        }
+      case BUDGET_FOR_PERIOD: {
+        String sql = (projection != null && projection.length == 1 && projection[0].equals(KEY_BUDGET)) ? totalBudgetAllocation(uri) : budgetAllocation(uri);
+        c = measureAndLogQuery(db, uri, sql, null, null);
+        return c;
       }
       case TAGS:
         boolean withCount = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_COUNT, false);
@@ -1046,7 +1036,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           budgetInitialAmount.put(KEY_CATID, 0);
           MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
         }
-        newUri = ContentUris.withAppendedId(BUDGETS_URI, id);
+        newUri = BaseTransactionProvider.Companion.budgetUri(id);
       }
       case CURRENCIES -> {
         try {
@@ -1709,6 +1699,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#", BUDGET_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/#/" + URI_SEGMENT_BUDGET_ALLOCATIONS, BUDGET_FOR_PERIOD);
     URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
     URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);

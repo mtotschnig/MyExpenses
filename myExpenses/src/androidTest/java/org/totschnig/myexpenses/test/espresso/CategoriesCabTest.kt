@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
@@ -151,10 +152,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             put(DatabaseConstants.KEY_YEAR, 2022)
             put(DatabaseConstants.KEY_SECOND_GROUP, 7)
             contentResolver.update(
-                appendId(
-                    appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId),
-                    categoryId
-                ).build(),
+                BaseTransactionProvider.budgetAllocationUri(budgetId, categoryId),
                 this, null, null
             )
         }

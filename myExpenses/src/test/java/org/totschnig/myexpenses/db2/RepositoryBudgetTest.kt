@@ -59,11 +59,8 @@ class RepositoryBudgetTest : BaseTestWithRepository() {
             assertThat(description).isEqualTo("Budget Description")
             assertThat(grouping).isEqualTo(Grouping.MONTH)
             assertThat(
-                repository.budgetAllocation(budgetId, 0, Grouping.MONTH, 2024, 1)!!.budget
+                repository.budgetAllocation(budgetId, 2024, 1)
             ).isEqualTo(1234L)
-            assertThat(
-                repository.budgetAllocation(budgetId, category, Grouping.MONTH, 2024, 1)!!.budget
-            ).isEqualTo(1000L)
         }
     }
 }

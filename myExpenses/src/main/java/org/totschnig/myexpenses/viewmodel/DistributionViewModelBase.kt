@@ -90,7 +90,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     fun setGrouping(grouping: Grouping) {
         if (grouping == Grouping.NONE) {
-            groupingInfo = GroupingInfo(grouping, 0, 0)
+            groupingInfo = GroupingInfo(grouping)
         } else {
             viewModelScope.launch {
                 groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())

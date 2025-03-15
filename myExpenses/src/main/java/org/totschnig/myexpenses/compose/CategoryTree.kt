@@ -49,7 +49,15 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-val Byte?.asColor: Color
+val Byte?.typeBorderColor: Color
+    @Composable get() = when (this) {
+        FLAG_INCOME -> LocalColors.current.income
+        FLAG_EXPENSE -> LocalColors.current.expense
+        FLAG_TRANSFER -> LocalColors.current.transfer
+        else -> Color.Transparent
+    }
+
+val Byte?.typeTextColor: Color
     @Composable get() = when (this) {
         FLAG_INCOME -> LocalColors.current.income
         FLAG_EXPENSE -> LocalColors.current.expense
@@ -273,7 +281,7 @@ fun CategoryRenderer(
         Text(
             text = category.label,
             modifier = Modifier.weight(1f),
-            color = category.typeFlags?.takeIf { withTypeColors }.asColor
+            color = category.typeFlags?.takeIf { withTypeColors }.typeTextColor
         )
 
         sumCurrency?.let {

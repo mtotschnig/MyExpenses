@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
@@ -117,7 +118,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         val now = LocalDate.now()
         contentValues.put(DatabaseConstants.KEY_YEAR, now.year)
         contentValues.put(DatabaseConstants.KEY_SECOND_GROUP, now.monthValue - 1)
-        val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
+        val budgetUri = BaseTransactionProvider.budgetUri(budgetId)
         val result = repository.contentResolver.update(
             ContentUris.withAppendedId(budgetUri, categoryId),
             contentValues, null, null

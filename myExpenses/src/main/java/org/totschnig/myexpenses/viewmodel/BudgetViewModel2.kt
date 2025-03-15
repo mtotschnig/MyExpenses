@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentProviderOperation
-import android.content.ContentUris
 import android.content.ContentValues
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -28,7 +27,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
-import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.getCategoryInfoList
 import org.totschnig.myexpenses.db2.getMethod
@@ -41,6 +39,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.BudgetAllocationExport
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.model2.CategoryPath
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
@@ -127,7 +126,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
         viewModelScope.launch {
             contentResolver.observeQuery(
-                uri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+                uri = BaseTransactionProvider.budgetUri(budgetId),
                 notifyForDescendants = true
             ).mapToOne(mapper = repository.budgetCreatorFunction).collect { budget ->
                 _accountInfo.tryEmit(budget)
@@ -150,7 +149,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
 
         budgetFlow = groupingInfoFlow.filterNotNull().flatMapLatest { info ->
-            contentResolver.observeQuery(budgetAllocationQueryUri(budgetId, 0, info))
+            contentResolver.observeQuery(budgetAllocationQueryUri(budgetId, info))
                 .mapToOne(BudgetAllocation.EMPTY, mapper = BudgetAllocation.Companion::fromCursor)
         }
 
@@ -208,7 +207,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             }
             viewModelScope.launch(context = coroutineContext()) {
                 contentResolver.update(
-                    budgetAllocationUri(budgetId, categoryId),
+                    BaseTransactionProvider.budgetAllocationUri(budgetId, categoryId),
                     contentValues,
                     null,
                     null
@@ -263,7 +262,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         val ops = ArrayList<ContentProviderOperation>()
         rollOverList.forEach {
             val (categoryId, rollOver) = it
-            val budgetAllocationUri = budgetAllocationUri(budget.id, categoryId)
+            val budgetAllocationUri =
+                BaseTransactionProvider.budgetAllocationUri(budget.id, categoryId)
             ops.add(
                 ContentProviderOperation.newUpdate(budgetAllocationUri)
                     .withValues(groupingInfo!!.asContentValues.apply {
@@ -343,7 +343,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
                 .mapCatching { backend ->
                     contentResolver.query(
-                        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+                        BaseTransactionProvider.budgetUri(budgetId),
                         null, null, null, null
                     )?.use {
                         if (it.moveToFirst()) {

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.saveBudget
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
@@ -27,7 +28,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
 
     fun budget(budgetId: Long) = liveData(context = coroutineContext()) {
         contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+            BaseTransactionProvider.budgetUri(budgetId),
             null, null, null, null
         )?.use {
             if (it.moveToFirst()) emit(repository.budgetCreatorFunction(it))

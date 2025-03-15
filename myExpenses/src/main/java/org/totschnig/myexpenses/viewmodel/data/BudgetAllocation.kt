@@ -12,8 +12,12 @@ import java.io.Serializable
 
 @Immutable
 @Parcelize
-data class BudgetAllocation(val budget: Long, val rollOverPrevious: Long, val rollOverNext: Long, val oneTime: Boolean) :
-    Parcelable, Serializable {
+data class BudgetAllocation(
+    val budget: Long,
+    val rollOverPrevious: Long,
+    val rollOverNext: Long,
+    val oneTime: Boolean,
+) : Parcelable, Serializable {
     @IgnoredOnParcel
     val totalAllocated = budget + rollOverPrevious
 

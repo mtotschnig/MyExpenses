@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
+import android.content.ContentUris
+import android.content.ContentUris.appendId
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -200,6 +202,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
@@ -208,6 +211,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_ALLOCATIONS
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -371,10 +375,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun needsExtendedJoin(
         projection: Array<String>,
-    ) = projection.any { it.contains(KEY_EQUIVALENT_AMOUNT) }  || // also cover cases where sum(equivalent_amount) is requested
-            projection.contains(KEY_EXCHANGE_RATE) ||
-            projection.contains(KEY_AMOUNT_HOME_EQUIVALENT) ||
-            projection.any { it.contains(KEY_DISPLAY_AMOUNT) }
+    ) =
+        projection.any { it.contains(KEY_EQUIVALENT_AMOUNT) } || // also cover cases where sum(equivalent_amount) is requested
+                projection.contains(KEY_EXCHANGE_RATE) ||
+                projection.contains(KEY_AMOUNT_HOME_EQUIVALENT) ||
+                projection.any { it.contains(KEY_DISPLAY_AMOUNT) }
 
     fun prepareProjectionForTransactions(
         projectionIn: Array<String>?,
@@ -400,7 +405,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
                 """.trimIndent()
 
-            KEY_AMOUNT_HOME_EQUIVALENT ->  getAmountHomeEquivalent(table, homeCurrency) + " AS $it"
+            KEY_AMOUNT_HOME_EQUIVALENT -> getAmountHomeEquivalent(table, homeCurrency) + " AS $it"
 
             KEY_CURRENCY -> "$table.$KEY_CURRENCY AS $KEY_CURRENCY"
             KEY_ACCOUNTID -> "$table.$KEY_ACCOUNTID AS $KEY_ACCOUNTID"
@@ -485,10 +490,27 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val STALE_ATTACHMENT_SELECTION = "NOT ${LIVE_ATTACHMENT_SELECTION()}"
 
         fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
-            TransactionProvider.BUDGETS_URI.buildUpon()
+            BUDGETS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
                 .appendPath(accountId.toString())
                 .appendPath(grouping.name)
+                .build()
+
+        fun budgetUri(budgetId: Long) = ContentUris.withAppendedId(BUDGETS_URI, budgetId)
+
+        fun budgetAllocationUri(budgetId: Long, categoryId: Long): Uri =
+            appendId(
+                appendId(BUDGETS_URI.buildUpon(), budgetId),
+                categoryId
+            ).build()
+
+        fun budgetAllocationQueryUri(budgetId: Long, year: String?, second: String?): Uri =
+            appendId(BUDGETS_URI.buildUpon(), budgetId)
+                .appendPath(URI_SEGMENT_BUDGET_ALLOCATIONS)
+                .apply {
+                    year?.let { appendQueryParameter(KEY_YEAR, year) }
+                    second?.let { appendQueryParameter(KEY_SECOND_GROUP, second) }
+                }
                 .build()
 
         fun groupingUriBuilder(grouping: Grouping): Uri.Builder =
@@ -570,6 +592,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ARCHIVE_SUMS = 78
         protected const val PRICES = 79
         protected const val DYNAMIC_CURRENCIES = 80
+        protected const val BUDGET_FOR_PERIOD = 81
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
     }
@@ -1029,16 +1052,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun oldestTransactionForCurrency(db: SupportSQLiteDatabase, currency: String) = Bundle(1).apply {
-        db.query(
-            TABLE_TRANSACTIONS,
-            arrayOf("min($KEY_DATE)"),
-            "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_DYNAMIC)",
-            arrayOf(currency)
-        ).use {
-            if (it.moveToFirst() && !it.isNull(0)) epoch2LocalDate(it.getLong(0)) else null
-        }?.let { putSerializable(KEY_MAX_VALUE, it) }
-    }
+    fun oldestTransactionForCurrency(db: SupportSQLiteDatabase, currency: String) =
+        Bundle(1).apply {
+            db.query(
+                TABLE_TRANSACTIONS,
+                arrayOf("min($KEY_DATE)"),
+                "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_DYNAMIC)",
+                arrayOf(currency)
+            ).use {
+                if (it.moveToFirst() && !it.isNull(0)) epoch2LocalDate(it.getLong(0)) else null
+            }?.let { putSerializable(KEY_MAX_VALUE, it) }
+        }
 
     fun hasCategories(db: SupportSQLiteDatabase) = Bundle(1).apply {
         val defaultCatIds =
@@ -1945,7 +1969,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             val parentUUidTemplate = parentUuidExpression(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS)
             db.execSQL(
                 """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
-                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS ${equivalentAmountJoin(homeCurrency)} WHERE $KEY_ACCOUNTID = ?""",
+                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS ${
+                    equivalentAmountJoin(
+                        homeCurrency
+                    )
+                } WHERE $KEY_ACCOUNTID = ?""",
                 accountIdBindArgs
             )
             db.execSQL(
@@ -2032,13 +2060,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
     ) {
         // we do not use "Insert or replace" because we would receive insert trigger instead of
         // update trigger and we would not be able to check if value has changed
-        val count = update(TABLE_EQUIVALENT_AMOUNTS,
+        val count = update(
+            TABLE_EQUIVALENT_AMOUNTS,
             ContentValues(1).apply<ContentValues> {
                 put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
             }, "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?", arrayOf(transactionId, homeCurrency)
         )
         if (count == 0) {
-           insertEquivalentAmount(transactionId, equivalentAmount)
+            insertEquivalentAmount(transactionId, equivalentAmount)
         }
     }
 
@@ -2047,11 +2076,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
      */
     fun SupportSQLiteDatabase.recalculateEquivalentAmounts(extras: Bundle): Pair<Int, Int> {
         val currency = extras.getString(KEY_CURRENCY)!!
-        val conflictResolution = if (extras.getBoolean(KEY_ONLY_MISSING, true)) "OR IGNORE" else "OR REPLACE"
+        val conflictResolution =
+            if (extras.getBoolean(KEY_ONLY_MISSING, true)) "OR IGNORE" else "OR REPLACE"
         val accountId = extras.getLong(KEY_ACCOUNTID).takeIf { it != 0L }
-        var accountIdClause =  if (accountId != null) "AND $KEY_ACCOUNTID = ?" else ""
+        var accountIdClause = if (accountId != null) "AND $KEY_ACCOUNTID = ?" else ""
 
-        val sql1 = """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
+        val sql1 =
+            """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
           SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
         val count1 = compileStatement(sql1).use {

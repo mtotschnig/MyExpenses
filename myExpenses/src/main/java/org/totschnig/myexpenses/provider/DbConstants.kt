@@ -241,7 +241,7 @@ ORDER BY $KEY_LEVEL DESC
 ) SELECT $KEY_ROWID From Tree
 """
 
-fun budgetColumn(year: String?, second: String?): String {
+fun budgetColumn(year: String?, second: String?, withAlias: Boolean = true): String {
     val mainSelect = subSelectFromAllocations(
         KEY_BUDGET,
         year,
@@ -250,7 +250,7 @@ fun budgetColumn(year: String?, second: String?): String {
     )
     return (if (year == null) mainSelect else "coalesce($mainSelect," +
             "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) < $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) < $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1))") +
-            " AS $KEY_BUDGET"
+            if (withAlias) " AS $KEY_BUDGET" else ""
 }
 
 fun subSelectFromAllocations(
@@ -342,15 +342,32 @@ fun budgetSelect(uri: Uri) = with(parseBudgetCategoryUri(uri)) {
 fun budgetSelectForGroup(year: String?, second: String?) =
     if (year == null) "" else "WHERE $KEY_YEAR = $year ${second?.let { "AND $KEY_SECOND_GROUP = $it" } ?: ""}"
 
-fun budgetAllocation(uri: Uri): String {
+/**
+ * select the budget for a period + the sum of all rollOvers
+ */
+fun totalBudgetAllocation(uri: Uri): String {
+    val budgetId = uri.pathSegments[1]
     val year = uri.getQueryParameter(KEY_YEAR)
     val second = uri.getQueryParameter(KEY_SECOND_GROUP)
-    val cte = budgetAllocationsCTE(budgetSelect(uri))
-    return "WITH $cte SELECT " +
+
+    return """WITH AllAllocations AS (SELECT $KEY_CATID, $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_ALLOCATIONS WHERE budget_id = $budgetId),
+ Allocations AS (SELECT * FROM AllAllocations WHERE $KEY_CATID = 0)
+        SELECT ${budgetColumn(year, second, false)} + coalesce((SELECT sum($KEY_BUDGET_ROLLOVER_PREVIOUS) FROM AllAllocations WHERE $KEY_YEAR = $year AND $KEY_SECOND_GROUP = $second),0)"""
+}
+
+fun budgetAllocation(uri: Uri): String {
+    val budgetId = uri.pathSegments[1]
+    val year = uri.getQueryParameter(KEY_YEAR)
+    val second = uri.getQueryParameter(KEY_SECOND_GROUP)
+    val cte = """WITH Allocations AS (SELECT $KEY_CATID, $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_ALLOCATIONS WHERE budget_id = $budgetId AND $KEY_CATID = 0),
+ AllocationsForPeriod AS (SELECT * FROM Allocations WHERE $KEY_YEAR = $year AND $KEY_SECOND_GROUP = $second)
+    """
+    fun subSelectForPeriod(column: String) = "(SELECT $column from AllocationsForPeriod) AS $column"
+    return "$cte SELECT " +
             budgetColumn(year, second) + "," +
-            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_PREVIOUS, year, second) + "," +
-            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_NEXT, year, second) + "," +
-            subSelectFromAllocations(KEY_ONE_TIME, year, second)
+            subSelectForPeriod(KEY_BUDGET_ROLLOVER_PREVIOUS) + "," +
+            subSelectForPeriod(KEY_BUDGET_ROLLOVER_NEXT) + "," +
+            subSelectForPeriod(KEY_ONE_TIME)
 }
 
 fun categoryTreeWithMappedObjects(

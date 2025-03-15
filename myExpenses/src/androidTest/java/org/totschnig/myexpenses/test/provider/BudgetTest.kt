@@ -3,8 +3,8 @@ package org.totschnig.myexpenses.test.provider
 import android.content.ContentUris
 import android.content.ContentValues
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
-import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetAllocationUri
 import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
@@ -48,20 +48,18 @@ class BudgetTest : BaseDbTest() {
         budgetId: Long,
         budgetAmount: Long,
         rollOver: Long = 0,
-        grouping: Grouping = Grouping.NONE,
         year: Int? = null,
         second: Int? = null
     ) {
         mockContentResolver.query(
-            budgetAllocationQueryUri(budgetId, 0, grouping, year?.toString(), second?.toString()),
-            null,
+            budgetAllocationQueryUri(budgetId, year?.toString(), second?.toString()),
+            arrayOf(KEY_BUDGET),
             null,
             null,
             null
         ).useAndAssert {
             movesToFirst()
-            hasLong(KEY_BUDGET, budgetAmount)
-            hasLong(KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
+            hasLong(0, budgetAmount + rollOver)
         }
     }
 
@@ -79,7 +77,7 @@ class BudgetTest : BaseDbTest() {
 
     fun testUpdateOfRepeatingBudget() {
         val budgetId = insertMonthlyBudget()
-        assertBudgetAmount(budgetId, 400, grouping = Grouping.MONTH, year = 2023, second = 11)
+        assertBudgetAmount(budgetId, 400, year = 2023, second = 11)
         mockContentResolver.update(
             budgetAllocationUri(budgetId, 0),
             ContentValues(3).apply {
@@ -88,8 +86,8 @@ class BudgetTest : BaseDbTest() {
                 put(KEY_BUDGET, 500)
             }, null, null
         )
-        assertBudgetAmount(budgetId, 400, grouping = Grouping.MONTH, year = 2023, second = 11)
-        assertBudgetAmount(budgetId, 500, grouping = Grouping.MONTH, year = 2023, second = 12)
+        assertBudgetAmount(budgetId, 400, year = 2023, second = 11)
+        assertBudgetAmount(budgetId, 500, year = 2023, second = 12)
         mockContentResolver.update(
             budgetAllocationUri(budgetId, 0),
             ContentValues(3).apply {
@@ -98,7 +96,7 @@ class BudgetTest : BaseDbTest() {
                 put(KEY_BUDGET_ROLLOVER_PREVIOUS, 50)
             }, null, null
         )
-        assertBudgetAmount(budgetId, 500, rollOver = 50, grouping = Grouping.MONTH, year = 2023, second = 12)
+        assertBudgetAmount(budgetId, 500, rollOver = 50, year = 2023, second = 12)
         mockContentResolver.update(
             budgetAllocationUri(budgetId, 0),
             ContentValues(3).apply {
@@ -107,6 +105,6 @@ class BudgetTest : BaseDbTest() {
                 put(KEY_BUDGET, 600)
             }, null, null
         )
-        assertBudgetAmount(budgetId, 600, rollOver = 50, grouping = Grouping.MONTH, year = 2023, second = 12)
+        assertBudgetAmount(budgetId, 600, rollOver = 50, year = 2023, second = 12)
     }
 }

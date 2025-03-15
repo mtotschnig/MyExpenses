@@ -10,13 +10,13 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CATEGORY_TREE_URI
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetAllocationUri
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -211,7 +211,11 @@ class CategoryTest : BaseTestWithRepository() {
         with(
             CursorSubject.assertThat(
                 contentResolver.query(
-                    budgetAllocationUri(budgetId, main1.id), null, null, null, null
+                    budgetAllocationUri(budgetId, main1.id),
+                    null,
+                    null,
+                    null,
+                    null
                 )!!
             )
         ) {

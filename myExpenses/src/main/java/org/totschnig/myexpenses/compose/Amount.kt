@@ -2,10 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -21,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import kotlin.math.sign
@@ -93,16 +89,16 @@ fun ColoredAmountText(
     postfix: String = "",
     type: Byte? = null,
 ) {
-    val color = (type ?: when (money.amountMinor.sign) {
+    val type = type ?: when (money.amountMinor.sign) {
         1 -> FLAG_INCOME
         -1 -> FLAG_EXPENSE
         else -> FLAG_NEUTRAL
-    }).asColor
+    }
 
     Text(
         modifier = modifier
-            .conditional(withBorder && color != Color.Unspecified) {
-                amountBorder(color)
+            .conditional(withBorder) {
+                amountBorder(type.typeBorderColor)
             }
             .amountSemantics(money),
         fontWeight = fontWeight,
@@ -112,7 +108,7 @@ fun ColoredAmountText(
             money.amountMajor,
             money.currencyUnit
         ) + postfix,
-        color = color
+        color = type.typeTextColor
     )
 }
 

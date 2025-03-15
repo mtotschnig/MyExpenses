@@ -32,19 +32,45 @@ import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyEnum
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
-import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
+import org.totschnig.myexpenses.provider.TransactionProvider.METHODS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987
+import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.DateCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistenceLegacy
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.FilterPersistenceLegacy
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
+import org.totschnig.myexpenses.provider.getEnumOrNull
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -350,7 +376,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                 }
                             }
                             val updateCount = contentResolver.update(
-                                ContentUris.withAppendedId(BUDGETS_URI, entry.value as Long),
+                                BaseTransactionProvider.budgetUri(entry.value as Long),
                                 ContentValues(1).also { it.put(KEY_IS_DEFAULT, 1) },
                                 selection,
                                 selectionArgs

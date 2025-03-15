@@ -10,6 +10,8 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model2.BudgetExport
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetUri
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
@@ -42,6 +44,7 @@ import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
@@ -51,7 +54,6 @@ import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -64,42 +66,20 @@ data class BudgetPeriod(
     val description: String,
 )
 
-fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
-    ContentUris.withAppendedId(
-        BUDGETS_URI,
-        budgetId
-    ),
-    categoryId
-)
-
 fun budgetAllocationQueryUri(
     budgetId: Long,
-    categoryId: Long,
     groupingInfo: GroupingInfo,
 ): Uri = budgetAllocationQueryUri(
     budgetId,
-    categoryId,
-    groupingInfo.grouping,
-    groupingInfo.year.toString(),
-    groupingInfo.second.toString()
+    if (groupingInfo.grouping == Grouping.NONE) null else groupingInfo.year.toString(),
+    if (groupingInfo.grouping == Grouping.NONE) null else groupingInfo.second.toString()
 )
 
 fun budgetAllocationQueryUri(
     budgetId: Long,
-    categoryId: Long,
-    grouping: Grouping,
     year: String?,
     second: String?,
-): Uri = with(budgetAllocationUri(budgetId, categoryId)) {
-    if (grouping != Grouping.NONE) {
-        val builder = buildUpon()
-        builder.appendQueryParameter(KEY_YEAR, year)
-        if (grouping != Grouping.YEAR) {
-            builder.appendQueryParameter(KEY_SECOND_GROUP, second)
-        }
-        builder.build()
-    } else this
-}
+): Uri = BaseTransactionProvider.budgetAllocationQueryUri(budgetId, year, second)
 
 suspend fun Repository.sumLoaderForBudget(
     budget: Budget,
@@ -150,14 +130,14 @@ fun dateFilterClause(grouping: Grouping, year: Int, second: Int): String {
 }
 
 fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
-    ContentUris.withAppendedId(BUDGETS_URI, budgetId),
+    budgetUri(budgetId),
     arrayOf(KEY_GROUPING), null, null, null
 )?.use {
     if (it.moveToFirst()) it.getEnumOrNull<Grouping>(0) else null
 }
 
 fun Repository.loadBudget(budgetId: Long): Budget? = contentResolver.query(
-    ContentUris.withAppendedId(BUDGETS_URI, budgetId),
+    budgetUri(budgetId),
     null, null, null, null
 )?.use { cursor ->
     if (cursor.moveToFirst()) budgetCreatorFunction(cursor) else null
@@ -230,11 +210,9 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
         val currentDay = ChronoUnit.DAYS.between(groupingInfo.duration.start, LocalDate.now()) + 1
         val allocated = budgetAllocation(
             budgetId,
-            0,
-            grouping,
             groupingInfo.year,
             groupingInfo.second
-        )?.totalAllocated ?: 0
+        ) ?: 0
         val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] == true
         val (sumUri, sumSelection, sumSelectionArguments) =
             sumLoaderForBudget(budget, aggregateNeutral, period)
@@ -261,21 +239,19 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
 
 fun Repository.budgetAllocation(
     budgetId: Long,
-    categoryId: Long,
-    grouping: Grouping,
-    year: Int?,
-    second: Int?,
+    year: Int,
+    second: Int,
 ) = contentResolver.query(
     budgetAllocationQueryUri(
-        budgetId, categoryId, grouping, year?.toString(), second?.toString()
-    ), null, null, null, null
+        budgetId, year.toString(), second.toString()
+    ), arrayOf(KEY_BUDGET), null, null, null
 )?.use {
-    if (it.moveToFirst()) BudgetAllocation.fromCursor(it) else null
+    if (it.moveToFirst()) it.getLong(0) else null
 }
 
 fun Repository.deleteBudget(id: Long) =
     contentResolver.delete(
-        ContentUris.withAppendedId(BUDGETS_URI, id),
+        budgetUri(id),
         null,
         null
     )
@@ -288,7 +264,7 @@ fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = 
             ?.let { ContentUris.parseId(it) } ?: -1
     } else {
         contentResolver.update(
-            ContentUris.withAppendedId(BUDGETS_URI, budget.id),
+            budgetUri(budget.id),
             contentValues, null, null
         ).let {
             if (it == 1) budget.id else -1
@@ -308,7 +284,7 @@ fun Repository.saveBudgetOp(
             .withValues(contentValues)
             .build()
     } else {
-        ContentProviderOperation.newUpdate(ContentUris.withAppendedId(BUDGETS_URI, budget.id))
+        ContentProviderOperation.newUpdate(budgetUri(budget.id))
             .withValues(contentValues)
             .build()
     }
@@ -348,10 +324,11 @@ suspend fun Repository.importBudget(
             )
         )
         allocations.forEach {
-            ops.add(ContentProviderOperation.newInsert(BUDGET_ALLOCATIONS_URI)
+            ops.add(
+                ContentProviderOperation.newInsert(BUDGET_ALLOCATIONS_URI)
                 .withValues(ContentValues().apply {
                     put(KEY_CATID, it.category?.let { ensureCategoryPath(it) } ?: 0L)
-                    if(budgetId != 0L) {
+                    if (budgetId != 0L) {
                         put(KEY_BUDGETID, budgetId)
                     }
                     put(KEY_YEAR, it.year)
@@ -361,7 +338,7 @@ suspend fun Repository.importBudget(
                     put(KEY_BUDGET_ROLLOVER_NEXT, it.rolloverNext)
                     put(KEY_ONE_TIME, it.oneTime)
                 }).apply {
-                    if(budgetId == 0L) {
+                    if (budgetId == 0L) {
                         withValueBackReference(KEY_BUDGETID, 0)
                     }
                 }
@@ -391,7 +368,11 @@ suspend fun Repository.importBudget(
                 add(MethodCriterion(label, *ids))
             }
             statusFilter?.mapNotNull {
-                try { CrStatus.valueOf(it) } catch (_: Exception) { null }
+                try {
+                    CrStatus.valueOf(it)
+                } catch (_: Exception) {
+                    null
+                }
             }?.takeIf { it.isNotEmpty() }?.let {
                 add(CrStatusCriterion(it))
             }

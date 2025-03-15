@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
@@ -64,17 +65,14 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.populateWithSync
 import org.totschnig.myexpenses.viewmodel.BudgetListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
-import kotlin.collections.map
-import kotlin.collections.sum
-import kotlin.getValue
 
 class ManageBudgets : ProtectedFragmentActivity() {
 
@@ -107,7 +105,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
                 }
 
                 viewModel.importInfo.collectAsStateWithLifecycle().value?.second?.let { remotes ->
-                    val importableBudgets = remotes.filterIsInstance<BudgetListViewModel.Importable>()
+                    val importableBudgets =
+                        remotes.filterIsInstance<BudgetListViewModel.Importable>()
                     val notImportableBudgets =
                         remotes.filterIsInstance<BudgetListViewModel.NotImportable>()
                     val selectedBudgets = remember { mutableStateListOf<String>() }
@@ -169,13 +168,13 @@ class ManageBudgets : ProtectedFragmentActivity() {
                         .fillMaxSize()
                         .nestedScroll(nestedScrollInterop)
                 ) {
-                    val breakpoint = 400.dp
+                    val breakpoint = 400.dp * LocalConfiguration.current.fontScale
                     val narrowScreen = maxWidth < breakpoint
                     LazyColumnWithScrollbar(
                         modifier = Modifier
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(bottom = 72.dp),
-                        itemsAvailable = data.map { it.second.size }.sum(),
+                        itemsAvailable = data.sumOf { it.second.size },
                         groupCount = data.size
                     ) {
                         data.forEach { (header, list) ->
@@ -185,7 +184,8 @@ class ManageBudgets : ProtectedFragmentActivity() {
                                     val currencyUnit = currencyContext[budget.currency]
                                     val allocated = remember { mutableLongStateOf(0) }
                                     val spent = remember { mutableLongStateOf(0) }
-                                    val criteria = remember { mutableStateListOf<SimpleCriterion<*>>() }
+                                    val criteria =
+                                        remember { mutableStateListOf<SimpleCriterion<*>>() }
                                     LaunchedEffect(budget.id) {
                                         viewModel.budgetAmounts(budget).collect { (s, a) ->
                                             allocated.longValue = a
@@ -301,13 +301,14 @@ fun BudgetItem(
             horizontal = dimensionResource(R.dimen.padding_main_screen)
         )
 
+    val amountPadding = if (narrowScreen)
+        Modifier.padding(end = 8.dp) else Modifier.padding(vertical = 8.dp)
+
     @Composable
-    fun Budgeted() {
-        Text(stringResource(R.string.budget_table_header_budgeted))
+    fun Budgeted(headerModifier: Modifier = Modifier) {
+        Text(stringResource(R.string.budget_table_header_budgeted), headerModifier)
         AmountText(
-            modifier = Modifier.conditional(narrowScreen,
-                ifTrue = { padding(end = 8.dp) },
-                ifFalse = { padding(vertical = 8.dp) }),
+            modifier = amountPadding,
             textAlign = TextAlign.End,
             amount = allocated,
             currency = currencyUnit
@@ -315,12 +316,10 @@ fun BudgetItem(
     }
 
     @Composable
-    fun Spent() {
-        Text(stringResource(R.string.budget_table_header_spent))
+    fun Spent(headerModifier: Modifier = Modifier) {
+        Text(stringResource(R.string.budget_table_header_spent), headerModifier)
         AmountText(
-            modifier = Modifier.conditional(narrowScreen,
-                ifTrue = { padding(end = 8.dp) },
-                ifFalse = { padding(vertical = 8.dp) }),
+            modifier = amountPadding,
             textAlign = TextAlign.End,
             amount = spent,
             currency = currencyUnit
@@ -328,8 +327,8 @@ fun BudgetItem(
     }
 
     @Composable
-    fun Available() {
-        Text(stringResource(R.string.available))
+    fun Available(headerModifier: Modifier = Modifier) {
+        Text(stringResource(R.string.available), headerModifier)
         ColoredAmountText(
             textAlign = TextAlign.End,
             amount = available,
@@ -339,10 +338,11 @@ fun BudgetItem(
     }
 
     val context = LocalContext.current
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .semantics { isTraversalGroup = true }
-        .clickable(onClick = onClick)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { isTraversalGroup = true }
+            .clickable(onClick = onClick)) {
         Text(
             modifier = padding
                 .align(Alignment.CenterHorizontally)
@@ -410,7 +410,7 @@ fun BudgetItem(
                         .semantics(mergeDescendants = true) {},
                     horizontalAlignment = Alignment.End
                 ) {
-                    Budgeted()
+                    Budgeted(headerModifier = Modifier.align(Alignment.CenterHorizontally))
                 }
                 Column(
                     Modifier
@@ -419,15 +419,16 @@ fun BudgetItem(
                         .semantics(mergeDescendants = true) {},
                     horizontalAlignment = Alignment.End
                 ) {
-                    Spent()
+                    Spent(headerModifier = Modifier.align(Alignment.CenterHorizontally))
                 }
                 Column(
                     Modifier
                         .weight(1f)
+                        .fillMaxHeight()
                         .semantics(mergeDescendants = true) {},
                     horizontalAlignment = Alignment.End
                 ) {
-                    Available()
+                    Available(headerModifier = Modifier.align(Alignment.CenterHorizontally))
                 }
             }
         }
