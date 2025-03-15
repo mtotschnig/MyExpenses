@@ -368,7 +368,9 @@ private fun RowScope.BudgetNumbers(
     editRollOver: SnapshotStateMap<Long, Long>?,
     narrowScreen: Boolean,
 ) {
-    val totalBudget = category.budget.budget + category.budget.rollOverPrevious
+    val rollOverFromChildren = category.aggregateRollOverPrevious()
+    val totalBudget = category.budget.budget + category.budget.rollOverPrevious + rollOverFromChildren
+
     //Allocation
     val allocation =
         if (category.children.isEmpty()) totalBudget else
@@ -384,10 +386,10 @@ private fun RowScope.BudgetNumbers(
             textAlign = TextAlign.End,
             textDecoration = TextDecoration.Underline
         )
-        if (category.budget.rollOverPrevious != 0L) {
+        if (category.budget.rollOverPrevious != 0L || rollOverFromChildren != 0L) {
             ColoredAmountText(
                 modifier = Modifier.fillMaxWidth(),
-                amount = category.budget.rollOverPrevious,
+                amount = category.budget.rollOverPrevious + rollOverFromChildren,
                 currency = currency,
                 textAlign = TextAlign.End,
                 prefix = if (category.budget.rollOverPrevious > 0) "+" else ""
@@ -435,8 +437,9 @@ private fun RowScope.BudgetNumbers(
 
     VerticalDivider()
     val withRollOverColumn = hasRolloverNext || editRollOver != null
+
     //Remainder
-    val remainder = category.budget.totalAllocated + aggregateSum
+    val remainder = totalBudget + aggregateSum
     Box(modifier = Modifier.numberColumn(this, narrowScreen, isLast = !withRollOverColumn)) {
         ColoredAmountText(
             modifier = Modifier.align(Alignment.CenterEnd),
@@ -502,6 +505,12 @@ private fun RowScope.BudgetNumbers(
                 }
             }
         }
+    }
+}
+
+fun Category.aggregateRollOverPrevious(): Long {
+    return children.sumOf {
+        it.budget.rollOverPrevious + it.aggregateRollOverPrevious()
     }
 }
 
