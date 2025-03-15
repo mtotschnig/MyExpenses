@@ -354,7 +354,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         val amount = Money(currencyUnit, category.budget.budget)
         //The rollOver reduces the amount we need to allocate specific for this period
         val min =
-            category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
+            category.children.sumOf { it.budget.budget } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {
                 putLong(KEY_CATID, category.id)
