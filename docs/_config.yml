@@ -134,8 +134,83 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.6
+      - '2025-03-15'
+      - bg: Подобрено управление на сметки в чуждестранна валута с автоматични актуализации
+          на обменен курс и проследяване на стойността в реално време.
+        cs: Vylepšená správa účtů v cizí měně s automatickou aktualizací směnného
+          kurzu a sledováním hodnoty v reálném čase.
+        de: Verbesserte Verwaltung von Fremdwährungs-Konten mit automatischen Wechselkursaktualisierungen
+          und Wertverfolgung in Echtzeit.
+        el: Βελτιωμένη διαχείριση λογαριασμός ξένου νομίσματος με αυτόματες ενημερώσεις
+          συναλλαγματική ισοτιμία και παρακολούθηση αξίας σε πραγματικό χρόνο.
+        es: Gestión mejorada de cuentas en moneda extranjera con actualizaciones automáticas
+          de tipos de cambio y seguimiento del valor en tiempo real.
+        fr: Gestion améliorée des comptes en devises étrangères avec mises à jour
+          automatiques des taux de change et suivi de la valeur en temps réel.
+        hr: Poboljšano upravljanje deviznim računom s automatskim ažuriranjem tečaj
+          i praćenjem vrijednosti u stvarnom vremenu.
+        hu: Továbbfejlesztett devizaszámla-kezelés automatikus árfolyam-frissítésekkel
+          és valós idejű értékkövetéssel.
+        it: Gestione avanzata dei conti in valuta estera con aggiornamenti automatici
+          del tasso di cambio e monitoraggio del valore in tempo reale.
+        iw: ניהול חשבון מט״ח משופר עם עדכון שערי המרה אוטומטי ומעקב ערך בזמן אמת.
+        nl: Verbeterd beheer van rekeningen in vreemde valuta met automatische updates
+          van de wisselkoers en real-time waardetracking.
+        pl: Ulepszone zarządzanie kontami walutowymi z automatyczną aktualizacją kursu
+          wymiany i śledzeniem wartości w czasie rzeczywistym.
+        pt: Gerenciamento aprimorado de contas em moeda estrangeira com atualizações
+          automáticas da taxa de câmbio e rastreamento de valor em tempo real.
+        ro: Gestionarea îmbunătățită a conturilor în valută cu actualizări automate
+          ale cursului de schimb și urmărirea valorii în timp real.
+        tr: Otomatik döviz kuru güncellemeleri ve gerçek zamanlı değer takibi ile
+          gelişmiş döviz hesabı yönetimi.
+        vi: Quản lý tài khoản ngoại tệ nâng cao với cập nhật tỷ giá hối đoái tự động
+          và theo dõi giá trị theo thời gian thực.
+        en: Enhanced foreign currency account management with automatic exchange rate
+          updates and real-time value tracking.
+      - github2: '158'
+        mastodon: '114116950272846756'
+  -   - 3.9.5
+      - '2025-02-06'
+      - bg: Експортираните файлове (PDF, архивиране, QIF, CSV, JSON) могат да бъдат
+          изтеглени чрез уеб потребителски интерфейс. Подобрено бързодействие
+        cs: Exportované soubory (PDF, záloha, QIF, CSV, JSON) lze stáhnout prostřednictvím
+          webového uživatelského rozhraní. Zlepšení výkonu
+        de: Exportierte Dateien (PDF, Backup, QIF, CSV, JSON) können über die Web-Benutzeroberfläche
+          heruntergeladen werden. Performance-Verbesserung
+        el: Τα εξαγόμενα αρχεία (PDF, backup, QIF, CSV, JSON) μπορούν να μεταφορτωθούν
+          μέσω του Web User Interface. Βελτίωση απόδοσης
+        es: Los archivos exportados (PDF, copia de seguridad, QIF, CSV, JSON) se pueden
+          descargar a través de la interfaz de usuario web. Mejora de rendimiento
+        fr: Les fichiers exportés (PDF, sauvegarde, QIF, CSV, JSON) peuvent être téléchargés
+          via l’interface utilisateur Web. Amélioration de performance
+        hr: Izvezene datoteke (PDF, sigurnosna kopija, QIF, CSV, JSON) mogu se preuzeti
+          putem web korisničkog sučelja. Poboljšanje performanse
+        hu: Az exportált fájlok (PDF, backup, QIF, CSV, JSON) letölthetők a webes
+          felhasználói felületen keresztül. Teljesítménynövelés
+        it: I file esportati (PDF, backup, QIF, CSV, JSON) possono essere scaricati
+          tramite l'interfaccia utente Web. Miglioramento delle prestazioni
+        iw: קבצים מיוצאים (PDF, גיבוי, QIF,‏ CSV,‏ JSON) ניתנים להורדה באמצעות ממשק
+          משתמש באינטרנט. שיפור בעיצועים
+        nl: Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload
+          via de webgebruikersinterface. Prestatieverbetering
+        pl: Wyeksportowane pliki (PDF, kopia zapasowa, QIF, CSV, JSON) można pobrać
+          za pośrednictwem internetowego interfejsu użytkownika. Zwiększenie wydajności
+        pt: Os arquivos exportados (PDF, backup, QIF, CSV, JSON) podem ser baixados
+          via Web User Interface. Melhoria de performance
+        ro: Fișierele exportate (PDF, backup, QIF, CSV, JSON) pot fi descărcate prin
+          intermediul interfeței web cu utilizatorul. Îmbunătățirea performanței
+        tr: Dışa aktarılan dosyalar (PDF, yedekleme, QIF, CSV, JSON) Web Kullanıcı
+          Arayüzü aracılığıyla indirilebilir. Performans arttırıldı
+        vi: Các tệp đã xuất (PDF, sao lưu, QIF, CSV, JSON) có thể được tải xuống thông
+          qua Giao diện người dùng web. Nâng cao hiệu suất
+        en: Exported files (PDF, backup, QIF, CSV, JSON) can be downloaded via Web
+          User Interface. Performance enhancement
+      - github2: '15'
+        mastodon: '113933510952312421'
   -   - 3.9.4
-      - '2025-01-31'
+      - '2025-01-26'
       - bg: 'Търсене 2.0. Разпределяне на транзакция: Подобрения в потребителския
           интерфейс'
         cs: 'Vyhledávání 2.0. Rozdělení transakce: Zdokonalení uživatelského rozhraní'
