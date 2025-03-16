@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
@@ -44,13 +45,11 @@ import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.getEnumOrNull
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
-import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
@@ -237,6 +236,9 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
         )
     }
 
+/**
+ * resolves the effective values according to business rules
+ */
 fun Repository.budgetAllocation(
     budgetId: Long,
     year: Int,
@@ -245,6 +247,24 @@ fun Repository.budgetAllocation(
     budgetAllocationQueryUri(
         budgetId, year.toString(), second.toString()
     ), arrayOf(KEY_BUDGET), null, null, null
+)?.use {
+    if (it.moveToFirst()) it.getLong(0) else null
+}
+
+/**
+ * retrieves raw data from database for verification in tests
+ */
+@VisibleForTesting
+fun Repository.budgetAllocation(
+    budgetId: Long,
+    categoryId: Long,
+    period: Pair<Int, Int>?
+) = contentResolver.query(
+    BUDGET_ALLOCATIONS_URI,
+    arrayOf(KEY_BUDGET),
+    "$KEY_BUDGETID = ? AND $KEY_CATID = ?" + if (period == null) "" else  "AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?",
+    listOfNotNull(budgetId.toString(), categoryId.toString(), period?.first?.toString(), period?.second?.toString()).toTypedArray(),
+    null
 )?.use {
     if (it.moveToFirst()) it.getLong(0) else null
 }
@@ -326,23 +346,23 @@ suspend fun Repository.importBudget(
         allocations.forEach {
             ops.add(
                 ContentProviderOperation.newInsert(BUDGET_ALLOCATIONS_URI)
-                .withValues(ContentValues().apply {
-                    put(KEY_CATID, it.category?.let { ensureCategoryPath(it) } ?: 0L)
-                    if (budgetId != 0L) {
-                        put(KEY_BUDGETID, budgetId)
+                    .withValues(ContentValues().apply {
+                        put(KEY_CATID, it.category?.let { ensureCategoryPath(it) } ?: 0L)
+                        if (budgetId != 0L) {
+                            put(KEY_BUDGETID, budgetId)
+                        }
+                        put(KEY_YEAR, it.year)
+                        put(KEY_SECOND_GROUP, it.second)
+                        put(KEY_BUDGET, it.budget)
+                        put(KEY_BUDGET_ROLLOVER_PREVIOUS, it.rolloverPrevious)
+                        put(KEY_BUDGET_ROLLOVER_NEXT, it.rolloverNext)
+                        put(KEY_ONE_TIME, it.oneTime)
+                    }).apply {
+                        if (budgetId == 0L) {
+                            withValueBackReference(KEY_BUDGETID, 0)
+                        }
                     }
-                    put(KEY_YEAR, it.year)
-                    put(KEY_SECOND_GROUP, it.second)
-                    put(KEY_BUDGET, it.budget)
-                    put(KEY_BUDGET_ROLLOVER_PREVIOUS, it.rolloverPrevious)
-                    put(KEY_BUDGET_ROLLOVER_NEXT, it.rolloverNext)
-                    put(KEY_ONE_TIME, it.oneTime)
-                }).apply {
-                    if (budgetId == 0L) {
-                        withValueBackReference(KEY_BUDGETID, 0)
-                    }
-                }
-                .build())
+                    .build())
         }
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         val budgetId = if (budgetId != 0L) budgetId else ContentUris.parseId(result[0].uri!!)

@@ -1,7 +1,6 @@
 package org.totschnig.ocr
 
 import android.graphics.Rect
-import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
@@ -20,7 +19,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
+import java.util.Locale
 import kotlin.math.absoluteValue
 
 abstract class AbstractOcrHandlerImpl(
@@ -51,7 +50,7 @@ abstract class AbstractOcrHandlerImpl(
             prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
                 try {
                     DateTimeFormatter.ofPattern(it, locale)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
             } ?: listOf(
@@ -63,7 +62,7 @@ abstract class AbstractOcrHandlerImpl(
             prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.mapNotNull {
                 try {
                     DateTimeFormatter.ofPattern(it, locale)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
             } ?: listOf(

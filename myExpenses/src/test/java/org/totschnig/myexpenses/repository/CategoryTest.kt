@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.repository
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,6 +11,7 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.budgetAllocation
 import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
@@ -208,19 +210,8 @@ class CategoryTest : BaseTestWithRepository() {
             movesToFirst()
             hasLong(0, main1.id)
         }
-        with(
-            CursorSubject.assertThat(
-                contentResolver.query(
-                    budgetAllocationUri(budgetId, main1.id),
-                    null,
-                    null,
-                    null,
-                    null
-                )!!
-            )
-        ) {
-            movesToFirst()
-            hasLong(KEY_BUDGET, 500)
-        }
+        Truth.assertThat(
+            repository.budgetAllocation(budgetId, main1.id, null)
+        ).isEqualTo(500)
     }
 }
