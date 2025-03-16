@@ -1,0 +1,4 @@
+• Gestion améliorée des comptes en devises étrangères avec mises à jour automatiques des taux de change et suivi de la valeur en temps réel.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756

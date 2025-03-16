@@ -1,0 +1,4 @@
+• Gestionarea îmbunătățită a conturilor în valută cu actualizări automate ale cursului de schimb și urmărirea valorii în timp real.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756

@@ -1,0 +1,4 @@
+• Gerenciamento aprimorado de contas em moeda estrangeira com atualizações automáticas da taxa de câmbio e rastreamento de valor em tempo real.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756
