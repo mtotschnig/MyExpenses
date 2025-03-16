@@ -1,0 +1,4 @@
+• Ulepszone zarządzanie kontami walutowymi z automatyczną aktualizacją kursu wymiany i śledzeniem wartości w czasie rzeczywistym.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756

@@ -1,0 +1,4 @@
+• Verbesserte Verwaltung von Fremdwährungs-Konten mit automatischen Wechselkursaktualisierungen und Wertverfolgung in Echtzeit.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756

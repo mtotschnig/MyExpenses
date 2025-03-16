@@ -1,0 +1,4 @@
+• Továbbfejlesztett devizaszámla-kezelés automatikus árfolyam-frissítésekkel és valós idejű értékkövetéssel.
+
+https://github.com/users/mtotschnig/projects/158
+https://mastodon.social/@myexpenses/114116950272846756
