@@ -922,4 +922,16 @@
     <string name="filter_dialog_empty">Ingen kriterier tilføjet endnu. Tryk på knapperne ovenfor for at definere din søgning og præcisere resultaterne.</string>
     <string name="pref_sync_frequency_summary_0">Sæt til 0 for at deaktivere automatisk synk.</string>
     <string name="webui_download_no_data">Efter udskrivning, eksport eller sikkerhedskopiering i appen kan filerne hentes herfra.</string>
+    <string name="menu_show_equivalent_value">Tilsvarende værdi</string>
+    <string name="initial_value">Oprindelig værdi</string>
+    <string name="current_value">Aktuel værdi</string>
+    <string name="total_value">Samlet værdi</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Automatisk download af daglige valutakurser</string>
+    <string name="price_history">Prishistorik</string>
+    <string name="dynamic_exchange_rate">Dynamisk valutakurs</string>
+    <string name="progress_recalculating">Genberegner</string>
+    <string name="recalculate_equivalent_amounts_warning">Tilsvarende beløb (gen)beregnes, hvis de relevante lagrede valutakurser er tilgængelige.</string>
+    <string name="recalculate_only_missing">Udfyld kun manglende værdier</string>
+    <string name="equivalent_amount_plural">Tilsvarende beløb</string>
+    <string name="menu_recalculate">Genberegn</string>
 </resources>
