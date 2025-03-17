@@ -19,5 +19,5 @@
     <string name="whats_new_386">Fordeling pr. udgift og fordeling pr. indtægt kan vises sammen i et donutdiagram med dobbelt ring.</string>
     <string name="whats_new_388">Transaktioner kan arkiveres.</string>
     <string name="whats_new_395">Eksporterede filer (PDF, sikkerhedskopi, QIF, CSV, JSON) kan hentes via webbrugergrænsefladen.</string>
-    <string name="whats_new_396">Forbedret kontostyring i udenlandsk valuta med automatiske valutakursopdateringer og værdisporing i realtid.</string>
+    <string name="whats_new_396">Forbedret administration af udenlandsk valuta-konti med automatiske valutakursopdateringer og værdisporing i realtid.</string>
 </resources>
