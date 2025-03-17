@@ -2056,6 +2056,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
+                it.setEnabledAndVisible(hasItems)
                 it.isChecked = currentFilter.whereFilter.value != null
                 checkMenuIcon(it)
             }
