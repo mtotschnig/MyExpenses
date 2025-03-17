@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
@@ -41,7 +42,15 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            prefHandler.setDefaultValues(this)
+            try {
+                prefHandler.setDefaultValues(this)
+            } catch (e: Exception) {
+                //According to report, setDefaultValues fails in some scenario
+                //where there is a value of the wrong type already present
+                //java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String
+                //maybe when data is restored via Play Store app backup
+                CrashHandler.report(e)
+            }
         }
         super.onCreate(savedInstanceState)
         binding = OnboardingBinding.inflate(layoutInflater)
