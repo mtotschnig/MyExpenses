@@ -142,5 +142,6 @@ data class DateCriterion(
         override val title = R.string.date
         override val extendedTitle = R.string.search_date
         override val icon = Icons.Default.Today
+        override val clazz = DateCriterion::class
     }
 }

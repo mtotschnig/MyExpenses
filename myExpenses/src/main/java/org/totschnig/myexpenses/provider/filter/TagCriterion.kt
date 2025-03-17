@@ -44,5 +44,6 @@ data class TagCriterion(
         override val extendedTitle = R.string.search_tag
         override val icon = Icons.Default.Tag
         override val isPartial = true
+        override val clazz = TagCriterion::class
     }
 }

@@ -10,15 +10,19 @@ sealed class ComplexCriterion : Criterion {
     abstract val symbol: Char
     abstract val description: Int
     override fun getSelectionForParts(
-        tableName: String?
-    ) = criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {
+        tableName: String?,
+    ) = if (criteria.isEmpty()) "" else criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {
         it.getSelectionForParts(tableName)
     }
 
     override fun getSelectionForParents(
         tableName: String?,
         forExport: Boolean,
-    ) = criteria.joinToString(" $operator ", prefix = "(", postfix = ")") {
+    ) = if (criteria.isEmpty()) "" else criteria.joinToString(
+        separator = " $operator ",
+        prefix = "(",
+        postfix = ")"
+    ) {
         it.getSelectionForParents(tableName, forExport)
     }
 

@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -53,6 +54,7 @@ import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
@@ -166,6 +168,7 @@ open class MyExpensesViewModel(
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
     private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
+    private val preferredSearchTypePrefKey = intPreferencesKey("preferredSearchType")
 
     fun showStatusHandle() =
         dataStore.data.map { preferences ->
@@ -296,7 +299,6 @@ open class MyExpensesViewModel(
 
     var showFilterDialog by mutableStateOf(false)
 
-
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {
             enumValueOrDefault(
@@ -308,6 +310,19 @@ open class MyExpensesViewModel(
                 it.drop(1).collect {
                     triggerAccountListRefresh()
                 }
+            }
+        }
+    }
+
+    fun preferredSearchType() =
+        dataStore.data.map { preferences ->
+            preferences[preferredSearchTypePrefKey] ?: TYPE_COMPLEX
+        }
+
+    fun persistPreferredSearchType(searchType: Int) {
+        viewModelScope.launch {
+            dataStore.edit { preference ->
+                preference[preferredSearchTypePrefKey] = searchType
             }
         }
     }

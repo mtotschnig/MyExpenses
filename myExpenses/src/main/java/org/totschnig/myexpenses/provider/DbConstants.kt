@@ -808,7 +808,8 @@ fun buildTransactionGroupCte(
     // If a filter is applied to the transaction list, we need to calculate with the contents
     // of the archive otherwise we just take the archive itself into account
     val withFilter = selection != null
-    val selection = listOfNotNull(accountQuery, selection).joinToString(" AND ")
+    val selection = listOfNotNull(accountQuery, selection?.takeIf { it.isNotEmpty() })
+        .joinToString(" AND ")
     return buildString {
         append("WITH $CTE_SEARCH as (SELECT $VIEW_WITH_ACCOUNT.* ")
         if(forHome != null) {

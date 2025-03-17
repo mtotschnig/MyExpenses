@@ -64,6 +64,8 @@ import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.safeMessage
 import kotlin.random.Random
 import org.totschnig.myexpenses.R as RB
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.set
 
 @Composable
 fun ColumnScope.BankingCredentials(
@@ -141,7 +143,7 @@ fun ColumnScope.BankingCredentials(
 @Composable
 fun PasswordVisibilityToggleIcon(
     showPassword: Boolean,
-    onTogglePasswordVisibility: () -> Unit
+    onTogglePasswordVisibility: () -> Unit,
 ) {
     val image = if (showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
     val contentDescription = stringResource(if (showPassword) RB.string.hide_password else RB.string.show_password)
@@ -446,7 +448,7 @@ private fun TanPreview() {
 }
 
 private fun createRandomBitmap(width: Int, height: Int): Bitmap {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height)
     for (x in 0 until width) {
         for (y in 0 until height) {
             val color = Color.rgb(
@@ -454,7 +456,7 @@ private fun createRandomBitmap(width: Int, height: Int): Bitmap {
                 Random.nextInt(256),
                 Random.nextInt(256)
             )
-            bitmap.setPixel(x, y, color)
+            bitmap[x, y] = color
         }
     }
     return bitmap

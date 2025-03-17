@@ -22,6 +22,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import kotlin.reflect.KClass
 
 const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
 
@@ -54,5 +55,6 @@ data class AccountCriterion(
         override val title = R.string.account
         override val extendedTitle = R.string.search_account
         override val icon = Icons.Default.AccountBalance
+        override val clazz = AccountCriterion::class
     }
 }

@@ -72,5 +72,6 @@ data class PayeeCriterion(
         override val title = R.string.payer_or_payee
         override val extendedTitle = R.string.search_payee
         override val icon = Icons.Default.Person
+        override val clazz = PayeeCriterion::class
     }
 }

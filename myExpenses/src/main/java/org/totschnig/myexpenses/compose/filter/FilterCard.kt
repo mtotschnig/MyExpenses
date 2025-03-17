@@ -1,7 +1,8 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.filter
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -37,6 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.CharIcon
+import org.totschnig.myexpenses.compose.TEST_TAG_FILTER_CARD
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.provider.filter.AndCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.ComplexCriterion
@@ -47,6 +51,7 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 @Composable
 fun FilterCard(
     whereFilter: Criterion,
+    withEdit: Boolean = false,
     clearFilter: (() -> Unit)? = null,
 ) {
     if (clearFilter != null) {
@@ -54,10 +59,8 @@ fun FilterCard(
             confirmValueChange = { newValue ->
                 if (newValue != SwipeToDismissBoxValue.Settled) {
                     clearFilter()
-                    true
-                } else {
-                    false
                 }
+                false
             }
         )
         SwipeToDismissBox(
@@ -84,16 +87,16 @@ fun FilterCard(
                 }
             }
         ) {
-            FilterCardImpl(whereFilter)
+            FilterCardImpl(whereFilter, withEdit)
         }
     } else {
-        FilterCardImpl(whereFilter)
+        FilterCardImpl(whereFilter, withEdit)
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FilterCardImpl(whereFilter: Criterion) {
+private fun FilterCardImpl(whereFilter: Criterion, withEdit: Boolean) {
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -107,7 +110,11 @@ private fun FilterCardImpl(whereFilter: Criterion) {
                 semantics {
                     collectionInfo = CollectionInfo(it.criteria.size, 1)
                 }
-            },
+            }
+            .optional(withEdit) {
+                clickable {  }
+            }
+        ,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {

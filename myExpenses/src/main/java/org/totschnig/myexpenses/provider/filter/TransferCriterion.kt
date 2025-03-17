@@ -61,5 +61,6 @@ data class TransferCriterion(
         override val title = R.string.transfer
         override val extendedTitle = R.string.search_transfer
         override val icon = Icons.AutoMirrored.Default.ArrowForward
+        override val clazz = TransferCriterion::class
     }
 }

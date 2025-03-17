@@ -87,8 +87,8 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.DateTimeFormatInfo
-import org.totschnig.myexpenses.compose.FilterCard
-import org.totschnig.myexpenses.compose.FilterDialog
+import org.totschnig.myexpenses.compose.filter.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterDialog
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
@@ -98,6 +98,7 @@ import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.TransactionList
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -986,6 +987,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     @Composable
     fun Page(account: PageAccount) {
+
+        val preferredSearchType =
+            viewModel.preferredSearchType().collectAsState(TYPE_COMPLEX).value
+
         LaunchedEffect(key1 = account.sealed) {
             if (account.sealed) finishActionMode()
         }
@@ -1013,6 +1018,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 //the dialog is dismissed
                 //noinspection StateFlowValueCalledInComposition
                 criterion = currentFilter.whereFilter.value,
+                preferredSearchType = preferredSearchType,
+                setPreferredSearchType = { viewModel.persistPreferredSearchType(it) },
                 onDismissRequest = {
                     showFilterDialog = false
                 }, onConfirmRequest = {
@@ -1039,7 +1046,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             val filter = viewModel.filterPersistence.getValue(account.id)
                 .whereFilter
                 .collectAsState(null)
-            filter.value?.let { FilterCard(it) }
+            filter.value?.let {
+                FilterCard(it) {
+                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                        putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
+                        putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
+                    }).show(supportFragmentManager, "CLEAR_FILTER")
+                }
+            }
 
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
@@ -1712,6 +1726,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
+
+            R.id.CLEAR_FILTER_COMMAND -> {
+                lifecycleScope.launch {
+                    currentFilter.persist(null)
+                    invalidateOptionsMenu()
+                }
+            }
+
 
             R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
 

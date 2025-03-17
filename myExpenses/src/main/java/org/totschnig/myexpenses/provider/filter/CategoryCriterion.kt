@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.categoryTreeSelect
+import kotlin.reflect.KClass
 
 @Parcelize
 @Serializable
@@ -72,5 +73,6 @@ data class CategoryCriterion(
         override val title = R.string.category
         override val extendedTitle = R.string.search_category
         override val icon = Icons.Default.Category
+        override val clazz = CategoryCriterion::class
     }
 }

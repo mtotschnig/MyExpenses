@@ -62,5 +62,6 @@ data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriter
         override val title = R.string.status
         override val extendedTitle = R.string.search_status
         override val icon = Icons.Default.Square
+        override val clazz = CrStatusCriterion::class
     }
 }

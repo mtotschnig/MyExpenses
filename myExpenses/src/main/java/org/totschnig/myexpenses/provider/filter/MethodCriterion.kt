@@ -55,5 +55,6 @@ data class MethodCriterion(
         override val title = R.string.method
         override val extendedTitle = R.string.search_method
         override val icon = Icons.Default.Payment
+        override val clazz = MethodCriterion::class
     }
 }

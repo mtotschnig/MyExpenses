@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.filter
 
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -12,11 +12,14 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -26,10 +29,15 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RadioButton
@@ -85,6 +93,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PickCategoryContract
 import org.totschnig.myexpenses.activity.PickPayeeContract
 import org.totschnig.myexpenses.activity.PickTagContract
+import org.totschnig.myexpenses.compose.CharIcon
+import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
@@ -113,16 +124,20 @@ import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import java.lang.IllegalStateException
 
 const val COMPLEX_AND = 0
 const val COMPLEX_OR = 1
 
-@OptIn(ExperimentalLayoutApi::class)
+const val TYPE_QUICK = 0
+const val TYPE_COMPLEX = 1
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FilterDialog(
     account: FullAccount?,
     sumInfo: SumInfo,
+    preferredSearchType: Int = TYPE_COMPLEX,
+    setPreferredSearchType: (Int) -> Unit = {},
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
     onConfirmRequest: (Criterion?) -> Unit = {},
@@ -130,6 +145,7 @@ fun FilterDialog(
 
     val initialSet = criterion.asSet
     val initialSelectedComplex = if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
+    val isComplexSearch = preferredSearchType == TYPE_COMPLEX
 
     var selectedComplex by remember {
         mutableIntStateOf(initialSelectedComplex)
@@ -155,17 +171,25 @@ fun FilterDialog(
     val currentEdit: MutableState<Criterion?> = rememberSaveable {
         mutableStateOf(null)
     }
-    val onResult: (Criterion?) -> Unit = { newValue ->
-        if (newValue != null) {
-            currentEdit.value?.also { current ->
-                criteriaSet.value = criteriaSet.value.map {
-                    if (it == current)
-                        if (it is NotCriterion) NotCriterion(newValue) else newValue
-                    else it
-                }.toSet()
-            } ?: run { criteriaSet.value += newValue }
+
+    val onResult: (Criterion?) -> Unit = remember(isComplexSearch) {
+        { newValue ->
+            if (newValue != null) {
+                if (isComplexSearch) {
+                    currentEdit.value?.also { current ->
+                        criteriaSet.value = criteriaSet.value.map {
+                            if (it == current)
+                                if (it is NotCriterion) NotCriterion(newValue) else newValue
+                            else it
+                        }.toSet()
+                    } ?: run { criteriaSet.value += newValue }
+                } else {
+                    onConfirmRequest(if (initialSet.isEmpty()) newValue else AndCriterion(initialSet + newValue))
+                }
+            }
+            currentEdit.value = null
         }
-        currentEdit.value = null
+
     }
 
     val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
@@ -243,7 +267,7 @@ fun FilterDialog(
     }
     activity?.let {
         val supportFragmentManager = it.supportFragmentManager
-        DisposableEffect(Unit) {
+        DisposableEffect(onResult) {
             supportFragmentManager.setFragmentResultListener(
                 RC_CONFIRM_FILTER, it
             ) { _, result ->
@@ -275,55 +299,82 @@ fun FilterDialog(
         properties = DialogProperties(usePlatformDefaultWidth = isLarge),
         onDismissRequest = onDismiss
     ) {
-        Surface(modifier = Modifier
-            .testTag(TEST_TAG_DIALOG)
-            .conditional(
-                isLarge,
-                ifTrue = { defaultMinSize(minHeight = 400.dp) },
-                ifFalse = { fillMaxSize() }
-            )) {
-            Column(modifier = Modifier
-                .conditional(isLarge && criteriaSet.value.isEmpty()) {
-                    height(400.dp)
-                }
+
+        Surface(
+            modifier = Modifier
+                .testTag(TEST_TAG_DIALOG)
+                .conditional(
+                    isLarge,
+                    ifTrue = { defaultMinSize(minHeight = 400.dp) },
+                    ifFalse = { fillMaxSize() }
+                )) {
+            Column(
+                modifier = Modifier
+                    .conditional(isLarge && criteriaSet.value.isEmpty()) {
+                        height(400.dp)
+                    }
             ) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    var expanded by remember { mutableStateOf(false) }
+                    val options = listOf("Quick search", "Complex search")
+                    ExposedDropdownMenuBox(
+                        modifier = Modifier.align(Alignment.Center),
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }) {
+                        BasicTextField(
+                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                            readOnly = true,
+                            value = options[preferredSearchType],
+                            onValueChange = {},
+                            textStyle = MaterialTheme.typography.titleMedium
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                it()
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = expanded
+                                )
+                            }
+                        }
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                        ) {
+                            options.forEachIndexed { index, s ->
+                                DropdownMenuItem(
+                                    text = { Text(s) },
+                                    onClick = {
+                                        setPreferredSearchType(index)
+                                        expanded = false
+                                    },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                )
+                            }
+                        }
+                    }
                     ActionButton(
                         hintText = stringResource(android.R.string.cancel),
                         icon = Icons.Filled.Clear,
-                        modifier = Modifier.align(Alignment.CenterStart),
+                        modifier = Modifier.align(if (isComplexSearch) Alignment.CenterStart else Alignment.CenterEnd),
                         onclick = onDismiss
                     )
-                    Text(
-                        text = stringResource(R.string.menu_search),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                    Row(modifier = Modifier.align(Alignment.CenterEnd)) {
-                        ActionButton(
-                            hintText = stringResource(R.string.clear_all_filters),
-                            icon = Icons.Filled.ClearAll,
-                            enabled = criteriaSet.value.isNotEmpty()
-                        ) {
-                            criteriaSet.value = emptySet()
-                        }
-                        ActionButton(
-                            hintText = stringResource(R.string.apply),
-                            icon = Icons.Filled.Done,
-                            enabled = isDirty
-                        ) {
-                            onConfirmRequest(
-                                when (criteriaSet.value.size) {
-                                    0 -> null
-                                    1 -> criteriaSet.value.first()
-                                    else -> if (selectedComplex == COMPLEX_AND)
-                                        AndCriterion(criteriaSet.value) else OrCriterion(
-                                        criteriaSet.value
-                                    )
-                                }
-                            )
+                    if (isComplexSearch) {
+                        Row(modifier = Modifier.align(Alignment.CenterEnd)) {
+                            ActionButton(
+                                hintText = stringResource(R.string.clear_all_filters),
+                                icon = Icons.Filled.ClearAll,
+                                enabled = criteriaSet.value.isNotEmpty()
+                            ) {
+                                criteriaSet.value = emptySet()
+                            }
+                            ActionButton(
+                                hintText = stringResource(R.string.apply),
+                                icon = Icons.Filled.Done,
+                                enabled = isDirty
+                            ) {
+                                onConfirmRequest(criteriaSet.value.wrap(selectedComplex))
+                            }
                         }
                     }
                 }
@@ -354,157 +405,186 @@ fun FilterDialog(
                         AccountCriterion to { handleAccountCriterion(null) }
                     } else null
                 )
-                FlowRow {
-                    filters.forEach { (info, onClick) ->
-                        val accessibleButtonText =
-                            stringResource(R.string.add_filter) + ": " +
-                                    stringResource(info.extendedTitle)
-                        TextButton(
-                            modifier = Modifier.clearAndSetSemantics {
-                                contentDescription = accessibleButtonText
-                            },
-                            onClick = onClick
-                        ) {
-                            Icon(
-                                modifier = Modifier.padding(end = 4.dp),
-                                imageVector = info.icon,
-                                contentDescription = null
-                            )
-                            Text(stringResource(info.title))
-                        }
-                    }
-                }
-
-                if (criteriaSet.value.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.filter_dialog_empty),
-                        modifier = Modifier
-                            .padding(horizontal = 24.dp)
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .wrapContentHeight(),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
-                    Row(
-                        Modifier
-                            .minimumInteractiveComponentSize()
-                            .padding(horizontal = 16.dp)
-                            .selectableGroup(),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        val options = listOf(R.string.matchAll, R.string.matchAny)
-                        options.forEachIndexed { index, labelRes ->
-                            Row(
-                                Modifier
-                                    .weight(1f)
-                                    .selectable(
-                                        selected = index == selectedComplex,
-                                        onClick = { selectedComplex = index },
-                                        role = Role.RadioButton
-                                    ), verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                RadioButton(
-                                    onClick = null,
-                                    selected = index == selectedComplex
-                                )
-                                Text(
-                                    text = stringResource(labelRes),
-                                    modifier = Modifier.padding(start = 8.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    Column(Modifier
-                        .verticalScroll(rememberScrollState())
-                        .semantics {
-                            collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
-                        }
-                    ) {
-
-                        criteriaSet.value.forEachIndexed { index, criterion ->
-                            val negate = { criteriaSet.value = criteriaSet.value.negate(index) }
-                            val delete = { criteriaSet.value -= criterion }
-                            val edit = {
-                                currentEdit.value = criterion
-                                handleEdit(criterion)
-                            }
-                            val title = stringResource(criterion.displayTitle)
-                            val symbol = criterion.displaySymbol.first
-                            val prettyPrint = ((criterion as? NotCriterion)?.criterion
-                                ?: criterion).prettyPrint(LocalContext.current)
-                            val contentDescription =
-                                criterion.contentDescription(LocalContext.current)
-                            val labelDelete = stringResource(R.string.menu_delete)
-                            val labelEdit = stringResource(R.string.menu_edit)
-                            Row(
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp)
-                                    .clearAndSetSemantics {
-                                        this.contentDescription = contentDescription
-                                        collectionItemInfo = CollectionItemInfo(index, 1, 1, 1)
-                                        customActions = listOf(
-                                            CustomAccessibilityAction(
-                                                label = "Negate",
-                                                action = {
-                                                    negate()
-                                                    true
-                                                }
-                                            ),
-                                            CustomAccessibilityAction(
-                                                label = labelDelete,
-                                                action = {
-                                                    delete()
-                                                    true
-                                                }
-                                            ),
-                                            CustomAccessibilityAction(
-                                                label = labelEdit,
-                                                action = {
-                                                    edit
-                                                    true
-                                                }
-                                            )
-                                        )
-                                    },
-                                verticalAlignment = Alignment.CenterVertically
+                if (isComplexSearch) {
+                    FlowRow {
+                        filters.forEach { (info, onClick) ->
+                            val accessibleButtonText =
+                                stringResource(R.string.add_filter) + ": " +
+                                        stringResource(info.extendedTitle)
+                            TextButton(
+                                modifier = Modifier.clearAndSetSemantics {
+                                    contentDescription = accessibleButtonText
+                                },
+                                onClick = onClick
                             ) {
                                 Icon(
-                                    imageVector = criterion.displayIcon,
-                                    contentDescription = title
+                                    modifier = Modifier.padding(end = 4.dp),
+                                    imageVector = info.icon,
+                                    contentDescription = null
                                 )
-                                IconButton(
-                                    modifier = Modifier.semantics {
-                                        invisibleToUser()
-                                    },
-                                    onClick = negate
+                                Text(stringResource(info.title))
+                            }
+                        }
+                    }
+                    if (criteriaSet.value.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.filter_dialog_empty),
+                            modifier = Modifier
+                                .padding(horizontal = 24.dp)
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .wrapContentHeight(),
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Row(
+                            Modifier
+                                .minimumInteractiveComponentSize()
+                                .padding(horizontal = 16.dp)
+                                .selectableGroup(),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            val options = listOf(R.string.matchAll, R.string.matchAny)
+                            options.forEachIndexed { index, labelRes ->
+                                Row(
+                                    Modifier
+                                        .weight(1f)
+                                        .selectable(
+                                            selected = index == selectedComplex,
+                                            onClick = { selectedComplex = index },
+                                            role = Role.RadioButton
+                                        ), verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    CharIcon(symbol)
-                                }
-                                Text(
-                                    modifier = Modifier.weight(1f),
-                                    text = prettyPrint
-                                )
-                                IconButton(
-                                    onClick = delete
-                                ) {
-                                    Icon(
-                                        Icons.Filled.Delete,
-                                        contentDescription = labelDelete
+                                    RadioButton(
+                                        onClick = null,
+                                        selected = index == selectedComplex
                                     )
-                                }
-                                IconButton(
-                                    onClick = edit
-                                ) {
-                                    Icon(
-                                        Icons.Filled.Edit,
-                                        contentDescription = labelEdit
+                                    Text(
+                                        text = stringResource(labelRes),
+                                        modifier = Modifier.padding(start = 8.dp)
                                     )
                                 }
                             }
+                        }
+
+                        Column(
+                            Modifier
+                                .verticalScroll(rememberScrollState())
+                                .semantics {
+                                    collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
+                                }
+                        ) {
+
+                            criteriaSet.value.forEachIndexed { index, criterion ->
+                                val negate = { criteriaSet.value = criteriaSet.value.negate(index) }
+                                val delete = { criteriaSet.value -= criterion }
+                                val edit = {
+                                    currentEdit.value = criterion
+                                    handleEdit(criterion)
+                                }
+                                val title = stringResource(criterion.displayTitle)
+                                val symbol = criterion.displaySymbol.first
+                                val prettyPrint = ((criterion as? NotCriterion)?.criterion
+                                    ?: criterion).prettyPrint(LocalContext.current)
+                                val contentDescription =
+                                    criterion.contentDescription(LocalContext.current)
+                                val labelDelete = stringResource(R.string.menu_delete)
+                                val labelEdit = stringResource(R.string.menu_edit)
+                                Row(
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .clearAndSetSemantics {
+                                            this.contentDescription = contentDescription
+                                            collectionItemInfo = CollectionItemInfo(index, 1, 1, 1)
+                                            customActions = listOf(
+                                                CustomAccessibilityAction(
+                                                    label = "Negate",
+                                                    action = {
+                                                        negate()
+                                                        true
+                                                    }
+                                                ),
+                                                CustomAccessibilityAction(
+                                                    label = labelDelete,
+                                                    action = {
+                                                        delete()
+                                                        true
+                                                    }
+                                                ),
+                                                CustomAccessibilityAction(
+                                                    label = labelEdit,
+                                                    action = {
+                                                        edit
+                                                        true
+                                                    }
+                                                )
+                                            )
+                                        },
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = criterion.displayIcon,
+                                        contentDescription = title
+                                    )
+                                    IconButton(
+                                        modifier = Modifier.semantics {
+                                            invisibleToUser()
+                                        },
+                                        onClick = negate
+                                    ) {
+                                        CharIcon(symbol)
+                                    }
+                                    Text(
+                                        modifier = Modifier.weight(1f),
+                                        text = prettyPrint
+                                    )
+                                    IconButton(
+                                        onClick = delete
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.Delete,
+                                            contentDescription = labelDelete
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = edit
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.Edit,
+                                            contentDescription = labelEdit
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    filters.forEach { (info, onClick) ->
+                        val definedCriterion = initialSet.find { it::class == info.clazz }
+                        val hasCriterion = definedCriterion != null
+                        Row(
+                            Modifier
+                                .toggleable(
+                                    value = hasCriterion,
+                                    role = Role.Checkbox,
+                                    onValueChange = {
+                                        if (hasCriterion) {
+                                            onConfirmRequest((initialSet - definedCriterion).wrap())
+                                        } else {
+                                            onClick()
+                                        }
+                                    }
+                                )
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .heightIn(min = 48.dp)
+                            , verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(definedCriterion?.prettyPrint(LocalContext.current)
+                                ?: stringResource(info.title), Modifier.weight(1f))
+                            Checkbox(checked = hasCriterion, onCheckedChange = null)
                         }
                     }
                 }
@@ -583,33 +663,42 @@ fun ActionButton(
     enabled: Boolean = true,
     onclick: () -> Unit,
 ) {
-    TooltipBox(
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(hintText) } },
-        state = rememberTooltipState(),
-        modifier = modifier
-    ) {
-        IconButton(onClick = onclick, enabled = enabled) {
-            Icon(
-                imageVector = icon,
-                contentDescription = hintText
-            )
+    //workaround for https://issuetracker.google.com/issues/283821298
+    Box(modifier = modifier) {
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = { PlainTooltip { Text(hintText) } },
+            state = rememberTooltipState(),
+            modifier = modifier
+        ) {
+            IconButton(onClick = onclick, enabled = enabled) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = hintText
+                )
+            }
         }
     }
 }
 
-fun Set<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
+private fun Set<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
     if (index == atIndex) {
         if (criterion is NotCriterion) criterion.criterion else NotCriterion(criterion)
     } else criterion
 }.toSet()
+
+private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size) {
+    0 -> null
+    1 -> first()
+    else -> if (selectedComplex == COMPLEX_AND) AndCriterion(this) else OrCriterion(this)
+}
 
 @Preview
 @Composable
 fun FilterDialogEmpty() {
     FilterDialog(
         account = null,
-        sumInfo = SumInfo.EMPTY
+        sumInfo = SumInfo.EMPTY,
     )
 }
 

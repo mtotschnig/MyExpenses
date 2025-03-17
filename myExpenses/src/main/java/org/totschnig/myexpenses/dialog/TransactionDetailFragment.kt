@@ -85,7 +85,7 @@ import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ColoredAmountText
-import org.totschnig.myexpenses.compose.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.SumDetails

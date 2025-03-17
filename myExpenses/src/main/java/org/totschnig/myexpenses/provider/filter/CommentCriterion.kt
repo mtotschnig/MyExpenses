@@ -25,6 +25,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import kotlin.reflect.KClass
 
 @Parcelize
 @Serializable
@@ -47,5 +48,6 @@ data class CommentCriterion(override val searchString: String) : TextCriterion()
         override val extendedTitle = R.string.search_comment
         override val icon = Icons.AutoMirrored.Default.Notes
         override val isPartial = true
+        override val clazz = CommentCriterion::class
     }
 }

@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import kotlin.reflect.KClass
 
 interface DisplayInfo {
     val title: Int
@@ -37,6 +38,7 @@ interface DisplayInfo {
     val icon: ImageVector
     val isPartial: Boolean
         get() = false
+    val clazz: KClass<out SimpleCriterion<*>>
 }
 
 @Serializable

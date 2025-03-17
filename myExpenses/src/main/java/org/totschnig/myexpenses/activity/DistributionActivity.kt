@@ -67,7 +67,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.ChoiceMode
 import org.totschnig.myexpenses.compose.ExpansionMode
-import org.totschnig.myexpenses.compose.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
@@ -314,7 +314,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 )
                 if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
                     if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter)
+                        FilterCard(whereFilter, clearFilter = clearFilter)
                     }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -325,7 +325,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter)
+                            FilterCard(whereFilter, clearFilter = clearFilter)
                         }
                         LayoutHelper(
                             data = {
@@ -451,7 +451,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                 categoryTree.value.children.isEmpty() -> {
                     if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter)
+                        FilterCard(whereFilter, clearFilter = clearFilter)
                     }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -464,7 +464,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter)
+                            FilterCard(whereFilter, clearFilter = clearFilter)
                         }
                         LayoutHelper(
                             data = {

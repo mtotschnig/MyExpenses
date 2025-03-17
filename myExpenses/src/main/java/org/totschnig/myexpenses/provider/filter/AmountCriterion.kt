@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.absoluteValue
+import kotlin.reflect.KClass
 
 @Parcelize
 @Serializable
@@ -170,5 +171,7 @@ data class AmountCriterion(
         override val title = R.string.amount
         override val extendedTitle = R.string.search_amount
         override val icon = Icons.Default.Height
+        override val clazz = AmountCriterion::class
+
     }
 }
