@@ -51,7 +51,7 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 @Composable
 fun FilterCard(
     whereFilter: Criterion,
-    withEdit: Boolean = false,
+    editFilter: ((Criterion) -> Unit)? = null,
     clearFilter: (() -> Unit)? = null,
 ) {
     if (clearFilter != null) {
@@ -87,16 +87,16 @@ fun FilterCard(
                 }
             }
         ) {
-            FilterCardImpl(whereFilter, withEdit)
+            FilterCardImpl(whereFilter, editFilter)
         }
     } else {
-        FilterCardImpl(whereFilter, withEdit)
+        FilterCardImpl(whereFilter, editFilter)
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FilterCardImpl(whereFilter: Criterion, withEdit: Boolean) {
+private fun FilterCardImpl(whereFilter: Criterion, editFilter: ((Criterion) -> Unit)?) {
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,9 +111,6 @@ private fun FilterCardImpl(whereFilter: Criterion, withEdit: Boolean) {
                     collectionInfo = CollectionInfo(it.criteria.size, 1)
                 }
             }
-            .optional(withEdit) {
-                clickable {  }
-            }
         ,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -122,7 +119,7 @@ private fun FilterCardImpl(whereFilter: Criterion, withEdit: Boolean) {
         if (whereFilter is ComplexCriterion) {
             val separatorDescription = stringResource(whereFilter.description)
             whereFilter.criteria.forEachIndexed { index, criterion ->
-                FilterItem(criterion, index)
+                FilterItemImpl(criterion, index, editFilter)
                 if (index < whereFilter.criteria.size - 1) {
                     CharIcon(
                         whereFilter.symbol,
@@ -134,19 +131,23 @@ private fun FilterCardImpl(whereFilter: Criterion, withEdit: Boolean) {
                 }
             }
         } else {
-            FilterItem(whereFilter)
+            FilterItemImpl(whereFilter, editFilter = editFilter)
         }
     }
 }
 
 @Composable
-fun FilterItem(
+fun FilterItemImpl(
     criterion: Criterion,
     index: Int? = null,
+    editFilter: ((Criterion) -> Unit)?,
 ) {
     val contentDescription = criterion.contentDescription(LocalContext.current)
     Row(
         Modifier
+            .optional(editFilter) {
+                clickable { it(criterion) }
+            }
             .border(
                 SuggestionChipDefaults.suggestionChipBorder(true),
                 SuggestionChipDefaults.shape

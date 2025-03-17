@@ -101,6 +101,8 @@ import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.TransactionList
 import org.totschnig.myexpenses.compose.UiText
+import org.totschnig.myexpenses.compose.filter.FilterHandler
+import org.totschnig.myexpenses.compose.filter.TYPE_QUICK
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -220,6 +222,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
+import androidx.core.net.toUri
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
@@ -721,7 +724,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             if (selectedIndex == -1) {
                                 selectedAccountId = data.firstOrNull()?.id ?: 0L
                             } else {
-                                viewModel.scrollToAccountIfNeeded(selectedIndex, selectedAccountId, false)
+                                viewModel.scrollToAccountIfNeeded(
+                                    selectedIndex,
+                                    selectedAccountId,
+                                    false
+                                )
                             }
                             navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible =
                                 data.any { it.isHomeAggregate }
@@ -946,7 +953,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }
                     LaunchedEffect(pagerState.settledPage) {
                         selectedAccountId = accountData[pagerState.settledPage].id
-                        viewModel.scrollToAccountIfNeeded(pagerState.currentPage, selectedAccountId, true)
+                        viewModel.scrollToAccountIfNeeded(
+                            pagerState.currentPage,
+                            selectedAccountId,
+                            true
+                        )
                     }
                     HorizontalPager(
                         modifier = Modifier
@@ -1012,7 +1023,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val coroutineScope = rememberCoroutineScope()
         if (showFilterDialog) {
             FilterDialog(
-                account = currentAccount,
+                account = account,
                 sumInfo = sumInfo.value,
                 //we are only interested in the current value, since as soon as we persist new value,
                 //the dialog is dismissed
@@ -1028,7 +1039,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         showFilterDialog = false
                         invalidateOptionsMenu()
                     }
-                })
+                }
+            )
         }
         LaunchedEffect(selectionState.size) {
             if (selectionState.isNotEmpty()) {
@@ -1047,11 +1059,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .whereFilter
                 .collectAsState(null)
             filter.value?.let {
-                FilterCard(it) {
-                    ConfirmationDialogFragment.newInstance(Bundle().apply {
-                        putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
-                        putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
-                    }).show(supportFragmentManager, "CLEAR_FILTER")
+                if (preferredSearchType == TYPE_QUICK) {
+                    FilterHandler(account, {
+                        if (it != null) {
+                            lifecycleScope.launch {
+                                currentFilter.replaceCriterion(it)
+                            }
+                        }
+                    }
+                    ) {
+                        FilterCard(it, editFilter = { handleEdit(it) }) {
+                            confirmClearFilter()
+                        }
+                    }
+                } else {
+                    FilterCard(it) {
+                        confirmClearFilter()
+                    }
                 }
             }
 
@@ -1101,53 +1125,58 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         { transaction ->
                             org.totschnig.myexpenses.compose.Menu(
                                 buildList {
-                                    add(MenuEntry(
-                                        icon = Icons.Filled.Loupe,
-                                        label = R.string.details,
-                                        command = "DETAILS"
-                                    ) {
-                                        showDetails(
-                                            transaction.id,
-                                            transaction.isArchive,
-                                            currentFilter.takeIf { transaction.isArchive },
-                                            currentAccount?.sortOrder.takeIf { transaction.isArchive }
-                                        )
-                                    })
+                                    add(
+                                        MenuEntry(
+                                            icon = Icons.Filled.Loupe,
+                                            label = R.string.details,
+                                            command = "DETAILS"
+                                        ) {
+                                            showDetails(
+                                                transaction.id,
+                                                transaction.isArchive,
+                                                currentFilter.takeIf { transaction.isArchive },
+                                                currentAccount?.sortOrder.takeIf { transaction.isArchive }
+                                            )
+                                        })
                                     if (modificationAllowed) {
                                         if (transaction.isArchive) {
-                                            add(MenuEntry(
-                                                icon = Icons.Filled.Unarchive,
-                                                label = R.string.menu_unpack,
-                                                command = "UNPACK_ARCHIVE"
-                                            ) {
-                                                unarchive(transaction)
-                                            })
+                                            add(
+                                                MenuEntry(
+                                                    icon = Icons.Filled.Unarchive,
+                                                    label = R.string.menu_unpack,
+                                                    command = "UNPACK_ARCHIVE"
+                                                ) {
+                                                    unarchive(transaction)
+                                                })
                                             add(delete("DELETE_TRANSACTION") {
                                                 lifecycleScope.launch {
                                                     deleteArchive(transaction)
                                                 }
                                             })
                                         } else {
-                                            add(MenuEntry(
-                                                icon = Icons.Filled.ContentCopy,
-                                                label = R.string.menu_clone_transaction,
-                                                command = "CLONE"
-                                            ) {
-                                                edit(transaction, true)
-                                            })
-                                            add(MenuEntry(
-                                                icon = myiconpack.IcActionTemplateAdd,
-                                                label = R.string.menu_create_template_from_transaction,
-                                                command = "CREATE_TEMPLATE_FROM_TRANSACTION"
-                                            ) { createTemplate(transaction) })
-                                            if (transaction.crStatus == CrStatus.VOID) {
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.RestoreFromTrash,
-                                                    label = R.string.menu_undelete_transaction,
-                                                    command = "UNDELETE_TRANSACTION"
+                                            add(
+                                                MenuEntry(
+                                                    icon = Icons.Filled.ContentCopy,
+                                                    label = R.string.menu_clone_transaction,
+                                                    command = "CLONE"
                                                 ) {
-                                                    undelete(listOf(transaction.id))
+                                                    edit(transaction, true)
                                                 })
+                                            add(
+                                                MenuEntry(
+                                                    icon = myiconpack.IcActionTemplateAdd,
+                                                    label = R.string.menu_create_template_from_transaction,
+                                                    command = "CREATE_TEMPLATE_FROM_TRANSACTION"
+                                                ) { createTemplate(transaction) })
+                                            if (transaction.crStatus == CrStatus.VOID) {
+                                                add(
+                                                    MenuEntry(
+                                                        icon = Icons.Filled.RestoreFromTrash,
+                                                        label = R.string.menu_undelete_transaction,
+                                                        command = "UNDELETE_TRANSACTION"
+                                                    ) {
+                                                        undelete(listOf(transaction.id))
+                                                    })
                                             }
                                             if (transaction.crStatus != CrStatus.VOID) {
                                                 add(edit("EDIT_TRANSACTION") {
@@ -1168,160 +1197,165 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                             )
                                             when {
                                                 transaction.isSplit -> {
-                                                    add(MenuEntry(
-                                                        icon = Icons.AutoMirrored.Filled.CallSplit,
-                                                        label = R.string.menu_ungroup_split_transaction,
-                                                        command = "UNGROUP_SPLIT"
-                                                    ) {
-                                                        ungroupSplit(transaction)
-                                                    })
+                                                    add(
+                                                        MenuEntry(
+                                                            icon = Icons.AutoMirrored.Filled.CallSplit,
+                                                            label = R.string.menu_ungroup_split_transaction,
+                                                            command = "UNGROUP_SPLIT"
+                                                        ) {
+                                                            ungroupSplit(transaction)
+                                                        })
                                                 }
 
                                                 transaction.isTransfer -> {
-                                                    add(MenuEntry(
-                                                        icon = Icons.Filled.LinkOff,
-                                                        label = R.string.menu_unlink_transfer,
-                                                        command = "UNLINK_TRANSFER"
-                                                    ) {
-                                                        unlinkTransfer(transaction)
-                                                    })
+                                                    add(
+                                                        MenuEntry(
+                                                            icon = Icons.Filled.LinkOff,
+                                                            label = R.string.menu_unlink_transfer,
+                                                            command = "UNLINK_TRANSFER"
+                                                        ) {
+                                                            unlinkTransfer(transaction)
+                                                        })
                                                 }
 
                                                 else -> {
                                                     if (accountCount >= 2) {
-                                                        add(MenuEntry(
-                                                            icon = Icons.Filled.Link,
-                                                            label = R.string.menu_transform_to_transfer,
-                                                            command = "TRANSFORM_TRANSFER"
-                                                        ) {
-                                                            transformToTransfer(transaction)
-                                                        })
+                                                        add(
+                                                            MenuEntry(
+                                                                icon = Icons.Filled.Link,
+                                                                label = R.string.menu_transform_to_transfer,
+                                                                command = "TRANSFORM_TRANSFER"
+                                                            ) {
+                                                                transformToTransfer(transaction)
+                                                            })
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                    add(SubMenuEntry(
-                                        icon = Icons.Filled.Search,
-                                        label = R.string.filter,
-                                        subMenu = org.totschnig.myexpenses.compose.Menu(
-                                            buildList {
-                                                if (transaction.catId != null && !transaction.isSplit) {
-                                                    if (transaction.categoryPath != null) {
-                                                        add(MenuEntry(
-                                                            label = UiText.StringValue(
-                                                                transaction.categoryPath
-                                                            ),
-                                                            command = "FILTER_FOR_CATEGORY"
-                                                        ) {
-                                                            addFilterCriterion(
-                                                                CategoryCriterion(
-                                                                    transaction.categoryPath,
-                                                                    transaction.catId
-                                                                )
+                                    add(
+                                        SubMenuEntry(
+                                            icon = Icons.Filled.Search,
+                                            label = R.string.filter,
+                                            subMenu = org.totschnig.myexpenses.compose.Menu(
+                                                buildList {
+                                                    if (transaction.catId != null && !transaction.isSplit) {
+                                                        if (transaction.categoryPath != null) {
+                                                            add(
+                                                                MenuEntry(
+                                                                    label = UiText.StringValue(
+                                                                        transaction.categoryPath
+                                                                    ),
+                                                                    command = "FILTER_FOR_CATEGORY"
+                                                                ) {
+                                                                    addFilterCriterion(
+                                                                        CategoryCriterion(
+                                                                            transaction.categoryPath,
+                                                                            transaction.catId
+                                                                        )
+                                                                    )
+                                                                })
+                                                        } else {
+                                                            CrashHandler.report(
+                                                                IllegalStateException("Category path is null")
                                                             )
-                                                        })
-                                                    } else {
-                                                        CrashHandler.report(
-                                                            IllegalStateException("Category path is null")
-                                                        )
+                                                        }
                                                     }
-                                                }
-                                                if (transaction.payeeId != null) {
-                                                    if (transaction.payee != null) {
+                                                    if (transaction.payeeId != null) {
+                                                        if (transaction.payee != null) {
+                                                            add(
+                                                                MenuEntry(
+                                                                    label = UiText.StringValue(
+                                                                        transaction.payee
+                                                                    ),
+                                                                    command = "FILTER_FOR_PAYEE"
+                                                                ) {
+                                                                    addFilterCriterion(
+                                                                        PayeeCriterion(
+                                                                            transaction.payee,
+                                                                            transaction.payeeId
+                                                                        )
+                                                                    )
+                                                                }
+                                                            )
+                                                        } else {
+                                                            CrashHandler.report(
+                                                                IllegalStateException("Payee is null")
+                                                            )
+                                                        }
+                                                    }
+                                                    if (transaction.methodId != null) {
+                                                        val label =
+                                                            transaction.methodLabel!!.translateIfPredefined(
+                                                                this@BaseMyExpenses
+                                                            )
                                                         add(
                                                             MenuEntry(
-                                                                label = UiText.StringValue(
-                                                                    transaction.payee
-                                                                ),
-                                                                command = "FILTER_FOR_PAYEE"
+                                                                label = UiText.StringValue(label),
+                                                                command = "FILTER_FOR_METHOD"
                                                             ) {
                                                                 addFilterCriterion(
-                                                                    PayeeCriterion(
-                                                                        transaction.payee,
-                                                                        transaction.payeeId
+                                                                    MethodCriterion(
+                                                                        label,
+                                                                        transaction.methodId
                                                                     )
                                                                 )
                                                             }
                                                         )
-                                                    } else {
-                                                        CrashHandler.report(
-                                                            IllegalStateException("Payee is null")
+                                                    }
+                                                    if (transaction.tagList.isNotEmpty()) {
+                                                        val label =
+                                                            transaction.tagList.joinToString { it.second }
+                                                        add(
+                                                            MenuEntry(
+                                                                label = UiText.StringValue(label),
+                                                                command = "FILTER_FOR_METHOD"
+                                                            ) {
+                                                                addFilterCriterion(
+                                                                    TagCriterion(
+                                                                        label,
+                                                                        transaction.tagList.map { it.first }
+                                                                    )
+                                                                )
+                                                            }
                                                         )
                                                     }
-                                                }
-                                                if (transaction.methodId != null) {
-                                                    val label =
-                                                        transaction.methodLabel!!.translateIfPredefined(
-                                                            this@BaseMyExpenses
-                                                        )
-                                                    add(
-                                                        MenuEntry(
-                                                            label = UiText.StringValue(label),
-                                                            command = "FILTER_FOR_METHOD"
-                                                        ) {
-                                                            addFilterCriterion(
-                                                                MethodCriterion(
-                                                                    label,
-                                                                    transaction.methodId
-                                                                )
-                                                            )
-                                                        }
-                                                    )
-                                                }
-                                                if (transaction.tagList.isNotEmpty()) {
-                                                    val label =
-                                                        transaction.tagList.joinToString { it.second }
-                                                    add(
-                                                        MenuEntry(
-                                                            label = UiText.StringValue(label),
-                                                            command = "FILTER_FOR_METHOD"
-                                                        ) {
-                                                            addFilterCriterion(
-                                                                TagCriterion(
-                                                                    label,
-                                                                    transaction.tagList.map { it.first }
-                                                                )
-                                                            )
-                                                        }
-                                                    )
-                                                }
-                                                add(
-                                                    MenuEntry(
-                                                        label = UiText.StringValue(
-                                                            currencyFormatter.formatMoney(
-                                                                transaction.displayAmount
-                                                            )
-                                                        ),
-                                                        command = "FILTER_FOR_AMOUNT"
-                                                    ) {
-                                                        addFilterCriterion(
-                                                            AmountCriterion(
-                                                                operation = Operation.EQ,
-                                                                values = listOf(transaction.displayAmount.amountMinor),
-                                                                currency = transaction.displayAmount.currencyUnit.code,
-                                                                sign = transaction.displayAmount.amountMinor > 0
-                                                            )
-                                                        )
-                                                    }
-                                                )
-                                                if (!transaction.comment.isNullOrEmpty()) {
                                                     add(
                                                         MenuEntry(
                                                             label = UiText.StringValue(
-                                                                transaction.comment
+                                                                currencyFormatter.formatMoney(
+                                                                    transaction.displayAmount
+                                                                )
                                                             ),
                                                             command = "FILTER_FOR_AMOUNT"
                                                         ) {
                                                             addFilterCriterion(
-                                                                CommentCriterion(transaction.comment)
+                                                                AmountCriterion(
+                                                                    operation = Operation.EQ,
+                                                                    values = listOf(transaction.displayAmount.amountMinor),
+                                                                    currency = transaction.displayAmount.currencyUnit.code,
+                                                                    sign = transaction.displayAmount.amountMinor > 0
+                                                                )
                                                             )
                                                         }
                                                     )
+                                                    if (!transaction.comment.isNullOrEmpty()) {
+                                                        add(
+                                                            MenuEntry(
+                                                                label = UiText.StringValue(
+                                                                    transaction.comment
+                                                                ),
+                                                                command = "FILTER_FOR_AMOUNT"
+                                                            ) {
+                                                                addFilterCriterion(
+                                                                    CommentCriterion(transaction.comment)
+                                                                )
+                                                            }
+                                                        )
+                                                    }
                                                 }
-                                            }
-                                        )
-                                    ))
+                                            )
+                                        ))
                                 }
                             )
                         }
@@ -1757,7 +1791,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")
+                    data = "market://details?id=org.totschnig.ocr.tesseract".toUri()
                 }
                 packageManager.queryIntentActivities(intent, 0)
                     .map { it.activityInfo }
@@ -2569,9 +2603,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             result = true
             if (itemId == R.id.SORT_CUSTOM_COMMAND) {
                 SortUtilityDialogFragment.newInstance(
-                    ArrayList(accountData
-                        .filter { it.id > 0 }
-                        .map { SortableItem(it.id, it.label) }
+                    ArrayList(
+                        accountData
+                            .filter { it.id > 0 }
+                            .map { SortableItem(it.id, it.label) }
                     ))
                     .show(supportFragmentManager, "SORT_ACCOUNTS")
             }
@@ -2607,24 +2642,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 finishActionMode()
                 val ids = args.getLongArray(KEY_ROW_IDS)!!
                 viewModel.split(ids).observe(this) { result ->
-                    showSnackBar(result.fold(
-                        onSuccess = {
-                            if (it) {
-                                recordUsage(ContribFeature.SPLIT_TRANSACTION)
-                                if (ids.size > 1)
-                                    getString(R.string.split_transaction_one_success)
-                                else
-                                    getString(
-                                        R.string.split_transaction_group_success,
-                                        ids.size
-                                    )
-                            } else getString(R.string.split_transaction_not_possible)
-                        },
-                        onFailure = {
-                            CrashHandler.report(it)
-                            it.safeMessage
-                        }
-                    ))
+                    showSnackBar(
+                        result.fold(
+                            onSuccess = {
+                                if (it) {
+                                    recordUsage(ContribFeature.SPLIT_TRANSACTION)
+                                    if (ids.size > 1)
+                                        getString(R.string.split_transaction_one_success)
+                                    else
+                                        getString(
+                                            R.string.split_transaction_group_success,
+                                            ids.size
+                                        )
+                                } else getString(R.string.split_transaction_not_possible)
+                            },
+                            onFailure = {
+                                CrashHandler.report(it)
+                                it.safeMessage
+                            }
+                        ))
                 }
             }
 
@@ -2749,6 +2785,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             showDetails(idFromNotification, false)
             intent.removeExtra(KEY_TRANSACTIONID)
         }
+    }
+
+    fun confirmClearFilter() {
+        ConfirmationDialogFragment.newInstance(Bundle().apply {
+            putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
+            putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
+        }).show(supportFragmentManager, "CLEAR_FILTER")
     }
 
     companion object {

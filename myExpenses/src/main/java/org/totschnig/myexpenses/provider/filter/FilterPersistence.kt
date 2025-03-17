@@ -69,4 +69,17 @@ class FilterPersistence(
           else -> AndCriterion(setOf(oldValue, criterion))
       }}
     }
+
+    suspend fun replaceCriterion(criterion: SimpleCriterion<*>) {
+        update { oldValue ->  when (oldValue) {
+            null -> throw IllegalStateException()
+            is AndCriterion -> AndCriterion(oldValue.criteria.map {
+                if(it::class == criterion::class) criterion else it
+            }.toSet())
+            is OrCriterion -> OrCriterion(oldValue.criteria.map {
+                if(it::class == criterion::class) criterion else it
+            }.toSet())
+            else -> criterion
+        }}
+    }
 }

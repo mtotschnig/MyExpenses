@@ -69,6 +69,8 @@ import kotlin.math.sign
 
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
+    abstract val currencyUnit: CurrencyUnit
+    abstract val type: AccountType?
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
 }
@@ -77,15 +79,15 @@ abstract class BaseAccount : DataBaseAccount() {
 data class FullAccount(
     override val id: Long,
     val label: String,
-    val description: String?,
-    val currencyUnit: CurrencyUnit,
+    val description: String? = null,
+    override val currencyUnit: CurrencyUnit,
     override val _color: Int = -1,
-    val type: AccountType?,
+    override val type: AccountType? = AccountType.CASH,
     val sealed: Boolean = false,
-    val openingBalance: Long,
-    val currentBalance: Long,
-    val sumIncome: Long,
-    val sumExpense: Long,
+    val openingBalance: Long = 0,
+    val currentBalance: Long = 0,
+    val sumIncome: Long = 0,
+    val sumExpense: Long = 0,
     val sumTransfer: Long = 0L,
     val equivalentOpeningBalance: Long = openingBalance,
     val equivalentCurrentBalance: Long = currentBalance,
@@ -100,7 +102,7 @@ data class FullAccount(
     val clearedTotal: Long = 0L,
     val hasCleared: Boolean = false,
     val uuid: String? = null,
-    val criterion: Long?,
+    val criterion: Long? = 0,
     val total: Long? = null,
     val equivalentTotal: Long? = null,
     val excludeFromTotals: Boolean = false,
@@ -186,11 +188,11 @@ data class FullAccount(
 @Immutable
 data class PageAccount(
     override val id: Long,
-    val type: AccountType?,
+    override val type: AccountType?,
     override val sortBy: String,
     override val sortDirection: SortDirection,
     override val grouping: Grouping,
-    val currencyUnit: CurrencyUnit,
+    override val currencyUnit: CurrencyUnit,
     val sealed: Boolean,
     val openingBalance: Long,
     override val _color: Int,
