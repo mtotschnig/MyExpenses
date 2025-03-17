@@ -381,9 +381,11 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND).isChecked = excludeFromTotals
         with(menu.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
-            val isFX = currencyUnit.code != homeCurrency.code
-            this.setEnabledAndVisible(isFX)
-            isChecked = isFX && dynamicExchangeRates
+            _currencyUnit?.let {
+                val isFX = it.code != homeCurrency.code
+                this.setEnabledAndVisible(isFX)
+                isChecked = isFX && dynamicExchangeRates
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
