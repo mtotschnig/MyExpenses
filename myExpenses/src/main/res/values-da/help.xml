@@ -213,4 +213,16 @@
     <string name="cab_MyExpenses_filter_help_text">Søg efter transaktioner med samme egenskaber.</string>
     <string name="menu_archive_help_text">Når du har valgt et datointerval, samles alle transaktioner for denne periode i en overordnet arkivtransaktion. Dette rydder op i transaktionslisten, men transaktionerne i arkivet kan stadig inspiceres og om nødvendigt pakkes ud igen.</string>
     <string name="menu_ManageBudgets_grouping_help_text">Budgetlisten kan grupperes enten efter konto eller budgettype.</string>
+    <string name="cab_PriceHistory_add_help_text">Indtast manuelt kursen for den givne dato. Brugerangivne kurser har prioritet over hentede kurser.</string>
+    <string name="dynamic_exchange_rate_help_text_1">Hvis en udenlandsk valuta-konto bruger dynamiske valutakurser, kan du angive et specifikt modværdibeløb for hver transaktion.</string>
+    <string name="dynamic_exchange_rate_help_text_2">Den aktuelle værdi af en udenlandsk valuta-konto med dynamiske valutakurser beregnes ud fra den seneste valutakurs.</string>
+    <string name="help_user_exchange_rate">Denne kurs er blevet angivet af brugeren under redigering af en transaktions tilsvarende beløb.</string>
+    <string name="help_calculated_exchange_rate">Denne kurs er blevet beregnet automatisk ud fra eksisterende kurser, da hjemmevalutaen blev omkonfigureret.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">Baseres <b>startværdien</b> på den kurs, der er angivet i kontoens egenskaber.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2">Beregnes <b>indkomst- og udgiftsbeløb</b> ud fra de tilsvarende beløb, der er angivet for hver transaktion.</string>
+    <string name="help_PriceHistory_info">Udenlandsk valuta-konti kan konfigureres til at bruge dynamiske valutakurser. Hver dag kan du enten hente eller indtaste en specifik kurs i forhold til din hjemmevaluta. Denne skærm viser gemte kurser for en given valuta fra den ældste transaktion og frem. Kursens kilde angives som følger:</string>
+    <string name="dynamic_exchange_rate_help_text_3">Indstillingen %s lader dig følge den aktuelle nettoformue for alle dine konti.</string>
+    <string name="cab_PriceHistory_download_help_text">Hent kursen for den givne dato fra den konfigurerede udbyder. Nogle udbydere leverer ikke kurser for alle datoer, f.eks. weekender eller helligdage, og returnerer i stedet en tidligere kurs.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Med denne indstilling aktiveret kan du se, hvordan hver udenlandsk valuta-konto bidrager til den samlede værdi i din hjemmevaluta. Hvis en konto ikke bruger dynamiske valutakurser, beregnes værdien ud fra den kurs, der er angivet i kontoens egenskaber. Ellers:</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">Baseres den <b>aktuelle værdi</b> på den seneste valutakurs for kontoens valuta.</string>
 </resources>
