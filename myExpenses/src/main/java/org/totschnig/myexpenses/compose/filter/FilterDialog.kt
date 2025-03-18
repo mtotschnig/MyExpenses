@@ -460,6 +460,11 @@ fun FilterDialog(
                                     .heightIn(min = 48.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
+                                Icon(
+                                    modifier = Modifier.padding(end = 4.dp),
+                                    imageVector = info.icon,
+                                    contentDescription = null
+                                )
                                 Text(
                                     definedCriterion?.prettyPrint(LocalContext.current)
                                         ?: stringResource(info.title), Modifier.weight(1f)
