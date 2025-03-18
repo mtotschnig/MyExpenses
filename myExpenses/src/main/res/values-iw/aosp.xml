@@ -150,4 +150,5 @@
     <string name="done_label">"סיום"</string>
     <string name="action_move_top">"העברה לראש הרשימה"</string>
     <string name="action_move_bottom">"העברה לסוף הרשימה"</string>
+    <string name="negation">"Negation"</string>
 </resources>

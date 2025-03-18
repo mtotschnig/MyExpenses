@@ -160,4 +160,5 @@
     <string name="done_label">"Готово"</string>
     <string name="action_move_top">"Преместване най-горе"</string>
     <string name="action_move_bottom">"Преместване най-долу"</string>
+    <string name="negation">"Обръщане на знака"</string>
 </resources>

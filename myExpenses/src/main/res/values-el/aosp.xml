@@ -158,4 +158,5 @@
     <string name="done_label">"Τέλος"</string>
     <string name="action_move_top">"Μετακίνηση επάνω"</string>
     <string name="action_move_bottom">"Μετακίνηση κάτω"</string>
+    <string name="negation">"Άρνηση"</string>
 </resources>

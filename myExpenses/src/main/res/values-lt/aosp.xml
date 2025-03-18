@@ -83,4 +83,5 @@
     <string name="done_label">"Atlikta"</string>
     <string name="action_move_top">"Perkelti į viršų"</string>
     <string name="action_move_bottom">"Perkelti į apačią"</string>
+    <string name="negation">"Inversija"</string>
 </resources>

@@ -159,4 +159,5 @@
     <string name="done_label">"OK"</string>
     <string name="action_move_top">"Placer en premier"</string>
     <string name="action_move_bottom">"Placer en dernier"</string>
+    <string name="negation">"Négation"</string>
 </resources>

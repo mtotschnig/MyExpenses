@@ -90,4 +90,5 @@
     <string name="done_label">"Lokið"</string>
     <string name="action_move_top">"Flytja alla leið upp"</string>
     <string name="action_move_bottom">"Færa neðst"</string>
+    <string name="negation">"Neitun"</string>
 </resources>

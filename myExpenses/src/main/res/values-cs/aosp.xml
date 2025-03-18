@@ -161,4 +161,5 @@
     <string name="done_label">"Hotovo"</string>
     <string name="action_move_top">"Přesunout na začátek"</string>
     <string name="action_move_bottom">"Přesunout na konec"</string>
+    <string name="negation">"Negace"</string>
 </resources>

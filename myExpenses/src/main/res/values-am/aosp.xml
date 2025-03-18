@@ -86,4 +86,5 @@
     <string name="done_label">"ተከናውኗል"</string>
     <string name="action_move_top">"ወደ ላይ ውሰድ"</string>
     <string name="action_move_bottom">"ወደ ታች ውሰድ"</string>
+    <string name="negation">"አሉታዊ"</string>
 </resources>

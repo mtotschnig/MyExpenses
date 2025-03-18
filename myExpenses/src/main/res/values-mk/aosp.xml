@@ -74,4 +74,5 @@
     <string name="done_label">"Готово"</string>
     <string name="action_move_top">"Премести најгоре"</string>
     <string name="action_move_bottom">"Премести најдолу"</string>
+    <string name="negation">"Negation"</string>
 </resources>

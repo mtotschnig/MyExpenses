@@ -82,4 +82,5 @@
     <string name="done_label">"დასრულდა"</string>
     <string name="action_move_top">"თავში გადატანა"</string>
     <string name="action_move_bottom">"ბოლოში გადატანა"</string>
+    <string name="negation">"უარყოფა"</string>
 </resources>

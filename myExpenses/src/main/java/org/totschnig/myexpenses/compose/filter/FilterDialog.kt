@@ -205,7 +205,10 @@ fun FilterDialog(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         var expanded by remember { mutableStateOf(false) }
-                        val options = listOf("Quick search", "Complex search")
+                        val options = listOf(
+                            stringResource(R.string.quick_search),
+                            stringResource(R.string.complex_search)
+                        )
                         ExposedDropdownMenuBox(
                             modifier = Modifier.align(Alignment.Center),
                             expanded = expanded,
@@ -245,7 +248,7 @@ fun FilterDialog(
                             hintText = stringResource(android.R.string.cancel),
                             icon = Icons.Filled.Clear,
                             modifier = Modifier.align(if (isComplexSearch) Alignment.CenterStart else Alignment.CenterEnd),
-                            onclick = onDismiss
+                            onClick = onDismiss
                         )
                         if (isComplexSearch) {
                             Row(modifier = Modifier.align(Alignment.CenterEnd)) {
@@ -368,6 +371,7 @@ fun FilterDialog(
                                         ?: criterion).prettyPrint(LocalContext.current)
                                     val contentDescription =
                                         criterion.contentDescription(LocalContext.current)
+                                    val labelNegate = stringResource(R.string.negation)
                                     val labelDelete = stringResource(R.string.menu_delete)
                                     val labelEdit = stringResource(R.string.menu_edit)
                                     Row(
@@ -379,7 +383,7 @@ fun FilterDialog(
                                                     CollectionItemInfo(index, 1, 1, 1)
                                                 customActions = listOf(
                                                     CustomAccessibilityAction(
-                                                        label = "Negate",
+                                                        label = labelNegate,
                                                         action = {
                                                             negate()
                                                             true
@@ -407,34 +411,23 @@ fun FilterDialog(
                                             imageVector = criterion.displayIcon,
                                             contentDescription = title
                                         )
-                                        IconButton(
-                                            modifier = Modifier.semantics {
-                                                invisibleToUser()
-                                            },
-                                            onClick = negate
-                                        ) {
+                                        ActionButton(labelNegate, onClick = negate) {
                                             CharIcon(symbol)
                                         }
                                         Text(
                                             modifier = Modifier.weight(1f),
                                             text = prettyPrint
                                         )
-                                        IconButton(
+                                        ActionButton(
+                                            hintText = labelDelete,
+                                            icon = Icons.Filled.Delete,
                                             onClick = delete
-                                        ) {
-                                            Icon(
-                                                Icons.Filled.Delete,
-                                                contentDescription = labelDelete
-                                            )
-                                        }
-                                        IconButton(
+                                        )
+                                        ActionButton(
+                                            hintText = labelEdit,
+                                            icon = Icons.Filled.Edit,
                                             onClick = edit
-                                        ) {
-                                            Icon(
-                                                Icons.Filled.Edit,
-                                                contentDescription = labelEdit
-                                            )
-                                        }
+                                        )
                                     }
                                 }
                             }
@@ -507,7 +500,24 @@ fun ActionButton(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onclick: () -> Unit,
+    onClick: () -> Unit,
+) {
+    ActionButton(hintText, modifier, enabled, onClick) {
+        Icon(
+            imageVector = icon,
+            contentDescription = hintText
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActionButton(
+    hintText: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    content:  @Composable () -> Unit
 ) {
     //workaround for https://issuetracker.google.com/issues/283821298
     Box(modifier = modifier) {
@@ -515,14 +525,8 @@ fun ActionButton(
             positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
             tooltip = { PlainTooltip { Text(hintText) } },
             state = rememberTooltipState(),
-            modifier = modifier
         ) {
-            IconButton(onClick = onclick, enabled = enabled) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = hintText
-                )
-            }
+            IconButton(onClick = onClick, enabled = enabled, content = content)
         }
     }
 }

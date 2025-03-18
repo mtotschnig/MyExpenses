@@ -161,4 +161,5 @@
     <string name="done_label">"Gotowe"</string>
     <string name="action_move_top">"Przenieś na górę"</string>
     <string name="action_move_bottom">"Przenieś na koniec"</string>
+    <string name="negation">"Negacja"</string>
 </resources>

@@ -72,4 +72,5 @@
     <string name="done_label">"সম্পন্ন হয়েছে"</string>
     <string name="action_move_top">"শীর্ষে সরান"</string>
     <string name="action_move_bottom">"নিচে সরান"</string>
+    <string name="negation">"তাৎপর্য"</string>
 </resources>

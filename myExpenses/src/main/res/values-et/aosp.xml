@@ -93,4 +93,5 @@
     <string name="done_label">"Valmis"</string>
     <string name="action_move_top">"Teisalda kõige üles"</string>
     <string name="action_move_bottom">"Teisalda kõige alla"</string>
+    <string name="negation">"Lahutamine"</string>
 </resources>

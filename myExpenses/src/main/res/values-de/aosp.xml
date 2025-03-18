@@ -158,4 +158,5 @@
     <string name="done_label">"Fertig"</string>
     <string name="action_move_top">"Ganz nach oben"</string>
     <string name="action_move_bottom">"Ganz nach unten"</string>
+    <string name="negation">"Negation"</string>
 </resources>

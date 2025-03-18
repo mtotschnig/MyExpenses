@@ -84,4 +84,5 @@
     <string name="done_label">"Gatavs"</string>
     <string name="action_move_top">"Pārvietot uz sākumu"</string>
     <string name="action_move_bottom">"Pārvietot uz beigām"</string>
+    <string name="negation">"Negācija"</string>
 </resources>
