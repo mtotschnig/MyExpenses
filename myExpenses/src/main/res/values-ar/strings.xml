@@ -866,7 +866,7 @@
     <string name="debt_managment">إدارة الديون</string>
     <string name="dialog_title_purge_backups">حذف النسخ الاحتياطية القديمة</string>
     <string name="icons_for_categories">ايقونات الفئات</string>
-    <string name="contrib_feature_category_tree_label">التسلسل الهرمي للفئة العميقة</string>
+    <string name="contrib_feature_category_tree_label">التصنيفات لأكثر من 2 مستوي</string>
     <string name="menu_reconfigure">إعادة التكوين</string>
     <string name="add_shortcut">أضف اختصارا</string>
     <string name="search_account">البحث عن حساب</string>
