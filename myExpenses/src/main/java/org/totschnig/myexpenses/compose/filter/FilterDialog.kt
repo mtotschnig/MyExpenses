@@ -231,6 +231,7 @@ fun FilterDialog(
                                 options.forEachIndexed { index, s ->
                                     DropdownMenuItem(
                                         text = { Text(s) },
+                                        enabled = index == 1 || criteriaSet.value.isSimple(selectedComplex),
                                         onClick = {
                                             setPreferredSearchType(index)
                                             expanded = false
@@ -537,6 +538,15 @@ private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size
     1 -> first()
     else -> if (selectedComplex == COMPLEX_AND) AndCriterion(this) else OrCriterion(this)
 }
+
+private fun Set<Criterion>.isSimple(selectedComplex: Int) =
+    isEmpty() || (
+            none { it is NotCriterion } && (
+                    (size == 1) || (
+                            (selectedComplex == COMPLEX_AND) && groupBy { it::class }.all { it.value.size == 1 }
+                            )
+                    )
+            )
 
 @Preview
 @Composable
