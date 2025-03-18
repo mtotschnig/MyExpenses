@@ -543,6 +543,13 @@ private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size
     else -> if (selectedComplex == COMPLEX_AND) AndCriterion(this) else OrCriterion(this)
 }
 
+/**
+ * we can switch to quick search, if
+ * - there are no criteria
+ * - there are no negated criteria
+ * - there is only 1 criterion
+ * - criteria are joined with AND and there are no 2 criteria of the same type
+ */
 private fun Set<Criterion>.isSimple(selectedComplex: Int) =
     isEmpty() || (
             none { it is NotCriterion } && (
