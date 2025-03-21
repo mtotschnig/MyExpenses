@@ -887,4 +887,6 @@
     <string name="pref_group_header_show_details_summary">Mostra les sumes de detall a la capçalera del grup</string>
     <string name="recurrence_last_day_of_month">Últim dia</string>
     <string name="archive">Arxiu</string>
+    <string name="quick_search">Cerca ràpida</string>
+    <string name="complex_search">Cerca complexa</string>
 </resources>
