@@ -871,4 +871,6 @@
     <string name="pref_copy_attachments_title">Copiar anexos para a pasta da aplicação</string>
     <string name="pref_copy_attachments_summary_off">Os ficheiros não são copiados, é armazenada apenas uma referência.</string>
     <string name="attachments">Anexos</string>
+    <string name="quick_search">Pesquisa rápida</string>
+    <string name="complex_search">Pesquisa complexa</string>
 </resources>
