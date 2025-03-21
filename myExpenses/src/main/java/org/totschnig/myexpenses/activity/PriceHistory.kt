@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -52,17 +54,18 @@ import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
-import org.totschnig.myexpenses.compose.mainScreenPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.Price
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.transformForUser
 import java.math.BigDecimal
+import java.math.MathContext
 import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.time.LocalDate
@@ -84,7 +87,7 @@ class PriceHistory : ProtectedFragmentActivity() {
                 PriceListScreen(
                     viewModel.pricesWithMissingDates.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
                     currencyContext.homeCurrencyUnit,
-                    Modifier.padding(start = mainScreenPadding),
+                    Modifier.padding(horizontal = 8.dp),
                     onDelete = {
                         viewModel.deletePrice(it)
                     },
@@ -127,7 +130,8 @@ class PriceHistory : ProtectedFragmentActivity() {
                                     )
                                 )
                             }
-                    }
+                    },
+                    inverseRate = viewModel.invertRate
                 )
             }
         }
@@ -135,6 +139,10 @@ class PriceHistory : ProtectedFragmentActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
+        menu.add(Menu.NONE, R.id.INVERT_COMMAND, 1, R.string.menu_invert_transfer).apply {
+            setIcon(R.drawable.ic_menu_move)
+            setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
+        }
         val relevantSources = viewModel.relevantSources
         if (relevantSources.size > 1) {
             menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, getString(R.string.source))
@@ -154,11 +162,19 @@ class PriceHistory : ProtectedFragmentActivity() {
         viewModel.userSelectedSource?.let {
             menu.findItem(R.id.SELECT_SOURCE_MENU_ID).subMenu?.findItem(it.id)?.setChecked(true)
         }
+        menu.findItem(R.id.INVERT_COMMAND)?.let {
+            it.isChecked = viewModel.invertRate
+            checkMenuIcon(it)
+        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = super.onOptionsItemSelected(item) ||
-            ExchangeRateApi.getById(item.itemId)?.also {
+            if (item.itemId == R.id.INVERT_COMMAND) {
+                viewModel.invertRate = !viewModel.invertRate
+                invalidateOptionsMenu()
+                true
+            } else ExchangeRateApi.getById(item.itemId)?.also {
                 viewModel.userSelectedSource = it
                 invalidateOptionsMenu()
             } != null
@@ -172,13 +188,13 @@ fun PriceListScreen(
     onDelete: (Price) -> Unit,
     onSave: (LocalDate, Double) -> Unit,
     onDownload: (LocalDate) -> Unit,
+    inverseRate: Boolean = false,
 ) {
     val column1Weight = .4f
     val column2Weight = .4f
     val column3Weight = .2f
     val format = remember { DecimalFormat("#.################") }
-    val inverseFormat = remember { DecimalFormat("#.########") }
-    val editedDate = remember { mutableStateOf<LocalDate?>(null) }
+    val editedDate = rememberSaveable { mutableStateOf<LocalDate?>(null) }
     Column(modifier = modifier) {
         Row {
             TableCell(stringResource(R.string.date), column1Weight, true)
@@ -196,19 +212,22 @@ fun PriceListScreen(
                 items = prices.entries.toList(),
                 key = { it.key }
             ) { (date, price) ->
+                val rate = price?.value?.let {
+                    BigDecimal.valueOf(it)
+                }?.let {
+                    if (inverseRate) it.reciprocal else it
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TableCell(LocalDateFormatter.current.format(date), column1Weight)
                     if (editedDate.value == date) {
-                        var valueForEdit by rememberSaveable {
-                            mutableStateOf(
-                                BigDecimal.valueOf(
-                                    price?.value ?: 1.0
-                                )
-                            )
-                        }
+
+                        var valueForEdit by rememberSaveable { mutableStateOf(rate) }
+
                         val isValid = remember {
                             derivedStateOf {
-                                valueForEdit > BigDecimal.ZERO
+                                valueForEdit?.let {
+                                    it > BigDecimal.ZERO
+                                }
                             }
                         }
                         AmountEdit(
@@ -218,40 +237,34 @@ fun PriceListScreen(
                             },
                             fractionDigits = 16,
                             modifier = Modifier
-                                .weight(column2Weight),
+                                .requiredWidthIn(160.dp)
+                                .weight(column2Weight)
+                                .zIndex(1f),
                             keyboardActions = KeyboardActions(onDone = {
-                                if (isValid.value) {
-                                    onSave(date, valueForEdit.toDouble())
+                                if (isValid.value == true) {
+                                    valueForEdit?.let {
+                                        onSave(date, (if (inverseRate) it.reciprocal else it).toDouble())
+                                    }
                                 }
                                 editedDate.value = null
                             }),
                             trailingIcon = {
-                                Icon(imageVector = Icons.Filled.Close,
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
                                     contentDescription = stringResource(android.R.string.cancel),
                                     modifier = Modifier.clickable {
                                         editedDate.value = null
                                     })
                             },
-                            isError = !isValid.value,
+                            isError = isValid.value == false,
                             allowNegative = false
                         )
                     } else {
-                        if (price != null) {
-                            Column(Modifier
-                                .weight(column2Weight)
-                                .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = format.format(price.value),
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                                Text(
-                                    text = "(" + inverseFormat.format(1/price.value) + ")",
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 1
-                                )
-                            }
+                        if (rate != null) {
+                            TableCell(
+                                format.format(rate.toDouble()),
+                                column2Weight
+                            )
                         } else {
                             Spacer(Modifier.weight(column2Weight))
                         }
@@ -321,13 +334,16 @@ fun RowScope.TableCell(
         text = text,
         modifier = Modifier
             .weight(weight)
-            .padding(8.dp),
+            .padding(vertical = 8.dp, horizontal = 4.dp),
         textAlign = TextAlign.Center,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         fontWeight = if (isHeader) FontWeight.SemiBold else FontWeight.Normal
     )
 }
+
+val BigDecimal.reciprocal
+    get() = BigDecimal.ONE.divide(this, MathContext.DECIMAL64)
 
 @Preview
 @Composable

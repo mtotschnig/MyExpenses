@@ -2,9 +2,12 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.os.Bundle
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.os.BundleCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -47,6 +50,11 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
 
     val commodity: String
         get() = savedStateHandle.get<String>(KEY_COMMODITY)!!
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var invertRate by savedStateHandle.saveable {
+        mutableStateOf(false)
+    }
 
     val relevantSources: List<ExchangeRateApi> by lazy {
         prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")

@@ -30,7 +30,7 @@ import java.text.DecimalFormatSymbols
 
 @Composable
 fun AmountEdit(
-    value: BigDecimal,
+    value: BigDecimal?,
     onValueChange: (BigDecimal) -> Unit,
     modifier: Modifier = Modifier,
     fractionDigits: Int = 2,
@@ -56,11 +56,11 @@ fun AmountEdit(
     }
 
     var text by rememberSaveable {
-        mutableStateOf(numberFormat.format(value))
+        mutableStateOf(value?.let { numberFormat.format(it) })
     }
 
     DenseTextField(
-        value = text,
+        value = text ?: "",
         onValueChange = { newValue ->
             val input = newValue.replace(otherSeparator, decimalSeparator)
             val decimalSeparatorCount = input.count { it == decimalSeparator }
@@ -98,7 +98,11 @@ fun DenseTextField(
     readOnly: Boolean = false
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
+    val colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
+        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+        focusedContainerColor = MaterialTheme.colorScheme.surface,
+        errorContainerColor = MaterialTheme.colorScheme.surface
+     )
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
@@ -127,7 +131,12 @@ fun DenseTextField(
                 bottom = 4.dp,
             ),
             container = {
-                OutlinedTextFieldDefaults.ContainerBox(true, isError, interactionSource, colors)
+                OutlinedTextFieldDefaults.Container(
+                    enabled = true,
+                    isError = isError,
+                    interactionSource = interactionSource,
+                    colors = colors
+                )
             },
             trailingIcon = trailingIcon
         )

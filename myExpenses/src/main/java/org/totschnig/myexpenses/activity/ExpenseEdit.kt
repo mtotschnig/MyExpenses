@@ -43,7 +43,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.content.IntentCompat
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -1042,7 +1041,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         if (operationType == TYPE_TRANSFER) {
-            menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+            menu.add(Menu.NONE, R.id.INVERT_COMMAND, 0, R.string.menu_invert_transfer)
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0, R.string.category).isCheckable = true
@@ -1148,7 +1147,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 return true
             }
 
-            R.id.INVERT_TRANSFER_COMMAND -> {
+            R.id.INVERT_COMMAND -> {
                 if (::delegate.isInitialized) {
                     (delegate as? TransferDelegate)?.invert()
                     return true

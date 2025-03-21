@@ -5,10 +5,8 @@ import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -175,7 +173,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
-            clickMenuItem(R.id.INVERT_TRANSFER_COMMAND)
+            clickMenuItem(R.id.INVERT_COMMAND)
             clickFab()
             composeTestRule.onNodeWithText(getString(R.string.saving_goal_exceeded)).isDisplayed()
         }
