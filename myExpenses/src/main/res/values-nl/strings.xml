@@ -896,4 +896,6 @@
     <string name="pref_sync_frequency_summary_0">Stel in op 0 om automatische synchronisatie uit te schakelen.</string>
     <string name="webui_download_no_data">Na het afdrukken, exporteren of maken van back-ups in de app kunnen de bestanden hier worden gedownload.</string>
     <string name="filter_dialog_empty">Nog geen criteria toegevoegd. Tik op de bovenstaande knoppen om je vraag te definiëren en je resultaten te verfijnen.</string>
+    <string name="quick_search">Snel zoeken</string>
+    <string name="complex_search">Complexe zoekopdracht</string>
 </resources>
