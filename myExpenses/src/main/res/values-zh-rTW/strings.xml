@@ -861,4 +861,6 @@
     <string name="content_description_attachment">附件</string>
     <string name="contact_us">聯絡我們</string>
     <string name="merge_categories_dialog_title">合併類別</string>
+    <string name="quick_search">快速搜尋</string>
+    <string name="complex_search">複雜搜索</string>
 </resources>
