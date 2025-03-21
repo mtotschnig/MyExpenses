@@ -1010,8 +1010,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun showSnackBar(
-        message: CharSequence, duration: Int, snackBarAction: SnackbarAction?,
-        callback: Snackbar.Callback?, container: View
+        message: CharSequence,
+        duration: Int,
+        snackBarAction: SnackbarAction?,
+        callback: Snackbar.Callback?,
+        container: View,
     ) {
         snackBar = Snackbar.make(container, message, duration).apply {
             UiUtils.increaseSnackbarMaxLines(this)

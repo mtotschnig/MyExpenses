@@ -176,6 +176,7 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ContribUtils
@@ -2190,14 +2191,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     override fun onFabClicked() {
         super.onFabClicked()
-        if (accountCount == 0) {
-            showSnackBar(R.string.warning_no_account)
-        } else {
-            if (isScanMode()) {
-                contribFeatureRequested(ContribFeature.OCR, true)
-            } else {
-                createRowDo(Transactions.TYPE_TRANSACTION, false)
-            }
+        when {
+            accountCount == 0 -> showSnackBar(R.string.warning_no_account)
+            currentAccount?.sealed == true -> showSnackBar(
+                message = getString(R.string.account_closed),
+                snackBarAction = SnackbarAction(getString(R.string.menu_reopen)) {
+                    dispatchCommand(R.id.TOGGLE_SEALED_COMMAND, null)
+                }
+            )
+            isScanMode() -> contribFeatureRequested(ContribFeature.OCR, true)
+            else -> createRowDo(Transactions.TYPE_TRANSACTION, false)
         }
     }
 
@@ -2270,7 +2273,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 hide()
             } else {
                 show()
-                isEnabled = !sealed
                 alpha = if (sealed) 0.5f else 1f
                 setImageResource(
                     when {

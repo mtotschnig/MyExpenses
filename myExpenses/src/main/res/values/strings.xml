@@ -1057,4 +1057,6 @@
     <string name="recalculate_only_missing">Only fill in missing values</string>
     <string name="quick_search">Quick search</string>
     <string name="complex_search">Complex search</string>
+    <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
+    <string name="account_closed">Account is closed</string>
 </resources>
