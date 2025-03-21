@@ -853,4 +853,6 @@
     <string name="budget_only_current_period">%s ಗೆ ಮಾತ್ರ ಹೊಂದಿಸಿ</string>
     <string name="one_time_payment">ಒಂದು ಬಾರಿ ಪಾವತಿ</string>
     <string name="archive">ಆರ್ಕೈವ್</string>
+    <string name="quick_search">ತ್ವರಿತ ಹುಡುಕಾಟ</string>
+    <string name="complex_search">ಸಂಕೀರ್ಣ ಹುಡುಕಾಟ</string>
 </resources>

@@ -1012,4 +1012,6 @@
     <string name="recalculate_equivalent_amounts_warning">Les montants équivalents seront (re)calculés si les taux de change stockés applicables sont disponibles.</string>
     <string name="dynamic_exchange_rate">Taux de change dynamique</string>
     <string name="current_value">Valeur actuelle</string>
+    <string name="complex_search">Recherche complexe</string>
+    <string name="quick_search">Recherche rapide</string>
 </resources>

@@ -1019,4 +1019,6 @@
     <string name="warning_delete_default_transfer_category">يتم تكوين الفئة %s كفئة نقل افتراضية ويجب عدم حذفها.</string>
     <string name="pref_sync_now_all_summary">%s مزامنة جميع الحسابات لنفس الواجهة الخلفية</string>
     <string name="merge_categories_dialog_title">دمج الفئات</string>
+    <string name="quick_search">البحث السريع</string>
+    <string name="complex_search">البحث المعقد</string>
 </resources>

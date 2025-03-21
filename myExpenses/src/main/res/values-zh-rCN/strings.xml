@@ -880,4 +880,6 @@
     <string name="add_shortcut">添加快捷方式</string>
     <string name="one_time_payment">一次性支付</string>
     <string name="archive">存档</string>
+    <string name="quick_search">快速搜索</string>
+    <string name="complex_search">复杂搜索</string>
 </resources>

@@ -934,4 +934,6 @@
     <string name="recalculate_only_missing">Udfyld kun manglende værdier</string>
     <string name="equivalent_amount_plural">Tilsvarende beløb</string>
     <string name="menu_recalculate">Genberegn</string>
+    <string name="quick_search">Hurtig søgning</string>
+    <string name="complex_search">Kompleks søgning</string>
 </resources>

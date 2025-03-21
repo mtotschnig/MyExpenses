@@ -898,4 +898,6 @@
     <string name="orphaned_transaction_align_date">Secara pilihan, tarikh yang disimpan dengan transaksi juga boleh diselaraskan dengan tarikh kejadian.</string>
     <string name="onboarding_privacy_intro">Data kewangan anda tidak dihantar ke mana-mana pelayan, tidak dikendalikan oleh kami mahupun oleh mana-mana pihak ketiga.</string>
     <string name="archive">Arkib</string>
+    <string name="quick_search">Carian pantas</string>
+    <string name="complex_search">Carian kompleks</string>
 </resources>

@@ -995,4 +995,6 @@
     <string name="progress_recalculating">Преизчисляване</string>
     <string name="filter_dialog_empty">Все още не са зададени критерии. Натиснете бутоните по-горе, за да определите заявката и да прецизирате резултатите.</string>
     <string name="dynamic_exchange_rate">Динамичен обменен курс</string>
+    <string name="quick_search">Бързо търсене</string>
+    <string name="complex_search">Сложно търсене</string>
 </resources>

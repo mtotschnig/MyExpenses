@@ -899,4 +899,6 @@
     <string name="button_relink_keep_date">Liên kết lại, nhưng vẫn giữ ngày</string>
     <string name="setup_completed">Thiết lập hoàn tất</string>
     <string name="archive">Lưu trữ</string>
+    <string name="quick_search">Tìm kiếm nhanh</string>
+    <string name="complex_search">Tìm kiếm phức tạp</string>
 </resources>

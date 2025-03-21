@@ -450,4 +450,6 @@
     <string name="file_name">檔案名稱</string>
     <string name="import_source_file">文件</string>
     <string name="pref_enter_licence_title">輸入鍵</string>
+    <string name="quick_search">快速搜索</string>
+    <string name="complex_search">複雜搜尋</string>
 </resources>

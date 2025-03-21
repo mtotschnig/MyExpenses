@@ -333,4 +333,6 @@
     <string name="synchronization">සමමුහුර්තකරණය</string>
     <string name="menu_budget">අයවැය සකස් කිරීම</string>
     <string name="archive">සංරක්ෂිතය</string>
+    <string name="quick_search">ඉක්මන් සෙවීම</string>
+    <string name="complex_search">සංකීර්ණ සෙවීම</string>
 </resources>

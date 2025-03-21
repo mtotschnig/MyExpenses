@@ -976,4 +976,6 @@
     <string name="warning_backend_deactivated">Arka uç eşzamanlanmaya hazır değil.</string>
     <string name="button_activate_again">Yeniden etkinleştir</string>
     <string name="saving_goal_short_fall">Eksiklik</string>
+    <string name="quick_search">Hızlı arama</string>
+    <string name="complex_search">Karmaşık arama</string>
 </resources>

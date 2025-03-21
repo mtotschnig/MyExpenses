@@ -984,4 +984,6 @@
     <string name="budget_import_can_be_imported">பின்வரும் வரவு செலவுத் திட்டங்களை இறக்குமதி செய்யலாம்:</string>
     <string name="budget_import_cannot_be_imported">பின்வரும் வரவு செலவுத் திட்டங்கள் ஒத்திசைக்கப்படாத கணக்குகளைக் குறிக்கின்றன:</string>
     <string name="budget_import_none_found">வரவு செலவுத் திட்டங்கள் எதுவும் கிடைக்கவில்லை.</string>
+    <string name="quick_search">விரைவான தேடல்</string>
+    <string name="complex_search">சிக்கலான தேடல்</string>
 </resources>

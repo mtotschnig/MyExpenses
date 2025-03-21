@@ -932,4 +932,6 @@
     <string name="pref_sync_frequency_summary_0">Postavi na 0 za deaktiviranje automatske sinkronizacije.</string>
     <string name="webui_download_no_data">Nakon ispisa, izvoza ili izrade sigurnosnih kopija u aplikaciji, datoteke će ovdje biti dostupne za preuzimanje.</string>
     <string name="content_description_equivalent_amount">Definiraj vrijednost ove transakcije u svojoj domaćoj valuti. Umjesto unosa iznosa, za izračunavanje vrijednosti možeš unijeti tečaj.</string>
+    <string name="quick_search">Brza pretraga</string>
+    <string name="complex_search">Složena pretraga</string>
 </resources>

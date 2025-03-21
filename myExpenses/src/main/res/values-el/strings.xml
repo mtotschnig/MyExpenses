@@ -908,4 +908,6 @@
     <string name="icons_for_categories">Εικονίδια για κατηγορίες</string>
     <string name="debt_installment_receive">Λαμβάνω μια δόση ύψους %s.</string>
     <string name="archive">Αρχείο</string>
+    <string name="complex_search">Σύνθετη αναζήτηση</string>
+    <string name="quick_search">Γρήγορη αναζήτηση</string>
 </resources>

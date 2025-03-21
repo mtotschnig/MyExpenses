@@ -952,4 +952,6 @@
     <string name="orphaned_transaction_align_date">Opcionálisan a tranzakcióval tárolt dátum is igazítható a példány dátumához.</string>
     <string name="pref_attachment_mime_types_title">Mellékletekhez engedélyezett MIME-típusok</string>
     <string name="archive">Archívum</string>
+    <string name="quick_search">Gyors keresés</string>
+    <string name="complex_search">Komplex keresés</string>
 </resources>

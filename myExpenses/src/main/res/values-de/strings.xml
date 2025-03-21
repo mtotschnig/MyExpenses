@@ -999,4 +999,6 @@
     <string name="dynamic_exchange_rate">Dynamischer Wechselkurs</string>
     <string name="equivalent_amount_plural">Gleichwertige Beträge</string>
     <string name="menu_recalculate">Neuberechnung</string>
+    <string name="quick_search">Schnellsuche</string>
+    <string name="complex_search">Komplexe Suche</string>
 </resources>
