@@ -769,4 +769,6 @@
     <string name="webui_warning_move_transaction">లావాదేవీ ఖాతా {account}కి తరలించబడుతుంది.</string>
     <string name="one_time_payment">వన్-టైమ్ చెల్లింపు</string>
     <string name="archive">ఆర్కైవ్ చేయండి</string>
+    <string name="quick_search">శీఘ్ర శోధన</string>
+    <string name="complex_search">సంక్లిష్ట శోధన</string>
 </resources>
