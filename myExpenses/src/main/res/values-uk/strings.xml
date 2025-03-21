@@ -970,4 +970,6 @@
     <string name="pref_sync_frequency_summary_0">Встановіть 0, щоб вимкнути автоматичну синхронізацію.</string>
     <string name="webui_download_no_data">Після друку, експорту або створення резервних копій у програмі, файли будуть доступні для завантаження звідси.</string>
     <string name="filter_dialog_empty">Критерії ще не додано. Натисніть на кнопки вище, щоб визначити свій запит і уточнити результати.</string>
+    <string name="quick_search">Швидкий пошук</string>
+    <string name="complex_search">Комплексний пошук</string>
 </resources>
