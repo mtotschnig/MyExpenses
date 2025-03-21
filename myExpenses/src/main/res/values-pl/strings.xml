@@ -928,4 +928,6 @@
     <string name="pref_planner_manual_time_noon">12:00 (południe)</string>
     <string name="debt_installment_receive">Otrzymuję ratę w wysokości %s.</string>
     <string name="archive">Archiwum</string>
+    <string name="quick_search">Szybkie wyszukiwanie</string>
+    <string name="complex_search">Złożone wyszukiwanie</string>
 </resources>
