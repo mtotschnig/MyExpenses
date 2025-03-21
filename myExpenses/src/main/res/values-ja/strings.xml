@@ -756,4 +756,6 @@
     <string name="one_time_payment">１回限りの課金</string>
     <string name="merge_categories_dialog_title">カテゴリのマージ</string>
     <string name="archive">アーカイブ</string>
+    <string name="quick_search">クイック検索</string>
+    <string name="complex_search">複雑な検索</string>
 </resources>
