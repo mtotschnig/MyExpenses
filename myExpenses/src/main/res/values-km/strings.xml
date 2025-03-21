@@ -343,4 +343,6 @@
     <string name="menu_budget">ថវិកា</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">កែកំហុស</string>
     <string name="archive">ប័ណ្ណសារ</string>
+    <string name="quick_search">ស្វែងរករហ័ស</string>
+    <string name="complex_search">ការស្វែងរកស្មុគស្មាញ</string>
 </resources>
