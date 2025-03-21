@@ -984,4 +984,6 @@
     <string name="pref_scroll_to_current_date_app_launch">solo all\'avvio dell\'app</string>
     <string name="pref_scroll_to_current_date_account_open">Ogni volta che accedi all\'conto</string>
     <string name="buy">Comprare</string>
+    <string name="quick_search">Ricerca rapida</string>
+    <string name="complex_search">Ricerca complessa</string>
 </resources>
