@@ -976,4 +976,6 @@
     <string name="pref_scroll_to_current_date_title">גלילת רשימת העסקאות לתאריך הנוכחי</string>
     <string name="pref_scroll_to_current_date_app_launch">רק עם עליית היישום</string>
     <string name="pref_scroll_to_current_date_account_open">עם כל ניווט לחשבון</string>
+    <string name="quick_search">חיפוש מהיר</string>
+    <string name="complex_search">חיפוש מורכב</string>
 </resources>
