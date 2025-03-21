@@ -913,4 +913,6 @@
     <string name="pref_sync_now_all_summary">%s sincronizează toate conturile pentru același back-end</string>
     <string name="not_enough_data">Nu sunt suficiente date</string>
     <string name="archive">Arhivă</string>
+    <string name="complex_search">Căutare complexă</string>
+    <string name="quick_search">Căutare rapidă</string>
 </resources>
