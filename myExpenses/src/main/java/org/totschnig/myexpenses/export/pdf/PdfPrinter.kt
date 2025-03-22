@@ -11,6 +11,7 @@ import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.Phrase
 import com.itextpdf.text.Rectangle
 import com.itextpdf.text.pdf.ColumnText
 import com.itextpdf.text.pdf.PdfContentByte
@@ -67,6 +68,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.abs
+import kotlin.math.sign
 
 
 object PdfPrinter {
@@ -161,7 +163,7 @@ object PdfPrinter {
                         cb: PdfContentByte,
                         content: PrefKey,
                         horizontalPosition: HorizontalPosition,
-                        verticalPosition: VerticalPosition
+                        verticalPosition: VerticalPosition,
                     ) {
                         prefHandler.getString(content)?.let {
                             val text = it
@@ -202,17 +204,33 @@ object PdfPrinter {
             document.open()
             try {
                 addMetaData(document, account.label)
+                val subTitle2 = Phrase()
+                subTitle2.addAll(
+                    helper.print0(
+                        context.getString(R.string.current_balance) + " : ",
+                        FontType.BOLD
+                    )
+                )
+                subTitle2.addAll(
+                    helper.print0(
+                        currencyFormatter.formatMoney(
+                            Money(
+                                currencyUnit,
+                                account.currentBalance
+                            )
+                        ),
+                        when(account.currentBalance.sign) {
+                            1 -> FontType.INCOME_BOLD
+                            -1 -> FontType.EXPENSE_BOLD
+                            else -> FontType.BOLD
+                        }
+                    )
+                )
                 addHeader(
                     document,
                     helper,
                     account.label,
-                    context.getString(R.string.current_balance) + " : " +
-                            currencyFormatter.formatMoney(
-                                Money(
-                                    currencyUnit,
-                                    account.currentBalance
-                                )
-                            ),
+                    subTitle2,
                     filter?.prettyPrint(context)
                 )
                 addTransactionList(
@@ -244,12 +262,12 @@ object PdfPrinter {
         document: Document,
         helper: PdfHelper,
         title: String,
-        subTitle: String,
-        subTitle2: String?
+        subTitle: Phrase,
+        subTitle2: String?,
     ) {
         val preface = PdfPTable(1)
         preface.addCell(helper.printToCell(title, FontType.TITLE))
-        preface.addCell(helper.printToCell(subTitle, FontType.BOLD))
+        preface.addCell(helper.printToCell(subTitle))
         subTitle2?.let {
             preface.addCell(helper.printToCell(it, FontType.BOLD))
         }
@@ -270,7 +288,7 @@ object PdfPrinter {
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
         currencyContext: CurrencyContext,
-        withOriginalAmount: Boolean
+        withOriginalAmount: Boolean,
     ) {
         val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
@@ -354,19 +372,19 @@ object PdfPrinter {
                 table.widthPercentage = 100f
                 cell = helper.printToCell(
                     "+ " + currencyFormatter.formatMoney(sumIncome),
-                    FontType.NORMAL
+                    FontType.INCOME
                 )
                 cell.horizontalAlignment = Element.ALIGN_CENTER
                 table.addCell(cell)
                 cell = helper.printToCell(
                     "- " + currencyFormatter.formatMoney(sumExpense.negate()),
-                    FontType.NORMAL
+                    FontType.EXPENSE
                 )
                 cell.horizontalAlignment = Element.ALIGN_CENTER
                 table.addCell(cell)
                 cell = helper.printToCell(
                     Transfer.BI_ARROW + " " + currencyFormatter.formatMoney(sumTransfer),
-                    FontType.NORMAL
+                    FontType.TRANSFER
                 )
                 cell.horizontalAlignment = Element.ALIGN_CENTER
                 table.addCell(cell)
@@ -382,7 +400,7 @@ object PdfPrinter {
                                 val phrase = cell.phrase
                                 if (phrase != null) {
                                     val chunks = phrase.chunks
-                                    if (chunks.size > 0) {
+                                    if (chunks.isNotEmpty()) {
                                         val attributes = chunks[0].attributes
                                         if (attributes != null) {
                                             return attributes[Chunk.GENERICTAG]
@@ -400,7 +418,7 @@ object PdfPrinter {
                         heights: FloatArray,
                         headerRows: Int,
                         rowStart: Int,
-                        canvases: Array<PdfContentByte>
+                        canvases: Array<PdfContentByte>,
                     ) {
                         for (row in rowStart until widths.size) {
                             if (VOID_MARKER == findFirstChunkGenericTag(table1.getRow(row))) {

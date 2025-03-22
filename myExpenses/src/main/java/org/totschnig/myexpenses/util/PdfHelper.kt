@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util
 
-import android.text.TextUtils
 import android.view.View
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Font
@@ -17,6 +16,7 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 import androidx.core.text.layoutDirection
+import com.itextpdf.text.Chunk
 
 class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private var lfs: LazyFontSelector?
@@ -28,6 +28,9 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private val fUnderline: Font by lazy { convertFallback(FontType.UNDERLINE) }
     private val fIncome: Font by lazy { convertFallback(FontType.INCOME) }
     private val fExpense: Font by lazy { convertFallback(FontType.EXPENSE) }
+    private val fTransfer: Font by lazy { convertFallback(FontType.TRANSFER) }
+    private val fIncomeBold: Font by lazy { convertFallback(FontType.INCOME_BOLD) }
+    private val fExpenseBold: Font by lazy { convertFallback(FontType.EXPENSE_BOLD) }
 
     private val layoutDirectionFromLocaleIsRTL: Boolean
 
@@ -97,7 +100,41 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     }
 
     @Throws(DocumentException::class, IOException::class)
-    fun print(text: String, font: FontType) = lfs?.process(text, font) ?: when (font) {
+    fun printToCell(phrase: Phrase): PdfPCell {
+        val cell = PdfPCell(phrase)
+        if (hasAnyRtl(phrase.content)) {
+            cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
+        cell.border = Rectangle.NO_BORDER
+        return cell
+    }
+
+    fun List<Chunk>.join() = Phrase().also { phrase ->
+        forEach { phrase.add(it) }
+    }
+
+    /**
+     * variant of [print] that returns list of Chunks instead of Phrase
+     */
+    @Throws(DocumentException::class, IOException::class)
+    fun print0(text: String, font: FontType) = lfs?.process(text, font) ?: listOf(
+        when (font) {
+            FontType.BOLD -> Chunk(text, fBold)
+            FontType.EXPENSE -> Chunk(text, fExpense)
+            FontType.HEADER -> Chunk(text, fHeader)
+            FontType.INCOME -> Chunk(text, fIncome)
+            FontType.ITALIC -> Chunk(text, fItalic)
+            FontType.NORMAL -> Chunk(text, fNormal)
+            FontType.TITLE -> Chunk(text, fTitle)
+            FontType.UNDERLINE -> Chunk(text, fUnderline)
+            FontType.INCOME_BOLD -> Chunk(text, fIncomeBold)
+            FontType.EXPENSE_BOLD -> Chunk(text, fExpenseBold)
+            FontType.TRANSFER ->  Chunk(text, fTransfer)
+        }
+    )
+
+    @Throws(DocumentException::class, IOException::class)
+    fun print(text: String, font: FontType) = lfs?.process(text, font)?.join() ?: when (font) {
         FontType.BOLD -> Phrase(text, fBold)
         FontType.EXPENSE -> Phrase(text, fExpense)
         FontType.HEADER -> Phrase(text, fHeader)
@@ -106,6 +143,9 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         FontType.NORMAL -> Phrase(text, fNormal)
         FontType.TITLE -> Phrase(text, fTitle)
         FontType.UNDERLINE -> Phrase(text, fUnderline)
+        FontType.INCOME_BOLD -> Phrase(text, fIncomeBold)
+        FontType.EXPENSE_BOLD -> Phrase(text, fExpenseBold)
+        FontType.TRANSFER -> Phrase(text, fTransfer)
     }
 
     fun emptyCell(): PdfPCell {

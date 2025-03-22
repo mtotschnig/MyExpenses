@@ -5,7 +5,6 @@ import com.itextpdf.text.BaseColor
 import com.itextpdf.text.Chunk
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Font
-import com.itextpdf.text.Phrase
 import com.itextpdf.text.Utilities
 import com.itextpdf.text.error_messages.MessageLocalization
 import com.itextpdf.text.pdf.BaseFont
@@ -23,7 +22,10 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         ITALIC(1f, Font.ITALIC, null),
         UNDERLINE(1f, Font.UNDERLINE, null),
         INCOME(1f, Font.NORMAL, BaseColor(-0xff9800)), //#FF006800
-        EXPENSE(1f, Font.NORMAL, BaseColor(-0x800000)); //#FF800000
+        EXPENSE(1f, Font.NORMAL, BaseColor(-0x800000)), //#FF800000
+        TRANSFER(1f, Font.NORMAL, BaseColor(-16777088)), //#FF000080
+        INCOME_BOLD(1f, Font.BOLD, BaseColor(-0xff9800)), //#FF006800
+        EXPENSE_BOLD(1f, Font.BOLD, BaseColor(-0x800000)); //#FF800000
 
         private val fonts: SparseArray<Font> = SparseArray()
 
@@ -59,28 +61,29 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
      * @return a <CODE>Phrase</CODE> with one or more chunks
      */
     @Throws(DocumentException::class, IOException::class)
-    fun process(text: String, type: FontType): Phrase {
+    fun process(text: String, type: FontType): List<Chunk> {
         if (files.isEmpty()) throw IndexOutOfBoundsException(
             MessageLocalization.getComposedMessage("no.font.is.defined")
         )
         val cc = text.toCharArray()
         val len = cc.size
         val sb = StringBuffer()
-        val ret = Phrase()
-        currentFont = null
-        for (k in 0 until len) {
-            val newChunk = processChar(cc, k, sb, type)
-            if (newChunk != null) {
-                ret.add(newChunk)
+        return buildList {
+            currentFont = null
+            for (k in 0 until len) {
+                val newChunk = processChar(cc, k, sb, type)
+                if (newChunk != null) {
+                    add(newChunk)
+                }
+            }
+            if (sb.isNotEmpty()) {
+                val ck = Chunk(
+                    sb.toString(),
+                    currentFont ?: getFont(0, type)
+                )
+                add(ck)
             }
         }
-        if (sb.isNotEmpty()) {
-            val ck = Chunk(
-                sb.toString(), currentFont ?: getFont(0, type)
-            )
-            ret.add(ck)
-        }
-        return ret
     }
 
     @Throws(DocumentException::class, IOException::class)
