@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.model.SortDirection.DESC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.sync.GenericAccountService
+import androidx.core.view.get
+import androidx.core.view.size
 
 fun configureSearch(activity: Activity, menu: Menu, callback: (String) -> Boolean) {
     (activity.getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.let { manager ->
@@ -85,10 +87,10 @@ fun configureSortDirectionMenu(
     context: Context,
     subMenu: SubMenu,
     currentSortBy: String,
-    currentSortDirection: SortDirection
+    currentSortDirection: SortDirection,
 ) {
-    for (i in 0 until subMenu.size()) {
-        val item = subMenu.getItem(i)
+    for (i in 0 until subMenu.size) {
+        val item = subMenu[i]
         val date = context.getString(R.string.date)
         val amount = context.getString(R.string.amount)
         val ascending = context.getString(R.string.sort_direction_ascending)

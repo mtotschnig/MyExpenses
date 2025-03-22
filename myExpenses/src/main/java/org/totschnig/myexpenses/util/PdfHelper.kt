@@ -16,6 +16,7 @@ import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
+import androidx.core.text.layoutDirection
 
 class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private var lfs: LazyFontSelector?
@@ -32,8 +33,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
 
     init {
         val l = Locale.getDefault()
-        layoutDirectionFromLocaleIsRTL = (TextUtils.getLayoutDirectionFromLocale(l)
-                == View.LAYOUT_DIRECTION_RTL)
+        layoutDirectionFromLocaleIsRTL = (l.layoutDirection == View.LAYOUT_DIRECTION_RTL)
         lfs = if (memoryClass >= 32) {
             //we want the Default Font to be used first
             try {
