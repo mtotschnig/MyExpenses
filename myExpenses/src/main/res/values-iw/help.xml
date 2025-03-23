@@ -209,20 +209,20 @@
     <string name="help_ManageParties_mergeMode_info_1">נא לבחור את הגופים הכפולים למיזוג.</string>
     <string name="help_ManageTags_context_menu_info">יש לגעת בסמל &lt;img src=more&gt; כדי לערוך, להקצות צבע או למחוק תגית.</string>
     <string name="cab_MyExpenses_filter_help_text">חיפוש עסקאות עם אותם נכסים.</string>
-    <string name="cab_PriceHistory_download_help_text">הורד את התעריף עבור התאריך הנתון מהספק המוגדר. חלק מהספקים לא יספקו תעריפים לכל תאריך, למשל. לסופי שבוע או לחגים, ובמקום זאת להחזיר תעריף מוקדם יותר.</string>
-    <string name="cab_PriceHistory_add_help_text">הזן ידנית את התעריף עבור התאריך הנתון. לתעריף שסופק על ידי המשתמש יש עדיפות על תעריפים שהורדו.</string>
-    <string name="dynamic_exchange_rate_help_text_1">אם חשבון מטבע חוץ מוגדר לשימוש בשערי חליפין דינמיים, תוכל להגדיר סכום שווה ערך ספציפי לכל עסקה.</string>
+    <string name="cab_PriceHistory_download_help_text">הורדת התעריף עבור התאריך הנתון מהספק המוגדר. חלק מהספקים לא יספקו תעריפים לכל תאריך, למשל. לסופי שבוע או לחגים, ובמקום זאת להחזיר תעריף מוקדם יותר.</string>
+    <string name="cab_PriceHistory_add_help_text">נא למלא ידנית את התעריף עבור התאריך הנתון. לתעריף שסופק על ידי המשתמש יש עדיפות על תעריפים שהורדו.</string>
+    <string name="dynamic_exchange_rate_help_text_1">אם חשבון מטבע חוץ מוגדר לשימוש בשערי חליפין דינמיים, אפשר להגדיר סכום מקביל נקודתי לכל עסקה.</string>
     <string name="dynamic_exchange_rate_help_text_3">האפשרות %s מאפשרת לך לעקוב אחר השווי הנקי המעודכן של כל החשבונות שלך.</string>
     <string name="help_user_exchange_rate">תעריף זה סופק על ידי המשתמש בעת עריכת הסכום המקביל של עסקה.</string>
     <string name="help_calculated_exchange_rate">שער זה חושב באופן אוטומטי מהשערים הקיימים, כאשר המטבע הביתי הוגדר מחדש.</string>
     <string name="cab_ManageCategories_merge_help_text">ניתן למזג קטגוריות מאותו סוג.</string>
-    <string name="help_PriceHistory_info">ניתן להגדיר חשבונות במטבע חוץ לשימוש בשערי חליפין דינמיים. עבור כל יום אתה יכול להוריד או להזין שער ספציפי ביחס למטבע הביתי שלך. מסך זה מציג תעריפים מאוחסנים עבור מטבע נתון עבור כל יום עד לתאריך העסקה הישנה ביותר. מקור התעריף מצוין כדלקמן:</string>
+    <string name="help_PriceHistory_info">ניתן להגדיר חשבונות במטבע חוץ לשימוש בשערי חליפין דינמיים. עבור כל יום אפשר להוריד או להזין שער מסוים ביחס למטבע הביתי שלך. מסך זה מציג תעריפים מאוחסנים עבור מטבע נתון עבור כל יום עד לתאריך העסקה הישנה ביותר. מקור התעריף מצוין כדלקמן:</string>
     <string name="dynamic_exchange_rate_help_text_2">הערך הנוכחי של חשבון מטבע חוץ עם שערי חליפין דינמיים מחושב על סמך שער החליפין העדכני ביותר.</string>
     <string name="menu_archive_help_text">לאחר בחירת טווח תאריכים, כל העסקאות לתקופה זו יתגלגלו לעסקת סיכום ארכיון. פעולה זו תנקה את רשימת העסקאות, אך עדיין ניתן לבדוק את העסקאות בארכיון, ובמידת הצורך לפרוק שוב.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">כשאפשרות זו מסומנת, תוכל לראות כיצד כל חשבון במטבע חוץ תורם לסך הכולל במטבע הביתי שלך. אם חשבון אינו משתמש בשערי חליפין דינמיים, ערכו מחושב על סמך השער שנקבע במאפייני החשבון. אחרת:</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">ה<b>ערך הראשוני</b> מבוסס על התעריף שנקבע בנכסי החשבון.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>סכומי הכנסות והוצאות</b> מחושבים לפי הסכומים השווים שצוינו עבור כל עסקה.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">ה<b>ערך הנוכחי</b> מבוסס על שער החליפין העדכני ביותר עבור מטבע החשבון.</string>
-    <string name="menu_chart_help_text">החלף את החשיפה של התרשים.</string>
+    <string name="menu_chart_help_text">החלפת מצב חשיפת התרשים.</string>
     <string name="menu_ManageBudgets_grouping_help_text">ניתן לקבץ את רשימת התקציבים לפי חשבון או לפי סוג תקציב.</string>
 </resources>
