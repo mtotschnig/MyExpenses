@@ -134,6 +134,27 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.7
+      - '2025-03-24'
+      - bg: Бързо търсене / Сложно търсене
+        cs: Snadné hledání / Komplexní vyhledávání
+        de: Schnellsuche / Komplexe Suche
+        el: Γρήγορη αναζήτηση / Σύνθετη αναζήτηση
+        es: Búsqueda rápida / Búsqueda compleja
+        fr: Recherche rapide / Recherche complexe
+        hr: Brza pretraga / Složena pretraga
+        hu: Gyors keresés / Komplex keresés
+        it: Ricerca rapida / Ricerca complessa
+        iw: חיפוש מהיר / חיפוש מורכב
+        nl: Snel zoeken / Complexe zoekopdracht
+        pl: Szybkie wyszukiwanie / Złożone wyszukiwanie
+        pt: Pesquisa rápida / Pesquisa complexa
+        ro: Căutare rapidă / Căutare complexă
+        tr: Hızlı arama / Karmaşık arama
+        vi: Tìm kiếm nhanh / Tìm kiếm phức tạp
+        en: Quick search / Complex search
+      - github2: '159'
+        mastodon: '114200685512601412'
   -   - 3.9.6
       - '2025-03-15'
       - bg: Подобрено управление на сметки в чуждестранна валута с автоматични актуализации
