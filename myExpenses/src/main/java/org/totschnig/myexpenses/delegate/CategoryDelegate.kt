@@ -98,17 +98,11 @@ class CategoryDelegate(
                 setMethodSelection()
             }
         }
-        if (data.accountId != null) {
-            val accountId = data.accountId
-            var i = 0
-            while (i < mAccounts.size) {
-                if (mAccounts[i].id == accountId) {
-                    accountSpinner.setSelection(i)
-                    updateAccount(mAccounts[i], false)
-                    break
-                }
-                i++
-            }
+        if (data.accountId != null && data.accountId != accountId) {
+            val oldAccount = mAccounts.first { it.id == accountId }
+            val newAccountIndex = mAccounts.indexOfFirst { it.id == data.accountId }
+            accountSpinner.setSelection(newAccountIndex)
+            updateAccount(mAccounts[newAccountIndex], mAccounts[newAccountIndex].currency.code != oldAccount.currency.code)
         }
         if (data.debtId != null) {
             debtId = data.debtId

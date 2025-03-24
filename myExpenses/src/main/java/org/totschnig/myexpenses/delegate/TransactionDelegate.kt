@@ -639,8 +639,9 @@ abstract class TransactionDelegate<T : ITransaction>(
             }
 
             accountSpinner.id -> {
-                val account = mAccounts[position]
-                updateAccount(account, false)
+                val oldAccount = mAccounts.first { it.id == accountId }
+                val newAccount = mAccounts[position]
+                updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                 host.maybeApplyDynamicColor()
             }
 
