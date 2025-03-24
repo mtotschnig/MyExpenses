@@ -1146,6 +1146,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, false);
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
+    } else if (uriMatch == PRICES) {
+      notifyChange(ACCOUNTS_URI, false);
     }
     return id > 0 ? newUri : null;
   }
@@ -1308,6 +1310,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
       } else if (uriMatch == BANK_ID) {
+        notifyChange(ACCOUNTS_URI, false);
+      } else if (uriMatch == PRICES) {
         notifyChange(ACCOUNTS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
