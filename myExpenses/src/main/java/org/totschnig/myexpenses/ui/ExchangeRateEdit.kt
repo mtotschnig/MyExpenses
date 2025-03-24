@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.databinding.ExchangeRatesBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
+import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.setEnabledWithColor
 import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
@@ -194,7 +195,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     }
 
     private fun setSymbols(group: ExchangeRateBinding, symbol1: String, symbol2: String) {
-        group.ExchangeRateLabel1.text = String.format("1 %s =", symbol1)
+        group.ExchangeRateLabel1.text = String.format("1 %s =", isolateText(symbol1))
         group.ExchangeRateLabel2.text = symbol2
     }
 

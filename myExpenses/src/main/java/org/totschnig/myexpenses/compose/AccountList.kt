@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.compose
 
 import android.content.Context
 import android.os.Bundle
-import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
@@ -68,6 +67,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOM
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
@@ -387,16 +387,19 @@ fun AccountCard(
                 strokeWidth
             )
         }
+
+        val homeCurrency = LocalHomeCurrency.current
+        val accountCurrencyIsolated = isolateText(account.currencyUnit.symbol)
+        val homeCurrencyIsolated = isolateText(homeCurrency.symbol)
         AnimatedVisibility(visibleState) {
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
                 account.description?.let { Text(it) }
-                val homeCurrency = LocalHomeCurrency.current
                 val isFx = account.currency != homeCurrency.code
                 val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
                 val currency = if (showEquivalent) homeCurrency else account.currencyUnit
 
-                val fXFormat = remember { DecimalFormat("#.#####") }
+                val fXFormat = remember { DecimalFormat("#.##################") }
                 SumRow(
                     if (showEquivalent) R.string.initial_value else R.string.opening_balance,
                     format.convAmount(
@@ -405,7 +408,7 @@ fun AccountCard(
                     )
                 )
                 if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
-                    Text("1 ${account.currencyUnit.symbol} = ${fXFormat.format(account.initialExchangeRate)} ${homeCurrency.symbol}")
+                    Text("1 $accountCurrencyIsolated = ${fXFormat.format(account.initialExchangeRate)} $homeCurrencyIsolated")
                 }
                 val displayIncome =
                     if (showEquivalent) account.equivalentSumIncome else account.sumIncome
@@ -458,7 +461,7 @@ fun AccountCard(
                     account.latestExchangeRate?.let { (date, rate) ->
                         val dateFormatted = LocalDateFormatter.current.format(date)
                         Text(
-                            "1 ${account.currencyUnit.symbol} = ${fXFormat.format(rate)} ${homeCurrency.symbol} ($dateFormatted)"
+                            "1 $accountCurrencyIsolated = ${fXFormat.format(rate)} $homeCurrencyIsolated ($dateFormatted)"
                         )
                     }
                 }
@@ -524,4 +527,11 @@ private fun AccountPreview() {
             excludeFromTotals = true
         )
     )
+}
+
+@Preview
+@Composable
+fun MixedText() {
+    val symbol = '﷼'
+    Text("1 $symbol = 345 \$")
 }

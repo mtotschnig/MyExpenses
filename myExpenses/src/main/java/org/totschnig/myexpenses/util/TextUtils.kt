@@ -98,3 +98,9 @@ val Context.quotationEnd: String
             .getDelimiter(LocaleData.QUOTATION_END) else "\""
 
 fun Context.localizedQuote(input: String) = "$quotationStart$input$quotationEnd"
+
+/**
+ * surrounds text with Unicode isolate characters in order to prevent it from having affect on surrounding text
+ *
+ */
+fun isolateText(text: String) = "\u2068$text\u2069"
