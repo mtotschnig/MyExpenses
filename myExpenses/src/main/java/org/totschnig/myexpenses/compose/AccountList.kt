@@ -225,7 +225,7 @@ fun AccountCard(
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
-    val context = LocalActivity.current as FragmentActivity
+    val context = LocalContext.current
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -347,22 +347,24 @@ fun AccountCard(
                                     icon = Icons.Default.Calculate,
                                     command = "RECALCULATE",
                                     action = {
-                                        ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                            putCharSequence(
-                                                KEY_MESSAGE,
-                                                context.getString(R.string.recalculate_equivalent_amounts_warning)
-                                            )
-                                            putInt(KEY_COMMAND_POSITIVE, R.id.RECALCULATE_COMMAND)
-                                            putString(
-                                                ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                                                context.getString(R.string.recalculate_only_missing)
-                                            )
-                                            putBoolean(
-                                                ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
-                                                true
-                                            )
-                                            putLong(KEY_ROWID, account.id)
-                                        }).show(context.supportFragmentManager, "RECALCULATE")
+                                        if (context is FragmentActivity) {
+                                            ConfirmationDialogFragment.newInstance(Bundle().apply {
+                                                putCharSequence(
+                                                    KEY_MESSAGE,
+                                                    context.getString(R.string.recalculate_equivalent_amounts_warning)
+                                                )
+                                                putInt(KEY_COMMAND_POSITIVE, R.id.RECALCULATE_COMMAND)
+                                                putString(
+                                                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                                                    context.getString(R.string.recalculate_only_missing)
+                                                )
+                                                putBoolean(
+                                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
+                                                    true
+                                                )
+                                                putLong(KEY_ROWID, account.id)
+                                            }).show(context.supportFragmentManager, "RECALCULATE")
+                                        }
                                     }
                                 )
                             )
