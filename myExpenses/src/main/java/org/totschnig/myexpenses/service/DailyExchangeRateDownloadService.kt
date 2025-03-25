@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.service
 
 import android.content.Context
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -17,18 +20,22 @@ import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHA
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMapToList
-import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
+import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -59,6 +66,10 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 initialDelayMillis?.let {
                     setInitialDelay(it, TimeUnit.MILLISECONDS)
                 }
+                setConstraints(Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build())
+                setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(40))
             }.build()
         }
 
@@ -104,10 +115,11 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
             ContribUtils.showContribNotification(applicationContext, ContribFeature.AUTOMATIC_FX_DOWNLOAD)
             return Result.failure()
         }
-        applicationContext.contentResolver.query(
-            TransactionProvider.ACCOUNTS_URI,
+        @Suppress("RemoveRedundantQualifierName")
+        val result: List<kotlin.Result<Unit>>? = applicationContext.contentResolver.query(
+            TransactionProvider.ACCOUNTS_MINIMAL_URI,
             arrayOf("distinct $KEY_CURRENCY"),
-            "$KEY_DYNAMIC AND $KEY_CURRENCY != ?",
+            "$KEY_DYNAMIC AND $KEY_CURRENCY != ? AND NOT EXISTS(SELECT 1 from $TABLE_PRICES where $KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY and $KEY_DATE = date('now'))",
             arrayOf(currencyContext.homeCurrencyString),
             null
         )
@@ -115,13 +127,13 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 val currency = it.getString(0)
                 prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${currency}")
                     ?.takeIf { it != SERVICE_DEACTIVATED }
-                    ?.let { ExchangeRateApi.getByName(it)!! to currency }
+                    ?.let { ExchangeRateApi.getByName(it) to currency }
             }
             ?.filterNotNull()
             ?.groupBy({ it.first }, { it.second })
-            ?.forEach { (source, symbols) ->
+            ?.map { (source, symbols) ->
                 runCatching {
-                    Timber.d("Loading ${symbols.joinToString()} from $source")
+                    Timber.d("Loading ${symbols.joinToString()} from $source (attempt $runAttemptCount)")
                     val apiKey =
                         (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler)
                     val base = currencyContext.homeCurrencyString
@@ -137,10 +149,16 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     }
                 }.onFailure {
                     CrashHandler.report(it)
-                    notify(it.safeMessage)
                 }
             }
-        enqueueOrCancel(applicationContext, prefHandler)
-        return Result.success()
+        return if (result?.any { it.isFailure } == true) {
+            if (runAttemptCount == 4) {
+                notify("Download of exchange rates failed five times. Giving up.")
+                Result.failure()
+            } else Result.retry()
+        } else {
+            enqueueOrCancel(applicationContext, prefHandler)
+            Result.success()
+        }
     }
 }

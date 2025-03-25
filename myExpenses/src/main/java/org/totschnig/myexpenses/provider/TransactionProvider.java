@@ -585,7 +585,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           return c;
         } else {
           sortOrder = KEY_HIDDEN + ", " + sortOrder;
-          qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
+          qb = SupportSQLiteQueryBuilder.builder(minimal ? TABLE_ACCOUNTS : getAccountsWithExchangeRate());
           if (projection == null)
             projection = org.totschnig.myexpenses.model2.Account.Companion.getPROJECTION();
           break;
