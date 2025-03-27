@@ -786,3 +786,13 @@ fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String = query(
     it.moveToFirst()
     it.getString(0)
 }
+
+fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String) = query(
+    table = TABLE_TRANSACTIONS,
+    columns = arrayOf(KEY_ROWID),
+    selection = "$KEY_UUID = ?",
+    selectionArgs = arrayOf(uuid)
+).use {
+    it.moveToFirst()
+    it.getLong(0)
+}

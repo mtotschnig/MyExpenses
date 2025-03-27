@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.content.ContentUris
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -7,20 +8,22 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -167,6 +170,32 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
             it.moveToFirst()
             it.getInt(0)
         }
+    }
+
+    @Test
+    fun ungroupSplit() {
+        prefHandler.putString(PrefKey.HOME_CURRENCY, "USD")
+        val homeCurrency = currencyContext.homeCurrencyUnit
+        val account = Account(label = "Account 2", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+            .createIn(repository)
+        val (split, part1, part2) = with(SplitTransaction.getNewInstance(contentResolver, account.id, CurrencyUnit.DebugInstance)) {
+            amount = Money(CurrencyUnit.DebugInstance, 10000)
+            status = STATUS_NONE
+            equivalentAmount = Money(homeCurrency, 5000)
+            save(contentResolver, true)
+            val part = Transaction.getNewInstance(accountId, CurrencyUnit.DebugInstance, id)
+            part.amount = Money(CurrencyUnit.DebugInstance, 6000)
+            val part1 = ContentUris.parseId(part.save(contentResolver)!!)
+            part.amount = Money(CurrencyUnit.DebugInstance, 4000)
+            val part2 = ContentUris.parseId(part.saveAsNew(contentResolver)!!)
+            Triple(id, part1, part2)
+        }
+        val splitRestored = Transaction.getInstanceFromDb(contentResolver, split, homeCurrency)
+        assertThat(splitRestored.equivalentAmount?.amountMinor).isEqualTo(5000)
+        assertThat(viewModel.revokeSplit(split).getOrAwaitValue().isSuccess).isTrue()
+        val part1Restored = Transaction.getInstanceFromDb(contentResolver, part1, homeCurrency)
+        assertThat(part1Restored.equivalentAmount?.amountMinor).isEqualTo(3000)
+        assertThat(Transaction.getInstanceFromDb(contentResolver, part2, homeCurrency).equivalentAmount?.amountMinor).isEqualTo(2000)
     }
 
     companion object {

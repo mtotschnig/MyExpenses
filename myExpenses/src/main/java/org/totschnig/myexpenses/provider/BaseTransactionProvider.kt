@@ -2003,21 +2003,31 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
         val uuid =
-            values.getAsString(KEY_UUID) ?: this.uuidForTransaction(values.getAsLong(KEY_ROWID))
+            values.getAsString(KEY_UUID) ?: uuidForTransaction(values.getAsLong(KEY_ROWID))
+        val transactionId = values.getAsLong(KEY_ROWID) ?: findTransactionByUuid(KEY_UUID)
 
 
         val crStatusSubSelect = subSelectTemplate(KEY_CR_STATUS)
         val payeeIdSubSelect = subSelectTemplate(KEY_PAYEEID)
-        val rowIdSubSelect = subSelectTemplate(KEY_ROWID)
         val accountIdSubSelect = subSelectTemplate(KEY_ACCOUNTID)
+
 
         return try {
             beginTransaction()
             TransactionProvider.pauseChangeTrigger(this)
+            //set equivalent amounts based on parents rate
+            execSQL(
+                """WITH parent AS (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT AS rate FROM $TABLE_TRANSACTIONS ${equivalentAmountJoin(homeCurrency)} WHERE $KEY_ROWID = $transactionId)
+                    | INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS
+                    | ($KEY_EQUIVALENT_AMOUNT, $KEY_TRANSACTIONID, $KEY_CURRENCY)
+                    | SELECT (select rate from parent)*$KEY_AMOUNT, $KEY_ROWID, '$homeCurrency' FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $transactionId AND (select rate from parent) IS NOT NULL
+                    |
+                """.trimMargin()
+            )
             //parts are promoted to independence
             execSQL(
-                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = $rowIdSubSelect ",
-                arrayOf(uuid, uuid, uuid)
+                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = ?",
+                arrayOf(uuid, uuid, transactionId)
             )
             //Change is recorded
             if (callerIsNotSyncAdapter) {
