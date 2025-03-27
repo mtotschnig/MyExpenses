@@ -128,6 +128,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGG
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 
 private fun requireIdParameter(parameter: String) {
     require(parameter.isDigitsOnly())
@@ -616,7 +617,7 @@ WITH now as (
       WHERE p3.$KEY_COMMODITY = p.$KEY_COMMODITY
         AND p3.$KEY_CURRENCY = '$homeCurrency'
         AND p3.$KEY_DATE = p.$KEY_DATE
-      ORDER BY CASE WHEN p3.$KEY_SOURCE = 'user' THEN 1 ELSE 0 END DESC
+      ORDER BY CASE WHEN p3.$KEY_SOURCE = '${ExchangeRateSource.User.name}' THEN 0 WHEN p3.$KEY_SOURCE = '${ExchangeRateSource.Calculation.name}' THEN 2 ELSE 1 END, $KEY_SOURCE DESC
       LIMIT 1
   )
 ), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM

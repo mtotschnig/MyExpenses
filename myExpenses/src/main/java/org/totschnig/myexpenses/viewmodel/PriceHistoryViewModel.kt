@@ -186,7 +186,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         newHomeCurrency: String = currencyContext.homeCurrencyString,
         accountId: Long? = null,
         onlyMissing: Boolean = true,
-        withAccountExchangeRates: Boolean = true
+        withAccountExchangeRates: Boolean = true,
     ): Pair<Int, Int> =
         withContext(coroutineContext()) {
             contentResolver.call(
@@ -214,13 +214,13 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
 
         return allDates.associateWithTo(LinkedHashMap()) { date ->
             // User provided rates have priority, then API, then Calculation
-            this.sortedBy {
-                when (it.source) {
+            this.sortedWith(
+                compareBy<Price> { when (it.source) {
                     ExchangeRateSource.User -> 0
                     ExchangeRateSource.Calculation -> 2
                     else -> 1
-                }
-            }.find { it.date == date }
+                } }.thenByDescending { it.source.name }
+            ).find { it.date == date }
         }
     }
 
