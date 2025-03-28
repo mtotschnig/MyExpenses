@@ -13,7 +13,7 @@ da:
     participate: Deltag
     faq: FAQ
     versionlist: Ændringer
-    credits: Kredit
+    credits: Kreditering
     licence: Licens
     sourcecode: Kildekode
     links: Links
@@ -33,7 +33,7 @@ da:
       explanation: Planer for fremtidige og tilbagevendende transaktioner gemmes enten
         i en særlig lokal kalender eller i en hvilken som helst anden kalender, du
         tildeler.
-  contrib-key: Contrib Nøgle
+  contrib-key: Bidragsnøgle
   extended-key: Udvidet Nøgle
   professional-key: Professionel Nøgle
   screenshot_titles:
@@ -61,19 +61,19 @@ da:
       cloud_sync: '<b>Cloud-synkronisering</b>: Data kan synkroniseres mellem flere
         enheder'
       split_template: Ubegrænset antal <b>skabeloner og planer for opdelte transaktioner</b>
-      email_support: <b>E-mail support</b> med garanteret svar inden for 2 bankdage
+      email_support: <b>E-mail-support</b> med garanteret svar inden for 2 bankdage
       budgeting: '<b>Budgettering</b>: Sammenlign dit forbrug med de grænser, du sætter
         pr. kategori på daglig, ugentlig, månedlig eller årlig basis.'
       ad_free: <b>Ingen reklamer</b>
-      roadmap_voting: Stemmeret på <b>udviklingskortet</b>
+      roadmap_voting: Stemmeret på <b>udviklingsplan</b>
       history_chart: <b>Historikdiagram</b> (Pengestrøm)
       scan_receipt: '<b>Scan kvitteringer</b>: Udtræk automatisk beløb, dato og modtager'
       webui: <b>Webbrugergrænseflade</b>
       banking: Hent transaktioner fra banker i Tyskland (<b>FinTS</b>)
       category_tree: Ubegrænset dybde af <b>kategoritræ</b>
     thank_you: "Dit bidrag støtter den fortsatte udvikling af Mine Udgifter. Tak!\n"
-    feature-list-title: 'Bidrag venligst ved at opgradere <i>{app_name}</i> og få
-      ubegrænset adgang til de følgende funktioner:'
+    feature-list-title: 'Bidrag venligst ved at opgradere <i>{app_name}</i>, og få
+      ubegrænset adgang til følgende funktioner:'
     one-time-payment: Engangsbetaling
     subscription: Abonnement
   privacy_policy_heading: Privatlivspolitik
