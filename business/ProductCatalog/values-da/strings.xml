@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="categorytree_description">Arbitrært dybt kategorihierarki</string>
+    <string name="categorytree_description">Vilkårligt dybt kategorihierarki</string>
     <string name="accountsunlimited_title">Ubegrænset antal konti</string>
     <string name="distribution_description">Visualisér den statistiske fordeling af transaktioner pr. kategori over forskellige perioder (år, måneder, uger, dage)</string>
     <string name="plansunlimited_title">Ubegrænset antal planer</string>
