@@ -208,6 +208,7 @@ import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
+import org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.ShareAction
@@ -275,7 +276,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val exportViewModel: ExportViewModel by viewModels()
     private val roadmapViewModel: RoadmapViewModel by viewModels()
     private val progressViewModel: ModalProgressViewModel by viewModels()
-    private val pricesViewModel: PriceHistoryViewModel by viewModels()
+    private val pricesViewModel: PriceCalculationViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
 

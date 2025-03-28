@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountEdit
@@ -61,7 +62,7 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.Price
+import org.totschnig.myexpenses.viewmodel.data.Price
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.transformForUser
 import java.math.BigDecimal
@@ -131,7 +132,7 @@ class PriceHistory : ProtectedFragmentActivity() {
                                 )
                             }
                     },
-                    inverseRate = viewModel.invertRate
+                    inverseRate = viewModel.inverseRate.collectAsState(false).value
                 )
             }
         }
@@ -162,17 +163,22 @@ class PriceHistory : ProtectedFragmentActivity() {
         viewModel.userSelectedSource?.let {
             menu.findItem(R.id.SELECT_SOURCE_MENU_ID).subMenu?.findItem(it.id)?.setChecked(true)
         }
-        menu.findItem(R.id.INVERT_COMMAND)?.let {
-            it.isChecked = viewModel.invertRate
-            checkMenuIcon(it)
+        lifecycleScope.launch {
+            menu.findItem(R.id.INVERT_COMMAND)?.let {
+                val first = viewModel.inverseRate.first()
+                it.isChecked = first
+                checkMenuIcon(it)
+            }
         }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = super.onOptionsItemSelected(item) ||
             if (item.itemId == R.id.INVERT_COMMAND) {
-                viewModel.invertRate = !viewModel.invertRate
-                invalidateOptionsMenu()
+                lifecycleScope.launch {
+                    viewModel.persistInverseRate(!item.isChecked)
+                    invalidateOptionsMenu()
+                }
                 true
             } else ExchangeRateApi.getById(item.itemId)?.also {
                 viewModel.userSelectedSource = it
@@ -342,7 +348,7 @@ fun RowScope.TableCell(
     )
 }
 
-val BigDecimal.reciprocal
+val BigDecimal.reciprocal: BigDecimal
     get() = BigDecimal.ONE.divide(this, MathContext.DECIMAL64)
 
 @Preview

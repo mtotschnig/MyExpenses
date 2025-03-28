@@ -49,7 +49,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
-import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
+import org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -77,7 +77,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
 
     private val progressViewModel: ModalProgressViewModel by viewModels()
 
-    private val priceHistoryViewModel: PriceHistoryViewModel by viewModels()
+    private val priceCalculationViewModel: PriceCalculationViewModel by viewModels()
 
     private val dismissCallback = object : Snackbar.Callback() {
         override fun onDismissed(
@@ -119,7 +119,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         }
         super.onCreate(savedInstanceState)
         injector.inject(licenceValidationViewModel)
-        injector.inject(priceHistoryViewModel)
+        injector.inject(priceCalculationViewModel)
         setupWithFragment(savedInstanceState == null, false) {
             TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
         }
@@ -164,10 +164,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                     .commitNow()
                 lifecycleScope.launch {
                     progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.price_history))
-                    val updatedPrices = priceHistoryViewModel.reCalculatePrices(currencyCode)
+                    val updatedPrices = priceCalculationViewModel.reCalculatePrices(currencyCode)
                     progressViewModel.appendToMessage(updatedPrices.toString())
                     progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.equivalent_amount_plural))
-                    val updatedTransactions = priceHistoryViewModel.reCalculateEquivalentAmounts(currencyCode)
+                    val updatedTransactions = priceCalculationViewModel.reCalculateEquivalentAmounts(currencyCode)
                     progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }.toString() )
                     val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
                     if (dataFragment != null) {
