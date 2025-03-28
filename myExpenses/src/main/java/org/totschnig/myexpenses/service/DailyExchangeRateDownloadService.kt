@@ -69,7 +69,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 setConstraints(Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build())
-                setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(40))
+                setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 40, TimeUnit.MINUTES)
             }.build()
         }
 
