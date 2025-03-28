@@ -27,9 +27,9 @@
     <string name="account_type_ccard">Kreditkort</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">Kreditkort</string>
-    <string name="account_type_liability">Gældskonto</string>
+    <string name="account_type_liability">Passivkonto</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Gældskonti</string>
+    <string name="account_type_liability_plural">Passivkonti</string>
     <string name="already_defined">%1$s allerede defineret</string>
     <string name="amount">Beløb</string>
     <string name="app_name">Mine Udgifter</string>
@@ -65,7 +65,7 @@
     <string name="dialog_remind_later">Senere</string>
     <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give {app_name}?</string>
     <string name="dialog_remind_rate_1">Brug venligst et øjeblik på at bedømme {app_name}.</string>
-    <string name="dialog_remind_rate_2">Dine kommentarer hjælper os med at tilføje løbende forbedringer.</string>
+    <string name="dialog_remind_rate_2">Dine kommentarer hjælper os med at tilføje forbedringer løbende.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Brug venligst et øjeblik på at sende os dine forslag til forbedringer.</string>
     <string name="dialog_remind_rate_yes">Bedøm nu</string>
     <string name="dialog_security_answer">Svar</string>
@@ -87,12 +87,12 @@
     <string name="grouping_day">Dag</string>
     <string name="grouping_last_week">Sidste uge</string>
     <string name="grouping_month">Måned</string>
-    <string name="grouping_none">Ugrupperet</string>
+    <string name="grouping_none">Ikke grupperet</string>
     <string name="grouping_this_week">Denne uge</string>
     <string name="grouping_week">Uge</string>
     <string name="grouping_year">År</string>
     <string name="help_button_rate">Bedøm eller anmeld</string>
-    <string name="help_heading_credits">Kredit</string>
+    <string name="help_heading_credits">Kreditering</string>
     <string name="help_heading_whats_new">Hvad er nyt</string>
     <string name="import_select_transactions">Transaktioner</string>
     <string name="income">Indtægt</string>
@@ -447,14 +447,14 @@
     <string name="dialog_contrib_subscription_info_play">Dette abonnement træder i kraft med det samme, faktureres månedligt eller årligt og kan opsiges når som helst.</string>
     <string name="dialog_title_warning_delete_category">Slet kategori?</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d planer.</string>
-    <string name="contrib_feature_pro_support_label"><b>E-mail support</b> med garanteret svar inden for 2 arbejdsdage</string>
+    <string name="contrib_feature_pro_support_label"><b>E-mail-support</b> med garanteret svar inden for 2 bankdage</string>
     <string name="dialog_contrib_reminder_remove_limitation">Fjern denne begrænsning og få adgang til flere funktioner ved at opgradere <i>{app_name}</i>.</string>
     <string name="select_payee">Vælg betaler/modtager</string>
     <string name="move_category_success">Én kategori blev flyttet.</string>
     <string name="warning_delete_category_with_budget">For mindst én valgt kategori er der budgetfordelinger, som også slettes.</string>
     <string name="all_extended_key_features">Alle funktioner i Udvidet Nøgle</string>
     <string name="all_contrib_key_features">Alle funktioner i Bidragsnøgle</string>
-    <string name="contrib_feature_category_tree_label">Arbitrært dybt kategorihierarki</string>
+    <string name="contrib_feature_category_tree_label">Vilkårligt dybt kategorihierarki</string>
     <string name="number_format_illegal">Ugyldigt talformat</string>
     <string name="move_category_failure">Én kategori blev ikke flyttet, fordi det samme mærkat allerede findes ved målet.</string>
     <string name="warning_change_fraction_digits_3">Hvis beløb opdateres, mister du oplysningerne om deres decimaldel.</string>
