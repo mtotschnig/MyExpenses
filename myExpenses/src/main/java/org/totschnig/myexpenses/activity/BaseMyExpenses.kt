@@ -209,7 +209,6 @@ import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel
-import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
@@ -1031,13 +1030,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 //the dialog is dismissed
                 //noinspection StateFlowValueCalledInComposition
                 criterion = currentFilter.whereFilter.value,
-                preferredSearchType = preferredSearchType,
-                setPreferredSearchType = { viewModel.persistPreferredSearchType(it) },
+                initialPreferredSearchType = preferredSearchType,
                 onDismissRequest = {
                     showFilterDialog = false
-                }, onConfirmRequest = {
+                }, onConfirmRequest = { preferredSearchType, criterion ->
                     coroutineScope.launch {
-                        currentFilter.persist(it)
+                        viewModel.persistPreferredSearchType(preferredSearchType)
+                        currentFilter.persist(criterion)
                         showFilterDialog = false
                         invalidateOptionsMenu()
                     }

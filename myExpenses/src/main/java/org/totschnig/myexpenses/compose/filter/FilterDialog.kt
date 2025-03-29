@@ -71,7 +71,6 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
-import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,20 +115,24 @@ const val TYPE_COMPLEX = 1
 fun FilterDialog(
     account: BaseAccount,
     sumInfo: SumInfo,
-    preferredSearchType: Int = TYPE_COMPLEX,
-    setPreferredSearchType: (Int) -> Unit = {},
+    initialPreferredSearchType: Int = TYPE_COMPLEX,
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmRequest: (Criterion?) -> Unit = {},
+    onConfirmRequest: (Int, Criterion?) -> Unit = {_, _ -> },
 ) {
 
     val initialSet = criterion.asSet
     val initialSelectedComplex = if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
-    val isComplexSearch = preferredSearchType == TYPE_COMPLEX
 
-    var selectedComplex by remember {
+    var selectedComplex by rememberSaveable {
         mutableIntStateOf(initialSelectedComplex)
     }
+
+    var preferredSearchType by rememberSaveable {
+        mutableIntStateOf(initialPreferredSearchType)
+    }
+
+    val isComplexSearch = preferredSearchType == TYPE_COMPLEX
 
     val criteriaSet: MutableState<Set<Criterion>> = rememberSaveable(
         saver = Saver(
@@ -164,7 +167,10 @@ fun FilterDialog(
                         }.toSet()
                     } ?: run { criteriaSet.value += newValue }
                 } else {
-                    onConfirmRequest(if (initialSet.isEmpty()) newValue else AndCriterion(initialSet + newValue))
+                    onConfirmRequest(
+                        TYPE_QUICK,
+                        if (criteriaSet.value.isEmpty()) newValue else AndCriterion(criteriaSet.value + newValue)
+                    )
                 }
             }
             currentEdit.value = null
@@ -239,7 +245,7 @@ fun FilterDialog(
                                         text = { Text(s) },
                                         enabled = index == 1 || criteriaSet.value.isSimple(selectedComplex),
                                         onClick = {
-                                            setPreferredSearchType(index)
+                                            preferredSearchType = index
                                             expanded = false
                                         },
                                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -267,7 +273,10 @@ fun FilterDialog(
                                     icon = Icons.Filled.Done,
                                     enabled = isDirty
                                 ) {
-                                    onConfirmRequest(criteriaSet.value.wrap(selectedComplex))
+                                    onConfirmRequest(
+                                        TYPE_COMPLEX,
+                                        criteriaSet.value.wrap(selectedComplex)
+                                    )
                                 }
                             }
                         }
@@ -446,7 +455,10 @@ fun FilterDialog(
                                         role = Role.Checkbox,
                                         onValueChange = {
                                             if (hasCriterion) {
-                                                onConfirmRequest((initialSet - definedCriterion).wrap())
+                                                onConfirmRequest(
+                                                    TYPE_QUICK,
+                                                    (criteriaSet.value - definedCriterion).wrap()
+                                                )
                                             } else {
                                                 handleEdit(info.clazz)
                                             }
