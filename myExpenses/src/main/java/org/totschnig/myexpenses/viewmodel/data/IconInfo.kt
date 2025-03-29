@@ -19,7 +19,7 @@ sealed interface IIconInfo {
     val label: Int
     fun asDrawable(
         context: Context,
-        @AttrRes colorAttr: Int = com.google.android.material.R.attr.colorOnSurface,
+        @AttrRes colorAttr: Int = com.google.android.material.R.attr.colorOnSurfaceVariant,
     ): Drawable?
 
     companion object {

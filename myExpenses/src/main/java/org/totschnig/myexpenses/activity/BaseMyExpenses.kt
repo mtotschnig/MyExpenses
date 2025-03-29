@@ -2029,6 +2029,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val checkedColor =  currentAccount?.let {
+            if (it.isAggregate) 0 else it.color(resources)
+        }
         menu.findItem(R.id.WEB_UI_COMMAND)?.let {
             it.isChecked = isWebUiActive()
             checkMenuIcon(it)
@@ -2093,7 +2096,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 it.setEnabledAndVisible(hasItems)
                 it.isChecked = currentFilter.whereFilter.value != null
-                checkMenuIcon(it)
+                checkMenuIcon(it, checkedColor)
             }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
                 ?.setEnabledAndVisible(sumInfo.value.mappedCategories)
