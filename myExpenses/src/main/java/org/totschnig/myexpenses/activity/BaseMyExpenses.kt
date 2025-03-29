@@ -1061,7 +1061,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .collectAsState(null)
             filter.value?.let {
                 if (preferredSearchType == TYPE_QUICK) {
-                    FilterHandler(account, "confirmFilterDirect", {
+                    FilterHandler(account, "confirmFilterDirect_${account.id}", {
                         if (it != null) {
                             lifecycleScope.launch {
                                 currentFilter.replaceCriterion(it)
