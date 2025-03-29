@@ -29,7 +29,7 @@ import kotlin.math.abs
 
 abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     withNullItem: Boolean,
-    typeParameterClass: Class<T>
+    typeParameterClass: Class<T>,
 ) : SelectFilterDialog<T>(withNullItem, typeParameterClass) {
     override val column: String
         get() = DatabaseConstants.KEY_LABEL
@@ -38,12 +38,12 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     override val selectionArgs: Array<String>?
         get() = accountSelectionArgs(requireArguments().getLong(KEY_ROWID))
 
-    protected fun configureArguments(rowId: Long, criterion: T?) {
-        arguments = Bundle(1).apply {
-            putLong(KEY_ROWID, rowId)
-            putParcelable(KEY_CRITERION, criterion)
-        }
-    }
+    protected fun configureArguments(requestKey: String, rowId: Long, criterion: T?) =
+        configureArguments(requestKey)
+            .apply {
+                putLong(KEY_ROWID, rowId)
+                putParcelable(KEY_CRITERION, criterion)
+            }
 
     companion object {
         fun accountSelection(accountId: Long) =

@@ -33,9 +33,9 @@ class SelectTransferAccountDialogFragment : SelectFromMappedTableDialogFragment<
     }
 
     companion object {
-        fun newInstance(rowId: Long, criterion: TransferCriterion?) =
+        fun newInstance(requestKey: String, rowId: Long, criterion: TransferCriterion?) =
             SelectTransferAccountDialogFragment().apply {
-                configureArguments(rowId, criterion)
+                arguments = configureArguments(requestKey, rowId, criterion)
             }
     }
 }

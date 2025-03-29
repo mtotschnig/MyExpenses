@@ -4,8 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
-import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
@@ -28,9 +26,9 @@ class SelectMethodsAllDialogFragment :
     override val dialogTitle: Int = R.string.search_method
 
     companion object {
-        fun newInstance(methodCriterion: MethodCriterion?) =
+        fun newInstance(requestKey: String, methodCriterion: MethodCriterion?) =
             SelectMethodsAllDialogFragment().apply {
-                arguments = Bundle().apply {
+                arguments = configureArguments(requestKey).apply {
                     putParcelable(KEY_CRITERION, methodCriterion)
                 }
             }

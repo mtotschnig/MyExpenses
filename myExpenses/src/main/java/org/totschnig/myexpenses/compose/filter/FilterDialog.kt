@@ -200,7 +200,7 @@ fun FilterDialog(
                     ifTrue = { defaultMinSize(minHeight = 400.dp) },
                     ifFalse = { fillMaxSize() }
                 )) {
-            FilterHandler(account, onResult) {
+            FilterHandler(account, "confirmFilterDialog", onResult) {
 
                 Column(
                     modifier = Modifier

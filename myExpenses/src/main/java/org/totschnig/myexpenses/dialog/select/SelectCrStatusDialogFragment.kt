@@ -52,6 +52,7 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
         }
         if (result.isNotEmpty()) {
             parentFragmentManager.confirmFilter(
+                requestKey,
                 CrStatusCriterion(result)
             )
         }
@@ -60,15 +61,17 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        parentFragmentManager.confirmFilter(null)
+        parentFragmentManager.confirmFilter(requestKey,null)
     }
 
     companion object {
         private const val KEY_WITH_VOID = "withVoid"
         fun newInstance(
-            criterion: CrStatusCriterion?, withVoid: Boolean = true
+            requestKey: String,
+            criterion: CrStatusCriterion?,
+            withVoid: Boolean = true,
         ) = SelectCrStatusDialogFragment().apply {
-            arguments = Bundle(1).apply {
+            arguments = configureArguments(requestKey).apply {
                 putBoolean(KEY_WITH_VOID, withVoid)
                 putParcelable(KEY_CRITERION, criterion)
             }

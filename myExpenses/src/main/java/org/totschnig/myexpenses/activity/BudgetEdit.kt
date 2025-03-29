@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
-import org.totschnig.myexpenses.dialog.RC_CONFIRM_FILTER
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
@@ -56,6 +55,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     private var budget: Budget? = null
     private lateinit var typeSpinnerHelper: SpinnerHelper
     private lateinit var accountSpinnerHelper: SpinnerHelper
+
+    val filterRequestKey = "confirmFilterBudget"
 
     @State
     var accountId: Long = 0
@@ -108,17 +109,25 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(null to edit as? PayeeCriterion)
 
             R.id.FILTER_METHOD_COMMAND -> {
-                SelectMethodsAllDialogFragment.newInstance(edit as? MethodCriterion)
+                SelectMethodsAllDialogFragment.newInstance(
+                    filterRequestKey,
+                    edit as? MethodCriterion
+                )
                     .show(supportFragmentManager, "METHOD_FILTER")
             }
 
             R.id.FILTER_STATUS_COMMAND -> {
-                SelectCrStatusDialogFragment.newInstance(edit as? CrStatusCriterion, false)
+                SelectCrStatusDialogFragment.newInstance(
+                    filterRequestKey,
+                    edit as? CrStatusCriterion,
+                    false
+                )
                     .show(supportFragmentManager, "STATUS_FILTER")
             }
 
             R.id.FILTER_ACCOUNT_COMMAND -> {
                 SelectMultipleAccountDialogFragment.newInstance(
+                    filterRequestKey,
                     selectedAccount().currency,
                     edit as? AccountCriterion
                 ).show(supportFragmentManager, "ACCOUNT_FILTER")
@@ -199,7 +208,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         }
         setTitle(if (newInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
         linkInputsWithLabels()
-        supportFragmentManager.setFragmentResultListener(RC_CONFIRM_FILTER, this) { _, result ->
+        supportFragmentManager.setFragmentResultListener(filterRequestKey, this) { _, result ->
             BundleCompat.getParcelable(result, KEY_RESULT_FILTER, SimpleCriterion::class.java)
                 ?.let {
                     addFilterCriterion(it)

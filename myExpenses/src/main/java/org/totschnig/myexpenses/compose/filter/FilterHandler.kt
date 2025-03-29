@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.activity.PickTagContract
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
-import org.totschnig.myexpenses.dialog.RC_CONFIRM_FILTER
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
@@ -98,6 +97,7 @@ interface FilterHandlerScope {
 @Composable
 fun FilterHandler(
     account: BaseAccount,
+    requestKey: String,
     onResult: (SimpleCriterion<*>?) -> Unit,
     content: @Composable FilterHandlerScope.() -> Unit
 ) {
@@ -112,7 +112,7 @@ fun FilterHandler(
     val supportFragmentManager = activity.supportFragmentManager
     DisposableEffect(onResult) {
         supportFragmentManager.setFragmentResultListener(
-            RC_CONFIRM_FILTER, activity
+            requestKey, activity
         ) { _, result ->
             onResult(
                 BundleCompat.getParcelable(
@@ -123,12 +123,12 @@ fun FilterHandler(
             )
         }
         onDispose {
-            supportFragmentManager.clearFragmentResultListener(RC_CONFIRM_FILTER)
+            supportFragmentManager.clearFragmentResultListener(requestKey)
         }
     }
     val handler = object: FilterHandlerScope {
         override fun handleAmountEdit(criterion: AmountCriterion?) {
-            AmountFilterDialog.newInstance(
+            AmountFilterDialog.newInstance(requestKey,
                 account.currencyUnit, criterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
         }
@@ -138,17 +138,18 @@ fun FilterHandler(
         }
 
         override fun handleCrStatusEdit(criterion: CrStatusCriterion?) {
-            SelectCrStatusDialogFragment.newInstance(criterion)
+            SelectCrStatusDialogFragment.newInstance(requestKey, criterion)
                 .show(activity.supportFragmentManager, "STATUS_FILTER")
         }
 
         override fun handleDateEdit(criterion: DateCriterion?) {
-            DateFilterDialog.newInstance(criterion)
+            DateFilterDialog.newInstance(requestKey, criterion)
                 .show(activity.supportFragmentManager, "DATE_FILTER")
         }
 
         override fun handleAccountEdit(criterion: AccountCriterion?) {
             SelectMultipleAccountDialogFragment.newInstance(
+                requestKey,
                 if (account.isHomeAggregate) null else account.currency,
                 criterion
             )
@@ -161,6 +162,7 @@ fun FilterHandler(
 
         override fun handleMethodEdit(criterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
+                requestKey,
                 account.id, criterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
@@ -174,7 +176,7 @@ fun FilterHandler(
         }
 
         override fun handleTransferEdit(criterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(account.id, criterion)
+            SelectTransferAccountDialogFragment.newInstance(requestKey,account.id, criterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }

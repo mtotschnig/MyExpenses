@@ -36,9 +36,9 @@ class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCri
     }
 
     companion object {
-        fun newInstance(rowId: Long, methodCriterion: MethodCriterion?) =
+        fun newInstance(requestKey: String, rowId: Long, methodCriterion: MethodCriterion?) =
             SelectMethodDialogFragment().apply {
-                configureArguments(rowId, methodCriterion)
+                arguments = configureArguments(requestKey, rowId, methodCriterion)
             }
     }
 }

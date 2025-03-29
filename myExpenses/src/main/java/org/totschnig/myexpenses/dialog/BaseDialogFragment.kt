@@ -33,6 +33,13 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     open val fullScreenIfNotLarge = false
 
+    protected open fun configureArguments(requestKey: String) = Bundle(1).apply {
+        putString(KEY_REQUEST_KEY, requestKey)
+    }
+
+    val requestKey: String
+        get() = requireArguments().getString(KEY_REQUEST_KEY)!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(this)

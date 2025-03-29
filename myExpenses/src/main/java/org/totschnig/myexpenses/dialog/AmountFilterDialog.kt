@@ -83,6 +83,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
             binding.amount2.getAmount(currency).getOrNull() ?: return
         } else null
         parentFragmentManager.confirmFilter(
+            requestKey,
             create(
                 Operation.valueOf(selectedOp),
                 currency.code,
@@ -96,14 +97,14 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        parentFragmentManager.confirmFilter(null)
+        parentFragmentManager.confirmFilter(requestKey, null)
     }
 
     companion object {
 
-        fun newInstance(currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
+        fun newInstance(requestKey: String, currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
             AmountFilterDialog().apply {
-                arguments = Bundle().apply {
+                arguments = configureArguments(requestKey).apply {
                     putSerializable(DatabaseConstants.KEY_CURRENCY, currency)
                     putParcelable(KEY_CRITERION, amountCriterion)
                 }

@@ -64,7 +64,7 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
     override fun onClick(dialog: DialogInterface, which: Int) {
         val selectedOp = operations[binding.Operator.selectedItemPosition]
         val date1: LocalDate = binding.date1.selectedDate
-        parentFragmentManager.confirmFilter(
+        parentFragmentManager.confirmFilter(requestKey,
             if (selectedOp == "BTW") {
                 DateCriterion(date1, binding.date2.selectedDate)
             } else {
@@ -78,12 +78,12 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        parentFragmentManager.confirmFilter(null)
+        parentFragmentManager.confirmFilter(requestKey, null)
     }
 
     companion object {
-        fun newInstance(dateCriterion: DateCriterion?) = DateFilterDialog().apply {
-            arguments = Bundle().apply {
+        fun newInstance(requestKey: String, dateCriterion: DateCriterion?) = DateFilterDialog().apply {
+            arguments = configureArguments(requestKey).apply {
                 putParcelable(KEY_CRITERION, dateCriterion)
             }
         }
