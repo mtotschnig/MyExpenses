@@ -99,9 +99,9 @@ class CategoryDelegate(
             }
         }
         if (data.accountId != null && data.accountId != accountId) {
-            val oldAccount = mAccounts.first { it.id == accountId }
+            val oldAccount = mAccounts.firstOrNull { it.id == accountId }
             val newAccountIndex = mAccounts.indexOfFirst { it.id == data.accountId }
-            if (newAccountIndex > -1) {
+            if (oldAccount != null && newAccountIndex > -1) {
                 accountSpinner.setSelection(newAccountIndex)
                 updateAccount(mAccounts[newAccountIndex], mAccounts[newAccountIndex].currency.code != oldAccount.currency.code)
             }
