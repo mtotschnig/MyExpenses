@@ -812,7 +812,7 @@ fun buildTransactionGroupCte(
     val selection = listOfNotNull(accountQuery, selection?.takeIf { it.isNotEmpty() })
         .joinToString(" AND ")
     return buildString {
-        append("WITH $CTE_SEARCH as (SELECT $VIEW_WITH_ACCOUNT.* ")
+        append("WITH $CTE_SEARCH AS (SELECT $VIEW_WITH_ACCOUNT.* ")
         if(forHome != null) {
             append(",")
             append(KEY_EQUIVALENT_AMOUNT)
