@@ -70,7 +70,7 @@ import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
-class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
+class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private var _binding: HistoryChartBinding? = null
     private val binding
         get() = _binding!!
@@ -313,7 +313,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         return false
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         if (id == GROUPING_CURSOR) {
             val (builder, selection, selectionArgs) = accountInfo.groupingQuery(filter)
             if (shouldUseGroupStart()) {
@@ -357,15 +357,13 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             val barEntries = ArrayList<BarEntry>()
             val lineEntries = ArrayList<Entry>()
             val xAxis = binding.historyChart.xAxis
-            var previousBalance = accountInfo.openingBalance.amountMinor
-            var interimBalance = 0L
+            var runningBalance = accountInfo.openingBalance.amountMinor
             do {
                 val sumIncome = cursor.getLong(columnIndexGroupSumIncome)
                 val sumExpense = cursor.getLong(columnIndexGroupSumExpense)
                 val sumTransfer =
                     if (columnIndexGroupSumTransfer > -1) cursor.getLong(columnIndexGroupSumTransfer) else 0
                 val delta = sumIncome + sumExpense + sumTransfer
-                if (showBalance) interimBalance = previousBalance + delta
                 val year = cursor.getInt(columnIndexGroupYear)
                 val second = cursor.getInt(columnIndexGroupSecond)
                 val groupStart =
@@ -374,12 +372,12 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 if (cursor.isFirst) {
                     val start = x - 1
                     xAxis.axisMinimum = start
-                    if (showBalance) lineEntries.add(Entry(start, previousBalance.toFloat()))
+                    if (showBalance) lineEntries.add(Entry(start, runningBalance.toFloat()))
                 }
                 barEntries.add(BarEntry(x, floatArrayOf(sumExpense.toFloat(), sumIncome.toFloat())))
                 if (showBalance) {
-                    lineEntries.add(Entry(x, interimBalance.toFloat()))
-                    previousBalance = interimBalance
+                    runningBalance += delta
+                    lineEntries.add(Entry(x, runningBalance.toFloat()))
                 }
                 if (cursor.isLast) {
                     xAxis.axisMaximum = (x + 1)
