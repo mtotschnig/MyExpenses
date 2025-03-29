@@ -437,7 +437,7 @@ fun FilterDialog(
                         }
                     } else {
                         filters.forEach { info ->
-                            val definedCriterion = initialSet.find { it::class == info.clazz }
+                            val definedCriterion = criteriaSet.value.find { it::class == info.clazz }
                             val hasCriterion = definedCriterion != null
                             Row(
                                 Modifier
