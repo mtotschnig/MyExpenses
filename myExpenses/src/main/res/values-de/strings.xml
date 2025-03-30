@@ -1001,4 +1001,5 @@
     <string name="menu_recalculate">Neuberechnung</string>
     <string name="quick_search">Schnellsuche</string>
     <string name="complex_search">Komplexe Suche</string>
+    <string name="account_closed">Konto ist geschlossen</string>
 </resources>
