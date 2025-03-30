@@ -55,7 +55,7 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
     private var DatePicker.selectedDate
         get() = LocalDate.of(year, month + 1, dayOfMonth)
         set(value) {
-            updateDate(value.year, value.monthValue - 1, dayOfMonth)
+            updateDate(value.year, value.monthValue - 1, value.dayOfMonth)
         }
 
     private val operations
