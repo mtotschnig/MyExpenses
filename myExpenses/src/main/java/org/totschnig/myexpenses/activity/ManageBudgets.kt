@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
-import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -173,9 +172,9 @@ class ManageBudgets : ProtectedFragmentActivity() {
                     LazyColumnWithScrollbar(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        contentPadding = PaddingValues(bottom = 72.dp),
                         itemsAvailable = data.sumOf { it.second.size },
-                        groupCount = data.size
+                        groupCount = data.size,
+                        contentPadding = PaddingValues(bottom = 72.dp)
                     ) {
                         data.forEach { (header, list) ->
                             simpleStickyHeader(header)

@@ -180,10 +180,10 @@ fun GroupedDebtList(
 ) {
     LazyColumnWithScrollbar(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(vertical = 8.dp),
         itemsAvailable = debts.map { it.value.size }.sum(),
-        groupCount = debts.size
+        groupCount = debts.size,
+        contentPadding = PaddingValues(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         debts.forEach { item ->
             val list = item.value
@@ -240,8 +240,8 @@ fun DebtList(
     LazyColumnWithScrollbar(
         modifier = modifier,
         itemsAvailable = debts.size,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(vertical = 8.dp)
+        contentPadding = PaddingValues(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = debts) {
             val expandedState = rememberSaveable { mutableStateOf(false) }

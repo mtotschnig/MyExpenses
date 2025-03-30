@@ -83,8 +83,8 @@ private const val SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS = 2_000L
 
 @Composable
 fun LazyColumnWithScrollbar(
-    state: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
     fastScroll: Boolean = false,
     itemsAvailable: Int,
     groupCount: Int = 0,
@@ -331,7 +331,7 @@ fun ListWithScrollbar() {
     val withStickyHeaders = false
     val totalItems = sections * (itemsAvailable + if (withStickyHeaders) 1 else 0)
     AppTheme {
-        LazyColumnWithScrollbar(itemsAvailable = totalItems, fastScroll = true) {
+        LazyColumnWithScrollbar(fastScroll = true, itemsAvailable = totalItems) {
             repeat(sections) { section ->
                 if (withStickyHeaders) {
                     simpleStickyHeader("section $section")
@@ -356,7 +356,7 @@ fun ShouldNotFillMaxSize() {
     AppTheme {
         LazyColumnWithScrollbar(
             modifier = Modifier.background(color = Color.Red),
-            itemsAvailable = totalItems, fastScroll = false
+            itemsAvailable = totalItems
         ) {
             repeat(sections) { section ->
                 simpleStickyHeader("section $section")

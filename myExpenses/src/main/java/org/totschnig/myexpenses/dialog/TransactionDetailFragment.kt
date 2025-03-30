@@ -262,9 +262,9 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
 
                         LazyColumnWithScrollbar(
                             modifier = Modifier.weight(1f, fill = false),
-                            testTag = TEST_TAG_PART_LIST,
-                            contentPadding = PaddingValues(horizontal = super.horizontalPadding),
                             itemsAvailable = parts.value.size,
+                            contentPadding = PaddingValues(horizontal = super.horizontalPadding),
+                            testTag = TEST_TAG_PART_LIST,
                         ) {
                             var selectedArchivedTransaction by mutableLongStateOf(0)
                             items(parts.value) { part ->
@@ -273,11 +273,12 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                     label = "ExpandedTransactionCard"
                                 ) { expanded ->
                                     if (expanded) {
-                                        OutlinedCard(modifier = Modifier
-                                            .voidMarker(part.crStatus)
-                                            .clickable {
-                                                selectedArchivedTransaction = 0
-                                            }
+                                        OutlinedCard(
+                                            modifier = Modifier
+                                                .voidMarker(part.crStatus)
+                                                .clickable {
+                                                    selectedArchivedTransaction = 0
+                                                }
                                         ) {
                                             Column(modifier = Modifier.padding(8.dp)) {
                                                 ExpandedRenderer(part, true)

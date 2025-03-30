@@ -301,38 +301,38 @@ private fun MenuConfigurator(
                     if (index > 0) {
                         add(
                             CustomAccessibilityAction(
-                            label = moveUpLabel,
-                            action = {
-                                onMove(index, index - 1)
-                                true
-                            }
-                        ))
+                                label = moveUpLabel,
+                                action = {
+                                    onMove(index, index - 1)
+                                    true
+                                }
+                            ))
                         add(
                             CustomAccessibilityAction(
-                            label = moveTopLabel,
-                            action = {
-                                onMove(index, 0)
-                                true
-                            }
-                        ))
+                                label = moveTopLabel,
+                                action = {
+                                    onMove(index, 0)
+                                    true
+                                }
+                            ))
                     }
                     if (index < activeItems.lastIndex) {
                         add(
                             CustomAccessibilityAction(
-                            label = moveDownLabel,
-                            action = {
-                                onMove(index, index + 1)
-                                true
-                            }
-                        ))
+                                label = moveDownLabel,
+                                action = {
+                                    onMove(index, index + 1)
+                                    true
+                                }
+                            ))
                         add(
                             CustomAccessibilityAction(
-                            label = moveBottomLabel,
-                            action = {
-                                onMove(index, activeItems.lastIndex)
-                                true
-                            }
-                        ))
+                                label = moveBottomLabel,
+                                action = {
+                                    onMove(index, activeItems.lastIndex)
+                                    true
+                                }
+                            ))
                     }
                 }
                 ItemRow(

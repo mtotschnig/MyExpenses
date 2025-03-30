@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
@@ -55,6 +54,7 @@ import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -213,7 +213,7 @@ fun PriceListScreen(
             Spacer(Modifier.width(96.dp))
         }
         HorizontalDivider()
-        LazyColumn {
+        LazyColumnWithScrollbar(itemsAvailable = prices.size, fastScroll = true) {
             items(
                 items = prices.entries.toList(),
                 key = { it.key }
