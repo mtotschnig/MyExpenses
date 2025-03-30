@@ -111,14 +111,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             .toList()
 
         return allDates.associateWithTo(LinkedHashMap()) { date ->
-            // User provided rates have priority, then API, then Calculation
-            this.sortedWith(
-                compareBy<Price> { when (it.source) {
-                    ExchangeRateSource.User -> 0
-                    ExchangeRateSource.Calculation -> 2
-                    else -> 1
-                } }.thenByDescending { it.source.name }
-            ).find { it.date == date }
+            find { it.date == date }
         }
     }
 

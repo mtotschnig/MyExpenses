@@ -46,6 +46,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getPRIORITIZED_PRICES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
@@ -545,6 +546,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     insertNullRows(db);
 
     db.execSQL(PRICES_CREATE);
+    db.execSQL(getPRIORITIZED_PRICES_CREATE());
     super.onCreate(db);
   }
 
@@ -2131,6 +2133,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo173(db);
         createOrRefreshTransactionTriggers(db);
         createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 174) {
+        db.execSQL(getPRIORITIZED_PRICES_CREATE());
       }
 
       TransactionProvider.resumeChangeTrigger(db);

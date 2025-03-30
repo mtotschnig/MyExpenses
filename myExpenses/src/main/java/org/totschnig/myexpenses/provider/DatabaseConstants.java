@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.provider;
 
 import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelSqlColumn;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.calcEquivalentAmountForSplitParts;
 
 import android.content.Context;
 
@@ -472,6 +471,8 @@ public class DatabaseConstants {
   public static final String TABLE_EQUIVALENT_AMOUNTS = "equivalent_amounts";
 
   public static final String TABLE_PRICES = "prices";
+
+  public static final String VIEW_PRIORITIZED_PRICES = "prioritized_prices";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 

@@ -102,6 +102,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
@@ -910,7 +911,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case PRICES: {
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_PRICES);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_PRIORITIZED_PRICES);
         String commodity = uri.getQueryParameter(KEY_COMMODITY);
         if (commodity != null) {
           selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";

@@ -108,13 +108,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 173
+const val DATABASE_VERSION = 174
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -310,6 +312,30 @@ const val PRICES_CREATE = """
     $KEY_VALUE real not NULL,
     primary key($KEY_COMMODITY, $KEY_CURRENCY, $KEY_DATE, $KEY_SOURCE, $KEY_TYPE)
 );
+"""
+
+val PRIORITIZED_PRICES_CREATE = """
+    CREATE VIEW $VIEW_PRIORITIZED_PRICES AS SELECT
+    p1.$KEY_CURRENCY,
+    p1.$KEY_COMMODITY,
+    p1.$KEY_DATE,
+    p1.$KEY_SOURCE,
+    p1.$KEY_VALUE
+FROM
+    $TABLE_PRICES AS p1 WHERE
+    p1.$KEY_SOURCE = (
+        SELECT p2.$KEY_SOURCE
+        FROM $TABLE_PRICES AS p2
+        WHERE p2.$KEY_CURRENCY = p1.$KEY_CURRENCY AND p2.$KEY_COMMODITY = p1.$KEY_COMMODITY AND p2.$KEY_DATE = p1.$KEY_DATE
+        ORDER BY
+            CASE
+                WHEN p2.$KEY_SOURCE = '${ExchangeRateSource.User.name}' THEN 1
+                WHEN p2.$KEY_SOURCE = '${ExchangeRateSource.Calculation.name}' THEN 3
+                ELSE 2
+            END,
+            p2.$KEY_SOURCE DESC
+        LIMIT 1
+    );
 """
 
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """

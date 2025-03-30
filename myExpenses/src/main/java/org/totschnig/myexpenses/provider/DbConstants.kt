@@ -119,6 +119,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
@@ -602,23 +603,13 @@ WITH now as (
         cast(strftime('%s', $futureCriterion) as integer) AS now
 ), latest_rates as (
   SELECT p.$KEY_COMMODITY, p.$KEY_VALUE, p.$KEY_DATE
-  FROM $TABLE_PRICES p
+  FROM $VIEW_PRIORITIZED_PRICES p
   WHERE p.$KEY_CURRENCY = '$homeCurrency'
   AND p.$KEY_DATE = (
       -- Get the most recent date per commodity
       SELECT MAX(p2.$KEY_DATE)
       FROM $TABLE_PRICES p2
       WHERE p2.$KEY_COMMODITY = p.$KEY_COMMODITY AND p2.$KEY_CURRENCY = '$homeCurrency'
-  )
-  AND p.$KEY_SOURCE = (
-      -- Select the highest priority source on the latest date
-      SELECT p3.$KEY_SOURCE
-      FROM $TABLE_PRICES p3
-      WHERE p3.$KEY_COMMODITY = p.$KEY_COMMODITY
-        AND p3.$KEY_CURRENCY = '$homeCurrency'
-        AND p3.$KEY_DATE = p.$KEY_DATE
-      ORDER BY CASE WHEN p3.$KEY_SOURCE = '${ExchangeRateSource.User.name}' THEN 0 WHEN p3.$KEY_SOURCE = '${ExchangeRateSource.Calculation.name}' THEN 2 ELSE 1 END, $KEY_SOURCE DESC
-      LIMIT 1
   )
 ), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
