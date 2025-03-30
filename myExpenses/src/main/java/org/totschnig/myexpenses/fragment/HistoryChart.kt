@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
@@ -58,6 +59,7 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.getLocale
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
@@ -69,6 +71,7 @@ import java.time.temporal.JulianFields
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
+import androidx.core.content.withStyledAttributes
 
 class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private var _binding: HistoryChartBinding? = null
@@ -101,6 +104,12 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private val viewModel: HistoryViewModel by activityViewModels()
 
+    val accountId
+        get() = requireActivity().intent.getLongExtra(
+            DatabaseConstants.KEY_ACCOUNTID,
+            0
+        )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with((requireActivity().application as MyApplication).appComponent) {
@@ -116,10 +125,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         )
         val textSizeAttr = intArrayOf(android.R.attr.textSize)
         val indexOfAttrTextSize = 0
-        val a = requireActivity().obtainStyledAttributes(typedValue.data, textSizeAttr)
-        valueTextSize =
-            a.getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
-        a.recycle()
+        requireActivity().withStyledAttributes(typedValue.data, textSizeAttr) {
+            valueTextSize =
+                getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
+        }
         textColor =
             UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorOnSurface)
         lifecycleScope.launch {
@@ -137,15 +146,12 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountInfo(
-                    requireActivity().intent.getLongExtra(
-                        DatabaseConstants.KEY_ACCOUNTID,
-                        0
-                    )
+                    accountId
                 ).collect { (account, grouping) ->
                     val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
@@ -163,10 +169,14 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 }
             }
         }
-        IntentCompat.getParcelableExtra(requireActivity().intent, KEY_FILTER, Criterion::class.java)?.let {
-            filter = it
-        }
-        showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)
+        IntentCompat.getParcelableExtra(requireActivity().intent, KEY_FILTER, Criterion::class.java)
+            ?.let {
+                filter = it
+            }
+        showBalance = accountId != HOME_AGGREGATE_ID && prefHandler.getBoolean(
+            PrefKey.HISTORY_SHOW_BALANCE,
+            showBalance
+        )
         includeTransfers =
             prefHandler.getBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
         showTotals = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals)
@@ -263,7 +273,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             it.findItem(R.id.GROUPING_NONE_COMMAND).isVisible = false
             Utils.configureGroupingMenu(it, grouping)
         }
-        menu.findItem(R.id.TOGGLE_BALANCE_COMMAND)?.isChecked = showBalance
+        menu.findItem(R.id.TOGGLE_BALANCE_COMMAND)?.let {
+            it.setEnabledAndVisible(accountId != HOME_AGGREGATE_ID)
+            it.isChecked = showBalance
+        }
         menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)?.isChecked = includeTransfers
         menu.findItem(R.id.TOGGLE_TOTALS_COMMAND)?.isChecked = showTotals
     }
