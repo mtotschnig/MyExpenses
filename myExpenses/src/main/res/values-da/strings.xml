@@ -407,11 +407,11 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktioner</string>
     <string name="pref_translation_title">Oversættelse</string>
-    <string name="crash_reports_user_info">Hvis appen går ned, vil {app_name} rapportere fejlen automatisk til udvikleren, så problemet kan afhjælpes hurtigt.</string>
+    <string name="crash_reports_user_info">Hvis appen går ned, rapporterer {app_name} automatisk fejlen til udvikleren, så problemet kan løses hurtigere.</string>
     <string name="pref_category_title_crash_reports">Nedbrudsrapporter</string>
-    <string name="pref_enable_acra">Tillad automatisk rapportering af nedbrud</string>
+    <string name="pref_enable_acra">Tillad automatisk nedbrudsrapportering</string>
     <string name="pref_acra_user_email">Brugerens e-mail skal inkluderes i fejlrapport</string>
-    <string name="pref_acra_user_email_summary">Indtast venligst din e-mailadresse, hvis du vil hjælpe med fejlfinding og lade os kontakte dig.</string>
+    <string name="pref_acra_user_email_summary">Indtast venligst din e-mailadresse, hvis du vil hjælpe med fejlfinding og tillade os at kontakte dig.</string>
     <string name="new_version">Ny version</string>
     <string name="pref_news_title">Nyheder</string>
     <string name="title_scan_receipt_feature">Scan kvittering</string>
@@ -421,7 +421,7 @@
     <string name="menu_budget">Budgettering</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Fejlrettelser</string>
     <string name="dialog_title_purge_backups">Rens gamle sikkerhedskopier</string>
-    <string name="menu_reconfigure">Omkonfigurér</string>
+    <string name="menu_reconfigure">Omkonfigurer</string>
     <string name="add_shortcut">Tilføj genvej</string>
     <string name="no_accounts">Ingen konti.</string>
     <string name="contrib_feature_distribution_label">Cirkeldiagram (fordeling pr. kategori)</string>
@@ -601,7 +601,7 @@
     <string name="pref_sync_wifi_only_summary">Synkroniser kun på Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Skriv lokale ændringer til backend med det samme</string>
     <string name="synchronization_postponed">Synkronisering er udskudt.</string>
-    <string name="saving_goal">Sparemål</string>
+    <string name="saving_goal">Opsparingsmål</string>
     <string name="budget_table_header_allocated">Tildelt</string>
     <string name="budget_exceeded_error_1_1">Alle undtagen %s af dit budget er blevet tildelt andre kategorier.</string>
     <string name="budget_exceeded_error_1_2">Hele dit budget er blevet tildelt andre kategorier.</string>
@@ -665,7 +665,7 @@
     <string name="pref_planner_manual_time_title">Tidspunkt for manuelt anvendt planlagt transaktion</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indtægt.</string>
     <string name="pref_clone_with_current_date_title">Dato for klonede transaktioner</string>
-    <string name="template_default_action_without_amount_hint">Skabeloner uden beløb bør gemmes med standardhandlingen \'Redigér\'</string>
+    <string name="template_default_action_without_amount_hint">Skabeloner uden beløb bør gemmes med standardhandlingen \'Rediger\'</string>
     <string name="ocr_recognition_info">Kører tekstgenkendelse med %s</string>
     <string name="warning_unencrypted_backup">Selvom dine data er beskyttet mod uautoriseret adgang på denne enhed, oprettes sikkerhedskopier uden kryptering, medmindre du konfigurerer %s.</string>
     <string name="warning_link_transfer">De to valgte transaktioner tilknyttes som en overførsel. Information om modtager/betaler og kategori fjernes.</string>
@@ -675,7 +675,7 @@
     <string name="dialog_title_warning_delete_tag">Slet etiket?</string>
     <string name="feature_download_requested">Funktionen %s er anmodet om fra Play Butik.</string>
     <string name="content_description_dates_are_linked">Bogførings- og værdidato opdateres sammen</string>
-    <string name="single_feature_info">Du kan også købe ubegrænset adgang til netop denne funktion.</string>
+    <string name="single_feature_info">Alternativt kan du købe ubegrænset adgang til kun denne funktion.</string>
     <string name="content_description_dates_are_not_linked">Bogførings- og værdidato opdateres ikke sammen</string>
     <string name="remapping_result">De valgte transaktioner blev omlagt.</string>
     <string name="budget_onetime">Engangs</string>
@@ -746,24 +746,24 @@
     <string name="advance_exexcution_in_days">Udførsel forud (i dage)</string>
     <string name="warning_balance_account_delete">Hvis du fortsætter, slettes alle afstemte transaktioner for denne konto fra databasen, og du ville ikke kunne gendanne dem.</string>
     <string name="confirmation_load_template_discard_data">Eksisterende formulardata kasseres.</string>
-    <string name="content_description_edit_plan">Redigér plan i kalender-app</string>
-    <string name="menu_save_and_new_content_description">Gem dataene, og lad formularen være åben til oprettelse af en ny transaktion med de samme data.</string>
-    <string name="pref_ocr_engine_title">System for tekstgenkendelse</string>
+    <string name="content_description_edit_plan">Rediger plan i kalender-app</string>
+    <string name="menu_save_and_new_content_description">Gem dataene, og hold formularen åben for at oprette en ny transaktion med de samme data.</string>
+    <string name="pref_ocr_engine_title">System til tekstgenkendelse</string>
     <string name="pref_tesseract_language_title">Sprog til Tesseract</string>
     <string name="download_completed">Hentningen (%s) er fuldført.</string>
     <string name="ocr_download_info">Tekstgenkendelsesfunktionen leveres af en ekstern applikation.</string>
     <string name="pref_group_header_show_details_summary">Vis detaljerede summer i gruppeoverskriften</string>
     <string name="recurrence_last_day_of_month">Sidste dag</string>
-    <string name="request_for_invoice">Anmodning om Faktura</string>
-    <string name="active_tags">Aktive Etiketter</string>
+    <string name="request_for_invoice">Anmodning om faktura</string>
+    <string name="active_tags">Aktive etiketter</string>
     <string name="budget_widget_configuration">Vælg budget</string>
-    <string name="account_widget_configuration_sum_total">Inkludér fremtidige transaktioner</string>
+    <string name="account_widget_configuration_sum_total">Inkluder fremtidige transaktioner</string>
     <string name="warning_plan_instance_delete">Transaktionen oprettet for den valgte dato slettes.</string>
     <string name="debt">Gæld</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Forbedringer af stabiliteten</string>
     <string name="menu_new_debt">Ny gæld</string>
     <string name="setup_completed">Opsætning fuldført</string>
-    <string name="performance_enhancement" tools:ignore="UnusedResources">Forbedring af ydeevne</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Forbedringer af ydeevnen</string>
     <string name="backup_save_to_sync_backend">Gem på %s</string>
     <string name="object_sealed_debt">Objekt henviser til en lukket gæld.</string>
     <plurals name="debt_mapped_transactions">
@@ -777,7 +777,7 @@
     <string name="debt_owes_me">%s skylder mig</string>
     <string name="debt_I_owe">Jeg skylder %s</string>
     <string name="debts">Gæld</string>
-    <string name="warning_party_delete_debt">Når denne part slettes, vil gælden, der er angivet for den, også slettes.</string>
+    <string name="warning_party_delete_debt">Når denne part slettes, bliver tilknyttede gæld også slettet.</string>
     <string name="title_activity_debt_overview">Gældsoversigt</string>
     <string name="cb_label_merge_accounts">Flet konti</string>
     <string name="pref_mlkit_script_title">Script til MlKit</string>
@@ -791,11 +791,11 @@
     <string name="notifications_permission_required_sync">Ved at give tilladelse til at sende notifikationer kan du overvåge forløbet af synkroniseringsoperationerne.</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Brug denne knap til at registrere indtægt.</string>
     <string name="maximum_size">Maks. størrelse</string>
-    <string name="optimize_image_file_size">Optimér billedfilens størrelse</string>
+    <string name="optimize_image_file_size">Optimer billedfilens størrelse</string>
     <string name="pref_planner_manual_time_current">Tidspunkt for oprettelse</string>
     <string name="content_description_attachment">Vedhæftning</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> skal have tilladelse til at sende dig notifikationer, når fremtidige transaktioner bogføres.</string>
-    <string name="button_relink_keep_date">Link igen, men behold dato</string>
+    <string name="button_relink_keep_date">Tilknyt igen, men behold dato</string>
     <string name="pref_attachment_mime_types_title">Tilladte MIME-typer til vedhæftninger</string>
     <string name="webui_warning_move_transaction">Transaktionen flyttes til kontoen {account}.</string>
     <string name="debt_balance_i_owe">Jeg skylder nu %s.</string>
@@ -805,34 +805,34 @@
     <string name="pref_copy_attachments_summary_off">Filer kopieres ikke; kun en reference gemmes.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">tælles som udgift / indtægt</string>
     <string name="one_time_payment">Engangsbetaling</string>
-    <string name="warning_delete_default_transfer_category">Kategori %s er konfigureret som standard overførselskategori og bør ikke slettes.</string>
+    <string name="warning_delete_default_transfer_category">Kategorien %s er konfigureret som standard overførselskategori og bør ikke slettes.</string>
     <string name="pref_transaction_amount_color_source_title">Farver til beløb</string>
-    <string name="warning_unlink_transfer">Den valgte overførsel frakobles: Den erstattes af normale transaktioner på begge konti.</string>
-    <string name="remap_date">På alle valgte transaktioner vil datoen sættes til %s.</string>
-    <string name="orphaned_transaction_align_date">Eventuelt kan den dato, der gemmes med transaktionen, også afstemmes med instansdatoen.</string>
+    <string name="warning_unlink_transfer">Den valgte overførsel frakobles og erstattes af almindelige transaktioner på begge konti.</string>
+    <string name="remap_date">På alle valgte transaktioner sættes datoen til %s.</string>
+    <string name="orphaned_transaction_align_date">Eventuelt kan datoen gemt med transaktionen også tilpasses instansdatoen.</string>
     <string name="ungroup_split_transaction_success">Opdelt transaktion blev afgrupperet.</string>
     <string name="backup_wrong_password">Sikkerhedskopifilen ser ud til at være krypteret med en anden adgangssætning.</string>
     <string name="pref_security_export_passphrase_title">Adgangssætning til sikkerhedskopier</string>
     <string name="backup_is_encrypted">Sikkerhedskopifilen er krypteret. For at dekryptere den skal du angive adgangssætningen.</string>
     <string name="pref_plan_executor_time_title">Planlæggerens notifikationstid</string>
-    <string name="auto_fill_focus">Sæt Fokus på Modtager</string>
+    <string name="auto_fill_focus">Sæt fokus på modtager</string>
     <string name="menu_parent_category_selection">Vælg overordnet kategori ved kort tryk</string>
     <string name="purge_backups">Følgende gamle sikkerhedskopier slettes:</string>
     <string name="pref_purge_backup_require_confirmation_summary">Vis bekræftelsesmeddelelse, før filer renses</string>
     <string name="pref_csv_export_split_categories_summary">Brug separate kolonner for hvert niveau i kategorihierarkiet</string>
     <string name="default_transfer_category">Standard overførselskategori</string>
     <string name="icons_for_categories">Ikoner til kategorier</string>
-    <string name="dialog_confirm_rollover_delete">Alle beløb for fremførsel for denne periode slettes.</string>
-    <string name="image_optimize_quality_summary">Kvalitet på 0 betyder komprimering til den mindste størrelse. 100 betyder komprimering til maksimal visuel kvalitet.</string>
+    <string name="dialog_confirm_rollover_delete">Alle fremførelsesbeløb for denne periode slettes.</string>
+    <string name="image_optimize_quality_summary">Kvalitet 0 betyder komprimering for minimal størrelse. 100 betyder komprimering for maksimal visuel kvalitet.</string>
     <string name="template_shortcut">Genvej til skabelon</string>
     <string name="notifications_permission_required_webui">Ved at give tilladelse til at sende notifikationer kan du kontrollere webserverens status.</string>
-    <string name="button_relink_update_date">Link igen, og opdatér dato</string>
+    <string name="button_relink_update_date">Tilknyt igen, og opdater dato</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">tælles som overførsel</string>
     <string name="pref_sync_now_all_summary">%s synkroniserer alle konti for den samme backend</string>
     <string name="roadmap_intro">Afstemningen i 2024 Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
-    <string name="rollover_edit_invalid">Summen af fremførslen, der er tildelt en kategori, og de fremførsler, der er tildelt underkategorier, kan ikke overstige restbeløbet.</string>
+    <string name="rollover_edit_invalid">Summen af fremførelsen tildelt en kategori og fremførelser tildelt underkategorier må ikke overskride restbeløbet.</string>
     <string name="debt_paid_off_self">Min gæld er afbetalt.</string>
     <string name="passphrase_for_synchronization">Indtast en adgangssætning, hvis du vil kryptere synkroniseringsdata på denne backend.</string>
     <string name="account_widget_configuration_sum">Type af vist sum</string>
@@ -842,15 +842,15 @@
     <string name="no_sync_backends">Ingen synkroniseringsbackends</string>
     <string name="menu_create_sync_backend">Ny synkroniseringsbackend</string>
     <plurals name="purge_backup_success">
-        <item quantity="one">Én gammel sikkerhedskopifil blev slettet.</item>
-        <item quantity="other">%d gamle sikkerhedskopifiler blev slettet.</item>
+        <item quantity="one">Én gammel sikkerhedskopi blev slettet.</item>
+        <item quantity="other">%d gamle sikkerhedskopier blev slettet.</item>
     </plurals>
     <string name="merge_categories_dialog_title">Flet kategorier</string>
-    <string name="subcategories_merged_recursively">Hvis nogen af de flettede kategorier har underkategorier med samme etiket, vil de flettes først, rekursivt.</string>
+    <string name="subcategories_merged_recursively">Hvis nogen af de flettede kategorier har underkategorier med samme navn, flettes de først, rekursivt.</string>
     <string name="merge_categories_prompt">Vælg den kategori, du vil beholde</string>
-    <string name="pref_purge_backup_keep_title">Maks. antal seneste sikkerhedskopifiler, der skal beholdes</string>
+    <string name="pref_purge_backup_keep_title">Maks. antal seneste sikkerhedskopier, der skal beholdes</string>
     <string name="pref_debug_logging_share_summary">Del logfiler</string>
-    <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indtægter og udgifter</string>
+    <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indtægt og udgifter</string>
     <string name="redesign">Redesign</string>
     <string name="roadmap_vote">Udviklingsplan Afstemning</string>
     <string name="object_sealed">Objekt henviser til en lukket konto.</string>
@@ -859,14 +859,14 @@
     <string name="dialog_title_confirm_remap">Ændr tilknytning (%s)?</string>
     <string name="pref_criterion_future_end_of_day">Slutning af dagen</string>
     <plurals name="purge_backup_failure">
-        <item quantity="one">Én gammel sikkerhedskopifil kunne ikke slettes.</item>
-        <item quantity="other">%d gamle sikkerhedskopifiler kunne ikke slettes.</item>
+        <item quantity="one">Én gammel sikkerhedskopi kunne ikke slettes.</item>
+        <item quantity="other">%d gamle sikkerhedskopier kunne ikke slettes.</item>
     </plurals>
-    <string name="pref_csv_export_split_date_time_summary">Brug separate kolonner til dato og klokkeslæt</string>
-    <string name="account_widget_configuration">Konto-widget konfiguration</string>
+    <string name="pref_csv_export_split_date_time_summary">Brug separate kolonner til dato og tid</string>
+    <string name="account_widget_configuration">Konfiguration af konto-widget</string>
     <string name="select_all_list_too_large">Kommandoen %s er ikke tilgængelig, fordi listen kun er delvist indlæst. Brug venligst Søgefunktionen til at reducere listestørrelsen.</string>
     <string name="encrypt_database">Kryptér database</string>
-    <string name="encrypt_database_info">Databasen krypteres med en adgangssætning som ikke kan udtrækkes fra denne enhed. Derfor bliver den ikke sikkerhedskopieret af din enheds sikkerhedskopieringstjeneste.</string>
+    <string name="encrypt_database_info">Databasen krypteres med en adgangssætning, der ikke kan udtrækkes fra denne enhed. Derfor bliver den ikke sikkerhedskopieret af enhedens sikkerhedskopieringstjeneste.</string>
     <string name="database_is_encrypted">Databasen er krypteret.</string>
     <string name="notifications_permission_required_auto_backup">Ved at give tilladelse til at sende notifikationer informeres du om auto-sikkerhedskopieringer.</string>
     <string name="notifications_channel_required">Aktivér venligst kanal %s.</string>
@@ -886,14 +886,14 @@
     <string name="menu_transform_to_transfer">Konverter til overførsel</string>
     <string name="warning_transform_to_transfer">Den valgte transaktion erstattes af en overførsel fra %1$s til %2$s.</string>
     <string name="pref_csv_export_category_separator_summary">Separator mellem niveauer i kategorihierarkiet</string>
-    <string name="orphaned_transaction_relink">Transaktionen kan linkes igen med begivenhedsinstansen på %s.</string>
+    <string name="orphaned_transaction_relink">Transaktionen kan tilknyttes begivenhedsinstansen på %s igen.</string>
     <string name="orphaned_transaction_info">En transaktion er knyttet til planen for denne dato, men ingen begivenhedsinstans eksisterer på denne dato.</string>
     <string name="not_enough_data">Ikke nok data</string>
     <string name="buy">Køb</string>
     <string name="pref_scroll_to_current_date_title">Rul transaktionslisten til dags dato</string>
     <string name="pref_scroll_to_current_date_app_launch">kun når appen starter</string>
     <string name="pref_scroll_to_current_date_account_open">hver gang du navigerer til konto</string>
-    <string name="menu_unpack">Pak ud</string>
+    <string name="menu_unpack">Udpak</string>
     <string name="warning_unarchive">Arkivet bliver pakket ud. Alle indeholdte transaktioner genindsættes i listen.</string>
     <string name="archive">Arkiv</string>
     <string name="dialog_title_warning_delete_archive">Slet arkiv?</string>
@@ -914,7 +914,7 @@
     <string name="content_description_original_amount">Definer det oprindelige beløb for denne transaktion ved at vælge en valuta og indtaste beløbet. Du kan også definere en valutakurs, som bruges til at beregne det faktiske beløb.</string>
     <string name="warning_archived_transfer_cannot_be_edited">Overførslen kan ikke redigeres, fordi den anden side er arkiveret.</string>
     <string name="content_description_exchange_rate">Valutakurs for 1 %1$s i %2$s</string>
-    <string name="content_description_equivalent_amount">Definer værdien af denne transaktion i din hjemvaluta. I stedet for at indtaste beløbet kan du også indtaste valutakursen for at beregne det.</string>
+    <string name="content_description_equivalent_amount">Definer værdien af denne transaktion i din hjemmevaluta. I stedet for at indtaste beløbet kan du også indtaste valutakursen for at beregne det.</string>
     <string name="warning_budget_sync_import">Konfigurationen af dette budget importeres fra synkroniseringsbackenden. Alle lokale ændringer går tabt.</string>
     <string name="budget_import_can_be_imported">Følgende budgetter kan importeres:</string>
     <string name="budget_import_cannot_be_imported">Følgende budgetter henviser til konti, der ikke er synkroniseret:</string>
@@ -926,7 +926,7 @@
     <string name="initial_value">Oprindelig værdi</string>
     <string name="current_value">Aktuel værdi</string>
     <string name="total_value">Samlet værdi</string>
-    <string name="enable_automatic_daily_exchange_rate_download">Automatisk download af daglige valutakurser</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Automatisk hentning af daglige valutakurser</string>
     <string name="price_history">Prishistorik</string>
     <string name="dynamic_exchange_rate">Dynamisk valutakurs</string>
     <string name="progress_recalculating">Genberegner</string>
