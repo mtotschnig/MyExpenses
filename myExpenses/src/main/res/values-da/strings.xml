@@ -936,4 +936,5 @@
     <string name="menu_recalculate">Genberegn</string>
     <string name="quick_search">Hurtig søgning</string>
     <string name="complex_search">Kompleks søgning</string>
+    <string name="account_closed">Kontoen er låst</string>
 </resources>
