@@ -1014,4 +1014,5 @@
     <string name="webui_download_no_data">Después de imprimir, exportar o crear copias de seguridad en la aplicación, los archivos estarán disponibles desde aquí para descargar.</string>
     <string name="total_value">Valor total</string>
     <string name="recalculate_equivalent_amounts_warning">Los importes equivalentes se (re)calcularán si se dispone de los tipos de cambio almacenados aplicables.</string>
+    <string name="account_closed">La cuenta está cerrada</string>
 </resources>
