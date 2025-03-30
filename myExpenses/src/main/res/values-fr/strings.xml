@@ -1014,4 +1014,5 @@
     <string name="current_value">Valeur actuelle</string>
     <string name="complex_search">Recherche complexe</string>
     <string name="quick_search">Recherche rapide</string>
+    <string name="account_closed">Le compte est fermé</string>
 </resources>
