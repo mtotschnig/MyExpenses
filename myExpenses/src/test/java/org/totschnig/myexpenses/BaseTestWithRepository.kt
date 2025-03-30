@@ -80,13 +80,14 @@ abstract class BaseTestWithRepository {
     protected fun insertBudget(
         accountId: Long,
         title: String,
-        amount: Long
+        amount: Long,
+        grouping: Grouping = Grouping.MONTH
     ) = ContentUris.parseId(contentResolver.insert(
         TransactionProvider.BUDGETS_URI, BudgetInfo(
             accountId = accountId,
             title = title,
             amount = amount,
-            grouping = Grouping.MONTH
+            grouping = grouping
         ).contentValues
     )!!)
 

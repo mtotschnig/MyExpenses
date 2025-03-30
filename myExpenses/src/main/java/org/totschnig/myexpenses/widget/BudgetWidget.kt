@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.util.LayoutDirection
 import android.util.TypedValue
@@ -13,6 +12,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.core.widget.RemoteViewsCompat.setProgressBarProgress
 import androidx.core.widget.RemoteViewsCompat.setProgressBarSecondaryProgress
 import androidx.core.widget.RemoteViewsCompat.setViewTranslationXDimen
@@ -108,7 +108,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
     override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) {
         val widget = runCatching {
             val horizontalPadding = 32
@@ -268,13 +268,13 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                             context, appWidgetId, clickBaseIntent(context).apply {
                                 putExtra(KEY_CLICK_ACTION, action)
                                 putExtra(EXTRA_APPWIDGET_ID, appWidgetId)
-                                data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
+                                data = toUri(Intent.URI_INTENT_SCHEME).toUri()
                             }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                         )
                     )
                 }
 
-                if (budgetInfo.groupInfo.year == 0 && budgetInfo.groupInfo.second == 0) {
+                if (budgetInfo.groupInfo.year == null && budgetInfo.groupInfo.second == null) {
                     setViewVisibility(R.id.BACK_COMMAND, View.GONE)
                     setViewVisibility(R.id.FORWARD_COMMAND, View.GONE)
                     val padding = TypedValue.applyDimension(

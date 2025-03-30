@@ -59,8 +59,8 @@ import java.time.temporal.ChronoUnit
 
 data class BudgetDuration(val start: LocalDate, val end: LocalDate)
 data class BudgetPeriod(
-    val year: Int,
-    val second: Int,
+    val year: Int?,
+    val second: Int?,
     val duration: BudgetDuration,
     val description: String,
 )
@@ -146,8 +146,8 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
     loadBudget(budgetId)?.let { budget ->
         val grouping = budget.grouping
         val groupingInfo = if (grouping == Grouping.NONE) BudgetPeriod(
-            year = 0,
-            second = 0,
+            year = null,
+            second = null,
             duration = BudgetDuration(
                 start = budget.start!!,
                 end = budget.end!!
@@ -241,11 +241,11 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long, period: Pair<Int, Int>
  */
 fun Repository.budgetAllocation(
     budgetId: Long,
-    year: Int,
-    second: Int,
+    year: Int?,
+    second: Int?,
 ) = contentResolver.query(
     budgetAllocationQueryUri(
-        budgetId, year.toString(), second.toString()
+        budgetId, year?.toString(), second?.toString()
     ), arrayOf(KEY_BUDGET), null, null, null
 )?.use {
     if (it.moveToFirst()) it.getLong(0) else null
