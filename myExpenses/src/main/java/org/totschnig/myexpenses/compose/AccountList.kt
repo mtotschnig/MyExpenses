@@ -399,7 +399,7 @@ fun AccountCard(
                 val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
                 val currency = if (showEquivalent) homeCurrency else account.currencyUnit
 
-                val fXFormat = remember { DecimalFormat("#.##################") }
+                val fXFormat = remember { DecimalFormat("#.############") }
                 SumRow(
                     if (showEquivalent) R.string.initial_value else R.string.opening_balance,
                     format.convAmount(
