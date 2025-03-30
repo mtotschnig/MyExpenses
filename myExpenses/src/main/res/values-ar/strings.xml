@@ -1021,4 +1021,27 @@
     <string name="merge_categories_dialog_title">دمج الفئات</string>
     <string name="quick_search">البحث السريع</string>
     <string name="complex_search">البحث المعقد</string>
+    <string name="content_description_original_amount">حدد المبلغ الأصلي لهذه الحركة عن طريق تحديد عملة وإدخال المبلغ. يمكنك أيضا تحديد سعر الصرف الذي سيتم استخدامه لحساب المبلغ الفعلي.</string>
+    <string name="content_description_equivalent_amount">حدد قيمة هذه المعاملة بعملتك المحلية. بدلا من إدخال المبلغ ، يمكنك أيضا إدخال سعر الصرف لحسابه.</string>
+    <string name="warning_budget_sync_import">سيتم استيراد تكوين هذه مزانية من الواجهة الخلفية للمزامنة. سيتم فقد جميع التغييرات المحلية.</string>
+    <string name="pref_sync_frequency_summary_0">اضبط على 0 لإلغاء تنشيط المزامنة التلقائية.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">لا يمكن تحرير النقل لأن جانبه الآخر مؤرشف.</string>
+    <string name="budget_import_none_found">لم يتم العثور على ميزانيات.</string>
+    <string name="webui_download_no_data">بعد الطباعة أو التصدير أو إنشاء نسخ احتياطية في التطبيق ، ستكون الملفات متاحة من هنا للتنزيل.</string>
+    <string name="menu_show_equivalent_value">القيمة المكافئة</string>
+    <string name="initial_value">القيمة الأولية</string>
+    <string name="current_value">القيمة الحالية</string>
+    <string name="total_value">القيمة الإجمالية</string>
+    <string name="enable_automatic_daily_exchange_rate_download">تنزيل سعر الصرف اليومي التلقائي</string>
+    <string name="price_history">تاريخ الأسعار</string>
+    <string name="dynamic_exchange_rate">سعر الصرف الديناميكي</string>
+    <string name="progress_recalculating">إعادة الحساب</string>
+    <string name="equivalent_amount_plural">المبالغ المعادلة</string>
+    <string name="menu_recalculate">إعادة الحساب</string>
+    <string name="content_description_exchange_rate">سعر الصرف لمدة 1 %1$s في %2$s</string>
+    <string name="filter_dialog_empty">لم تتم إضافة معايير حتى الآن. اضغط على الأزرار أعلاه لتحديد استعلامك وتحسين نتائجك.</string>
+    <string name="recalculate_equivalent_amounts_warning">سيتم (إعادة) حساب المبالغ المعادلة إذا كانت أسعار الصرف المخزنة متوفرة سارة.</string>
+    <string name="recalculate_only_missing">املأ القيم المفقودة فقط</string>
+    <string name="budget_import_cannot_be_imported">تشير الموازنات التالية إلى الحسابات غير المتزامنة:</string>
+    <string name="budget_import_can_be_imported">يمكن استيراد الميزانيات التالية:</string>
 </resources>

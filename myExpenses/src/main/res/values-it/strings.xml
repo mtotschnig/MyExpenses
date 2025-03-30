@@ -986,4 +986,27 @@
     <string name="buy">Comprare</string>
     <string name="quick_search">Ricerca rapida</string>
     <string name="complex_search">Ricerca complessa</string>
+    <string name="pref_sync_frequency_summary_0">Impostare su 0 per disattivare la sincronizzazione automatica.</string>
+    <string name="budget_import_can_be_imported">È possibile importare i seguenti budget:</string>
+    <string name="content_description_equivalent_amount">Definisci il valore di questa transazione nella tua valuta nazionale. Invece di inserire l\'importo, è possibile inserire anche il tasso di cambio per calcolarlo.</string>
+    <string name="webui_download_no_data">Dopo aver stampato, esportato o creato backup nell\'app, i file saranno disponibili da qui per il download.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Il trasferimento non può essere modificato perché l\'altro lato è archiviato.</string>
+    <string name="warning_budget_sync_import">La configurazione di questo budget verrà importata dal backend di sincronizzazione. Tutte le modifiche locali andranno perse.</string>
+    <string name="budget_import_cannot_be_imported">I seguenti budget si riferiscono a conti non sincronizzati:</string>
+    <string name="budget_import_none_found">Nessun budget trovato.</string>
+    <string name="filter_dialog_empty">Non sono ancora stati aggiunti criteri. Tocca i pulsanti in alto per definire la query e perfezionare i risultati.</string>
+    <string name="menu_show_equivalent_value">Valore equivalente</string>
+    <string name="initial_value">Valore iniziale</string>
+    <string name="current_value">Valore attuale</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Scaricamento automatico del tasso di cambio giornaliero</string>
+    <string name="price_history">Cronologia dei prezzi</string>
+    <string name="dynamic_exchange_rate">Tasso di cambio dinamico</string>
+    <string name="progress_recalculating">Ricalcolo</string>
+    <string name="equivalent_amount_plural">Importi equivalenti</string>
+    <string name="menu_recalculate">Ricalcolare</string>
+    <string name="recalculate_equivalent_amounts_warning">Gli importi equivalenti saranno (ri)calcolati se sono disponibili i tassi di cambio memorizzati.</string>
+    <string name="recalculate_only_missing">Inserire solo i valori mancanti</string>
+    <string name="content_description_original_amount">Definire l\'importo originale di questa transazione selezionando una valuta e inserendo l\'importo. È inoltre possibile definire un tasso di cambio che verrà utilizzato per calcolare l\'importo effettivo.</string>
+    <string name="content_description_exchange_rate">Tasso di cambio per 1 %1$s in %2$s</string>
+    <string name="total_value">Valore totale</string>
 </resources>
