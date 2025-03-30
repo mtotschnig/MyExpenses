@@ -588,7 +588,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_HIDDEN + ", " + sortOrder;
           qb = SupportSQLiteQueryBuilder.builder(minimal ? TABLE_ACCOUNTS : getAccountsWithExchangeRate());
           if (projection == null)
-            projection = org.totschnig.myexpenses.model2.Account.Companion.getPROJECTION();
+            projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
           break;
         }
 

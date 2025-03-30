@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
@@ -634,18 +635,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val cte = if (minimal) "" else
             accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction, typeWithFallBack)
 
-        val minimalProjection = arrayOf(
-            KEY_ROWID,
-            KEY_LABEL,
-            KEY_CURRENCY,
-            KEY_TYPE,
-            "0 AS $KEY_IS_AGGREGATE"
-        )
-
         val tableName = if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS
         val query = if (mergeAggregate == null) {
             SupportSQLiteQueryBuilder.builder(tableName)
-                .columns(if (minimal) minimalProjection else null)
+                .columns(if (minimal) Account.PROJECTION_MINIMAL else null)
                 .selection(selection, emptyArray())
                 .orderBy("$KEY_HIDDEN, $sortOrder")
                 .create().sql
@@ -656,7 +649,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     SupportSQLiteQueryBuilder
                         .builder(tableName)
                         .columns(
-                            if (minimal) minimalProjection else arrayOf(
+                            if (minimal)  Account.PROJECTION_MINIMAL else arrayOf(
                                 KEY_ROWID,
                                 KEY_LABEL,
                                 KEY_DESCRIPTION,

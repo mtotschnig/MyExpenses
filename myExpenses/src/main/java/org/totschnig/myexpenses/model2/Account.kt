@@ -48,6 +48,9 @@ data class Account(
     companion object {
 
         const val DEFAULT_COLOR = -0xff6978
+
+        fun getProjection(minimal: Boolean) = if (minimal) PROJECTION_MINIMAL else PROJECTION
+
         val PROJECTION = arrayOf(
             "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
             KEY_LABEL,
@@ -68,6 +71,14 @@ data class Account(
             KEY_SEALED,
             KEY_BANK_ID,
             KEY_DYNAMIC
+        )
+
+        val PROJECTION_MINIMAL = arrayOf(
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_CURRENCY,
+            KEY_TYPE,
+            "0 AS $KEY_IS_AGGREGATE"
         )
 
         fun fromCursor(cursor: Cursor): Account {
