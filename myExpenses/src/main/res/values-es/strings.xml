@@ -999,4 +999,19 @@
     <string name="budget_import_none_found">No se han encontrado presupuestos.</string>
     <string name="quick_search">Búsqueda rápida</string>
     <string name="complex_search">Búsqueda compleja</string>
+    <string name="menu_show_equivalent_value">Valor equivalente</string>
+    <string name="initial_value">Valor inicial</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Descarga automática del tipo de cambio diario</string>
+    <string name="price_history">Historial de precios</string>
+    <string name="dynamic_exchange_rate">Tipo de cambio dinámico</string>
+    <string name="equivalent_amount_plural">Cantidades equivalentes</string>
+    <string name="menu_recalculate">Recalcular</string>
+    <string name="recalculate_only_missing">Rellene solo los valores que faltan</string>
+    <string name="filter_dialog_empty">Todavía no se han añadido criterios. Toque los botones de arriba para definir su consulta y refinar sus resultados.</string>
+    <string name="pref_sync_frequency_summary_0">Establézcalo en 0 para desactivar la sincronización automática.</string>
+    <string name="current_value">Valor actual</string>
+    <string name="progress_recalculating">Recalculando</string>
+    <string name="webui_download_no_data">Después de imprimir, exportar o crear copias de seguridad en la aplicación, los archivos estarán disponibles desde aquí para descargar.</string>
+    <string name="total_value">Valor total</string>
+    <string name="recalculate_equivalent_amounts_warning">Los importes equivalentes se (re)calcularán si se dispone de los tipos de cambio almacenados aplicables.</string>
 </resources>
