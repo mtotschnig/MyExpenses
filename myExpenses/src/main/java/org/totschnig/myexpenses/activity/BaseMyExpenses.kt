@@ -960,6 +960,32 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             true
                         )
                     }
+                    val coroutineScope = rememberCoroutineScope()
+                    val preferredSearchType =
+                        viewModel.preferredSearchType().collectAsState(TYPE_COMPLEX).value
+                    if (showFilterDialog) {
+                        currentAccount?.let {
+                            FilterDialog(
+                                account = it,
+                                sumInfo = sumInfo.value,
+                                //we are only interested in the current value, since as soon as we persist new value,
+                                //the dialog is dismissed
+                                //noinspection StateFlowValueCalledInComposition
+                                criterion = currentFilter.whereFilter.value,
+                                initialPreferredSearchType = preferredSearchType,
+                                onDismissRequest = {
+                                    showFilterDialog = false
+                                }, onConfirmRequest = { preferredSearchType, criterion ->
+                                    coroutineScope.launch {
+                                        viewModel.persistPreferredSearchType(preferredSearchType)
+                                        currentFilter.persist(criterion)
+                                        showFilterDialog = false
+                                        invalidateOptionsMenu()
+                                    }
+                                }
+                            )
+                        }
+                    }
                     HorizontalPager(
                         modifier = Modifier
                             .background(MaterialTheme.colorScheme.onSurface)
@@ -973,7 +999,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         key = { accountData[it].id }
                     ) {
                         Timber.i("Rendering page $it")
-                        Page(account = accountData[it].toPageAccount)
+                        Page(account = accountData[it].toPageAccount, preferredSearchType)
                     }
                 } else {
                     Column(
@@ -998,10 +1024,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     @Composable
-    fun Page(account: PageAccount) {
-
-        val preferredSearchType =
-            viewModel.preferredSearchType().collectAsState(TYPE_COMPLEX).value
+    fun Page(account: PageAccount, preferredSearchType: Int) {
 
         LaunchedEffect(key1 = account.sealed) {
             if (account.sealed) finishActionMode()
@@ -1021,28 +1044,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         } else null
 
         val headerData = remember(account) { viewModel.headerData(account) }
-        val coroutineScope = rememberCoroutineScope()
-        if (showFilterDialog) {
-            FilterDialog(
-                account = account,
-                sumInfo = sumInfo.value,
-                //we are only interested in the current value, since as soon as we persist new value,
-                //the dialog is dismissed
-                //noinspection StateFlowValueCalledInComposition
-                criterion = currentFilter.whereFilter.value,
-                initialPreferredSearchType = preferredSearchType,
-                onDismissRequest = {
-                    showFilterDialog = false
-                }, onConfirmRequest = { preferredSearchType, criterion ->
-                    coroutineScope.launch {
-                        viewModel.persistPreferredSearchType(preferredSearchType)
-                        currentFilter.persist(criterion)
-                        showFilterDialog = false
-                        invalidateOptionsMenu()
-                    }
-                }
-            )
-        }
+
         LaunchedEffect(selectionState.size) {
             if (selectionState.isNotEmpty()) {
                 startMyActionMode()
