@@ -10,6 +10,7 @@ import android.view.Menu
 import android.widget.ImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -174,23 +175,25 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             baseCurrency = it
         }
         if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
-            setSymbols(binding.ExchangeRate1, otherCurrency.symbol, baseCurrency.symbol)
-            setSymbols(binding.ExchangeRate2, baseCurrency.symbol, otherCurrency.symbol)
-            rate1Edit.setHintForA11yOnly(
-                context.getString(
-                    R.string.content_description_exchange_rate,
-                    otherCurrency.description,
-                    baseCurrency.description
+            isVisible = if (otherCurrency.code == baseCurrency.code) false else {
+                setSymbols(binding.ExchangeRate1, otherCurrency.symbol, baseCurrency.symbol)
+                setSymbols(binding.ExchangeRate2, baseCurrency.symbol, otherCurrency.symbol)
+                rate1Edit.setHintForA11yOnly(
+                    context.getString(
+                        R.string.content_description_exchange_rate,
+                        otherCurrency.description,
+                        baseCurrency.description
+                    )
                 )
-            )
-            rate2Edit.setHintForA11yOnly(
-                context.getString(
-                    R.string.content_description_exchange_rate,
-                    baseCurrency.description,
-                    otherCurrency.description
+                rate2Edit.setHintForA11yOnly(
+                    context.getString(
+                        R.string.content_description_exchange_rate,
+                        baseCurrency.description,
+                        otherCurrency.description
+                    )
                 )
-            )
-            downloadButton.setEnabledWithColor(otherCurrency.code != baseCurrency.code)
+                true
+            }
         }
     }
 

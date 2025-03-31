@@ -267,14 +267,24 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                                 null
                             }
                         } else {
-                            AttachmentInfo.of(it, R.drawable.ic_menu_camera, contentDescription, file)
+                            AttachmentInfo.of(
+                                it,
+                                R.drawable.ic_menu_camera,
+                                contentDescription,
+                                file
+                            )
                         }
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             val icon = contentResolver.getTypeInfo(it).icon
                             AttachmentInfo.of(it, icon, contentDescription, file)
                         } else {
-                            AttachmentInfo.of(it, R.drawable.ic_menu_template, contentDescription, file)
+                            AttachmentInfo.of(
+                                it,
+                                R.drawable.ic_menu_template,
+                                contentDescription,
+                                file
+                            )
                         }
                     }
                 }
@@ -289,7 +299,12 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
             } else null
 
             else -> null
-        } ?: AttachmentInfo.of(null, com.google.android.material.R.drawable.mtrl_ic_error, "Error", null)
+        } ?: AttachmentInfo.of(
+            null,
+            com.google.android.material.R.drawable.mtrl_ic_error,
+            "Error",
+            null
+        )
     }
 }
 
@@ -326,10 +341,10 @@ fun Context.getAmountColor(sign: Int) =
         )
 
 fun EditText.setHintForA11yOnly(hint: CharSequence) {
-    ViewCompat.setAccessibilityDelegate(this, object: AccessibilityDelegateCompat() {
+    ViewCompat.setAccessibilityDelegate(this, object : AccessibilityDelegateCompat() {
         override fun onInitializeAccessibilityNodeInfo(
             host: View,
-            info: AccessibilityNodeInfoCompat
+            info: AccessibilityNodeInfoCompat,
         ) {
             super.onInitializeAccessibilityNodeInfo(host, info)
             info.hintText = hint
@@ -338,7 +353,7 @@ fun EditText.setHintForA11yOnly(hint: CharSequence) {
 }
 
 fun ImageView.setEnabledWithColor(enabled: Boolean) {
-    imageAlpha =if (enabled) 0xFF else 0x3F
+    imageAlpha = if (enabled) 0xFF else 0x3F
     this.isEnabled = isEnabled
 }
 
