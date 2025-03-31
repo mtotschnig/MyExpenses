@@ -49,10 +49,10 @@ data class Category(
         }
 
 
-    fun pruneNonMatching(function: ((Category) -> Boolean)? = null): Category? {
-        val criteria = function ?: { it.isMatching }
-        val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
-        return if (criteria(this) || prunedChildren.isNotEmpty()) {
+    fun pruneByCriterion(criterion: ((Category) -> Boolean)?): Category? {
+        if (criterion == null) return this
+        val prunedChildren = children.mapNotNull { it.pruneByCriterion(criterion) }
+        return if (criterion(this) || prunedChildren.isNotEmpty()) {
             copy(children = prunedChildren)
         } else null
     }

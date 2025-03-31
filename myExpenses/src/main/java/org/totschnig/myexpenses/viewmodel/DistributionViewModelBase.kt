@@ -161,7 +161,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
         whereFilter: Criterion? = null,
-        keepCriteria: ((Category) -> Boolean)? = null,
+        keepCriterion: ((Category) -> Boolean)? = null,
         queryParameter: Map<String, String> = emptyMap(),
         idMapper: (Long) -> Long = { it }
     ): Flow<Category> =
@@ -197,7 +197,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     }
                 }
             },
-            keepCriteria = keepCriteria,
+            keepCriterion = keepCriterion,
             idMapper = idMapper
         ).mapNotNull {
             when (it) {

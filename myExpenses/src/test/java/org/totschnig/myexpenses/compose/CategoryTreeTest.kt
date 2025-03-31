@@ -21,7 +21,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.pruneNonMatching()).isEqualTo(category)
+        assertThat(category.pruneByCriterion()).isEqualTo(category)
     }
 
     @Test
@@ -99,6 +99,6 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.pruneNonMatching()).isNull()
+        assertThat(category.pruneByCriterion()).isNull()
     }
 }

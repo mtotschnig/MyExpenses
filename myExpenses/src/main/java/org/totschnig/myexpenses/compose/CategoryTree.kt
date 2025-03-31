@@ -210,7 +210,7 @@ fun CategoryRenderer(
                         combinedClickable(
                             onLongClick = onToggleSelection,
                             onClick = {
-                                if (choiceMode.selectionState.size == 0) {
+                                if (choiceMode.selectionState.isEmpty()) {
                                     showMenu.value = true
                                 } else {
                                     onToggleSelection()

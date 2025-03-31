@@ -177,7 +177,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             isIncome = isIncome,
             aggregateNeutral = aggregateNeutral,
             groupingInfo = grouping,
-            keepCriteria = { it.sum != 0L },
+            keepCriterion = { it.sum != 0L },
             whereFilter = whereFilter,
             idMapper = { if (isIncome) it else -it }
         )

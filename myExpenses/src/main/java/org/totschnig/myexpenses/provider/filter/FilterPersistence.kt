@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.json.Json
 import kotlin.collections.first
 
+const val KEY_FILTER = "filter"
+
 /**
  * Scope must be passed in, if value is read as flow
  */

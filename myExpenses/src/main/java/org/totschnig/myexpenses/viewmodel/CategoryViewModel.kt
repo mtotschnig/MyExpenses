@@ -114,7 +114,7 @@ sealed class LoadingState {
 
 open class CategoryViewModel(
     application: Application,
-    protected val savedStateHandle: SavedStateHandle
+    protected val savedStateHandle: SavedStateHandle,
 ) :
     ContentResolvingAndroidViewModel(application) {
     private val _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
@@ -139,7 +139,7 @@ open class CategoryViewModel(
         val category: Category? = null,
         val parent: Category? = null,
         val saving: Boolean = false,
-        val error: Boolean = false
+        val error: Boolean = false,
     ) : DialogState() {
         val isNew: Boolean
             get() = category == null || category.id == 0L
@@ -147,7 +147,7 @@ open class CategoryViewModel(
 
     data class Merge(
         val categories: List<Category>,
-        val saving: Boolean = false
+        val saving: Boolean = false,
     ) : DialogState()
 
     @OptIn(SavedStateHandleSaveableApi::class)
@@ -157,13 +157,13 @@ open class CategoryViewModel(
         class OperationPending(
             val categories: List<Category>,
             val mappedToBudgets: Int,
-            val hasDescendants: Int
+            val hasDescendants: Int,
         ) : DeleteResult()
 
         class OperationComplete(
             val deleted: Int,
             val mappedToTransactions: Int,
-            val mappedToTemplates: Int
+            val mappedToTemplates: Int,
         ) : DeleteResult()
     }
 
@@ -201,7 +201,7 @@ open class CategoryViewModel(
         Triple(type, filter, sort)
     }.flatMapLatest { (type, filter, sortOrder) ->
         val (selection, selectionArgs) = joinQueryAndAccountFilter(
-            filter,
+            null,
             savedStateHandle.get<Long>(KEY_ACCOUNTID),
             KEY_LABEL_NORMALIZED, KEY_CATID, "_Tree_"
         )
@@ -211,7 +211,7 @@ open class CategoryViewModel(
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
             queryParameter = type?.let { mapOf(KEY_TYPE to type.toString()) } ?: emptyMap(),
             projection = null,
-            keepCriteria = null,
+            keepCriterion = { it.label.contains(filter, ignoreCase = true) },
             withColors = false
         )
     }
@@ -228,9 +228,9 @@ open class CategoryViewModel(
         projection: Array<String>? = null,
         additionalSelectionArgs: Array<String>? = null,
         queryParameter: Map<String, String> = emptyMap(),
-        keepCriteria: ((Category) -> Boolean)? = null,
+        keepCriterion: ((Category) -> Boolean)? = null,
         withColors: Boolean = true,
-        idMapper: (Long) -> Long = { it }
+        idMapper: (Long) -> Long = { it },
     ): Flow<LoadingState.Result> {
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
@@ -239,7 +239,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToResult(keepCriteria, withColors, idMapper)
+        ).mapToResult(keepCriterion, withColors, idMapper)
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
@@ -252,9 +252,9 @@ open class CategoryViewModel(
             .build()
 
     private fun Flow<Query>.mapToResult(
-        keepCriteria: ((Category) -> Boolean)?,
+        keepCriterion: ((Category) -> Boolean)?,
         withColors: Boolean,
-        idMapper: (Long) -> Long
+        idMapper: (Long) -> Long,
     ): Flow<LoadingState.Result> = mapNotNull { query ->
         withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
@@ -271,9 +271,12 @@ open class CategoryViewModel(
                             1,
                             idMapper
                         )
-                    ).pruneNonMatching(keepCriteria)?.let {
-                        LoadingState.Data(data = it)
-                    } ?: LoadingState.Empty(true)
+                    )
+                        .pruneByCriterion { it.isMatching }
+                        ?.pruneByCriterion(keepCriterion)
+                        ?.let {
+                            LoadingState.Data(data = it)
+                        } ?: LoadingState.Empty(true)
                 else LoadingState.Empty(cursor.extras.getBoolean(KEY_COUNT))
             }
         }
@@ -339,7 +342,7 @@ open class CategoryViewModel(
         old: Set<Long>,
         new: Long,
     ): Criterion {
-        return when(criterion) {
+        return when (criterion) {
             is CategoryCriterion -> {
                 val oldSet = criterion.values.toSet()
                 val newSet: Set<Long> = oldSet.replace(old, new)
@@ -361,9 +364,14 @@ open class CategoryViewModel(
                     )
                 } else criterion
             }
+
             is NotCriterion -> NotCriterion(updateCriterion(criterion.criterion, old, new))
-            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
-            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new) }
+                .toSet())
+
+            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new) }
+                .toSet())
+
             else -> criterion
         }
     }
@@ -372,7 +380,7 @@ open class CategoryViewModel(
         old: Set<Long>,
         new: Long,
         cursor: Cursor,
-        prefNameCreator: (Long) -> String
+        prefNameCreator: (Long) -> String,
     ) {
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
@@ -427,7 +435,7 @@ open class CategoryViewModel(
 
     private fun <T> failure(
         @StringRes resId: Int,
-        vararg formatArgs: Any?
+        vararg formatArgs: Any?,
     ) = Result.failure<T>(getApplication(), resId, formatArgs)
 
     fun deleteCategoriesDo(ids: List<Long>) {
@@ -505,7 +513,13 @@ open class CategoryViewModel(
             null,
             null
         )!!.let {
-            emit(BundleCompat.getParcelable(it, TransactionProvider.KEY_RESULT, Category::class.java)!!)
+            emit(
+                BundleCompat.getParcelable(
+                    it,
+                    TransactionProvider.KEY_RESULT,
+                    Category::class.java
+                )!!
+            )
         }
     }
 
@@ -528,7 +542,8 @@ open class CategoryViewModel(
             val fileName = "categories"
             _exportResult.update {
                 AppDirHelper.getAppDir(context).mapCatching { destDir ->
-                    CategoryExporter.export(getApplication(), encoding,
+                    CategoryExporter.export(
+                        getApplication(), encoding,
                         lazy {
                             AppDirHelper.timeStampedFile(
                                 destDir,
@@ -641,7 +656,7 @@ open class CategoryViewModel(
             cursor: Cursor,
             parentId: Long?,
             level: Int,
-            idMapper: (Long) -> Long = { it }
+            idMapper: (Long) -> Long = { it },
         ): List<Category> =
             buildList {
                 if (!cursor.isBeforeFirst) {

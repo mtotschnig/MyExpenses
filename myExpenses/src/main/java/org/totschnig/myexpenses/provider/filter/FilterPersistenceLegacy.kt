@@ -1,14 +1,19 @@
 package org.totschnig.myexpenses.provider.filter
 
-import android.os.Bundle
 import androidx.annotation.CheckResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.time.format.DateTimeParseException
-
-const val KEY_FILTER = "filter"
 
 class FilterPersistenceLegacy(
     val prefHandler: PrefHandler,
