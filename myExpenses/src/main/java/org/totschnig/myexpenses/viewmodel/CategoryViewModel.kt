@@ -272,7 +272,7 @@ open class CategoryViewModel(
                             idMapper
                         )
                     )
-                        .pruneByCriterion { it.isMatching }
+                        .pruneNonMatching()
                         ?.pruneByCriterion(keepCriterion)
                         ?.let {
                             LoadingState.Data(data = it)

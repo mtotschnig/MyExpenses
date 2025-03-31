@@ -48,6 +48,7 @@ data class Category(
             addAll(expandedChildren)
         }
 
+    fun pruneNonMatching() = pruneByCriterion { it.isMatching }
 
     fun pruneByCriterion(criterion: ((Category) -> Boolean)?): Category? {
         if (criterion == null) return this
