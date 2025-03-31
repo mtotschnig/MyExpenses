@@ -32,8 +32,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,8 +80,7 @@ fun Category(
     withRoot: Boolean = false,
     startPadding: Dp = 0.dp,
     sumCurrency: CurrencyUnit? = null,
-    withTypeColors: Boolean = true,
-    section: Int? = null
+    withTypeColors: Boolean = true
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
 
@@ -123,8 +125,7 @@ fun Category(
                             excludedSubTree = excludedSubTree,
                             startPadding = subTreePadding,
                             sumCurrency = sumCurrency,
-                            withTypeColors = withTypeColors,
-                            section = section
+                            withTypeColors = withTypeColors
                         )
                     }
                 }
@@ -134,7 +135,7 @@ fun Category(
                 modifier = Modifier
                     .testTag(TEST_TAG_LIST)
                     .semantics {
-                        collectionInfo = CollectionInfo(1, filteredChildren.size)
+                        collectionInfo = CollectionInfo(filteredChildren.size, 1)
                     },
                 verticalArrangement = Arrangement.Center
             ) {
@@ -155,7 +156,6 @@ fun Category(
                                     startPadding = subTreePadding,
                                     sumCurrency = sumCurrency,
                                     withTypeColors = withTypeColors,
-                                    section = index1
                                 )
                                 HorizontalDivider(thickness = if (index2 == category1.children.lastIndex && index1 != filteredChildren.lastIndex) 2.dp else 1.dp)
                             }
@@ -163,6 +163,14 @@ fun Category(
                     } else {
                         item(category1.id) {
                             Category(
+                                modifier = Modifier.semantics {
+                                    collectionItemInfo = CollectionItemInfo(
+                                        rowIndex = index1,
+                                        columnIndex = 1,
+                                        rowSpan = 1,
+                                        columnSpan = 1
+                                    )
+                                },
                                 category = category1,
                                 expansionMode = expansionMode,
                                 menuGenerator = menuGenerator,
@@ -171,7 +179,6 @@ fun Category(
                                 startPadding = subTreePadding,
                                 sumCurrency = sumCurrency,
                                 withTypeColors = withTypeColors,
-                                section = section
                             )
                             HorizontalDivider()
                         }
@@ -237,16 +244,18 @@ fun CategoryRenderer(
                 background(activatedBackgroundColor)
             }
             .padding(end = 24.dp, start = startPadding)
-            .semantics {
-                if (isExpanded) {
-                    collapse {
-                        expansionMode.toggle(category)
-                        true
-                    }
-                } else {
-                    expand {
-                        expansionMode.toggle(category)
-                        true
+            .conditional(category.children.isNotEmpty()) {
+                semantics {
+                    if (isExpanded) {
+                        collapse {
+                            expansionMode.toggle(category)
+                            true
+                        }
+                    } else {
+                        expand {
+                            expansionMode.toggle(category)
+                            true
+                        }
                     }
                 }
             },
@@ -262,7 +271,9 @@ fun CategoryRenderer(
         if (category.icon != null) {
             Box(
                 modifier = Modifier
-                    .size(48.dp),
+                    .size(48.dp).clearAndSetSemantics {
+
+                    },
                 contentAlignment = Alignment.Center
             ) {
 
