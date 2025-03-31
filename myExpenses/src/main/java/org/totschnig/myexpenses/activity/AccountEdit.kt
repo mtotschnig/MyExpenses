@@ -54,12 +54,12 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.bindListener
+import org.totschnig.myexpenses.ui.setColor
 import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -197,7 +197,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 }
             }
         }
-        UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
+        binding.colorInput.setColor(color)
         setupListeners()
     }
 
@@ -504,7 +504,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         if (EDIT_COLOR_DIALOG == dialogTag && which == BUTTON_POSITIVE) {
             color = extras.getInt(SimpleColorDialog.COLOR)
             if (!maybeApplyDynamicColor()) {
-                UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
+                binding.colorInput.setColor(color)
             }
             return true
         }

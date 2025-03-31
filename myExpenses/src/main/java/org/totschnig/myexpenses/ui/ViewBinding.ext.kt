@@ -1,14 +1,23 @@
 package org.totschnig.myexpenses.ui
 
-import android.content.Intent
+import android.graphics.Color
 import android.view.View
-import org.totschnig.myexpenses.activity.ManageTags
-import org.totschnig.myexpenses.activity.SELECT_TAGS_REQUEST
+import androidx.annotation.ColorInt
 import org.totschnig.myexpenses.databinding.ColorInputBinding
-import org.totschnig.myexpenses.databinding.TagRowBinding
-import org.totschnig.myexpenses.viewmodel.TagListViewModel
+import java.util.Locale
 
 fun ColorInputBinding.bindListener(listener: View.OnClickListener) {
-    ColorIndicator.setOnClickListener(listener)
     ColorEdit.setOnClickListener(listener)
+}
+
+fun ColorInputBinding.setColor(@ColorInt color: Int) {
+    ColorIndicator.setBackgroundColor(color)
+    ColorIndicator.contentDescription = colorToRGBString(color)
+}
+
+fun colorToRGBString(color: Int): String {
+    val red = Color.red(color)
+    val green = Color.green(color)
+    val blue = Color.blue(color)
+    return String.format(Locale.ROOT, "RGB(%d, %d, %d)", red, green, blue)
 }

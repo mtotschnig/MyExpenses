@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.util.ui;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -50,10 +47,6 @@ public class UiUtils {
     d.setBounds(0, 0, c.getWidth(), c.getHeight());
     d.draw(c);
     return b;
-  }
-
-  public static void setBackgroundOnButton(AppCompatButton button, int color) {
-    ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(color));
   }
 
   public static void configureAmountTextViewForHebrew(TextView amount) {

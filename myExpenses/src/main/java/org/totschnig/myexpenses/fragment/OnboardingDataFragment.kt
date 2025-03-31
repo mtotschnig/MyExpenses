@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.ui.bindListener
-import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.ui.setColor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -162,7 +162,8 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         DialogUtils.configureTypeSpinner(binding.AccountType)
 
         //color
-        UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, viewModel.accountColor)
+        binding.colorInput.setColor(viewModel.accountColor)
+
         if (viewModel.moreOptionsShown) {
             showMoreOptions()
         }
@@ -223,7 +224,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         if (ProtectedFragmentActivity.EDIT_COLOR_DIALOG == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
             with(extras.getInt(SimpleColorDialog.COLOR)) {
                 viewModel.accountColor = this
-                UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, this)
+                binding.colorInput.setColor(this)
             }
             return true
         }

@@ -9,13 +9,12 @@
     android:orientation="horizontal"
     tools:showIn="@layout/one_account">
 
-    <androidx.appcompat.widget.AppCompatButton
+    <View
         android:id="@+id/ColorIndicator"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:contentDescription="@string/color_component_title"
         android:focusable="true" />
 
     <ImageView
