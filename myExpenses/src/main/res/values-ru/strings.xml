@@ -996,4 +996,5 @@
     <string name="price_history">История курсов</string>
     <string name="complex_search">Сложный поиск</string>
     <string name="quick_search">Быстрый поиск</string>
+    <string name="account_closed">Счет закрыт</string>
 </resources>
