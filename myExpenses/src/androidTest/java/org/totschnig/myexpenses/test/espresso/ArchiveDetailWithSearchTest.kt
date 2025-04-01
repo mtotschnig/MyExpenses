@@ -78,7 +78,7 @@ class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
                     hasTestTag(TEST_TAG_FILTER_CARD)
         ).assertExists()
         with(composeTestRule.onNodeWithTag(TEST_TAG_PART_LIST)) {
-            assertTextAstPosition((amount1.absoluteValue / 100).toString(), 0)
+            assertTextAtPosition((amount1.absoluteValue / 100).toString(), 0)
             assert(hasRowCount(1))
         }
         composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()

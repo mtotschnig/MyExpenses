@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.compose.amountProperty
 import org.totschnig.myexpenses.compose.headerProperty
 import timber.log.Timber
 
-abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
+abstract class BaseComposeTest<A : ProtectedFragmentActivity> : BaseUiTest<A>() {
     val listNode: SemanticsNodeInteraction
         get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
@@ -21,22 +21,41 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
-    fun assertTextAtPosition(text: String, position: Int, substring: Boolean = true) {
-        composeTestRule.onNodeWithTag(TEST_TAG_LIST).assertTextAstPosition(text, position, substring)
+    fun assertTextAtPosition(
+        text: String,
+        position: Int,
+        substring: Boolean = true,
+        anyDescendant: Boolean = false,
+    ) {
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST)
+            .assertTextAtPosition(text, position, substring, anyDescendant)
     }
 
-    fun SemanticsNodeInteraction.assertTextAstPosition(text: String, position: Int, substring: Boolean = true) {
-        onChildren()[position].assertTextContains(
-            text,
-            substring = substring
-        )
+    fun SemanticsNodeInteraction.assertTextAtPosition(
+        text: String,
+        position: Int,
+        substring: Boolean = true,
+        anyDescendant: Boolean = false,
+    ) {
+        val nodeInteraction = onChildren()[position]
+        if (anyDescendant) {
+            nodeInteraction.assert(
+                hasAnyDescendant(
+                    hasText(text, substring)
+                )
+            )
+        } else {
+            nodeInteraction.assertTextContains(text, substring)
+        }
     }
 
     private fun hasCollectionInfo(expectedColumnCount: Int, expectedRowCount: Int) =
         SemanticsMatcher("Collection has $expectedColumnCount columns, $expectedRowCount rows") {
             with(it.config[SemanticsProperties.CollectionInfo]) {
                 val result = columnCount == expectedColumnCount && rowCount == expectedRowCount
-                if(!result) { Timber.d("Actual colums/rows: %d/%d", columnCount, rowCount)}
+                if (!result) {
+                    Timber.d("Actual colums/rows: %d/%d", columnCount, rowCount)
+                }
                 result
             }
         }
@@ -52,7 +71,7 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         @StringRes resId: Int,
         listNode: SemanticsNodeInteraction = this.listNode,
         position: Int = 0,
-        onLongClick: Boolean = false
+        onLongClick: Boolean = false,
     ) {
         clickContextItem(resId, listNode.onChildren()[position], onLongClick)
     }
@@ -60,7 +79,7 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     fun clickContextItem(
         @StringRes resId: Int,
         itemNode: SemanticsNodeInteraction,
-        onLongClick: Boolean = false
+        onLongClick: Boolean = false,
     ) {
         itemNode.performTouchInput {
             if (onLongClick) longClick() else click()

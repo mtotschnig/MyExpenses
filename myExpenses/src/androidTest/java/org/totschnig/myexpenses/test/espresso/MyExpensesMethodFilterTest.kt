@@ -1,11 +1,8 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 

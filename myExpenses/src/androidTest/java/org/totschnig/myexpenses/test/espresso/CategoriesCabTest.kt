@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.ContentUris
-import android.content.ContentUris.appendId
 import android.content.ContentValues
 import android.content.Intent
 import android.widget.Button
@@ -163,14 +162,14 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         baseFixture()
         launch().use {
 
-            assertTextAtPosition("TestCategory", 0)
+            assertTextAtPosition("TestCategory", 0, anyDescendant = true)
             clickMenuItem(R.id.SORT_COMMAND)
             onData(HelperMatchers.menuIdMatcher(R.id.SORT_LABEL_COMMAND))
                 .inRoot(RootMatchers.isPlatformPopup())
                 .perform(click())
-            assertTextAtPosition("Control Category", 0)
+            assertTextAtPosition("Control Category", 0, anyDescendant = true)
             callDelete(position = 1)
-            assertTextAtPosition("Control Category", 0)
+            assertTextAtPosition("Control Category", 0, anyDescendant = true)
             listNode.assert(hasRowCount(1))
         }
         cleanup {
@@ -182,7 +181,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
     fun shouldNotDeleteCategoryMappedToTransaction() {
         val transactionId = fixtureWithMappedTransaction()
         launch().use {
-            assertTextAtPosition("TestCategory", 0)
+            assertTextAtPosition("TestCategory", 0, anyDescendant = true)
             callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(
@@ -278,7 +277,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             listNode.onChildren()[1].performClick()
             clickMenuItem(R.id.MERGE_COMMAND, true)
             composeTestRule.onNodeWithText(getString(R.string.menu_merge)).performClick()
-            assertTextAtPosition("TestCategory", 0)
+            assertTextAtPosition("TestCategory", 0, anyDescendant = true)
             listNode.assert(hasRowCount(1))
         }
     }
