@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
@@ -128,7 +129,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             R.id.FILTER_ACCOUNT_COMMAND -> {
                 SelectMultipleAccountDialogFragment.newInstance(
                     filterRequestKey,
-                    selectedAccount().currency,
+                    selectedAccount()
+                        .takeIf { !DataBaseAccount.isHomeAggregate(it.id) }
+                        ?.currency,
                     edit as? AccountCriterion
                 ).show(supportFragmentManager, "ACCOUNT_FILTER")
             }
