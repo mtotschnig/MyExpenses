@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>kırmızı</item>
+        <item>macenta</item>
+        <item>mor</item>
+        <item>koyu mor</item>
+        <item>çivit mavisi</item>
+        <item>mavi</item>
+        <item>açık mavi</item>
+        <item>camgöbeği</item>
+        <item>turkuaz</item>
+        <item>yeşil</item>
+        <item>açık yeşil</item>
+        <item>misket limonu</item>
+        <item>sarı</item>
+        <item>kehribar</item>
+        <item>turuncu</item>
+        <item>koyu turuncu</item>
+        <item>kahverengi</item>
+        <item>gri</item>
+        <item>mavi gri</item>
+    </string-array>
+</resources>

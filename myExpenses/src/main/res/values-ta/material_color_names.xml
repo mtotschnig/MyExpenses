@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>சிவப்பு</item>
+        <item>மெஜந்தா</item>
+        <item>ஊதா</item>
+        <item>அடர் ஊதா</item>
+        <item>இண்டிகோ</item>
+        <item>நீலம்</item>
+        <item>இளம் நீலம்</item>
+        <item>சியான்</item>
+        <item>டீல்</item>
+        <item>பச்சை</item>
+        <item>இளம் பச்சை</item>
+        <item>எலுமிச்சை</item>
+        <item>மஞ்சள்</item>
+        <item>ஆம்பர்</item>
+        <item>ஆரஞ்சு</item>
+        <item>அடர் ஆரஞ்சு</item>
+        <item>பழுப்பு</item>
+        <item>சாம்பல்</item>
+        <item>நீல சாம்பல்</item>
+    </string-array>
+</resources>

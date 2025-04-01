@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>빨간색</item>
+        <item>자홍색</item>
+        <item>보라색</item>
+        <item>짙은 보라색</item>
+        <item>남색</item>
+        <item>파란색</item>
+        <item>하늘색</item>
+        <item>시안색</item>
+        <item>청록색</item>
+        <item>초록색</item>
+        <item>연두색</item>
+        <item>라임색</item>
+        <item>노란색</item>
+        <item>호박색</item>
+        <item>주황색</item>
+        <item>짙은 주황색</item>
+        <item>갈색</item>
+        <item>회색</item>
+        <item>청회색</item>
+    </string-array>
+</resources>

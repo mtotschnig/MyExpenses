@@ -163,7 +163,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             }
         }
         binding.colorInput.bindListener {
-            buildColorDialog(color).show(this, EDIT_COLOR_DIALOG)
+            buildColorDialog(this, color).show(this, EDIT_COLOR_DIALOG)
         }
         binding.SyncUnlink.setOnClickListener {
             DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)

@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -233,7 +234,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         binding.composeView.setContent {
 
             AppTheme {
-                fun clearFilter() { viewModel.clearFilter() }
+                fun clearFilter() {
+                    viewModel.clearFilter()
+                }
+
                 val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
                 val (showIncome, showExpense) = typeFlags.value
                 when {
@@ -242,7 +246,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     }
 
                     !showIncome && !showExpense -> throw IllegalStateException()
-                    else -> RenderSingle(showIncome, viewModel.whereFilter.collectAsState().value, ::clearFilter)
+                    else -> RenderSingle(
+                        showIncome,
+                        viewModel.whereFilter.collectAsState().value,
+                        ::clearFilter
+                    )
                 }
             }
         }
@@ -390,7 +398,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         })
 
     @Composable
-    private fun RenderSingle(showIncome: Boolean, whereFilter: Criterion?, clearFilter: () -> Unit) {
+    private fun RenderSingle(
+        showIncome: Boolean,
+        whereFilter: Criterion?,
+        clearFilter: () -> Unit,
+    ) {
         val isDark = isSystemInDarkTheme()
         val categoryState =
             (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
@@ -503,11 +515,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             (SWIPE_MAX_OFF_PATH * dm.densityDpi / 160.0f).toInt()
         val thresholdVelocity =
             (SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f).toInt()
-        mDetector = GestureDetector(this,
+        mDetector = GestureDetector(
+            this,
             object : SimpleOnGestureListener() {
                 override fun onFling(
                     e1: MotionEvent?, e2: MotionEvent,
-                    velocityX: Float, velocityY: Float
+                    velocityX: Float, velocityY: Float,
                 ): Boolean {
                     if (e1 == null) return false
                     if (abs(e1.y - e2.y) > maxOffPath) return false
@@ -542,7 +555,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         tree: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
-        accountInfo: DistributionAccountInfo
+        accountInfo: DistributionAccountInfo,
     ) {
         val nestedScrollInterop = rememberNestedScrollInteropConnection()
         Category(
@@ -598,9 +611,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     @Composable
     fun RenderSumLine(
         accountInfo: DistributionAccountInfo,
-        sums: Pair<Long, Long>
+        sums: Pair<Long, Long>,
     ) {
-        val sumLineBehaviour = viewModel.sumLineBehaviour.collectAsState(initial = DistributionViewModel.SumLineBehaviour.WithoutTotal)
+        val sumLineBehaviour =
+            viewModel.sumLineBehaviour.collectAsState(initial = DistributionViewModel.SumLineBehaviour.WithoutTotal)
         val accountFormatter = LocalCurrencyFormatter.current
         val currencyUnit = currencyContext[accountInfo.currency]
         val income = Money(currencyUnit, sums.first)
@@ -610,13 +624,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.onSurface
         )
-        Row(modifier = Modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))
-            .clickable {
-                lifecycleScope.launch {
-                    viewModel.cycleSumLineBehaviour()
-                }
-            }) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))
+                .clickable {
+                    lifecycleScope.launch {
+                        viewModel.cycleSumLineBehaviour()
+                    }
+                }) {
             CompositionLocalProvider(
                 LocalTextStyle provides TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -672,7 +687,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             )
                             if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageExpense
                                 && sums.first != 0L && sums.second != 0L
-                                ) {
+                            ) {
                                 append(" (${localizedPercentFormat.format(sums.second / sums.first.toFloat())})")
                             }
                             append(" = ")
@@ -684,7 +699,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 )
                             )
                             if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageTotal
-                                && delta != 0L && sums.first != 0L) {
+                                && delta != 0L && sums.first != 0L
+                            ) {
                                 append(" (${localizedPercentFormat.format(delta.absoluteValue / sums.first.toFloat())})")
                             }
                         },
@@ -702,7 +718,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         inner: Boolean,
         categories: Category,
         angle: Float = 360f,
-        isCombined: Boolean = false
+        isCombined: Boolean = false,
     ) {
         AndroidView(
             modifier = modifier,
@@ -717,7 +733,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             override fun shouldDrawEntry(
                                 index: Int,
                                 pieEntry: PieEntry,
-                                value: Float
+                                value: Float,
                             ): Boolean {
                                 val greaterThanOne = value > 1f
                                 val shouldDraw = greaterThanOne || lastValueGreaterThanOne
@@ -772,15 +788,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     private fun editCategoryColor(id: Long, color: Int?) {
-        SimpleColorDialog.build()
-            .allowCustom(true)
-            .cancelable(false)
-            .neut()
+        buildColorDialog(this, color)
             .extra(Bundle().apply {
                 putLong(KEY_ROWID, id.absoluteValue)
-            }).apply {
-                color?.let { colorPreset(it) }
-            }
+            })
             .show(this, EDIT_COLOR_DIALOG)
     }
 

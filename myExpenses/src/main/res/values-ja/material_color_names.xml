@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>赤</item>
+        <item>マゼンタ</item>
+        <item>紫</item>
+        <item>濃い紫</item>
+        <item>藍色</item>
+        <item>青</item>
+        <item>水色</item>
+        <item>シアン</item>
+        <item>青緑</item>
+        <item>緑</item>
+        <item>薄緑</item>
+        <item>ライム</item>
+        <item>黄</item>
+        <item>琥珀色</item>
+        <item>オレンジ</item>
+        <item>濃いオレンジ</item>
+        <item>茶色</item>
+        <item>灰色</item>
+        <item>青灰色</item>
+    </string-array>
+</resources>

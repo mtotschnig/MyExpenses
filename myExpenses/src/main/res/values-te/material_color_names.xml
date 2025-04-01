@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>ఎరుపు</item>
+        <item>మెజెంటా</item>
+        <item>ఊదా</item>
+        <item>ముదురు ఊదా</item>
+        <item>ఇండిగో</item>
+        <item>నీలం</item>
+        <item>లేత నీలం</item>
+        <item>సియాన్</item>
+        <item>టీల్</item>
+        <item>ఆకుపచ్చ</item>
+        <item>లేత ఆకుపచ్చ</item>
+        <item>నిమ్మ</item>
+        <item>పసుపు</item>
+        <item>అంబర్</item>
+        <item>నారింజ</item>
+        <item>ముదురు నారింజ</item>
+        <item>గోధుమ</item>
+        <item>బూడిద</item>
+        <item>నీలి బూడిద</item>
+    </string-array>
+</resources>

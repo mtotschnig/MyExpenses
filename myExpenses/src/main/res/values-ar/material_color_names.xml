@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>أحمر</item>
+        <item>أرجواني</item>
+        <item>بنفسجي</item>
+        <item>بنفسجي داكن</item>
+        <item>نيلي</item>
+        <item>أزرق</item>
+        <item>أزرق فاتح</item>
+        <item>سماوي</item>
+        <item>أزرق مخضر</item>
+        <item>أخضر</item>
+        <item>أخضر فاتح</item>
+        <item>ليموني</item>
+        <item>أصفر</item>
+        <item>كهرماني</item>
+        <item>برتقالي</item>
+        <item>برتقالي داكن</item>
+        <item>بني</item>
+        <item>رمادي</item>
+        <item>أزرق رمادي</item>
+    </string-array>
+</resources>

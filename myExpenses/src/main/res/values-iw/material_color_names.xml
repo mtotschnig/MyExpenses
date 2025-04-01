@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>אדום</item>
+        <item>מג\'נטה</item>
+        <item>סגול</item>
+        <item>סגול עמוק</item>
+        <item>אינדיגו</item>
+        <item>כחול</item>
+        <item>כחול בהיר</item>
+        <item>ציאן</item>
+        <item>כחול-ירקרק</item>
+        <item>ירוק</item>
+        <item>ירוק בהיר</item>
+        <item>ליים</item>
+        <item>צהוב</item>
+        <item>ענברי</item>
+        <item>כתום</item>
+        <item>כתום עמוק</item>
+        <item>חום</item>
+        <item>אפור</item>
+        <item>אפור כחלחל</item>
+    </string-array>
+</resources>

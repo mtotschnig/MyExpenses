@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>紅色</item>
+        <item>洋紅色</item>
+        <item>紫色</item>
+        <item>深紫色</item>
+        <item>靛藍色</item>
+        <item>藍色</item>
+        <item>淺藍色</item>
+        <item>青色</item>
+        <item>藍綠色</item>
+        <item>綠色</item>
+        <item>淺綠色</item>
+        <item>酸橙色</item>
+        <item>黃色</item>
+        <item>琥珀色</item>
+        <item>橙色</item>
+        <item>深橙色</item>
+        <item>棕色</item>
+        <item>灰色</item>
+        <item>藍灰色</item>
+    </string-array>
+</resources>

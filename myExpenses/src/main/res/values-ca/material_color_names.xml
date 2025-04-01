@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>vermell</item>
+        <item>magenta</item>
+        <item>lila</item>
+        <item>lila fosc</item>
+        <item>indi</item>
+        <item>blau</item>
+        <item>blau clar</item>
+        <item>cian</item>
+        <item>blavós verdós</item>
+        <item>verd</item>
+        <item>verd clar</item>
+        <item>llima</item>
+        <item>groc</item>
+        <item>ambre</item>
+        <item>taronja</item>
+        <item>taronja fosc</item>
+        <item>marró</item>
+        <item>gris</item>
+        <item>blau grisenc</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>κόκκινο</item>
+        <item>ματζέντα</item>
+        <item>μωβ</item>
+        <item>βαθύ μωβ</item>
+        <item>ινδικό</item>
+        <item>μπλε</item>
+        <item>ανοιχτό μπλε</item>
+        <item>κυανό</item>
+        <item>πρασινογάλαζο</item>
+        <item>πράσινο</item>
+        <item>ανοιχτό πράσινο</item>
+        <item>λάιμ</item>
+        <item>κίτρινο</item>
+        <item>κεχριμπάρι</item>
+        <item>πορτοκαλί</item>
+        <item>βαθύ πορτοκαλί</item>
+        <item>καφέ</item>
+        <item>γκρι</item>
+        <item>μπλε-γκρι</item>
+    </string-array>
+</resources>

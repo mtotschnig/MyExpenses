@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>červená</item>
+        <item>purpurová</item>
+        <item>fialová</item>
+        <item>tmavě fialová</item>
+        <item>indigo</item>
+        <item>modrá</item>
+        <item>světle modrá</item>
+        <item>azurová</item>
+        <item>tyrkysová</item>
+        <item>zelená</item>
+        <item>světle zelená</item>
+        <item>limetková</item>
+        <item>žlutá</item>
+        <item>jantarová</item>
+        <item>oranžová</item>
+        <item>tmavě oranžová</item>
+        <item>hnědá</item>
+        <item>šedá</item>
+        <item>modrošedá</item>
+    </string-array>
+</resources>

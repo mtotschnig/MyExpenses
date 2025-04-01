@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>червоний</item>
+        <item>пурпуровий</item>
+        <item>фіолетовий</item>
+        <item>темно-фіолетовий</item>
+        <item>індиго</item>
+        <item>синій</item>
+        <item>блакитний</item>
+        <item>блакитний</item>
+        <item>бірюзовий</item>
+        <item>зелений</item>
+        <item>світло-зелений</item>
+        <item>лаймовий</item>
+        <item>жовтий</item>
+        <item>бурштиновий</item>
+        <item>помаранчевий</item>
+        <item>темно-помаранчевий</item>
+        <item>коричневий</item>
+        <item>сірий</item>
+        <item>синьо-сірий</item>
+    </string-array>
+</resources>

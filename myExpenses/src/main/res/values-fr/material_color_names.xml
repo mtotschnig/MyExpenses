@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>rouge</item>
+        <item>magenta</item>
+        <item>violet</item>
+        <item>violet foncé</item>
+        <item>indigo</item>
+        <item>bleu</item>
+        <item>bleu clair</item>
+        <item>cyan</item>
+        <item>sarcelle</item>
+        <item>vert</item>
+        <item>vert clair</item>
+        <item>citron vert</item>
+        <item>jaune</item>
+        <item>ambre</item>
+        <item>orange</item>
+        <item>orange foncé</item>
+        <item>marron</item>
+        <item>gris</item>
+        <item>bleu gris</item>
+    </string-array>
+</resources>

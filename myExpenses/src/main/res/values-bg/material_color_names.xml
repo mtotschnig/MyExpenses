@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>червено</item>
+        <item>магента</item>
+        <item>лилаво</item>
+        <item>тъмно лилаво</item>
+        <item>индиго</item>
+        <item>синьо</item>
+        <item>светло синьо</item>
+        <item>циан</item>
+        <item>синьо-зелено</item>
+        <item>зелено</item>
+        <item>светло зелено</item>
+        <item>лайм</item>
+        <item>жълто</item>
+        <item>кехлибарено</item>
+        <item>оранжево</item>
+        <item>тъмно оранжево</item>
+        <item>кафяво</item>
+        <item>сиво</item>
+        <item>синьо-сиво</item>
+    </string-array>
+</resources>

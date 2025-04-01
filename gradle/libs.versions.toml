@@ -92,7 +92,7 @@ robolectricVersion = "4.14.1"
 runner = "1.6.2"
 screengrab = "2.1.1"
 securityCrypto = "1.1.0-alpha06"
-simpledialogfragments = "09a642bc42"
+simpledialogfragments = "d1e6d27700"
 slf4jApi = "2.0.16"
 snakeyaml = "2.3"
 sqlcipher = "4.6.1"
@@ -247,7 +247,7 @@ relinker = { module = "com.getkeepsafe.relinker:relinker", version.ref = "relink
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }
 screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
-simpledialogfragments = { module = "com.github.eltos:SimpleDialogFragments", version.ref = "simpledialogfragments" }
+simpledialogfragments = { module = "com.github.mtotschnig:SimpleDialogFragments", version.ref = "simpledialogfragments" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 sqlite-android = { module = "com.github.requery:sqlite-android", version.ref = "requery" }

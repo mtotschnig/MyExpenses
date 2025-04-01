@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>merah</item>
+        <item>magenta</item>
+        <item>ungu</item>
+        <item>ungu gelap</item>
+        <item>indigo</item>
+        <item>biru</item>
+        <item>biru muda</item>
+        <item>sian</item>
+        <item>teal</item>
+        <item>hijau</item>
+        <item>hijau muda</item>
+        <item>limau nipis</item>
+        <item>kuning</item>
+        <item>ambar</item>
+        <item>jingga</item>
+        <item>jingga gelap</item>
+        <item>perang</item>
+        <item>kelabu</item>
+        <item>kelabu kebiruan</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>rood</item>
+        <item>magenta</item>
+        <item>paars</item>
+        <item>dieppaars</item>
+        <item>indigo</item>
+        <item>blauw</item>
+        <item>lichtblauw</item>
+        <item>cyaan</item>
+        <item>blauwgroen</item>
+        <item>groen</item>
+        <item>lichtgroen</item>
+        <item>limoengroen</item>
+        <item>geel</item>
+        <item>amber</item>
+        <item>oranje</item>
+        <item>dieporanje</item>
+        <item>bruin</item>
+        <item>grijs</item>
+        <item>blauw-grijs</item>
+    </string-array>
+</resources>

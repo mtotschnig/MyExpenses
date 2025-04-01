@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>rot</item>
+        <item>magenta</item>
+        <item>lila</item>
+        <item>dunkles Lila</item>
+        <item>indigo</item>
+        <item>blau</item>
+        <item>hellblau</item>
+        <item>cyan</item>
+        <item>blaugrün</item>
+        <item>grün</item>
+        <item>hellgrün</item>
+        <item>limette</item>
+        <item>gelb</item>
+        <item>bernstein</item>
+        <item>orange</item>
+        <item>dunkelorange</item>
+        <item>braun</item>
+        <item>grau</item>
+        <item>blaugrau</item>
+    </string-array>
+</resources>

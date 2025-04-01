@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>سرخ</item>
+        <item>میجنٹا</item>
+        <item>جامنی</item>
+        <item>گہرا جامنی</item>
+        <item>نیلا</item>
+        <item>نیلا</item>
+        <item>ہلکا نیلا</item>
+        <item>سیان</item>
+        <item>ٹیل</item>
+        <item>سبز</item>
+        <item>ہلکا سبز</item>
+        <item>لیموں</item>
+        <item>پیلا</item>
+        <item>عمبر</item>
+        <item>نارنجی</item>
+        <item>گہرا نارنجی</item>
+        <item>بھورا</item>
+        <item>سرمئی</item>
+        <item>نیلا سرمئی</item>
+    </string-array>
+</resources>

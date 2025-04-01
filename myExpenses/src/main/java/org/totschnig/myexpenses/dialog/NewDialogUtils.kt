@@ -7,6 +7,7 @@ import android.provider.OpenableColumns
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -14,7 +15,7 @@ import org.totschnig.myexpenses.preference.enumValueOrDefault
 fun Spinner.configureDateFormat(
     context: Context,
     prefHandler: PrefHandler,
-    prefName: String
+    prefName: String,
 ) {
     adapter = ArrayAdapter(
         context, android.R.layout.simple_spinner_item, QifDateFormat.entries.toTypedArray()
@@ -24,14 +25,17 @@ fun Spinner.configureDateFormat(
     setSelection(prefHandler.enumValueOrDefault(prefName, QifDateFormat.default).ordinal)
 }
 
-fun buildColorDialog(color: Int): SimpleColorDialog = SimpleColorDialog.build()
+fun buildColorDialog(context: Context, color: Int?): SimpleColorDialog = SimpleColorDialog.build()
     .allowCustom(true)
     .cancelable(false)
+    .colorNames(context, R.array.material_color_names)
     .neut()
-    .colorPreset(color)
+    .apply {
+        color?.let { colorPreset(it) }
+    }
 
 fun ContentResolver.getDisplayName(
-    uri: Uri
+    uri: Uri,
 ): String {
 
     if (!"file".equals(uri.scheme, ignoreCase = true)) {

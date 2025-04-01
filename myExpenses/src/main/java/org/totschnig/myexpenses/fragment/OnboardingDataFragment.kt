@@ -169,7 +169,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         }
 
         binding.colorInput.bindListener {
-            buildColorDialog(viewModel.accountColor)
+            buildColorDialog(requireContext(), viewModel.accountColor)
                 .show(this, ProtectedFragmentActivity.EDIT_COLOR_DIALOG)
         }
     }

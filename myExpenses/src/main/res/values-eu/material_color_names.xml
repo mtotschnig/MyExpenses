@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>gorria</item>
+        <item>magenta</item>
+        <item>morea</item>
+        <item>more iluna</item>
+        <item>indigo</item>
+        <item>urdina</item>
+        <item>urdin argia</item>
+        <item>ziana</item>
+        <item>berde urdinska</item>
+        <item>berdea</item>
+        <item>berde argia</item>
+        <item>lima</item>
+        <item>horia</item>
+        <item>anbar</item>
+        <item>laranja</item>
+        <item>laranja iluna</item>
+        <item>marroia</item>
+        <item>grisa</item>
+        <item>urdin grisa</item>
+    </string-array>
+</resources>

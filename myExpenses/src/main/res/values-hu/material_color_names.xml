@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>piros</item>
+        <item>magenta</item>
+        <item>lila</item>
+        <item>sötétlila</item>
+        <item>indigókék</item>
+        <item>kék</item>
+        <item>világoskék</item>
+        <item>cián</item>
+        <item>kékeszöld</item>
+        <item>zöld</item>
+        <item>világoszöld</item>
+        <item>lime</item>
+        <item>sárga</item>
+        <item>borostyán</item>
+        <item>narancssárga</item>
+        <item>sötétnarancssárga</item>
+        <item>barna</item>
+        <item>szürke</item>
+        <item>kékes szürke</item>
+    </string-array>
+</resources>

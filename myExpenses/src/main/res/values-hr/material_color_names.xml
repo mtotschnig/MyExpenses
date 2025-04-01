@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>crvena</item>
+        <item>magenta</item>
+        <item>ljubičasta</item>
+        <item>tamno ljubičasta</item>
+        <item>indigo</item>
+        <item>plava</item>
+        <item>svijetlo plava</item>
+        <item>cijan</item>
+        <item>modrozelena</item>
+        <item>zelena</item>
+        <item>svijetlo zelena</item>
+        <item>limeta</item>
+        <item>žuta</item>
+        <item>jantarna</item>
+        <item>narančasta</item>
+        <item>tamno narančasta</item>
+        <item>smeđa</item>
+        <item>siva</item>
+        <item>plavosiva</item>
+    </string-array>
+</resources>

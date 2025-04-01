@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>ಕೆಂಪು</item>
+        <item>ಮೆಜೆಂಟಾ</item>
+        <item>ನೇರಳೆ</item>
+        <item>ಗಾಢ ನೇರಳೆ</item>
+        <item>ಇಂಡಿಗೋ</item>
+        <item>ನೀಲಿ</item>
+        <item>ತಿಳಿನೀಲಿ</item>
+        <item>ಸಯಾನ್</item>
+        <item>ಟೀಲ್</item>
+        <item>ಹಸಿರು</item>
+        <item>ತಿಳಿ ಹಸಿರು</item>
+        <item>ಲೈಮ್</item>
+        <item>ಹಳದಿ</item>
+        <item>ಅಂಬರ್</item>
+        <item>ಕಿತ್ತಳೆ</item>
+        <item>ಗಾಢ ಕಿತ್ತಳೆ</item>
+        <item>ಕಂದು</item>
+        <item>ಬೂದು</item>
+        <item>ನೀಲಿ ಬೂದು</item>
+    </string-array>
+</resources>

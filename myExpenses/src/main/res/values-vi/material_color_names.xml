@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>đỏ</item>
+        <item>đỏ tươi</item>
+        <item>tím</item>
+        <item>tím đậm</item>
+        <item>chàm</item>
+        <item>xanh lam</item>
+        <item>xanh nhạt</item>
+        <item>xanh lơ</item>
+        <item>xanh mòng két</item>
+        <item>xanh lá</item>
+        <item>xanh lá nhạt</item>
+        <item>xanh chanh</item>
+        <item>vàng</item>
+        <item>hổ phách</item>
+        <item>cam</item>
+        <item>cam đậm</item>
+        <item>nâu</item>
+        <item>xám</item>
+        <item>xám xanh lam</item>
+    </string-array>
+</resources>

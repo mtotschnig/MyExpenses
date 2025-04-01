@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>රතු</item>
+        <item>මැජෙන්ටා</item>
+        <item>දම් පාට</item>
+        <item>තද දම් පාට</item>
+        <item>ඉන්ඩිගෝ</item>
+        <item>නිල්</item>
+        <item>ලා නිල්</item>
+        <item>සියන්</item>
+        <item>ටීල්</item>
+        <item>කොළ</item>
+        <item>ලා කොළ</item>
+        <item>දෙහි</item>
+        <item>කහ</item>
+        <item>ඇම්බර්</item>
+        <item>තැඹිලි</item>
+        <item>තද තැඹිලි</item>
+        <item>දුඹුරු</item>
+        <item>අළු</item>
+        <item>නිල් අළු</item>
+    </string-array>
+</resources>

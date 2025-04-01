@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>roșu</item>
+        <item>magenta</item>
+        <item>violet</item>
+        <item>violet închis</item>
+        <item>indigo</item>
+        <item>albastru</item>
+        <item>albastru deschis</item>
+        <item>cyan</item>
+        <item>teal</item>
+        <item>verde</item>
+        <item>verde deschis</item>
+        <item>lime</item>
+        <item>galben</item>
+        <item>chihlimbar</item>
+        <item>portocaliu</item>
+        <item>portocaliu închis</item>
+        <item>maro</item>
+        <item>gri</item>
+        <item>gri albăstrui</item>
+    </string-array>
+</resources>

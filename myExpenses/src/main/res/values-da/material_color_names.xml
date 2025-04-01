@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>rød</item>
+        <item>magenta</item>
+        <item>lilla</item>
+        <item>dyb lilla</item>
+        <item>indigo</item>
+        <item>blå</item>
+        <item>lyseblå</item>
+        <item>cyan</item>
+        <item>teal</item>
+        <item>grøn</item>
+        <item>lysegrøn</item>
+        <item>lime</item>
+        <item>gul</item>
+        <item>ravgul</item>
+        <item>orange</item>
+        <item>dyb orange</item>
+        <item>brun</item>
+        <item>grå</item>
+        <item>blågrå</item>
+    </string-array>
+</resources>

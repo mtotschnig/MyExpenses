@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>ក្រហម</item>
+        <item>ម៉ាជិនតា</item>
+        <item>ស្វាយ</item>
+        <item>ស្វាយចាស់</item>
+        <item>ខៀវចាស់</item>
+        <item>ខៀវ</item>
+        <item>ផ្ទៃមេឃ</item>
+        <item>ខ្មៅ</item>
+        <item>ខៀវបៃតង</item>
+        <item>បៃតង</item>
+        <item>បៃតងខ្ចី</item>
+        <item>កំបោរ</item>
+        <item>លឿង</item>
+        <item>លឿងទុំ</item>
+        <item>ទឹកក្រូច</item>
+        <item>ទឹកក្រូចចាស់</item>
+        <item>ត្នោត</item>
+        <item>ប្រផេះ</item>
+        <item>ប្រផេះខៀវ</item>
+    </string-array>
+</resources>

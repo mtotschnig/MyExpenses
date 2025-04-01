@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_color_names">
+        <item>czerwony</item>
+        <item>magenta</item>
+        <item>fioletowy</item>
+        <item>ciemnofioletowy</item>
+        <item>indygo</item>
+        <item>niebieski</item>
+        <item>jasnoniebieski</item>
+        <item>cyjan</item>
+        <item>morski</item>
+        <item>zielony</item>
+        <item>jasnozielony</item>
+        <item>limonkowy</item>
+        <item>żółty</item>
+        <item>bursztynowy</item>
+        <item>pomarańczowy</item>
+        <item>ciemnopomarańczowy</item>
+        <item>brązowy</item>
+        <item>szary</item>
+        <item>niebieskoszary</item>
+    </string-array>
+</resources>
