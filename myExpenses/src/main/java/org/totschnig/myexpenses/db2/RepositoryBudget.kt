@@ -98,9 +98,7 @@ suspend fun Repository.sumLoaderForBudget(
     var filterClause = if (period == null) buildDateFilterClauseCurrentPeriod(budget) else
         dateFilterClause(budget.grouping, period.first, period.second)
     val selectionArgs: Array<String>? = filterPersistence.getValue()?.let {
-        filterClause += " AND " + it.getSelectionForParts(
-            DatabaseConstants.VIEW_WITH_ACCOUNT
-        )
+        filterClause += " AND " + it.getSelectionForParts()
         it.getSelectionArgs(true)
     }
     return Triple(sumBuilder.build(), filterClause, selectionArgs)

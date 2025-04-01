@@ -166,7 +166,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         idMapper: (Long) -> Long = { it }
     ): Flow<Category> =
         categoryTree(
-            selection = buildFilterClause(groupingInfo, whereFilter, VIEW_WITH_ACCOUNT),
+            selection = buildFilterClause(groupingInfo, whereFilter),
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
                 add(KEY_SUM)
@@ -284,7 +284,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 contentResolver.observeQuery(
                     builder.build(),
                     sumProjection,
-                    buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
+                    buildFilterClause(grouping, whereFilter),
                     whereFilter?.getSelectionArgs(true),
                     null, true
                 ).mapToOne {

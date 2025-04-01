@@ -857,7 +857,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case DEBTS: {
-        cte = "WITH " + amountCteForDebts(getHomeCurrency());
+        cte = amountCteForDebts(getHomeCurrency());
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
           additionalWhere.append("not exists(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_DEBT_ID + " IS NOT NULL AND " + KEY_PARENTID + " = ")

@@ -81,7 +81,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
@@ -129,7 +128,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGG
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 
 private fun requireIdParameter(parameter: String) {
     require(parameter.isDigitsOnly())
@@ -216,7 +214,7 @@ fun categoryTreeSelect(
     rootExpression: String? = null,
     categorySeparator: String? = null,
     typeParameter: String? = null,
-) = categoryTreeCTE(
+) = "WITH " + categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
     matches = matches,
@@ -296,27 +294,22 @@ fun categoryTreeWithSum(
             else -> it
         }
     }
+    val forHome =
+        uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
     return buildString {
+        append("WITH ")
+        append(buildSearchCte(VIEW_WITH_ACCOUNT, homeCurrency, forHome))
+        append(",")
         append(
             categoryTreeCTE(
                 sortOrder = sortOrder,
                 type = type
             )
         )
-        val forHome =
-            uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
-        val amountCalculation =
-            if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) else KEY_AMOUNT
-        append(", $CTE_TRANSACTION_AMOUNTS AS (SELECT $amountCalculation AS $KEY_DISPLAY_AMOUNT FROM ")
-        if (forHome) {
-            append(exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency))
-            append(equivalentAmountJoin(homeCurrency))
-        } else {
-            append(VIEW_WITH_ACCOUNT)
-        }
+        append(", $CTE_TRANSACTION_AMOUNTS AS (SELECT $KEY_DISPLAY_AMOUNT FROM $CTE_SEARCH")
         append(" WHERE ")
         append(WHERE_NOT_VOID)
-        append(" AND +$VIEW_WITH_ACCOUNT.$accountSelector")
+        append(" AND +$CTE_SEARCH.$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
             append(" AND $it")
         }
@@ -401,8 +394,7 @@ fun categoryTreeWithMappedObjects(
             else -> it
         }
     }
-    return """
-            ${categoryTreeCTE(rootExpression = "$KEY_ROWID = $TABLE_CATEGORIES.$KEY_ROWID")}
+    return """WITH ${categoryTreeCTE(rootExpression = "$KEY_ROWID = $TABLE_CATEGORIES.$KEY_ROWID")}
             SELECT
             ${map.joinToString()}
             FROM $TABLE_CATEGORIES
@@ -478,8 +470,7 @@ fun categoryTreeCTE(
             )
         }
     }
-    return """
-WITH Tree AS (
+    return """Tree AS (
 SELECT
     $KEY_LABEL,
     $KEY_UUID,
@@ -779,7 +770,7 @@ fun buildSearchCte(
     forTable: String,
     homeCurrency: String,
     forHome: Boolean,
-) = "WITH $CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, ${
+) = "$CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, ${
     getAmountCalculation(
         homeCurrency.takeIf { forHome },
         forTable
@@ -849,22 +840,12 @@ fun transactionSumQuery(
     homeCurrency: String,
 ): String {
 
-    val accountSelector: String = "$VIEW_WITH_ACCOUNT.${uri.accountSelector}"
+    val accountSelector = "$CTE_SEARCH.${uri.accountSelector}"
     val selection =
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"
     val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
     val forHome =
         uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null
-    val amountCalculation =
-        if (forHome) getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) else KEY_AMOUNT
-    val tableExpression = if (forHome)
-        exchangeRateJoin(
-            VIEW_WITH_ACCOUNT,
-            KEY_ACCOUNTID,
-            homeCurrency
-        ) + " " + equivalentAmountJoin(homeCurrency)
-    else
-        VIEW_WITH_ACCOUNT
 
     return if (aggregateNeutral) {
         require(projection.size == 1)
@@ -874,7 +855,7 @@ fun transactionSumQuery(
             KEY_SUM_EXPENSES -> FLAG_EXPENSE
             else -> throw IllegalArgumentException()
         }
-        "SELECT $aggregateFunction($amountCalculation) AS $column FROM $tableExpression WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL) AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"
+        "WITH ${buildSearchCte(VIEW_WITH_ACCOUNT, homeCurrency, forHome)} SELECT $aggregateFunction($KEY_DISPLAY_AMOUNT) AS $column FROM $CTE_SEARCH WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL) AND ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)"
     } else {
         val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
         val columns = projection.map {
@@ -887,11 +868,11 @@ fun transactionSumQuery(
         require(columns.isNotEmpty())
         val cteColumns = buildList {
             add("${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE")
-            add("$amountCalculation AS $KEY_DISPLAY_AMOUNT")
+            add(KEY_DISPLAY_AMOUNT)
         }
-        """WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT ${cteColumns.joinToString()} FROM $tableExpression 
-            WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection))
-            SELECT ${columns.joinToString()}"""
+        """WITH ${buildSearchCte(VIEW_WITH_ACCOUNT, homeCurrency, forHome)},
+            | $CTE_TRANSACTION_AMOUNTS AS (SELECT ${cteColumns.joinToString()} FROM $CTE_SEARCH WHERE ($WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection))
+            | SELECT ${columns.joinToString()}""".trimMargin()
     }
 }
 

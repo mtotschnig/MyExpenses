@@ -1178,7 +1178,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             db.query(query)
         }) {
             "$uri - ${query.sql} - (${selectionArgs?.joinToString()})"
-        } else db.measureAndLogQuery(uri, "$cte ${query.sql}", selection, selectionArgs)
+        } else db.measureAndLogQuery(uri, "WITH $cte ${query.sql}", selection, selectionArgs)
     }
 
     fun updateFractionDigits(
