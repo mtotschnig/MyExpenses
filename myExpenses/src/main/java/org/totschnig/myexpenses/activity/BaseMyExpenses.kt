@@ -279,6 +279,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     lateinit var binding: ActivityMainBinding
 
+    val allAccountCount
+        get() = accountCount + viewModel.hasHiddenAccounts.value
+
     val accountCount
         get() = accountData.count { it.id > 0 }
 
@@ -1743,7 +1746,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         } else when (command) {
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
-                    || accountCount + viewModel.hasHiddenAccounts.value < ContribFeature.FREE_ACCOUNTS
+                    || allAccountCount < ContribFeature.FREE_ACCOUNTS
                 ) {
                     closeDrawer()
                     createAccountDo()
@@ -2274,7 +2277,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val scanMode = isScanMode()
         val sealed = currentAccount?.sealed == true
         with(floatingActionButton) {
-            if (accountCount == 0) {
+            if (allAccountCount == 0) {
                 hide()
             } else {
                 show()
