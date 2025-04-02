@@ -229,6 +229,13 @@ fun AccountCard(
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+    val homeCurrency = LocalHomeCurrency.current
+    val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
+    val currency = if (showEquivalent) homeCurrency else account.currencyUnit
+    val currentBalance = format.convAmount(
+        if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance,
+        currency
+    )
 
     Column(
         modifier = Modifier
@@ -302,9 +309,7 @@ fun AccountCard(
                     overflow = if (isCollapsed) TextOverflow.Ellipsis else TextOverflow.Clip
                 )
                 AnimatedVisibility(visible = isCollapsed) {
-                    Text(
-                        text = format.convAmount(account.currentBalance, account.currencyUnit)
-                    )
+                    Text(text = currentBalance)
                 }
             }
 
@@ -388,16 +393,14 @@ fun AccountCard(
             )
         }
 
-        val homeCurrency = LocalHomeCurrency.current
         val accountCurrencyIsolated = isolateText(account.currencyUnit.symbol)
         val homeCurrencyIsolated = isolateText(homeCurrency.symbol)
+
         AnimatedVisibility(visibleState) {
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
                 account.description?.let { Text(it) }
                 val isFx = account.currency != homeCurrency.code
-                val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
-                val currency = if (showEquivalent) homeCurrency else account.currencyUnit
 
                 val fXFormat = remember { DecimalFormat("#.############") }
                 SumRow(
@@ -447,10 +450,7 @@ fun AccountCard(
 
                 SumRow(
                     if (showEquivalent) R.string.current_value else R.string.current_balance,
-                    format.convAmount(
-                        if (showEquivalent) account.equivalentCurrentBalance else account.currentBalance,
-                        currency
-                    ),
+                    currentBalance,
                     Modifier.conditional(account.total == null) {
                         drawSumLine()
                     }
