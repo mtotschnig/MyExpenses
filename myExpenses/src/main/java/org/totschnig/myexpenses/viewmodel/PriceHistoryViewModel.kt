@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.viewmodel.data.Price
 import java.time.LocalDate
-import kotlin.collections.get
 
 class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ExchangeRateViewModel(application) {
@@ -49,12 +48,15 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         }
     }
 
+    val homeCurrency
+        get() = currencyContext.homeCurrencyString
+
     val relevantSources: List<ExchangeRateApi> by lazy {
         prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")
             ?.takeIf { it != SERVICE_DEACTIVATED }
             ?.let { listOf(ExchangeRateApi.getByName(it)) }
             ?: ExchangeRateApi.configuredSources(prefHandler).filter {
-                it.isSupported(currencyContext.homeCurrencyString, commodity)
+                it.isSupported(homeCurrency, commodity)
             }.also {
                 if (it.size > 1) {
                     userSelectedSource = it[0]
@@ -116,12 +118,12 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     }
 
     fun deletePrice(price: Price) {
-        repository.deletePrice(price.date, price.source)
+        repository.deletePrice(price.date, price.source, homeCurrency, commodity)
     }
 
     fun savePrice(date: LocalDate, value: Double) {
         repository.savePrice(
-            currencyContext.homeCurrencyString,
+            homeCurrency,
             commodity,
             date,
             ExchangeRateSource.User,

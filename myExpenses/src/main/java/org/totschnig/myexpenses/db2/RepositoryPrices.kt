@@ -8,7 +8,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import java.time.LocalDate
 
@@ -31,10 +30,15 @@ fun Repository.savePrice(
         })
 }
 
-fun Repository.deletePrice(date: LocalDate, source: ExchangeRateSource) {
+fun Repository.deletePrice(
+    date: LocalDate,
+    source: ExchangeRateSource,
+    currency: String,
+    commodity: String
+) {
     contentResolver.delete(
         TransactionProvider.PRICES_URI,
-        "$KEY_DATE = ? AND ${DatabaseConstants.KEY_SOURCE} = ?",
-        arrayOf(date.toString(), source.name)
+        "$KEY_DATE = ? AND $KEY_SOURCE = ? AND $KEY_CURRENCY = ? AND $KEY_COMMODITY = ?",
+        arrayOf(date.toString(), source.name, currency, commodity)
     )
 }
