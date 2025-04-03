@@ -429,7 +429,7 @@ open class MyExpensesViewModel(
         )
 
     val accountsForBalanceSheet: Flow<List<BalanceAccount>> =
-        contentResolver.observeQuery(TransactionProvider.ACCOUNTS_FULL_URI)
+        contentResolver.observeQuery(TransactionProvider.ACCOUNTS_FULL_URI, selection = "$KEY_EXCLUDE_FROM_TOTALS = 0")
             .mapToList { BalanceAccount.fromCursor(it) }
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(

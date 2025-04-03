@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
@@ -534,6 +535,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
@@ -856,19 +859,26 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 toolbar, R.string.drawer_open, R.string.drawer_close
             ) {
                 //at the moment we finish action if drawer is opened;
-                // and do NOT open it again when drawer is closed
+                //and do NOT open it again when drawer is closed
                 override fun onDrawerOpened(drawerView: View) {
                     super.onDrawerOpened(drawerView)
+                    onBackPressedCallback.isEnabled = true
                     finishActionMode()
                 }
 
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                     super.onDrawerSlide(drawerView, 0f) // this disables the animation
                 }
+
+                override fun onDrawerClosed(drawerView: View) {
+                    super.onDrawerClosed(drawerView)
+                    onBackPressedCallback.isEnabled = false
+                }
             }.also {
                 drawer.addDrawerListener(it)
             }
         }
+
         supportFragmentManager.setFragmentResultListener(
             TRANSFORM_TO_TRANSFER_REQUEST,
             this
@@ -885,6 +895,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 putAll(bundle)
             }
         }
+
         with(navigationView) {
             setNavigationItemSelectedListener(::handleNavigationClick)
             getChildAt(0)?.isVerticalScrollBarEnabled = false
@@ -899,6 +910,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 }
             }
         }
+
+        onBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
+                    if (!closeBalanceSheet()) {
+                        binding.drawer?.closeDrawer(GravityCompat.START)
+                    }
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override val snackBarContainerId = R.id.main_content
@@ -1983,13 +2005,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             AppTheme {
                 BalanceSheetView(
                     viewModel.accountsForBalanceSheet.collectAsState(emptyList()).value,
-                    onClose = { hideBalanceSheet() }
+                    onClose = { closeBalanceSheet() }
                 )
             }
         }
     }
 
-    fun hideBalanceSheet() = if (binding.accountPanel.root.displayedChild == 1) {
+    fun closeBalanceSheet() = if (binding.accountPanel.root.displayedChild == 1) {
         binding.accountPanel.root.layoutParams.width = resources.getDimensionPixelSize(R.dimen.drawerWidth).coerceAtMost(resources.displayMetrics.widthPixels)
         binding.accountPanel.root.displayedChild = 0
         true
@@ -2827,21 +2849,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
-    }
-
-    @Deprecated("Still needed on API 12")
-    override fun onBackPressed() {
-        if (hideBalanceSheet()) {
-            return
-        }
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-
-            if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
-                binding.drawer?.closeDrawer(GravityCompat.START)
-                return
-            }
-        }
-        super.onBackPressed()
     }
 
     companion object {

@@ -5,9 +5,11 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
@@ -21,7 +23,8 @@ data class BalanceAccount(
     val type: AccountType,
     val currentBalance: Long,
     val currency: String = "USD",
-    val equivalentCurrentBalance: Long = currentBalance
+    val equivalentCurrentBalance: Long = currentBalance,
+    val isHidden: Boolean = false
 ) {
     companion object {
 
@@ -34,7 +37,8 @@ data class BalanceAccount(
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
             equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE)
                 .roundToLong(),
-            currency = cursor.getString(KEY_CURRENCY)
+            currency = cursor.getString(KEY_CURRENCY),
+            isHidden = cursor.getBoolean(KEY_HIDDEN)
         )
     }
 }
