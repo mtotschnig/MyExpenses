@@ -2804,6 +2804,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }).show(supportFragmentManager, "CLEAR_FILTER")
     }
 
+    @Deprecated("Still needed on API 12")
+    override fun onBackPressed() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+
+            if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
+                binding.drawer?.closeDrawer(GravityCompat.START)
+                return
+            }
+        }
+        super.onBackPressed()
+    }
+
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
         const val DIALOG_TAG_GROUPING = "GROUPING"
