@@ -30,6 +30,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
@@ -109,6 +110,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
@@ -144,6 +146,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.BudgetRow
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -424,6 +427,10 @@ open class MyExpensesViewModel(
             PrefKey.SCROLL_TO_CURRENT_DATE,
             ScrollToCurrentDate.Never
         )
+
+    val accountsForBalanceSheet: Flow<List<BalanceAccount>> =
+        contentResolver.observeQuery(TransactionProvider.ACCOUNTS_FULL_URI)
+            .mapToList { BalanceAccount.fromCursor(it) }
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()

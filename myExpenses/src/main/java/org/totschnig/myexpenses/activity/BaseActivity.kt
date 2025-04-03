@@ -206,7 +206,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 homeAsUpIndicator?.let {
                     setHomeAsUpIndicator(it)
                 }
-                customView
             }
         }
     }

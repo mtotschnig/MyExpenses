@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -62,6 +63,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
@@ -1965,10 +1967,33 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     setAction(Action.MANAGE.name)
                 })
 
+            R.id.BALANCE_SHEET_COMMAND -> {
+                openBalanceSheet()
+            }
+
             else -> return false
         }
         return true
     }
+
+    fun openBalanceSheet() {
+        binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
+        binding.accountPanel.root.displayedChild = 1
+        binding.accountPanel.balanceSheet.setContent {
+            AppTheme {
+                BalanceSheetView(
+                    viewModel.accountsForBalanceSheet.collectAsState(emptyList()).value,
+                    onClose = { hideBalanceSheet() }
+                )
+            }
+        }
+    }
+
+    fun hideBalanceSheet() = if (binding.accountPanel.root.displayedChild == 1) {
+        binding.accountPanel.root.layoutParams.width = resources.getDimensionPixelSize(R.dimen.drawerWidth).coerceAtMost(resources.displayMetrics.widthPixels)
+        binding.accountPanel.root.displayedChild = 0
+        true
+    } else false
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
@@ -2806,6 +2831,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     @Deprecated("Still needed on API 12")
     override fun onBackPressed() {
+        if (hideBalanceSheet()) {
+            return
+        }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
 
             if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
