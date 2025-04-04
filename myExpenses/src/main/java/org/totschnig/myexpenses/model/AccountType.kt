@@ -59,7 +59,7 @@ enum class AccountType(val isAsset: Boolean) {
         fun sqlOrderExpression() = buildString {
             append("CASE $KEY_TYPE")
             for (type in entries) {
-                append(" WHEN ${type.name} THEN ${type.sortOrder}'")
+                append(" WHEN '${type.name}' THEN ${type.sortOrder}")
             }
             append(" ELSE -1 END AS $KEY_SORT_KEY_TYPE")
         }
