@@ -56,11 +56,13 @@ import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
 import java.time.LocalDate
 import kotlin.math.roundToLong
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BalanceSheetView(
     accounts: List<BalanceAccount>,
     onClose: () -> Unit = {},
+    onNavigate: (Long) -> Unit = {},
 ) {
     var showAll by rememberSaveable { mutableStateOf(true) }
     val datePickerState = rememberDatePickerState(
@@ -166,12 +168,19 @@ fun BalanceSheetView(
                 .padding(horizontal = horizontalPadding)
         ) {
 
-            accountTypeChapter(R.string.balance_sheet_section_assets, totalAssets, assets, showAll)
+            accountTypeChapter(
+                R.string.balance_sheet_section_assets,
+                totalAssets,
+                assets,
+                showAll,
+                onNavigate
+            )
             accountTypeChapter(
                 R.string.balance_sheet_section_liabilities,
                 totalLiabilities,
                 liabilities,
-                showAll
+                showAll,
+                onNavigate
             )
 
             item {
@@ -187,6 +196,7 @@ fun LazyListScope.accountTypeChapter(
     total: Long,
     sections: List<Map.Entry<AccountType, Pair<Long, List<BalanceAccount>>>>,
     showAll: Boolean,
+    onNavigate: (Long) -> Unit,
 ) {
     item {
         BalanceSheetSectionHeaderView(
@@ -196,7 +206,7 @@ fun LazyListScope.accountTypeChapter(
     }
 
     sections.forEach { (type, group) ->
-        accountTypeSection(type = type, group, showAll)
+        accountTypeSection(type = type, group, showAll, onNavigate)
     }
 }
 
@@ -222,6 +232,7 @@ fun LazyListScope.accountTypeSection(
     type: AccountType,
     group: Pair<Long, List<BalanceAccount>>,
     showAll: Boolean,
+    onNavigate: (Long) -> Unit,
 ) {
     val (total, accounts) = group
     item {
@@ -232,7 +243,7 @@ fun LazyListScope.accountTypeSection(
                 .padding(vertical = 4.dp)
         ) {
             Text(
-                text = type.name, // Display the AccountType name
+                text = stringResource(type.toStringResPlural()), // Display the AccountType name
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -244,7 +255,7 @@ fun LazyListScope.accountTypeSection(
         .filter { showAll || (!it.isHidden && it.currentBalance != 0L) }
         .forEach { account ->
             item {
-                BalanceAccountItemView(account = account)
+                BalanceAccountItemView(account = account, onNavigate)
             }
         }
     item {
@@ -253,10 +264,13 @@ fun LazyListScope.accountTypeSection(
 }
 
 @Composable
-fun BalanceAccountItemView(account: BalanceAccount) {
+fun BalanceAccountItemView(account: BalanceAccount, onNavigate: (Long) -> Unit) {
     val homeCurrency = LocalHomeCurrency.current
     Row(
         modifier = Modifier
+            .clickable {
+                onNavigate(account.id)
+            }
             .fillMaxWidth()
             .padding(vertical = 2.dp)
     ) {

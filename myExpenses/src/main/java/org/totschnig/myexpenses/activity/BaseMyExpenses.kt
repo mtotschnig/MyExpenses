@@ -2005,7 +2005,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             AppTheme {
                 BalanceSheetView(
                     viewModel.accountsForBalanceSheet.collectAsState(emptyList()).value,
-                    onClose = { closeBalanceSheet() }
+                    onClose = { closeBalanceSheet() },
+                    onNavigate = {
+                        selectedAccountId = it
+                        closeDrawer()
+                    }
                 )
             }
         }
