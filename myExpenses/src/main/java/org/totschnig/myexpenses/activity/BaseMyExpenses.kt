@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
@@ -62,6 +63,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
@@ -221,6 +223,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
@@ -531,6 +534,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             invalidateOptionsMenu()
         }
     }
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -854,19 +859,26 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 toolbar, R.string.drawer_open, R.string.drawer_close
             ) {
                 //at the moment we finish action if drawer is opened;
-                // and do NOT open it again when drawer is closed
+                //and do NOT open it again when drawer is closed
                 override fun onDrawerOpened(drawerView: View) {
                     super.onDrawerOpened(drawerView)
+                    onBackPressedCallback.isEnabled = true
                     finishActionMode()
                 }
 
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                     super.onDrawerSlide(drawerView, 0f) // this disables the animation
                 }
+
+                override fun onDrawerClosed(drawerView: View) {
+                    super.onDrawerClosed(drawerView)
+                    onBackPressedCallback.isEnabled = false
+                }
             }.also {
                 drawer.addDrawerListener(it)
             }
         }
+
         supportFragmentManager.setFragmentResultListener(
             TRANSFORM_TO_TRANSFER_REQUEST,
             this
@@ -883,6 +895,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 putAll(bundle)
             }
         }
+
         with(navigationView) {
             setNavigationItemSelectedListener(::handleNavigationClick)
             getChildAt(0)?.isVerticalScrollBarEnabled = false
@@ -897,6 +910,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 }
             }
         }
+
+        onBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
+                    if (!closeBalanceSheet()) {
+                        binding.drawer?.closeDrawer(GravityCompat.START)
+                    }
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override val snackBarContainerId = R.id.main_content
@@ -1965,10 +1989,42 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     setAction(Action.MANAGE.name)
                 })
 
+            R.id.BALANCE_SHEET_COMMAND -> {
+                openBalanceSheet()
+            }
+
             else -> return false
         }
         return true
     }
+
+    fun openBalanceSheet() {
+        binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
+        binding.accountPanel.root.displayedChild = 1
+        binding.accountPanel.balanceSheet.setContent {
+            AppTheme {
+                val data = viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
+                BalanceSheetView(
+                    data.second,
+                    data.first,
+                    onClose = { closeBalanceSheet() },
+                    onNavigate = {
+                        selectedAccountId = it
+                        closeDrawer()
+                    },
+                    onSetDate = {
+                        viewModel.setBalanceDate(it)
+                    }
+                )
+            }
+        }
+    }
+
+    fun closeBalanceSheet() = if (binding.accountPanel.root.displayedChild == 1) {
+        binding.accountPanel.root.layoutParams.width = resources.getDimensionPixelSize(R.dimen.drawerWidth).coerceAtMost(resources.displayMetrics.widthPixels)
+        binding.accountPanel.root.displayedChild = 0
+        true
+    } else false
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
@@ -2802,18 +2858,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
-    }
-
-    @Deprecated("Still needed on API 12")
-    override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-
-            if (binding.drawer?.isDrawerOpen(GravityCompat.START) == true) {
-                binding.drawer?.closeDrawer(GravityCompat.START)
-                return
-            }
-        }
-        super.onBackPressed()
     }
 
     companion object {

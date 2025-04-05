@@ -22,6 +22,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
@@ -30,6 +31,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +56,8 @@ import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
-import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.addToSelection
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.addAttachments
@@ -109,6 +111,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
@@ -144,6 +147,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.BudgetRow
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -154,13 +158,16 @@ import org.totschnig.myexpenses.viewmodel.data.HeaderDataResult
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import java.time.LocalDate
 import java.util.Locale
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
+private const val KEY_BALANCE_DATE = "balanceDate"
+
 open class MyExpensesViewModel(
     application: Application,
-    savedStateHandle: SavedStateHandle,
+    val savedStateHandle: SavedStateHandle,
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -424,6 +431,25 @@ open class MyExpensesViewModel(
             PrefKey.SCROLL_TO_CURRENT_DATE,
             ScrollToCurrentDate.Never
         )
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var balanceDate = savedStateHandle.getLiveData<LocalDate>(KEY_BALANCE_DATE, LocalDate.now()).asFlow()
+
+    fun setBalanceDate(date: LocalDate) {
+        savedStateHandle[KEY_BALANCE_DATE] = date
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> = balanceDate.flatMapLatest { date ->
+        contentResolver.observeQuery(
+            TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
+            selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+        )
+            .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
+            .map {
+                date to it
+            }
+    }
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()

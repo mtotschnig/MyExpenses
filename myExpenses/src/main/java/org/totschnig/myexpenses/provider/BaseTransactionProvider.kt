@@ -618,11 +618,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         mergeAggregate: String?,
         selection: String?,
         sortOrder: String?,
+        sumsForDate: String?
     ): String {
-
+        val date = sumsForDate ?: "now"
         val aggregateFunction = this.aggregateFunction
 
-        val futureStartsNow = runBlocking {
+        val endOfDay = if (sumsForDate == "now") runBlocking {
             enumValueOrDefault(
                 dataStore.data.first()[stringPreferencesKey(
                     prefHandler.getKey(
@@ -630,10 +631,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     )
                 )], FutureCriterion.EndOfDay
             )
-        } == FutureCriterion.Current
+        } != FutureCriterion.Current else true
 
         val cte = if (minimal) "" else
-            accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction, typeWithFallBack)
+            accountQueryCTE(homeCurrency, endOfDay, aggregateFunction, typeWithFallBack, date)
 
         val tableName = if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS
         val query = if (mergeAggregate == null) {

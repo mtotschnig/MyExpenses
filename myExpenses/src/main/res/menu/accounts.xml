@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <item
         android:id="@id/CREATE_ACCOUNT_COMMAND"
         android:icon="@drawable/ic_menu_add"
         android:title="@string/menu_create_account"
-        tools:ignore="AlwaysShowAction"/>
+        tools:ignore="AlwaysShowAction" />
+
     <item
         android:id="@id/GROUPING_ACCOUNTS_COMMAND"
         android:icon="@drawable/ic_action_group"
-        android:title="@string/menu_grouping">
-    </item>
+        android:title="@string/menu_grouping" />
+
     <item
         android:id="@id/SORT_COMMAND"
-        android:title="@string/display_options_sort_list_by"
-        android:icon="@drawable/ic_menu_sort">
-    </item>
+        android:icon="@drawable/ic_menu_sort"
+        android:title="@string/display_options_sort_list_by" />
+
     <item
         android:id="@id/HIDDEN_ACCOUNTS_COMMAND"
-        android:title="@string/menu_hidden_accounts"
         android:icon="@drawable/ic_hide"
+        android:title="@string/menu_hidden_accounts"
         android:visible="false"
-        tools:ignore="PrivateResource">
-    </item>
+        tools:ignore="PrivateResource" />
+
     <item
         android:id="@+id/EQUIVALENT_WORTH_COMMAND"
-        android:title="@string/menu_show_equivalent_value"
-        android:icon="@drawable/checkbox_not_checked" />
+        android:icon="@drawable/checkbox_not_checked"
+        android:title="@string/menu_show_equivalent_value" />
+
+    <item
+        android:id="@id/BALANCE_SHEET_COMMAND"
+        android:icon="@drawable/ic_table_chart"
+        android:title="@string/balance_sheet" />
+
     <item
         android:id="@id/HELP_COMMAND_DRAWER"
-        android:orderInCategory="40"
         android:icon="@drawable/ic_menu_help"
+        android:orderInCategory="40"
         android:title="@string/menu_help"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
 </menu>

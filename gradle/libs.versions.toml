@@ -10,7 +10,10 @@ androidxArchVersion = "2.2.0"
 androidxCollection = "1.5.0"
 androidXCoreVersion = "1.15.0"
 androidxSqlite = "2.4.0"
-androidxDrawer = "1.2.0"
+# Stay away from version 1.2.0. It integrates with Android 13’s OnBackPressedInvoked in a way that is
+# close to impossible to control: https://github.com/material-components/material-components-android/issues/3968
+#noinspection GradleDependency
+androidxDrawer = "1.1.1"
 androidxTextExtJunit = "1.2.1"
 annotation = "1.9.1"
 appcompatVersion = "1.7.0"

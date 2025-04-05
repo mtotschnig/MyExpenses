@@ -534,12 +534,14 @@ const val TRANSFER_ACCOUNT_LABEL =
 
 fun accountQueryCTE(
     homeCurrency: String,
-    futureStartsNow: Boolean,
+    endOfDay: Boolean,
     aggregateFunction: String,
     typeWithFallBack: String,
+    date: String = "now",
 ): String {
-    val futureCriterion =
-        if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
+    val dateCriterion =
+        if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', 'utc'" else "'$date'"
+    val dateCriterionForPricesTable = if (date == "now") "date()" else "'$date'"
     val isExpense =
         "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0)"
     val isIncome =
@@ -591,7 +593,7 @@ fun accountQueryCTE(
     return """
 WITH now as (
     SELECT
-        cast(strftime('%s', $futureCriterion) as integer) AS now
+        cast(strftime('%s', $dateCriterion) as integer) AS now
 ), latest_rates as (
   SELECT p.$KEY_COMMODITY, p.$KEY_VALUE, p.$KEY_DATE
   FROM $VIEW_PRIORITIZED_PRICES p
@@ -600,7 +602,7 @@ WITH now as (
       -- Get the most recent date per commodity
       SELECT MAX(p2.$KEY_DATE)
       FROM $TABLE_PRICES p2
-      WHERE p2.$KEY_COMMODITY = p.$KEY_COMMODITY AND p2.$KEY_CURRENCY = '$homeCurrency'
+      WHERE p2.$KEY_COMMODITY = p.$KEY_COMMODITY AND p2.$KEY_CURRENCY = '$homeCurrency' AND $KEY_DATE <= $dateCriterionForPricesTable
   )
 ), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}

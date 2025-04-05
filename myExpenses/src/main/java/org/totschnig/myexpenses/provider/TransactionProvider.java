@@ -325,8 +325,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS = "fullProjectionWithSums";
   //uses full projection with sums for each account
-  public static final Uri ACCOUNTS_FULL_URI = ACCOUNTS_URI.buildUpon()
-          .appendQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, "1").build();
+  public static final Uri ACCOUNTS_FULL_URI = balanceUri("now");
+  public static Uri balanceUri(String date) {
+    return ACCOUNTS_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, date).build();
+  }
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
@@ -566,18 +569,18 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_BASE:
       case ACCOUNTS_MINIMAL:
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
-        final boolean withSums = Objects.equals(uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS), "1");
+        final String sumsForDate = uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS);
         final String mergeAggregate = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
           sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate());
         }
-        if (mergeAggregate != null || withSums) {
+        if (mergeAggregate != null || sumsForDate != null) {
           if (projection != null) {
             CrashHandler.throwOrReport(
                     "When calling accounts cursor with sums or aggregates, projection is ignored ", TAG
             );
           }
-          String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder);
+          String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder, sumsForDate);
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           if (uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT, false)) {
             c = wrapWithResultCompat(c, hiddenAccountCount(db));

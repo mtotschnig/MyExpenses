@@ -1059,4 +1059,8 @@
     <string name="complex_search">Complex search</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>
+    <string name="balance_sheet">Balance Sheet</string>
+    <string name="balance_sheet_section_assets">Assets</string>
+    <string name="balance_sheet_section_liabilities">Liabilities</string>
+    <string name="balance_sheet_net_worth">Net Worth</string>
 </resources>

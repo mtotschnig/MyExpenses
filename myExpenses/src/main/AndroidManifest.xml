@@ -45,8 +45,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" tools:replace="android:maxSdkVersion" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:replace="android:maxSdkVersion" />
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove" />
@@ -325,7 +327,8 @@
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RoadmapVoteActivity"
+        <activity
+            android:name=".activity.RoadmapVoteActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -390,6 +393,7 @@
             android:exported="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
+
         <activity android:name="org.totschnig.myexpenses.activity.PriceHistory" />
 
         <service

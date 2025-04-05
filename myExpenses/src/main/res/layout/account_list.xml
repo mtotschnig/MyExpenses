@@ -1,47 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.totschnig.myexpenses.ui.ExpansionPanel xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/switcher"
+    android:animateLayoutChanges="true"
     android:layout_width="@dimen/drawerWidth"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:animateLayoutChanges="true"
-    android:background="?android:attr/colorBackground"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_main">
+    android:layout_gravity="start">
 
-    <FrameLayout
-        android:id="@+id/expansionTrigger"
+    <org.totschnig.myexpenses.ui.ExpansionPanel
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/drawer_padding">
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/newHeadingStyle"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/expansionTrigger"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:text="@string/navigation_drawer_accounts_title" />
+            android:paddingStart="@dimen/drawer_padding">
 
-        <!-- HEADER INDICATOR -->
-        <include layout="@layout/expansion_handle" />
+            <TextView
+                style="@style/newHeadingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:text="@string/navigation_drawer_accounts_title" />
 
-    </FrameLayout>
+            <!-- HEADER INDICATOR -->
+            <include layout="@layout/expansion_handle" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/expansionContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:visibility="gone"
-        app:elevation="0dp"
-        app:itemMaxLines="2"
-        app:itemTextAppearanceActiveBoldEnabled="false"
-        app:menu="@menu/accounts" />
+        </FrameLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/expansionContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:visibility="gone"
+            app:elevation="0dp"
+            app:itemMaxLines="2"
+            app:itemTextAppearanceActiveBoldEnabled="false"
+            app:menu="@menu/accounts" />
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/accountList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/drawerBackground" />
+    </org.totschnig.myexpenses.ui.ExpansionPanel>
 
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/accountList"
+        android:id="@+id/balanceSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/drawerBackground" />
-</org.totschnig.myexpenses.ui.ExpansionPanel>
+</ViewSwitcher>

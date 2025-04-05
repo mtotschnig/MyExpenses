@@ -70,6 +70,9 @@ import kotlin.math.sign
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
     abstract val currencyUnit: CurrencyUnit
+    /**
+     * null for aggregate accounts
+     */
     abstract val type: AccountType?
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
