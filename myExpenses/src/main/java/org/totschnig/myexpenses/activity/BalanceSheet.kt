@@ -66,14 +66,16 @@ import kotlin.math.roundToLong
 @Composable
 fun BalanceSheetView(
     accounts: List<BalanceAccount>,
+    date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
     onNavigate: (Long) -> Unit = {},
+    onSetDate: (LocalDate) -> Unit = {}
 ) {
     var showAll by rememberSaveable { mutableStateOf(true) }
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = System.currentTimeMillis()
     )
-    var selectedDate by rememberSaveable { mutableStateOf(LocalDate.now()) }
+
     var showDatePicker by remember { mutableStateOf(false) }
 
     val horizontalPadding = dimensionResource(R.dimen.padding_main_screen)
@@ -118,11 +120,11 @@ fun BalanceSheetView(
             modifier = Modifier
                 .padding(end = horizontalPadding)
                 .clickable {
-                    datePickerState.selectedDateMillis = selectedDate.toEpoch() * 1000
+                    datePickerState.selectedDateMillis = date.toEpoch() * 1000
                     showDatePicker = true
                 }
                 .align(Alignment.End),
-            text = LocalDateFormatter.current.format(selectedDate),
+            text = LocalDateFormatter.current.format(date),
             textDecoration = TextDecoration.Underline
         )
         if (showDatePicker) {
@@ -152,7 +154,7 @@ fun BalanceSheetView(
                     ) {
                         showDatePicker = false
                         datePickerState.selectedDateMillis?.let {
-                            selectedDate = epochMillis2LocalDate(it)
+                            onSetDate(epochMillis2LocalDate(it))
                         }
                     }
                 }

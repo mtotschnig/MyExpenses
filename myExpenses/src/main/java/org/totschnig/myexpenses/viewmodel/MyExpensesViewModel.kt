@@ -22,6 +22,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
@@ -55,8 +56,8 @@ import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
-import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.addToSelection
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.addAttachments
@@ -157,13 +158,16 @@ import org.totschnig.myexpenses.viewmodel.data.HeaderDataResult
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import java.time.LocalDate
 import java.util.Locale
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
+private const val KEY_BALANCE_DATE = "balanceDate"
+
 open class MyExpensesViewModel(
     application: Application,
-    savedStateHandle: SavedStateHandle,
+    val savedStateHandle: SavedStateHandle,
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -428,9 +432,24 @@ open class MyExpensesViewModel(
             ScrollToCurrentDate.Never
         )
 
-    val accountsForBalanceSheet: Flow<List<BalanceAccount>> =
-        contentResolver.observeQuery(TransactionProvider.ACCOUNTS_FULL_URI, selection = "$KEY_EXCLUDE_FROM_TOTALS = 0")
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var balanceDate = savedStateHandle.getLiveData<LocalDate>(KEY_BALANCE_DATE, LocalDate.now()).asFlow()
+
+    fun setBalanceDate(date: LocalDate) {
+        savedStateHandle[KEY_BALANCE_DATE] = date
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> = balanceDate.flatMapLatest { date ->
+        contentResolver.observeQuery(
+            TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
+            selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+        )
             .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
+            .map {
+                date to it
+            }
+    }
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()

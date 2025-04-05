@@ -534,12 +534,13 @@ const val TRANSFER_ACCOUNT_LABEL =
 
 fun accountQueryCTE(
     homeCurrency: String,
-    futureStartsNow: Boolean,
+    endOfDay: Boolean,
     aggregateFunction: String,
     typeWithFallBack: String,
+    date: String = "now",
 ): String {
-    val futureCriterion =
-        if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
+    val dateCriterion =
+        if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', 'utc'" else "'$date'"
     val isExpense =
         "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0)"
     val isIncome =
@@ -591,7 +592,7 @@ fun accountQueryCTE(
     return """
 WITH now as (
     SELECT
-        cast(strftime('%s', $futureCriterion) as integer) AS now
+        cast(strftime('%s', $dateCriterion) as integer) AS now
 ), latest_rates as (
   SELECT p.$KEY_COMMODITY, p.$KEY_VALUE, p.$KEY_DATE
   FROM $VIEW_PRIORITIZED_PRICES p

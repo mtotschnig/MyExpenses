@@ -224,6 +224,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
@@ -2003,12 +2004,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         binding.accountPanel.root.displayedChild = 1
         binding.accountPanel.balanceSheet.setContent {
             AppTheme {
+                val data = viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
                 BalanceSheetView(
-                    viewModel.accountsForBalanceSheet.collectAsState(emptyList()).value,
+                    data.second,
+                    data.first,
                     onClose = { closeBalanceSheet() },
                     onNavigate = {
                         selectedAccountId = it
                         closeDrawer()
+                    },
+                    onSetDate = {
+                        viewModel.setBalanceDate(it)
                     }
                 )
             }
