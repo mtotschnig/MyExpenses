@@ -1701,7 +1701,11 @@ public class Preference implements Comparable<Preference> {
             return dataStore.getString(mKey, defaultReturnValue);
         }
 
-        return mPreferenceManager.getSharedPreferences().getString(mKey, defaultReturnValue);
+        try {
+            return mPreferenceManager.getSharedPreferences().getString(mKey, defaultReturnValue);
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Could not read value for " + mKey, e);
+        }
     }
 
     /**
