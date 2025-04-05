@@ -39,9 +39,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.HierarchicalMenu
@@ -50,10 +52,13 @@ import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.filter.ActionButton
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
 import java.time.LocalDate
+import java.util.Currency
+import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 
 
@@ -224,7 +229,7 @@ fun BalanceSheetSectionHeaderView(name: String, total: Long) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        ColoredAmountText(total, homeCurrency)
+        ColoredAmountText(total, homeCurrency, absolute = true)
     }
 }
 
@@ -248,7 +253,7 @@ fun LazyListScope.accountTypeSection(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
-            ColoredAmountText(total, homeCurrency)
+            ColoredAmountText(total, homeCurrency, absolute = true)
         }
     }
     accounts
@@ -278,7 +283,16 @@ fun BalanceAccountItemView(account: BalanceAccount, onNavigate: (Long) -> Unit) 
             text = account.label,
             modifier = Modifier.weight(1f)
         )
-        ColoredAmountText(account.equivalentCurrentBalance, homeCurrency)
+        Column(horizontalAlignment = Alignment.End) {
+            ColoredAmountText(account.equivalentCurrentBalance, homeCurrency, absolute = true)
+            if (account.currency.code != homeCurrency.code && account.currentBalance != 0L) {
+                AmountText(
+                    account.currentBalance.absoluteValue,
+                    account.currency,
+                    fontSize = 10.sp
+                )
+            }
+        }
     }
 }
 
@@ -291,12 +305,12 @@ fun NetWorthView(netWorth: Long) {
             .padding(vertical = 8.dp)
     ) {
         Text(
-            text = "Net Worth",
+            text = stringResource(R.string.balance_sheet_net_worth),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        ColoredAmountText(netWorth, homeCurrency)
+        ColoredAmountText(netWorth, homeCurrency, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -326,17 +340,17 @@ fun BalanceSheet() {
                 currentBalance = -100000, // -$1,000.00
             ),
             BalanceAccount(
-                label = "EUR Cash",
+                label = "USD Cash",
                 type = AccountType.CASH,
                 currentBalance = 200000, // €2,000.00
-                currency = "EUR",
+                currency = CurrencyUnit(Currency.getInstance("USD")),
                 equivalentCurrentBalance = (200000 * 0.92).roundToLong()
             ),
             BalanceAccount(
                 label = "JPY Account",
                 type = AccountType.BANK,
                 currentBalance = 5000000, // ¥50,000.00
-                currency = "JPY",
+                currency = CurrencyUnit(Currency.getInstance("JPY")),
                 equivalentCurrentBalance = (5000000 * 0.0075).roundToLong(),
             ),
             BalanceAccount(
@@ -348,7 +362,7 @@ fun BalanceSheet() {
                 label = "GBP Cash",
                 type = AccountType.CASH,
                 currentBalance = 100000, // £1,000.00
-                currency = "GBP",
+                currency = CurrencyUnit(Currency.getInstance("GBP")),
                 equivalentCurrentBalance = (100000 * 1.28).roundToLong(),
             ),
             BalanceAccount(

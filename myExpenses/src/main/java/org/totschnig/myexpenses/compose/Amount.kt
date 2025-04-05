@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
@@ -37,6 +38,7 @@ fun AmountText(
     fontWeight: FontWeight? = null,
     textAlign: TextAlign? = null,
     textDecoration: TextDecoration? = null,
+    fontSize: TextUnit = TextUnit.Unspecified,
     color: Color = Color.Unspecified,
     prefix: String = "",
     postfix: String = "",
@@ -45,6 +47,7 @@ fun AmountText(
     Text(
         modifier = modifier.amountSemantics(amount),
         fontWeight = fontWeight,
+        fontSize = fontSize,
         textAlign = textAlign,
         textDecoration = textDecoration,
         color = color,
@@ -65,6 +68,8 @@ fun ColoredAmountText(
     withBorder: Boolean = false,
     prefix: String = "",
     postfix: String = "",
+    type: Byte? = null,
+    absolute: Boolean = false,
 ) {
     ColoredAmountText(
         money = Money(currency, amount),
@@ -73,7 +78,9 @@ fun ColoredAmountText(
         textAlign = textAlign,
         withBorder = withBorder,
         prefix = prefix,
-        postfix = postfix
+        postfix = postfix,
+        type = type,
+        absolute = absolute
     )
 }
 
@@ -88,6 +95,7 @@ fun ColoredAmountText(
     prefix: String = "",
     postfix: String = "",
     type: Byte? = null,
+    absolute: Boolean = false,
 ) {
     val type = type ?: when (money.amountMinor.sign) {
         1 -> FLAG_INCOME
@@ -105,7 +113,9 @@ fun ColoredAmountText(
         textAlign = textAlign,
         style = style,
         text = prefix + LocalCurrencyFormatter.current.formatCurrency(
-            money.amountMajor,
+            money.amountMajor.let {
+                if (absolute) it.abs() else it
+            },
             money.currencyUnit
         ) + postfix,
         color = type.typeTextColor

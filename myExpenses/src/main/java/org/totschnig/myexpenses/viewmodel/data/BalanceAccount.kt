@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURRENT_BALANCE
@@ -22,7 +24,7 @@ data class BalanceAccount(
     val label: String,
     val type: AccountType,
     val currentBalance: Long,
-    val currency: String = "USD",
+    val currency: CurrencyUnit = CurrencyUnit.DebugInstance,
     val equivalentCurrentBalance: Long = currentBalance,
     val isHidden: Boolean = false
 ) {
@@ -30,6 +32,7 @@ data class BalanceAccount(
 
         fun fromCursor(
             cursor: Cursor,
+            currencyContext: CurrencyContext,
         ) = BalanceAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
@@ -37,7 +40,7 @@ data class BalanceAccount(
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
             equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE)
                 .roundToLong(),
-            currency = cursor.getString(KEY_CURRENCY),
+            currency = currencyContext[cursor.getString(KEY_CURRENCY)],
             isHidden = cursor.getBoolean(KEY_HIDDEN)
         )
     }
