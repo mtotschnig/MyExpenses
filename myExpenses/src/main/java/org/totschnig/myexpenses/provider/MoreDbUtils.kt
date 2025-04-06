@@ -85,7 +85,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
-import java.math.BigDecimal
 
 fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T): T {
     beginTransaction()
@@ -331,43 +330,44 @@ val expenseCategories = arrayOf(
 fun getImportableCategories(
     database: SupportSQLiteDatabase,
     resources: Resources,
-) = Category(children = (incomeCategories + expenseCategories)
-    .mapIndexedNotNull { indexMain, (categoriesResId, _, uuidResId) ->
-        val categories = resources.getStringArray(categoriesResId)
-        val uuids = resources.getStringArray(uuidResId)
-        if (categories.size != uuids.size) {
-            CrashHandler.report(Exception("Inconsistent category definitions"))
-            null
-        } else {
-            val mainLabel = categories[0]
-            val mainUUid = uuids[0]
-            val catIdMain = database.findMainCategory(mainLabel)
-                ?: database.findCategoryByUuid(mainUUid)
-            val mainPath = if (catIdMain == null) mainLabel else
-                database.query(categoryPathFromLeave(catIdMain.toString())).use { cursor ->
-                    cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
-                }.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
-            val subCategories = categories.drop(1).zip(uuids.drop(1))
-                .mapIndexedNotNull { indexSub, (subLabel, subUuid) ->
-                    if ((catIdMain?.let { main ->
-                            database.findSubCategory(main, subLabel)
-                        } ?: database.findCategoryByUuid(subUuid)) == null) {
-                        Category(
-                            id = indexMain * 100L + indexSub + 1,
-                            parentId = indexMain.toLong(),
-                            label = subLabel,
-                            level = 2
-                        )
-                    } else null
-                }
-            if (catIdMain != null && subCategories.isEmpty()) null else Category(
-                id = indexMain.toLong() * 100L,
-                label = mainPath,
-                children = subCategories,
-                level = 1
-            )
-        }
-    })
+) = Category(
+    children = (incomeCategories + expenseCategories)
+        .mapIndexedNotNull { indexMain, (categoriesResId, _, uuidResId) ->
+            val categories = resources.getStringArray(categoriesResId)
+            val uuids = resources.getStringArray(uuidResId)
+            if (categories.size != uuids.size) {
+                CrashHandler.report(Exception("Inconsistent category definitions"))
+                null
+            } else {
+                val mainLabel = categories[0]
+                val mainUUid = uuids[0]
+                val catIdMain = database.findMainCategory(mainLabel)
+                    ?: database.findCategoryByUuid(mainUUid)
+                val mainPath = if (catIdMain == null) mainLabel else
+                    database.query(categoryPathFromLeave(catIdMain.toString())).use { cursor ->
+                        cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
+                    }.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
+                val subCategories = categories.drop(1).zip(uuids.drop(1))
+                    .mapIndexedNotNull { indexSub, (subLabel, subUuid) ->
+                        if ((catIdMain?.let { main ->
+                                database.findSubCategory(main, subLabel)
+                            } ?: database.findCategoryByUuid(subUuid)) == null) {
+                            Category(
+                                id = indexMain * 100L + indexSub + 1,
+                                parentId = indexMain.toLong(),
+                                label = subLabel,
+                                level = 2
+                            )
+                        } else null
+                    }
+                if (catIdMain != null && subCategories.isEmpty()) null else Category(
+                    id = indexMain.toLong() * 100L,
+                    label = mainPath,
+                    children = subCategories,
+                    level = 1
+                )
+            }
+        })
 
 private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
@@ -796,3 +796,28 @@ fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String) = query(
     it.moveToFirst()
     it.getLong(0)
 }
+
+fun SupportSQLiteDatabase.getForeignKeyInfoAsString(tableName: String) =
+    query("PRAGMA foreign_key_list($tableName)").useAndMapToList { cursor ->
+        StringBuilder()
+            .append("Foreign Key Constraint:")
+            .append(" ID: ${cursor.getInt(0)};")
+            .append(" Sequence: ${cursor.getInt(1)};")
+            .append(" Referenced Table: ${cursor.getString(2)};")
+            .append(" From Column: ${cursor.getString(3)};")
+            .append(" To Column: ${cursor.getString(4)};")
+            .append(" On Update: ${cursor.getString(5)};")
+            .append(" On Delete: ${cursor.getString(6)}.")
+            .toString()
+    }.joinToString("\n")
+
+fun SupportSQLiteDatabase.getForeignKeyCheckInfoAsString(tableName: String) =
+    query("PRAGMA foreign_key_check($tableName)").useAndMapToList { cursor ->
+        StringBuilder()
+            .append("Foreign Key Violation:")
+            .append(" Table: ${cursor.getString(0)};")
+            .append(" Row ID: ${cursor.getLong(1)};")
+            .append(" Parent Table: ${cursor.getString(2)};")
+            .append(" Foreign key id: ${cursor.getLong(3)};")
+            .toString()
+    }.joinToString("\n")

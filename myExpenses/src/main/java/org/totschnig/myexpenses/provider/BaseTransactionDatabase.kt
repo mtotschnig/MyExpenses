@@ -506,19 +506,15 @@ fun sequenceNumberSelect(reference: String, table: String = TABLE_TRANSACTIONS) 
 
 @JvmOverloads
 fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) =
-    "CASE WHEN ${
-        referenceForTable(
-            reference,
-            table,
-            KEY_PARENTID
+    """CASE
+        WHEN ${referenceForTable(reference, table, KEY_PARENTID)} IS NULL
+        THEN NULL
+        ELSE (
+            SELECT $KEY_UUID
+            FROM $TABLE_TRANSACTIONS parent
+            WHERE $KEY_ROWID = ${referenceForTable(reference, table,KEY_PARENTID)}
         )
-    } IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS parent where $KEY_ROWID = ${
-        referenceForTable(
-            reference,
-            table,
-            KEY_PARENTID
-        )
-    }) END"
+       END"""
 
 abstract class BaseTransactionDatabase(
     val context: Context,
