@@ -548,6 +548,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                     )
 
                                 else -> Image(
+                                    modifier = Modifier
+                                        .clickable(onClick = onClick),
                                     painter = painterResource(
                                         id = info.fallbackResource ?: 0
                                     ), contentDescription = null

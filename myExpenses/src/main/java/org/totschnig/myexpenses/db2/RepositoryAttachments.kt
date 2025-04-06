@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_DELETE_ATTAC
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.useAndMapToList
 import java.io.IOException
+import androidx.core.net.toUri
 
 fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
     if (attachments.isEmpty()) return
@@ -49,4 +50,4 @@ fun Repository.loadAttachmentIds(transactionId: Long) = contentResolver.query(
 fun Repository.loadAttachments(transactionId: Long) = contentResolver.query(
     TRANSACTIONS_ATTACHMENTS_URI,
     arrayOf(KEY_URI), "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-)?.useAndMapToList { Uri.parse(it.getString(0)) } ?: emptyList()
+)?.useAndMapToList { it.getString(0).toUri() } ?: emptyList()

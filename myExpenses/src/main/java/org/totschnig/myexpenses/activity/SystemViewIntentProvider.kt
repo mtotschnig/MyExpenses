@@ -12,7 +12,7 @@ class SystemViewIntentProvider : ViewIntentProvider {
             setDataAndType(AppDirHelper.ensureContentUri(uri, context), type)
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
-    } catch (e: NougatFileProviderException) {
+    } catch (_: NougatFileProviderException) {
         getFallbackIntent(context, uri)
     }
 
