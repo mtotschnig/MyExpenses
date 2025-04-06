@@ -2,14 +2,15 @@
 <ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/switcher"
-    android:animateLayoutChanges="true"
     android:layout_width="@dimen/drawerWidth"
     android:layout_height="match_parent"
-    android:layout_gravity="start">
+    android:layout_gravity="start"
+    android:animateLayoutChanges="true">
 
     <org.totschnig.myexpenses.ui.ExpansionPanel
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="?android:attr/colorBackground"
         android:orientation="vertical">
 
