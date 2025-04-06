@@ -177,6 +177,15 @@ open class MyExpensesViewModel(
     private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
     private val preferredSearchTypePrefKey = intPreferencesKey("preferredSearchType")
 
+    var showBalanceSheet: Boolean
+        get() {
+            val get = savedStateHandle.get<Boolean>("showBalanceSheet")
+            return get == true
+        }
+        set(value) {
+            savedStateHandle["showBalanceSheet"] = value
+        }
+
     fun showStatusHandle() =
         dataStore.data.map { preferences ->
             preferences[showStatusHandlePrefKey] != false
