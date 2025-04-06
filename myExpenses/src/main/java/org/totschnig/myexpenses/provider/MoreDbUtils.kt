@@ -697,8 +697,12 @@ fun Context.maybeRepairRequerySchema(prefHandler: PrefHandler) {
             -1
         ) in 1..588
     ) {
-        maybeRepairRequerySchema(getDatabasePath("data").path)
-        prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+        try {
+            maybeRepairRequerySchema(getDatabasePath("data").path)
+            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+        } catch (e: Exception) {
+            CrashHandler.report(e)
+        }
     }
 }
 
