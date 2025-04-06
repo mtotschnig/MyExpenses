@@ -898,4 +898,17 @@
     <string name="filter_dialog_empty">Nog geen criteria toegevoegd. Tik op de bovenstaande knoppen om je vraag te definiëren en je resultaten te verfijnen.</string>
     <string name="quick_search">Snel zoeken</string>
     <string name="complex_search">Complexe zoekopdracht</string>
+    <string name="account_closed">Account is gesloten</string>
+    <string name="menu_show_equivalent_value">Equivalente waarde</string>
+    <string name="initial_value">Beginwaarde</string>
+    <string name="current_value">Huidige waarde</string>
+    <string name="total_value">Totale waarde</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Automatische download van de dagelijkse wisselkoers</string>
+    <string name="price_history">Prijs geschiedenis</string>
+    <string name="dynamic_exchange_rate">Dynamische wisselkoers</string>
+    <string name="progress_recalculating">Herberekenen</string>
+    <string name="equivalent_amount_plural">Equivalente bedragen</string>
+    <string name="menu_recalculate">Herberekenen</string>
+    <string name="recalculate_equivalent_amounts_warning">Equivalente bedragen worden (her)berekend als toepasselijke opgeslagen wisselkoersen beschikbaar zijn.</string>
+    <string name="recalculate_only_missing">Vul alleen ontbrekende waarden in</string>
 </resources>

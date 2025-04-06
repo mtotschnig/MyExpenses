@@ -19,5 +19,5 @@
     <string name="whats_new_388">Transacties kunnen worden gearchiveerd.</string>
     <string name="whats_new_382">%1$s wordt vervangen door een label tussen aanhalingstekens voor de functionaliteit \"Scan bon\". %2$s wordt vervangen door een label tussen aanhalingstekens voor de widget \"Mijn accounts\"\n%1$s-functie kan worden aangeroepen vanuit widget %2$s.</string>
     <string name="whats_new_395">Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload via de webgebruikersinterface.</string>
-    <string name="whats_new_396">Verbeterd beheer van rekeningen in vreemde valuta met automatische updates van de wisselkoers en real-time waardetracking.</string>
+    <string name="whats_new_396">Verbeterd beheer van rekeningen in vreemde valuta met automatische wisselkoersupdates en realtime waardetracering.</string>
 </resources>
