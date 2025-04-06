@@ -66,6 +66,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.CalendarContract.Events;
 
@@ -424,7 +425,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   @Override
   public void onCorruption(@NonNull SupportSQLiteDatabase db) {
-    MoreDbUtilsKt.maybeRepairRequerySchema(db.getPath());
+    if (Build.VERSION.SDK_INT == 30) {
+        MoreDbUtilsKt.maybeRepairRequerySchema(db.getPath());
+    }
   }
 
   @Override
