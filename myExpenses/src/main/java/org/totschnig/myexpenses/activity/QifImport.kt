@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.QifImportViewModel
@@ -76,7 +77,9 @@ class QifImport : ProtectedFragmentActivity() {
         importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency], withTransactions,
             withCategories, withParties, encoding, autoFillCategories).observe(this) {
                 it.onFailure {
-                    CrashHandler.report(it)
+                    if (it !is ContribFeatureNotAvailableException) {
+                        CrashHandler.report(it)
+                    }
                     progressDialogFragment?.appendToMessage(it.safeMessage)
                 }
                 progressDialogFragment?.onTaskCompleted()
