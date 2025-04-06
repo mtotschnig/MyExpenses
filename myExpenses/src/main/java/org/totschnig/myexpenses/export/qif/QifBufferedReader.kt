@@ -8,6 +8,8 @@
 //adapted to My Expenses by Michael Totschnig
 package org.totschnig.myexpenses.export.qif
 
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.Closeable
 import java.io.IOException
@@ -31,9 +33,14 @@ class QifBufferedReader(private val r: BufferedReader): Closeable {
 
     @Throws(IOException::class)
     fun peekLine(): String? {
-        r.mark(256)
+        r.mark(2048)
         val peek = readLine()
-        r.reset()
+        try {
+            r.reset()
+        } catch (e: IOException) {
+            Timber.w("Reset failed after reading line of length ${peek?.length}")
+            throw e
+        }
         return peek
     }
 

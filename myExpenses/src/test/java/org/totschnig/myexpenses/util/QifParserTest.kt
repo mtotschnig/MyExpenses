@@ -585,16 +585,16 @@ class QifParserTest {
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-2600.66f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), t.date)
         Assert.assertEquals(3, t.splits!!.size.toLong())
-        var s = t.splits!![0]
+        var s = t.splits[0]
         Assert.assertEquals("A:A1", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1100.56f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
         Assert.assertEquals("Note on first split", s.memo)
-        s = t.splits!![1]
+        s = t.splits[1]
         Assert.assertEquals("A:A2", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1000.00f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
-        s = t.splits!![2]
+        s = t.splits[2]
         Assert.assertEquals("<NO_CATEGORY>", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(500.10f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
@@ -654,11 +654,11 @@ class QifParserTest {
         var t = a.transactions[0]
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-2100.00f)
         Assert.assertEquals(2, t.splits!!.size.toLong())
-        var s = t.splits!![0]
+        var s = t.splits[0]
         Assert.assertEquals("A:A1", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1100.00f)
         Assert.assertEquals("Note on first split", s.memo)
-        s = t.splits!![1]
+        s = t.splits[1]
         Assert.assertTrue(s.isTransfer)
         Assert.assertEquals("My Bank Account", s.toAccount)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1000.00f)
@@ -763,7 +763,7 @@ class QifParserTest {
                     """.trimIndent()
             )
             Assert.fail("Should not accept large amount input")
-        } catch (ignored: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
         }
     }
 
@@ -783,6 +783,20 @@ class QifParserTest {
             CategoryInfo("Main category A", FLAG_EXPENSE),
             CategoryInfo("Main category A:Sub category A.1", FLAG_EXPENSE),
             CategoryInfo("Main category A:Sub category A.1:Sub sub category A.1.1", FLAG_EXPENSE)
+        )
+    }
+
+    @Test
+    fun parseLongLine() {
+        parseQif(
+            """
+            !Type:Cat
+            NMain category A
+            ^
+            NMain category A:Sub category A.1
+            ^
+            NMain category A:Sub category A.1:Sub sub category A.1.1:Main category A:Sub category A.1:Sub sub category A.1.1:Main category A:Sub category A.1:Sub sub category A.1.1:Main category A:Sub category A.1:Sub sub category A.1.1:Main category A:Sub category A.1:Sub sub category A.1.1
+            """.trimIndent()
         )
     }
 

@@ -57,13 +57,13 @@ class QifParser(
                         }
                     }
                 }
-            } else if (peek!!.startsWith("!Account")) {
+            } else if (peek.startsWith("!Account")) {
                 r.readLine()
                 parseTransactions(parseAccount())
-            } else if (peek!!.startsWith("!Type:Cat")) {
+            } else if (peek.startsWith("!Type:Cat")) {
                 r.readLine()
                 parseCategories()
-            } else if (peek!!.startsWith("!Type") && !peek!!.startsWith("!Type:Class")) {
+            } else if (peek.startsWith("!Type") && !peek.startsWith("!Type:Class")) {
                 parseTransactions(Builder())
             } else {
                 r.readLine()
