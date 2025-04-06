@@ -73,7 +73,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     private val _permissionRequested = MutableLiveData<Unit?>(null)
     val permissionRequested: LiveData<Unit?> = _permissionRequested
-    var permissionRequestFuture : CompletableDeferred<Boolean>? = null
+    var permissionRequestFuture: CompletableDeferred<Boolean>? = null
     fun submitPermissionRequestResult(granted: Boolean) {
         permissionRequestFuture?.complete(granted)
     }
@@ -234,23 +234,29 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         }.await()
                         _permissionRequested.postValue(null)
                         if (granted != true) {
-                            failureResult(Utils.getTextWithAppName(getApplication(), R.string.notifications_permission_required_planner).toString())
+                            failureResult(
+                                Utils.getTextWithAppName(
+                                    getApplication(),
+                                    R.string.notifications_permission_required_planner
+                                ).toString()
+                            )
                             return@launch
                         }
                         if (try {
-                            contentResolver.query(
-                                CalendarContract.Calendars.CONTENT_URI,
-                                arrayOf(CalendarContract.Calendars._ID),
-                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
-                                arrayOf(calendarPath),
-                                null
-                            )?.use {
-                                it.moveToFirst()
-                            }
-                        } catch (e: SecurityException) {
-                            failureResult(e)
-                            return@launch
-                        } == false) {
+                                contentResolver.query(
+                                    CalendarContract.Calendars.CONTENT_URI,
+                                    arrayOf(CalendarContract.Calendars._ID),
+                                    "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                    arrayOf(calendarPath),
+                                    null
+                                )?.use {
+                                    it.moveToFirst()
+                                }
+                            } catch (e: SecurityException) {
+                                failureResult(e)
+                                return@launch
+                            } == false
+                        ) {
                             //the calendar configured in the backup does not exist
                             currentPlannerId = plannerUtils.checkPlanner()
                             currentPlannerPath =
@@ -259,17 +265,20 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 //there is no locally configured calendar, we create a new one
                                 //noinspection MissingPermission
                                 currentPlannerId = plannerUtils.createPlanner(false)
-                                currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
+                                currentPlannerPath =
+                                    getCalendarPath(contentResolver, currentPlannerId)
                             }
                         }
                     }
                 }
 
-                val dataStoreBackup = getBackupDataStoreFile(workingDir).takeIf { it.exists() }?.let {
-                    PreferenceDataStoreFactory.create(
-                        produceFile = { it }
-                    )
-                }
+                val dataStoreBackup =
+                    getBackupDataStoreFile(workingDir).takeIf { it.exists() }?.let {
+                        PreferenceDataStoreFactory.create(
+                            scope = this,
+                            produceFile = { it }
+                        )
+                    }
 
                 dataStore.edit {
                     it.clear()
