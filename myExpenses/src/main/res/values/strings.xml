@@ -1063,4 +1063,8 @@
     <string name="balance_sheet_section_assets">Assets</string>
     <string name="balance_sheet_section_liabilities">Liabilities</string>
     <string name="balance_sheet_net_worth">Net Worth</string>
+    <!-- This is used for Talkback to describe the action of toggling the status of a transaction from unreconciled to cleared -->
+    <string name="mark_as_cleared">Mark as cleared</string>
+    <!-- This is used for Talkback to describe the action of toggling the status of a transaction from cleared to unreconciled -->
+    <string name="mark_as_unreconciled">Mark as unreconciled</string>
 </resources>

@@ -202,30 +202,32 @@ abstract class ItemRenderer(
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
-        Row(modifier = modifier
-            .height()
-            .conditional(selectionHandler?.isSelectable(transaction) == true,
-                ifTrue = {
-                    combinedClickable(
-                        onLongClick = { selectionHandler!!.toggle(transaction) },
-                        onClick = {
-                            if (selectionHandler!!.selectionCount == 0) {
-                                showMenu.value = true
-                            } else {
-                                selectionHandler.toggle(transaction)
+        Row(
+            modifier = modifier
+                .height()
+                .conditional(
+                    selectionHandler?.isSelectable(transaction) == true,
+                    ifTrue = {
+                        combinedClickable(
+                            onLongClick = { selectionHandler!!.toggle(transaction) },
+                            onClick = {
+                                if (selectionHandler!!.selectionCount == 0) {
+                                    showMenu.value = true
+                                } else {
+                                    selectionHandler.toggle(transaction)
+                                }
                             }
-                        }
-                    )
-                },
-                ifFalse = {
-                    clickable { showMenu.value = true }
+                        )
+                    },
+                    ifFalse = {
+                        clickable { showMenu.value = true }
+                    }
+                )
+                .conditional(selectionHandler?.isSelected(transaction) == true) {
+                    background(activatedBackgroundColor)
                 }
-            )
-            .conditional(selectionHandler?.isSelected(transaction) == true) {
-                background(activatedBackgroundColor)
-            }
-            .voidMarker(transaction.crStatus)
-            .padding(horizontal = mainScreenPadding, vertical = 3.dp),
+                .voidMarker(transaction.crStatus)
+                .padding(horizontal = mainScreenPadding, vertical = 3.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             RenderInner(transaction = transaction)
@@ -238,20 +240,28 @@ abstract class ItemRenderer(
 
     @Composable
     protected fun Transaction2.StatusToggle() {
-        onToggleCrStatus?.let {
+        onToggleCrStatus?.let { toggle ->
             val color = colorResource(id = crStatus.color)
-            Box(modifier = Modifier
-                .size(32.dp)
-                .conditional(
-                    (crStatus == CrStatus.UNRECONCILED || crStatus == CrStatus.CLEARED)
-                            && accountType != AccountType.CASH
-                ) {
-                    clickable { it(id) }
-                }
-                .padding(8.dp)
-                .conditional(crStatus != CrStatus.VOID && accountType != AccountType.CASH) {
-                    background(color = color)
-                }
+            val contentDescription = stringResource(crStatus.toStringRes())
+            val onClickLabel = if (accountType == AccountType.CASH) null
+            else when (crStatus) {
+                CrStatus.UNRECONCILED -> stringResource(R.string.mark_as_cleared)
+                CrStatus.CLEARED -> stringResource(R.string.mark_as_unreconciled)
+                else -> null
+            }
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .optional(onClickLabel) {
+                        clickable(onClickLabel = it) { toggle(id) }
+                    }
+                    .padding(8.dp)
+                    .conditional(crStatus != CrStatus.VOID && accountType != AccountType.CASH) {
+                        background(color = color)
+                            .semantics {
+                                this.contentDescription = contentDescription
+                            }
+                    }
             )
         }
     }
