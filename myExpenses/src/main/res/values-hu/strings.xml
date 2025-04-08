@@ -954,4 +954,5 @@
     <string name="archive">Archívum</string>
     <string name="quick_search">Gyors keresés</string>
     <string name="complex_search">Komplex keresés</string>
+    <string name="balance_sheet">Mérleg</string>
 </resources>
