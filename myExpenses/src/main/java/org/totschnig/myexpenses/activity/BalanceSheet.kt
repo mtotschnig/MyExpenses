@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +11,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
@@ -25,14 +28,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,7 +65,6 @@ import java.util.Currency
 import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BalanceSheetView(
@@ -69,14 +72,14 @@ fun BalanceSheetView(
     date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
     onNavigate: (Long) -> Unit = {},
-    onSetDate: (LocalDate) -> Unit = {}
+    onSetDate: (LocalDate) -> Unit = {},
 ) {
     var showAll by rememberSaveable { mutableStateOf(true) }
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = System.currentTimeMillis()
     )
 
-    var showDatePicker by remember { mutableStateOf(false) }
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
 
     val horizontalPadding = dimensionResource(R.dimen.padding_main_screen)
 
@@ -94,7 +97,7 @@ fun BalanceSheetView(
                 }
             },
             actions = {
-                val expanded = remember { mutableStateOf(false) }
+                val expanded = rememberSaveable { mutableStateOf(false) }
                 IconButton(onClick = { expanded.value = true }) {
                     androidx.compose.material3.Icon(
                         Icons.Filled.Settings,
@@ -135,7 +138,7 @@ fun BalanceSheetView(
                 }
             ) {
 
-                Box(
+                BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxWidth()
                         .offset(y = 64.dp)
@@ -143,9 +146,16 @@ fun BalanceSheetView(
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(16.dp)
                 ) {
+                    val isNarrow = this@BoxWithConstraints.maxWidth < 360.dp
+                    LaunchedEffect(LocalConfiguration.current) {
+                        if (isNarrow) {
+                            datePickerState.displayMode = DisplayMode.Input
+                        }
+                    }
                     DatePicker(
+                        modifier = Modifier.verticalScroll(rememberScrollState()),
                         state = datePickerState,
-                        showModeToggle = false
+                        showModeToggle = !isNarrow
                     )
                     ActionButton(
                         modifier = Modifier.align(Alignment.TopEnd),
