@@ -1015,4 +1015,5 @@
     <string name="complex_search">Recherche complexe</string>
     <string name="quick_search">Recherche rapide</string>
     <string name="account_closed">Le compte est fermé</string>
+    <string name="balance_sheet">Bilan</string>
 </resources>
