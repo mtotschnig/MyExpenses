@@ -452,4 +452,5 @@
     <string name="pref_enter_licence_title">輸入鍵</string>
     <string name="quick_search">快速搜索</string>
     <string name="complex_search">複雜搜尋</string>
+    <string name="balance_sheet">資產負債表</string>
 </resources>
