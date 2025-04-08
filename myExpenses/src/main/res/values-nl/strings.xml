@@ -911,4 +911,5 @@
     <string name="menu_recalculate">Herberekenen</string>
     <string name="recalculate_equivalent_amounts_warning">Equivalente bedragen worden (her)berekend als toepasselijke opgeslagen wisselkoersen beschikbaar zijn.</string>
     <string name="recalculate_only_missing">Vul alleen ontbrekende waarden in</string>
+    <string name="balance_sheet">Balans</string>
 </resources>
