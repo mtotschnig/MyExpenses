@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.InstrumentationRegistryUtilsKt;
+import org.totschnig.myexpenses.testutils.ModelTest;
 
 import java.util.Date;
 

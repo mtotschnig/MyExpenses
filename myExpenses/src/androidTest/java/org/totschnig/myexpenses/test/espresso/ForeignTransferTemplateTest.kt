@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 

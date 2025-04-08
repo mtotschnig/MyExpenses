@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
+import org.totschnig.myexpenses.testutils.BaseTemplateTest
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit

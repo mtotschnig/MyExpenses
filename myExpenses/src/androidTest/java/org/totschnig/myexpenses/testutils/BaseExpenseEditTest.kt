@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.espresso
+package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
 import android.widget.Button

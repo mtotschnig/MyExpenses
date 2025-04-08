@@ -5,6 +5,7 @@ import com.google.common.truth.Truth
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.PayeeInfo
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.query
 import org.totschnig.myexpenses.provider.update

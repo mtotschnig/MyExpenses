@@ -4,6 +4,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
+import org.totschnig.myexpenses.testutils.TestMain
 import org.totschnig.myexpenses.testutils.getBooleanInstrumentationArgument
 import org.totschnig.myexpenses.testutils.getInstrumentationArgument
 import tools.fastlane.screengrab.locale.LocaleTestRule

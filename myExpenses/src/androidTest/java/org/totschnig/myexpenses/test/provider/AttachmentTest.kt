@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI

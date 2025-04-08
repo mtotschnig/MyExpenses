@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.provider
+package org.totschnig.myexpenses.testutils
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.provider.DatabaseConstants

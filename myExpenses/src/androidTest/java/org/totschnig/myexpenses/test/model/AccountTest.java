@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.ModelTest;
 
 public class AccountTest extends ModelTest {
   public static final String TEST_CAT = "TestCat";

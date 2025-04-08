@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
+import org.totschnig.myexpenses.testutils.CategoryInfo
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
@@ -190,7 +191,7 @@ class CategoryTest : BaseDbTest() {
                 selectionArgs
             )
             fail("Bulk update should not succeed")
-        } catch (ignored: UnsupportedOperationException) {
+        } catch (_: UnsupportedOperationException) {
         }
     }
 
@@ -220,7 +221,7 @@ class CategoryTest : BaseDbTest() {
                 }, null, null
             )
             fail("Expected unique constraint to prevent main category from being updated.")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
             // succeeded, so do nothing
         }
     }

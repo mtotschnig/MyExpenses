@@ -81,13 +81,13 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     @After
     fun clearDb() {
         cleanup {
+            repository.deleteAccount(account.id)
             if (categoryExpenseId != 0L) {
                 repository.deleteCategory(categoryExpenseId)
             }
             if (categoryIncomeId != 0L) {
                 repository.deleteCategory(categoryIncomeId)
             }
-            repository.deleteAccount(account.id)
         }
     }
 

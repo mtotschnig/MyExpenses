@@ -2,15 +2,17 @@ package org.totschnig.myexpenses.test.provider
 
 import junit.framework.TestCase
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
+import org.totschnig.myexpenses.testutils.CurrencyInfo
 import java.lang.IllegalArgumentException
 
 class CurrencyTest : BaseDbTest() {
-    private val TEST_CURRENCY = CurrencyInfo("Bitcoin", "BTC")
-    private val TEST_ACCOUNT = AccountInfo("Account 0", AccountType.CASH, 0, TEST_CURRENCY.code)
+    private val testCurrency = CurrencyInfo("Bitcoin", "BTC")
+    private val testAccount = AccountInfo("Account 0", AccountType.CASH, 0, testCurrency.code)
 
     fun testShouldNotDeleteFrameworkCurrency() {
         try {
@@ -27,10 +29,10 @@ class CurrencyTest : BaseDbTest() {
         mDb
             .insert(
                 DatabaseConstants.TABLE_CURRENCIES,
-                TEST_CURRENCY.getContentValues()
+                testCurrency.contentValues
             )
         val result = getMockContentResolver().delete(
-            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(),
+            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(testCurrency.code).build(),
             null,
             null
         )
@@ -41,15 +43,15 @@ class CurrencyTest : BaseDbTest() {
         mDb
             .insert(
                 DatabaseConstants.TABLE_CURRENCIES,
-                TEST_CURRENCY.getContentValues()
+                testCurrency.contentValues
             )
         mDb
             .insert(
                 DatabaseConstants.TABLE_ACCOUNTS,
-                TEST_ACCOUNT.contentValues
+                testAccount.contentValues
             )
         val result = getMockContentResolver().delete(
-            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(),
+            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(testCurrency.code).build(),
             null,
             null
         )
