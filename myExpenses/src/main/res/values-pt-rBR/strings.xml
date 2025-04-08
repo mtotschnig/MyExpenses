@@ -1015,4 +1015,5 @@
     <string name="pref_scroll_to_current_date_title">Rolar a lista de transações para a data atual</string>
     <string name="warning_delete_archive">Todas as transações contidas neste arquivo (%d) serão excluídas.</string>
     <string name="account_closed">A conta está fechada</string>
+    <string name="balance_sheet">Folha de Balanço</string>
 </resources>
