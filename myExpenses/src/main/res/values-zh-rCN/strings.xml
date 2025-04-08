@@ -882,4 +882,5 @@
     <string name="archive">存档</string>
     <string name="quick_search">快速搜索</string>
     <string name="complex_search">复杂搜索</string>
+    <string name="balance_sheet">资产负债表</string>
 </resources>

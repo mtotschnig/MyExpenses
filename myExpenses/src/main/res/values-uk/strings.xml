@@ -972,4 +972,5 @@
     <string name="filter_dialog_empty">Критерії ще не додано. Натисніть на кнопки вище, щоб визначити свій запит і уточнити результати.</string>
     <string name="quick_search">Швидкий пошук</string>
     <string name="complex_search">Комплексний пошук</string>
+    <string name="balance_sheet">Баланс</string>
 </resources>

@@ -997,4 +997,5 @@
     <string name="dynamic_exchange_rate">Динамичен обменен курс</string>
     <string name="quick_search">Бързо търсене</string>
     <string name="complex_search">Сложно търсене</string>
+    <string name="balance_sheet">Баланс</string>
 </resources>

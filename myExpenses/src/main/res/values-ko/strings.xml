@@ -455,4 +455,5 @@
     <string name="contrib_feature_category_tree_label">임의의 깊은 범주 계층 구조</string>
     <string name="quick_search">빠른 검색</string>
     <string name="complex_search">복잡한 검색</string>
+    <string name="balance_sheet">대차 대조표</string>
 </resources>

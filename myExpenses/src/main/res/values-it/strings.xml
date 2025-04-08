@@ -1010,4 +1010,5 @@
     <string name="content_description_exchange_rate">Tasso di cambio per 1 %1$s in %2$s</string>
     <string name="total_value">Valore totale</string>
     <string name="account_closed">Il conto è chiuso</string>
+    <string name="balance_sheet">Bilancio</string>
 </resources>
