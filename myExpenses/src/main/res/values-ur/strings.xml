@@ -776,4 +776,5 @@
     <string name="menu_reconfigure">دوبارہ ترتیب دیں</string>
     <string name="quick_search">فوری تلاش</string>
     <string name="complex_search">پیچیدہ تلاش</string>
+    <string name="balance_sheet">بیلنس شیٹ</string>
 </resources>
