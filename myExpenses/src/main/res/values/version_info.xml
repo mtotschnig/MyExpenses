@@ -177,7 +177,4 @@
     <string-array name="whats_new_396">
         <item>@string/whats_new_396</item>
     </string-array>
-    <string-array name="whats_new_398">
-        <item>@string/balance_sheet</item>
-    </string-array>
 </resources>

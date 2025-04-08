@@ -20,4 +20,5 @@
     <string name="whats_new_388">Transaktioner kan arkiveres.</string>
     <string name="whats_new_395">Eksporterede filer (PDF, sikkerhedskopi, QIF, CSV, JSON) kan hentes via webbrugergrænsefladen.</string>
     <string name="whats_new_396">Forbedret administration af udenlandsk valuta-konti med automatiske valutakursopdateringer og værdisporing i realtid.</string>
+    <string name="whats_new_398">Se dine aktiver, passiver og nettoformue — alt på ét sted.</string>
 </resources>

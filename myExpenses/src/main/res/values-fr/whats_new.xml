@@ -20,4 +20,5 @@
     <string name="whats_new_388">Les opérations peuvent être archivées.</string>
     <string name="whats_new_395">Les fichiers exportés (PDF, sauvegarde, QIF, CSV, JSON) peuvent être téléchargés via l’interface utilisateur Web.</string>
     <string name="whats_new_396">Gestion améliorée des comptes en devises étrangères avec mises à jour automatiques des taux de change et suivi de la valeur en temps réel.</string>
+    <string name="whats_new_398">Voyez vos actifs, passifs et valeur nette — tout en un seul endroit.</string>
 </resources>

@@ -4,4 +4,5 @@
     <string name="whats_new_388">거래내역을 보관할 수 있습니다.</string>
     <string name="whats_new_395">내보낸 파일(PDF, 백업, QIF, CSV, JSON)은 웹 사용자 인터페이스를 통해 다운로드할 수 있습니다.</string>
     <string name="whats_new_396">자동 환율 업데이트 및 실시간 가치 추적을 통해 향상된 외환 계좌 관리.</string>
+    <string name="whats_new_398">자산, 부채 및 순자산을 한 곳에서 확인하세요.</string>
 </resources>

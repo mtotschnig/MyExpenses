@@ -134,6 +134,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.quick_search)} / ${t(R.string.complex_search)}"
             )
 
+            "398" -> arrayOf(
+                "${t(R.string.balance_sheet)} : ${t(R.string.whats_new_398)}"
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
