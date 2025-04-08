@@ -974,6 +974,6 @@
     <string name="complex_search">Комплексний пошук</string>
     <string name="balance_sheet">Баланс</string>
     <string name="balance_sheet_section_assets">Активи</string>
-    <string name="balance_sheet_section_liabilities">Зобов'язання</string>
+    <string name="balance_sheet_section_liabilities">Зобов\'язання</string>
     <string name="balance_sheet_net_worth">Чиста вартість</string>
 </resources>
