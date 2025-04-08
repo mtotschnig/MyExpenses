@@ -758,4 +758,5 @@
     <string name="archive">アーカイブ</string>
     <string name="quick_search">クイック検索</string>
     <string name="complex_search">複雑な検索</string>
+    <string name="balance_sheet">貸借対照表</string>
 </resources>
