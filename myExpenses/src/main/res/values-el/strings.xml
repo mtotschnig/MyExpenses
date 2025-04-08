@@ -910,4 +910,5 @@
     <string name="archive">Αρχείο</string>
     <string name="complex_search">Σύνθετη αναζήτηση</string>
     <string name="quick_search">Γρήγορη αναζήτηση</string>
+    <string name="balance_sheet">Ισολογισμός</string>
 </resources>
