@@ -937,4 +937,5 @@
     <string name="quick_search">Hurtig søgning</string>
     <string name="complex_search">Kompleks søgning</string>
     <string name="account_closed">Kontoen er låst</string>
+    <string name="balance_sheet">Statusopgørelse</string>
 </resources>
