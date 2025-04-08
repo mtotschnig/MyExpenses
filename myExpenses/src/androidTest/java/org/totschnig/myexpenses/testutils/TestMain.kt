@@ -1,5 +1,47 @@
 package org.totschnig.myexpenses.testutils
 
+import android.Manifest
+import android.content.Context
+import android.os.Build
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onIdle
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.contrib.DrawerActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
+import org.hamcrest.Matchers.containsString
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
+import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.test.espresso.SettingsTest
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
+import tools.fastlane.screengrab.locale.LocaleTestRule
+import tools.fastlane.screengrab.locale.LocaleUtil
+import java.util.Locale
+
+
 abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
 
     @Rule
@@ -46,7 +88,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
         //no drawer on w700dp
         try {
             onView(withId(R.id.drawer)).perform(action)
-        } catch (ignored: NoMatchingViewException) {
+        } catch (_: NoMatchingViewException) {
         }
     }
 
