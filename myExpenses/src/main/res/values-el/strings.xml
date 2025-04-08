@@ -911,4 +911,8 @@
     <string name="complex_search">Σύνθετη αναζήτηση</string>
     <string name="quick_search">Γρήγορη αναζήτηση</string>
     <string name="balance_sheet">Ισολογισμός</string>
+    <string name="balance_sheet_section_assets">Περιουσιακά στοιχεία</string>
+    <string name="balance_sheet_section_liabilities">Υποχρεώσεις</string>
+    <string name="balance_sheet_net_worth">Καθαρή αξία</string>
+
 </resources>

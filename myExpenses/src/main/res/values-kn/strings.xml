@@ -856,4 +856,7 @@
     <string name="quick_search">ತ್ವರಿತ ಹುಡುಕಾಟ</string>
     <string name="complex_search">ಸಂಕೀರ್ಣ ಹುಡುಕಾಟ</string>
     <string name="balance_sheet">ಬ್ಯಾಲೆನ್ಸ್‌ ಹಾಳೆ</string>
+    <string name="balance_sheet_section_assets">ಆಸ್ತಿ</string>
+    <string name="balance_sheet_section_liabilities">ಬಾಧ್ಯತೆಗಳು</string>
+    <string name="balance_sheet_net_worth">ನಿವ್ವಳ ಮೌಲ್ಯ</string>
 </resources>

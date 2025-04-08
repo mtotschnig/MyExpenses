@@ -902,4 +902,7 @@
     <string name="quick_search">Tìm kiếm nhanh</string>
     <string name="complex_search">Tìm kiếm phức tạp</string>
     <string name="balance_sheet">Bảng tổng kết tài sản</string>
+    <string name="balance_sheet_section_assets">Tài sản</string>
+    <string name="balance_sheet_section_liabilities">Nợ phải trả</string>
+    <string name="balance_sheet_net_worth">Giá trị ròng</string>
 </resources>

@@ -1016,4 +1016,7 @@
     <string name="recalculate_equivalent_amounts_warning">Los importes equivalentes se (re)calcularán si se dispone de los tipos de cambio almacenados aplicables.</string>
     <string name="account_closed">La cuenta está cerrada</string>
     <string name="balance_sheet">Hoja de Balance</string>
+    <string name="balance_sheet_section_assets">Activos</string>
+    <string name="balance_sheet_section_liabilities">Pasivos</string>
+    <string name="balance_sheet_net_worth">Patrimonio neto</string>
 </resources>

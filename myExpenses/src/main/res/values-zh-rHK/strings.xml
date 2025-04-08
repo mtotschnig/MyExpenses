@@ -453,4 +453,7 @@
     <string name="quick_search">快速搜索</string>
     <string name="complex_search">複雜搜尋</string>
     <string name="balance_sheet">資產負債表</string>
+    <string name="balance_sheet_section_assets">資產</string>
+    <string name="balance_sheet_section_liabilities">負債</string>
+    <string name="balance_sheet_net_worth">淨值</string>
 </resources>

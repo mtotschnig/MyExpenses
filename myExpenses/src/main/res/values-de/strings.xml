@@ -1003,4 +1003,7 @@
     <string name="complex_search">Komplexe Suche</string>
     <string name="account_closed">Konto ist geschlossen</string>
     <string name="balance_sheet">Bilanz</string>
+    <string name="balance_sheet_section_assets">Vermögenswerte</string>
+    <string name="balance_sheet_section_liabilities">Verbindlichkeiten</string>
+    <string name="balance_sheet_net_worth">Reinvermögen</string>
 </resources>

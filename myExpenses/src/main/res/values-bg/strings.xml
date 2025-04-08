@@ -998,4 +998,7 @@
     <string name="quick_search">Бързо търсене</string>
     <string name="complex_search">Сложно търсене</string>
     <string name="balance_sheet">Баланс</string>
+    <string name="balance_sheet_section_assets">Активи</string>
+    <string name="balance_sheet_section_liabilities">Пасиви</string>
+    <string name="balance_sheet_net_worth">Нетна стойност</string>
 </resources>

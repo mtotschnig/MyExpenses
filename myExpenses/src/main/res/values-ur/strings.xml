@@ -777,4 +777,7 @@
     <string name="quick_search">فوری تلاش</string>
     <string name="complex_search">پیچیدہ تلاش</string>
     <string name="balance_sheet">بیلنس شیٹ</string>
+    <string name="balance_sheet_section_assets">اثاثے</string>
+    <string name="balance_sheet_section_liabilities">ذمہ داریاں</string>
+    <string name="balance_sheet_net_worth">خالص مالیت</string>
 </resources>
