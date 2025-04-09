@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.util.toEpoch
 import java.time.LocalDateTime
 
-data class TransactionInfo(
+data class TransactionInfo @JvmOverloads constructor(
     val accountId: Long,
     val amount: Long,
     val date: LocalDateTime = LocalDateTime.now(),

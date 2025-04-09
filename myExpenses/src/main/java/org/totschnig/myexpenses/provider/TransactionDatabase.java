@@ -570,7 +570,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         long catId = j % categories;
         long payeeId = db.insert(DatabaseConstants.TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
         date = date.minusDays(1);
-        TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, CrStatus.UNRECONCILED);
+        TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, null, CrStatus.UNRECONCILED);
         db.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
             CONFLICT_NONE,

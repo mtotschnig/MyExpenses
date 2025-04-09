@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 /**
  * A utility for converting account data to a ContentValues map.
  */
-data class AccountInfo(
+data class AccountInfo @JvmOverloads constructor(
     val label: String,
     val type: AccountType,
     val openingBalance: Long,

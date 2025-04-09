@@ -147,7 +147,7 @@ fun TransactionList(
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
-    isFiltered: Boolean
+    isFiltered: Boolean,
 ) {
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
@@ -224,26 +224,30 @@ fun TransactionList(
                 var lastHeader: Int? = null
 
                 for (index in 0 until lazyPagingItems.itemCount) {
+
                     val item = lazyPagingItems.peek(index)
                     val headerId = item?.let { headerData.calculateGroupId(it) }
                     val isGroupHidden = collapsedIds?.contains(headerId.toString()) == true
                     if (headerId !== null && headerId != lastHeader) {
-                        stickyHeader(key = headerId, contentType = STICKY_HEADER_CONTENT_TYPE) {
-                            when (headerData) {
-                                is HeaderData -> {
-                                    headerData.groups[headerId]?.let { headerRow ->
-                                        val budget = budgetData.value?.let { data ->
-                                            val amount =
-                                                (data.data.find { it.headerId == headerId && it.amount != null }
-                                                    ?: data.data.lastOrNull {
-                                                        !it.oneTime && it.headerId < headerId && it.amount != null
-                                                    })?.amount ?: 0L
-                                            val rollOverPrevious =
-                                                data.data.find { it.headerId == headerId }
-                                                    ?.rollOverPrevious
-                                                    ?: 0L
-                                            data.budgetId to amount + rollOverPrevious
-                                        }
+                        when (headerData) {
+                            is HeaderData -> {
+                                headerData.groups[headerId]?.let { headerRow ->
+                                    val budget = budgetData.value?.let { data ->
+                                        val amount =
+                                            (data.data.find { it.headerId == headerId && it.amount != null }
+                                                ?: data.data.lastOrNull {
+                                                    !it.oneTime && it.headerId < headerId && it.amount != null
+                                                })?.amount ?: 0L
+                                        val rollOverPrevious =
+                                            data.data.find { it.headerId == headerId }
+                                                ?.rollOverPrevious
+                                                ?: 0L
+                                        data.budgetId to amount + rollOverPrevious
+                                    }
+                                    stickyHeader(
+                                        key = headerId,
+                                        contentType = STICKY_HEADER_CONTENT_TYPE
+                                    ) {
                                         HeaderRenderer(
                                             account = headerData.account,
                                             headerId = headerId,
@@ -270,9 +274,14 @@ fun TransactionList(
                                         HorizontalDivider()
                                     }
                                 }
+                            }
 
-                                is HeaderDataEmpty -> {}
-                                is HeaderDataError -> {
+                            is HeaderDataEmpty -> {}
+                            is HeaderDataError -> {
+                                stickyHeader(
+                                    key = headerId,
+                                    contentType = STICKY_HEADER_CONTENT_TYPE
+                                ) {
                                     val context = LocalActivity.current as? BaseActivity
                                     Text(
                                         "Error loading group header data. Click to start safe mode.",
