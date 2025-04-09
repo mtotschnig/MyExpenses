@@ -3,12 +3,14 @@ package org.totschnig.myexpenses.activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.rememberScrollState
@@ -28,15 +30,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -146,17 +147,23 @@ fun BalanceSheetView(
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(16.dp)
                 ) {
-                    val isNarrow = this@BoxWithConstraints.maxWidth < 360.dp
-                    LaunchedEffect(LocalConfiguration.current) {
-                        if (isNarrow) {
-                            datePickerState.displayMode = DisplayMode.Input
+                    val maxWidth = this.maxWidth
+                    val isNarrow = maxWidth < 360.dp
+                    if (isNarrow && datePickerState.displayMode == DisplayMode.Picker) {
+                        Box(
+                            modifier = Modifier.requiredSizeIn(minWidth = 360.dp, minHeight = 568.dp)
+                        ) {
+                            DatePicker(
+                                modifier = Modifier.scale(maxWidth / 360.dp),
+                                state = datePickerState
+                            )
                         }
+                    } else {
+                        DatePicker(
+                            modifier = Modifier.verticalScroll(rememberScrollState()),
+                            state = datePickerState
+                        )
                     }
-                    DatePicker(
-                        modifier = Modifier.verticalScroll(rememberScrollState()),
-                        state = datePickerState,
-                        showModeToggle = !isNarrow
-                    )
                     ActionButton(
                         modifier = Modifier.align(Alignment.TopEnd),
                         hintText = stringResource(R.string.confirm),
