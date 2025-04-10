@@ -134,6 +134,41 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.9.8
+      - '2025-04-10'
+      - bg: 'Баланс : Вижте вашите активи, пасиви и нетна стойност — на едно място.'
+        cs: 'Rozvaha : Podívejte se na své aktiva, pasiva a čisté jmění — vše na jednom
+          místě.'
+        de: 'Bilanz : Sehen Sie Ihre Vermögenswerte, Verbindlichkeiten und Ihr Reinvermögen
+          — alles an einem Ort.'
+        el: 'Ισολογισμός : Δείτε τα περιουσιακά σας στοιχεία, τις υποχρεώσεις σας
+          και την καθαρή σας αξία — όλα σε ένα μέρος.'
+        es: 'Hoja de Balance : Vea sus activos, pasivos y patrimonio neto — todo en
+          un solo lugar.'
+        fr: 'Bilan : Voyez vos actifs, passifs et valeur nette — tout en un seul endroit.'
+        hr: 'Bilanca : Pogledajte svoju imovinu, obveze i neto vrijednost — sve na
+          jednom mjestu.'
+        hu: 'Mérleg : Tekintse meg eszközeit, kötelezettségeit és nettó vagyonát —
+          mindent egy helyen.'
+        it: 'Bilancio : Visualizza i tuoi attivi, passivi e patrimonio netto — tutto
+          in un unico posto.'
+        iw: 'גיליון מאזן : ראה את הנכסים, ההתחייבויות והשווי הנקי שלך — הכל במקום
+          אחד.'
+        nl: 'Balans : Bekijk uw activa, passiva en netto waarde — alles op één plek.'
+        pl: 'Bilans : Zobacz swoje aktywa, pasywa i wartość netto — wszystko w jednym
+          miejscu.'
+        pt: 'Folha de Balanço : Veja seus ativos, passivos e patrimônio líquido —
+          tudo em um só lugar.'
+        ro: 'Bilanț : Vedeți activele, pasivele și valoarea netă — toate într-un singur
+          loc.'
+        tr: 'Bilanço : Varlıklarınızı, yükümlülüklerinizi ve net değerinizi tek bir
+          yerde görün.'
+        vi: 'Bảng tổng kết tài sản : Xem tài sản, nợ phải trả và giá trị ròng của
+          bạn — tất cả ở một nơi.'
+        en: 'Balance Sheet : See your assets, liabilities, and net worth — all in
+          one place.'
+      - github2: '161'
+        mastodon: '114292736277188136'
   -   - 3.9.7
       - '2025-03-24'
       - bg: Бързо търсене / Сложно търсене
