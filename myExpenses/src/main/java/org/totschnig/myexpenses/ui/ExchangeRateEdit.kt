@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.util.ui.setEnabledWithColor
 import org.totschnig.myexpenses.util.ui.setHintForA11yOnly
 import timber.log.Timber
 import java.math.BigDecimal

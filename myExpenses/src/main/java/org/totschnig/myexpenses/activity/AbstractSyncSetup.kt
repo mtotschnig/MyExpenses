@@ -96,7 +96,7 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
         when (dialogTag) {
             DIALOG_TAG_FOLDER_SELECT -> {
                 when (which) {
-                    SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
+                    BUTTON_POSITIVE -> {
                         extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)?.let {
                             success(
                                 viewModel.folderList.value!![extras.getInt(CustomListDialog.SELECTED_SINGLE_POSITION)]
@@ -109,17 +109,17 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
                             ).show()
                         }
                     }
-                    SimpleDialog.OnDialogResultListener.BUTTON_NEUTRAL -> showCreateFolderDialog()
-                    SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> abort()
+                    BUTTON_NEUTRAL -> showCreateFolderDialog()
+                    BUTTON_NEGATIVE -> abort()
                 }
                 return true
             }
             DIALOG_TAG_FOLDER_CREATE -> {
                 when (which) {
-                    SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
+                    BUTTON_POSITIVE -> {
                         onFolderCreate(extras.getString(SimpleInputDialog.TEXT, "MyExpenses"))
                     }
-                    SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> abort()
+                    BUTTON_NEGATIVE -> abort()
                 }
                 return true
             }
@@ -128,7 +128,7 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
     }
 
     protected fun abort() {
-        setResult(Activity.RESULT_CANCELED)
+        setResult(RESULT_CANCELED)
         finish()
     }
 }

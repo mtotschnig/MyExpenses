@@ -224,6 +224,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         onConfigurationChanged(this)
+        currencyFormatter.invalidate(contentResolver)
     }
 
     fun setLastPause(ctx: Activity) {

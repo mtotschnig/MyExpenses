@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding
 import org.totschnig.myexpenses.databinding.AmountInputBinding
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ui.getActivity
@@ -58,6 +58,9 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     private var upStreamDependency: AmountInput? = null
     private var upStreamDependencyRef = -1
     private var blockWatcher = false
+
+    private val currencyContext
+        get() = context.injector.currencyContext()
 
     /**
      * the user of this component will usually set an extensive content description explaining how to
@@ -111,8 +114,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                     position: Int,
                     id: Long,
                 ) {
-                    val currency = (currencySpinner.selectedItem as Currency?)!!.code
-                    val currencyUnit: CurrencyUnit = host.currencyContext.get(currency)
+                    val currency = (currencySpinner.selectedItem as Currency).code
+                    val currencyUnit: CurrencyUnit = currencyContext[currency]
                     configureCurrency(currencyUnit)
                     host.onCurrencySelectionChanged(currencyUnit)
                 }
@@ -384,7 +387,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         if (withCurrencySelection) {
             val selectedCurrency = selectedCurrency
             configureExchange(
-                if (selectedCurrency != null) host.currencyContext[selectedCurrency.code] else null,
+                if (selectedCurrency != null) currencyContext[selectedCurrency.code] else null,
                 currencyUnit
             )
         }
@@ -429,7 +432,6 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         fun showCalculator(amount: BigDecimal?, id: Int)
         fun setFocusAfterRestoreInstanceState(focusView: Pair<Int, Int>?)
         fun onCurrencySelectionChanged(currencyUnit: CurrencyUnit)
-        val currencyContext: CurrencyContext
     }
 
     override fun onSaveInstanceState(): Parcelable {

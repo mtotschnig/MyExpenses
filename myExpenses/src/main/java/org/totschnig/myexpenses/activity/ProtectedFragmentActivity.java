@@ -45,11 +45,9 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
@@ -64,12 +62,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public static final String EDIT_COLOR_DIALOG = "editColorDialog";
 
   protected ColorStateList textColorSecondary;
-
-  @Inject
-  protected CurrencyContext currencyContext;
-
-  @Inject
-  protected ICurrencyFormatter currencyFormatter;
 
   @Inject
   protected SharedPreferences settings;
@@ -268,16 +260,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onCurrencySelectionChanged(CurrencyUnit currencyUnit) {
-  }
-
-  @Override
-  public CurrencyContext getCurrencyContext() {
-    return currencyContext;
-  }
-
-  public ICurrencyFormatter getCurrencyFormatter() {
-    return currencyFormatter;
+  public void onCurrencySelectionChanged(@NonNull CurrencyUnit currencyUnit) {
   }
 
   public enum ThemeType {

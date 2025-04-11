@@ -103,6 +103,7 @@ import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -118,6 +119,7 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -276,7 +278,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun sendEmail(
         recipient: String,
         subject: String,
-        body: String
+        body: String,
     ) {
         if (!EmailIntentBuilder.from(this)
                 .to(recipient)
@@ -371,9 +373,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var adHandlerFactory: AdHandlerFactory
 
-    val homeCurrency by lazy {
-        currencyContext.homeCurrencyUnit
-    }
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
+
+    val homeCurrency
+        get() = currencyContext.homeCurrencyUnit
 
     val ocrViewModel: OcrViewModel by viewModels()
     val featureViewModel: FeatureViewModel by viewModels()
@@ -555,6 +562,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 LocaleListCompat.getEmptyLocaleList() else
                 LocaleListCompat.forLanguageTags(language)
         )
+
+        //from Tiramisu on, change of language is handled in onConfigurationChange
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            currencyFormatter.invalidate(contentResolver)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -659,7 +671,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         requestCode: Int,
         legacyUnlockCallback: PasswordDialogUnlockedCallback? = null,
         shouldHideWindow: Boolean = true,
-        shouldLock: Boolean = true
+        shouldLock: Boolean = true,
     ) {
         if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
             val intent = (getSystemService(KEYGUARD_SERVICE) as KeyguardManager)
@@ -710,7 +722,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String?
+        key: String?,
     ) {
         if (key != null && prefHandler.matches(
                 key,
@@ -920,7 +932,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun showDismissibleSnackBar(
         message: CharSequence,
         callback: Snackbar.Callback? = null,
-        actionLabel: String = getString(R.string.dialog_dismiss)
+        actionLabel: String = getString(R.string.dialog_dismiss),
     ) {
         showSnackBar(
             message, Snackbar.LENGTH_INDEFINITE,
@@ -942,7 +954,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         message: CharSequence,
         duration: Int = Snackbar.LENGTH_LONG,
         snackBarAction: SnackbarAction? = null,
-        callback: Snackbar.Callback? = null
+        callback: Snackbar.Callback? = null,
     ) {
         snackBarContainer?.let {
             showSnackBar(message, duration, snackBarAction, callback, it)
@@ -965,7 +977,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         message: CharSequence,
         total: Int = 0,
         progress: Int = 0,
-        container: View? = null
+        container: View? = null,
     ) {
         (container ?: snackBarContainer)?.also {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
@@ -1087,7 +1099,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         positive: MessageDialogFragment.Button? = MessageDialogFragment.okButton(),
         neutral: MessageDialogFragment.Button? = null,
         negative: MessageDialogFragment.Button? = null,
-        cancellable: Boolean = true
+        cancellable: Boolean = true,
     ) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
@@ -1150,7 +1162,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (hasFloatingActionButton) {
@@ -1313,7 +1325,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         transactionId: Long,
         fullScreen: Boolean = false,
         currentFilter: FilterPersistence? = null,
-        sortOrder: String? = null
+        sortOrder: String? = null,
     ) {
         lifecycleScope.launchWhenResumed {
             TransactionDetailFragment.show(
@@ -1580,7 +1592,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     protected fun setupWithFragment(
         doInstantiate: Boolean,
         withFab: Boolean = true,
-        instantiate: (() -> Fragment)
+        instantiate: (() -> Fragment),
     ) {
         ActivityWithFragmentBinding.inflate(layoutInflater).apply {
             if (doInstantiate) {
