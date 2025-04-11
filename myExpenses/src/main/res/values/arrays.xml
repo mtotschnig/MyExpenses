@@ -355,8 +355,8 @@
     </string-array>
 
     <string-array name="pref_print_paper_orientation_values">
-        <item>PORTRAIT</item>
-        <item>LANDSCAPE</item>
+        <item>@string/orientation_portrait</item>
+        <item>@string/orientation_landscape</item>
     </string-array>
     <string-array name="pref_print_paper_orientation_entries">
         <item>@string/portrait</item>

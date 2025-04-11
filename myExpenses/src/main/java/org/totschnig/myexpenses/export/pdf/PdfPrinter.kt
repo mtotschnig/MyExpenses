@@ -90,7 +90,11 @@ object PdfPrinter {
             "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> PageSize.LETTER
             else -> PageSize.A4
         }).let {
-            if (prefHandler.getString(PrefKey.PRINT_PAPER_ORIENTATION, "PORTRAIT") == "LANDSACPE")
+            if (prefHandler.getString(
+                    PrefKey.PRINT_PAPER_ORIENTATION,
+                    context.getString(R.string.orientation_portrait)
+                ) == context.getString(R.string.orientation_landscape)
+            )
                 it.rotate() else it
         }
 
@@ -219,7 +223,7 @@ object PdfPrinter {
                                 account.currentBalance
                             )
                         ),
-                        when(account.currentBalance.sign) {
+                        when (account.currentBalance.sign) {
                             1 -> FontType.INCOME_BOLD
                             -1 -> FontType.EXPENSE_BOLD
                             else -> FontType.BOLD

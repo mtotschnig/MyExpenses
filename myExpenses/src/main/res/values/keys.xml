@@ -291,4 +291,6 @@
     <string name="pref_print_paper_format_key">print_paper_format</string>
     <string name="pref_print_font_size_key">print_font_size</string>
     <string name="pref_print_paper_orientation_key">print_paper_orientation</string>
+    <string name="orientation_portrait">PORTRAIT</string>
+    <string name="orientation_landscape">LANDSCAPE</string>
 </resources>

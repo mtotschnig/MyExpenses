@@ -44,7 +44,7 @@
         my:allowDividerAbove="true"
         my:useSimpleSummaryProvider="true" />
     <ListPreference
-        android:defaultValue="PORTRAIT"
+        android:defaultValue="@string/orientation_portrait"
         android:entries="@array/pref_print_paper_orientation_entries"
         android:entryValues="@array/pref_print_paper_orientation_values"
         android:key="@string/pref_print_paper_orientation_key"
