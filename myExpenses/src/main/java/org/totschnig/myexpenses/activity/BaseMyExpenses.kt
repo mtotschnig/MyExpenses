@@ -87,7 +87,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -143,6 +142,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
+import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler

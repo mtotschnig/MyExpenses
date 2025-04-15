@@ -6,6 +6,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.util.Utils
@@ -19,7 +21,9 @@ interface PrefHandler {
 
     fun getString(key: String, defValue: String? = null): String?
     fun putString(key: String, value: String?)
-    fun getString(key: PrefKey, defValue: String? = null): String? = getString(getKey(key), defValue)
+    fun getString(key: PrefKey, defValue: String? = null): String? =
+        getString(getKey(key), defValue)
+
     fun putString(key: PrefKey, value: String?) {
         putString(getKey(key), value)
     }
@@ -50,7 +54,9 @@ interface PrefHandler {
 
 
     fun getOrderedStringSet(key: String, separator: Char = ':'): Set<String>?
-    fun getOrderedStringSet(key: PrefKey, separator: Char = ':') = getOrderedStringSet(getKey(key), separator)
+    fun getOrderedStringSet(key: PrefKey, separator: Char = ':') =
+        getOrderedStringSet(getKey(key), separator)
+
     /**
      * @param separator no item in value must contain separator
      */
@@ -150,7 +156,8 @@ interface PrefHandler {
             ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
 
     companion object {
-        const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX = "automatic_exchange_rate_download_"
+        const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX =
+            "automatic_exchange_rate_download_"
         const val SERVICE_DEACTIVATED = "no"
     }
 }
@@ -171,4 +178,14 @@ fun PrefHandler.getStringSafe(prefKey: String, default: String) = try {
     getString(prefKey, default)
 } catch (_: ClassCastException) {
     default
+}
+
+enum class ColorSource {
+    TYPE, SIGN, TYPE_WITH_SIGN;
+
+    fun transformType(type: Byte) = type.takeIf { it == FLAG_NEUTRAL } ?: when (this) {
+        TYPE -> type
+        TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
+        SIGN -> null
+    }
 }

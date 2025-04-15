@@ -17,6 +17,7 @@ import java.util.Locale
 import java.util.regex.Pattern
 import androidx.core.text.layoutDirection
 import com.itextpdf.text.Chunk
+import com.itextpdf.text.Element
 
 class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private var lfs: LazyFontSelector?
@@ -90,22 +91,24 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     )
 
     @Throws(DocumentException::class, IOException::class)
-    fun printToCell(text: String, font: FontType): PdfPCell {
+    fun printToCell(text: String, font: FontType = FontType.NORMAL, border: Int = Rectangle.NO_BORDER): PdfPCell {
         val cell = PdfPCell(print(text, font))
         if (hasAnyRtl(text)) {
             cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
-        cell.border = Rectangle.NO_BORDER
+        cell.setPadding(5f)
+        cell.border = border
+        cell.verticalAlignment = Element.ALIGN_MIDDLE
         return cell
     }
 
     @Throws(DocumentException::class, IOException::class)
-    fun printToCell(phrase: Phrase): PdfPCell {
+    fun printToCell(phrase: Phrase, border: Int = Rectangle.NO_BORDER): PdfPCell {
         val cell = PdfPCell(phrase)
         if (hasAnyRtl(phrase.content)) {
             cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
-        cell.border = Rectangle.NO_BORDER
+        cell.border = border
         return cell
     }
 
@@ -117,7 +120,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
      * variant of [print] that returns list of Chunks instead of Phrase
      */
     @Throws(DocumentException::class, IOException::class)
-    fun print0(text: String, font: FontType) = lfs?.process(text, font) ?: listOf(
+    fun print0(text: String, font: FontType): List<Chunk> = lfs?.process(text, font) ?: listOf(
         when (font) {
             FontType.BOLD -> Chunk(text, fBold)
             FontType.EXPENSE -> Chunk(text, fExpense)
@@ -134,7 +137,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     )
 
     @Throws(DocumentException::class, IOException::class)
-    fun print(text: String, font: FontType) = lfs?.process(text, font)?.join() ?: when (font) {
+    fun print(text: String, font: FontType): Phrase = lfs?.process(text, font)?.join() ?: when (font) {
         FontType.BOLD -> Phrase(text, fBold)
         FontType.EXPENSE -> Phrase(text, fExpense)
         FontType.HEADER -> Phrase(text, fHeader)
@@ -148,18 +151,32 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         FontType.TRANSFER -> Phrase(text, fTransfer)
     }
 
-    fun emptyCell(): PdfPCell {
-        val cell = PdfPCell()
-        cell.border = Rectangle.NO_BORDER
-        return cell
+    fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {
+        this.border = border
     }
 
-    fun newTable(numColumns: Int): PdfPTable {
-        val t = PdfPTable(numColumns)
+    fun newTable(numColumns: Int) = PdfPTable(numColumns).apply {
         if (layoutDirectionFromLocaleIsRTL) {
-            t.runDirection = PdfWriter.RUN_DIRECTION_RTL
+            this.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
-        return t
+    }
+
+    fun addNestedCells(table: PdfPTable, cell1: PdfPCell?, cell2: PdfPCell?, border: Int = Rectangle.TOP + Rectangle.RIGHT) {
+        if (cell1 != null && cell2 != null) {
+            val nested = PdfPTable(1)
+            nested.setWidthPercentage(100f)
+            nested.addCell(cell1)
+            nested.addCell(cell2)
+            val cell = PdfPCell(nested)
+            cell.border = border
+            table.addCell(cell)
+        } else if(cell1 != null) {
+            table.addCell(cell1.also { it.border = border })
+        } else if(cell2 != null) {
+            table.addCell(cell2.also { it.border = border })
+        } else {
+            table.addCell(emptyCell(border))
+        }
     }
 
     companion object {

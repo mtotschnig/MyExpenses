@@ -200,7 +200,7 @@ public class Utils {
    * @param date unixEpoch
    * @return formatted string
    */
-  public static String convDateTime(long date, DateFormat format) {
+  public static String convDateTime(long date, @NonNull DateFormat format) {
     return format.format(new Date(date * 1000L));
   }
 

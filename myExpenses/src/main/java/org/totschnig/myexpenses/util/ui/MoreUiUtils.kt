@@ -56,10 +56,12 @@ import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Companion.lazyMap
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import androidx.core.graphics.drawable.toDrawable
 
 interface Itag {
     val label: String
@@ -163,7 +165,7 @@ fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: C
         else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     }
 
-fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
+fun dateTimeFormatterLegacy(account: BaseAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> {
             timeFormatter(account.type, prefHandler, context)?.let {
@@ -213,7 +215,7 @@ fun View.configurePopupAnchor(
             isOutsideTouchable = true
             isFocusable = true
             //without setting background drawable, popup does not close on back button or touch outside, on older API levels
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
             width = ViewGroup.LayoutParams.WRAP_CONTENT
             height = ViewGroup.LayoutParams.WRAP_CONTENT
 

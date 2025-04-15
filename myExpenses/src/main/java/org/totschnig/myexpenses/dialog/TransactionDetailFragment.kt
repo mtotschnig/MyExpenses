@@ -83,7 +83,6 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
-import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.Icon
@@ -106,6 +105,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -705,11 +705,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         val colorSource = viewModel.colorSource.collectAsStateWithLifecycle(ColorSource.TYPE).value
         ColoredAmountText(
             money = amount,
-            type = type.takeIf { it == FLAG_NEUTRAL } ?: when (colorSource) {
-                ColorSource.TYPE -> type
-                ColorSource.TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
-                ColorSource.SIGN -> null
-            }
+            type = colorSource.transformType(type)
         )
     }
 

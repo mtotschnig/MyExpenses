@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "org.totschnig.shared_test"
-    compileSdk = 34
+    compileSdk = project.compileSdkVersion
 
     defaultConfig {
         minSdk = 21

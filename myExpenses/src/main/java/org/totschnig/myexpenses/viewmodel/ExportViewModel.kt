@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -24,6 +25,7 @@ import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -39,6 +41,7 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.io.IOException
@@ -66,7 +69,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     }
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
-    private val _result: MutableStateFlow<Pair<ExportFormat, List<DocumentFile>>?> = MutableStateFlow(null)
+    private val _result: MutableStateFlow<Pair<ExportFormat, List<DocumentFile>>?> =
+        MutableStateFlow(null)
     private val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Pair<ExportFormat, List<DocumentFile>>?> = _result
@@ -93,7 +97,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
 
-                    val accountIds= if (accountId > 0L) {
+                    val accountIds = if (accountId > 0L) {
                         listOf(accountId)
                     } else {
                         var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
@@ -150,12 +154,25 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             !append,
                                             delimiter,
                                             mergeP,
-                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_CATEGORIES, false),
-                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_AMOUNT, true),
+                                            prefHandler.getBoolean(
+                                                PrefKey.CSV_EXPORT_SPLIT_CATEGORIES,
+                                                false
+                                            ),
+                                            prefHandler.getBoolean(
+                                                PrefKey.CSV_EXPORT_SPLIT_AMOUNT,
+                                                true
+                                            ),
                                             timeFormat,
-                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS, false),
-                                            prefHandler.requireString(PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR, " > ")
+                                            prefHandler.getBoolean(
+                                                PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS,
+                                                false
+                                            ),
+                                            prefHandler.requireString(
+                                                PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR,
+                                                " > "
+                                            )
                                         )
+
                                         ExportFormat.QIF -> QifExporter(
                                             account,
                                             currencyContext,
@@ -165,6 +182,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             decimalSeparator,
                                             encoding
                                         )
+
                                         ExportFormat.JSON -> JSONExporter(
                                             account,
                                             currencyContext,
@@ -285,7 +303,11 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         viewModelScope.launch(coroutineContext()) {
             _pdfResult.update {
                 AppDirHelper.checkAppDir(getApplication()).mapCatching {
-                    PdfPrinter.print(localizedContext, account, it, whereFilter)
+                    val colorSource = enumValueOrDefault(
+                        dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
+                        ColorSource.TYPE
+                    )
+                    PdfPrinter.print(localizedContext, account, it, whereFilter, colorSource)
                 }
             }
         }

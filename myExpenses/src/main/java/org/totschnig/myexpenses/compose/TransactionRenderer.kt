@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -81,9 +82,6 @@ import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
 
 val inlineIconSize = 13.sp
-
-enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
-
 
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
@@ -343,11 +341,7 @@ abstract class ItemRenderer(
         ColoredAmountText(
             money = if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount,
             style = style,
-            type = type.takeIf { it == FLAG_NEUTRAL } ?: when (colorSource) {
-                ColorSource.TYPE -> type
-                ColorSource.TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
-                ColorSource.SIGN -> null
-            }
+            type = colorSource.transformType(type)
         )
     }
 }

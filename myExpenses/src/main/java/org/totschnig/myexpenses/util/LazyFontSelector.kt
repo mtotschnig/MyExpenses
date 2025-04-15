@@ -17,7 +17,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
     enum class FontType(val factor: Float, val style: Int, val color: BaseColor?) {
         NORMAL(1f, Font.NORMAL, null),
         TITLE(1.5f, Font.BOLD, null),
-        HEADER(1f, Font.BOLD, BaseColor.BLUE),
+        HEADER(1.2f, Font.UNDERLINE, null),
         BOLD(1f, Font.BOLD, null),
         ITALIC(1f, Font.ITALIC, null),
         UNDERLINE(1f, Font.UNDERLINE, null),
