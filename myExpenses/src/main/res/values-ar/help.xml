@@ -184,4 +184,5 @@
     <string name="help_ManageCategories_manage_context">انقر فوق مدخلة لإظهار القائمة الخاصة بها. اضغط لفترة طويلة لبدء التحديد المتعدد.</string>
     <string name="form_split_parts_heading_help_text_1">استخدم الرمز + لإدخال العديد من الأجزاء المقسمة حسب الحاجة.</string>
     <string name="cab_MyExpenses_filter_help_text">ابحث عن المعاملات ذات الخصائص نفسها.</string>
+    <string name="help_ManageParties_mergeMode_info_1">أختار الادخالات المكررة التي تريد دمجها.</string>
 </resources>
