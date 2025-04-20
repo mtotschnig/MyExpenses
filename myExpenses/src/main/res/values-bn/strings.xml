@@ -1,48 +1,1070 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="account">হিসাব</string>
-    <string name="account_type_asset">সম্পদ হিসাব</string>
-    <string name="account_type_bank_plural">ব্যাংক অ্যাকাউন্টস</string>
-    <string name="account_type_asset_plural">সম্পদ অ্যাকাউন্ট সমূহ</string>
-    <string name="account_type_ccard">ক্রেডিট কার্ড</string>
-    <string name="account_type_ccard_plural">ক্রেডিট কার্ডস</string>
-    <string name="account_type_liability">দায় হিসাব</string>
-    <string name="account_type_liability_plural">দায় হিসাব সমূহ</string>
-    <string name="app_name">আমার খরচ</string>
-    <string name="contrib_feature_ad_free_label">অ্যাড বিহীন</string>
-    <string name="account_types">হিসাবের ধরণ</string>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">অ্যাকাউন্ট</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">অ্যাকাউন্টের ধরন</string>
+    <string name="account_type_asset">সম্পদ অ্যাকাউন্ট</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">সম্পদ অ্যাকাউন্টসমূহ</string>
     <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">ব্যাংক অ্যাকাউন্টসমূহ</string>
     <string name="account_type_cash">নগদ অ্যাকাউন্ট</string>
-    <string name="account_type_cash_plural">নগদ অ্যাকাউন্টস</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">নগদ অ্যাকাউন্টসমূহ</string>
+    <string name="account_type_ccard">ক্রেডিট কার্ড</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">ক্রেডিট কার্ডসমূহ</string>
+    <string name="account_type_liability">দায়বদ্ধতা অ্যাকাউন্ট</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">দায়বদ্ধতা অ্যাকাউন্টসমূহ</string>
+    <string name="already_defined">%1$s ইতিমধ্যে সংজ্ঞায়িত</string>
     <string name="amount">পরিমাণ</string>
-    <string name="category">শ্রেণী</string>
-    <string name="contrib_feature_csv_import_label">CSV ইম্পোর্ট</string>
+    <string name="app_name">My Expenses</string>
+    <string name="backup_success">ডাটাবেস এবং পছন্দসমূহ সফলভাবে \"%1$s\" এ লেখা হয়েছে।</string>
+    <string name="category">ক্যাটাগরি</string>
+    <string name="contrib_feature_ad_free_label">কোন বিজ্ঞাপন নেই</string>
+    <string name="contrib_feature_accounts_unlimited_label">আনলিমিটেড অ্যাকাউন্ট</string>
+    <string name="contrib_feature_attach_picture_label">লেনদেনের সাথে ছবি অ্যাট্যাচ করুন</string>
+    <string name="contrib_feature_distribution_label">পাই চার্ট (ক্যাটাগরি অনুযায়ী বিতরণ)</string>
+    <string name="contrib_feature_plans_unlimited_label">আনলিমিটেড প্লান সংখ্যা</string>
+    <string name="contrib_feature_print_label">লেনদেনের তালিকা PDF-এ এক্সপোর্ট করুন</string>
+    <string name="contrib_feature_csv_import_label">CSV ইমপোর্ট</string>
+    <string name="contrib_feature_split_template_label">আনলিমিটেড স্প্লিট টেমপ্লেট</string>
+    <string name="contrib_feature_pro_support_label"><b>ইমেল সাপোর্ট</b> ২ কার্যদিবসের মধ্যে প্রতিউত্তর</string>
+    <string name="contrib_feature_roadmap_voting_label"><b>ডেভেলপমেন্ট রোডম্যাপে</b> ভোটাধিকার</string>
     <string name="contrib_feature_history_label">ইতিহাস চার্ট</string>
+    <string name="contrib_feature_category_tree_label">স্বেচ্ছাকৃতভাবে গভীর ক্যাটাগরি পদানুক্রম</string>
     <string name="contrib_feature_synchronization_label">ক্লাউড সিঙ্ক্রোনাইজেশন</string>
-    <string name="contrib_key">কনট্রিবিউশন কী</string>
+    <string name="licence_status_free">ফ্রি</string>
+    <string name="contrib_key">কনট্রিব কী</string>
+    <string name="extended_key">এক্সটেন্ডেড কী</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">%1$s প্রয়োজন।</string>
     <string name="currency">মুদ্রা</string>
     <string name="current_balance">বর্তমান ব্যালেন্স</string>
-    <string name="default_account_name">বাজেট বই</string>
-    <string name="dialog_confirm_discard_changes">পরিবর্তনগুলি বাতিল করবেন?</string>
-    <string name="contrib_feature_split_template_label">আনলিমিটেড বিভক্ত টেমপ্লেট</string>
-    <string name="contrib_feature_pro_support_label"><b>ইমেল সাপোর্ট</b>2 কার্যদিবসের মধ্যে পাল্টা জবাব এর গ্যারান্টি</string>
-    <string name="contrib_feature_roadmap_voting_label">ভোট অধিকার <b>ডেভেলপমেন্ট রোডম্যাপে</b></string>
-    <string name="licence_status_free">ফ্রী</string>
-    <string name="extended_key">এক্সটেন্ডেড কী</string>
-    <string name="contrib_key_requires">প্রয়োজন%1$s।</string>
     <string name="date">তারিখ</string>
-    <string name="date_format">তারিখ বিন্যাস</string>
-    <string name="date_format_illegal">অবৈধ তারিখ বিন্যাস</string>
-    <string name="number_format_illegal">অবৈধ নম্বর বিন্যাস</string>
+    <string name="date_format">তারিখের ফরম্যাট</string>
+    <string name="date_format_illegal">তারিখের ফরম্যাট ভ্যালিড নয়</string>
+    <string name="number_format_illegal">সংখ্যার ফরম্যাট ভ্যালিড নয়</string>
     <string name="decimal_separator">দশমিক বিভাজক</string>
-    <string name="description">বর্ণনা</string>
-    <string name="dialog_balance_delete">মিলিত লেনদেন মুছুন</string>
-    <string name="dialog_command_disabled_insert_transfer">ট্রান্সফার লেনদেনের জন্য একটি দ্বিতীয় অ্যাকাউন্ট প্রয়োজন।</string>
-    <string name="dialog_command_disabled_balance">মিটমাট করার জন্য কোন ক্লিয়ার করা লেনদেন নেই।</string>
-    <string name="already_defined">%1$sইতিমধ্যে সংজ্ঞায়িত</string>
-    <string name="backup_success">ডাটাবেস এবং পছন্দগুলি সফলভাবে লেখা হয়েছে \"%1$s\"।</string>
-    <string name="contrib_feature_accounts_unlimited_label">সীমাহীন সংখ্যক অ্যাকাউন্ট</string>
-    <string name="contrib_feature_attach_picture_label">লেনদেনের সাথে ছবি সংযুক্ত করুন</string>
-    <string name="contrib_feature_plans_unlimited_label">সীমাহীন সংখ্যক পরিকল্পনা</string>
-    <string name="contrib_feature_distribution_label">পাই চার্ট (বিভাগ প্রতি বন্টন)</string>
+    <string name="default_account_name">বাজেট বই</string>
+    <string name="description">বিবরণ</string>
+    <string name="dialog_balance_delete">একই রকম লেনদেন মুছুন</string>
+    <string name="dialog_confirm_discard_changes">পরিবর্তনগুলি বাতিল করবেন?</string>
+    <string name="dialog_command_disabled_balance">ক্লিয়ার করার জন্য কোনও একই রকম লেনদেন নেই।</string>
+    <string name="dialog_command_disabled_insert_transfer">লেনদেন ট্রান্সফার জন্য দ্বিতীয় অ্যাকাউন্ট প্রয়োজন।</string>
+    <string name="dialog_contrib_reminder_remove_limitation">এই সীমাবদ্ধতা সরান এবং <i>{app_name}</i> আপগ্রেড করে আরও ফিচার অ্যাক্সেস করুন।</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> ওপেন সোর্স অফার করে।</string>
+    <string name="dialog_contrib_text_2">অনুগ্রহ করে <i>{app_name}</i> আপগ্রেড করে অবদান রাখুন এবং নিম্নলিখিত ফিচারগুলিতে অ্যাক্সেস পান:</string>
+    <!-- %1$s is replaced with user's current licence (Free, Contrib, Extended or Professional), %2$s with the label of the feature, eg. Budgeting,  %3$d with the number of days, currently 60, %4$s with the end of the trial for the currently requested feature-->
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">আপনার বর্তমান লাইসেন্সে স্ট্যাটাস (%1$s) আপনাকে %2$s %3$d দিন (%4$s পর্যন্ত) ট্রায়াল করতে দেয়।</string>
+    <string name="dialog_contrib_trial_info_play">এই ফ্রি ট্রায়াল কখনও কোনও ধরনের সাবস্ক্রিপশনে রূপান্তরিত হবে না।</string>
+    <string name="dialog_contrib_subscription_info_play">এই সাবস্ক্রিপশন অবিলম্বে কার্যকর হয়, মাসিক বা বার্ষিকভাবে বিল করা হয় এবং যেকোন সময় বাতিল করা যেতে পারে।</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">আপনার বর্তমান লাইসেন্সে স্ট্যাটাস (%2$s) যা আপনাকে %1$d অ্যাকাউন্ট তৈরি করতে দেয়।</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">আপনার বর্তমান লাইসেন্সে স্ট্যাটাস (%2$s) যা আপনাকে %1$d প্লান তৈরি করতে দেয়।</string>
+    <string name="dialog_contrib_usage_limit_split_templates">আপনার বর্তমান লাইসেন্সে স্ট্যাটাস (%1$s) আপনাকে ১টি স্প্লিট টেমপ্লেট তৈরি করতে দেয়।</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">আপনার বর্তমান লাইসেন্সে স্ট্যাটাসের সাথে (%1$s), প্রতিটি ব্যবহারে এই ডায়ালগটি প্রদর্শিত হবে।</string>
+    <string name="dialog_export_delete">এক্সপোর্ট করা লেনদেন মুছুন</string>
+    <string name="dialog_export_not_yet_exported">শুধুমাত্র এক্সপোর্ট না করা লেনদেন এক্সপোর্ট করুন</string>
+    <string name="dialog_password_activate_protection">পাসওয়ার্ড প্রটেকশন চালু করুন</string>
+    <string name="dialog_password_change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
+    <string name="dialog_password_new_password">নতুন পাসওয়ার্ড</string>
+    <string name="dialog_password_new_password_confirmation">নতুন পাসওয়ার্ড (নিশ্চিতকরণ)</string>
+    <string name="dialog_remind_later">পরে</string>
+    <string name="dialog_remind_rate_how_many_stars">আপনি {app_name}-কে কত রেটিং দিবেন?</string>
+    <string name="dialog_remind_rate_1">অনুগ্রহ করে {app_name} রেটিং এবং রিভিউ করতে একটু সময় দিন।</string>
+    <string name="dialog_remind_rate_2">আপনার মন্তব্য আমাদের ক্রমাগত ডেভেলপমেন্টে অনেক সাহায্য করে।</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">অনুগ্রহ করে আমাদের ডেভেলপমেন্টের জন্য আপনার পরামর্শ পাঠাতে একটু সময় দিন।</string>
+    <string name="dialog_remind_rate_yes">এখনই রেট করুন</string>
+    <string name="dialog_security_answer">সিকিউরিটি উত্তর</string>
+    <string name="dialog_security_question">সিকিউরিটি প্রশ্ন</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">ব্যালেন্স %1$s</string>
+    <string name="dialog_title_contrib_feature">প্রিমিয়াম ফিচার</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">অ্যাকাউন্ট মুছবেন?</item>
+        <item quantity="other">%1$d অ্যাকাউন্ট মুছবেন?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">ক্যাটাগরি মুছবেন?</string>
+    <string name="dialog_title_warning_delete_template">টেমপ্লেট মুছবেন?</string>
+    <string name="dialog_title_warning_delete_transaction">লেনদেন মুছবেন?</string>
+    <string name="expense">ব্যয়</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">\"%1$s\" ফাইলে এক্সপোর্ট যায়নি: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">ডাটা সফলভাবে \"%1$s\" ফাইলে এক্সপোর্ট করা হয়েছে</string>
+    <string name="feedback">ফিডব্যাক</string>
+    <string name="ftp_uri_malformed">ইনভ্যালিড URI %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s থেকে ক্যাটাগরি লোড হচ্ছে</string>
+    <string name="grisbi_import_parties_loading">%1$s থেকে পার্টি লোড হচ্ছে</string>
+    <string name="grouping_day">দিন</string>
+    <string name="grouping_last_week">গত সপ্তাহ</string>
+    <string name="grouping_month">মাস</string>
+    <string name="grouping_none">আনগ্রুপড</string>
+    <string name="grouping_this_week">এই সপ্তাহ</string>
+    <string name="grouping_week">সপ্তাহ</string>
+    <string name="grouping_year">বছর</string>
+    <string name="help_button_rate">রেট বা রিভিউ করুন</string>
+    <string name="help_heading_credits">ক্রেডিট</string>
+    <string name="help_heading_whats_new">যা কিছু নতুন</string>
+    <string name="import_select_transactions">লেনদেন</string>
+    <string name="income">আয়</string>
+    <string name="label">লেবেল</string>
+    <string name="licence_validation_failure">লাইসেন্স কী যাচাই করা যায়নি।</string>
+    <string name="licence_validation_success">লাইসেন্স কী সফলভাবে যাচাই করা হয়েছে:</string>
+    <string name="licence_validation_premium">প্রিমিয়াম ফিচার আনলক করা হয়েছে।</string>
+    <string name="menu_aggregates">মোট</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">অ্যাপ্লাই করুন</string>
+    <string name="menu_back">পিছনে যান</string>
+    <string name="menu_backup">ব্যাকআপ</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">অ্যাকাউন্ট ব্যালেন্স</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">বাতিল</string>
+    <string name="menu_clone_transaction">ক্লোন</string>
+    <string name="menu_contrib">কনট্রিবিউট</string>
+    <string name="menu_create_account">নতুন অ্যাকাউন্ট</string>
+    <string name="menu_create_instance_edit">এডিট এবং অ্যাপ্লাই করুন</string>
+    <string name="menu_create_instance_save">এডিট এবং সেভ করুন</string>
+    <string name="menu_create_main_cat">নতুন মূল ক্যাটাগরি</string>
+    <string name="menu_create_method">নতুন পেমেন্ট মেথড</string>
+    <string name="menu_create_party">নতুন পার্টি</string>
+    <string name="menu_create_split">নতুন স্প্লিট</string>
+    <string name="menu_create_split_part_category">নতুন ক্যাটাগরি স্প্লিট পার্ট</string>
+    <string name="menu_create_split_part_transfer">নতুন ট্রান্সফার স্প্লিট পার্ট</string>
+    <string name="menu_create_sub_cat">নতুন সাব-ক্যাটাগরি</string>
+    <string name="menu_create_template">নতুন টেমপ্লেট</string>
+    <string name="menu_create_template_from_transaction">টেমপ্লেট অ্যাকাউন্টে সেভ করুন</string>
+    <string name="menu_create_template_for_transaction">নতুন লেনদেন টেমপ্লেট</string>
+    <string name="menu_create_template_for_transfer">নতুন ট্রান্সফার টেমপ্লেট</string>
+    <string name="menu_create_transaction">নতুন লেনদেন</string>
+    <string name="menu_create_transfer">নতুন ট্রান্সফার</string>
+    <string name="menu_delete">মুছুন</string>
+    <string name="menu_distribution">বিতরণ</string>
+    <string name="menu_edit">এডিট</string>
+    <string name="menu_edit_account">অ্যাকাউন্ট এডিট</string>
+    <string name="menu_edit_cat">ক্যাটাগরি এডিট</string>
+    <string name="menu_edit_method">পেমেন্ট মেথড এডিট</string>
+    <string name="menu_edit_party">পার্টি এডিট</string>
+    <string name="menu_edit_plan_instance">একক প্লান এডিট</string>
+    <string name="menu_edit_split">স্প্লিট এডিট</string>
+    <string name="menu_edit_split_part_category">ক্যাটাগরি স্প্লিট পার্ট এডিট</string>
+    <string name="menu_edit_split_part_transfer">ট্রান্সফার স্প্লিট পার্ট এডিট</string>
+    <string name="menu_edit_template">টেমপ্লেট এডিট</string>
+    <string name="menu_edit_transaction">লেনদেন এডিট</string>
+    <string name="menu_edit_transfer">ট্রান্সফার এডিট</string>
+    <string name="menu_exclude_from_totals">মোট থেকে বাদ দিন</string>
+    <string name="menu_forward">সামনে যান</string>
+    <string name="menu_grouping">গ্রুপিং</string>
+    <string name="menu_help">হেল্প</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">ইনভার্ট</string>
+    <string name="menu_manage_plans">টেমপ্লেট এবং প্লানসমূহ</string>
+    <string name="menu_import">ইমপোর্ট</string>
+    <string name="menu_reset">এক্সপোর্ট এবং রিসেট</string>
+    <string name="menu_reset_all">এক্সপোর্ট এবং সবকিছু রিসেট</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">রিসেট</string>
+    <string name="menu_save">সেভ</string>
+    <string name="menu_save_and_new">সেভ এবং নতুন</string>
+    <string name="menu_share">আপনার বন্ধুকে জানান</string>
+    <string name="button_label_close">বন্ধ করুন</string>
+    <string name="menu_split_transaction">স্প্লিট লেনদেনে রূপান্তর করুন</string>
+    <string name="method">পেমেন্ট মেথড</string>
+    <string name="no_app_handling_email_available">ইমেল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
+    <string name="no_app_handling_ftp_available">এফটিপি পরিচালনা করার জন্য কোনও অ্যাপ নেই। <i>Send With FTP</i> ইনস্টল করবেন?</string>
+    <!-- %s is replaced by extension, e.g. PDF or CSV -->
+    <string name="no_app_handling_mime_type_available">%s ফাইল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
+    <string name="no_categories">কোন ক্যাটাগরি নেই।</string>
+    <string name="no_expenses">এখনও কোন ব্যয় নেই!</string>
+    <string name="no_exportable_expenses">এমন কোন লেনদেন নেই যা এখনও এক্সপোর্ট করা হয়নি।</string>
+    <string name="no_filemanager_installed">কোন ফাইল ম্যানেজার ইনস্টল করা নেই</string>
+    <string name="no_calendar_app_installed">ক্যালেন্ডার ইভেন্ট এডিটর জন্য কোন অ্যাপ পাওয়া যায়নি।</string>
+    <string name="image_capture_not_installed">ছবি তোলার জন্য কোন অ্যাপ পাওয়া যায়নি।</string>
+    <string name="no_mapped_transactions">এই সময়কালে কোন লেনদেন ক্যাটাগরির সাথে ম্যাপ করা হয়নি।</string>
+    <string name="no_methods">কোন পেমেন্ট মেথড নেই।</string>
+    <string name="no_parties">কোন পার্টি নেই।</string>
+    <string name="no_split_parts">কোন স্প্লিট পার্ট নেই।</string>
+    <string name="no_templates">কোন টেমপ্লেট নেই।</string>
+    <string name="no_accounts">কোন অ্যাকাউন্ট নেই।</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">নির্বাচিত অবজেক্ট একটি লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+        <item quantity="other">%1$d অবজেক্ট লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">নির্বাচিত অবজেক্ট একটি টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+        <item quantity="other">%1$d অবজেক্ট টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+    </plurals>
+    <string name="numbered">সংখ্যাযুক্ত</string>
+    <string name="opening_balance">ওপেনিং ব্যালেন্স</string>
+    <string name="parse_error_file_not_found">%1$s ফাইল খুঁজে পাওয়া যায়নি</string>
+    <string name="parse_error_grisbi_version_not_supported">অসমর্থিত Grisbi ফাইল ভার্সন: %1$s</string>
+    <string name="parse_error_other_exception">একটি ত্রুটি ঘটেছে: %1$s</string>
+    <string name="parse_error_parse_exception">ফাইল পার্স করতে পারেনি</string>
+    <string name="password_disabled_reenable">পাসওয়ার্ড প্রটেকশন বন্ধ করা হয়েছে। আপনি সেটিংসে এটি পুনরায় চালু করতে পারেন।</string>
+    <string name="password_lost">পাসওয়ার্ড ভুলে গেছি</string>
+    <string name="password_not_valid">পাসওয়ার্ড ইনভ্যালিড আবার চেষ্টা করুন!</string>
+    <string name="password_prompt">আপনার পাসওয়ার্ড লিখুন</string>
+    <string name="password_security_answer_not_valid">ভুল উত্তর। আবার চেষ্টা করুন!</string>
+    <string name="payee">প্রাপক</string>
+    <string name="payer">প্রদানকারী</string>
+    <string name="payer_or_payee">প্রাপক/প্রদানকারী</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">প্লান</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">অটোমেটিক</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} প্লানার</string>
+    <string name="planner_notification_channel_name">প্লানার</string>
+    <string name="plan_event_deleted">এই টেমপ্লেটের সাথে সম্পর্কিত প্লান ক্যালেন্ডার থেকে মুছে ফেলা হয়েছে।</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">প্লান কার্যকর করা বাতিল করা হয়েছে</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="planner_create_calendar_failure">লোকাল প্লানার ক্যালেন্ডার তৈরি করা যায়নি</string>
+    <string name="planner_create_calendar_success">লোকাল প্লানার ক্যালেন্ডার সফলভাবে তৈরি করা হয়েছে</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">চেক</string>
+    <string name="pm_creditcard">ক্রেডিট কার্ড</string>
+    <string name="pm_deposit">জমা</string>
+    <string name="pm_directdebit">সরাসরি ডেবিট</string>
+    <string name="pm_type_credit">ক্রেডিট</string>
+    <string name="pm_type_debit">ডেবিট</string>
+    <string name="pm_type_neutral">নিরপেক্ষ</string>
+    <string name="pref_app_dir_title">ব্যাকআপ এবং এক্সপোর্টর জন্য ফোল্ডার</string>
+    <string name="pref_auto_fill_summary">একই প্রাপক/প্রদানকারীর জন্য শেষ লেনদেনের ডাটা পূরণ করুন</string>
+    <string name="pref_backup_summary">ডাটাবেস এবং পছন্দসমূহের একটি ব্যাকআপ তৈরি করুন।</string>
+    <string name="pref_sort_order_usages">ব্যবহারের সংখ্যা</string>
+    <string name="pref_category_title_export">এক্সপোর্ট</string>
+    <string name="pref_category_title_import">ইমপোর্ট</string>
+    <string name="pref_category_title_manage">পরিচালনা</string>
+    <string name="pref_category_title_more_information">আরও তথ্য</string>
+    <string name="pref_category_title_ui">ইউজার ইন্টারফেস</string>
+    <string name="pref_contrib_purchase_title_upgrade">কী আপগ্রেড করুন</string>
+    <string name="pref_custom_currency_title">মুদ্রা কাস্টমাইজ করুন</string>
+    <string name="pref_enter_licence_title">কী পেস্ট করুন</string>
+    <string name="pref_export_format_title">ডাটা ফরম্যাট</string>
+    <string name="pref_import_from_grisbi_summary">Grisbi XML ফাইল থেকে ক্যাটাগরি এবং পার্টি ইমপোর্ট করুন</string>
+    <string name="pref_import_from_grisbi_title">Grisbi থেকে ইমপোর্ট করুন</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">%s ফাইল থেকে লেনদেন, ক্যাটাগরি এবং পার্টি ইমপোর্ট করুন</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s ইমপোর্ট</string>
+    <!-- Title of an entry on the Preferences Screen, that links to the My Expenses page on Mastodon, where news about new releases is published -->
+    <string name="pref_news_title">খবর</string>
+    <string name="pref_manage_accounts_title">অ্যাকাউন্টসমূহ</string>
+    <string name="pref_manage_categories_summary">ক্যাটাগরি যোগ, এডিট, মুছুন।</string>
+    <string name="pref_manage_categories_title">ক্যাটাগরিসমূহ</string>
+    <string name="pref_manage_methods_summary">পেমেন্ট মেথড তৈরি এবং এডিট করুন এবং সেগুলিকে অ্যাকাউন্টের ধরনের সাথে অ্যাট্যাচ করুন।</string>
+    <string name="pref_manage_methods_title">পেমেন্ট মেথড</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">পার্টি (প্রদানকারী এবং প্রাপক) যোগ, এডিট, মুছুন।</string>
+    <string name="pref_manage_parties_title">পার্টিসমূহ</string>
+    <string name="pref_manage_sync_backends_title">সিঙ্ক্রোনাইজেশন ব্যাকএন্ড</string>
+    <!-- %s will be replaced with list of backends -->
+    <string name="pref_manage_sync_backends_summary">অ্যাকাউন্ট সিঙ্ক্রোনাইজ করার জন্য ব্যাকএন্ড যোগ করুন (%s)।</string>
+    <string name="pref_more_info_dialog_title">লাইসেন্স ও ক্রেডিট</string>
+    <string name="pref_password_not_equal">পাসওয়ার্ড মেলে না</string>
+    <string name="pref_perform_share_title">এক্সপোর্ট এবং ব্যাকআপ শেয়ার করুন</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">নতুন লোকালপ্লান ক্যালেন্ডার তৈরি করুন</string>
+    <string name="pref_planning_calendar_summary">ক্যালেন্ডার নির্বাচন করুন যেখানে ভবিষ্যত এবং পুনরাবৃত্তি লেনদেনের প্লান সেভ করা হয়</string>
+    <string name="pref_protection_delay_seconds_summary">অ্যাপটি পাসওয়ার্ড দ্বারা লক হওয়ার আগে আইডেল সেকেন্ড।</string>
+    <string name="pref_protection_delay_seconds_title">প্রটেকশন পর্যন্ত বিলম্ব</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">উইজেট এবং শর্টকাট থেকে ডাটা এন্ট্রি</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">পাসওয়ার্ড ছাড়াই অনুমোদিত।</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">পাসওয়ার্ড প্রয়োজন।</string>
+    <string name="pref_qif_export_file_encoding_title">অক্ষর এনকোডিং</string>
+    <string name="pref_restore_summary">ডাটাবেস এবং পছন্দসমূহ পুনরুদ্ধার করার জন্য একটি ব্যাকআপ নির্বাচন করুন।</string>
+    <string name="pref_restore_title">পুনরুদ্ধার</string>
+    <string name="pref_security_question_summary">আপনি যদি আপনার পাসওয়ার্ড ভুলে যান তবে অ্যাপটি আনলক করতে সাহায্য করে।</string>
+    <string name="pref_security_question_title">নিরাপত্তা প্রশ্ন</string>
+    <string name="pref_send_feedback_title">ফিডব্যাক পাঠান</string>
+    <string name="pref_share_target_summary">উপযুক্ত অ্যাপের মধ্যে (Email, Dropbox, Google Docs, …) বেছে নিতে খালি রাখুন, অথবা সমর্থিত স্কিমের একটিতে URL প্রদান করুন</string>
+    <string name="pref_share_target_title">URL আপলোড করুন</string>
+    <string name="pref_shortcut_added">শর্টকাট হোম স্ক্রিনে যোগ করা হয়েছে</string>
+    <string name="pref_shortcut_not_added">শর্টকাট গ্রহণকারী কোন হোম স্ক্রিন উপলব্ধ নেই।</string>
+    <string name="pref_shortcut_summary">হোম স্ক্রিনে শর্টকাট যোগ করুন।</string>
+    <string name="pref_ui_home_screen_shortcuts">হোম স্ক্রিন শর্টকাট</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">ভাষা</string>
+    <string name="pref_ui_theme_dark">ডার্ক</string>
+    <string name="pref_ui_theme_light">লাইট</string>
+    <string name="pref_ui_theme_title">থিম</string>
+    <string name="pref_visit_website_summary">চেঞ্জ লগ এবং সচরাচর জিজ্ঞাসিত প্রশ্ন</string>
+    <string name="pref_visit_website_title">ওয়েবসাইট দেখুন</string>
+    <string name="progress_dialog_deleting">অবজেক্ট মুছছে</string>
+    <!-- %s is replaced with format (PDF, HTML) -->
+    <string name="progress_dialog_printing">%s তৈরি করছে</string>
+    <string name="qif_parse_result">পার্স করা: %1$s অ্যাকাউন্ট; %2$s ক্যাটাগরি এবং %3$s পার্টি</string>
+    <!-- %s is replaced with format (CSV, QIF) -->
+    <string name="qif_parse_failure_found_multiple_accounts">%s ফাইলে একাধিক অ্যাকাউন্ট পাওয়া গেছে।</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">বিদ্যমান অ্যাকাউন্টের সাথে সেগুলি একত্রিত করা যাবে না।</string>
+    <string name="reference_number">রেফারেন্স নম্বর</string>
+    <string name="restore_db_failure">ডাটাবেস পুনরুদ্ধার ব্যর্থ হয়েছে।</string>
+    <string name="restore_db_success">ডাটাবেস ব্যাকআপ থেকে পুনরুদ্ধার করা হয়েছে।</string>
+    <string name="restore_preferences_failure">পছন্দসমূহ পুনরুদ্ধার ব্যর্থ হয়েছে</string>
+    <string name="restore_backup_file_not_found">\"%2$s\" আর্কাইভে %1$s ফাইল পাওয়া যায়নি</string>
+    <string name="restore_preferences_success">পছন্দসমূহ ব্যাকআপ থেকে পুনরুদ্ধার করা হয়েছে।</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d প্লান ব্যাকআপ থেকে পুনরুদ্ধার করা হয়েছে</string>
+    <string name="save_transaction_and_new_success">সফলভাবে সেভ</string>
+    <string name="save_transaction_error">টেমপ্লেট থেকে নতুন লেনদেন সেভ করতে পারেনি।</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">টেমপ্লেট থেকে নতুন লেনদেন সফলভাবে সেভ হয়েছে।</item>
+        <item quantity="other">টেমপ্লেট থেকে %1$d নতুন লেনদেন সফলভাবে সেভ হয়েছে।</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">টেমপ্লেট মুছে ফেলা হয়েছে</string>
+    <string name="select">নির্বাচন করুন</string>
+    <string name="select_category">ক্যাটাগরি নির্বাচন করুন</string>
+    <string name="select_payee">প্রদানকারী/প্রাপক নির্বাচন করুন</string>
+    <string name="share_scheme_not_supported">%1$s স্কিম সমর্থিত নয়</string>
+    <string name="share_sending">এক্সপোর্ট করা ফাইল পাঠান</string>
+    <string name="split_parts_heading">স্প্লিট পার্ট</string>
+    <string name="split_transaction">স্প্লিট লেনদেন</string>
+    <string name="status">অবস্থা</string>
+    <string name="status_cleared">পরিষ্কার</string>
+    <string name="status_reconciled">মিলে গেছে</string>
+    <string name="status_unreconciled">মিলে যায়নি</string>
+    <string name="status_void">বাতিল</string>
+    <string name="subcategory">সাব-ক্যাটাগরি</string>
+    <string name="sum_expenses">ব্যয়</string>
+    <string name="sum_income">আয়</string>
+    <string name="sum_transfer">ট্রান্সফার</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{platform} এর জন্য ব্যক্তিগত অর্থ ব্যবস্থাপক, {app_name} দেখুন, {website} থেকে</string>
+    <string name="thank_you">আপনার সমর্থনের জন্য ধন্যবাদ!</string>
+    <string name="time">সময়</string>
+    <string name="title">শিরোনাম</string>
+    <string name="total_cleared">ক্লিয়ারর্ড মোট</string>
+    <string name="total_reconciled">মিলে যাওয়া মোট</string>
+    <string name="transaction">লেনদেন</string>
+    <string name="transfer">ট্রান্সফার</string>
+    <string name="transfer_from_account">থেকে</string>
+    <string name="transfer_to_account">প্রতি</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">ধরন</string>
+    <string name="unsplit_amount">অনস্প্লিট পরিমাণ</string>
+    <string name="unsplit_amount_greater_than_zero">এখনও কিছু পরিমাণ অনস্প্লিট আছে।</string>
+    <string name="warning_backup">ডাটাবেস এবং পছন্দসমূহ \"%1$s\" এ সেভ হবে।</string>
+    <string name="continue_confirmation">আপনি কি চালিয়ে যেতে চান?</string>
+    <string name="warning_delete_account">অ্যাকাউন্ট \"%1$s\" এর সব লেনদেন সহ মুছে ফেলা হবে।</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">একটি নির্বাচিত ক্যাটাগরির সাব-ক্যাটাগরি আছে, যা একইভাবে মুছে ফেলা হবে।</item>
+        <item quantity="other">%1$d নির্বাচিত ক্যাটাগরির সাব-ক্যাটাগরি আছে, যা একইভাবে মুছে ফেলা হবে।</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">অন্তত একটি নির্বাচিত ক্যাটাগরির জন্য, বাজেট বরাদ্দ আছে, যা একইভাবে মুছে ফেলা হবে।</string>
+    <plurals name="warning_delete_template">
+        <item quantity="one">নির্বাচিত টেমপ্লেট মুছে ফেলা হবে।</item>
+        <item quantity="other">%1$d নির্বাচিত টেমপ্লেট মুছে ফেলা হবে।</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">নির্বাচিত লেনদেন মুছে ফেলা হবে।</item>
+        <item quantity="other">%1$d নির্বাচিত লেনদেন মুছে ফেলা হবে।</item>
+    </plurals>
+    <string name="move_category_success">একটি ক্যাটাগরি সফলভাবে সরানো হয়েছে।</string>
+    <string name="move_category_failure">একটি ক্যাটাগরি সরানো যায়নি, কারণ একই লেবেল ইতিমধ্যে টার্গেটে বিদ্যমান।</string>
+    <string name="warning_delete_reconciled">মিলে যাওয়া লেনদেন মুছে ফেলার ফলে আপনার রেকর্ড ব্যাংক স্টেটমেন্ট থেকে আলাদা হয়ে যাবে।</string>
+    <string name="warning_balance_account">অনুগ্রহ করে ক্লিয়ারর্ড মোট এবং আপনার ব্যাংক স্টেটমেন্টের শেষ ব্যালেন্স মিলিয়ে দেখুন। আপনি যদি এগিয়ে যান, ক্লিয়ারর্ড লেনদেন মিলে যাওয়া হিসেবে চিহ্নিত হবে।</string>
+    <string name="warning_password_protected">অ্যাপটি পাসওয়ার্ড দ্বারা সুরক্ষিত।</string>
+    <string name="warning_widget_disabled">আপনাকে অ্যাপ সেটিংসে এই উইজেটটি চালু করতে হবে।</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">এই উইজেট থেকে টেমপ্লেটের দ্রুত স্থাপন শুধুমাত্র তখনই কাজ করে যখন আপনি অ্যাপ সেটিংসে পাসওয়ার্ড ছাড়া উইজেট থেকে ডাটা এন্ট্রি অনুমতি দেন।</string>
+    <string name="warning_password_contrib">সেট করা নিরাপত্তা প্রশ্ন আপনাকে অ্যাপ আনলক করতে দেয়, যদি আপনি আপনার পাসওয়ার্ড ভুলে যান।</string>
+    <string name="warning_reset_account">আপনি যদি এগিয়ে যান, এই অ্যাকাউন্টের সমস্ত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং পুনরুদ্ধার করা যাবে না।</string>
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">আপনি যদি এগিয়ে যান, সমস্ত অ্যাকাউন্টের জন্য %1$s, লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং পুনরুদ্ধার করা যাবে না।</string>
+    <string name="warning_reset_account_matched">আপনি যদি এগিয়ে যান, বর্তমান ফিল্টার দ্বারা মিলিত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং পুনরুদ্ধার করা যাবে না।</string>
+    <string name="warning_restore">ডাটাবেস এবং পছন্দসমূহ \"%1$s\" ফাইল থেকে পুনরুদ্ধার করা হবে। বর্তমান ডাটা মুছে ফেলা হবে।</string>
+    <string name="warning_splitpartcategory_context">স্প্লিটের পার্ট যে ট্রান্সফারের অন্তর্ভুক্ত শুধুমাত্র স্প্লিটের প্রেক্ষাপটে এডিট করা যেতে পারে।</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">অনুগ্রহ করে %1$d এবং %2$d এর মধ্যে একটি সংখ্যা সেট করুন</string>
+    <string name="warning_change_fraction_digits_1">ডাটাবেসে পরিমাণগুলি আপডেট করতে হবে যাতে এটি ভগ্নাংশের অঙ্কের নতুন সংখ্যার সাথে মেলে।</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">যদি পরিমাণ আপডেট না করা হয়, তাহলে পরিবর্তনের পরে সেগুলি %d দ্বারা গুণিত অ্যাকাউন্টে প্রদর্শিত হবে।</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">যদি পরিমাণ আপডেট না করা হয়, তাহলে পরিবর্তনের পরে সেগুলি %d দ্বারা স্প্লিট অ্যাকাউন্টে প্রদর্শিত হবে।</string>
+    <string name="warning_change_fraction_digits_3">যদি পরিমাণ আপডেট করা হয়, তাহলে আপনি তাদের ভগ্নাংশ পার্ট সম্পর্কে তথ্য হারাবেন।</string>
+    <string name="warning_change_fraction_digits_checkbox_label">ডাটাবেসে পরিমাণ আপডেট করুন</string>
+    <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d ক্যাটাগরি সফলভাবে ইমপোর্ট করা হয়েছে।</string>
+    <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d পার্টি সফলভাবে ইমপোর্ট করা হয়েছে।</string>
+    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d অ্যাকাউন্ট সফলভাবে ইমপোর্ট করা হয়েছে।</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d লেনদেন সফলভাবে %2$s অ্যাকাউন্টে ইমপোর্ট করা হয়েছে</string>
+    <string name="import_accounts_none">কোন অ্যাকাউন্ট ইমপোর্ট করা হয়নি</string>
+    <string name="import_categories_none">কোন ক্যাটাগরি ইমপোর্ট করা হয়নি</string>
+    <string name="import_parties_none">কোন পার্টি ইমপোর্ট করা হয়নি</string>
+    <string name="import_transactions_none">%1$s অ্যাকাউন্টে কোন লেনদেন ইমপোর্ট করা হয়নি</string>
+    <string name="import_source_select_error">অনুগ্রহ করে %1$s ধরনের একটি ফাইল প্রদান করুন</string>
+    <string name="menu_categories_setup_default">ডিফল্ট ক্যাটাগরি সেটআপ করুন</string>
+    <string name="widget_title_accounts">আমার অ্যাকাউন্টসমূহ</string>
+    <string name="widget_title_templates">আমার টেমপ্লেটসমূহ</string>
+    <string name="app_dir_not_accessible">বর্তমানে নির্বাচিত ব্যাকআপ এবং এক্সপোর্টর ফোল্ডার (%1$s) অ্যাক্সেস করা যাচ্ছে না। অনুগ্রহ করে একটি ভিন্ন ফোল্ডার নির্বাচন করুন।</string>
+    <string name="app_dir_not_compatible_with_nougat">বর্তমানে কনফিগার করা ব্যাকআপ এবং এক্সপোর্টর URI (%1$s) Android Nougat-এ সমর্থিত নয়। অনুগ্রহ করে আবার একটি ফোল্ডার নির্বাচন করুন।</string>
+    <string name="search_amount">পরিমাণ সার্চ করুন</string>
+    <string name="search_category">ক্যাটাগরি সার্চ করুন</string>
+    <string name="search_comment">নোট সার্চ করুন</string>
+    <string name="search_date">তারিখ সার্চ করুন</string>
+    <string name="search_status">অবস্থা সার্চ করুন</string>
+    <string name="search_payee">প্রাপক/প্রদানকারী সার্চ করুন</string>
+    <string name="search_method">মেথড সার্চ করুন</string>
+    <string name="search_tag">ট্যাগ সার্চ করুন</string>
+    <string name="and">এবং</string>
+    <string name="between_and">%1$s এবং %2$s এর মধ্যে</string>
+    <string name="before">%s এর আগে</string>
+    <string name="after">%s এর পরে</string>
+    <string name="comparison_operator_equal">সমান</string>
+    <string name="comparison_operator_greater_than">এর চেয়ে বেশি</string>
+    <string name="comparison_operator_lesser_than">এর চেয়ে কম</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
+    <string name="comparison_operator_between">মধ্যে</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
+    <string name="comparison_operator_date_before">আগে</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
+    <string name="comparison_operator_date_after">পরে</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">ট্রানজেকশন ব্যর্থ হয়েছে বা বাতিল করা হয়েছে।</string>
+    <string name="hint_auto_fill">একই প্রাপক/প্রদানকারীর জন্য শেষ লেনদেন থেকে অটোমেটিকভাবে তথ্য পূরণ করা হবে? আপনি সেটিংস থেকে সর্বদা এই আচরণ পরিবর্তন করতে পারেন।</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d অ্যাকাউন্ট যার মুদ্রা %2$s আপডেট করা হয়েছে।</string>
+    <string name="import_source_file">ফাইল</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
+    <string name="pref_manage_stale_images_title">পুরানো ছবিসমূহ</string>
+    <string name="pref_manage_stale_images_summary">মুছে ফেলা লেনদেন থেকে অবশিষ্ট ছবিগুলি ম্যানেজ করুন</string>
+    <string name="transaction_deleted">লেনদেন মুছে ফেলা হয়েছে</string>
+    <string name="account_deleted">অ্যাকাউন্ট মুছে ফেলা হয়েছে</string>
+    <string name="budget_deleted">বাজেট মুছে ফেলা হয়েছে</string>
+    <string name="dialog_export_applied_to_filter">শুধুমাত্র বর্তমান ফিল্টারে মিলে যাওয়া লেনদেনগুলি বিবেচনা করা হবে।</string>
+    <string name="export_handle_deleted_create_helper">সহায়ক লেনদেন তৈরি করুন</string>
+    <string name="export_handle_deleted_update_balance">ওপেনিং ব্যালেন্স আপডেট করুন</string>
+    <string name="file_name">ফাইলের নাম</string>
+    <string name="folder_name">ফোল্ডারের নাম</string>
+    <string name="mark_void_instead_of_delete">লেনদেন না মুছে, বাতিল অ্যাকাউন্টে চিহ্নিত করুন।</string>
+    <string name="menu_undelete_transaction">মুছে ফেলা বাতিল করুন</string>
+    <string name="slash_forbidden_in_filename">/ অক্ষরটি ফাইল নামে অনুমোদিত নয়</string>
+    <string name="io_error_unable_to_create_file">%2$s ফোল্ডারে %1$s ফাইল তৈরি করা যায়নি</string>
+    <!-- %s is replaced with format (QIF, JSON, CSV) - This represents the concept of "Export", not the action of exporting  -->
+    <string name="export_to_format">%s এ এক্সপোর্ট করুন</string>
+    <string name="pref_csv_import_delimiter">বিভাজক</string>
+    <string name="menu_parse">পার্স করুন</string>
+    <string name="csv_import_field_mapped_more_than_once">%s একাধিকবার ম্যাপ করা হয়েছে।</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d রেকর্ড বাতিল করা হয়েছে।</string>
+    <string name="csv_import_subcategory_requires_category">আপনি যদি সাব-ক্যাটাগরি ম্যাপ করেন, তাহলে আপনাকে অবশ্যই ক্যাটাগরিও ম্যাপ করতে হবে।</string>
+    <string name="cvs_import_set_first_line_as_header">প্রথম লাইনটি হেডার লাইন বিবেচনা করা উচিত?</string>
+    <string name="csv_import_no_mapping_found_for_amount">অনুগ্রহ করে একটি কলাম আয়-ব্যয় বা পরিমাণের সাথে ম্যাপ করুন।</string>
+    <string name="menu_show_transactions">লেনদেন দেখুন</string>
+    <string name="pref_custom_decimal_format_title">সংখ্যার ফরম্যাট</string>
+    <string name="pref_custom_decimal_format_summary">যদি আপনি আপনার ডিফল্ট locale ফরম্যাটে সন্তুষ্ট না হন, তাহলে এটি আপনার প্রয়োজন অনুযায়ী পরিবর্তন করুন। ডিফল্ট ফরম্যাট পুনরুদ্ধার করতে খালি রাখুন।</string>
+    <string name="pref_auto_backup_title">অটোমেটিক ব্যাকআপ</string>
+    <string name="pref_auto_backup_summary">নির্দিষ্ট সময়ে প্রতিদিন ডাটাবেস ব্যাকআপ করুন (শুধুমাত্র যদি ডাটা পরিবর্তিত হয়)।</string>
+    <string name="pref_auto_backup_time_title">অটোমেটিক ব্যাকআপের সময়</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> ভবিষ্যত এবং পুনরাবৃত্তি লেনদেনের জন্য প্লান তৈরি করতে আপনার ক্যালেন্ডার অ্যাক্সেস করার অনুমতি প্রয়োজন।</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">অ্যাক্সেস দিন</string>
+    <string name="menu_move">সরান</string>
+    <string name="dialog_title_select_target">টার্গেট নির্বাচন করুন</string>
+    <string name="transform_subcategory_to_main">মূল ক্যাটাগরিে রূপান্তর করুন</string>
+    <string name="preferences_week_start_day_title">সপ্তাহ শুরু হয়</string>
+    <string name="preferences_month_start_date_title">মাস শুরু হয়</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">গ্রুপর্ড সময়কাল</string>
+    <string name="exchange_rate">বিনিময় হার</string>
+    <string name="date_format_hour">ঘন্টা</string>
+    <string name="date_format_minute">মিনিট</string>
+    <string name="pref_sort_order_last_used">সর্বশেষ ব্যবহৃত</string>
+    <string name="pref_sort_order_custom">কাস্টম</string>
+    <string name="content_description_calculator">ক্যালকুলেটর</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">খোলা</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">বাতিল করা হয়েছে</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">অ্যাপ্লাই করা হয়েছে</string>
+    <string name="progress_dialog_updating_split_parts">স্প্লিট পার্ট আপডেট করা হচ্ছে</string>
+    <string name="warning_cannot_move_split_transaction">এই স্প্লিট লেনদেনটি %1$s অ্যাকাউন্টে সরানো যাবে না কারণ এমন ট্রান্সফার পার্ট আছে যা এই অ্যাকাউন্টকে উল্লেখ করে।</string>
+    <string name="content_description_calculator_delete_button">শেষ সংখ্যা মুছুন</string>
+    <string name="paypal_callback_info">আপনার লেনদেন সম্পন্ন হয়েছে, এবং আপনাকে একটি রসিদ ইমেল করা হয়েছে। আপনি এই লেনদেনের বিবরণ দেখতে www.paypal.com এ আপনার অ্যাকাউন্টে লগইন করতে পারেন।</string>
+    <string name="search_transfer">ট্রান্সফার সার্চ করুন</string>
+    <string name="search_account">অ্যাকাউন্টে সার্চ করুন</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">পরবর্তী ঘটনা</string>
+    <string name="crash_dialog_title">{app_name} ক্র্যাশ করেছে</string>
+    <string name="crash_dialog_text">অপ্রত্যাশিত ত্রুটি ঘটেছে যা অ্যাপ্লিকেশনকে বন্ধ করেছে। অনুগ্রহ করে ত্রুটির তথ্য পাঠিয়ে আমাদের এটি সমাধান করতে সাহায্য করুন, আপনাকে শুধুমাত্র ঠিক আছে ক্লিক করতে হবে।</string>
+    <string name="crash_dialog_comment_prompt">আপনি নিচে সমস্যা সম্পর্কে আপনার মন্তব্য যোগ করতে পারেন:</string>
+    <string name="synchronization">সিঙ্ক্রোনাইজেশন</string>
+    <string name="synchronization_none">কোন সিঙ্ক্রোনাইজেশন নেই</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">অনুগ্রহ করে আপনার WebDAV সার্ভারে একটি বিশেষ ফোল্ডারের URL লিখুন। {app_name} এই ফোল্ডারের মধ্যে তার ডাটা সেভ করবে, এটি এর বাইরে কিছু স্পর্শ করবে না।</string>
+    <string name="description_webdav_trust_certificate">ওয়েবসাইটটি এমন একটি সার্টিফিকেট ব্যবহার করে, যা অ্যান্ড্রয়েড দ্বারা ট্রাসটেড নয়।</string>
+    <string name="label_trust_certificate">এই সার্টিফিকেটকে ট্রাস্ট করুন</string>
+    <string name="no_sync_backends">কোন সিঙ্ক্রোনাইজেশন ব্যাকএন্ড নেই</string>
+    <string name="menu_create_sync_backend">নতুন সিঙ্ক্রোনাইজেশন ব্যাকএন্ড</string>
+    <string name="validate_error_not_empty">খালি রাখা যাবে না</string>
+    <string name="validate_error_webdav_invalid_certificate">সার্টিফিকেট ট্রাস্ট করা যায়নি। এটি ইনভ্যালিড বলে মনে হচ্ছে।</string>
+    <string name="validate_error_webdav_not_compliant">URL টি একটি WebDAV সংস্থানকে নির্দেশ করে না।</string>
+    <string name="validate_error_webdav_404">URL টি সার্ভারে বিদ্যমান নেই।</string>
+    <string name="url_not_valid">URL ভ্যালিড নয়</string>
+    <string name="menu_sync_unlink">সিঙ্ক বন্ধ করুন</string>
+    <string name="menu_sync_link">সিঙ্ক শুরু করুন</string>
+    <string name="menu_sync_download">ডাউনলোড এবং সিঙ্ক করুন</string>
+    <string name="pref_sync_frequency_summary">কত ঘন ঘন ডাটা সিঙ্ক্রোনাইজ করা উচিত (ঘন্টায়)।</string>
+    <string name="pref_sync_frequency_summary_0">অটোমেটিক সিঙ্ক বন্ধ করতে 0 তে সেট করুন।</string>
+    <string name="dialog_confirm_sync_unlink">আপনি যদি এই অ্যাকাউন্টটিকে %s থেকে আনলিংক করেন, তাহলে সিঙ্ক্রোনাইজেশন স্টেটাস হারিয়ে যাবে। পরে পুনরায় লিংক করার সময় পূর্ণ সিঙ্ক্রোনাইজেশন আবার চালানো হবে।</string>
+    <string name="dialog_sync_link">uuid %s সহ একটি অ্যাকাউন্ট লোকাল ডাটাবেস এবং ব্যাকএন্ড উভয়ের মধ্যেই বিদ্যমান। যখন আপনি উভয়কে লিংক করেন, তখন আপনাকে সিদ্ধান্ত নিতে হবে, যে প্রাথমিকভাবে, আপনি লোকাল ডাটা ব্যাকএন্ডে আপলোড করতে চান নাকি ডাটা লোকাল ডাটাবেসে ডাউনলোড করতে চান।</string>
+    <string name="dialog_command_sync_link_remote">রিমোট থেকে ডাউনলোড করুন</string>
+    <string name="dialog_command_sync_link_local">লোকালথেকে আপলোড করুন</string>
+    <string name="dialog_synced_to_other">uuid %s সহ একটি অ্যাকাউন্ট ইতিমধ্যে লোকালডাটাবেসে বিদ্যমান এবং একটি ভিন্ন রিমোট ব্যাকএন্ডের সাথে লিঙ্ক করা আছে।</string>
+    <string name="dialog_confirm_sync_remove_backend">রিমোট ব্যাকএন্ড %s সরানো হবে। এটি লোকাল বা রিমোট সেভ ডাটাকে প্রভাবিত করবে না, কিন্তু সিঙ্ক্রোনাইজেশন স্টেটাস হারিয়ে যাবে।</string>
+    <string name="dialog_confirm_sync_link_local">এই অ্যাকাউন্টের রিমোট ডাটা মুছে ফেলা হবে। নিশ্চিত করুন যে অন্য কোন ডিভাইস এর সাথে লিঙ্ক করা নেই।</string>
+    <string name="dialog_confirm_sync_link_remote">এই অ্যাকাউন্টের লোকালডাটা মুছে ফেলা হবে।</string>
+    <string name="warning_trial_limit_reached">%s ফিচার পরীক্ষার সময়কাল শেষ হয়েছে।</string>
+    <string name="warning_synchronization_folder_usage">এই ফোল্ডারটি বিভিন্ন ডিভাইসে {app_name} ইনস্টলেশনের মধ্যে ডাটা সিঙ্ক্রোনাইজ করার জন্য ব্যবহৃত হয়। অনুগ্রহ করে এর কোনও সামগ্রী ম্যানুয়ালি পরিবর্তন করবেন না।</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">আপনি যে ফোল্ডার নির্বাচন করেছেন তা একটি বিদ্যমান ব্যাকএন্ডের একটি অ্যাকাউন্টের সাথে সম্পর্কিত। এই ব্যাকএন্ড পুনরায় ব্যবহার করতে আপনাকে এর প্যারেন্ট ফোল্ডার নির্বাচন করতে হবে।</string>
+    <string name="link_account_failure_2">একই uuid সহ একটি অ্যাকাউন্ট ইতিমধ্যে রিমোট ব্যাকএন্ডে বিদ্যমান।</string>
+    <string name="link_account_failure_3">এন্ট্রির কন্টেক্সট মেনু থেকে দ্বন্দ্ব ম্যানুয়ালি সমাধান করা যেতে পারে।</string>
+    <string name="progress_dialog_checking_sync_backend">ব্যাকএন্ড যাচাই করছে</string>
+    <string name="template">টেমপ্লেট</string>
+    <string name="all_contrib_key_features">অবদান কীর সমস্ত ফিচার</string>
+    <string name="all_extended_key_features">এক্সটেন্ডেড কীর সমস্ত ফিচার</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="buy">কিনুন</string>
+    <string name="pref_backup_cloud_summary">ডিভাইসে লোকালস্টোরেজের পাশাপাশি, ব্যাকআপ ফাইল রিমোট ব্যাকএন্ডে কপি করা যেতে পারে।</string>
+    <string name="auto_backup_cloud_success">ব্যাকআপ ফাইল %1$s সফলভাবে ব্যাকএন্ড %2$s এ সেভ করা হয়েছে।</string>
+    <string name="number_of_fraction_digits">ভগ্নাংশ অঙ্কের সংখ্যা</string>
+    <string name="warning_auto_backup_deactivated">অটোমেটিক ব্যাকআপ বন্ধ করা হয়েছে। সমস্যা সমাধান করার পর (যেমন ব্যাকআপের জন্য একটি ভিন্ন ফোল্ডার নির্বাচন করে) আপনি সেটিংস থেকে এটি আবার চালু করতে পারেন।</string>
+    <string name="pref_tracking_summary">আমাদেরকে ব্যবহারের ধরন সম্পর্কে বেনামী ডাটা সংগ্রহ করতে দিন যা উন্নতি প্লান করতে সাহায্য করে।</string>
+    <string name="pref_tracking_title">ব্যবহার ডাটা সংগ্রহ</string>
+    <string name="sync_database_error">সিঙ্ক্রোনাইজেশনের সময় একটি ডাটাবেস ত্রুটি ঘটেছে।</string>
+    <string name="sync_io_error_cannot_connect">সিঙ্ক্রোনাইজেশন ব্যাকএন্ডের সাথে সংযোগ করতে পারছে না।</string>
+    <string name="sync_error_will_try_again_later">পরে আবার চেষ্টা করবে।</string>
+    <string name="sync_io_exception_reset_account_data">রিমোট অ্যাকাউন্ট রিসেট করার সময় ত্রুটি।</string>
+    <string name="sync_success_reset_account_data">অ্যাকাউন্ট %s এর রিমোট ডাটা মুছে ফেলা হয়েছে।</string>
+    <string name="sync_io_exception_setup_remote_account">রিমোট অ্যাকাউন্ট সেট আপ করার সময় ত্রুটি।</string>
+    <string name="sync_io_exception_syncing">সার্ভারের সাথে পরিবর্তন সিঙ্ক করার সময় ত্রুটি।</string>
+    <string name="sync_io_exception_unlocking">রিমোট ব্যাকএন্ড থেকে লক সরানোর সময় ত্রুটি।</string>
+    <string name="sync_io_exception_locking">রিমোট ব্যাকএন্ড লক করা হয়েছে বা লক করা যাবে না।</string>
+    <string name="synchronization_start">অ্যাকাউন্ট %s এর জন্য সিঙ্ক্রোনাইজেশন শুরু করছে।</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d রিমোট পরিবর্তন লোকালডাটাবেসে লেখা হয়েছে। %2$d লোকালপরিবর্তন রিমোট ব্যাকএন্ডে লেখা হয়েছে।</string>
+    <string name="synchronization_end_success_none">সিঙ্ক্রোনাইজ করার জন্য কোন পরিবর্তন নেই।</string>
+    <string name="pref_webdav_timeout_title">WebDAV টাইমআউট (সেকেন্ডে)</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">%d অ্যাকাউন্টের জন্য সিঙ্ক স্টেট পুনরুদ্ধার করা হয়েছে।</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">%d অ্যাকাউন্টের জন্য সিঙ্ক স্টেট পুনরুদ্ধার করা যায়নি।</string>
+    <string name="onboarding_ui_title">{app_name} আপনার পছন্দের সাথে মানিয়ে নেয়</string>
+    <string name="onboarding_data_title">আপনার প্রথম অ্যাকাউন্ট সেট আপ করা যাক</string>
+    <string name="onboarding_restore_from_cloud">ক্লাউড সিঙ্ক্রোনাইজেশন থেকে পুনরুদ্ধার করুন</string>
+    <string name="onboarding_restore_from_local">লোকালব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
+    <string name="contributed_by">অবদান করেছেন %s</string>
+    <string name="pref_sync_notification_summary">সিঙ্ক্রোনাইজেশন অগ্রগতি সম্পর্কে অবহিত করুন</string>
+    <string name="pref_debug_logging_summary">ডিবাগিং তথ্য সিস্টেম লগে লিখুন</string>
+    <string name="plan_custom_recurrence_info">অনুগ্রহ করে প্রথমে টেমপ্লেট সেভ করুন। তারপর প্লানটি ক্যালেন্ডার অ্যাপে খোলা হবে, যেখানে আপনি একটি কাস্টম পুনরাবৃত্তি সেট করতে পারেন।</string>
+    <string name="menu_create_template_for_split">নতুন স্প্লিট টেমপ্লেট</string>
+    <string name="progress_validating_licence">লাইসেন্স যাচাই করা হচ্ছে</string>
+    <string name="licence_validation_error_expired">লাইসেন্স মেয়াদ উত্তীর্ণ হয়েছে</string>
+    <string name="licence_validation_error_device_limit_exceeded">ডিভাইস সীমা ছাড়িয়েছে। অনুগ্রহ করে অন্য ডিভাইস থেকে লাইসেন্স সরান।</string>
+    <string name="button_validate">যাচাই করুন</string>
+    <string name="licence_key">লাইসেন্স কী</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">যদি আপনার এই ডিভাইসে প্রিমিয়াম ফাংশনালিটি আর প্রয়োজন না হয়, আপনি লাইসেন্স কী সরাতে পারেন। এটি আরও একটি অন্য ডিভাইসে চালুকরণের জন্য কী মুক্ত করে। কী সর্বাধিক %d ডিভাইসে চালু করা যেতে পারে।</string>
+    <string name="progress_removing_licence">লাইসেন্স সরাচ্ছে</string>
+    <string name="licence_removal_success">লাইসেন্স কী সফলভাবে এই ডিভাইস থেকে মুক্ত করা হয়েছে।</string>
+    <string name="professional_key">প্রফেশনাল কী</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d মাস</string>
+    <string name="eu_vat_info">ইউরোপীয় ইউনিয়নের বাসিন্দাদের জন্য প্রদর্শিত মূল্যে ভ্যাট অন্তর্ভুক্ত নয়।</string>
+    <string name="valid_until">%s পর্যন্ত</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">%2$s এর বিনিময়ে %1$s পর্যন্ত বাড়ান</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">যারা ইতিমধ্যে এক্সটেন্ডেড লাইসেন্সের মালিক তাদেরকে একবার অতিরিক্ত %d মাস মঞ্জুর করা হয়</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">বার্ষিক সাবস্ক্রিপশনে পরিবর্তন করুন</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">মাসিক সাবস্ক্রিপশনে পরিবর্তন করুন</string>
+    <string name="extend_validity">বৈধতা বাড়ান</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">রিমোট ব্যাকএন্ড থেকে ডাটা আনা হচ্ছে। এতে কিছু সময় লাগতে পারে।</string>
+    <string name="donate_button_invoice">চালান</string>
+    <string name="auto_fill_account_from_aggregate_only">শুধুমাত্র যখন সমষ্টিগত অ্যাকাউন্ট থেকে শুরু করা হয়।</string>
+    <string name="sync_auth_exception">অনুমোদন ব্যর্থ হয়েছে।</string>
+    <string name="sync_login_again">অনুগ্রহ করে আবার লগ ইন করুন।</string>
+    <plurals name="delete_success">
+    <item quantity="one">একটি অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
+    <item quantity="other">%d অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
+    </plurals>
+    <string name="feature_deprecated">বাতিল</string>
+    <string name="pref_protection_device_lock_screen_title">ডিভাইস লক স্ক্রিন</string>
+    <string name="pref_warning_only_one_protection">%2$s দ্বারা প্রটেকশন বন্ধ করার আগে আপনি %1$s দ্বারা প্রটেকশন ব্যবহার করতে পারবেন না।</string>
+    <string name="warning_device_lock_screen_not_set_up_1">সুরক্ষিত ডিভাইস লক স্ক্রিন সেট আপ করা হয়নি।</string>
+    <!-- %s is replaced with path to setup screen lock in device settings -->
+    <string name="warning_device_lock_screen_not_set_up_2">লক স্ক্রিন সেট আপ করতে %s এ যান।</string>
+    <string name="menu_history_show_balance">ব্যালেন্স দেখান</string>
+    <string name="menu_history_transfers">ট্রান্সফার অন্তর্ভুক্ত করুন</string>
+    <string name="menu_history">ইতিহাস</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">ব্যয়</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">আয়</string>
+    <string name="menu_history_totals">মোট দেখান</string>
+    <string name="pref_home_currency_title">হোম মুদ্রা</string>
+    <string name="grand_total">সর্বমোট</string>
+    <string name="menu_original_amount">মূল পরিমাণ</string>
+    <string name="menu_equivalent_amount">সমতুল্য পরিমাণ</string>
+    <string name="warning_split_transactions">নির্বাচিত লেনদেনগুলি একটি স্প্লিট লেনদেনে গ্রুপ করা হবে। তাদের তারিখ তথ্য হারিয়ে যাবে, অর্থাৎ তাদের গড় দ্বারা প্রতিস্থাপিত হবে।</string>
+    <string name="warning_ungroup_split_transactions">নির্বাচিত স্প্লিট লেনদেনগুলি আনগ্রুপ করা হবে, অর্থাৎ তাদের স্প্লিট পার্টগুলি সাধারণ লেনদেনে পরিণত হবে।</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">স্প্লিট আনগ্রুপ করুন</string>
+    <string name="ungroup_split_transaction_success">স্প্লিট লেনদেন সফলভাবে আনগ্রুপ করা হয়েছে।</string>
+    <string name="split_transaction_one_success">লেনদেন সফলভাবে স্প্লিটে রূপান্তরিত হয়েছে।</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d লেনদেন সফলভাবে একটি স্প্লিট লেনদেনে গ্রুপ করা হয়েছে।</string>
+    <string name="split_transaction_not_possible">শুধুমাত্র সেই লেনদেনগুলি যাদের একই অ্যাকাউন্ট, প্রাপক, এবং অবস্থা আছে সেগুলিকে একটি স্প্লিট লেনদেনে গ্রুপ করা যেতে পারে।</string>
+    <string name="pref_transaction_time_summary">সঠিক লেনদেন সময় সেট করতে অনুমতি দিন।</string>
+    <string name="pref_value_date_summary">বুকিং তারিখের পাশাপাশি মূল্য তারিখ সেট করতে অনুমতি দিন। লেনদেন সময় লুকানো হবে। এই সেটিং নগদ অ্যাকাউন্টে প্রযোজ্য নয়।</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">বুকিং তারিখ</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">মূল্য তারিখ</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">আপনার প্রফেশনাল কী %d দিনের মধ্যে মেয়াদ উত্তীর্ণ হবে।</string>
+    <string name="licence_expires_tomorrow">আপনার প্রফেশনাল কী আগামীকাল মেয়াদ উত্তীর্ণ হবে।</string>
+    <string name="licence_expires_today">আপনার প্রফেশনাল কী আজ মেয়াদ উত্তীর্ণ হবে।</string>
+    <string name="licence_expired_yesterday">আপনার প্রফেশনাল কী গতকাল মেয়াদ উত্তীর্ণ হয়েছে।</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">আপনার প্রফেশনাল কী %d দিন আগে মেয়াদ উত্তীর্ণ হয়েছে।</string>
+    <string name="gdpr_consent_button_no">বিজ্ঞাপন-মুক্ত ভার্সনের জন্য অর্থ প্রদান করুন</string>
+    <string name="sort_order">সাজানোর ক্রম</string>
+    <string name="navigation_drawer_accounts_title">অ্যাকাউন্ট পরিচালনা করুন</string>
+    <string name="pref_sync_wifi_only_summary">শুধুমাত্র ওয়াই-ফাই সংযোগ থাকলে সিঙ্ক করুন</string>
+    <string name="pref_sync_changes_immediately_summary">লোকালপরিবর্তন অবিলম্বে ব্যাকএন্ডে লিখুন</string>
+    <string name="synchronization_postponed">সিঙ্ক্রোনাইজেশন স্থগিত করা হয়েছে।</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">অনুবাদ</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">টার্গেট / সীমা</string>
+    <string name="saving_goal">সঞ্চয়ের টার্গেট</string>
+    <string name="credit_limit">ক্রেডিট সীমা</string>
+    <string name="clear_all_filters">সব ফিল্টার পরিষ্কার করুন</string>
+    <string name="pref_scroll_to_current_date_title">লেনদেন তালিকাকে বর্তমান তারিখে স্ক্রোল করুন</string>
+    <string name="pref_scroll_to_current_date_app_launch">শুধুমাত্র যখন অ্যাপ চালু হয়</string>
+    <string name="pref_scroll_to_current_date_account_open">প্রতিবার যখন আপনি অ্যাকাউন্টে নেভিগেট করেন</string>
+    <string name="menu_budget">বাজেট</string>
+    <string name="dialog_title_edit_budget">বাজেট এডিট করুন</string>
+    <string name="budget_table_header_budgeted">বাজেট করা</string>
+    <string name="budget_table_header_allocated">বরাদ্দ</string>
+    <string name="budget_table_header_spent">ব্যয় করা</string>
+    <string name="budget_table_header_overspent">অতিরিক্ত ব্যয় করা</string>
+    <string name="budget_allocated_amount">বরাদ্দকৃত পরিমাণ</string>
+    <string name="budget_exceeded_error_1_1">আপনার বাজেটের সবকিছু বাদে %s অন্য ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
+    <string name="budget_exceeded_error_1_2">আপনার সমস্ত বাজেট অন্য ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
+    <string name="budget_exceeded_error_2">বাজেটের পরিমাণ বাড়ান, অথবা অন্য ক্যাটাগরি থেকে অর্থ সরান।</string>
+    <string name="budget_under_allocated_error">%s ইতিমধ্যে ক্যাটাগরিে বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ বাজেট করতে হবে।</string>
+    <string name="sub_budget_exceeded_error_1_1">মূল ক্যাটাগরিে বরাদ্দকৃত পরিমাণের সবকিছু বাদে %s অন্য সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
+    <string name="sub_budget_exceeded_error_1_2">মূল ক্যাটাগরিে বরাদ্দকৃত সমস্ত পরিমাণ অন্য সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
+    <string name="sub_budget_exceeded_error_2">মূল ক্যাটাগরিে বরাদ্দকৃত পরিমাণ বাড়ান, অথবা অন্য সাব-ক্যাটাগরি থেকে অর্থ সরান।</string>
+    <string name="sub_budget_under_allocated_error">%s ইতিমধ্যে সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ মূল ক্যাটাগরিে বরাদ্দ করতে হবে।</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">মেথড ক্লিয়ার করুন</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">ক্যাটাগরি ক্লিয়ার করুন</string>
+    <!-- Description for button that allows to remove icon from a payment method -->
+    <string name="content_description_remove_icon">আইকন সরান</string>
+    <string name="currency_code">কোড</string>
+    <string name="dialog_title_new_currency">নতুন মুদ্রা</string>
+    <string name="currency_code_already_definded">মুদ্রা কোড ইতিমধ্যে সংজ্ঞায়িত।</string>
+    <string name="currency_still_used">মুদ্রা ব্যবহৃত হচ্ছে, মোছা যাবে না।</string>
+    <string name="unmapped">ম্যাপ করা নেই</string>
+    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+        to search for transactions without category, payee or method. The UI allows selection of multiple items,
+        but we warn the user if he includes this special item in the selection.   -->
+    <string name="unmapped_filter_only_single">\'ম্যাপ করা নেই\' ফিল্টার একাধিক নির্বাচনে অন্তর্ভুক্ত করা যাবে না</string>
+    <string name="pref_security_export_passphrase_title">ব্যাকআপের জন্য পাসফ্রেজ</string>
+    <string name="pref_security_export_passphrase_summary">ব্যাকআপগুলি এই পাসফ্রেজ দিয়ে এনক্রিপ্ট করা হবে</string>
+    <string name="backup_is_encrypted">ব্যাকআপ ফাইল এনক্রিপ্ট করা আছে। এটি ডিক্রিপ্ট করতে, আপনাকে এর পাসফ্রেজ উল্লেখ করতে হবে।</string>
+    <string name="backup_wrong_password">ব্যাকআপ ফাইল একটি ভিন্ন পাসফ্রেজ দিয়ে এনক্রিপ্ট করা হয়েছে বলে মনে হচ্ছে।</string>
+    <string name="passphrase_for_synchronization">যদি আপনি চান যে এই ব্যাকএন্ডে সিঙ্ক্রোনাইজেশন ডাটা এনক্রিপ্ট করা হোক, তাহলে একটি পাসফ্রেজ লিখুন।</string>
+    <string name="sync_backend_is_encrypted">রিমোট ব্যাকএন্ড এনক্রিপ্ট করা আছে। আপনাকে একটি পাসফ্রেজ উল্লেখ করতে হবে।</string>
+    <string name="sync_backend_wrong_passphrase">রিমোট ব্যাকএন্ড একটি ভিন্ন পাসফ্রেজ দিয়ে এনক্রিপ্ট করা হয়েছে বলে মনে হচ্ছে।</string>
+    <string name="sync_backend_is_not_encrypted">রিমোট ব্যাকএন্ড এনক্রিপ্ট করা নেই।</string>
+    <string name="warning_backup_protected">আর্কাইভটি আপনার পাসফ্রেজ দ্বারা সুরক্ষিত থাকবে।</string>
+    <string name="input_label_passphrase">পাসফ্রেজ</string>
+    <string name="button_label_no_encryption">এনক্রিপশন ছাড়া</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">বা</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">বন্ধ করুন</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">পুনরায় খুলুন</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">লুকানো অ্যাকাউন্টসমূহ</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">বন্ধ</string>
+    <string name="warning_synced_account_cannot_be_closed">একটি অ্যাকাউন্ট যা একটি সিঙ্ক্রোনাইজেশন ব্যাকএন্ডের সাথে লিঙ্ক করা আছে তা বন্ধ করা যাবে না</string>
+    <string name="translated_by">অনুবাদ করেছেন</string>
+    <string name="warning_no_account">নতুন লেনদেন তৈরি করতে অন্তত একটি অ্যাকাউন্ট দৃশ্যমান এবং খোলা থাকতে হবে।</string>
+    <string name="content_description_dates_are_linked">বুকিং তারিখ এবং মূল্য তারিখ একসাথে আপডেট করা হয়</string>
+    <string name="content_description_dates_are_not_linked">বুকিং তারিখ এবং মূল্য তারিখ একসাথে আপডেট করা হয় না</string>
+    <string name="roadmap_vote">রোডম্যাপ ভোট</string>
+    <string name="warning_account_for_transaction_is_closed">নির্বাচিত লেনদেনগুলির মধ্যে অন্তত একটি এডিট করা যাবে না:</string>
+    <string name="object_sealed">অবজেক্ট একটি বন্ধ অ্যাকাউন্টকে উল্লেখ করে।</string>
+    <string name="content_description_download_exchange_rate">বিনিময় হার ডাউনলোড করুন</string>
+    <string name="exchange_rate_not_supported">কনফিগার করা বিনিময় হার প্রদানকারী %1$s : %2$s হার সরবরাহ করে না। আপনি সেটিংসে একটি ভিন্ন হার নির্বাচন করতে পারেন।</string>
+    <string name="pref_category_exchange_rates">বিনিময় হার</string>
+    <string name="pref_exchange_rate_provider_summary">বিনিময় হার ডাউনলোড করার জন্য প্রদানকারী নির্বাচন করুন</string>
+    <string name="pref_exchange_rate_provider_title">বিনিময় হার প্রদানকারী</string>
+    <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
+    <string name="pref_exchange_rates_api_key_summary">অনুগ্রহ করে %s এ একটি বিনামূল্যে অ্যাকাউন্ট নিবন্ধন করুন এবং আপনার অ্যাপ আইডি প্রদান করুন</string>
+    <string name="pref_plan_executor_time_title">প্লানার বিজ্ঞপ্তি সময়</string>
+    <string name="synchronization_select_folder_dialog_title">একটি বিদ্যমান ফোল্ডার নির্বাচন করুন বা একটি নতুন তৈরি করুন</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">আয় রেকর্ড করতে এই সুইচ বাটন ব্যবহার করুন।</string>
+    <string name="menu_create_budget">নতুন বাজেট</string>
+    <string name="budget_onetime">একবার</string>
+    <string name="no_budgets">+ বাটনে ট্যাপ করে আপনার প্রথম বাজেট সংজ্ঞায়িত করুন।</string>
+    <string name="budget_date_end_after_start">বাজেটের শেষ তারিখ অবশ্যই শুরুর তারিখের পরে আসতে হবে।</string>
+    <string name="menu_budget_allocated_only">শুধুমাত্র বরাদ্দ সহ ক্যাটাগরি দেখান</string>
+    <string name="budget_filter_all_categories">সব ক্যাটাগরি</string>
+    <string name="budget_filter_all_parties">সব পার্টি</string>
+    <string name="budget_filter_all_methods">সব মেথড</string>
+    <string name="budget_filter_all_states">সব অবস্থা</string>
+    <string name="budget_filter_all_tags">সব ট্যাগ</string>
+    <string name="budget_filter_all_accounts">সব অ্যাকাউন্ট</string>
+    <string name="dialog_title_warning_delete_budget">বাজেট মুছবেন?</string>
+    <string name="warning_delete_budget">বাজেট \"%1$s\" মুছে ফেলা হবে।</string>
+    <string name="menu_edit_budget">বাজেট এডিট করুন</string>
+    <string name="onboarding_privacy_title">আপনার ডাটা আপনার হাতেই থাকে</string>
+    <string name="onboarding_privacy_intro">আপনার আর্থিক ডাটা কোনও সার্ভারে পাঠানো হয় না, যা আমাদের দ্বারা বা কোনও তৃতীয় পার্টি দ্বারা পরিচালিত হোক না কেন।</string>
+    <string name="app_restart_required">নতুন কনফিগারেশন কার্যকর হতে অ্যাপ পুনরায় চালু করার প্রয়োজন।</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">পুনরায় ম্যাপ করুন</string>
+    <string name="dialog_title_confirm_remap">ম্যাপিং পরিবর্তন করুন (%s)?</string>
+    <string name="remap_category">সমস্ত নির্বাচিত লেনদেন ক্যাটাগরি %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_payee">সমস্ত নির্বাচিত লেনদেন প্রদানকারী/প্রাপক %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_method">সমস্ত নির্বাচিত লেনদেন মেথড %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_account">সমস্ত নির্বাচিত লেনদেন অ্যাকাউন্ট %s এ ম্যাপ করা হবে।</string>
+    <string name="remapping_result">নির্বাচিত লেনদেনগুলি পুনরায় ম্যাপ করা হয়েছে।</string>
+    <string name="clone_and_remap_result">নির্বাচিত লেনদেনগুলি ক্লোন এবং পুনরায় ম্যাপ করা হয়েছে।</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+            because no payment method is configured for all of the given account types.-->
+    <string name="remap_empty_list">এমন কোন আইটেম পাওয়া যায়নি, যা সমস্ত নির্বাচিত লেনদেনে ম্যাপ করা যেতে পারে।</string>
+        <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+        <string name="button_label_clone_and_remap">ক্লোন এবং রিম্যাপ করুন</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">ক্লোন করা লেনদেনের বর্তমান তারিখ আছে</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">ক্লোন করা লেনদেন মূল তারিখ রাখে</string>
+    <string name="tags_create_or_select">ট্যাগ তৈরি বা নির্বাচন করুন</string>
+    <string name="pref_manage_tags_summary">ট্যাগ যোগ করুন, এডিট করুন, মুছুন।</string>
+    <string name="dialog_title_warning_delete_tag">ট্যাগ মুছবেন?</string>
+    <string name="menu_edit_tag">ট্যাগ এডিট করুন</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">ট্যাগ</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">সমস্ত নির্বাচিত লেনদেন %s দিয়ে ট্যাগ করা হবে।</string>
+    <string name="dialog_multi_tag_clear">নির্বাচিত লেনদেন থেকে সমস্ত ট্যাগ সরানো হবে।</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">ট্যাগ %1$s একটি লেনদেনের সাথে মানচিত্রিত করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
+        <item quantity="other">ট্যাগ %1$s %2$d লেনদেনের সাথে মানচিত্রিত করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">বিদ্যমান ট্যাগে নতুন ট্যাগ যোগ করুন</string>
+    <string name="dialog_multi_tag_replace">বিদ্যমান ট্যাগ নতুন ট্যাগ দ্বারা প্রতিস্থাপন করুন</string>
+    <string name="new_tag_hint">নতুন ট্যাগ লিখুন</string>
+    <string name="language_download_requested">ভাষা %s এর জন্য অনুবাদ প্লে স্টোর থেকে অনুরোধ করা হয়েছে</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">ম্যানুয়ালি অ্যাপ্লাই করা নির্ধারিত লেনদেনের জন্য সময়</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">দুপুর ১২টা</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">অ্যাপ্লাইের সময়</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">রসিদ স্ক্যান করুন</string>
+    <string name="feature_download_requested">ফিচার %s প্লে স্টোর থেকে অনুরোধ করা হয়েছে।</string>
+    <string name="feature_downloaded">ফিচার %s ইনস্টল করা হয়েছে।</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">স্ক্যান মোড</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">স্ক্যান</string>
+    <string name="pref_ocr_total_indicators_title">মোট পরিমাণের জন্য সূচক</string>
+    <string name="pref_ocr_total_indicators_summary">একটি রসিদে মোট মূল্য চিহ্নিত করে এমন স্ট্রিংয়ের একটি তালিকা। প্রতিটি মান নতুন লাইনে রাখুন। ডিফল্ট মান পুনরুদ্ধারের জন্য খালি রাখুন।</string>
+    <string name="pref_ocr_date_formats_title">তারিখ ফরম্যাট</string>
+    <string name="pref_ocr_time_formats_title">সময় ফরম্যাট</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">ভবিষ্যত লেনদেনের মানদণ্ড</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">দিনের শেষ</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">বর্তমান সময়</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">ফিচারসমূহ</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
+    <string name="scan_result_multiple_candidates_dialog_title">একাধিক প্রার্থী পাওয়া গেছে। অনুগ্রহ করে নির্বাচন করুন:</string>
+    <string name="scan_result_no_amount">কোন পরিমাণ পাওয়া যায়নি</string>
+    <string name="scan_result_no_date">কোন তারিখ পাওয়া যায়নি</string>
+    <string name="scan_result_no_payee">কোন প্রাপক পাওয়া যায়নি</string>
+    <string name="pref_feature_uninstall_title">ফিচার ও ভাষার আনইনস্টল অনুরোধ করুন</string>
+    <string name="pref_feature_uninstall_summary">প্লে স্টোর ব্যাকগ্রাউন্ডে ওই মডিউলগুলি সরাতে চেষ্টা করবে।</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">অনুগ্রহ করে একটি লাইসেন্স প্যাকেজ নির্বাচন করুন।</string>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">স্থানান্তর, স্প্লিট লেনদেন বা আয়ের ফর্ম সরাসরি খোলার জন্য ভাসমান অ্যাকশন বাটন ট্যাপ করে ধরে রাখুন।</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">অগ্রিম নির্বাহ (দিনে)</string>
+    <string name="warning_balance_account_delete">আপনি যদি এগিয়ে যান, এই অ্যাকাউন্টের সমস্ত মিলিত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং আপনি সেগুলি পুনরুদ্ধার করতে পারবেন না।</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">বিদ্যমান ফর্ম ডেটা বাতিল করা হবে।</string>
+    <string name="pref_clone_with_current_date_title">ক্লোন করা লেনদেনের তারিখ</string>
+    <string name="template_default_action_without_amount_hint">পরিমাণ ছাড়া টেমপ্লেট ডিফল্ট অ্যাকশন 'এডিট' দিয়ে সেভ করা উচিত</string>
+    <string name="plan_automatic_without_amount_hint">পরিমাণ ছাড়া প্লান অটোমেটিক প্লান নির্বাহের সাথে সেভ করা উচিত নয়</string>
+    <string name="content_description_edit_plan">ক্যালেন্ডার অ্যাপে প্লান এডিট করুন</string>
+    <string name="menu_save_and_new_content_description">ডেটা সেভ করুন, একই ডেটা দিয়ে নতুন লেনদেন তৈরি করার জন্য ফর্মটি খোলা রাখুন।</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">টেক্সট স্বীকৃতির জন্য ইঞ্জিন</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">টেসারাক্টের জন্য ভাষা</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">আপনি কি %s এর জন্য টেক্সট স্বীকৃতি ডেটা ডাউনলোড করতে চান?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">ডাউনলোড (%s) সম্পন্ন হয়েছে।</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">%s দিয়ে টেক্সট স্বীকৃতি চালানো হচ্ছে</string>
+    <string name="ocr_download_info">টেক্সট স্বীকৃতি ক্ষমতা একটি বাহ্যিক অ্যাপ্লিকেশন দ্বারা প্রদান করা হয়।</string>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">আপনার ডেটা এই ডিভাইসে অনধিকৃত অ্যাকসেস থেকে সুরক্ষিত থাকলেও, %s কনফিগার না করলে ব্যাকআপগুলি এনক্রিপশন ছাড়াই তৈরি করা হয়।</string>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary">গ্রুপ হেডারে বিস্তারিত যোগফল দেখান</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">নতুন ব্যালেন্স</string>
+    <string name="title_webui">ওয়েব ইউজার ইন্টারফেস</string>
+    <string name="single_feature_info">বিকল্পভাবে আপনি শুধুমাত্র এই ফিচারের জন্য অসীমিত অ্যাকসেস কিনতে পারেন।</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">শেষ দিন</string>
+    <string name="warning_link_transfer">নির্বাচিত দুটি লেনদেন স্থানান্তর অ্যাকাউন্টে লিঙ্ক করা হবে। প্রাপক/প্রদানকারী এবং ক্যাটাগরি সম্পর্কিত তথ্য বাদ দেওয়া হবে।</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">প্রদর্শিত যোগফলের ধরন</string>
+    <string name="account_widget_configuration_sum_total">ভবিষ্যত লেনদেন অন্তর্ভুক্ত করুন</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">অ্যাকাউন্ট উইজেট কনফিগারেশন</string>
+    <!-- Title of dialogue that allows to configure budget widget -->
+    <string name="budget_widget_configuration">বাজেট নির্বাচন করুন</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">একত্রিত পার্টির নাম নির্বাচন করুন</string>
+    <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
+    <string name="active_tags">চালু ট্যাগ</string>
+    <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
+    <string name="request_for_invoice">ইনভয়েসের জন্য অনুরোধ</string>
+    <!-- Enables Focus on the Payee field for Auto fill -->
+    <string name="auto_fill_focus">প্রাপককে ফোকাস সেট করুন</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+    where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">নির্বাচিত তারিখের জন্য তৈরি করা লেনদেন মুছে ফেলা হবে।</string>
+    <string name="crash_reports_user_info">{app_name} অ্যাপ্লিকেশন ক্র্যাশ সম্পর্কে প্রতিবেদন অটোমেটিকভাবে ডেভেলপারদের কাছে পাঠাবে, যা তাদের সমস্যা দ্রুত সমাধান করতে সাহায্য করে।</string>
+    <string name="pref_category_title_crash_reports">ক্র্যাশ প্রতিবেদন</string>
+    <string name="pref_enable_acra">ক্র্যাশ প্রতিবেদন অটোমেটিক প্রেরণের অনুমতি দিন</string>
+    <string name="pref_acra_user_email">ক্র্যাশ প্রতিবেদনে অন্তর্ভুক্ত করার জন্য ইউজার ইমেল</string>
+    <string name="pref_acra_user_email_summary">যদি আপনি ডিবাগিংয়ে সাহায্য করতে আগ্রহী হন এবং আমাদের আপনার সাথে যোগাযোগ করার অনুমতি দিতে চান তবে অনুগ্রহ করে আপনার ইমেল ঠিকানা লিখুন।</string>
+    <string name="backup_save_to_sync_backend">%s এ সেভ করুন</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="ui_refinement">ইউজার ইন্টারফেসের পরিমার্জন</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="bug_fixes">বাগ ফিক্স</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="performance_enhancement">কার্যক্ষমতা উন্নতি</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="stability_improvements">স্থিতিশীলতা উন্নতি</string>
+    <string name="new_version">নতুন ভার্সন</string>
+    <string name="menu_new_debt">নতুন ঋণ</string>
+    <string name="debt_owes_me">%s আমার কাছে ঋণী</string>
+    <string name="debt_I_owe">আমি %s এর কাছে ঋণী</string>
+    <!-- Appears in the transaction form as label for the checkbox that allows to link the transaction to a debt  -->
+    <string name="debt">ঋণ</string>
+    <string name="debts">ঋণসমূহ</string>
+    <!-- When user want to delete a party for which debts are defined, we ask for confirmation. -->
+    <string name="warning_party_delete_debt">এই পার্টি মোছার সময়, এর জন্য নির্ধারিত ঋণগুলিও মুছে ফেলা হবে।</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">ঋণ "%1$s" এর %2$d টি ম্যাপ করা লেনদেন আছে।</item>
+        <item quantity="other">ঋণ "%1$s" এর %2$d টি ম্যাপ করা লেনদেন আছে।</item>
+    </plurals>
+    <string name="object_sealed_debt">অবজেক্ট একটি বন্ধ ঋণ সম্পর্কিত।</string>
+    <string name="debt_managment">ঋণ ব্যবস্থাপনা</string>
+    <string name="title_activity_debt_overview">ঋণ ওভারভিউ</string>
+    <!-- Label for a checkbox on the export dialog. If checked, all accounts will be merged into one file -->
+    <string name="cb_label_merge_accounts">অ্যাকাউন্ট একত্রিত করুন</string>
+    <!-- Title of a preference where user can select script for text recognition with MlKit (currently Latin, Chinese, Devanagari, Japanese, Korean) -->
+    <string name="pref_mlkit_script_title">MlKit এর জন্য স্ক্রিপ্ট</string>
+    <!-- When user imports the standard categories, this reports on the number of cases, where the category was already defined, but without icon. -->
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">একটি ক্যাটাগরি আইকন দিয়ে আপডেট করা হয়েছে।</item>
+        <item quantity="other">%1$d ক্যাটাগরিগুলি আইকন দিয়ে আপডেট করা হয়েছে।</item>
+    </plurals>
+    <string name="setup_completed">সেটআপ সম্পন্ন</string>
+    <string name="menu_parent_category_selection">ছোট ট্যাপে প্যারেন্ট ক্যাটাগরি নির্বাচন করুন</string>
+    <string name="dialog_title_purge_backups">পুরানো ব্যাকআপ পার্জ করুন</string>
+    <string name="purge_backups">নিম্নলিখিত পুরানো ব্যাকআপ ফাইলগুলি মুছে ফেলা হবে:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">একটি পুরানো ব্যাকআপ ফাইল পার্জ করা হয়েছে।</item>
+        <item quantity="other">%d পুরানো ব্যাকআপ ফাইল পার্জ করা হয়েছে।</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">একটি পুরানো ব্যাকআপ ফাইল মুছে ফেলা যায়নি।</item>
+        <item quantity="other">%d পুরানো ব্যাকআপ ফাইল মুছে ফেলা যায়নি।</item>
+    </plurals>
+    <!-- This is the title of a preference for the "Purge old backups" feature. If there are more backups found than this number, all but the most recent ones are purged.-->
+    <string name="pref_purge_backup_keep_title">রাখার জন্য সর্বাধিক সাম্প্রতিক ব্যাকআপ ফাইল সংখ্যা</string>
+    <string name="pref_purge_backup_require_confirmation_summary">ফাইল পার্জ করার আগে নিশ্চিতকরণ প্রম্পট দেখান</string>
+    <!-- Summary for an entry on the preference screen that prepares a message with log files attached for debugging purposes.  -->
+    <string name="pref_debug_logging_share_summary">লগ ফাইল শেয়ার করুন</string>
+    <!-- {account} is replaced with account label -->
+    <string name="webui_warning_move_transaction">লেনদেনটি "{account}" অ্যাকাউন্টে সরানো হবে।</string>
+    <string name="pref_csv_export_split_categories_summary">ক্যাটাগরি হায়ারার্কির প্রতিটি স্তরের জন্য পৃথক কলাম ব্যবহার করুন</string>
+    <string name="pref_csv_export_split_amount_summary">আয় এবং ব্যয়ের জন্য পৃথক কলাম ব্যবহার করুন</string>
+    <string name="pref_csv_export_split_date_time_summary">তারিখ এবং সময়ের জন্য পৃথক কলাম ব্যবহার করুন</string>
+    <!-- New feature in version 3.4.4 -->
+    <string name="icons_for_categories">ক্যাটাগরির জন্য আইকন</string>
+    <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
+    <string name="budget_only_current_period">শুধুমাত্র %s এর জন্য সেট করুন</string>
+    <!-- Rollover refers to the rollover of a budget from one period to the next, e.g. for a monthly budget from one month to the next. -->
+    <string name="budget_table_header_rollover">রোলওভার</string>
+    <string name="rollover_edit_invalid">একটি ক্যাটাগরিে বরাদ্দ রোলওভার এবং সাব-ক্যাটাগরিগুলিতে বরাদ্দ রোলওভারের যোগফল অবশিষ্ট পরিমাণ অতিক্রম করতে পারে না।</string>
+    <string name="dialog_confirm_rollover_delete">এই সময়কালের জন্য সমস্ত রোলওভার পরিমাণ মুছে ফেলা হবে।</string>
+    <!-- For icon that represents the fact that an image has been attached to a transaction -->
+    <string name="content_description_attachment">অ্যাট্যাচি</string>
+    <string name="redesign">পুনঃডিজাইন</string>
+    <!-- %s is replaced with the translation of "Select All" -->
+    <string name="select_all_list_too_large">%s কমান্ড উপলব্ধ নয় কারণ তালিকাটি আংশিকভাবে লোড করা হয়েছে। তালিকার আকার কমাতে অনুগ্রহ করে সার্চ ফাংশনালিটি ব্যবহার করুন।</string>
+    <string name="menu_reconfigure">পুনরায় কনফিগার করুন</string>
+    <string name="encrypt_database">ডাটাবেস এনক্রিপ্ট করুন</string>
+    <string name="encrypt_database_info">ডাটাবেস এমন একটি পাসফ্রেজ দিয়ে এনক্রিপ্ট করা হবে যা এই ডিভাইস থেকে বের করা যাবে না। ফলস্বরূপ এটি আপনার ডিভাইসের ব্যাকআপ পরিষেবা দ্বারা ব্যাকআপ করা হবে না।</string>
+    <string name="database_is_encrypted">ডাটাবেস এনক্রিপ্ট করা আছে।</string>
+    <string name="github_sponsors"><![CDATA[লাইসেন্স কী <a href="%s">Github Sponsors</a> দেরও প্রদান করা হয়।]]></string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> এর বিজ্ঞপ্তি পাঠানোর অনুমতি প্রয়োজন, যখন ভবিষ্যত লেনদেন পোস্ট করা হবে।</string>
+    <string name="notifications_permission_required_webui">বিজ্ঞপ্তি পাঠানোর অনুমতি দেওয়ার মাধ্যমে, আপনি ওয়েব সার্ভারের স্থিতি নিয়ন্ত্রণ করতে পারেন।</string>
+    <string name="notifications_permission_required_sync">বিজ্ঞপ্তি পাঠানোর অনুমতি দেওয়ার মাধ্যমে, আপনি সিঙ্ক্রোনাইজেশন অপারেশনের অগ্রগতি মনিটর করতে পারেন।</string>
+    <string name="notifications_permission_required_auto_backup">বিজ্ঞপ্তি পাঠানোর অনুমতি দেওয়ার মাধ্যমে, আপনাকে অটো-ব্যাকআপ সম্পর্কে অবহিত করা হবে।</string>
+    <string name="notifications_channel_required">অনুগ্রহ করে %s চ্যানেল চালু করুন।</string>
+    <!--%s is replaced with the amount. -->
+    <string name="debt_installment_pay">আমি %s কিস্তি পরিশোধ করি।</string>
+    <!--%s is replaced with the amount. -->
+    <string name="debt_installment_receive">আমি %s কিস্তি পাই।</string>
+    <!--%s is replaced with the amount. -->
+    <string name="debt_lend_additional">আমি %s ধার দিই।</string>
+    <!--%s is replaced with the amount. -->
+    <string name="debt_borrow_additional">আমি %s ধার নিই।</string>
+    <!--%s is replaced with the name of the debtor -->
+    <string name="debt_paid_off_other">%s এর ঋণ পরিশোধ করা হয়েছে।</string>
+    <string name="debt_paid_off_self">আমার ঋণ পরিশোধ করা হয়েছে।</string>
+    <!--%s is replaced with the amount. -->
+    <string name="debt_balance_i_owe">আমি এখন %s ঋণী।</string>
+    <!--%1$s is replaced with the name of the debtor. %2$s is replaced with the amount. -->
+    <string name="debt_balance_they_owe">%1$s এখন %2$s ঋণী।</string>
+    <string name="pref_backup_file_prefix_title">ফাইল প্রিফিক্স</string>
+    <string name="optimize_image_file_size">ইমেজ ফাইল সাইজ অপটিমাইজ করুন</string>
+    <string name="maximum_size">সর্বাধিক আকার</string>
+    <string name="image_optimize_quality_summary">০ মানের গুণমান সবচেয়ে ছোট আকারে কম্প্রেস করে। ১০০ মানে সর্বোচ্চ দৃশ্যগত গুণমানের জন্য কম্প্রেস করে।</string>
+    <!-- Label in the launcher's widget selection for adding a shortcut for a single template  -->
+    <string name="template_shortcut">টেমপ্লেট শর্টকাট</string>
+    <!-- Title of the screen where user selects a template as target for a shortcut -->
+    <string name="select_template">টেমপ্লেট নির্বাচন করুন</string>
+    <string name="add_shortcut">শর্টকাট যোগ করুন</string>
+    <string name="orphaned_transaction_info">একটি লেনদেন এই তারিখের প্লানর সাথে লিঙ্ক করা আছে, কিন্তু এই তারিখে কোন ইভেন্ট ইনস্ট্যান্স নেই।</string>
+    <!-- %s is replaced by the date of the event instance this transaction can be relinked with. -->
+    <string name="orphaned_transaction_relink">লেনদেনটি %s তারিখে ইভেন্ট ইনস্ট্যান্সের সাথে পুনরায় লিঙ্ক করা যেতে পারে।</string>
+    <string name="orphaned_transaction_align_date">বিকল্পভাবে লেনদেনে সেভ তারিখটিও ইনস্ট্যান্স তারিখের সাথে সারিবদ্ধ করা যেতে পারে।</string>
+    <string name="button_relink_keep_date">পুনরায় লিঙ্ক করুন, কিন্তু তারিখ রাখুন</string>
+    <string name="button_relink_update_date">পুনরায় লিঙ্ক করুন এবং তারিখ আপডেট করুন</string>
+    <!-- This is an option in the configuration of CSV and QIF imports which means that the account label(s) found in the data will be used to locate account(s) into which transactions are imported  -->
+    <string name="read_from_data">ডেটা থেকে পড়ুন</string>
+    <string name="merge_parties_strategy_delete">ডুপ্লিকেট মুছে ফেলা হয়।</string>
+    <string name="merge_parties_strategy_group">ডুপ্লিকেটগুলি নির্ভরশীল অ্যাকাউন্টে গ্রুপ করা হয়।</string>
+    <string name="show_duplicates">ডুপ্লিকেট দেখান</string>
+    <string name="remove_from_group">গ্রুপ থেকে সরান</string>
+    <string name="pref_attachment_mime_types_title">অ্যাট্যাচির জন্য অনুমোদিত MIME টাইপ</string>
+    <string name="attachments">অ্যাট্যাচিসমূহ</string>
+    <string name="pref_copy_attachments_title">অ্যাট্যাচিগুলি অ্যাপ্লিকেশন ফোল্ডারে কপি করুন</string>
+    <string name="pref_copy_attachments_summary_on">ফাইলগুলি অ্যাপ্লিকেশন ফোল্ডারে কপি করা হয়।</string>
+    <string name="pref_copy_attachments_summary_off">ফাইল কপি করা হয় না, শুধুমাত্র একটি রেফারেন্স সেভ করা হয়।</string>
+    <string name="widget_title_budget">আমার বাজেট</string>
+    <!-- Title of preference which allows to configure how unmapped transactions are counted -->
+    <string name="pref_unmapped_transaction_as_transfer_title">অম্যাপড লেনদেন</string>
+    <!-- This is shown as summary for a preference (if unchecked) which allows to configure how unmapped transactions are counted -->
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">ব্যয় / আয় অ্যাকাউন্টে গণনা করা হয়</string>
+    <!-- This is shown as summary for a preference (if checked) which allows to configure how unmapped transactions are counted -->
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">স্থানান্তর অ্যাকাউন্টে গণনা করা হয়</string>
+    <string name="menu_aggregate_neutral_categories">নিরপেক্ষ ক্যাটাগরিগুলি সমষ্টি করুন</string>
+    <string name="one_time_payment">এককালীন পেমেন্ট</string>
+    <string name="warning_delete_default_transfer_category">ক্যাটাগরি %s ডিফল্ট স্থানান্তর ক্যাটাগরি অ্যাকাউন্টে কনফিগার করা আছে এবং মুছে ফেলা উচিত নয়।</string>
+    <string name="default_transfer_category">ডিফল্ট স্থানান্তর ক্যাটাগরি</string>
+    <string name="contact_us">আমাদের সাথে যোগাযোগ করুন</string>
+    <!-- This is the title of a preference that allows user to decide if amounts should be shown in colors based on the category of the transaction, or on the sign (positive/negative) of the amount -->
+    <string name="pref_transaction_amount_color_source_title">পরিমাণের জন্য রং</string>
+    <!-- This is the summary of a preference that allows user to decide if "Sync now" should only sync the current account, or all accounts linked with the same backend ans the current account. %s will be replaced with quoted translation of "Sync now" -->
+    <string name="pref_sync_now_all_summary">%s একই ব্যাক-এন্ডের জন্য সমস্ত অ্যাকাউন্ট সিঙ্ক করে</string>
+    <!-- This is the label for the action that breaks up a transfer into its parts. -->
+    <string name="menu_unlink_transfer">স্থানান্তর আনলিঙ্ক করুন</string>
+    <string name="warning_unlink_transfer">নির্বাচিত স্থানান্তর আনলিঙ্ক করা হবে: এটি উভয় অ্যাকাউন্টে সাধারণ লেনদেন দ্বারা প্রতিস্থাপিত হবে।</string>
+    <!-- This is the label for the action that creates a transfer from a normal transaction. -->
+    <string name="menu_transform_to_transfer">স্থানান্তরে রূপান্তর করুন</string>
+    <string name="warning_transform_to_transfer">নির্বাচিত লেনদেন %1$s থেকে %2$s তে স্থানান্তর দ্বারা প্রতিস্থাপিত হবে।</string>
+    <string name="remap_date">সমস্ত নির্বাচিত লেনদেনে, তারিখ %s তে সেট করা হবে।</string>
+    <string name="roadmap_intro">২০২৪ রোডম্যাপ ভোট এখন খোলা! আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ ফিচার এবং উন্নতির জন্য ভোট দিন।</string>
+    <string name="merge_categories_dialog_title">ক্যাটাগরি একত্রিত করুন</string>
+    <string name="subcategories_merged_recursively">যদি একত্রিত ক্যাটাগরিগুলির মধ্যে একই লেবেলযুক্ত সাবক্যাটাগরি থাকে, তবে সেগুলি প্রথমে রিকারসিভভাবে একত্রিত করা হবে।</string>
+    <string name="merge_categories_prompt">আপনি যে ক্যাটাগরিটি রাখতে চান তা নির্বাচন করুন</string>
+    <string name="pref_csv_export_category_separator_summary">ক্যাটাগরি হায়ারার্কির স্তর মধ্যে বিভাজক</string>
+    <!-- This message is shown on the Budget Screen, when there are not enough categories with allocated budgets for the selected time period. -->
+    <string name="not_enough_data">পর্যাপ্ত ডেটা নেই</string>
+    <string name="menu_unpack">আনপ্যাক</string>
+    <string name="warning_unarchive">আর্কাইভ আনপ্যাক করা হবে। সব ধারণকৃত লেনদেন তালিকায় পুনরায় ঢোকানো হবে।</string>
+    <!-- This is used in the title of a dialog showing the contents of an existing archive -->
+    <string name="archive">আর্কাইভ</string>
+    <!-- %d will be replaced with the number of transactions -->
+    <string name="warning_delete_archive">এই আর্কাইভে থাকা সমস্ত লেনদেন (%d) মুছে ফেলা হবে।</string>
+    <string name="dialog_title_warning_delete_archive">আর্কাইভ মুছবেন?</string>
+    <!-- %d will be replaced with the number of transactions -->
+    <string name="archive_warning">নির্বাচিত তারিখের পরিসরে সমস্ত লেনদেন (%d) আর্কাইভ করা হবে।</string>
+    <!-- If user selects a date range which already contains an archive, we show this message. -->
+    <string name="warning_nested_archives">নেস্টেড আর্কাইভ সমর্থিত নয়।</string>
+    <!-- If user selects a date range without transactions, there is no reason to create an archive. -->
+    <string name="warning_empty_archive">নির্বাচিত তারিখের পরিসরে কোন লেনদেন নেই।</string>
+    <!-- All transactions being packaged into an archive must have the same statuses (cleared, reconciled, not reconciled, void), in order to create an archive with the same status. -->
+    <string name="warning_archive_inconsistent_state">নির্বাচিত তারিখের পরিসরের লেনদেনগুলির অসঙ্গত স্ট্যাটাস (%s) আছে।</string>
+    <string name="warning_backend_deactivated">ব্যাকেন্ড সিঙ্ক করার জন্য প্রস্তুত নয়।</string>
+    <string name="button_activate_again">আবার চালু করুন</string>
+    <string name="credit_limit_reached">আপনি আপনার ক্রেডিট লিমিট পৌঁছে গেছেন।</string>
+    <string name="saving_goal_reached">আপনি আপনার সঞ্চয় টার্গেট পূরণ করেছেন।</string>
+    <string name="credit_limit_exceeded">আপনি আপনার ক্রেডিট লিমিট অতিক্রম করেছেন।</string>
+    <string name="saving_goal_exceeded">আপনি আপনার সঞ্চয় টার্গেট অতিক্রম করেছেন।</string>
+    <!-- describes the amount that by which a credit limit or a saving goal have been exceeded. -->
+    <string name="overage">অতিরিক্ত</string>
+    <string name="credit_limit_available_credit">উপলব্ধ ক্রেডিট</string>
+    <string name="saving_goal_short_fall">ঘাটতি</string>
+    <string name="content_description_original_amount">একটি মুদ্রা নির্বাচন করে এবং পরিমাণ লিখে এই লেনদেনের মূল পরিমাণ নির্ধারণ করুন। আপনি একটি বিনিময় হারও নির্ধারণ করতে পারেন যা কার্যকর পরিমাণ গণনা করতে ব্যবহার করা হবে।</string>
+    <!-- This is used as content description for a text input allowing to define the exchange rate for a pair of two currencies. %1$s and %2$s will be replaced with the name of the two currencies. -->
+    <string name="content_description_exchange_rate">১ %1$s এর বিনিময় হার %2$s এ</string>
+    <string name="content_description_equivalent_amount">আপনার হোম মুদ্রায় এই লেনদেনের মূল্য নির্ধারণ করুন। পরিমাণ লেখার পরিবর্তে আপনি এটি গণনা করার জন্য বিনিময় হারও লিখতে পারেন।</string>
+    <string name="warning_archived_transfer_cannot_be_edited">স্থানান্তর এডিট করা যাবে না কারণ এর অন্য পার্টি আর্কাইভ করা আছে।</string>
+    <string name="warning_budget_sync_import">এই বাজেটের কনফিগারেশন সিঙ্ক্রোনাইজেশন ব্যাকেন্ড থেকে ইমপোর্ট করা হবে। সমস্ত লোকালপরিবর্তন হারাবে।</string>
+    <string name="budget_import_can_be_imported">নিম্নলিখিত বাজেট ইমপোর্ট করা যেতে পারে:</string>
+    <string name="budget_import_cannot_be_imported">নিম্নলিখিত বাজেটগুলি এমন অ্যাকাউন্টের উল্লেখ করে যা সিঙ্ক্রোনাইজড নয়:</string>
+    <string name="budget_import_none_found">কোন বাজেট পাওয়া যায়নি।</string>
+    <string name="webui_download_no_data">প্রিন্টিং, এক্সপোর্টিং বা অ্যাপে ব্যাকআপ তৈরি করার পরে, ফাইলগুলি এখান থেকে ডাউনলোডের জন্য উপলব্ধ হবে।</string>
+    <string name="filter_dialog_empty">এখনো কোন মানদণ্ড যোগ করা হয়নি। আপনার কোয়েরি নির্ধারণ করতে এবং আপনার ফলাফল পরিমার্জন করতে উপরের বাটনগুলি ট্যাপ করুন।</string>
+    <string name="menu_show_equivalent_value">সমতুল্য মূল্য</string>
+    <string name="initial_value">প্রাথমিক মূল্য</string>
+    <string name="current_value">বর্তমান মূল্য</string>
+    <string name="total_value">মোট মূল্য</string>
+    <string name="enable_automatic_daily_exchange_rate_download">অটোমেটিক দৈনিক বিনিময় হার ডাউনলোড</string>
+    <string name="price_history">মূল্য ইতিহাস</string>
+    <string name="dynamic_exchange_rate">গতিশীল বিনিময় হার</string>
+    <string name="progress_recalculating">পুনরায় গণনা করা হচ্ছে</string>
+    <string name="equivalent_amount_plural">সমতুল্য পরিমাণ</string>
+    <string name="menu_recalculate">পুনরায় গণনা করুন</string>
+    <string name="recalculate_equivalent_amounts_warning">সমতুল্য পরিমাণ পুনরায় গণনা করা হবে যদি প্রযোজ্য সেভ করা বিনিময় হার উপলব্ধ থাকে।</string>
+    <string name="recalculate_only_missing">শুধু অনুপস্থিত মান পূরণ করুন</string>
+    <string name="quick_search">দ্রুত সার্চ</string>
+    <string name="complex_search">জটিল সার্চ</string>
+    <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
+    <string name="account_closed">অ্যাকাউন্ট বন্ধ আছে</string>
+    <string name="balance_sheet">ব্যালেন্স শীট</string>
+    <string name="balance_sheet_section_assets">সম্পদ</string>
+    <string name="balance_sheet_section_liabilities">দায়বদ্ধতা</string>
+    <string name="balance_sheet_net_worth">নেট মূল্য</string>
+    <!-- This is used for Talkback to describe the action of toggling the status of a transaction from unreconciled to cleared -->
+    <string name="mark_as_cleared">ক্লিয়ার্ড অ্যাকাউন্টে চিহ্নিত করুন</string>
+    <!-- This is used for Talkback to describe the action of toggling the status of a transaction from cleared to unreconciled -->
+    <string name="mark_as_unreconciled">অমিলিত অ্যাকাউন্টে চিহ্নিত করুন</string>
 </resources>
