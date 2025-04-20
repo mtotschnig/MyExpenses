@@ -213,4 +213,16 @@
     <string name="cab_ManageCategories_merge_help_text">Categorieën van hetzelfde type kunnen worden samengevoegd.</string>
     <string name="menu_chart_help_text">Schakel de zichtbaarheid van het diagram in of uit.</string>
     <string name="menu_ManageBudgets_grouping_help_text">De budgetlijst kan worden gegroepeerd op rekening of op budgettype.</string>
+    <string name="cab_PriceHistory_add_help_text">Voer handmatig het tarief voor de opgegeven datum in. Het door de gebruiker opgegeven tarief heeft voorrang op gedownloade tarieven.</string>
+    <string name="dynamic_exchange_rate_help_text_1">Als een rekening in vreemde valuta is geconfigureerd om dynamische wisselkoersen te gebruiken, kun je voor elke transactie een specifiek equivalent bedrag instellen.</string>
+    <string name="dynamic_exchange_rate_help_text_2">De actuele waarde van een rekening in vreemde valuta met dynamische wisselkoersen wordt berekend op basis van de meest recente wisselkoers.</string>
+    <string name="dynamic_exchange_rate_help_text_3">Met de optie %s kun je het actuele nettovermogen van al je accounts volgen.</string>
+    <string name="help_user_exchange_rate">Deze koers is door de gebruiker opgegeven tijdens het bewerken van het equivalente bedrag van een transactie.</string>
+    <string name="help_calculated_exchange_rate">Deze koers is automatisch berekend op basis van bestaande koersen, toen de eigen valuta opnieuw werd geconfigureerd.</string>
+    <string name="cab_PriceHistory_download_help_text">Download het tarief voor de opgegeven datum van de geconfigureerde provider. Sommige providers bieden niet voor elke datum tarieven aan, bijvoorbeeld in het weekend of op feestdagen, en geven in plaats daarvan een eerder tarief terug.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Als deze optie is aangevinkt, kun je zien hoe elke rekening in vreemde valuta bijdraagt aan het totaalbedrag in je eigen valuta. Als een rekening geen dynamische wisselkoersen gebruikt, wordt de waarde berekend op basis van de koers die is ingesteld in de eigenschappen van de rekening. Anders:</string>
+    <string name="help_PriceHistory_info">Rekeningen in vreemde valuta kunnen worden geconfigureerd voor dynamische wisselkoersen. Je kunt voor elke dag een specifieke wisselkoers ten opzichte van je eigen valuta downloaden of invoeren. Dit scherm toont opgeslagen wisselkoersen voor een bepaalde valuta, elke dag teruggaand tot de datum van de oudste transactie. De bron van de wisselkoers wordt als volgt aangegeven:</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Inkomsten- en uitgavenbedragen</b> worden berekend op basis van de equivalente bedragen die voor elke transactie zijn opgegeven.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">De <b>beginwaarde</b> is gebaseerd op het tarief dat is ingesteld in de eigenschappen van het account.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">De <b>huidige waarde</b> is gebaseerd op de meest recente wisselkoers voor de valuta van het account.</string>
 </resources>
