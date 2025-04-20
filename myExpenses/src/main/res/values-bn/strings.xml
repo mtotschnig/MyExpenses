@@ -204,12 +204,12 @@
     <string name="no_templates">কোন টেমপ্লেট নেই।</string>
     <string name="no_accounts">কোন অ্যাকাউন্ট নেই।</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">নির্বাচিত অবজেক্ট একটি লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
-        <item quantity="other">%1$d অবজেক্ট লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+        <item quantity="one">নির্বাচিত অবজেক্ট একটি লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মুছা যাবে না।</item>
+        <item quantity="other">%1$d অবজেক্ট লেনদেনের সাথে ম্যাপ করা হয়েছে এবং মুছা যাবে না।</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">নির্বাচিত অবজেক্ট একটি টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
-        <item quantity="other">%1$d অবজেক্ট টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মোছা যাবে না।</item>
+        <item quantity="one">নির্বাচিত অবজেক্ট একটি টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মুছা যাবে না।</item>
+        <item quantity="other">%1$d অবজেক্ট টেমপ্লেটের সাথে ম্যাপ করা হয়েছে এবং মুছা যাবে না।</item>
     </plurals>
     <string name="numbered">সংখ্যাযুক্ত</string>
     <string name="opening_balance">ওপেনিং ব্যালেন্স</string>
@@ -667,7 +667,7 @@
     <string name="currency_code">কোড</string>
     <string name="dialog_title_new_currency">নতুন কারেন্সি</string>
     <string name="currency_code_already_definded">কারেন্সি কোড ইতিমধ্যে সংজ্ঞায়িত।</string>
-    <string name="currency_still_used">কারেন্সি ব্যবহৃত হচ্ছে, মোছা যাবে না।</string>
+    <string name="currency_still_used">কারেন্সি ব্যবহৃত হচ্ছে, মুছা যাবে না।</string>
     <string name="unmapped">ম্যাপ করা নেই</string>
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
         to search for transactions without category, payee or method. The UI allows selection of multiple items,
