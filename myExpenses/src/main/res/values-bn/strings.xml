@@ -215,7 +215,7 @@
     <string name="opening_balance">ওপেনিং ব্যালেন্স</string>
     <string name="parse_error_file_not_found">%1$s ফাইল খুঁজে পাওয়া যায়নি</string>
     <string name="parse_error_grisbi_version_not_supported">অসমর্থিত Grisbi ফাইল ভার্সন: %1$s</string>
-    <string name="parse_error_other_exception">একটি ত্রুটি ঘটেছে: %1$s</string>
+    <string name="parse_error_other_exception">একটি এরর ঘটেছে: %1$s</string>
     <string name="parse_error_parse_exception">ফাইল পার্স করতে পারেনি</string>
     <string name="password_disabled_reenable">পাসওয়ার্ড প্রটেকশন বন্ধ করা হয়েছে। আপনি সেটিংসে এটি পুনরায় চালু করতে পারেন।</string>
     <string name="password_lost">পাসওয়ার্ড ভুলে গেছি</string>
@@ -494,7 +494,7 @@
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">পরবর্তী ঘটনা</string>
     <string name="crash_dialog_title">{app_name} ক্র্যাশ করেছে</string>
-    <string name="crash_dialog_text">অপ্রত্যাশিত ত্রুটি ঘটেছে যা অ্যাপ্লিকেশনকে বন্ধ করেছে। অনুগ্রহ করে ত্রুটির তথ্য পাঠিয়ে আমাদের এটি সমাধান করতে সাহায্য করুন, আপনাকে শুধুমাত্র ঠিক আছে ক্লিক করতে হবে।</string>
+    <string name="crash_dialog_text">অপ্রত্যাশিত এরর ঘটেছে যা অ্যাপ্লিকেশনকে বন্ধ করেছে। অনুগ্রহ করে এররর তথ্য পাঠিয়ে আমাদের এটি সমাধান করতে সাহায্য করুন, আপনাকে শুধুমাত্র ঠিক আছে ক্লিক করতে হবে।</string>
     <string name="crash_dialog_comment_prompt">আপনি নিচে সমস্যা সম্পর্কে আপনার মন্তব্য যোগ করতে পারেন:</string>
     <string name="synchronization">সিঙ্ক্রোনাইজেশন</string>
     <string name="synchronization_none">কোন সিঙ্ক্রোনাইজেশন নেই</string>
@@ -529,27 +529,27 @@
     <string name="link_account_failure_3">এন্ট্রির কন্টেক্সট মেনু থেকে দ্বন্দ্ব ম্যানুয়ালি সমাধান করা যেতে পারে।</string>
     <string name="progress_dialog_checking_sync_backend">ব্যাকএন্ড যাচাই করছে</string>
     <string name="template">টেমপ্লেট</string>
-    <string name="all_contrib_key_features">অবদান কীর সমস্ত ফিচার</string>
-    <string name="all_extended_key_features">এক্সটেন্ডেড কীর সমস্ত ফিচার</string>
+    <string name="all_contrib_key_features">কনট্রিব কী এর সমস্ত ফিচার</string>
+    <string name="all_extended_key_features">এক্সটেন্ডেড কী এর সমস্ত ফিচার</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="buy">কিনুন</string>
-    <string name="pref_backup_cloud_summary">ডিভাইসে লোকালস্টোরেজের পাশাপাশি, ব্যাকআপ ফাইল রিমোট ব্যাকএন্ডে কপি করা যেতে পারে।</string>
+    <string name="pref_backup_cloud_summary">ডিভাইসে লোকাল স্টোরেজের পাশাপাশি, ব্যাকআপ ফাইল রিমোট ব্যাকএন্ডে কপি করা যেতে পারে।</string>
     <string name="auto_backup_cloud_success">ব্যাকআপ ফাইল %1$s সফলভাবে ব্যাকএন্ড %2$s এ সেভ করা হয়েছে।</string>
     <string name="number_of_fraction_digits">ভগ্নাংশ অঙ্কের সংখ্যা</string>
     <string name="warning_auto_backup_deactivated">অটোমেটিক ব্যাকআপ বন্ধ করা হয়েছে। সমস্যা সমাধান করার পর (যেমন ব্যাকআপের জন্য একটি ভিন্ন ফোল্ডার নির্বাচন করে) আপনি সেটিংস থেকে এটি আবার চালু করতে পারেন।</string>
-    <string name="pref_tracking_summary">আমাদেরকে ব্যবহারের ধরন সম্পর্কে বেনামী ডাটা সংগ্রহ করতে দিন যা উন্নতি প্লান করতে সাহায্য করে।</string>
+    <string name="pref_tracking_summary">আমাদের ব্যবহারের ধরনের বেনামী ডাটা সংগ্রহ করতে দিন যা প্লানকে উন্নত করতে সাহায্য করে।</string>
     <string name="pref_tracking_title">ব্যবহার ডাটা সংগ্রহ</string>
-    <string name="sync_database_error">সিঙ্ক্রোনাইজেশনের সময় একটি ডাটাবেস ত্রুটি ঘটেছে।</string>
-    <string name="sync_io_error_cannot_connect">সিঙ্ক্রোনাইজেশন ব্যাকএন্ডের সাথে সংযোগ করতে পারছে না।</string>
-    <string name="sync_error_will_try_again_later">পরে আবার চেষ্টা করবে।</string>
-    <string name="sync_io_exception_reset_account_data">রিমোট অ্যাকাউন্ট রিসেট করার সময় ত্রুটি।</string>
+    <string name="sync_database_error">সিঙ্ক্রোনাইজেশনের সময় একটি ডাটাবেস এরর ঘটেছে।</string>
+    <string name="sync_io_error_cannot_connect">সিঙ্ক্রোনাইজেশন ব্যাকএন্ডের সাথে সংযোগ করা যাচ্ছে না।</string>
+    <string name="sync_error_will_try_again_later">পরে আবার চেষ্টা করুন।</string>
+    <string name="sync_io_exception_reset_account_data">রিমোট অ্যাকাউন্ট রিসেট করার সময় এরর।</string>
     <string name="sync_success_reset_account_data">অ্যাকাউন্ট %s এর রিমোট ডাটা মুছে ফেলা হয়েছে।</string>
-    <string name="sync_io_exception_setup_remote_account">রিমোট অ্যাকাউন্ট সেট আপ করার সময় ত্রুটি।</string>
-    <string name="sync_io_exception_syncing">সার্ভারের সাথে পরিবর্তন সিঙ্ক করার সময় ত্রুটি।</string>
-    <string name="sync_io_exception_unlocking">রিমোট ব্যাকএন্ড থেকে লক সরানোর সময় ত্রুটি।</string>
+    <string name="sync_io_exception_setup_remote_account">রিমোট অ্যাকাউন্ট সেট আপ করার সময় এরর।</string>
+    <string name="sync_io_exception_syncing">সার্ভারের সাথে পরিবর্তন সিঙ্ক করার সময় এরর।</string>
+    <string name="sync_io_exception_unlocking">রিমোট ব্যাকএন্ড থেকে লক সরানোর সময় এরর।</string>
     <string name="sync_io_exception_locking">রিমোট ব্যাকএন্ড লক করা হয়েছে বা লক করা যাবে না।</string>
     <string name="synchronization_start">অ্যাকাউন্ট %s এর জন্য সিঙ্ক্রোনাইজেশন শুরু করছে।</string>
-    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d রিমোট পরিবর্তন লোকালডাটাবেসে লেখা হয়েছে। %2$d লোকালপরিবর্তন রিমোট ব্যাকএন্ডে লেখা হয়েছে।</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d রিমোট পরিবর্তন লোকাল ডাটাবেসে লেখা হয়েছে। %2$d লোকাল পরিবর্তন রিমোট ব্যাকএন্ডে লেখা হয়েছে।</string>
     <string name="synchronization_end_success_none">সিঙ্ক্রোনাইজ করার জন্য কোন পরিবর্তন নেই।</string>
     <string name="pref_webdav_timeout_title">WebDAV টাইমআউট (সেকেন্ডে)</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">%d অ্যাকাউন্টের জন্য সিঙ্ক স্টেট পুনরুদ্ধার করা হয়েছে।</string>
@@ -557,8 +557,8 @@
     <string name="onboarding_ui_title">{app_name} আপনার পছন্দের সাথে মানিয়ে নেয়</string>
     <string name="onboarding_data_title">আপনার প্রথম অ্যাকাউন্ট সেট আপ করা যাক</string>
     <string name="onboarding_restore_from_cloud">ক্লাউড সিঙ্ক্রোনাইজেশন থেকে পুনরুদ্ধার করুন</string>
-    <string name="onboarding_restore_from_local">লোকালব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
-    <string name="contributed_by">অবদান করেছেন %s</string>
+    <string name="onboarding_restore_from_local">লোকাল ব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
+    <string name="contributed_by">অবদান রেখেছেন %s</string>
     <string name="pref_sync_notification_summary">সিঙ্ক্রোনাইজেশন অগ্রগতি সম্পর্কে অবহিত করুন</string>
     <string name="pref_debug_logging_summary">ডিবাগিং তথ্য সিস্টেম লগে লিখুন</string>
     <string name="plan_custom_recurrence_info">অনুগ্রহ করে প্রথমে টেমপ্লেট সেভ করুন। তারপর প্লানটি ক্যালেন্ডার অ্যাপে খোলা হবে, যেখানে আপনি একটি কাস্টম পুনরাবৃত্তি সেট করতে পারেন।</string>
@@ -568,9 +568,9 @@
     <string name="licence_validation_error_device_limit_exceeded">ডিভাইস সীমা ছাড়িয়েছে। অনুগ্রহ করে অন্য ডিভাইস থেকে লাইসেন্স সরান।</string>
     <string name="button_validate">যাচাই করুন</string>
     <string name="licence_key">লাইসেন্স কী</string>
-    <string name="licence_removal_information" tools:ignore="PluralsCandidate">যদি আপনার এই ডিভাইসে প্রিমিয়াম ফাংশনালিটি আর প্রয়োজন না হয়, আপনি লাইসেন্স কী সরাতে পারেন। এটি আরও একটি অন্য ডিভাইসে চালুকরণের জন্য কী মুক্ত করে। কী সর্বাধিক %d ডিভাইসে চালু করা যেতে পারে।</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">যদি আপনার এই ডিভাইসে প্রিমিয়াম ফাংশনালিটি আর প্রয়োজন না হয়, আপনি লাইসেন্স কী সরাতে পারেন। তাহলে এটি আরও একটি অন্য ডিভাইসে ব্যবহার করা যাবে। কী সর্বাধিক %d ডিভাইসে চালু করা যেতে পারে।</string>
     <string name="progress_removing_licence">লাইসেন্স সরাচ্ছে</string>
-    <string name="licence_removal_success">লাইসেন্স কী সফলভাবে এই ডিভাইস থেকে মুক্ত করা হয়েছে।</string>
+    <string name="licence_removal_success">লাইসেন্স কী সফলভাবে এই ডিভাইস থেকে মুক্ত করা সরানো।</string>
     <string name="professional_key">প্রফেশনাল কী</string>
     <string name="n_months" tools:ignore="PluralsCandidate">%d মাস</string>
     <string name="eu_vat_info">ইউরোপীয় ইউনিয়নের বাসিন্দাদের জন্য প্রদর্শিত মূল্যে ভ্যাট অন্তর্ভুক্ত নয়।</string>
@@ -580,11 +580,11 @@
     <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">যারা ইতিমধ্যে এক্সটেন্ডেড লাইসেন্সের মালিক তাদেরকে একবার অতিরিক্ত %d মাস মঞ্জুর করা হয়</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">বার্ষিক সাবস্ক্রিপশনে পরিবর্তন করুন</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">মাসিক সাবস্ক্রিপশনে পরিবর্তন করুন</string>
-    <string name="extend_validity">বৈধতা বাড়ান</string>
+    <string name="extend_validity">মেয়াদ বাড়ান</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">রিমোট ব্যাকএন্ড থেকে ডাটা আনা হচ্ছে। এতে কিছু সময় লাগতে পারে।</string>
     <string name="donate_button_invoice">চালান</string>
     <string name="auto_fill_account_from_aggregate_only">শুধুমাত্র যখন সমষ্টিগত অ্যাকাউন্ট থেকে শুরু করা হয়।</string>
-    <string name="sync_auth_exception">অনুমোদন ব্যর্থ হয়েছে।</string>
+    <string name="sync_auth_exception">অনুমোদন করা যায়নি।</string>
     <string name="sync_login_again">অনুগ্রহ করে আবার লগ ইন করুন।</string>
     <plurals name="delete_success">
     <item quantity="one">একটি অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
@@ -593,10 +593,10 @@
     <string name="feature_deprecated">বাতিল</string>
     <string name="pref_protection_device_lock_screen_title">ডিভাইস লক স্ক্রিন</string>
     <string name="pref_warning_only_one_protection">%2$s দ্বারা প্রটেকশন বন্ধ করার আগে আপনি %1$s দ্বারা প্রটেকশন ব্যবহার করতে পারবেন না।</string>
-    <string name="warning_device_lock_screen_not_set_up_1">সুরক্ষিত ডিভাইস লক স্ক্রিন সেট আপ করা হয়নি।</string>
+    <string name="warning_device_lock_screen_not_set_up_1">ডিভাইস লক স্ক্রিন সেট আপ করা হয়নি।</string>
     <!-- %s is replaced with path to setup screen lock in device settings -->
     <string name="warning_device_lock_screen_not_set_up_2">লক স্ক্রিন সেট আপ করতে %s এ যান।</string>
-    <string name="menu_history_show_balance">ব্যালেন্স দেখান</string>
+    <string name="menu_history_show_balance">ব্যালেন্স দেখুন</string>
     <string name="menu_history_transfers">ট্রান্সফার অন্তর্ভুক্ত করুন</string>
     <string name="menu_history">ইতিহাস</string>
     <!-- A label indicating the color for the sum of expenses -->
@@ -604,7 +604,7 @@
     <!-- A label indicating the color for the sum of income -->
     <string name="history_chart_in_label">আয়</string>
     <string name="menu_history_totals">মোট দেখান</string>
-    <string name="pref_home_currency_title">হোম মুদ্রা</string>
+    <string name="pref_home_currency_title">হোম কারেন্সি</string>
     <string name="grand_total">সর্বমোট</string>
     <string name="menu_original_amount">মূল পরিমাণ</string>
     <string name="menu_equivalent_amount">সমতুল্য পরিমাণ</string>
