@@ -13,12 +13,15 @@ import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,8 +67,10 @@ data class CombinedField(val fields: List<SimpleField>) : Field()
 @Parcelize
 data object LineFeed : ColumnContent()
 
-@Parcelize
-sealed class SimpleField() : Field()
+sealed class SimpleField : Field() {
+    @GenSealedEnum
+    companion object
+}
 
 @Parcelize
 data object A : SimpleField()
@@ -90,7 +96,13 @@ class MyViewModel : ViewModel() {
         viewModelScope.launch {
             positions.addAll(
                 listOf(
-                    CombinedField(listOf(A, B)), ColumnFeed, C, ColumnFeed, D, ColumnFeed, E, ColumnFeed
+                    CombinedField(listOf(A, B)),
+                    ColumnFeed,
+                    C,
+                    ColumnFeed,
+                    D,
+                    ColumnFeed,
+                    E,
                 )
             )
         }
@@ -110,16 +122,18 @@ class MyViewModel : ViewModel() {
     suspend fun combine(field1: Field, field2: Field) {
         if (field1 == field2) return
         Log.d("draggabble", "combining $field1 and $field2")
-        positions.replaceAll { if (it == field1) CombinedField(buildList {
-            when(field1) {
-                is CombinedField -> addAll(field1.fields)
-                is SimpleField -> add(field1)
-            }
-            when(field2) {
-                is CombinedField -> addAll(field2.fields)
-                is SimpleField -> add(field2)
-            }
-        }) else it }
+        positions.replaceAll {
+            if (it == field1) CombinedField(buildList {
+                when (field1) {
+                    is CombinedField -> addAll(field1.fields)
+                    is SimpleField -> add(field1)
+                }
+                when (field2) {
+                    is CombinedField -> addAll(field2.fields)
+                    is SimpleField -> add(field2)
+                }
+            }) else it
+        }
         delay(100)
         positions.remove(field2)
 
@@ -129,95 +143,139 @@ class MyViewModel : ViewModel() {
         Log.d("draggabble", "dropping $field to position $dropPosition")
         Log.d("draggabble", "old list $positions")
         val index = positions.indexOf(field)
-        if (index == dropPosition) return
+        if (index == dropPosition || index +1 == dropPosition) return
         positions.remove(field)
         delay(100)
         positions.add(if (index > dropPosition) dropPosition else dropPosition - 1, field)
-        //make sure we always end with an empty column, so that we can add more
-        if (dropPosition == positions.size) {
-            delay(100)
-            positions.add(ColumnFeed)
-        }
-        if(positions[0] is ColumnFeed) {
-            delay(100)
-            positions.removeAt(0)
-        } else {
-            //remove empty inner columns
-            for (i in 0..<positions.lastIndex) {
-                if (positions[i] is ColumnFeed && positions[i+1] is ColumnFeed) {
-                    delay(100)
-                    positions.removeAt(i)
-                    break
-                }
-            }
-        }
+
         Log.d("draggabble", "new list $positions")
     }
 
+    fun addColumn() {
+        positions.add(ColumnFeed)
+    }
+
+    //remove the first empty column, or if there are no empty columns, the last column
+    fun removeColumn() {
+        val lastColumnFeed = positions.indexOfLast { it is ColumnFeed }
+        if (lastColumnFeed == -1) return
+        positions.indices.find {
+            positions[it] is ColumnFeed && (it == 0 || it == lastColumnFeed || positions[it+1] is ColumnFeed)
+        }?.let {
+            positions.removeAt(it)
+        }
+    }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun DraggableTableRow() {
     val viewModel = remember { MyViewModel() }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        var dropPosition = -1
-        splitList(viewModel.positions).forEachIndexed { columnNr, list ->
+    Column {
+        val columns = splitList(viewModel.positions)
+        Row {
+            if (columns.none { it.isEmpty() } && columns.any { it.size > 1 }) {
+                Button(viewModel::addColumn) {
+                    Text("add column")
+                }
+            }
+            if (viewModel.positions.count { it is ColumnFeed } > 0) {
+                Button(viewModel::removeColumn) {
+                    Text("remove column")
+                }
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            var dropPosition = -1
 
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .animateContentSize()
-                    .weight(1f)
-                    .border(1.dp, Color.Gray)
-                    .background(Color(0xFFEEEEEE)),
-            ) {
-                fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
-                    return {
-                        scope.launch {
-                            viewModel.move(it, dropPosition)
+            columns.forEachIndexed { columnNr, list ->
+
+                Box(
+                    contentAlignment = Alignment.TopStart,
+                    modifier = Modifier
+                        .animateContentSize()
+                        .weight(1f)
+                        .border(1.dp, Color.Gray)
+                        .background(Color(0xFFEEEEEE)),
+                ) {
+                    fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
+                        return {
+                            scope.launch {
+                                viewModel.move(it, dropPosition)
+                            }
                         }
                     }
-                }
-                val scope = rememberCoroutineScope()
-                Column(modifier = Modifier.padding(4.dp)) {
-                    dropPosition++
-                    key(dropPosition) {
-                        DropTarget(onDropped(scope, dropPosition))
-                    }
 
-                    list.forEach { field ->
-                        Log.d("draggabble", "position $dropPosition")
-                        key(
-                            field,
-                            dropPosition
-                        ) { //without key, dragAndDropSource caches the draggable node
-                            when (field) {
-                                is Field -> {
-                                    DraggableItem(field, onDropped = {
-                                        scope.launch {
-                                            viewModel.combine(field, it)
-                                        }
-                                    }, onLongPress = {scope.launch {
-                                        viewModel.split(field as CombinedField)
-                                    } })
-                                }
-
-                                LineFeed -> TODO()
-                            }
-                            dropPosition++
+                    val scope = rememberCoroutineScope()
+                    Column(modifier = Modifier.padding(4.dp)) {
+                        dropPosition++
+                        key(dropPosition) {
                             DropTarget(onDropped(scope, dropPosition))
+                        }
+
+                        list.forEach { field ->
+                            Log.d("draggabble", "position $dropPosition")
+                            key(
+                                field,
+                                dropPosition
+                            ) { //without key, dragAndDropSource caches the draggable node
+                                when (field) {
+                                    is Field -> {
+                                        DraggableItem(field, onDropped = {
+                                            scope.launch {
+                                                viewModel.combine(field, it)
+                                            }
+                                        }, onLongPress = {
+                                            scope.launch {
+                                                viewModel.split(field as CombinedField)
+                                            }
+                                        })
+                                    }
+
+                                    LineFeed -> TODO()
+                                }
+                                dropPosition++
+                                DropTarget(onDropped(scope, dropPosition))
+                            }
                         }
                     }
                 }
             }
         }
+        FlowRow {
+            SimpleField.values.forEach { field ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(field::class.java.simpleName)
+                    Checkbox(checked = viewModel.positions.any {
+                        when (it) {
+                            is CombinedField -> field in it.fields
+                            is SimpleField -> it == field
+                            else -> false
+                        }
+                    }, onCheckedChange = { checked ->
+                        if(checked) {
+                            viewModel.positions.add(field)
+                        } else {
+                            if(!viewModel.positions.remove(field)) {
+                                val (index, item) = viewModel.positions.withIndex().first {
+                                    (it.value as? CombinedField)?.fields?.contains(field) == true
+                                }
+                                viewModel.positions[index] = CombinedField((item as CombinedField).fields.filter { it != field })
+                            }
+                        }
+                    })
+                }
+
+            }
+        }
     }
+
 }
 
 @Composable
@@ -242,7 +300,7 @@ fun DropTarget(onDropped: (Field) -> Unit) {
                     val intent = event.toAndroidDragEvent().clipData.getItemAt(0).intent
                     intent.setExtrasClassLoader(Field::class.java.classLoader)
                     onDropped(
-                         intent.getParcelableExtra<Field>(
+                        intent.getParcelableExtra<Field>(
                             "field"
                         ) as Field
                     )
@@ -312,14 +370,14 @@ fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> U
                             )
                         )
                     }, onDoubleTap = {
-                        if(field is CombinedField) {
+                        if (field is CombinedField) {
                             onLongPress()
                         }
                     })
             }
             .dragAndDropTarget(
                 shouldStartDragAndDrop = {
-                                         true
+                    true
                 },
                 target = target
             )
@@ -333,8 +391,8 @@ fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> U
                 .padding(4.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically),
             text = when (field) {
-             is CombinedField -> field.fields.joinToString { it::class.java.simpleName }
-             else -> field::class.java.simpleName
+                is CombinedField -> field.fields.joinToString { it::class.java.simpleName }
+                else -> field::class.java.simpleName
             },
             fontWeight = FontWeight.Bold
         )
