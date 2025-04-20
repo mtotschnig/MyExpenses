@@ -468,12 +468,12 @@
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">অ্যাক্সেস দিন</string>
     <string name="menu_move">সরান</string>
     <string name="dialog_title_select_target">টার্গেট নির্বাচন করুন</string>
-    <string name="transform_subcategory_to_main">মূল ক্যাটাগরিে রূপান্তর করুন</string>
+    <string name="transform_subcategory_to_main">মূল ক্যাটাগরি রূপান্তর করুন</string>
     <string name="preferences_week_start_day_title">সপ্তাহ শুরু হয়</string>
     <string name="preferences_month_start_date_title">মাস শুরু হয়</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">গ্রুপর্ড সময়কাল</string>
-    <string name="exchange_rate">বিনিময় হার</string>
+    <string name="exchange_rate">এক্সচেঞ্জ রেট</string>
     <string name="date_format_hour">ঘন্টা</string>
     <string name="date_format_minute">মিনিট</string>
     <string name="pref_sort_order_last_used">সর্বশেষ ব্যবহৃত</string>
@@ -608,16 +608,16 @@
     <string name="grand_total">সর্বমোট</string>
     <string name="menu_original_amount">মূল পরিমাণ</string>
     <string name="menu_equivalent_amount">সমতুল্য পরিমাণ</string>
-    <string name="warning_split_transactions">নির্বাচিত লেনদেনগুলি একটি স্প্লিট লেনদেনে গ্রুপ করা হবে। তাদের তারিখ তথ্য হারিয়ে যাবে, অর্থাৎ তাদের গড় দ্বারা প্রতিস্থাপিত হবে।</string>
+    <string name="warning_split_transactions">নির্বাচিত লেনদেনগুলি একটি স্প্লিট লেনদেনে গ্রুপ করা হবে। তাদের তারিখ থাকবে না, অর্থাৎ তাদের গড় দ্বারা প্রতিস্থাপিত হবে।</string>
     <string name="warning_ungroup_split_transactions">নির্বাচিত স্প্লিট লেনদেনগুলি আনগ্রুপ করা হবে, অর্থাৎ তাদের স্প্লিট পার্টগুলি সাধারণ লেনদেনে পরিণত হবে।</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">স্প্লিট আনগ্রুপ করুন</string>
     <string name="ungroup_split_transaction_success">স্প্লিট লেনদেন সফলভাবে আনগ্রুপ করা হয়েছে।</string>
     <string name="split_transaction_one_success">লেনদেন সফলভাবে স্প্লিটে রূপান্তরিত হয়েছে।</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d লেনদেন সফলভাবে একটি স্প্লিট লেনদেনে গ্রুপ করা হয়েছে।</string>
-    <string name="split_transaction_not_possible">শুধুমাত্র সেই লেনদেনগুলি যাদের একই অ্যাকাউন্ট, প্রাপক, এবং অবস্থা আছে সেগুলিকে একটি স্প্লিট লেনদেনে গ্রুপ করা যেতে পারে।</string>
+    <string name="split_transaction_not_possible">শুধুমাত্র সেই লেনদেনগুলি যাদের একই অ্যাকাউন্ট, প্রাপক, এবং স্ট্যাটাস আছে সেগুলিকে একটি স্প্লিট লেনদেনে গ্রুপ করা যেতে পারে।</string>
     <string name="pref_transaction_time_summary">সঠিক লেনদেন সময় সেট করতে অনুমতি দিন।</string>
-    <string name="pref_value_date_summary">বুকিং তারিখের পাশাপাশি মূল্য তারিখ সেট করতে অনুমতি দিন। লেনদেন সময় লুকানো হবে। এই সেটিং নগদ অ্যাকাউন্টে প্রযোজ্য নয়।</string>
+    <string name="pref_value_date_summary">বুকিং তারিখের পাশাপাশি মূল্য তারিখ সেট করতে অনুমতি দিন। লেনদেন সময় লুকানো থাকবে। এই সেটিং নগদ অ্যাকাউন্টে প্রযোজ্য নয়।</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">বুকিং তারিখ</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
@@ -627,11 +627,11 @@
     <string name="licence_expires_today">আপনার প্রফেশনাল কী আজ মেয়াদ উত্তীর্ণ হবে।</string>
     <string name="licence_expired_yesterday">আপনার প্রফেশনাল কী গতকাল মেয়াদ উত্তীর্ণ হয়েছে।</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">আপনার প্রফেশনাল কী %d দিন আগে মেয়াদ উত্তীর্ণ হয়েছে।</string>
-    <string name="gdpr_consent_button_no">বিজ্ঞাপন-মুক্ত ভার্সনের জন্য অর্থ প্রদান করুন</string>
+    <string name="gdpr_consent_button_no">বিজ্ঞাপন-মুক্ত ভার্সনের জন্য ফি প্রদান করুন</string>
     <string name="sort_order">সাজানোর ক্রম</string>
     <string name="navigation_drawer_accounts_title">অ্যাকাউন্ট পরিচালনা করুন</string>
     <string name="pref_sync_wifi_only_summary">শুধুমাত্র ওয়াই-ফাই সংযোগ থাকলে সিঙ্ক করুন</string>
-    <string name="pref_sync_changes_immediately_summary">লোকালপরিবর্তন অবিলম্বে ব্যাকএন্ডে লিখুন</string>
+    <string name="pref_sync_changes_immediately_summary">লোকাল পরিবর্তন অবিলম্বে ব্যাকএন্ডে লিখুন</string>
     <string name="synchronization_postponed">সিঙ্ক্রোনাইজেশন স্থগিত করা হয়েছে।</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">অনুবাদ</string>
@@ -639,7 +639,7 @@
     <string name="goal_or_limit">টার্গেট / সীমা</string>
     <string name="saving_goal">সঞ্চয়ের টার্গেট</string>
     <string name="credit_limit">ক্রেডিট সীমা</string>
-    <string name="clear_all_filters">সব ফিল্টার পরিষ্কার করুন</string>
+    <string name="clear_all_filters">সব ফিল্টার ক্লিয়ার করুন</string>
     <string name="pref_scroll_to_current_date_title">লেনদেন তালিকাকে বর্তমান তারিখে স্ক্রোল করুন</string>
     <string name="pref_scroll_to_current_date_app_launch">শুধুমাত্র যখন অ্যাপ চালু হয়</string>
     <string name="pref_scroll_to_current_date_account_open">প্রতিবার যখন আপনি অ্যাকাউন্টে নেভিগেট করেন</string>
@@ -650,14 +650,14 @@
     <string name="budget_table_header_spent">ব্যয় করা</string>
     <string name="budget_table_header_overspent">অতিরিক্ত ব্যয় করা</string>
     <string name="budget_allocated_amount">বরাদ্দকৃত পরিমাণ</string>
-    <string name="budget_exceeded_error_1_1">আপনার বাজেটের সবকিছু বাদে %s অন্য ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
-    <string name="budget_exceeded_error_1_2">আপনার সমস্ত বাজেট অন্য ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
+    <string name="budget_exceeded_error_1_1">আপনার বাজেটের সবকিছু বাদে %s অন্য ক্যাটাগরি বরাদ্দ করা হয়েছে।</string>
+    <string name="budget_exceeded_error_1_2">আপনার সমস্ত বাজেট অন্য ক্যাটাগরিতে বরাদ্দ করা হয়েছে।</string>
     <string name="budget_exceeded_error_2">বাজেটের পরিমাণ বাড়ান, অথবা অন্য ক্যাটাগরি থেকে অর্থ সরান।</string>
-    <string name="budget_under_allocated_error">%s ইতিমধ্যে ক্যাটাগরিে বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ বাজেট করতে হবে।</string>
-    <string name="sub_budget_exceeded_error_1_1">মূল ক্যাটাগরিে বরাদ্দকৃত পরিমাণের সবকিছু বাদে %s অন্য সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
-    <string name="sub_budget_exceeded_error_1_2">মূল ক্যাটাগরিে বরাদ্দকৃত সমস্ত পরিমাণ অন্য সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে।</string>
-    <string name="sub_budget_exceeded_error_2">মূল ক্যাটাগরিে বরাদ্দকৃত পরিমাণ বাড়ান, অথবা অন্য সাব-ক্যাটাগরি থেকে অর্থ সরান।</string>
-    <string name="sub_budget_under_allocated_error">%s ইতিমধ্যে সাব-ক্যাটাগরিে বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ মূল ক্যাটাগরিে বরাদ্দ করতে হবে।</string>
+    <string name="budget_under_allocated_error">%s ইতিমধ্যে ক্যাটাগরি বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ বাজেট করতে হবে।</string>
+    <string name="sub_budget_exceeded_error_1_1">মূল ক্যাটাগরিতে বরাদ্দকৃত পরিমাণের সবকিছু বাদে %s অন্য সাব-ক্যাটাগরিতে বরাদ্দ করা হয়েছে।</string>
+    <string name="sub_budget_exceeded_error_1_2">মূল ক্যাটাগরিতে বরাদ্দকৃত সমস্ত পরিমাণ অন্য সাব-ক্যাটাগরিতে বরাদ্দ করা হয়েছে।</string>
+    <string name="sub_budget_exceeded_error_2">মূল ক্যাটাগরিতে বরাদ্দকৃত পরিমাণ বাড়ান, অথবা অন্য সাব-ক্যাটাগরি থেকে অর্থ সরান।</string>
+    <string name="sub_budget_under_allocated_error">%s ইতিমধ্যে সাব-ক্যাটাগরিতে বরাদ্দ করা হয়েছে। যদি আপনি সেগুলি থেকে অর্থ না সরান, তাহলে আপনাকে অন্তত সেই পরিমাণ মূল ক্যাটাগরিতে বরাদ্দ করতে হবে।</string>
     <!-- Description for button that allows to clear the selected method -->
     <string name="content_description_clear_method">মেথড ক্লিয়ার করুন</string>
     <!-- Description for button that allows to clear the selected category -->
@@ -702,20 +702,20 @@
     <string name="roadmap_vote">রোডম্যাপ ভোট</string>
     <string name="warning_account_for_transaction_is_closed">নির্বাচিত লেনদেনগুলির মধ্যে অন্তত একটি এডিট করা যাবে না:</string>
     <string name="object_sealed">অবজেক্ট একটি বন্ধ অ্যাকাউন্টকে উল্লেখ করে।</string>
-    <string name="content_description_download_exchange_rate">বিনিময় হার ডাউনলোড করুন</string>
-    <string name="exchange_rate_not_supported">কনফিগার করা বিনিময় হার প্রদানকারী %1$s : %2$s হার সরবরাহ করে না। আপনি সেটিংসে একটি ভিন্ন হার নির্বাচন করতে পারেন।</string>
-    <string name="pref_category_exchange_rates">বিনিময় হার</string>
-    <string name="pref_exchange_rate_provider_summary">বিনিময় হার ডাউনলোড করার জন্য প্রদানকারী নির্বাচন করুন</string>
-    <string name="pref_exchange_rate_provider_title">বিনিময় হার প্রদানকারী</string>
+    <string name="content_description_download_exchange_rate">এক্সচেঞ্জ রেট ডাউনলোড করুন</string>
+    <string name="exchange_rate_not_supported">কনফিগার করা এক্সচেঞ্জ রেট প্রদানকারী %1$s : %2$s হার সরবরাহ করে না। আপনি সেটিংসে একটি ভিন্ন রেট নির্বাচন করতে পারেন।</string>
+    <string name="pref_category_exchange_rates">এক্সচেঞ্জ রেট</string>
+    <string name="pref_exchange_rate_provider_summary">এক্সচেঞ্জ রেট ডাউনলোড করার জন্য প্রদানকারী নির্বাচন করুন</string>
+    <string name="pref_exchange_rate_provider_title">এক্সচেঞ্জ রেট প্রদানকারী</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
     <string name="pref_exchange_rates_api_key_summary">অনুগ্রহ করে %s এ একটি বিনামূল্যে অ্যাকাউন্ট নিবন্ধন করুন এবং আপনার অ্যাপ আইডি প্রদান করুন</string>
-    <string name="pref_plan_executor_time_title">প্লানার বিজ্ঞপ্তি সময়</string>
-    <string name="synchronization_select_folder_dialog_title">একটি বিদ্যমান ফোল্ডার নির্বাচন করুন বা একটি নতুন তৈরি করুন</string>
+    <string name="pref_plan_executor_time_title">প্লানার বিজ্ঞপ্তির সময়</string>
+    <string name="synchronization_select_folder_dialog_title">একটি ফোল্ডার নির্বাচন করুন বা একটি নতুন তৈরি করুন</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
-    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">আয় রেকর্ড করতে এই সুইচ বাটন ব্যবহার করুন।</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">আয় রেকর্ড করতে এই বাটন ব্যবহার করুন।</string>
     <string name="menu_create_budget">নতুন বাজেট</string>
     <string name="budget_onetime">একবার</string>
-    <string name="no_budgets">+ বাটনে ট্যাপ করে আপনার প্রথম বাজেট সংজ্ঞায়িত করুন।</string>
+    <string name="no_budgets">+ বাটনে ট্যাপ করে আপনার প্রথম বাজেট যুক্ত করুন।</string>
     <string name="budget_date_end_after_start">বাজেটের শেষ তারিখ অবশ্যই শুরুর তারিখের পরে আসতে হবে।</string>
     <string name="menu_budget_allocated_only">শুধুমাত্র বরাদ্দ সহ ক্যাটাগরি দেখান</string>
     <string name="budget_filter_all_categories">সব ক্যাটাগরি</string>
@@ -728,15 +728,15 @@
     <string name="warning_delete_budget">বাজেট \"%1$s\" মুছে ফেলা হবে।</string>
     <string name="menu_edit_budget">বাজেট এডিট করুন</string>
     <string name="onboarding_privacy_title">আপনার ডাটা আপনার হাতেই থাকে</string>
-    <string name="onboarding_privacy_intro">আপনার আর্থিক ডাটা কোনও সার্ভারে পাঠানো হয় না, যা আমাদের দ্বারা বা কোনও তৃতীয় পার্টি দ্বারা পরিচালিত হোক না কেন।</string>
-    <string name="app_restart_required">নতুন কনফিগারেশন কার্যকর হতে অ্যাপ পুনরায় চালু করার প্রয়োজন।</string>
+    <string name="onboarding_privacy_intro">আপনার আর্থিক ডাটা কোনও সার্ভারে পাঠানো হয় না, যা আমাদের দ্বারা বা কোনও তৃতীয় পার্টি দ্বারা পরিচালিত হয়।</string>
+    <string name="app_restart_required">নতুন কনফিগারেশন কার্যকর হতে অ্যাপ পুনরায় চালু করুন।</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">পুনরায় ম্যাপ করুন</string>
     <string name="dialog_title_confirm_remap">ম্যাপিং পরিবর্তন করুন (%s)?</string>
-    <string name="remap_category">সমস্ত নির্বাচিত লেনদেন ক্যাটাগরি %s এ ম্যাপ করা হবে।</string>
-    <string name="remap_payee">সমস্ত নির্বাচিত লেনদেন প্রদানকারী/প্রাপক %s এ ম্যাপ করা হবে।</string>
-    <string name="remap_method">সমস্ত নির্বাচিত লেনদেন মেথড %s এ ম্যাপ করা হবে।</string>
-    <string name="remap_account">সমস্ত নির্বাচিত লেনদেন অ্যাকাউন্ট %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_category">সমস্ত নির্বাচিত লেনদেনর ক্যাটাগরি %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_payee">সমস্ত নির্বাচিত লেনদেনর প্রদানকারী/প্রাপক %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_method">সমস্ত নির্বাচিত লেনদেনর মেথড %s এ ম্যাপ করা হবে।</string>
+    <string name="remap_account">সমস্ত নির্বাচিত লেনদেনর অ্যাকাউন্ট %s এ ম্যাপ করা হবে।</string>
     <string name="remapping_result">নির্বাচিত লেনদেনগুলি পুনরায় ম্যাপ করা হয়েছে।</string>
     <string name="clone_and_remap_result">নির্বাচিত লেনদেনগুলি ক্লোন এবং পুনরায় ম্যাপ করা হয়েছে।</string>
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
@@ -745,9 +745,9 @@
         <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
         <string name="button_label_clone_and_remap">ক্লোন এবং রিম্যাপ করুন</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
-    <string name="pref_clone_with_current_date_summary_on">ক্লোন করা লেনদেনের বর্তমান তারিখ আছে</string>
+    <string name="pref_clone_with_current_date_summary_on">ক্লোন করা লেনদেনের বর্তমান তারিখ রাখবে</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
-    <string name="pref_clone_with_current_date_summary_off">ক্লোন করা লেনদেন মূল তারিখ রাখে</string>
+    <string name="pref_clone_with_current_date_summary_off">ক্লোন করা লেনদেনের আসল তারিখ রাখে</string>
     <string name="tags_create_or_select">ট্যাগ তৈরি বা নির্বাচন করুন</string>
     <string name="pref_manage_tags_summary">ট্যাগ যোগ করুন, এডিট করুন, মুছুন।</string>
     <string name="dialog_title_warning_delete_tag">ট্যাগ মুছবেন?</string>
@@ -758,8 +758,8 @@
     <string name="dialog_multi_tag">সমস্ত নির্বাচিত লেনদেন %s দিয়ে ট্যাগ করা হবে।</string>
     <string name="dialog_multi_tag_clear">নির্বাচিত লেনদেন থেকে সমস্ত ট্যাগ সরানো হবে।</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ট্যাগ %1$s একটি লেনদেনের সাথে মানচিত্রিত করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
-        <item quantity="other">ট্যাগ %1$s %2$d লেনদেনের সাথে মানচিত্রিত করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
+        <item quantity="one">ট্যাগ %1$s একটি লেনদেনের সাথে ম্যাপ করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
+        <item quantity="other">ট্যাগ %1$s %2$d লেনদেনের সাথে ম্যাপ করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
     </plurals>
     <string name="dialog_multi_tag_append">বিদ্যমান ট্যাগে নতুন ট্যাগ যোগ করুন</string>
     <string name="dialog_multi_tag_replace">বিদ্যমান ট্যাগ নতুন ট্যাগ দ্বারা প্রতিস্থাপন করুন</string>
@@ -781,8 +781,8 @@
     <string name="button_scan">স্ক্যান</string>
     <string name="pref_ocr_total_indicators_title">মোট পরিমাণের জন্য সূচক</string>
     <string name="pref_ocr_total_indicators_summary">একটি রসিদে মোট মূল্য চিহ্নিত করে এমন স্ট্রিংয়ের একটি তালিকা। প্রতিটি মান নতুন লাইনে রাখুন। ডিফল্ট মান পুনরুদ্ধারের জন্য খালি রাখুন।</string>
-    <string name="pref_ocr_date_formats_title">তারিখ ফরম্যাট</string>
-    <string name="pref_ocr_time_formats_title">সময় ফরম্যাট</string>
+    <string name="pref_ocr_date_formats_title">তারিখের ফরম্যাট</string>
+    <string name="pref_ocr_time_formats_title">সময়ের ফরম্যাট</string>
     <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
     <string name="pref_criterion_futur_title">ভবিষ্যত লেনদেনের মানদণ্ড</string>
     <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
@@ -796,12 +796,12 @@
     <string name="scan_result_no_amount">কোন পরিমাণ পাওয়া যায়নি</string>
     <string name="scan_result_no_date">কোন তারিখ পাওয়া যায়নি</string>
     <string name="scan_result_no_payee">কোন প্রাপক পাওয়া যায়নি</string>
-    <string name="pref_feature_uninstall_title">ফিচার ও ভাষার আনইনস্টল অনুরোধ করুন</string>
+    <string name="pref_feature_uninstall_title">ফিচার ও ভাষার আনইনস্টলের অনুরোধ করুন</string>
     <string name="pref_feature_uninstall_summary">প্লে স্টোর ব্যাকগ্রাউন্ডে ওই মডিউলগুলি সরাতে চেষ্টা করবে।</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">অনুগ্রহ করে একটি লাইসেন্স প্যাকেজ নির্বাচন করুন।</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">স্থানান্তর, স্প্লিট লেনদেন বা আয়ের ফর্ম সরাসরি খোলার জন্য ভাসমান অ্যাকশন বাটন ট্যাপ করে ধরে রাখুন।</string>
+    <string name="discover_feature_fab_long_press">স্থানান্তর, স্প্লিট লেনদেন বা আয়ের ফর্ম সরাসরি খোলার জন্য ফ্লোটিং অ্যাকশন বাটন ট্যাপ করে ধরে রাখুন।</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">অগ্রিম নির্বাহ (দিনে)</string>
     <string name="warning_balance_account_delete">আপনি যদি এগিয়ে যান, এই অ্যাকাউন্টের সমস্ত মিলিত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং আপনি সেগুলি পুনরুদ্ধার করতে পারবেন না।</string>
@@ -919,7 +919,7 @@
     <string name="budget_only_current_period">শুধুমাত্র %s এর জন্য সেট করুন</string>
     <!-- Rollover refers to the rollover of a budget from one period to the next, e.g. for a monthly budget from one month to the next. -->
     <string name="budget_table_header_rollover">রোলওভার</string>
-    <string name="rollover_edit_invalid">একটি ক্যাটাগরিে বরাদ্দ রোলওভার এবং সাব-ক্যাটাগরিগুলিতে বরাদ্দ রোলওভারের যোগফল অবশিষ্ট পরিমাণ অতিক্রম করতে পারে না।</string>
+    <string name="rollover_edit_invalid">একটি ক্যাটাগরি বরাদ্দ রোলওভার এবং সাব-ক্যাটাগরিগুলিতে বরাদ্দ রোলওভারের যোগফল অবশিষ্ট পরিমাণ অতিক্রম করতে পারে না।</string>
     <string name="dialog_confirm_rollover_delete">এই সময়কালের জন্য সমস্ত রোলওভার পরিমাণ মুছে ফেলা হবে।</string>
     <!-- For icon that represents the fact that an image has been attached to a transaction -->
     <string name="content_description_attachment">অ্যাট্যাচি</string>
@@ -1032,10 +1032,10 @@
     <string name="overage">অতিরিক্ত</string>
     <string name="credit_limit_available_credit">উপলব্ধ ক্রেডিট</string>
     <string name="saving_goal_short_fall">ঘাটতি</string>
-    <string name="content_description_original_amount">একটি মুদ্রা নির্বাচন করে এবং পরিমাণ লিখে এই লেনদেনের মূল পরিমাণ নির্ধারণ করুন। আপনি একটি বিনিময় হারও নির্ধারণ করতে পারেন যা কার্যকর পরিমাণ গণনা করতে ব্যবহার করা হবে।</string>
+    <string name="content_description_original_amount">একটি মুদ্রা নির্বাচন করে এবং পরিমাণ লিখে এই লেনদেনের মূল পরিমাণ নির্ধারণ করুন। আপনি একটি এক্সচেঞ্জ রেটও নির্ধারণ করতে পারেন যা কার্যকর পরিমাণ গণনা করতে ব্যবহার করা হবে।</string>
     <!-- This is used as content description for a text input allowing to define the exchange rate for a pair of two currencies. %1$s and %2$s will be replaced with the name of the two currencies. -->
-    <string name="content_description_exchange_rate">১ %1$s এর বিনিময় হার %2$s এ</string>
-    <string name="content_description_equivalent_amount">আপনার হোম মুদ্রায় এই লেনদেনের মূল্য নির্ধারণ করুন। পরিমাণ লেখার পরিবর্তে আপনি এটি গণনা করার জন্য বিনিময় হারও লিখতে পারেন।</string>
+    <string name="content_description_exchange_rate">১ %1$s এর এক্সচেঞ্জ রেট %2$s এ</string>
+    <string name="content_description_equivalent_amount">আপনার হোম মুদ্রায় এই লেনদেনের মূল্য নির্ধারণ করুন। পরিমাণ লেখার পরিবর্তে আপনি এটি গণনা করার জন্য এক্সচেঞ্জ রেটও লিখতে পারেন।</string>
     <string name="warning_archived_transfer_cannot_be_edited">স্থানান্তর এডিট করা যাবে না কারণ এর অন্য পার্টি আর্কাইভ করা আছে।</string>
     <string name="warning_budget_sync_import">এই বাজেটের কনফিগারেশন সিঙ্ক্রোনাইজেশন ব্যাকেন্ড থেকে ইমপোর্ট করা হবে। সমস্ত লোকালপরিবর্তন হারাবে।</string>
     <string name="budget_import_can_be_imported">নিম্নলিখিত বাজেট ইমপোর্ট করা যেতে পারে:</string>
@@ -1047,13 +1047,13 @@
     <string name="initial_value">প্রাথমিক মূল্য</string>
     <string name="current_value">বর্তমান মূল্য</string>
     <string name="total_value">মোট মূল্য</string>
-    <string name="enable_automatic_daily_exchange_rate_download">অটোমেটিক দৈনিক বিনিময় হার ডাউনলোড</string>
+    <string name="enable_automatic_daily_exchange_rate_download">অটোমেটিক দৈনিক এক্সচেঞ্জ রেট ডাউনলোড</string>
     <string name="price_history">মূল্য ইতিহাস</string>
-    <string name="dynamic_exchange_rate">গতিশীল বিনিময় হার</string>
+    <string name="dynamic_exchange_rate">গতিশীল এক্সচেঞ্জ রেট</string>
     <string name="progress_recalculating">পুনরায় গণনা করা হচ্ছে</string>
     <string name="equivalent_amount_plural">সমতুল্য পরিমাণ</string>
     <string name="menu_recalculate">পুনরায় গণনা করুন</string>
-    <string name="recalculate_equivalent_amounts_warning">সমতুল্য পরিমাণ পুনরায় গণনা করা হবে যদি প্রযোজ্য সেভ করা বিনিময় হার উপলব্ধ থাকে।</string>
+    <string name="recalculate_equivalent_amounts_warning">সমতুল্য পরিমাণ পুনরায় গণনা করা হবে যদি প্রযোজ্য সেভ করা এক্সচেঞ্জ রেট উপলব্ধ থাকে।</string>
     <string name="recalculate_only_missing">শুধু অনুপস্থিত মান পূরণ করুন</string>
     <string name="quick_search">দ্রুত সার্চ</string>
     <string name="complex_search">জটিল সার্চ</string>
