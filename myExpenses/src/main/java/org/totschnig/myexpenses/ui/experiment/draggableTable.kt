@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.ui.experiment
 
 import android.content.ClipData
-import android.content.Intent
 import android.os.Parcelable
 import android.util.Log
 import androidx.compose.animation.animateContentSize
@@ -53,19 +52,20 @@ import kotlinx.parcelize.Parcelize
 sealed class Position : Parcelable
 
 @Parcelize
-sealed class ColumnContent : Position()
-
-@Parcelize
 data object ColumnFeed : Position()
 
 @Parcelize
-sealed class Field : ColumnContent()
+sealed class Field : Position() {
+    private fun asList() = when (this) {
+        is CombinedField -> fields
+        is SimpleField -> listOf(this)
+    }
+
+    operator fun plus(other: Field): Field = CombinedField(this.asList() + other.asList())
+}
 
 @Parcelize
 data class CombinedField(val fields: List<SimpleField>) : Field()
-
-@Parcelize
-data object LineFeed : ColumnContent()
 
 sealed class SimpleField : Field() {
     @GenSealedEnum
@@ -123,27 +123,17 @@ class MyViewModel : ViewModel() {
         if (field1 == field2) return
         Log.d("draggabble", "combining $field1 and $field2")
         positions.replaceAll {
-            if (it == field1) CombinedField(buildList {
-                when (field1) {
-                    is CombinedField -> addAll(field1.fields)
-                    is SimpleField -> add(field1)
-                }
-                when (field2) {
-                    is CombinedField -> addAll(field2.fields)
-                    is SimpleField -> add(field2)
-                }
-            }) else it
+            if (it == field1) field1 + field2 else it
         }
         delay(100)
         positions.remove(field2)
-
     }
 
     suspend fun move(field: Field, dropPosition: Int) {
         Log.d("draggabble", "dropping $field to position $dropPosition")
         Log.d("draggabble", "old list $positions")
         val index = positions.indexOf(field)
-        if (index == dropPosition || index +1 == dropPosition) return
+        if (index == dropPosition || index + 1 == dropPosition) return
         positions.remove(field)
         delay(100)
         positions.add(if (index > dropPosition) dropPosition else dropPosition - 1, field)
@@ -160,10 +150,32 @@ class MyViewModel : ViewModel() {
         val lastColumnFeed = positions.indexOfLast { it is ColumnFeed }
         if (lastColumnFeed == -1) return
         positions.indices.find {
-            positions[it] is ColumnFeed && (it == 0 || it == lastColumnFeed || positions[it+1] is ColumnFeed)
+            positions[it] is ColumnFeed && (it == 0 || it == lastColumnFeed || positions[it + 1] is ColumnFeed)
         }?.let {
             positions.removeAt(it)
         }
+    }
+
+    fun addField(field: SimpleField) {
+        positions.add(field)
+    }
+
+    fun removeField(field: SimpleField) {
+        if (!positions.remove(field)) {
+            val (index, item) = positions.withIndex().first {
+                (it.value as? CombinedField)?.fields?.contains(field) == true
+            }
+            positions[index] = (item as CombinedField).fields.filter { it != field }.let {
+                if (it.size == 1) it.first() else CombinedField(it)
+            }
+        }
+    }
+
+    fun allowDrop(field: Field, dropPosition: Int): Boolean {
+        val index = positions.indexOf(field)
+        val result = dropPosition < index || dropPosition > index + 1
+        Log.d("draggabble", "allowDrop $field ($index) to position $dropPosition: $result")
+        return result
     }
 }
 
@@ -192,7 +204,7 @@ fun DraggableTableRow() {
         ) {
             var dropPosition = -1
 
-            columns.forEachIndexed { columnNr, list ->
+            columns.forEach { list ->
 
                 Box(
                     contentAlignment = Alignment.TopStart,
@@ -210,11 +222,17 @@ fun DraggableTableRow() {
                         }
                     }
 
+                    fun allowDrop(dropPosition: Int): (Field) -> Boolean {
+                        return {
+                            viewModel.allowDrop(it, dropPosition)
+                        }
+                    }
+
                     val scope = rememberCoroutineScope()
                     Column(modifier = Modifier.padding(4.dp)) {
                         dropPosition++
                         key(dropPosition) {
-                            DropTarget(onDropped(scope, dropPosition))
+                            DropTarget(onDropped(scope, dropPosition), allowDrop(dropPosition))
                         }
 
                         list.forEach { field ->
@@ -223,23 +241,20 @@ fun DraggableTableRow() {
                                 field,
                                 dropPosition
                             ) { //without key, dragAndDropSource caches the draggable node
-                                when (field) {
-                                    is Field -> {
-                                        DraggableItem(field, onDropped = {
-                                            scope.launch {
-                                                viewModel.combine(field, it)
-                                            }
-                                        }, onLongPress = {
-                                            scope.launch {
-                                                viewModel.split(field as CombinedField)
-                                            }
-                                        })
+                                DraggableItem(field, onDropped = {
+                                    scope.launch {
+                                        viewModel.combine(field, it)
                                     }
-
-                                    LineFeed -> TODO()
-                                }
+                                }, onLongPress = {
+                                    scope.launch {
+                                        viewModel.split(field as CombinedField)
+                                    }
+                                })
                                 dropPosition++
-                                DropTarget(onDropped(scope, dropPosition))
+                                DropTarget(
+                                    onDropped(scope, dropPosition),
+                                    allowDrop(dropPosition)
+                                )
                             }
                         }
                     }
@@ -259,15 +274,10 @@ fun DraggableTableRow() {
                             else -> false
                         }
                     }, onCheckedChange = { checked ->
-                        if(checked) {
-                            viewModel.positions.add(field)
+                        if (checked) {
+                            viewModel.addField(field)
                         } else {
-                            if(!viewModel.positions.remove(field)) {
-                                val (index, item) = viewModel.positions.withIndex().first {
-                                    (it.value as? CombinedField)?.fields?.contains(field) == true
-                                }
-                                viewModel.positions[index] = CombinedField((item as CombinedField).fields.filter { it != field })
-                            }
+                            viewModel.removeField(field)
                         }
                     })
                 }
@@ -279,7 +289,7 @@ fun DraggableTableRow() {
 }
 
 @Composable
-fun DropTarget(onDropped: (Field) -> Unit) {
+fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { true }) {
 
     var bgColor by remember { mutableStateOf(Color.Transparent) }
     val target = remember {
@@ -293,17 +303,9 @@ fun DropTarget(onDropped: (Field) -> Unit) {
             }
 
             override fun onDrop(event: DragAndDropEvent): Boolean {
-                val clipData = event.toAndroidDragEvent().clipData
-                if (clipData != null &&
-                    clipData.itemCount > 0
-                ) {
-                    val intent = event.toAndroidDragEvent().clipData.getItemAt(0).intent
-                    intent.setExtrasClassLoader(Field::class.java.classLoader)
-                    onDropped(
-                        intent.getParcelableExtra<Field>(
-                            "field"
-                        ) as Field
-                    )
+                bgColor = Color.Transparent
+                (event.toAndroidDragEvent().localState as? Field)?.let {
+                    onDropped(it)
                 }
                 return true
             }
@@ -317,11 +319,7 @@ fun DropTarget(onDropped: (Field) -> Unit) {
             .background(bgColor, RoundedCornerShape(16.dp))
             .dragAndDropTarget(
                 shouldStartDragAndDrop = {
-                    /* it.toAndroidDragEvent()
-                        .clipData
-                        .getItemAt(0)
-                        .intent.getSerializableExtra("field") as Field !in dontAccept
-*/                                        true
+                    (it.toAndroidDragEvent().localState as? Field)?.let(allowDrop) == true
                 },
                 target = target
             ), contentAlignment = Alignment.Center
@@ -333,22 +331,26 @@ fun DropTarget(onDropped: (Field) -> Unit) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> Unit) {
-    @Suppress("DEPRECATION")
+
+    var bgColor by remember { mutableStateOf(Color.White) }
+
     val target = remember {
         object : DragAndDropTarget {
 
+            override fun onEntered(event: DragAndDropEvent) {
+                (event.toAndroidDragEvent().localState as? Field)?.let {
+                    bgColor = Color.DarkGray.copy(alpha = 0.2f)
+                }
+            }
+
+            override fun onExited(event: DragAndDropEvent) {
+                bgColor = Color.White
+            }
+
             override fun onDrop(event: DragAndDropEvent): Boolean {
-                val clipData = event.toAndroidDragEvent().clipData
-                if (clipData != null &&
-                    clipData.itemCount > 0
-                ) {
-                    val intent = event.toAndroidDragEvent().clipData.getItemAt(0).intent
-                    intent.setExtrasClassLoader(Field::class.java.classLoader)
-                    onDropped(
-                        intent.getParcelableExtra<Field>(
-                            "field"
-                        ) as Field
-                    )
+                bgColor = Color.White
+                (event.toAndroidDragEvent().localState as? Field)?.let {
+                    onDropped(it)
                 }
                 return true
             }
@@ -356,17 +358,14 @@ fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> U
     }
     Box(
         modifier = Modifier
+            .background(bgColor, shape = RoundedCornerShape(4.dp))
             .dragAndDropSource { ->
                 detectTapGestures(
                     onLongPress = {
                         startTransfer(
                             DragAndDropTransferData(
-                                clipData = ClipData.newIntent(
-                                    field::class.java.simpleName,
-                                    Intent().apply {
-                                        putExtra("field", field)
-                                    }
-                                ),
+                                clipData = ClipData.newPlainText(field.toString(), ""),
+                                localState = field
                             )
                         )
                     }, onDoubleTap = {
@@ -377,12 +376,11 @@ fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> U
             }
             .dragAndDropTarget(
                 shouldStartDragAndDrop = {
-                    true
+                    (it.toAndroidDragEvent().localState as? Field) != field
                 },
                 target = target
             )
             .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(4.dp))
             .border(1.dp, Color.DarkGray, shape = RoundedCornerShape(4.dp)),
         contentAlignment = Alignment.Center
     ) {
@@ -400,11 +398,11 @@ fun DraggableItem(field: Field, onDropped: (Field) -> Unit, onLongPress: () -> U
 }
 
 /**
- * splits the list on ColumnFeed, and adds an empty list at the end so
+ * splits the list on ColumnFeed
  */
-fun splitList(list: List<Position>): List<List<ColumnContent>> {
+fun splitList(list: List<Position>): List<List<Field>> {
     var index = 0
-    var innerList = mutableListOf<ColumnContent>()
+    var innerList = mutableListOf<Field>()
     return buildList {
         while (index < list.size) {
             when (val item = list[index]) {
@@ -413,7 +411,7 @@ fun splitList(list: List<Position>): List<List<ColumnContent>> {
                     innerList = mutableListOf()
                 }
 
-                is ColumnContent -> {
+                is Field -> {
                     innerList.add(item)
                 }
             }
