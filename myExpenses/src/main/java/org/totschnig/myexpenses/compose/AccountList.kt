@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -411,7 +412,8 @@ fun AccountCard(
                     )
                 )
                 if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
-                    Text("1 $accountCurrencyIsolated = ${fXFormat.format(account.initialExchangeRate)} $homeCurrencyIsolated")
+                    val realRate = calculateRealExchangeRate(account.initialExchangeRate, account.currencyUnit, homeCurrency)
+                    Text("1 $accountCurrencyIsolated = ${fXFormat.format(realRate)} $homeCurrencyIsolated")
                 }
                 val displayIncome =
                     if (showEquivalent) account.equivalentSumIncome else account.sumIncome
@@ -460,8 +462,9 @@ fun AccountCard(
 
                     account.latestExchangeRate?.let { (date, rate) ->
                         val dateFormatted = LocalDateFormatter.current.format(date)
+                        val realRate = calculateRealExchangeRate(rate, account.currencyUnit, homeCurrency)
                         Text(
-                            "1 $accountCurrencyIsolated = ${fXFormat.format(rate)} $homeCurrencyIsolated ($dateFormatted)"
+                            "1 $accountCurrencyIsolated = ${fXFormat.format(realRate)} $homeCurrencyIsolated ($dateFormatted)"
                         )
                     }
                 }

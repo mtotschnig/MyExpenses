@@ -650,7 +650,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     SupportSQLiteQueryBuilder
                         .builder(tableName)
                         .columns(
-                            if (minimal)  Account.PROJECTION_MINIMAL else arrayOf(
+                            if (minimal) Account.PROJECTION_MINIMAL else arrayOf(
                                 KEY_ROWID,
                                 KEY_LABEL,
                                 KEY_DESCRIPTION,
@@ -1247,7 +1247,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 "UPDATE $TABLE_DEBTS SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?",
                 bindArgs
             )
-
+            db.execSQL(
+                "UPDATE $TABLE_PRICES SET $KEY_VALUE=$KEY_VALUE$inverseOperation$factor WHERE $KEY_COMMODITY=?",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_PRICES SET $KEY_VALUE=$KEY_VALUE$operation$factor WHERE $KEY_CURRENCY=?",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_EQUIVALENT_AMOUNTS SET $KEY_EQUIVALENT_AMOUNT=$KEY_EQUIVALENT_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?",
+                bindArgs
+            )
             currencyContext.storeCustomFractionDigits(currency, newValue)
         }
         return count
@@ -1970,10 +1981,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     accountIdBindArgs
                 )
             } catch (e: SQLiteConstraintException) {
-                report(Throwable("Checking Foreign Keys"), mapOf(
-                    "fk_list" to db.getForeignKeyInfoAsString(TABLE_TRANSACTIONS),
-                    "fk_check" to db.getForeignKeyCheckInfoAsString(TABLE_TRANSACTIONS)
-                ))
+                report(
+                    Throwable("Checking Foreign Keys"), mapOf(
+                        "fk_list" to db.getForeignKeyInfoAsString(TABLE_TRANSACTIONS),
+                        "fk_check" to db.getForeignKeyCheckInfoAsString(TABLE_TRANSACTIONS)
+                    )
+                )
                 throw e
             }
             db.execSQL(
@@ -2017,7 +2030,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             TransactionProvider.pauseChangeTrigger(this)
             //set equivalent amounts based on parents rate
             execSQL(
-                """WITH parent AS (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT AS rate FROM $TABLE_TRANSACTIONS ${equivalentAmountJoin(homeCurrency)} WHERE $KEY_ROWID = $transactionId)
+                """WITH parent AS (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT AS rate FROM $TABLE_TRANSACTIONS ${
+                    equivalentAmountJoin(
+                        homeCurrency
+                    )
+                } WHERE $KEY_ROWID = $transactionId)
                     | INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS
                     | ($KEY_EQUIVALENT_AMOUNT, $KEY_TRANSACTIONID, $KEY_CURRENCY)
                     | SELECT (select rate from parent)*$KEY_AMOUNT, $KEY_ROWID, '$homeCurrency' FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $transactionId AND (select rate from parent) IS NOT NULL

@@ -115,8 +115,9 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
+import kotlin.math.pow
 
-const val DATABASE_VERSION = 174
+const val DATABASE_VERSION = 175
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -512,7 +513,7 @@ fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) 
         ELSE (
             SELECT $KEY_UUID
             FROM $TABLE_TRANSACTIONS parent
-            WHERE $KEY_ROWID = ${referenceForTable(reference, table,KEY_PARENTID)}
+            WHERE $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}
         )
        END"""
 
@@ -1024,7 +1025,12 @@ abstract class BaseTransactionDatabase(
             val newStatus = ContentValues(1).apply {
                 put("status", 5)
             }
-            query("transactions", arrayOf("_id"), "status = ? AND cat_id = ?", arrayOf(5, 0)).use { cursor ->
+            query(
+                "transactions",
+                arrayOf("_id"),
+                "status = ? AND cat_id = ?",
+                arrayOf(5, 0)
+            ).use { cursor ->
                 cursor.asSequence.forEach {
                     update("transactions", newStatus, "parent_id = ?", arrayOf(it.getLong(0)))
                 }
@@ -1092,6 +1098,22 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
             execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
             execSQL("ALTER TABLE transactions DROP COLUMN equivalent_amount")
+        }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo175() {
+        val currencyContext = context.injector.currencyContext()
+        query("select distinct commodity, currency from prices").use { cursor ->
+            cursor.asSequence.forEach {
+                val commodity = it.getString(0)
+                val currency = it.getString(1)
+                val delta =
+                    currencyContext[currency].fractionDigits - currencyContext[commodity].fractionDigits
+                if (delta != 0) {
+                    val coefficient = 10.0.pow(delta)
+                    execSQL("update prices set value = value * $coefficient where commodity = '$commodity' and currency = '$currency'")
+                }
+            }
         }
     }
 
@@ -1267,7 +1289,8 @@ abstract class BaseTransactionDatabase(
     fun insertDefaultTransferCategory(db: SupportSQLiteDatabase, label: String) {
         prefHandler.putLong(
             PrefKey.DEFAULT_TRANSFER_CATEGORY,
-            db.insert(TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
+            db.insert(
+                TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
                 ContentValues(3).apply {
                     put(KEY_LABEL, label)
                     put(KEY_TYPE, 0)

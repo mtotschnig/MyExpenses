@@ -2,14 +2,19 @@ package org.totschnig.myexpenses.util
 
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.math.BigDecimal
-import kotlin.math.pow
 
+/**
+ * real exchange rate relates major units of two currencies.
+ */
 fun calculateRealExchangeRate(
     raw: Double,
     currencyUnit: CurrencyUnit,
     homeCurrency: CurrencyUnit
-) = BigDecimal.valueOf(raw).movePointRight(currencyUnit.minorUnitDelta(homeCurrency))
+): BigDecimal = BigDecimal.valueOf(raw).movePointRight(currencyUnit.minorUnitDelta(homeCurrency))
 
+/**
+ * raw exchange rate relates minor units of two currencies.
+ */
 fun calculateRawExchangeRate(
     real: BigDecimal,
     currencyUnit: CurrencyUnit,
