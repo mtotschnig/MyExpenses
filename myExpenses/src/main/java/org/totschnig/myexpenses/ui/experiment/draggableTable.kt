@@ -9,14 +9,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -37,6 +42,7 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -91,6 +97,7 @@ data object E : SimpleField()
 class MyViewModel : ViewModel() {
 
     val positions: SnapshotStateList<Position> = SnapshotStateList()
+    val columnWidths: SnapshotStateList<Float> = SnapshotStateList()
 
     init {
         viewModelScope.launch {
@@ -105,6 +112,10 @@ class MyViewModel : ViewModel() {
                     E,
                 )
             )
+            columnWidths.addAll(
+                listOf(250f,250f,250f,250f)
+            )
+
         }
     }
 
@@ -143,16 +154,24 @@ class MyViewModel : ViewModel() {
 
     fun addColumn() {
         positions.add(ColumnFeed)
+        columnWidths.add(columnWidths.average().toFloat())
     }
 
     //remove the first empty column, or if there are no empty columns, the last column
     fun removeColumn() {
         val lastColumnFeed = positions.indexOfLast { it is ColumnFeed }
         if (lastColumnFeed == -1) return
-        positions.indices.find {
-            positions[it] is ColumnFeed && (it == 0 || it == lastColumnFeed || positions[it + 1] is ColumnFeed)
-        }?.let {
-            positions.removeAt(it)
+        var columnNr = 0
+        positions.forEachIndexed { index, position ->
+            if (position is ColumnFeed) {
+                if (index == 0 || index == lastColumnFeed || positions[index + 1] is ColumnFeed) {
+                    positions.removeAt(index)
+                    columnWidths.removeAt(columnNr)
+                    return
+                } else {
+                    columnNr++
+                }
+            }
         }
     }
 
@@ -183,109 +202,135 @@ class MyViewModel : ViewModel() {
 @Composable
 fun DraggableTableRow() {
     val viewModel = remember { MyViewModel() }
-    Column {
-        val columns = splitList(viewModel.positions)
-        Row {
-            if (columns.none { it.isEmpty() } && columns.any { it.size > 1 }) {
-                Button(viewModel::addColumn) {
-                    Text("add column")
+    BoxWithConstraints {
+        this.maxWidth
+        Column {
+            val columns = splitList(viewModel.positions)
+            Row {
+                if (columns.none { it.isEmpty() } && columns.any { it.size > 1 }) {
+                    Button(viewModel::addColumn) {
+                        Text("add column")
+                    }
+                }
+                if (viewModel.positions.count { it is ColumnFeed } > 0) {
+                    Button(viewModel::removeColumn) {
+                        Text("remove column")
+                    }
                 }
             }
-            if (viewModel.positions.count { it is ColumnFeed } > 0) {
-                Button(viewModel::removeColumn) {
-                    Text("remove column")
-                }
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            var dropPosition = -1
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(16.dp)
+            ) {
+                var dropPosition = -1
 
-            columns.forEach { list ->
+                columns.forEachIndexed { index, list ->
 
-                Box(
-                    contentAlignment = Alignment.TopStart,
-                    modifier = Modifier
-                        .animateContentSize()
-                        .weight(1f)
-                        .border(1.dp, Color.Gray)
-                        .background(Color(0xFFEEEEEE)),
-                ) {
-                    fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
-                        return {
-                            scope.launch {
-                                viewModel.move(it, dropPosition)
+                    Box(
+                        contentAlignment = Alignment.TopStart,
+                        modifier = Modifier
+                            .animateContentSize()
+                            .weight(viewModel.columnWidths[index])
+                            .border(1.dp, Color.Gray)
+                            .background(Color(0xFFEEEEEE)),
+                    ) {
+                        fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
+                            return {
+                                scope.launch {
+                                    viewModel.move(it, dropPosition)
+                                }
+                            }
+                        }
+
+                        fun allowDrop(dropPosition: Int): (Field) -> Boolean {
+                            return {
+                                viewModel.allowDrop(it, dropPosition)
+                            }
+                        }
+
+                        val scope = rememberCoroutineScope()
+                        Column(modifier = Modifier.padding(4.dp)) {
+                            dropPosition++
+                            key(dropPosition) {
+                                DropTarget(onDropped(scope, dropPosition), allowDrop(dropPosition))
+                            }
+
+                            list.forEach { field ->
+                                Log.d("draggabble", "position $dropPosition")
+                                key(
+                                    field,
+                                    dropPosition
+                                ) { //without key, dragAndDropSource caches the draggable node
+                                    DraggableItem(field, onDropped = {
+                                        scope.launch {
+                                            viewModel.combine(field, it)
+                                        }
+                                    }, onLongPress = {
+                                        scope.launch {
+                                            viewModel.split(field as CombinedField)
+                                        }
+                                    })
+                                    dropPosition++
+                                    DropTarget(
+                                        onDropped(scope, dropPosition),
+                                        allowDrop(dropPosition)
+                                    )
+                                }
                             }
                         }
                     }
-
-                    fun allowDrop(dropPosition: Int): (Field) -> Boolean {
-                        return {
-                            viewModel.allowDrop(it, dropPosition)
-                        }
-                    }
-
-                    val scope = rememberCoroutineScope()
-                    Column(modifier = Modifier.padding(4.dp)) {
-                        dropPosition++
-                        key(dropPosition) {
-                            DropTarget(onDropped(scope, dropPosition), allowDrop(dropPosition))
-                        }
-
-                        list.forEach { field ->
-                            Log.d("draggabble", "position $dropPosition")
-                            key(
-                                field,
-                                dropPosition
-                            ) { //without key, dragAndDropSource caches the draggable node
-                                DraggableItem(field, onDropped = {
-                                    scope.launch {
-                                        viewModel.combine(field, it)
+                    if (index < columns.lastIndex) {
+                        Box(
+                            modifier = Modifier
+                                .width(2.dp)
+                                .fillMaxHeight()
+                                .pointerInput(Unit) {
+                                    detectHorizontalDragGestures { change, dragAmount ->
+                                        change.consume()
+                                        val totalWidth = viewModel.columnWidths.sum()
+                                        val delta = (dragAmount.toDp() / this@BoxWithConstraints.maxWidth) * totalWidth
+                                        val newWidthLeft = viewModel.columnWidths[index] + delta
+                                        val newWidthRight = viewModel.columnWidths[index+1] - delta
+                                        val minWidth = totalWidth / 20
+                                        if (newWidthLeft > minWidth && newWidthRight > minWidth) {
+                                            Log.d("draggabble", "left: $newWidthLeft, right: $newWidthRight")
+                                            viewModel.columnWidths[index] = newWidthLeft
+                                            viewModel.columnWidths[index+1] = newWidthRight
+                                        }
                                     }
-                                }, onLongPress = {
-                                    scope.launch {
-                                        viewModel.split(field as CombinedField)
-                                    }
-                                })
-                                dropPosition++
-                                DropTarget(
-                                    onDropped(scope, dropPosition),
-                                    allowDrop(dropPosition)
-                                )
-                            }
-                        }
+                                }
+                                .background(Color.DarkGray)
+                        )
                     }
                 }
             }
-        }
-        FlowRow {
-            SimpleField.values.forEach { field ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(field::class.java.simpleName)
-                    Checkbox(checked = viewModel.positions.any {
-                        when (it) {
-                            is CombinedField -> field in it.fields
-                            is SimpleField -> it == field
-                            else -> false
-                        }
-                    }, onCheckedChange = { checked ->
-                        if (checked) {
-                            viewModel.addField(field)
-                        } else {
-                            viewModel.removeField(field)
-                        }
-                    })
-                }
+            FlowRow {
+                SimpleField.values.forEach { field ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(field::class.java.simpleName)
+                        Checkbox(checked = viewModel.positions.any {
+                            when (it) {
+                                is CombinedField -> field in it.fields
+                                is SimpleField -> it == field
+                                else -> false
+                            }
+                        }, onCheckedChange = { checked ->
+                            if (checked) {
+                                viewModel.addField(field)
+                            } else {
+                                viewModel.removeField(field)
+                            }
+                        })
+                    }
 
+                }
             }
         }
     }
-
 }
 
 @Composable
