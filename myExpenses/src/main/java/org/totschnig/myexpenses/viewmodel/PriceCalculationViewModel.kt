@@ -44,7 +44,7 @@ class PriceCalculationViewModel(application: Application, val savedStateHandle: 
                 )
             }
             ?.groupBy { it.date }
-            ?.forEach { date, prices ->
+            ?.forEach { (date, prices) ->
                 Timber.d("Date %s", date)
                 val existingPrices = mutableListOf<Pair<String, Double>>()
                 existingPrices.addAll(prices.filter { it.currency == newHomeCurrency }

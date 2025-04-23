@@ -153,15 +153,15 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     open val date: LocalDate = LocalDate.now()
 
     override suspend fun loadExchangeRate(
-        other: String,
-        base: String,
+        other: CurrencyUnit,
+        base: CurrencyUnit,
         source: ExchangeRateApi,
     ) = runCatching {
         exchangeRateViewModel.loadExchangeRate(other, base, date, source)
     }.fold(
         onSuccess = { Result.success(it) },
         onFailure = {
-            Result.failure( it.transformForUser(this, other, base))
+            Result.failure( it.transformForUser(this, other.code, base.code))
         }
     )
 }

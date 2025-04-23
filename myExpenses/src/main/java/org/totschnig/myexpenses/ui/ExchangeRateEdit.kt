@@ -83,8 +83,8 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
                     1 -> lifecycleScope?.launch {
                         handleResult(
                             host.loadExchangeRate(
-                                otherCurrency.code,
-                                baseCurrency.code,
+                                otherCurrency,
+                                baseCurrency,
                                 providers.first()
                             )
                         )
@@ -95,7 +95,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
                             lifecycleScope?.launch {
                                 handleResult(
                                     host.loadExchangeRate(
-                                        otherCurrency.code, baseCurrency.code,
+                                        otherCurrency, baseCurrency,
                                         providers[item.itemId]
                                     )
                                 )
@@ -239,10 +239,10 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         ) else nullValue
     }
 
-    private fun handleResult(result: Result<Double>) {
+    private fun handleResult(result: Result<BigDecimal>) {
         result.onSuccess {
             Timber.d("result: $it")
-            rate1Edit.setAmount(BigDecimal.valueOf(it))
+            rate1Edit.setAmount(it)
             source = Source.Download
         }.onFailure {
             complain(it.safeMessage)
@@ -267,10 +267,10 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
 
     interface Host {
         suspend fun loadExchangeRate(
-            other: String,
-            base: String,
+            other: CurrencyUnit,
+            base: CurrencyUnit,
             source: ExchangeRateApi,
-        ): Result<Double>
+        ): Result<BigDecimal>
     }
 
     companion object {

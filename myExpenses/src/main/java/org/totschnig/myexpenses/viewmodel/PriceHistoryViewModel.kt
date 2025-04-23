@@ -25,7 +25,9 @@ import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.viewmodel.data.Price
+import java.math.BigDecimal
 import java.time.LocalDate
 
 class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
@@ -85,7 +87,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             Price(
                 date = it.getLocalDate(0),
                 source = ExchangeRateSource.getByName(it.getString(1)),
-                value = it.getDouble(2)
+                value = calculateRealExchangeRate(it.getDouble(2), currencyContext[commodity], currencyContext.homeCurrencyUnit)
             )
         }
             .map {
@@ -121,10 +123,10 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         repository.deletePrice(price.date, price.source, homeCurrency, commodity)
     }
 
-    fun savePrice(date: LocalDate, value: Double) {
+    fun savePrice(date: LocalDate, value: BigDecimal) {
         repository.savePrice(
-            homeCurrency,
-            commodity,
+            currencyContext.homeCurrencyUnit,
+            currencyContext[commodity],
             date,
             ExchangeRateSource.User,
             value

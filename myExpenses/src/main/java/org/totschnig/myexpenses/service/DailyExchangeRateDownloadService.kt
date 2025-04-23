@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import timber.log.Timber
-import java.time.Duration
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -115,7 +115,6 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
             ContribUtils.showContribNotification(applicationContext, ContribFeature.AUTOMATIC_FX_DOWNLOAD)
             return Result.failure()
         }
-        @Suppress("RemoveRedundantQualifierName")
         val result: List<kotlin.Result<Unit>>? = applicationContext.contentResolver.query(
             TransactionProvider.ACCOUNTS_MINIMAL_URI,
             arrayOf("distinct $KEY_CURRENCY"),
@@ -145,7 +144,13 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     )
                     symbols.forEachIndexed { index, currency ->
                         val (date, rate) = rates[index]
-                        repository.savePrice(base, currency, date, source, rate)
+                        repository.savePrice(
+                            currencyContext.homeCurrencyUnit,
+                            currencyContext[currency],
+                            date,
+                            source,
+                            BigDecimal.valueOf(rate)
+                        )
                     }
                 }.onFailure {
                     CrashHandler.report(it)

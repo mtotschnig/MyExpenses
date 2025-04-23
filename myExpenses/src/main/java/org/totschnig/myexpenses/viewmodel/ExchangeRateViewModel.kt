@@ -4,17 +4,14 @@ import android.app.Application
 import android.content.Context
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.loadPrice
 import org.totschnig.myexpenses.db2.savePrice
-import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.retrofit.ExchangeRateService
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
+import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import timber.log.Timber
+import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -29,39 +26,18 @@ open class ExchangeRateViewModel(application: Application) :
     @Inject
     lateinit var exchangeRateService: ExchangeRateService
 
-    private fun loadFromDb(
-        base: String,
-        other: String,
-        date: LocalDate,
-        source: ExchangeRateApi,
-    ) = contentResolver.query(
-        TransactionProvider.PRICES_URI,
-        arrayOf(KEY_VALUE),
-        "$KEY_CURRENCY = ? AND $KEY_COMMODITY = ? AND $KEY_DATE = ? AND $KEY_SOURCE = ?",
-        arrayOf(base, other, date.toString(), source.name),
-        null, null
-    )?.use {
-        if (it.moveToFirst()) it.getDouble(0) else null
-    }
-
     /**
      * Load the value of 1 unit of other currency expressed in base currency
      */
     suspend fun loadExchangeRate(
-        other: String,
-        base: String,
+        other: CurrencyUnit,
+        base: CurrencyUnit,
         date: LocalDate,
         source: ExchangeRateApi,
-    ): Double = withContext(coroutineContext()) {
-        if (date == LocalDate.now() && !source.limitToOneRequestPerDay) {
-            loadFromNetwork(
-                source = source,
-                date = date,
-                other = other,
-                base = base
-            ).second
-        } else loadFromDb(base, other, date, source)
-            ?: loadFromNetwork(source, date, other, base).second
+    ): BigDecimal = withContext(coroutineContext()) {
+        (if (date != LocalDate.now() || source.limitToOneRequestPerDay)
+            repository.loadPrice(base, other, date, source)
+        else null) ?: loadFromNetwork(source, date, other.code, base.code).second
     }
 
     suspend fun loadFromNetwork(
@@ -76,10 +52,17 @@ open class ExchangeRateViewModel(application: Application) :
             date,
             base,
             other
-        ).also {
-            Timber.d("loadFromNetwork: %s", it)
-            repository.savePrice(base, other, it.first, source, it.second)
-        }
+        ).let { it.first to BigDecimal.valueOf(it.second) }
+            .also {
+                Timber.d("loadFromNetwork: %s", it)
+                repository.savePrice(
+                    currencyContext[base],
+                    currencyContext[other],
+                    it.first,
+                    source,
+                    it.second
+                )
+            }
     }
 }
 
@@ -91,7 +74,7 @@ fun Throwable.transformForUser(context: Context, other: String, base: String) = 
 
     is MissingApiKeyException ->
         Exception(
-            context. getString(R.string.pref_exchange_rates_api_key_summary, source.host)
+            context.getString(R.string.pref_exchange_rates_api_key_summary, source.host)
         )
 
     else -> this

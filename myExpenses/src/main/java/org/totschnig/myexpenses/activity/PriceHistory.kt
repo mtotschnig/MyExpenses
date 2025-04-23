@@ -62,8 +62,8 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.data.Price
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
+import org.totschnig.myexpenses.viewmodel.data.Price
 import org.totschnig.myexpenses.viewmodel.transformForUser
 import java.math.BigDecimal
 import java.math.MathContext
@@ -192,7 +192,7 @@ fun PriceListScreen(
     homeCurrency: CurrencyUnit,
     modifier: Modifier = Modifier,
     onDelete: (Price) -> Unit,
-    onSave: (LocalDate, Double) -> Unit,
+    onSave: (LocalDate, BigDecimal) -> Unit,
     onDownload: (LocalDate) -> Unit,
     inverseRate: Boolean = false,
 ) {
@@ -219,8 +219,6 @@ fun PriceListScreen(
                 key = { it.key }
             ) { (date, price) ->
                 val rate = price?.value?.let {
-                    BigDecimal.valueOf(it)
-                }?.let {
                     if (inverseRate) it.reciprocal else it
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -249,7 +247,7 @@ fun PriceListScreen(
                             keyboardActions = KeyboardActions(onDone = {
                                 if (isValid.value == true) {
                                     valueForEdit?.let {
-                                        onSave(date, (if (inverseRate) it.reciprocal else it).toDouble())
+                                        onSave(date, (if (inverseRate) it.reciprocal else it))
                                     }
                                 }
                                 editedDate.value = null
@@ -359,7 +357,7 @@ fun HistoricPricesPreview() {
         buildMap {
             repeat(250) {
                 val date = LocalDate.now().minusDays(it.toLong())
-                put(date, Price(date, ExchangeRateApi.Frankfurter, random.nextDouble()))
+                put(date, Price(date, ExchangeRateApi.Frankfurter, BigDecimal.valueOf(random.nextDouble())))
             }
         },
         homeCurrency = CurrencyUnit.DebugInstance,
