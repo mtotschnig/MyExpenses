@@ -464,22 +464,22 @@ object PdfPrinter {
                 header2Table.spacingAfter = 2f
 
                 val wrapper2 = PdfPTable(1)
-                wrapper2.setWidthPercentage(100f)
+                wrapper2.widthPercentage = 100f
 
                 val line1Cell2 = PdfPCell(groupSummary)
-                line1Cell2.setBorder(NO_BORDER)
+                line1Cell2.border = NO_BORDER
                 wrapper2.addCell(line1Cell2)
 
                 val line2Cell2 = PdfPCell(header2Table)
-                line2Cell2.setBorder(NO_BORDER)
+                line2Cell2.border = NO_BORDER
                 wrapper2.addCell(line2Cell2)
 
                 val outer2 = PdfPCell(groupSummary)
-                outer2.setBorder(Rectangle.BOX)
+                outer2.border = Rectangle.BOX
                 outer2.setPadding(8f) // nice visual spacing
 
                 val finalContainer2 = PdfPTable(1)
-                finalContainer2.setWidthPercentage(100f)
+                finalContainer2.widthPercentage = 100f
                 finalContainer2.addCell(outer2)
                 document.add(finalContainer2)
 
@@ -552,7 +552,7 @@ object PdfPrinter {
                         }
                     }
                 }
-                var widths = intArrayOf(1, 4, 2, 2, 2)
+                val widths = intArrayOf(1, 4, 2, 2, 2)
                 if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) {
                     widths.reverse()
                 }
@@ -569,8 +569,8 @@ object PdfPrinter {
             }
 
             //Column 1 Date
-            var cell = helper.printToCell(
-                Utils.convDateTime(transaction._date, itemDateFormat),
+            val cell = helper.printToCell(
+                Utils.convDateTime(transaction._date, itemDateFormat!!), //TODO daily grouping without time
                 FontType.NORMAL,
                 Rectangle.RIGHT + Rectangle.TOP
             )
@@ -655,7 +655,7 @@ object PdfPrinter {
                     border = Rectangle.TOP + Rectangle.RIGHT
                 )
             )
-            //Column 6 amount
+            //Column 5 amount
             val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
                 (colorSource.transformType(transaction.type)
                     ?: when (transaction.displayAmount.amountMinor.sign) {
@@ -718,7 +718,7 @@ object PdfPrinter {
         text2: String,
     ) {
         val nested = PdfPTable(1)
-        nested.setWidthPercentage(100f)
+        nested.widthPercentage = 100f
         addHeaderCell(nested, text1, font, alignment, NO_BORDER)
         addHeaderCell(nested, text2, font, alignment, NO_BORDER)
         val cell = PdfPCell(nested)
