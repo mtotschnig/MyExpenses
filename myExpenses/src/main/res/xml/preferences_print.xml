@@ -3,6 +3,13 @@
     xmlns:my="http://schemas.android.com/apk/res-auto"
     android:title="@string/menu_print">
     <org.totschnig.myexpenses.preference.HeaderPreference />
+    <Preference
+        android:title="print_layout">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.PrintLayoutConfiguration"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+
     <PreferenceCategory android:title="@string/header_footer">
         <EditTextPreference
             android:key="@string/pref_print_header_left_key"
