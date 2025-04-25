@@ -99,6 +99,7 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .height(IntrinsicSize.Min)
                     .weight(1f)
                     .padding(16.dp)
@@ -121,7 +122,6 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                         Column(
                             modifier = Modifier
                                 .padding(4.dp)
-                                .verticalScroll(rememberScrollState())
                         ) {
                             Row(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
