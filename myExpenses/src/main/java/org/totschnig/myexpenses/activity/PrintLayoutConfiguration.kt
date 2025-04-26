@@ -18,10 +18,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
@@ -46,11 +46,15 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.view.isVisible
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -60,6 +64,7 @@ import org.totschnig.myexpenses.viewmodel.CombinedField
 import org.totschnig.myexpenses.viewmodel.Field
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.SimpleField
+import timber.log.Timber
 
 class PrintLayoutConfiguration : ProtectedFragmentActivity() {
     val viewModel: PrintLayoutConfigurationViewModel by viewModels()
@@ -68,13 +73,30 @@ class PrintLayoutConfiguration : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         //injector.inject(viewModel)
         val binding = ActivityComposeBinding.inflate(layoutInflater)
+        floatingActionButton = binding.fab.CREATECOMMAND.also {
+            it.isVisible = true
+        }
         setContentView(binding.root)
+        setupToolbar()
         binding.composeView.setContent {
             AppTheme {
                 DraggableTableRow(viewModel)
             }
 
         }
+    }
+
+    override val fabDescription: Int?
+        get() = R.string.menu_save
+
+    override val fabActionName: String?
+        get() = "PRINT_CONFIGURATION"
+
+    override val fabIcon: Int?
+        get() = R.drawable.ic_menu_done
+
+    override fun onFabClicked() {
+        super.onFabClicked()
     }
 }
 
@@ -93,7 +115,15 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
             viewModel.allowDrop(it, dropPosition)
         }
     }
-    BoxWithConstraints {
+
+    val nestedScrollInterop = rememberNestedScrollInteropConnection()
+    BoxWithConstraints(
+        modifier = Modifier
+            .nestedScroll(nestedScrollInterop)
+            .padding(
+                horizontal = dimensionResource(R.dimen.padding_main_screen)
+            )
+    ) {
         Column {
             val columns = viewModel.columns
             Row(
@@ -101,8 +131,7 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
                     .height(IntrinsicSize.Min)
-                    .weight(1f)
-                    .padding(16.dp)
+                    .weight(1f, fill = false)
             ) {
                 var dropPosition = -1
 
@@ -119,10 +148,7 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
 
 
                         val scope = rememberCoroutineScope()
-                        Column(
-                            modifier = Modifier
-                                .padding(4.dp)
-                        ) {
+                        Column {
                             Row(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                                 horizontalArrangement = Arrangement.Absolute.Left
@@ -166,7 +192,9 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                                 ) { //without key, dragAndDropSource caches the draggable node
                                     DraggableItem(
                                         field,
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier
+                                            .padding(horizontal = 4.dp)
+                                            .fillMaxWidth(),
                                         onDropped = {
                                             scope.launch {
                                                 viewModel.combine(field, it)
@@ -185,8 +213,8 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                     if (index < columns.lastIndex) {
                         Box(
                             modifier = Modifier
-                                .width(2.dp)
-                                .fillMaxHeight()
+                                .width(8.dp)
+                                .height(48.dp)
                                 .pointerInput(Unit) {
                                     detectHorizontalDragGestures { change, dragAmount ->
                                         change.consume()
@@ -208,9 +236,14 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                     }
                 }
             }
+            var dragStarted by remember { mutableStateOf(false) }
             var bgColor by remember { mutableStateOf(Color.Transparent) }
             val target = remember {
                 object : DragAndDropTarget {
+                    override fun onStarted(event: DragAndDropEvent) {
+                        dragStarted = true
+                    }
+
                     override fun onEntered(event: DragAndDropEvent) {
                         bgColor = Color.DarkGray.copy(alpha = 0.2f)
                     }
@@ -226,26 +259,40 @@ fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
                         }
                         return true
                     }
+
+                    override fun onEnded(event: DragAndDropEvent) {
+                        dragStarted = false
+                    }
                 }
             }
             val inactiveFields = viewModel.inactiveFields
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = 8.dp)
                     .background(bgColor, RoundedCornerShape(16.dp))
                     .dragAndDropTarget(
                         shouldStartDragAndDrop = { event ->
-                            (event.toAndroidDragEvent().localState as? Field)?.let {
+                            ((event.toAndroidDragEvent().localState as? Field)?.let {
                                 inactiveFields.contains(it)
-                            } == false
+                            } == false).also {
+                                Timber.d("shouldStartDragAndDrop: $it")
+                            }
                         },
                         target = target
                     )
             ) {
-                Column {
-                    Text("Fields not printed")
+                if (dragStarted) {
+                    Icon(
+                        imageVector = Icons.Default.Delete, contentDescription = "Remove field",
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(32.dp)
+                    )
+                } else {
                     FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         inactiveFields.forEach { field ->
                             key(field) {
@@ -285,10 +332,9 @@ fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { tru
     }
     Box(
         modifier = Modifier
-            .height(48.dp)
+            .background(bgColor)
+            .height(32.dp)
             .fillMaxWidth()
-            .border(1.dp, Color.Gray)
-            .background(bgColor, RoundedCornerShape(16.dp))
             .dragAndDropTarget(
                 shouldStartDragAndDrop = {
                     (it.toAndroidDragEvent().localState as? Field)?.let(allowDrop) == true
@@ -296,7 +342,7 @@ fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { tru
                 target = target
             ), contentAlignment = Alignment.Center
     ) {
-        Text("Drop here")
+        Icon(painter = painterResource(R.drawable.step_into), contentDescription = "Drop here")
     }
 }
 
