@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
+import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -12,6 +13,11 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.toDayOfWeek
+import org.totschnig.myexpenses.viewmodel.Amount
+import org.totschnig.myexpenses.viewmodel.ColumnFeed
+import org.totschnig.myexpenses.viewmodel.Date
+import org.totschnig.myexpenses.viewmodel.Notes
+import org.totschnig.myexpenses.viewmodel.Position
 import java.util.Calendar
 import java.util.Locale
 
@@ -179,6 +185,28 @@ fun PrefHandler.getStringSafe(prefKey: String, default: String) = try {
 } catch (_: ClassCastException) {
     default
 }
+
+fun PrefHandler.saveIntList(key: PrefKey, list: List<Int>) {
+    putString(key, list.joinToString(","))
+}
+
+fun PrefHandler.loadIntList(key: PrefKey) = getString(key, null)?.let {
+    it.split(",").mapNotNull { it.toIntOrNull() }
+}
+
+var PrefHandler.printLayout: List<Position>
+    get() = getString(PrefKey.PRINT_LAYOUT, null)?.let { Json.decodeFromString(it) }
+        ?: listOf(Date, ColumnFeed, Notes, ColumnFeed, Amount)
+    set(value) {
+        putString(PrefKey.PRINT_LAYOUT, Json.encodeToString(value))
+    }
+
+var PrefHandler.printLayoutColumnWidth: List<Float>
+    get() = loadIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH)?.map { it.toFloat() }
+        ?: listOf(250f, 250f, 250f)
+    set(value) {
+        saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value.map { it.toInt() })
+    }
 
 enum class ColorSource {
     TYPE, SIGN, TYPE_WITH_SIGN;

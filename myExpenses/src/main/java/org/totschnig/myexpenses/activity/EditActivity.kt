@@ -24,7 +24,6 @@ import androidx.activity.viewModels
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.newInstance
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
@@ -47,7 +46,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     @State
     var newInstance = true
 
-    val exchangeRateViewModel: ExchangeRateViewModel by viewModels()
+    private val exchangeRateViewModel: ExchangeRateViewModel by viewModels()
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -70,15 +69,16 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }
 
     private fun showDiscardDialog() {
-        val b = Bundle()
-        b.putString(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            if (newInstance) getString(R.string.discard) + "?" else getString(R.string.dialog_confirm_discard_changes)
-        )
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home)
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
-        b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
-        newInstance(b)
+        ConfirmationDialogFragment.newInstance(
+            Bundle().apply {
+                putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    if (newInstance) getString(R.string.discard) + "?" else getString(R.string.dialog_confirm_discard_changes)
+                )
+                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home)
+                putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
+            })
             .show(supportFragmentManager, "DISCARD")
     }
 
@@ -161,7 +161,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }.fold(
         onSuccess = { Result.success(it) },
         onFailure = {
-            Result.failure( it.transformForUser(this, other.code, base.code))
+            Result.failure(it.transformForUser(this, other.code, base.code))
         }
     )
 }

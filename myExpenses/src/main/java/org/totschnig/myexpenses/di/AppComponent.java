@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel;
+import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel;
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
@@ -321,4 +322,6 @@ public interface AppComponent {
   void inject(BudgetListViewModel budgetListViewModel);
 
   void inject(DailyExchangeRateDownloadService dailyExchangeRateService);
+
+  void inject(PrintLayoutConfigurationViewModel printLayoutConfigurationViewModel);
 }

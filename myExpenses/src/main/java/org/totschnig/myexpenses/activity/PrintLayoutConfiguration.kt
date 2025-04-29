@@ -52,6 +52,11 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.hideFromAccessibility
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
@@ -60,18 +65,22 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.CombinedField
 import org.totschnig.myexpenses.viewmodel.Field
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.SimpleField
 import timber.log.Timber
 
-class PrintLayoutConfiguration : ProtectedFragmentActivity() {
+class PrintLayoutConfiguration : EditActivity() {
     val viewModel: PrintLayoutConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //injector.inject(viewModel)
+        injector.inject(viewModel)
+        if (savedInstanceState == null) {
+            viewModel.init()
+        }
         val binding = ActivityComposeBinding.inflate(layoutInflater)
         floatingActionButton = binding.fab.CREATECOMMAND.also {
             it.isVisible = true
@@ -80,229 +89,283 @@ class PrintLayoutConfiguration : ProtectedFragmentActivity() {
         setupToolbar()
         binding.composeView.setContent {
             AppTheme {
-                DraggableTableRow(viewModel)
+                DraggableTableRow()
             }
 
         }
     }
 
-    override val fabDescription: Int?
+    override val fabDescription: Int
         get() = R.string.menu_save
 
-    override val fabActionName: String?
+    override val fabActionName: String
         get() = "PRINT_CONFIGURATION"
 
-    override val fabIcon: Int?
-        get() = R.drawable.ic_menu_done
-
-    override fun onFabClicked() {
-        super.onFabClicked()
+    override fun saveState() {
+        super.saveState()
+        viewModel.save()
+        finish()
     }
-}
 
-@Composable
-fun DraggableTableRow(viewModel: PrintLayoutConfigurationViewModel) {
-    fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
-        return {
-            scope.launch {
-                viewModel.move(it, dropPosition)
+    @Composable
+    fun DraggableTableRow() {
+        fun onDropped(scope: CoroutineScope, dropPosition: Int): (Field) -> Unit {
+            return {
+                setDirty()
+                scope.launch {
+                    viewModel.move(it, dropPosition)
+                }
             }
         }
-    }
 
-    fun allowDrop(dropPosition: Int): (Field) -> Boolean {
-        return {
-            viewModel.allowDrop(it, dropPosition)
+        fun allowDrop(dropPosition: Int): (Field) -> Boolean {
+            return {
+                viewModel.allowDrop(it, dropPosition)
+            }
         }
-    }
 
-    val nestedScrollInterop = rememberNestedScrollInteropConnection()
-    BoxWithConstraints(
-        modifier = Modifier
-            .nestedScroll(nestedScrollInterop)
-            .padding(
-                horizontal = dimensionResource(R.dimen.padding_main_screen)
-            )
-    ) {
-        Column {
-            val columns = viewModel.columns
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .height(IntrinsicSize.Min)
-                    .weight(1f, fill = false)
-            ) {
-                var dropPosition = -1
+        val nestedScrollInterop = rememberNestedScrollInteropConnection()
+        BoxWithConstraints(
+            modifier = Modifier
+                .nestedScroll(nestedScrollInterop)
+                .padding(
+                    horizontal = dimensionResource(R.dimen.padding_main_screen)
+                )
+        ) {
+            Column {
+                val columns = viewModel.columns
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .height(IntrinsicSize.Min)
+                        .weight(1f, fill = false)
+                ) {
+                    var dropPosition = -1
 
-                columns.forEachIndexed { index, list ->
+                    columns.forEachIndexed { columnNumber, list ->
 
-                    Box(
-                        contentAlignment = Alignment.TopStart,
-                        modifier = Modifier
-                            .animateContentSize()
-                            .weight(viewModel.columnWidths[index])
-                            .border(1.dp, Color.Gray)
-                            .background(Color(0xFFEEEEEE)),
-                    ) {
+                        Box(
+                            contentAlignment = Alignment.TopStart,
+                            modifier = Modifier
+                                .animateContentSize()
+                                .weight(viewModel.columnWidths[columnNumber])
+                                .border(1.dp, Color.Gray)
+                                .background(Color(0xFFEEEEEE)),
+                        ) {
 
 
-                        val scope = rememberCoroutineScope()
-                        Column {
-                            Row(
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
-                                horizontalArrangement = Arrangement.Absolute.Left
-                            ) {
-                                IconButton(onClick = {
-                                    viewModel.addColumn(index)
-                                }) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.add_column_left),
-                                        contentDescription = "Add column left"
-                                    )
-                                }
-                                if (list.isEmpty() && columns.size > 1) {
+                            val scope = rememberCoroutineScope()
+                            Column(Modifier.semantics { isTraversalGroup = true }) {
+                                Row(
+                                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                                    horizontalArrangement = Arrangement.Absolute.Left
+                                ) {
                                     IconButton(onClick = {
-                                        viewModel.removeColumn(index)
+                                        setDirty()
+                                        viewModel.addColumn(columnNumber)
                                     }) {
                                         Icon(
-                                            imageVector = Icons.Default.Delete,
-                                            contentDescription = "Remove column"
+                                            painter = painterResource(R.drawable.add_column_left),
+                                            contentDescription = "Add column left"
+                                        )
+                                    }
+                                    if (list.isEmpty() && columns.size > 1) {
+                                        IconButton(onClick = {
+                                            setDirty()
+                                            viewModel.removeColumn(columnNumber)
+                                        }) {
+                                            Icon(
+                                                imageVector = Icons.Default.Delete,
+                                                contentDescription = "Remove column"
+                                            )
+                                        }
+                                    }
+                                    IconButton(onClick = {
+                                        setDirty()
+                                        viewModel.addColumn(columnNumber + 1)
+                                    }) {
+                                        Icon(
+                                            painter = painterResource(R.drawable.add_column_right),
+                                            contentDescription = "Add column left"
                                         )
                                     }
                                 }
-                                IconButton(onClick = {
-                                    viewModel.addColumn(index + 1)
-                                }) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.add_column_right),
-                                        contentDescription = "Add column left"
-                                    )
-                                }
-                            }
-                            dropPosition++
-                            key(dropPosition) {
-                                DropTarget(onDropped(scope, dropPosition), allowDrop(dropPosition))
-                            }
-
-                            list.forEach { field ->
-                                key(
-                                    field,
-                                    dropPosition
-                                ) { //without key, dragAndDropSource caches the draggable node
-                                    DraggableItem(
-                                        field,
-                                        modifier = Modifier
-                                            .padding(horizontal = 4.dp)
-                                            .fillMaxWidth(),
-                                        onDropped = {
-                                            scope.launch {
-                                                viewModel.combine(field, it)
-                                            }
-                                        }
-                                    )
-                                    dropPosition++
+                                dropPosition++
+                                key(dropPosition) {
                                     DropTarget(
                                         onDropped(scope, dropPosition),
                                         allowDrop(dropPosition)
                                     )
                                 }
-                            }
-                        }
-                    }
-                    if (index < columns.lastIndex) {
-                        Box(
-                            modifier = Modifier
-                                .width(8.dp)
-                                .height(48.dp)
-                                .pointerInput(Unit) {
-                                    detectHorizontalDragGestures { change, dragAmount ->
-                                        change.consume()
-                                        val totalWidth = viewModel.columnWidths.sum()
-                                        val delta =
-                                            (dragAmount.toDp() / this@BoxWithConstraints.maxWidth) * totalWidth
-                                        val newWidthLeft = viewModel.columnWidths[index] + delta
-                                        val newWidthRight =
-                                            viewModel.columnWidths[index + 1] - delta
-                                        val minWidth = totalWidth / 20
-                                        if (newWidthLeft > minWidth && newWidthRight > minWidth) {
-                                            viewModel.columnWidths[index] = newWidthLeft
-                                            viewModel.columnWidths[index + 1] = newWidthRight
-                                        }
+
+                                list.forEachIndexed { rowNumber, field ->
+                                    key(
+                                        field,
+                                        dropPosition
+                                    ) { //without key, dragAndDropSource caches the draggable node
+                                        DraggableItem(
+                                            field,
+                                            modifier = Modifier
+                                                .padding(horizontal = 4.dp)
+                                                .fillMaxWidth()
+                                                .semantics {
+                                                    customActions = buildList {
+                                                        if (rowNumber < list.lastIndex) {
+                                                            add(
+                                                                CustomAccessibilityAction(
+                                                                    label = "moveDownLabel",
+                                                                    action = {
+                                                                        viewModel.moveDown(field)
+                                                                        true
+                                                                    })
+                                                            )
+                                                        }
+                                                        if (rowNumber > 0) {
+                                                            add(
+                                                                CustomAccessibilityAction(
+                                                                    label = "moveUpLabel",
+                                                                    action = {
+                                                                        viewModel.moveUp(field)
+                                                                        true
+                                                                    }
+                                                                ))
+                                                        }
+                                                        if (columnNumber < columns.lastIndex) {
+                                                            add(
+                                                                CustomAccessibilityAction(
+                                                                    label = "moveRightLabel",
+                                                                    action = {
+                                                                        viewModel.moveRight(field)
+                                                                        true
+                                                                    }
+                                                                ))
+                                                        }
+                                                        if (columnNumber > 0) {
+                                                            add(
+                                                                CustomAccessibilityAction(
+                                                                    label = "moveLeftLabel",
+                                                                    action = {
+                                                                        viewModel.moveLeft(field)
+                                                                        true
+                                                                    }
+                                                                ))
+                                                        }
+                                                    }
+
+                                                },
+                                            onDropped = {
+                                                scope.launch {
+                                                    viewModel.combine(field, it)
+                                                }
+                                            }
+                                        )
+                                        dropPosition++
+                                        DropTarget(
+                                            onDropped(scope, dropPosition),
+                                            allowDrop(dropPosition)
+                                        )
                                     }
                                 }
-                                .background(Color.DarkGray)
+                            }
+                        }
+                        if (columnNumber < columns.lastIndex) {
+                            Box(
+                                modifier = Modifier
+                                    .width(8.dp)
+                                    .height(48.dp)
+                                    .pointerInput(Unit) {
+                                        detectHorizontalDragGestures { change, dragAmount ->
+                                            change.consume()
+                                            setDirty()
+                                            val totalWidth = viewModel.columnWidths.sum()
+                                            val delta =
+                                                (dragAmount.toDp() / this@BoxWithConstraints.maxWidth) * totalWidth
+                                            val newWidthLeft =
+                                                viewModel.columnWidths[columnNumber] + delta
+                                            val newWidthRight =
+                                                viewModel.columnWidths[columnNumber + 1] - delta
+                                            val minWidth = totalWidth / 20
+                                            if (newWidthLeft > minWidth && newWidthRight > minWidth) {
+                                                viewModel.columnWidths[columnNumber] = newWidthLeft
+                                                viewModel.columnWidths[columnNumber + 1] =
+                                                    newWidthRight
+                                            }
+                                        }
+                                    }
+                                    .background(Color.DarkGray)
+                            )
+                        }
+                    }
+                }
+                var dragStarted by remember { mutableStateOf(false) }
+                var bgColor by remember { mutableStateOf(Color.Transparent) }
+                val target = remember {
+                    object : DragAndDropTarget {
+                        override fun onStarted(event: DragAndDropEvent) {
+                            dragStarted = true
+                        }
+
+                        override fun onEntered(event: DragAndDropEvent) {
+                            bgColor = Color.DarkGray.copy(alpha = 0.2f)
+                        }
+
+                        override fun onExited(event: DragAndDropEvent) {
+                            bgColor = Color.Transparent
+                        }
+
+                        override fun onDrop(event: DragAndDropEvent): Boolean {
+                            bgColor = Color.Transparent
+                            (event.toAndroidDragEvent().localState as? Field)?.let {
+                                viewModel.removeField(it)
+                            }
+                            return true
+                        }
+
+                        override fun onEnded(event: DragAndDropEvent) {
+                            dragStarted = false
+                        }
+                    }
+                }
+                val inactiveFields = viewModel.inactiveFields
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .background(bgColor, RoundedCornerShape(16.dp))
+                        .dragAndDropTarget(
+                            shouldStartDragAndDrop = { event ->
+                                ((event.toAndroidDragEvent().localState as? Field)?.let {
+                                    inactiveFields.contains(it)
+                                } == false).also {
+                                    Timber.d("shouldStartDragAndDrop: $it")
+                                }
+                            },
+                            target = target
                         )
-                    }
-                }
-            }
-            var dragStarted by remember { mutableStateOf(false) }
-            var bgColor by remember { mutableStateOf(Color.Transparent) }
-            val target = remember {
-                object : DragAndDropTarget {
-                    override fun onStarted(event: DragAndDropEvent) {
-                        dragStarted = true
-                    }
-
-                    override fun onEntered(event: DragAndDropEvent) {
-                        bgColor = Color.DarkGray.copy(alpha = 0.2f)
-                    }
-
-                    override fun onExited(event: DragAndDropEvent) {
-                        bgColor = Color.Transparent
-                    }
-
-                    override fun onDrop(event: DragAndDropEvent): Boolean {
-                        bgColor = Color.Transparent
-                        (event.toAndroidDragEvent().localState as? Field)?.let {
-                            viewModel.removeField(it)
-                        }
-                        return true
-                    }
-
-                    override fun onEnded(event: DragAndDropEvent) {
-                        dragStarted = false
-                    }
-                }
-            }
-            val inactiveFields = viewModel.inactiveFields
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .background(bgColor, RoundedCornerShape(16.dp))
-                    .dragAndDropTarget(
-                        shouldStartDragAndDrop = { event ->
-                            ((event.toAndroidDragEvent().localState as? Field)?.let {
-                                inactiveFields.contains(it)
-                            } == false).also {
-                                Timber.d("shouldStartDragAndDrop: $it")
-                            }
-                        },
-                        target = target
-                    )
-            ) {
-                if (dragStarted) {
-                    Icon(
-                        imageVector = Icons.Default.Delete, contentDescription = "Remove field",
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(32.dp)
-                    )
-                } else {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        inactiveFields.forEach { field ->
-                            key(field) {
-                                DraggableItem(field)
+                ) {
+                    if (dragStarted) {
+                        Icon(
+                            imageVector = Icons.Default.Delete, contentDescription = "Remove field",
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(32.dp)
+                        )
+                    } else {
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            inactiveFields.forEach { field ->
+                                key(field) {
+                                    DraggableItem(field)
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
         }
     }
 }
@@ -342,7 +405,13 @@ fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { tru
                 target = target
             ), contentAlignment = Alignment.Center
     ) {
-        Icon(painter = painterResource(R.drawable.step_into), contentDescription = "Drop here")
+        Icon(
+            modifier = Modifier.semantics {
+                hideFromAccessibility()
+            },
+            painter = painterResource(R.drawable.step_into),
+            contentDescription = null
+        )
     }
 }
 

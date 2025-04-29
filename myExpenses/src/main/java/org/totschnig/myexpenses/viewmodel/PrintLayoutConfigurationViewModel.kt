@@ -5,21 +5,29 @@ import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.printLayout
+import org.totschnig.myexpenses.preference.printLayoutColumnWidth
+import org.totschnig.myexpenses.util.indexOfFrom
+import org.totschnig.myexpenses.util.lastIndexOfFrom
 import org.totschnig.myexpenses.util.removeNthOccurrence
+import javax.inject.Inject
 
 @Parcelize
+@Serializable
 sealed class Position : Parcelable
 
 @Parcelize
+@Serializable
 data object ColumnFeed : Position()
 
 @Parcelize
+@Serializable
 sealed class Field : Position() {
     fun asList(): List<SimpleField> = when (this) {
         is CombinedField -> fields
@@ -30,33 +38,44 @@ sealed class Field : Position() {
 }
 
 @Parcelize
+@Serializable
 data class CombinedField(val fields: List<SimpleField>) : Field()
 
+@Serializable
 sealed class SimpleField(@StringRes val label: Int) : Field() {
     @GenSealedEnum
     companion object
 }
 
 @Parcelize
+@Serializable
 data object Date : SimpleField(R.string.date)
 
 @Parcelize
+@Serializable
 data object Category : SimpleField(R.string.category)
 
 @Parcelize
+@Serializable
 data object Tags : SimpleField(R.string.tags)
 
 @Parcelize
+@Serializable
 data object Payee : SimpleField(R.string.payee)
 
 @Parcelize
+@Serializable
 data object Notes : SimpleField(R.string.notes)
 
 @Parcelize
+@Serializable
 data object Amount : SimpleField(R.string.amount)
 
 
 class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewModel(application) {
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     val positions: SnapshotStateList<Position> = SnapshotStateList()
     val columnWidths: SnapshotStateList<Float> = SnapshotStateList()
@@ -87,12 +106,14 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
             }
         }
 
-    init {
-        viewModelScope.launch {
-            columnWidths.addAll(
-                listOf(250f)
-            )
-
+    fun init() {
+        positions.addAll(prefHandler.printLayout)
+        val elements = prefHandler.printLayoutColumnWidth
+        if (elements.size == columns.size) {
+            columnWidths.addAll(elements)
+        } else {
+            //reset to default if columnWidths is not the same size as columns
+            columnWidths.addAll(List(columns.size) { 250f })
         }
     }
 
@@ -118,6 +139,40 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
         )
     }
 
+    fun moveUp(field: Field) {
+        val index = positions.indexOf(field)
+        if (index > 0) {
+            positions.removeAt(index)
+            positions.add(index - 1, field)
+        }
+    }
+
+    fun moveDown(field: Field) {
+        val index = positions.indexOf(field)
+        if (index < positions.lastIndex) {
+            positions.removeAt(index)
+            positions.add(index + 1, field)
+        }
+    }
+
+    fun moveRight(field: Field) {
+        val index = positions.indexOf(field)
+        val newPosition = positions.indexOfFrom(ColumnFeed, index)
+        if (newPosition > index) {
+            positions.removeAt(index)
+            positions.add(newPosition, field)
+        }
+    }
+
+    fun moveLeft(field: Field) {
+        val index = positions.indexOf(field)
+        val newPosition = positions.lastIndexOfFrom(ColumnFeed, index)
+        if (newPosition < index && newPosition != -1) {
+            positions.removeAt(index)
+            positions.add(newPosition, field)
+        }
+    }
+
     fun addColumn(position: Int) {
         var columnNr = 0
         val avgColumnWidth = columnWidths.average().toFloat()
@@ -141,6 +196,7 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
      */
     fun removeColumn(position: Int) {
         positions.removeNthOccurrence(ColumnFeed, (position-1).coerceAtLeast(0))
+        columnWidths.removeAt(position)
     }
 
     fun removeField(field: Field) {
@@ -150,5 +206,11 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
     fun allowDrop(field: Field, dropPosition: Int): Boolean {
         val index = positions.indexOf(field)
         return index == -1 || dropPosition < index || dropPosition > index + 1
+    }
+
+    fun save() {
+        prefHandler.printLayout = positions.toList()
+        prefHandler.printLayoutColumnWidth = columnWidths
+
     }
 }

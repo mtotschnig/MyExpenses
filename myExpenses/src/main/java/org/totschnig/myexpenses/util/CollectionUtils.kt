@@ -20,3 +20,17 @@ fun <T> MutableList<T>.removeNthOccurrence(element: T, n: Int): Boolean {
         }
         return false
 }
+
+fun <T> List<T>.indexOfFrom(element: T, startIndex: Int): Int {
+        if (startIndex >= this.size) return -1
+        val subIndex = this.subList(startIndex, this.size).indexOf(element)
+        return if (subIndex == -1) -1 else startIndex + subIndex
+}
+
+fun <T> List<T>.lastIndexOfFrom(element: T, startIndex: Int): Int {
+        if (startIndex >= this.size) return -1
+        for (i in startIndex downTo 0) {
+                if (this[i] == element) return i
+        }
+        return -1
+}
