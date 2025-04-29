@@ -976,4 +976,12 @@
     <string name="balance_sheet_section_assets">Активи</string>
     <string name="balance_sheet_section_liabilities">Зобов\'язання</string>
     <string name="balance_sheet_net_worth">Чиста вартість</string>
+    <string name="menu_show_equivalent_value">Одинакові значення</string>
+    <string name="current_value">Поточне значення</string>
+    <string name="initial_value">Початкове значення</string>
+    <string name="total_value">Загальна вартість</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Автоматичне щоденне завантаження курсу валют</string>
+    <string name="price_history">Історія цін</string>
+    <string name="dynamic_exchange_rate">Динамічний курс валют</string>
+    <string name="progress_recalculating">Перерахування</string>
 </resources>
