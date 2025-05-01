@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.content.ClipData
 import android.os.Bundle
+import android.view.View.LAYOUT_DIRECTION_LTR
 import androidx.activity.viewModels
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -51,6 +52,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -177,8 +179,7 @@ class PrintLayoutConfiguration : EditActivity() {
                             val scope = rememberCoroutineScope()
                             Column(Modifier.semantics { isTraversalGroup = true }) {
                                 Row(
-                                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                                    horizontalArrangement = Arrangement.Absolute.Left
+                                    modifier = Modifier.align(Alignment.CenterHorizontally)
                                 ) {
                                     if (list.isNotEmpty()) {
                                         IconButton(onClick = {
@@ -186,7 +187,7 @@ class PrintLayoutConfiguration : EditActivity() {
                                             viewModel.addColumn(columnNumber)
                                         }) {
                                             Icon(
-                                                painter = painterResource(R.drawable.add_column_left),
+                                                painter = painterResource(R.drawable.add_column_start),
                                                 contentDescription = "Add column left"
                                             )
                                         }
@@ -208,7 +209,7 @@ class PrintLayoutConfiguration : EditActivity() {
                                             viewModel.addColumn(columnNumber + 1)
                                         }) {
                                             Icon(
-                                                painter = painterResource(R.drawable.add_column_right),
+                                                painter = painterResource(R.drawable.add_column_end),
                                                 contentDescription = "Add column right"
                                             )
                                         }
@@ -309,6 +310,8 @@ class PrintLayoutConfiguration : EditActivity() {
                                 }
                             }
                         }
+                        val layoutDirection =
+                            LocalConfiguration.current.layoutDirection
                         if (columnNumber < columns.lastIndex) {
                             val resizeColumnInfo = viewModel.resizeColumnInfo(columnNumber)
                             Box(
@@ -339,11 +342,14 @@ class PrintLayoutConfiguration : EditActivity() {
                                         }
                                     }
                                     .pointerInput(Unit) {
+
                                         detectHorizontalDragGestures { change, dragAmount ->
                                             change.consume()
+                                            val dragAmountDp = (if (layoutDirection == LAYOUT_DIRECTION_LTR)
+                                                dragAmount else -dragAmount).toDp()
                                             if (viewModel.resizeColumnByDelta(
                                                     columnNumber,
-                                                    dragAmount.toDp() / this@BoxWithConstraints.maxWidth
+                                                    dragAmountDp / this@BoxWithConstraints.maxWidth
                                                 )
                                             ) {
                                                 setDirty()
