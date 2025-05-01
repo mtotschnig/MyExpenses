@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.util.fastForEachReversed
 import androidx.lifecycle.AndroidViewModel
 import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.coroutines.delay
@@ -71,6 +73,7 @@ data object Notes : SimpleField(R.string.notes)
 @Serializable
 data object Amount : SimpleField(R.string.amount)
 
+const val MIN_WIDTH = 0.05f
 
 class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -191,16 +194,26 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
     }
 
     /**
-     * removes the positionth column. Ideally this column is empty.
+     * removes the column at the given position. Ideally this column is empty.
      * If it is not empty, two columns will be merged.
      */
     fun removeColumn(position: Int) {
-        positions.removeNthOccurrence(ColumnFeed, (position-1).coerceAtLeast(0))
-        columnWidths.removeAt(position)
+        Snapshot.withMutableSnapshot {
+            positions.removeNthOccurrence(ColumnFeed, (position - 1).coerceAtLeast(0))
+            columnWidths.removeAt(position)
+        }
     }
 
     fun removeField(field: Field) {
         positions.remove(field)
+    }
+
+    fun addFieldStart(field: Field) {
+        positions.add(0, field)
+    }
+
+    fun addFieldEnd(field: Field) {
+        positions.add(field)
     }
 
     fun allowDrop(field: Field, dropPosition: Int): Boolean {
@@ -208,9 +221,57 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
         return index == -1 || dropPosition < index || dropPosition > index + 1
     }
 
+    /**
+     * Triple of min value, current value and max value
+     */
+    fun resizeColumnInfo(column: Int): Triple<Float, Float, Float>? {
+        if (columnWidths.size <= column +1) return null
+        val totalWidth = columnWidths.sum()
+        val currentWidth = columnWidths[column] / totalWidth
+        val currentWidthNext = columnWidths[column + 1] / totalWidth
+        return Triple(
+            MIN_WIDTH,
+            currentWidth,
+            currentWidth + (currentWidthNext - MIN_WIDTH).coerceAtLeast(0f)
+        )
+    }
+
+    fun resizeColumnByPercent(columnNumber: Int, percent: Float): Boolean {
+        val totalWidth = columnWidths.sum()
+        val newWidthLeft = percent * totalWidth
+        val delta = columnWidths[columnNumber] - newWidthLeft
+        val newWidthRight = columnWidths[columnNumber + 1] + delta
+        columnWidths[columnNumber] = newWidthLeft
+        columnWidths[columnNumber + 1] = newWidthRight
+        val minWidth = totalWidth * MIN_WIDTH
+        return if (newWidthLeft > minWidth && newWidthRight > minWidth) {
+            columnWidths[columnNumber] = newWidthLeft
+            columnWidths[columnNumber + 1] = newWidthRight
+            true
+        } else false
+    }
+
+    fun resizeColumnByDelta(columnNumber: Int, deltaPercent: Float): Boolean {
+        val totalWidth = columnWidths.sum()
+        val delta = deltaPercent * totalWidth
+        val newWidthLeft = columnWidths[columnNumber] + delta
+        val newWidthRight = columnWidths[columnNumber + 1] - delta
+        val minWidth = totalWidth * MIN_WIDTH
+        return if (newWidthLeft > minWidth && newWidthRight > minWidth) {
+            columnWidths[columnNumber] = newWidthLeft
+            columnWidths[columnNumber + 1] = newWidthRight
+            true
+        } else false
+    }
+
+
     fun save() {
+        columns.mapIndexedNotNull { index, fields ->
+            if (fields.isEmpty()) index else null
+        }.fastForEachReversed {
+            removeColumn(it)
+        }
         prefHandler.printLayout = positions.toList()
         prefHandler.printLayoutColumnWidth = columnWidths
-
     }
 }

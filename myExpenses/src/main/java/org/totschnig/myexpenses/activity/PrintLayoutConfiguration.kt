@@ -46,17 +46,29 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
@@ -64,6 +76,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.CombinedField
@@ -136,6 +149,12 @@ class PrintLayoutConfiguration : EditActivity() {
                 val columns = viewModel.columns
                 Row(
                     modifier = Modifier
+                        .semantics {
+                            collectionInfo = CollectionInfo(
+                                rowCount = columns.maxOf { it.size },
+                                columnCount = columns.size
+                            )
+                        }
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState())
                         .height(IntrinsicSize.Min)
@@ -149,7 +168,7 @@ class PrintLayoutConfiguration : EditActivity() {
                             contentAlignment = Alignment.TopStart,
                             modifier = Modifier
                                 .animateContentSize()
-                                .weight(viewModel.columnWidths[columnNumber])
+                                .weight(viewModel.columnWidths.getOrNull(columnNumber) ?: 1f)
                                 .border(1.dp, Color.Gray)
                                 .background(Color(0xFFEEEEEE)),
                         ) {
@@ -161,14 +180,16 @@ class PrintLayoutConfiguration : EditActivity() {
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     horizontalArrangement = Arrangement.Absolute.Left
                                 ) {
-                                    IconButton(onClick = {
-                                        setDirty()
-                                        viewModel.addColumn(columnNumber)
-                                    }) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.add_column_left),
-                                            contentDescription = "Add column left"
-                                        )
+                                    if (list.isNotEmpty()) {
+                                        IconButton(onClick = {
+                                            setDirty()
+                                            viewModel.addColumn(columnNumber)
+                                        }) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.add_column_left),
+                                                contentDescription = "Add column left"
+                                            )
+                                        }
                                     }
                                     if (list.isEmpty() && columns.size > 1) {
                                         IconButton(onClick = {
@@ -181,14 +202,16 @@ class PrintLayoutConfiguration : EditActivity() {
                                             )
                                         }
                                     }
-                                    IconButton(onClick = {
-                                        setDirty()
-                                        viewModel.addColumn(columnNumber + 1)
-                                    }) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.add_column_right),
-                                            contentDescription = "Add column left"
-                                        )
+                                    if (list.isNotEmpty()) {
+                                        IconButton(onClick = {
+                                            setDirty()
+                                            viewModel.addColumn(columnNumber + 1)
+                                        }) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.add_column_right),
+                                                contentDescription = "Add column right"
+                                            )
+                                        }
                                     }
                                 }
                                 dropPosition++
@@ -210,6 +233,12 @@ class PrintLayoutConfiguration : EditActivity() {
                                                 .padding(horizontal = 4.dp)
                                                 .fillMaxWidth()
                                                 .semantics {
+                                                    collectionItemInfo = CollectionItemInfo(
+                                                        columnIndex = columnNumber,
+                                                        rowIndex = rowNumber,
+                                                        columnSpan = 1,
+                                                        rowSpan = 1
+                                                    )
                                                     customActions = buildList {
                                                         if (rowNumber < list.lastIndex) {
                                                             add(
@@ -218,7 +247,8 @@ class PrintLayoutConfiguration : EditActivity() {
                                                                     action = {
                                                                         viewModel.moveDown(field)
                                                                         true
-                                                                    })
+                                                                    }
+                                                                )
                                                             )
                                                         }
                                                         if (rowNumber > 0) {
@@ -229,7 +259,8 @@ class PrintLayoutConfiguration : EditActivity() {
                                                                         viewModel.moveUp(field)
                                                                         true
                                                                     }
-                                                                ))
+                                                                )
+                                                            )
                                                         }
                                                         if (columnNumber < columns.lastIndex) {
                                                             add(
@@ -239,7 +270,8 @@ class PrintLayoutConfiguration : EditActivity() {
                                                                         viewModel.moveRight(field)
                                                                         true
                                                                     }
-                                                                ))
+                                                                )
+                                                            )
                                                         }
                                                         if (columnNumber > 0) {
                                                             add(
@@ -251,8 +283,16 @@ class PrintLayoutConfiguration : EditActivity() {
                                                                     }
                                                                 ))
                                                         }
+                                                        add(
+                                                            CustomAccessibilityAction(
+                                                                label = "remove",
+                                                                action = {
+                                                                    viewModel.removeField(field)
+                                                                    true
+                                                                }
+                                                            )
+                                                        )
                                                     }
-
                                                 },
                                             onDropped = {
                                                 scope.launch {
@@ -270,27 +310,59 @@ class PrintLayoutConfiguration : EditActivity() {
                             }
                         }
                         if (columnNumber < columns.lastIndex) {
+                            val resizeColumnInfo = viewModel.resizeColumnInfo(columnNumber)
                             Box(
                                 modifier = Modifier
                                     .width(8.dp)
                                     .height(48.dp)
+                                    .optional(resizeColumnInfo) {
+                                        semantics {
+                                            val (min, current, max) = it
+                                            contentDescription = "Resize column"
+                                            stateDescription =
+                                                "Column ${columnNumber + 1} : ${(100 * current).toInt()} %"
+                                            progressBarRangeInfo = ProgressBarRangeInfo(
+                                                current = current,
+                                                range = min..max,
+                                                steps = ((max - min) * 100).toInt()
+                                            )
+                                            setProgress {
+                                                if (viewModel.resizeColumnByPercent(
+                                                        columnNumber,
+                                                        it
+                                                    )
+                                                ) {
+                                                    setDirty()
+                                                    true
+                                                } else false
+                                            }
+                                        }
+                                    }
                                     .pointerInput(Unit) {
                                         detectHorizontalDragGestures { change, dragAmount ->
                                             change.consume()
-                                            setDirty()
-                                            val totalWidth = viewModel.columnWidths.sum()
-                                            val delta =
-                                                (dragAmount.toDp() / this@BoxWithConstraints.maxWidth) * totalWidth
-                                            val newWidthLeft =
-                                                viewModel.columnWidths[columnNumber] + delta
-                                            val newWidthRight =
-                                                viewModel.columnWidths[columnNumber + 1] - delta
-                                            val minWidth = totalWidth / 20
-                                            if (newWidthLeft > minWidth && newWidthRight > minWidth) {
-                                                viewModel.columnWidths[columnNumber] = newWidthLeft
-                                                viewModel.columnWidths[columnNumber + 1] =
-                                                    newWidthRight
+                                            if (viewModel.resizeColumnByDelta(
+                                                    columnNumber,
+                                                    dragAmount.toDp() / this@BoxWithConstraints.maxWidth
+                                                )
+                                            ) {
+                                                setDirty()
                                             }
+                                        }
+                                    }
+                                    .onKeyEvent {
+                                        when (it.key) {
+                                            Key.DirectionLeft -> {
+                                                viewModel.resizeColumnByDelta(columnNumber, -0.01f)
+                                                true
+                                            }
+
+                                            Key.DirectionRight -> {
+                                                viewModel.resizeColumnByDelta(columnNumber, 0.01f)
+                                                true
+                                            }
+
+                                            else -> false
                                         }
                                     }
                                     .background(Color.DarkGray)
@@ -358,13 +430,29 @@ class PrintLayoutConfiguration : EditActivity() {
                         ) {
                             inactiveFields.forEach { field ->
                                 key(field) {
-                                    DraggableItem(field)
+                                    DraggableItem(field, Modifier.semantics {
+                                        customActions = listOf(
+                                            CustomAccessibilityAction(
+                                                label = "Insert at front",
+                                                action = {
+                                                    viewModel.addFieldStart(field)
+                                                    true
+                                                }
+                                            ),
+                                            CustomAccessibilityAction(
+                                                label = "Insert at end",
+                                                action = {
+                                                    viewModel.addFieldEnd(field)
+                                                    true
+                                                })
+                                        )
+                                    })
                                 }
                             }
                         }
                     }
-                }
 
+                }
             }
         }
     }
