@@ -172,7 +172,7 @@ val Uri.accountSelector: String
             getQueryParameter(KEY_ACCOUNTID)?.let {
                 requireIdParameter(it)
                 "= $it"
-            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
+            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE ( $KEY_EXCLUDE_FROM_TOTALS=0 OR $KEY_EXCLUDE_FROM_TOTALS=1 ) " +
                     (getQueryParameter(KEY_CURRENCY)?.let {
                         "AND $KEY_CURRENCY = '$it'"
                     } ?: "") + ")")
@@ -441,7 +441,7 @@ JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
 fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
     WITH cte AS (SELECT ${
     BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")
-}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
+}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES
     WHERE $KEY_PARENTID IS NULL AND $KEY_ROWID != $NULL_ROW_ID ${selection?.let { " AND $it" } ?: ""}
     UNION ALL
     SELECT ${
