@@ -452,7 +452,7 @@ open class MyExpensesViewModel(
     val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> = balanceDate.flatMapLatest { date ->
         contentResolver.observeQuery(
             TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
-            selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+            selection = "$KEY_EXCLUDE_FROM_TOTALS = 0" // Setting this to "", sums all accounts in balance sheet
         )
             .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
             .map {
