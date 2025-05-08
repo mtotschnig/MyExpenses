@@ -759,7 +759,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 }
                 subQueries.add(
                     qb.columns(currencyProjection)
-                        .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
+                        .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray()) // This keeps total balance
                         .groupBy(KEY_CURRENCY)
                         .having(
                             if (mergeAggregate == "1") "count(*) > 1 OR (count(*) = 1 AND sum($KEY_HIDDEN) = 1)" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
@@ -1375,7 +1375,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
             it to "$KEY_ACCOUNTID = ?"
         } ?: uri.getQueryParameter(KEY_CURRENCY).let {
-            it to ((if (it != null) "$KEY_CURRENCY = ? AND " else "") + "$KEY_EXCLUDE_FROM_TOTALS = 0")
+            it to ((if (it != null) "$KEY_CURRENCY = ? AND " else "") + "$KEY_EXCLUDE_FROM_TOTALS = 0")  // This keeps the total in the groups of the transactions list
         }
 
         val forHome: String? = if (accountSelector == null) homeCurrency else null
@@ -1975,7 +1975,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             try {
                 db.execSQL(
                     """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
-                        SELECT '${TransactionChange.Type.created.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER 
+                        SELECT '${TransactionChange.Type.created.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER
                         FROM $TABLE_TRANSACTIONS ${equivalentAmountJoin(homeCurrency)}
                         WHERE $KEY_ACCOUNTID = ?""",
                     accountIdBindArgs
@@ -2131,7 +2131,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     $TABLE_PRICES.$KEY_CURRENCY = ? AND
                     $TABLE_PRICES.$KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY AND
                     $TABLE_PRICES.$KEY_DATE <= coalesce(
-                        strftime('%Y-%m-%d', (SELECT min($KEY_DATE) FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID), 'unixepoch', 'localtime'), 
+                        strftime('%Y-%m-%d', (SELECT min($KEY_DATE) FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID), 'unixepoch', 'localtime'),
                         ?
                     )
             )
