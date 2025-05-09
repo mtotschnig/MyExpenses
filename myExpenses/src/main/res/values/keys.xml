@@ -136,6 +136,8 @@
     <string name="pref_automatic_exchange_rate_download_key">automatic_exchange_rate_download</string>
     <string name="pref_category_currencies_key">category_currencies</string>
     <string name="pref_category_prices_key">category_prices</string>
+	<string name="pref_usability_settings_key">usability_settings</string>
+	<string name="pref_complete_total_key">complete_total</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

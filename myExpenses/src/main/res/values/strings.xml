@@ -1067,4 +1067,9 @@
     <string name="mark_as_cleared">Mark as cleared</string>
     <!-- This is used for Talkback to describe the action of toggling the status of a transaction from cleared to unreconciled -->
     <string name="mark_as_unreconciled">Mark as unreconciled</string>
+	<!-- This is used for Usability Settings -->
+    <string name="usability_settings">Usability settings</string>
+	<string name="complete_total">Show all accounts in total</string>
+	<string name="complete_total_summary_off">Even the &quot;Exclude from total&quot; accounts. Restart the app to take effect.</string>
+	
 </resources>

@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CTE_TABLE_NAME_FULL_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -128,6 +130,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGG
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.MyApplication
 
 private fun requireIdParameter(parameter: String) {
     require(parameter.isDigitsOnly())
@@ -160,6 +163,9 @@ val Uri.templateQuerySelector: String?
         "$KEY_PARENTID = $it"
     }
 
+val prefHandler: PrefHandler
+     get() = MyApplication.instance.prefHandler
+
 /**
  * with parameter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
  * accounts with given currency (if not excluded from totals), otherwise all transactions (if not
@@ -172,7 +178,7 @@ val Uri.accountSelector: String
             getQueryParameter(KEY_ACCOUNTID)?.let {
                 requireIdParameter(it)
                 "= $it"
-            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
+            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE ( $KEY_EXCLUDE_FROM_TOTALS=0 "+(if(prefHandler.getBoolean(PrefKey.COMPLETE_TOTAL,false)) "OR $KEY_EXCLUDE_FROM_TOTALS=1" else "")+" ) " +
                     (getQueryParameter(KEY_CURRENCY)?.let {
                         "AND $KEY_CURRENCY = '$it'"
                     } ?: "") + ")")
@@ -441,7 +447,7 @@ JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
 fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
     WITH cte AS (SELECT ${
     BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")
-}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
+}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES
     WHERE $KEY_PARENTID IS NULL AND $KEY_ROWID != $NULL_ROW_ID ${selection?.let { " AND $it" } ?: ""}
     UNION ALL
     SELECT ${
