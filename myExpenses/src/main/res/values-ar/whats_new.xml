@@ -7,12 +7,17 @@
     <string name="whats_new_365">إرفاق عدد عشوائي من الصور والمستندات (PDF)</string>
     <string name="whats_new_366">أداة الشاشة الرئيسية تعرض الحالة الحالية للميزانية.</string>
     <string name="whats_new_367">يمكن الآن تكوين الفئات كفئات مصروفات أو دخل، مما سيؤثر على كيفية حساب مبالغ المصروفات والدخل.</string>
-    <string name="whats_new_374">ألوان مخصصة للعلامات</string>
+    <string name="whats_new_374">ألوان مخصصة للوسوم</string>
     <string name="whats_new_382">يمكن استدعاء %1$s الميزة من %2$sعنصر واجهة المستخدم.</string>
     <string name="whats_new_384">إعداد مبسط للنسخ الاحتياطي السحابي</string>
-    <string name="whats_new_386">يمكن عرض التوزيع لكل مصروفات والتوزيع لكل دخل معا في مخطط دونات مزدوج الحلقة.</string>
+    <string name="whats_new_386">يمكن عرض توزيع النفقات وتوزيع الدخل معًا في مخطط دائري مزدوج.</string>
     <string name="whats_new_388">يمكن أرشفة المعاملات.</string>
     <string name="whats_new_395">يمكن تنزيل الملفات المصدرة (PDF ، النسخ الاحتياطي ، QIF ، CSV ، JSON) عبر واجهة مستخدم الويب.</string>
     <string name="whats_new_396">إدارة محسنة حساب العملات الأجنبية مع تحديثات سعر الصرف التلقائية وتتبع القيمة في الوقت الفعلي.</string>
-    <string name="whats_new_376_1">نسخ معاملات متعددة مع تحديد تاريخ جديد</string>
+    <string name="whats_new_376_1">استنساخ معاملات متعددة بتاريخ جديد.</string>
+    <string name="whats_new_376_2">يمكن التحكم في واجهة المستخدم على الويب من الشاشة الرئيسية.</string>
+    <string name="whats_new_369_1">يمكن ربط التحويلات بالفئات.</string>
+    <string name="whats_new_369_2">عند تفعيل قفل الشاشة، السماح بالانسحاب من تعطيل لقطات الشاشة.</string>
+    <string name="whats_new_370">يمكن تخصيص القائمة على الشاشة الرئيسية بالكامل.</string>
+    <string name="whats_new_378">تراعي الرسوم البيانية مرشح البحث.</string>
 </resources>
