@@ -220,4 +220,16 @@
 
     </PreferenceCategory>
 
+	<PreferenceCategory
+        android:key="@string/pref_usability_settings_key"
+        android:title="@string/usability_settings">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_complete_total_key"
+            android:title="@string/complete_total"
+            android:summary="@string/complete_total_summary_off" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen> 
