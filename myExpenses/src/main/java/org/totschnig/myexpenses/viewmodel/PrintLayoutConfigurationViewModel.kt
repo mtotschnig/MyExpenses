@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.runtime.snapshots.Snapshot
@@ -37,16 +38,22 @@ sealed class Field : Position() {
     }
 
     operator fun plus(other: Field): Field = CombinedField(this.asList() + other.asList())
+
+    abstract fun toString(context: Context): String
 }
 
 @Parcelize
 @Serializable
-data class CombinedField(val fields: List<SimpleField>) : Field()
+data class CombinedField(val fields: List<SimpleField>) : Field() {
+    override fun toString(context: Context) = fields.joinToString(" / ") { it.toString(context) }
+}
 
 @Serializable
 sealed class SimpleField(@StringRes val label: Int) : Field() {
     @GenSealedEnum
-    companion object
+    companion object;
+
+    override fun toString(context: Context) = context.getString(label)
 }
 
 @Parcelize
@@ -77,23 +84,13 @@ const val MIN_WIDTH = 0.05f
 
 class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewModel(application) {
 
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
-    val positions: SnapshotStateList<Position> = SnapshotStateList()
-    val columnWidths: SnapshotStateList<Float> = SnapshotStateList()
-
-    val inactiveFields: List<SimpleField>
-        get() = SimpleField.values -
-                positions.filterIsInstance<Field>().flatMap { it.asList() }.toSet()
-
-    val columns: List<List<Field>>
-        get() {
+    companion object {
+        fun List<Position>.asColumns(): List<List<Field>> {
             var index = 0
             var innerList = mutableListOf<Field>()
             return buildList {
-                while (index < positions.size) {
-                    when (val item = positions[index]) {
+                while (index < size) {
+                    when (val item = this@asColumns.get(index)) {
                         is ColumnFeed -> {
                             add(innerList)
                             innerList = mutableListOf()
@@ -108,10 +105,23 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
                 add(innerList)
             }
         }
+    }
+    @Inject
+    lateinit var prefHandler: PrefHandler
+
+    val positions: SnapshotStateList<Position> = SnapshotStateList()
+    val columnWidths: SnapshotStateList<Float> = SnapshotStateList()
+
+    val inactiveFields: List<SimpleField>
+        get() = SimpleField.values -
+                positions.filterIsInstance<Field>().flatMap { it.asList() }.toSet()
+
+    val columns: List<List<Field>>
+        get() = positions.asColumns()
 
     fun init() {
         positions.addAll(prefHandler.printLayout)
-        val elements = prefHandler.printLayoutColumnWidth
+        val elements = prefHandler.printLayoutColumnWidth.map { it.toFloat() }
         if (elements.size == columns.size) {
             columnWidths.addAll(elements)
         } else {
@@ -272,6 +282,6 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
             removeColumn(it)
         }
         prefHandler.printLayout = positions.toList()
-        prefHandler.printLayoutColumnWidth = columnWidths
+        prefHandler.printLayoutColumnWidth = columnWidths.map { it.toInt() }
     }
 }

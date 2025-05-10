@@ -47,6 +47,8 @@ import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.printLayout
+import org.totschnig.myexpenses.preference.printLayoutColumnWidth
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
@@ -63,6 +65,8 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
+import org.totschnig.myexpenses.viewmodel.Field
+import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel.Companion.asColumns
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
@@ -255,7 +259,8 @@ object PdfPrinter {
                     currencyUnit,
                     currencyFormatter,
                     currencyContext,
-                    prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false),
+                    prefHandler.printLayout.asColumns(),
+                    prefHandler.printLayoutColumnWidth.toIntArray(),
                     colorSource,
                     itemDateFormat
                 )
@@ -302,7 +307,8 @@ object PdfPrinter {
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
         currencyContext: CurrencyContext,
-        withOriginalAmount: Boolean,
+        layout: List<List<Field>>,
+        columnWidths: IntArray,
         colorSource: ColorSource,
         itemDateFormat: DateFormat?,
     ) {
@@ -483,16 +489,19 @@ object PdfPrinter {
                 finalContainer2.addCell(outer2)
                 document.add(finalContainer2)
 
-                table = helper.newTable(5)
+                table = helper.newTable(layout.size)
 
                 // Header row
                 val headerFont = Font(Font.FontFamily.HELVETICA, 10f, Font.BOLD)
-                addHeaderCell(table, "Date", headerFont)
-                addComplexHeaderCell(table, headerFont, text1 = "Category", text2 = "Tags")
-                addHeaderCell(table, "Payee", headerFont)
-                addHeaderCell(table, "Notes", headerFont)
+                layout.forEach {
+                    if (it.size == 1) {
+                        addHeaderCell(table, it[0].toString(context), headerFont)
+                    } else {
+                        addComplexHeaderCell(table, headerFont, texts = it.map { it.toString(context) }.toTypedArray())
+                    }
+                }
 
-                if (withOriginalAmount) {
+/*                if (withOriginalAmount) {
                     addComplexHeaderCell(
                         table,
                         headerFont,
@@ -503,7 +512,7 @@ object PdfPrinter {
                     )
                 } else {
                     addHeaderCell(table, "Amount", headerFont, alignment = Element.ALIGN_RIGHT)
-                }
+                }*/
                 // Repeat header row on every page
                 table.setHeaderRows(1)
 
@@ -552,20 +561,24 @@ object PdfPrinter {
                         }
                     }
                 }
-                val widths = intArrayOf(1, 4, 2, 2, 2)
                 if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) {
-                    widths.reverse()
+                    columnWidths.reverse()
                 }
-                table.setWidths(widths)
+                table.setWidths(columnWidths)
                 table.spacingBefore = 8f
                 table.spacingAfter = 8f
                 table.widthPercentage = 100f
                 prevHeaderId = currentHeaderId
             }
-            var isVoid = false
-            try {
-                isVoid = transaction.crStatus == CrStatus.VOID
+
+            val isVoid = try {
+                transaction.crStatus == CrStatus.VOID
             } catch (_: IllegalArgumentException) {
+                false
+            }
+
+            layout.forEach {
+
             }
 
             //Column 1 Date
@@ -714,13 +727,13 @@ object PdfPrinter {
         font: Font,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
-        text1: String,
-        text2: String,
+        vararg texts: String,
     ) {
         val nested = PdfPTable(1)
         nested.widthPercentage = 100f
-        addHeaderCell(nested, text1, font, alignment, NO_BORDER)
-        addHeaderCell(nested, text2, font, alignment, NO_BORDER)
+        texts.forEach {
+            addHeaderCell(nested, it, font, alignment, NO_BORDER)
+        }
         val cell = PdfPCell(nested)
         cell.border = border
         table.addCell(cell)

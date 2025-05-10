@@ -201,11 +201,11 @@ var PrefHandler.printLayout: List<Position>
         putString(PrefKey.PRINT_LAYOUT, Json.encodeToString(value))
     }
 
-var PrefHandler.printLayoutColumnWidth: List<Float>
-    get() = loadIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH)?.map { it.toFloat() }
-        ?: listOf(250f, 250f, 250f)
+var PrefHandler.printLayoutColumnWidth: List<Int>
+    get() = loadIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH)
+        ?: listOf(250, 250, 250)
     set(value) {
-        saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value.map { it.toInt() })
+        saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value)
     }
 
 enum class ColorSource {

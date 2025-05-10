@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.util
 
 import android.view.View
+import androidx.core.text.layoutDirection
+import com.itextpdf.text.Chunk
 import com.itextpdf.text.DocumentException
+import com.itextpdf.text.Element
 import com.itextpdf.text.Font
 import com.itextpdf.text.Phrase
 import com.itextpdf.text.Rectangle
@@ -15,9 +18,6 @@ import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
-import androidx.core.text.layoutDirection
-import com.itextpdf.text.Chunk
-import com.itextpdf.text.Element
 
 class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private var lfs: LazyFontSelector?
@@ -91,7 +91,11 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     )
 
     @Throws(DocumentException::class, IOException::class)
-    fun printToCell(text: String, font: FontType = FontType.NORMAL, border: Int = Rectangle.NO_BORDER): PdfPCell {
+    fun printToCell(
+        text: String,
+        font: FontType = FontType.NORMAL,
+        border: Int = Rectangle.NO_BORDER
+    ): PdfPCell {
         val cell = PdfPCell(print(text, font))
         if (hasAnyRtl(text)) {
             cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
@@ -132,24 +136,25 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.UNDERLINE -> Chunk(text, fUnderline)
             FontType.INCOME_BOLD -> Chunk(text, fIncomeBold)
             FontType.EXPENSE_BOLD -> Chunk(text, fExpenseBold)
-            FontType.TRANSFER ->  Chunk(text, fTransfer)
+            FontType.TRANSFER -> Chunk(text, fTransfer)
         }
     )
 
     @Throws(DocumentException::class, IOException::class)
-    fun print(text: String, font: FontType): Phrase = lfs?.process(text, font)?.join() ?: when (font) {
-        FontType.BOLD -> Phrase(text, fBold)
-        FontType.EXPENSE -> Phrase(text, fExpense)
-        FontType.HEADER -> Phrase(text, fHeader)
-        FontType.INCOME -> Phrase(text, fIncome)
-        FontType.ITALIC -> Phrase(text, fItalic)
-        FontType.NORMAL -> Phrase(text, fNormal)
-        FontType.TITLE -> Phrase(text, fTitle)
-        FontType.UNDERLINE -> Phrase(text, fUnderline)
-        FontType.INCOME_BOLD -> Phrase(text, fIncomeBold)
-        FontType.EXPENSE_BOLD -> Phrase(text, fExpenseBold)
-        FontType.TRANSFER -> Phrase(text, fTransfer)
-    }
+    fun print(text: String, font: FontType): Phrase =
+        lfs?.process(text, font)?.join() ?: when (font) {
+            FontType.BOLD -> Phrase(text, fBold)
+            FontType.EXPENSE -> Phrase(text, fExpense)
+            FontType.HEADER -> Phrase(text, fHeader)
+            FontType.INCOME -> Phrase(text, fIncome)
+            FontType.ITALIC -> Phrase(text, fItalic)
+            FontType.NORMAL -> Phrase(text, fNormal)
+            FontType.TITLE -> Phrase(text, fTitle)
+            FontType.UNDERLINE -> Phrase(text, fUnderline)
+            FontType.INCOME_BOLD -> Phrase(text, fIncomeBold)
+            FontType.EXPENSE_BOLD -> Phrase(text, fExpenseBold)
+            FontType.TRANSFER -> Phrase(text, fTransfer)
+        }
 
     fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {
         this.border = border
@@ -161,18 +166,23 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         }
     }
 
-    fun addNestedCells(table: PdfPTable, cell1: PdfPCell?, cell2: PdfPCell?, border: Int = Rectangle.TOP + Rectangle.RIGHT) {
+    fun addNestedCells(
+        table: PdfPTable,
+        cell1: PdfPCell?,
+        cell2: PdfPCell?,
+        border: Int = Rectangle.TOP + Rectangle.RIGHT
+    ) {
         if (cell1 != null && cell2 != null) {
             val nested = PdfPTable(1)
-            nested.setWidthPercentage(100f)
+            nested.widthPercentage = 100f
             nested.addCell(cell1)
             nested.addCell(cell2)
             val cell = PdfPCell(nested)
             cell.border = border
             table.addCell(cell)
-        } else if(cell1 != null) {
+        } else if (cell1 != null) {
             table.addCell(cell1.also { it.border = border })
-        } else if(cell2 != null) {
+        } else if (cell2 != null) {
             table.addCell(cell2.also { it.border = border })
         } else {
             table.addCell(emptyCell(border))
