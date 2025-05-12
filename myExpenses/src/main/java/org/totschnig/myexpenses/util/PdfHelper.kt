@@ -92,18 +92,17 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
 
     @Throws(DocumentException::class, IOException::class)
     fun printToCell(
-        text: String,
+        text: String?,
         font: FontType = FontType.NORMAL,
-        border: Int = Rectangle.NO_BORDER
-    ): PdfPCell {
-        val cell = PdfPCell(print(text, font))
+        border: Int = Rectangle.NO_BORDER,
+        withPadding: Boolean = true
+    ) = if (text == null)  emptyCell(border) else PdfPCell(print(text, font)).apply {
         if (hasAnyRtl(text)) {
-            cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
-        cell.setPadding(5f)
-        cell.border = border
-        cell.verticalAlignment = Element.ALIGN_MIDDLE
-        return cell
+        setPadding(if (withPadding) 5f else 0f)
+        this.border = border
+        verticalAlignment = Element.ALIGN_MIDDLE
     }
 
     @Throws(DocumentException::class, IOException::class)
@@ -166,25 +165,24 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         }
     }
 
-    fun addNestedCells(
-        table: PdfPTable,
-        vararg cells: PdfPCell?,
+    fun printToNestedCell(
+        vararg cells: PdfPCell,
         border: Int = Rectangle.TOP + Rectangle.RIGHT,
-    ) {
-        val effectiveCells = cells.filterNotNull()
-        when(effectiveCells.size) {
-            0 -> table.addCell(emptyCell(border))
-            1 -> table.addCell(effectiveCells.first().also { it.border = border })
+    ): PdfPCell {
+        return when(cells.size) {
+            0 -> PdfPCell()
+            1 -> cells.first()
             else -> {
-                val nested = PdfPTable(1)
-                nested.widthPercentage = 100f
-                effectiveCells.forEach {
-                    nested.addCell(it)
-                }
-                val cell = PdfPCell(nested)
-                cell.border = border
-                table.addCell(cell)
+                PdfPCell(PdfPTable(1).apply {
+                    this.widthPercentage = 100f
+                    cells.forEach {
+                        addCell(it)
+                    }
+                })
             }
+        }.apply {
+            this.border = border
+            setPadding(5f)
         }
     }
 

@@ -80,6 +80,18 @@ data object Notes : SimpleField(R.string.notes)
 @Serializable
 data object Amount : SimpleField(R.string.amount)
 
+@Parcelize
+@Serializable
+data object ReferenceNumber : SimpleField(R.string.reference_number)
+
+@Parcelize
+@Serializable
+data object Account : SimpleField(R.string.account)
+
+@Parcelize
+@Serializable
+data object OriginalAmount : SimpleField(R.string.menu_original_amount)
+
 const val MIN_WIDTH = 0.05f
 
 class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewModel(application) {

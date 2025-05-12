@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.ColorSource
@@ -53,9 +52,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper.timeStampedFile
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
@@ -65,8 +61,18 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
+import org.totschnig.myexpenses.viewmodel.Account
+import org.totschnig.myexpenses.viewmodel.Amount
+import org.totschnig.myexpenses.viewmodel.Category
+import org.totschnig.myexpenses.viewmodel.CombinedField
+import org.totschnig.myexpenses.viewmodel.Date
 import org.totschnig.myexpenses.viewmodel.Field
+import org.totschnig.myexpenses.viewmodel.Notes
+import org.totschnig.myexpenses.viewmodel.OriginalAmount
+import org.totschnig.myexpenses.viewmodel.Payee
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel.Companion.asColumns
+import org.totschnig.myexpenses.viewmodel.ReferenceNumber
+import org.totschnig.myexpenses.viewmodel.Tags
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
@@ -307,7 +313,7 @@ object PdfPrinter {
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
         currencyContext: CurrencyContext,
-        layout: List<List<Field>>,
+        columns: List<List<Field>>,
         columnWidths: IntArray,
         colorSource: ColorSource,
         itemDateFormat: DateFormat?,
@@ -328,6 +334,11 @@ object PdfPrinter {
         var prevHeaderId = 0
         var currentHeaderId: Int
         val tagMap = context.contentResolver.tagMap
+
+        fun columnAlignment(fields: List<Field>) =
+            if (fields.all { it is Amount || it is OriginalAmount })
+                Element.ALIGN_RIGHT else Element.ALIGN_LEFT
+
         for (transaction in transactionCursor.asSequence.map {
             Transaction2.fromCursor(
                 currencyContext,
@@ -489,30 +500,36 @@ object PdfPrinter {
                 finalContainer2.addCell(outer2)
                 document.add(finalContainer2)
 
-                table = helper.newTable(layout.size)
+                table = helper.newTable(columns.size)
 
                 // Header row
                 val headerFont = Font(Font.FontFamily.HELVETICA, 10f, Font.BOLD)
-                layout.forEach {
-                    if (it.size == 1) {
-                        addHeaderCell(table, it[0].toString(context), headerFont)
+
+                columns.forEachIndexed { index, fields ->
+                    val border =
+                        if (index == columns.lastIndex) NO_BORDER else Rectangle.RIGHT
+                    val alignment = columnAlignment(fields)
+                    if (fields.size == 1) {
+                        table.addCell(
+                            headerCell(
+                                fields[0].toString(context),
+                                headerFont,
+                                alignment,
+                                border
+                            )
+                        )
                     } else {
-                        addComplexHeaderCell(table, headerFont, texts = it.map { it.toString(context) }.toTypedArray())
+                        table.addCell(
+                            complexHeaderCell(
+                                headerFont,
+                                alignment,
+                                border,
+                                *fields.map { it.toString(context) }.toTypedArray(),
+                            )
+                        )
                     }
                 }
 
-/*                if (withOriginalAmount) {
-                    addComplexHeaderCell(
-                        table,
-                        headerFont,
-                        border = NO_BORDER,
-                        alignment = Element.ALIGN_RIGHT,
-                        text1 = "Amount",
-                        text2 = "Original amount"
-                    )
-                } else {
-                    addHeaderCell(table, "Amount", headerFont, alignment = Element.ALIGN_RIGHT)
-                }*/
                 // Repeat header row on every page
                 table.setHeaderRows(1)
 
@@ -573,124 +590,84 @@ object PdfPrinter {
 
             val isVoid = transaction.crStatus == CrStatus.VOID
 
-            layout.forEach {
-                if (it.size == 1) {
-                    table!!.addCell(helper.printToCell(it.first().toString()))
-                } else {
-                    helper.addNestedCells(table!!, *it.map { helper.printToCell(it.toString()) }.toTypedArray(), border = Rectangle.TOP)
+            fun Transaction2.print(field: Field): String? {
+                return when (field) {
+                    is CombinedField -> field.fields.mapNotNull { print(it) }.joinToString(" / ")
+                    Amount -> currencyFormatter.formatMoney(
+                        if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
+                    )
+
+                    OriginalAmount -> transaction.originalAmount?.let {
+                        currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) it.absolute() else it)
+                    }
+
+                    Category -> transaction.categoryPath
+                    Date -> Utils.convDateTime(transaction._date, itemDateFormat!!)
+                    Notes -> transaction.comment
+                    Payee -> transaction.payee
+                    Tags -> transaction.tagList.takeIf { it.isNotEmpty() }?.let {
+                        it.joinToString { it.second }
+                    }
+
+                    ReferenceNumber -> transaction.referenceNumber
+                    Account -> buildString {
+                        if (account.id < 0) {
+                            //for aggregate accounts we need to indicate the account name
+                            append(transaction.accountLabel)
+                        }
+                        if (transaction.transferPeer != null) {
+                            if (isEmpty()) {
+                                append(" ")
+                            }
+                            append(Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + transaction.transferAccountLabel)
+                        }
+                    }
                 }
             }
 
-/*            //Column 1 Date
-            val cell = helper.printToCell(
-                Utils.convDateTime(transaction._date, itemDateFormat!!), //TODO daily grouping without time
-                FontType.NORMAL,
-                Rectangle.RIGHT + Rectangle.TOP
-            )
-            table!!.addCell(cell)
+            fun fontType(field: Field) = when (field) {
+                is Amount, OriginalAmount -> {
+                    if (account.id >= 0 || !transaction.isSameCurrency)
+                        (colorSource.transformType(transaction.type)
+                            ?: when (transaction.displayAmount.amountMinor.sign) {
+                                1 -> FLAG_INCOME
+                                -1 -> FLAG_EXPENSE
+                                else -> FLAG_NEUTRAL
+                            }).asColor() else FontType.NORMAL
+                }
 
-            if (isVoid) {
-                cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
+                else -> FontType.NORMAL
             }
-            var catText = ""
-            if (account.id < 0) {
-                //for aggregate accounts we need to indicate the account name
-                catText = transaction.accountLabel + " "
-            }
-            val catId = transaction.catId
-            if (DatabaseConstants.SPLIT_CATID == catId) {
-                context.contentResolver.query(
-                    Transaction.CONTENT_URI, null,
-                    "$KEY_PARENTID = ${transaction.id}", null, null
-                )!!.use { splits ->
-                    splits.moveToFirst()
-                    val catTextBuilder = StringBuilder()
-                    while (splits.position < splits.count) {
-                        var splitText = splits.getString(DatabaseConstants.KEY_PATH)
-                        if (splitText.isNotEmpty()) {
-                            if (splits.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
-                                splitText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + splits.getStringOrNull(
-                                    DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-                                ) + ") "
+
+            columns.forEachIndexed { index, fields ->
+                val border =
+                    if (index == columns.lastIndex) Rectangle.TOP else Rectangle.RIGHT + Rectangle.TOP
+                val cell = if (fields.size == 1) {
+                    val field = fields.first()
+                    val fontType = fontType(field)
+                    helper.printToCell(transaction.print(field), fontType, border).also {
+                        it.horizontalAlignment = columnAlignment(fields)
+                    }
+                } else {
+                    val rows = fields.mapNotNull { field ->
+                        transaction.print(field)?.let { fontType(field) to it }
+                    }
+                    helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
+                        helper.printToCell(text, fontType, withPadding = false).also {
+                            it.horizontalAlignment = columnAlignment(fields)
+                        }.apply {
+                            if (index != rows.lastIndex) {
+                                paddingBottom = 2f
                             }
                         }
-                        splitText += currencyFormatter.convAmount(
-                            splits.getLong(
-                                splits.getColumnIndexOrThrow(DatabaseConstants.KEY_DISPLAY_AMOUNT)
-                            ), currencyUnit
-                        )
-                        val splitComment = splits.getString(DatabaseConstants.KEY_COMMENT)
-                        if (splitComment.isNotEmpty()) {
-                            splitText += " ($splitComment)"
-                        }
-                        catTextBuilder.append(splitText)
-                        if (splits.position != splits.count - 1) {
-                            catTextBuilder.append("; ")
-                        }
-                        splits.moveToNext()
                     }
-                    catText += catTextBuilder.toString()
+                        .toTypedArray(), border = border)
                 }
-            } else {
-                if (catId != null) {
-                    catText += transaction.categoryPath
-                }
-                if (transaction.transferPeer != null) {
-                    if (catText.isNotEmpty()) {
-                        catText += " "
-                    }
-                    catText += "(" + Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + transaction.transferAccountLabel + ")"
+                table!!.addCell(cell)
+                if (isVoid && index == 0) {
+                    cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
                 }
             }
-            if (!transaction.referenceNumber.isNullOrEmpty()) catText =
-                "(${transaction.referenceNumber}) $catText"
-
-            val catCell = catText.takeIf { it.isNotEmpty() }?.let { helper.printToCell(catText) }
-            val tagCell = transaction.tagList.takeIf { it.isNotEmpty() }?.let {
-                helper.printToCell(it.joinToString { it.second })
-            }
-
-            //Colum 2 Category // Tags
-            helper.addNestedCells(table, catCell, tagCell)
-
-            //Column 3 Payee
-            table.addCell(
-                helper.printToCell(
-                    transaction.payee ?: "",
-                    border = Rectangle.TOP + Rectangle.RIGHT
-                )
-            )
-
-            //Column 4 notes
-            table.addCell(
-                helper.printToCell(
-                    transaction.comment ?: "",
-                    border = Rectangle.TOP + Rectangle.RIGHT
-                )
-            )
-            //Column 5 amount
-            val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
-                (colorSource.transformType(transaction.type)
-                    ?: when (transaction.displayAmount.amountMinor.sign) {
-                        1 -> FLAG_INCOME
-                        -1 -> FLAG_EXPENSE
-                        else -> FLAG_NEUTRAL
-                    }).asColor()
-
-            val amountCell = helper.printToCell(
-                currencyFormatter.formatMoney(
-                    if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
-                ), fontType, border = Rectangle.RIGHT
-            ).apply {
-                horizontalAlignment = Element.ALIGN_RIGHT
-            }
-            val originalAmountCell = if (withOriginalAmount && transaction.originalAmount != null) {
-                helper.printToCell(
-                    currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount),
-                    fontType, border = Rectangle.RIGHT
-                ).apply { horizontalAlignment = Element.ALIGN_RIGHT }
-            } else null
-            helper.addNestedCells(table,amountCell, originalAmountCell,  border = Rectangle.TOP)*/
         }
         // now add all this to the document
         document.add(table)
@@ -707,35 +684,41 @@ object PdfPrinter {
         else -> FontType.NORMAL
     }
 
-    private fun addHeaderCell(
-        table: PdfPTable,
+    private fun headerCell(
         text: String,
         font: Font,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
-    ) {
-        val cell = PdfPCell(Phrase(text, font))
-        cell.setPadding(5.0f)
-        cell.horizontalAlignment = alignment
-        cell.verticalAlignment = Element.ALIGN_MIDDLE
-        cell.border = border
-        table.addCell(cell)
+        withPadding: Boolean = true,
+    ) = PdfPCell(Phrase(text, font)).apply {
+        setPadding(if (withPadding) 5f else 0f)
+        horizontalAlignment = alignment
+        verticalAlignment = Element.ALIGN_MIDDLE
+        this.border = border
     }
 
-    private fun addComplexHeaderCell(
-        table: PdfPTable,
+    private fun complexHeaderCell(
         font: Font,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         vararg texts: String,
-    ) {
-        val nested = PdfPTable(1)
-        nested.widthPercentage = 100f
-        texts.forEach {
-            addHeaderCell(nested, it, font, alignment, NO_BORDER)
+    ): PdfPCell {
+        val nested = PdfPTable(1).apply {
+            widthPercentage = 100f
+            texts.forEachIndexed { index, text ->
+                addCell(
+                    headerCell(text, font, alignment, NO_BORDER, withPadding = false).apply {
+                        if (index != texts.lastIndex) {
+                            paddingBottom = 2f
+                        }
+                    }
+                )
+            }
         }
-        val cell = PdfPCell(nested)
-        cell.border = border
-        table.addCell(cell)
+
+        return PdfPCell(nested).apply {
+            this.border = border
+            setPadding(5f)
+        }
     }
 }
