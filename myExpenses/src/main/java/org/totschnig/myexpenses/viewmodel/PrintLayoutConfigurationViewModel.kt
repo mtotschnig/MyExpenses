@@ -89,8 +89,8 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
             var index = 0
             var innerList = mutableListOf<Field>()
             return buildList {
-                while (index < size) {
-                    when (val item = this@asColumns.get(index)) {
+                while (index < this@asColumns.size) {
+                    when (val item = this@asColumns[index]) {
                         is ColumnFeed -> {
                             add(innerList)
                             innerList = mutableListOf()

@@ -571,17 +571,17 @@ object PdfPrinter {
                 prevHeaderId = currentHeaderId
             }
 
-            val isVoid = try {
-                transaction.crStatus == CrStatus.VOID
-            } catch (_: IllegalArgumentException) {
-                false
-            }
+            val isVoid = transaction.crStatus == CrStatus.VOID
 
             layout.forEach {
-
+                if (it.size == 1) {
+                    table!!.addCell(helper.printToCell(it.first().toString()))
+                } else {
+                    helper.addNestedCells(table!!, *it.map { helper.printToCell(it.toString()) }.toTypedArray(), border = Rectangle.TOP)
+                }
             }
 
-            //Column 1 Date
+/*            //Column 1 Date
             val cell = helper.printToCell(
                 Utils.convDateTime(transaction._date, itemDateFormat!!), //TODO daily grouping without time
                 FontType.NORMAL,
@@ -690,7 +690,7 @@ object PdfPrinter {
                     fontType, border = Rectangle.RIGHT
                 ).apply { horizontalAlignment = Element.ALIGN_RIGHT }
             } else null
-            helper.addNestedCells(table, amountCell, originalAmountCell, border = Rectangle.TOP)
+            helper.addNestedCells(table,amountCell, originalAmountCell,  border = Rectangle.TOP)*/
         }
         // now add all this to the document
         document.add(table)

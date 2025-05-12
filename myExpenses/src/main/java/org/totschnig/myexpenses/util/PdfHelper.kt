@@ -168,24 +168,23 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
 
     fun addNestedCells(
         table: PdfPTable,
-        cell1: PdfPCell?,
-        cell2: PdfPCell?,
-        border: Int = Rectangle.TOP + Rectangle.RIGHT
+        vararg cells: PdfPCell?,
+        border: Int = Rectangle.TOP + Rectangle.RIGHT,
     ) {
-        if (cell1 != null && cell2 != null) {
-            val nested = PdfPTable(1)
-            nested.widthPercentage = 100f
-            nested.addCell(cell1)
-            nested.addCell(cell2)
-            val cell = PdfPCell(nested)
-            cell.border = border
-            table.addCell(cell)
-        } else if (cell1 != null) {
-            table.addCell(cell1.also { it.border = border })
-        } else if (cell2 != null) {
-            table.addCell(cell2.also { it.border = border })
-        } else {
-            table.addCell(emptyCell(border))
+        val effectiveCells = cells.filterNotNull()
+        when(effectiveCells.size) {
+            0 -> table.addCell(emptyCell(border))
+            1 -> table.addCell(effectiveCells.first().also { it.border = border })
+            else -> {
+                val nested = PdfPTable(1)
+                nested.widthPercentage = 100f
+                effectiveCells.forEach {
+                    nested.addCell(it)
+                }
+                val cell = PdfPCell(nested)
+                cell.border = border
+                table.addCell(cell)
+            }
         }
     }
 
