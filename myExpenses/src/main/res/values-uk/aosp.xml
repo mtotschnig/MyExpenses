@@ -159,4 +159,5 @@
     <string name="done_label">"Готово"</string>
     <string name="action_move_top">"На початок"</string>
     <string name="action_move_bottom">"У кінець"</string>
+    <string name="layout">"Розкладка"</string>
 </resources>

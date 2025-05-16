@@ -434,7 +434,7 @@ object PdfPrinter {
                         Phrase().apply {
                             addAll(
                                 helper.print0(
-                                    "Income: + ${
+                                    "${context.getString(R.string.sum_income)}: + ${
                                         currencyFormatter.formatMoney(
                                             sumIncome
                                         )
@@ -444,7 +444,7 @@ object PdfPrinter {
                             add(" | ")
                             addAll(
                                 helper.print0(
-                                    "Expenses: + ${
+                                    "${context.getString(R.string.sum_expenses)}: + ${
                                         currencyFormatter.formatMoney(
                                             sumExpense
                                         )
@@ -454,7 +454,7 @@ object PdfPrinter {
                             add(" | ")
                             addAll(
                                 helper.print0(
-                                    "Transfers: + ${
+                                    "${context.getString(R.string.sum_transfer)}: + ${
                                         currencyFormatter.formatMoney(
                                             sumTransfer
                                         )
@@ -751,23 +751,25 @@ object PdfPrinter {
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         vararg texts: String,
-    ): PdfPCell {
-        val nested = PdfPTable(1).apply {
-            widthPercentage = 100f
-            texts.forEachIndexed { index, text ->
-                addCell(
-                    headerCell(text, font, alignment, NO_BORDER, withPadding = false).apply {
-                        if (index != texts.lastIndex) {
-                            paddingBottom = 2f
-                        }
+    ) = PdfPCell(PdfPTable(1).apply {
+        widthPercentage = 100f
+        texts.forEachIndexed { index, text ->
+            addCell(
+                headerCell(
+                    text,
+                    font,
+                    alignment,
+                    NO_BORDER,
+                    withPadding = false
+                ).apply {
+                    if (index != texts.lastIndex) {
+                        paddingBottom = 2f
                     }
-                )
-            }
+                }
+            )
         }
-
-        return PdfPCell(nested).apply {
-            this.border = border
-            setPadding(5f)
-        }
+    }).apply {
+        this.border = border
+        setPadding(5f)
     }
 }

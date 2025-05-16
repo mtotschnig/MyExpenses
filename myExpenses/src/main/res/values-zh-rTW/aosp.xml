@@ -156,4 +156,5 @@
     <string name="action_move_top">"移至頂端"</string>
     <string name="action_move_bottom">"移到底端"</string>
     <string name="negation">"負"</string>
+    <string name="layout">"配置"</string>
 </resources>

@@ -56,4 +56,5 @@
     <string name="done_label">"Даяр"</string>
     <string name="action_move_top">"Башына жылдыруу"</string>
     <string name="action_move_bottom">"Аягына жылдыруу"</string>
+    <string name="layout">"Калып"</string>
 </resources>

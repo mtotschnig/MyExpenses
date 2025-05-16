@@ -85,4 +85,5 @@
     <string name="action_move_top">"Pārvietot uz sākumu"</string>
     <string name="action_move_bottom">"Pārvietot uz beigām"</string>
     <string name="negation">"Negācija"</string>
+    <string name="layout">"Izkārtojums"</string>
 </resources>

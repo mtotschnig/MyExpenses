@@ -160,4 +160,5 @@
     <string name="action_move_top">"Mover al principio"</string>
     <string name="action_move_bottom">"Mover al final"</string>
     <string name="negation">"Negación"</string>
+    <string name="layout">"Diseño"</string>
 </resources>

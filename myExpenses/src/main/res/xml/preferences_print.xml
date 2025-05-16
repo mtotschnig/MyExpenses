@@ -4,7 +4,7 @@
     android:title="@string/menu_print">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
-        android:title="Layout">
+        android:title="@string/layout">
         <intent
             android:targetClass="org.totschnig.myexpenses.activity.PrintLayoutConfiguration"
             android:targetPackage="@string/application_id" />

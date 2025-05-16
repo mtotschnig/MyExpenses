@@ -161,4 +161,5 @@
     <string name="action_move_top">"Mozgatás az elejére"</string>
     <string name="action_move_bottom">"Mozgatás a végére"</string>
     <string name="negation">"Negáció"</string>
+    <string name="layout">"Elrendezés"</string>
 </resources>

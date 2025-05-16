@@ -75,4 +75,5 @@
     <string name="done_label">"Дууссан"</string>
     <string name="action_move_top">"Хамгийн дээр оруулах"</string>
     <string name="action_move_bottom">"Хамгийн доор оруулах"</string>
+    <string name="layout">"Бүдүүвч"</string>
 </resources>

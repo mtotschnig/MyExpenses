@@ -146,4 +146,5 @@
     <string name="done_label">"Terminat"</string>
     <string name="action_move_top">"Mută sus"</string>
     <string name="action_move_bottom">"Mută jos"</string>
+    <string name="layout">"Aspect"</string>
 </resources>

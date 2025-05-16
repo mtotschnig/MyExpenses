@@ -91,4 +91,5 @@
     <string name="action_move_top">"Flytja alla leið upp"</string>
     <string name="action_move_bottom">"Færa neðst"</string>
     <string name="negation">"Neitun"</string>
+    <string name="layout">"Uppsetning"</string>
 </resources>

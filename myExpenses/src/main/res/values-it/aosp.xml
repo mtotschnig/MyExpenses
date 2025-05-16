@@ -159,4 +159,5 @@
     <string name="action_move_top">"Sposta all'inizio"</string>
     <string name="action_move_bottom">"Sposta in fondo"</string>
     <string name="negation">"Negazione"</string>
+    <string name="layout">"Layout"</string>
 </resources>

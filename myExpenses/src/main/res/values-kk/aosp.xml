@@ -83,4 +83,5 @@
     <string name="done_label">"Дайын"</string>
     <string name="action_move_top">"Басына жылжыту"</string>
     <string name="action_move_bottom">"Төменге жылжыту"</string>
+    <string name="layout">"Орналасуы"</string>
 </resources>

@@ -161,4 +161,5 @@
     <string name="action_move_top">"Переместить в начало"</string>
     <string name="action_move_bottom">"Переместить в конец"</string>
     <string name="negation">"Унарный минус"</string>
+    <string name="layout">"Раскладка"</string>
 </resources>

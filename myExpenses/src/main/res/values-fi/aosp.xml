@@ -92,4 +92,5 @@
     <string name="done_label">"Valmis"</string>
     <string name="action_move_top">"Siirrä ylimmäksi"</string>
     <string name="action_move_bottom">"Siirrä viimeiseksi"</string>
+    <string name="layout">"Asettelu"</string>
 </resources>

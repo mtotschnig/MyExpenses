@@ -71,4 +71,5 @@
     <string name="done_label">"ແລ້ວໆ"</string>
     <string name="action_move_top">"ຍ້າຍໄປເທິງສຸດ"</string>
     <string name="action_move_bottom">"ຍ້າຍໄປລຸ່ມສຸດ"</string>
+    <string name="layout">"ໂຄງຮ່າງ"</string>
 </resources>

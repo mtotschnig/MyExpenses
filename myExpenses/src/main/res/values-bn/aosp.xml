@@ -73,4 +73,5 @@
     <string name="action_move_top">"শীর্ষে সরান"</string>
     <string name="action_move_bottom">"নিচে সরান"</string>
     <string name="negation">"তাৎপর্য"</string>
+    <string name="layout">"লেআউট"</string>
 </resources>

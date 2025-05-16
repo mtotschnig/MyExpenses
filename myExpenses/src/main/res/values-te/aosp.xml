@@ -133,4 +133,5 @@
     <string name="done_label">"పూర్తయింది"</string>
     <string name="action_move_top">"ఎగువకు తరలించు"</string>
     <string name="action_move_bottom">"దిగువకు తరలించు"</string>
+    <string name="layout">"లేఅవుట్"</string>
 </resources>

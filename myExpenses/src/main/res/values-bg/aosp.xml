@@ -161,4 +161,5 @@
     <string name="action_move_top">"Преместване най-горе"</string>
     <string name="action_move_bottom">"Преместване най-долу"</string>
     <string name="negation">"Обръщане на знака"</string>
+    <string name="layout">"Подредба"</string>
 </resources>

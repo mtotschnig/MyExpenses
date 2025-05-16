@@ -143,4 +143,5 @@
     <string name="action_move_top">"ផ្លាស់ទីទៅកំពូល"</string>
     <string name="action_move_bottom">"ផ្លាស់ទីទៅបាត"</string>
     <string name="negation">"អវិជ្ជមាន​កម្ម"</string>
+    <string name="layout">"ប្លង់"</string>
 </resources>

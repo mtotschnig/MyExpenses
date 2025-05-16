@@ -158,4 +158,5 @@
     <string name="done_label">"تم"</string>
     <string name="action_move_top">"نقل إلى الأعلى"</string>
     <string name="action_move_bottom">"نقل إلى الأسفل"</string>
+    <string name="layout">"التنسيق"</string>
 </resources>

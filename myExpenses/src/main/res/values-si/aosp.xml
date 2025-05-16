@@ -133,4 +133,5 @@
     <string name="done_label">"අවසන්"</string>
     <string name="action_move_top">"ඉහළට ගෙන යන්න"</string>
     <string name="action_move_bottom">"පහළට ගෙන යන්න"</string>
+    <string name="layout">"පිරිසැලසුම"</string>
 </resources>

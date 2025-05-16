@@ -292,4 +292,6 @@
     <string name="done_label">"Done"</string>
     <!-- LibreOffice /helpcontent2/source/text/scalc/01.po Cy2wm -->
     <string name="negation">"Negation"</string>
+    <!-- /opt/extra/AOSP/packages/inputmethods/LatinIME/java$ grep -ri keyboard_layout_set |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/keyboard_layout_set/layout/' | aosp_helper -->
+    <string name="layout">"Layout"</string>
 </resources>

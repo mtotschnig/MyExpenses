@@ -94,4 +94,5 @@
     <string name="action_move_top">"Flytta högst upp"</string>
     <string name="action_move_bottom">"Flytta längst ned"</string>
     <string name="negation">"Negation"</string>
+    <string name="layout">"Layout"</string>
 </resources>

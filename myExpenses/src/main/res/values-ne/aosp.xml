@@ -76,4 +76,5 @@
     <string name="action_move_top">"माथिल्लो भागमा सार्नुहोस्"</string>
     <string name="action_move_bottom">"तल्लो भागमा सार्नुहोस्"</string>
     <string name="negation">"नेगेसन"</string>
+    <string name="layout">"लेआउट"</string>
 </resources>

@@ -154,4 +154,5 @@
     <string name="action_move_top">"Chuyển lên trên cùng"</string>
     <string name="action_move_bottom">"Chuyển xuống dưới cùng"</string>
     <string name="negation">"Phủ định"</string>
+    <string name="layout">"Bố cục"</string>
 </resources>

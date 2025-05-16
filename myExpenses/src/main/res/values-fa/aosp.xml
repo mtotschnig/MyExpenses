@@ -74,4 +74,5 @@
     <string name="done_label">"تمام"</string>
     <string name="action_move_top">"انتقال به بالا"</string>
     <string name="action_move_bottom">"انتقال به آخر"</string>
+    <string name="layout">"طرح‌بندی"</string>
 </resources>

@@ -156,4 +156,5 @@
     <string name="action_move_top">"Bovenaan zetten"</string>
     <string name="action_move_bottom">"Onderaan zetten"</string>
     <string name="negation">"Negatief maken"</string>
+    <string name="layout">"Indeling"</string>
 </resources>

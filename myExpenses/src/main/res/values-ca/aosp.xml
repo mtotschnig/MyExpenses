@@ -160,4 +160,5 @@
     <string name="action_move_top">"Mou a la part superior"</string>
     <string name="action_move_bottom">"Mou a la part inferior"</string>
     <string name="negation">"Negació"</string>
+    <string name="layout">"Disseny"</string>
 </resources>

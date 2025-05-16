@@ -157,4 +157,5 @@
     <string name="action_move_top">"一番上に移動します"</string>
     <string name="action_move_bottom">"一番下に移動します"</string>
     <string name="negation">"負の数"</string>
+    <string name="layout">"レイアウト"</string>
 </resources>

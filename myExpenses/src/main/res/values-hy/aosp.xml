@@ -87,4 +87,5 @@
     <string name="done_label">"Պատրաստ է"</string>
     <string name="action_move_top">"Տանել ցանկի սկիզբ"</string>
     <string name="action_move_bottom">"Տանել ցանկի վերջ"</string>
+    <string name="layout">"Դասավորություն"</string>
 </resources>

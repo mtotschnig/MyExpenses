@@ -72,4 +72,5 @@
     <string name="done_label">"Kwenziwe"</string>
     <string name="action_move_top">"Thumela Phezulu"</string>
     <string name="action_move_bottom">"Isa phansi"</string>
+    <string name="layout">"Isakhiwo"</string>
 </resources>

@@ -160,4 +160,5 @@
     <string name="action_move_top">"Flyt til toppen"</string>
     <string name="action_move_bottom">"Flyt til bunden"</string>
     <string name="negation">"Negation"</string>
+    <string name="layout">"Layout"</string>
 </resources>

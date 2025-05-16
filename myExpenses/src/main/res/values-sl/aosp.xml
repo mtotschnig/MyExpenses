@@ -67,4 +67,5 @@
     <string name="done_label">"Dokončano"</string>
     <string name="action_move_top">"Premakni na vrh"</string>
     <string name="action_move_bottom">"Premakni na dno"</string>
+    <string name="layout">"Postavitev"</string>
 </resources>

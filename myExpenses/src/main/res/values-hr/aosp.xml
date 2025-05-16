@@ -152,4 +152,5 @@
     <string name="action_move_top">"Premještanje na vrh"</string>
     <string name="action_move_bottom">"Premještanje na dno"</string>
     <string name="negation">"Negacija"</string>
+    <string name="layout">"Izgled"</string>
 </resources>

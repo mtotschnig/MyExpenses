@@ -149,4 +149,5 @@
     <string name="action_move_top">"맨 위로 이동"</string>
     <string name="action_move_bottom">"맨 아래로 이동"</string>
     <string name="negation">"부정"</string>
+    <string name="layout">"레이아웃"</string>
 </resources>
