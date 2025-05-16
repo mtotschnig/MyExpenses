@@ -13,11 +13,18 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.toDayOfWeek
+import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.Amount
+import org.totschnig.myexpenses.viewmodel.Category
 import org.totschnig.myexpenses.viewmodel.ColumnFeed
+import org.totschnig.myexpenses.viewmodel.CombinedField
 import org.totschnig.myexpenses.viewmodel.Date
 import org.totschnig.myexpenses.viewmodel.Notes
+import org.totschnig.myexpenses.viewmodel.OriginalAmount
+import org.totschnig.myexpenses.viewmodel.Payee
 import org.totschnig.myexpenses.viewmodel.Position
+import org.totschnig.myexpenses.viewmodel.ReferenceNumber
+import org.totschnig.myexpenses.viewmodel.Tags
 import java.util.Calendar
 import java.util.Locale
 
@@ -196,14 +203,22 @@ fun PrefHandler.loadIntList(key: PrefKey) = getString(key, null)?.let {
 
 var PrefHandler.printLayout: List<Position>
     get() = getString(PrefKey.PRINT_LAYOUT, null)?.let { Json.decodeFromString(it) }
-        ?: listOf(Date, ColumnFeed, Notes, ColumnFeed, Amount)
+        ?: listOf(
+            Date,
+            ColumnFeed,
+            Account, Category, Tags,
+            ColumnFeed,
+            Payee, CombinedField(listOf(ReferenceNumber, Notes)),
+            ColumnFeed,
+            OriginalAmount, Amount
+        )
     set(value) {
         putString(PrefKey.PRINT_LAYOUT, Json.encodeToString(value))
     }
 
 var PrefHandler.printLayoutColumnWidth: List<Int>
     get() = loadIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH)
-        ?: listOf(250, 250, 250)
+        ?: listOf(150, 350, 350, 200)
     set(value) {
         saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value)
     }

@@ -86,7 +86,6 @@ import java.time.format.FormatStyle
 import kotlin.math.abs
 import kotlin.math.sign
 
-
 object PdfPrinter {
     private const val VOID_MARKER = "void"
     private const val MARGIN_FRACTION = 0.06f
@@ -590,27 +589,37 @@ object PdfPrinter {
 
             val isVoid = transaction.crStatus == CrStatus.VOID
 
-            fun Transaction2.print(field: Field): String? {
+            fun Transaction2.print(field: Field): List<String> {
                 return when (field) {
-                    is CombinedField -> field.fields.mapNotNull { print(it) }.joinToString(" / ")
-                    Amount -> currencyFormatter.formatMoney(
-                        if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
+                    is CombinedField -> listOf(field.fields.flatMap { print(it) }
+                        .joinToString(" / "))
+
+                    Amount -> listOf(
+                        if (account.isHomeAggregate)
+                            transaction.amount?.let {
+                                currencyFormatter.formatMoney(
+                                    if (transaction.type == FLAG_NEUTRAL) it.absolute() else it
+                                )
+                            } else null,
+                        currencyFormatter.formatMoney(
+                            if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
+                        )
                     )
 
-                    OriginalAmount -> transaction.originalAmount?.let {
+                    OriginalAmount -> listOf(transaction.originalAmount?.let {
                         currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) it.absolute() else it)
-                    }
+                    })
 
-                    Category -> transaction.categoryPath
-                    Date -> Utils.convDateTime(transaction._date, itemDateFormat!!)
-                    Notes -> transaction.comment
-                    Payee -> transaction.payee
-                    Tags -> transaction.tagList.takeIf { it.isNotEmpty() }?.let {
+                    Category -> listOf(transaction.categoryPath)
+                    Date -> listOf(Utils.convDateTime(transaction._date, itemDateFormat!!))
+                    Notes -> listOf(transaction.comment)
+                    Payee -> listOf(transaction.payee)
+                    Tags -> listOf(transaction.tagList.takeIf { it.isNotEmpty() }?.let {
                         it.joinToString { it.second }
-                    }
+                    })
 
-                    ReferenceNumber -> transaction.referenceNumber
-                    Account -> buildString {
+                    ReferenceNumber -> listOf(transaction.referenceNumber)
+                    Account -> listOf(buildString {
                         if (account.id < 0) {
                             //for aggregate accounts we need to indicate the account name
                             append(transaction.accountLabel)
@@ -621,8 +630,10 @@ object PdfPrinter {
                             }
                             append(Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + transaction.transferAccountLabel)
                         }
-                    }
+                    })
                 }
+                    .filterNotNull()
+                    .filter { it.isNotEmpty() }
             }
 
             fun fontType(field: Field) = when (field) {
@@ -642,27 +653,22 @@ object PdfPrinter {
             columns.forEachIndexed { index, fields ->
                 val border =
                     if (index == columns.lastIndex) Rectangle.TOP else Rectangle.RIGHT + Rectangle.TOP
-                val cell = if (fields.size == 1) {
-                    val field = fields.first()
-                    val fontType = fontType(field)
-                    helper.printToCell(transaction.print(field), fontType, border).also {
+                val rows: List<Pair<FontType, String>> = fields.flatMap { field ->
+                    transaction.print(field).map {
+                        fontType(field) to it
+                    }
+                }
+                val cell = helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
+                    helper.printToCell(text, fontType, withPadding = false).also {
                         it.horizontalAlignment = columnAlignment(fields)
-                    }
-                } else {
-                    val rows = fields.mapNotNull { field ->
-                        transaction.print(field)?.let { fontType(field) to it }
-                    }
-                    helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
-                        helper.printToCell(text, fontType, withPadding = false).also {
-                            it.horizontalAlignment = columnAlignment(fields)
-                        }.apply {
-                            if (index != rows.lastIndex) {
-                                paddingBottom = 2f
-                            }
+                    }.apply {
+                        if (index != rows.lastIndex) {
+                            paddingBottom = 2f
                         }
                     }
-                        .toTypedArray(), border = border)
                 }
+                    .toTypedArray(), border = border)
+
                 table!!.addCell(cell)
                 if (isVoid && index == 0) {
                     cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
