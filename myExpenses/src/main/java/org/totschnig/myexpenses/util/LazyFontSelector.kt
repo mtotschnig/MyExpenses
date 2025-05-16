@@ -13,9 +13,11 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
+const val SMALL_FACTOR = 0.85f
 class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
     enum class FontType(val factor: Float, val style: Int, val color: BaseColor?) {
         NORMAL(1f, Font.NORMAL, null),
+        SMALL(SMALL_FACTOR, Font.NORMAL, null),
         TITLE(1.5f, Font.BOLD, null),
         HEADER(1.2f, Font.UNDERLINE, null),
         BOLD(1f, Font.BOLD, null),
@@ -24,6 +26,9 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         INCOME(1f, Font.NORMAL, BaseColor(-0xff9800)), //#FF006800
         EXPENSE(1f, Font.NORMAL, BaseColor(-0x800000)), //#FF800000
         TRANSFER(1f, Font.NORMAL, BaseColor(-16777088)), //#FF000080
+        INCOME_SMALL(SMALL_FACTOR, Font.NORMAL, BaseColor(-0xff9800)), //#FF006800
+        EXPENSE_SMALL(SMALL_FACTOR, Font.NORMAL, BaseColor(-0x800000)), //#FF800000
+        TRANSFER_SMALL(SMALL_FACTOR, Font.NORMAL, BaseColor(-16777088)), //#FF000080
         INCOME_BOLD(1f, Font.BOLD, BaseColor(-0xff9800)), //#FF006800
         EXPENSE_BOLD(1f, Font.BOLD, BaseColor(-0x800000)); //#FF800000
 

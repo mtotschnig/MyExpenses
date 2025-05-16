@@ -140,6 +140,9 @@ data class Transaction2(
     val isArchive: Boolean
         get() = status == STATUS_ARCHIVE
 
+    val isSplitPart: Boolean
+        get() = parentId != null
+
     /**
      * pair of localized label and icon
      */

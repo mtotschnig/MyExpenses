@@ -155,16 +155,18 @@ object PdfPrinter {
         } else {
             account.sortBy
         }
+        val uri = account.uriForTransactionList(
+            shortenComment = false,
+            extended = true
+        )
+        val projection = Transaction2.projection(
+            account.id,
+            account.grouping,
+            prefHandler
+        )
         context.contentResolver.query(
-            account.uriForTransactionList(
-                shortenComment = false,
-                extended = true
-            ),
-            Transaction2.projection(
-                account.id,
-                account.grouping,
-                prefHandler
-            ),
+            uri,
+            projection,
             selection, selectionArgs, sortBy + " " + account.sortDirection
         )!!.use { cursor ->
             if (cursor.count == 0) {
@@ -268,7 +270,15 @@ object PdfPrinter {
                     prefHandler.printLayoutColumnWidth.toIntArray(),
                     colorSource,
                     itemDateFormat
-                )
+                ) {
+                    context.contentResolver.query(
+                        uri,
+                        projection,
+                        "$KEY_PARENTID = ?",
+                        arrayOf(it.toString()),
+                        null
+                    )!!
+                }
             } finally {
                 document.close()
             }
@@ -316,6 +326,7 @@ object PdfPrinter {
         columnWidths: IntArray,
         colorSource: ColorSource,
         itemDateFormat: DateFormat?,
+        splitCursor: (Long) -> Cursor,
     ) {
         val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
@@ -596,39 +607,41 @@ object PdfPrinter {
 
                     Amount -> listOf(
                         if (account.isHomeAggregate)
-                            transaction.amount?.let {
+                            amount?.let {
                                 currencyFormatter.formatMoney(
                                     if (transaction.type == FLAG_NEUTRAL) it.absolute() else it
                                 )
                             } else null,
                         currencyFormatter.formatMoney(
-                            if (transaction.type == FLAG_NEUTRAL) transaction.displayAmount.absolute() else transaction.displayAmount
+                            if (transaction.type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount
                         )
                     )
 
-                    OriginalAmount -> listOf(transaction.originalAmount?.let {
-                        currencyFormatter.formatMoney(if (transaction.type == FLAG_NEUTRAL) it.absolute() else it)
+                    OriginalAmount -> listOf(originalAmount?.let {
+                        currencyFormatter.formatMoney(if (type == FLAG_NEUTRAL) it.absolute() else it)
                     })
 
-                    Category -> listOf(transaction.categoryPath)
-                    Date -> listOf(Utils.convDateTime(transaction._date, itemDateFormat!!))
-                    Notes -> listOf(transaction.comment)
-                    Payee -> listOf(transaction.payee)
-                    Tags -> listOf(transaction.tagList.takeIf { it.isNotEmpty() }?.let {
-                        it.joinToString { it.second }
-                    })
+                    Category -> listOf(categoryPath)
+                    Date -> listOf(
+                        if (isSplitPart) null else
+                            Utils.convDateTime(_date, itemDateFormat!!)
+                    )
 
-                    ReferenceNumber -> listOf(transaction.referenceNumber)
+                    Notes -> listOf(comment)
+                    Payee -> listOf(payee)
+                    Tags -> listOf(tagList.joinToString { it.second })
+
+                    ReferenceNumber -> listOf(referenceNumber)
                     Account -> listOf(buildString {
                         if (account.id < 0) {
                             //for aggregate accounts we need to indicate the account name
-                            append(transaction.accountLabel)
+                            append(accountLabel)
                         }
-                        if (transaction.transferPeer != null) {
-                            if (isEmpty()) {
+                        if (transferPeer != null) {
+                            if (isNotEmpty()) {
                                 append(" ")
                             }
-                            append(Transfer.getIndicatorPrefixForLabel(transaction.displayAmount.amountMinor) + transaction.transferAccountLabel)
+                            append(Transfer.getIndicatorPrefixForLabel(displayAmount.amountMinor) + transferAccountLabel)
                         }
                     })
                 }
@@ -636,7 +649,7 @@ object PdfPrinter {
                     .filter { it.isNotEmpty() }
             }
 
-            fun fontType(field: Field) = when (field) {
+            fun fontType(field: Field, isSplitPart: Boolean) = when (field) {
                 is Amount, OriginalAmount -> {
                     if (account.id >= 0 || !transaction.isSameCurrency)
                         (colorSource.transformType(transaction.type)
@@ -644,37 +657,67 @@ object PdfPrinter {
                                 1 -> FLAG_INCOME
                                 -1 -> FLAG_EXPENSE
                                 else -> FLAG_NEUTRAL
-                            }).asColor() else FontType.NORMAL
+                            }).asFontType(isSplitPart) else FontType.NORMAL
                 }
 
-                else -> FontType.NORMAL
+                else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
             }
 
-            columns.forEachIndexed { index, fields ->
-                val border =
-                    if (index == columns.lastIndex) Rectangle.TOP else Rectangle.RIGHT + Rectangle.TOP
-                val rows: List<Pair<FontType, String>> = fields.flatMap { field ->
-                    transaction.print(field).map {
-                        fontType(field) to it
-                    }
-                }
-                val cell = helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
-                    helper.printToCell(text, fontType, withPadding = false).also {
-                        it.horizontalAlignment = columnAlignment(fields)
-                    }.apply {
-                        if (index != rows.lastIndex) {
-                            paddingBottom = 2f
+            fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f) {
+                columns.forEachIndexed { index, fields ->
+                    val border = (if (index == columns.lastIndex) 0 else Rectangle.RIGHT) +
+                            if (isSplitPart) 0 else Rectangle.TOP
+                    val rows: List<Pair<FontType, String>> = fields.flatMap { field ->
+                        print(field).map {
+                            fontType(field, isSplitPart) to it
                         }
                     }
-                }
-                    .toTypedArray(), border = border)
+                    val cell =
+                        helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
+                            helper.printToCell(text, fontType, withPadding = false).also {
+                                it.horizontalAlignment = columnAlignment(fields)
+                            }.apply {
+                                if (index != rows.lastIndex) {
+                                    this.paddingBottom = 2f
+                                }
+                            }
+                        }.toTypedArray()).apply {
+                            this.border = border
+                            paddingLeft = 5f
+                            paddingRight = 5f
+                            this.paddingTop = paddingTop
+                            this.paddingBottom = paddingBottom
+                        }
 
-                table!!.addCell(cell)
-                if (isVoid && index == 0) {
-                    cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
+                    table!!.addCell(cell)
+                    if (isVoid && index == 0) {
+                        cell.phrase.chunks[0].setGenericTag(this@PdfPrinter.VOID_MARKER)
+                    }
+                }
+            }
+
+            transaction.print()
+
+            if (DatabaseConstants.SPLIT_CATID == transaction.catId) {
+                splitCursor(transaction.id).use { it ->
+                    val list = it.asSequence.map {
+                        Transaction2.fromCursor(
+                            currencyContext,
+                            it,
+                            tagMap,
+                            accountCurrency = account.currencyUnit
+                        )
+                    }.toList()
+                    list.forEachIndexed { index, split ->
+                        split.print(
+                            paddingTop = 0f,
+                            paddingBottom = if (index == list.lastIndex) 5f else 0f
+                        )
+                    }
                 }
             }
         }
+
         // now add all this to the document
         document.add(table)
     }
@@ -683,11 +726,11 @@ object PdfPrinter {
         paragraph.add(Paragraph(" "))
     }
 
-    private fun Byte.asColor() = when (this) {
-        FLAG_INCOME -> FontType.INCOME
-        FLAG_EXPENSE -> FontType.EXPENSE
-        FLAG_TRANSFER -> FontType.TRANSFER
-        else -> FontType.NORMAL
+    private fun Byte.asFontType(isSplitPart: Boolean) = when (this) {
+        FLAG_INCOME -> if (isSplitPart) FontType.INCOME_SMALL else FontType.INCOME
+        FLAG_EXPENSE -> if (isSplitPart) FontType.EXPENSE_SMALL else FontType.EXPENSE
+        FLAG_TRANSFER -> if (isSplitPart) FontType.TRANSFER_SMALL else FontType.TRANSFER
+        else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
     }
 
     private fun headerCell(
