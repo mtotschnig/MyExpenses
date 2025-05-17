@@ -302,4 +302,6 @@
     <string name="left">"Left"</string>
     <!-- LibreOffice cui/messages.po NNBsv -->
     <string name="right">"Right"</string>
+    <!-- LibreOffice cui/messages.po Tvwu6 -->
+    <string name="margins">"Margins"</string>
 </resources>
