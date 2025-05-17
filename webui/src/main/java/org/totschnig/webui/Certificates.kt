@@ -4,28 +4,43 @@ package org.totschnig.webui
  * Copyright 2014-2019 JetBrains s.r.o and contributors. Use of this source code is governed by the Apache 2.0 license.
  */
 
-import io.ktor.network.tls.*
-import io.ktor.network.tls.OID.Companion
+import io.ktor.network.tls.OID
 import io.ktor.network.tls.certificates.KeyType
 import io.ktor.network.tls.certificates.buildKeyStore
 import io.ktor.network.tls.certificates.saveToFile
-import io.ktor.network.tls.extensions.*
-import io.ktor.utils.io.core.*
-import kotlinx.io.*
+import io.ktor.network.tls.extensions.HashAlgorithm
+import io.ktor.network.tls.extensions.SignatureAlgorithm
+import io.ktor.network.tls.keysGenerationAlgorithm
+import io.ktor.utils.io.core.buildPacket
+import io.ktor.utils.io.core.remaining
+import io.ktor.utils.io.core.toByteArray
+import io.ktor.utils.io.core.writeFully
+import io.ktor.utils.io.core.writePacket
+import io.ktor.utils.io.core.writeText
 import kotlinx.io.Sink
+import kotlinx.io.readByteArray
 import kotlinx.io.writeUByte
-import java.io.*
-import java.math.*
-import java.net.*
-import java.security.*
-import java.security.cert.*
+import java.io.File
+import java.math.BigInteger
+import java.net.Inet4Address
+import java.net.InetAddress
+import java.security.KeyPair
+import java.security.KeyPairGenerator
+import java.security.KeyStore
+import java.security.PrivateKey
+import java.security.PublicKey
+import java.security.SecureRandom
+import java.security.Signature
 import java.security.cert.Certificate
-import java.time.*
-import java.time.format.*
-import javax.security.auth.x500.*
-import kotlin.time.*
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import javax.security.auth.x500.X500Principal
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
+import kotlin.time.toJavaDuration
 
 internal val DEFAULT_PRINCIPAL = X500Principal("CN=localhost, OU=Kotlin, O=JetBrains, C=RU")
 private val DEFAULT_CA_PRINCIPAL = X500Principal("CN=localhostCA, OU=Kotlin, O=JetBrains, C=RU")
