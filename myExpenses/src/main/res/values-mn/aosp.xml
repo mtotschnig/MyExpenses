@@ -76,4 +76,9 @@
     <string name="action_move_top">"Хамгийн дээр оруулах"</string>
     <string name="action_move_bottom">"Хамгийн доор оруулах"</string>
     <string name="layout">"Бүдүүвч"</string>
+    <string name="top">"Дээд"</string>
+    <string name="bottom">"Доод талд"</string>
+    <string name="left">"Зүүн"</string>
+    <string name="right">"Баруун"</string>
+    <string name="margins">"Эмжээр"</string>
 </resources>

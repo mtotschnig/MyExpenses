@@ -3,10 +3,14 @@ package org.totschnig.myexpenses.preference
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import androidx.preference.SeekBarPreference
 import org.totschnig.myexpenses.R
 import androidx.preference.R as RP
 
@@ -19,7 +23,7 @@ class FloatSeekBarPreference(context: Context, attrs: AttributeSet) :
     private val minValue: Float
     private val maxValue: Float
     private val valueSpacing: Float
-    private val format: String
+    var formatter: (Float) -> String
 
     private lateinit var textView: TextView
 
@@ -33,7 +37,9 @@ class FloatSeekBarPreference(context: Context, attrs: AttributeSet) :
         minValue = ta.getFloat(R.styleable.FloatSeekBarPreference_minValue, 0F)
         maxValue = ta.getFloat(R.styleable.FloatSeekBarPreference_maxValue, 1F)
         valueSpacing = ta.getFloat(R.styleable.FloatSeekBarPreference_valueSpacing, .1F)
-        format = ta.getString(R.styleable.FloatSeekBarPreference_format) ?: "%3.1f"
+        formatter = {
+            (ta.getString(R.styleable.FloatSeekBarPreference_format) ?: "%3.1f").format(it)
+        }
         ta.recycle()
     }
 
@@ -45,8 +51,7 @@ class FloatSeekBarPreference(context: Context, attrs: AttributeSet) :
 
     override fun onSetInitialValue(initValue: Any?) {
         newValue = getPersistedFloat(
-            if (initValue is Float) initValue
-            else this.defaultValue
+            initValue as? Float ?: this.defaultValue
         )
     }
 
@@ -58,18 +63,32 @@ class FloatSeekBarPreference(context: Context, attrs: AttributeSet) :
 
         with(holder.findViewById(RP.id.seekbar) as SeekBar) {
             setOnSeekBarChangeListener(this@FloatSeekBarPreference)
+            //copied from SeekBarPreference
+            holder.itemView.setOnKeyListener { v, keyCode, event ->
+                when {
+                    event.action != KeyEvent.ACTION_DOWN -> false
+
+                    // We don't want to propagate the click keys down to the SeekBar view since it will
+                    // create the ripple effect for the thumb.
+                    keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER ->
+                        false
+
+                    else -> onKeyDown(keyCode, event)
+                }
+            }
             max = ((maxValue - minValue) / valueSpacing).toInt()
             progress = ((newValue - minValue) / valueSpacing).toInt()
-            isEnabled = isEnabled
+            isEnabled = this@FloatSeekBarPreference.isEnabled
+            keyProgressIncrement = 1
         }
 
-        textView.text = format.format(newValue)
+        textView.text = formatter(newValue)
     }
 
     override fun onProgressChanged(seekbar: SeekBar, progress: Int, fromUser: Boolean) {
         if (!fromUser) return
         val v = minValue + progress * valueSpacing
-        textView.text = format.format(v)
+        textView.text = formatter(v)
     }
 
     override fun onStartTrackingTouch(seekbar: SeekBar) {}

@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
+import timber.log.Timber
 import java.io.IOException
 import java.text.DateFormat
 import java.time.LocalDate
@@ -88,7 +89,6 @@ import kotlin.math.sign
 
 object PdfPrinter {
     private const val VOID_MARKER = "void"
-    private const val MARGIN_FRACTION = 0.06f
 
     enum class HorizontalPosition {
         LEFT, CENTER, RIGHT;
@@ -115,8 +115,22 @@ object PdfPrinter {
 
     private fun getDocument(context: Context, prefHandler: PrefHandler): Document {
         val paperFormat = getPaperFormat(context, prefHandler)
-        val margin = paperFormat.width * MARGIN_FRACTION
-        return Document(paperFormat, margin, margin, margin, margin)
+        val hasHeader = !(prefHandler.getString(PrefKey.PRINT_HEADER_LEFT).isNullOrEmpty()
+                && prefHandler.getString(PrefKey.PRINT_HEADER_CENTER).isNullOrEmpty()
+                && prefHandler.getString(PrefKey.PRINT_HEADER_RIGHT).isNullOrEmpty())
+        val hasFooter = !(prefHandler.getString(PrefKey.PRINT_FOOTER_LEFT).isNullOrEmpty()
+                && prefHandler.getString(PrefKey.PRINT_FOOTER_CENTER).isNullOrEmpty()
+                && prefHandler.getString(PrefKey.PRINT_FOOTER_RIGHT).isNullOrEmpty()
+                )
+        val baseFontSize = prefHandler.getFloat(PrefKey.PRINT_FONT_SIZE, 12f)
+        val marginTop = (paperFormat.height * prefHandler.getFloat(PrefKey.PRINT_MARGIN_TOP, 0.04f))
+            .coerceAtLeast(if (hasHeader) baseFontSize * 2 else 0f)
+        val marginRight = paperFormat.width * prefHandler.getFloat(PrefKey.PRINT_MARGIN_RIGHT, 0.06f)
+        val marginBottom = (paperFormat.height * prefHandler.getFloat(PrefKey.PRINT_MARGIN_BOTTOM, 0.04f))
+            .coerceAtLeast(if (hasFooter) baseFontSize * 2 else 0f)
+        val marginLeft = paperFormat.width * prefHandler.getFloat(PrefKey.PRINT_MARGIN_LEFT, 0.06f)
+        Timber.d("Margin: $marginLeft, $marginTop, $marginRight, $marginBottom")
+        return Document(paperFormat, marginLeft, marginRight, marginTop, marginBottom)
     }
 
     @Throws(IOException::class, DocumentException::class)
@@ -131,8 +145,9 @@ object PdfPrinter {
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[account.currency]
         val prefHandler = context.injector.prefHandler()
+        val baseFontSize = prefHandler.getFloat(PrefKey.PRINT_FONT_SIZE, 12f)
         val helper = PdfHelper(
-            prefHandler.getFloat(PrefKey.PRINT_FONT_SIZE, 12f),
+            baseFontSize,
             context.myApplication.memoryClass
         )
         var selection = "$KEY_PARENTID is null"
@@ -187,7 +202,9 @@ object PdfPrinter {
                         horizontalPosition: HorizontalPosition,
                         verticalPosition: VerticalPosition,
                     ) {
-                        prefHandler.getString(content)?.let {
+                        prefHandler.getString(content)
+                            ?.takeIf { it.isNotEmpty() }
+                            ?.let {
                             val text = it
                                 .replace("{generator}", context.getString(R.string.app_name))
                                 .replace("{page}", document.pageNumber.toString())
@@ -202,8 +219,8 @@ object PdfPrinter {
                                 RIGHT -> document.right()
                             }
                             val y = when (verticalPosition) {
-                                TOP -> document.top() + 10
-                                BOTTOM -> document.bottom() - 10
+                                TOP -> document.top() + minOf(baseFontSize, 10f)
+                                BOTTOM -> document.bottom() - baseFontSize - minOf(baseFontSize, 10f)
                             }
                             val alignment = when (horizontalPosition) {
                                 LEFT -> Element.ALIGN_LEFT

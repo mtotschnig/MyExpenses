@@ -157,4 +157,9 @@
     <string name="action_move_bottom">"移到底端"</string>
     <string name="negation">"負"</string>
     <string name="layout">"配置"</string>
+    <string name="top">"上"</string>
+    <string name="bottom">"下"</string>
+    <string name="left">"左"</string>
+    <string name="right">"右"</string>
+    <string name="margins">"頁面邊距"</string>
 </resources>

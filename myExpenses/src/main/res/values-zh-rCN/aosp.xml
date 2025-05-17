@@ -158,4 +158,9 @@
     <string name="action_move_bottom">"移至底部"</string>
     <string name="negation">"非"</string>
     <string name="layout">"布局"</string>
+    <string name="top">"顶部"</string>
+    <string name="bottom">"底部"</string>
+    <string name="left">"左"</string>
+    <string name="right">"右"</string>
+    <string name="margins">"边距"</string>
 </resources>

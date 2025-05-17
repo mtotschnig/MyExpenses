@@ -75,4 +75,9 @@
     <string name="action_move_top">"انتقال به بالا"</string>
     <string name="action_move_bottom">"انتقال به آخر"</string>
     <string name="layout">"طرح‌بندی"</string>
+    <string name="top">"بالا"</string>
+    <string name="bottom">"پایین"</string>
+    <string name="left">"چپ"</string>
+    <string name="right">راست</string>
+    <string name="margins">Margins"</string>
 </resources>

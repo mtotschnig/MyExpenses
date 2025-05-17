@@ -77,4 +77,9 @@
     <string name="action_move_bottom">"सबसे नीचे ले जाएं"</string>
     <string name="negation">"नेगेशन"</string>
     <string name="layout">"लेआउट"</string>
+    <string name="top">"ऊपर"</string>
+    <string name="bottom">"नीचे"</string>
+    <string name="left">"बायाँ"</string>
+    <string name="right">"दायाँ"</string>
+    <string name="margins">"हाशिए"</string>
 </resources>

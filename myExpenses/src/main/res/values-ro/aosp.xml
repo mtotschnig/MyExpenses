@@ -147,4 +147,9 @@
     <string name="action_move_top">"Mută sus"</string>
     <string name="action_move_bottom">"Mută jos"</string>
     <string name="layout">"Aspect"</string>
+    <string name="top">"Sus"</string>
+    <string name="bottom">"Jos"</string>
+    <string name="left">"Stânga"</string>
+    <string name="right">"Dreapta"</string>
+    <string name="margins">"Margini"</string>
 </resources>

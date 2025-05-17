@@ -153,4 +153,9 @@
     <string name="action_move_bottom">"Premještanje na dno"</string>
     <string name="negation">"Negacija"</string>
     <string name="layout">"Izgled"</string>
+    <string name="top">"Gore"</string>
+    <string name="bottom">"Dolje"</string>
+    <string name="left">"Lijevo"</string>
+    <string name="right">"Desno"</string>
+    <string name="margins">"Margine"</string>
 </resources>

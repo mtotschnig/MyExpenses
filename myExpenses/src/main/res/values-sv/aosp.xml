@@ -95,4 +95,9 @@
     <string name="action_move_bottom">"Flytta längst ned"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"Layout"</string>
+    <string name="top">"Överkant"</string>
+    <string name="bottom">"Nederkant"</string>
+    <string name="left">"Vänster"</string>
+    <string name="right">"Höger"</string>
+    <string name="margins">"Sidmarginaler"</string>
 </resources>

@@ -72,4 +72,9 @@
     <string name="action_move_top">"शीर्षस्थानी हलवा"</string>
     <string name="action_move_bottom">"तळाशी हलवा"</string>
     <string name="layout">"लेआउट"</string>
+    <string name="top">"शीर्ष"</string>
+    <string name="bottom">"तळ"</string>
+    <string name="left">"डावे"</string>
+    <string name="right">"उजवे"</string>
+    <string name="margins">"समास"</string>
 </resources>

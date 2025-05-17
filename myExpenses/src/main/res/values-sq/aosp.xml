@@ -76,4 +76,9 @@
     <string name="action_move_top">"Lëvize në krye"</string>
     <string name="action_move_bottom">"Lëvize në fund"</string>
     <string name="layout">"Struktura"</string>
+    <string name="top">"Lart"</string>
+    <string name="bottom">"Poshtë"</string>
+    <string name="left">"Majtas"</string>
+    <string name="right">"Djathtas"</string>
+    <string name="margins">"Kufijtë"</string>
 </resources>

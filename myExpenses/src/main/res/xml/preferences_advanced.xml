@@ -63,6 +63,7 @@
             android:max="60"
             android:title="@string/pref_webdav_timeout_title"
             my:min="5"
+            my:seekBarIncrement="1"
             my:showSeekBarValue="true"
             my:updatesContinuously="true" />
 

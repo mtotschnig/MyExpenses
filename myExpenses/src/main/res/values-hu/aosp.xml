@@ -162,4 +162,9 @@
     <string name="action_move_bottom">"Mozgatás a végére"</string>
     <string name="negation">"Negáció"</string>
     <string name="layout">"Elrendezés"</string>
+    <string name="top">"Fel"</string>
+    <string name="bottom">"Le"</string>
+    <string name="left">"Balra"</string>
+    <string name="right">"Jobbra"</string>
+    <string name="margins">"Margók"</string>
 </resources>

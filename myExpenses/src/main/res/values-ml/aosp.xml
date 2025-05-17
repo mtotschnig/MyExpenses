@@ -71,4 +71,9 @@
     <string name="action_move_top">"മുകളിലേക്ക് നീക്കുക"</string>
     <string name="action_move_bottom">"താഴേക്ക് നീക്കുക"</string>
     <string name="layout">"ലേഔട്ട്"</string>
+    <string name="top">"മുകളില്‍"</string>
+    <string name="bottom">"താഴെ"</string>
+    <string name="left">"ഇടതു്"</string>
+    <string name="right">"വലതു്"</string>
+    <string name="margins">"മാര്‍ജിനുകള്‍"</string>
 </resources>

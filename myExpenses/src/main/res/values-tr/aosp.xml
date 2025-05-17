@@ -159,4 +159,9 @@
     <string name="action_move_bottom">"En alta taşı"</string>
     <string name="negation">"Eksi"</string>
     <string name="layout">"Düzen"</string>
+    <string name="top">"Üst"</string>
+    <string name="bottom">"Alt"</string>
+    <string name="left">"Sol"</string>
+    <string name="right">"Sağ"</string>
+    <string name="margins">"Kenar Boşlukları"</string>
 </resources>

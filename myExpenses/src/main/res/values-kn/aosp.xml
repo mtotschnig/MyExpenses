@@ -139,4 +139,9 @@
     <string name="action_move_top">"ಮೇಲಕ್ಕೆ ಸರಿಸು"</string>
     <string name="action_move_bottom">"ಕೆಳಕ್ಕೆ ಸರಿಸು"</string>
     <string name="layout">"ಲೇಔಟ್"</string>
+    <string name="top">"ಮೇಲೆ"</string>
+    <string name="bottom">"ಕೆಳಗೆ"</string>
+    <string name="left">"ಎಡ"</string>
+    <string name="right">"ಬಲ"</string>
+    <string name="margins">"ಅಂಚುಗಳು"</string>
 </resources>

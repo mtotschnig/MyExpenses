@@ -161,4 +161,9 @@
     <string name="action_move_bottom">"Flyt til bunden"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"Layout"</string>
+    <string name="top">"Top"</string>
+    <string name="bottom">"Bund"</string>
+    <string name="left">"Venstre"</string>
+    <string name="right">"Højre"</string>
+    <string name="margins">"Margener"</string>
 </resources>

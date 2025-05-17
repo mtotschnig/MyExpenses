@@ -204,7 +204,11 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PRINT_FONT_SIZE(R.string.pref_print_font_size_key),
     PRINT_PAPER_ORIENTATION(R.string.pref_print_paper_orientation_key),
     PRINT_LAYOUT("printLayout"),
-    PRINT_LAYOUT_COLUMN_WIDTH("printLayoutColumnWidth")
+    PRINT_LAYOUT_COLUMN_WIDTH("printLayoutColumnWidth"),
+    PRINT_MARGIN_TOP(R.string.pref_print_margin_top_key),
+    PRINT_MARGIN_BOTTOM(R.string.pref_print_margin_bottom_key),
+    PRINT_MARGIN_LEFT(R.string.pref_print_margin_left_key),
+    PRINT_MARGIN_RIGHT(R.string.pref_print_margin_right_key)
     ;
 
     @Deprecated("")

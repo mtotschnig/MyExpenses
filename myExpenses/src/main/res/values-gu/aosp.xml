@@ -76,4 +76,9 @@
     <string name="action_move_bottom">"તળિયા પર ખસેડો"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"લેઆઉટ"</string>
+    <string name="top">"ટોચ"</string>
+    <string name="bottom">"તળિયું"</string>
+    <string name="left">"ડાબુ"</string>
+    <string name="right">"જમણું"</string>
+    <string name="margins">"હાંસિયા"</string>
 </resources>

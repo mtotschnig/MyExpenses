@@ -142,4 +142,9 @@
     <string name="action_move_top">"முதலாவதாக நகர்த்து"</string>
     <string name="action_move_bottom">"கடைசிக்கு நகர்த்து"</string>
     <string name="layout">"தளவமைப்பு"</string>
+    <string name="top">"மேல்"</string>
+    <string name="bottom">"கீழ்"</string>
+    <string name="left">"இடது"</string>
+    <string name="right">"வலது"</string>
+    <string name="margins">"ஓரங்கள்"</string>
 </resources>

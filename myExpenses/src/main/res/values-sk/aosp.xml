@@ -94,4 +94,9 @@
     <string name="action_move_bottom">"Presunúť na koniec"</string>
     <string name="negation">"Negácia"</string>
     <string name="layout">"Rozloženie"</string>
+    <string name="top">"Hore"</string>
+    <string name="bottom">"Dole"</string>
+    <string name="left">"Vľavo"</string>
+    <string name="right">"Vpravo"</string>
+    <string name="margins">"Okraje"</string>
 </resources>

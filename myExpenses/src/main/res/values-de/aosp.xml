@@ -160,4 +160,9 @@
     <string name="action_move_bottom">"Ganz nach unten"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"Layout"</string>
+    <string name="top">"Oben"</string>
+    <string name="bottom">"Unten"</string>
+    <string name="left">"Links"</string>
+    <string name="right">"Rechts"</string>
+    <string name="margins">"Seitenränder"</string>
 </resources>

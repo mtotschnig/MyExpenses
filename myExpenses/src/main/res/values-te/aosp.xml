@@ -134,4 +134,9 @@
     <string name="action_move_top">"ఎగువకు తరలించు"</string>
     <string name="action_move_bottom">"దిగువకు తరలించు"</string>
     <string name="layout">"లేఅవుట్"</string>
+    <string name="top">"పైన"</string>
+    <string name="bottom">"కింద"</string>
+    <string name="left">"ఎడమ"</string>
+    <string name="right">"కుడి"</string>
+    <string name="margins">"అంచులు"</string>
 </resources>

@@ -85,4 +85,9 @@
     <string name="action_move_bottom">"Perkelti į apačią"</string>
     <string name="negation">"Inversija"</string>
     <string name="layout">"Išdėstymas"</string>
+    <string name="top">"Viršuje"</string>
+    <string name="bottom">"Apačioje"</string>
+    <string name="left">"Kairėje"</string>
+    <string name="right">"Dešinėje"</string>
+    <string name="margins">"Paraštės"</string>
 </resources>

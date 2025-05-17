@@ -160,4 +160,9 @@
     <string name="action_move_top">"На початок"</string>
     <string name="action_move_bottom">"У кінець"</string>
     <string name="layout">"Розкладка"</string>
+    <string name="top">"Зверху"</string>
+    <string name="bottom">"Внизу"</string>
+    <string name="left">"Ліворуч"</string>
+    <string name="right">"Праворуч"</string>
+    <string name="margins">"Поля"</string>
 </resources>

@@ -84,4 +84,9 @@
     <string name="action_move_top">"Басына жылжыту"</string>
     <string name="action_move_bottom">"Төменге жылжыту"</string>
     <string name="layout">"Орналасуы"</string>
+    <string name="top">"Жоғары"</string>
+    <string name="bottom">"Төмен"</string>
+    <string name="left">"Сол жақ"</string>
+    <string name="right">"Оң жақ"</string>
+    <string name="margins">"Шет өрістері"</string>
 </resources>

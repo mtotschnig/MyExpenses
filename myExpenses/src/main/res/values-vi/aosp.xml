@@ -155,4 +155,9 @@
     <string name="action_move_bottom">"Chuyển xuống dưới cùng"</string>
     <string name="negation">"Phủ định"</string>
     <string name="layout">"Bố cục"</string>
+    <string name="top">"Đỉnh"</string>
+    <string name="bottom">"Đáy"</string>
+    <string name="left">"Trái"</string>
+    <string name="right">"Phải"</string>
+    <string name="margins">"Lề"</string>
 </resources>

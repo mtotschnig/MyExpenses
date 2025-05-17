@@ -294,4 +294,12 @@
     <string name="negation">"Negation"</string>
     <!-- /opt/extra/AOSP/packages/inputmethods/LatinIME/java$ grep -ri keyboard_layout_set |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/keyboard_layout_set/layout/' | aosp_helper -->
     <string name="layout">"Layout"</string>
+    <!-- LibreOffice cui/messages.po R7VbC -->
+    <string name="top">"Top"</string>
+    <!-- LibreOffice cui/messages.po WU9cc -->
+    <string name="bottom">"Bottom"</string>
+    <!-- LibreOffice cui/messages.po XAgVD -->
+    <string name="left">"Left"</string>
+    <!-- LibreOffice cui/messages.po NNBsv -->
+    <string name="right">"Right"</string>
 </resources>

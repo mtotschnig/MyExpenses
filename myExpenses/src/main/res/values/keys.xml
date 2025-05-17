@@ -291,6 +291,10 @@
     <string name="pref_print_paper_format_key">print_paper_format</string>
     <string name="pref_print_font_size_key">print_font_size</string>
     <string name="pref_print_paper_orientation_key">print_paper_orientation</string>
+    <string name="pref_print_margin_top_key">print_margin_top</string>
+    <string name="pref_print_margin_right_key">print_margin_right</string>
+    <string name="pref_print_margin_bottom_key">print_margin_bottom</string>
+    <string name="pref_print_margin_left_key">print_margin_left</string>
     <string name="orientation_portrait">PORTRAIT</string>
     <string name="orientation_landscape">LANDSCAPE</string>
 </resources>

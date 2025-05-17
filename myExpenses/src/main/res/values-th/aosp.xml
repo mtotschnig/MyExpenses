@@ -90,4 +90,9 @@
     <string name="action_move_top">"เลื่อนไปบนสุด"</string>
     <string name="action_move_bottom">"เลื่อนไปสุดด้านล่าง"</string>
     <string name="layout">"เลย์เอาต์"</string>
+    <string name="top">"บน"</string>
+    <string name="bottom">"ล่าง"</string>
+    <string name="left">"ซ้าย"</string>
+    <string name="right">"ขวา"</string>
+    <string name="margins">"ระยะขอบ"</string>
 </resources>

@@ -73,4 +73,9 @@
     <string name="action_move_top">"Thumela Phezulu"</string>
     <string name="action_move_bottom">"Isa phansi"</string>
     <string name="layout">"Isakhiwo"</string>
+    <string name="top">"Phezulu"</string>
+    <string name="bottom">"Ezansi"</string>
+    <string name="left">"Ngakwesokunxele"</string>
+    <string name="right">Okudla</string>
+    <string name="margins">"Izinsebe"</string>
 </resources>

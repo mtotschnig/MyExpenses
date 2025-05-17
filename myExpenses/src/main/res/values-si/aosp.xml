@@ -134,4 +134,9 @@
     <string name="action_move_top">"ඉහළට ගෙන යන්න"</string>
     <string name="action_move_bottom">"පහළට ගෙන යන්න"</string>
     <string name="layout">"පිරිසැලසුම"</string>
+    <string name="top">"ඉහළ"</string>
+    <string name="bottom">"පහළ"</string>
+    <string name="left">"වම"</string>
+    <string name="right">"දකුණ"</string>
+    <string name="margins">"මායිම්"</string>
 </resources>

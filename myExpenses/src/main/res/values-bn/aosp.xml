@@ -74,4 +74,9 @@
     <string name="action_move_bottom">"নিচে সরান"</string>
     <string name="negation">"তাৎপর্য"</string>
     <string name="layout">"লেআউট"</string>
+    <string name="top">শীর্ষ</string>
+    <string name="bottom">নীচে</string>
+    <string name="left">বাম</string>
+    <string name="right">ডান</string>
+    <string name="margins">"মার্জিন"</string>
 </resources>

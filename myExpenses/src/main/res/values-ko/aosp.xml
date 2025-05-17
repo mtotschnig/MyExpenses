@@ -150,4 +150,9 @@
     <string name="action_move_bottom">"맨 아래로 이동"</string>
     <string name="negation">"부정"</string>
     <string name="layout">"레이아웃"</string>
+    <string name="top">"위쪽"</string>
+    <string name="bottom">"아래쪽"</string>
+    <string name="left">"왼쪽"</string>
+    <string name="right">"오른쪽"</string>
+    <string name="margins">"페이지 여백"</string>
 </resources>

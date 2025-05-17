@@ -158,4 +158,9 @@
     <string name="action_move_bottom">"Eraman beheraino"</string>
     <string name="negation">"Ukapena"</string>
     <string name="layout">"Diseinua"</string>
+    <string name="top">"Goian"</string>
+    <string name="bottom">"Behean"</string>
+    <string name="left">"Ezkerrean"</string>
+    <string name="right">"Eskuinean"</string>
+    <string name="margins">"Marjinak"</string>
 </resources>

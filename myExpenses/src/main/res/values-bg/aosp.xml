@@ -162,4 +162,9 @@
     <string name="action_move_bottom">"Преместване най-долу"</string>
     <string name="negation">"Обръщане на знака"</string>
     <string name="layout">"Подредба"</string>
+    <string name="top">"Отгоре"</string>
+    <string name="bottom">"Отдолу"</string>
+    <string name="left">"Отляво"</string>
+    <string name="right">"Отдясно"</string>
+    <string name="margins">"Бели полета"</string>
 </resources>

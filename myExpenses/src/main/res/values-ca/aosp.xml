@@ -161,4 +161,9 @@
     <string name="action_move_bottom">"Mou a la part inferior"</string>
     <string name="negation">"Negació"</string>
     <string name="layout">"Disseny"</string>
+    <string name="top">"Superior"</string>
+    <string name="bottom">"Inferior"</string>
+    <string name="left">"Esquerra"</string>
+    <string name="right">"Dreta"</string>
+    <string name="margins">"Marges"</string>
 </resources>

@@ -88,4 +88,9 @@
     <string name="action_move_bottom">"ወደ ታች ውሰድ"</string>
     <string name="negation">"አሉታዊ"</string>
     <string name="layout">"አቀማመጥ"</string>
+    <string name="top">"ከ ላይ"</string>
+    <string name="bottom">"ከ ታች"</string>
+    <string name="left">"በ ግራ"</string>
+    <string name="right">"በ ቀኝ"</string>
+    <string name="margins">"መስመሮች"</string>
 </resources>

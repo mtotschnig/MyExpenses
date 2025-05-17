@@ -73,4 +73,9 @@
     <string name="action_move_top">"Pomjeri na vrh"</string>
     <string name="action_move_bottom">"Pomjeri na dno"</string>
     <string name="layout">"Raspored"</string>
+    <string name="top">"Vrh"</string>
+    <string name="bottom">"Dno"</string>
+    <string name="left">"Lijevo"</string>
+    <string name="right">"Desno"</string>
+    <string name="margins">"Margine"</string>
 </resources>

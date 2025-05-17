@@ -163,4 +163,9 @@
     <string name="action_move_bottom">"Přesunout na konec"</string>
     <string name="negation">"Negace"</string>
     <string name="layout">"Rozložení"</string>
+    <string name="top">"Nahoře"</string>
+    <string name="bottom">"Dole"</string>
+    <string name="left">"Vlevo"</string>
+    <string name="right">"Vpravo"</string>
+    <string name="margins">"Okraje"</string>
 </resources>

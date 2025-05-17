@@ -158,4 +158,9 @@
     <string name="action_move_bottom">"一番下に移動します"</string>
     <string name="negation">"負の数"</string>
     <string name="layout">"レイアウト"</string>
+    <string name="top">"上揃え"</string>
+    <string name="bottom">"下揃え"</string>
+    <string name="left">"左揃え"</string>
+    <string name="right">"右"</string>
+    <string name="margins">"余白"</string>
 </resources>

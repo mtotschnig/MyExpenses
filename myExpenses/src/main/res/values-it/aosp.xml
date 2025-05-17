@@ -160,4 +160,9 @@
     <string name="action_move_bottom">"Sposta in fondo"</string>
     <string name="negation">"Negazione"</string>
     <string name="layout">"Layout"</string>
+    <string name="top">"In alto"</string>
+    <string name="bottom">"In basso"</string>
+    <string name="left">"A sinistra"</string>
+    <string name="right">"A destra"</string>
+    <string name="margins">"Margini"</string>
 </resources>

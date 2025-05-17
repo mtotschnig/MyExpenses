@@ -152,4 +152,9 @@
     <string name="action_move_bottom">"העברה לסוף הרשימה"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"פריסה"</string>
+    <string name="top">"למעלה"</string>
+    <string name="bottom">"למטה"</string>
+    <string name="left">"שמאל"</string>
+    <string name="right">"ימין"</string>
+    <string name="margins">"שוליים"</string>
 </resources>

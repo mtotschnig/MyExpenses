@@ -92,4 +92,9 @@
     <string name="action_move_bottom">"Færa neðst"</string>
     <string name="negation">"Neitun"</string>
     <string name="layout">"Uppsetning"</string>
+    <string name="top">"Efst"</string>
+    <string name="bottom">"Neðst"</string>
+    <string name="left">"Vinstri"</string>
+    <string name="right">"Hægri"</string>
+    <string name="margins">"Spássíur"</string>
 </resources>

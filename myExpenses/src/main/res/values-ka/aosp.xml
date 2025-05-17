@@ -84,4 +84,9 @@
     <string name="action_move_bottom">"ბოლოში გადატანა"</string>
     <string name="negation">"უარყოფა"</string>
     <string name="layout">"განლაგება"</string>
+    <string name="top">"ზემოთ"</string>
+    <string name="bottom">"ქვემოთ"</string>
+    <string name="left">"მარცხნივ"</string>
+    <string name="right">"მარჯვნივ"</string>
+    <string name="margins">"კიდეები"</string>
 </resources>

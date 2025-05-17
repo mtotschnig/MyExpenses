@@ -118,7 +118,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     private val localizedPercentFormat: NumberFormat by lazy {
-        NumberFormat.getPercentInstance(getLocale()).also {
+        NumberFormat.getPercentInstance().also {
             it.setMinimumFractionDigits(1)
         }
     }

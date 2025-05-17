@@ -95,4 +95,9 @@
     <string name="action_move_bottom">"Teisalda kõige alla"</string>
     <string name="negation">"Lahutamine"</string>
     <string name="layout">"Paigutus"</string>
+    <string name="top">"Üleval"</string>
+    <string name="bottom">"All"</string>
+    <string name="left">"Vasakul"</string>
+    <string name="right">"Paremal"</string>
+    <string name="margins">"Veerised"</string>
 </resources>

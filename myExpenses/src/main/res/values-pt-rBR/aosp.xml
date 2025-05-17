@@ -149,4 +149,9 @@
     <string name="action_move_bottom">"Mover para o fim"</string>
     <string name="negation">"Negação"</string>
     <string name="layout">"Layout"</string>
+    <string name="top">"Em cima"</string>
+    <string name="bottom">"Embaixo"</string>
+    <string name="left">"À esquerda"</string>
+    <string name="right">"À direita"</string>
+    <string name="margins">"Margens"</string>
 </resources>

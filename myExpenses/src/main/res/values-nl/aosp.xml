@@ -157,4 +157,9 @@
     <string name="action_move_bottom">"Onderaan zetten"</string>
     <string name="negation">"Negatief maken"</string>
     <string name="layout">"Indeling"</string>
+    <string name="top">"Boven"</string>
+    <string name="bottom">"Onder"</string>
+    <string name="left">"Links"</string>
+    <string name="right">"Rechts"</string>
+    <string name="margins">"Marges"</string>
 </resources>

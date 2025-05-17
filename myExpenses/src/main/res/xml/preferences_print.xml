@@ -63,4 +63,35 @@
         android:title="@string/title_font_size"
         my:minValue="5.0"
         my:maxValue="20.0" />
+    <PreferenceCategory android:title="@string/margins">
+        <org.totschnig.myexpenses.preference.FloatSeekBarPreference
+            android:defaultValue="0.04"
+            android:key="@string/pref_print_margin_top_key"
+            android:title="@string/top"
+            my:valueSpacing="0.001"
+            my:minValue="0.0"
+            my:maxValue="0.2" />
+        <org.totschnig.myexpenses.preference.FloatSeekBarPreference
+            android:defaultValue="0.06"
+            android:key="@string/pref_print_margin_right_key"
+            android:title="@string/right"
+            my:valueSpacing="0.001"
+            my:minValue="0.0"
+            my:maxValue="0.2" />
+        <org.totschnig.myexpenses.preference.FloatSeekBarPreference
+            android:defaultValue="0.04"
+            android:key="@string/pref_print_margin_bottom_key"
+            android:title="@string/bottom"
+            my:valueSpacing="0.001"
+            my:minValue="0.0"
+            my:maxValue="0.2" />
+        <org.totschnig.myexpenses.preference.FloatSeekBarPreference
+            android:defaultValue="0.06"
+            android:key="@string/pref_print_margin_left_key"
+            android:title="@string/left"
+            my:valueSpacing="0.001"
+            my:minValue="0.0"
+            my:maxValue="0.2" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -72,4 +72,8 @@
     <string name="action_move_top">"ຍ້າຍໄປເທິງສຸດ"</string>
     <string name="action_move_bottom">"ຍ້າຍໄປລຸ່ມສຸດ"</string>
     <string name="layout">"ໂຄງຮ່າງ"</string>
+    <string name="top">"ເທິງ"</string>
+    <string name="bottom">"ລຸ່ມ"</string>
+    <string name="left">"ຊ້າຍ"</string>
+    <string name="right">ຂວາ</string>
 </resources>

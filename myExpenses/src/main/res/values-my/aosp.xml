@@ -71,4 +71,9 @@
     <string name="action_move_top">"အပေါ်ဆုံးသို့ ရွှေ့ပါ"</string>
     <string name="action_move_bottom">"အောက်ပိုင်းသို့ ရွှေ့ပါ"</string>
     <string name="layout">"အပြင်အဆင်"</string>
+    <string name="top">"ထိပ်"</string>
+    <string name="bottom">"အောက်ခြေ"</string>
+    <string name="left">"ဘယ်ဘက်"</string>
+    <string name="right">"ညာဘက်"</string>
+    <string name="margins">"ဘေးမျဉ်းများ"</string>
 </resources>

@@ -71,4 +71,9 @@
     <string name="action_move_top">"Перамясціць уверх"</string>
     <string name="action_move_bottom">"Перамясціць уніз"</string>
     <string name="layout">"Раскладка"</string>
+    <string name="top">"Зверху"</string>
+    <string name="bottom">"Знізу"</string>
+    <string name="left">"Злева"</string>
+    <string name="right">"Справа"</string>
+    <string name="margins">"Палі"</string>
 </resources>

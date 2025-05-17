@@ -160,4 +160,9 @@
     <string name="action_move_bottom">"Μετακίνηση κάτω"</string>
     <string name="negation">"Άρνηση"</string>
     <string name="layout">"Διάταξη"</string>
+    <string name="top">"Επάνω"</string>
+    <string name="bottom">"Κάτω"</string>
+    <string name="left">"Αριστερά"</string>
+    <string name="right">"Δεξιά"</string>
+    <string name="margins">"Περιθώρια"</string>
 </resources>

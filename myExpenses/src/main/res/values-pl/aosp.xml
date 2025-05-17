@@ -163,4 +163,9 @@
     <string name="action_move_bottom">"Przenieś na koniec"</string>
     <string name="negation">"Negacja"</string>
     <string name="layout">"Układ"</string>
+    <string name="top">"Góra"</string>
+    <string name="bottom">"Dół"</string>
+    <string name="left">"Z lewej"</string>
+    <string name="right">"Z prawej"</string>
+    <string name="margins">"Marginesy"</string>
 </resources>

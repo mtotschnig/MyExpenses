@@ -161,4 +161,9 @@
     <string name="action_move_bottom">"Placer en dernier"</string>
     <string name="negation">"Négation"</string>
     <string name="layout">"Mise en page"</string>
+    <string name="top">"En haut"</string>
+    <string name="bottom">"En bas"</string>
+    <string name="left">"Gauche"</string>
+    <string name="right">"Droite"</string>
+    <string name="margins">"Marges"</string>
 </resources>

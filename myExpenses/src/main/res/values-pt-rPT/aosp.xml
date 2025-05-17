@@ -122,4 +122,9 @@
     <string name="action_move_bottom">"Mover para o fim"</string>
     <string name="negation">"Negação"</string>
     <string name="layout">"Esquema"</string>
+    <string name="top">"Superior"</string>
+    <string name="bottom">"Inferior"</string>
+    <string name="left">"Esquerda"</string>
+    <string name="right">"Direita"</string>
+    <string name="margins">"Margens"</string>
 </resources>

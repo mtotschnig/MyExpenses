@@ -76,4 +76,9 @@
     <string name="action_move_bottom">"Премести најдолу"</string>
     <string name="negation">"Negation"</string>
     <string name="layout">"Распоред"</string>
+    <string name="top">"Горе"</string>
+    <string name="bottom">"Долу"</string>
+    <string name="left">Лево</string>
+    <string name="right">Десно</string>
+    <string name="margins">"Маргини"</string>
 </resources>

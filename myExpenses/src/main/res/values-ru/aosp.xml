@@ -162,4 +162,9 @@
     <string name="action_move_bottom">"Переместить в конец"</string>
     <string name="negation">"Унарный минус"</string>
     <string name="layout">"Раскладка"</string>
+    <string name="top">"По верху"</string>
+    <string name="bottom">"По низу"</string>
+    <string name="left">"По левому краю"</string>
+    <string name="right">"По правому краю"</string>
+    <string name="margins">"Поля"</string>
 </resources>

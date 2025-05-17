@@ -70,4 +70,9 @@
     <string name="action_move_top">"Премести на врх"</string>
     <string name="action_move_bottom">"Премести на дно"</string>
     <string name="layout">"Распоред"</string>
+    <string name="top">"Врх"</string>
+    <string name="bottom">"Дно"</string>
+    <string name="left">"Лево"</string>
+    <string name="right">"Десно"</string>
+    <string name="margins">"Маргине"</string>
 </resources>

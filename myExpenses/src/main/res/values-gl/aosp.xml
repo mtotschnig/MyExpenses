@@ -92,4 +92,9 @@
     <string name="action_move_top">"Situar arriba"</string>
     <string name="action_move_bottom">"Situar abaixo"</string>
     <string name="layout">"Deseño"</string>
+    <string name="top">"Superior"</string>
+    <string name="bottom">"Inferior"</string>
+    <string name="left">"Esquerda"</string>
+    <string name="right">"Dereita"</string>
+    <string name="margins">"Marxes"</string>
 </resources>

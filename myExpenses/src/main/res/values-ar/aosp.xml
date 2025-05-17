@@ -159,4 +159,9 @@
     <string name="action_move_top">"نقل إلى الأعلى"</string>
     <string name="action_move_bottom">"نقل إلى الأسفل"</string>
     <string name="layout">"التنسيق"</string>
+    <string name="top">"أعلى"</string>
+    <string name="bottom">"أسفل"</string>
+    <string name="left">"يسار"</string>
+    <string name="right">"يمين"</string>
+    <string name="margins">"الهوامش"</string>
 </resources>
