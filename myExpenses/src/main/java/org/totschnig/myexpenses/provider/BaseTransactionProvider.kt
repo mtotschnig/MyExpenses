@@ -623,7 +623,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val date = sumsForDate ?: "now"
         val aggregateFunction = this.aggregateFunction
 
-        val endOfDay = if (sumsForDate == "now") runBlocking {
+        val endOfDay = if (date == "now") runBlocking {
             enumValueOrDefault(
                 dataStore.data.first()[stringPreferencesKey(
                     prefHandler.getKey(
