@@ -25,7 +25,8 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun handleToggle(preference: TwoStatePreference) {
         val prefKey = booleanPreferencesKey(preference.key)
-        val value = dataStore.data.first()[prefKey] ?: preference.isChecked //this gives us defaultValue from XML if no value is persisted yet
+        val value = dataStore.data.first()[prefKey]
+            ?: preference.isChecked //this gives us defaultValue from XML if no value is persisted yet
 
         with(preference) {
 
@@ -39,7 +40,7 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
                 isChecked = checked
 
                 try {
-                    dataStore.edit{ it[prefKey] = checked }
+                    dataStore.edit { it[prefKey] = checked }
                 } catch (ex: IOException) {
                     CrashHandler.report(ex)
                 }
@@ -55,7 +56,8 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun handleList(preference: ListPreference) {
         val prefKey = stringPreferencesKey(preference.key)
-        val value = dataStore.data.first()[prefKey] ?: preference.value ////this gives us defaultValue from XML if no value is persisted yet
+        val value = dataStore.data.first()[prefKey]
+            ?: preference.value ////this gives us defaultValue from XML if no value is persisted yet
 
         with(preference) {
 
@@ -69,7 +71,7 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
                 setValue(value)
 
                 try {
-                    dataStore.edit{ it[prefKey] = checked }
+                    dataStore.edit { it[prefKey] = checked }
                 } catch (ex: IOException) {
                     CrashHandler.report(ex)
                 }
