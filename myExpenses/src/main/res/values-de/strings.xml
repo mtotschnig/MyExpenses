@@ -1006,4 +1006,6 @@
     <string name="balance_sheet_section_assets">Vermögenswerte</string>
     <string name="balance_sheet_section_liabilities">Verbindlichkeiten</string>
     <string name="balance_sheet_net_worth">Reinvermögen</string>
+    <string name="mark_as_cleared">Als verrechnet markieren</string>
+    <string name="mark_as_unreconciled">Als nicht abgestimmt markieren</string>
 </resources>
