@@ -996,9 +996,16 @@
     <string name="filter_dialog_empty">Все още не са зададени критерии. Натиснете бутоните по-горе, за да определите заявката и да прецизирате резултатите.</string>
     <string name="dynamic_exchange_rate">Динамичен обменен курс</string>
     <string name="quick_search">Бързо търсене</string>
-    <string name="complex_search">Сложно търсене</string>
+    <string name="complex_search">Разширено търсене</string>
     <string name="balance_sheet">Баланс</string>
     <string name="balance_sheet_section_assets">Активи</string>
     <string name="balance_sheet_section_liabilities">Пасиви</string>
     <string name="balance_sheet_net_worth">Нетна стойност</string>
+    <string name="equivalent_amount_plural">Еквивалентни суми</string>
+    <string name="menu_recalculate">Преизчисли</string>
+    <string name="recalculate_equivalent_amounts_warning">Еквивалентните суми ще бъдат (пре)изчислени, ако са налични запазени обменни курсове.</string>
+    <string name="account_closed">Сметката е закрита</string>
+    <string name="recalculate_only_missing">Попълни само липсващите стойности</string>
+    <string name="mark_as_unreconciled">Маркирай като несъгласувано</string>
+    <string name="mark_as_cleared">Маркирай като изчистено</string>
 </resources>

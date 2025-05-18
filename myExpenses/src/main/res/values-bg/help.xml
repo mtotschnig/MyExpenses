@@ -213,4 +213,16 @@
     <string name="cab_ManageCategories_merge_help_text">Категориите от един и същи тип могат да бъдат обединени.</string>
     <string name="help_ManageTags_context_menu_info">Натисни иконата &lt;img src=more&gt; за редактиране, задаване на цвят или изтриване на маркер.</string>
     <string name="menu_ManageBudgets_grouping_help_text">Списъка бюджети може да бъде групиран по сметки или по тип на бюджета.</string>
+    <string name="cab_PriceHistory_add_help_text">Въведете курс за определената дата. Ръчно въведения курс има приоритет спрямо сваления от доставчика.</string>
+    <string name="dynamic_exchange_rate_help_text_1">Ако сметка в чужда валута е настроена да ползва динамичен обменен курс, може да задавате конкретна стойност за всяка транзакция.</string>
+    <string name="dynamic_exchange_rate_help_text_2">Текущата стойност на сметка в чужда валута с динамичен курс се изчислява с последния обменен курс.</string>
+    <string name="help_user_exchange_rate">Този курс е въведен от потребителя при редактиране на еквивалентната сума на транзакцията.</string>
+    <string name="help_calculated_exchange_rate">Този курс е изчислен автоматично от съществуващите курсове при смяна на основната валута.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><b>Началната стойност</b> е определена според зададения курс в свойствата на сметката.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Сумите на приходите и разходите</b> се изчисляват чрез еквивалентната сума зададена за всяка транзакция.</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3"><b>Текущата стойност</b> е според последния обменен курс за валутата на сметката.</string>
+    <string name="help_PriceHistory_info">Може да настроите сметките в чужда валута да ползват динамичен обменен курс. За всеки ден можете да свалите или въведете конкретен курс спрямо основната валута. На този екран са изброени запазените курсове за всички дни от деня на най-ранната транзакция. Източника на курса е показан като:</string>
+    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Когато опцията е включена може да видите дяла на всяка чужда валута в общата стойност на основната валута. Ако сметката не ползва динамичен курс, стойността е изчислена според зададения курс в нейните свойства. Иначе:</string>
+    <string name="cab_PriceHistory_download_help_text">Сваляне на курса за определен ден от посочен доставчик. Някои доставчици не предлагат курс за всички дни, например почивните в края на седмицата или официалните празници. В такъв случай предлагат курса за предишен ден.</string>
+    <string name="dynamic_exchange_rate_help_text_3">Опцията %s позволява да проследите актуалната нетна стойност на всички сметки.</string>
 </resources>
