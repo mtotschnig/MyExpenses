@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -83,6 +84,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -280,6 +282,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      */
     fun loadDebts(
         rowId: Long? = null,
+        date: LocalDate? = null,
         showSealed: Boolean = false,
         showZero: Boolean = true,
         sortOrder: String? = null
@@ -288,6 +291,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             uri = with(DEBTS_URI.buildUpon()) {
                 rowId?.takeIf { it != 0L }?.let {
                     appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
+                }
+                date?.let {
+                    appendQueryParameter(KEY_DATE, date.toString())
                 }
                 build()
             },

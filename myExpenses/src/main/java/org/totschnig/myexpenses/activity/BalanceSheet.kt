@@ -71,6 +71,7 @@ import kotlin.math.roundToLong
 @Composable
 fun BalanceSheetView(
     accounts: List<BalanceAccount>,
+    debtSum: Long = 0L,
     date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
     onNavigate: (Long) -> Unit = {},
@@ -152,7 +153,10 @@ fun BalanceSheetView(
                     val isNarrow = maxWidth < 360.dp
                     if (isNarrow && datePickerState.displayMode == DisplayMode.Picker) {
                         Box(
-                            modifier = Modifier.requiredSizeIn(minWidth = 360.dp, minHeight = 568.dp)
+                            modifier = Modifier.requiredSizeIn(
+                                minWidth = 360.dp,
+                                minHeight = 568.dp
+                            )
                         ) {
                             DatePicker(
                                 modifier = Modifier.scale(maxWidth / 360.dp),
@@ -208,10 +212,26 @@ fun BalanceSheetView(
                 onNavigate
             )
 
-            item {
-                NetWorthView(totalAssets + totalLiabilities)
+            if (debtSum != 0L) {
+                item {
+                    BalanceSheetSectionHeaderView(
+                        stringResource(R.string.debts),
+                        debtSum,
+                        false
+                    )
+                }
+                item {
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                }
             }
 
+            item {
+                BalanceSheetSectionHeaderView(
+                    stringResource(R.string.balance_sheet_net_worth),
+                    totalAssets + totalLiabilities + debtSum,
+                    false
+                )
+            }
         }
     }
 }
@@ -236,7 +256,11 @@ fun LazyListScope.accountTypeChapter(
 }
 
 @Composable
-fun BalanceSheetSectionHeaderView(name: String, total: Long) {
+fun BalanceSheetSectionHeaderView(
+    name: String,
+    total: Long,
+    absolute: Boolean = true,
+) {
     val homeCurrency = LocalHomeCurrency.current
     Row(
         modifier = Modifier
@@ -249,7 +273,7 @@ fun BalanceSheetSectionHeaderView(name: String, total: Long) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        ColoredAmountText(total, homeCurrency, absolute = true)
+        ColoredAmountText(total, homeCurrency, absolute = absolute)
     }
 }
 
@@ -313,24 +337,6 @@ fun BalanceAccountItemView(account: BalanceAccount, onNavigate: (Long) -> Unit) 
                 )
             }
         }
-    }
-}
-
-@Composable
-fun NetWorthView(netWorth: Long) {
-    val homeCurrency = LocalHomeCurrency.current
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.balance_sheet_net_worth),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.weight(1f)
-        )
-        ColoredAmountText(netWorth, homeCurrency, fontWeight = FontWeight.Bold)
     }
 }
 

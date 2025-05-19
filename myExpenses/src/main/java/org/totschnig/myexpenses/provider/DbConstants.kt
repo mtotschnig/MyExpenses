@@ -908,7 +908,7 @@ fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: Str
 fun getAmountCalculation(homeCurrency: String?, forTable: String, currencyTable: String = forTable) =
     if (homeCurrency != null) getAmountHomeEquivalent(forTable, homeCurrency, currencyTable) else KEY_AMOUNT
 
-fun amountCteForDebts(homeCurrency: String) =
+fun amountCteForDebts(homeCurrency: String, dateExpression: String?) =
     """$CTE_TRANSACTION_AMOUNTS AS (
     SELECT
     $KEY_ROWID,
@@ -919,5 +919,6 @@ fun amountCteForDebts(homeCurrency: String) =
     FROM
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
     ${equivalentAmountJoin(homeCurrency)}
+    ${dateExpression?.let { "WHERE $KEY_DATE <= $it" } ?: ""}
     )
     """.trimIndent()

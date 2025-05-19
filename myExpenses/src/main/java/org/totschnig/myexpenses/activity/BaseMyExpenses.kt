@@ -2016,6 +2016,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
                 BalanceSheetView(
                     data.second,
+                    viewModel.debtSum.collectAsState(0).value,
                     data.first,
                     onClose = { closeBalanceSheet() },
                     onNavigate = {

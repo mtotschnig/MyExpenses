@@ -23,7 +23,7 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
 
     fun showAll() =
         dataStore.data.map { preferences ->
-            preferences[showAllPrefKey] ?: false
+            preferences[showAllPrefKey] == true
         }
 
     suspend fun persistShowAll(showAll: Boolean) {

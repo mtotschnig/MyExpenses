@@ -860,11 +860,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case DEBTS: {
-        cte = amountCteForDebts(getHomeCurrency());
+        String date = uri.getQueryParameter(KEY_DATE);
+        String dateExpression = date != null ? "cast(strftime('%s', '" + date + "', 'localtime', 'start of day', '+1 day', '-1 second', 'utc') as integer)" : null;
+        cte = amountCteForDebts(getHomeCurrency(), dateExpression);
+        //for the moment only one of queryParameters KEY_TRANSACTIONID, KEY_DATE can be used
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
           additionalWhere.append("not exists(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_DEBT_ID + " IS NOT NULL AND " + KEY_PARENTID + " = ")
                   .append(transactionId).append(")");
+        } else if (dateExpression != null) {
+          additionalWhere.append(KEY_DATE).append(" <= ").append(dateExpression);
         }
         if (projection == null) {
           projection = debtProjection(transactionId, true);

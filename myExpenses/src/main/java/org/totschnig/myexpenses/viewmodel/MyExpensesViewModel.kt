@@ -460,6 +460,18 @@ open class MyExpensesViewModel(
             }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val debtSum: Flow<Long> = balanceDate.flatMapLatest { date ->
+        loadDebts(
+            null,
+            date = date,
+            showSealed = true,
+            showZero = false,
+        ).map {
+            it.fold(0L) { sum, debt -> sum + debt.currentEquivalentBalance }
+        }
+    }
+
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()
             .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
