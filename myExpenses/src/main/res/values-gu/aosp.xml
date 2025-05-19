@@ -81,4 +81,5 @@
     <string name="left">"ડાબુ"</string>
     <string name="right">"જમણું"</string>
     <string name="margins">"હાંસિયા"</string>
+    <string name="menu_restore">"ડિફૉલ્ટ પર રીસેટ કરો"</string>
 </resources>

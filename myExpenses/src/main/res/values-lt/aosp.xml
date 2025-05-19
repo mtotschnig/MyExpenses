@@ -90,4 +90,5 @@
     <string name="left">"Kairėje"</string>
     <string name="right">"Dešinėje"</string>
     <string name="margins">"Paraštės"</string>
+    <string name="menu_restore">"Nustatyti iš naujo į numatytuosius nust."</string>
 </resources>

@@ -76,4 +76,5 @@
     <string name="left">"Злева"</string>
     <string name="right">"Справа"</string>
     <string name="margins">"Палі"</string>
+    <string name="menu_restore">"Скінуць налады"</string>
 </resources>

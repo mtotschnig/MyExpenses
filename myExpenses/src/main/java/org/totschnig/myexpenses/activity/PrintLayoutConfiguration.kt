@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.ClipData
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View.LAYOUT_DIRECTION_LTR
 import androidx.activity.viewModels
 import androidx.compose.animation.animateContentSize
@@ -102,6 +105,7 @@ class PrintLayoutConfiguration : EditActivity() {
         }
         setContentView(binding.root)
         setupToolbar()
+        title = screenTitle
         binding.composeView.setContent {
             AppTheme {
                 DraggableTableRow()
@@ -109,6 +113,18 @@ class PrintLayoutConfiguration : EditActivity() {
 
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menu.add(Menu.NONE, R.id.DEFAULT_COMMAND, Menu.NONE, R.string.menu_restore)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (item.itemId == R.id.DEFAULT_COMMAND) {
+            viewModel.resetToDefault()
+            true
+        } else super.onOptionsItemSelected(item)
 
     override val fabDescription: Int
         get() = R.string.menu_save
@@ -345,8 +361,9 @@ class PrintLayoutConfiguration : EditActivity() {
 
                                         detectHorizontalDragGestures { change, dragAmount ->
                                             change.consume()
-                                            val dragAmountDp = (if (layoutDirection == LAYOUT_DIRECTION_LTR)
-                                                dragAmount else -dragAmount).toDp()
+                                            val dragAmountDp =
+                                                (if (layoutDirection == LAYOUT_DIRECTION_LTR)
+                                                    dragAmount else -dragAmount).toDp()
                                             if (viewModel.resizeColumnByDelta(
                                                     columnNumber,
                                                     dragAmountDp / this@BoxWithConstraints.maxWidth
@@ -462,6 +479,11 @@ class PrintLayoutConfiguration : EditActivity() {
             }
         }
     }
+
+    companion object {
+        val Context.screenTitle
+            get() = getString(R.string.menu_print) + ": " + getString(R.string.layout)
+    }
 }
 
 @Composable
@@ -514,7 +536,7 @@ fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { tru
 fun DraggableItem(
     field: Field,
     modifier: Modifier = Modifier,
-    onDropped: ((Field) -> Unit)? = null
+    onDropped: ((Field) -> Unit)? = null,
 ) {
 
     var bgColor by remember { mutableStateOf(Color.White) }

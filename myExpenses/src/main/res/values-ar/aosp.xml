@@ -164,4 +164,5 @@
     <string name="left">"يسار"</string>
     <string name="right">"يمين"</string>
     <string name="margins">"الهوامش"</string>
+    <string name="menu_restore">"إعادة الضبط على الإعداد التلقائي"</string>
 </resources>

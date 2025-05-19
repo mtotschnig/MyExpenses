@@ -79,4 +79,5 @@
     <string name="left">বাম</string>
     <string name="right">ডান</string>
     <string name="margins">"মার্জিন"</string>
+    <string name="menu_restore">"ডিফল্টে রিসেট করুন"</string>
 </resources>

@@ -99,4 +99,5 @@
     <string name="left">"Vľavo"</string>
     <string name="right">"Vpravo"</string>
     <string name="margins">"Okraje"</string>
+    <string name="menu_restore">"Resetovať na predvolené"</string>
 </resources>

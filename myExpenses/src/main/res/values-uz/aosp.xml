@@ -73,4 +73,5 @@
     <string name="action_move_bottom">"Oxiriga o‘tkazish"</string>
     <string name="layout">"Tugmalar tartibi"</string>
     <string name="margins">"Maydonlar"</string>
+    <string name="menu_restore">"Asliga qaytarish"</string>
 </resources>

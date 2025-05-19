@@ -59,4 +59,5 @@
     <string name="action_move_top">"ਸਿਖਰ 'ਤੇ ਲੈ ਜਾਓ"</string>
     <string name="action_move_bottom">"ਥੱਲੇ ਲੈ ਜਾਓ"</string>
     <string name="layout">"ਖਾਕਾ"</string>
+    <string name="menu_restore">"ਪੂਰਵ-ਨਿਰਧਾਰਿਤ 'ਤੇ ਰੀਸੈੱਟ ਕਰੋ"</string>
 </resources>

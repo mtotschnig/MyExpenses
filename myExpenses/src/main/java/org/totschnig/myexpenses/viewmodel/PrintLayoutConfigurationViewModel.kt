@@ -15,7 +15,9 @@ import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.printLayout
-import org.totschnig.myexpenses.preference.printLayoutColumnWidth
+import org.totschnig.myexpenses.preference.printLayoutColumnWidths
+import org.totschnig.myexpenses.preference.printLayoutDefault
+import org.totschnig.myexpenses.preference.printLayoutDefaultColumnsWidths
 import org.totschnig.myexpenses.util.indexOfFrom
 import org.totschnig.myexpenses.util.lastIndexOfFrom
 import org.totschnig.myexpenses.util.removeNthOccurrence
@@ -133,7 +135,7 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
 
     fun init() {
         positions.addAll(prefHandler.printLayout)
-        val elements = prefHandler.printLayoutColumnWidth.map { it.toFloat() }
+        val elements = prefHandler.printLayoutColumnWidths.map { it.toFloat() }
         if (elements.size == columns.size) {
             columnWidths.addAll(elements)
         } else {
@@ -238,6 +240,15 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
         positions.add(field)
     }
 
+    fun resetToDefault() {
+        Snapshot.withMutableSnapshot {
+            positions.clear()
+            columnWidths.clear()
+            positions.addAll(printLayoutDefault)
+            columnWidths.addAll(printLayoutDefaultColumnsWidths.map { it.toFloat() })
+        }
+    }
+
     fun allowDrop(field: Field, dropPosition: Int): Boolean {
         val index = positions.indexOf(field)
         return index == -1 || dropPosition < index || dropPosition > index + 1
@@ -294,6 +305,6 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
             removeColumn(it)
         }
         prefHandler.printLayout = positions.toList()
-        prefHandler.printLayoutColumnWidth = columnWidths.map { it.toInt() }
+        prefHandler.printLayoutColumnWidths = columnWidths.map { it.toInt() }
     }
 }

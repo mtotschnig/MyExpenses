@@ -139,4 +139,5 @@
     <string name="left">"ఎడమ"</string>
     <string name="right">"కుడి"</string>
     <string name="margins">"అంచులు"</string>
+    <string name="menu_restore">"ఆటోమేటిక్‌కు రీసెట్ చేయి"</string>
 </resources>

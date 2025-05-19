@@ -98,4 +98,5 @@
     <string name="left">"Vasen"</string>
     <string name="right">"Oikea"</string>
     <string name="margins">"Marginaalit"</string>
+    <string name="menu_restore">"Palauta oletukset"</string>
 </resources>

@@ -163,4 +163,5 @@
     <string name="left">"左"</string>
     <string name="right">"右"</string>
     <string name="margins">"边距"</string>
+    <string name="menu_restore">"重置为默认设置"</string>
 </resources>

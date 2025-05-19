@@ -47,7 +47,7 @@ import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.printLayout
-import org.totschnig.myexpenses.preference.printLayoutColumnWidth
+import org.totschnig.myexpenses.preference.printLayoutColumnWidths
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
@@ -98,13 +98,15 @@ object PdfPrinter {
         TOP, BOTTOM;
     }
 
+    fun defaultPaperSize(context: Context) = when (Utils.getCountryFromTelephonyManager(context)) {
+        "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> "LETTER"
+        else -> "A4"
+    }
+
     private fun getPaperFormat(context: Context, prefHandler: PrefHandler) =
-        (prefHandler.getString(PrefKey.PRINT_PAPER_FORMAT, null)?.let {
+        prefHandler.requireString(PrefKey.PRINT_PAPER_FORMAT, defaultPaperSize(context)).let {
             PageSize::class.java.getField(it).get(null) as Rectangle
-        } ?: when (Utils.getCountryFromTelephonyManager(context)) {
-            "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> PageSize.LETTER
-            else -> PageSize.A4
-        }).let {
+        }.let {
             if (prefHandler.getString(
                     PrefKey.PRINT_PAPER_ORIENTATION,
                     context.getString(R.string.orientation_portrait)
@@ -284,7 +286,7 @@ object PdfPrinter {
                     currencyFormatter,
                     currencyContext,
                     prefHandler.printLayout.asColumns(),
-                    prefHandler.printLayoutColumnWidth.toIntArray(),
+                    prefHandler.printLayoutColumnWidths.toIntArray(),
                     colorSource,
                     itemDateFormat
                 ) {

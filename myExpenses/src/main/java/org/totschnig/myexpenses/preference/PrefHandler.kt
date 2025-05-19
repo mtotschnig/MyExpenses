@@ -201,24 +201,28 @@ fun PrefHandler.loadIntList(key: PrefKey) = getString(key, null)?.let {
     it.split(",").mapNotNull { it.toIntOrNull() }
 }
 
+val printLayoutDefault = listOf(
+    Date,
+    ColumnFeed,
+    Account, Category, Tags,
+    ColumnFeed,
+    Payee, CombinedField(listOf(ReferenceNumber, Notes)),
+    ColumnFeed,
+    OriginalAmount, Amount
+)
+
+val printLayoutDefaultColumnsWidths = listOf(150, 350, 350, 200)
+
 var PrefHandler.printLayout: List<Position>
     get() = getString(PrefKey.PRINT_LAYOUT, null)?.let { Json.decodeFromString(it) }
-        ?: listOf(
-            Date,
-            ColumnFeed,
-            Account, Category, Tags,
-            ColumnFeed,
-            Payee, CombinedField(listOf(ReferenceNumber, Notes)),
-            ColumnFeed,
-            OriginalAmount, Amount
-        )
+        ?: printLayoutDefault
     set(value) {
         putString(PrefKey.PRINT_LAYOUT, Json.encodeToString(value))
     }
 
-var PrefHandler.printLayoutColumnWidth: List<Int>
+var PrefHandler.printLayoutColumnWidths: List<Int>
     get() = loadIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH)
-        ?: listOf(150, 350, 350, 200)
+        ?: printLayoutDefaultColumnsWidths
     set(value) {
         saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value)
     }

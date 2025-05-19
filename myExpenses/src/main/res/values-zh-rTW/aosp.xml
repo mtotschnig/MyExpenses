@@ -162,4 +162,5 @@
     <string name="left">"左"</string>
     <string name="right">"右"</string>
     <string name="margins">"頁面邊距"</string>
+    <string name="menu_restore">"還原為預設狀態"</string>
 </resources>

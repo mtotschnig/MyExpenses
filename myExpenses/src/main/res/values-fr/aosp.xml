@@ -166,4 +166,5 @@
     <string name="left">"Gauche"</string>
     <string name="right">"Droite"</string>
     <string name="margins">"Marges"</string>
+    <string name="menu_restore">"Rétablir param. par défaut"</string>
 </resources>

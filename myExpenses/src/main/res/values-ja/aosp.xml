@@ -163,4 +163,5 @@
     <string name="left">"左揃え"</string>
     <string name="right">"右"</string>
     <string name="margins">"余白"</string>
+    <string name="menu_restore">"初期設定にリセット"</string>
 </resources>

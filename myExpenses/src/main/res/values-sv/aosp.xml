@@ -100,4 +100,5 @@
     <string name="left">"Vänster"</string>
     <string name="right">"Höger"</string>
     <string name="margins">"Sidmarginaler"</string>
+    <string name="menu_restore">"Återställ standardinst."</string>
 </resources>

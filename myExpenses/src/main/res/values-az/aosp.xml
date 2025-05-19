@@ -64,4 +64,5 @@
     <string name="action_move_top">"Ən yuxarı"</string>
     <string name="action_move_bottom">"Aşağı köçürün"</string>
     <string name="layout">"Düzən"</string>
+    <string name="menu_restore">"Sıfırlayın"</string>
 </resources>

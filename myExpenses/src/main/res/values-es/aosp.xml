@@ -166,4 +166,5 @@
     <string name="left">"Izquierda"</string>
     <string name="right">"Derecha"</string>
     <string name="margins">"Márgenes"</string>
+    <string name="menu_restore">"Restablecer ajustes"</string>
 </resources>

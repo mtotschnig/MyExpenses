@@ -165,4 +165,5 @@
     <string name="left">"A sinistra"</string>
     <string name="right">"A destra"</string>
     <string name="margins">"Margini"</string>
+    <string name="menu_restore">"Ripristina impostazioni predefinite"</string>
 </resources>

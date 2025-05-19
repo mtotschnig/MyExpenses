@@ -166,4 +166,5 @@
     <string name="left">"Esquerra"</string>
     <string name="right">"Dreta"</string>
     <string name="margins">"Marges"</string>
+    <string name="menu_restore">"Restableix els valors predeterminats"</string>
 </resources>

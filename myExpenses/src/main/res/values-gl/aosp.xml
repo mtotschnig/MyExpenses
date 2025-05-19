@@ -97,4 +97,5 @@
     <string name="left">"Esquerda"</string>
     <string name="right">"Dereita"</string>
     <string name="margins">"Marxes"</string>
+    <string name="menu_restore">"Restablecer valores predeterminados"</string>
 </resources>

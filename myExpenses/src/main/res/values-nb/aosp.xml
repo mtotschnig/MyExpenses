@@ -99,4 +99,5 @@
     <string name="left">"Venstre"</string>
     <string name="right">"Høyre"</string>
     <string name="margins">"Marger"</string>
+    <string name="menu_restore">"Tilbakestill til standardvalg"</string>
 </resources>

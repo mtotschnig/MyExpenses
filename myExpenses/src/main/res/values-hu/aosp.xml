@@ -167,4 +167,5 @@
     <string name="left">"Balra"</string>
     <string name="right">"Jobbra"</string>
     <string name="margins">"Margók"</string>
+    <string name="menu_restore">"Visszaállítás alaphelyzetbe"</string>
 </resources>

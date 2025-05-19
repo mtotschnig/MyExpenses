@@ -166,4 +166,5 @@
     <string name="left">"Venstre"</string>
     <string name="right">"Højre"</string>
     <string name="margins">"Margener"</string>
+    <string name="menu_restore">"Nulstil til standard"</string>
 </resources>

@@ -157,4 +157,5 @@
     <string name="left">"שמאל"</string>
     <string name="right">"ימין"</string>
     <string name="margins">"שוליים"</string>
+    <string name="menu_restore">"איפוס לברירת המחדל"</string>
 </resources>

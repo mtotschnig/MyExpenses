@@ -165,4 +165,5 @@
     <string name="left">"Ліворуч"</string>
     <string name="right">"Праворуч"</string>
     <string name="margins">"Поля"</string>
+    <string name="menu_restore">"Скинути налаштування"</string>
 </resources>

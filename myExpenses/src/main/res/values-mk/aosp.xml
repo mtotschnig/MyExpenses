@@ -81,4 +81,5 @@
     <string name="left">Лево</string>
     <string name="right">Десно</string>
     <string name="margins">"Маргини"</string>
+    <string name="menu_restore">"Ресетирај на стандардни вредности"</string>
 </resources>

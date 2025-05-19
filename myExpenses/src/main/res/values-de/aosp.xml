@@ -165,4 +165,5 @@
     <string name="left">"Links"</string>
     <string name="right">"Rechts"</string>
     <string name="margins">"Seitenränder"</string>
+    <string name="menu_restore">"Auf Standard zurücksetzen"</string>
 </resources>

@@ -97,4 +97,5 @@
     <string name="left">"Vinstri"</string>
     <string name="right">"Hægri"</string>
     <string name="margins">"Spássíur"</string>
+    <string name="menu_restore">"Núllstilla"</string>
 </resources>

@@ -91,4 +91,5 @@
     <string name="left">"Pa kreisi"</string>
     <string name="right">"Pa labi"</string>
     <string name="margins">"Apmales"</string>
+    <string name="menu_restore">"Atiestatīt noklusējuma vērtības"</string>
 </resources>

@@ -152,4 +152,5 @@
     <string name="left">"Stânga"</string>
     <string name="right">"Dreapta"</string>
     <string name="margins">"Margini"</string>
+    <string name="menu_restore">"Resetează la valorile prestabilite"</string>
 </resources>

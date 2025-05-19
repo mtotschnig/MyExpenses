@@ -241,4 +241,5 @@
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">The <b>initial value</b> is based on the rate set in the account’s properties.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Income and expense sums</b> are calculated using the equivalent amounts specified for each transaction.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">The <b>current value</b> is based on the latest exchange rate for the account’s currency.</string>
+    <string name="help_PrintLayoutConfiguration_info">Columns can be resized by dragging the black rectangle between columns. The icons &lt;img src=add_column_start&gt; and &lt;img src=add_column_end&gt; allow to add new columns. Fields can be dragged, and either dropped to a new position or to the recycle area. If you drop a field onto another field, you create a combined field, i.e. the two fields will be printed together on one line.</string>
 </resources>

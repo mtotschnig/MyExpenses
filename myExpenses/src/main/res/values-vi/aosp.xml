@@ -160,4 +160,5 @@
     <string name="left">"Trái"</string>
     <string name="right">"Phải"</string>
     <string name="margins">"Lề"</string>
+    <string name="menu_restore">"Đặt lại về mặc định"</string>
 </resources>

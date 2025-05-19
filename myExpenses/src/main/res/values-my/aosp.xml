@@ -76,4 +76,5 @@
     <string name="left">"ဘယ်ဘက်"</string>
     <string name="right">"ညာဘက်"</string>
     <string name="margins">"ဘေးမျဉ်းများ"</string>
+    <string name="menu_restore">"မူရင်းသို့ ပြန်လည်သတ်မှတ်ရန်"</string>
 </resources>

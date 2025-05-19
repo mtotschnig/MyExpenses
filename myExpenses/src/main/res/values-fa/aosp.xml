@@ -80,4 +80,5 @@
     <string name="left">"چپ"</string>
     <string name="right">راست</string>
     <string name="margins">Margins"</string>
+    <string name="menu_restore">"بازنشانی به موارد پیش‌فرض"</string>
 </resources>

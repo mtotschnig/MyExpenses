@@ -77,4 +77,5 @@
     <string name="left">"डावे"</string>
     <string name="right">"उजवे"</string>
     <string name="margins">"समास"</string>
+    <string name="menu_restore">"डीफॉल्टवर रीसेट करा"</string>
 </resources>

@@ -81,4 +81,5 @@
     <string name="left">"Зүүн"</string>
     <string name="right">"Баруун"</string>
     <string name="margins">"Эмжээр"</string>
+    <string name="menu_restore">"Үндсэн рүү сэргээх"</string>
 </resources>

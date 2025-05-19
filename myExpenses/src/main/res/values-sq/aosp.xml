@@ -81,4 +81,5 @@
     <string name="left">"Majtas"</string>
     <string name="right">"Djathtas"</string>
     <string name="margins">"Kufijtë"</string>
+    <string name="menu_restore">"Rivendos të parazgjedhurën"</string>
 </resources>

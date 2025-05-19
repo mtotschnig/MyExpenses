@@ -100,4 +100,5 @@
     <string name="left">"Vasakul"</string>
     <string name="right">"Paremal"</string>
     <string name="margins">"Veerised"</string>
+    <string name="menu_restore">"Lähtesta vaikeseadetele"</string>
 </resources>

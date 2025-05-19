@@ -155,4 +155,5 @@
     <string name="left">"왼쪽"</string>
     <string name="right">"오른쪽"</string>
     <string name="margins">"페이지 여백"</string>
+    <string name="menu_restore">"초기화"</string>
 </resources>

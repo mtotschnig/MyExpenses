@@ -168,4 +168,5 @@
     <string name="left">"Vlevo"</string>
     <string name="right">"Vpravo"</string>
     <string name="margins">"Okraje"</string>
+    <string name="menu_restore">"Obnovit výchozí"</string>
 </resources>

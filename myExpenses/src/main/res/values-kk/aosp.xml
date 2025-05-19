@@ -89,4 +89,5 @@
     <string name="left">"Сол жақ"</string>
     <string name="right">"Оң жақ"</string>
     <string name="margins">"Шет өрістері"</string>
+    <string name="menu_restore">"Әдепкі параметрлеріне қайтару"</string>
 </resources>

@@ -61,4 +61,5 @@
     <string name="action_move_top">"Hamishia juu"</string>
     <string name="action_move_bottom">"Hamishia chini"</string>
     <string name="layout">"Muundo"</string>
+    <string name="menu_restore">"Rudisha kwenye chaguomsingi"</string>
 </resources>

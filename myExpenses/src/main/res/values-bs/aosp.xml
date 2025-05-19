@@ -78,4 +78,5 @@
     <string name="left">"Lijevo"</string>
     <string name="right">"Desno"</string>
     <string name="margins">"Margine"</string>
+    <string name="menu_restore">"Vrati na zadano"</string>
 </resources>

@@ -304,4 +304,6 @@
     <string name="right">"Right"</string>
     <!-- LibreOffice cui/messages.po Tvwu6 -->
     <string name="margins">"Margins"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri menu_restore  | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu_restore">"Reset to default"</string>
 </resources>

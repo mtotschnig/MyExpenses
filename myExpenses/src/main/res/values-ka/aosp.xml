@@ -89,4 +89,5 @@
     <string name="left">"მარცხნივ"</string>
     <string name="right">"მარჯვნივ"</string>
     <string name="margins">"კიდეები"</string>
+    <string name="menu_restore">"საწყის პარამეტრებზე ჩამოყრა"</string>
 </resources>

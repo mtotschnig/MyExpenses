@@ -100,4 +100,5 @@
     <string name="left">"Kiri"</string>
     <string name="right">"Kanan"</string>
     <string name="margins">"Pias"</string>
+    <string name="menu_restore">"Reset ke default"</string>
 </resources>

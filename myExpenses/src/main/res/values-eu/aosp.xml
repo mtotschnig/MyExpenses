@@ -163,4 +163,5 @@
     <string name="left">"Ezkerrean"</string>
     <string name="right">"Eskuinean"</string>
     <string name="margins">"Marjinak"</string>
+    <string name="menu_restore">"Berrezarri balio lehenetsiak"</string>
 </resources>
