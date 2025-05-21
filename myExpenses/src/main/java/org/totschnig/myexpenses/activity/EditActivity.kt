@@ -155,7 +155,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     override suspend fun loadExchangeRate(
         other: CurrencyUnit,
         base: CurrencyUnit,
-        source: ExchangeRateApi,
+        source: ExchangeRateApi?,
     ) = runCatching {
         exchangeRateViewModel.loadExchangeRate(other, base, date, source)
     }.fold(

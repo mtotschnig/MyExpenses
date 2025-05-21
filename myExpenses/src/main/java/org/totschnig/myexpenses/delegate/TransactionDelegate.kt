@@ -727,7 +727,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
         return ZonedDateTime.of(
             dateEdit.date,
-            if (dateEditBinding.TimeButton.visibility == View.VISIBLE) dateEditBinding.TimeButton.time else LocalTime.now(),
+            if (dateEditBinding.TimeButton.isVisible) dateEditBinding.TimeButton.time else LocalTime.now(),
             ZoneId.systemDefault()
         )
     }
@@ -785,7 +785,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 val transactionDate = readZonedDateTime(dateEditBinding.DateButton)
                 setDate(transactionDate)
                 setValueDate(
-                    if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(
+                    if (dateEditBinding.Date2Button.isVisible) readZonedDateTime(
                         dateEditBinding.Date2Button
                     ) else transactionDate
                 )

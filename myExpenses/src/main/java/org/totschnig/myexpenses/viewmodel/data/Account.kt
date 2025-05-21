@@ -12,7 +12,7 @@ data class Account(
     val color: Int = -1,
     val type: AccountType = AccountType.CASH,
     val criterion: Long?,
-    val latestExchangeRate: Double? = null,
+    val isDynamic: Boolean,
     var currentBalance: Long,
 ) : IdHolder, Serializable {
     override fun toString(): String {

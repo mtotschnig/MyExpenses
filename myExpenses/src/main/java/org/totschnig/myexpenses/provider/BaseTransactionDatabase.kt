@@ -328,16 +328,22 @@ FROM
         SELECT p2.$KEY_SOURCE
         FROM $TABLE_PRICES AS p2
         WHERE p2.$KEY_CURRENCY = p1.$KEY_CURRENCY AND p2.$KEY_COMMODITY = p1.$KEY_COMMODITY AND p2.$KEY_DATE = p1.$KEY_DATE
-        ORDER BY
-            CASE
-                WHEN p2.$KEY_SOURCE = '${ExchangeRateSource.User.name}' THEN 1
-                WHEN p2.$KEY_SOURCE = '${ExchangeRateSource.Calculation.name}' THEN 3
-                ELSE 2
-            END,
-            p2.$KEY_SOURCE DESC
+        ORDER BY ${priceSort("p2")}
         LIMIT 1
     );
 """
+
+fun priceSort(alias: String? = null): String {
+    val prefix = alias?.let { "$it." } ?: ""
+    return """
+    CASE
+                WHEN $prefix$KEY_SOURCE = '${ExchangeRateSource.User.name}' THEN 1
+                WHEN $prefix$KEY_SOURCE = '${ExchangeRateSource.Calculation.name}' THEN 3
+                ELSE 2
+            END,
+            $prefix$KEY_SOURCE DESC
+""".trimIndent()
+}
 
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """
 CREATE TABLE $TABLE_TRANSACTION_ATTACHMENTS (

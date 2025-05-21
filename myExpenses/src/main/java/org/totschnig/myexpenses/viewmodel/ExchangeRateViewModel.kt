@@ -33,12 +33,23 @@ open class ExchangeRateViewModel(application: Application) :
         other: CurrencyUnit,
         base: CurrencyUnit,
         date: LocalDate,
-        source: ExchangeRateApi,
+        source: ExchangeRateApi?,
     ): BigDecimal = withContext(coroutineContext()) {
-        (if (date != LocalDate.now() || source.limitToOneRequestPerDay)
+        (if (source == null || date != LocalDate.now() || source.limitToOneRequestPerDay)
             repository.loadPrice(base, other, date, source)
-        else null) ?: loadFromNetwork(source, date, other.code, base.code).second
+        else null) ?: loadFromNetwork(source ?: bestSource(other.code) , date, other.code, base.code).second
     }
+
+    private fun bestSource(currency: String): ExchangeRateApi {
+        val configuredSources = ExchangeRateApi.configuredSources(prefHandler)
+        return preferredSource(currency).takeIf { configuredSources.contains(it) } ?:
+        configuredSources.firstOrNull {
+                it.isSupported(currency)
+            } ?: throw UnsupportedOperationException("No supported source for $currency")
+    }
+
+    //TODO: the source selected on the Price History could be considered preferred
+    private fun preferredSource(currency: String): ExchangeRateApi? = null
 
     suspend fun loadFromNetwork(
         source: ExchangeRateApi,

@@ -951,6 +951,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
             if (::delegate.isInitialized) {
                 delegate.configureLastDayButton()
+                (delegate as? MainDelegate)?.loadPrice()
             }
         }
     }

@@ -1,13 +1,14 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentValues
-import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment.Companion.KEY_SOURCE
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.priceSort
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.calculateRawExchangeRate
@@ -68,13 +69,17 @@ fun Repository.loadPrice(
     base: CurrencyUnit,
     commodity: CurrencyUnit,
     date: LocalDate,
-    source: ExchangeRateApi,
+    source: ExchangeRateApi?,
 ) = contentResolver.query(
     TransactionProvider.PRICES_URI,
     arrayOf(KEY_VALUE),
-    "$KEY_CURRENCY = ? AND $KEY_COMMODITY = ? AND $KEY_DATE = ? AND $KEY_SOURCE = ?",
-    arrayOf(base.code, commodity.code, date.toString(), source.name),
-    null, null
+    listOfNotNull(
+        KEY_CURRENCY, KEY_COMMODITY, KEY_DATE, if (source != null) KEY_SOURCE else null
+    ).joinToString(" AND ") { "$it = ?" },
+    if (source == null)
+        arrayOf(base.code, commodity.code, date.toString())
+    else
+        arrayOf(base.code, commodity.code, date.toString(), source.name), priceSort(), null
 )?.use {
     if (it.moveToFirst()) it.getDouble(0) else null
 }?.let {

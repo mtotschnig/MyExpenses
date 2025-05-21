@@ -36,7 +36,17 @@ import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
@@ -53,7 +63,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
@@ -75,7 +84,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
@@ -177,8 +185,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             color = cursor.getInt(KEY_COLOR),
             type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
             criterion = cursor.getLongOrNull(KEY_CRITERION),
-            latestExchangeRate = if (cursor.getBoolean(KEY_DYNAMIC))
-                cursor.getDouble(KEY_LATEST_EXCHANGE_RATE) else null,
+            isDynamic = cursor.getBoolean(KEY_DYNAMIC),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
         )
     }

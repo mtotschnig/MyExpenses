@@ -59,12 +59,23 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         this.exchangeRateWatcher = exchangeRateWatcher
     }
 
-    val lifecycleScope: CoroutineScope?
-        get() = findViewTreeLifecycleOwner()?.lifecycleScope
+    val lifecycleScope: CoroutineScope
+        get() = findViewTreeLifecycleOwner()!!.lifecycleScope
 
 
     fun setBlockWatcher(blockWatcher: Boolean) {
         this.blockWatcher = blockWatcher
+    }
+
+    fun loadExchangeRate() {
+        lifecycleScope.launch {
+            handleResult(
+                host.loadExchangeRate(
+                    otherCurrency,
+                    baseCurrency,
+                ), ignoreError = true
+            )
+        }
     }
 
     init {
@@ -80,7 +91,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
                         )
                     )
 
-                    1 -> lifecycleScope?.launch {
+                    1 -> lifecycleScope.launch {
                         handleResult(
                             host.loadExchangeRate(
                                 otherCurrency,
@@ -92,10 +103,11 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
 
                     else -> PopupMenu(context, downloadButton).apply {
                         setOnMenuItemClickListener { item ->
-                            lifecycleScope?.launch {
+                            lifecycleScope.launch {
                                 handleResult(
                                     host.loadExchangeRate(
-                                        otherCurrency, baseCurrency,
+                                        otherCurrency,
+                                        baseCurrency,
                                         providers[item.itemId]
                                     )
                                 )
@@ -239,13 +251,15 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         ) else nullValue
     }
 
-    private fun handleResult(result: Result<BigDecimal>) {
+    private fun handleResult(result: Result<BigDecimal>, ignoreError: Boolean = false) {
         result.onSuccess {
             Timber.d("result: $it")
             rate1Edit.setAmount(it)
             source = Source.Download
         }.onFailure {
-            complain(it.safeMessage)
+            if (!ignoreError) {
+                complain(it.safeMessage)
+            }
         }
     }
 
@@ -269,7 +283,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         suspend fun loadExchangeRate(
             other: CurrencyUnit,
             base: CurrencyUnit,
-            source: ExchangeRateApi,
+            source: ExchangeRateApi? = null,
         ): Result<BigDecimal>
     }
 

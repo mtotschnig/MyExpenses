@@ -597,14 +597,17 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         val needsEquivalentAmount = !isSplitPart && !isTemplate &&
                 !hasHomeCurrency(account) &&
-                account.latestExchangeRate != null
+                account.isDynamic
         viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
         if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
             if (isInitialSetup && host.newInstance) {
-                viewBinding.EquivalentAmount.exchangeRate =
-                    BigDecimal.valueOf(account.latestExchangeRate)
+                loadPrice()
             }
         }
+    }
+
+    fun loadPrice() {
+        viewBinding.EquivalentAmount.loadExchangeRate()
     }
 }

@@ -393,6 +393,10 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         }
     }
 
+    fun loadExchangeRate() {
+        exchangeRateEdit().loadExchangeRate()
+    }
+
     val selectedCurrency: Currency?
         get() = currencySpinner.selectedItem as Currency?
 
