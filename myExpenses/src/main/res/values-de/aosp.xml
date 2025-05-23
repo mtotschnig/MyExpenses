@@ -29,7 +29,6 @@
     <string name="permissions_label">"Berechtigungen"</string>
     <string name="time_format">"Zeitformat"</string>
     <string name="setup">"Einrichtung"</string>
-    <string name="clear_cache">"Cache leeren"</string>
     <string name="customize">"Anpassen"</string>
     <string name="compact">kompakt</string>
     <string name="storage_description">"Lokaler Speicher"</string>

@@ -29,7 +29,6 @@
     <string name="permissions_label">"الأذونات"</string>
     <string name="time_format">"تنسيق الوقت"</string>
     <string name="setup">"الإعداد"</string>
-    <string name="clear_cache">"محو ذاكرة التخزين المؤقت"</string>
     <string name="customize">"تخصيص"</string>
     <string name="compact">مكثفة</string>
     <string name="storage_description">"التخزين المحلي"</string>

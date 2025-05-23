@@ -26,7 +26,6 @@
     <string name="permissions_label">Rechten</string>
     <string name="time_format">Tijdnotatie</string>
     <string name="setup">"Instellen"</string>
-    <string name="clear_cache">Cache wissen</string>
     <string name="customize">Aanpassen</string>
     <string name="compact">Compact</string>
     <string name="storage_description">Lokale opslag</string>

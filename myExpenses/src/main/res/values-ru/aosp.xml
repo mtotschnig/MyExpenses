@@ -30,7 +30,6 @@
     <string name="permissions_label">"Разрешения"</string>
     <string name="time_format">"Формат времени"</string>
     <string name="setup">"Настройка"</string>
-    <string name="clear_cache">"Очистить кеш"</string>
     <string name="customize">"Другой"</string>
     <string name="compact">компактная раскладка</string>
     <string name="storage_description">"Локальное хранилище"</string>

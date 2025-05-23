@@ -26,7 +26,6 @@
     <string name="permissions_label">"අවසර"</string>
     <string name="time_format">"වේලා ආකෘතිය:"</string>
     <string name="setup">"පිහිටුවීම"</string>
-    <string name="clear_cache">"හැඹිලිය හිස් කරන්න"</string>
     <string name="customize">"අභිරුචිකරණය"</string>
     <string name="compact">සංයුක්ත</string>
     <string name="storage_description">"පෙදෙසි ආචයනය"</string>

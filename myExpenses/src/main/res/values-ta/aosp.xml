@@ -30,7 +30,6 @@
     <string name="permissions_label">"அனுமதிகள்"</string>
     <string name="time_format">"நேர வடிவமைப்பு"</string>
     <string name="setup">"அமைவு"</string>
-    <string name="clear_cache">"தற்காலிகச் சேமிப்பை அழி"</string>
     <string name="customize">"பிரத்தியேகமாக்கு"</string>
     <string name="compact">வசதியான</string>
     <string name="storage_description">"சாதனச் சேமிப்பகம்"</string>

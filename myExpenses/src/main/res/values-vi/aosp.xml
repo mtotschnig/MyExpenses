@@ -29,7 +29,6 @@
     <string name="permissions_label">"Quyền"</string>
     <string name="time_format">"Định dạng thời gian"</string>
     <string name="setup">"Thiết lập"</string>
-    <string name="clear_cache">"Xóa bộ nhớ đệm"</string>
     <string name="customize">"Tùy chỉnh"</string>
     <string name="compact">Viết tắt</string>
     <string name="storage_description">"Bộ nhớ cục bộ"</string>

@@ -29,7 +29,6 @@
     <string name="permissions_label">"İzinler"</string>
     <string name="time_format">"Saat biçimi"</string>
     <string name="setup">"Kur"</string>
-    <string name="clear_cache">"Önbelleği temizle"</string>
     <string name="customize">"Özelleştir"</string>
     <string name="compact">Kompakt</string>
     <string name="storage_description">"Yerel depolama"</string>

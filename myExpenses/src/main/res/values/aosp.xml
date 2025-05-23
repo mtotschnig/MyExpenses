@@ -23,13 +23,12 @@
     <string name="permissions_label">Permissions</string>
     <!-- name = time_format_category_title -->
     <string name="time_format">Time format</string>
-    <!-- name="clear_cache_btn_text" -->
-    <string name="clear_cache">Clear cache</string>
-    <!-- name = crypt_keeper_settings_title  -->
+    <!-- name = encryption_settings_title  -->
     <string name="encryption">Encryption</string>
     <!-- name = experimental_category_title -->
     <string name="experimental">Experimental</string>
     <string name="learn_more">Learn more</string>
+    <!-- name = lockpassword_confirm_label -->
     <string name="confirm">Confirm</string>
     <!-- name = search_settings -->
     <string name="menu_search">Search</string>
@@ -94,7 +93,7 @@
     <string name="settings_label">"Settings"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 6710768415432791970 res  |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="security_settings_title">Security</string>
-    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 6710768415432791970 res  | sed 's/unlock_set_unlock_launch_picker_title/screen_lock/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 4981063601772605609 res  | sed 's/unlock_set_unlock_launch_picker_title/screen_lock/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="screen_lock">Screen lock</string>
     <!-- /opt/extra/AOSP/packages/apps/Gallery2 grep -ri folder_screenshot res/values*  | sed 's/folder_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
     <string name="screenshot">Screenshot</string>

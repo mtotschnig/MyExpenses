@@ -26,8 +26,7 @@
     <string name="permissions_label">"اجازتیں"</string>
     <string name="time_format">"ٹائم فارمیٹ"</string>
     <string name="setup">"سیٹ اپ"</string>
-    <string name="clear_cache">"کیش صاف کریں"</string>
-    <string name="customize">"پابندیوں کو حسب ضرورت بنائیں"</string>
+    <string name="customize">"حسب ضرورت بنائیں"</string>
     <string name="compact">"کمپیکٹ"</string>
     <string name="storage_description">"مقامی اسٹوریج"</string>
     <string name="encryption">"مرموز کاری"</string>

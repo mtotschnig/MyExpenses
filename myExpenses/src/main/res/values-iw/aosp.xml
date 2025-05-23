@@ -30,7 +30,6 @@
     <string name="permissions_label">"הרשאות"</string>
     <string name="time_format">"פורמט זמן"</string>
     <string name="setup">"הגדרה"</string>
-    <string name="clear_cache">"ניקוי המטמון"</string>
     <string name="customize">"התאמה אישית"</string>
     <string name="compact">קומפקטית</string>
     <string name="storage_description">"אחסון מקומי"</string>
