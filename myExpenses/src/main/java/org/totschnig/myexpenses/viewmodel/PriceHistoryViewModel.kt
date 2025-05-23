@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.core.os.BundleCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
@@ -87,7 +89,11 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             Price(
                 date = it.getLocalDate(0),
                 source = ExchangeRateSource.getByName(it.getString(1)),
-                value = calculateRealExchangeRate(it.getDouble(2), currencyContext[commodity], currencyContext.homeCurrencyUnit)
+                value = calculateRealExchangeRate(
+                    it.getDouble(2),
+                    currencyContext[commodity],
+                    currencyContext.homeCurrencyUnit
+                )
             )
         }
             .map {
@@ -119,17 +125,24 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         }
     }
 
-    fun deletePrice(price: Price) {
-        repository.deletePrice(price.date, price.source, homeCurrency, commodity)
-    }
+    fun deletePrice(price: Price): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            emit(
+            repository.deletePrice(price.date, price.source, homeCurrency, commodity) == 1
+            )
+        }
 
-    fun savePrice(date: LocalDate, value: BigDecimal) {
-        repository.savePrice(
-            currencyContext.homeCurrencyUnit,
-            currencyContext[commodity],
-            date,
-            ExchangeRateSource.User,
-            value
-        )
-    }
+
+    fun savePrice(date: LocalDate, value: BigDecimal): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(
+                repository.savePrice(
+                    currencyContext.homeCurrencyUnit,
+                    currencyContext[commodity],
+                    date,
+                    ExchangeRateSource.User,
+                    value
+                )
+            )
+        }
 }

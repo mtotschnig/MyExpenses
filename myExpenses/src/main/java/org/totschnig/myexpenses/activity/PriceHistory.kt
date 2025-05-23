@@ -50,6 +50,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CharIcon
@@ -60,6 +61,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
@@ -93,7 +95,18 @@ class PriceHistory : ProtectedFragmentActivity() {
                         viewModel.deletePrice(it)
                     },
                     onSave = { date, value ->
-                        viewModel.savePrice(date, value)
+                        viewModel.savePrice(date, value).observe(this) {
+                            if (it > 0) {
+                                showSnackBar(
+                                TextUtils.concatResStrings(
+                                    this,
+                                    " : ",
+                                    R.string.progress_recalculating,
+                                    R.string.equivalent_amount_plural
+                                ) + " : " + it
+                                )
+                            }
+                        }
                     },
                     onDownload = { date ->
                         viewModel.effectiveSource?.also {

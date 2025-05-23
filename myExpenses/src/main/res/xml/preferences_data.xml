@@ -95,4 +95,9 @@
     <PreferenceCategory
         android:key="@string/pref_category_prices_key"
         android:title="@string/price_history" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_equivalent_amounts_automatic_update_key"
+        android:title="@string/pref_equivalent_amounts_automatic_update_title"
+        my:singleLineTitle="false" />
 </PreferenceScreen> 

@@ -297,4 +297,5 @@
     <string name="pref_print_margin_left_key">print_margin_left</string>
     <string name="orientation_portrait">PORTRAIT</string>
     <string name="orientation_landscape">LANDSCAPE</string>
+    <string name="pref_equivalent_amounts_automatic_update_key">equivalent_amounts_automatic_update</string>
 </resources>

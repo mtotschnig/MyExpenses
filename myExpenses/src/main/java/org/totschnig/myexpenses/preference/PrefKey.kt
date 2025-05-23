@@ -208,7 +208,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PRINT_MARGIN_TOP(R.string.pref_print_margin_top_key),
     PRINT_MARGIN_BOTTOM(R.string.pref_print_margin_bottom_key),
     PRINT_MARGIN_LEFT(R.string.pref_print_margin_left_key),
-    PRINT_MARGIN_RIGHT(R.string.pref_print_margin_right_key)
+    PRINT_MARGIN_RIGHT(R.string.pref_print_margin_right_key),
+    EQUIVALENT_AMOUNTS_AUTOMATIC_UPDATE(R.string.pref_equivalent_amounts_automatic_update_key),
     ;
 
     @Deprecated("")

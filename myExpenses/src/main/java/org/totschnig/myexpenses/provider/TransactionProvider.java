@@ -407,6 +407,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_CAN_BE_ARCHIVED = "canBeArchived";
 
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
+  public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1651,6 +1652,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS -> {
         Bundle result = new Bundle(1);
         result.putSerializable(KEY_RESULT, recalculateEquivalentAmounts(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
+        return result;
+      }
+      case METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE -> {
+        Bundle result = new Bundle(1);
+        result.putInt(KEY_RESULT, recalculateEquivalentAmountsForDate(getHelper().getWritableDatabase(), Objects.requireNonNull(extras)));
         notifyChange(TRANSACTIONS_URI, true);
         notifyChange(ACCOUNTS_URI, false);
         return result;

@@ -235,6 +235,7 @@ import javax.inject.Named
 import javax.inject.Provider
 import kotlin.math.abs
 import kotlin.math.pow
+import androidx.core.net.toUri
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
     appendQueryParameter(key, "1")
@@ -618,7 +619,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         mergeAggregate: String?,
         selection: String?,
         sortOrder: String?,
-        sumsForDate: String?
+        sumsForDate: String?,
     ): String {
         val date = sumsForDate ?: "now"
         val aggregateFunction = this.aggregateFunction
@@ -1597,7 +1598,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 put(KEY_UUID, uuid ?: Model.generateUuid())
             }
         )
-        val uri = Uri.parse(uriString)
+        val uri = uriString.toUri()
         if (uri.scheme == "content" && uri.authority != AppDirHelper.getFileProviderAuthority(
                 context!!
             )
@@ -2103,6 +2104,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
      */
     fun SupportSQLiteDatabase.recalculateEquivalentAmounts(extras: Bundle): Pair<Int, Int> {
         val currency = extras.getString(KEY_CURRENCY)!!
+
         val conflictResolution =
             if (extras.getBoolean(KEY_ONLY_MISSING, true)) "OR IGNORE" else "OR REPLACE"
         val accountId = extras.getLong(KEY_ACCOUNTID).takeIf { it != 0L }
@@ -2110,7 +2112,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val sql1 =
             """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
-          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
+          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC, ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
         val count1 = compileStatement(sql1).use {
             it.bindAllArgsAsStrings(listOf(currency, currency, currency))
@@ -2136,8 +2138,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     )
             )
             FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != ? $accountIdClause
+            """
 
-        """
             compileStatement(sql2).use {
                 it.bindAllArgsAsStrings(
                     listOf(
@@ -2155,5 +2157,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } else 0
 
         return count1 to count2
+    }
+
+    fun SupportSQLiteDatabase.recalculateEquivalentAmountsForDate(extras: Bundle): Int {
+        val currency = extras.getString(KEY_CURRENCY)!!
+        val date = BundleCompat.getSerializable<LocalDate>(extras, KEY_DATE, LocalDate::class.java)
+        val dateString = date.toString()
+        val sql =
+            """INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
+          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = ? and $TABLE_PRICES.$KEY_DATE = ? ORDER BY ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY = ? AND $KEY_PARENTID IS NULL AND strftime('%Y-%m-%d', $KEY_DATE, 'unixepoch', 'localtime') = ? AND new_equivalent_amount IS NOT NULL
+        """
+        return compileStatement(sql).use {
+            it.bindAllArgsAsStrings(listOf(homeCurrency, homeCurrency, currency, dateString, currency, dateString))
+            it.executeUpdateDelete()
+        }
     }
 }
