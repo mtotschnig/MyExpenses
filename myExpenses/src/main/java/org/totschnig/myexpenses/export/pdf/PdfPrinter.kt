@@ -652,7 +652,7 @@ object PdfPrinter {
 
                     ReferenceNumber -> listOf(referenceNumber)
                     Account -> listOf(buildString {
-                        if (account.id < 0) {
+                        if (account.id < 0 && !isSplitPart) {
                             //for aggregate accounts we need to indicate the account name
                             append(accountLabel)
                         }
