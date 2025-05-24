@@ -5,7 +5,7 @@
     <string name="whats_new_364_2">Nieuwe strategie voor het beheren van dubbele informatie over betalers/begunstigden</string>
     <string name="whats_new_361_1">Transactielijst kan worden gesorteerd op bedrag.</string>
     <string name="whats_new_365">Voeg een willekeurig aantal afbeeldingen en documenten toe (PDF)</string>
-    <string name="whats_new_366">Startschermwidget die de huidige status van het budget weergeeft.</string>
+    <string name="whats_new_366">Widget op het startscherm die de huidige budgetstatus weergeeft.</string>
     <string name="whats_new_364_1">Importeer vanuit één CSV-bestand in meerdere rekeningen</string>
     <string name="whats_new_369_2">Wanneer schermvergrendeling is ingeschakeld, kun je afmelden voor het uitschakelen van schermafbeeldingen.</string>
     <string name="whats_new_367">Categorieën kunnen nu worden geconfigureerd als uitgaven- of inkomstencategorieën, wat van invloed is op de manier waarop de uitgaven- en inkomstensommen worden berekend.</string>
@@ -17,7 +17,7 @@
     <string name="whats_new_384">Vereenvoudigde configuratie van cloudback-up</string>
     <string name="whats_new_386">De verdeling per uitgave en de verdeling per opbrengst kunnen samen worden weergegeven in een dubbelringdiagram.</string>
     <string name="whats_new_388">Transacties kunnen worden gearchiveerd.</string>
-    <string name="whats_new_382">%1$s wordt vervangen door een label tussen aanhalingstekens voor de functionaliteit \"Scan bon\". %2$s wordt vervangen door een label tussen aanhalingstekens voor de widget \"Mijn accounts\"\n%1$s-functie kan worden aangeroepen vanuit widget %2$s.</string>
+    <string name="whats_new_382">De functie %1$s kan worden aangeroepen vanuit widget %2$s.</string>
     <string name="whats_new_395">Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload via de webgebruikersinterface.</string>
     <string name="whats_new_396">Verbeterd beheer van rekeningen in vreemde valuta met automatische wisselkoersupdates en realtime waardetracering.</string>
     <string name="whats_new_398">Bekijk uw activa, passiva en netto waarde — alles op één plek.</string>
