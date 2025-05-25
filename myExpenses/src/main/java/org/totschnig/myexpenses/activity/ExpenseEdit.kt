@@ -429,7 +429,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 parentId = intent.getLongExtra(KEY_PARENTID, 0)
                 val currencyUnit = intent.getStringExtra(KEY_CURRENCY)
-                    ?.let { currencyContext.get(it) }
+                    ?.let { currencyContext[it] }
 
                 lifecycleScope.launch {
                     populateWithNewInstance(
@@ -779,7 +779,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         pObserver?.let {
             try {
                 contentResolver.unregisterContentObserver(it)
-            } catch (ise: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
+            } catch (_: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
             }
         }
         if (::delegate.isInitialized) delegate.onDestroy()
@@ -1079,7 +1079,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 loadTemplate(it.id)
             }
             true
-        } ?: false
+        } == true
     }
 
     private fun loadTemplate(id: Long) {
@@ -1454,9 +1454,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     CriterionReachedDialogFragment
                         .newInstance(it,
                             if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) {
-                                accountLabel + ": " + getString(
-                                    dialogTitle
-                                )
+                                "$accountLabel: ${getString(dialogTitle)}"
                             } else null
                         )
                         .show(supportFragmentManager, "CRITERION")

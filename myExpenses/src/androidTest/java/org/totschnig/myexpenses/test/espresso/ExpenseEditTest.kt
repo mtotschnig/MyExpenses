@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -29,6 +31,8 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.dateButtonHasDate
+import java.time.LocalDate
 import java.util.Currency
 
 class ExpenseEditTest : BaseExpenseEditTest() {
@@ -220,6 +224,27 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             val restored = Template.getInstanceFromDb(contentResolver, template.id)!!
             Truth.assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
             Truth.assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
+        }
+    }
+
+    @Test
+    fun shouldChangeDate() {
+        launch(intentForNewTransaction).use {
+            val today = LocalDate.now()
+            onView(withId(R.id.DateButton))
+                .check(matches(dateButtonHasDate(today)))
+            onView(withId(R.id.DateButton)).perform(click())
+            val newDate = if (today.dayOfMonth == 1) today.plusDays(1) else today.minusDays(1)
+            onView(
+                allOf(
+                    withText(newDate.dayOfMonth.toString()), // The day number
+                    ViewMatchers.isDescendantOfA(withId(com.google.android.material.R.id.month_grid)), // Ensure it's within the calendar grid
+                    isDisplayed() // Ensure it's currently visible
+                )
+            ).perform(click())
+            onView(withId(com.google.android.material.R.id.confirm_button)).perform(click())
+            onView(withId(R.id.DateButton))
+                .check(matches(dateButtonHasDate(newDate)))
         }
     }
 }

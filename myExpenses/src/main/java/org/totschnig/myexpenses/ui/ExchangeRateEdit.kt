@@ -68,20 +68,25 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     }
 
     fun loadExchangeRate() {
-        lifecycleScope.launch {
-            handleResult(
-                host.loadExchangeRate(
-                    otherCurrency,
-                    baseCurrency,
-                ), ignoreError = true
-            )
+        if (isInitialized) {
+            lifecycleScope.launch {
+                handleResult(
+                    host.loadExchangeRate(
+                        otherCurrency,
+                        baseCurrency,
+                    ), ignoreError = true
+                )
+            }
         }
     }
+
+    private val isInitialized: Boolean
+        get() = ::otherCurrency.isInitialized && ::baseCurrency.isInitialized
 
     init {
         downloadButton = binding.ivDownload.getRoot()
         downloadButton.setOnClickListener {
-            if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
+            if (isInitialized) {
                 val providers =
                     ExchangeRateApi.configuredSources(context.injector.prefHandler()).toList()
                 when (providers.size) {
@@ -185,7 +190,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
         second?.let {
             baseCurrency = it
         }
-        if (::otherCurrency.isInitialized && ::baseCurrency.isInitialized) {
+        if (isInitialized) {
             isVisible = if (otherCurrency.code == baseCurrency.code) false else {
                 setSymbols(binding.ExchangeRate1, otherCurrency.symbol, baseCurrency.symbol)
                 setSymbols(binding.ExchangeRate2, baseCurrency.symbol, otherCurrency.symbol)

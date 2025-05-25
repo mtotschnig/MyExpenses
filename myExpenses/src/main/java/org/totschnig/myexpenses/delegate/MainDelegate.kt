@@ -608,6 +608,8 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     fun loadPrice() {
-        viewBinding.EquivalentAmount.loadExchangeRate()
+        if (viewBinding.EquivalentAmountRow.isVisible) {
+            viewBinding.EquivalentAmount.loadExchangeRate()
+        }
     }
 }

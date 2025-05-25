@@ -21,7 +21,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import java.time.LocalDate
 
 fun withMethod(label: String): Matcher<Any> =
     object : BoundedMatcher<Any, PaymentMethod>(PaymentMethod::class.java) {
@@ -100,6 +102,8 @@ fun childAtPosition(parentMatcher: Matcher<View>, position: Int) =
         }
     }
 
+
+
 //https://google.github.io/android-testing-support-library/docs/espresso/advanced/#asserting-that-a-data-item-is-not-in-an-adapter
 fun withAdaptedData(dataMatcher: Matcher<out Any>) = object : TypeSafeMatcher<View>() {
 
@@ -156,3 +160,19 @@ fun withChain(id: Int, ancestor1: Int, ancestor2: Int) =
             )
         )
     )
+
+fun dateButtonHasDate(expectedDate: LocalDate): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description?) {
+            description?.appendText("DateButton has date: ")
+            description?.appendValue(expectedDate.toString())
+        }
+
+        override fun matchesSafely(item: View?): Boolean {
+            if (item !is DateButton) {
+                return false
+            }
+            return item.date == expectedDate
+        }
+    }
+}
