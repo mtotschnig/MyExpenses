@@ -88,12 +88,11 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
             .inAdapterView(withId(android.R.id.list)).perform(click())
         onView(withId(R.id.edt_currency_fraction_digits))
             .perform(scrollTo(), replaceText("3"))
+        onView(withId(R.id.checkBox)).perform(scrollTo())
         if (withUpdate) {
-            onView(withId(R.id.checkBox)).perform(scrollTo())
             BaristaCheckboxInteractions.check(R.id.checkBox)
-        }
-        if (!isOrchestrated) {
-            Thread.sleep(200)
+        } else {
+            BaristaCheckboxInteractions.uncheck(R.id.checkBox)
         }
         onView(withId(android.R.id.button1)).perform(click())
         onData(Matchers.`is`(currency))
