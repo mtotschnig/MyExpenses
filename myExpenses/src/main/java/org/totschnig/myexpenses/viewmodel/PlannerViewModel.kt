@@ -21,13 +21,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.instantiateTemplate
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.data.Event
@@ -45,6 +45,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     @Inject
     lateinit var plannerUtils: PlannerUtils
+
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     data class Month(val year: Int, val month: Int, val startDay: Int = 1) {
         init {
@@ -147,7 +150,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                     title.postValue(TextUtils.concat(start, " - ", end))
-                    instances.postValue(Event(Pair(later ?: false, it.filterNotNull())))
+                    instances.postValue(Event(Pair(later == true, it.filterNotNull())))
                 }
         }
     }
@@ -193,22 +196,17 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
                 selectedInstances.forEach { planInstance ->
-                    val instanceId = planInstance.instanceId
-                    val pair = Transaction.getInstanceFromTemplateIfOpen(
+                    instantiateTemplate(
                         contentResolver,
-                        planInstance.templateId,
-                        instanceId
+                        exchangeRateHandler,
+                        PlanInstanceInfo(
+                            planInstance.templateId,
+                            planInstance.instanceId,
+                            planInstance.date
+                        ),
+                        currencyContext.homeCurrencyUnit,
+                        ifOpen = true
                     )
-                    pair?.first?.let {
-                        val date = planInstance.date / 1000
-                        it.date = date
-                        it.valueDate = date
-                        it.originPlanInstanceId = instanceId
-                        it.status = DatabaseConstants.STATUS_NONE
-                        if (it.save(contentResolver, true) != null) {
-                            it.saveTags(contentResolver, pair.second)
-                        }
-                    }
                 }
             }
             bulkCompleted.postValue(Event(selectedInstances))

@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import javax.inject.Inject
 
 class NoDataException(message: String) : Exception(message)
@@ -36,6 +36,9 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
+
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     protected open fun isProtected(context: Context) = prefHandler.isProtected &&
             !prefHandler.getBoolean(protectionKey, false)

@@ -14,14 +14,6 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import javax.inject.Inject
 
 class SyncNotificationDismissHandler : IntentService("SyncNotificationDismissHandler") {
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreate() {
-        super.onCreate()
-        (application as MyApplication).appComponent.inject(this)
-    }
 
     @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {

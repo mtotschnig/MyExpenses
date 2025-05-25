@@ -20,6 +20,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.annotation.concurrent.Immutable
 import kotlin.math.pow
+import kotlin.math.roundToLong
 
 @Parcelize
 @Immutable
@@ -40,7 +41,7 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
 
         fun convertBigDecimal(input: BigDecimal, fractionDigits: Int) = input
             .movePointRight(fractionDigits)
-            .setScale(0, RoundingMode.DOWN)
+            .setScale(0, RoundingMode.HALF_EVEN)
             .longValueExact()
         /**
          * Builds a Money instance where amount is provided in micro units (=1/1000000 of the main unit)

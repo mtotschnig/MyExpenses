@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
+import org.totschnig.myexpenses.activity.EditActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.PreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -52,7 +53,7 @@ import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
+import org.totschnig.myexpenses.service.PlanNotificationClickHandler;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
@@ -71,17 +72,18 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.DebtViewModel;
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
-import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.ExportViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel;
+import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel;
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel;
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
+import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractListWidget;
@@ -211,8 +213,6 @@ public interface AppComponent {
 
   void inject(DonateDialogFragment donateDialogFragment);
 
-  void inject(SyncNotificationDismissHandler syncNotificationDismissHandler);
-
   void inject(SyncBackendList syncBackendList);
 
   void inject(CurrencyList currencyList);
@@ -254,8 +254,6 @@ public interface AppComponent {
   void inject(AbstractListWidget abstractListWidget);
 
   void inject(BudgetWidget budgetWidget);
-
-  void inject(ExchangeRateViewModel exchangeRateViewModel);
 
   void inject(OnboardingUiFragment onboardingUiFragment);
 
@@ -324,4 +322,12 @@ public interface AppComponent {
   void inject(DailyExchangeRateDownloadService dailyExchangeRateService);
 
   void inject(PrintLayoutConfigurationViewModel printLayoutConfigurationViewModel);
+
+  void inject(TemplatesListViewModel templatesListViewModel);
+
+  void inject(PriceHistoryViewModel priceHistoryViewModel);
+
+  void inject(EditActivity editActivity);
+
+  void inject(PlanNotificationClickHandler planNotificationClickHandler);
 }

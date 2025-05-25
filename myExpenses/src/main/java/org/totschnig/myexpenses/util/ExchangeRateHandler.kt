@@ -1,30 +1,33 @@
-package org.totschnig.myexpenses.viewmodel
+package org.totschnig.myexpenses.util
 
-import android.app.Application
 import android.content.Context
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadPrice
 import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
 import timber.log.Timber
 import java.math.BigDecimal
 import java.time.LocalDate
-import javax.inject.Inject
 
 /**
  * We want to store the price of a foreign currency relative to our base currency
  * APIs usually have the opposite understanding of base. They express the value of 1 unit
  * of the base currency relative to other currency
  */
-open class ExchangeRateViewModel(application: Application) :
-    ContentResolvingAndroidViewModel(application) {
-
-    @Inject
-    lateinit var exchangeRateService: ExchangeRateService
+class ExchangeRateHandler(
+    val exchangeRateService: ExchangeRateService,
+    val repository: Repository,
+    val prefHandler: PrefHandler,
+    val currencyContext: CurrencyContext
+) {
 
     /**
      * Load the value of 1 unit of other currency expressed in base currency
@@ -33,8 +36,8 @@ open class ExchangeRateViewModel(application: Application) :
         other: CurrencyUnit,
         base: CurrencyUnit,
         date: LocalDate,
-        source: ExchangeRateApi?,
-    ): BigDecimal = withContext(coroutineContext()) {
+        source: ExchangeRateApi? = null,
+    ): BigDecimal = withContext(Dispatchers.IO) {
         (if (source == null || date != LocalDate.now() || source.limitToOneRequestPerDay)
             repository.loadPrice(base, other, date, source)
         else null) ?: loadFromNetwork(source ?: bestSource(other.code) , date, other.code, base.code).second
@@ -56,7 +59,7 @@ open class ExchangeRateViewModel(application: Application) :
         date: LocalDate,
         other: String,
         base: String,
-    ) = withContext(coroutineContext()) {
+    ) = withContext(Dispatchers.IO) {
         exchangeRateService.getRate(
             source,
             (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),

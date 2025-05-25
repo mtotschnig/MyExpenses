@@ -27,13 +27,18 @@ import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.viewmodel.data.Price
 import java.math.BigDecimal
 import java.time.LocalDate
+import javax.inject.Inject
 
 class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
-    ExchangeRateViewModel(application) {
+    ContentResolvingAndroidViewModel(application) {
+
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     val commodity: String
         get() = savedStateHandle.get<String>(KEY_COMMODITY)!!
@@ -145,4 +150,11 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                 )
             )
         }
+
+    suspend fun loadFromNetwork(
+        source: ExchangeRateApi,
+        date: LocalDate,
+        other: String,
+        base: String,
+    ) = exchangeRateHandler.loadFromNetwork(source, date, other, base)
 }

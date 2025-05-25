@@ -449,7 +449,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(ContentResolver contentResolver, long id) {
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(ContentResolver contentResolver, long id) {
     Template te = Template.getInstanceFromDb(contentResolver, id);
     return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
   }
@@ -460,7 +460,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(ContentResolver contentResolver, long id, long instanceId) {
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateIfOpen(ContentResolver contentResolver, long id, long instanceId) {
     Template te = Template.getInstanceFromDbIfInstanceIsOpen(contentResolver, id, instanceId);
     return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
   }
@@ -507,7 +507,7 @@ public class Transaction extends Model implements ITransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> part = Transaction.getInstanceFromTemplateWithTags(
+          Triple<Transaction, List<Tag>, Boolean> part = Transaction.getInstanceFromTemplateWithTags(
                   contentResolver,
                   c.getLong(c.getColumnIndexOrThrow(KEY_ROWID))
           );
@@ -535,8 +535,8 @@ public class Transaction extends Model implements ITransaction {
     return contentUri.buildUpon().appendQueryParameter(KEY_PARENTID, String.valueOf(mainId)).build();
   }
 
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(ContentResolver contentResolver, Template te) {
-    return new kotlin.Pair<>(getInstanceFromTemplate(contentResolver, te), te.loadTags(contentResolver));
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(ContentResolver contentResolver, Template te) {
+    return new kotlin.Triple<>(getInstanceFromTemplate(contentResolver, te), te.loadTags(contentResolver), te.isDynamic);
   }
 
   @Nullable

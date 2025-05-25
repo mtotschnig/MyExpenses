@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
+import androidx.core.net.toUri
 
 const val KEY_CLICK_ACTION = "clickAction"
 const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
@@ -31,7 +32,7 @@ fun updateWidgets(
     provider: Class<out AppWidgetProvider?>,
     action: String,
     appWidgetIds: IntArray = AppWidgetManager.getInstance(context)
-        .getAppWidgetIds(ComponentName(context, provider))
+        .getAppWidgetIds(ComponentName(context, provider)),
 ) =
     context.sendBroadcast(Intent(context, provider).apply {
         this.action = action
@@ -40,7 +41,7 @@ fun updateWidgets(
 
 abstract class AbstractListWidget(
     private val clazz: Class<out RemoteViewsService>,
-    protectionKey: PrefKey
+    protectionKey: PrefKey,
 ) : BaseWidget(protectionKey) {
     abstract val emptyTextResourceId: Int
 
@@ -59,7 +60,7 @@ abstract class AbstractListWidget(
     override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) {
         val clickPI = PendingIntent.getBroadcast(
             context,
@@ -81,7 +82,7 @@ abstract class AbstractListWidget(
                     putExtra(KEY_WIDTH, availableWidth)
                     // When intents are compared, the extras are ignored, so we need to embed the extras
                     // into the data so that the extras will not be ignored.
-                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                    data = toUri(Intent.URI_INTENT_SCHEME).toUri()
                 })
                 setTextViewText(
                     R.id.emptyView,
@@ -95,7 +96,7 @@ abstract class AbstractListWidget(
     fun availableWidthForButtons(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) = availableWidth(
         context,
         appWidgetManager,

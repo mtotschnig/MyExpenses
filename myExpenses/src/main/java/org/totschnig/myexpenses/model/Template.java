@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getBoolean;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
@@ -28,6 +29,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
@@ -128,6 +130,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   private Plan plan;
 
+  public boolean isDynamic = false;
+
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
 
   @Nullable
@@ -169,11 +173,12 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_ORIGINAL_AMOUNT
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 3];
+    PROJECTION_EXTENDED = new String[baseLength + 4];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     PROJECTION_EXTENDED[baseLength + 1] = KEY_CURRENCY;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_METHOD_LABEL;
+    PROJECTION_EXTENDED[baseLength + 3] = KEY_DYNAMIC;
   }
 
   /**
@@ -372,6 +377,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         c.getLong(c.getColumnIndexOrThrow(KEY_ORIGINAL_AMOUNT)))
       );
     }
+    isDynamic = getBoolean(c, KEY_DYNAMIC);
   }
 
   public Template(

@@ -13,19 +13,20 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.instantiateTemplate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PLAN_INSTANCE_STATUS_URI
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
+import javax.inject.Inject
 
 @Parcelize
 data class PlanInstanceInfo(
@@ -33,11 +34,15 @@ data class PlanInstanceInfo(
     val instanceId: Long? = null,
     val date: Long? = null,
     val transactionId: Long? = null,
-    val state: PlanInstanceState = PlanInstanceState.OPEN
+    val state: PlanInstanceState = PlanInstanceState.OPEN,
 ) : Parcelable
 
 class TemplatesListViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
+
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
+
     fun updateDefaultAction(itemIds: LongArray, action: Template.Action) =
         liveData(context = coroutineContext()) {
             val result = contentResolver.update(
@@ -70,24 +75,16 @@ class TemplatesListViewModel(application: Application) :
             emit(result)
         }
 
-    fun newFromTemplate(plans: Array<out PlanInstanceInfo>) =
+    fun newFromTemplate(vararg plans: PlanInstanceInfo) =
         liveData(context = coroutineContext()) {
             emit(plans.map { plan ->
-                Transaction.getInstanceFromTemplateWithTags(contentResolver, plan.templateId)?.let {
-                    val (t, tagList) = it
-                    if (plan.date != null) {
-                        val date = plan.date / 1000
-                        t.date = date
-                        t.valueDate = date
-                        t.originPlanInstanceId = plan.instanceId
-                    }
-                    t.status = STATUS_NONE
-                    if (t.save(contentResolver, true) != null) {
-                        t.saveTags(contentResolver, tagList)
-                        true
-                    } else false
-                }
-            }.sumBy { if (it == true) 1 else 0 })
+                instantiateTemplate(
+                    contentResolver,
+                    exchangeRateHandler,
+                    plan,
+                    currencyContext.homeCurrencyUnit
+                )
+            }.sumBy { if (it == null) 0 else 1 })
         }
 
     fun reset(instance: PlanInstanceInfo) {

@@ -86,7 +86,6 @@ import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.collections.set
 
 const val KEY_ROW_IDS = "rowIds"
 
@@ -397,24 +396,24 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         return selection to joinArrays(filterSelectionArgs, accountSelectionArgs)
     }
 
-/*    fun loadDebugDebts(count: Int = 10) {
-        debts.postValue(List(
-            count
-        ) {
-            Debt(
-                it.toLong(),
-                "Debt $it",
-                "Description",
-                1,
-                5000,
-                "EUR",
-                System.currentTimeMillis() / 1000,
-                "John doe",
-                false,
-                4123
-            )
-        })
-    }*/
+    /*    fun loadDebugDebts(count: Int = 10) {
+            debts.postValue(List(
+                count
+            ) {
+                Debt(
+                    it.toLong(),
+                    "Debt $it",
+                    "Description",
+                    1,
+                    5000,
+                    "EUR",
+                    System.currentTimeMillis() / 1000,
+                    "John doe",
+                    false,
+                    4123
+                )
+            })
+        }*/
 
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {

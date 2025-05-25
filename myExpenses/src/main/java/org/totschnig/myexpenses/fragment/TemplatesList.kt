@@ -44,9 +44,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.util.size
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -159,7 +160,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     @Inject
     lateinit var repository: Repository
 
-    lateinit var viewModel: TemplatesListViewModel
+    val viewModel: TemplatesListViewModel by viewModels()
 
     private var _binding: TemplatesListBinding? = null
 
@@ -172,7 +173,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         StateSaver.restoreInstanceState(this, savedInstanceState)
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
-        viewModel = ViewModelProvider(this)[TemplatesListViewModel::class.java]
         appComponent.inject(viewModel)
     }
 
@@ -189,7 +189,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val ctx = requireActivity() as ProtectedFragmentActivity
         _binding = TemplatesListBinding.inflate(inflater, container, false)
@@ -255,7 +255,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private fun bulkUpdateDefaultAction(
         itemIds: LongArray,
         action: Template.Action,
-        resultFeedBack: Int
+        resultFeedBack: Int,
     ) {
         viewModel.updateDefaultAction(itemIds, action).observe(
             viewLifecycleOwner
@@ -264,7 +264,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
     override fun dispatchCommandMultiple(
         command: Int,
-        positions: SparseBooleanArray, itemIds: LongArray
+        positions: SparseBooleanArray, itemIds: LongArray,
     ): Boolean {
         if (super.dispatchCommandMultiple(command, positions, itemIds)) {
             return true
@@ -356,7 +356,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     } ?: false
 
     private fun hasSplitAtPositions(positions: SparseBooleanArray): Boolean {
-        for (i in 0 until positions.size()) {
+        for (i in 0 until positions.size) {
             if (positions.valueAt(i) && isSplitAtPosition(positions.keyAt(i))) {
                 return true
             }
@@ -383,7 +383,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun dispatchCreateInstanceSaveDo(vararg plans: PlanInstanceInfo) {
-        viewModel.newFromTemplate(plans).observe(
+        viewModel.newFromTemplate(*plans).observe(
             viewLifecycleOwner
         ) { successCount: Int ->
             showSnackbar(
@@ -552,7 +552,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun confirmDeleteTransactionsForPlanInstances(
-        planInstance: PlanInstanceInfo, dialogTag: String, title: Int
+        planInstance: PlanInstanceInfo, dialogTag: String, title: Int,
     ) {
         confirmDeleteTransactionsWithBundle(dialogTag, title) {
             putParcelable(KEY_INSTANCE, planInstance)
@@ -560,7 +560,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun confirmDeleteTransactionsWithBundle(
-        dialogTag: String, title: Int, extras: Bundle.() -> Unit
+        dialogTag: String, title: Int, extras: Bundle.() -> Unit,
     ) {
         SimpleDialog.build()
             .title(title)
@@ -743,7 +743,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             var hasForeignExchangeTransfer = false
             var hasPlan = false
             var hasSealed = false
-            for (i in 0 until checkedItemPositions.size()) {
+            for (i in 0 until checkedItemPositions.size) {
                 if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(
                         checkedItemPositions.keyAt(i)
                     )
@@ -752,13 +752,13 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     break
                 }
             }
-            for (i in 0 until checkedItemPositions.size()) {
+            for (i in 0 until checkedItemPositions.size) {
                 if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt(i))) {
                     hasPlan = true
                     break
                 }
             }
-            for (i in 0 until checkedItemPositions.size()) {
+            for (i in 0 until checkedItemPositions.size) {
                 if (checkedItemPositions.valueAt(i) && isSealed(checkedItemPositions.keyAt(i))) {
                     hasSealed = true
                     break
@@ -779,7 +779,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         count: Int,
         foreignExchangeTransfer: Boolean,
         hasPlan: Boolean,
-        hasSealed: Boolean
+        hasSealed: Boolean,
     ) {
         menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).isVisible =
             !foreignExchangeTransfer && !hasPlan and !hasSealed
@@ -868,7 +868,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         view: View,
         planInstance: PlanInstanceInfo,
         onClick: (() -> Boolean)?,
-        handleMenuItemClick: ((Int) -> Boolean)?
+        handleMenuItemClick: ((Int) -> Boolean)?,
     ) {
         view.setOnClickListener {
             if (popup != null) {

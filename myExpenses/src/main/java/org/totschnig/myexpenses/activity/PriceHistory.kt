@@ -50,7 +50,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CharIcon
@@ -66,7 +65,7 @@ import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Price
-import org.totschnig.myexpenses.viewmodel.transformForUser
+import org.totschnig.myexpenses.util.transformForUser
 import java.math.BigDecimal
 import java.math.MathContext
 import java.security.SecureRandom
@@ -92,7 +91,11 @@ class PriceHistory : ProtectedFragmentActivity() {
                     currencyContext.homeCurrencyUnit,
                     Modifier.padding(horizontal = 8.dp),
                     onDelete = {
-                        viewModel.deletePrice(it)
+                        viewModel.deletePrice(it).observe(this) {
+                            if (!it) {
+                                showDeleteFailureFeedback()
+                            }
+                        }
                     },
                     onSave = { date, value ->
                         viewModel.savePrice(date, value).observe(this) {

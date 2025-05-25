@@ -460,7 +460,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
 
             InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
-                Transaction.getInstanceFromTemplateWithTags(contentResolver, transactionId)
+                Transaction.getInstanceFromTemplateWithTags(contentResolver, transactionId)?.let {
+                    it.first to it.second
+                }
 
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
                 contentResolver,

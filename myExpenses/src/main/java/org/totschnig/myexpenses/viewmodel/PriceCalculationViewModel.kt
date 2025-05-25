@@ -22,7 +22,7 @@ import timber.log.Timber
 
 
 class PriceCalculationViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
-    ExchangeRateViewModel(application) {
+    ContentResolvingAndroidViewModel(application) {
 
     suspend fun reCalculatePrices(newHomeCurrency: String) = withContext(coroutineContext()) {
 

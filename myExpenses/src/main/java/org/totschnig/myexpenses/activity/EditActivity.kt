@@ -20,7 +20,6 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -30,9 +29,10 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.linkInputsWithLabels
-import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel
-import org.totschnig.myexpenses.viewmodel.transformForUser
+import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.transformForUser
 import java.time.LocalDate
+import javax.inject.Inject
 
 abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host,
     ExchangeRateEdit.Host {
@@ -46,12 +46,17 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     @State
     var newInstance = true
 
-    private val exchangeRateViewModel: ExchangeRateViewModel by viewModels()
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     override fun afterTextChanged(s: Editable) {
         setDirty()
+    }
+
+    override fun injectDependencies() {
+        injector.inject(this)
     }
 
     protected fun setupToolbarWithClose() {
@@ -109,7 +114,6 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injector.inject(exchangeRateViewModel)
         onBackPressedCallback = object : OnBackPressedCallback(isDirty) {
             override fun handleOnBackPressed() {
                 if (isDirty) {
@@ -157,7 +161,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
         base: CurrencyUnit,
         source: ExchangeRateApi?,
     ) = runCatching {
-        exchangeRateViewModel.loadExchangeRate(other, base, date, source)
+        exchangeRateHandler.loadExchangeRate(other, base, date, source)
     }.fold(
         onSuccess = { Result.success(it) },
         onFailure = {

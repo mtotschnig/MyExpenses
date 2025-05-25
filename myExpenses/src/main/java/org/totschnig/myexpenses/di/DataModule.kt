@@ -16,13 +16,17 @@ import dagger.Module
 import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
 import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.provider.doRepairRequerySchema
+import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import timber.log.Timber
 import java.io.File
 import javax.inject.Named
@@ -112,7 +116,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     @Provides
     open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { context, path ->
-            kotlin.runCatching {
+            runCatching {
                 val version = try {
                     SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
                 } catch (e: SQLiteException) {
@@ -144,4 +148,18 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                 }
             }
         }
+
+    @Singleton
+    @Provides
+    fun provideExchangeRateHandler(
+        exchangeRateService: ExchangeRateService,
+        repository: Repository,
+        prefHandler: PrefHandler,
+        currencyContext: CurrencyContext
+    ): ExchangeRateHandler = ExchangeRateHandler(
+        exchangeRateService,
+        repository,
+        prefHandler,
+        currencyContext
+    )
 }
