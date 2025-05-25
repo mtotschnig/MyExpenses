@@ -1008,4 +1008,5 @@
     <string name="recalculate_only_missing">Попълни само липсващите стойности</string>
     <string name="mark_as_unreconciled">Маркирай като несъгласувано</string>
     <string name="mark_as_cleared">Маркирай като изчистено</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Автоматично обновяване на еквивалентните суми при промяна на цените</string>
 </resources>
