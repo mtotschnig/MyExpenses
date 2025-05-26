@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
@@ -128,6 +129,17 @@ class UpgradeHandlerViewModel(application: Application) :
             prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
                 prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
             }
+        }
+        if (fromVersion < 797) {
+            prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
+                try {
+                    prefHandler.enumValueOrDefault("scroll_to_current_date", ScrollToCurrentDate.Never)
+                } catch (e: Exception) {
+                    CrashHandler.report(e)
+                    ScrollToCurrentDate.Never
+                }.name
+            )
+            prefHandler.remove("scroll_to_current_date")
         }
         viewModelScope.launch(context = coroutineContext()) {
             try {

@@ -99,7 +99,7 @@
     <string name="pref_ad_consent_key">ad_consent</string>
     <string name="pref_no_ads_key">no_ads</string>
     <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
-    <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
+    <string name="pref_scroll_to_current_date_key">scroll_to_current_date_v2</string>
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_sync_changes_immediately_key">sync_changes_immediately</string>
     <string name="pref_exchange_rate_provider_key">exchange_rate_providers</string>

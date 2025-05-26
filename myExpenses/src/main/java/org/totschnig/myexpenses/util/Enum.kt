@@ -7,7 +7,7 @@ inline fun <reified T : Enum<T>> enumValueOrNull(name: String?): T? =
     name?.let {
         try {
             enumValueOf<T>(it)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             null
         }
     }
