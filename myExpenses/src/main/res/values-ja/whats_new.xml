@@ -8,4 +8,5 @@
     <string name="whats_new_395">エクスポートされたファイル(PDF、バックアップ、QIF、CSV、JSON)は、Webユーザーインターフェースからダウンロードできます。</string>
     <string name="whats_new_396">為替レートの自動更新とリアルタイムの値追跡により、外貨口座管理が強化されました。</string>
     <string name="whats_new_398">資産、負債、純資産を一箇所で確認できます。</string>
+    <string name="whats_new_399">PDFエクスポートレイアウトが改善され、ドラッグアンドドロップで完全にカスタマイズできます。</string>
 </resources>
