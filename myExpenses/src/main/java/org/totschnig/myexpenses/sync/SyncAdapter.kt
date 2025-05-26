@@ -638,6 +638,7 @@ class SyncAdapter @JvmOverloads constructor(
     private val manageSyncBackendsIntent: Intent
         get() = Intent(context, ManageSyncBackends::class.java)
 
+    @Synchronized
     private fun appendToNotification(content: String, account: Account, newLine: Boolean) {
         log().i(content)
         if (shouldNotify) {
