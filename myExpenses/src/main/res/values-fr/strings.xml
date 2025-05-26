@@ -1019,4 +1019,7 @@
     <string name="balance_sheet_section_assets">Actifs</string>
     <string name="balance_sheet_section_liabilities">Passifs</string>
     <string name="balance_sheet_net_worth">Valeur nette</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Mettre à jour automatiquement les montants équivalents lorsque les prix changent</string>
+    <string name="mark_as_cleared">Pointer</string>
+    <string name="mark_as_unreconciled">Marquer comme non rapproché</string>
 </resources>

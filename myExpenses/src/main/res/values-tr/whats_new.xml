@@ -21,4 +21,5 @@
     <string name="whats_new_395">Dışa aktarılan dosyalar (PDF, yedekleme, QIF, CSV, JSON) Web Kullanıcı Arayüzü aracılığıyla indirilebilir.</string>
     <string name="whats_new_396">Otomatik döviz kuru güncellemeleri ve gerçek zamanlı değer takibi ile gelişmiş döviz hesabı yönetimi.</string>
     <string name="whats_new_398">Varlıklarınızı, yükümlülüklerinizi ve net değerinizi tek bir yerde görün.</string>
+    <string name="whats_new_399">Geliştirilmiş PDF dışa aktarma düzeni, sürükle ve bırak ile tamamen özelleştirilebilir.</string>
 </resources>

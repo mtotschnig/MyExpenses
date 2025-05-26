@@ -21,4 +21,5 @@
     <string name="whats_new_395">Los archivos exportados (PDF, copia de seguridad, QIF, CSV, JSON) se pueden descargar a través de la interfaz de usuario web.</string>
     <string name="whats_new_396">Gestión mejorada de cuentas en moneda extranjera con actualizaciones automáticas de tipos de cambio y seguimiento del valor en tiempo real.</string>
     <string name="whats_new_398">Vea sus activos, pasivos y patrimonio neto — todo en un solo lugar.</string>
+    <string name="whats_new_399">Diseño de exportación de PDF mejorado, totalmente personalizable con arrastrar y soltar.</string>
 </resources>

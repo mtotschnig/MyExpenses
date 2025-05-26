@@ -21,4 +21,5 @@
     <string name="whats_new_395">Izvezene datoteke (PDF, sigurnosna kopija, QIF, CSV, JSON) mogu se preuzeti putem web korisničkog sučelja.</string>
     <string name="whats_new_396">Poboljšano upravljanje deviznim računom s automatskim ažuriranjem tečaj i praćenjem vrijednosti u stvarnom vremenu.</string>
     <string name="whats_new_398">Pogledajte svoju imovinu, obveze i neto vrijednost — sve na jednom mjestu.</string>
+    <string name="whats_new_399">Poboljšani izgled izvoza PDF-a, potpuno prilagodljiv povlačenjem i ispuštanjem.</string>
 </resources>
