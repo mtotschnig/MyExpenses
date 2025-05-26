@@ -2088,7 +2088,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 162) {
         db.execSQL("alter table tags add column color integer default null");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
 
       if (oldVersion < 163) {
