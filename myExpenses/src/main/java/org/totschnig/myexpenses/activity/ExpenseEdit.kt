@@ -288,11 +288,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         injector.inject(this)
     }
 
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        floatingActionButton.show()
-    }
-
     override val fabActionName = "SAVE_TRANSACTION"
 
     fun updateContentColor(color: Int) {

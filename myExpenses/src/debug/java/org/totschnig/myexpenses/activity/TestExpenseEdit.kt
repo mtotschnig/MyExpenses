@@ -14,9 +14,6 @@ class TestExpenseEdit: ExpenseEdit() {
         if (savedInstanceState != null) {
             activityIsRecreated = true
         }
-        if (android.os.Build.VERSION.SDK_INT < 23) {
-            onEnterAnimationComplete()
-        }
     }
 
     @SuppressLint("VisibleForTests")
