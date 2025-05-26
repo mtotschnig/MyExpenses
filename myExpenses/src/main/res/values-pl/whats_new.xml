@@ -17,4 +17,5 @@
     <string name="whats_new_395">Wyeksportowane pliki (PDF, kopia zapasowa, QIF, CSV, JSON) można pobrać za pośrednictwem internetowego interfejsu użytkownika.</string>
     <string name="whats_new_396">Ulepszone zarządzanie kontami walutowymi z automatyczną aktualizacją kursu wymiany i śledzeniem wartości w czasie rzeczywistym.</string>
     <string name="whats_new_398">Zobacz swoje aktywa, pasywa i wartość netto — wszystko w jednym miejscu.</string>
+    <string name="whats_new_399">Ulepszony układ eksportu PDF, w pełni konfigurowalny za pomocą funkcji „przeciągnij i upuść”.</string>
 </resources>
