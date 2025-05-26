@@ -157,7 +157,7 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                 }
             }
         return if (result?.any { it.isFailure } == true) {
-            if (runAttemptCount == 4) {
+            if (runAttemptCount == 6) {
                 notify("Download of exchange rates failed five times. Giving up.")
                 Result.failure()
             } else Result.retry()
