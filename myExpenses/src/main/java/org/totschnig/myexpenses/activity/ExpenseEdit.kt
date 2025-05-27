@@ -344,7 +344,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 methodRowBinding,
                 injector
             )
-            setupObservers(false)
+            setupObservers(
+                if(intent.getBooleanExtra("IS_MANUAL_RECREATE", false)) {
+                    intent.removeExtra("IS_MANUAL_RECREATE")
+                    true
+                } else false
+            )
             delegate.bind(
                 null,
                 withTypeSpinner,

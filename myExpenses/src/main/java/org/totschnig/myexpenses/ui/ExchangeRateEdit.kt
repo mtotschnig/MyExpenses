@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.databinding.ExchangeRateBinding
@@ -262,7 +263,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             rate1Edit.setAmount(it)
             source = Source.Download
         }.onFailure {
-            if (!ignoreError) {
+            if (BuildConfig.DEBUG || !ignoreError) {
                 complain(it.safeMessage)
             }
         }

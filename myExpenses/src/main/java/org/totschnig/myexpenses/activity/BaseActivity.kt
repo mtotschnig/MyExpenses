@@ -1379,6 +1379,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun maybeApplyDynamicColor(): Boolean = if (canUseContentColor) {
+        val intent = getIntent() // Get the current intent
+        intent.putExtra(KEY_IS_MANUAL_RECREATE, true)
         recreate()
         true
     } else false
@@ -1620,5 +1622,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         private const val DIALOG_INACTIVE_BACKEND = "inactive_backend"
         const val RESULT_RESTORE_OK = RESULT_FIRST_USER + 1
         const val RESULT_INVALIDATE_OPTIONS_MENU = RESULT_FIRST_USER + 2
+        const val KEY_IS_MANUAL_RECREATE = "IS_MANUAL_RECREATE"
     }
 }
