@@ -64,8 +64,8 @@ class ExchangeRateHandler(
             source,
             (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),
             date,
-            base,
-            other
+            other,
+            base
         ).let { it.first to BigDecimal.valueOf(it.second) }
             .also {
                 Timber.d("loadFromNetwork: %s", it)

@@ -157,15 +157,15 @@ class ExchangeRateService(
         apiKey: String?,
         base: String,
         symbols: List<String>,
-    ): List<Pair<LocalDate, Double>> {
+    ): Pair<LocalDate, List<Double>> {
         return try {
             val symbolsArg = symbols.joinToString(",")
             when (source) {
                 ExchangeRateApi.Frankfurter -> {
                     if (source.isSupported(base, *symbols.toTypedArray())) {
                         val result = frankfurter.getLatest(symbolsArg, base).await()
-                        symbols.map { symbol ->
-                            result.date to 1.0 / (result.rates[symbol]
+                        result.date to symbols.map { symbol ->
+                            1.0 / (result.rates[symbol]
                                 ?: throw IOException("Unable to retrieve data for $symbol"))
                         }
                     } else {
@@ -176,12 +176,12 @@ class ExchangeRateService(
                 ExchangeRateApi.CoinApi -> {
                     requireNotNull(apiKey)
                     val resultList = coinApi.getAllCurrent(base, symbolsArg, apiKey).await().rates
-                    symbols.map { symbol ->
+                    LocalDate.now() to symbols.map { symbol ->
                         val result = resultList.find { it.asset_id_quote == symbol }
                             ?: throw IOException("Unable to retrieve data for $symbol")
                         //We ignore the time returned as part of the response, since it might relate to a different
                         //day then the requested one (due to time zone difference)
-                        LocalDate.now() to result.rate
+                        result.rate
                     }
                 }
 
@@ -192,10 +192,10 @@ class ExchangeRateService(
                             .await()
                     val baseRate =
                         result.rates[base] ?: throw IOException("Unable to retrieve data")
-                    symbols.map { symbol ->
+                    LocalDate.now() to symbols.map { symbol ->
                         //We ignore the time returned as part of the response, since it might relate to a different
                         //day then the requested one (due to time zone difference)
-                        LocalDate.now() to baseRate / (result.rates[symbol]
+                        baseRate / (result.rates[symbol]
                             ?: throw IOException("Unable to retrieve data $symbol"))
                     }
                 }
@@ -212,8 +212,8 @@ class ExchangeRateService(
         source: ExchangeRateApi,
         apiKey: String?,
         date: LocalDate,
-        symbol: String,
         base: String,
+        symbol: String,
     ): Pair<LocalDate, Double> = try {
         val today = LocalDate.now()
         when (source) {
@@ -258,6 +258,35 @@ class ExchangeRateService(
                 //day then the requested one
                 date to result.rate
             }
+        }
+    } catch (e: HttpException) {
+        throw source.convertError(e)
+    }
+
+    suspend fun getTimeSeries(
+        source: ExchangeRateApi,
+        apiKey: String?,
+        start: LocalDate,
+        end: LocalDate,
+        base: String,
+        symbol: String
+    ): List<Pair<LocalDate, Double>> = try {
+        when (source) {
+            ExchangeRateApi.Frankfurter -> {
+                if (source.isSupported(symbol, base)) {
+                    val result: Frankfurter.TimeSeriesResult = frankfurter.getTimeSeries(start, end, symbol, base).await()
+                    result.rates.map { (date, rates) ->
+                        date to (rates[symbol]
+                            ?: throw IOException("Unable to retrieve data for $symbol"))
+                    }
+                } else {
+                    throw UnsupportedOperationException()
+                }
+            }
+
+            ExchangeRateApi.OpenExchangeRates -> TODO()
+
+            ExchangeRateApi.CoinApi -> TODO()
         }
     } catch (e: HttpException) {
         throw source.convertError(e)
