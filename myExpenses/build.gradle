@@ -40,6 +40,7 @@ android {
         versionName project.versionName
 
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
+        buildConfigField "java.time.LocalDateTime", "BUILD_DATE", getDate()
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
 
         resourceConfigurations = resConfig
@@ -72,13 +73,11 @@ android {
             manifestPlaceholders["appName"] = "@string/app_name"
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
-            buildConfigField "java.time.LocalDateTime", "BUILD_DATE", getDate()
         }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders["appName"] = "My Expenses Debug"
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
-            buildConfigField "java.time.LocalDateTime", "BUILD_DATE", "java.time.LocalDateTime.now()"
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
             buildConfigField "String", "COIN_API_API_KEY", "\"" + getPropertyIfDefined('COIN_API_API_KEY', "") + "\""
             buildConfigField "boolean", "BETA", getPropertyIfDefined("BETA", "false")
