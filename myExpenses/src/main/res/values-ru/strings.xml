@@ -314,7 +314,7 @@
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d планы были восстановлены из резервной копии</string>
     <string name="save_transaction_and_new_success">Успешно сохранено</string>
-    <string name="save_transaction_error">Невозможно сохранить новую операцию из шаблона</string>
+    <string name="save_transaction_error">Невозможно сохранить новую операцию из шаблона.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Новая операция успешно сохранена из шаблона.</item>
         <item quantity="few">%1$d новые операции успешно сохранены из шаблонов.</item>
@@ -352,7 +352,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Тип</string>
     <string name="unsplit_amount">Неразделённая сумма</string>
-    <string name="unsplit_amount_greater_than_zero">Ещё есть оставшиеся неразделённая сумма</string>
+    <string name="unsplit_amount_greater_than_zero">Некоторая часть всё ещё осталась неразделённой.</string>
     <string name="warning_backup">БД и настройки будут сохранены в \"%1$s\".</string>
     <string name="continue_confirmation">Вы хотите продолжить?</string>
     <string name="warning_delete_account">Счет \"%1$s\" будет удален со всеми операциями.</string>
@@ -364,7 +364,7 @@
     </plurals>
     <string name="warning_delete_category_with_budget">Для одной выбранной категории (как минимум) есть бюджетные ассигнования, которые тоже будут удалены.</string>
     <plurals name="warning_delete_template">
-        <item quantity="one">Выбранный шаблон будет удалён</item>
+        <item quantity="one">Выбранный шаблон будет удалён.</item>
         <item quantity="few">%1$d выбранных шаблона будут удалены.</item>
         <item quantity="many">%1$d выбранных шаблонов будут удалены.</item>
         <item quantity="other">%1$d выбранных шаблонов будут удалены.</item>
