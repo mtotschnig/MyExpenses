@@ -64,7 +64,10 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
@@ -854,6 +857,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 )
             }
         }
+
+        if (resources.getInteger(R.integer.window_size_class) == 0) {
+            ViewCompat.setOnApplyWindowInsetsListener(
+                binding.accountPanel.root.getChildAt(0)
+            ) { v, insets ->
+                val innerPadding = insets.getInsets(
+                    WindowInsetsCompat.Type.statusBars()
+                            or WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updatePadding(
+                    top = innerPadding.top)
+                WindowInsetsCompat.CONSUMED            }
+        }
+
         binding.drawer?.let { drawer ->
             drawerToggle = object : ActionBarDrawerToggle(
                 this, drawer,
