@@ -501,7 +501,7 @@
     <string name="validate_error_webdav_404">Esta URL não existe no servidor.</string>
     <string name="url_not_valid">URL inválida</string>
     <string name="menu_sync_unlink">Parar a sincronização</string>
-    <string name="menu_sync_link">Parar a sincronização</string>
+    <string name="menu_sync_link">Começar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
     <string name="pref_sync_frequency_summary">Com que frequência os dados devem ser sincronizados (em horas).</string>
     <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o estado da sincronização será perdido. Uma futura nova associação, exigirá que seja feita uma sincronização completa.</string>
@@ -520,8 +520,8 @@
     <string name="progress_dialog_checking_sync_backend">Verificando o destino</string>
     <string name="template">Modelo</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
-    <string name="all_contrib_key_features">Todas os recursos da chave Contrib</string>
-    <string name="all_extended_key_features">Todos os recursos da chave Estendida</string>
+    <string name="all_contrib_key_features">Todos os recursos da Chave de Contribuição</string>
+    <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
     <string name="number_of_fraction_digits">Número de casas decimais</string>
@@ -902,7 +902,7 @@
     <string name="add_shortcut">Adicionar atalho</string>
     <string name="search_account">Pesquisar por conta</string>
     <string name="encrypt_database_info">O banco de dados será criptografado com uma senha que não poderá ser extraída deste dispositivo. Consequentemente, ela não será incluída no backup efetuado pelo serviço de backup do seu aparelho.</string>
-    <string name="github_sponsors">Chaves de licença também são fornecidas &lt;a href=%s&gt;patrocinadores do Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Chaves de licença também são fornecidos para <a href="%s">Patrocinadores do Github</a>.]]></string>
     <string name="content_description_remove_icon">Remover o ícone</string>
     <string name="database_is_encrypted">O banco de dados está criptografado.</string>
     <string name="notifications_channel_required">Por favor, habilite o canal %s.</string>
@@ -939,7 +939,7 @@
     <string name="merge_parties_strategy_group">Os duplicados são agrupados como dependentes.</string>
     <string name="pref_copy_attachments_summary_off">Os arquivos não são copiados, é armazenada apenas uma referência.</string>
     <string name="show_duplicates">Exibir os duplicados</string>
-    <string name="dialog_contrib_trial_info">Seu status de licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
+    <string name="dialog_contrib_trial_info">Sua licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
     <string name="one_time_payment">Pagamento único</string>
     <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita nunca será convertida em qualquer tipo de assinatura.</string>
     <string name="dialog_contrib_subscription_info_play">Esta assinatura tem efeito imediato, é cobrada mensalmente ou anualmente e pode ser cancelada a qualquer momento.</string>
@@ -949,17 +949,17 @@
     <string name="budget_table_header_overspent">Gastos excessivos</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Transações não mapeadas</string>
     <string name="menu_aggregate_neutral_categories">Agregar categorias neutras</string>
-    <string name="pref_unmapped_transaction_as_transfer_summary_on">são contados como transferência</string>
-    <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser excluída.</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">são considerados como transferência</string>
+    <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser apagada.</string>
     <string name="default_transfer_category">Categoria de transferência padrão</string>
-    <string name="pref_unmapped_transaction_as_transfer_summary_off">são contabilizados como despesa/receita</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">são considerados como despesa / receita</string>
     <string name="roadmap_intro">A votação do roteiro para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
     <string name="pref_sync_now_all_summary">%s sincroniza todas as contas para o mesmo back-end</string>
-    <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: será substituída por transações normais em ambas as contas.</string>
+    <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: Ela será substituída por transações normais em ambas as contas.</string>
     <string name="menu_transform_to_transfer">Converter em transferência</string>
     <string name="merge_categories_prompt">Selecione a categoria que você deseja manter</string>
     <string name="pref_csv_export_category_separator_summary">Separador entre níveis de hierarquia de categoria</string>
-    <string name="merge_categories_dialog_title">Mesclar categorias</string>
+    <string name="merge_categories_dialog_title">Mesclar Categorias</string>
     <string name="pref_transaction_amount_color_source_title">Cores para quantidades</string>
     <string name="subcategories_merged_recursively">Se alguma das categorias mescladas tiver subcategorias com o mesmo rótulo, elas serão mescladas primeiro, de forma recursiva.</string>
     <string name="contact_us">Fale conosco</string>
@@ -969,15 +969,15 @@
     <string name="archive">Arquivo</string>
     <string name="quick_search">Pesquisa rápida</string>
     <string name="complex_search">Pesquisa complexa</string>
-    <string name="menu_unpack">Desempacotar</string>
+    <string name="menu_unpack">Descompactar</string>
     <string name="warning_backend_deactivated">O back-end não está pronto para ser sincronizado.</string>
     <string name="button_activate_again">Ativar novamente</string>
     <string name="credit_limit_reached">Você atingiu seu limite de crédito.</string>
     <string name="warning_budget_sync_import">A configuração desse orçamento será importada do back-end de sincronização. Todas as alterações locais serão perdidas.</string>
-    <string name="saving_goal_short_fall">Défice</string>
+    <string name="saving_goal_short_fall">Déficit</string>
     <string name="warning_empty_archive">Não existem transações no intervalo de datas selecionado.</string>
     <string name="saving_goal_reached">Você atingiu sua meta de economia.</string>
-    <string name="budget_import_cannot_be_imported">Os seguintes orçamentos referem-se a contas que não estão sincronizadas:</string>
+    <string name="budget_import_cannot_be_imported">Os seguintes orçamentos se referem a contas que não estão sincronizadas:</string>
     <string name="pref_scroll_to_current_date_app_launch">somente quando o aplicativo é iniciado</string>
     <string name="not_enough_data">Dados insuficientes</string>
     <string name="archive_warning">Todas as transações (%d) no intervalo de datas selecionado serão arquivadas.</string>
@@ -985,7 +985,7 @@
     <string name="saving_goal_exceeded">Você excedeu sua meta de economia.</string>
     <string name="overage">Excedente</string>
     <string name="credit_limit_available_credit">Crédito disponível</string>
-    <string name="content_description_equivalent_amount">Defina o valor dessa transação em sua moeda local. Em vez de inserir o valor, você também pode inserir a taxa de câmbio para calculá-lo.</string>
+    <string name="content_description_equivalent_amount">Defina o valor dessa transação em sua moeda de origem. Em vez de inserir o valor, você também pode inserir a taxa de câmbio para calculá-lo.</string>
     <string name="budget_import_can_be_imported">Os seguintes orçamentos podem ser importados:</string>
     <string name="webui_download_no_data">Depois de imprimir, exportar ou criar backups no aplicativo, os arquivos estarão disponíveis aqui para download.</string>
     <string name="menu_show_equivalent_value">Valor equivalente</string>
@@ -996,9 +996,9 @@
     <string name="price_history">Histórico de preços</string>
     <string name="dynamic_exchange_rate">Taxa de câmbio dinâmica</string>
     <string name="progress_recalculating">Recalculando</string>
-    <string name="equivalent_amount_plural">Quantidades equivalentes</string>
+    <string name="equivalent_amount_plural">Quantias equivalentes</string>
     <string name="menu_recalculate">Recalcular</string>
-    <string name="recalculate_equivalent_amounts_warning">Serão (re)calculados montantes equivalentes se estiverem disponíveis taxas de câmbio armazenadas aplicáveis.</string>
+    <string name="recalculate_equivalent_amounts_warning">Quantias equivalentes serão (re)calculadas se estiverem disponíveis taxas de câmbio armazenadas aplicáveis.</string>
     <string name="dialog_title_warning_delete_archive">Excluir arquivo?</string>
     <string name="content_description_original_amount">Defina o valor original dessa transação selecionando uma moeda e inserindo o valor. Você também pode definir uma taxa de câmbio que será usada para calcular o valor efetivo.</string>
     <string name="warning_archive_inconsistent_state">As transações no intervalo de datas selecionado têm status inconsistentes (%s).</string>
@@ -1015,8 +1015,11 @@
     <string name="pref_scroll_to_current_date_title">Rolar a lista de transações para a data atual</string>
     <string name="warning_delete_archive">Todas as transações contidas neste arquivo (%d) serão excluídas.</string>
     <string name="account_closed">A conta está fechada</string>
-    <string name="balance_sheet">Folha de Balanço</string>
+    <string name="balance_sheet">Balanço Patrimonial</string>
     <string name="balance_sheet_section_assets">Ativos</string>
     <string name="balance_sheet_section_liabilities">Passivos</string>
     <string name="balance_sheet_net_worth">Patrimônio líquido</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Atualizar quantias equivalentes automaticamente quando os preços mudam</string>
+    <string name="mark_as_cleared">Marcar como compensada</string>
+    <string name="mark_as_unreconciled">Marcar como não reconciliada</string>
 </resources>
