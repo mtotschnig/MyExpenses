@@ -27,6 +27,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
+    <style name="MyTheme" parent="MyThemeBase">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
     <style name="DarkBackground">
         <item name="colorOnSurface">@android:color/white</item>
     </style>

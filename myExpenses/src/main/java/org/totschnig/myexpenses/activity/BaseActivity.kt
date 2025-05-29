@@ -51,7 +51,6 @@ import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -81,6 +80,7 @@ import eltos.simpledialogfragment.form.Spinner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
@@ -121,7 +121,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
-import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -440,7 +439,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         else 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (uiConfigIsSafe) {
+        if (uiConfigIsSafe && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             enableEdgeToEdge()
         }
         with(injector) {
@@ -1407,32 +1406,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
         }
 
-    fun tintSystemUiAndFab(color: Int) {
+    fun tintFab(color: Int) {
         //If we use dynamic content based color, we do not need to harmonize the color
         val harmonized =
             if (canUseContentColor) color else MaterialColors.harmonizeWithPrimary(this, color)
-        tintSystemUi(harmonized)
         floatingActionButton.setBackgroundTintList(harmonized)
     }
-
-    fun tintSystemUi(color: Int) {
-
-        if (shouldTintSystemUi()) {
-            with(window) {
-                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                statusBarColor = color
-                navigationBarColor = color
-            }
-            with(WindowInsetsControllerCompat(window, window.decorView)) {
-                val isBright = isBrightColor(color)
-                isAppearanceLightNavigationBars = isBright
-                isAppearanceLightStatusBars = isBright
-            }
-        }
-    }
-
-    private fun shouldTintSystemUi() = false
 
     val withResultCallbackLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

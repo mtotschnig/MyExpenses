@@ -595,8 +595,6 @@ class Banking : ProtectedFragmentActivity() {
     }
 }
 
-private fun Modifier.conditional(bool: Boolean) {}
-
 @Composable
 fun BankRow(
     bank: Bank,

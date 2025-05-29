@@ -76,7 +76,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
-import arrow.core.right
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -2335,7 +2334,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private fun configureUiWithCurrentAccount(account: FullAccount?, animateProgress: Boolean) {
         if (account != null) {
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
-            tintSystemUiAndFab(account.color(resources))
+            tintFab(account.color(resources))
             setBalance(account, animateProgress)
         }
         updateFab()

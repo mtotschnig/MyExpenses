@@ -20,9 +20,6 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -31,8 +28,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
-import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.util.transformForUser
 import java.time.LocalDate
 import javax.inject.Inject
