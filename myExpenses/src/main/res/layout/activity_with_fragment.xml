@@ -20,7 +20,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <include layout="@layout/toolbar" />
 
@@ -31,5 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <include android:visibility="gone" android:id="@+id/fab" layout="@layout/floating_action_button" />
+
+    <include
+        android:id="@+id/fab"
+        layout="@layout/floating_action_button"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

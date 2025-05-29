@@ -13,7 +13,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
@@ -32,6 +31,7 @@ import android.webkit.MimeTypeMap
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
@@ -49,8 +49,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -437,6 +440,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         else 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (uiConfigIsSafe) {
+            enableEdgeToEdge()
+        }
         with(injector) {
             inject(ocrViewModel)
             inject(featureViewModel)
@@ -1386,19 +1392,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     } else false
 
     val canUseContentColor: Boolean by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
-                val uiModeFromPref = prefHandler.uiMode(this)
-                if (uiModeFromPref == "default") true else {
-                    val ourUiMode = if (uiModeFromPref == "dark")
-                        UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
-                    val systemUiMode =
-                        applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                    ourUiMode == systemUiMode
-                }
-            }
-        } else false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) uiConfigIsSafe else false
     }
+
+    val uiConfigIsSafe: Boolean
+        get() = if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
+            val uiModeFromPref = prefHandler.uiMode(this)
+            if (uiModeFromPref == "default") true else {
+                val ourUiMode = if (uiModeFromPref == "dark")
+                    UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
+                val systemUiMode =
+                    applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                ourUiMode == systemUiMode
+            }
+        }
 
     fun tintSystemUiAndFab(color: Int) {
         //If we use dynamic content based color, we do not need to harmonize the color
@@ -1425,15 +1432,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    private fun shouldTintSystemUi() = try {
-        //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
-        packageManager.getActivityInfo(componentName, 0).themeResource != R.style.EditDialog ||
-                resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK <
-                Configuration.SCREENLAYOUT_SIZE_LARGE
-    } catch (e: PackageManager.NameNotFoundException) {
-        report(e)
-        false
-    }
+    private fun shouldTintSystemUi() = false
 
     val withResultCallbackLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -1612,6 +1611,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
             setContentView(root)
+            setupWindowInsetsListener(root)
+        }
+    }
+
+    fun setupWindowInsetsListener(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            val displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            v.updatePadding(
+                left = displayCutout.left,
+                right = displayCutout.right,
+                bottom = imeHeight
+            )
+            insets
         }
     }
 

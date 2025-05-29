@@ -66,9 +66,7 @@ public class MyExpenses extends BaseMyExpenses implements
       CrashHandler.report(e);
     }
 
-    floatingActionButton = binding.fab.CREATECOMMAND;
-    updateFab();
-    setupFabSubMenu();
+
     if (!isScanMode()) {
       getFloatingActionButton().setVisibility(View.INVISIBLE);
     }

@@ -109,6 +109,8 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             setTitle(it)
         }
         binding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
+
+        setupWindowInsetsListener(binding.root)
     }
 
     private fun setupListeners() {

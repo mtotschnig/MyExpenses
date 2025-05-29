@@ -44,7 +44,7 @@ class RoadmapRepository @Inject constructor(
         const val ISSUE_CACHE = "issue_cache.json"
         const val ISSUE_CACHE_LIFE_TIME_DAYS = 30
         const val ROADMAP_VOTE = "roadmap_vote_${VERSION}.json"
-        private val isSandbox = BuildConfig.DEBUG
+        private val isSandbox = false
         val ROADMAP_URL = when {
             isSandbox -> "http://10.0.2.2:3000/"
             else -> "https://roadmap.myexpenses.mobi/"

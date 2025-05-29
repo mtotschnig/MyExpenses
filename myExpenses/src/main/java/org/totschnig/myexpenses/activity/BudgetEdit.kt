@@ -217,6 +217,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
                     addFilterCriterion(it)
                 }
         }
+        setupWindowInsetsListener(binding.root)
     }
 
     private inline fun buildLauncher(createContract: () -> PickObjectContract) =
