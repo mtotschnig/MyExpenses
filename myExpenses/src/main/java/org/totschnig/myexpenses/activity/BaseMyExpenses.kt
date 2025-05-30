@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -876,7 +877,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 top = innerPadding.top
             )
             ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.accountList), insets)
-            ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.expansionContent), WindowInsetsCompat.CONSUMED)
+            ViewCompat.dispatchApplyWindowInsets(
+                v.findViewById(R.id.expansionContent),
+                WindowInsetsCompat.CONSUMED
+            )
             WindowInsetsCompat.CONSUMED
         }
 
@@ -2343,7 +2347,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun setBalance(account: FullAccount, animateProgress: Boolean) {
 
-        val isHome = account.id == HOME_AGGREGATE_ID
+        val isHome = account.isHomeAggregate
         currentBalance = (if (isHome) " ≈ " else "") +
                 currencyFormatter.formatMoney(
                     Money(
@@ -2357,9 +2361,55 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             text = currentBalance
             setTextColor(getAmountColor(account.currentBalance.sign))
         }
+
         val progress = account.progress
-        binding.toolbar.donutView.isVisible = progress != null
-        binding.toolbar.progressPercent.isVisible = progress != null
+
+        val accountVisual = when {
+            account.isAggregate -> ACCOUNT_VISUAL_NONE
+            progress != null -> ACCOUNT_VISUAL_PROGRESS
+            account.bankId != null -> ACCOUNT_VISUAL_ICON
+            else -> ACCOUNT_VISUAL_COLOR
+        }
+
+        binding.toolbar.donutView.isVisible = accountVisual == ACCOUNT_VISUAL_PROGRESS
+        binding.toolbar.progressPercent.isVisible = accountVisual == ACCOUNT_VISUAL_PROGRESS
+        binding.toolbar.accountColorIndicator.isVisible = accountVisual == ACCOUNT_VISUAL_COLOR
+        binding.toolbar.bankIcon.isVisible = accountVisual == ACCOUNT_VISUAL_ICON
+        when (accountVisual) {
+            ACCOUNT_VISUAL_ICON -> {
+                viewModel.banks.value.find { it.id == account.bankId }?.let {
+                    bankingFeature.bankIcon(it)
+                }?.let {
+                    binding.toolbar.bankIcon.setImageResource(it)
+                }
+            }
+            ACCOUNT_VISUAL_COLOR -> {
+                (binding.toolbar.accountColorIndicator.background as GradientDrawable).setColor(account._color)
+            }
+            ACCOUNT_VISUAL_PROGRESS -> {
+                val (sign, progress) = progress!!
+                with(binding.toolbar.donutView) {
+                    animateChanges = animateProgress
+                    submitData(
+                        sections = DisplayProgress.calcProgressVisualRepresentation(progress)
+                            .forViewSystem(
+                                account._color,
+                                getAmountColor(sign)
+                            ).also {
+                                Timber.d("Sections: %s", progress)
+                            }
+                    )
+                    contentDescription =
+                        getString(if (sign > 0) R.string.saving_goal else R.string.credit_limit) + ": " +
+                                DisplayProgress.contentDescription(this@BaseMyExpenses, progress)
+                }
+
+                with(binding.toolbar.progressPercent) {
+                    text = progress.displayProgress
+                    setTextColor(this@BaseMyExpenses.getAmountColor(sign))
+                }
+            }
+        }
         progress?.let { (sign, progress) ->
             with(binding.toolbar.donutView) {
                 animateChanges = animateProgress
@@ -2923,5 +2973,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
         const val DIALOG_TAG_GROUPING = "GROUPING"
         const val DIALOG_TAG_SORTING = "SORTING"
+        const val ACCOUNT_VISUAL_NONE = 0
+        const val ACCOUNT_VISUAL_PROGRESS = 1
+        const val ACCOUNT_VISUAL_ICON = 2
+        const val ACCOUNT_VISUAL_COLOR = 3
     }
 }
