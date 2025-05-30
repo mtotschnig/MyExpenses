@@ -11,14 +11,14 @@
     <string name="whats_new_369_2">Quando o bloqueio de tela estiver ativado, permita cancelar a desativação de capturas de tela.</string>
     <string name="whats_new_367">As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.</string>
     <string name="whats_new_374">Cores personalizadas para etiquetas</string>
-    <string name="whats_new_376_2">A interface do usuário da Web pode ser controlada na tela principal.</string>
+    <string name="whats_new_376_2">A interface web do usuário pode ser controlada na tela principal.</string>
     <string name="whats_new_376_1">Clone várias transações com nova data.</string>
     <string name="whats_new_378">Os gráficos respeitam o filtro de pesquisa.</string>
     <string name="whats_new_382">O recurso %1$s pode ser chamado a partir do widget %2$s.</string>
     <string name="whats_new_384">Configuração simplificada do backup em nuvem</string>
-    <string name="whats_new_386">A distribuição por despesas e a distribuição por receita podem ser mostradas juntas no gráfico de rosquinhas de anel duplo.</string>
+    <string name="whats_new_386">A distribuição por despesas e a distribuição por receita podem ser mostradas juntas em um gráfico de rosca dupla.</string>
     <string name="whats_new_388">As transações podem ser arquivadas.</string>
-    <string name="whats_new_395">Os arquivos exportados (PDF, backup, QIF, CSV, JSON) podem ser baixados via Web User Interface.</string>
+    <string name="whats_new_395">Os arquivos exportados (PDF, backup, QIF, CSV, JSON) podem ser baixados pela interface web do usuário.</string>
     <string name="whats_new_396">Gerenciamento aprimorado de contas em moeda estrangeira com atualizações automáticas da taxa de câmbio e rastreamento de valor em tempo real.</string>
     <string name="whats_new_398">Veja seus ativos, passivos e patrimônio líquido — tudo em um só lugar.</string>
     <string name="whats_new_399">Layout de exportação de PDF aprimorado, totalmente personalizável com arrastar e soltar.</string>
