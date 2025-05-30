@@ -1,6 +1,5 @@
 package org.totschnig.fints
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -14,15 +13,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -65,7 +61,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalAutofillManager
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -91,7 +86,7 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
-import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.displayCutoutPaddingLandscape
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model2.Bank
@@ -206,9 +201,7 @@ class Banking : ProtectedFragmentActivity() {
                         Box(
                             modifier = Modifier
                                 .padding(paddingValues)
-                                .conditional(LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                                    windowInsetsPadding(WindowInsets.displayCutout)
-                                }
+                                .displayCutoutPaddingLandscape()
                                 .fillMaxSize()
                         ) {
                             if (data.value.isEmpty()) {

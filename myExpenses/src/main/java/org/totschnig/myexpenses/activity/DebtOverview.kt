@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,11 +7,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,7 +33,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
-import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.displayCutoutPaddingLandscape
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -86,9 +81,7 @@ class DebtOverview : DebtActivity() {
                     GroupedDebtList(
                         modifier = Modifier
                             .nestedScroll(nestedScrollInterop)
-                            .conditional(LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                                windowInsetsPadding(WindowInsets.displayCutout)
-                            },
+                            .displayCutoutPaddingLandscape(),
                         debts = grouped,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
@@ -112,9 +105,7 @@ class DebtOverview : DebtActivity() {
                     DebtList(
                         modifier = Modifier
                             .nestedScroll(nestedScrollInterop)
-                            .conditional(LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                                windowInsetsPadding(WindowInsets.displayCutout)
-                            },
+                            .displayCutoutPaddingLandscape(),
                         debts = debts,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
