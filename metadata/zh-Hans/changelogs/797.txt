@@ -1,0 +1,5 @@
+• 改进的 PDF 导出布局，可通过拖放完全自定义。
+• 翻译 : 孟加拉语
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

@@ -1,0 +1,5 @@
+• Подобрен изглед на PDF експорт - може да се преподрежда с drag-and-drop.
+• Превод : бенгалски
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913
