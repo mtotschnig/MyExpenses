@@ -1,0 +1,5 @@
+• Mise en page améliorée de l’exportation PDF, entièrement personnalisable par glisser-déposer.
+• Traduction : bengali
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

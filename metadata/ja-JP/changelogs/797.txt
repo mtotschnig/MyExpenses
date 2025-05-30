@@ -1,0 +1,5 @@
+• PDFエクスポートレイアウトが改善され、ドラッグアンドドロップで完全にカスタマイズできます。
+• 翻訳 : ベンガル語
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

@@ -1,0 +1,5 @@
+• Ulepszony układ eksportu PDF, w pełni konfigurowalny za pomocą funkcji „przeciągnij i upuść”.
+• Tłumaczenie : bengalski
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

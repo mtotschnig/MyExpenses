@@ -1,0 +1,5 @@
+• Továbbfejlesztett PDF-exportálási elrendezés, teljesen testreszabható fogással és vidddal.
+• Fordítás : bangla
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913
