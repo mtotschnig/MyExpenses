@@ -862,10 +862,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         floatingActionButton = binding.fab.CREATECOMMAND
         updateFab()
         setupFabSubMenu()
-        //Tell navigation view that it does not need to take any insets into account
+
         ViewCompat.setOnApplyWindowInsetsListener(
             binding.accountPanel.root.getChildAt(0)
         ) { v, insets ->
+            //make account list aware of bottom inset
+            ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.accountList), insets)
+            //Tell navigation view that it does not need to take any insets into account
             ViewCompat.dispatchApplyWindowInsets(
                 v.findViewById(R.id.expansionContent),
                 WindowInsetsCompat.CONSUMED

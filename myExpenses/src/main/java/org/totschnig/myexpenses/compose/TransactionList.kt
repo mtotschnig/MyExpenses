@@ -221,6 +221,7 @@ fun TransactionList(
                 state = listState,
                 fastScroll = true,
                 itemsAvailable = lazyPagingItems.itemCount,
+                contentPadding = WindowInsets.navigationBars.asPaddingValues(),
                 groupCount = (headerData as? HeaderData)?.groups?.size ?: 0
             ) {
 

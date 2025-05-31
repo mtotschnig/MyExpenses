@@ -52,6 +52,7 @@ import androidx.core.graphics.Insets
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -441,7 +442,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         else 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (uiConfigIsSafe && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (uiConfigIsSafe) {
             enableEdgeToEdge()
         }
         with(injector) {
@@ -1608,7 +1609,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     //We centrally deal with all window insets that should be consumed at the window root level
     //Only the bottom inset should be passed down to enable lists to scroll edge to edge
     private fun handleRootWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById<View>(android.R.id.content)) { v, receivedInsets ->
+        val rootView = findViewById<View>(android.R.id.content)
+        ViewGroupCompat.installCompatInsetsDispatch(rootView)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, receivedInsets ->
             // 1. Get the specific insets
             val imeInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.ime())
             val displayCutoutInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
