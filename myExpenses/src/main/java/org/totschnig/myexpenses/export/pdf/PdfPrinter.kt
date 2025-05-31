@@ -127,9 +127,11 @@ object PdfPrinter {
         val baseFontSize = prefHandler.getFloat(PrefKey.PRINT_FONT_SIZE, 12f)
         val marginTop = (paperFormat.height * prefHandler.getFloat(PrefKey.PRINT_MARGIN_TOP, 0.04f))
             .coerceAtLeast(if (hasHeader) baseFontSize * 2 else 0f)
-        val marginRight = paperFormat.width * prefHandler.getFloat(PrefKey.PRINT_MARGIN_RIGHT, 0.06f)
-        val marginBottom = (paperFormat.height * prefHandler.getFloat(PrefKey.PRINT_MARGIN_BOTTOM, 0.04f))
-            .coerceAtLeast(if (hasFooter) baseFontSize * 2 else 0f)
+        val marginRight =
+            paperFormat.width * prefHandler.getFloat(PrefKey.PRINT_MARGIN_RIGHT, 0.06f)
+        val marginBottom =
+            (paperFormat.height * prefHandler.getFloat(PrefKey.PRINT_MARGIN_BOTTOM, 0.04f))
+                .coerceAtLeast(if (hasFooter) baseFontSize * 2 else 0f)
         val marginLeft = paperFormat.width * prefHandler.getFloat(PrefKey.PRINT_MARGIN_LEFT, 0.06f)
         Timber.d("Margin: $marginLeft, $marginTop, $marginRight, $marginBottom")
         return Document(paperFormat, marginLeft, marginRight, marginTop, marginBottom)
@@ -207,32 +209,35 @@ object PdfPrinter {
                         prefHandler.getString(content)
                             ?.takeIf { it.isNotEmpty() }
                             ?.let {
-                            val text = it
-                                .replace("{generator}", context.getString(R.string.app_name))
-                                .replace("{page}", document.pageNumber.toString())
-                                .replace(
-                                    "{date}", LocalDate.now().format(
-                                        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                                val text = it
+                                    .replace("{generator}", context.getString(R.string.app_name))
+                                    .replace("{page}", document.pageNumber.toString())
+                                    .replace(
+                                        "{date}", LocalDate.now().format(
+                                            DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                                        )
                                     )
+                                val x = when (horizontalPosition) {
+                                    LEFT -> document.left()
+                                    CENTER -> (document.right() - document.left()) / 2 + document.leftMargin()
+                                    RIGHT -> document.right()
+                                }
+                                val y = when (verticalPosition) {
+                                    TOP -> document.top() + minOf(baseFontSize, 10f)
+                                    BOTTOM -> document.bottom() - baseFontSize - minOf(
+                                        baseFontSize,
+                                        10f
+                                    )
+                                }
+                                val alignment = when (horizontalPosition) {
+                                    LEFT -> Element.ALIGN_LEFT
+                                    CENTER -> Element.ALIGN_CENTER
+                                    RIGHT -> Element.ALIGN_RIGHT
+                                }
+                                ColumnText.showTextAligned(
+                                    cb, alignment, helper.print(text, FontType.NORMAL), x, y, 0F
                                 )
-                            val x = when (horizontalPosition) {
-                                LEFT -> document.left()
-                                CENTER -> (document.right() - document.left()) / 2 + document.leftMargin()
-                                RIGHT -> document.right()
                             }
-                            val y = when (verticalPosition) {
-                                TOP -> document.top() + minOf(baseFontSize, 10f)
-                                BOTTOM -> document.bottom() - baseFontSize - minOf(baseFontSize, 10f)
-                            }
-                            val alignment = when (horizontalPosition) {
-                                LEFT -> Element.ALIGN_LEFT
-                                CENTER -> Element.ALIGN_CENTER
-                                RIGHT -> Element.ALIGN_RIGHT
-                            }
-                            ColumnText.showTextAligned(
-                                cb, alignment, helper.print(text, FontType.NORMAL), x, y, 0F
-                            )
-                        }
                     }
                     print(cb, PrefKey.PRINT_HEADER_LEFT, LEFT, TOP)
                     print(cb, PrefKey.PRINT_HEADER_CENTER, CENTER, TOP)
@@ -428,11 +433,15 @@ object PdfPrinter {
                 cell.horizontalAlignment = Element.ALIGN_RIGHT
                 groupSummary.addCell(
                     helper.printToCell(
-                        "Start: ${
-                            currencyFormatter.formatMoney(
-                                headerRow.previousBalance
+                        buildString {
+                            append(context.getString(R.string.at_start))
+                            append(": ")
+                            append(
+                                currencyFormatter.formatMoney(
+                                    headerRow.previousBalance
+                                )
                             )
-                        }"
+                        }
                     )
                 )
                 groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
@@ -440,11 +449,15 @@ object PdfPrinter {
                 })
                 groupSummary.addCell(
                     helper.printToCell(
-                        "End: ${
-                            currencyFormatter.formatMoney(
-                                interimBalance
+                        buildString {
+                            append(context.getString(R.string.at_end))
+                            append(": ")
+                            append(
+                                currencyFormatter.formatMoney(
+                                    interimBalance
+                                )
                             )
-                        }"
+                        }
                     ).apply {
                         horizontalAlignment = Element.ALIGN_RIGHT
                     })
@@ -453,31 +466,51 @@ object PdfPrinter {
                         Phrase().apply {
                             addAll(
                                 helper.print0(
-                                    "${context.getString(R.string.sum_income)}: + ${
-                                        currencyFormatter.formatMoney(
-                                            sumIncome
+                                    buildString {
+                                        append(context.getString(R.string.sum_income))
+                                        append(": + ")
+                                        append(
+                                            currencyFormatter.formatMoney(
+                                                sumIncome
+                                            )
                                         )
-                                    }", FontType.INCOME
+                                    }, FontType.INCOME
                                 )
                             )
                             add(" | ")
                             addAll(
                                 helper.print0(
-                                    "${context.getString(R.string.sum_expenses)}: + ${
-                                        currencyFormatter.formatMoney(
-                                            sumExpense
+                                    buildString {
+                                        append(context.getString(R.string.sum_expenses))
+                                        append(": - ")
+                                        append(
+                                            currencyFormatter.formatMoney(
+                                                sumExpense.absolute()
+                                            )
                                         )
-                                    }", FontType.EXPENSE
+                                    }, FontType.EXPENSE
                                 )
                             )
                             add(" | ")
                             addAll(
                                 helper.print0(
-                                    "${context.getString(R.string.sum_transfer)}: + ${
-                                        currencyFormatter.formatMoney(
-                                            sumTransfer
+                                    buildString {
+                                        append(context.getString(R.string.sum_transfer))
+                                        append(": ")
+                                        append(
+                                            when (sumTransfer.amountMinor.sign) {
+                                                1 -> "+ "
+                                                -1 -> "- "
+                                                else -> ""
+                                            }
                                         )
-                                    }", FontType.TRANSFER
+                                        append(
+                                            currencyFormatter.formatMoney(
+                                                sumTransfer.absolute()
+                                            )
+                                        )
+                                    },
+                                    FontType.TRANSFER
                                 )
                             )
                         }).apply {

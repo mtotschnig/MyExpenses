@@ -162,4 +162,6 @@
     <string name="right">"Rechts"</string>
     <string name="margins">"Marges"</string>
     <string name="menu_restore">"Standaardinstellingen herstellen"</string>
+    <string name="at_start">Begin</string>
+    <string name="at_end">Einde</string>
 </resources>

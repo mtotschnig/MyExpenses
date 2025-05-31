@@ -165,4 +165,6 @@
     <string name="right">"Rechts"</string>
     <string name="margins">"Seitenränder"</string>
     <string name="menu_restore">"Auf Standard zurücksetzen"</string>
+    <string name="at_start">Beginn</string>
+    <string name="at_end">Ende</string>
 </resources>

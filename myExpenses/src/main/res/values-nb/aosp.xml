@@ -100,4 +100,6 @@
     <string name="right">"Høyre"</string>
     <string name="margins">"Marger"</string>
     <string name="menu_restore">"Tilbakestill til standardvalg"</string>
+    <string name="at_start">Start</string>
+    <string name="at_end">Slutt</string>
 </resources>

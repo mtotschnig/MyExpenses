@@ -168,4 +168,6 @@
     <string name="right">"Z prawej"</string>
     <string name="margins">"Marginesy"</string>
     <string name="menu_restore">"Resetuj ustawienia"</string>
+    <string name="at_start">Początek</string>
+    <string name="at_end">Koniec</string>
 </resources>

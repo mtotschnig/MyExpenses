@@ -100,4 +100,6 @@
     <string name="right">"Vpravo"</string>
     <string name="margins">"Okraje"</string>
     <string name="menu_restore">"Resetovať na predvolené"</string>
+    <string name="at_start">Začiatok</string>
+    <string name="at_end">Koniec</string>
 </resources>

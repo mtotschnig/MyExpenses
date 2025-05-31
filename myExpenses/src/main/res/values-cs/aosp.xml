@@ -168,4 +168,6 @@
     <string name="right">"Vpravo"</string>
     <string name="margins">"Okraje"</string>
     <string name="menu_restore">"Obnovit výchozí"</string>
+    <string name="at_start">Začátek</string>
+    <string name="at_end">Konec</string>
 </resources>

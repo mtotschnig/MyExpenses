@@ -90,4 +90,6 @@
     <string name="right">"მარჯვნივ"</string>
     <string name="margins">"კიდეები"</string>
     <string name="menu_restore">"საწყის პარამეტრებზე ჩამოყრა"</string>
+    <string name="at_start">დაწყება</string>
+    <string name="at_end">დასრულება</string>
 </resources>

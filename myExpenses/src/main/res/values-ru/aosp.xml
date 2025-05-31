@@ -167,4 +167,6 @@
     <string name="right">"По правому краю"</string>
     <string name="margins">"Поля"</string>
     <string name="menu_restore">"Сбросить настройки"</string>
+    <string name="at_start">Начало</string>
+    <string name="at_end">Sfârșit</string>
 </resources>

@@ -152,4 +152,6 @@
     <string name="right">"Dreapta"</string>
     <string name="margins">"Margini"</string>
     <string name="menu_restore">"Resetează la valorile prestabilite"</string>
+    <string name="at_start">Început</string>
+    <string name="at_end">Sfârșit</string>
 </resources>

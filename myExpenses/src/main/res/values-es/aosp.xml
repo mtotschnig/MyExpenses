@@ -166,4 +166,6 @@
     <string name="right">"Derecha"</string>
     <string name="margins">"Márgenes"</string>
     <string name="menu_restore">"Restablecer ajustes"</string>
+    <string name="at_start">Inicio</string>
+    <string name="at_end">Fin</string>
 </resources>
