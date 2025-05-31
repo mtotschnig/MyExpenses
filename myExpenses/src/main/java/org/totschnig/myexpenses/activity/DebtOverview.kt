@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
-import org.totschnig.myexpenses.compose.displayCutoutPaddingLandscape
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -80,8 +79,7 @@ class DebtOverview : DebtActivity() {
                 if (grouped != null)
                     GroupedDebtList(
                         modifier = Modifier
-                            .nestedScroll(nestedScrollInterop)
-                            .displayCutoutPaddingLandscape(),
+                            .nestedScroll(nestedScrollInterop),
                         debts = grouped,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
@@ -104,8 +102,7 @@ class DebtOverview : DebtActivity() {
                 else
                     DebtList(
                         modifier = Modifier
-                            .nestedScroll(nestedScrollInterop)
-                            .displayCutoutPaddingLandscape(),
+                            .nestedScroll(nestedScrollInterop),
                         debts = debts,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)

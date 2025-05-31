@@ -60,7 +60,6 @@ import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
 import org.totschnig.myexpenses.compose.breakPoint
-import org.totschnig.myexpenses.compose.displayCutoutPaddingLandscape
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -183,7 +182,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
                 Box(modifier = Modifier
                     .fillMaxSize()
-                    .displayCutoutPaddingLandscape()
                 ) {
                     if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(

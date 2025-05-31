@@ -24,7 +24,6 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = getTitle(position)
         }.attach()
-        setupWindowInsetsListener(binding.root)
     }
 
     abstract fun getTitle(position: Int): CharSequence

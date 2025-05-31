@@ -77,8 +77,6 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
             configureIcon()
         }
         floatingActionButton = binding.fab.CREATECOMMAND
-
-        setupWindowInsetsListener(binding.root)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

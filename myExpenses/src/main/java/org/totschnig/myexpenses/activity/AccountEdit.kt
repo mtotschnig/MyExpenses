@@ -176,8 +176,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             }
         }
         binding.TagRow.bindListener()
-
-        setupWindowInsetsListener(binding.root)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

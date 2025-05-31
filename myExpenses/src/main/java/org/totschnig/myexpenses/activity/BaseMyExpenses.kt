@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -69,7 +69,6 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
@@ -152,7 +151,6 @@ import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -202,7 +200,6 @@ import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.DisplayProgress
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
@@ -865,38 +862,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         floatingActionButton = binding.fab.CREATECOMMAND
         updateFab()
         setupFabSubMenu()
-
+        //Tell navigation view that it does not need to take any insets into account
         ViewCompat.setOnApplyWindowInsetsListener(
             binding.accountPanel.root.getChildAt(0)
         ) { v, insets ->
-            val innerPadding = insets.getInsets(
-                WindowInsetsCompat.Type.statusBars()
-                        or WindowInsetsCompat.Type.displayCutout()
-            )
-            v.updatePadding(
-                top = innerPadding.top
-            )
-            ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.accountList), insets)
             ViewCompat.dispatchApplyWindowInsets(
                 v.findViewById(R.id.expansionContent),
                 WindowInsetsCompat.CONSUMED
             )
             WindowInsetsCompat.CONSUMED
         }
-
-        ViewCompat.setOnApplyWindowInsetsListener(floatingActionButton) { v, windowInsets ->
-            val baseMargin = UiUtils.dp2Px(16f, resources)
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            v.updateLayoutParams<MarginLayoutParams> {
-                leftMargin = baseMargin + insets.left
-                bottomMargin = baseMargin + insets.bottom
-                rightMargin = baseMargin + insets.right
-            }
-            WindowInsetsCompat.CONSUMED
-        }
-
-        setupWindowInsetsListener(binding.root)
-
         binding.drawer?.let { drawer ->
             drawerToggle = object : ActionBarDrawerToggle(
                 this, drawer,
@@ -2051,7 +2026,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         //we limit the width of the balance sheet, if it leaves enough room for the main screen
         val veryLarge = screenWidth >= preferredBalanceSheetWidth * 2
         binding.accountPanel.root.layoutParams.width =
-            if (veryLarge) preferredBalanceSheetWidth else screenWidth
+            if (veryLarge) preferredBalanceSheetWidth else ViewGroup.LayoutParams.MATCH_PARENT
         binding.accountPanel.root.displayedChild = 1
         binding.accountPanel.balanceSheet.setContent {
             AppTheme {

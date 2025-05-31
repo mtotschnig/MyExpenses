@@ -291,7 +291,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        tintFab(color)
+        if(!canUseContentColor) {
+            tintFab(color)
+        }
     }
 
     private val createAccountForTransfer =
@@ -536,8 +538,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 true
             }
         }
-
-        setupWindowInsetsListener(rootBinding.root)
     }
 
     private val pickAttachment: ActivityResultLauncher<Array<String>> =

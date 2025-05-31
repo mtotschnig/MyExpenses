@@ -41,12 +41,6 @@ inline fun <T> Modifier.optional(
 fun Modifier.size(spSize: TextUnit) =
     composed { this.size(with(LocalDensity.current) { spSize.toDp() }) }
 
-fun Modifier.displayCutoutPaddingLandscape() = composed {
-    conditional(LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        windowInsetsPadding(WindowInsets.displayCutout)
-    }
-}
-
 @Preview
 @Composable
 private fun OptionalAbsentTest() {

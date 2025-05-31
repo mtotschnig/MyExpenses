@@ -86,7 +86,6 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
-import org.totschnig.myexpenses.compose.displayCutoutPaddingLandscape
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model2.Bank
@@ -201,7 +200,6 @@ class Banking : ProtectedFragmentActivity() {
                         Box(
                             modifier = Modifier
                                 .padding(paddingValues)
-                                .displayCutoutPaddingLandscape()
                                 .fillMaxSize()
                         ) {
                             if (data.value.isEmpty()) {

@@ -111,7 +111,6 @@ class PrintLayoutConfiguration : EditActivity() {
                 DraggableTableRow()
             }
         }
-        setupWindowInsetsListener(binding.root)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
