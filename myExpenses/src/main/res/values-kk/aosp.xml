@@ -90,4 +90,6 @@
     <string name="right">"Оң жақ"</string>
     <string name="margins">"Шет өрістері"</string>
     <string name="menu_restore">"Әдепкі параметрлеріне қайтару"</string>
+    <string name="at_start">Бастау</string>
+    <string name="at_end">Аяқтау</string>
 </resources>

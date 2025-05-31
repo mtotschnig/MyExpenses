@@ -164,4 +164,6 @@
     <string name="right">"Sağ"</string>
     <string name="margins">"Kenar Boşlukları"</string>
     <string name="menu_restore">"Varsayılana sıfırla"</string>
+    <string name="at_start">Başlangıç</string>
+    <string name="at_end">Bitiş</string>
 </resources>

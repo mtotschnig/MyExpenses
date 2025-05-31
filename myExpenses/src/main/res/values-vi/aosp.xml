@@ -160,4 +160,6 @@
     <string name="right">"Phải"</string>
     <string name="margins">"Lề"</string>
     <string name="menu_restore">"Đặt lại về mặc định"</string>
+    <string name="at_start">Bắt đầu</string>
+    <string name="at_end">Kết thúc</string>
 </resources>

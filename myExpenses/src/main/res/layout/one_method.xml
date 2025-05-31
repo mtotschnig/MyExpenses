@@ -24,7 +24,8 @@
         android:layout_height="wrap_content">
 
         <include
-            android:id="@+id/toolbar" layout="@layout/toolbar_expense_edit" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_expense_edit" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,110 +35,112 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TableLayout
-                android:id="@+id/Table"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/padding_form"
-                android:paddingBottom="@dimen/fab_related_bottom_padding"
-                android:shrinkColumns="1"
-                android:stretchColumns="1">
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_form"
+            android:paddingBottom="@dimen/fab_related_bottom_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
 
-                <TableRow>
+            <TableRow>
 
-                    <TextView
-                        android:id="@+id/LabelLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Label"
-                        android:text="@string/label" />
+                <TextView
+                    android:id="@+id/LabelLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Label"
+                    android:text="@string/label" />
 
-                    <EditText
-                        android:id="@+id/Label"
-                        style="@style/FormField"
+                <EditText
+                    android:id="@+id/Label"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    tools:targetApi="o" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/TypeLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Type"
+                    android:text="@string/type" />
+
+                <Spinner
+                    android:id="@+id/Type"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/method_types" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/IsNumberedLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/IsNumbered"
+                    android:text="@string/numbered" />
+
+                <CheckBox
+                    android:id="@+id/IsNumbered"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/AccountTypesLabel"
+                    style="@style/FormLabel"
+                    android:text="@string/account_types" />
+
+                <androidx.gridlayout.widget.GridLayout
+                    android:id="@+id/AccountTypeGrid"
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    app:columnCount="@integer/account_type_grid_columns" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/IconLabel"
+                    style="@style/FormLabel"
+                    android:text="@string/icon" />
+
+                <LinearLayout
+                    style="@style/FormField"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/Icon"
+                        style="@style/SmallButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
-                        android:inputType="textCapWords"
-                        android:maxLines="1"
-                        tools:targetApi="o" />
-                </TableRow>
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/select" />
 
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/TypeLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/Type"
-                        android:text="@string/type" />
-
-                    <Spinner
-                        android:id="@+id/Type"
-                        style="@style/FormField"
+                    <ImageView
+                        android:id="@+id/ClearIcon"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:entries="@array/method_types" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/IsNumberedLabel"
-                        style="@style/FormLabel"
-                        android:labelFor="@+id/IsNumbered"
-                        android:text="@string/numbered" />
-
-                    <CheckBox
-                        android:id="@+id/IsNumbered"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/AccountTypesLabel"
-                        style="@style/FormLabel"
-                        android:text="@string/account_types" />
-
-                    <androidx.gridlayout.widget.GridLayout
-                        android:id="@+id/AccountTypeGrid"
-                        style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        app:columnCount="@integer/account_type_grid_columns" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/IconLabel"
-                        style="@style/FormLabel"
-                        android:text="@string/icon" />
-
-                    <LinearLayout
-                        style="@style/FormField"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/Icon"
-                            style="@style/SmallButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:text="@string/select" />
-
-                        <ImageView
-                            android:id="@+id/ClearIcon"
-                            style="?actionButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/content_description_remove_icon"
-                            android:focusable="true"
-                            android:visibility="gone"
-                            app:srcCompat="@drawable/ic_menu_delete" />
-                    </LinearLayout>
-                </TableRow>
-            </TableLayout>
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/content_description_remove_icon"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_menu_delete" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include android:id="@+id/fab" layout="@layout/floating_action_button" />
+    <include
+        android:id="@+id/fab"
+        layout="@layout/floating_action_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -129,7 +129,6 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
 import org.totschnig.myexpenses.util.ui.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.Companion.KEY_TYPE_FILTER
@@ -292,15 +291,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        if (canUseContentColor) {
-            tintSystemUi(
-                UiUtils.getColor(
-                    this,
-                    com.google.android.material.R.attr.colorPrimaryContainer
-                )
-            )
-        } else {
-            tintSystemUiAndFab(color)
+        if(!canUseContentColor) {
+            tintFab(color)
         }
     }
 

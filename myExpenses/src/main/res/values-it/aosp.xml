@@ -165,4 +165,6 @@
     <string name="right">"A destra"</string>
     <string name="margins">"Margini"</string>
     <string name="menu_restore">"Ripristina impostazioni predefinite"</string>
+    <string name="at_start">Inizio</string>
+    <string name="at_end">Fine</string>
 </resources>

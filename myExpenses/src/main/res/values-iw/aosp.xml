@@ -157,4 +157,6 @@
     <string name="right">"ימין"</string>
     <string name="margins">"שוליים"</string>
     <string name="menu_restore">"איפוס לברירת המחדל"</string>
+    <string name="at_start">התחלה</string>
+    <string name="at_end">סיום</string>
 </resources>

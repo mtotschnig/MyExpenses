@@ -305,4 +305,7 @@
     <string name="margins">"Margins"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri menu_restore  | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="menu_restore">"Reset to default"</string>
+    <!-- Thunderbird calendar-event-listing-column-start-date calendar-event-listing-column-end-date-->
+    <string name="at_start">Start</string>
+    <string name="at_end">End</string>
 </resources>

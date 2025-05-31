@@ -101,4 +101,6 @@
     <string name="right">"Kanan"</string>
     <string name="margins">"Pias"</string>
     <string name="menu_restore">"Reset ke default"</string>
+    <string name="at_start">Mulai</string>
+    <string name="at_end">Selesai</string>
 </resources>

@@ -1,0 +1,5 @@
+• Улучшен макет экспорта в PDF, теперь его можно полностью настраивать с помощью drag-and-drop.
+• Перевод : бенгальский
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

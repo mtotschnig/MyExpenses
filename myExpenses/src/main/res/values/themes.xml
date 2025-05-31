@@ -15,9 +15,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
-    <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
         <item name="colorPrimaryDark">?colorSurface</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="windowActionModeOverlay">true</item>
@@ -30,8 +28,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="MyTheme" parent="MyThemeBase">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
     <style name="DarkBackground">

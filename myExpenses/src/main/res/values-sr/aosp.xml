@@ -76,4 +76,6 @@
     <string name="right">"Десно"</string>
     <string name="margins">"Маргине"</string>
     <string name="menu_restore">"Ресетуј на подразумевано"</string>
+    <string name="at_start">Почетак</string>
+    <string name="at_end">Крај</string>
 </resources>

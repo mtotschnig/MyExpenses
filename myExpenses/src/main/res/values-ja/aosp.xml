@@ -163,4 +163,6 @@
     <string name="right">"右"</string>
     <string name="margins">"余白"</string>
     <string name="menu_restore">"初期設定にリセット"</string>
+    <string name="at_start">開始日時</string>
+    <string name="at_end">終了日時</string>
 </resources>

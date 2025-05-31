@@ -94,4 +94,6 @@
     <string name="right">"Աջ"</string>
     <string name="margins">"Լուսանցքներ"</string>
     <string name="menu_restore">"Վերականգնել կանխադրվածները"</string>
+    <string name="at_start">Սկսել</string>
+    <string name="at_end">Ավարտ</string>
 </resources>

@@ -1,7 +1,7 @@
 pt-br:
   contrib:
-    feature-list-title: 'Por favor, contribua, fazendo um upgrade do <i>{app_name}</i>
-      e ganhe acesso irrestrito aos seguintes recursos:'
+    feature-list-title: 'Por favor, contribua fazendo um upgrade do <i>{app_name}</i>
+      e ganhe acesso ilimitado aos seguintes recursos:'
     thank_you: "Sua contribuição apoia a continuidade do desenvolvimento do Minhas
       Despesas. Obrigado!\n"
     feature:
@@ -9,45 +9,44 @@ pt-br:
       roadmap_voting: Direito de voto no <b>roteiro de desenvolvimento</b>
       email_support: <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias
         úteis
-      split_template: Número ilimitado de <b>modelos e planos para divisão de transações</b>
-      cloud_sync: '<b>Sincronização na nuvem</b>: os dados podem ser sincronizados
+      split_template: Número ilimitado de <b>modelos e planos para transações divididas</b>
+      cloud_sync: '<b>Sincronização na nuvem</b>: Os dados podem ser sincronizados
         entre vários dispositivos'
-      auto_backup: <b>Backup automático</b> diário com envio opcional para armazenamento
-        em nuvem
-      csv_import: <b>Importação de CSV</b> sofisticada e personalizável (aplicativos
-        de planilha)
+      auto_backup: <b>Backup automático</b> diário com armazenamento em nuvem opcional
+      csv_import: <b>Importação de CSV</b> (aplicativos de planilha) sofisticada e
+        personalizável
       ad_free: <b>Sem anúncios</b>
       print: <b>Imprima</b> a lista de transações em um arquivo PDF
-      split_transaction: '<b>Transação dividida</b>: uma transação única pode ser
+      split_transaction: '<b>Transação dividida</b>: uma única transação pode ser
         dividida em várias partes (categorias e transferências)'
-      distribution: '<b>Gráfico de pizza</b>: visualize a distribuição estatística
+      distribution: '<b>Gráfico de pizza</b>: Visualize a distribuição estatística
         de transações por categoria em diferentes períodos (anos, meses, semanas,
         dias)'
       plans_unlimited: Desbloqueie a habilidade de criar mais de três planos para
         transações recorrentes
       accounts_unlimited: Desbloqueie a habilidade de criar mais de cinco contas
-      budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos
-        por categoria em uma base diária, semanal, mensal ou anual.'
+      budgeting: '<b>Orçamento</b>: Compare seus gastos com os limites definidos por
+        categoria em uma base diária, semanal, mensal ou anual.'
       webui: <b>Interface web do usuário</b>
-      scan_receipt: '<b>Digitalização de recibos</b>: extraia automaticamente a quantia,
-        a data e o beneficiário'
+      scan_receipt: '<b>Escanear recibos</b>: Extraia automaticamente a quantia, a
+        data e o beneficiário'
       banking: Baixe transações de bancos na Alemanha (<b>FinTS</b>)
       category_tree: Profundidade ilimitada de <b>árvore de categorias</b>
     subscription: Assinatura
     one-time-payment: Pagamento único
   features:
     homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida
-      de dados.
-    reconciliation: '<b>Reconciliação</b>: compare facilmente o status da transação
-      com seus extratos bancários.'
+      de dados
+    reconciliation: '<b>Reconciliação</b>: Compare facilmente o status da transação
+      com seus extratos bancários'
     light_theme: <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem
-      ser personalizados.
+      ser personalizados
     password: Os dados podem ser protegidos por <b>senha</b> ou pela <b>tela de bloqueio</b>
-      do dispositivo.
-    export: <b>Exportação</b> para QIF e CSV. <b>Importação</b> do QIF.
-    plans: Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>.
+      do dispositivo
+    export: <b>Exportar</b> para QIF e CSV. <b>Importar</b> de QIF
+    plans: Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>
     manage_accounts: Até cinco contas com <b>transferências</b> (também entre moedas
-      diferentes).
+      diferentes)
   screenshots:
     sync: Sincronize dados criptografados das contas em vários dispositivos por meio
       de serviços de nuvem privada ou pública.
@@ -56,8 +55,8 @@ pt-br:
     split: Divida uma transação em várias categorias
     budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou
       semanais
-    summarize: Some todas as suas contas (tratando, de forma sofisticada, taxas de
-      câmbio por conta e por transação)
+    summarize: Some todas as suas contas (tratamento sofisticado de taxas de câmbio
+      por conta e por transação)
     group: Agrupe suas transações por dia, semana, mês e ano
     export: Imprima em PDF e transfira via QIF e CSV.
   sections:
@@ -70,7 +69,7 @@ pt-br:
     participate: Participe
     premium: Ir para Premium
     features: Recursos
-  imprint: Expediente
+  imprint: Aviso Legal
   menu_title:
     more_information: Mais informações
   hero_sub:
@@ -85,8 +84,8 @@ pt-br:
   privacy_policy_heading: Política de privacidade
   imprint_text: Responsável pelo conteúdo deste site e pelo desenvolvimento, manutenção
     e distribuição do <i> {app_name} </i>
-  all_extended_key_features: Todos os recursos da chave Estendida
-  all_contrib_key_features: Todas os recursos da chave Contrib
+  all_extended_key_features: Todos os recursos da Chave Estendida
+  all_contrib_key_features: Todos os recursos da Chave de Contribuição
   screenshot_titles:
     sync: Sincronização na nuvem
     export: Exportar para PDF, QIF e CSV
@@ -97,9 +96,9 @@ pt-br:
     summarize: Somar todas as suas contas
     group: Agrupar por ano, mês ou semana
   customer_support: Suporte ao cliente
-  professional-key: Chave profissional
-  extended-key: Chave estendida
-  contrib-key: Chave de contribuição
+  professional-key: Chave Profissional
+  extended-key: Chave Estendida
+  contrib-key: Chave de Contribuição
   permissions:
     accounts:
       explanation: Sincronização entre dispositivos por meio de serviços em nuvem.
@@ -107,14 +106,14 @@ pt-br:
     internet:
       explanation_cloud_sync: Sincronização na nuvem
       explanation_key_validation: Validação da chave de licença
-      explanation_crash_reporting: Relatórios de falhas
+      explanation_crash_reporting: Relatórios de erros
       explanation_usage_tracking: Rastreamento anônimo de uso
       label: Internet
     calendar:
       explanation: Os planos para transações futuras e recorrentes são armazenados
-        em uma agenda local especial ou em qualquer outra agenda que você escolher.
-      label: Agenda
-    heading: <i>{app_name}</i> requer as seguintes <u>permissões</u>
+        em um calendário local especial ou em qualquer outro que você escolher.
+      label: Calendário
+    heading: <i>{app_name}</i> requere as seguintes <u>permissões</u>
   store:
     highlight_3: Resuma sua situação financeira por dia, semana, mês ou ano
     highlight_2: Compartilhe seus dados entre vários telefones e tablets via WebDAV
@@ -122,10 +121,10 @@ pt-br:
     highlight_1: Acompanhe suas despesas e receitas, com várias contas, modelos e
       categorias
     full_description_contrib_amazon: 'Vários recursos adicionais são desbloqueados
-      pela compra de uma das chaves de licença, como, por exemplo:'
+      pela compra de uma das chaves de licença, por exemplo:'
     full_description_contrib: 'Os recursos premium são desbloqueados pela compra de
       uma das seguintes chaves de licença:'
     full_description_intro: '{app_name} mantém o controle de suas despesas e de sua
       receita, diretamente no seu smartphone e/ou tablet.'
-    short_description: 'Finanças pessoais: fácil de usar, rico em funcionalidades
-      e código aberto'
+    short_description: 'Gestor financeiro pessoal: fácil de usar, com muitos recursos
+      e de código aberto'

@@ -101,4 +101,6 @@
     <string name="right">"Paremal"</string>
     <string name="margins">"Veerised"</string>
     <string name="menu_restore">"Lähtesta vaikeseadetele"</string>
+    <string name="at_start">Algus</string>
+    <string name="at_end">Lõpp</string>
 </resources>

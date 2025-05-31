@@ -163,4 +163,6 @@
     <string name="right">"Eskuinean"</string>
     <string name="margins">"Marjinak"</string>
     <string name="menu_restore">"Berrezarri balio lehenetsiak"</string>
+    <string name="at_start">Hasiera</string>
+    <string name="at_end">Amaiera</string>
 </resources>

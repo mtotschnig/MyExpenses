@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import org.totschnig.myexpenses.R;
@@ -12,8 +11,6 @@ import org.totschnig.myexpenses.ui.animation.ExpandAnimation;
 import androidx.annotation.Nullable;
 
 public class ExpansionPanel extends LinearLayout {
-  private int contentVisibility;
-  private boolean isMeasured;
   ExpansionHandle headerIndicator;
   View expansionContent;
   @Nullable
@@ -49,25 +46,6 @@ public class ExpansionPanel extends LinearLayout {
     expansionContent = findViewById(R.id.expansionContent);
     headerIndicator = findViewById(R.id.headerIndicator);
     updateIndicator();
-    if (hasNoDefaultTransition()) {
-      expansionContent.getViewTreeObserver().addOnGlobalLayoutListener(
-          new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-              expansionContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-              isMeasured = true;
-              if (contentVisibility == GONE) {
-                final int height = expansionContent.getHeight();
-                final LayoutParams layoutParams = (LayoutParams) expansionContent.getLayoutParams();
-                layoutParams.bottomMargin = -height;
-                expansionContent.setLayoutParams(layoutParams);
-              }
-              expansionContent.setVisibility(contentVisibility);
-              updateIndicator();
-            }
-          });
-    }
     View trigger = expansionTrigger != null ? expansionTrigger : headerIndicator;
     trigger.setOnClickListener(v -> {
       final boolean visible = expansionContent.getVisibility() == VISIBLE;
@@ -89,15 +67,5 @@ public class ExpansionPanel extends LinearLayout {
 
   private void updateIndicator() {
     headerIndicator.setExpanded(expansionContent.getVisibility() == VISIBLE);
-  }
-
-  public void setContentVisibility(int visibility) {
-    this.contentVisibility = visibility;
-    if (isMeasured) {
-      expansionContent.setVisibility(visibility);
-      final LayoutParams layoutParams = (LayoutParams) expansionContent.getLayoutParams();
-      layoutParams.bottomMargin = visibility == VISIBLE ? 0 : -expansionContent.getHeight();
-      expansionContent.setLayoutParams(layoutParams);
-    }
   }
 }

@@ -380,12 +380,12 @@
                         <EditText
                             android:id="@+id/Comment"
                             android:layout_width="0dp"
-                            android:importantForAutofill="no"
-                            android:minHeight="@dimen/accessibility_clickable_minimum"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:inputType="textCapSentences|textMultiLine" />
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:minHeight="@dimen/accessibility_clickable_minimum" />
 
                         <Spinner
                             android:id="@+id/Status"
@@ -416,11 +416,11 @@
                         app:showDivider="middle">
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:contentDescription="@string/menu_add"
                             android:id="@+id/newAttachment"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="?android:attr/selectableItemBackground"
+                            android:contentDescription="@string/menu_add"
                             android:scaleType="center"
                             app:srcCompat="@drawable/ic_menu_add"
                             app:strokeColor="#FF888888"

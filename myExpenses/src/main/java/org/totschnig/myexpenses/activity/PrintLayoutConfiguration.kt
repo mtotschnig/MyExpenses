@@ -110,7 +110,6 @@ class PrintLayoutConfiguration : EditActivity() {
             AppTheme {
                 DraggableTableRow()
             }
-
         }
     }
 

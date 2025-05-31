@@ -129,4 +129,6 @@
     <string name="action_move_bottom">"Alih ke paling bawah"</string>
     <string name="layout">"Reka letak"</string>
     <string name="menu_restore">"Tetapkan semula kepada lalai"</string>
+    <string name="at_start">Mula</string>
+    <string name="at_end">Tamat</string>
 </resources>

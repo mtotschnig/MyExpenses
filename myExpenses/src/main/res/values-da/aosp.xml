@@ -166,4 +166,6 @@
     <string name="right">"Højre"</string>
     <string name="margins">"Margener"</string>
     <string name="menu_restore">"Nulstil til standard"</string>
+    <string name="at_start">Start</string>
+    <string name="at_end">Slut</string>
 </resources>

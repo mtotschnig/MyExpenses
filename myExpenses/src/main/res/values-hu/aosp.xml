@@ -167,4 +167,6 @@
     <string name="right">"Jobbra"</string>
     <string name="margins">"Margók"</string>
     <string name="menu_restore">"Visszaállítás alaphelyzetbe"</string>
+    <string name="at_start">Kezdés</string>
+    <string name="at_end">Befejezés</string>
 </resources>

@@ -155,4 +155,6 @@
     <string name="right">"오른쪽"</string>
     <string name="margins">"페이지 여백"</string>
     <string name="menu_restore">"초기화"</string>
+    <string name="at_start">개시 일자</string>
+    <string name="at_end">종료 일자</string>
 </resources>

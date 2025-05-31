@@ -74,4 +74,6 @@
     <string name="layout">"Tugmalar tartibi"</string>
     <string name="margins">"Maydonlar"</string>
     <string name="menu_restore">"Asliga qaytarish"</string>
+    <string name="at_start">Boshlash</string>
+    <string name="at_end">Tugashi</string>
 </resources>

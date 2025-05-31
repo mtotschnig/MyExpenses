@@ -645,6 +645,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                 } else {
                     accountId = newAccount.id
+                    host.color = newAccount.color
                 }
             }
 

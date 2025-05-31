@@ -110,13 +110,16 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     }
 
     @Throws(DocumentException::class, IOException::class)
-    fun printToCell(phrase: Phrase, border: Int = Rectangle.NO_BORDER): PdfPCell {
-        val cell = PdfPCell(phrase)
+    fun printToCell(
+        phrase: Phrase,
+        border: Int = Rectangle.NO_BORDER,
+        withPadding: Boolean = true,
+    ) = PdfPCell(phrase).apply {
         if (hasAnyRtl(phrase.content)) {
-            cell.runDirection = PdfWriter.RUN_DIRECTION_RTL
+            this.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
-        cell.border = border
-        return cell
+        setPadding(if (withPadding) 5f else 0f)
+        this.border = border
     }
 
     fun List<Chunk>.join() = Phrase().also { phrase ->

@@ -78,7 +78,8 @@ class DebtOverview : DebtActivity() {
                 val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 if (grouped != null)
                     GroupedDebtList(
-                        modifier = Modifier.nestedScroll(nestedScrollInterop),
+                        modifier = Modifier
+                            .nestedScroll(nestedScrollInterop),
                         debts = grouped,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
@@ -100,7 +101,8 @@ class DebtOverview : DebtActivity() {
                     )
                 else
                     DebtList(
-                        modifier = Modifier.nestedScroll(nestedScrollInterop),
+                        modifier = Modifier
+                            .nestedScroll(nestedScrollInterop),
                         debts = debts,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)

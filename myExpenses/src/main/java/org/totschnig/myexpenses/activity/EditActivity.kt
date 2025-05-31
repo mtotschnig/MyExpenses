@@ -28,8 +28,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
-import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.util.transformForUser
 import java.time.LocalDate
 import javax.inject.Inject

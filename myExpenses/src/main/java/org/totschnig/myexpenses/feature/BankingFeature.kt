@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.feature
 
 import android.app.Activity
 import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentManager
@@ -20,6 +21,9 @@ interface BankingFeature {
 
     val bankIconRenderer: @Composable ((Modifier, Bank) -> Unit)?
         get() = null
+
+    @DrawableRes
+    fun bankIcon(bank: Bank): Int? = null
 
     fun syncMenuTitle(context: Context): String = "FinTS"
 

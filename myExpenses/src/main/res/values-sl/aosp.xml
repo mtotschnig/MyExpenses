@@ -69,4 +69,6 @@
     <string name="action_move_bottom">"Premakni na dno"</string>
     <string name="layout">"Postavitev"</string>
     <string name="menu_restore">"Ponastavi na privzeto"</string>
+    <string name="at_start">Začetek</string>
+    <string name="at_end">Konec</string>
 </resources>

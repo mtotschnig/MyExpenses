@@ -13,7 +13,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
@@ -26,12 +25,14 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.webkit.MimeTypeMap
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
@@ -47,10 +48,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.Insets
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -118,7 +124,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
-import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -437,6 +442,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         else 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (uiConfigIsSafe) {
+            enableEdgeToEdge()
+        }
         with(injector) {
             inject(ocrViewModel)
             inject(featureViewModel)
@@ -534,6 +542,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 WindowManager.LayoutParams.FLAG_SECURE
             )
         }
+        handleRootWindowInsets()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -547,6 +556,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             configureFloatingActionButton()
             floatingActionButton.setOnClickListener {
                 onFabClicked()
+            }
+            ViewCompat.setOnApplyWindowInsetsListener(floatingActionButton) { v, windowInsets ->
+                val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
+                val baseMargin = UiUtils.dp2Px(16f, resources)
+                val insets = if (imeVisible) Insets.NONE else windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                v.updateLayoutParams<MarginLayoutParams> {
+                    bottomMargin = baseMargin + insets.bottom
+                }
+                WindowInsetsCompat.CONSUMED
             }
         }
     }
@@ -1386,53 +1404,26 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     } else false
 
     val canUseContentColor: Boolean by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
-                val uiModeFromPref = prefHandler.uiMode(this)
-                if (uiModeFromPref == "default") true else {
-                    val ourUiMode = if (uiModeFromPref == "dark")
-                        UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
-                    val systemUiMode =
-                        applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                    ourUiMode == systemUiMode
-                }
-            }
-        } else false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) uiConfigIsSafe else false
     }
 
-    fun tintSystemUiAndFab(color: Int) {
+    val uiConfigIsSafe: Boolean
+        get() = if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
+            val uiModeFromPref = prefHandler.uiMode(this)
+            if (uiModeFromPref == "default") true else {
+                val ourUiMode = if (uiModeFromPref == "dark")
+                    UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
+                val systemUiMode =
+                    applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                ourUiMode == systemUiMode
+            }
+        }
+
+    fun tintFab(color: Int) {
         //If we use dynamic content based color, we do not need to harmonize the color
         val harmonized =
             if (canUseContentColor) color else MaterialColors.harmonizeWithPrimary(this, color)
-        tintSystemUi(harmonized)
         floatingActionButton.setBackgroundTintList(harmonized)
-    }
-
-    fun tintSystemUi(color: Int) {
-
-        if (shouldTintSystemUi()) {
-            with(window) {
-                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                statusBarColor = color
-                navigationBarColor = color
-            }
-            with(WindowInsetsControllerCompat(window, window.decorView)) {
-                val isBright = isBrightColor(color)
-                isAppearanceLightNavigationBars = isBright
-                isAppearanceLightStatusBars = isBright
-            }
-        }
-    }
-
-    private fun shouldTintSystemUi() = try {
-        //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
-        packageManager.getActivityInfo(componentName, 0).themeResource != R.style.EditDialog ||
-                resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK <
-                Configuration.SCREENLAYOUT_SIZE_LARGE
-    } catch (e: PackageManager.NameNotFoundException) {
-        report(e)
-        false
     }
 
     val withResultCallbackLauncher =
@@ -1612,6 +1603,86 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
             setContentView(root)
+        }
+    }
+
+    //We centrally deal with all window insets that should be consumed at the window root level
+    //Only the bottom inset should be passed down to enable lists to scroll edge to edge
+    private fun handleRootWindowInsets() {
+        val rootView = findViewById<View>(android.R.id.content)
+        ViewGroupCompat.installCompatInsetsDispatch(rootView)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, receivedInsets ->
+            // 1. Get the specific insets
+            val imeInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.ime())
+            val displayCutoutInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            val systemBarsInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // 2. Determine the padding values to apply to this view 'v'
+            val horizontalPaddingToApplyLeft =
+                displayCutoutInsets.left.coerceAtLeast(systemBarsInsets.left)
+            val horizontalPaddingToApplyRight =
+                displayCutoutInsets.right.coerceAtLeast(systemBarsInsets.right)
+
+            val topPaddingToApply = displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
+
+            val bottomPaddingToApply = imeInsets.bottom // Primarily for IME
+
+            // 3. Apply padding to the current view 'v'
+            v.updatePadding(
+                left = horizontalPaddingToApplyLeft,
+                top = topPaddingToApply,
+                right = horizontalPaddingToApplyRight,
+                bottom = bottomPaddingToApply
+            )
+
+            // 4. Construct new WindowInsetsCompat to return, indicating consumption
+            val builder = WindowInsetsCompat.Builder(receivedInsets)
+
+            // --- Consume HORIZONTAL parts of systemBars and displayCutout ---
+            // We set the left and right insets for these types to 0 in what we pass down,
+            // because 'v' has already applied this padding.
+
+            // For System Bars:
+            // Keep original top and bottom system bar insets, but zero out left/right
+            builder.setInsets(
+                WindowInsetsCompat.Type.systemBars(),
+                Insets.of(
+                    0, // Left consumed by 'v'
+                    0,
+                    0, // Right consumed by 'v'
+                    systemBarsInsets.bottom // Bottom system bar inset is still available
+                )
+            )
+
+            // For Display Cutout:
+            // Keep original top and bottom display cutout insets, but zero out left/right
+            builder.setInsets(
+                WindowInsetsCompat.Type.displayCutout(),
+                Insets.of(
+                    0, // Left consumed by 'v'
+                    displayCutoutInsets.top, // Top cutout inset is still available
+                    0, // Right consumed by 'v'
+                    displayCutoutInsets.bottom // Bottom cutout inset is still available
+                )
+            )
+
+            // --- Handle IME consumption (bottom part) ---
+            // If 'v' used the IME bottom inset, then the IME bottom inset should be marked as consumed.
+            builder.setInsets(
+                WindowInsetsCompat.Type.ime(),
+                Insets.of(
+                    imeInsets.left, // IME usually doesn't have horizontal insets, but preserve if they exist
+                    imeInsets.top,
+                    imeInsets.right,
+                    0 // Bottom IME inset consumed by 'v'
+                )
+            )
+
+            // --- Return the modified insets ---
+            // Child views will receive these modified insets, where the horizontal system bars
+            // and display cutout insets (and IME bottom) are now zeroed out,
+            // preventing them from also applying padding for these consumed parts.
+            builder.build()
         }
     }
 

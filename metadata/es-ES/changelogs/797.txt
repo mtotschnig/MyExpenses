@@ -1,0 +1,5 @@
+• Diseño de exportación de PDF mejorado, totalmente personalizable con arrastrar y soltar.
+• Traducción : bengalí
+
+https://github.com/users/mtotschnig/projects/162
+https://mastodon.social/@myexpenses/114561804390868913

@@ -46,9 +46,6 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_ACTION
-import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_SWIPE
-import com.google.android.material.snackbar.Snackbar.Callback.DISMISS_EVENT_TIMEOUT
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
@@ -174,12 +171,18 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             }
                         },
                         text = {
-                            Text(stringResource(R.string.warning_budget_sync_import) + " " + stringResource(R.string.continue_confirmation))
+                            Text(
+                                stringResource(R.string.warning_budget_sync_import) + " " + stringResource(
+                                    R.string.continue_confirmation
+                                )
+                            )
                         }
                     )
                 }
 
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                ) {
                     if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier

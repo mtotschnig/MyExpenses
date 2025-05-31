@@ -165,4 +165,6 @@
     <string name="right">"Δεξιά"</string>
     <string name="margins">"Περιθώρια"</string>
     <string name="menu_restore">"Επαναφορά στις προεπιλογές"</string>
+    <string name="at_start">Έναρξη</string>
+    <string name="at_end">Λήξη</string>
 </resources>

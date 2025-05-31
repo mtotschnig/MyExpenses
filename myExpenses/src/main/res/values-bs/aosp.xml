@@ -79,4 +79,6 @@
     <string name="right">"Desno"</string>
     <string name="margins">"Margine"</string>
     <string name="menu_restore">"Vrati na zadano"</string>
+    <string name="at_start">Početak</string>
+    <string name="at_end">Kraj</string>
 </resources>

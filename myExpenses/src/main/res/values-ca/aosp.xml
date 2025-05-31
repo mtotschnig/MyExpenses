@@ -166,4 +166,6 @@
     <string name="right">"Dreta"</string>
     <string name="margins">"Marges"</string>
     <string name="menu_restore">"Restableix els valors predeterminats"</string>
+    <string name="at_start">Inici</string>
+    <string name="at_end">Fi</string>
 </resources>

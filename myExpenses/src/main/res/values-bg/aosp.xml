@@ -167,4 +167,6 @@
     <string name="right">"Отдясно"</string>
     <string name="margins">"Бели полета"</string>
     <string name="menu_restore">"Възстановяване на стандартни"</string>
+    <string name="at_start">Начало</string>
+    <string name="at_end">Край</string>
 </resources>
