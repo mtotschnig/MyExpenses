@@ -225,4 +225,5 @@
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Inkomsten- en uitgavenbedragen</b> worden berekend op basis van de equivalente bedragen die voor elke transactie zijn opgegeven.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">De <b>beginwaarde</b> is gebaseerd op het tarief dat is ingesteld in de eigenschappen van het account.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">De <b>huidige waarde</b> is gebaseerd op de meest recente wisselkoers voor de valuta van het account.</string>
+    <string name="help_PrintLayoutConfiguration_info">Kolommen kunnen worden vergroot of verkleind door de zwarte rechthoek tussen kolommen te slepen. Met de iconen &lt;img src=add_column_start&gt; en &lt;img src=add_column_end&gt; kun je nieuwe kolommen toevoegen. Velden kunnen worden gesleept en neergezet op een nieuwe positie of in het recyclegebied. Als je een veld op een ander veld neerzet, creëer je een gecombineerd veld; de twee velden worden dan samen op één regel afgedrukt.</string>
 </resources>
