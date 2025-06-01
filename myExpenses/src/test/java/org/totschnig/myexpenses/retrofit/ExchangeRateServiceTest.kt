@@ -42,7 +42,7 @@ class ExchangeRateServiceTest {
     @Test
     fun frankfurterIsAlive() {
         runBlocking {
-            val rate = service.getRate(ExchangeRateApi.Frankfurter, null, date, "EUR", "GBP")
+            val rate = service.getRate(ExchangeRateApi.Frankfurter, null, date, "EUR", "AUD")
             Truth.assertThat(rate.first).isNotNull()
             println(rate.second.toString())
         }
@@ -97,7 +97,26 @@ class ExchangeRateServiceTest {
     @Test
     fun frankfurterTimeSeries() {
         runBlocking {
-            val rates = service.getTimeSeries(ExchangeRateApi.Frankfurter, null, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
+            val (rates, _) = service.getTimeSeries(ExchangeRateApi.Frankfurter, null, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
+            Truth.assertThat(rates).isNotEmpty()
+            println(rates.joinToString())
+        }
+    }
+
+    @Test
+    fun openExchangeRateTimeSeries() {
+        runBlocking {
+            val (rates, exception) = service.getTimeSeries(ExchangeRateApi.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
+            Truth.assertThat(rates).isNotEmpty()
+            Truth.assertThat(exception).isNull()
+            println(rates.joinToString())
+        }
+    }
+
+    @Test
+    fun coinApiTimeSeries() {
+        runBlocking {
+            val (rates, _) = service.getTimeSeries(ExchangeRateApi.CoinApi, BuildConfig.COIN_API_API_KEY, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
             Truth.assertThat(rates).isNotEmpty()
             println(rates.joinToString())
         }

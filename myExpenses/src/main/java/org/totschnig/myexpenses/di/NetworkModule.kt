@@ -29,6 +29,7 @@ import java.net.Proxy
 import java.net.Socket
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.SocketFactory
@@ -97,6 +98,7 @@ open class NetworkModule {
             GsonBuilder()
                 .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter)
                 .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter)
+                .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeAdapter)
                 .create()
 
         @JvmStatic
