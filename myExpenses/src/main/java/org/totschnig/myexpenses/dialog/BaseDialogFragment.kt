@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -58,7 +61,26 @@ abstract class BaseDialogFragment : DialogFragment() {
                 val width = ViewGroup.LayoutParams.MATCH_PARENT
                 val height = ViewGroup.LayoutParams.MATCH_PARENT
                 it.setLayout(width, height)
+                WindowCompat.setDecorFitsSystemWindows(it, false)
             }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val systemBarsAndCutouts = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+
+            v.setPadding(
+                systemBarsAndCutouts.left,
+                systemBarsAndCutouts.top,
+                systemBarsAndCutouts.right,
+                systemBarsAndCutouts.bottom
+            )
+
+            insets
         }
     }
 
@@ -109,7 +131,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     fun showSnackBar(
         message: CharSequence,
         duration: Int = Snackbar.LENGTH_LONG,
-        snackBarAction: SnackbarAction? = null
+        snackBarAction: SnackbarAction? = null,
     ) {
         snackBar = Snackbar.make(snackBarContainer, message, duration).also {
             UiUtils.increaseSnackbarMaxLines(it)

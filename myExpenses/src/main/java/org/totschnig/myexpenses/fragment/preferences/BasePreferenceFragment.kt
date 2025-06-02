@@ -3,13 +3,19 @@ package org.totschnig.myexpenses.fragment.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.recyclerview.widget.RecyclerView
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.activity.PreferenceActivity
@@ -67,6 +73,25 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(preferencesResId, rootKey)
         headerPreference?.title = preferenceScreen.title
+    }
+
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        savedInstanceState: Bundle?,
+    ): RecyclerView {
+        return super.onCreateRecyclerView(inflater, parent, savedInstanceState).apply {
+            clipToPadding = false
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                v.updatePadding(
+                    top = systemBars.top,
+                    bottom = systemBars.bottom
+                )
+                insets
+            }
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

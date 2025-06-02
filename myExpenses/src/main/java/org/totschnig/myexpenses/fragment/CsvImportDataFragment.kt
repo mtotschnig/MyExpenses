@@ -19,6 +19,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
 import androidx.core.widget.TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
 import androidx.fragment.app.Fragment
@@ -138,6 +141,34 @@ class CsvImportDataFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollViewContainer, { v, insets ->
+            val systemBarsAndCutouts = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+
+            v.updatePadding(
+                left = systemBarsAndCutouts.left,
+                right = systemBarsAndCutouts.right
+            )
+
+           insets
+        })
+        ViewCompat.setOnApplyWindowInsetsListener(binding.myRecyclerView, { v, insets ->
+            // Get the insets for system bars (status, navigation) and display cutouts
+            val navigationInsets = insets.getInsets(
+                WindowInsetsCompat.Type.navigationBars()
+            )
+
+            v.updatePadding(
+                bottom = navigationInsets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        })
     }
 
     private fun setData(data: List<CSVRecord>) {

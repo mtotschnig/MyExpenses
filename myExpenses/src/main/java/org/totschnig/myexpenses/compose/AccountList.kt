@@ -14,11 +14,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
@@ -59,7 +56,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
-import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
@@ -101,10 +98,10 @@ fun AccountList(
     if (collapsedGroupIds != null && collapsedAccountIds != null) {
         val grouped: Map<String, List<FullAccount>> =
             accountData.groupBy { getHeaderId(grouping, it) }
-        LazyColumnWithScrollbar(
+        LazyColumnWithScrollbarAndBottomPadding(
             state = listState,
             itemsAvailable = accountData.size + grouped.size,
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+            withFab = false,
             testTag = TEST_TAG_ACCOUNTS,
         ) {
             grouped.forEach { group ->

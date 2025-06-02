@@ -62,6 +62,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.Insets
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
@@ -69,7 +70,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
@@ -856,6 +857,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 toolbar.setNavigationContentDescription(
                     if (newState) R.string.drawer_close else R.string.drawer_open
                 )
+                ViewCompat.requestApplyInsets(binding.mainContent)
             }
         }
 
@@ -863,16 +865,54 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         updateFab()
         setupFabSubMenu()
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-            binding.accountPanel.root.getChildAt(0)
-        ) { v, insets ->
-            //make account list aware of bottom inset
+        ViewCompat.setOnApplyWindowInsetsListener(binding.accountPanel.root) { v, insets ->
+            val isLtr = v.layoutDirection == View.LAYOUT_DIRECTION_LTR
+            val insideDrawer = binding.drawer != null
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = if (isLtr || !insideDrawer)
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left else 0
+                rightMargin = if (!isLtr || !insideDrawer) insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right else 0
+            }
+            //make account list and balance sheet aware of bottom inset
             ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.accountList), insets)
-            //Tell navigation view that it does not need to take any insets into account
-            ViewCompat.dispatchApplyWindowInsets(
-                v.findViewById(R.id.expansionContent),
-                WindowInsetsCompat.CONSUMED
+            ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.balanceSheet), insets)
+            WindowInsetsCompat.CONSUMED
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainContent) { v, insets ->
+            val accountPanelIsVisible = binding.accountPanel.root.isVisible
+            val isLtr = v.layoutDirection == View.LAYOUT_DIRECTION_LTR
+            val originalNavigationBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val originalDisplayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+
+            val systemBarsInsetsForChildren = Insets.of(
+                if (accountPanelIsVisible && isLtr) 0 else originalNavigationBarInsets.left,
+                originalNavigationBarInsets.top,
+                if (accountPanelIsVisible && !isLtr) 0 else originalNavigationBarInsets.right,
+                originalNavigationBarInsets.bottom
             )
+
+            val displayCutoutInsetsForChildren: Insets = Insets.of(
+                if (accountPanelIsVisible && isLtr) 0 else originalDisplayCutoutInsets.left,
+                originalDisplayCutoutInsets.top,
+                if (accountPanelIsVisible && !isLtr) 0 else originalDisplayCutoutInsets.right,
+                originalDisplayCutoutInsets.bottom
+            )
+
+            val insetsForChildren = WindowInsetsCompat.Builder(insets)
+                .setInsets(WindowInsetsCompat.Type.systemBars(), systemBarsInsetsForChildren)
+                .setInsets(
+                    WindowInsetsCompat.Type.displayCutout(),
+                    displayCutoutInsetsForChildren
+                )
+                .build()
+
+            insetsForChildren
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar.root) { v, insets ->
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left
+                rightMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right
+            }
             WindowInsetsCompat.CONSUMED
         }
         binding.drawer?.let { drawer ->
@@ -2026,10 +2066,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         onBackPressedCallback.isEnabled = true
         val screenWidth = resources.displayMetrics.widthPixels
         val preferredBalanceSheetWidth = resources.getDimensionPixelSize(R.dimen.drawerWidth) * 2
-        //we limit the width of the balance sheet, if it leaves enough room for the main screen
         val veryLarge = screenWidth >= preferredBalanceSheetWidth * 2
-        binding.accountPanel.root.layoutParams.width =
-            if (veryLarge) preferredBalanceSheetWidth else ViewGroup.LayoutParams.MATCH_PARENT
+        binding.accountPanel.root.layoutParams.width = when {
+            binding.drawer != null -> screenWidth
+            veryLarge -> preferredBalanceSheetWidth
+            else -> ViewGroup.LayoutParams.MATCH_PARENT
+        }
         binding.accountPanel.root.displayedChild = 1
         binding.accountPanel.balanceSheet.setContent {
             AppTheme {
@@ -2946,6 +2988,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
     }
+
+    override val scrollsHorizontally: Boolean = true
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

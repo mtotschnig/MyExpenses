@@ -38,7 +38,6 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     @Inject
     lateinit var repository: Repository
 
-
     private val csvImportViewModel: CsvImportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

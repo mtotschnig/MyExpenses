@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
@@ -194,7 +197,11 @@ fun BalanceSheetView(
         LazyColumn(
             modifier = Modifier
                 .weight(1f),
-            contentPadding = PaddingValues(horizontal = horizontalPadding)
+            contentPadding = PaddingValues(
+                start = horizontalPadding,
+                end = horizontalPadding,
+                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            )
         ) {
 
             accountTypeChapter(

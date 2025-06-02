@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
-import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -63,9 +63,9 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.transformForUser
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Price
-import org.totschnig.myexpenses.util.transformForUser
 import java.math.BigDecimal
 import java.math.MathContext
 import java.security.SecureRandom
@@ -229,7 +229,11 @@ fun PriceListScreen(
             Spacer(Modifier.width(96.dp))
         }
         HorizontalDivider()
-        LazyColumnWithScrollbar(itemsAvailable = prices.size, fastScroll = true) {
+        LazyColumnWithScrollbarAndBottomPadding(
+            itemsAvailable = prices.size,
+            fastScroll = true,
+            withFab = false
+        ) {
             items(
                 items = prices.entries.toList(),
                 key = { it.key }

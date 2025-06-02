@@ -32,10 +32,14 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -63,6 +67,7 @@ import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
@@ -70,6 +75,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.simpleStickyHeader
@@ -80,6 +86,34 @@ import timber.log.Timber
  */
 private const val SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS = 2_000L
 
+@Composable
+fun LazyColumnWithScrollbarAndBottomPadding(
+    modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
+    fastScroll: Boolean = false,
+    itemsAvailable: Int,
+    groupCount: Int = 0,
+    withFab: Boolean = true,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    testTag: String = TEST_TAG_LIST,
+    content: LazyListScope.() -> Unit,
+) {
+    LazyColumnWithScrollbar(
+        modifier = modifier,
+        state = state,
+        fastScroll = fastScroll,
+        itemsAvailable = itemsAvailable,
+        groupCount = groupCount,
+        contentPadding = PaddingValues(
+            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() +
+                    if (withFab)
+                        dimensionResource(R.dimen.fab_related_bottom_padding) else 0.dp
+        ),
+        verticalArrangement = verticalArrangement,
+        testTag = testTag,
+        content = content
+    )
+}
 
 @Composable
 fun LazyColumnWithScrollbar(
@@ -113,7 +147,7 @@ fun LazyColumnWithScrollbar(
                 state.DraggableScrollbar(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(horizontal = 2.dp)
+                        .padding(WindowInsets.safeContent.asPaddingValues())
                         .align(Alignment.CenterEnd),
                     state = scrollbarState,
                     orientation = Vertical,

@@ -562,7 +562,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 val baseMargin = UiUtils.dp2Px(16f, resources)
                 val insets = if (imeVisible) Insets.NONE else windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
                 v.updateLayoutParams<MarginLayoutParams> {
+                    leftMargin = baseMargin + insets.left
                     bottomMargin = baseMargin + insets.bottom
+                    rightMargin = baseMargin + insets.right
                 }
                 WindowInsetsCompat.CONSUMED
             }
@@ -1606,6 +1608,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    open val scrollsHorizontally: Boolean = false
+
     //We centrally deal with all window insets that should be consumed at the window root level
     //Only the bottom inset should be passed down to enable lists to scroll edge to edge
     private fun handleRootWindowInsets() {
@@ -1618,9 +1622,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             val systemBarsInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             // 2. Determine the padding values to apply to this view 'v'
-            val horizontalPaddingToApplyLeft =
+            val horizontalPaddingToApplyLeft = if (scrollsHorizontally) 0 else
                 displayCutoutInsets.left.coerceAtLeast(systemBarsInsets.left)
-            val horizontalPaddingToApplyRight =
+            val horizontalPaddingToApplyRight = if (scrollsHorizontally) 0 else
                 displayCutoutInsets.right.coerceAtLeast(systemBarsInsets.right)
 
             val topPaddingToApply = displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
@@ -1643,13 +1647,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             // because 'v' has already applied this padding.
 
             // For System Bars:
-            // Keep original top and bottom system bar insets, but zero out left/right
+            // Keep original bottom system bar insets, but zero out left/right
             builder.setInsets(
                 WindowInsetsCompat.Type.systemBars(),
                 Insets.of(
-                    0, // Left consumed by 'v'
+                    if (scrollsHorizontally) systemBarsInsets.left else 0, // Left consumed by 'v'
                     0,
-                    0, // Right consumed by 'v'
+                    if (scrollsHorizontally) systemBarsInsets.right else 0, // Right consumed by 'v'
                     systemBarsInsets.bottom // Bottom system bar inset is still available
                 )
             )
@@ -1659,10 +1663,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             builder.setInsets(
                 WindowInsetsCompat.Type.displayCutout(),
                 Insets.of(
-                    0, // Left consumed by 'v'
-                    displayCutoutInsets.top, // Top cutout inset is still available
-                    0, // Right consumed by 'v'
-                    displayCutoutInsets.bottom // Bottom cutout inset is still available
+                    if (scrollsHorizontally) displayCutoutInsets.left else 0, // Left consumed by 'v'
+                    0,
+                    if (scrollsHorizontally) displayCutoutInsets.right else 0, // Right consumed by 'v'
+                    0
                 )
             )
 

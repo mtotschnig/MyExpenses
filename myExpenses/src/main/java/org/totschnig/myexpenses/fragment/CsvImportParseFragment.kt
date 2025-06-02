@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -37,8 +39,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
-import org.totschnig.myexpenses.util.ui.checkNewAccountLimitation
 import org.totschnig.myexpenses.util.linkInputsWithLabels
+import org.totschnig.myexpenses.util.ui.checkNewAccountLimitation
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
@@ -131,6 +133,24 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(view, { v, insets ->
+            val systemBarsAndCutouts = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+
+            v.setPadding(
+                systemBarsAndCutouts.left,
+                systemBarsAndCutouts.top,
+                systemBarsAndCutouts.right,
+                systemBarsAndCutouts.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        })
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -232,8 +252,10 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                     binding.AccountTable.Account.selectedItemId != 0L)
         }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int,
-                                id: Long) {
+    override fun onItemSelected(
+        parent: AdapterView<*>, view: View?, position: Int,
+        id: Long,
+    ) {
         when (parent.id) {
             R.id.Currency -> {
                 if (viewModel.accountId == 0L) {

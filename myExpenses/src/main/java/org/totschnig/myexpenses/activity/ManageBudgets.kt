@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,7 +56,7 @@ import org.totschnig.myexpenses.compose.ChipGroup
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.LocalColors
-import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.injector
@@ -169,12 +168,11 @@ class ManageBudgets : ProtectedFragmentActivity() {
                 ) {
                     val breakpoint = 400.dp * LocalConfiguration.current.fontScale
                     val narrowScreen = maxWidth < breakpoint
-                    LazyColumnWithScrollbar(
+                    LazyColumnWithScrollbarAndBottomPadding(
                         modifier = Modifier
                             .fillMaxWidth(),
                         itemsAvailable = data.sumOf { it.second.size },
-                        groupCount = data.size,
-                        contentPadding = PaddingValues(bottom = 72.dp)
+                        groupCount = data.size
                     ) {
                         data.forEach { (header, list) ->
                             simpleStickyHeader(header)

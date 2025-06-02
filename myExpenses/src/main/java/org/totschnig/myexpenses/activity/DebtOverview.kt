@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,7 +32,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
-import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
+import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -180,11 +179,11 @@ fun GroupedDebtList(
     onShare: (DisplayDebt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
     onTransactionClick: (Long) -> Unit = {},
 ) {
-    LazyColumnWithScrollbar(
+    LazyColumnWithScrollbarAndBottomPadding(
         modifier = modifier,
         itemsAvailable = debts.map { it.value.size }.sum(),
         groupCount = debts.size,
-        contentPadding = PaddingValues(vertical = 8.dp),
+        withFab = false,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         debts.forEach { item ->
@@ -239,10 +238,10 @@ fun DebtList(
     onShare: (DisplayDebt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
     onTransactionClick: (Long) -> Unit = {},
 ) {
-    LazyColumnWithScrollbar(
+    LazyColumnWithScrollbarAndBottomPadding(
         modifier = modifier,
         itemsAvailable = debts.size,
-        contentPadding = PaddingValues(vertical = 8.dp),
+        withFab = false,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = debts) {

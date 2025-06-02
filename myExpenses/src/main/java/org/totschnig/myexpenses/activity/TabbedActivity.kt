@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
+import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -13,6 +17,8 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
 
     lateinit var mSectionsPagerAdapter: SectionsPagerAdapter
 
+    override val scrollsHorizontally = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWithTabsBinding.inflate(layoutInflater)
@@ -24,6 +30,13 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = getTitle(position)
         }.attach()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appbar) { v, insets ->
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left
+                rightMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right
+            }
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     abstract fun getTitle(position: Int): CharSequence
