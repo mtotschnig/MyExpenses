@@ -26,7 +26,7 @@ class ExchangeRateHandler(
     val exchangeRateService: ExchangeRateService,
     val repository: Repository,
     val prefHandler: PrefHandler,
-    val currencyContext: CurrencyContext
+    val currencyContext: CurrencyContext,
 ) {
 
     /**
@@ -40,13 +40,18 @@ class ExchangeRateHandler(
     ): BigDecimal = withContext(Dispatchers.IO) {
         (if (source == null || date != LocalDate.now() || source.limitToOneRequestPerDay)
             repository.loadPrice(base, other, date, source)
-        else null) ?: loadFromNetwork(source ?: bestSource(other.code) , date, other.code, base.code).second
+        else null) ?: loadFromNetwork(
+            source ?: bestSource(other.code),
+            date,
+            other.code,
+            base.code
+        ).second
     }
 
     private fun bestSource(currency: String): ExchangeRateApi {
         val configuredSources = ExchangeRateApi.configuredSources(prefHandler)
-        return preferredSource(currency).takeIf { configuredSources.contains(it) } ?:
-        configuredSources.firstOrNull {
+        return preferredSource(currency).takeIf { configuredSources.contains(it) }
+            ?: configuredSources.firstOrNull {
                 it.isSupported(currency)
             } ?: throw UnsupportedOperationException("No supported source for $currency")
     }
@@ -68,16 +73,43 @@ class ExchangeRateHandler(
             base
         ).let { it.first to BigDecimal.valueOf(it.second) }
             .also {
-                Timber.d("loadFromNetwork: %s", it)
-                repository.savePrice(
-                    currencyContext[base],
-                    currencyContext[other],
-                    it.first,
-                    source,
-                    it.second
-                )
-            }
+            repository.savePrice(
+                currencyContext[base],
+                currencyContext[other],
+                it.first,
+                source,
+                it.second
+            )
+        }
     }
+
+    suspend fun loadTimeSeries(
+        source: ExchangeRateApi,
+        start: LocalDate,
+        end: LocalDate,
+        other: String,
+        base: String,
+    ): Pair<Int, Exception?> = withContext(Dispatchers.IO) {
+        val (list, exception) = exchangeRateService.getTimeSeries(
+            source,
+            (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),
+            start,
+            end,
+            other,
+            base
+        )
+        list.forEach { (date, rate) ->
+            repository.savePrice(
+                currencyContext[base],
+                currencyContext[other],
+                date,
+                source,
+                BigDecimal.valueOf(rate),
+            )
+        }
+        list.size to exception
+    }
+
 }
 
 fun Throwable.transformForUser(context: Context, other: String, base: String) = when (this) {

@@ -44,6 +44,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -309,7 +310,7 @@ class Banking : ProtectedFragmentActivity() {
                         )
                     },
                     confirmButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 viewModel.importAccounts(
                                     bankingCredentials.value,
@@ -326,7 +327,7 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     },
                     dismissButton = {
-                        Button(onClick = { dismiss(false) }) {
+                        TextButton(onClick = { dismiss(false) }) {
                             Text(stringResource(id = android.R.string.cancel))
                         }
                     },

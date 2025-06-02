@@ -29,8 +29,8 @@ interface CoinApi {
     suspend fun getHistory(
         @Path("base") base: String,
         @Path("symbol") symbol: String,
-        @Query("time_start") start: LocalDate,
-        @Query("time_end") end: LocalDate,
+        @Query("time_start") start: String,
+        @Query("time_end") end: String,
         @Header("X-CoinAPI-Key") apiKey: String
     ): List<HistoryResult>
 

@@ -8,6 +8,10 @@ import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
 import java.io.IOException
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -260,13 +264,16 @@ class ExchangeRateService(
         throw source.convertError(e)
     }
 
+    /**
+     * Load the value of 1 unit of base currency expressed in symbol for each date in the range
+     */
     suspend fun getTimeSeries(
         source: ExchangeRateApi,
         apiKey: String?,
         start: LocalDate,
         end: LocalDate,
         base: String,
-        symbol: String
+        symbol: String,
     ): Pair<List<Pair<LocalDate, Double>>, Exception?> = try {
         require(start <= end)
         if (!source.isSupported(symbol, base)) {
@@ -300,7 +307,10 @@ class ExchangeRateService(
 
             ExchangeRateApi.CoinApi -> {
                 requireNotNull(apiKey)
-                coinApi.getHistory(base, symbol, start, end, apiKey).map { (date, rate) ->
+                val utcTimeZoneId: ZoneId = ZoneId.of("UTC")
+                val timeStart = "${start}T00:00:00"
+                val timeEnd = "${end}T23:59:59"
+                coinApi.getHistory(base, symbol, timeStart, timeEnd, apiKey).map { (date, rate) ->
                     date.toLocalDate() to rate
                 } to null
             }

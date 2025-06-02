@@ -79,7 +79,7 @@ fun Repository.loadPrice(
     commodity: CurrencyUnit,
     date: LocalDate,
     source: ExchangeRateApi?,
-) = contentResolver.query(
+): BigDecimal? = contentResolver.query(
     TransactionProvider.PRICES_URI,
     arrayOf(KEY_VALUE),
     listOfNotNull(

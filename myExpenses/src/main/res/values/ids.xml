@@ -240,4 +240,5 @@
     <item name="CLEAR_FILTER_COMMAND" type="id" />
     <item name="BALANCE_SHEET_COMMAND" type="id" />
     <item name="DEFAULT_COMMAND" type="id" />
+    <item name="BATCH_DOWNLOAD_COMMAND" type="id" />
 </resources>
