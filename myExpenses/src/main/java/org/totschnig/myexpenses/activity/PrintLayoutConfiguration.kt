@@ -35,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -187,7 +188,7 @@ class PrintLayoutConfiguration : EditActivity() {
                                 .animateContentSize()
                                 .weight(viewModel.columnWidths.getOrNull(columnNumber) ?: 1f)
                                 .border(1.dp, Color.Gray)
-                                .background(Color(0xFFEEEEEE)),
+                                .background(MaterialTheme.colorScheme.secondaryContainer),
                         ) {
 
 
@@ -387,12 +388,13 @@ class PrintLayoutConfiguration : EditActivity() {
                                             else -> false
                                         }
                                     }
-                                    .background(Color.DarkGray)
+                                    .background(MaterialTheme.colorScheme.inverseSurface)
                             )
                         }
                     }
                 }
                 var dragStarted by remember { mutableStateOf(false) }
+                val targeted = MaterialTheme.colorScheme.surfaceContainerHighest
                 var bgColor by remember { mutableStateOf(Color.Transparent) }
                 val target = remember {
                     object : DragAndDropTarget {
@@ -401,7 +403,7 @@ class PrintLayoutConfiguration : EditActivity() {
                         }
 
                         override fun onEntered(event: DragAndDropEvent) {
-                            bgColor = Color.DarkGray.copy(alpha = 0.2f)
+                            bgColor = targeted
                         }
 
                         override fun onExited(event: DragAndDropEvent) {
@@ -488,11 +490,12 @@ class PrintLayoutConfiguration : EditActivity() {
 @Composable
 fun DropTarget(onDropped: (Field) -> Unit, allowDrop: (Field) -> Boolean = { true }) {
 
+    val targeted = MaterialTheme.colorScheme.surface
     var bgColor by remember { mutableStateOf(Color.Transparent) }
     val target = remember {
         object : DragAndDropTarget {
             override fun onEntered(event: DragAndDropEvent) {
-                bgColor = Color.DarkGray.copy(alpha = 0.2f)
+                bgColor = targeted
             }
 
             override fun onExited(event: DragAndDropEvent) {
@@ -537,22 +540,23 @@ fun DraggableItem(
     modifier: Modifier = Modifier,
     onDropped: ((Field) -> Unit)? = null,
 ) {
-
-    var bgColor by remember { mutableStateOf(Color.White) }
+    val targeted = MaterialTheme.colorScheme.surface
+    val normal = MaterialTheme.colorScheme.surfaceContainerHighest
+    var bgColor by remember { mutableStateOf(normal) }
 
     val target = remember {
         object : DragAndDropTarget {
 
             override fun onEntered(event: DragAndDropEvent) {
-                bgColor = Color.DarkGray.copy(alpha = 0.2f)
+                bgColor = targeted
             }
 
             override fun onExited(event: DragAndDropEvent) {
-                bgColor = Color.White
+                bgColor = normal
             }
 
             override fun onDrop(event: DragAndDropEvent): Boolean {
-                bgColor = Color.White
+                bgColor = normal
                 (event.toAndroidDragEvent().localState as? Field)?.let {
                     onDropped?.invoke(it)
                 }
