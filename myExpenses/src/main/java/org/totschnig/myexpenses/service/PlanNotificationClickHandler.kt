@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.instantiateTemplate
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -28,6 +29,9 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var repository: Repository
 
     @Deprecated("Deprecated in Java")
     override fun onCreate() {
@@ -60,7 +64,7 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                 val t =
                     runBlocking {
                         instantiateTemplate(
-                            contentResolver,
+                            repository,
                             exchangeRateHandler,
                             PlanInstanceInfo(templateId, instanceId, date),
                             currencyContext.homeCurrencyUnit

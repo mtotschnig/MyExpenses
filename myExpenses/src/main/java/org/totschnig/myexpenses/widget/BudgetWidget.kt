@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadBud
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadGrouping
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadPeriod
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.savePeriod
-import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadBudgetProgress
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
@@ -39,7 +38,6 @@ import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 import timber.log.Timber
-import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 const val CLICK_ACTION_BACK = "back"
@@ -52,9 +50,6 @@ enum class ProgressState(@IdRes val progressBarId: Int) {
 }
 
 class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
-
-    @Inject
-    lateinit var repository: Repository
 
     override fun onReceive(context: Context, intent: Intent) {
         context.injector.inject(this)

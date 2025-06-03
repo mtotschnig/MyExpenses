@@ -47,7 +47,7 @@ class TemplateWidget : AbstractListWidget(
                 } else {
                     doAsync {
                         instantiateTemplate(
-                            context.contentResolver,
+                            repository,
                             exchangeRateHandler,
                             PlanInstanceInfo(templateId),
                             currencyContext.homeCurrencyUnit

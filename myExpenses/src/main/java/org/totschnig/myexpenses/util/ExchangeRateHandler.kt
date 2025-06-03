@@ -10,6 +10,8 @@ import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
+import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.MissingApiKeyException
@@ -43,16 +45,17 @@ class ExchangeRateHandler(
         else null) ?: loadFromNetwork(source ?: bestSource(other.code) , date, other.code, base.code).second
     }
 
-    private fun bestSource(currency: String): ExchangeRateApi {
-        val configuredSources = ExchangeRateApi.configuredSources(prefHandler)
-        return preferredSource(currency).takeIf { configuredSources.contains(it) } ?:
-        configuredSources.firstOrNull {
-                it.isSupported(currency)
-            } ?: throw UnsupportedOperationException("No supported source for $currency")
-    }
+    private fun bestSource(currency: String) =
+        relevantSources(currency)
+            .firstOrNull { it.isSupported(currency) }
+            ?: throw UnsupportedOperationException("No supported source for $currency")
 
-    //TODO: the source selected on the Price History could be considered preferred
-    private fun preferredSource(currency: String): ExchangeRateApi? = null
+    fun relevantSources(commodity: String) = prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")
+        ?.takeIf { it != SERVICE_DEACTIVATED }
+        ?.let { listOf(ExchangeRateApi.getByName(it)) }
+        ?: ExchangeRateApi.configuredSources(prefHandler).filter {
+            it.isSupported(currencyContext.homeCurrencyString, commodity)
+        }
 
     suspend fun loadFromNetwork(
         source: ExchangeRateApi,

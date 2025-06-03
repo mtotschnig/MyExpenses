@@ -1,11 +1,16 @@
 package org.totschnig.myexpenses.model
 
 import android.content.ContentResolver
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
+import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
+import kotlin.math.roundToLong
 
 fun planCount(contentResolver: ContentResolver): Int = contentResolver.query(
     Template.CONTENT_URI,
@@ -18,18 +23,18 @@ fun planCount(contentResolver: ContentResolver): Int = contentResolver.query(
 } ?: 0
 
 suspend fun instantiateTemplate(
-    contentResolver: ContentResolver,
+    repository: Repository,
     exchangeRateHandler: ExchangeRateHandler,
     planInstanceInfo: PlanInstanceInfo,
     homeCurrencyUnit: CurrencyUnit,
     ifOpen: Boolean = false
     ) = (if (ifOpen)
     Transaction.getInstanceFromTemplateIfOpen(
-        contentResolver,
+        repository.contentResolver,
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
     ) else
-    Transaction.getInstanceFromTemplateWithTags(contentResolver, planInstanceInfo.templateId))?.let {
+    Transaction.getInstanceFromTemplateWithTags(repository.contentResolver, planInstanceInfo.templateId))?.let {
         val (t, tagList, dynamic) = it
         if (planInstanceInfo.date != null) {
             val date = planInstanceInfo.date / 1000
@@ -39,15 +44,26 @@ suspend fun instantiateTemplate(
         }
         t.status = STATUS_NONE
         if (dynamic) {
-            val rate = exchangeRateHandler.loadExchangeRate(
-                t.amount.currencyUnit,
-                homeCurrencyUnit,
-                epoch2LocalDate(t.date)
-            )
-            t.equivalentAmount = Money(homeCurrencyUnit, t.amount.amountMajor.multiply(rate))
+            try {
+                val rate = exchangeRateHandler.loadExchangeRate(
+                    t.amount.currencyUnit,
+                    homeCurrencyUnit,
+                    epoch2LocalDate(t.date)
+                )
+                t.equivalentAmount = Money(homeCurrencyUnit, t.amount.amountMajor.multiply(rate))
+            } catch (e: Exception) {
+                repository.loadAccount(t.accountId)?.exchangeRate?.also {
+                    t.equivalentAmount = Money(homeCurrencyUnit, (t.amount.amountMinor * it).roundToLong())
+                } ?: run {
+                    CrashHandler.report(
+                        Exception("Could not apply exchange rate to transaction", e)
+                    )
+                }
+            }
+
         }
-        if (t.save(contentResolver, true) != null) {
-            t.saveTags(contentResolver, tagList)
+        if (t.save(repository.contentResolver, true) != null) {
+            t.saveTags(repository.contentResolver, tagList)
             t
         } else null
     }

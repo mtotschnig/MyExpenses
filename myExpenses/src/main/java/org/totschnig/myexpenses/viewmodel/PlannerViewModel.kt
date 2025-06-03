@@ -197,7 +197,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             withContext(Dispatchers.Default) {
                 selectedInstances.forEach { planInstance ->
                     instantiateTemplate(
-                        contentResolver,
+                        repository,
                         exchangeRateHandler,
                         PlanInstanceInfo(
                             planInstance.templateId,

@@ -79,7 +79,7 @@ class TemplatesListViewModel(application: Application) :
         liveData(context = coroutineContext()) {
             emit(plans.map { plan ->
                 instantiateTemplate(
-                    contentResolver,
+                    repository,
                     exchangeRateHandler,
                     plan,
                     currencyContext.homeCurrencyUnit

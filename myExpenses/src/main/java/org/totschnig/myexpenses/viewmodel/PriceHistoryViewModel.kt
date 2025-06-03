@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.totschnig.myexpenses.db2.deletePrice
 import org.totschnig.myexpenses.db2.savePrice
-import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
-import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
@@ -61,16 +59,11 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         get() = currencyContext.homeCurrencyString
 
     val relevantSources: List<ExchangeRateApi> by lazy {
-        prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")
-            ?.takeIf { it != SERVICE_DEACTIVATED }
-            ?.let { listOf(ExchangeRateApi.getByName(it)) }
-            ?: ExchangeRateApi.configuredSources(prefHandler).filter {
-                it.isSupported(homeCurrency, commodity)
-            }.also {
-                if (it.size > 1) {
-                    userSelectedSource = it[0]
-                }
+        exchangeRateHandler.relevantSources(commodity).also {
+            if (it.size > 1) {
+                userSelectedSource = it[0]
             }
+        }
     }
 
     var userSelectedSource: ExchangeRateApi? = null
@@ -133,7 +126,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     fun deletePrice(price: Price): LiveData<Boolean> =
         liveData(context = coroutineContext()) {
             emit(
-            repository.deletePrice(price.date, price.source, homeCurrency, commodity) == 1
+                repository.deletePrice(price.date, price.source, homeCurrency, commodity) == 1
             )
         }
 

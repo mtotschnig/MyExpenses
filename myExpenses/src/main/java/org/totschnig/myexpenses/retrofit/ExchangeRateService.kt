@@ -118,6 +118,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         val prefKey: PrefKey,
     ) : ExchangeRateApi(id, name, host) {
         fun getApiKey(prefHandler: PrefHandler) = prefHandler.getString(prefKey)
+            ?.takeIf { it.isNotEmpty() }
         fun requireApiKey(prefHandler: PrefHandler): String =
             getApiKey(prefHandler) ?: throw MissingApiKeyException(this)
     }
