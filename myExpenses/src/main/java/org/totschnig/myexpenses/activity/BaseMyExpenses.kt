@@ -867,11 +867,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.accountPanel.root) { v, insets ->
             val isLtr = v.layoutDirection == View.LAYOUT_DIRECTION_LTR
-            val insideDrawer = binding.drawer != null
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = if (isLtr || !insideDrawer)
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left else 0
-                rightMargin = if (!isLtr || !insideDrawer) insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right else 0
+                val left =
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left
+                val right =
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right
+                leftMargin = when {
+                    isLtr -> left
+                    else -> 0
+                }
+                rightMargin = when {
+                    !isLtr  -> right
+                    else -> 0
+                }
             }
             //make account list and balance sheet aware of bottom inset
             ViewCompat.dispatchApplyWindowInsets(v.findViewById(R.id.accountList), insets)
@@ -1876,7 +1884,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.SHARE_PDF_COMMAND -> {
                 baseViewModel.share(
-                    this, listOf(ensureContentUri(Uri.parse(tag as String?), this)),
+                    this, listOf(ensureContentUri((tag as String).toUri(), this)),
                     shareTarget,
                     "application/pdf"
                 )
@@ -2011,7 +2019,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
 
-            R.id.OPEN_PDF_COMMAND -> startActionView(Uri.parse(tag as String), "application/pdf")
+            R.id.OPEN_PDF_COMMAND -> startActionView((tag as String).toUri(), "application/pdf")
 
             R.id.SORT_COMMAND -> MenuDialog.build()
                 .menu(this, R.menu.accounts_sort)

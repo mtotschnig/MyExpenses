@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         tools:ignore="UselessParent">
 
-        <!-- The navigation drawer -->
+        <!-- The navigation "drawer" -->
         <include
             android:id="@+id/accountPanel"
             layout="@layout/account_list" />

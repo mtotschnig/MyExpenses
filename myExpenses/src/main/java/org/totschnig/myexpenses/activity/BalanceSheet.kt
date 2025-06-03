@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -89,8 +94,17 @@ fun BalanceSheetView(
 
     val horizontalPadding = dimensionResource(R.dimen.padding_main_screen)
 
-    Column {
+    val paddingValues =
+        WindowInsets.navigationBars
+            .add(WindowInsets.displayCutout)
+            .only(WindowInsetsSides.End)
+            .asPaddingValues()
+    Column(
+        Modifier
+            .padding(paddingValues)
+    ) {
         TopAppBar(
+            windowInsets = WindowInsets(0, 0, 0, 0),
             title = {
                 Text(text = stringResource(R.string.balance_sheet))
             },
