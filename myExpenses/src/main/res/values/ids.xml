@@ -236,7 +236,6 @@
     <item name="FRANKFURTER_ID" type="id" />
     <item name="COIN_API_ID" type="id" />
     <item name="OPENEXCHANGERATES_ID" type="id" />
-    <item name="RECALCULATE_COMMAND" type="id" />
     <item name="CLEAR_FILTER_COMMAND" type="id" />
     <item name="BALANCE_SHEET_COMMAND" type="id" />
     <item name="DEFAULT_COMMAND" type="id" />

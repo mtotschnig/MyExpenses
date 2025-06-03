@@ -39,6 +39,7 @@ fun Repository.savePrice(
     date: LocalDate,
     source: ExchangeRateSource,
     value: Double,
+    updateEquivalentAmount: Boolean = prefHandler.getBoolean(PrefKey.EQUIVALENT_AMOUNTS_AUTOMATIC_UPDATE, true)
 ): Int {
     require(value > 0)
     contentResolver.insert(
@@ -51,7 +52,7 @@ fun Repository.savePrice(
             put(KEY_VALUE, value)
         })
 
-    return if (prefHandler.getBoolean(PrefKey.EQUIVALENT_AMOUNTS_AUTOMATIC_UPDATE, true)) {
+    return if (updateEquivalentAmount) {
         contentResolver.call(
             TransactionProvider.DUAL_URI,
             TransactionProvider.METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE, null,

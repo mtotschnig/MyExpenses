@@ -991,7 +991,6 @@
     <string name="initial_value">Anfangswert</string>
     <string name="current_value">Aktueller Wert</string>
     <string name="total_value">Gesamtwert</string>
-    <string name="recalculate_only_missing">Nur fehlende Werte ergänzen</string>
     <string name="recalculate_equivalent_amounts_warning">Gegenbeträge werden (neu) berechnet, wenn anwendbare gespeicherte Wechselkurse verfügbar sind.</string>
     <string name="enable_automatic_daily_exchange_rate_download">Automatischer täglicher Wechselkurs-Download</string>
     <string name="progress_recalculating">Neuberechnung</string>

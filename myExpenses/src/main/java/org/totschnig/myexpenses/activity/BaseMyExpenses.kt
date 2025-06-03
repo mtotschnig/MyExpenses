@@ -2897,36 +2897,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.UNARCHIVE_COMMAND -> {
                 viewModel.unarchive(args.getLong(KEY_ROWID))
             }
-
-            R.id.RECALCULATE_COMMAND -> {
-                lifecycleScope.launch {
-                    supportFragmentManager.beginTransaction()
-                        .add(
-                            NewProgressDialogFragment.newInstance(
-                                getString(R.string.menu_recalculate)
-                            ),
-                            PROGRESS_TAG
-                        )
-                        .commitNow()
-                    progressViewModel.appendToMessage(
-                        TextUtils.concatResStrings(
-                            this@BaseMyExpenses,
-                            ": ",
-                            R.string.progress_recalculating,
-                            R.string.equivalent_amount_plural
-                        )
-                    )
-                    val updatedTransactions = pricesViewModel.reCalculateEquivalentAmounts(
-                        accountId = args.getLong(KEY_ROWID),
-                        onlyMissing = checked,
-                        withAccountExchangeRates = false
-                    )
-                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }
-                        .toString())
-                    progressViewModel.appendToMessage(getString(R.string.done_label))
-                    progressViewModel.onTaskCompleted(emptyList())
-                }
-            }
         }
     }
 

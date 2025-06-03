@@ -1009,7 +1009,6 @@
     <string name="pref_sync_frequency_summary_0">Defina como 0 para desativar a sincronização automática.</string>
     <string name="content_description_exchange_rate">Taxa de câmbio para 1 %1$s em %2$s</string>
     <string name="filter_dialog_empty">Nenhum critério adicionado ainda. Toque nos botões acima para definir sua consulta e refinar seus resultados.</string>
-    <string name="recalculate_only_missing">Preencha apenas os valores ausentes</string>
     <string name="buy">Comprar</string>
     <string name="pref_scroll_to_current_date_account_open">toda vez que você navega para a conta</string>
     <string name="pref_scroll_to_current_date_title">Rolar a lista de transações para a data atual</string>

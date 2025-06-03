@@ -1054,7 +1054,6 @@
     <string name="equivalent_amount_plural">সমতুল্য পরিমাণ</string>
     <string name="menu_recalculate">পুনরায় গণনা করুন</string>
     <string name="recalculate_equivalent_amounts_warning">সমতুল্য পরিমাণ পুনরায় গণনা করা হবে যদি প্রযোজ্য সেভ করা এক্সচেঞ্জ রেট উপলব্ধ থাকে।</string>
-    <string name="recalculate_only_missing">শুধু অনুপস্থিত মান পূরণ করুন</string>
     <string name="quick_search">কুইক সার্চ</string>
     <string name="complex_search">কমপ্লেক্স সার্চ</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->

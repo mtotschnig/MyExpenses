@@ -9,10 +9,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONLY_MISSING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WITH_ACCOUNT_EXCHANGE_RATES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.useAndMapToList
@@ -63,11 +61,12 @@ class PriceCalculationViewModel(application: Application, val savedStateHandle: 
                             inverseValue
                         )
                         repository.savePrice(
-                            newHomeCurrency,
-                            price.currency,
-                            date,
-                            ExchangeRateSource.Calculation,
-                            inverseValue
+                            base = newHomeCurrency,
+                            commodity = price.currency,
+                            date = date,
+                            source = ExchangeRateSource.Calculation,
+                            value = inverseValue,
+                            updateEquivalentAmount = false
                         )
                         existingPrices.add(price.currency to inverseValue)
                         count++
@@ -86,11 +85,12 @@ class PriceCalculationViewModel(application: Application, val savedStateHandle: 
                                 value
                             )
                             repository.savePrice(
-                                newHomeCurrency,
-                                price.commodity,
-                                date,
-                                ExchangeRateSource.Calculation,
-                                value
+                                base = newHomeCurrency,
+                                commodity = price.commodity,
+                                date = date,
+                                source = ExchangeRateSource.Calculation,
+                                value = value,
+                                updateEquivalentAmount = false
                             )
                             existingPrices.add(price.commodity to value)
                             count++
@@ -104,8 +104,6 @@ class PriceCalculationViewModel(application: Application, val savedStateHandle: 
     suspend fun reCalculateEquivalentAmounts(
         newHomeCurrency: String = currencyContext.homeCurrencyString,
         accountId: Long? = null,
-        onlyMissing: Boolean = true,
-        withAccountExchangeRates: Boolean = true,
     ): Pair<Int, Int> =
         withContext(coroutineContext()) {
             contentResolver.call(
@@ -114,8 +112,6 @@ class PriceCalculationViewModel(application: Application, val savedStateHandle: 
                 Bundle(1).apply {
                     putString(KEY_CURRENCY, newHomeCurrency)
                     accountId?.let { putLong(KEY_ACCOUNTID, it) }
-                    putBoolean(KEY_ONLY_MISSING, onlyMissing)
-                    putBoolean(KEY_WITH_ACCOUNT_EXCHANGE_RATES, withAccountExchangeRates)
                 }
             )!!.getSerializable(TransactionProvider.KEY_RESULT) as Pair<Int, Int>
         }

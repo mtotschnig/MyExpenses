@@ -124,7 +124,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONLY_MISSING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
@@ -168,7 +167,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WITH_ACCOUNT_EXCHANGE_RATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
@@ -2105,13 +2103,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun SupportSQLiteDatabase.recalculateEquivalentAmounts(extras: Bundle): Pair<Int, Int> {
         val currency = extras.getString(KEY_CURRENCY)!!
 
-        val conflictResolution =
-            if (extras.getBoolean(KEY_ONLY_MISSING, true)) "OR IGNORE" else "OR REPLACE"
         val accountId = extras.getLong(KEY_ACCOUNTID).takeIf { it != 0L }
         var accountIdClause = if (accountId != null) "AND $KEY_ACCOUNTID = ?" else ""
 
         val sql1 =
-            """INSERT $conflictResolution INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
+            """INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
           SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC, ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
         val count1 = compileStatement(sql1).use {
@@ -2122,10 +2118,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             it.executeUpdateDelete()
         }
 
-        val count2 = if (extras.getBoolean(KEY_WITH_ACCOUNT_EXCHANGE_RATES, true)) {
+        val count2 = try {
             accountIdClause = if (accountId != null) "AND $KEY_ROWID = ?" else ""
             val sql2 =
-                """INSERT $conflictResolution INTO $TABLE_ACCOUNT_EXCHANGE_RATES ($KEY_ACCOUNTID, $KEY_CURRENCY_SELF, $KEY_CURRENCY_OTHER, $KEY_EXCHANGE_RATE)
+                """INSERT OR REPLACE INTO $TABLE_ACCOUNT_EXCHANGE_RATES ($KEY_ACCOUNTID, $KEY_CURRENCY_SELF, $KEY_CURRENCY_OTHER, $KEY_EXCHANGE_RATE)
             SELECT $KEY_ROWID, $KEY_CURRENCY, ?,
             (
                 SELECT $KEY_VALUE FROM $TABLE_PRICES
@@ -2154,7 +2150,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 }
                 it.executeUpdateDelete()
             }
-        } else 0
+        } catch (_: SQLiteConstraintException) {
+            0
+        }
 
         return count1 to count2
     }

@@ -1054,7 +1054,6 @@
     <string name="equivalent_amount_plural">Equivalent amounts</string>
     <string name="menu_recalculate">Recalculate</string>
     <string name="recalculate_equivalent_amounts_warning">Equivalent amounts will be (re)calculated if applicable stored exchange rates are available.</string>
-    <string name="recalculate_only_missing">Only fill in missing values</string>
     <string name="quick_search">Quick search</string>
     <string name="complex_search">Complex search</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->

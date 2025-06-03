@@ -347,35 +347,6 @@ fun AccountCard(
                         ) {
                             onToggleExcludeFromTotals(account)
                         })
-                        if (account.dynamic) {
-                            add(
-                                MenuEntry(
-                                    label = R.string.menu_recalculate,
-                                    icon = Icons.Default.Calculate,
-                                    command = "RECALCULATE",
-                                    action = {
-                                        if (context is FragmentActivity) {
-                                            ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                                putCharSequence(
-                                                    KEY_MESSAGE,
-                                                    context.getString(R.string.recalculate_equivalent_amounts_warning)
-                                                )
-                                                putInt(KEY_COMMAND_POSITIVE, R.id.RECALCULATE_COMMAND)
-                                                putString(
-                                                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                                                    context.getString(R.string.recalculate_only_missing)
-                                                )
-                                                putBoolean(
-                                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
-                                                    true
-                                                )
-                                                putLong(KEY_ROWID, account.id)
-                                            }).show(context.supportFragmentManager, "RECALCULATE")
-                                        }
-                                    }
-                                )
-                            )
-                        }
                     }
                 }
             )

@@ -1005,7 +1005,6 @@
     <string name="equivalent_amount_plural">Importi equivalenti</string>
     <string name="menu_recalculate">Ricalcolare</string>
     <string name="recalculate_equivalent_amounts_warning">Gli importi equivalenti saranno (ri)calcolati se sono disponibili i tassi di cambio memorizzati.</string>
-    <string name="recalculate_only_missing">Inserire solo i valori mancanti</string>
     <string name="content_description_original_amount">Definire l\'importo originale di questa transazione selezionando una valuta e inserendo l\'importo. È inoltre possibile definire un tasso di cambio che verrà utilizzato per calcolare l\'importo effettivo.</string>
     <string name="content_description_exchange_rate">Tasso di cambio per 1 %1$s in %2$s</string>
     <string name="total_value">Valore totale</string>

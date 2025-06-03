@@ -1041,7 +1041,6 @@
     <string name="content_description_exchange_rate">سعر الصرف لوحدة 1 %1$s مقابل %2$s</string>
     <string name="filter_dialog_empty">لم تتم إضافة معايير حتى الآن. اضغط على الأزرار أعلاه لتحديد استعلامك وتحسين نتائجك.</string>
     <string name="recalculate_equivalent_amounts_warning">سيتم إعادة حساب المبالغ المعادلة إذا كانت أسعار الصرف المخزنة متوفرة.</string>
-    <string name="recalculate_only_missing">املأ القيم المفقودة فقط</string>
     <string name="budget_import_cannot_be_imported">تشير الميزانيات التالية إلى الحسابات غير المتزامنة:</string>
     <string name="budget_import_can_be_imported">يمكن استيراد الميزانيات التالية:</string>
     <string name="account_closed">حساب مغلق</string>

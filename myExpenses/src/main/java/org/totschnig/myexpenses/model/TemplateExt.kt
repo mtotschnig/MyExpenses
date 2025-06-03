@@ -8,7 +8,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
-import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import kotlin.math.roundToLong
 
