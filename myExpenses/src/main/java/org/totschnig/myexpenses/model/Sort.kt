@@ -25,7 +25,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     ALLOCATED(0),
     SPENT(0),
     AVAILABLE(0),
-    PAYEE_NAME(R.id.SORT_PAYEE_NAME_COMMAND, false),
+    PAYEE_NAME(R.id.SORT_PAYEE_NAME_COMMAND),
     DEBT_SUM(R.id.SORT_DEBT_SUM_COMMAND);
 
     private fun toDatabaseColumn(collate: String) = when (this) {
@@ -40,8 +40,9 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
         else -> null
     }
 
-    fun toOrderBy(collate: String) = toDatabaseColumn(collate)?.let {
-        if (isDescending) "$it DESC" else it
+    fun toOrderBy(collate: String, isDescending: Boolean = this.isDescending) =
+        toDatabaseColumn(collate)?.let {
+            if (isDescending) "$it DESC" else it
     }
 
     fun toOrderByWithDefault(defaultSort: Sort, collate: String): String? {

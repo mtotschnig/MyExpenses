@@ -21,6 +21,22 @@
         </menu>
     </item>
     <item
+        android:id="@id/SORT_DIRECTION_MENU"
+        android:icon="@drawable/ic_swap_vert"
+        android:title="@string/sort_direction"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@id/SORT_ASCENDING_COMMAND"
+                    android:title="@string/sort_direction_ascending" />
+                <item
+                    android:id="@id/SORT_DESCENDING_COMMAND"
+                    android:title="@string/sort_direction_descending" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@id/SHOW_ALL_COMMAND"
         android:checkable="true"
         android:title="@string/show_all"

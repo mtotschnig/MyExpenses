@@ -239,4 +239,7 @@
     <item name="CLEAR_FILTER_COMMAND" type="id" />
     <item name="BALANCE_SHEET_COMMAND" type="id" />
     <item name="DEFAULT_COMMAND" type="id" />
+    <item name="SORT_DIRECTION_MENU" type="id" />
+    <item name="SORT_ASCENDING_COMMAND" type="id" />
+    <item name="SORT_DESCENDING_COMMAND" type="id" />
 </resources>

@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.DebtOverViewViewModel
@@ -137,6 +138,9 @@ class DebtOverview : DebtActivity() {
             menu.findItem(R.id.SORT_MENU)?.subMenu
                 ?.findItem(debtViewModel.sortOrder().first().commandId)
                 ?.isChecked = true
+            menu.findItem(R.id.SORT_DIRECTION_MENU)?.subMenu
+                ?.findItem(debtViewModel.sortDirection().first().commandId)
+                ?.isChecked = true
         }
         return true
     }
@@ -158,6 +162,15 @@ class DebtOverview : DebtActivity() {
                             debtViewModel.persistSortOrder(it)
                             invalidateOptionsMenu()
                         }
+                    }
+                }
+                true
+            }
+            R.id.SORT_ASCENDING_COMMAND, R.id.SORT_DESCENDING_COMMAND -> {
+                if (!item.isChecked) {
+                    lifecycleScope.launch {
+                        debtViewModel.persistSortDirection(SortDirection.fromCommandId(item.itemId))
+                        invalidateOptionsMenu()
                     }
                 }
                 true
