@@ -37,7 +37,7 @@ dependencies {
     implementation libs.android.state
     kapt libs.android.state.processor
 
-    implementation(libs.msal) {
+    implementation('com.github.mtotschnig:microsoft-authentication-library-for-android:ee8eeef079') {
         exclude group: 'com.microsoft.device.display'
     }
 
@@ -46,7 +46,7 @@ dependencies {
 
 configurations.configureEach {
     exclude group:"com.google.guava", module:"guava"
-    exclude group:"androidx.credentials", module:"credentials-play-services-auth"
+    //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
 
     resolutionStrategy {
         dependencySubstitution {
