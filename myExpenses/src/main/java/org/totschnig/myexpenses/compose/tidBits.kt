@@ -278,17 +278,19 @@ fun LazyListScope.simpleStickyHeader(content: @Composable (Modifier) -> Unit) {
     stickyHeader(contentType = STICKY_HEADER_CONTENT_TYPE) {
         Surface(
             modifier = Modifier
-                .height(32.dp),
+                .height(emToDp(1.8f).coerceAtLeast(32.dp)),
             tonalElevation = 1.dp
         ) {
-            content(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.padding_main_screen),
-                        vertical = 4.dp
-                    )
-            )
+            Box(contentAlignment = Alignment.Center) {
+                content(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.padding_main_screen),
+                            vertical = 4.dp
+                        )
+                )
+            }
         }
     }
 }
