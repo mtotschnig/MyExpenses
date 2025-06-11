@@ -17,6 +17,10 @@
         <item>Иван Димитров</item>
     </string-array>
 
+    <string-array name="translators_bn">
+        <item>Istiaque</item>
+    </string-array>
+
     <string-array name="translators_ca">
         <item>Paco Rivière</item>
         <item>jpgine</item>
