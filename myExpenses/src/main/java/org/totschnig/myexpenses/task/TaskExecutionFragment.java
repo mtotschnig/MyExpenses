@@ -101,13 +101,6 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceWithBundle(@NonNull Bundle b, int taskId) {
-    TaskExecutionFragment f = new TaskExecutionFragment<>();
-    b.putInt(KEY_TASKID, taskId);
-    f.setArguments(b);
-    return f;
-  }
-
   /**
    * Hold a reference to the parent Activity so we can report the task's current
    * progress and results. The Android framework will pass us a reference to the

@@ -242,4 +242,5 @@
     <item name="SORT_DIRECTION_MENU" type="id" />
     <item name="SORT_ASCENDING_COMMAND" type="id" />
     <item name="SORT_DESCENDING_COMMAND" type="id" />
+    <item name="BATCH_DOWNLOAD_COMMAND" type="id" />
 </resources>

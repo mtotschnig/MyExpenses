@@ -136,20 +136,19 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
                     val apiKey =
                         (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler)
                     val base = currencyContext.homeCurrencyString
-                    val rates = exchangeRateService.getLatest(
+                    val (date,rates) = exchangeRateService.getLatest(
                         source,
                         apiKey,
                         base,
                         symbols
                     )
                     symbols.forEachIndexed { index, currency ->
-                        val (date, rate) = rates[index]
                         repository.savePrice(
                             currencyContext.homeCurrencyUnit,
                             currencyContext[currency],
                             date,
                             source,
-                            BigDecimal.valueOf(rate)
+                            BigDecimal.valueOf(rates[index])
                         )
                     }
                 }.onFailure {

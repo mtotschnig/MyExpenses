@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +47,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -56,6 +60,7 @@ import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.dialog.BatchPriceDownloadDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
@@ -76,6 +81,7 @@ class PriceHistory : ProtectedFragmentActivity() {
 
     val viewModel: PriceHistoryViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
@@ -84,6 +90,7 @@ class PriceHistory : ProtectedFragmentActivity() {
         val commodity = viewModel.commodity
         title = currencyContext[commodity].description
         setupToolbar()
+        observeBatchDownloadResult()
         binding.composeView.setContent {
             AppTheme {
                 PriceListScreen(
@@ -101,12 +108,12 @@ class PriceHistory : ProtectedFragmentActivity() {
                         viewModel.savePrice(date, value).observe(this) {
                             if (it > 0) {
                                 showSnackBar(
-                                TextUtils.concatResStrings(
-                                    this,
-                                    " : ",
-                                    R.string.progress_recalculating,
-                                    R.string.equivalent_amount_plural
-                                ) + " : " + it
+                                    TextUtils.concatResStrings(
+                                        this,
+                                        " : ",
+                                        R.string.progress_recalculating,
+                                        R.string.equivalent_amount_plural
+                                    ) + " : " + it
                                 )
                             }
                         }
@@ -117,12 +124,7 @@ class PriceHistory : ProtectedFragmentActivity() {
                                 val homeCurrencyString = currencyContext.homeCurrencyString
                                 try {
 
-                                    viewModel.loadFromNetwork(
-                                        it,
-                                        date,
-                                        commodity,
-                                        homeCurrencyString
-                                    ).also {
+                                    viewModel.loadFromNetwork(it, date).also {
                                         if (it.first != date) {
                                             showSnackBar(it.first.toString())
                                         }
@@ -160,6 +162,7 @@ class PriceHistory : ProtectedFragmentActivity() {
             setIcon(R.drawable.ic_menu_move)
             setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
         }
+        menu.add(Menu.NONE, R.id.BATCH_DOWNLOAD_COMMAND, 2, R.string.batch_download)
         val relevantSources = viewModel.relevantSources
         if (relevantSources.size > 1) {
             menu.addSubMenu(Menu.NONE, R.id.SELECT_SOURCE_MENU_ID, 1, getString(R.string.source))
@@ -190,16 +193,48 @@ class PriceHistory : ProtectedFragmentActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = super.onOptionsItemSelected(item) ||
-            if (item.itemId == R.id.INVERT_COMMAND) {
-                lifecycleScope.launch {
-                    viewModel.persistInverseRate(!item.isChecked)
-                    invalidateOptionsMenu()
+            when (item.itemId) {
+                R.id.INVERT_COMMAND -> {
+                    lifecycleScope.launch {
+                        viewModel.persistInverseRate(!item.isChecked)
+                        invalidateOptionsMenu()
+                    }
+                    true
                 }
-                true
-            } else ExchangeRateApi.getById(item.itemId)?.also {
-                viewModel.userSelectedSource = it
-                invalidateOptionsMenu()
-            } != null
+
+                R.id.BATCH_DOWNLOAD_COMMAND -> {
+                    viewModel.effectiveSource?.let { source ->
+                        BatchPriceDownloadDialogFragment.newInstance(source.name)
+                            .show(supportFragmentManager, "BATCH_DOWNLOAD")
+                    }
+                    true
+                }
+
+                else -> ExchangeRateApi.getById(item.itemId)?.also {
+                    viewModel.userSelectedSource = it
+                    invalidateOptionsMenu()
+                } != null
+            }
+
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
+                viewModel.messageShown()
+        }
+    }
+
+    private fun observeBatchDownloadResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.batchDownloadResult.collect {
+                    showSnackBar(it, callback = dismissCallback)
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -369,6 +404,7 @@ fun RowScope.TableCell(
 val BigDecimal.reciprocal: BigDecimal
     get() = BigDecimal.ONE.divide(this, MathContext.DECIMAL64)
 
+
 @Preview
 @Composable
 fun HistoricPricesPreview() {
@@ -377,7 +413,14 @@ fun HistoricPricesPreview() {
         buildMap {
             repeat(250) {
                 val date = LocalDate.now().minusDays(it.toLong())
-                put(date, Price(date, ExchangeRateApi.Frankfurter, BigDecimal.valueOf(random.nextDouble())))
+                put(
+                    date,
+                    Price(
+                        date,
+                        ExchangeRateApi.Frankfurter,
+                        BigDecimal.valueOf(random.nextDouble())
+                    )
+                )
             }
         },
         homeCurrency = CurrencyUnit.DebugInstance,

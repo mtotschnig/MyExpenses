@@ -6,9 +6,12 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
-import retrofit2.await
 import java.io.IOException
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -153,57 +156,56 @@ class ExchangeRateService(
     private val coinApi: CoinApi,
 ) {
 
+    /**
+     * Load the values of 1 unit of each symbol expressed in base
+     */
     suspend fun getLatest(
         source: ExchangeRateApi,
         apiKey: String?,
         base: String,
         symbols: List<String>,
-    ): List<Pair<LocalDate, Double>> {
-        return try {
-            val symbolsArg = symbols.joinToString(",")
-            when (source) {
-                ExchangeRateApi.Frankfurter -> {
-                    if (source.isSupported(base, *symbols.toTypedArray())) {
-                        val result = frankfurter.getLatest(symbolsArg, base).await()
-                        symbols.map { symbol ->
-                            result.date to 1.0 / (result.rates[symbol]
-                                ?: throw IOException("Unable to retrieve data for $symbol"))
-                        }
-                    } else {
-                        throw UnsupportedOperationException()
-                    }
-                }
-
-                ExchangeRateApi.CoinApi -> {
-                    requireNotNull(apiKey)
-                    val resultList = coinApi.getAllCurrent(base, symbolsArg, apiKey).await().rates
-                    symbols.map { symbol ->
-                        val result = resultList.find { it.asset_id_quote == symbol }
-                            ?: throw IOException("Unable to retrieve data for $symbol")
-                        //We ignore the time returned as part of the response, since it might relate to a different
-                        //day then the requested one (due to time zone difference)
-                        LocalDate.now() to result.rate
-                    }
-                }
-
-                ExchangeRateApi.OpenExchangeRates -> {
-                    requireNotNull(apiKey)
-                    val result =
-                        openExchangeRates.getLatest("$symbolsArg,$base", apiKey)
-                            .await()
-                    val baseRate =
-                        result.rates[base] ?: throw IOException("Unable to retrieve data")
-                    symbols.map { symbol ->
-                        //We ignore the time returned as part of the response, since it might relate to a different
-                        //day then the requested one (due to time zone difference)
-                        LocalDate.now() to baseRate / (result.rates[symbol]
-                            ?: throw IOException("Unable to retrieve data $symbol"))
-                    }
+    ): Pair<LocalDate, List<Double>> = try {
+        if (!source.isSupported(base, *symbols.toTypedArray())) {
+            throw UnsupportedOperationException()
+        }
+        val symbolsArg = symbols.joinToString(",")
+        when (source) {
+            ExchangeRateApi.Frankfurter -> {
+                val result = frankfurter.getLatest(symbolsArg, base)
+                result.date to symbols.map { symbol ->
+                    1.0 / (result.rates[symbol]
+                        ?: throw IOException("Unable to retrieve data for $symbol"))
                 }
             }
-        } catch (e: HttpException) {
-            throw source.convertError(e)
+
+            ExchangeRateApi.CoinApi -> {
+                requireNotNull(apiKey)
+                val resultList = coinApi.getAllCurrent(base, symbolsArg, apiKey).rates
+                LocalDate.now() to symbols.map { symbol ->
+                    val result = resultList.find { it.asset_id_quote == symbol }
+                        ?: throw IOException("Unable to retrieve data for $symbol")
+                    //We ignore the time returned as part of the response, since it might relate to a different
+                    //day then the requested one (due to time zone difference)
+                    result.rate
+                }
+            }
+
+            ExchangeRateApi.OpenExchangeRates -> {
+                requireNotNull(apiKey)
+                val result =
+                    openExchangeRates.getLatest("$symbolsArg,$base", apiKey)
+                val baseRate =
+                    result.rates[base] ?: throw IOException("Unable to retrieve data")
+                LocalDate.now() to symbols.map { symbol ->
+                    //We ignore the time returned as part of the response, since it might relate to a different
+                    //day then the requested one (due to time zone difference)
+                    baseRate / (result.rates[symbol]
+                        ?: throw IOException("Unable to retrieve data $symbol"))
+                }
+            }
         }
+    } catch (e: HttpException) {
+        throw source.convertError(e)
     }
 
     /**
@@ -213,26 +215,25 @@ class ExchangeRateService(
         source: ExchangeRateApi,
         apiKey: String?,
         date: LocalDate,
-        symbol: String,
         base: String,
+        symbol: String,
     ): Pair<LocalDate, Double> = try {
+        if (!source.isSupported(symbol, base)) {
+            throw UnsupportedOperationException()
+        }
         val today = LocalDate.now()
         when (source) {
             ExchangeRateApi.Frankfurter -> {
-                if (source.isSupported(symbol, base)) {
-                    val result = (if (date < today) {
-                        frankfurter.getHistorical(date, symbol, base)
-                    } else {
-                        frankfurter.getLatest(symbol, base)
-                    }).await()
-                    //Frankfurter only returns values for business days, e.g. when we request a rate for
-                    //Saturday or Sunday, it will return the previous Friday, we want to store the result
-                    //for this actual date, so that user is aware of the nature of the result
-                    result.date to (result.rates[symbol]
-                        ?: throw IOException("Unable to retrieve data for $symbol"))
+                val result = (if (date < today) {
+                    frankfurter.getHistorical(date, symbol, base)
                 } else {
-                    throw UnsupportedOperationException()
-                }
+                    frankfurter.getLatest(symbol, base)
+                })
+                //Frankfurter only returns values for business days, e.g. when we request a rate for
+                //Saturday or Sunday, it will return the previous Friday, we want to store the result
+                //for this actual date, so that user is aware of the nature of the result
+                result.date to (result.rates[symbol]
+                    ?: throw IOException("Unable to retrieve data for $symbol"))
             }
 
             ExchangeRateApi.OpenExchangeRates -> {
@@ -241,7 +242,7 @@ class ExchangeRateService(
                     openExchangeRates.getHistorical(date, "$symbol,$base", apiKey)
                 } else {
                     openExchangeRates.getLatest("$symbol,$base", apiKey)
-                }).await()
+                })
                 val otherRate = result.rates[symbol]
                 val baseRate = result.rates[base]
                 if (otherRate != null && baseRate != null) {
@@ -254,7 +255,7 @@ class ExchangeRateService(
             ExchangeRateApi.CoinApi -> {
                 requireNotNull(apiKey)
                 val call = coinApi.getExchangeRate(base, symbol, date.takeIf { it < today }, apiKey)
-                val result = call.await()
+                val result = call
                 //We ignore the time returned as part of the response, since it might relate to a different
                 //day then the requested one
                 date to result.rate
@@ -263,4 +264,70 @@ class ExchangeRateService(
     } catch (e: HttpException) {
         throw source.convertError(e)
     }
+
+    /**
+     * Load the value of 1 unit of base currency expressed in symbol for each date in the range
+     */
+    suspend fun getTimeSeries(
+        source: ExchangeRateApi,
+        apiKey: String?,
+        start: LocalDate,
+        end: LocalDate,
+        base: String,
+        symbol: String,
+    ): Pair<List<Pair<LocalDate, Double>>, Exception?> = try {
+        require(start <= end)
+        if (!source.isSupported(symbol, base)) {
+            throw UnsupportedOperationException()
+        }
+        when (source) {
+            ExchangeRateApi.Frankfurter -> {
+                val result: Frankfurter.TimeSeriesResult = frankfurter.getTimeSeries(start, end, symbol, base)
+                result.rates.map { (date, rates) ->
+                    date to (rates[symbol]
+                        ?: throw IOException("Unable to retrieve data for $symbol")
+                    )
+                } to null
+            }
+
+            ExchangeRateApi.OpenExchangeRates -> {
+                requireNotNull(apiKey)
+
+                val result = mutableMapOf<LocalDate, Double>()
+                var exception: Exception? = null
+                getDatesBetween(start, end).forEach { date ->
+                    try {
+                        result += getRate(source, apiKey, date, base, symbol)
+                    } catch (e: Exception) {
+                        exception = e
+                        return@forEach
+                    }
+                }
+                result.toList() to exception
+            }
+
+            ExchangeRateApi.CoinApi -> {
+                requireNotNull(apiKey)
+                val utcTimeZoneId: ZoneId = ZoneId.of("UTC")
+                val timeStart = "${start}T00:00:00"
+                val timeEnd = "${end}T23:59:59"
+                coinApi.getHistory(base, symbol, timeStart, timeEnd, apiKey).map { (date, rate) ->
+                    date.toLocalDate() to rate
+                } to null
+            }
+        }
+    } catch (e: HttpException) {
+        throw source.convertError(e)
+    }
+}
+
+// Helper function to get all dates in a range (inclusive)
+fun getDatesBetween(startDate: LocalDate, endDate: LocalDate): List<LocalDate> {
+    val dates = mutableListOf<LocalDate>()
+    var currentDate = startDate
+    while (!currentDate.isAfter(endDate)) {
+        dates.add(currentDate)
+        currentDate = currentDate.plusDays(1)
+    }
+    return dates
 }

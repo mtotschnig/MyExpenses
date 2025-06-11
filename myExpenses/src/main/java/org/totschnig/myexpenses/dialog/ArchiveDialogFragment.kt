@@ -2,18 +2,8 @@ package org.totschnig.myexpenses.dialog
 
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DatePickerDefaults
-import androidx.compose.material3.DateRangePicker
-import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.DateRangePickerState
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,18 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.DateRangePickerScaffold
+import org.totschnig.myexpenses.compose.rememberDefaultDateRangePickerState
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.canBeArchived
@@ -85,10 +70,9 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
 
     @Composable
     override fun BuildContent() {
-        val state = rememberDateRangePickerState()
+        val state = rememberDefaultDateRangePickerState()
 
         var archiveInfo by remember { mutableStateOf<ArchiveInfo?>(null) }
-        var archiving by remember { mutableStateOf(false) }
 
         LaunchedEffect(state) {
             snapshotFlow { state.range }.collect {
@@ -100,74 +84,26 @@ class ArchiveDialogFragment : ComposeBaseDialogFragment2() {
                 }
             }
         }
-        Column {
-            val dateFormatter = remember { DatePickerDefaults.dateFormatter() }
-            DateRangePicker(
-                modifier = Modifier.conditional(state.displayMode == DisplayMode.Picker) {
-                    weight(1f)
-                },
-                state = state,
-                dateFormatter = dateFormatter,
-                title = {
-                    DateRangePickerDefaults.DateRangePickerTitle(
-                        displayMode = state.displayMode,
-                        modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp)
-                    )
-                },
-                headline = {
-                    DateRangePickerDefaults.DateRangePickerHeadline(
-                        selectedStartDateMillis = state.selectedStartDateMillis,
-                        selectedEndDateMillis = state.selectedEndDateMillis,
-                        displayMode = state.displayMode,
-                        dateFormatter,
-                        modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp)
-                    )
+        DateRangePickerScaffold(
+            confirmButtonText = stringResource(R.string.archive),
+            state = state,
+            warning = archiveInfo?.let { info ->
+                when {
+                    info.canArchive -> stringResource(R.string.archive_warning, info.count)
+                    info.hasNested -> stringResource(R.string.warning_nested_archives)
+                    info.count == 0 -> stringResource(R.string.warning_empty_archive)
+                    info.statuses.size > 1 -> stringResource(
+                        R.string.warning_archive_inconsistent_state,
+                        info.statuses.joinToString {
+                            getString(it.toStringRes())
+                        })
+
+                    else -> throw IllegalStateException()
                 }
-            )
-            archiveInfo?.let { info ->
-
-                Text(
-                    text = when {
-                        info.canArchive -> stringResource(R.string.archive_warning, info.count)
-                        info.hasNested -> stringResource(R.string.warning_nested_archives)
-                        info.count == 0 -> stringResource(R.string.warning_empty_archive)
-                        info.statuses.size > 1 -> stringResource(
-                            R.string.warning_archive_inconsistent_state,
-                            info.statuses.joinToString {
-                                getString(it.toStringRes())
-                            })
-
-                        else -> throw IllegalStateException()
-                    },
-                    modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            ButtonRow(modifier = Modifier.padding(horizontal = 24.dp)) {
-                if (archiving) {
-                    CircularProgressIndicator(modifier = Modifier.padding(bottom = 8.dp))
-                } else {
-                    TextButton(onClick = { dismiss() }) {
-                        Text(stringResource(id = android.R.string.cancel))
-                    }
-                    TextButton(
-                        enabled = archiveInfo?.canArchive == true,
-                        onClick = {
-                            lifecycleScope.launch {
-                                archiving = true
-                                withContext(Dispatchers.IO) {
-                                    state.range?.let { repository.archive(accountId, it) }
-                                }
-                                dismiss()
-                            }
-                        }) {
-                        Text(
-                            text = stringResource(id = R.string.action_archive)
-                        )
-                    }
-                }
-            }
+            },
+            enabled = archiveInfo?.canArchive == true
+        ) {
+            repository.archive(accountId, it)
         }
     }
 

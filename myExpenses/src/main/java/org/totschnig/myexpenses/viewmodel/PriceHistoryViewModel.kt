@@ -5,14 +5,20 @@ import androidx.core.os.BundleCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deletePrice
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
@@ -27,13 +33,23 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.Price
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
 
+private const val SHOW_BATCH_DOWNLOAD_KEY = "batchDownload"
+
 class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
+
+    val _batchDownloadResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    val batchDownloadResult: Flow<String> = _batchDownloadResult.asStateFlow().filterNotNull()
+
+    fun messageShown() {
+        _batchDownloadResult.update { null }
+    }
 
     @Inject
     lateinit var exchangeRateHandler: ExchangeRateHandler
@@ -146,8 +162,25 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
 
     suspend fun loadFromNetwork(
         source: ExchangeRateApi,
-        date: LocalDate,
-        other: String,
-        base: String,
-    ) = exchangeRateHandler.loadFromNetwork(source, date, other, base)
+        date: LocalDate
+    ) = exchangeRateHandler.loadFromNetwork(source, date, commodity, currencyContext.homeCurrencyString)
+
+    suspend fun loadTimeSeries(
+        source: ExchangeRateApi,
+        start: LocalDate,
+        end: LocalDate
+    ) {
+        val (count, exception) = exchangeRateHandler.loadTimeSeries(
+            source,
+            start,
+            end,
+            commodity,
+            currencyContext.homeCurrencyString
+        )
+        _batchDownloadResult.update {
+            getString(R.string.batch_download_result, count) + (exception?.let {
+                " " + it.safeMessage
+            } ?: "")
+        }
+    }
 }
