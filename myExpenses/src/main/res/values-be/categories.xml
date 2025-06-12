@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Іншы даход</string>
@@ -168,4 +168,12 @@
     <string name="Sub_21_5">Трамвай</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">Падарожжы</string>
+    <string name="Sub_3_3">Прырост капіталу</string>
+    <string name="Sub_4_5">Чысты заробак</string>
+    <string name="Main_5">Розныя даходы</string>
+    <string name="Sub_6_5">Прадуктовы</string>
+    <string name="Sub_7_2">Розныя прыналежнасці</string>
+    <string name="Sub_9_5">Штрафы</string>
+    <string name="Sub_11_2">Даследаванні</string>
+    <string name="Sub_8_4">Грамадзянская адказнасць</string>
 </resources>
