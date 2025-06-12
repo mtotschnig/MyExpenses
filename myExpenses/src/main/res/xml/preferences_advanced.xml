@@ -86,6 +86,11 @@
             android:key="@string/pref_camera_chooser_key"
             android:title="@string/pick_image_intent_chooser_title"
             />
+        <Preference
+            android:key="@string/pref_help_key"
+            android:title="@string/menu_help"
+            android:summary="https://faq.myexpenses.mobi/data-picture-source"
+            />
 
     </PreferenceCategory>
 
