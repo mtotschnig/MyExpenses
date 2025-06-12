@@ -1045,8 +1045,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         toolbar.subtitle = null
                     }
                 }
-                val pagerState = rememberPagerState { accountData.count() }
+
                 if (accountData.isNotEmpty()) {
+                    val pagerState = rememberPagerState(
+                        accountData.indexOfFirst { viewModel.selectedAccountId == it.id }
+                            .coerceAtLeast(0)
+                    ) { accountData.count() }
                     LaunchedEffect(viewModel.selectedAccountId) {
                         if (pagerState.currentPage != currentPage) {
                             pagerState.scrollToPage(currentPage)
