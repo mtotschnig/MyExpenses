@@ -386,6 +386,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             chart.highlightValue(position.toFloat(), 0)
         } else {
             chart.highlightValue(null)
+            chart.centerText = null
         }
     }
 
@@ -761,11 +762,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 override fun onValueSelected(e: Entry, highlight: Highlight) {
                     val index = highlight.x.toInt()
                     selectionState.value = categories.children.getOrNull(index)
-                    it.setCenterText(index, if (isCombined) innerChart else chart)
+                    it.setCenterText(index)
                 }
 
                 override fun onNothingSelected() {
                     selectionState.value = null
+                    it.centerText = null
                 }
             })
             it.notifyDataSetChanged()
@@ -773,7 +775,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
     }
 
-    private fun PieChart.setCenterText(position: Int, target: PieChart) {
+    private fun PieChart.setCenterText(position: Int) {
         val entry = data.dataSet.getEntryForIndex(position)
         val description = entry.label
         val value = data.dataSet.valueFormatter.getFormattedValue(
@@ -781,7 +783,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             entry, position, null
         )
 
-        target.centerText = """
+        centerText = """
             $description
             $value
             """.trimIndent()
@@ -799,8 +801,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         private const val SWIPE_MIN_DISTANCE = 120
         private const val SWIPE_MAX_OFF_PATH = 250
         private const val SWIPE_THRESHOLD_VELOCITY = 100
-        private const val TEXT_SIZE_SMALL_SP = 14F
-        private const val TEXT_SIZE_MEDIUM_SP = 18F
+        const val TEXT_SIZE_SMALL_SP = 14F
+        const val TEXT_SIZE_MEDIUM_SP = 18F
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
