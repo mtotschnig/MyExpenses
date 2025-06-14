@@ -62,7 +62,7 @@
     <string name="pref_perform_share_title">Падзяліцца экспартаваным файлам і бэкапам</string>
     <string name="progress_dialog_deleting">Выдаліць аб\'екты</string>
     <string name="warning_restore">База дадзеных і налады будуць адноўлены з файла \"%1$s\". Бягучыя дадзеныя будуць выдалены.</string>
-    <string name="calendar_permission_required"><i>{app_name}</i> патрабуе дазволу на доступ да вашага календара, каб ствараць планы для будучых і перыядычных транзакцый.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> патрабуе доступу да вашага календара, каб ствараць планы на будучыя і перыядычныя транзакцыі.</string>
     <string name="content_description_calculator">Калькулятар</string>
     <string name="menu_invert_transfer">Інвертаваць</string>
     <string name="grouping_year">Год</string>
@@ -87,7 +87,7 @@
     <string name="menu_manage_plans">Шаблоны і планы</string>
     <string name="menu_split_transaction">Пераўтварэнне ў падзел</string>
     <string name="split_parts_heading">Раздзеленыя часткі</string>
-    <string name="warning_password_protected">Дадатак абаронены паролем.</string>
+    <string name="warning_password_protected">Прыкладанне абаронена паролем.</string>
     <string name="pref_sync_frequency_summary">Як часта трэба сінхранізаваць дадзеныя (у гадзінах).</string>
     <string name="synchronization_start">Пачынаецца сінхранізацыя ўліковага запісу %s.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Калі сумы не абнаўляюцца, пасля змены яны будуць адлюстроўвацца як памножаныя на %d.</string>
@@ -175,7 +175,7 @@
     <string name="warning_backup">База дадзеных і налады будуць захаваны ў \"%1$s\".</string>
     <string name="warning_delete_reconciled">Выдаленне ўзгодненых транзакцый прывядзе да таго, што вашы запісы будуць адрознівацца ад банкаўскай выпіскі.</string>
     <string name="warning_widget_disabled">Вам трэба ўключыць гэты віджэт у наладах праграмы.</string>
-    <string name="warning_reset_account_all">Калі вы працягнеце, для ўсіх рахункаў %1$s транзакцыі будуць выдалены з базы дадзеных і не могуць быць адноўлены.</string>
+    <string name="warning_reset_account_all">Калі вы працягнеце, транзакцыі для ўсіх рахункаў %1$s будуць выдалены з базы дадзеных і не могуць быць адноўлены.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Калі ласка, усталюйце лік ад %1$d да %2$d</string>
     <string name="warning_change_fraction_digits_1">Сумы ў базе дадзеных неабходна абнавіць, каб яны адпавядалі новай колькасці лічбаў у дробе.</string>
     <string name="warning_change_fraction_digits_3">Калі сумы будуць абноўлены, вы страціце інфармацыю пра іх дробавую частку.</string>
@@ -183,7 +183,7 @@
     <string name="widget_title_accounts">Мае рахункі</string>
     <string name="widget_title_templates">Мае шаблоны</string>
     <string name="search_amount">Пошук па суме</string>
-    <string name="search_comment">Пошук нататак</string>
+    <string name="search_comment">Пошук па нататках</string>
     <string name="search_status">Пошук па статусе</string>
     <string name="search_tag">Пошук па тэгу</string>
     <string name="before">да %s</string>
@@ -228,7 +228,7 @@
         <item quantity="many">%1$d выбраных катэгорый маюць падкатэгорыі, якія таксама будуць выдалены.</item>
         <item quantity="other">%1$d выбраных катэгорый маюць падкатэгорыі, якія таксама будуць выдалены.</item>
     </plurals>
-    <string name="pref_auto_backup_summary">Рэзервовае капіраванне базы штодня ў вызначаны час (толькі калі даныя змяніліся).</string>
+    <string name="pref_auto_backup_summary">Рэзервовае капіраванне базы дадзеных штодня ў пазначаны час (толькі калі дадзеныя змяніліся).</string>
     <string name="progress_dialog_updating_split_parts">Абнаўленне падзеленых частак</string>
     <string name="crash_dialog_comment_prompt">Вы можаце дадаць свае каментарыі аб праблеме ніжэй:</string>
     <string name="paypal_callback_info">Ваша транзакцыя была завершана, і квітанцыя аб вашай пакупцы была адпраўлена вам па электроннай пошце. Вы можаце ўвайсці ў свой уліковы запіс на сайце www.paypal.com, каб праглядзець дэталі гэтай аперацыі.</string>
@@ -276,11 +276,11 @@
     <string name="move_category_failure">Адна катэгорыя не была перамешчаная, паколькі той жа ярлык ужо існуе ў мэтавым аб\'екце.</string>
     <string name="warning_splitpartcategory_context">Пераводы, якія з\'яўляюцца часткай падзелу, можна рэдагаваць толькі ў кантэксце падзелу.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Абнаўленне сум у базе дадзеных</string>
-    <string name="import_accounts_none">Імпартаваных уліковых запісаў няма</string>
+    <string name="import_accounts_none">Імпартаваных рахункаў няма</string>
     <string name="import_parties_none">Групы не імпартаваны</string>
     <string name="import_source_select_error">Калі ласка, прадастаўце файл тыпу %1$s</string>
     <string name="file_name">Імя файла</string>
-    <string name="slash_forbidden_in_filename">сімвал / не дапускаецца ў назвах файлаў</string>
+    <string name="slash_forbidden_in_filename">Сімвал / не дапускаецца ў назвах файлаў</string>
     <string name="io_error_unable_to_create_file">Не атрымалася стварыць файл %1$s у тэчцы %2$s</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d запісы былі адкінуты.</string>
     <string name="csv_import_subcategory_requires_category">Калі вы адлюструеце падкатэгорыю, вы таксама павінны адлюстраваць катэгорыю.</string>
@@ -292,7 +292,7 @@
     <string name="sum_transfer">Пераклады</string>
     <string name="transfer">Пераклад</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Абноўлена %1$d рахункаў з валютай %2$s.</string>
-    <string name="folder_name">Назва папкі</string>
+    <string name="folder_name">Імя тэчкі</string>
     <string name="validate_error_not_empty">Не павінна быць пустым</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">Стан сінхранізацыі быў адноўлены для %d уліковых запісаў.</string>
     <string name="contrib_feature_category_tree_label">Адвольна глыбокая іерархія катэгорый</string>
@@ -350,12 +350,12 @@
     <string name="sum_expenses">Выдаткі</string>
     <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d груп паспяхова імпартавана.</string>
     <string name="import_categories_success" tools:ignore="PluralsCandidate">Паспяхова імпартавана %1$d катэгорый.</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d уліковых запісаў паспяхова імпартавана.</string>
+    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d рахункаў паспяхова імпартавана.</string>
     <string name="after">пасля %s</string>
     <string name="import_source_file">Файл</string>
-    <string name="account_deleted">Уліковы запіс выдалены</string>
+    <string name="account_deleted">Акаўнт выдален</string>
     <string name="cvs_import_set_first_line_as_header">Ці варта першы радок разглядаць як загаловак?</string>
-    <string name="dialog_title_select_target">Выберыце мэта</string>
+    <string name="dialog_title_select_target">Абярыце мэта</string>
     <string name="onboarding_restore_from_local">Аднавіць файл лакальнай рэзервовай копіі</string>
     <string name="dialog_contrib_reminder_remove_limitation">Выдаліце гэтае абмежаванне і атрымайце доступ да дадатковых функцый, абнавіўшы <i>{app_name}</i>.</string>
     <string name="dialog_command_disabled_insert_transfer">Для аперацый перадачы патрабуецца другі акаўнт.</string>
@@ -496,7 +496,7 @@
     <string name="pref_manage_stale_images_summary">Кіруйце фотаздымкамі, якія засталіся пасля выдаленых транзакцый</string>
     <string name="menu_show_transactions">Паказаць транзакцыі</string>
     <string name="csv_import_no_mapping_found_for_amount">Калі ласка, аднясіце адзін слупок да сумы, даходу або выдаткаў.</string>
-    <string name="pref_custom_decimal_format_summary">Калі вы не задаволены фарматам па змаўчанні для вашай мовы, адаптуйце яго да вашых патрэбаў. Пакіньце пустым, каб аднавіць стандартны фармат.</string>
+    <string name="pref_custom_decimal_format_summary">Калі вас не задавальняе фармат па змаўчанні для вашай лакалізацыі, адаптуйце яго пад свае патрэбы. Пакіньце поле пустым, каб аднавіць фармат па змаўчанні.</string>
     <string name="warning_cannot_move_split_transaction">Гэтую падзеленую транзакцыю нельга перанесці на рахунак %1$s, таму што ёсць часткі пераводу, якія адносяцца да гэтага ўліковага запісу.</string>
     <string name="description_webdav_trust_certificate">Вэб-сайт выкарыстоўвае сертыфікат, якому Android не давярае.</string>
     <string name="label_trust_certificate">Давяраць гэтаму сертыфікату</string>
@@ -519,7 +519,7 @@
     <string name="export_to_format">Экспартаваць у %s</string>
     <string name="pref_custom_decimal_format_title">Фармат ліку</string>
     <string name="dialog_export_applied_to_filter">Будуць улічвацца толькі транзакцыі, якія адпавядаюць бягучаму фільтру.</string>
-    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Даць доступ</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Даць дазвол</string>
     <string name="transform_subcategory_to_main">Перавесці ў галоўную катэгорыю</string>
     <string name="dialog_confirm_sync_unlink">Калі вы адвязваеце гэты ўліковы запіс ад %s, стан сінхранізацыі губляецца. Каб звязаць іх пазней, спатрэбіцца паўторная поўная сінхранізацыя.</string>
     <string name="dialog_synced_to_other">Уліковы запіс з uuid %s ўжо існуе ў лакальнай базе дадзеных і прывязаная да іншага выдаленаму серверу.</string>
