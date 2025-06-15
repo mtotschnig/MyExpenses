@@ -89,7 +89,7 @@
     <string name="split_parts_heading">Раздзеленыя часткі</string>
     <string name="warning_password_protected">Прыкладанне абаронена паролем.</string>
     <string name="pref_sync_frequency_summary">Як часта трэба сінхранізаваць дадзеныя (у гадзінах).</string>
-    <string name="synchronization_start">Пачынаецца сінхранізацыя ўліковага запісу %s.</string>
+    <string name="synchronization_start">Пачатак сінхранізацыі для акаўнта %s.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Калі сумы не абнаўляюцца, пасля змены яны будуць адлюстроўвацца як памножаныя на %d.</string>
     <string name="no_parties">Ніякіх груп.</string>
     <string name="expense">Выдаткі</string>
@@ -139,7 +139,7 @@
     <string name="plan_instance_state_open">адкрыць</string>
     <string name="description_webdav_url">Калі ласка, увядзіце URL у спецыяльную тэчку на вашым серверы WebDAV. {app_name} будзе захоўваць свае даныя ў гэтай тэчцы, не закранаючы нічога па-за ёй.</string>
     <string name="validate_error_webdav_404">URL не існуе на серверы.</string>
-    <string name="pref_tracking_summary">Дазвольце нам збіраць ананімныя даныя аб мадэлях выкарыстання, якія дапамагаюць нам планаваць паляпшэнні.</string>
+    <string name="pref_tracking_summary">Дазвольце нам збіраць ананімныя дадзеныя аб мадэлях выкарыстання, якія дапамагаюць нам планаваць паляпшэнні.</string>
     <string name="sync_error_will_try_again_later">Паспрабуйце пазней.</string>
     <string name="contributed_by">Унесены ў %s</string>
     <string name="onboarding_restore_from_cloud">Аднавіць з воблачнай сінхранізацыі</string>
@@ -193,11 +193,11 @@
     <string name="crash_dialog_title">{app_name} выйшаў з ладу</string>
     <string name="synchronization">Сінхранізацыя</string>
     <string name="validate_error_webdav_not_compliant">URL не паказвае на рэсурс WebDAV.</string>
-    <string name="link_account_failure_2">Уліковы запіс з такім жа uuid ужо існуе на аддаленым серверы.</string>
+    <string name="link_account_failure_2">Рахунак з такім жа uuid ужо існуе на выдаленым серверы.</string>
     <string name="all_extended_key_features">Усе функцыі Extended Key</string>
-    <string name="sync_io_exception_reset_account_data">Памылка падчас скіду аддаленага ўліковага запісу.</string>
-    <string name="sync_io_exception_setup_remote_account">Памылка пры наладжванні аддаленага ўліковага запісу.</string>
-    <string name="sync_io_exception_syncing">Памылка сінхранізацыі змяненняў з серверам.</string>
+    <string name="sync_io_exception_reset_account_data">Памылка падчас скіду налад аддаленага акаўнта.</string>
+    <string name="sync_io_exception_setup_remote_account">Памылка пры наладжванні аддаленага акаўнта.</string>
+    <string name="sync_io_exception_syncing">Памылка падчас сінхранізацыі змяненняў з серверам.</string>
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Стан сінхранізацыі не можа быць адноўлены для %d уліковых запісаў.</string>
     <string name="onboarding_ui_title">{app_name} адаптуецца да вашых пераваг</string>
     <string name="comparison_operator_date_before">перад</string>
@@ -232,10 +232,10 @@
     <string name="progress_dialog_updating_split_parts">Абнаўленне падзеленых частак</string>
     <string name="crash_dialog_comment_prompt">Вы можаце дадаць свае каментарыі аб праблеме ніжэй:</string>
     <string name="paypal_callback_info">Ваша транзакцыя была завершана, і квітанцыя аб вашай пакупцы была адпраўлена вам па электроннай пошце. Вы можаце ўвайсці ў свой уліковы запіс на сайце www.paypal.com, каб праглядзець дэталі гэтай аперацыі.</string>
-    <string name="dialog_sync_link">Уліковы запіс з uuid %s існуе як у лакальнай базе дадзеных, так і на аддаленым серверы. Калі вы звязваеце абодва, вам трэба вырашыць, ці хочаце вы першапачаткова загружаць лакальныя даныя ў аддалены бэкэнд або спампоўваць аддаленыя даныя ў лакальную базу дадзеных.</string>
+    <string name="dialog_sync_link">Акаўнт з uuid %s існуе як у лакальнай базе дадзеных, так і на аддаленым серверы. Калі вы звязваеце абодва, вам трэба вырашыць, ці хочаце вы першапачаткова загружаць лакальныя даныя ў аддалены бэкэнд або спампоўваць аддаленыя даныя ў лакальную базу дадзеных.</string>
     <string name="sync_database_error">Падчас сінхранізацыі адбылася памылка базы дадзеных.</string>
     <string name="synchronization_end_success_none">Няма змяненняў для сінхранізацыі.</string>
-    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папка, якую вы выбралі, адпавядае аднаму ўліковаму запісу існуючага бэкэнда. Вам трэба выбраць яго бацькоўскую папку, каб паўторна выкарыстоўваць гэты бэкэнд.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Каталог, які вы выбралі, адпавядае аднаму рахунку існуючага сервера. Вам трэба выбраць бацькоўскую тэчку, каб выкарыстоўваць гэты сервер.</string>
     <string name="sync_io_error_cannot_connect">Не ўдаецца падлучыцца да сервернай часткі сінхранізацыі.</string>
     <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d выдаленыя змены былі запісаны ў лакальную базу дадзеных. %2$d лакальныя змены былі запісаны ў аддалены бэкэнд.</string>
     <string name="pref_debug_logging_summary">Запіс інфармацыі аб адладцы ў сістэмны журнал</string>
@@ -374,7 +374,7 @@
     <string name="dialog_title_contrib_feature">Прэміум-функцыя</string>
     <string name="pref_category_title_manage">Кіраваць</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Увод дадзеных з дапамогай віджэтаў і цэтлікаў</string>
-    <string name="dialog_confirm_sync_link_local">Аддаленыя даныя для гэтага ўліковага запісу будуць выдалены. Пераканайцеся, што да яго не падключаны іншыя прылады.</string>
+    <string name="dialog_confirm_sync_link_local">Аддаленыя даныя для гэтага акаўнта будуць выдалены. Пераканайцеся, што да яго не падключаны іншыя прылады.</string>
     <string name="no_app_handling_mime_type_available">Няма праграм для апрацоўкі файлаў %s.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">Выбраны шаблон будзе выдалены.</item>
@@ -392,7 +392,7 @@
     <string name="pref_import_from_grisbi_title">Імпарт з Grisbi</string>
     <string name="method">Спосаб аплаты</string>
     <string name="no_calendar_app_installed">Не знойдзена праграма для рэдагавання падзей календара.</string>
-    <string name="sync_io_exception_unlocking">Памылка пры зняцці блакіроўкі з аддаленага бэкэнда.</string>
+    <string name="sync_io_exception_unlocking">Памылка пры зняцці блакіроўкі з аддаленага сервера.</string>
     <string name="sync_io_exception_locking">Аддалены бэкэнд заблакіраваны або не можа быць заблакіраваны.</string>
     <string name="pref_webdav_timeout_title">Тайм-аўт WebDAV (у секундах)</string>
     <plurals name="warning_delete_transaction">
@@ -447,8 +447,8 @@
     <string name="mark_void_instead_of_delete">Не выдаляйце транзакцыю, а пазначайце яе як несапраўдную.</string>
     <string name="auto_backup_cloud_success">Файл рэзервовай копіі %1$s паспяхова захаваны на сэрвэры %2$s.</string>
     <string name="number_of_fraction_digits">Колькасць лічбаў дробу</string>
-    <string name="warning_auto_backup_deactivated">Аўтаматычнае рэзервовае капіраванне адключана. Вы можаце ўключыць яго зноў у наладах пасля вырашэння праблемы (напрыклад, выбару іншай тэчкі для рэзервовага капіравання).</string>
-    <string name="sync_success_reset_account_data">Аддаленыя даныя для ўліковага запісу %s былі выдалены.</string>
+    <string name="warning_auto_backup_deactivated">Аўтаматычнае рэзервовае капіраванне адключана. Вы можаце зноў уключыць яго ў наладах пасля вырашэння праблемы (напрыклад, выбару іншай тэчкі для рэзервовых копій).</string>
+    <string name="sync_success_reset_account_data">Аддаленыя даныя для акаўнта %s былі выдалены.</string>
     <string name="onboarding_data_title">Давайце наладзім ваш першы ўліковы запіс</string>
     <string name="planner_create_calendar_failure">Немагчыма стварыць лакальны каляндар планавання</string>
     <string name="password_not_valid">Пароль няправільны. Паспрабуйце яшчэ раз!</string>
@@ -456,8 +456,8 @@
     <string name="payer_or_payee">Атрымальнік/Плацельшчык</string>
     <string name="plan">План</string>
     <string name="plan_event_deleted">План, звязаны з гэтым шаблонам, быў выдалены з календара.</string>
-    <string name="dialog_confirm_sync_link_remote">Лакальныя даныя гэтага ўліковага запісу будуць выдалены.</string>
-    <string name="warning_trial_limit_reached">Тэрмін выпрабавання функцыі %s скончыўся.</string>
+    <string name="dialog_confirm_sync_link_remote">Лакальныя даныя гэтага акаўнта будуць выдалены.</string>
+    <string name="warning_trial_limit_reached">Выпрабавальны перыяд для тэставай функцыі %s скончыўся.</string>
     <string name="dialog_confirm_sync_remove_backend">Аддалены бэкэнд %s будзе выдалены. Гэта не паўплывае на дадзеныя, якія захоўваюцца лакальна або аддалена, але стан сінхранізацыі будзе страчаны.</string>
     <string name="pref_contrib_purchase_title_upgrade">Ключ абнаўлення</string>
     <string name="pref_enter_licence_title">Увесці ключ</string>
@@ -486,7 +486,7 @@
     <string name="menu_create_split_part_category">Новая катэгорыя падзеленай часткі</string>
     <string name="menu_create_split_part_transfer">Новы пераклад падзеленай часткі</string>
     <string name="menu_move">Перамясціць</string>
-    <string name="pref_tracking_title">Збор даных аб выкарыстанні</string>
+    <string name="pref_tracking_title">Збор дадзеных аб выкарыстанні</string>
     <string name="title">Назва</string>
     <string name="comparison_operator_between">паміж</string>
     <string name="comparison_operator_date_after">пасля</string>
@@ -521,12 +521,13 @@
     <string name="dialog_export_applied_to_filter">Будуць улічвацца толькі транзакцыі, якія адпавядаюць бягучаму фільтру.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Даць дазвол</string>
     <string name="transform_subcategory_to_main">Перавесці ў галоўную катэгорыю</string>
-    <string name="dialog_confirm_sync_unlink">Калі вы адвязваеце гэты ўліковы запіс ад %s, стан сінхранізацыі губляецца. Каб звязаць іх пазней, спатрэбіцца паўторная поўная сінхранізацыя.</string>
-    <string name="dialog_synced_to_other">Уліковы запіс з uuid %s ўжо існуе ў лакальнай базе дадзеных і прывязаная да іншага выдаленаму серверу.</string>
+    <string name="dialog_confirm_sync_unlink">Калі вы адвязваеце гэты акаўнт ад %s, стан сінхранізацыі губляецца. Каб звязаць іх пазней, спатрэбіцца паўторная поўная сінхранізацыя.</string>
+    <string name="dialog_synced_to_other">Акаўнт з uuid %s ўжо існуе ў лакальнай базе дадзеных і прывязаная да іншага выдаленаму серверу.</string>
     <string name="warning_synchronization_folder_usage">Гэта папка выкарыстоўваецца для сінхранізацыі даных паміж устаноўкамі {app_name} на розных прыладах. Калі ласка, не змяняйце яго змесціва ўручную.</string>
     <string name="pref_sync_notification_summary">Апавяшчаць аб ходзе сінхранізацыі</string>
     <string name="contrib_feature_ad_free_label">Няма аб\'яваў</string>
     <string name="status_reconciled">узгадніць</string>
     <string name="status_cleared">ачысціць</string>
     <string name="status_unreconciled">не ўзгадняць</string>
+    <string name="dialog_command_sync_link_local">Загрузіць з лакальнага сховішча</string>
 </resources>
