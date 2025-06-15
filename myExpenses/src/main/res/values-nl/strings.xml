@@ -917,4 +917,8 @@
     <string name="mark_as_cleared">Markeren als bevestigd</string>
     <string name="mark_as_unreconciled">Markeren als niet afgestemd</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Automatisch equivalente bedragen bijwerken wanneer de prijzen veranderen</string>
+    <string name="batch_download">Batch-download</string>
+    <string name="warning_batch_download_quota">Bij batch-downloads van %s bestaat het risico dat je gebruikslimiet wordt overschreden.</string>
+    <string name="batch_download_result">%d prijzen werden gedownload en opgeslagen in de database.</string>
+    <string name="sort_direction">Sorteerrichting</string>
 </resources>
