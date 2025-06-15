@@ -1003,4 +1003,8 @@
     <string name="mark_as_unreconciled">Отметить как не согласовано</string>
     <string name="mark_as_cleared">Отметить как очищенное</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Автоматически обновлять эквивалентные суммы при изменении цен</string>
+    <string name="sort_direction">Направление сортировки</string>
+    <string name="batch_download">Пакетная загрузка</string>
+    <string name="batch_download_result">В базу данных было загружено и сохранено %d цен.</string>
+    <string name="warning_batch_download_quota">Пакетная загрузка с %s может привести к истощению вашего лимита использования.</string>
 </resources>
