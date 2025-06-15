@@ -49,7 +49,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,22 +56,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import androidx.core.content.res.ResourcesCompat
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.charts.PieRadarChartBase
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.IValueFormatter
-import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.DistributionActivity.Companion.TEXT_SIZE_MEDIUM_SP
-import org.totschnig.myexpenses.activity.DistributionActivity.Companion.TEXT_SIZE_SMALL_SP
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColoredAmountText
@@ -80,16 +68,14 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.PieChartCompose
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.filter.ActionButton
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
-import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.Currency
 import kotlin.math.abs
@@ -466,116 +452,36 @@ fun RenderChart(
     angle: Float = 360f,
 ) {
     val accounts = accounts.filter { it.equivalentCurrentBalance != 0L }
-    val color = MaterialTheme.colorScheme.onSurface.toArgb()
-    AndroidView(
+    val pieEntries = accounts.map { account ->
+        PieEntry(
+            abs(account.equivalentCurrentBalance.toFloat()),
+            account.label
+        )
+    }
+    val colors = accounts.map { it.color }
+    PieChartCompose(
         modifier = modifier,
         factory = { ctx ->
-            PieChart(ctx).apply {
-                isRotationEnabled = PieRadarChartBase.ROTATION_INSIDE_ONLY
-                description.isEnabled = false
-                renderer = SelectivePieChartRenderer(
-                    this,
-                    object : SelectivePieChartRenderer.Selector {
-                        var lastValueGreaterThanOne = true
-                        override fun shouldDrawEntry(
-                            index: Int,
-                            pieEntry: PieEntry,
-                            value: Float,
-                        ): Boolean {
-                            val greaterThanOne = value > 1f
-                            val shouldDraw = greaterThanOne || lastValueGreaterThanOne
-                            lastValueGreaterThanOne = greaterThanOne
-                            return shouldDraw
-                        }
-                    }).apply {
-                    paintEntryLabels.color = color
-                    paintEntryLabels.textSize =
-                        UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
-                }
-                setCenterTextSizePixels(
-                    UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
-                )
-                setCenterTextColor(color)
-                setUsePercentValues(true)
-                holeRadius = if (inner) 75f else 85f
-                setHoleColor(android.graphics.Color.TRANSPARENT)
-                legend.isEnabled = false
-                description.isEnabled = false
-            }
-        }) {
+            PieChart(ctx)
+        },
+        holeRadius = if (inner) 75f else 85f,
+        angle = angle,
+        onValueSelected = { index ->
+            highlight.value = index?.let { Triple(inner, index, accounts.getOrNull(index)?.id)  }
+        },
+        data = if (debts == null)
+            pieEntries else
+            pieEntries + PieEntry(
+                debts.toFloat().absoluteValue,
+                stringResource(R.string.debts)
+            ),
+        colors = colors
+    ) {
         if (highlight.value?.first == !inner) {
             it.highlightValue(null)
             it.centerText = ""
         }
-        it.maxAngle = angle
-        it.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-            override fun onValueSelected(e: Entry, h: Highlight) {
-                val index = h.x.toInt()
-                highlight.value = Triple(inner, index, accounts.getOrNull(index)?.id)
-                it.setCenterText(index)
-            }
-
-            override fun onNothingSelected() {
-                highlight.value = null
-                it.centerText = ""
-            }
-        })
-        val pieEntries = accounts.map { account ->
-            PieEntry(
-                abs(account.equivalentCurrentBalance.toFloat()),
-                account.label
-            )
-        }
-        val colors = accounts.map { it.color }
-        it.data = PieData(
-            PieDataSet(
-                if (debts == null)
-                    pieEntries else
-                    pieEntries + PieEntry(
-                        debts.toFloat().absoluteValue,
-                        it.resources.getString(R.string.debts)
-                    ),
-                ""
-            ).apply {
-                this.colors = if (debts == null) colors else colors + ResourcesCompat.getColor(
-                    it.resources,
-                    if (inner) R.color.colorExpense else R.color.colorIncome,
-                    null
-                )
-                sliceSpace = 2f
-                setDrawValues(false)
-                xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-                valueLinePart2Length = 0.1f
-                valueLineColor = color
-            }).apply {
-            setValueFormatter(percentFormatter)
-        }
-        it.invalidate()
     }
-}
-
-private val localizedPercentFormat: NumberFormat by lazy {
-    NumberFormat.getPercentInstance().also {
-        it.setMinimumFractionDigits(1)
-    }
-}
-
-private val percentFormatter = IValueFormatter { value, _, _, _ ->
-    localizedPercentFormat.format(value / 100)
-}
-
-private fun PieChart.setCenterText(position: Int) {
-    val entry = data.dataSet.getEntryForIndex(position)
-    val description = entry.label
-    val value = data.dataSet.valueFormatter.getFormattedValue(
-        entry.value / data.yValueSum * 100f,
-        entry, position, null
-    )
-
-    this.centerText = """
-            $description
-            $value
-            """.trimIndent()
 }
 
 @Composable
