@@ -224,6 +224,6 @@
     <string name="menu_parent_category_selection_help_text">З дапамогай гэтай опцыі вы можаце наладзіць націсканне на катэгорыю, якая мае даччыныя катэгорыі: калі яна ўстаноўлена, кароткі націск вылучыць катэгорыю; калі яна не ўстаноўлена, кароткі націск разгарне/згорне катэгорыю. У апошнім выпадку выбар даступны з кантэкстнага меню.</string>
     <string name="cab_ManageCategories_select_help_text">Супастаўце выбраную катэгорыю з транзакцыяй і вярніцеся да формы транзакцыі.</string>
     <string name="help_WebUI_info_4">Пры адлюстраванні транзакцый для выбранага рахунку вэб-інтэрфейс карыстальніка будзе выкарыстоўваць тыя ж фільтры, якія вы наладзілі ў дадатку на прыладзе Android.</string>
-    <string name="form_calculator_help_text">Кнопка <![CDATA[The <img src="?calcIcon"> адкрывае калькулятар.]]></string>
-    <string name="form_attach_image_help_text">Кнопка <![CDATA[The <img src="android:ic_menu_camera"> дазваляе прымацаваць да аб'екта выяву (напрыклад, з галерэі або камеры).]]></string>
+    <string name="form_calculator_help_text"><![CDATA[Кнопка <img src="?calcIcon"> адкрывае калькулятар.]]></string>
+    <string name="form_attach_image_help_text"><![CDATA[Кнопка <img src="android:ic_menu_camera"> дазваляе прымацаваць да аб\'екта выяву (напрыклад, з галерэі або камеры).]]></string>
 </resources>
