@@ -17,11 +17,12 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import org.totschnig.myexpenses.activity.DistributionActivity.Companion.TEXT_SIZE_MEDIUM_SP
-import org.totschnig.myexpenses.activity.DistributionActivity.Companion.TEXT_SIZE_SMALL_SP
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ui.UiUtils
 import java.text.NumberFormat
+
+const val TEXT_SIZE_SMALL_SP = 14F
+const val TEXT_SIZE_MEDIUM_SP = 18F
 
 @Composable
 fun PieChartCompose(

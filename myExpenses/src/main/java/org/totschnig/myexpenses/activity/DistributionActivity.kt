@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.PieChartCompose
+import org.totschnig.myexpenses.compose.TEXT_SIZE_MEDIUM_SP
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.localizedPercentFormat
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
@@ -698,8 +699,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         private const val SWIPE_MIN_DISTANCE = 120
         private const val SWIPE_MAX_OFF_PATH = 250
         private const val SWIPE_THRESHOLD_VELOCITY = 100
-        const val TEXT_SIZE_SMALL_SP = 14F
-        const val TEXT_SIZE_MEDIUM_SP = 18F
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
