@@ -223,4 +223,36 @@
     <string name="planner_create_calendar_success">สร้างปฏิทินตัววางแผนภายในเครื่องเรียบร้อยแล้ว</string>
     <string name="pref_sort_order_usages">จำนวนการใช้งาน</string>
     <string name="pref_import_from_grisbi_title">นำเข้าจาก Grisbi</string>
+    <string name="pref_manage_categories_title">หมวดหมู่</string>
+    <string name="pref_planning_calendar_summary">เลือกปฏิทินที่ใช้จัดเก็บแผนสำหรับรายการในอนาคตและรายการ定期</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">อนุญาตให้ใช้ได้โดยไม่ต้องใช้รหัสผ่าน</string>
+    <string name="pref_ui_home_screen_shortcuts">ทางลัดหน้าจอหลัก</string>
+    <string name="pref_ui_language_title">ภาษา</string>
+    <string name="pref_manage_methods_title">วิธีการชำระเงิน</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">เพิ่ม แก้ไข หรือลบคู่สัญญา (ผู้จ่ายและผู้รับเงิน)</string>
+    <string name="pref_manage_parties_title">คู่สัญญา</string>
+    <string name="pref_manage_sync_backends_title">ระบบเบื้องหลังสำหรับการซิงค์ข้อมูล</string>
+    <string name="pref_more_info_dialog_title">ลิขสิทธิ์ &amp; เครดิต</string>
+    <string name="pref_password_not_equal">รหัสผ่านไม่ตรงกัน</string>
+    <string name="pref_protection_delay_seconds_summary">วินาทีที่ไม่ได้ใช้งานก่อนแอปจะถูกล็อกด้วยรหัสผ่าน</string>
+    <string name="pref_protection_delay_seconds_title">ระยะเวลาก่อนการป้องกัน</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">ต้องใช้รหัสผ่าน</string>
+    <string name="pref_qif_export_file_encoding_title">การเข้ารหัสอักขระ</string>
+    <string name="pref_restore_title">กู้คืน</string>
+    <string name="pref_security_question_summary">ช่วยให้คุณปลดล็อกแอปได้ หากลืมรหัสผ่าน</string>
+    <string name="pref_security_question_title">คำถามความปลอดภัย</string>
+    <string name="pref_share_target_title">URL อัปโหลด</string>
+    <string name="pref_send_feedback_title">ส่งความคิดเห็น</string>
+    <string name="pref_shortcut_summary">เพิ่มทางลัดไปยังหน้าจอหลัก</string>
+    <string name="pref_shortcut_added">เพิ่มทางลัดไปยังหน้าจอหลักแล้ว</string>
+    <string name="pref_ui_theme_dark">มืด</string>
+    <string name="pref_ui_theme_light">สว่าง</string>
+    <string name="pref_manage_methods_summary">สร้างและแก้ไขวิธีการชำระเงิน และเชื่อมโยงกับประเภทบัญชี</string>
+    <string name="pref_planning_calendar_create_local">สร้างปฏิทินวางแผนใหม่ในเครื่อง</string>
+    <string name="pref_perform_share_title">แบ่งปันการส่งออกและการสำรองข้อมูล</string>
+    <string name="pref_restore_summary">เลือกข้อมูลสำรองเพื่อกู้คืนฐานข้อมูลและการตั้งค่า</string>
+    <string name="pref_shortcut_not_added">ไม่มีหน้าจอหลักที่รับทางลัด</string>
+    <string name="pref_share_target_summary">ปล่อยว่างไว้หากต้องการเลือกระหว่างแอปที่เหมาะสม (อีเมล, Dropbox, Google Docs, ...) หรือระบุ URL ในรูปแบบที่รองรับ</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">การป้อนข้อมูลจากวิดเจ็ตและทางลัด</string>
+    <string name="pref_manage_sync_backends_summary">เพิ่มแบ็กเอนด์สำหรับซิงค์บัญชี (%s)</string>
 </resources>
