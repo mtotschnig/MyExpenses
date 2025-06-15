@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
@@ -80,6 +81,7 @@ fun Budget(
     showChart: Boolean = false,
     currentSort: Sort? = null,
     onChangeSort: ((Sort) -> Unit)? = null,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
 
     Column(
@@ -140,7 +142,8 @@ fun Budget(
             HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
                 modifier = Modifier.testTag(TEST_TAG_LIST),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                contentPadding = contentPadding
             ) {
                 item {
                     Summary(

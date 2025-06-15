@@ -177,14 +177,14 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
 
     @Composable
     fun ColumnScope.LayoutHelper(
-        data: @Composable (Modifier) -> Unit,
+        data: @Composable (Modifier, Boolean) -> Unit,
         chart: @Composable (Modifier) -> Unit
     ) {
 
         when (LocalConfiguration.current.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 Row(modifier = Modifier.weight(1f)) {
-                    data(Modifier.weight(0.6f))
+                    data(Modifier.weight(0.6f), false)
                     if (showChart.value) {
                         chart(
                             Modifier
@@ -196,7 +196,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
             }
 
             else -> {
-                data(Modifier.weight(0.5f))
+                data(Modifier.weight(0.5f), !showChart.value)
                 if (showChart.value) {
                     chart(
                         Modifier

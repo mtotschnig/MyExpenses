@@ -8,6 +8,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -80,7 +81,8 @@ fun Category(
     withRoot: Boolean = false,
     startPadding: Dp = 0.dp,
     sumCurrency: CurrencyUnit? = null,
-    withTypeColors: Boolean = true
+    withTypeColors: Boolean = true,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
 
@@ -137,7 +139,8 @@ fun Category(
                     .semantics {
                         collectionInfo = CollectionInfo(filteredChildren.size, 1)
                     },
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                contentPadding = contentPadding
             ) {
                 // if we are passed in a collection of trees (i.e. the categories on the first level have level == 0)
                 // we flatten this first level away. The trees are separated by a thicker divider

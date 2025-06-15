@@ -12,7 +12,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -208,13 +212,14 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         Column(verticalArrangement = Arrangement.Center) {
                             RenderFilters(budget)
                             LayoutHelper(
-                                data = {
+                                data = { modifier, withContentPadding ->
                                     RenderBudget(
-                                        it,
-                                        sortedData.value,
-                                        budget,
-                                        currencyUnit,
-                                        sort.value
+                                        modifier = modifier,
+                                        category = sortedData.value,
+                                        budget = budget,
+                                        currencyUnit = currencyUnit,
+                                        sort = sort.value,
+                                        withContentPadding = withContentPadding
                                     )
                                 }, chart = {
                                     RenderChart(
@@ -261,6 +266,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         budget: Budget,
         currencyUnit: CurrencyUnit,
         sort: Sort,
+        withContentPadding: Boolean,
     ) {
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
             val narrowScreen = this.maxWidth.value < breakPoint.value
@@ -297,7 +303,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 onChangeSort = {
                     prefHandler.putString(sortDelegate.prefKey, it.name)
                     viewModel.setSortOrder(it)
-                }
+                },
+                contentPadding = if (withContentPadding)
+                    WindowInsets.navigationBars.asPaddingValues() else PaddingValues(0.dp)
             )
         }
     }
