@@ -23,4 +23,6 @@
     <string name="whats_new_396">Enhanced foreign currency account management with automatic exchange rate updates and real-time value tracking.</string>
     <string name="whats_new_398">See your assets, liabilities, and net worth — all in one place. </string>
     <string name="whats_new_399">Improved PDF export layout, fully customizable with drag-and-drop.</string>
+    <string name="whats_new_400_1">Pie chart showing distribution of money between accounts</string>
+    <string name="whats_new_400_2">Price History: Bulk download of missing entries</string>
 </resources>
