@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import androidx.core.app.ServiceCompat
 import androidx.core.database.getLongOrNull
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
@@ -593,7 +594,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         server?.stop(0, 0)
         server = null
         serverAddress = null
-        stopForeground(true)
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         true
     } else false
 
