@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
-    <string name="Main_1">Іншыя даходы</string>
+    <string name="Main_1">Іншыя паступленні</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_1">Дапамога па беспрацоўі</string>
     <!-- Subcategory under "Other income" -->
