@@ -86,7 +86,7 @@
     <string name="dialog_security_answer">ให้คะแนน</string>
     <string name="dialog_title_contrib_feature">คุณสมบัติพรีเมียม</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">ลบบัญชี?\n\nลบ %1$d บัญชี?</item>
+        <item quantity="other">ลบ %1$d บัญชี?</item>
     </plurals>
     <string name="dialog_title_balance_account">ยอดคงเหลือ %1$s</string>
     <string name="dialog_security_question">คำถาม</string>
@@ -315,4 +315,284 @@
     <string name="qif_parse_result">วิเคราะห์แล้ว: %1$s บัญชี; %2$s หมวดหมู่ และ %3$s คู่กรณี</string>
     <string name="reference_number">หมายเลขอ้างอิง</string>
     <string name="progress_dialog_printing">กำลังสร้าง %s</string>
+    <string name="crash_dialog_comment_prompt">คุณอาจเพิ่มความคิดเห็นเกี่ยวกับปัญหาด้านล่างนี้:</string>
+    <string name="menu_sync_link">เริ่มการซิงค์</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">คีย์มืออาชีพของคุณหมดอายุไปแล้ว %d วัน</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">กรุณาตั้งค่าตัวเลขระหว่าง %1$d ถึง %2$d</string>
+    <string name="import_accounts_none">ไม่มีการนำเข้าบัญชี</string>
+    <string name="after">หลัง %s</string>
+    <string name="budget_deleted">ลบงบประมาณเรียบร้อยแล้ว</string>
+    <string name="preferences_week_start_day_title">สัปดาห์เริ่มต้นในวัน</string>
+    <string name="pref_sort_order_custom">กำหนดเอง</string>
+    <string name="content_description_calculator">เครื่องคิดเลข</string>
+    <string name="plan_instance_state_open">เปิด</string>
+    <string name="dialog_confirm_sync_link_remote">ข้อมูลท้องถิ่นสำหรับบัญชีนี้จะถูกลบ</string>
+    <string name="sync_error_will_try_again_later">จะลองอีกครั้งในภายหลัง</string>
+    <string name="onboarding_restore_from_local">กู้คืนจากไฟล์สำรองข้อมูลในเครื่อง</string>
+    <string name="pref_protection_device_lock_screen_title">หน้าจอล็อกอุปกรณ์</string>
+    <string name="gdpr_consent_button_no">ชำระเงินสำหรับเวอร์ชันไม่มีโฆษณา</string>
+    <string name="budget_table_header_budgeted">งบประมาณที่กำหนดไว้</string>
+    <string name="budget_table_header_allocated">จัดสรรแล้ว</string>
+    <string name="budget_table_header_spent">ใช้ไปแล้ว</string>
+    <string name="pref_security_export_passphrase_title">วลีรหัสสำหรับการสำรองข้อมูล</string>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="other">%1$d วัตถุถูกแมปกับแม่แบบและไม่สามารถลบได้</item>
+    </plurals>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="other">บันทึกรายการใหม่ %1$d รายการจากแม่แบบเรียบร้อยแล้ว</item>
+    </plurals>
+    <string name="warning_reset_account_all">หากคุณดำเนินการต่อ สำหรับบัญชีทั้งหมด%1$s รายการจะถูกลบออกจากฐานข้อมูลและไม่สามารถกู้คืนได้</string>
+    <string name="warning_reset_account_matched">หากคุณดำเนินการต่อ รายการที่ตรงกับตัวกรองปัจจุบันจะถูกลบออกจากฐานข้อมูลและไม่สามารถกู้คืนได้</string>
+    <string name="warning_restore">ฐานข้อมูลและการตั้งค่าจะถูกกู้คืนจากไฟล์ \"%1$s\" ข้อมูลปัจจุบันจะถูกลบ</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">หากไม่มีการอัปเดตจำนวนเงิน จำนวนเงินจะแสดงผลเป็นหารด้วย %d หลังการเปลี่ยนแปลง</string>
+    <string name="warning_change_fraction_digits_checkbox_label">อัปเดตจำนวนเงินในฐานข้อมูล</string>
+    <string name="import_parties_success" tools:ignore="PluralsCandidate">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</string>
+    <string name="import_accounts_success" tools:ignore="PluralsCandidate">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</string>
+    <string name="import_categories_none">ไม่มีการนำเข้าหมวดหมู่</string>
+    <string name="import_parties_none">ไม่มีการนำเข้าคู่กรณี</string>
+    <string name="import_transactions_none">ไม่มีการนำเข้ารายการในบัญชี %1$s</string>
+    <string name="import_source_select_error">กรุณาให้ไฟล์ประเภท %1$s</string>
+    <string name="menu_categories_setup_default">ตั้งค่าหมวดหมู่เริ่มต้น</string>
+    <string name="search_amount">ค้นหาจำนวนเงิน</string>
+    <string name="widget_title_templates">แม่แบบของฉัน</string>
+    <string name="app_dir_not_accessible">ไม่สามารถเข้าถึงโฟลเดอร์ที่เลือกไว้ปัจจุบันสำหรับการสำรองข้อมูลและการส่งออก (%1$s) ได้ กรุณาเลือกโฟลเดอร์อื่น</string>
+    <string name="search_category">ค้นหาหมวดหมู่</string>
+    <string name="search_status">ค้นหาสถานะ</string>
+    <string name="search_comment">ค้นหาบันทึกช่วยจำ</string>
+    <string name="search_date">ค้นหาวันที่</string>
+    <string name="search_payee">ค้นหาผู้รับเงิน/ผู้จ่ายเงิน</string>
+    <string name="search_method">ค้นหาวิธีการ</string>
+    <string name="search_tag">ค้นหาแท็ก</string>
+    <string name="and">และ</string>
+    <string name="between_and">ระหว่าง %1$s และ %2$s</string>
+    <string name="before">ก่อน %s</string>
+    <string name="comparison_operator_equal">เท่ากับ</string>
+    <string name="comparison_operator_greater_than">มากกว่า</string>
+    <string name="comparison_operator_lesser_than">น้อยกว่า</string>
+    <string name="comparison_operator_between">ระหว่าง</string>
+    <string name="comparison_operator_date_before">ก่อน</string>
+    <string name="comparison_operator_date_after">หลัง</string>
+    <string name="hint_auto_fill">ควรกรอกข้อมูลอัตโนมัติจากรายการล่าสุดสำหรับผู้รับเงิน/ผู้จ่ายเงินเดียวกันหรือไม่? คุณสามารถเปลี่ยนการทำงานนี้ได้ตลอดเวลาในการตั้งค่า</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">อัปเดตบัญชี %1$d บัญชีด้วยสกุลเงิน %2$s เรียบร้อยแล้ว</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">การซื้อไม่สำเร็จหรือถูกยกเลิก</string>
+    <string name="import_source_file">ไฟล์</string>
+    <string name="pref_manage_stale_images_title">รูปภาพที่ล้าสมัย</string>
+    <string name="pref_manage_stale_images_summary">จัดการรูปภาพที่เหลือจากการลบรายการ</string>
+    <string name="transaction_deleted">ลบรายการเรียบร้อยแล้ว</string>
+    <string name="export_handle_deleted_create_helper">สร้างรายการช่วยเหลือ</string>
+    <string name="file_name">ชื่อไฟล์</string>
+    <string name="export_handle_deleted_update_balance">อัปเดตยอดเปิดบัญชี</string>
+    <string name="folder_name">ชื่อโฟลเดอร์</string>
+    <string name="mark_void_instead_of_delete">อย่าลบรายการ แต่ให้ทำเครื่องหมายว่ายยกเลิกแทน</string>
+    <string name="slash_forbidden_in_filename">/ ไม่อนุญาตให้ใช้ตัวอักษร ในชื่อไฟล์</string>
+    <string name="io_error_unable_to_create_file">ไม่สามารถสร้างไฟล์ %1$s ในโฟลเดอร์ %2$s ได้</string>
+    <string name="export_to_format">ส่งออกไปยัง %s</string>
+    <string name="pref_csv_import_delimiter">ตัวคั่น</string>
+    <string name="menu_parse">วิเคราะห์</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">ละทิ้งระเบียน %d รายการ</string>
+    <string name="csv_import_no_mapping_found_for_amount">กรุณาแมปคอลัมน์หนึ่งไปยังจำนวนเงิน รายรับ หรือรายจ่าย</string>
+    <string name="menu_show_transactions">แสดงรายการ</string>
+    <string name="pref_custom_decimal_format_title">รูปแบบตัวเลข</string>
+    <string name="pref_custom_decimal_format_summary">หากคุณไม่พอใจกับรูปแบบเริ่มต้นสำหรับภาษาท้องถิ่นของคุณ สามารถปรับเปลี่ยนได้ตามต้องการของคุณ ปล่อยว่างไว้เพื่อคืนค่ารูปแบบเริ่มต้น</string>
+    <string name="pref_auto_backup_title">สำรองข้อมูลอัตโนมัติ</string>
+    <string name="pref_auto_backup_summary">สำรองข้อมูลฐานข้อมูลทุกวันตามเวลาที่กำหนด (เฉพาะในกรณีที่ข้อมูลมีการเปลี่ยนแปลง)</string>
+    <string name="pref_auto_backup_time_title">เวลาสำรองข้อมูลอัตโนมัติ</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">ให้สิทธิ์การเข้าถึง</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> ต้องการสิทธิ์ในการเข้าถึงปฏิทินของคุณ เพื่อสร้างแผนสำหรับรายการในอนาคตและรายการ定期</string>
+    <string name="transform_subcategory_to_main">แปลงเป็นหมวดหมู่หลัก</string>
+    <string name="menu_move">ย้าย位置</string>
+    <string name="dialog_title_select_target">เลือกเป้าหมาย</string>
+    <string name="preferences_month_start_date_title">เดือนเริ่มต้นในวัน</string>
+    <string name="pref_grouping_periods">ช่วงเวลาการจัดกลุ่ม</string>
+    <string name="exchange_rate">อัตราแลกเปลี่ยน</string>
+    <string name="date_format_hour">ชั่วโมง</string>
+    <string name="date_format_minute">นาที</string>
+    <string name="pref_sort_order_last_used">ใช้งานล่าสุด</string>
+    <string name="plan_instance_state_cancelled">ถูกยกเลิก</string>
+    <string name="plan_instance_state_applied">นำไปใช้แล้ว</string>
+    <string name="progress_dialog_updating_split_parts">กำลังอัปเดตส่วนที่แยก</string>
+    <string name="content_description_calculator_delete_button">ลบตัวเลขสุดท้าย</string>
+    <string name="paypal_callback_info">รายการของคุณเสร็จสมบูรณ์ และได้ส่งใบเสร็จการซื้อของคุณทางอีเมลแล้ว คุณสามารถเข้าสู่ระบบบัญชีของคุณที่ www.paypal.com เพื่อดูรายละเอียดของรายการนี้</string>
+    <string name="search_transfer">ค้นหาการโอนเงิน</string>
+    <string name="search_account">ค้นหาบัญชี</string>
+    <string name="pref_sort_order_next_instance">ตัวอย่างถัดไป</string>
+    <string name="crash_dialog_title">{app_name} เกิดข้อผิดพลาด</string>
+    <string name="synchronization">การซิงโครไนซ์</string>
+    <string name="synchronization_none">ไม่มีการซิงโครไนซ์</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">กรุณาใส่ URL ไปยังโฟลเดอร์พิเศษบนเซิร์ฟเวอร์ WebDAV ของคุณ {app_name} จะจัดเก็บข้อมูลภายในโฟลเดอร์นี้ และจะไม่เข้าไปยุ่งกับสิ่งอื่นนอกเหนือจากนี้</string>
+    <string name="description_webdav_trust_certificate">เว็บไซต์ใช้ใบรับรอง ซึ่งไม่ได้รับการรับรองความน่าเชื่อถือโดย Android</string>
+    <string name="no_sync_backends">ไม่มีแบ็กเอนด์สำหรับซิงโครไนซ์</string>
+    <string name="label_trust_certificate">เชื่อถือใบรับรองนี้</string>
+    <string name="menu_create_sync_backend">แบ็กเอนด์ซิงโครไนซ์ใหม่</string>
+    <string name="validate_error_not_empty">ต้องไม่ว่างเปล่า</string>
+    <string name="validate_error_webdav_invalid_certificate">ไม่สามารถเชื่อถือใบรับรองได้ ดูเหมือนว่าใบรับรองไม่ถูกต้อง</string>
+    <string name="validate_error_webdav_404">URL ไม่มีอยู่บนเซิร์ฟเวอร์</string>
+    <string name="url_not_valid">URL ไม่ถูกต้อง</string>
+    <string name="menu_sync_unlink">หยุดการซิงค์</string>
+    <string name="dialog_confirm_sync_unlink">หากคุณยกเลิกการเชื่อมโยงบัญชีนี้จาก %s สถานะการซิงโครไนซ์จะหายไป การเชื่อมโยงอีกครั้งในภายหลัง จำเป็นต้องทำการซิงโครไนซ์เต็มรูปแบบอีกครั้ง</string>
+    <string name="dialog_command_sync_link_local">อัปโหลดจากท้องถิ่น</string>
+    <string name="dialog_confirm_sync_link_local">ข้อมูลระยะไกลสำหรับบัญชีนี้จะถูกลบ ตรวจสอบให้แน่ใจว่าไม่มีอุปกรณ์อื่นเชื่อมโยงอยู่</string>
+    <string name="warning_trial_limit_reached">ระยะเวลาทดสอบคุณสมบัติ %s สิ้นสุดแล้ว</string>
+    <string name="link_account_failure_2">มีบัญชีที่มี uuid เดียวกันอยู่แล้วบนแบ็กเอนด์ระยะไกล</string>
+    <string name="link_account_failure_3">สามารถแก้ไขความขัดแย้งนี้ได้ด้วยตนเองผ่านเมนูบริบทของรายการ</string>
+    <string name="progress_dialog_checking_sync_backend">กำลังตรวจสอบแบ็กเอนด์</string>
+    <string name="all_extended_key_features">คุณสมบัติทั้งหมดของคีย์ส่วนขยาย</string>
+    <string name="all_contrib_key_features">คุณสมบัติทั้งหมดของคีย์สนับสนุน</string>
+    <string name="number_of_fraction_digits">จำนวนหลักทศนิยม</string>
+    <string name="auto_backup_cloud_success">ไฟล์สำรองข้อมูล %1$s ถูกจัดเก็บเรียบร้อยแล้วบนแบ็กเอนด์ %2$s</string>
+    <string name="pref_tracking_summary">อนุญาตให้เรารวบรวมข้อมูลการใช้งานแบบไม่ระบุตัวตนเพื่อช่วยในการวางแผนการปรับปรุง</string>
+    <string name="pref_tracking_title">การเก็บรวบรวมข้อมูลการใช้งาน</string>
+    <string name="sync_database_error">เกิดข้อผิดพลาดฐานข้อมูลระหว่างการซิงโครไนซ์</string>
+    <string name="sync_io_exception_reset_account_data">เกิดข้อผิดพลาดขณะรีเซ็ตบัญชีระยะไกล</string>
+    <string name="sync_success_reset_account_data">ข้อมูลระยะไกลสำหรับบัญชี %s ถูกลบแล้ว</string>
+    <string name="sync_io_exception_setup_remote_account">เกิดข้อผิดพลาดขณะตั้งค่าบัญชีระยะไกล</string>
+    <string name="synchronization_start">เริ่มการซิงโครไนซ์สำหรับบัญชี %s</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">เขียนการเปลี่ยนแปลงระยะไกล %1$d รายการไปยังฐานข้อมูลท้องถิ่น เขียนการเปลี่ยนแปลงท้องถิ่น %2$d รายการไปยังแบ็กเอนด์ระยะไกล</string>
+    <string name="sync_io_exception_unlocking">เกิดข้อผิดพลาดขณะลบการล็อกจากแบ็กเอนด์ระยะไกล</string>
+    <string name="sync_io_exception_locking">แบ็กเอนด์ระยะไกลถูกล็อกหรือไม่สามารถล็อกได้</string>
+    <string name="sync_io_exception_syncing">เกิดข้อผิดพลาดขณะซิงค์การเปลี่ยนแปลงกับเซิร์ฟเวอร์</string>
+    <string name="synchronization_end_success_none">ไม่มีการเปลี่ยนแปลงที่ต้องซิงโครไนซ์</string>
+    <string name="pref_webdav_timeout_title">เวลา timeout ของ WebDAV (ในหน่วยวินาที)</string>
+    <string name="onboarding_data_title">มาเริ่มตั้งค่าบัญชีแรกของคุณกัน</string>
+    <string name="onboarding_restore_from_cloud">กู้คืนจากการซิงค์ข้อมูลบนคลาวด์</string>
+    <string name="contributed_by">สนับสนุนโดย %s</string>
+    <string name="pref_sync_notification_summary">แจ้งเตือนความคืบหน้าการซิงโครไนซ์</string>
+    <string name="pref_debug_logging_summary">เขียนข้อมูลดีบักลงในระบบล็อก</string>
+    <string name="licence_validation_error_expired">ลิขสิทธิ์หมดอายุ</string>
+    <string name="menu_create_template_for_split">แม่แบบการแยกใหม่</string>
+    <string name="licence_validation_error_device_limit_exceeded">เกินขีดจำกัดอุปกรณ์ กรุณายกเลิกลิขสิทธิ์จากอุปกรณ์อื่น</string>
+    <string name="progress_validating_licence">กำลังตรวจสอบลิขสิทธิ์</string>
+    <string name="button_validate">ตรวจสอบความถูกต้อง</string>
+    <string name="licence_key">คีย์ลิขสิทธิ์</string>
+    <string name="progress_removing_licence">กำลังลบลิขสิทธิ์</string>
+    <string name="licence_removal_success">ปลดคีย์ลิขสิทธิ์จากอุปกรณ์นี้เรียบร้อยแล้ว</string>
+    <string name="professional_key">คีย์ระดับมืออาชีพ</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d เดือน</string>
+    <string name="eu_vat_info">สำหรับผู้พำนักในสหภาพยุโรป ราคาที่แสดงยังไม่รวมภาษีมูลค่าเพิ่ม (VAT)</string>
+    <string name="valid_until">จนถึง %s</string>
+    <string name="extend_until">ขยายเวลาจนถึง %1$s เป็นจำนวน %2$s</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">เปลี่ยนเป็นการสมัครสมาชิกรายเดือน</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">เพิ่มอีก %d เดือนให้กับผู้ใช้ที่ถือลิขสิทธิ์ส่วนขยายอยู่แล้ว (ให้ครั้งเดียว)</string>
+    <string name="extend_validity">ขยายระยะเวลาการใช้งาน</string>
+    <string name="donate_button_invoice">ใบแจ้งหนี้</string>
+    <string name="auto_fill_account_from_aggregate_only">เฉพาะเมื่อเริ่มจากบัญชีรวมเท่านั้น</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">กำลังดึงข้อมูลจากแบ็กเอนด์ระยะไกล อาจใช้เวลาสักครู่</string>
+    <string name="sync_auth_exception">การอนุญาตล้มเหลว</string>
+    <string name="sync_login_again">กรุณาเข้าสู่ระบบอีกครั้ง</string>
+    <string name="warning_device_lock_screen_not_set_up_2">ไปที่ %s เพื่อตั้งค่าหน้าจอล็อก</string>
+    <string name="menu_history_show_balance">แสดงยอดคงเหลือ</string>
+    <string name="menu_history_transfers">รวมการโอนเงิน</string>
+    <string name="history_chart_in_label">รายได้</string>
+    <string name="menu_history_totals">แสดงยอดรวม</string>
+    <string name="pref_home_currency_title">สกุลเงินหลัก</string>
+    <string name="menu_original_amount">จำนวนเงินเดิม</string>
+    <string name="menu_equivalent_amount">จำนวนเงินเทียบเท่า</string>
+    <string name="warning_split_transactions">รายการที่เลือกจะถูกรวมเป็นรายการแยกส่วนเดียว ข้อมูลวันที่จะหายไป (จะถูกแทนที่ด้วยค่าเฉลี่ย)</string>
+    <string name="ungroup_split_transaction_success">ยกเลิกการจัดกลุ่มรายการแยกส่วนเรียบร้อยแล้ว</string>
+    <string name="booking_date">วันที่บันทึก</string>
+    <string name="pref_value_date_summary">อนุญาตให้ตั้งค่าวันที่มูลค่าเพิ่มเติมจากวันที่บันทึก (จะซ่อนเวลารายการ) การตั้งค่านี้ไม่ใช้กับบัญชีเงินสด</string>
+    <string name="licence_expires_tomorrow">คีย์มืออาชีพของคุณจะหมดอายุพรุ่งนี้</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">คีย์มืออาชีพของคุณจะหมดอายุในอีก %d วัน</string>
+    <string name="sort_order">ลำดับการจัดเรียง</string>
+    <string name="navigation_drawer_accounts_title">จัดการบัญชี</string>
+    <string name="goal_or_limit">เป้าหมาย / ขีดจำกัด</string>
+    <string name="credit_limit">วงเงินเครดิต</string>
+    <string name="dialog_title_edit_budget">แก้ไขงบประมาณ</string>
+    <string name="menu_budget">การวางแผนงบประมาณ</string>
+    <string name="budget_allocated_amount">จำนวนที่จัดสรรไว้</string>
+    <string name="budget_table_header_overspent">ใช้เกินงบประมาณ</string>
+    <string name="budget_under_allocated_error">%s ได้ถูกจัดสรรไปยังหมวดหมู่แล้ว หากคุณไม่นำเงินออกจากหมวดหมู่เหล่านั้น คุณต้องกำหนดงบประมาณอย่างน้อยจำนวนนั้น</string>
+    <string name="sub_budget_exceeded_error_2">เพิ่มจำนวนที่จัดสรรให้หมวดหมู่หลัก หรือนำเงินออกจากหมวดหมู่ย่อยอื่น</string>
+    <string name="currency_code">รหัส</string>
+    <string name="content_description_remove_icon">นำไอคอนออก</string>
+    <string name="unmapped">ยังไม่ได้แมป</string>
+    <string name="pref_security_export_passphrase_summary">การสำรองข้อมูลจะถูกเข้ารหัสด้วยวลีรหัสนี้</string>
+    <string name="backup_wrong_password">ดูเหมือนว่าไฟล์สำรองข้อมูลถูกเข้ารหัสด้วยวลีรหัสอื่น</string>
+    <string name="split_transaction_one_success">แปลงรายการเป็นแบบแยกส่วนเรียบร้อยแล้ว</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">รวม %1$d รายการเป็นรายการแยกส่วนเดียวเรียบร้อยแล้ว</string>
+    <string name="licence_expires_today">คีย์มืออาชีพของคุณหมดอายุวันนี้</string>
+    <string name="pref_translation_title">การแปล</string>
+    <string name="pref_sync_wifi_only_summary">ซิงค์เฉพาะเมื่อใช้ Wi-Fi เท่านั้น</string>
+    <string name="clear_all_filters">ล้างตัวกรองทั้งหมด</string>
+    <string name="budget_exceeded_error_1_1">จัดสรรงบประมาณของคุณไปยังหมวดหมู่อื่นแล้ว เหลือเพียง %s เท่านั้น</string>
+    <string name="content_description_clear_method">ล้างวิธีการ</string>
+    <string name="dialog_title_new_currency">สกุลเงินใหม่</string>
+    <string name="currency_still_used">สกุลเงินกำลังใช้งานอยู่ ไม่สามารถลบได้</string>
+    <string name="unmapped_filter_only_single">ตัวกรอง \'ยังไม่ได้แมป\' ไม่สามารถรวมอยู่ในการเลือกหลายรายการได้</string>
+    <string name="backup_is_encrypted">ไฟล์สำรองข้อมูลถูกเข้ารหัส ในการถอดรหัส คุณต้องระบุวลีรหัสของไฟล์นั้น</string>
+    <string name="warning_splitpartcategory_context">การโอนเงินที่เป็นส่วนหนึ่งของการแยกส่วนสามารถแก้ไขได้เฉพาะในบริบทของการแยกส่วนเท่านั้น</string>
+    <string name="warning_change_fraction_digits_1">จำนวนเงินในฐานข้อมูลจำเป็นต้องอัปเดตเพื่อให้ตรงกับจำนวนหลักเศษส่วนใหม่</string>
+    <string name="warning_change_fraction_digits_3">หากอัปเดตจำนวนเงิน คุณจะสูญเสียข้อมูลเกี่ยวกับส่วนที่เป็นเศษส่วนของจำนวนนั้น</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="other">หมวดหมู่ที่เลือก %1$d หมวดหมู่มีหมวดหมู่ย่อยที่จะถูกลบด้วย</item>
+    </plurals>
+    <string name="app_dir_not_compatible_with_nougat">URI ที่กำหนดไว้ปัจจุบันสำหรับการสำรองข้อมูลและการส่งออก (%1$s) ไม่ได้รับการสนับสนุนใน Android Nougat กรุณาเลือกโฟลเดอร์อีกครั้ง</string>
+    <string name="cvs_import_set_first_line_as_header">ควรถือว่าแถวแรกเป็นแถวส่วนหัวหรือไม่?</string>
+    <string name="account_deleted">ลบบัญชีเรียบร้อยแล้ว</string>
+    <string name="dialog_export_applied_to_filter">จะพิจารณาเฉพาะรายการที่ตรงกับตัวกรองปัจจุบันเท่านั้น</string>
+    <string name="csv_import_field_mapped_more_than_once">%s ถูกแมปมากกว่าหนึ่งครั้ง</string>
+    <string name="csv_import_subcategory_requires_category">หากคุณแมปหมวดหมู่ย่อย คุณต้องแมปหมวดหมู่หลักด้วย</string>
+    <string name="synchronization_postponed">เลื่อนการซิงโครไนซ์ออกไป</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">เปลี่ยนเป็นการสมัครสมาชิกรายปี</string>
+    <plurals name="delete_success">
+        <item quantity="other">ลบวัตถุ %d รายการเรียบร้อยแล้ว</item>
+    </plurals>
+    <string name="feature_deprecated">เลิกใช้แล้ว</string>
+    <string name="pref_backup_cloud_summary">นอกเหนือจากพื้นที่จัดเก็บข้อมูลในเครื่องแล้ว ไฟล์สำรองข้อมูลยังสามารถถูกคัดลอกไปยังแบ็กเอนด์ระยะไกลได้อีกด้วย</string>
+    <string name="pref_sync_frequency_summary_0">ตั้งค่าเป็น 0 เพื่อปิดการซิงค์อัตโนมัติ</string>
+    <string name="plan_custom_recurrence_info">กรุณาบันทึกแม่แบบก่อน จากนั้นแผนจะถูกเปิดในแอปปฏิทิน ที่ซึ่งคุณสามารถตั้งค่าการเกิดซ้ำแบบกำหนดเองได้</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">หากคุณไม่ต้องการใช้งานฟังก์ชันพรีเมียมบนอุปกรณ์นี้อีกต่อไป คุณสามารถลบคีย์ลิขสิทธิ์ได้ การดำเนินการนี้จะปลดคีย์เพื่อเปิดใช้งานบนอุปกรณ์อื่นได้อีกหนึ่งเครื่อง (คีย์สามารถเปิดใช้งานได้สูงสุด %d อุปกรณ์)</string>
+    <string name="warning_cannot_move_split_transaction">ไม่สามารถย้ายรายการแยกส่วนนี้ไปยังบัญชี %1$s ได้ เนื่องจากมีส่วนการโอนที่อ้างอิงถึงบัญชีนี้</string>
+    <string name="dialog_synced_to_other">มีบัญชีที่มี uuid %s อยู่ในฐานข้อมูลท้องถิ่นแล้วและเชื่อมโยงกับแบ็กเอนด์ระยะไกลอื่น</string>
+    <string name="crash_dialog_text">เกิดข้อผิดพลาดที่ไม่คาดคิดทำให้แอปพลิเคชันหยุดทำงาน กรุณาช่วยเราแก้ไขปัญหานี้โดยส่งข้อมูลข้อผิดพลาดให้เรา สิ่งที่คุณต้องทำคือคลิกตกลง</string>
+    <string name="dialog_sync_link">มีบัญชีที่มี uuid %s อยู่ในทั้งฐานข้อมูลท้องถิ่นและแบ็กเอนด์ระยะไกล เมื่อคุณเชื่อมโยงทั้งสอง คุณต้องตัดสินใจว่าในขั้นต้น คุณต้องการอัปโหลดข้อมูลท้องถิ่นไปยังแบ็กเอนด์ระยะไกล หรือดาวน์โหลดข้อมูลระยะไกลมาที่ฐานข้อมูลท้องถิ่น</string>
+    <string name="dialog_confirm_sync_remove_backend">แบ็กเอนด์ระยะไกล %s จะถูกนำออก ซึ่งจะไม่ส่งผลกระทบต่อข้อมูลที่เก็บไว้ในท้องถิ่นหรือระยะไกล แต่สถานะการซิงโครไนซ์จะหายไป</string>
+    <string name="warning_synchronization_folder_usage">โฟลเดอร์นี้ใช้สำหรับซิงโครไนซ์ข้อมูลระหว่างการติดตั้ง {app_name} บนอุปกรณ์ต่าง ๆ กรุณาอย่าแก้ไขเนื้อหาของโฟลเดอร์นี้ด้วยตนเอง</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">โฟลเดอร์ที่คุณเลือกตรงกับบัญชีหนึ่งของแบ็กเอนด์ที่มีอยู่ คุณต้องเลือกโฟลเดอร์หลักเพื่อใช้งานแบ็กเอนด์นี้ซ้ำ</string>
+    <string name="pref_transaction_time_summary">อนุญาตให้ตั้งเวลาเฉพาะของรายการ</string>
+    <string name="licence_expired_yesterday">คีย์มืออาชีพของคุณหมดอายุเมื่อวานนี้</string>
+    <string name="budget_exceeded_error_1_2">จัดสรรงบประมาณของคุณไปยังหมวดหมู่อื่นหมดแล้ว</string>
+    <string name="currency_code_already_definded">รหัสสกุลเงินถูกกำหนดไว้แล้ว</string>
+    <string name="validate_error_webdav_not_compliant">URL ไม่ชี้ไปยังทรัพยากร WebDAV</string>
+    <string name="menu_sync_download">ดาวน์โหลดและซิงค์</string>
+    <string name="pref_sync_frequency_summary">ควรซิงโครไนซ์ข้อมูลบ่อยแค่ไหน (เป็นชั่วโมง)</string>
+    <string name="dialog_command_sync_link_remote">ดาวน์โหลดจากระยะไกล</string>
+    <plurals name="warning_delete_template">
+        <item quantity="other">แม่แบบที่เลือก %1$d รายการจะถูกลบ</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="other">รายการที่เลือก %1$d รายการจะถูกลบ</item>
+    </plurals>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">หากไม่มีการอัปเดตจำนวนเงิน จำนวนเงินจะแสดงผลเป็นคูณด้วย %d หลังการเปลี่ยนแปลง</string>
+    <string name="pref_scroll_to_current_date_account_open">ทุกครั้งที่คุณไปที่บัญชี</string>
+    <string name="template">แม่แบบ</string>
+    <string name="buy">ซื้อ</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">ไม่สามารถกู้คืนสถานะการซิงค์สำหรับ %d บัญชีได้</string>
+    <string name="onboarding_ui_title">{app_name} ปรับให้เหมาะกับความชอบของคุณ</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">กู้คืนสถานะการซิงค์สำหรับ %d บัญชีเรียบร้อยแล้ว</string>
+    <string name="menu_ungroup_split_transaction">ยกเลิกการจัดกลุ่มรายการแยกส่วน</string>
+    <string name="value_date">วันที่มูลค่า</string>
+    <string name="pref_sync_changes_immediately_summary">เขียนการเปลี่ยนแปลงในเครื่องไปยังแบ็กเอนด์ทันที</string>
+    <string name="history_chart_out_label">รายจ่าย</string>
+    <string name="pref_scroll_to_current_date_title">เลื่อนรายการรายการไปยังวันที่ปัจจุบัน</string>
+    <string name="pref_scroll_to_current_date_app_launch">เฉพาะเมื่อแอปเริ่มทำงาน</string>
+    <string name="budget_exceeded_error_2">เพิ่มจำนวนงบประมาณ หรือนำเงินออกจากหมวดหมู่อื่น</string>
+    <string name="sub_budget_exceeded_error_1_1">จัดสรรจำนวนเงินไปยังหมวดหมู่ย่อยอื่นแล้ว เหลือเพียง %s ในหมวดหมู่หลัก</string>
+    <string name="sub_budget_exceeded_error_1_2">จัดสรรจำนวนเงินไปยังหมวดหมู่ย่อยอื่นหมดแล้วในหมวดหมู่หลัก</string>
+    <string name="sub_budget_under_allocated_error">%s ได้ถูกจัดสรรไปยังหมวดหมู่ย่อยแล้ว หากคุณไม่นำเงินออกจากหมวดหมู่ย่อยเหล่านั้น คุณต้องจัดสรรจำนวนนั้นอย่างน้อยให้กับหมวดหมู่หลัก</string>
+    <string name="content_description_clear_category">ล้างหมวดหมู่</string>
+    <string name="import_categories_success" tools:ignore="PluralsCandidate">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</string>
+    <string name="widget_title_accounts">บัญชีของฉัน</string>
+    <string name="menu_undelete_transaction">ยกเลิกการลบ</string>
+    <string name="sync_io_error_cannot_connect">ไม่สามารถเชื่อมต่อกับแบ็กเอนด์ซิงโครไนซ์ได้</string>
+    <string name="warning_auto_backup_deactivated">การสำรองข้อมูลอัตโนมัติถูกปิดใช้งานแล้ว คุณสามารถเปิดใช้งานอีกครั้งได้จากการตั้งค่าหลังจากแก้ไขปัญหา (เช่น เลือกโฟลเดอร์อื่นสำหรับการสำรองข้อมูล)</string>
+    <string name="menu_history">ประวัติ</string>
+    <string name="saving_goal">เป้าหมายการออม</string>
+    <string name="grand_total">ยอดรวมทั้งหมด</string>
+    <string name="warning_ungroup_split_transactions">รายการแยกส่วนที่เลือกจะถูกยกเลิกการจัดกลุ่ม โดยส่วนที่แยกจะกลายเป็นรายการปกติ</string>
+    <string name="split_transaction_not_possible">สามารถรวมรายการที่มีบัญชี ผู้รับเงิน/ผู้จ่ายเงิน และสถานะเดียวกันเท่านั้นเป็นรายการแยกส่วนเดียวได้</string>
+    <string name="pref_warning_only_one_protection">ก่อนที่คุณจะใช้การป้องกันโดย %1$s ได้ คุณต้องปิดการป้องกันโดย %2$s ก่อน</string>
+    <string name="warning_device_lock_screen_not_set_up_1">ยังไม่ได้ตั้งค่าหน้าจอล็อกอุปกรณ์แบบปลอดภัย</string>
 </resources>
