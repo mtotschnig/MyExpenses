@@ -39,6 +39,7 @@ dependencies {
 
     implementation('com.github.mtotschnig:microsoft-authentication-library-for-android:ee8eeef079') {
         exclude group: 'com.microsoft.device.display'
+        exclude group: 'org.json'
     }
 
     implementation libs.microsoft.graph
