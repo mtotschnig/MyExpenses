@@ -14,7 +14,7 @@ plugins {
 
 ext {
     resConfig = ['en', 'en-rGB', 'ar', 'bn', 'bg', 'ca', 'cs', 'da', 'de', 'de-rDE', 'el', 'es', 'eu', 'fr', 'fr-rCA', 'hr', 'hu', 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'ta', 'te', 'tr', 'uk', 'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW']
-    versionCode = 798
+    versionCode = 799
     versionName = '4.0.0'
     compileSdkVersion = 36
     minSdkVersion = 21
