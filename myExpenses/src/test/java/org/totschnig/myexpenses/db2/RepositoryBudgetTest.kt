@@ -108,4 +108,11 @@ class RepositoryBudgetTest : BaseTestWithRepository() {
             repository.budgetAllocation(budgetId, null, null)
         ).isEqualTo(100)
     }
+
+    @Test
+    fun testGetGrouping() {
+        val accountId = insertAccount("Test Account")
+        val budgetId = insertBudget(accountId, "Budget", 100, Grouping.NONE)
+        assertThat(repository.getGrouping(budgetId)).isEqualTo(Grouping.NONE)
+    }
 }

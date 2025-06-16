@@ -44,7 +44,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
-import org.totschnig.myexpenses.provider.getEnumOrNull
+import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
@@ -128,9 +128,9 @@ fun dateFilterClause(grouping: Grouping, year: Int, second: Int): String {
 
 fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
     budgetUri(budgetId),
-    arrayOf(KEY_GROUPING), null, null, null
+    null, null, null, null
 )?.use {
-    if (it.moveToFirst()) it.getEnumOrNull<Grouping>(0) else null
+    if (it.moveToFirst()) it.getEnum(KEY_GROUPING, Grouping.NONE) else null
 }
 
 fun Repository.loadBudget(budgetId: Long): Budget? = contentResolver.query(
