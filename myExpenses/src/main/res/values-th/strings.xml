@@ -205,7 +205,7 @@
     <string name="menu_edit_template">แก้ไขแม่แบบ</string>
     <string name="menu_create_template_for_transfer">แม่แบบการโอนใหม่</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="other">วัตถุที่เลือกถูกจับคู่กับธุรกรรมและไม่สามารถลบได้\n\nมีวัตถุ %1$d รายการที่ถูกจับคู่กับธุรกรรมและไม่สามารถลบได้</item>
+        <item quantity="other">มีวัตถุ %1$d รายการที่ถูกจับคู่กับธุรกรรมและไม่สามารถลบได้</item>
     </plurals>
     <string name="menu_import">นำเข้า</string>
     <string name="menu_edit_plan_instance">แก้ไขการเกิดขึ้นของแผนครั้งเดียว</string>
