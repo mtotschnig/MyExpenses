@@ -17,7 +17,7 @@
     <string name="help_form_fields">Формы палёў</string>
     <string name="cab_delete_help_text">Выдаліць выбраныя элементы.</string>
     <string name="cab_edit_help_text">Рэдагаваць выбраны элемент.</string>
-    <string name="help_MyExpenses_fab_long_press">Доўгі націск на плаваючую кнопку дзеяння адкрывае меню, якое дазваляе падрыхтаваць форму для пераводу, падзелу транзакцый або даходу.</string>
+    <string name="help_MyExpenses_fab_long_press">Націск і ўтрыманне плавае кнопку дзеянні адкрывае меню падрыхтоўкі форму для пераводу, падзел транзакцыі і паступленняў.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Скапіяваць бягучы баланс у буфер абмену.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Вылічыць розніцу паміж бягучым балансам і новым значэннем.</string>
     <string name="help_MyExpenses_info">На гэтым экране пералічаны ўсе транзакцыі па бягучым рахунку. Выкарыстоўвайце плаваючую кнопку дзеяння, каб адкрыць форму для стварэння новай транзакцыі.</string>
@@ -99,7 +99,7 @@
     <string name="menu_chart_help_text">Змяніць бачнасць дыяграмы.</string>
     <string name="cab_ManageCategories_merge_help_text">Катэгорыі аднаго і таго ж тыпу могуць быць аб\'яднаныя.</string>
     <string name="help_ExpenseEdit_splitPartCategory_title">Форма для падзеленых частак катэгорыі</string>
-    <string name="help_ExpenseEdit_splitPartTransfer_title">Форма для перадачы падзеленых частак</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Форма для пераводаў падзеленых частак</string>
     <string name="help_ExpenseEdit_templateCategory_title">Форма для шаблонаў транзакцый</string>
     <string name="help_ExpenseEdit_templateTransfer_title">Шаблоны для пераводу</string>
     <string name="help_ExpenseEdit_split_info">Падзеленая транзакцыя — гэта адна транзакцыя, падзеленая на часткі, дзе кожную частку можна аднесці да іншай катэгорыі або перавесці на іншы акаўнт.</string>

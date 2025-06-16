@@ -141,8 +141,8 @@
     <string name="validate_error_webdav_404">URL не існуе на серверы.</string>
     <string name="pref_tracking_summary">Дазвольце нам збіраць ананімныя дадзеныя аб мадэлях выкарыстання, якія дапамагаюць нам планаваць паляпшэнні.</string>
     <string name="sync_error_will_try_again_later">Паспрабуйце пазней.</string>
-    <string name="contributed_by">Унесены ў %s</string>
-    <string name="onboarding_restore_from_cloud">Аднавіць з воблачнай сінхранізацыі</string>
+    <string name="contributed_by">Аўтар дапаўнення %s</string>
+    <string name="onboarding_restore_from_cloud">Аднаўленне з сінхранізацыі ў воблаку</string>
     <string name="pref_share_target_summary">Пакіньце поле пустым, калі хочаце выбраць паміж адпаведнымі праграмамі (электронная пошта, Dropbox, Google Docs, …), або падайце URL-адрас у адной з падтрымоўваных схем.</string>
     <string name="pref_ui_theme_dark">Цёмная</string>
     <string name="import_select_transactions">Транзакцыі</string>
@@ -198,8 +198,8 @@
     <string name="sync_io_exception_reset_account_data">Памылка падчас скіду налад аддаленага акаўнта.</string>
     <string name="sync_io_exception_setup_remote_account">Памылка пры наладжванні аддаленага акаўнта.</string>
     <string name="sync_io_exception_syncing">Памылка падчас сінхранізацыі змяненняў з серверам.</string>
-    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Стан сінхранізацыі не можа быць адноўлены для %d уліковых запісаў.</string>
-    <string name="onboarding_ui_title">{app_name} адаптуецца да вашых пераваг</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Не ўдалося аднавіць стан сінхранізацыі для акаўнтаў %d.</string>
+    <string name="onboarding_ui_title">{app_name} падладжваецца пад вашы перавагі</string>
     <string name="comparison_operator_date_before">перад</string>
     <string name="comparison_operator_equal">роўна</string>
     <string name="menu_undelete_transaction">Не выдаляць</string>
@@ -237,7 +237,7 @@
     <string name="synchronization_end_success_none">Няма змяненняў для сінхранізацыі.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Каталог, які вы выбралі, адпавядае аднаму рахунку існуючага сервера. Вам трэба выбраць бацькоўскую тэчку, каб выкарыстоўваць гэты сервер.</string>
     <string name="sync_io_error_cannot_connect">Не ўдаецца падлучыцца да сервернай часткі сінхранізацыі.</string>
-    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d выдаленыя змены былі запісаны ў лакальную базу дадзеных. %2$d лакальныя змены былі запісаны ў аддалены бэкэнд.</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d аддаленыя змены былі запісаны ў лакальную базу дадзеных. %2$d лакальныя змены былі запісаны ў аддалены сервер.</string>
     <string name="pref_debug_logging_summary">Запіс інфармацыі аб адладцы ў сістэмны журнал</string>
     <string name="pref_csv_import_delimiter">Раздзяляльнік</string>
     <string name="date_format_hour">Гадзіна</string>
@@ -294,7 +294,7 @@
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Абноўлена %1$d рахункаў з валютай %2$s.</string>
     <string name="folder_name">Імя тэчкі</string>
     <string name="validate_error_not_empty">Не павінна быць пустым</string>
-    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Стан сінхранізацыі быў адноўлены для %d уліковых запісаў.</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Стан сінхранізацыі быў адноўлены для акаўнтаў %d.</string>
     <string name="contrib_feature_category_tree_label">Адвольна глыбокая іерархія катэгорый</string>
     <string name="dialog_command_disabled_balance">Няма вылічаных транзакцый для ўзгаднення.</string>
     <string name="menu_create_transfer">Новы перавод</string>
@@ -394,7 +394,7 @@
     <string name="no_calendar_app_installed">Не знойдзена праграма для рэдагавання падзей календара.</string>
     <string name="sync_io_exception_unlocking">Памылка пры зняцці блакіроўкі з аддаленага сервера.</string>
     <string name="sync_io_exception_locking">Аддалены бэкэнд заблакіраваны або не можа быць заблакіраваны.</string>
-    <string name="pref_webdav_timeout_title">Тайм-аўт WebDAV (у секундах)</string>
+    <string name="pref_webdav_timeout_title">Час чакання WebDAV (у секундах)</string>
     <plurals name="warning_delete_transaction">
         <item quantity="one">Выбраная транзакцыя будзе выдалена.</item>
         <item quantity="few">%1$d выбраных транзакцый будуць выдалены.</item>
@@ -449,7 +449,7 @@
     <string name="number_of_fraction_digits">Колькасць лічбаў дробу</string>
     <string name="warning_auto_backup_deactivated">Аўтаматычнае рэзервовае капіраванне адключана. Вы можаце зноў уключыць яго ў наладах пасля вырашэння праблемы (напрыклад, выбару іншай тэчкі для рэзервовых копій).</string>
     <string name="sync_success_reset_account_data">Аддаленыя даныя для акаўнта %s былі выдалены.</string>
-    <string name="onboarding_data_title">Давайце наладзім ваш першы ўліковы запіс</string>
+    <string name="onboarding_data_title">Давайце наладзім ваш першы акаўнт</string>
     <string name="planner_create_calendar_failure">Немагчыма стварыць лакальны каляндар планавання</string>
     <string name="password_not_valid">Пароль няправільны. Паспрабуйце яшчэ раз!</string>
     <string name="payer">Плацельшчык</string>
@@ -524,10 +524,173 @@
     <string name="dialog_confirm_sync_unlink">Калі вы адвязваеце гэты акаўнт ад %s, стан сінхранізацыі губляецца. Каб звязаць іх пазней, спатрэбіцца паўторная поўная сінхранізацыя.</string>
     <string name="dialog_synced_to_other">Акаўнт з uuid %s ўжо існуе ў лакальнай базе дадзеных і прывязаная да іншага выдаленаму серверу.</string>
     <string name="warning_synchronization_folder_usage">Гэта папка выкарыстоўваецца для сінхранізацыі даных паміж устаноўкамі {app_name} на розных прыладах. Калі ласка, не змяняйце яго змесціва ўручную.</string>
-    <string name="pref_sync_notification_summary">Апавяшчаць аб ходзе сінхранізацыі</string>
+    <string name="pref_sync_notification_summary">Паведамляць аб прагрэсе сінхранізацыі</string>
     <string name="contrib_feature_ad_free_label">Няма аб\'яваў</string>
     <string name="status_reconciled">узгадніць</string>
     <string name="status_cleared">ачысціць</string>
     <string name="status_unreconciled">не ўзгадняць</string>
     <string name="dialog_command_sync_link_local">Загрузіць з лакальнага сховішча</string>
+    <string name="sync_backend_is_not_encrypted">Аддалены бэкенд не зашыфраваны.</string>
+    <string name="sub_budget_exceeded_error_1_2">Уся сума, выдзеленая на асноўную катэгорыю, была размеркавана на іншыя падкатэгорыі.</string>
+    <string name="currency_code">Код</string>
+    <string name="content_description_clear_category">Ачысціць катэгорыю</string>
+    <string name="pref_security_export_passphrase_summary">Рэзервовыя копіі будуць зашыфраваны з дапамогай гэтай парольнай фразы</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Дадатковыя %d месяцы прадастаўляюцца адзін раз карыстальнікам, якія ўжо маюць пашыраную ліцэнзію</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Перайсці на штомесячную падпіску</string>
+    <string name="extend_validity">Падоўжыць тэрмін дзеяння</string>
+    <string name="value_date">Дата валютавання</string>
+    <string name="pref_sync_changes_immediately_summary">Запісвайце лакальныя змены адразу ў бэкенд</string>
+    <string name="content_description_remove_icon">Выдаліць значок</string>
+    <string name="dialog_title_new_currency">Новая валюта</string>
+    <string name="warning_backup_protected">Архіў будзе абаронены вашай парольнай фразай.</string>
+    <string name="dialog_title_warning_delete_budget">Выдаліць бюджэт?</string>
+    <string name="budget_filter_all_accounts">Усе акаўнты</string>
+    <string name="budget_onetime">Аднаразовы</string>
+    <string name="pref_clone_with_current_date_summary_on">Кланаваныя аперацыі маюць бягучую дату</string>
+    <string name="pref_manage_tags_summary">Дадаць, змяніць, выдаліць тэгі.</string>
+    <string name="valid_until">Да %s</string>
+    <string name="eu_vat_info">Для жыхароў Еўрапейскага Саюза цэны паказаны без уліку VAT.</string>
+    <string name="sync_auth_exception">Аўтарызацыя не ўдалася.</string>
+    <string name="history_chart_in_label">Даход</string>
+    <string name="menu_original_amount">Першапачатковая сума</string>
+    <string name="menu_equivalent_amount">Эквівалентная сума</string>
+    <string name="pref_transaction_time_summary">Дазваляе ўсталяваць дакладны час транзакцыі.</string>
+    <string name="licence_expires_tomorrow">Тэрмін дзеяння вашага Professional ключа мінае заўтра.</string>
+    <string name="sub_budget_under_allocated_error">%s ужо размеркаваны па падкатэгорыях. Калі вы не выдаліце з іх грошы, вы павінны хаця б размеркаваць гэтую суму ў асноўную катэгорыю.</string>
+    <string name="backup_is_encrypted">Файл рэзервовай копіі зашыфраваны. Каб расшыфраваць яго, вам трэба ўказаць яго пароль.</string>
+    <string name="menu_close">Зачыніць</string>
+    <string name="roadmap_vote">Дарожная карта і галасаванне</string>
+    <string name="content_description_dates_are_linked">Дата браніравання і дата валютавання абнаўляюцца разам</string>
+    <string name="content_description_dates_are_not_linked">Дата браніравання і дата валютавання не абнаўляюцца разам</string>
+    <string name="pref_exchange_rates_api_key_summary">Калі ласка, зарэгіструйце бясплатны акаўнт на %s і падайце свой ідэнтыфікатар праграмы</string>
+    <string name="budget_filter_all_methods">Усе метады</string>
+    <string name="remapping_result">Выбраныя аперацыі былі пераназначаны.</string>
+    <string name="split_transaction_not_possible">Толькі транзакцыі з аднолькавым рахункам, атрымальнікам плацяжу і статусам можна аб\'яднаць у адну падзеленую транзакцыю.</string>
+    <string name="menu_budget">Бюджэтаванне</string>
+    <string name="progress_validating_licence">Праверка ліцэнзіі</string>
+    <string name="licence_removal_success">Ліцэнзійны ключ быў паспяхова вызвалены з гэтай прылады.</string>
+    <string name="professional_key">Professional ключ</string>
+    <string name="extend_until">Падоўжыць да %1$s для %2$s</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Перайсці на гадавую падпіску</string>
+    <string name="donate_button_invoice">Рахунак-фактура</string>
+    <string name="feature_deprecated">Састарэла</string>
+    <string name="pref_protection_device_lock_screen_title">Экран блакіроўкі прылады</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Экран бяспечнай блакіроўкі прылады не настроены.</string>
+    <string name="history_chart_out_label">Выдатак</string>
+    <string name="menu_ungroup_split_transaction">Разгрупаваць падзел</string>
+    <string name="sub_budget_exceeded_error_1_1">Уся сума, акрамя %s, выдзеленая на асноўную катэгорыю, была размеркавана на іншыя падкатэгорыі.</string>
+    <string name="passphrase_for_synchronization">Увядзіце пароль, калі вы хочаце, каб сінхранізацыя дадзеных на гэтым серверы была зашыфравана.</string>
+    <string name="sync_backend_is_encrypted">Аддалены сервер зашыфраваны. Вам трэба ўказаць пароль.</string>
+    <string name="input_label_passphrase">Парольная фраза</string>
+    <string name="warning_synced_account_cannot_be_closed">Акаўнт, звязаны з бэкэндам сінхранізацыі, нельга закрыць</string>
+    <string name="warning_account_for_transaction_is_closed">Па меншай меры, адна з выбраных транзакцый, не можа быць адрэдагавана:</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Выкарыстоўвайце гэтую кнопку пераключэння для запісу даходу.</string>
+    <string name="synchronization_select_folder_dialog_title">Выберыце існуючую тэчку або стварыце новую</string>
+    <string name="onboarding_privacy_intro">Вашы фінансавыя дадзеныя не адпраўляюцца ні на які сервер, які кіруецца ні намі, ні трэцімі асобамі.</string>
+    <string name="menu_remap">Пераафармленні</string>
+    <string name="remap_account">Усе выбраныя транзакцыі будуць звязаныя з рахункам %s.</string>
+    <string name="menu_create_template_for_split">Новы шаблон падзелу</string>
+    <string name="progress_removing_licence">Выдаленне ліцэнзіі</string>
+    <string name="licence_validation_error_device_limit_exceeded">Перавышаны ліміт прылад. Калі ласка, адключыце ліцэнзію на адной з прылад.</string>
+    <string name="button_validate">Пацвердзіць</string>
+    <string name="button_label_no_encryption">Без шыфравання</string>
+    <string name="sync_backend_wrong_passphrase">Здаецца, што аддалены сервер зашыфраваны іншай парольнай фразай.</string>
+    <string name="split_transaction_one_success">Транзакцыя паспяхова пераўтворана ў падзел.</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">Транзакцыі %1$d былі паспяхова згрупаваны ў адну падзеленую транзакцыю.</string>
+    <string name="licence_expires_today">Тэрмін дзеяння вашага Professional ключа мінае сёння.</string>
+    <string name="licence_expired_yesterday">Тэрмін дзеяння вашага Professional ключа скончыўся ўчора.</string>
+    <string name="saving_goal">Захаванне мэты</string>
+    <string name="budget_exceeded_error_1_2">Увесь ваш бюджэт быў размеркаваны на іншыя катэгорыі.</string>
+    <string name="budget_exceeded_error_2">Павялічце запланаваную суму або выдаліце грошы з іншых катэгорый.</string>
+    <string name="menu_reopen">Пераадкрыць</string>
+    <string name="content_description_closed">Зачынен</string>
+    <string name="pref_category_exchange_rates">Абменныя курсы</string>
+    <string name="pref_plan_executor_time_title">Час апавяшчэння планавальніка</string>
+    <string name="menu_budget_allocated_only">Паказаць толькі катэгорыі з размеркаваннем</string>
+    <string name="budget_filter_all_categories">Усе катэгорыі</string>
+    <string name="budget_filter_all_parties">Усе ўдзельнікі</string>
+    <string name="budget_filter_all_tags">Усе тэгі</string>
+    <string name="app_restart_required">Для ўступлення ў сілу новай канфігурацыі патрабуецца перазапуск праграмы.</string>
+    <string name="button_label_clone_and_remap">Кланаваць і перааформіць</string>
+    <string name="budget_table_header_spent">Выдаткаваны</string>
+    <string name="remap_category">Усе выбраныя аперацыі будуць супастаўлены з катэгорыяй %s.</string>
+    <string name="remap_payee">Усе выбраныя аперацыі будуць супастаўлены плацельшчыку/атрымальніку плацяжу %s.</string>
+    <string name="sync_login_again">Калі ласка, увайдзіце зноў.</string>
+    <string name="pref_home_currency_title">Унутраная валюта</string>
+    <string name="navigation_drawer_accounts_title">Кіраванне акаўнтамі</string>
+    <string name="translated_by">Пераклаў</string>
+    <string name="exchange_rate_not_supported">Настроены пастаўшчык абменных курсаў не прадастаўляе курс %1$s : %2$s. Вы можаце паспрабаваць выбраць іншы ў наладах.</string>
+    <string name="menu_edit_budget">Рэдагаваць бюджэт</string>
+    <string name="warning_delete_budget">Бюджэт \"%1$s\" будзе выдалены.</string>
+    <string name="tags_create_or_select">Стварыць ці абраць тэгі</string>
+    <string name="budget_date_end_after_start">Дата заканчэння бюджэту павінна быць пасля даты яго пачатку.</string>
+    <string name="menu_create_budget">Новы бюджэт</string>
+    <string name="licence_key">Ліцэнзійны ключ</string>
+    <string name="plan_custom_recurrence_info">Спачатку захавайце шаблон. Затым план адкрыецца ў дадатку календара, дзе вы зможаце наладзіць паўтарэнне.</string>
+    <string name="menu_history_totals">Паказаць вынікі</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">Калі вам больш не патрэбныя прэміум-функцыяналы на гэтай прыладзе, вы можаце выдаліць ліцэнзійны ключ. Гэта вызваліць ключ для актывацыі на яшчэ адной прыладзе. Ключ можна актываваць на максімум %d прыладах.</string>
+    <plurals name="delete_success">
+        <item quantity="one">Аб\'ект быў паспяхова выдалены.</item>
+        <item quantity="few">%d аб\'екта былі паспяхова выдалены.</item>
+        <item quantity="many">%d аб\'ектаў было паспяхова выдалена.</item>
+        <item quantity="other">%d аб\'ектаў было паспяхова выдалена.</item>
+    </plurals>
+    <string name="content_description_clear_method">Ачысціць метад</string>
+    <string name="budget_filter_all_states">Усе статусы</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Каб наладзіць блакаванне экрана, перайдзіце да %s.</string>
+    <string name="budget_exceeded_error_1_1">Уся сума вашага бюджэту, акрамя %s, была размеркавана на іншыя катэгорыі.</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Тэрмін дзеяння вашага прафесійнага ключа скончыцца праз %d дзён.</string>
+    <string name="pref_value_date_summary">Дазволіць усталёўваць дату валютавання ў дадатак да даты браніравання. Час транзакцыі будзе схаваны. Гэтая налада не распаўсюджваецца на грашовыя рахункі.</string>
+    <string name="booking_date">Дата браніравання</string>
+    <string name="warning_no_account">Для стварэння новых транзакцый павінен быць бачны і адкрыты хаця б адзін рахунак.</string>
+    <string name="pref_sync_wifi_only_summary">Сінхранізаваць толькі пры падключэнні да Wi-Fi</string>
+    <string name="goal_or_limit">Мэта / Ліміт</string>
+    <string name="remap_empty_list">Не знойдзены ніводны элемент, які можа быць супастаўлены з усімі абранымі транзакцыямі.</string>
+    <string name="onboarding_privacy_title">Вашы дадзеныя застаюцца ў вашых руках</string>
+    <string name="sub_budget_exceeded_error_2">Павялічце суму, выдзеленую на асноўную катэгорыю, або выдаліце грошы з іншых падкатэгорый.</string>
+    <string name="currency_code_already_definded">Код валюты ўжо вызначаны.</string>
+    <string name="currency_still_used">Валюта выкарыстоўваецца, яе нельга выдаліць.</string>
+    <string name="unmapped_filter_only_single">Фільтр «Не нанесена на карту» нельга ўключыць у множны выбар</string>
+    <string name="menu_hidden_accounts">Схаваныя акаўнты</string>
+    <string name="pref_exchange_rate_provider_summary">Выберыце пастаўшчыка для загрузкі курсаў абмену</string>
+    <string name="grand_total">Агульная сума</string>
+    <string name="synchronization_postponed">Сінхранізацыя адкладзена.</string>
+    <string name="pref_exchange_rate_provider_title">Пастаўшчык абменных курсаў</string>
+    <string name="no_budgets">Вызначце свой першы бюджэт, націснуўшы кнопку «+».</string>
+    <string name="menu_history_transfers">Уключаць пераводы</string>
+    <string name="backup_wrong_password">Здаецца, што файл рэзервовай копіі зашыфраваны іншай парольнай фразай.</string>
+    <string name="pref_clone_with_current_date_summary_off">Кланаваныя аперацыі захоўваюць зыходную дату</string>
+    <string name="warning_ungroup_split_transactions">Выбраныя падзеленыя транзакцыі будуць разгрупаваныя, г.зн. іх падзеленыя часткі стануць звычайнымі транзакцыямі.</string>
+    <string name="dialog_title_edit_budget">Рэдагаваць бюджэт</string>
+    <string name="budget_table_header_budgeted">Бюджэт</string>
+    <string name="budget_table_header_overspent">Перавыдаткі</string>
+    <string name="pref_security_export_passphrase_title">Парольная фраза для рэзервовых копій</string>
+    <string name="budget_allocated_amount">Выдзеленая сума</string>
+    <string name="object_sealed">Аб\'ект адносіцца да закрытага рахунку.</string>
+    <string name="remap_method">Усе выбраныя аперацыі будуць супастаўлены з метадам %s.</string>
+    <string name="pref_scroll_to_current_date_account_open">кожны раз, калі вы пераходзіце да акаўнта</string>
+    <string name="clear_all_filters">Ачысціце ўсе фільтры</string>
+    <string name="pref_scroll_to_current_date_title">Пракруціць спіс транзакцый да бягучай даты</string>
+    <string name="pref_scroll_to_current_date_app_launch">толькі пры запуску прыкладання</string>
+    <string name="licence_validation_error_expired">Ліцэнзія скончылася</string>
+    <string name="joining_or">або</string>
+    <string name="sort_order">Парадак сартавання</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Тэрмін дзеяння вашага Professional ключа скончыўся %d дзён таму.</string>
+    <string name="gdpr_consent_button_no">Аплаціце версію без рэкламы</string>
+    <string name="pref_translation_title">Пераклад</string>
+    <string name="credit_limit">Крэдытны ліміт</string>
+    <string name="budget_table_header_allocated">Выдзелена</string>
+    <string name="budget_under_allocated_error">%s ужо размеркаваны па катэгорыях. Калі вы не здымаеце з іх грошы, вы павінны закласці ў бюджэт хаця б гэту суму.</string>
+    <string name="clone_and_remap_result">Выбраныя аперацыі былі кланіраваны і пераназначаны.</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d месяцаў</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Атрыманне дадзеных з аддаленага сервера. Гэта можа заняць некаторы час.</string>
+    <string name="auto_fill_account_from_aggregate_only">Толькі пры запуску з сукупнага рахунку.</string>
+    <string name="pref_warning_only_one_protection">Перш чым выкарыстоўваць абарону з дапамогай %1$s, неабходна адключыць абарону з дапамогай %2$s.</string>
+    <string name="menu_history">Гісторыя</string>
+    <string name="menu_history_show_balance">Паказаць баланс</string>
+    <string name="unmapped">Не нанесена на карту</string>
+    <string name="dialog_title_confirm_remap">Змяніць супастаўленне (%s)?</string>
+    <string name="content_description_download_exchange_rate">Спампаваць абменны курс</string>
+    <string name="ungroup_split_transaction_success">Падзел транзакцый быў паспяхова разгрупаваны.</string>
+    <string name="warning_split_transactions">Выбраныя транзакцыі будуць аб\'яднаны ў адну падзеленую транзакцыю. Інфармацыя пра іх дату будзе страчана, г.зн. заменена іх сярэднім значэннем.</string>
 </resources>
