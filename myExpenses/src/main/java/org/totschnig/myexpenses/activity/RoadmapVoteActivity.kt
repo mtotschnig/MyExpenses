@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +46,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private var isPro = false
     private var query: String? = null
     private var isLoading = false
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = RoadmapBinding.inflate(layoutInflater)
@@ -84,6 +88,18 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             }
             roadmapViewModel.loadData(RoadmapRepository.VERSION > versionFromPref)
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.myRecyclerView, { v, insets ->
+            val navigationInsets = insets.getInsets(
+                WindowInsetsCompat.Type.navigationBars()
+            )
+
+            v.updatePadding(
+                bottom = navigationInsets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        })
     }
 
     override fun onPause() {
