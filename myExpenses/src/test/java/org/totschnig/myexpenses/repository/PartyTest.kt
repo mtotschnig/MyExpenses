@@ -17,7 +17,7 @@ class PartyTest : BaseTestWithRepository() {
 
     @Before
     fun setupPayee() {
-        party = repository.createParty(Party(name = "N.N."))
+        party = repository.createParty(Party(name = "N.N."))!!
         assertThat(party.id).isGreaterThan(0L)
     }
 

@@ -55,7 +55,7 @@ class TemplateTest: BaseTestWithRepository() {
             description = "Secondary account"
         ).createIn(repository)
         categoryId = writeCategory("TestCategory", null)
-        payeeId = repository.requireParty("N.N")
+        payeeId = repository.requireParty("N.N")!!
     }
 
     @Test

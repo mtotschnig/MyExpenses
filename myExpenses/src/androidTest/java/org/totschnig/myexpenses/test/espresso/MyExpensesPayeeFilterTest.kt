@@ -33,8 +33,8 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        p1 = repository.createParty(Party(name = payee1)).id
-        p2 = repository.createParty(Party(name = payee2)).id
+        p1 = repository.createParty(Party(name = payee1))!!.id
+        p2 = repository.createParty(Party(name = payee2))!!.id
         val currency = CurrencyUnit.DebugInstance
         account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
@@ -44,7 +44,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         op.payee = payee2
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
-        d = repository.createParty(Party(name = duplicate)).id
+        d = repository.createParty(Party(name = duplicate))!!.id
         repository.setParentId(d, p2)
         op.payee = duplicate
         op.date = op.date - 10000
