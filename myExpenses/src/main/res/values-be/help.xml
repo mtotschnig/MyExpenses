@@ -40,12 +40,12 @@
     <string name="help_ManageCategories_manage_context">Націсніце на запіс, каб паказаць яго кантэкстнае меню. Доўгі націск дазваляе пачаць множны выбар.</string>
     <string name="menu_invert_transfer_help_text">Змяніце кірунак пераводу, памяняўшы месцамі рахункі «Адпраўнік» і «Прымальнік».</string>
     <string name="help_ManageTemplates_plans_info_open">Экземпляр пакуль не ўжыты.</string>
-    <string name="help_ManageTemplates_plans_info_applied">Экземпляр быў ужыты.</string>
+    <string name="help_ManageTemplates_plans_info_applied">Інстанс быў ужыты.</string>
     <string name="menu_forward_help_text">Перайсці да наступнай групы. Таксама можна зрабіць жэстам правядзення пальцам справа налева.</string>
     <string name="menu_ManageCategories_sort_help_text">Спіс катэгорый можна адсартаваць па назве (у алфавітным парадку), па частаце выкарыстання або па даце апошняга прывязвання да яе транзакцыі.</string>
     <string name="help_ExpenseEdit_templateSplit_title">Форма для падзеленых шаблонаў</string>
     <string name="form_comment_help_text">Увядзіце любую заўвагу аб аб\'екце.</string>
-    <string name="form_crstatus_help_text">Для трансакцый, якія належаць банкаўскім рахункам, вы можаце змяніць статус трансакцыі на вычышчаны. Каб узгадніць яго, неабходна выкарыстоўваць каманду \"Баланс рахунку\" са спісу трансакцый. Калі статут усталяваны ў void, транзакцыя не будзе залічана.</string>
+    <string name="form_crstatus_help_text">Для транзакцый, якія адносяцца да банкаўскіх рахункаў, вы можаце змяніць статус транзакцыі на «Ачышчана». Каб усталяваць яе на «Узгоднена», вы павінны выкарыстоўваць каманду «Балансаваць рахунак» са спісу транзакцый. Калі статус усталяваны на «Анулявана», транзакцыя не будзе ўлічана.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Прызначце рахункі, з якіх або на якія пераносіцца гэты аб\'ект.</string>
     <string name="form_plan_help_text_advanced">Пасля захавання шаблону вы можаце наладзіць больш пашыраныя тыпы паўтарэння, выкарыстоўваючы праграму календара.</string>
     <string name="form_description_help_text">Дадзенае апісанне носіць выключна інфарматыўны характар.</string>
@@ -59,12 +59,12 @@
     <string name="help_ManageTemplates_planner_title">Маючыя адбыцца паўторы</string>
     <string name="help_ManageTemplates_plans_intro">Кожная вылучаная дата ўяўляе сабой асобны прыклад плана.</string>
     <string name="help_ManageTemplates_plans_info_header">Стан экзэмпляра пазначаецца наступнымі значкамі:</string>
-    <string name="help_ManageTemplates_plans_info_cancelled">Экземпляр быў адменены, г.зн. вы пазначылі яго як прапушчаны. Для гэтага экземпляра транзакцыя створана не будзе.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">Інстанс быў адменен, г.зн. вы пазначылі яго як прапушчаны. Для гэтага экземпляра транзакцыя створана не будзе.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Стварыце асобнік выбранага шаблону і ўвайдзіце ў форму яго рэдагавання, дзе вы зможаце змяніць яго перад захаваннем.</string>
     <string name="cab_ManageTemplates_edit_help_text">Адрэдагуйце выбраны шаблон і стварыце або адрэдагуйце звязаны план.</string>
     <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Пакажыце, што ў выбраных асобнікаў падзеі, ніякіх транзакцый не павінны быць створаны. Калі транзакцыі былі створаны для выбраных асобнікаў падзей, яны будуць выдаленыя.</string>
     <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Калі для выбраных экзэмпляраў падзей былі створаны транзакцыі, яны будуць выдалены, калі ж яны былі пазначаны як адмененыя, сцяжкі будуць выдалены.</string>
-    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Адрэдагуйце транзакцыю, створаную для выбранага экзэмпляра плана.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Рэдагаваць аперацыю, якая была створана для падзеі абранага плана.</string>
     <string name="help_ManageCategories_select_filter_info">Націсніце на запіс, каб пачаць множны выбар.</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">Усталюйце тып групоўкі і адлюструйце размеркаванне па днях, месяцах, тыднях або гадах.</string>
     <string name="menu_back_help_text">Перайсці да папярэдняй групы. Таксама можна зрабіць жэстам правядзення пальцам злева направа.</string>
@@ -101,7 +101,7 @@
     <string name="help_ExpenseEdit_splitPartCategory_title">Форма для падзеленых частак катэгорыі</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">Форма для пераводаў падзеленых частак</string>
     <string name="help_ExpenseEdit_templateCategory_title">Форма для шаблонаў транзакцый</string>
-    <string name="help_ExpenseEdit_templateTransfer_title">Шаблоны для пераводу</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">Шаблоны формаў для пераводаў</string>
     <string name="help_ExpenseEdit_split_info">Падзеленая транзакцыя — гэта адна транзакцыя, падзеленая на часткі, дзе кожную частку можна аднесці да іншай катэгорыі або перавесці на іншы акаўнт.</string>
     <string name="form_account_help_text">Выберыце рахунак, да якога належыць транзакцыя.</string>
     <string name="form_payer_or_payee_help_text">Гэтае поле запамінае ўведзеныя вамі значэнні і будзе прапаноўваць іх у будучыні.</string>
@@ -146,7 +146,7 @@
     <string name="help_ManageTags_select_filter_info">Выберыце або адмяніце выбар тэгаў для фільтрацыі спісу транзакцый, націснуўшы на іх.</string>
     <string name="cab_debts_help_text">Гэта падменю дазваляе вызначыць новыя запазычанасці, звязаныя з выбраным бокам, а таксама кіраваць існуючымі запазычанасцямі: праглядаць гісторыю транзакцый і рэшту балансу, а таксама рэдагаваць, закрываць або выдаляць іх.</string>
     <string name="help_ManageSyncBackends_intro">«Мае выдаткі» дазваляе наладзіць розныя бэкенды сінхранізацыі для кожнага акаўнта. Напрыклад, вы можаце сінхранізаваць адзін уліковы запіс з агульнай тэчкай, а іншы — з прыватнай. На гэтым экране вы дадаяце або выдаляеце бэкенды сінхранізацыі, запускаеце або спыняеце сінхранізацыю з акаўнтам, даступнымі дыстанцыйна. Хоць сінхранізацыя адбываецца аўтаматычна перыядычна, тут вы таксама можаце ўручную запусціць яе з дапамогай бэкенда. Звярніце ўвагу, што «Мае выдаткі» патрабуюць поўнага кантролю над дыстанцыйнай тэчкай. Не варта выкарыстоўваць іншыя інструменты або інтэрфейсы для змены яе змесціва, бо гэта, хутчэй за ўсё, прывядзе да збояў падчас сінхранізацыі.</string>
-    <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how  the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br>Пасля націскання кнопкі «Разабраць» на панэлі дзеянняў дадзеныя будуць прадстаўлены вам у табліцы. Перад тым, як запусціць імпарт з дапамогай кнопкі на панэлі дзеянняў, вы можаце выбраць радкі, якія хочаце адхіліць, і вам трэба будзе супаставіць слупкі з адпаведнымі палямі дадзеных.<br><br>Калі вы адхіляеце першы радок, вам будзе прапанавана, ці хочаце вы, каб ён разглядаўся як радок загалоўка, і ў гэтым выпадку <i>Мае выдаткі</i> паспрабуе аўтаматычна супаставіць слупкі на аснове зместу ячэек загалоўка. Ён таксама запомніць ваша супастаўленне на аснове радка загалоўка і аднавіць яго пры наступным імпарце файла з такім жа фарматам загалоўка.]]></string>
+    <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br>Пасля націскання кнопкі «Разабраць» на панэлі дзеянняў дадзеныя будуць прадстаўлены вам у табліцы. Перад тым, як запусціць імпарт з дапамогай кнопкі на панэлі дзеянняў, вы можаце выбраць радкі, якія хочаце адхіліць, і вам трэба будзе супаставіць слупкі з адпаведнымі палямі дадзеных.<br><br>Калі вы адхіляеце першы радок, вам будзе прапанавана, ці хочаце вы, каб ён разглядаўся як радок загалоўка, і ў гэтым выпадку <i>Мае выдаткі</i> паспрабуе аўтаматычна супаставіць слупкі на аснове зместу ячэек загалоўка. Ён таксама запомніць ваша супастаўленне на аснове радка загалоўка і аднавіць яго пры наступным імпарце файла з такім жа фарматам загалоўка.]]></string>
     <string name="help_ManageBudgets_info">На гэтым экране адлюстроўваецца зводка ўсіх створаных вамі бюджэтаў. Выкарыстоўвайце плаваючую кнопку дзеяння, каб стварыць новы бюджэт. Пры націсканні на запіс у спісе адлюструецца адзін бюджэт.</string>
     <string name="form_BudgetEdit_filter_help_text">Бюджэты можна фільтраваць па катэгорыях, баках, метадах або станах. Улічваюцца толькі транзакцыі, якія адпавядаюць гэтым фільтрам.</string>
     <string name="menu_BudgetActivity_rollover_help_text">Калі вы недарасходавалі або перарасходавалі свой бюджэт, вы можаце перанесці розніцу на наступны перыяд, каб сума, якую вы можаце там выдзеліць, альбо павялічылася, альбо паменшылася. Ёсць тры варыянты:</string>
@@ -168,7 +168,7 @@
     <string name="help_user_exchange_rate">Гэты курс быў прадастаўлены карыстальнікам пры рэдагаванні эквівалентнай сумы транзакцыі.</string>
     <string name="help_calculated_exchange_rate">Гэты курс быў разлічаны аўтаматычна з існуючых курсаў пасля змены нацыянальнай валюты.</string>
     <string name="help_MethodEdit_title">Форма для спосабаў аплаты</string>
-    <string name="help_ManageCategories_expand_collapse"><![CDATA[Націсніце на абразок <img src="ic_expand_more">/<img src="ic_expand_less"> каб разгарнуць або згарнуць катэгорыю.]]></string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[Click on the <img src="ic_expand_more">/<img src="ic_expand_less"> каб разгарнуць або згарнуць катэгорыю.]]></string>
     <string name="form_AccountEdit_type_help_text">Вы можаце вызначыць тып акаўнта як адзін з наступных: грашовыя сродкі, банкаўскі рахунак, актыў, абавязацельствы або крэдытная карта. Тып вызначае даступныя спосабы аплаты, якія можна наладзіць у раздзеле «Налады» -&gt; «Кіраванне» -&gt; «Спосабы аплаты».</string>
     <string name="form_MethodEdit_label_help_text">Пазнака ідэнтыфікуе метад, калі вы прывязваеце да яго транзакцыю.</string>
     <string name="form_MethodEdit_type_help_text">Праз тып метаду вы вызначаеце, ці ён прымяняецца да выдаткаў (дэбет), даходаў (крэдыт) або абодвух (нейтральны).</string>
