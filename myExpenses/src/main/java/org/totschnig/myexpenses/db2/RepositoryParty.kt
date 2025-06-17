@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
 fun Repository.createParty(party: String) = contentResolver.createParty(Party.create(name = party))
@@ -38,18 +39,23 @@ fun Repository.deleteParty(id: Long) {
 }
 
 // legacy methods with ContentResolver receiver
-fun ContentResolver.requireParty(name: String): Long {
-    return findParty(name) ?: createParty(Party.create(name = name)).id
+fun ContentResolver.requireParty(name: String): Long? {
+    return findParty(name) ?: createParty(Party.create(name = name))?.id
 }
 
-fun ContentResolver.createParty(party: Party) = party.copy(
-    id = ContentUris.parseId(
-        insert(
-            PAYEES_URI,
-            party.asContentValues
-        )!!
-    )
-)
+fun ContentResolver.createParty(party: Party) =
+    insert(
+        PAYEES_URI,
+        party.asContentValues
+    )?.let {
+        party.copy(id = ContentUris.parseId(it))
+    }.also {
+        if (it == null) {
+            CrashHandler.report(
+                Exception("failed to create party")
+            )
+        }
+    }
 
 fun ContentResolver.findParty(party: String, iban: String? = null) = query(
     PAYEES_URI,

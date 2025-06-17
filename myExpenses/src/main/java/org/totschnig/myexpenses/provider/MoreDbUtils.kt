@@ -602,9 +602,6 @@ fun SupportSQLiteDatabase.update(
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)
 
-fun SupportSQLiteDatabase.delete(table: String, whereClause: String?, whereArgs: Array<Any>?) =
-    delete(table, whereClause, whereArgs ?: emptyArray())
-
 /**
  * insert where conflicts are ignored instead of raising exception
  */

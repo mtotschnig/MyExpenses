@@ -617,7 +617,9 @@ class SyncDelegate(
             values.putNull(KEY_PAYEEID)
         } else {
             change.payeeName()?.let { name ->
-                values.put(KEY_PAYEEID, extractParty(name))
+                extractParty(name)?.let {
+                    values.put(KEY_PAYEEID, it)
+                }
             }
         }
         if (change.methodLabel() == NULL_CHANGE_INDICATOR) {
@@ -656,8 +658,8 @@ class SyncDelegate(
         } ?:  categoryInfo()?.let { repository.ensureCategoryPath(it) }
     }
 
-    private fun extractParty(party: String): Long =
-        payeeToId[party] ?: repository.requireParty(party).also {
+    private fun extractParty(party: String): Long? =
+        payeeToId[party] ?: repository.requireParty(party)?.also {
             payeeToId[party] = it
         }
 

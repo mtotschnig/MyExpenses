@@ -373,7 +373,7 @@ suspend fun Repository.importBudget(
                 val ids = it.map { it.second }.toLongArray()
                 add(CategoryCriterion(label, *ids))
             }
-            partyFilter?.map { it to requireParty(it) }?.let {
+            partyFilter?.mapNotNull { party ->  requireParty(party)?.let { party to it } }?.let {
                 val label = it.joinToString { it.first }
                 val ids = it.map { it.second }.toLongArray()
                 add(PayeeCriterion(label, *ids))
