@@ -60,7 +60,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         transaction.setDate(bdate)
         transaction.setValueDate(valuta)
 
-        var lines = usage.toTypedArray() as Array<String?>
+        var lines = usage.toTypedArray()
         if (lines.isEmpty()) lines = VerwendungszweckUtil.parse(additional)
         lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
         val transfer = VerwendungszweckUtil.apply(lines)
@@ -72,10 +72,10 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
             val payeeInfo = payeeCache[party] ?: run {
                 val payeeId = repository.findParty(party)
                 payeeId?.let { it to repository.autoFill(it) }
-                    ?: (repository.createParty(party).id to null)
+                    ?: repository.createParty(party)?.let {  it.id to null }
             }
-            transaction.payeeId = payeeInfo.first
-            payeeInfo.second?.categoryId?.let {
+            transaction.payeeId = payeeInfo?.first
+            payeeInfo?.second?.categoryId?.let {
                 transaction.catId = it
             }
         }

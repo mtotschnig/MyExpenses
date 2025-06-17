@@ -1171,7 +1171,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
-      case TRANSACTIONS, UNCOMMITTED -> count = MoreDbUtilsKt.delete(db, TABLE_TRANSACTIONS, where, whereArgs);
+      case TRANSACTIONS, UNCOMMITTED -> count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       case TRANSACTION_ID -> {
         //maybe TODO ?: where and whereArgs are ignored
         segment = uri.getPathSegments().get(1);
@@ -1190,8 +1190,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           //we delete the transaction, its children and its transfer peer, and transfer peers of its children
           if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
             //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
-            count = MoreDbUtilsKt.delete(db, TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[]{segment, segment});
-            count += MoreDbUtilsKt.delete(db, TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
+            count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[]{segment, segment});
+            count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
           } else {
             ContentValues v = new ContentValues();
             v.put(KEY_CR_STATUS, CrStatus.VOID.name());
@@ -1202,53 +1202,53 @@ public class TransactionProvider extends BaseTransactionProvider {
           db.endTransaction();
         }
       }
-      case TEMPLATES -> count = MoreDbUtilsKt.delete(db, TABLE_TEMPLATES, where, whereArgs);
-      case TEMPLATE_ID -> count = MoreDbUtilsKt.delete(db, TABLE_TEMPLATES,
+      case TEMPLATES -> count = db.delete(TABLE_TEMPLATES, where, whereArgs);
+      case TEMPLATE_ID -> count = db.delete(TABLE_TEMPLATES,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      case ACCOUNTTYPES_METHODS -> count = MoreDbUtilsKt.delete(db, TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
-      case ACCOUNTS -> count = MoreDbUtilsKt.delete(db, TABLE_ACCOUNTS, where, whereArgs);
-      case ACCOUNT_ID -> count = MoreDbUtilsKt.delete(db, TABLE_ACCOUNTS,
+      case ACCOUNTTYPES_METHODS -> count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
+      case ACCOUNTS -> count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
+      case ACCOUNT_ID -> count = db.delete(TABLE_ACCOUNTS,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
 
       //update aggregate cursor
       //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       case CATEGORIES ->
-              count = MoreDbUtilsKt.delete(db, TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
+              count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
                       whereArgs);
       case CATEGORY_ID -> {
         String lastPathSegment = uri.getLastPathSegment();
         if (Long.parseLong(lastPathSegment) == SPLIT_CATID)
           throw new IllegalArgumentException("split category can not be deleted");
-        count = MoreDbUtilsKt.delete(db, TABLE_CATEGORIES,
+        count = db.delete(TABLE_CATEGORIES,
                 KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       }
-      case PAYEE_ID -> count = MoreDbUtilsKt.delete(db, TABLE_PAYEES,
+      case PAYEE_ID -> count = db.delete(TABLE_PAYEES,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      case METHOD_ID -> count = MoreDbUtilsKt.delete(db, TABLE_METHODS,
+      case METHOD_ID -> count = db.delete(TABLE_METHODS,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case PLANINSTANCE_TRANSACTION_STATUS ->
-              count = MoreDbUtilsKt.delete(db, TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+              count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
       case PLANINSTANCE_STATUS_SINGLE -> {
-        count = MoreDbUtilsKt.delete(db, TABLE_PLAN_INSTANCE_STATUS,
+        count = db.delete(TABLE_PLAN_INSTANCE_STATUS,
                 String.format(Locale.ROOT, "%s = ? AND %s = ?", KEY_TEMPLATEID, KEY_INSTANCEID),
                 new String[]{uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
         notifyChange(uri, false);
         return count;
       }
-      case EVENT_CACHE -> count = MoreDbUtilsKt.delete(db, TABLE_EVENT_CACHE, where, whereArgs);
+      case EVENT_CACHE -> count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
       case STALE_IMAGES_ID -> {
         //will fail if attachment is not stale
         segment = uri.getPathSegments().get(1);
-        count = MoreDbUtilsKt.delete(db, TABLE_ATTACHMENTS, KEY_ROWID + " = ?", new String[] { segment});
+        count = db.delete(TABLE_ATTACHMENTS, KEY_ROWID + " = ?", new String[] { segment});
       }
-      case STALE_IMAGES -> count = MoreDbUtilsKt.delete(db, TABLE_ATTACHMENTS, Companion.getSTALE_ATTACHMENT_SELECTION(), null);
+      case STALE_IMAGES -> count = db.delete(TABLE_ATTACHMENTS, Companion.getSTALE_ATTACHMENT_SELECTION(), null);
 
-      case CHANGES -> count = MoreDbUtilsKt.delete(db, TABLE_CHANGES, where, whereArgs);
-      case SETTINGS -> count = MoreDbUtilsKt.delete(db, TABLE_SETTINGS, where, whereArgs);
+      case CHANGES -> count = db.delete(TABLE_CHANGES, where, whereArgs);
+      case SETTINGS -> count = db.delete(TABLE_SETTINGS, where, whereArgs);
       case BUDGET_ID ->
-              count = MoreDbUtilsKt.delete(db, TABLE_BUDGETS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      case PAYEES -> count = MoreDbUtilsKt.delete(db, TABLE_PAYEES, where, whereArgs);
-      case TAG_ID -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS,
+              count = db.delete(TABLE_BUDGETS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case PAYEES -> count = db.delete(TABLE_PAYEES, where, whereArgs);
+      case TAG_ID -> count = db.delete(TABLE_TAGS,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case DUAL -> {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
@@ -1263,7 +1263,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           throw new IllegalArgumentException("Can only delete custom currencies");
         }
         try {
-          count = MoreDbUtilsKt.delete(db, TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
+          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
                   currency, prefixAnd(where)), whereArgs);
         } catch (SQLiteConstraintException e) {
           return 0;
@@ -1271,34 +1271,34 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case TRANSACTIONS_TAGS -> {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
-        count = MoreDbUtilsKt.delete(db, TABLE_TRANSACTIONS_TAGS, where, whereArgs);
+        count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
       }
       case TEMPLATES_TAGS -> {
-        count = MoreDbUtilsKt.delete(db, TABLE_TEMPLATES_TAGS, where, whereArgs);
+        count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
       }
       case ACCOUNTS_TAGS -> {
-        count = MoreDbUtilsKt.delete(db, TABLE_ACCOUNTS_TAGS, where, whereArgs);
+        count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
       }
       case DEBT_ID -> {
-        count = MoreDbUtilsKt.delete(db, TABLE_DEBTS,
+        count = db.delete(TABLE_DEBTS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
       case BANK_ID -> {
-        count = MoreDbUtilsKt.delete(db, TABLE_BANKS,
+        count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
       case TRANSACTION_ID_ATTACHMENT_ID -> {
         String transactionId = uri.getPathSegments().get(2);
         String attachmentId = uri.getPathSegments().get(3);
-        count = MoreDbUtilsKt.delete(db, TABLE_TRANSACTION_ATTACHMENTS,
+        count = db.delete(TABLE_TRANSACTION_ATTACHMENTS,
                 KEY_TRANSACTIONID + " = ? AND " + KEY_ATTACHMENT_ID + " = ?",
                 new String[] { transactionId, attachmentId }
         );
         deleteAttachment(db, Long.parseLong(attachmentId), null);
       }
-      case TAGS -> count = MoreDbUtilsKt.delete(db, TABLE_TAGS, where, whereArgs);
-      case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.delete(db, TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
-      case PRICES ->  count = MoreDbUtilsKt.delete(db, TABLE_PRICES, where, whereArgs);
+      case TAGS -> count = db.delete(TABLE_TAGS, where, whereArgs);
+      case BUDGET_ALLOCATIONS -> count = db.delete(TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
+      case PRICES ->  count = db.delete(TABLE_PRICES, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1770,7 +1770,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   static int resumeChangeTrigger(SupportSQLiteDatabase db) {
-    return MoreDbUtilsKt.delete(db, TABLE_SYNC_STATE, null, null);
+    return db.delete(TABLE_SYNC_STATE, null, null);
   }
 
   public static ContentProviderOperation pauseChangeTrigger() {

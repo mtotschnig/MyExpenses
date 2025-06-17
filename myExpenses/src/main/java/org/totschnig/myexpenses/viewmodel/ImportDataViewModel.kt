@@ -128,9 +128,9 @@ abstract class ImportDataViewModel(application: Application) :
     fun insertPayees(payees: Set<String>): Int {
         var count = 0
         for (payee in payees) {
-            payeeToId[payee] =
-                repository.findParty(payee) ?: repository.createParty(payee)
-                    .also { count++ }.id
+                (repository.findParty(payee) ?: repository.createParty(payee)?.also { count++ }?.id)?.let {
+                    payeeToId[payee] = it
+                }
         }
         return count
     }

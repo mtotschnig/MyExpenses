@@ -158,7 +158,6 @@ class CsvImportDataFragment : Fragment() {
            insets
         })
         ViewCompat.setOnApplyWindowInsetsListener(binding.myRecyclerView, { v, insets ->
-            // Get the insets for system bars (status, navigation) and display cutouts
             val navigationInsets = insets.getInsets(
                 WindowInsetsCompat.Type.navigationBars()
             )
