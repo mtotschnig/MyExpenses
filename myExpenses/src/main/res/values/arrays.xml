@@ -33,7 +33,9 @@
     <string-array name="pref_ui_language_values">
         <item>default</item>
         <item>ar</item>
+        <item>be</item>
         <item>bg</item>
+        <item>bn</item>
         <item>ca</item>
         <item>cs</item>
         <item>da</item>
@@ -44,10 +46,10 @@
         <item>es</item>
         <item>eu</item>
         <item>fr</item>
+        <item>he</item>
         <item>hr</item>
         <item>hu</item>
         <item>it</item>
-        <item>iw</item>
         <item>ja</item>
         <item>km</item>
         <item>kn</item>
@@ -62,6 +64,7 @@
         <item>si</item>
         <item>ta</item>
         <item>te</item>
+        <item>th</item>
         <item>tr</item>
         <item>uk</item>
         <item>ur</item>
