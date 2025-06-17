@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -39,6 +40,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,6 +78,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
+import timber.log.Timber
 import java.time.LocalDate
 import java.util.Currency
 import kotlin.math.abs
@@ -113,6 +116,7 @@ fun BalanceSheetView(
             .padding(paddingValues)
     ) {
 
+        //Triple of asset or liability, position in section, index of account or null for Debts
         val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
         TopAppBar(
             windowInsets = WindowInsets(0, 0, 0, 0),
@@ -224,6 +228,7 @@ fun BalanceSheetView(
             .mapValues { it.value.sumOf { it.equivalentCurrentBalance } to it.value }
             .entries
             .partition { it.key.isAsset }
+
         val totalAssets = assets.sumOf { it.value.first }
         val totalLiabilities = liabilities.sumOf { it.value.first }
 
@@ -263,6 +268,32 @@ fun BalanceSheetView(
                 }
             },
             data = {
+
+                val listState = rememberLazyListState()
+                fun lookup(id: Long?): Int {
+                    var totalIndex = 0// Assets
+                    assets.forEach { (_,list) ->
+                        totalIndex++ // section header
+                        list.second.forEach {
+                            totalIndex++ //item
+                            if (it.id == id) {
+                                return totalIndex
+                            }
+                        }
+                    }
+                    totalIndex+= 2 //Divider / Liabilities
+                    liabilities.forEach { (_,list) ->
+                        totalIndex++ // section header
+                        list.second.forEach {
+                            totalIndex++ //item
+                            if (it.id == id) {
+                                return totalIndex
+                            }
+                        }
+                    }
+                    totalIndex+= 2 //Divider / Debts
+                    return totalIndex
+                }
                 LazyColumn(
                     modifier = it,
                     contentPadding = PaddingValues(
@@ -270,7 +301,8 @@ fun BalanceSheetView(
                         end = horizontalPadding,
                         bottom = WindowInsets.navigationBars.asPaddingValues()
                             .calculateBottomPadding()
-                    )
+                    ),
+                    state = listState
                 ) {
 
                     accountTypeChapter(
@@ -310,6 +342,14 @@ fun BalanceSheetView(
                             total = totalAssets + totalLiabilities + debtSum,
                             absolute = false
                         )
+                    }
+                }
+                LaunchedEffect(highlight.value) {
+                    highlight.value?.let {
+                        lookup(it.third)
+                    }?.let {
+                        Timber.d("Scrolling to $it")
+                        listState.animateScrollToItem(it)
                     }
                 }
             }

@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Palette
@@ -69,6 +71,7 @@ import org.totschnig.myexpenses.compose.TEXT_SIZE_MEDIUM_SP
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.localizedPercentFormat
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.compose.scrollToPositionIfNotVisible
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
@@ -227,6 +230,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     @Composable
     private fun RenderCombined(whereFilter: Criterion?, clearFilter: () -> Unit) {
+        val listState = rememberLazyListState()
         val isDark = isSystemInDarkTheme()
         val categoryState =
             viewModel.combinedCategoryTree.collectAsState(initial = Category.LOADING)
@@ -267,10 +271,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                 LaunchedEffect(categoryTree.value, selectionState.value?.id) {
                     if (::chart.isInitialized) {
-                        onSelectionChanged(chart, incomeTree)
+                        onSelectionChanged(chart, incomeTree, listState)
                     }
                     if (::innerChart.isInitialized) {
-                        onSelectionChanged(innerChart, expenseTree)
+                        onSelectionChanged(innerChart, expenseTree, listState)
                     }
                 }
                 val choiceMode =
@@ -300,7 +304,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     tree = categoryTree.value,
                                     choiceMode = choiceMode,
                                     expansionMode = expansionMode,
-                                    accountInfo = accountInfo
+                                    accountInfo = accountInfo,
+                                    listState = listState
                                 )
                             }, chart = {
                                 val ratio = if (sums.first > 0L && sums.second < 0L)
@@ -336,10 +341,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
     }
 
-    private fun onSelectionChanged(chart: PieChart, tree: Category) {
+    private suspend fun onSelectionChanged(
+        chart: PieChart,
+        tree: Category,
+        listState: LazyListState
+    ) {
         val position = tree.children.indexOf(selectionState.value)
         if (position > -1) {
             chart.highlightValue(position.toFloat(), 0)
+            listState.scrollToPositionIfNotVisible(position)
         } else {
             chart.highlightValue(null)
             chart.centerText = null
@@ -360,6 +370,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         whereFilter: Criterion?,
         clearFilter: () -> Unit,
     ) {
+        val listState = rememberLazyListState()
         val isDark = isSystemInDarkTheme()
         val categoryState =
             (if (showIncome) viewModel.categoryTreeForIncome else viewModel.categoryTreeForExpenses)
@@ -386,7 +397,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
         LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
             if (::chart.isInitialized) {
-                onSelectionChanged(chart, chartCategoryTree.value)
+                onSelectionChanged(chart, chartCategoryTree.value, listState)
             }
         }
         val choiceMode = ChoiceMode.SingleChoiceMode(selectionState)
@@ -440,7 +451,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     tree = categoryTree.value,
                                     choiceMode = choiceMode,
                                     expansionMode = expansionMode,
-                                    accountInfo = accountInfo
+                                    accountInfo = accountInfo,
+                                    listState = listState
                                 )
                             }, chart = {
                                 Box(modifier = it) {
@@ -511,6 +523,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo,
+        listState: LazyListState
     ) {
         val nestedScrollInterop = rememberNestedScrollInteropConnection()
         Category(
@@ -519,6 +532,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             choiceMode = choiceMode,
             expansionMode = expansionMode,
             sumCurrency = currencyContext[accountInfo.currency],
+            listState = listState,
             menuGenerator = remember {
                 { category ->
                     org.totschnig.myexpenses.compose.Menu(
