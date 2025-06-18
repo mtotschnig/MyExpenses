@@ -80,20 +80,6 @@
         <item>@string/pm_type_credit</item>
     </string-array>
 
-    <string-array name="contributors_349" tools:ignore="UnusedResources">
-        <item />
-        <item>Nabeel</item>
-    </string-array>
-
-    <string-array name="contributors_348" tools:ignore="UnusedResources">
-        <item>Erik Paelman, Birdibird, Rudi Timmermans</item>
-    </string-array>
-
-    <string-array name="contributors_335" tools:ignore="UnusedResources">
-        <item />
-        <item>arnaldotecadm</item>
-    </string-array>
-
     <string-array name="contributors_313" tools:ignore="UnusedResources">
         <item />
         <item>Vishwa Prakash HV</item>
@@ -101,6 +87,32 @@
 
     <string-array name="contributors_332" tools:ignore="UnusedResources">
         <item>niranjan pr</item>
+    </string-array>
+
+    <string-array name="contributors_335" tools:ignore="UnusedResources">
+        <item />
+        <item>arnaldotecadm</item>
+    </string-array>
+
+    <string-array name="contributors_348" tools:ignore="UnusedResources">
+        <item>Erik Paelman, Birdibird, Rudi Timmermans</item>
+    </string-array>
+
+    <string-array name="contributors_349" tools:ignore="UnusedResources">
+        <item />
+        <item>Nabeel</item>
+    </string-array>
+
+    <string-array name="contributors_399" tools:ignore="UnusedResources">
+        <item />
+        <item>Istiaque</item>
+    </string-array>
+
+    <string-array name="contributors_400" tools:ignore="UnusedResources">
+        <item />
+        <item />
+        <item>abotabl.</item>
+        <item>keefeer</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">

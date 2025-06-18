@@ -12,6 +12,10 @@
         <item>Softmap</item>
     </string-array>
 
+    <string-array name="translators_be">
+        <item>keefeer</item>
+    </string-array>
+
     <string-array name="translators_bg">
         <item>Диана Карa</item>
         <item>Иван Димитров</item>
@@ -188,6 +192,10 @@
 
     <string-array name="translators_te">
         <item>Niranjan PR</item>
+    </string-array>
+
+    <string-array name="translators_th">
+        <item>abotabl.</item>
     </string-array>
 
     <string-array name="translators_tr">
