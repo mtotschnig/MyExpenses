@@ -6,4 +6,6 @@
     <string name="whats_new_396">通过自动汇率更新和实时价值跟踪，增强外币账户管理。</string>
     <string name="whats_new_398">在一个地方查看您的资产、负债和净资产。</string>
     <string name="whats_new_399">改进的 PDF 导出布局，可通过拖放完全自定义。</string>
+    <string name="whats_new_400_2">价格历史记录：批量下载缺失的条目</string>
+    <string name="whats_new_400_1">显示账户之间资金分配的饼图</string>
 </resources>
