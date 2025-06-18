@@ -1051,4 +1051,8 @@
     <string name="mark_as_cleared">تحديد كمنتهٍ</string>
     <string name="mark_as_unreconciled">تحديد كغير متطابق</string>
     <string name="pref_equivalent_amounts_automatic_update_title">تحديث تلقائي للمبالغ المكافئة عند تغير الأسعار</string>
+    <string name="sort_direction">اتجاه الفرز</string>
+    <string name="batch_download">تحميل مكثف</string>
+    <string name="batch_download_result">تم تنزيل %d الأسعار وتخزينها في قاعدة البيانات.</string>
+    <string name="warning_batch_download_quota">ينطوي التنزيل الدفعي من %s على خطر استنفاد حد الاستخدام الخاص بك.</string>
 </resources>
