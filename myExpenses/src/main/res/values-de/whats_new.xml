@@ -22,4 +22,6 @@
     <string name="whats_new_396">Verbesserte Verwaltung von Fremdwährungs-Konten mit automatischen Wechselkursaktualisierungen und Wertverfolgung in Echtzeit.</string>
     <string name="whats_new_398">Sehen Sie Ihre Vermögenswerte, Verbindlichkeiten und Ihr Reinvermögen — alles an einem Ort.</string>
     <string name="whats_new_399">Verbessertes PDF-Export-Layout, vollständig anpassbar per Drag-and-Drop.</string>
+    <string name="whats_new_400_1">Kreisdiagramm, das die Verteilung des Geldes zwischen den Konten zeigt</string>
+    <string name="whats_new_400_2">Preisverlauf: Massendownload von fehlenden Einträgen</string>
 </resources>
