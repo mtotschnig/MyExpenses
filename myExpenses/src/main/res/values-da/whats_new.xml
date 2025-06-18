@@ -22,4 +22,6 @@
     <string name="whats_new_396">Forbedret administration af udenlandsk valuta-konti med automatiske valutakursopdateringer og værdisporing i realtid.</string>
     <string name="whats_new_398">Se dine aktiver, passiver og nettoformue — alt på ét sted.</string>
     <string name="whats_new_399">Forbedret PDF-eksportlayout, fuldt tilpasseligt med træk-og-slip.</string>
+    <string name="whats_new_400_1">Cirkeldiagram, der viser fordelingen af penge mellem konti</string>
+    <string name="whats_new_400_2">Prishistorik: Massedownload af manglende poster</string>
 </resources>
