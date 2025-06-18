@@ -22,4 +22,6 @@
     <string name="whats_new_396">Gestione avanzata dei conti in valuta estera con aggiornamenti automatici del tasso di cambio e monitoraggio del valore in tempo reale.</string>
     <string name="whats_new_398">Visualizza i tuoi attivi, passivi e patrimonio netto — tutto in un unico posto.</string>
     <string name="whats_new_399">Layout di esportazione PDF migliorato, completamente personalizzabile con trascinamento della selezione.</string>
+    <string name="whats_new_400_2">Storico dei prezzi: download in blocco delle voci mancanti</string>
+    <string name="whats_new_400_1">Grafico a torta che mostra la distribuzione del denaro tra i conti</string>
 </resources>
