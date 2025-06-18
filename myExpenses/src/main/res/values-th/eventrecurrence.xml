@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- provided by Gemini -->
+<resources>
+    <string name="does_not_repeat">กิจกรรมครั้งเดียว</string>
+    <!-- Part of a description of an repeating event. This part states the date when a repeating
+         event ends. The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; until 1/1/2030 [CHAR LIMIT=21] -->
+    <string name="endByDate">; จนถึง %s</string>
+    <!-- Part of a description of an repeating event. This part how many times the event repeats.
+         The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; for 15 times [CHAR LIMIT=15] -->
+    <plurals name="endByCount">
+        <item quantity="other">; %d ครั้ง</item>
+    </plurals>
+    <!-- A description for an event that repeats daily. For example, Every 2 days [CHAR LIMIT=15]-->
+    <plurals name="daily">
+        <item quantity="other">ทุก %d วัน</item>
+    </plurals>
+    <!-- A label in a multiple-choice list for the specifying that an event
+         repeats every weekday (Monday through Friday) -->
+    <string name="every_weekday">"ทุกวันธรรมดา (จันทร์\u2013ศุกร์)"</string>
+    <!-- A description for an event that repeats weekly on some day of the week. For example,
+         'Weekly on Tuesday' or Every 2 weeks on Monday, Tuesday.  [CHAR LIMIT=25]-->
+    <plurals name="weekly">
+        <item quantity="other">ทุก %1$d สัปดาห์ ใน%2$s</item> <!-- %2$s should be "วันอังคาร" or "วันจันทร์, วันอังคาร" -->
+    </plurals>
+
+    <!-- The common portion of a string describing how often an event repeats,
+         example: 'Monthly (on day 2)' -->
+    <plurals name="monthly">
+        <item quantity="other">ทุก %d เดือน</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="other">ทุก %d ปี</item>
+    </plurals>
+    <!-- Example: "Monthly (on day 15)" -->
+    <string name="monthly_on_day">" (วันที่ %s)"</string>
+    <!-- Example: "Yearly (on April 15)" -->
+    <string name="yearly_on_day">" (%s)"</string> <!-- Assuming %s will be a pre-formatted date string like "15 เมษายน" -->
+
+    <string name="yearly_plain">รายปี</string>
+    <string name="daily_plain">รายวัน</string>
+    <string name="weekly_plain">รายสัปดาห์</string>
+    <string name="monthly_plain">รายเดือน</string>
+
+    <!-- The following sets of strings describe a monthly recurring event, which will repeat
+     on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
+     the last Sunday. These are set up like this to resolve any gender-matching issues
+     that were present in some languages.
+    -->
+    <!-- Repeat a monthly event on the same nth day of every Sunday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sun">
+        <item>ทุกวันอาทิตย์ที่หนึ่ง</item>
+        <item>ทุกวันอาทิตย์ที่สอง</item>
+        <item>ทุกวันอาทิตย์ที่สาม</item>
+        <item>ทุกวันอาทิตย์ที่สี่</item>
+        <item>ทุกวันอาทิตย์สุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Monday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_mon">
+        <item>ทุกวันจันทร์ที่หนึ่ง</item>
+        <item>ทุกวันจันทร์ที่สอง</item>
+        <item>ทุกวันจันทร์ที่สาม</item>
+        <item>ทุกวันจันทร์ที่สี่</item>
+        <item>ทุกวันจันทร์สุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Tuesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_tues">
+        <item>ทุกวันอังคารที่หนึ่ง</item>
+        <item>ทุกวันอังคารที่สอง</item>
+        <item>ทุกวันอังคารที่สาม</item>
+        <item>ทุกวันอังคารที่สี่</item>
+        <item>ทุกวันอังคารสุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Wednesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_wed">
+        <item>ทุกวันพุธที่หนึ่ง</item>
+        <item>ทุกวันพุธที่สอง</item>
+        <item>ทุกวันพุธที่สาม</item>
+        <item>ทุกวันพุธที่สี่</item>
+        <item>ทุกวันพุธสุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Thursday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_thurs">
+        <item>ทุกวันพฤหัสบดีที่หนึ่ง</item>
+        <item>ทุกวันพฤหัสบดีที่สอง</item>
+        <item>ทุกวันพฤหัสบดีที่สาม</item>
+        <item>ทุกวันพฤหัสบดีที่สี่</item>
+        <item>ทุกวันพฤหัสบดีสุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Friday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_fri">
+        <item>ทุกวันศุกร์ที่หนึ่ง</item>
+        <item>ทุกวันศุกร์ที่สอง</item>
+        <item>ทุกวันศุกร์ที่สาม</item>
+        <item>ทุกวันศุกร์ที่สี่</item>
+        <item>ทุกวันศุกร์สุดท้าย</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Saturday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sat">
+        <item>ทุกวันเสาร์ที่หนึ่ง</item>
+        <item>ทุกวันเสาร์ที่สอง</item>
+        <item>ทุกวันเสาร์ที่สาม</item>
+        <item>ทุกวันเสาร์ที่สี่</item>
+        <item>ทุกวันเสาร์สุดท้าย</item>
+    </string-array>
+</resources>

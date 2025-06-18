@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- provided by Gemini -->
+<resources>
+    <string name="does_not_repeat">Аднаразовая падзея</string>
+    <!-- Part of a description of an repeating event. This part states the date when a repeating
+         event ends. The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; until 1/1/2030 [CHAR LIMIT=21] -->
+    <string name="endByDate">; да %s</string>
+    <!-- Part of a description of an repeating event. This part how many times the event repeats.
+         The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; for 15 times [CHAR LIMIT=15] -->
+    <plurals name="endByCount">
+        <item quantity="one">; адзін раз</item>
+        <item quantity="few">; %d разы</item>
+        <item quantity="many">; %d разоў</item>
+        <item quantity="other">; %d разу</item>
+    </plurals>
+    <!-- A description for an event that repeats daily. For example, Every 2 days [CHAR LIMIT=15]-->
+    <plurals name="daily">
+        <item quantity="one">Штодзень</item>
+        <item quantity="few">Кожныя %d дні</item>
+        <item quantity="many">Кожныя %d дзён</item>
+        <item quantity="other">Кожныя %d дня</item>
+    </plurals>
+    <!-- A label in a multiple-choice list for the specifying that an event
+         repeats every weekday (Monday through Friday) -->
+    <string name="every_weekday">"Кожны будні дзень (Пн\u2013Пт)"</string>
+    <!-- A description for an event that repeats weekly on some day of the week. For example,
+         'Weekly on Tuesday' or Every 2 weeks on Monday, Tuesday.  [CHAR LIMIT=25]-->
+    <plurals name="weekly">
+        <item quantity="one">Штотыдзень, у %2$s</item>
+        <item quantity="few">Кожныя %1$d тыдні, у %2$s</item>
+        <item quantity="many">Кожныя %1$d тыдняў, у %2$s</item>
+        <item quantity="other">Кожныя %1$d тыдня, у %2$s</item>
+    </plurals>
+
+    <!-- The common portion of a string describing how often an event repeats,
+         example: 'Monthly (on day 2)' -->
+    <plurals name="monthly">
+        <item quantity="one">Штомесяц</item>
+        <item quantity="few">Кожныя %d месяцы</item>
+        <item quantity="many">Кожныя %d месяцаў</item>
+        <item quantity="other">Кожныя %d месяца</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Штогод</item>
+        <item quantity="few">Кожныя %d гады</item>
+        <item quantity="many">Кожныя %d гадоў</item>
+        <item quantity="other">Кожныя %d года</item>
+    </plurals>
+    <!-- Example: "Monthly (on day 15)" -->
+    <string name="monthly_on_day">" (у %s дзень)"</string>
+    <!-- Example: "Yearly (on April 15)" -->
+    <string name="yearly_on_day">" (%s)"</string> <!-- Note: In Belarusian, the month usually comes before the day,
+                                                    but the placeholder %s is generic.
+                                                    If %s is just the date like "15 красавіка", then " (15 красавіка)" is fine.
+                                                    If %s is "April 15", it might need specific formatting logic in code.
+                                                    Assuming %s will be a pre-formatted date string. -->
+
+    <string name="yearly_plain">Штогод</string>
+    <string name="daily_plain">Штодзень</string>
+    <string name="weekly_plain">Штотыдзень</string>
+    <string name="monthly_plain">Штомесяц</string>
+
+    <!-- The following sets of strings describe a monthly recurring event, which will repeat
+     on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
+     the last Sunday. These are set up like this to resolve any gender-matching issues
+     that were present in some languages.
+ -->
+    <!-- Repeat a monthly event on the same nth day of every Sunday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sun">
+        <item >кожную першую нядзелю</item>
+        <item >кожную другую нядзелю</item>
+        <item >кожную трэцюю нядзелю</item>
+        <item >кожную чацвёртую нядзелю</item>
+        <item >кожную апошнюю нядзелю</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Monday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_mon">
+        <item >кожны першы панядзелак</item>
+        <item >кожны другі панядзелак</item>
+        <item >кожны трэці панядзелак</item>
+        <item >кожны чацвёрты панядзелак</item>
+        <item >кожны апошні панядзелак</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Tuesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_tues">
+        <item >кожны першы аўторак</item>
+        <item >кожны другі аўторак</item>
+        <item >кожны трэці аўторак</item>
+        <item >кожны чацвёрты аўторак</item>
+        <item >кожны апошні аўторак</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Wednesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_wed">
+        <item >кожную першую сераду</item>
+        <item >кожную другую сераду</item>
+        <item >кожную трэцюю сераду</item>
+        <item >кожную чацвёртую сераду</item>
+        <item >кожную апошнюю сераду</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Thursday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_thurs">
+        <item >кожны першы чацвер</item>
+        <item >кожны другі чацвер</item>
+        <item >кожны трэці чацвер</item>
+        <item >кожны чацвёрты чацвер</item>
+        <item >кожны апошні чацвер</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Friday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_fri">
+        <item >кожную першую пятніцу</item>
+        <item >кожную другую пятніцу</item>
+        <item >кожную трэцюю пятніцу</item>
+        <item >кожную чацвёртую пятніцу</item>
+        <item >кожную апошнюю пятніцу</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Saturday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sat">
+        <item >кожную першую суботу</item>
+        <item >кожную другую суботу</item>
+        <item >кожную трэцюю суботу</item>
+        <item >кожную чацвёртую суботу</item>
+        <item >кожную апошнюю суботу</item>
+    </string-array>
+</resources>

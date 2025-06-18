@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- packages/apps/DocumentsUI/res/values/strings.xml -->
+    <string name="drawer_open">แสดงราก</string>
+    <string name="drawer_close">ซ่อนราก</string>
+    <string name="sort_direction_ascending">จากน้อยไปมาก</string>
+    <string name="sort_direction_descending">จากน้อยไปมาก</string>
+    <plurals name="delete_files_confirmation_message" formatted="false">
+        <item quantity="other">ลบ <xliff:g id="COUNT_1">%1$d</xliff:g> ไฟล์ใช่ไหม</item>
+    </plurals>
+    <string name="files_label">ไฟล์</string>
+    <string name="saving">กำลังบันทึก…</string>
+    <string name="license_title">ใบอนุญาต</string>
+    <string name="button_label_continue">ดำเนินการต่อ</string>
+    <string name="permissions_label">สิทธิ์</string>
+    <string name="time_format">รูปแบบเวลา</string>
+    <string name="encryption">การเข้ารหัส</string>
+    <string name="experimental">ทดสอบ</string>
+    <string name="learn_more">ดูข้อมูลเพิ่มเติม</string>
+    <string name="confirm">ยืนยัน</string>
+    <string name="menu_search">ค้นหา</string>
+    <string name="customize">ปรับแต่ง</string>
+    <string name="available">ใช้งานได้</string>
+    <string name="settings_label">"การตั้งค่า"</string>
+    <string name="security_settings_title">ความปลอดภัย</string>
+    <string name="screen_lock">ล็อกหน้าจอ</string>
+    <string name="default_action">"การดำเนินการเริ่มต้น"</string>
+    <string name="add_file_attachment">"แนบไฟล์"</string>
+    <string name="full_name">ชื่อ</string>
+    <string name="postal_country">ประเทศ</string>
+    <string name="toast_text_copied">คัดลอกข้อความแล้ว</string>
+    <string name="copy_text">คัดลอกไปยังคลิปบอร์ด</string>
+    <string name="menu_export">ส่งออก</string>
+    <string name="display_options_sort_list_by">จัดเรียงตาม</string>
+    <string name="take_photo">ถ่ายภาพ</string>
+    <string name="start">เริ่ม</string>
+    <string name="stop">หยุด</string>
+    <string name="style">รูปแบบ</string>
+    <string name="loading">"กำลังโหลด…"</string>
+    <string name="discard">ยกเลิก</string>
+    <string name="dialog_dismiss">ปิด</string>
+    <string name="details">รายละเอียด</string>
+    <string name="response_yes">ไป</string>
+    <string name="response_no">ไม่ไป</string>
+    <string name="show_all">แสดงทั้งหมด</string>
+    <string name="add_widget">เพิ่มวิดเจ็ต</string>
+    <string name="calendar">ปฏิทิน</string>
+    <string name="setup">"ตั้งค่า"</string>
+    <string name="compact">แบบกะทัดรัด</string>
+    <string name="storage_description">พื้นที่เก็บข้อมูลในเครื่อง</string>
+    <string name="write_fail_reason_cannot_write">ข้อผิดพลาดในการเขียนเนื้อหา</string>
+    <string name="not_exist_file_desc">ไม่มีไฟล์นี้</string>
+    <string name="today">วันนี้</string>
+    <string name="tomorrow">พรุ่งนี้</string>
+    <string name="yesterday">เมื่อวานนี้</string>
+    <string name="data">ข้อมูล</string>
+    <string name="nickname">ชื่อเล่น</string>
+    <string name="screenshot">ภาพหน้าจอ</string>
+    <string name="menu_add">"เพิ่ม"</string>
+    <string name="about_ads">โฆษณา</string>
+    <string name="menu_merge">รวม</string>
     <string name="checkbox_is_default">"ค่าเริ่มต้น"</string>
     <string name="action_download">"ดาวน์โหลด"</string>
     <string name="menu">"เมนู"</string>

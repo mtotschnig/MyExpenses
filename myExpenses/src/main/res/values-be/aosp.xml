@@ -1,5 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- packages/apps/DocumentsUI/res/values/strings.xml -->
+    <string name="drawer_open">"Паказаць каранёвыя папкі"</string>
+    <string name="drawer_close">"Схаваць каранёвыя папкі"</string>
+    <string name="sort_direction_ascending">"Па ўзрастанні"</string>
+    <string name="sort_direction_descending">"Па ўбыванні"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false">
+        <item quantity="one">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файл?</item>
+        <item quantity="few">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы?</item>
+        <item quantity="many">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў?</item>
+        <item quantity="other">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файла?</item>
+    </plurals>
+    <string name="files_label">"Файлы"</string>
+    <string name="saving">Ідзе захаванне…</string>
+    <string name="license_title">Ліцэнзія</string>
+    <string name="button_label_continue">Працягнуць</string>
+    <string name="permissions_label">Дазволы</string>
+    <string name="time_format">Фармат часу</string>
+    <string name="encryption">Шыфраванне</string>
+    <string name="experimental">Эксперыментальныя</string>
+    <string name="learn_more">Даведацца больш</string>
+    <string name="confirm">Пацвердзіць</string>
+    <string name="menu_search">Пошук</string>
+    <!-- Gemini -->
+    <string name="default_action">"Дзеянне па змаўчанні"</string>
+    <!-- Gemini -->
+    <string name="add_file_attachment">"Далучыць файл"</string>
+    <string name="full_name">Імя</string>
+    <string name="postal_country">Краіна</string>
+    <string name="toast_text_copied">Тэкст скапіяваны</string>
+    <string name="copy_text">Скапіраваць у буфер абмену</string>
+    <string name="menu_export">Экспартаваць</string>
+    <string name="display_options_sort_list_by">Сартаваць</string>
+    <string name="take_photo">Зрабіць фота</string>
+    <string name="start">Запусціць</string>
+    <string name="stop">Спыніць</string>
+    <string name="style">Стыль</string>
+    <string name="loading">"Ідзе загрузка…"</string>
+    <string name="discard">Адхіліць</string>
+    <string name="dialog_dismiss">Адхіліць</string>
+    <string name="details">Звесткі</string>
+    <string name="response_yes">Так</string>
+    <string name="response_no">Не</string>
+    <string name="show_all">Паказаць усё</string>
+    <string name="add_widget">Дадаць віджэт</string>
+    <string name="calendar">Каляндар</string>
+    <string name="setup">"Наладзіць"</string>
+    <string name="customize">Наладзіць</string>
+    <string name="compact">кампактная</string>
+    <string name="storage_description">Лакальнае сховішча</string>
+    <string name="write_fail_reason_cannot_write">Памылка запісу змесціва</string>
+    <string name="not_exist_file_desc">Файл не існуе.</string>
+    <!--Gemini  -->
+    <string name="today">Сёння</string>
+    <string name="tomorrow">Заўтра</string>
+    <string name="yesterday">Учора</string>
+    <string name="data">Дадзеныя</string>
+    <string name="nickname">Псеўданім</string>
+    <string name="available">Даступна</string>
+    <string name="settings_label">"Налады"</string>
+    <string name="security_settings_title">Бяспека</string>
+    <string name="screen_lock">Блакіроўка экрана</string>
+    <string name="screenshot">Скрыншот</string>
+    <string name="menu_add">"Дадаць"</string>
+    <string name="about_ads">Рэклама</string>
+    <string name="menu_merge">Аб\'яднаць</string>
     <string name="checkbox_is_default">"Стандартна"</string>
     <string name="menu">"Меню"</string>
     <string name="action_move_down">"Перамясціць ніжэй"</string>
