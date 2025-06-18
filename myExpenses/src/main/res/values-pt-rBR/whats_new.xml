@@ -22,4 +22,6 @@
     <string name="whats_new_396">Gerenciamento aprimorado de contas em moeda estrangeira com atualizações automáticas da taxa de câmbio e rastreamento de valor em tempo real.</string>
     <string name="whats_new_398">Veja seus ativos, passivos e patrimônio líquido — tudo em um só lugar.</string>
     <string name="whats_new_399">Layout de exportação de PDF aprimorado, totalmente personalizável com arrastar e soltar.</string>
+    <string name="whats_new_400_1">Gráfico de pizza mostrando a distribuição de dinheiro entre contas</string>
+    <string name="whats_new_400_2">Histórico de preços: download em massa de entradas ausentes</string>
 </resources>
