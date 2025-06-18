@@ -22,4 +22,6 @@
     <string name="whats_new_396">Verbeterd beheer van rekeningen in vreemde valuta met automatische wisselkoersupdates en realtime waardetracering.</string>
     <string name="whats_new_398">Bekijk uw activa, passiva en netto waarde — alles op één plek.</string>
     <string name="whats_new_399">Verbeterde PDF-exportindeling, volledig aanpasbaar met slepen en neerzetten.</string>
+    <string name="whats_new_400_2">Prijsgeschiedenis: Bulkdownload van ontbrekende items</string>
+    <string name="whats_new_400_1">Cirkeldiagram met de verdeling van geld over rekeningen</string>
 </resources>
