@@ -22,4 +22,6 @@
     <string name="whats_new_396">Poboljšano upravljanje deviznim računom s automatskim ažuriranjem tečaj i praćenjem vrijednosti u stvarnom vremenu.</string>
     <string name="whats_new_398">Pogledajte svoju imovinu, obveze i neto vrijednost — sve na jednom mjestu.</string>
     <string name="whats_new_399">Poboljšani izgled izvoza PDF-a, potpuno prilagodljiv povlačenjem i ispuštanjem.</string>
+    <string name="whats_new_400_2">Povijest cijena: Skupno preuzimanje nedostajućih unosa</string>
+    <string name="whats_new_400_1">Tortni grafikon koji prikazuje raspodjelu novca između računa</string>
 </resources>

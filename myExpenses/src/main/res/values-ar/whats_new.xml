@@ -22,4 +22,6 @@
     <string name="whats_new_370">يمكن تخصيص القائمة على الشاشة الرئيسية بالكامل.</string>
     <string name="whats_new_378">تراعي الرسوم البيانية مرشح البحث.</string>
     <string name="whats_new_399">تخطيط تصدير PDF محسن قابل للتخصيص بالكامل مع السحب والإفلات.</string>
+    <string name="whats_new_400_2">سجل الأسعار: التنزيل المجمع للإدخالات المفقودة</string>
+    <string name="whats_new_400_1">مخطط دائري يوضح توزيع الأموال بين الحسابات</string>
 </resources>

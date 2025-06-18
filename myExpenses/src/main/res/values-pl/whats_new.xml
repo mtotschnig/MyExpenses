@@ -18,4 +18,6 @@
     <string name="whats_new_396">Ulepszone zarządzanie kontami walutowymi z automatyczną aktualizacją kursu wymiany i śledzeniem wartości w czasie rzeczywistym.</string>
     <string name="whats_new_398">Zobacz swoje aktywa, pasywa i wartość netto — wszystko w jednym miejscu.</string>
     <string name="whats_new_399">Ulepszony układ eksportu PDF, w pełni konfigurowalny za pomocą funkcji „przeciągnij i upuść”.</string>
+    <string name="whats_new_400_1">Wykres kołowy przedstawiający dystrybucję pieniędzy między kontami</string>
+    <string name="whats_new_400_2">Historia cen: Zbiorcze pobieranie brakujących wpisów</string>
 </resources>

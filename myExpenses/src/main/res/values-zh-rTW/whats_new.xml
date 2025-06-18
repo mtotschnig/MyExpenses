@@ -22,4 +22,6 @@
     <string name="whats_new_396">通過自動更新 匯率 和實時價值跟蹤，增強外幣 帳戶 管理。</string>
     <string name="whats_new_398">在一個地方查看您的資產、負債和淨資產。</string>
     <string name="whats_new_399">改進的 PDF 導出佈局，可通過拖放完全自定義。</string>
+    <string name="whats_new_400_2">價格歷史記錄：批次下載缺少的條目</string>
+    <string name="whats_new_400_1">顯示帳戶之間資金分配的餅圖</string>
 </resources>

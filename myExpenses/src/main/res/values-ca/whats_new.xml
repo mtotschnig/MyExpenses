@@ -2,4 +2,6 @@
 <resources>
     <string name="whats_new_398">Vegeu els vostres actius, passius i patrimoni net — tot en un sol lloc.</string>
     <string name="whats_new_399">Disseny d\'exportació de PDF millorat, totalment personalitzable amb arrossegar i deixar anar.</string>
+    <string name="whats_new_400_2">Historial de preus: descàrrega massiva de les entrades que falten</string>
+    <string name="whats_new_400_1">Gràfic circular que mostra la distribució de diners entre comptes</string>
 </resources>

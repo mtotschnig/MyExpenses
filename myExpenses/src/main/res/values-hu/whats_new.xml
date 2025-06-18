@@ -8,4 +8,6 @@
     <string name="whats_new_396">Továbbfejlesztett devizaszámla-kezelés automatikus árfolyam-frissítésekkel és valós idejű értékkövetéssel.</string>
     <string name="whats_new_398">Tekintse meg eszközeit, kötelezettségeit és nettó vagyonát — mindent egy helyen.</string>
     <string name="whats_new_399">Továbbfejlesztett PDF-exportálási elrendezés, teljesen testreszabható fogással és vidddal.</string>
+    <string name="whats_new_400_1">A pénz számlák közötti eloszlását bemutató kördiagram</string>
+    <string name="whats_new_400_2">Árelőzmények: Hiányzó bejegyzések tömeges letöltése</string>
 </resources>

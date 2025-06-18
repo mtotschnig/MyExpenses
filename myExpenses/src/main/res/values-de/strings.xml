@@ -1008,4 +1008,8 @@
     <string name="mark_as_cleared">Als verrechnet markieren</string>
     <string name="mark_as_unreconciled">Als nicht abgestimmt markieren</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Gleichwertige Beträge automatisch aktualisieren, wenn sich die Preise ändern</string>
+    <string name="batch_download_result">%d Preise wurden heruntergeladen und in der Datenbank gespeichert.</string>
+    <string name="warning_batch_download_quota">Beim Batch-Download von %s besteht das Risiko, dass Ihr Nutzungslimit überschritten wird.</string>
+    <string name="batch_download">Batch-Download</string>
+    <string name="sort_direction">Sortierrichtung</string>
 </resources>

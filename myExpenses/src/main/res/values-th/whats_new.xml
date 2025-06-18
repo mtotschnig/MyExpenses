@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="whats_new_400_1">แผนภูมิวงกลมแสดงการกระจายตัวของเงินระหว่างบัญชี</string>
+    <string name="whats_new_400_2">ประวัติราคา: ดาวน์โหลดรายการที่ขาดหายไปจํานวนมาก</string>
 </resources>

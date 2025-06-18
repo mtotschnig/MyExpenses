@@ -1021,4 +1021,8 @@
     <string name="pref_equivalent_amounts_automatic_update_title">Atualizar quantias equivalentes automaticamente quando os preços mudam</string>
     <string name="mark_as_cleared">Marcar como compensada</string>
     <string name="mark_as_unreconciled">Marcar como não reconciliada</string>
+    <string name="sort_direction">Direção da ordenação</string>
+    <string name="batch_download">Download em lote</string>
+    <string name="warning_batch_download_quota">O download em lote do %s incorre no risco de esgotar seu limite de uso.</string>
+    <string name="batch_download_result">%d preços foram baixados e armazenados no banco de dados.</string>
 </resources>

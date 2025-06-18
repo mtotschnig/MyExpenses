@@ -22,4 +22,6 @@
     <string name="whats_new_396">Gestion améliorée des comptes en devises étrangères avec mises à jour automatiques des taux de change et suivi de la valeur en temps réel.</string>
     <string name="whats_new_398">Voyez vos actifs, passifs et valeur nette — tout en un seul endroit.</string>
     <string name="whats_new_399">Mise en page améliorée de l’exportation PDF, entièrement personnalisable par glisser-déposer.</string>
+    <string name="whats_new_400_1">Graphique à secteurs montrant la répartition de l\'argent entre les comptes</string>
+    <string name="whats_new_400_2">Historique des prix : téléchargement en masse des entrées manquantes</string>
 </resources>

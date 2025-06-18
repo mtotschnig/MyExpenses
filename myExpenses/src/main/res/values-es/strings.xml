@@ -1018,4 +1018,11 @@
     <string name="balance_sheet_section_assets">Activos</string>
     <string name="balance_sheet_section_liabilities">Pasivos</string>
     <string name="balance_sheet_net_worth">Patrimonio neto</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Actualizar automáticamente los importes equivalentes cuando cambian los precios</string>
+    <string name="sort_direction">Dirección de ordenación</string>
+    <string name="batch_download">Descarga por lotes</string>
+    <string name="warning_batch_download_quota">La descarga por lotes desde %s implica el riesgo de agotar su límite de uso.</string>
+    <string name="mark_as_unreconciled">Marcar como no reconciliado</string>
+    <string name="batch_download_result">%d precios se descargaron y almacenaron en la base de datos.</string>
+    <string name="mark_as_cleared">Marcar como despejado</string>
 </resources>
