@@ -6,4 +6,6 @@
     <string name="whats_new_396">자동 환율 업데이트 및 실시간 가치 추적을 통해 향상된 외환 계좌 관리.</string>
     <string name="whats_new_398">자산, 부채 및 순자산을 한 곳에서 확인하세요.</string>
     <string name="whats_new_399">향상된 PDF 내보내기 레이아웃, 드래그 앤 드롭으로 완전히 사용자 정의 할 수 있습니다.</string>
+    <string name="whats_new_400_2">가격 내역: 누락된 항목의 대량 다운로드</string>
+    <string name="whats_new_400_1">계좌 간의 자금 분배를 보여주는 파이 차트</string>
 </resources>
