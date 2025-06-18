@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>799;4.0.0</item>
+        <item>800;4.0.0</item>
         <item>797;3.9.9</item>
         <item>794;3.9.8</item>
         <item>787;3.9.7</item>
@@ -85,6 +85,7 @@
     <string name="version_more_info_397">114200685512601412</string>
     <string name="version_more_info_398">114292736277188136</string>
     <string name="version_more_info_399">114561804390868913</string>
+    <string name="version_more_info_400">114706361015277339</string>
 
     <!-- Github -->
     <!-- Legacy -->
