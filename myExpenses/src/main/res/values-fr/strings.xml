@@ -1021,4 +1021,8 @@
     <string name="pref_equivalent_amounts_automatic_update_title">Mettre à jour automatiquement les montants équivalents lorsque les prix changent</string>
     <string name="mark_as_cleared">Pointer</string>
     <string name="mark_as_unreconciled">Marquer comme non rapproché</string>
+    <string name="sort_direction">Direction de tri</string>
+    <string name="batch_download">Téléchargement par lots</string>
+    <string name="warning_batch_download_quota">Le téléchargement par lots à partir de %s risque d’épuiser votre limite d’utilisation.</string>
+    <string name="batch_download_result">%d prix ont été téléchargés et stockés dans la base de données.</string>
 </resources>
