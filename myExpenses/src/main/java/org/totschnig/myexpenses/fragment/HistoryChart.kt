@@ -72,6 +72,9 @@ import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private var _binding: HistoryChartBinding? = null
@@ -279,6 +282,20 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         }
         menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)?.isChecked = includeTransfers
         menu.findItem(R.id.TOGGLE_TOTALS_COMMAND)?.isChecked = showTotals
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.container, { v, insets ->
+            val navigationInsets = insets.getInsets(
+                WindowInsetsCompat.Type.navigationBars()
+            )
+
+            v.updatePadding(
+                bottom = navigationInsets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        })
     }
 
     @Deprecated("Deprecated in Java")
