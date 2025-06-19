@@ -136,58 +136,59 @@ amazon:
 versions:
   -   - 4.0.0
       - '2025-06-19'
-      - bg: 'Кръгова диаграма, показваща разпределението на парите по сметки История
-          на цените: Групово зареждане на липсващи записи Превод : тайски (Принос
-          чрез abotabl.) Превод : беларуски (Принос чрез keefeer)'
-        cs: 'Výsečový graf znázorňující rozdělení peněz mezi účty Cenová historie:
-          Hromadné stahování chybějících položek Překlad : thajština (Přispěno abotabl.)
+      - bg: 'Кръгова диаграма, показваща разпределението на парите по сметки. История
+          на цените: Групово зареждане на липсващи записи. Превод : тайски (Принос
+          чрез abotabl.). Превод : беларуски (Принос чрез keefeer)'
+        cs: 'Výsečový graf znázorňující rozdělení peněz mezi účty. Cenová historie:
+          Hromadné stahování chybějících položek. Překlad : thajština (Přispěno abotabl.).
           Překlad : běloruština (Přispěno keefeer)'
-        de: 'Kreisdiagramm, das die Verteilung des Geldes zwischen den Konten zeigt
-          Preisverlauf: Massendownload von fehlenden Einträgen Übersetzung : Thailändisch
-          (Beigetragen von abotabl.) Übersetzung : Belarussisch (Beigetragen von keefeer)'
-        el: 'Γράφημα πίτας που δείχνει την κατανομή χρημάτων μεταξύ λογαριασμών Ιστορικό
-          τιμών: Μαζική λήψη καταχωρήσεων που λείπουν Μετάφραση : Ταϊλανδικά (Συνεισφορά
-          από abotabl.) Μετάφραση : Λευκορωσικά (Συνεισφορά από keefeer)'
-        es: 'Gráfico circular que muestra la distribución del dinero entre las cuentas
-          Historial de precios: Descarga masiva de entradas faltantes Traducción :
-          tailandés (Contribución de abotabl.) Traducción : bielorruso (Contribución
+        de: 'Kreisdiagramm, das die Verteilung des Geldes zwischen den Konten zeigt.
+          Preisverlauf: Massendownload von fehlenden Einträgen. Übersetzung : Thailändisch
+          (Beigetragen von abotabl.). Übersetzung : Belarussisch (Beigetragen von
+          keefeer)'
+        el: 'Γράφημα πίτας που δείχνει την κατανομή χρημάτων μεταξύ λογαριασμών. Ιστορικό
+          τιμών: Μαζική λήψη καταχωρήσεων που λείπουν. Μετάφραση : Ταϊλανδικά (Συνεισφορά
+          από abotabl.). Μετάφραση : Λευκορωσικά (Συνεισφορά από keefeer)'
+        es: 'Gráfico circular que muestra la distribución del dinero entre las cuentas.
+          Historial de precios: Descarga masiva de entradas faltantes. Traducción
+          : tailandés (Contribución de abotabl.). Traducción : bielorruso (Contribución
           de keefeer)'
-        fr: 'Graphique à secteurs montrant la répartition de l''argent entre les comptes
-          Historique des prix : téléchargement en masse des entrées manquantes Traduction
-          : thaï (Contribution de abotabl.) Traduction : biélorusse (Contribution
+        fr: 'Graphique à secteurs montrant la répartition de l''argent entre les comptes.
+          Historique des prix : téléchargement en masse des entrées manquantes. Traduction
+          : thaï (Contribution de abotabl.). Traduction : biélorusse (Contribution
           de keefeer)'
-        hr: 'Tortni grafikon koji prikazuje raspodjelu novca između računa Povijest
-          cijena: Skupno preuzimanje nedostajućih unosa Prijevod : tajlandski (Doprinositelj:
-          abotabl.) Prijevod : bjeloruski (Doprinositelj: keefeer)'
-        hu: 'A pénz számlák közötti eloszlását bemutató kördiagram Árelőzmények: Hiányzó
-          bejegyzések tömeges letöltése Fordítás : thai (abotabl. közreműködésével)
+        hr: 'Tortni grafikon koji prikazuje raspodjelu novca između računa. Povijest
+          cijena: Skupno preuzimanje nedostajućih unosa. Prijevod : tajlandski (Doprinositelj:
+          abotabl.). Prijevod : bjeloruski (Doprinositelj: keefeer)'
+        hu: 'A pénz számlák közötti eloszlását bemutató kördiagram. Árelőzmények:
+          Hiányzó bejegyzések tömeges letöltése. Fordítás : thai (abotabl. közreműködésével).
           Fordítás : belarusz (keefeer közreműködésével)'
-        it: 'Grafico a torta che mostra la distribuzione del denaro tra i conti Storico
-          dei prezzi: download in blocco delle voci mancanti Traduzione : thailandese
-          (Contribuito da abotabl.) Traduzione : bielorusso (Contribuito da keefeer)'
-        iw: 'תרשים עוגה המציג את חלוקת הכסף בין חשבונות היסטוריית מחירים: הורדה בכמות
-          גדולה של ערכים חסרים תרגום : תאית (נתרם על ידי abotabl.) תרגום : בלארוסית
+        it: 'Grafico a torta che mostra la distribuzione del denaro tra i conti. Storico
+          dei prezzi: download in blocco delle voci mancanti. Traduzione : thailandese
+          (Contribuito da abotabl.). Traduzione : bielorusso (Contribuito da keefeer)'
+        iw: 'תרשים עוגה המציג את חלוקת הכסף בין חשבונות. היסטוריית מחירים: הורדה בכמות
+          גדולה של ערכים חסרים. תרגום : תאית (נתרם על ידי abotabl.). תרגום : בלארוסית
           (נתרם על ידי keefeer)'
-        nl: 'Cirkeldiagram met de verdeling van geld over rekeningen Prijsgeschiedenis:
-          Bulkdownload van ontbrekende items Vertaling : Thai (Bijgedragen door abotabl.)
+        nl: 'Cirkeldiagram met de verdeling van geld over rekeningen. Prijsgeschiedenis:
+          Bulkdownload van ontbrekende items. Vertaling : Thai (Bijgedragen door abotabl.).
           Vertaling : Belarussisch (Bijgedragen door keefeer)'
-        pl: 'Wykres kołowy przedstawiający dystrybucję pieniędzy między kontami Historia
-          cen: Zbiorcze pobieranie brakujących wpisów Tłumaczenie : tajski (Wniesione
-          przez abotabl.) Tłumaczenie : białoruski (Wniesione przez keefeer)'
-        pt: 'Gráfico de pizza mostrando a distribuição de dinheiro entre contas Histórico
-          de preços: download em massa de entradas ausentes Tradução : tailandês (Contribuído
-          por abotabl.) Tradução : bielorrusso (Contribuído por keefeer)'
-        ro: 'Diagramă circulară care arată distribuția banilor între conturi Istoricul
-          prețurilor: descărcarea în bloc a intrărilor lipsă Traducere : thailandeză
-          (A contribuit abotabl.) Traducere : belarusă (A contribuit keefeer)'
-        tr: 'Hesaplar arasındaki para dağılımını gösteren pasta grafiği Fiyat Geçmişi:
-          Eksik girişlerin toplu olarak indirilmesi Çeviri : Tayca (Katkıda bulunan:
-          abotabl.) Çeviri : Belarusça (Katkıda bulunan: keefeer)'
-        vi: 'Pie chart showing distribution of money between accounts Lịch sử giá:
-          Tải xuống hàng loạt các mục bị thiếu Dịch thuật : Tiếng Thái (Đóng góp bởi
-          abotabl.) Dịch thuật : Tiếng Belarus (Đóng góp bởi keefeer)'
-        en: 'Pie chart showing distribution of money between accounts Price History:
-          Bulk download of missing entries Translation : Thai (Contributed by abotabl.)
+        pl: 'Wykres kołowy przedstawiający dystrybucję pieniędzy między kontami. Historia
+          cen: Zbiorcze pobieranie brakujących wpisów. Tłumaczenie : tajski (Wniesione
+          przez abotabl.). Tłumaczenie : białoruski (Wniesione przez keefeer)'
+        pt: 'Gráfico de pizza mostrando a distribuição de dinheiro entre contas. Histórico
+          de preços: download em massa de entradas ausentes. Tradução : tailandês
+          (Contribuído por abotabl.). Tradução : bielorrusso (Contribuído por keefeer)'
+        ro: 'Diagramă circulară care arată distribuția banilor între conturi. Istoricul
+          prețurilor: descărcarea în bloc a intrărilor lipsă. Traducere : thailandeză
+          (A contribuit abotabl.). Traducere : belarusă (A contribuit keefeer)'
+        tr: 'Hesaplar arasındaki para dağılımını gösteren pasta grafiği. Fiyat Geçmişi:
+          Eksik girişlerin toplu olarak indirilmesi. Çeviri : Tayca (Katkıda bulunan:
+          abotabl.). Çeviri : Belarusça (Katkıda bulunan: keefeer)'
+        vi: 'Pie chart showing distribution of money between accounts. Lịch sử giá:
+          Tải xuống hàng loạt các mục bị thiếu. Dịch thuật : Tiếng Thái (Đóng góp
+          bởi abotabl.). Dịch thuật : Tiếng Belarus (Đóng góp bởi keefeer)'
+        en: 'Pie chart showing distribution of money between accounts. Price History:
+          Bulk download of missing entries. Translation : Thai (Contributed by abotabl.).
           Translation : Belarusian (Contributed by keefeer)'
       - github2: '163'
         mastodon: '114706361015277339'
