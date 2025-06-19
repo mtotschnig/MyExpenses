@@ -581,7 +581,7 @@
     <string name="menu_history_transfers">Включи преводите</string>
     <string name="menu_history">История</string>
     <!-- A label indicating the color for the sum of expenses -->
-    <string name="history_chart_out_label">Разход</string>
+    <string name="history_chart_out_label">Разноски</string>
     <!-- A label indicating the color for the sum of income -->
     <string name="history_chart_in_label">Приход</string>
     <string name="menu_history_totals">Показване на суми</string>
@@ -1008,4 +1008,8 @@
     <string name="mark_as_unreconciled">Маркирай като несъгласувано</string>
     <string name="mark_as_cleared">Маркирай като изчистено</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Автоматично обновяване на еквивалентните суми при промяна на цените</string>
+    <string name="batch_download">Групово зареждане</string>
+    <string name="batch_download_result">%d цени бяха заредени и запазени в базата данни.</string>
+    <string name="warning_batch_download_quota">Груповото зареждане от %s поражда риск от изразходване на лимита на употреба.</string>
+    <string name="sort_direction">Посока на сортиране</string>
 </resources>
