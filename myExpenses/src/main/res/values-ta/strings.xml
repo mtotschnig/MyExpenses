@@ -194,7 +194,7 @@
     <string name="no_parties">தரப்புகள் ஏதும் இல்லை.</string>
     <string name="no_split_parts">பிரிவு பகுதிகள் ஏதும் இல்லை.</string>
     <string name="no_templates">வார்ப்புருக்கள் ஏதும் இல்லை.</string>
-    <string name="no_accounts">கணக்குகள் இல்லை</string>
+    <string name="no_accounts">கணக்குகள் இல்லை.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் பரிவர்த்தனைக்கு மாப் செய்யப்பட்டது மற்றும் நீக்கப்பட முடியாது.</item>
         <item quantity="other">%1$d பொருட்கள் பரிவர்த்தனையுடன் தொடர்புள்ளதால் அவைகளை நீக்க முடியாது.</item>
@@ -210,7 +210,7 @@
     <string name="parse_error_other_exception">ஒரு பிழை ஏற்பட்டது: %1$s</string>
     <string name="parse_error_parse_exception">கோப்பை பாகுபடுத்த முடியவில்லை</string>
     <string name="password_disabled_reenable">கடவுச்சொல் பாதுகாப்பு முடக்கப்பட்டுள்ளது. நீங்கள் அமைப்புகளில் இதை மீண்டும் இயக்கலாம்.</string>
-    <string name="password_lost">கடவுச்சொல்லை இழந்தீர்களா?</string>
+    <string name="password_lost">கடவுச்சொல் தொலைந்தது</string>
     <string name="password_not_valid">கடவுச்சொல் தவறானது. மீண்டும் முயற்சி செய்க!</string>
     <string name="password_prompt">உங்கள் கடவுச்சொல்லை பதிவிடவும்</string>
     <string name="password_security_answer_not_valid">தவறான பதில். மீண்டும் முயற்சி செய்க!</string>
@@ -272,7 +272,7 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">புதிய உள் திட்டக் நாட்காட்டியை உருவாக்கவும்</string>
     <string name="pref_planning_calendar_summary">எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் சேமிக்கப்படும் நாட்காட்டியைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="pref_protection_delay_seconds_summary">கடவுச்சொல் மூலம் செயலி பூட்டப்படுவதற்கு முன் செயலற்று இருக்க வேண்டிய விநாடிகள் </string>
+    <string name="pref_protection_delay_seconds_summary">கடவுச்சொல் மூலம் செயலி பூட்டப்படுவதற்கு முன் செயலற்று இருக்க வேண்டிய விநாடிகள்.</string>
     <string name="pref_protection_delay_seconds_title">பாதுகாப்பிற்கு முன் இருக்க வேண்டிய தாமதம்</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">நிரல் பலகைகள் மற்றும் குறுக்குவழிகளில் இருந்து தரவு உள்ளீடு</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">கடவுச்சொல் இல்லாமல் அனுமதி.</string>
@@ -304,10 +304,10 @@
     <string name="reference_number">குறிப்பு எண்</string>
     <string name="restore_db_failure">தரவுத்தள மீட்டமைப்பு தோல்வியடைந்தது.</string>
     <string name="restore_db_success">காப்புப்பிரதியில் இருந்து தரவுத்தளம் மீட்டமைக்கப்பட்டது.</string>
-    <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது.</string>
+    <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s எனும் கோப்பு இல்லை</string>
     <string name="restore_preferences_success">காப்புப்பிரதியில் இருந்து விருப்பத்தேர்வுகள் மீட்டமைக்கப்பட்டன.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d திட்டங்கள் காப்புப்பிரதியில் இருந்து மீட்டமைக்கப்பட்டன.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d திட்டங்கள் காப்புப்பிரதியிலிருந்து மீட்டமைக்கப்பட்டன</string>
     <string name="save_transaction_and_new_success">வெற்றிகரமாக சேமிக்கப்பட்டது</string>
     <string name="save_transaction_error">வார்ப்புருவிலிருந்து புதிய பரிவர்த்தனையை சேமிக்க முடியவில்லை.</string>
     <plurals name="save_transaction_from_template_success">
@@ -345,7 +345,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">வகை</string>
     <string name="unsplit_amount">பிரிக்கப்படாத தொகை</string>
-    <string name="unsplit_amount_greater_than_zero">இன்னும் பிரிக்கப்படாமல் கொஞ்சம் தொகை மீதம் உள்ளது</string>
+    <string name="unsplit_amount_greater_than_zero">இன்னும் பிரிக்கப்படாமல் கொஞ்சம் தொகை மீதம் உள்ளது.</string>
     <string name="warning_backup">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" இல் சேமிக்கப்படும்.</string>
     <string name="continue_confirmation">தொடர விரும்புகிறீர்களா?</string>
     <string name="warning_delete_account">\"%1$s\" கணக்கு அதன் அனைத்து பரிமாற்றங்களுடன் நீக்கப்படும்.</string>
@@ -367,7 +367,7 @@
     <string name="warning_delete_reconciled">நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளை நீக்குவதால் உங்கள் பதிவுகள் வங்கி அறிக்கையிலிருந்து மாறுபடும்.</string>
     <string name="warning_balance_account">ஒப்புக்கொள்ளப்பட்ட மொத்தத்தை உங்கள் வங்கிக் அறிக்கையிலிருக்கும் முடிவு இருப்புடன் ஒப்பிடவும். நீங்கள் தொடர்ந்தால், ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் நல்லிணக்கம் செய்யப்பட்டது என குறிக்கப்படும்.</string>
     <string name="warning_password_protected">செயலி கடவுச்சொல்லால் பாதுகாக்கப்படுகிறது.</string>
-    <string name="warning_widget_disabled">நீங்கள் இந்த நிரல் பலகையை செயலியின் அமைப்புகளில் இயலச்செய்ய வேண்டும்</string>
+    <string name="warning_widget_disabled">நீங்கள் இந்த நிரல் பலகையைச் செயலியின் அமைப்புகளில் இயலச்செய்ய வேண்டும்.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">நீங்கள் செயலியின் அமைப்புகளில் கடவுச்சொல் இல்லாமலே நிரல் பலகையிலிருந்து தரவு உள்ளீடுகளை அனுமதித்தால் மட்டுமே இந்த நிரல் பலகையிலிருந்து வார்ப்புருகளின் விரைவான  செயலாக்கம் வேலை செய்யும்.</string>
     <string name="warning_password_contrib">பாதுகாப்புக் கேள்வியை அமைத்தல்,  நீங்கள் கடவுச்சொல்லை மறந்துவிட்ட பட்சத்தில் செயலியை திறக்க உங்களை அனுமதிக்கும்.</string>
     <string name="warning_reset_account">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் எல்லா பரிவர்த்தனைகளும் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
@@ -775,7 +775,7 @@
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">உரிமத் தொகுப்பு ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">மிதக்கும் செயல் பொத்தானைத் தட்டிப் பிடிப்பதன் நிமித்தமாக, இடமாற்றங்கள், பிரிவு பரிவர்த்தனைகள் அல்லது வருமானத்திற்கான படிவத்தை நேரடியாகத் திறக்கவும்</string>
+    <string name="discover_feature_fab_long_press">மிதக்கும் செயல் பொத்தானைத் தட்டிப் பிடிப்பதன் நிமித்தமாக, இடமாற்றங்கள், பிரிவுப் பரிவர்த்தனைகள் அல்லது வருமானத்திற்கான படிவத்தை நேரடியாகத் திறக்கவும்.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">முன்னதாக செயல்படுத்து (நாட்களில்)</string>
     <string name="warning_balance_account_delete">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் அனைத்து நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளும் தரவுத்தளத்திலிருந்து நீக்கப்படும், மேலும் அவற்றை நீங்கள் மீட்டெடுக்க முடியாது.</string>
@@ -871,7 +871,7 @@
     <string name="archive">காப்பகம்</string>
     <string name="menu_reconfigure">மறுகட்டமைக்கவும்</string>
     <string name="contact_us">எங்களை தொடர்புகொள்</string>
-    <string name="webui_warning_move_transaction">பரிவர்த்தனை கணக்கு {கணக்கு க்கு க்கு நகர்த்தப்படும்.</string>
+    <string name="webui_warning_move_transaction">பரிவர்த்தனை கணக்கு {account} க்கு நகர்த்தப்படும்.</string>
     <string name="pref_csv_export_split_categories_summary">வகை வரிசைமுறையின் ஒவ்வொரு மட்டத்திற்கும் தனி நெடுவரிசைகளைப் பயன்படுத்தவும்</string>
     <string name="pref_copy_attachments_summary_on">பயன்பாட்டு கோப்புறையில் கோப்புகள் நகலெடுக்கப்படுகின்றன.</string>
     <string name="warning_unlink_transfer">தேர்ந்தெடுக்கப்பட்ட பரிமாற்றம் இணைக்கப்படாதது: இது இரு கணக்குகளிலும் சாதாரண பரிவர்த்தனைகளால் மாற்றப்படும்.</string>
@@ -932,7 +932,7 @@
     <string name="pref_copy_attachments_title">பயன்பாட்டு கோப்புறையில் இணைப்புகளை நகலெடுக்கவும்</string>
     <string name="pref_csv_export_category_separator_summary">வகை வரிசைக்கு இடையில் பிரிப்பான்</string>
     <string name="dialog_title_purge_backups">பழைய காப்புப்பிரதிகளை தூய்மைப்படுத்துங்கள்</string>
-    <string name="orphaned_transaction_info">இந்த தேதிக்கான திட்டத்துடன் ஒரு பரிவர்த்தனை இணைக்கப்பட்டுள்ளது, ஆனால் இந்த தேதியில் நிகழ்வு நிகழ்வு எதுவும் இல்லை.</string>
+    <string name="orphaned_transaction_info">இந்தத் தேதிக்கான திட்டத்துடன் ஒரு பரிவர்த்தனை இணைக்கப்பட்டுள்ளது, ஆனால் இந்தத் தேதியில் நிகழ்வு எதுவும் இல்லை.</string>
     <string name="add_shortcut">குறுக்குவழியைச் சேர்க்கவும்</string>
     <string name="maximum_size">அதிகபட்ச அளவு</string>
     <string name="menu_parent_category_selection">குறுகிய தட்டில் பெற்றோர் வகையைத் தேர்ந்தெடுக்கவும்</string>
@@ -949,7 +949,7 @@
     <string name="dialog_confirm_rollover_delete">இந்த காலத்திற்கான அனைத்து ரோல்ஓவர் தொகைகளும் நீக்கப்படும்.</string>
     <string name="content_description_attachment">இணைப்பு</string>
     <string name="database_is_encrypted">தரவுத்தளம் குறியாக்கம் செய்யப்பட்டுள்ளது.</string>
-    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">கிதுப் ஸ்பான்சர்கள்</a>.]]></string>
+    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">அறிவிலிமையம் ஆதரவாளர்கள்</a>.]]></string>
     <string name="pref_backup_file_prefix_title">கோப்பு முன்னொட்டு</string>
     <string name="orphaned_transaction_relink">பரிவர்த்தனையை %s இல் நிகழ்வு நிகழ்வுடன் மறுபரிசீலனை செய்யலாம்.</string>
     <string name="orphaned_transaction_align_date">விருப்பமாக பரிவர்த்தனையுடன் சேமிக்கப்பட்ட தேதியும் நிகழ்வு தேதியுடன் சீரமைக்கப்படலாம்.</string>
@@ -966,7 +966,7 @@
     <string name="warning_transform_to_transfer">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனை %1$s இலிருந்து %2$s க்கு மாற்றுவதன் மூலம் மாற்றப்படும்.</string>
     <string name="menu_transform_to_transfer">பரிமாற்றமாக மாற்றவும்</string>
     <string name="roadmap_intro">2024 சாலை வரைபட வாக்கெடுப்பு இப்போது திறந்திருக்கும்! உங்களுக்கு மிகவும் முக்கியத்துவம் வாய்ந்த நற்பொருத்தங்கள் மற்றும் மேம்பாடுகளுக்கு வாக்களியுங்கள்.</string>
-    <string name="subcategories_merged_recursively">இணைக்கப்பட்ட வகைகளில் ஏதேனும் ஒரே லேபிளைக் கொண்ட துணைப்பிரிவுகளைக் கொண்டிருந்தால், அவை முதலில் மீண்டும் மீண்டும் ஒன்றிணைக்கப்படும்.</string>
+    <string name="subcategories_merged_recursively">இணைக்கப்பட்ட வகைகளில் ஏதேனும் ஒரே லேபிளைக் கொண்ட துணைப்பிரிவுகளைக் கொண்டிருந்தால், அவை முதலில் மீண்டும் ஒன்றிணைக்கப்படும்.</string>
     <string name="merge_categories_prompt">நீங்கள் வைத்திருக்க விரும்பும் வகையைத் தேர்ந்தெடுக்கவும்</string>
     <string name="not_enough_data">போதுமான தரவு இல்லை</string>
     <string name="warning_unarchive">காப்பகம் திறக்கப்படாது. உள்ள அனைத்து பரிவர்த்தனைகளும் பட்டியலில் மீண்டும் சேர்க்கப்படும்.</string>
@@ -986,8 +986,30 @@
     <string name="budget_import_none_found">வரவு செலவுத் திட்டங்கள் எதுவும் கிடைக்கவில்லை.</string>
     <string name="quick_search">விரைவான தேடல்</string>
     <string name="complex_search">சிக்கலான தேடல்</string>
-    <string name="balance_sheet">இருப்புத் தாள்</string>
+    <string name="balance_sheet">ஐந்தொகை, இருப்புநிலைக் குறிப்பு</string>
     <string name="balance_sheet_section_assets">சொத்துகள்</string>
     <string name="balance_sheet_section_liabilities">கடன்கள்</string>
     <string name="balance_sheet_net_worth">நிகர மதிப்பு</string>
+    <string name="webui_download_no_data">பயன்பாட்டில் அச்சிட்டு, ஏற்றுமதி செய்த அல்லது காப்புப்பிரதிகளை உருவாக்கிய பிறகு, கோப்புகள் பதிவிறக்கம் செய்ய இங்கிருந்து கிடைக்கும்.</string>
+    <string name="sort_direction">திசையை வரிசைப்படுத்துங்கள்</string>
+    <string name="batch_download_result">%d விலைகள் பதிவிறக்கம் செய்யப்பட்டு தரவுத்தளத்தில் சேமிக்கப்பட்டன.</string>
+    <string name="filter_dialog_empty">இதுவரை எந்த அளவுகோல்களும் சேர்க்கப்படவில்லை. உங்கள் வினவலை வரையறுக்கவும், உங்கள் முடிவுகளை செம்மைப்படுத்தவும் மேலே உள்ள பொத்தான்களைத் தட்டவும்.</string>
+    <string name="menu_show_equivalent_value">சமமான மதிப்பு</string>
+    <string name="initial_value">தொடக்க மதிப்பு</string>
+    <string name="current_value">தற்போதைய மதிப்பு</string>
+    <string name="equivalent_amount_plural">சமமான அளவு</string>
+    <string name="menu_recalculate">மறுபரிசீலனை செய்யுங்கள்</string>
+    <string name="recalculate_equivalent_amounts_warning">பொருந்தக்கூடிய சேமிக்கப்பட்ட பரிமாற்ற விகிதங்கள் கிடைத்தால் சமமான தொகைகள் (மறு) கணக்கிடப்படும்.</string>
+    <string name="account_closed">கணக்கு மூடப்பட்டுள்ளது</string>
+    <string name="pref_sync_frequency_summary_0">தானியங்கி ஒத்திசைவை செயலிழக்க 0 என அமைக்கவும்.</string>
+    <string name="total_value">மொத்த மதிப்பு</string>
+    <string name="enable_automatic_daily_exchange_rate_download">தானியங்கி நாள்தோறும் பரிமாற்ற வீத பதிவிறக்க</string>
+    <string name="price_history">விலை வரலாறு</string>
+    <string name="dynamic_exchange_rate">மாறும் பரிமாற்ற வீதம்</string>
+    <string name="progress_recalculating">மறுபரிசீலனை செய்தல்</string>
+    <string name="mark_as_cleared">அழிக்கப்பட்டபடி குறி</string>
+    <string name="mark_as_unreconciled">சமரசமற்றதாகக் குறிக்கவும்</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">விலைகள் மாறும்போது சமமான தொகைகளை தானாகவே புதுப்பிக்கவும்</string>
+    <string name="batch_download">தொகுதி பதிவிறக்கம்</string>
+    <string name="warning_batch_download_quota">%s இலிருந்து தொகுதி பதிவிறக்கம் உங்கள் பயன்பாட்டு வரம்பைக் குறைக்கும் அபாயத்தை ஏற்படுத்துகிறது.</string>
 </resources>
