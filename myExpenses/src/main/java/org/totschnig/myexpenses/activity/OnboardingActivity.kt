@@ -4,7 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
@@ -40,6 +44,8 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     @State
     var accountName: String? = null
 
+    override val drawToTopEdge = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             try {
@@ -58,6 +64,16 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         pagerAdapter = MyPagerAdapter(supportFragmentManager)
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.offscreenPageLimit = 2
+        ViewCompat.setOnApplyWindowInsetsListener(binding.pageIndicatorView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams<MarginLayoutParams> {
+                topMargin = bars.top
+            }
+            insets
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu) = false //skip help
@@ -67,6 +83,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         binding.viewPager.setCurrentItem(currentItem + 1, true)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentItem = binding.viewPager.currentItem
         if (currentItem > 0) {

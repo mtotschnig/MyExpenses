@@ -1610,9 +1610,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open val scrollsHorizontally: Boolean = false
 
+    open val drawToTopEdge: Boolean = false
+
     //We centrally deal with all window insets that should be consumed at the window root level
     //Only the bottom inset should be passed down to enable lists to scroll edge to edge
-    private fun handleRootWindowInsets() {
+    open fun handleRootWindowInsets() {
         val rootView = findViewById<View>(android.R.id.content)
         ViewGroupCompat.installCompatInsetsDispatch(rootView)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, receivedInsets ->
@@ -1627,7 +1629,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             val horizontalPaddingToApplyRight = if (scrollsHorizontally) 0 else
                 displayCutoutInsets.right.coerceAtLeast(systemBarsInsets.right)
 
-            val topPaddingToApply = displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
+            val topPaddingToApply = if (drawToTopEdge) 0 else
+                displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
 
             val bottomPaddingToApply = imeInsets.bottom // Primarily for IME
 
@@ -1652,7 +1655,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 WindowInsetsCompat.Type.systemBars(),
                 Insets.of(
                     if (scrollsHorizontally) systemBarsInsets.left else 0, // Left consumed by 'v'
-                    0,
+                    if (drawToTopEdge) systemBarsInsets.top else 0, // Top consumed by 'v'),
                     if (scrollsHorizontally) systemBarsInsets.right else 0, // Right consumed by 'v'
                     systemBarsInsets.bottom // Bottom system bar inset is still available
                 )
@@ -1664,7 +1667,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 WindowInsetsCompat.Type.displayCutout(),
                 Insets.of(
                     if (scrollsHorizontally) displayCutoutInsets.left else 0, // Left consumed by 'v'
-                    0,
+                    if (drawToTopEdge) displayCutoutInsets.top else 0, // Top consumed by 'v'),
                     if (scrollsHorizontally) displayCutoutInsets.right else 0, // Right consumed by 'v'
                     0
                 )
