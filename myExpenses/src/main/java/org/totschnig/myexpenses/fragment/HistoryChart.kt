@@ -284,20 +284,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         menu.findItem(R.id.TOGGLE_TOTALS_COMMAND)?.isChecked = showTotals
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.container, { v, insets ->
-            val navigationInsets = insets.getInsets(
-                WindowInsetsCompat.Type.navigationBars()
-            )
-
-            v.updatePadding(
-                bottom = navigationInsets.bottom
-            )
-
-            WindowInsetsCompat.CONSUMED
-        })
-    }
-
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (handleGrouping(item)) return true

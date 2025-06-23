@@ -13,4 +13,6 @@ class HistoryActivity : ProtectedFragmentActivity() {
         }
         setupToolbar()
     }
+
+    override val drawToBottomEdge = false
 }

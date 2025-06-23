@@ -88,19 +88,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             }
             roadmapViewModel.loadData(RoadmapRepository.VERSION > versionFromPref)
         }
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.myRecyclerView, { v, insets ->
-            val navigationInsets = insets.getInsets(
-                WindowInsetsCompat.Type.navigationBars()
-            )
-
-            v.updatePadding(
-                bottom = navigationInsets.bottom
-            )
-
-            WindowInsetsCompat.CONSUMED
-        })
     }
+
+    override val drawToBottomEdge = false
 
     override fun onPause() {
         super.onPause()
