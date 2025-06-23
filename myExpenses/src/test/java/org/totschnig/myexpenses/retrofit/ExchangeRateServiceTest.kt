@@ -105,6 +105,7 @@ class ExchangeRateServiceTest {
 
     @Test
     fun openExchangeRateTimeSeries() {
+        Assume.assumeFalse(BuildConfig.OPEN_EXCHANGE_RATES_API_KEY.isEmpty())
         runBlocking {
             val (rates, exception) = service.getTimeSeries(ExchangeRateApi.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
             Truth.assertThat(rates).isNotEmpty()
@@ -115,6 +116,7 @@ class ExchangeRateServiceTest {
 
     @Test
     fun coinApiTimeSeries() {
+        Assume.assumeFalse(BuildConfig.COIN_API_API_KEY.isEmpty())
         runBlocking {
             val (rates, _) = service.getTimeSeries(ExchangeRateApi.CoinApi, BuildConfig.COIN_API_API_KEY, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")
             Truth.assertThat(rates).isNotEmpty()
