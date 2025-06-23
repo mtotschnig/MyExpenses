@@ -1,0 +1,7 @@
+• Hesaplar arasındaki para dağılımını gösteren pasta grafiği
+• Fiyat Geçmişi: Eksik girişlerin toplu olarak indirilmesi
+• Çeviri : Tayca (Katkıda bulunan: abotabl.)
+• Çeviri : Belarusça (Katkıda bulunan: keefeer)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339

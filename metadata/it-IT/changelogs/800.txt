@@ -1,0 +1,7 @@
+• Grafico a torta che mostra la distribuzione del denaro tra i conti
+• Storico dei prezzi: download in blocco delle voci mancanti
+• Traduzione : thailandese (Contribuito da abotabl.)
+• Traduzione : bielorusso (Contribuito da keefeer)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339

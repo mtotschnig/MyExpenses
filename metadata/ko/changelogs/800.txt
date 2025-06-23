@@ -1,0 +1,7 @@
+• 계좌 간의 자금 분배를 보여주는 파이 차트
+• 가격 내역: 누락된 항목의 대량 다운로드
+• 번역 : 태국어 (Contributed by abotabl.)
+• 번역 : 벨라루스어 (Contributed by keefeer)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339

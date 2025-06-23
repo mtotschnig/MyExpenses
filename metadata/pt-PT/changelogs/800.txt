@@ -1,0 +1,7 @@
+• Gráfico de pizza mostrando a distribuição de dinheiro entre contas
+• Histórico de preços: download em massa de entradas ausentes
+• Tradução : tailandês (Contribuído por abotabl.)
+• Tradução : bielorrusso (Contribuído por keefeer)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339

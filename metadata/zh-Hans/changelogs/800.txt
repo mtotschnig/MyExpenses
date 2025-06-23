@@ -1,0 +1,7 @@
+• 显示账户之间资金分配的饼图
+• 价格历史记录：批量下载缺失的条目
+• 翻译 : 泰语 (由abotabl.贡献)
+• 翻译 : 白俄罗斯语 (由keefeer贡献)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339

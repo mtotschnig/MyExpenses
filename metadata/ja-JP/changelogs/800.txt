@@ -1,0 +1,7 @@
+• 口座間のお金の分布を示す円グラフ
+• 価格履歴:不足しているエントリの一括ダウンロード
+• 翻訳 : タイ語 (貢献者 abotabl.)
+• 翻訳 : ベラルーシ語 (貢献者 keefeer)
+
+https://github.com/users/mtotschnig/projects/163
+https://mastodon.social/@myexpenses/114706361015277339
