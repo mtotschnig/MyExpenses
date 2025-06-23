@@ -156,6 +156,7 @@ import java.time.LocalTime
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
+import androidx.core.net.toUri
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
@@ -560,7 +561,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             ViewCompat.setOnApplyWindowInsetsListener(floatingActionButton) { v, windowInsets ->
                 val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
                 val baseMargin = UiUtils.dp2Px(16f, resources)
-                val insets = if (imeVisible) Insets.NONE else windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                val insets =
+                    if (imeVisible) Insets.NONE else windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
                 v.updateLayoutParams<MarginLayoutParams> {
                     leftMargin = baseMargin + insets.left
                     bottomMargin = baseMargin + insets.bottom
@@ -859,7 +861,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             R.id.RATE_COMMAND -> {
                 startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(marketSelfUri)
+                    data = marketSelfUri.toUri()
                 }, R.string.error_accessing_market, null)
                 true
             }
@@ -1104,7 +1106,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
             )
         } catch (e: ActivityNotFoundException) {
-            showSnackBar(MimeTypeMap.getSingleton()
+            showSnackBar(
+                MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(mimeType)
                 ?.uppercase(Locale.getDefault())
                 ?.let { getString(R.string.no_app_handling_mime_type_available, it) }
@@ -1612,6 +1615,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open val drawToTopEdge: Boolean = false
 
+    open val drawToBottomEdge: Boolean = true
+
     //We centrally deal with all window insets that should be consumed at the window root level
     //Only the bottom inset should be passed down to enable lists to scroll edge to edge
     open fun handleRootWindowInsets() {
@@ -1620,19 +1625,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, receivedInsets ->
             // 1. Get the specific insets
             val imeInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.ime())
-            val displayCutoutInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            val displayCutoutInsets =
+                receivedInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
             val systemBarsInsets = receivedInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val navigationBarsInsets =
+                receivedInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 
             // 2. Determine the padding values to apply to this view 'v'
             val horizontalPaddingToApplyLeft = if (scrollsHorizontally) 0 else
                 displayCutoutInsets.left.coerceAtLeast(systemBarsInsets.left)
             val horizontalPaddingToApplyRight = if (scrollsHorizontally) 0 else
                 displayCutoutInsets.right.coerceAtLeast(systemBarsInsets.right)
-
             val topPaddingToApply = if (drawToTopEdge) 0 else
                 displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
 
-            val bottomPaddingToApply = imeInsets.bottom // Primarily for IME
+            val bottomPaddingToApply = imeInsets.bottom.coerceAtLeast(
+                if (drawToBottomEdge) 0 else navigationBarsInsets.bottom
+            )
 
             // 3. Apply padding to the current view 'v'
             v.updatePadding(
@@ -1682,6 +1691,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     imeInsets.top,
                     imeInsets.right,
                     0 // Bottom IME inset consumed by 'v'
+                )
+            )
+
+            builder.setInsets(
+                WindowInsetsCompat.Type.navigationBars(),
+                Insets.of(
+                    navigationBarsInsets.left,
+                    navigationBarsInsets.top,
+                    navigationBarsInsets.right,
+                    if (drawToBottomEdge) navigationBarsInsets.bottom else 0
                 )
             )
 

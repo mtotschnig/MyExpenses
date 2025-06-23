@@ -46,6 +46,8 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     override val drawToTopEdge = true
 
+    override val drawToBottomEdge = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             try {
