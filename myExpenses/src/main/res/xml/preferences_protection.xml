@@ -62,12 +62,20 @@
             android:summaryOn="@string/enabled"
             android:title="@string/widget_title_budget" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_home_screen_shortcuts"
+        android:title="@string/pref_ui_home_screen_shortcuts">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_ui_home_screen_shortcuts_show_new_balance_key"
+            android:title="Show new balance after transaction is saved" />
+    </PreferenceCategory>
     <Preference
         android:key="@string/pref_encrypt_database_info_key"
         android:selectable="false"
         android:summary="@string/database_is_encrypted"
-        my:isPreferenceVisible="false"
-        my:allowDividerAbove="true" />
+        my:allowDividerAbove="true"
+        my:isPreferenceVisible="false" />
     <PreferenceCategory
         android:key="@string/pref_category_privacy_key"
         android:title="@string/privacy_header">
@@ -93,9 +101,9 @@
         android:title="@string/about_ads">
 
         <Preference
-            my:isPreferenceVisible="false"
             android:key="@string/pref_ad_consent_key"
-            android:title="@string/privacy_header" />
+            android:title="@string/privacy_header"
+            my:isPreferenceVisible="false" />
         <Preference
             android:key="@string/pref_no_ads_key"
             android:title="@string/gdpr_consent_button_no" />

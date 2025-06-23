@@ -70,18 +70,23 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
         val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
         val isProtected =
             isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
-        requirePreference<Preference>(PrefKey.SECURITY_QUESTION).isEnabled = isLegacy
-        requirePreference<Preference>(PrefKey.PROTECTION_DELAY_SECONDS).isEnabled = isProtected
-        requirePreference<Preference>(PrefKey.PROTECTION_ALLOW_SCREENSHOT).isEnabled = isProtected
-        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET).isEnabled =
-            isProtected
-        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled =
-            isProtected
-        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
-            isProtected
+
+        setEnabled(PrefKey.SECURITY_QUESTION, isLegacy)
+        setEnabled(PrefKey.PROTECTION_DELAY_SECONDS, isProtected)
+        setEnabled(PrefKey.PROTECTION_ALLOW_SCREENSHOT, isProtected)
+        setEnabled(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET, isProtected)
+        setEnabled(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET, isProtected)
+        setEnabled(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, isProtected)
+        setEnabled(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET, isProtected)
+
         with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PROTECTION)) {
             initialExpandedChildrenCount = preferenceCount - (if (isLegacy) 1 else 2)
         }
+    }
+
+    private fun setEnabled(prefKey: PrefKey, enabled: Boolean) {
+        requirePreference<Preference>(prefKey).isEnabled = enabled
+
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {

@@ -77,8 +77,8 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
-import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.CriterionInfo
+import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.OnCriterionDialogDismissedListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -152,7 +152,6 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 
@@ -722,6 +721,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (::delegate.isInitialized) {
                 delegate.setAccounts(accounts, !accountsLoaded, isInitialSetup)
                 loadDebts()
+                if (wasStartedFromWidget && accountsLoaded && prefHandler.getBoolean(PrefKey.UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE, true)) {
+                    currentAccount?.let { newData ->
+                        Toast.makeText(
+                            this,
+                            getString(R.string.new_balance) + " : " +
+                                    currencyFormatter.formatMoney(
+                                        Money(newData.currency, newData.currentBalance)
+                                    ),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
             }
@@ -1471,20 +1482,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    if (!isSplitPartOrTemplate) {
-                        if (wasStartedFromWidget) {
-                            val newBalance =
-                                currentAccount!!.currentBalance + transaction.amount.amountMinor
-                            Toast.makeText(
-                                this@ExpenseEdit,
-                                getString(R.string.new_balance) + " : " +
-                                        currencyFormatter.formatMoney(
-                                            Money(currentAccount!!.currency, newBalance)
-                                        ),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
                     doFinish()
                 }
             }
