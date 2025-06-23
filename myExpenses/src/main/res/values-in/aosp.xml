@@ -103,4 +103,5 @@
     <string name="menu_restore">"Reset ke default"</string>
     <string name="at_start">Mulai</string>
     <string name="at_end">Selesai</string>
+    <string name="widgets">"Widget"</string>
 </resources>

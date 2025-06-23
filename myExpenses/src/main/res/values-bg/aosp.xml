@@ -169,4 +169,5 @@
     <string name="menu_restore">"Възстановяване на стандартни"</string>
     <string name="at_start">Начало</string>
     <string name="at_end">Край</string>
+    <string name="widgets">"Приспособления"</string>
 </resources>

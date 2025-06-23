@@ -156,4 +156,5 @@
     <string name="menu_restore">"รีเซ็ตเป็นค่าเริ่มต้น"</string>
     <string name="at_start">เริ่ม</string>
     <string name="at_end">สิ้นสุด</string>
+    <string name="widgets">"วิดเจ็ต"</string>
 </resources>

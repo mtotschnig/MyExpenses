@@ -93,4 +93,5 @@
     <string name="menu_restore">"Nustatyti iš naujo į numatytuosius nust."</string>
     <string name="at_start">Pradžia</string>
     <string name="at_end">Pabaiga</string>
+    <string name="widgets">"Valdikliai"</string>
 </resources>

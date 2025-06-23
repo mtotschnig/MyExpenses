@@ -308,4 +308,6 @@
     <!-- Thunderbird calendar-event-listing-column-start-date calendar-event-listing-column-end-date-->
     <string name="at_start">Start</string>
     <string name="at_end">End</string>
+    <!-- /opt/extra/AOSP/packages/apps/Launcher3$ grep -ri widget_button_text | sed 's/widget_button_text/widgets/' | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="widgets">"Widgets"</string>
 </resources>

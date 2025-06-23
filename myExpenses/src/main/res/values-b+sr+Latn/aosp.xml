@@ -65,4 +65,5 @@
     <string name="action_move_bottom">"Premesti na dno"</string>
     <string name="layout">"Raspored"</string>
     <string name="menu_restore">"Resetuj na podrazumevano"</string>
+    <string name="widgets">"Vidžeti"</string>
 </resources>

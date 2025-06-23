@@ -164,4 +164,5 @@
     <string name="menu_restore">"還原為預設狀態"</string>
     <string name="at_start">開始時間</string>
     <string name="at_end">結束時間</string>
+    <string name="widgets">"小工具"</string>
 </resources>

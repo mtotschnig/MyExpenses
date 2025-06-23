@@ -102,4 +102,5 @@
     <string name="menu_restore">"Resetovať na predvolené"</string>
     <string name="at_start">Začiatok</string>
     <string name="at_end">Koniec</string>
+    <string name="widgets">"Miniaplikácie"</string>
 </resources>

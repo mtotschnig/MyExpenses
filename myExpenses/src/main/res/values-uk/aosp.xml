@@ -167,4 +167,5 @@
     <string name="menu_restore">"Скинути налаштування"</string>
     <string name="at_start">Початок</string>
     <string name="at_end">Кінець</string>
+    <string name="widgets">"Віджети"</string>
 </resources>

@@ -169,4 +169,5 @@
     <string name="menu_restore">"Сбросить настройки"</string>
     <string name="at_start">Начало</string>
     <string name="at_end">Sfârșit</string>
+    <string name="widgets">"Виджеты"</string>
 </resources>

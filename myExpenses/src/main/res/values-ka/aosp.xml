@@ -92,4 +92,5 @@
     <string name="menu_restore">"საწყის პარამეტრებზე ჩამოყრა"</string>
     <string name="at_start">დაწყება</string>
     <string name="at_end">დასრულება</string>
+    <string name="widgets">"ვიჯეტები"</string>
 </resources>

@@ -83,4 +83,5 @@
     <string name="right">"दायाँ"</string>
     <string name="margins">"हाशिए"</string>
     <string name="menu_restore">"डिफ़ॉल्ट पर रीसेट करें"</string>
+    <string name="widgets">"विजेट"</string>
 </resources>

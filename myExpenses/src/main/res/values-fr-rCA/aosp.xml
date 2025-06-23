@@ -13,4 +13,5 @@
     <string name="action_move_top">"Déplacer dans le haut"</string>
     <string name="action_move_bottom">"Déplacer dans le bas"</string>
     <string name="layout">"Disposition"</string>
+    <string name="widgets">"Widgets"</string>
 </resources>

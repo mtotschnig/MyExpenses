@@ -71,4 +71,5 @@
     <string name="menu_restore">"Ponastavi na privzeto"</string>
     <string name="at_start">Začetek</string>
     <string name="at_end">Konec</string>
+    <string name="widgets">"Pripomočki"</string>
 </resources>

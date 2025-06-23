@@ -84,4 +84,5 @@
     <string name="menu_restore">"Rivendos të parazgjedhurën"</string>
     <string name="at_start">Fillim</string>
     <string name="at_end">Fund</string>
+    <string name="widgets">"Miniaplikacionet"</string>
 </resources>

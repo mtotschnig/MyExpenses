@@ -35,7 +35,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_widgets"
-        android:title="Widgets"
+        android:title="@string/widgets"
         my:initialExpandedChildrenCount="0">
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -68,7 +68,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_ui_home_screen_shortcuts_show_new_balance_key"
-            android:title="Show new balance after transaction is saved" />
+            android:title="@string/pref_ui_home_screen_shortcuts_show_new_balance_title" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_encrypt_database_info_key"

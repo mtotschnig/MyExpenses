@@ -168,4 +168,5 @@
     <string name="menu_restore">"Rétablir param. par défaut"</string>
     <string name="at_start">Début</string>
     <string name="at_end">Fin</string>
+    <string name="widgets">"Widgets"</string>
 </resources>

@@ -103,4 +103,5 @@
     <string name="menu_restore">"Lähtesta vaikeseadetele"</string>
     <string name="at_start">Algus</string>
     <string name="at_end">Lõpp</string>
+    <string name="widgets">"Vidinad"</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="action_move_top">"Move to top"</string>
     <string name="action_move_bottom">"Move to bottom"</string>
     <string name="layout">"Layout"</string>
+    <string name="widgets">"Widgets"</string>
 </resources>
