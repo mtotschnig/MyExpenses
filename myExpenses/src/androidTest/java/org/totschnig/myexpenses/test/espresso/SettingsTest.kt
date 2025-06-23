@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
@@ -8,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -130,6 +132,12 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
     @Test
     fun exchangeRates() {
         navigateTo(R.string.data, R.string.pref_exchange_rate_provider_title)
+    }
+
+    @Test
+    fun contactSupport() {
+        navigateTo(R.string.help_and_feedback, R.string.contact_us)
+        intended(hasAction(Intent.ACTION_SENDTO))
     }
 
     companion object {
