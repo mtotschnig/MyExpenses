@@ -120,6 +120,7 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
             }
         }
     }
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -223,8 +224,10 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
      */
     fun removeColumn(position: Int) {
         Snapshot.withMutableSnapshot {
-            positions.removeNthOccurrence(ColumnFeed, (position - 1).coerceAtLeast(0))
-            columnWidths.removeAt(position)
+            if (positions.isNotEmpty()) {
+                positions.removeNthOccurrence(ColumnFeed, (position - 1).coerceAtLeast(0))
+                columnWidths.removeAt(position)
+            }
         }
     }
 
@@ -258,7 +261,7 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
      * Triple of min value, current value and max value
      */
     fun resizeColumnInfo(column: Int): Triple<Float, Float, Float>? {
-        if (columnWidths.size <= column +1) return null
+        if (columnWidths.size <= column + 1) return null
         val totalWidth = columnWidths.sum()
         val currentWidth = columnWidths[column] / totalWidth
         val currentWidthNext = columnWidths[column + 1] / totalWidth
@@ -298,13 +301,16 @@ class PrintLayoutConfigurationViewModel(application: Application) : AndroidViewM
     }
 
 
-    fun save() {
+    fun save(): Boolean {
         columns.mapIndexedNotNull { index, fields ->
             if (fields.isEmpty()) index else null
         }.fastForEachReversed {
             removeColumn(it)
         }
-        prefHandler.printLayout = positions.toList()
-        prefHandler.printLayoutColumnWidths = columnWidths.map { it.toInt() }
+        return if (positions.isEmpty()) false else {
+            prefHandler.printLayout = positions.toList()
+            prefHandler.printLayoutColumnWidths = columnWidths.map { it.toInt() }
+            true
+        }
     }
 }

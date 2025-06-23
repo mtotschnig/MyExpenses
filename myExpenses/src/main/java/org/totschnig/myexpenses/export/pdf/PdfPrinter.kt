@@ -282,12 +282,11 @@ object PdfPrinter {
                 val itemDateFormat = dateTimeFormatterLegacy(account, prefHandler, context)?.first
                 val columnsPreference = prefHandler.printLayout.asColumns()
                 val columnWidthsPreference = prefHandler.printLayoutColumnWidths
-                val (columns, columnWidths) =
-                if (itemDateFormat == null) {
+                val (columns, columnWidths) = if (itemDateFormat == null) {
                     val finalColumns = mutableListOf<List<Field>>()
                     val finalColumnWidths = mutableListOf<Int>()
-                    columnsPreference.map {
-                        column -> column.mapNotNull { field -> if (field == Date) null else field }
+                    columnsPreference.map { column ->
+                        column.mapNotNull { field -> if (field == Date) null else field }
                     }.forEachIndexed { index, list ->
                         if (list.isNotEmpty()) {
                             finalColumns.add(list)
@@ -296,6 +295,9 @@ object PdfPrinter {
                     }
                     finalColumns to finalColumnWidths
                 } else columnsPreference to columnWidthsPreference
+                if (columns.count { it.isNotEmpty() } == 0) {
+                    throw Exception(context.getString(R.string.print_configuration_empty))
+                }
                 addTransactionList(
                     document,
                     cursor,
@@ -760,8 +762,11 @@ object PdfPrinter {
                         }
 
                     table!!.addCell(cell)
-                    if (isVoid && index == 0) {
-                        cell.phrase.chunks[0].setGenericTag(this@PdfPrinter.VOID_MARKER)
+                    if (isVoid) {
+                        cell.phrase
+                            ?.chunks
+                            ?.firstOrNull()
+                            ?.setGenericTag(this@PdfPrinter.VOID_MARKER)
                     }
                 }
             }

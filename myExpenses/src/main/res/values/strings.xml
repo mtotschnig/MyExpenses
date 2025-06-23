@@ -1072,4 +1072,5 @@
     <string name="warning_batch_download_quota">Batch download from %s incurs the risk of depleting your usage limit.</string>
     <string name="batch_download_result">%d prices were downloaded and stored in the database.</string>
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Show new balance after transaction is saved</string>
+    <string name="print_configuration_empty">Please add at least one field to be printed.</string>
 </resources>

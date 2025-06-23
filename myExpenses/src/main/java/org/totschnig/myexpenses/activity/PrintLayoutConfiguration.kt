@@ -134,8 +134,12 @@ class PrintLayoutConfiguration : EditActivity() {
 
     override fun saveState() {
         super.saveState()
-        viewModel.save()
-        finish()
+        if (viewModel.save()) {
+            finish()
+        } else {
+            isSaving = false
+            showSnackBar(getString(R.string.print_configuration_empty))
+        }
     }
 
     @Composable
