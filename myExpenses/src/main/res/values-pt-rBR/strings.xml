@@ -902,7 +902,7 @@
     <string name="add_shortcut">Adicionar atalho</string>
     <string name="search_account">Pesquisar por conta</string>
     <string name="encrypt_database_info">O banco de dados será criptografado com uma senha que não poderá ser extraída deste dispositivo. Consequentemente, ela não será incluída no backup efetuado pelo serviço de backup do seu aparelho.</string>
-    <string name="github_sponsors"><![CDATA[Chaves de licença também são fornecidos para <a href="%s">Patrocinadores do Github</a>.]]></string>
+    <string name="github_sponsors"><![CDATA[Chaves de licença também são fornecidas para <a href="%s">Patrocinadores do Github</a>.]]></string>
     <string name="content_description_remove_icon">Remover o ícone</string>
     <string name="database_is_encrypted">O banco de dados está criptografado.</string>
     <string name="notifications_channel_required">Por favor, habilite o canal %s.</string>
