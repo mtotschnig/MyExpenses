@@ -805,7 +805,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
         dispatchCommand(
             command,
-            args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE)
+            args.getParcelable(ConfirmationDialogFragment.KEY_TAG_POSITIVE)
         )
     }
 

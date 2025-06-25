@@ -1,11 +1,11 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.core.os.BundleCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -18,9 +18,13 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deletePrice
 import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.export.createFileFailure
+import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
@@ -31,24 +35,35 @@ import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
+import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.Price
+import timber.log.Timber
+import java.io.IOException
+import java.io.OutputStreamWriter
 import java.math.BigDecimal
+import java.nio.charset.StandardCharsets
 import java.time.LocalDate
+import java.time.format.DateTimeParseException
 import javax.inject.Inject
-
-private const val SHOW_BATCH_DOWNLOAD_KEY = "batchDownload"
 
 class PriceHistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
-    val _batchDownloadResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _batchDownloadResult: MutableStateFlow<String?> = MutableStateFlow(null)
     val batchDownloadResult: Flow<String> = _batchDownloadResult.asStateFlow().filterNotNull()
+    private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
+    val exportResult: Flow<Result<Pair<Uri, String>>> = _exportResult.asStateFlow().filterNotNull()
+    private val _importResult: MutableStateFlow<Result<String>?> = MutableStateFlow(null)
+    val importResult: Flow<Result<String>> = _importResult.asStateFlow().filterNotNull()
 
     fun messageShown() {
         _batchDownloadResult.update { null }
+        _exportResult.update { null }
+        _importResult.update { null }
     }
 
     @Inject
@@ -162,13 +177,18 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
 
     suspend fun loadFromNetwork(
         source: ExchangeRateApi,
-        date: LocalDate
-    ) = exchangeRateHandler.loadFromNetwork(source, date, commodity, currencyContext.homeCurrencyString)
+        date: LocalDate,
+    ) = exchangeRateHandler.loadFromNetwork(
+        source,
+        date,
+        commodity,
+        currencyContext.homeCurrencyString
+    )
 
     suspend fun loadTimeSeries(
         source: ExchangeRateApi,
         start: LocalDate,
-        end: LocalDate
+        end: LocalDate,
     ) {
         val (count, exception) = exchangeRateHandler.loadTimeSeries(
             source,
@@ -181,6 +201,118 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             getString(R.string.batch_download_result, count) + (exception?.let {
                 " " + it.safeMessage
             } ?: "")
+        }
+    }
+
+    fun export() {
+        viewModelScope.launch(context = coroutineContext()) {
+            val context = getApplication<MyApplication>()
+            val fileName = "$commodity-${currencyContext.homeCurrencyString}"
+            val currentPricesMap = pricesWithMissingDates.value
+            _exportResult.update {
+                AppDirHelper.getAppDir(context).mapCatching { destDir ->
+                    AppDirHelper.timeStampedFile(
+                        destDir,
+                        fileName,
+                        ExportFormat.CSV.mimeType, "csv"
+                    ) ?: throw createFileFailure(context, destDir, fileName)
+                }.mapCatching {
+                    context.contentResolver.openOutputStream(it.uri, "w").use {
+                        OutputStreamWriter(it, StandardCharsets.UTF_8).use { out ->
+                            currentPricesMap.entries
+                                .filter { it.value != null }
+                                .sortedBy { it.key }
+                                .forEach { (date, price) ->
+                                    price?.let {
+                                        out.appendLine("$date,${it.value.toPlainString()}")
+                                    }
+                                }
+                        }
+                    }
+                    it.uri to it.displayName
+                }
+            }
+        }
+    }
+
+    fun importPricesFromUri(fileUri: Uri) {
+        viewModelScope.launch {
+            val context = getApplication<MyApplication>()
+            var importedCount = 0
+            var failedLines = 0
+
+            _importResult.update {
+                runCatching {
+                    context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
+                        // Use BufferedReader for efficient line-by-line reading
+                        inputStream.bufferedReader(StandardCharsets.UTF_8).useLines { lines ->
+                            lines.forEachIndexed { index, line ->
+                                try {
+                                    val parts = line.split(',')
+                                    if (parts.size < 2) { // Expecting at least Date, Source, Value
+                                        Timber.w("Skipping malformed CSV line ${index + 2}: $line - Not enough parts")
+                                        failedLines++
+                                        return@forEachIndexed
+                                    }
+
+                                    val dateString = parts[0].trim()
+                                    val valueString = parts[1].trim()
+
+                                    if (dateString.isBlank() || valueString.isBlank()) {
+                                        Timber.w("Skipping malformed CSV line ${index + 2}: $line - Empty parts")
+                                        failedLines++
+                                        return@forEachIndexed
+                                    }
+
+                                    val date = LocalDate.parse(dateString)
+                                    val value = BigDecimal(valueString)
+
+                                    repository.savePrice(
+                                        currencyContext.homeCurrencyUnit,
+                                        currencyContext[commodity],
+                                        date,
+                                        ExchangeRateSource.Import,
+                                        value
+                                    )
+                                    importedCount++
+
+                                } catch (e: DateTimeParseException) {
+                                    Timber.e(
+                                        e,
+                                        "Error parsing date in CSV line ${index + 1}: $line"
+                                    )
+                                    failedLines++
+                                } catch (e: NumberFormatException) {
+                                    Timber.e(
+                                        e,
+                                        "Error parsing value in CSV line ${index + 1}: $line"
+                                    )
+                                    failedLines++
+                                } catch (e: Exception) {
+                                    Timber.e(
+                                        e,
+                                        "Generic error processing CSV line ${index + 1}: $line"
+                                    )
+                                    failedLines++
+                                }
+                            }
+                        }
+                    } ?: throw IOException("Failed to open input stream for URI: $fileUri")
+
+                    if (importedCount > 0 || failedLines > 0) {
+                        buildString {
+                            if (importedCount > 0) {
+                                appendLine(context.resources.getQuantityString(R.plurals.import_prices_success_message, importedCount, importedCount))
+                            }
+                            if (failedLines > 0) {
+                                appendLine(context.resources.getQuantityString(R.plurals.import_prices_failure_message, failedLines, failedLines))
+                            }
+                        }
+                    } else {
+                        context.getString(R.string.no_data)
+                    }
+                }
+            }
         }
     }
 }

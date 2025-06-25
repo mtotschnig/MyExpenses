@@ -15,8 +15,8 @@ import java.time.format.DateTimeFormatter
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
-
     object Calculation : ExchangeRateSource("calculation")
+    object Import: ExchangeRateSource("import")
 
     companion object {
         val values
@@ -25,7 +25,8 @@ sealed class ExchangeRateSource(val name: String) {
                 ExchangeRateApi.OpenExchangeRates,
                 ExchangeRateApi.CoinApi,
                 User,
-                Calculation
+                Calculation,
+                Import
             )
 
         fun getByName(name: String) = values.first { it.name == name }

@@ -496,6 +496,7 @@ open class CategoryViewModel(
         _importResult.update { null }
         _syncResult.update { null }
         _mergeResult.update { null }
+        _exportResult.update { null }
     }
 
     fun moveCategory(source: Long, target: Long?) {

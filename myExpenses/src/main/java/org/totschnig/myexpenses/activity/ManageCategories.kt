@@ -785,7 +785,7 @@ class ManageCategories : ProtectedFragmentActivity(),
     }
 
     private fun exportCats(encoding: String) {
-        showDismissibleSnackBar(getString(R.string.export_to_format, "QIF"))
+        showDismissibleSnackBar(getString(R.string.export_to_format, "QIF"), dismissCallback)
         viewModel.exportCats(encoding)
     }
 
