@@ -39,8 +39,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -147,7 +148,8 @@ fun LazyColumnWithScrollbar(
                 state.DraggableScrollbar(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(WindowInsets.safeContent.asPaddingValues())
+                        .windowInsetsPadding(WindowInsets.systemBars)
+                        .padding(horizontal = 2.dp)
                         .align(Alignment.CenterEnd),
                     state = scrollbarState,
                     orientation = Vertical,
