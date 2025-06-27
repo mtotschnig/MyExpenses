@@ -4,7 +4,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.AdapterView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
@@ -40,6 +42,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     private val csvImportViewModel: CsvImportViewModel by viewModels()
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
@@ -47,6 +51,24 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
             inject(csvImportViewModel)
             inject(this@CsvImportActivity)
         }
+        onBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                val currentItem = binding.viewPager.currentItem
+                if (currentItem > 0) {
+                    binding.viewPager.currentItem = currentItem - 1
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        binding.viewPager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                onBackPressedCallback.isEnabled = position > 0
+            }
+        })
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -66,18 +88,10 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         else -> false
     }
 
-    private fun shouldGoBack() = if (binding.viewPager.currentItem == 1) {
-        binding.viewPager.currentItem = 0
-        false
-    } else true
-
     override fun doHome() {
-        if (shouldGoBack()) super.doHome()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (shouldGoBack()) super.onBackPressed()
+        if (binding.viewPager.currentItem == 1) {
+            binding.viewPager.currentItem = 0
+        } else super.doHome()
     }
 
     override fun createFragment(position: Int) = when(position) {

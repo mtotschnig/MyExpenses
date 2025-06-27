@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -39,7 +38,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     private val startBanking =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 start()
             }
         }
@@ -81,10 +80,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
         onBackPressedCallback = object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
-                // This is where your custom back press logic goes
                 val currentItem = binding.viewPager.currentItem
                 if (currentItem > 0) {
-                    binding.viewPager.setCurrentItem(currentItem - 1, true)
+                    binding.viewPager.currentItem = currentItem - 1
                 } else {
                     onBackPressedDispatcher.onBackPressed()
 
@@ -92,11 +90,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
             }
         }
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-        // Add a ViewPager listener to update the callback's enabled state
         binding.viewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() { // Or ViewPager.OnPageChangeListener
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                // Enable the callback only if we are not on the first page
                 onBackPressedCallback.isEnabled = position > 0
             }
         })
