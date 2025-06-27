@@ -1,13 +1,14 @@
 package org.totschnig.myexpenses.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.BundleCompat
 import arrow.core.flatMap
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
@@ -29,9 +30,11 @@ import java.io.Serializable
 
 class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
     private val reconfigure =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 result.data?.extras?.let {
                     syncViewModel.reconfigure(it).observe(this) { success ->
                         if (success) {
@@ -69,6 +72,12 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
             }
         }
+        onBackPressedCallback = object : OnBackPressedCallback(incomingAccountDeleted) {
+            override fun handleOnBackPressed() {
+                finishWithIncomingAccountDeleted()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -107,28 +116,31 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
 
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
-                val account = args.getSerializable(KEY_ACCOUNT) as Account
-                syncViewModel.syncLinkLocal(
-                    accountName = account.syncAccountName!!,
-                    uuid = account.uuid!!
-                ).observe(this) { result ->
-                    result.onFailure {
-                        showSnackBar(
-                            if (it is AccountSealedException) getString(R.string.object_sealed) else it.safeMessage
-                        )
+                BundleCompat.getSerializable(args, KEY_ACCOUNT, Account::class.java)?.let { account ->
+                    syncViewModel.syncLinkLocal(
+                        accountName = account.syncAccountName!!,
+                        uuid = account.uuid!!
+                    ).observe(this) { result ->
+                        result.onFailure {
+                            showSnackBar(
+                                if (it is AccountSealedException) getString(R.string.object_sealed) else it.safeMessage
+                            )
+                        }
                     }
                 }
             }
 
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
-                val account = args.getSerializable(KEY_ACCOUNT) as Account
-                if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
-                    incomingAccountDeleted = true
-                }
-                syncViewModel.syncLinkRemote(account).observe(this) { result ->
-                    result.onFailure {
-                        if (it is AccountSealedException) {
-                            showSnackBar(R.string.object_sealed_debt)
+                BundleCompat.getSerializable(args, KEY_ACCOUNT, Account::class.java)?.let { account ->
+                    if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
+                        incomingAccountDeleted = true
+                        onBackPressedCallback.isEnabled = true
+                    }
+                    syncViewModel.syncLinkRemote(account).observe(this) { result ->
+                        result.onFailure {
+                            if (it is AccountSealedException) {
+                                showSnackBar(R.string.object_sealed)
+                            }
                         }
                     }
                 }
@@ -136,25 +148,16 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
-    private fun finishWithIncomingAccountDeleted(): Boolean {
-        if (incomingAccountDeleted) {
-            setResult(RESULT_FIRST_USER)
-            finish()
-            return true
-        }
-        return false
+    private fun finishWithIncomingAccountDeleted() {
+        setResult(RESULT_FIRST_USER)
+        finish()
     }
 
     override fun doHome() {
-        if (!finishWithIncomingAccountDeleted()) {
+        if (incomingAccountDeleted) {
+            finishWithIncomingAccountDeleted()
+        } else {
             super.doHome()
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (!finishWithIncomingAccountDeleted()) {
-            super.onBackPressed()
         }
     }
 
