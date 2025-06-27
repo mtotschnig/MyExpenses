@@ -15,12 +15,11 @@
 package org.totschnig.myexpenses.model
 
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 import java.math.RoundingMode
-import javax.annotation.concurrent.Immutable
 import kotlin.math.pow
-import kotlin.math.roundToLong
 
 @Parcelize
 @Immutable

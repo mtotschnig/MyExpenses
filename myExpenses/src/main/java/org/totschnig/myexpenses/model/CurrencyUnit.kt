@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.model
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.runtime.Immutable
 import java.io.Serializable
 import java.util.*
-import javax.annotation.concurrent.Immutable
 
 @Immutable
 data class CurrencyUnit(

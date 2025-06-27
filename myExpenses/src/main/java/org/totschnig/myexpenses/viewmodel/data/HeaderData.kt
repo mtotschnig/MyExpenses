@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -10,7 +11,6 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.provider.getLong
 import java.time.LocalDate
-import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Stable

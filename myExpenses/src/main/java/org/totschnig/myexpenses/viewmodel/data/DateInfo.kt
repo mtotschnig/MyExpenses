@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.ContentResolver
 import android.database.Cursor
+import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.model.Grouping
@@ -20,7 +21,6 @@ import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.util.GroupingInfo
 import java.time.LocalDate
-import javax.annotation.concurrent.Immutable
 
 @Immutable
 data class DateInfo(
