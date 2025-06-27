@@ -42,3 +42,11 @@ subprojects {
     }
 }
 
+allprojects { // Or subprojects {
+    configurations {
+        all { Configuration configuration ->
+            configuration.exclude(group: 'com.google.code.findbugs', module: 'jsr305')
+        }
+    }
+}
+
