@@ -81,7 +81,7 @@ mpandroidchart = "47240bb94c"
 msal = "5.1.0"
 okHttpVersion = "4.12.0"
 orchestrator = "1.5.1"
-pageindicatorview = "b1bad589b5"
+pageindicatorview = "1.0.6"
 pagingCompose = "3.3.6"
 phrase = "1.2.0"
 picassoVersion = "2.8"
@@ -241,7 +241,7 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 mpandroidchart = { module = "com.github.mtotschnig:MPAndroidChart", version.ref = "mpandroidchart" }
 msal = { module = "com.microsoft.identity.client:msal", version.ref = "msal" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttpVersion" }
-pageindicatorview = { module = "com.github.romandanylyk:PageIndicatorView", version.ref = "pageindicatorview" }
+pageindicatorview = { module = "com.github.adrielcafe:PageIndicatorView", version.ref = "pageindicatorview" }
 phrase = { module = "com.squareup.phrase:phrase", version.ref = "phrase" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }

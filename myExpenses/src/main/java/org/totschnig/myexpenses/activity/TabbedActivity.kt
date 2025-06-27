@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import org.totschnig.myexpenses.databinding.ActivityWithTabsBinding
-import org.totschnig.myexpenses.ui.FragmentPagerAdapter
 
 abstract class TabbedActivity : ProtectedFragmentActivity() {
     lateinit var binding: ActivityWithTabsBinding
@@ -46,7 +45,7 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
     abstract fun getItemCount(): Int
 
     /**
-     * A [FragmentPagerAdapter] that returns a fragment corresponding to
+     * A [FragmentStateAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentStateAdapter(fm, lifecycle) {
