@@ -205,7 +205,7 @@
     <string name="pref_category_title_import">នាំចូល</string>
     <string name="pref_category_title_manage">គ្រប់គ្រង</string>
     <string name="pref_category_title_more_information">ព័ត៌មានបន្ថែម</string>
-    <string name="pref_category_title_ui">User Interface</string>
+    <string name="pref_category_title_ui">ចំណុចប្រទាក់អ្នកប្រើប្រាស់</string>
     <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
     <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
     <string name="pref_manage_accounts_title">គណនី</string>
