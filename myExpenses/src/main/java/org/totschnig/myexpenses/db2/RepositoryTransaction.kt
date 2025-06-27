@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHIVED
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SPLIT_NCA
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
@@ -245,4 +246,13 @@ private fun ContentResolver.findBySelection(
 
 fun Repository.deleteTemplate(id: Long) {
     contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TEMPLATES_URI, id), null, null)
+}
+
+fun Repository.calculateNearestCommonAncestor(id: Long): Pair<String, String?>? = contentResolver.call(
+    TransactionProvider.DUAL_URI,
+    METHOD_SPLIT_NCA,
+    id.toString(),
+    null
+)?.let {
+    it.getString(DatabaseConstants.KEY_PATH)!! to it.getString(DatabaseConstants.KEY_ICON)
 }

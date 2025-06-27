@@ -1506,7 +1506,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             )
                         }
                     },
-                    isFiltered = filter.value != null
+                    isFiltered = filter.value != null,
+                    splitInfoResolver = {
+                        viewModel.splitInfo(it)
+                    }
                 )
             }
         }

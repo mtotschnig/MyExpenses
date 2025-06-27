@@ -38,8 +38,14 @@ abstract class BaseTestWithRepository {
 
     val contentResolver: ContentResolver = repository.contentResolver
 
-    fun writeCategory(label: String, parentId: Long? = null, uuid: String? = null, type: Byte = FLAG_NEUTRAL) =
-        repository.saveCategory(Category(label = label, parentId = parentId, uuid = uuid, type = type))!!
+    fun writeCategory(
+        label: String,
+        parentId: Long? = null,
+        uuid: String? = null,
+        type: Byte = FLAG_NEUTRAL,
+        icon: String? = null
+    ) =
+        repository.saveCategory(Category(label = label, parentId = parentId, uuid = uuid, type = type, icon = icon))!!
 
     protected fun insertTransaction(
         accountId: Long,

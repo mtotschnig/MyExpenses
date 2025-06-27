@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
@@ -80,6 +82,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.absoluteValue
 
 data class ScrollCalculationResult(
@@ -153,11 +157,17 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
     isFiltered: Boolean,
+    splitInfoResolver: suspend (Long) -> Pair<String, String?>? = { null }
 ) {
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
         expansionHandler.collapsedIds.collectAsState(initial = null).value
     else emptySet()
+
+    val splitInfoCache = remember(lazyPagingItems.loadState.refresh) {
+        Collections.synchronizedMap(HashMap<Long, Pair<String, String?>?>())
+    }
+    val scope = rememberCoroutineScope()
 
     if (lazyPagingItems.itemCount == 0) {
         if (lazyPagingItems.loadState.refresh != LoadState.Loading) {
@@ -316,6 +326,18 @@ fun TransactionList(
                         item(key = item?.id) {
                             lazyPagingItems[index]?.let {
                                 if (!isGroupHidden) {
+                                    val resolvedSplitInfo = remember {
+                                        mutableStateOf(splitInfoCache[it.id])
+                                    }
+
+                                    if (it.isSplit && !splitInfoCache.contains(it.id)) {
+                                        scope.launch {
+                                            resolvedSplitInfo.value =
+                                                splitInfoResolver(it.id).also { info ->
+                                                    splitInfoCache[it.id] = info
+                                                }
+                                        }
+                                    }
                                     renderer.Render(
                                         transaction = it,
                                         modifier = Modifier
@@ -331,7 +353,8 @@ fun TransactionList(
                                                 )
                                             },
                                         selectionHandler = selectionHandler,
-                                        menuGenerator = menuGenerator
+                                        menuGenerator = menuGenerator,
+                                        resolvedSplitInfo = resolvedSplitInfo.value
                                     )
                                 }
                             }

@@ -42,12 +42,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -161,6 +163,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -181,6 +184,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import kotlin.Pair;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -408,6 +413,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
+
+  public static final String METHOD_SPLIT_NCA = "splitNearestCommonAncestor";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1569,6 +1576,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Nullable
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+    log("Call method: %s, arg: %s, extras: %s", method, arg, extras);
     switch (method) {
       case METHOD_BULK_START -> {
         setBulkInProgress(true);
@@ -1662,6 +1670,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(TRANSACTIONS_URI, true);
         notifyChange(ACCOUNTS_URI, false);
         return result;
+      }
+      case METHOD_SPLIT_NCA -> {
+        Pair<String, String> stringStringPair = calculateNcaForSplitTransaction(getHelper().getWritableDatabase(), arg);
+        if (stringStringPair != null) {
+            Bundle result = new Bundle(2);
+            result.putString(KEY_PATH, stringStringPair.getFirst());
+            result.putString(KEY_ICON, stringStringPair.getSecond());
+            return result;
+        } else return null;
       }
     }
     return null;

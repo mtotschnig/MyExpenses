@@ -21,27 +21,29 @@ import org.totschnig.myexpenses.viewmodel.data.IconInfo
 @Composable
 fun Icon(
     icon: String,
+    modifier: Modifier = Modifier,
     size: TextUnit = 24.sp,
     color: Color? = null,
 ) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
-        Text(color = Color.Red, text = icon)
+        Text(color = Color.Red, text = icon, modifier = modifier)
     } else {
-        Icon(iconInfo, size, color)
+        Icon(iconInfo, modifier, size, color)
     }
 }
 
 @Composable
 fun Icon(
     iconInfo: IIconInfo,
+    modifier: Modifier = Modifier,
     size: TextUnit = 24.sp,
     color: Color? = null,
 ) {
     when (iconInfo) {
         is ExtraIcon -> {
             Icon(
-                modifier = Modifier.size(size * 1.25f),
+                modifier = modifier.size(size * 1.25f),
                 painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(LocalContext.current)),
                 contentDescription = stringResource(id = iconInfo.label),
                 tint = color ?: LocalContentColor.current
@@ -50,7 +52,8 @@ fun Icon(
 
         is IconInfo -> {
             CharIcon(
-                iconInfo.unicode,
+                char = iconInfo.unicode,
+                modifier = modifier,
                 fontFamily = iconInfo.fontFamily,
                 size = size,
                 color = color

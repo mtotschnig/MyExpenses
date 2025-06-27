@@ -409,14 +409,16 @@ fun labelEscapedForQif(tableName: String) =
 fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
     if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
+const val CATEGORY_SEPARATOR = '>'
+
 @JvmOverloads
 fun getCategoryTreeForView(
     rootExpression: String = "$KEY_PARENTID IS NULL",
     withRootLabel: Boolean = true,
 ): String {
     val rootPath = if (withRootLabel) "main.$KEY_LABEL" else "''"
-    val separator = if (withRootLabel) "' > '" else
-        "CASE WHEN Tree.$KEY_PATH = '' THEN '' ELSE ' > ' END"
+    val separator = if (withRootLabel) "' $CATEGORY_SEPARATOR '" else
+        "CASE WHEN Tree.$KEY_PATH = '' THEN '' ELSE ' $CATEGORY_SEPARATOR ' END"
     return """
 WITH Tree AS (
 SELECT

@@ -16,6 +16,7 @@ import android.os.Bundle
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -233,7 +234,6 @@ import javax.inject.Named
 import javax.inject.Provider
 import kotlin.math.abs
 import kotlin.math.pow
-import androidx.core.net.toUri
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
     appendQueryParameter(key, "1")
@@ -1101,7 +1101,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return context!!.filesDir.parentFile!!
     }
 
-    fun log(message: String, vararg args: Any) {
+    fun log(message: String, vararg args: Any?) {
         Timber.tag(TAG).i(message, *args)
     }
 
@@ -2166,8 +2166,82 @@ abstract class BaseTransactionProvider : ContentProvider() {
           SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = ? and $TABLE_PRICES.$KEY_DATE = ? ORDER BY ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY = ? AND $KEY_PARENTID IS NULL AND strftime('%Y-%m-%d', $KEY_DATE, 'unixepoch', 'localtime') = ? AND new_equivalent_amount IS NOT NULL
         """
         return compileStatement(sql).use {
-            it.bindAllArgsAsStrings(listOf(homeCurrency, homeCurrency, currency, dateString, currency, dateString))
+            it.bindAllArgsAsStrings(
+                listOf(
+                    homeCurrency,
+                    homeCurrency,
+                    currency,
+                    dateString,
+                    currency,
+                    dateString
+                )
+            )
             it.executeUpdateDelete()
         }
+    }
+
+    fun SupportSQLiteDatabase.calculateNcaForSplitTransaction(transactionId: String): Pair<String, String?>? {
+        val sql = """
+WITH RECURSIVE CategoryDepths AS (
+    SELECT $KEY_ROWID, $KEY_PARENTID, $KEY_LABEL, $KEY_ICON, 0 AS depth
+    FROM $TABLE_CATEGORIES
+    WHERE $KEY_PARENTID IS NULL
+
+    UNION ALL
+
+    SELECT c.$KEY_ROWID, c.$KEY_PARENTID, c.$KEY_LABEL, c.$KEY_ICON, cd.depth + 1
+    FROM $TABLE_CATEGORIES c
+    JOIN CategoryDepths cd ON c.$KEY_PARENTID = cd.$KEY_ROWID
+),
+InputNodeAncestors AS (
+    SELECT
+        initial_cat.$KEY_ROWID AS input_node_id,
+        initial_cat.$KEY_ROWID AS ancestor_id -- A node is an ancestor of itself
+    FROM $TABLE_CATEGORIES initial_cat
+    WHERE initial_cat.$KEY_ROWID IN (SELECT distinct $KEY_CATID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ?) -- Your list of IDs
+
+    UNION ALL
+
+    SELECT
+        ina.input_node_id,
+        p.$KEY_PARENTID AS ancestor_id
+    FROM $TABLE_CATEGORIES p
+    JOIN InputNodeAncestors ina ON p.$KEY_ROWID = ina.ancestor_id
+    WHERE p.$KEY_PARENTID IS NOT NULL
+),
+CommonAncestorCounts AS (
+    SELECT
+        ancestor_id,
+        COUNT(DISTINCT input_node_id) AS common_to_n_inputs
+    FROM InputNodeAncestors
+    GROUP BY ancestor_id
+)
+SELECT
+    cac.ancestor_id, cd.$KEY_LABEL, cd.$KEY_ICON
+FROM CommonAncestorCounts cac
+JOIN CategoryDepths cd ON cac.ancestor_id = cd.$KEY_ROWID
+WHERE
+    cac.common_to_n_inputs = (SELECT count(distinct $KEY_CATID) FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ?)
+ORDER BY
+    cd.depth ASC
+        """.trimIndent()
+        return measure(
+            block = { query(sql, bindArgs = arrayOf(transactionId, transactionId)) },
+            lazyMessage = { "calculateNcaForSplitTransaction" })
+            .use { cursor ->
+                if (cursor.moveToFirst()) {
+
+                    val labels = mutableListOf<String>()
+                    var lastIcon: String?
+                    do {
+                        labels.add(cursor.getString(KEY_LABEL))
+                        lastIcon =
+                            cursor.getStringOrNull(KEY_ICON)
+                    } while (cursor.moveToNext())
+                    val concatenatedLabels = labels.joinToString(" $CATEGORY_SEPARATOR ")
+
+                    Pair(concatenatedLabels, lastIcon)
+                } else null
+            }
     }
 }
