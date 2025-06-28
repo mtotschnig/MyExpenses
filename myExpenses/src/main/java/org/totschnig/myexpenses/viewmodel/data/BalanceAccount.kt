@@ -21,6 +21,19 @@ import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import kotlin.math.roundToLong
 
+data class BalanceData(
+    val assets: List<BalanceSection>,
+    val totalAssets: Long,
+    val liabilities: List<BalanceSection>,
+    val totalLiabilities: Long
+)
+
+data class BalanceSection(
+    val type: AccountType,
+    val total: Long,
+    val accounts: List<BalanceAccount>,
+)
+
 data class BalanceAccount(
     val id: Long = 0,
     val label: String,
@@ -47,5 +60,22 @@ data class BalanceAccount(
             currency = currencyContext[cursor.getString(KEY_CURRENCY)],
             isHidden = cursor.getBoolean(KEY_HIDDEN)
         )
+
+        fun List<BalanceAccount>.partitionByAccountType(): BalanceData
+                = groupBy { it.type }
+            .map { entry ->
+                BalanceSection(
+                    type = entry.key,
+                    total = entry.value.sumOf { it.equivalentCurrentBalance },
+                    accounts = entry.value)
+            }
+            .partition { it.type.isAsset }.let { pair ->
+                BalanceData(
+                    totalAssets = pair.first.sumOf { it.total },
+                    assets = pair.first,
+                    totalLiabilities = pair.second.sumOf { it.total },
+                    liabilities = pair.second
+                )
+            }
     }
 }

@@ -2105,6 +2105,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     },
                     onSetDate = {
                         viewModel.setBalanceDate(it)
+                    },
+                    onPrint= {
+                        viewModel.printBalanceSheet()
                     }
                 )
             }

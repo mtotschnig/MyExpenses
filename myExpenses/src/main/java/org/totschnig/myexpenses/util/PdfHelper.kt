@@ -36,6 +36,8 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private val fIncomeSmall: Font by lazy { convertFallback(FontType.INCOME_SMALL) }
     private val fExpenseSmall: Font by lazy { convertFallback(FontType.EXPENSE_SMALL) }
     private val fTransferSmall: Font by lazy { convertFallback(FontType.TRANSFER_SMALL) }
+    private val fBalanceChapter: Font by lazy { convertFallback(FontType.BALANCE_CHAPTER) }
+    private val fBalanceSection: Font by lazy { convertFallback(FontType.BALANCE_SECTION) }
 
     private val layoutDirectionFromLocaleIsRTL: Boolean
 
@@ -88,7 +90,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     }
 
     private fun convertFallback(fontType: FontType) = Font(
-        Font.FontFamily.TIMES_ROMAN,
+        Font.FontFamily.HELVETICA,
         fontType.factor * baseFontSize,
         fontType.style,
         fontType.color
@@ -100,14 +102,15 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         font: FontType = FontType.NORMAL,
         border: Int = Rectangle.NO_BORDER,
         withPadding: Boolean = true,
-    ) = if (text == null) emptyCell(border) else PdfPCell(print(text, font)).apply {
-        if (hasAnyRtl(text)) {
-            runDirection = PdfWriter.RUN_DIRECTION_RTL
+    ) = if (text == null) emptyCell(border) else
+        PdfPCell(print(text, font)).apply {
+            if (hasAnyRtl(text)) {
+                runDirection = PdfWriter.RUN_DIRECTION_RTL
+            }
+            setPadding(if (withPadding) 5f else 0f)
+            this.border = border
+            verticalAlignment = Element.ALIGN_MIDDLE
         }
-        setPadding(if (withPadding) 5f else 0f)
-        this.border = border
-        verticalAlignment = Element.ALIGN_MIDDLE
-    }
 
     @Throws(DocumentException::class, IOException::class)
     fun printToCell(
@@ -147,6 +150,8 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.INCOME_SMALL -> Chunk(text, fIncomeSmall)
             FontType.EXPENSE_SMALL -> Chunk(text, fExpenseSmall)
             FontType.TRANSFER_SMALL -> Chunk(text, fTransferSmall)
+            FontType.BALANCE_SECTION -> Chunk(text, fBalanceSection)
+            FontType.BALANCE_CHAPTER -> Chunk(text, fBalanceChapter)
         }
     )
 
@@ -168,6 +173,8 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.INCOME_SMALL -> Phrase(text, fIncomeSmall)
             FontType.EXPENSE_SMALL -> Phrase(text, fExpenseSmall)
             FontType.TRANSFER_SMALL -> Phrase(text, fTransferSmall)
+            FontType.BALANCE_SECTION -> Phrase(text, fBalanceSection)
+            FontType.BALANCE_CHAPTER -> Phrase(text, fBalanceChapter)
         }
 
     fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {

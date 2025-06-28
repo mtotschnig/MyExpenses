@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -51,6 +52,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
@@ -70,6 +72,7 @@ import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
+import org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -143,12 +146,14 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatchingWithExtra
 import org.totschnig.myexpenses.provider.mapToListWithExtra
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
+import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitionByAccountType
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.BudgetRow
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -459,7 +464,7 @@ open class MyExpensesViewModel(
             .map {
                 date to it
             }
-    }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, LocalDate.now() to emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: Flow<Long> = balanceDate.flatMapLatest { date ->
@@ -471,7 +476,7 @@ open class MyExpensesViewModel(
         ).map {
             it.fold(0L) { sum, debt -> sum + debt.currentEquivalentBalance }
         }
-    }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, 0L)
 
     val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()
@@ -945,6 +950,22 @@ open class MyExpensesViewModel(
     suspend fun splitInfo(id: Long): Pair<String, String?>? {
         return withContext(Dispatchers.IO) {
             repository.calculateNearestCommonAncestor(id)
+        }
+    }
+
+    fun printBalanceSheet() {
+        viewModelScope.launch(coroutineContext()) {
+            AppDirHelper.checkAppDir(getApplication()).mapCatching {
+                val (date, accounts) = accountsForBalanceSheet.first()
+                BalanceSheetPdfGenerator(localizedContext).generatePdf(
+                    destDir = it,
+                    data = accounts.partitionByAccountType(),
+                    date = date,
+                    debts = debtSum.first()
+                )
+            }.onFailure {
+                throw it
+            }
         }
     }
 

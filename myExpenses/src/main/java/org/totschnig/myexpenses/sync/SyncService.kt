@@ -44,8 +44,9 @@ class SyncService : Service() {
         Timber.i("Service created")
         synchronized(sSyncAdapterLock) {
             if (sSyncAdapter == null) {
-                sSyncAdapter = SyncAdapter(applicationContext, true)
-                injector.inject(sSyncAdapter)
+                sSyncAdapter = SyncAdapter(applicationContext, true).also {
+                    injector.inject(it)
+                }
             }
         }
     }

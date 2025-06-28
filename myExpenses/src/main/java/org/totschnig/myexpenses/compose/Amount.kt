@@ -63,6 +63,7 @@ fun ColoredAmountText(
     amount: Long,
     currency: CurrencyUnit,
     modifier: Modifier = Modifier,
+    style: TextStyle = LocalTextStyle.current,
     fontWeight: FontWeight? = null,
     textAlign: TextAlign? = null,
     withBorder: Boolean = false,
@@ -74,6 +75,7 @@ fun ColoredAmountText(
     ColoredAmountText(
         money = Money(currency, amount),
         modifier = modifier,
+        style = style,
         fontWeight = fontWeight,
         textAlign = textAlign,
         withBorder = withBorder,

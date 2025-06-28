@@ -30,7 +30,10 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         EXPENSE_SMALL(SMALL_FACTOR, Font.NORMAL, BaseColor(-0x800000)), //#FF800000
         TRANSFER_SMALL(SMALL_FACTOR, Font.NORMAL, BaseColor(-16777088)), //#FF000080
         INCOME_BOLD(1f, Font.BOLD, BaseColor(-0xff9800)), //#FF006800
-        EXPENSE_BOLD(1f, Font.BOLD, BaseColor(-0x800000)); //#FF800000
+        EXPENSE_BOLD(1f, Font.BOLD, BaseColor(-0x800000)), //#FF800000
+        BALANCE_CHAPTER(1.2f, Font.BOLD, null),
+        BALANCE_SECTION(1f, Font.BOLD, null)
+        ;
 
         private val fonts: SparseArray<Font> = SparseArray()
 

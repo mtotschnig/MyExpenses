@@ -28,6 +28,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Print
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
@@ -70,6 +71,7 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.PieChartCompose
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.filter.ActionButton
@@ -78,6 +80,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
+import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitionByAccountType
+import org.totschnig.myexpenses.viewmodel.data.BalanceSection
 import timber.log.Timber
 import java.time.LocalDate
 import java.util.Currency
@@ -94,6 +98,7 @@ fun BalanceSheetView(
     onClose: () -> Unit = {},
     onNavigate: (Long) -> Unit = {},
     onSetDate: (LocalDate) -> Unit = {},
+    onPrint: () -> Unit = {},
 ) {
     var showAll by rememberSaveable { mutableStateOf(true) }
     var showChart by rememberSaveable { mutableStateOf(false) }
@@ -156,6 +161,13 @@ fun BalanceSheetView(
                             ) {
                                 showChart = !showChart
                                 highlight.value = null
+                            },
+                            MenuEntry(
+                                icon = Icons.Filled.Print,
+                                label = R.string.menu_print,
+                                command = "PRINT"
+                            ) {
+                                onPrint()
                             }
                         )))
             },
@@ -223,14 +235,7 @@ fun BalanceSheetView(
             }
         }
 
-        val (assets, liabilities) = accounts
-            .groupBy { it.type }
-            .mapValues { it.value.sumOf { it.equivalentCurrentBalance } to it.value }
-            .entries
-            .partition { it.key.isAsset }
-
-        val totalAssets = assets.sumOf { it.value.first }
-        val totalLiabilities = liabilities.sumOf { it.value.first }
+        val (assets, totalAssets, liabilities, totalLiabilities) = accounts.partitionByAccountType()
 
         val assetsWithDebts = totalAssets + (debtSum.takeIf { it > 0L } ?: 0L)
         val liabilitiesWithDebts = totalLiabilities + (debtSum.takeIf { it < 0L } ?: 0L)
@@ -240,9 +245,9 @@ fun BalanceSheetView(
             360f * ratio to 360f
         LayoutHelper(
             showChart = showChart,
-            chart = {
+            chart = { modifier ->
                 Box(
-                    modifier = it
+                    modifier = modifier
                         .fillMaxWidth()
                 ) {
                     RenderChart(
@@ -250,7 +255,7 @@ fun BalanceSheetView(
                             .fillMaxSize(0.95f)
                             .align(Alignment.Center),
                         inner = false,
-                        accounts = assets.flatMap { it.value.second },
+                        accounts = assets.flatMap { it.accounts },
                         debts = debtSum.takeIf { it > 0 },
                         highlight = highlight,
                         angle = angles.first,
@@ -260,21 +265,21 @@ fun BalanceSheetView(
                             .fillMaxSize(0.75f)
                             .align(Alignment.Center),
                         inner = true,
-                        accounts = liabilities.flatMap { it.value.second },
+                        accounts = liabilities.flatMap { it.accounts },
                         debts = debtSum.takeIf { it < 0 },
                         highlight = highlight,
                         angle = angles.second,
                     )
                 }
             },
-            data = {
+            data = { modifier ->
 
                 val listState = rememberLazyListState()
                 fun lookup(id: Long?): Int {
                     var totalIndex = 0// Assets
-                    assets.forEach { (_,list) ->
+                    assets.forEach { section ->
                         totalIndex++ // section header
-                        list.second.forEach {
+                        section.accounts.forEach {
                             totalIndex++ //item
                             if (it.id == id) {
                                 return totalIndex
@@ -282,9 +287,9 @@ fun BalanceSheetView(
                         }
                     }
                     totalIndex+= 2 //Divider / Liabilities
-                    liabilities.forEach { (_,list) ->
+                    liabilities.forEach { section ->
                         totalIndex++ // section header
-                        list.second.forEach {
+                        section.accounts.forEach {
                             totalIndex++ //item
                             if (it.id == id) {
                                 return totalIndex
@@ -295,7 +300,7 @@ fun BalanceSheetView(
                     return totalIndex
                 }
                 LazyColumn(
-                    modifier = it,
+                    modifier = modifier,
                     contentPadding = PaddingValues(
                         start = horizontalPadding,
                         end = horizontalPadding,
@@ -360,7 +365,7 @@ fun BalanceSheetView(
 fun LazyListScope.accountTypeChapter(
     @StringRes title: Int,
     total: Long,
-    sections: List<Map.Entry<AccountType, Pair<Long, List<BalanceAccount>>>>,
+    sections: List<BalanceSection>,
     showAll: Boolean,
     highlight: Long?,
     onNavigate: (Long) -> Unit,
@@ -372,14 +377,16 @@ fun LazyListScope.accountTypeChapter(
         )
     }
 
-    sections.forEach { (type, group) ->
+    sections.forEach {
         accountTypeSection(
-            type = type,
-            group = group,
+           section = it,
             showAll = showAll,
             highlight = highlight,
             onNavigate = onNavigate
         )
+    }
+    item {
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
     }
 }
 
@@ -406,18 +413,22 @@ fun BalanceSheetSectionHeaderView(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        ColoredAmountText(total, homeCurrency, absolute = absolute)
+        ColoredAmountText(
+            amount = total,
+            currency = homeCurrency,
+            absolute = absolute,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }
 
 fun LazyListScope.accountTypeSection(
-    type: AccountType,
-    group: Pair<Long, List<BalanceAccount>>,
+    section: BalanceSection,
     showAll: Boolean,
     highlight: Long?,
     onNavigate: (Long) -> Unit,
 ) {
-    val (total, accounts) = group
     item {
         val homeCurrency = LocalHomeCurrency.current
         Row(
@@ -426,24 +437,26 @@ fun LazyListScope.accountTypeSection(
                 .padding(vertical = 4.dp)
         ) {
             Text(
-                text = stringResource(type.toStringResPlural()), // Display the AccountType name
+                text = stringResource(section.type.toStringResPlural()), // Display the AccountType name
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
-            ColoredAmountText(total, homeCurrency, absolute = true)
+            ColoredAmountText(
+                amount = section.total,
+                currency = homeCurrency,
+                absolute = true,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
-    accounts
+    section.accounts
         .filter { showAll || (!it.isHidden && it.currentBalance != 0L) }
         .forEach { account ->
             item {
                 BalanceAccountItemView(account = account, highlight == account.id, onNavigate)
             }
         }
-    item {
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-    }
 }
 
 @Composable
@@ -462,7 +475,7 @@ fun BalanceAccountItemView(
                 onNavigate(account.id)
             }
             .fillMaxWidth()
-            .padding(vertical = 2.dp)
+            .padding(vertical = 3.dp)
     ) {
         Text(
             text = account.label,
