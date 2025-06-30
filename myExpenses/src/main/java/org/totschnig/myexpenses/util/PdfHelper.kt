@@ -1,20 +1,38 @@
 package org.totschnig.myexpenses.util
 
+import android.content.Context
 import android.view.View
 import androidx.core.text.layoutDirection
 import com.itextpdf.text.Chunk
+import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
 import com.itextpdf.text.Font
 import com.itextpdf.text.Phrase
 import com.itextpdf.text.Rectangle
+import com.itextpdf.text.pdf.ColumnText
+import com.itextpdf.text.pdf.PdfContentByte
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfPageEventHelper
 import com.itextpdf.text.pdf.PdfWriter
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.CENTER
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.LEFT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.RIGHT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.BOTTOM
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.TOP
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import java.io.File
 import java.io.IOException
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
@@ -201,6 +219,61 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                     }
                 })
             }
+        }
+    }
+
+    fun getPageEventHelper(
+        context: Context,
+        prefHandler: PrefHandler
+    ) = object : PdfPageEventHelper() {
+
+        override fun onEndPage(writer: PdfWriter, document: Document) {
+            val cb = writer.getDirectContent()
+            fun print(
+                cb: PdfContentByte,
+                content: PrefKey,
+                horizontalPosition: HorizontalPosition,
+                verticalPosition: VerticalPosition,
+            ) {
+                prefHandler.getString(content)
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let {
+                        val text = it
+                            .replace("{generator}", context.getString(R.string.app_name))
+                            .replace("{page}", document.pageNumber.toString())
+                            .replace(
+                                "{date}", LocalDate.now().format(
+                                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                                )
+                            )
+                        val x = when (horizontalPosition) {
+                            LEFT -> document.left()
+                            CENTER -> (document.right() - document.left()) / 2 + document.leftMargin()
+                            RIGHT -> document.right()
+                        }
+                        val y = when (verticalPosition) {
+                            TOP -> document.top() + minOf(baseFontSize, 10f)
+                            BOTTOM -> document.bottom() - baseFontSize - minOf(
+                                baseFontSize,
+                                10f
+                            )
+                        }
+                        val alignment = when (horizontalPosition) {
+                            LEFT -> Element.ALIGN_LEFT
+                            CENTER -> Element.ALIGN_CENTER
+                            RIGHT -> Element.ALIGN_RIGHT
+                        }
+                        ColumnText.showTextAligned(
+                            cb, alignment, print(text, FontType.NORMAL), x, y, 0F
+                        )
+                    }
+            }
+            print(cb, PrefKey.PRINT_HEADER_LEFT, LEFT, TOP)
+            print(cb, PrefKey.PRINT_HEADER_CENTER, CENTER, TOP)
+            print(cb, PrefKey.PRINT_HEADER_RIGHT, RIGHT, TOP)
+            print(cb, PrefKey.PRINT_FOOTER_LEFT, LEFT, BOTTOM)
+            print(cb, PrefKey.PRINT_FOOTER_CENTER, CENTER, BOTTOM)
+            print(cb, PrefKey.PRINT_FOOTER_RIGHT, RIGHT, BOTTOM)
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.lazy.LazyListState
@@ -49,6 +50,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
@@ -73,6 +75,7 @@ import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator
+import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -82,6 +85,7 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
@@ -139,6 +143,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNSPLIT
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getLong
@@ -178,6 +183,9 @@ open class MyExpensesViewModel(
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
     val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
+
+    protected val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
+    val pdfResult: StateFlow<Result<Pair<Uri, String>>?> = _pdfResult
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
     private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
@@ -953,18 +961,38 @@ open class MyExpensesViewModel(
         }
     }
 
+    fun pdfResultProcessed() {
+        _pdfResult.update {
+            null
+        }
+    }
+
+    fun print(account: FullAccount, whereFilter: Criterion?) {
+        viewModelScope.launch(coroutineContext()) {
+            _pdfResult.update {
+                AppDirHelper.checkAppDir(getApplication()).mapCatching {
+                    val colorSource = enumValueOrDefault(
+                        dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
+                        ColorSource.TYPE
+                    )
+                    PdfPrinter.print(localizedContext, account, it, whereFilter, colorSource)
+                }
+            }
+        }
+    }
+
     fun printBalanceSheet() {
         viewModelScope.launch(coroutineContext()) {
-            AppDirHelper.checkAppDir(getApplication()).mapCatching {
-                val (date, accounts) = accountsForBalanceSheet.first()
-                BalanceSheetPdfGenerator(localizedContext).generatePdf(
-                    destDir = it,
-                    data = accounts.partitionByAccountType(),
-                    date = date,
-                    debts = debtSum.first()
-                )
-            }.onFailure {
-                throw it
+            _pdfResult.update {
+                AppDirHelper.checkAppDir(getApplication()).mapCatching {
+                    val (date, accounts) = accountsForBalanceSheet.first()
+                    BalanceSheetPdfGenerator(localizedContext).generatePdf(
+                        destDir = it,
+                        data = accounts.partitionByAccountType(),
+                        date = date,
+                        debts = debtSum.first()
+                    )
+                }
             }
         }
     }

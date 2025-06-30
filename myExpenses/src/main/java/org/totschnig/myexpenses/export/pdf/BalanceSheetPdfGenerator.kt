@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.export.pdf
 
 // Import BaseColor for colors
 import android.content.Context
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.util.AppDirHelper.timeStampedFile
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
 import org.totschnig.myexpenses.util.PdfHelper
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.viewmodel.data.BalanceData
 import org.totschnig.myexpenses.viewmodel.data.BalanceSection
 import java.time.LocalDate
@@ -47,7 +49,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
         data: BalanceData,
         debts: Long,
         date: LocalDate
-    ) {
+    ): Pair<Uri, String> {
 
         val fileName = "BalanceSheet"
         val outputFile = timeStampedFile(
@@ -58,62 +60,65 @@ class BalanceSheetPdfGenerator(private val context: Context) {
 
         val (assets, totalAssets, liabilities, totalLiabilities) = data
 
-        // --- 1. Initialize iText 5 Document ---
-        val document = Document() // Default page size A4
-        PdfWriter.getInstance(document, context.contentResolver.openOutputStream(outputFile.uri))
-        document.open() // Open the document for writing
+        val document = PdfPrinter.getDocument(context, prefHandler)
 
-        // --- 2. Add Content to PDF ---
-        addTitleAndDate(document, date)
+        PdfWriter.getInstance(
+            document, context.contentResolver.openOutputStream(outputFile.uri)
+        ).pageEvent = helper.getPageEventHelper(context, prefHandler)
+        document.open()
 
-        val table = PdfPTable(2)
-        table.setWidthPercentage(100f)
-        table.setWidths(floatArrayOf(3f, 1f))
+        try {
+            addTitleAndDate(document, date)
 
-        // Assets Section
-        addLine(
-            table,
-            context.getString(R.string.balance_sheet_section_assets),
-            totalAssets
-        )
-        for (section in assets) {
-            addAccountTypeSectionToPdf(table, section)
-        }
+            val table = PdfPTable(2)
+            table.setWidthPercentage(100f)
+            table.setWidths(floatArrayOf(3f, 1f))
 
-        addLineSeparator(table)
-
-        // Liabilities Section
-        addLine(
-            table,
-            context.getString(R.string.balance_sheet_section_liabilities),
-            totalLiabilities
-        )
-        for (section in liabilities) {
-            addAccountTypeSectionToPdf(table, section)
-        }
-
-        addLineSeparator(table)
-
-        if (debts != 0L) {
             addLine(
                 table,
-                context.getString(R.string.debts),
-                debts,
+                context.getString(R.string.balance_sheet_section_assets),
+                totalAssets
+            )
+            for (section in assets) {
+                addAccountTypeSectionToPdf(table, section)
+            }
+
+            addLineSeparator(table)
+
+            addLine(
+                table,
+                context.getString(R.string.balance_sheet_section_liabilities),
+                totalLiabilities
+            )
+            for (section in liabilities) {
+                addAccountTypeSectionToPdf(table, section)
+            }
+
+            addLineSeparator(table)
+
+            if (debts != 0L) {
+                addLine(
+                    table,
+                    context.getString(R.string.debts),
+                    debts,
+                    isAbsolute = false,
+                    paddingBottom = 0f
+                )
+                addLineSeparator(table)
+            }
+
+            addLine(
+                table,
+                context.getString(R.string.balance_sheet_net_worth),
+                totalAssets + totalLiabilities + debts,
                 isAbsolute = false,
                 paddingBottom = 0f
             )
-            addLineSeparator(table)
+            document.add(table)
+        } finally {
+            document.close()
         }
-
-        addLine(
-            table,
-            context.getString(R.string.balance_sheet_net_worth),
-            totalAssets + totalLiabilities + debts,
-            isAbsolute = false,
-            paddingBottom = 0f
-        )
-        document.add(table)
-        document.close()
+        return outputFile.uri to outputFile.displayName
     }
 
     private fun addLineSeparator(table: PdfPTable) {
@@ -154,7 +159,8 @@ class BalanceSheetPdfGenerator(private val context: Context) {
         )
 
         for (account in section.accounts) {
-            val printreal = account.currency.code != homeCurrencyUnit.code && account.currentBalance != 0L
+            val printreal =
+                account.currency.code != homeCurrencyUnit.code && account.currentBalance != 0L
             addLine(
                 table = table,
                 label = account.label,
@@ -217,7 +223,11 @@ class BalanceSheetPdfGenerator(private val context: Context) {
         table.addCell(cell)
     }
 
-    private fun formatCurrency(amount: Long, absolute: Boolean, currency: CurrencyUnit = homeCurrencyUnit): String {
+    private fun formatCurrency(
+        amount: Long,
+        absolute: Boolean,
+        currency: CurrencyUnit = homeCurrencyUnit
+    ): String {
         val value = if (absolute) abs(amount) else amount
         return currencyFormatter.formatMoney(Money(currency, value))
     }

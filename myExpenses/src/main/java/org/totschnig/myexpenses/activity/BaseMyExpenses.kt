@@ -644,7 +644,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                exportViewModel.pdfResult.collect { result ->
+                viewModel.pdfResult.collect { result ->
                     result?.let {
                         dismissSnackBar()
                         result.onSuccess { (uri, name) ->
@@ -670,7 +670,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             CrashHandler.report(it)
                             showSnackBar(it.safeMessage)
                         }
-                        exportViewModel.pdfResultProcessed()
+                        viewModel.pdfResultProcessed()
                     }
                 }
             }
@@ -1945,7 +1945,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
                 .onSuccess {
-                    contribFeatureRequested(ContribFeature.PRINT)
+                    contribFeatureRequested(ContribFeature.PRINT, ExportViewModel.PRINT_TRANSACTION_LIST)
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage)
                 }
@@ -2107,7 +2107,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         viewModel.setBalanceDate(it)
                     },
                     onPrint= {
-                        viewModel.printBalanceSheet()
+                        AppDirHelper.checkAppDir(this)
+                            .onSuccess {
+                                contribFeatureRequested(ContribFeature.PRINT, ExportViewModel.PRINT_BALANCE_SHEET)
+                            }.onFailure {
+                                showDismissibleSnackBar(it.safeMessage)
+                            }
                     }
                 )
             }
@@ -2567,7 +2572,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     showProgressSnackBar(
                         getString(R.string.progress_dialog_printing, "PDF")
                     )
-                    exportViewModel.print(currentAccount, currentFilter.whereFilter.value)
+                    if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
+                        viewModel.print(currentAccount, currentFilter.whereFilter.value)
+                    } else  if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
+                        viewModel.printBalanceSheet()
+                    }
                 }
 
                 ContribFeature.BUDGET -> {

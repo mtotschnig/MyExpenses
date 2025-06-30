@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.net.Uri
 import android.os.Bundle
 import androidx.core.os.BundleCompat
 import androidx.documentfile.provider.DocumentFile
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -22,10 +20,8 @@ import org.totschnig.myexpenses.export.CsvExporter
 import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
 import org.totschnig.myexpenses.export.createFileFailure
-import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -41,9 +37,7 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.displayName
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -66,15 +60,16 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         const val EXPORT_HANDLE_DELETED_DO_NOTHING = -1
         const val EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0
         const val EXPORT_HANDLE_DELETED_CREATE_HELPER = 1
+
+        const val PRINT_TRANSACTION_LIST = 1
+        const val PRINT_BALANCE_SHEET = 2
     }
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
     private val _result: MutableStateFlow<Pair<ExportFormat, List<DocumentFile>>?> =
         MutableStateFlow(null)
-    private val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Pair<ExportFormat, List<DocumentFile>>?> = _result
-    val pdfResult: StateFlow<Result<Pair<Uri, String>>?> = _pdfResult
 
     fun startExport(args: Bundle) {
         viewModelScope.launch(coroutineDispatcher) {
@@ -276,12 +271,6 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         }
     }
 
-    fun pdfResultProcessed() {
-        _pdfResult.update {
-            null
-        }
-    }
-
     fun checkAppDir() = liveData(coroutineDispatcher) {
         emit(AppDirHelper.checkAppDir(getApplication()))
     }
@@ -296,20 +285,6 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         )?.use {
             it.moveToFirst()
             emit(it.getInt(0) > 0)
-        }
-    }
-
-    fun print(account: FullAccount, whereFilter: Criterion?) {
-        viewModelScope.launch(coroutineContext()) {
-            _pdfResult.update {
-                AppDirHelper.checkAppDir(getApplication()).mapCatching {
-                    val colorSource = enumValueOrDefault(
-                        dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
-                        ColorSource.TYPE
-                    )
-                    PdfPrinter.print(localizedContext, account, it, whereFilter, colorSource)
-                }
-            }
         }
     }
 }
