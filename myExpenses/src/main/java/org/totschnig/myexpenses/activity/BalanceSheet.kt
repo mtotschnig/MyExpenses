@@ -52,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.core.content.res.ResourcesCompat
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 import org.totschnig.myexpenses.R
@@ -286,7 +288,7 @@ fun BalanceSheetView(
                             }
                         }
                     }
-                    totalIndex+= 2 //Divider / Liabilities
+                    totalIndex += 2 //Divider / Liabilities
                     liabilities.forEach { section ->
                         totalIndex++ // section header
                         section.accounts.forEach {
@@ -296,7 +298,7 @@ fun BalanceSheetView(
                             }
                         }
                     }
-                    totalIndex+= 2 //Divider / Debts
+                    totalIndex += 2 //Divider / Debts
                     return totalIndex
                 }
                 LazyColumn(
@@ -379,7 +381,7 @@ fun LazyListScope.accountTypeChapter(
 
     sections.forEach {
         accountTypeSection(
-           section = it,
+            section = it,
             showAll = showAll,
             highlight = highlight,
             onNavigate = onNavigate
@@ -504,6 +506,7 @@ fun RenderChart(
     highlight: MutableState<Triple<Boolean, Int, Long?>?>,
     angle: Float = 360f,
 ) {
+    val context = LocalContext.current
     val accounts = accounts.filter { it.equivalentCurrentBalance != 0L }
     val pieEntries = accounts.map { account ->
         PieEntry(
@@ -520,7 +523,7 @@ fun RenderChart(
         holeRadius = if (inner) 75f else 85f,
         angle = angle,
         onValueSelected = { index ->
-            highlight.value = index?.let { Triple(inner, index, accounts.getOrNull(index)?.id)  }
+            highlight.value = index?.let { Triple(inner, index, accounts.getOrNull(index)?.id) }
         },
         data = if (debts == null)
             pieEntries else
@@ -528,7 +531,12 @@ fun RenderChart(
                 debts.toFloat().absoluteValue,
                 stringResource(R.string.debts)
             ),
-        colors = colors
+        colors = if (debts == null) colors else colors +
+                ResourcesCompat.getColor(
+                    context.resources,
+                    if (inner) R.color.colorExpense else R.color.colorIncome,
+                    context.theme
+                )
     ) {
         if (highlight.value?.first == !inner) {
             it.highlightValue(null)
