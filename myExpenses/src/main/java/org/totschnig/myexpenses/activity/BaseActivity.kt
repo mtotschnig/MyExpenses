@@ -157,6 +157,7 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
 import androidx.core.net.toUri
+import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
@@ -916,6 +917,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             R.id.HELP_COMMAND -> doHelp(tag as String?)
 
+            R.id.OPEN_PDF_COMMAND -> {
+                startActionView((tag as String).toUri(), "application/pdf")
+                true
+            }
+
+            R.id.SHARE_PDF_COMMAND -> {
+                baseViewModel.share(
+                    this, listOf(ensureContentUri((tag as String).toUri(), this)),
+                    shareTarget,
+                    "application/pdf"
+                )
+                true
+            }
+
             android.R.id.home -> {
                 doHome()
                 true
@@ -924,6 +939,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             else -> false
         }
     }
+
+    val shareTarget: String
+        get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
 
     protected open fun doHome() {
         setResult(RESULT_CANCELED)
@@ -1710,6 +1728,40 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             // preventing them from also applying padding for these consumed parts.
             builder.build()
         }
+    }
+
+    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult(): Nothing  = collect { result ->
+        result?.let {
+            dismissSnackBar()
+            result.onSuccess { (uri, name) ->
+                recordUsage(ContribFeature.PRINT)
+                showMessage(
+                    getString(R.string.export_sdcard_success, name),
+                    MessageDialogFragment.Button(
+                        R.string.menu_open,
+                        R.id.OPEN_PDF_COMMAND,
+                        uri.toString(),
+                        true
+                    ),
+                    MessageDialogFragment.nullButton(R.string.button_label_close),
+                    MessageDialogFragment.Button(
+                        R.string.share,
+                        R.id.SHARE_PDF_COMMAND,
+                        uri.toString(),
+                        true
+                    ),
+                    false
+                )
+            }.onFailure {
+                report(it)
+                showSnackBar(it.safeMessage)
+            }
+            onPdfResultProcessed()
+        }
+    }
+
+    open fun onPdfResultProcessed() {
+
     }
 
 

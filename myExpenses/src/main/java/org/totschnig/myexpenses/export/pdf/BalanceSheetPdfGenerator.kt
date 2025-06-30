@@ -54,7 +54,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
         val fileName = "BalanceSheet"
         val outputFile = timeStampedFile(
             destDir,
-            "BalanceSheet",
+            fileName,
             "application/pdf", "pdf"
         ) ?: throw createFileFailure(context, destDir, fileName)
 

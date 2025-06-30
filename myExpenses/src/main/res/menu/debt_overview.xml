@@ -41,4 +41,8 @@
         android:checkable="true"
         android:title="@string/show_all"
         app:showAsAction="never" />
+    <item
+        android:id="@id/PRINT_COMMAND"
+        android:title="@string/menu_print"
+        app:showAsAction="never" />
 </menu>

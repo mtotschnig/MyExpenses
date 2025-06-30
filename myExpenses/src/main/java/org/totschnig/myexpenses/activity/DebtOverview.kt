@@ -24,7 +24,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -50,15 +52,18 @@ import java.time.LocalDate
 class DebtOverview : DebtActivity() {
     override val debtViewModel: DebtOverViewViewModel by viewModels()
 
-    val debts by lazy { debtViewModel.debts }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                debtViewModel.pdfResult.collectPrintResult()
+            }
+        }
         binding.composeView.setContent {
-            val debtsInfo = debts.collectAsState()
+            val debtsInfo = debtViewModel.debts.collectAsState()
 
             AppTheme {
                 val homeCurrency = LocalHomeCurrency.current
@@ -74,6 +79,7 @@ class DebtOverview : DebtActivity() {
                 val grouped = if (sort == Sort.PAYEE_NAME) {
                     debts.groupBy { it.payeeId }
                         .takeIf { it.values.any { group -> group.size > 1 } }
+                        ?.values
                 } else null
                 val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 if (grouped != null)
@@ -123,6 +129,10 @@ class DebtOverview : DebtActivity() {
                     }
             }
         }
+    }
+
+    override fun onPdfResultProcessed() {
+        debtViewModel.pdfResultProcessed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -175,6 +185,10 @@ class DebtOverview : DebtActivity() {
                 }
                 true
             }
+            R.id.PRINT_COMMAND -> {
+                debtViewModel.print()
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }
@@ -184,7 +198,7 @@ class DebtOverview : DebtActivity() {
 @Composable
 fun GroupedDebtList(
     modifier: Modifier = Modifier,
-    debts: Map<Long, List<DisplayDebt>>,
+    debts: Collection<List<DisplayDebt>>,
     loadTransactionsForDebt: @Composable (DisplayDebt) -> State<List<Transaction>>,
     onEdit: (DisplayDebt) -> Unit = {},
     onDelete: (DisplayDebt, Int) -> Unit = { _, _ -> },
@@ -194,17 +208,16 @@ fun GroupedDebtList(
 ) {
     LazyColumnWithScrollbarAndBottomPadding(
         modifier = modifier,
-        itemsAvailable = debts.map { it.value.size }.sum(),
+        itemsAvailable = debts.sumOf { it.size },
         groupCount = debts.size,
         withFab = false,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        debts.forEach { item ->
-            val list = item.value
+        debts.forEach { list ->
             val currencies = list.map { it.currency }.distinct()
-            simpleStickyHeader {
+            simpleStickyHeader { modifier ->
                 Row(
-                    modifier = it.fillMaxWidth(),
+                    modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(list.first().payeeName)
@@ -221,7 +234,7 @@ fun GroupedDebtList(
                     }
                 }
             }
-            items(item.value) {
+            items(list) {
                 val expandedState = rememberSaveable { mutableStateOf(false) }
                 val transactions =
                     if (expandedState.value) loadTransactionsForDebt(it).value else emptyList()
@@ -275,7 +288,7 @@ fun DebtList(
     }
 }
 
-private val previewList = buildList<DisplayDebt> {
+private val previewList = buildList {
     repeat(7) { payeeId ->
         repeat(7) {
             add(
@@ -300,7 +313,7 @@ private val previewList = buildList<DisplayDebt> {
 private fun GroupedDebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         GroupedDebtList(
-            debts = previewList.groupBy { it.payeeId },
+            debts = previewList.groupBy { it.payeeId }.values,
             loadTransactionsForDebt = {
                 remember { mutableStateOf(emptyList()) }
             }

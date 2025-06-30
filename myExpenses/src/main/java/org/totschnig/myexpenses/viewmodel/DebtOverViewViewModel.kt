@@ -12,8 +12,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.export.pdf.DebtOverviewPdfGenerator
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 
@@ -57,21 +61,37 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
         }
     }
 
+    fun print() {
+        viewModelScope.launch(coroutineContext()) {
+            _pdfResult.update {
+                AppDirHelper.checkAppDir(getApplication()).mapCatching { destDir ->
+                    DebtOverviewPdfGenerator(localizedContext).generatePdf(
+                        destDir = destDir,
+                        groups = debts.value.second.groupBy { it.payeeId }.values
+                    )
+                }
+            }
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val debts: StateFlow<Pair<Sort, List<DisplayDebt>>>
-        get() = combine(showAll(), sortOrder(), sortDirection()) {
-            showAll, sortOrder, sortDirection -> Triple(showAll, sortOrder, sortDirection)
+    val debts: StateFlow<Pair<Sort, List<DisplayDebt>>> by lazy {
+        combine(showAll(), sortOrder(), sortDirection()) { showAll, sortOrder, sortDirection ->
+            Triple(showAll, sortOrder, sortDirection)
         }.flatMapLatest { (showAll, sortOrder, sortDirection) ->
             loadDebts(
                 null,
                 showSealed = showAll,
                 showZero = showAll,
                 sortOrder = sortOrder.toOrderBy(collate, sortDirection == SortDirection.DESC)
-            ).map { sortOrder to if (sortOrder == Sort.DEBT_SUM)
-                when(sortDirection) {
-                    SortDirection.ASC -> it.sortedBy { it.currentEquivalentBalance }
-                    SortDirection.DESC -> it.sortedByDescending { it.currentEquivalentBalance }
-                }
-            else it  }
+            ).map { debts ->
+                sortOrder to if (sortOrder == Sort.DEBT_SUM) {
+                    when (sortDirection) {
+                        SortDirection.ASC -> debts.sortedBy { it.currentEquivalentBalance }
+                        SortDirection.DESC -> debts.sortedByDescending { it.currentEquivalentBalance }
+                    }
+                } else debts
+            }
         }.stateIn(viewModelScope, SharingStarted.Lazily, Sort.LABEL to emptyList())
+    }
 }

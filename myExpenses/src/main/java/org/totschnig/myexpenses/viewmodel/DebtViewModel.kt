@@ -51,7 +51,7 @@ import java.io.File
 import java.time.LocalDate
 import javax.inject.Inject
 
-open class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class DebtViewModel(application: Application) : PrintViewModel(application) {
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter

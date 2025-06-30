@@ -644,35 +644,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.pdfResult.collect { result ->
-                    result?.let {
-                        dismissSnackBar()
-                        result.onSuccess { (uri, name) ->
-                            recordUsage(ContribFeature.PRINT)
-                            showMessage(
-                                getString(R.string.export_sdcard_success, name),
-                                MessageDialogFragment.Button(
-                                    R.string.menu_open,
-                                    R.id.OPEN_PDF_COMMAND,
-                                    uri.toString(),
-                                    true
-                                ),
-                                MessageDialogFragment.nullButton(R.string.button_label_close),
-                                MessageDialogFragment.Button(
-                                    R.string.share,
-                                    R.id.SHARE_PDF_COMMAND,
-                                    uri.toString(),
-                                    true
-                                ),
-                                false
-                            )
-                        }.onFailure {
-                            CrashHandler.report(it)
-                            showSnackBar(it.safeMessage)
-                        }
-                        viewModel.pdfResultProcessed()
-                    }
-                }
+                viewModel.pdfResult.collectPrintResult()
             }
         }
 
@@ -994,6 +966,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         if (viewModel.showBalanceSheet) {
             openBalanceSheet()
         }
+    }
+
+    override fun onPdfResultProcessed() {
+        viewModel.pdfResultProcessed()
     }
 
     override val snackBarContainerId = R.id.main_content
@@ -1795,9 +1771,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
         } else false
 
-    private val shareTarget: String
-        get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
-
     private fun shareExport(format: ExportFormat, uriList: List<Uri>) {
         baseViewModel.share(
             this, uriList,
@@ -1889,13 +1862,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     .show(this, DIALOG_TAG_GROUPING)
             }
 
-            R.id.SHARE_PDF_COMMAND -> {
-                baseViewModel.share(
-                    this, listOf(ensureContentUri((tag as String).toUri(), this)),
-                    shareTarget,
-                    "application/pdf"
-                )
-            }
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -2025,8 +1991,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }, getResources().getText(R.string.menu_share)))
 
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
-
-            R.id.OPEN_PDF_COMMAND -> startActionView((tag as String).toUri(), "application/pdf")
 
             R.id.SORT_COMMAND -> MenuDialog.build()
                 .menu(this, R.menu.accounts_sort)

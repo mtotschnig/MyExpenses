@@ -6,7 +6,6 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.lazy.LazyListState
@@ -54,7 +53,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
@@ -179,13 +177,10 @@ private const val KEY_BALANCE_DATE = "balanceDate"
 open class MyExpensesViewModel(
     application: Application,
     val savedStateHandle: SavedStateHandle,
-) : ContentResolvingAndroidViewModel(application) {
+) : PrintViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
     val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
-
-    protected val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
-    val pdfResult: StateFlow<Result<Pair<Uri, String>>?> = _pdfResult
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
     private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
@@ -958,12 +953,6 @@ open class MyExpensesViewModel(
     suspend fun splitInfo(id: Long): Pair<String, String?>? {
         return withContext(Dispatchers.IO) {
             repository.calculateNearestCommonAncestor(id)
-        }
-    }
-
-    fun pdfResultProcessed() {
-        _pdfResult.update {
-            null
         }
     }
 
