@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 
 class AcraCrashHandler(prefHandler: PrefHandler) : BaseCrashHandler(prefHandler) {
@@ -17,7 +18,12 @@ class AcraCrashHandler(prefHandler: PrefHandler) : BaseCrashHandler(prefHandler)
         application.initAcra {
             buildConfigClass = BuildConfig::class.java
             reportFormat = StringFormat.KEY_VALUE_LIST
-            excludeMatchingSharedPreferencesKeys = listOf("planner_calendar_path", "password")
+            excludeMatchingSharedPreferencesKeys = listOf(
+                prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH),
+                prefHandler.getKey(PrefKey.SET_PASSWORD),
+                prefHandler.getKey(PrefKey.EXPORT_PASSWORD),
+                prefHandler.getKey(PrefKey.WEBUI_PASSWORD)
+                )
             dialog {
                 text = application.getString(R.string.crash_dialog_text)
                 title = Utils.getTextWithAppName(application, R.string.crash_dialog_title).toString()
