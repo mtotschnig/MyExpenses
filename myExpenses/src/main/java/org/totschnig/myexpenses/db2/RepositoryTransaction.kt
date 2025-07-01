@@ -254,7 +254,7 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
     return contentResolver.query(
         TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(KEY_TRANSACTIONID, id.toString()).build(),
-        arrayOf(KEY_LABEL, KEY_ICON), null, null
+        arrayOf(KEY_LABEL, KEY_ICON), null, null,null
     )
         ?.useAndMapToList {
             it.getString(KEY_LABEL) to it.getString(KEY_ICON)
