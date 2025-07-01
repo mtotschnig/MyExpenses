@@ -943,4 +943,6 @@
     <string name="mark_as_cleared">Markér som afklaret</string>
     <string name="mark_as_unreconciled">Markér som ikke afstemt</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Opdater automatisk de tilsvarende beløb, når priserne ændres</string>
+    <string name="sort_direction">Sorteringsretning</string>
+    <string name="batch_download_result">%d priser blev hentet og gemt i databasen.</string>
 </resources>

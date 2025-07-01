@@ -233,7 +233,7 @@
     <string name="pm_cheque">Csekk</string>
     <string name="pm_creditcard">Hitelkártya</string>
     <string name="pm_deposit">Letét</string>
-    <string name="pm_directdebit">Csoportos beszedés</string>
+    <string name="pm_directdebit">Közvetlen terhelés</string>
     <string name="pm_type_credit">Hitel</string>
     <string name="pm_type_debit">Tartozás</string>
     <string name="pm_type_neutral">Semleges</string>
