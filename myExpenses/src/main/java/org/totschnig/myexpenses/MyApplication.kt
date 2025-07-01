@@ -134,6 +134,15 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         ?.let { ContextHelper.wrap(context, it) }
         ?: context
 
+    var initialLaunchWasForSystemPreferences: Boolean = false
+        private set
+
+    fun signalInitialLaunchForSystemPreferences() {
+        this.initialLaunchWasForSystemPreferences = true
+        Timber.i("Signal: Initial launch was for system preferences.")
+    }
+
+
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
             enableStrictMode()
@@ -164,7 +173,11 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onStart(owner: LifecycleOwner) {
         if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
-            controlWebUi(START_ACTION)
+            if (initialLaunchWasForSystemPreferences) {
+                Timber.i("Suppressing WebUI start")
+            } else {
+                controlWebUi(START_ACTION)
+            }
         }
     }
 

@@ -17,6 +17,7 @@ import androidx.preference.Preference
 import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -126,6 +127,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
         setupToolbar()
         title = getString(R.string.settings_label)
         observeLicenceApiResult()
+        if (calledFromSystemSettings) {
+            // Get the Application instance and call the method
+            (applicationContext as? MyApplication)?.signalInitialLaunchForSystemPreferences()
+        }
     }
 
     override fun injectDependencies() {
