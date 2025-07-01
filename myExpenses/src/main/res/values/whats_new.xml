@@ -25,4 +25,5 @@
     <string name="whats_new_399">Improved PDF export layout, fully customizable with drag-and-drop.</string>
     <string name="whats_new_400_1">Pie chart showing distribution of money between accounts</string>
     <string name="whats_new_400_2">Price History: Bulk download of missing entries</string>
+    <string name="whats_new_401">Transaction list now shows more details for split transactions</string>
 </resources>
