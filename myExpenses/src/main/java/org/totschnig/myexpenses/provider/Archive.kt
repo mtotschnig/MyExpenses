@@ -155,10 +155,13 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
                 ) {
                     throw IllegalStateException("Transactions in archive have different states.")
                 }
-                val nonVoidStates  = states.filter { it.key != CrStatus.VOID.name }.values
+                val nonVoidStates = states.filter { it.key != CrStatus.VOID.name }.values
                 //If we archive a cash account, where we find multiple states (which can happen when user updates account type),
                 // we create an unreconciled transaction, since this is the expected state for cash accounts
-                Triple(CrStatus.UNRECONCILED.name, nonVoidStates.sumOf { it.second }, nonVoidStates.maxOf { it.third })
+                Triple(
+                    CrStatus.UNRECONCILED.name,
+                    nonVoidStates.sumOf { it.second },
+                    nonVoidStates.maxOf { it.third })
             }
         }
     }
@@ -202,14 +205,12 @@ fun SupportSQLiteDatabase.canBeArchived(extras: Bundle): ArchiveInfo {
         statuses = emptyList(),
         accountType = accountType
     )
-    return archiveInfo(accountId, start, end, true).use {
-        it.asSequence.fold(empty) { acc, cursor ->
-            ArchiveInfo(
-                count = acc.count + cursor.getInt(2),
-                hasNested = acc.hasNested || cursor.hasNested(),
-                statuses = acc.statuses + enumValueOf<CrStatus>(cursor.getString(0)),
-                accountType = accountType
-            )
-        }
+    return archiveInfo(accountId, start, end, true).useAndReduce(empty) { acc, cursor ->
+        ArchiveInfo(
+            count = acc.count + cursor.getInt(2),
+            hasNested = acc.hasNested || cursor.hasNested(),
+            statuses = acc.statuses + enumValueOf<CrStatus>(cursor.getString(0)),
+            accountType = accountType
+        )
     }
 }

@@ -21,9 +21,13 @@ fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) = use {
     it.asSequence.map(mapper).toSet()
 }
 
-fun <K, V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K, V>?) = use {
+fun <T> Cursor.useAndReduce(initial: T, mapper: (T, Cursor) -> T): T = use {
+    it.asSequence.fold(initial) { acc, cursor -> mapper(acc, cursor) }
+}
+
+fun <K, V> Cursor.useAndMapToMap(mapper: (Cursor) -> Pair<K, V>?) = use { cursor ->
     buildMap {
-        it.asSequence.forEach {
+        cursor.asSequence.forEach {
             mapper(it)?.let { (key, value) ->
                 put(key, value)
             }

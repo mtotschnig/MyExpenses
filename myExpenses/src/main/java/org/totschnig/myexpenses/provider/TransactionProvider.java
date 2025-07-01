@@ -54,7 +54,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
@@ -72,7 +71,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -116,7 +114,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildSearchCte;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryPathFromLeave;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
@@ -163,7 +160,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -414,8 +410,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
 
-  public static final String METHOD_SPLIT_NCA = "splitNearestCommonAncestor";
-
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -555,7 +549,21 @@ public class TransactionProvider extends BaseTransactionProvider {
           return (withType != null && c.getCount() == 0) ? wrapWithResultCompat(c, hasCategories(db)) :  c;
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
-          additionalWhere.append(KEY_ROWID + " != " + SPLIT_CATID);
+          //split transaction: list Categories of split parts
+          String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
+          if (transactionId != null) {
+            selection = KEY_ROWID
+                    + " IN (SELECT distinct "
+                    + KEY_CATID
+                    + " FROM "
+                    + TABLE_TRANSACTIONS
+                    + " WHERE "
+                    + KEY_PARENTID
+                    + " = ?)";
+            selectionArgs = new String[]{transactionId};
+          } else {
+              additionalWhere.append(KEY_ROWID).append(" != ").append(SPLIT_CATID);
+          }
           if (projection == null) {
             projection = new String[]{KEY_ROWID, KEY_LABEL, KEY_PARENTID};
           }
@@ -1670,15 +1678,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(TRANSACTIONS_URI, true);
         notifyChange(ACCOUNTS_URI, false);
         return result;
-      }
-      case METHOD_SPLIT_NCA -> {
-        Pair<String, String> stringStringPair = calculateNcaForSplitTransaction(getHelper().getWritableDatabase(), arg);
-        if (stringStringPair != null) {
-            Bundle result = new Bundle(2);
-            result.putString(KEY_PATH, stringStringPair.getFirst());
-            result.putString(KEY_ICON, stringStringPair.getSecond());
-            return result;
-        } else return null;
       }
     }
     return null;

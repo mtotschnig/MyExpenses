@@ -1,5 +1,10 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.foundation.text.TextAutoSizeDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
@@ -12,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
@@ -22,7 +28,7 @@ import org.totschnig.myexpenses.viewmodel.data.IconInfo
 fun Icon(
     icon: String,
     modifier: Modifier = Modifier,
-    size: TextUnit = 24.sp,
+    size: TextUnit? = 24.sp,
     color: Color? = null,
 ) {
     val iconInfo = IIconInfo.resolveIcon(icon)
@@ -37,13 +43,15 @@ fun Icon(
 fun Icon(
     iconInfo: IIconInfo,
     modifier: Modifier = Modifier,
-    size: TextUnit = 24.sp,
+    size: TextUnit? = 24.sp,
     color: Color? = null,
 ) {
     when (iconInfo) {
         is ExtraIcon -> {
             Icon(
-                modifier = modifier.size(size * 1.25f),
+                modifier = modifier.optional(size) {
+                    size(it)
+                },
                 painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(LocalContext.current)),
                 contentDescription = stringResource(id = iconInfo.label),
                 tint = color ?: LocalContentColor.current
@@ -62,24 +70,39 @@ fun Icon(
     }
 }
 
+/**
+ * if @param size is null, use AutoSize
+ */
 @Composable
 fun CharIcon(
     char: Char,
     modifier: Modifier = Modifier,
     fontFamily: FontFamily? = null,
-    size: TextUnit = 24.sp,
+    size: TextUnit? = 24.sp,
     color: Color? = null,
 ) {
-    Text(
-        modifier = modifier,
-        text = char.toString(),
-        style = TextStyle(
-            lineHeight = size
-        ),
-        fontFamily = fontFamily,
-        fontSize = size,
-        color = color ?: Color.Unspecified
-    )
+    if (size == null) {
+        BasicText(
+            modifier = modifier,
+            text = char.toString(),
+            style = TextStyle(
+                fontFamily = fontFamily,
+                color = color ?: Color.Unspecified
+            ),
+            autoSize = TextAutoSize.StepBased(minFontSize = 6.sp)
+        )
+    } else {
+        Text(
+            modifier = modifier,
+            text = char.toString(),
+            style = TextStyle(
+                lineHeight = size
+            ),
+            fontFamily = fontFamily,
+            fontSize = size,
+            color = color ?: Color.Unspecified
+        )
+    }
 }
 
 

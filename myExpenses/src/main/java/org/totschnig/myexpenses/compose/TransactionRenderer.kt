@@ -63,7 +63,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -93,13 +92,13 @@ abstract class ItemRenderer(
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
-        resolvedSplitInfo: Pair<String, String?>?,
+        resolvedSplitInfoLabels: String?,
         forLegacy: Boolean,
     ) = buildAnnotatedString {
-        if (isSplit && resolvedSplitInfo == null) {
+        if (isSplit && resolvedSplitInfoLabels == null) {
             append(context.getString(R.string.split_transaction))
         } else {
-            (resolvedSplitInfo?.first ?: categoryPath)?.let {
+            (resolvedSplitInfoLabels ?: categoryPath)?.let {
                 if (forLegacy) {
                     append(it)
                 } else {
@@ -191,7 +190,8 @@ abstract class ItemRenderer(
     @Composable
     abstract fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfo: Pair<String, String?>? = null
+        resolvedSplitInfoLabels: String? = null,
+        resolvedSplitInfoIcons: List<String>? = null
     )
 
     abstract fun Modifier.height(): Modifier
@@ -203,7 +203,7 @@ abstract class ItemRenderer(
         modifier: Modifier = Modifier,
         selectionHandler: SelectionHandler? = null,
         menuGenerator: (Transaction2) -> Menu? = { null },
-        resolvedSplitInfo: Pair<String, String?>? = null,
+        resolvedSplitInfo: List<Pair<String , String?>>? = null,
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -235,7 +235,11 @@ abstract class ItemRenderer(
                 .padding(horizontal = mainScreenPadding, vertical = 3.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            RenderInner(transaction = transaction, resolvedSplitInfo)
+            RenderInner(
+                transaction = transaction,
+                resolvedSplitInfoLabels = resolvedSplitInfo?.joinToString { it.first },
+                resolvedSplitInfoIcons = resolvedSplitInfo?.mapNotNull { it.second }
+            )
             menuGenerator(transaction)?.let {
                 HierarchicalMenu(showMenu, it)
             }
@@ -271,29 +275,32 @@ abstract class ItemRenderer(
     }
 
     @Composable
-    protected fun Transaction2.CategoryIcon(resolvedSplitIcon: String?) {
+    protected fun Transaction2.CategoryIcon(resolvedSplitIcons: List<String>?) {
         if (withCategoryIcon) {
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
-                val icon = resolvedSplitIcon ?: icon
                 when {
-                    icon != null -> {
-                        if (isSplit) {
-                            Icon(icon, modifier = Modifier.align(Alignment.TopStart), size = 18.sp)
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.CallSplit,
-                                contentDescription = stringResource(id = R.string.split_transaction),
-                                modifier = Modifier.align(Alignment.BottomEnd).fillMaxSize(0.5f)
-                            )
-                        } else {
-                            Icon(icon)
+                    isSplit -> if (resolvedSplitIcons?.isNotEmpty() == true) {
+                        Icon(resolvedSplitIcons[0], modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f), size = null)
+                        resolvedSplitIcons.getOrNull(1)?.let {
+                            Icon(it, modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f), size = null)
                         }
+                        resolvedSplitIcons.getOrNull(2)?.let {
+                            Icon(it, modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f), size = null)
+                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.CallSplit,
+                            contentDescription = stringResource(id = R.string.split_transaction),
+                            modifier = Modifier.align(Alignment.BottomEnd).fillMaxSize(0.5f)
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.CallSplit,
+                            contentDescription = stringResource(id = R.string.split_transaction),
+                            modifier = Modifier.fillMaxSize()
+                        )
                     }
 
-                    isSplit -> Icon(
-                        imageVector = Icons.AutoMirrored.Filled.CallSplit,
-                        contentDescription = stringResource(id = R.string.split_transaction),
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    icon != null -> Icon(icon)
 
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
@@ -380,12 +387,13 @@ class CompactTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfo: Pair<String, String?>?
+        resolvedSplitInfoLabels: String?,
+        resolvedSplitInfoIcons: List<String>?
     ) {
         val context = LocalContext.current
         val secondaryInfo = transaction.buildSecondaryInfo(context, true)
         val description = buildAnnotatedString {
-            val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfo, true)
+            val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfoLabels, true)
             if (primaryInfo.isNotEmpty()) {
                 append(primaryInfo)
                 if (secondaryInfo.first.isNotEmpty()) {
@@ -406,7 +414,7 @@ class CompactTransactionRenderer(
             )
         }
         transaction.StatusToggle()
-        transaction.CategoryIcon(resolvedSplitInfo?.second)
+        transaction.CategoryIcon(resolvedSplitInfoIcons)
         TextWithInlineContent(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
@@ -436,12 +444,13 @@ class NewTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfo: Pair<String, String?>?
+        resolvedSplitInfoLabels: String?,
+        resolvedSplitInfoIcons: List<String>?
     ) {
         val context = LocalContext.current
-        val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfo, false)
+        val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfoLabels, false)
         val secondaryInfo = transaction.buildSecondaryInfo(context, false)
-        transaction.CategoryIcon(resolvedSplitInfo?.second)
+        transaction.CategoryIcon(resolvedSplitInfoIcons)
         transaction.StatusToggle()
         Column(
             modifier = Modifier

@@ -20,6 +20,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
@@ -38,13 +40,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHIVED
-import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SPLIT_NCA
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -170,7 +172,7 @@ fun Repository.archive(
 })!!.getLong(KEY_TRANSACTIONID)
 
 fun Repository.unarchive(id: Long) {
-    val ops = java.util.ArrayList<ContentProviderOperation>().apply {
+    val ops = ArrayList<ContentProviderOperation>().apply {
         add(
             ContentProviderOperation.newAssertQuery(
                 ContentUris.withAppendedId(TRANSACTIONS_URI, id)
@@ -248,11 +250,13 @@ fun Repository.deleteTemplate(id: Long) {
     contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TEMPLATES_URI, id), null, null)
 }
 
-fun Repository.calculateNearestCommonAncestor(id: Long): Pair<String, String?>? = contentResolver.call(
-    TransactionProvider.DUAL_URI,
-    METHOD_SPLIT_NCA,
-    id.toString(),
-    null
-)?.let {
-    it.getString(DatabaseConstants.KEY_PATH)!! to it.getString(DatabaseConstants.KEY_ICON)
+fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
+    return contentResolver.query(
+        TransactionProvider.CATEGORIES_URI.buildUpon()
+            .appendQueryParameter(KEY_TRANSACTIONID, id.toString()).build(),
+        arrayOf(KEY_LABEL, KEY_ICON), null, null
+    )
+        ?.useAndMapToList {
+            it.getString(KEY_LABEL) to it.getString(KEY_ICON)
+        }?.takeIf { it.isNotEmpty() }
 }

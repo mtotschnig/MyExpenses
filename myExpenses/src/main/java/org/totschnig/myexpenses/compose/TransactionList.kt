@@ -157,7 +157,7 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
     isFiltered: Boolean,
-    splitInfoResolver: suspend (Long) -> Pair<String, String?>? = { null }
+    splitInfoResolver: suspend (Long) -> List<Pair<String , String?>>? = { null }
 ) {
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
@@ -165,7 +165,7 @@ fun TransactionList(
     else emptySet()
 
     val splitInfoCache = remember(lazyPagingItems.loadState.refresh) {
-        Collections.synchronizedMap(HashMap<Long, Pair<String, String?>?>())
+        Collections.synchronizedMap(HashMap<Long, List<Pair<String , String?>>?>())
     }
     val scope = rememberCoroutineScope()
 

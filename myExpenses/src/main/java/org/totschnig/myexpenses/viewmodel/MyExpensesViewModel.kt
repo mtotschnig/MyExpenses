@@ -63,7 +63,7 @@ import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.addAttachments
-import org.totschnig.myexpenses.db2.calculateNearestCommonAncestor
+import org.totschnig.myexpenses.db2.calculateSplitSummary
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
@@ -950,9 +950,9 @@ open class MyExpensesViewModel(
         }
     }
 
-    suspend fun splitInfo(id: Long): Pair<String, String?>? {
+    suspend fun splitInfo(id: Long): List<Pair<String, String?>>? {
         return withContext(Dispatchers.IO) {
-            repository.calculateNearestCommonAncestor(id)
+            repository.calculateSplitSummary(id)
         }
     }
 
