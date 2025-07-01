@@ -103,8 +103,6 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 closeSoftKeyboard()
                 takeScreenshot("export")
                 pressBack()
-                listNode.onChildren().onFirst()
-                    .assertTextContains(getString(R.string.split_transaction), substring = true)
                 clickContextItem(R.string.details)
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
                     //https://github.com/android/android-test/issues/444

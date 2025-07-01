@@ -59,8 +59,8 @@ class SplitInfoTest  : BaseTestWithRepository() {
     }
 
     @Test
-    fun shouldReturnEmptyForNotSplit() {
+    fun shouldReturnNullForNotSplit() {
         val (transactionId, _) = insertTransaction(testAccountId, 100)
-        assertThat(repository.calculateSplitSummary(transactionId)).isEmpty()
+        assertThat(repository.calculateSplitSummary(transactionId)).isNull()
     }
 }
