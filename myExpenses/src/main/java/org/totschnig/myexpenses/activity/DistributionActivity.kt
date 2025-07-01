@@ -636,8 +636,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         modifier = Modifier.weight(1f),
                         text = buildString {
                             val configure: (DecimalFormat) -> Unit = {
-                                it.positivePrefix = "+ "
-                                it.negativePrefix = "- "
+                                it.positivePrefix = "+\u00A0"
+                                it.negativePrefix = "-\u00A0"
                             }
                             append(
                                 accountFormatter.formatCurrency(
@@ -657,7 +657,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageExpense
                                 && sums.first != 0L && sums.second != 0L
                             ) {
-                                append(" (${localizedPercentFormat.format(sums.second / sums.first.toFloat())})")
+                                append("\u00A0(${localizedPercentFormat.format(sums.second / sums.first.toFloat())})")
                             }
                             append(" = ")
                             val delta = sums.first + sums.second
@@ -670,7 +670,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             if (sumLineBehaviour.value == DistributionViewModel.SumLineBehaviour.PercentageTotal
                                 && delta != 0L && sums.first != 0L
                             ) {
-                                append(" (${localizedPercentFormat.format(delta.absoluteValue / sums.first.toFloat())})")
+                                append("\u00A0(${localizedPercentFormat.format(delta / sums.first.toFloat())})")
                             }
                         },
                         textAlign = TextAlign.Center
