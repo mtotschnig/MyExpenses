@@ -1351,14 +1351,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     )
                 )
                 .build().show()
-        } else if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP) {
+        } else {
             showSnackBar(
                 PermissionHelper.getRationale(
                     this, requestCode, PermissionHelper.PermissionGroup.NOTIFICATION
                 )
             )
-        } else if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
-            activateWebUi()
         }
     }
 

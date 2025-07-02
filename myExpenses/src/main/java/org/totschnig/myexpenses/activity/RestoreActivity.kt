@@ -54,7 +54,10 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        restoreViewModel.submitPermissionRequestResult(true)
+        super.onPermissionsGranted(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+            restoreViewModel.submitPermissionRequestResult(true)
+        }
     }
 
     fun doWithEncryptionCheck(block: () -> Unit) {
