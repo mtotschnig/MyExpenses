@@ -24,4 +24,5 @@
     <string name="whats_new_399">Layout di esportazione PDF migliorato, completamente personalizzabile con trascinamento della selezione.</string>
     <string name="whats_new_400_2">Storico dei prezzi: download in blocco delle voci mancanti</string>
     <string name="whats_new_400_1">Grafico a torta che mostra la distribuzione del denaro tra i conti</string>
+    <string name="whats_new_401">L\'elenco delle transazioni ora mostra ulteriori dettagli per le transazioni suddivise.</string>
 </resources>
