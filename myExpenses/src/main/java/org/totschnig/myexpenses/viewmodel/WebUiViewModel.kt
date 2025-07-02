@@ -7,8 +7,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.ServerStateObserver
@@ -18,22 +18,22 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private var webInputService: IWebInputService? = null
     private var webInputServiceBound: Boolean = false
-    private val serviceState: MutableLiveData<Result<String?>> = MutableLiveData()
-    fun getServiceState(): LiveData<Result<String?>> = serviceState
+    private val _serviceState: MutableSharedFlow<Result<String?>> = MutableSharedFlow(extraBufferCapacity = 1)
+    val serviceState: SharedFlow<Result<String?>> = _serviceState
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             webInputService = (service as WebUiBinder).getService()?.apply {
                 registerObserver(object: ServerStateObserver {
                     override fun postAddress(address: String) {
-                        serviceState.postValue(Result.success(address))
+                        _serviceState.tryEmit(Result.success(address))
                     }
 
                     override fun postException(throwable: Throwable) {
-                        serviceState.postValue(Result.failure(throwable))
+                        _serviceState.tryEmit(Result.failure(throwable))
                     }
 
                     override fun onStopped() {
-                        serviceState.postValue(Result.success(null))
+                        _serviceState.tryEmit(Result.success(null))
                     }
                 })
             }

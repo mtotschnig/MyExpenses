@@ -3,7 +3,11 @@ package org.totschnig.myexpenses.fragment.preferences
 import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -28,16 +32,20 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        webUiViewModel.getServiceState().observe(this) { result ->
-            with(requirePreference<Preference>(PrefKey.UI_WEB)) {
-                result.onSuccess { serverAddress ->
-                    summary = serverAddress
-                    title = getString(if(serverAddress == null) R.string.start else R.string.stop)
-                    serverIsRunning = serverAddress != null
-                }.onFailure {
-                    serverIsRunning = false
-                    title = getString(R.string.start)
-                    preferenceActivity.showSnackBar(it.safeMessage)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                webUiViewModel.serviceState.collect { result ->
+                    with(requirePreference<Preference>(PrefKey.UI_WEB)) {
+                        result.onSuccess { serverAddress ->
+                            summary = serverAddress
+                            title = getString(if(serverAddress == null) R.string.start else R.string.stop)
+                            serverIsRunning = serverAddress != null
+                        }.onFailure {
+                            serverIsRunning = false
+                            title = getString(R.string.start)
+                            preferenceActivity.showSnackBar(it.safeMessage)
+                        }
+                    }
                 }
             }
         }

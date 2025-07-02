@@ -41,6 +41,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.routing.routing
 import io.ktor.utils.io.jvm.javaio.toByteReadChannel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.text.StringSubstitutor
@@ -320,7 +321,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                 }
                             }
                         ).also {
-                            lifecycleScope.launch(Dispatchers.Default) {
+                            lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
                                 it.start(wait = false)
                             }
                         }
@@ -353,14 +354,23 @@ class WebInputService : LifecycleService(), IWebInputService {
                             serverStateObserver?.postAddress(it)
                         }
                     } catch (e: Throwable) {
-                        CrashHandler.report(e)
-                        serverStateObserver?.postException(e)
-                        prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                        handleException(e)
                     }
                 }
             }
         }
         return START_STICKY
+    }
+
+    private val ktorServerExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        handleException(exception)
+    }
+
+    private fun handleException(e: Throwable) {
+        CrashHandler.report(e)
+        serverStateObserver?.postException(e)
+        prefHandler.putBoolean(PrefKey.UI_WEB, false)
+        stopSelf()
     }
 
     private fun Route.serve() {
