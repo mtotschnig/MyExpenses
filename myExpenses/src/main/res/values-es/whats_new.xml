@@ -24,4 +24,5 @@
     <string name="whats_new_399">Diseño de exportación de PDF mejorado, totalmente personalizable con arrastrar y soltar.</string>
     <string name="whats_new_400_1">Gráfico circular que muestra la distribución del dinero entre las cuentas</string>
     <string name="whats_new_400_2">Historial de precios: Descarga masiva de entradas faltantes</string>
+    <string name="whats_new_401">La lista de transacciones ahora muestra más detalles para las transacciones divididas.</string>
 </resources>
