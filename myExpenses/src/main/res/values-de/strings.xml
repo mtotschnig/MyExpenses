@@ -1012,4 +1012,15 @@
     <string name="warning_batch_download_quota">Beim Batch-Download von %s besteht das Risiko, dass Ihr Nutzungslimit überschritten wird.</string>
     <string name="batch_download">Batch-Download</string>
     <string name="sort_direction">Sortierrichtung</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Neuen Kontostand anzeigen, nachdem die Buchung gespeichert wurde</string>
+    <string name="print_configuration_empty">Bitte fügen Sie mindestens ein Feld hinzu, das gedruckt werden soll.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Gültige Daten wurden in %d Zeile gefunden.</item>
+        <item quantity="other">Gültige Daten wurden in %d Zeilen gefunden.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d Zeile konnte nicht verarbeitet werden.</item>
+        <item quantity="other">%d Zeilen konnten nicht verarbeitet werden.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Sind Sie sicher, dass Sie die Preise für \'%1$s\' von \'%2$s\' importieren möchten? Neue Preise können sich auf bestehende gleichwertige Beträge auswirken.</string>
 </resources>
