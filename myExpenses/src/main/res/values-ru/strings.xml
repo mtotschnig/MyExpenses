@@ -1007,4 +1007,19 @@
     <string name="batch_download">Пакетная загрузка</string>
     <string name="batch_download_result">В базу данных было загружено и сохранено %d цен.</string>
     <string name="warning_batch_download_quota">Пакетная загрузка с %s может привести к истощению вашего лимита использования.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Отображение нового баланса после сохранения транзакции</string>
+    <string name="print_configuration_empty">Добавьте хотя бы одно поле для печати.</string>
+    <string name="confirm_process_file_message">Вы уверены, что хотите импортировать цены для \'%1$s\' из \'%2$s\'? Новые цены могут повлиять на существующие эквивалентные суммы.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Найдены достоверные данные в %d строке.</item>
+        <item quantity="few">Найдены достоверные данные в %d строках.</item>
+        <item quantity="many">Найдены достоверные данные в %d строках.</item>
+        <item quantity="other">Найдены достоверные данные в %d строках.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d строка не может быть обработана.</item>
+        <item quantity="few">%d строки не могут быть обработаны.</item>
+        <item quantity="many">%d строк не могут быть обработаны.</item>
+        <item quantity="other">%d строк не могут быть обработаны.</item>
+    </plurals>
 </resources>
