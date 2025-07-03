@@ -7,6 +7,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
@@ -31,7 +33,6 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
     ImportDataViewModel(application) {
 
     companion object {
-        const val KEY_DATA = "DATA"
         const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_WITH_ACCOUNT_COLUMN = "WITH_ACCOUNT_COLUMN"
         const val KEY_HEADER_LINE_POSITION = "HEADER_LINE_POSITION"
@@ -40,16 +41,17 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
 
     override val format = "CSV"
 
-    val dataFlow: StateFlow<List<CSVRecord>> = savedStateHandle.getStateFlow(KEY_DATA, emptyList())
+    private val _dataFlow = MutableStateFlow<List<CSVRecord>>(emptyList())
+    val dataFlow: StateFlow<List<CSVRecord>> = _dataFlow
 
-    private var data: List<CSVRecord>
-        get() = savedStateHandle[KEY_DATA] ?: emptyList()
-        set(value) {
-            selectedRows = BooleanArray(value.size) { true }
+    private fun setDataInternal(data: List<CSVRecord>, fromProcessDeath: Boolean) {
+        if(!fromProcessDeath) {
+            selectedRows = BooleanArray(data.size) { true }
             headerLine = -1
             mapping = null
-            savedStateHandle[KEY_DATA] = value
         }
+        _dataFlow.value = data
+    }
 
     var selectedRows: BooleanArray
 
@@ -64,7 +66,11 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
     fun isSelected(position: Int) = selectedRows[position]
 
     init {
-        selectedRows = savedStateHandle.get<Bundle>(KEY_SELECTED_ROWS)?.restoreSelection() ?: BooleanArray(0)
+        if (uri != null) {
+            doParse(uri!!, delimiter!!, encoding!!, true)
+        }
+        selectedRows =
+            savedStateHandle.get<Bundle>(KEY_SELECTED_ROWS)?.restoreSelection() ?: BooleanArray(0)
         savedStateHandle.setSavedStateProvider(KEY_SELECTED_ROWS) {
             selectedRows.saveSelection()
         }
@@ -88,17 +94,49 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
             savedStateHandle.set(KEY_MAPPING, value)
         }
 
-    fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<Unit>> =
-        liveData(context = coroutineContext()) {
+    var uri: Uri?
+        get() = savedStateHandle.get<Uri>("uri")
+        set(value) {
+            savedStateHandle.set("uri", value)
+        }
+
+    var delimiter: Char?
+        get() = savedStateHandle.get<Char>("delimiter")
+        set(value) {
+            savedStateHandle.set("delimiter", value)
+        }
+
+    var encoding: String?
+        get() = savedStateHandle.get<String>("encoding")
+        set(value) {
+            savedStateHandle.set("encoding", value)
+        }
+
+    fun parseFile(
+        uri: Uri,
+        delimiter: Char,
+        encoding: String,
+    ): LiveData<Result<Unit>> {
+        this.uri = uri
+        this.delimiter = delimiter
+        this.encoding = encoding
+        return liveData(Dispatchers.IO) {
             try {
-                contentResolver.openInputStream(uri)?.use {
-                    data = CSVFormat.DEFAULT.withDelimiter(delimiter)
-                        .parse(InputStreamReader(it, encoding)).records
-                    emit(ResultUnit)
-                } ?: throw java.lang.Exception("OpenInputStream returned null")
+                doParse(uri, delimiter, encoding) ?: throw java.lang.Exception("OpenInputStream returned null")
+                emit(ResultUnit)
             } catch (e: Exception) {
                 emit(Result.failure(e))
             }
+        }
+    }
+
+    private fun doParse(uri: Uri, delimiter: Char, encoding: String, fromProcessDeath: Boolean = false) =
+        contentResolver.openInputStream(uri)?.use {
+            setDataInternal(
+                CSVFormat.DEFAULT.withDelimiter(delimiter)
+                    .parse(InputStreamReader(it, encoding)).records,
+                fromProcessDeath
+            )
         }
 
     fun importData(

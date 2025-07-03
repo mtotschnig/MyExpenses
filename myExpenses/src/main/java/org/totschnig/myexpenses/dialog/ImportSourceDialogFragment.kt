@@ -23,24 +23,19 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragmen
 import org.totschnig.myexpenses.util.ImportFileResultHandler.handleFilenameRequestResult
 import org.totschnig.myexpenses.util.PermissionHelper.canReadUri
 import org.totschnig.myexpenses.viewmodel.ImportSourceViewModel
+import androidx.core.net.toUri
+import okhttp3.HttpUrl.Companion.toHttpUrl
 
 abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     DialogInterface.OnClickListener, FileNameHostFragment {
     private val viewModel: ImportSourceViewModel by viewModels()
     private var mFilename: EditText? = null
-    override fun getUri(): Uri? {
-        return mUri
-    }
 
-    override fun setUri(uri: Uri?) {
-        mUri = uri
-    }
+    override var uri: Uri? = null
 
-    override fun getFilenameEditText(): EditText {
-        return mFilename!!
-    }
+    override val filenameEditText: EditText
+        get() = mFilename!!
 
-    protected var mUri: Uri? = null
     abstract val layoutId: Int
     abstract val layoutTitle: String?
     open val withSelectFromAppFolder = false
@@ -81,7 +76,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     protected open fun setupDialogView(view: View) {
         mFilename = view.findViewById(R.id.Filename)
         view.findViewById<View>(R.id.btn_browse).setOnClickListener {
-            DialogUtils.openBrowse(mUri, this)
+            DialogUtils.openBrowse(uri, this)
         }
         val listButton = view.findViewById<View>(R.id.btn_list)
         if (withSelectFromAppFolder) {
@@ -91,8 +86,8 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
                     val popup = PopupMenu(requireContext(), listButton)
                     val popupMenu = popup.menu
                     popup.setOnMenuItemClickListener { item ->
-                        mUri = it[item.itemId].uri
-                        handleFilenameRequestResult(this, mUri)
+                        uri = it[item.itemId].uri
+                        handleFilenameRequestResult(this, uri)
                         setButtonState()
                         true
                     }
@@ -115,11 +110,11 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK && intent != null) {
-                mUri = intent.data
+                uri = intent.data
                 try {
-                    handleFilenameRequestResult(this, mUri)
+                    handleFilenameRequestResult(this, uri)
                 } catch (throwable: Throwable) {
-                    mUri = null
+                    uri = null
                     showSnackBar(throwable.message!!, Snackbar.LENGTH_LONG, null)
                 }
             }
@@ -144,7 +139,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     }
 
     protected open val isReady: Boolean
-        get() = mUri != null && canReadUri(mUri!!, requireContext())
+        get() = uri?.let { canReadUri(it, requireContext()) } == true
 
     protected fun setButtonState() {
         (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isReady
@@ -152,22 +147,18 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (mUri != null) {
-            outState.putString(prefKey, mUri.toString())
+        uri?.let {
+            outState.putString(prefKey, it.toString())
         }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null) {
-            val restoredUriString = savedInstanceState.getString(prefKey)
-            if (restoredUriString != null) {
-                val restoredUri = Uri.parse(restoredUriString)
-                val displayName = requireActivity().contentResolver.getDisplayName(restoredUri)
-                mUri = restoredUri
-                mFilename!!.setText(displayName)
-            }
+        savedInstanceState?.getString(prefKey)?.toUri()?.let {
+            val displayName = requireActivity().contentResolver.getDisplayName(it)
+            uri = it
+            mFilename!!.setText(displayName)
         }
     }
 }

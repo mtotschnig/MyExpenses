@@ -21,7 +21,7 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment() {
     //Normally, it is recommended to pass configuration to fragment via setArguments,
     //but since we safe uri in instance state, it is safe to set it in constructor
     constructor(data: Uri?) : this() {
-        mUri = data
+        uri = data
     }
 
     override val layoutId = R.layout.backup_restore_dialog
@@ -41,11 +41,11 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        if (savedInstanceState == null && mUri != null) {
+        if (savedInstanceState == null && uri != null) {
             try {
-                ImportFileResultHandler.handleFilenameRequestResult(this, mUri)
+                ImportFileResultHandler.handleFilenameRequestResult(this, uri)
             } catch (throwable: Throwable) {
-                mUri = null
+                uri = null
                 Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_LONG).show()
                 requireActivity().finish()
             }
@@ -56,9 +56,8 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment() {
     override val layoutTitle: String
         get() = getString(R.string.pref_restore_title)
 
-    override fun getTypeName() = "Zip"
-
-    override fun getPrefKey() = "backup_restore_file_uri"
+    override val typeName = "Zip"
+    override val prefKey = "backup_restore_file_uri"
 
     override fun checkTypeParts(mimeType: String, extension: String): Boolean {
         val typeParts = mimeType.split("/")
@@ -82,7 +81,7 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment() {
         }
         if (id == AlertDialog.BUTTON_POSITIVE) {
             (activity as BackupRestoreActivity).onSourceSelected(
-                mUri!!,
+                uri!!,
                 prefHandler.encryptDatabase && encrypt.isChecked
             )
         } else {

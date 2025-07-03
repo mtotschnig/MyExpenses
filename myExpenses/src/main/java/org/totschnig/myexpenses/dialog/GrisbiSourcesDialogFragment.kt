@@ -11,9 +11,9 @@ class GrisbiSourcesDialogFragment : TextSourceDialogFragment(), DialogInterface.
     override val layoutTitle: String
         get() = getString(R.string.pref_import_from_grisbi_title)
 
-    override fun getTypeName() = "Grisbi XML"
+    override val typeName = "Grisbi XML"
 
-    override fun getPrefKey() = "import_grisbi_file_uri"
+    override val prefKey = "import_grisbi_file_uri"
 
     override fun onClick(dialog: DialogInterface, id: Int) {
         if (activity == null) {
@@ -22,7 +22,7 @@ class GrisbiSourcesDialogFragment : TextSourceDialogFragment(), DialogInterface.
         if (id == AlertDialog.BUTTON_POSITIVE) {
             maybePersistUri()
             (activity as GrisbiImport?)!!.onSourceSelected(
-                mUri,
+                uri,
                 mImportCategories.isChecked,
                 mImportParties.isChecked
             )

@@ -42,7 +42,7 @@ public abstract class TextSourceDialogFragment extends
     }
   }
   @Override
-  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+  public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
     setButtonState();
   }
 }

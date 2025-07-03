@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener, FileNameHostFragment {
 
@@ -56,28 +57,21 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         get() = _binding!!
     private val fileNameBinding
         get() = _fileNameBinding!!
-    private var mUri: Uri? = null
+     override var uri: Uri? = null
+        set(value) {
+            field = value
+            requireActivity().invalidateOptionsMenu()
+        }
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: ImportConfigurationViewModel by viewModels()
 
     @Inject
     lateinit var prefHandler: PrefHandler
-    override fun getPrefKey(): String {
-        return "import_csv_file_uri"
-    }
 
-    override fun getUri(): Uri? {
-        return mUri
-    }
+    override val prefKey: String = "import_csv_file_uri"
 
-    override fun setUri(uri: Uri?) {
-        this.mUri = uri
-        requireActivity().invalidateOptionsMenu()
-    }
-
-    override fun getFilenameEditText(): EditText {
-        return fileNameBinding.Filename
-    }
+    override val filenameEditText: EditText
+        get() = fileNameBinding.Filename
 
     @Suppress("UNCHECKED_CAST")
     private val accountsAdapter: IdAdapter<AccountMinimal>
@@ -190,8 +184,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (mUri != null) {
-            outState.putString(prefKey, mUri.toString())
+        if (uri != null) {
+            outState.putString(prefKey, uri.toString())
         }
         outState.putString(DatabaseConstants.KEY_CURRENCY, currency)
     }
@@ -199,19 +193,15 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null) {
-            val restoredUriString = savedInstanceState.getString(prefKey)
-            if (restoredUriString != null) {
-                val restoredUri = Uri.parse(restoredUriString)
-                val displayName = requireActivity().contentResolver.getDisplayName(restoredUri)
-                uri = restoredUri
-                fileNameBinding.Filename.setText(displayName)
-            }
+        savedInstanceState?.getString(prefKey)?.toUri()?.let {
+            val displayName = requireActivity().contentResolver.getDisplayName(it)
+            uri = it
+            fileNameBinding.Filename.setText(displayName)
         }
     }
 
     override fun onClick(v: View) {
-        DialogUtils.openBrowse(mUri, this)
+        DialogUtils.openBrowse(uri, this)
     }
 
     override fun checkTypeParts(mimeType: String, extension: String): Boolean {
@@ -222,9 +212,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                 (typeParts.getOrNull(1)?.contains("csv") == true)
     }
 
-    override fun getTypeName(): String {
-        return "CSV"
-    }
+    override val typeName = "CSV"
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -242,13 +230,13 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             putString(PREF_KEY_IMPORT_CSV_DATE_FORMAT, format.name)
         }
         ImportFileResultHandler.maybePersistUri(this, prefHandler)
-        (activity as? CsvImportActivity)?.parseFile(mUri!!, delimiter[0], encoding)
+        (activity as? CsvImportActivity)?.parseFile(uri!!, delimiter[0], encoding)
         true
     } else super.onOptionsItemSelected(item)
 
     val isReady: Boolean
         get() {
-            return mUri != null && (prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true) ||
+            return uri != null && (prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true) ||
                     binding.AccountTable.Account.selectedItemId != 0L)
         }
 

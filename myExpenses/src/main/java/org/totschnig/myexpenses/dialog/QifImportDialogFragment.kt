@@ -69,13 +69,9 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     private val format: ExportFormat
         get() = ExportFormat.QIF
 
-    override fun getTypeName(): String {
-        return format.name
-    }
+    override val typeName = format.name
 
-    override fun getPrefKey(): String {
-        return "import_" + format.extension + "_file_uri"
-    }
+    override val prefKey = "import_" + format.extension + "_file_uri"
 
     override fun onClick(dialog: DialogInterface, id: Int) {
         if (activity == null) {
@@ -90,7 +86,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
             val currency = currencySpinner.selectedItem as? Currency
             if (currency != null) {
                 (activity as QifImport).onSourceSelected(
-                    mUri!!,
+                    uri!!,
                     format,
                     accountSpinner.selectedItemId,
                     currency.code,
