@@ -87,7 +87,7 @@ fun CharIcon(
             text = char.toString(),
             style = TextStyle(
                 fontFamily = fontFamily,
-                color = color ?: Color.Unspecified
+                color = color ?: LocalContentColor.current
             ),
             autoSize = TextAutoSize.StepBased(minFontSize = 6.sp)
         )
