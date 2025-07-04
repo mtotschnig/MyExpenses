@@ -145,7 +145,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Preokreni smjer</string>
     <string name="menu_manage_plans">Predlošci i planovi</string>
-    <string name="menu_import">Uvezi</string>
     <string name="menu_reset">Izvezi i obnovi</string>
     <string name="menu_reset_all">Izvezi i obnovi sve</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

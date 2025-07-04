@@ -157,7 +157,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">معکوس</string>
     <string name="menu_manage_plans">قالب‌ها به‌عنوان برنامه‌ها</string>
-    <string name="menu_import">درون‌ریزی</string>
     <string name="menu_reset">استخراج و تنظیم مجدد</string>
     <string name="menu_reset_all">استخراج و تنظیم مجدد همه</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

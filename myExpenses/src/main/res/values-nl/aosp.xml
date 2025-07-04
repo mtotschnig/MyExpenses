@@ -165,4 +165,5 @@
     <string name="at_start">Begin</string>
     <string name="at_end">Einde</string>
     <string name="widgets">"Widgets"</string>
+    <string name="menu_import">"Importeren"</string>
 </resources>

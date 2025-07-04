@@ -422,7 +422,6 @@
     <string name="menu_edit_account">Праўка рахунку</string>
     <string name="dialog_remind_later">Пазней</string>
     <string name="dialog_remind_rate_1">Калі ласка, ацаніце і напішыце водгук пра {app_name}.</string>
-    <string name="menu_import">Імпарт</string>
     <string name="income">Прыбытак</string>
     <string name="plan_calendar_name">{app_name} планіроўшчык</string>
     <string name="pm_cheque">Чэк</string>

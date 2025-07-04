@@ -79,4 +79,5 @@
     <string name="margins">"समास"</string>
     <string name="menu_restore">"डीफॉल्टवर रीसेट करा"</string>
     <string name="widgets">"विजेट"</string>
+    <string name="menu_import">"इंपोर्ट करा"</string>
 </resources>

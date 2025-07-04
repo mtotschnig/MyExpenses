@@ -169,7 +169,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Alderantzikatu</string>
     <string name="menu_manage_plans">Txantiloiak eta planak</string>
-    <string name="menu_import">Inportatu</string>
     <string name="menu_reset">Esportatu eta berrezarri</string>
     <string name="menu_reset_all">Esportatu eta berrezarri guztiak </string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

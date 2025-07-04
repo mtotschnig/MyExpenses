@@ -167,4 +167,5 @@
     <string name="at_start">البدء</string>
     <string name="at_end">الانتهاء</string>
     <string name="widgets">"التطبيقات المصغّرة"</string>
+    <string name="menu_import">"استيراد"</string>
 </resources>

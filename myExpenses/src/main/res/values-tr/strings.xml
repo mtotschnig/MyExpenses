@@ -169,7 +169,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Ters Çevir</string>
     <string name="menu_manage_plans">Şablonlar ve planlar</string>
-    <string name="menu_import">İçe aktar</string>
     <string name="menu_reset">Dışa aktar ve sıfırla</string>
     <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

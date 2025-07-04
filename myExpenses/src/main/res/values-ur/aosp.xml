@@ -124,4 +124,5 @@
     <string name="layout">"لے آؤٹ"</string>
     <string name="menu_restore">"ڈیفالٹ پر دوبارہ ترتیب دیں"</string>
     <string name="widgets">"ویجیٹس"</string>
+    <string name="menu_import">"درآمد کریں"</string>
 </resources>

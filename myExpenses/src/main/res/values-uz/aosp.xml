@@ -77,4 +77,5 @@
     <string name="at_start">Boshlash</string>
     <string name="at_end">Tugashi</string>
     <string name="widgets">"Vidjetlar"</string>
+    <string name="menu_import">"Import qilish"</string>
 </resources>

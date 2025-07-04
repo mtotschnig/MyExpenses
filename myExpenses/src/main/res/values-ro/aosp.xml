@@ -155,4 +155,5 @@
     <string name="at_start">Început</string>
     <string name="at_end">Sfârșit</string>
     <string name="widgets">"Widgeturi"</string>
+    <string name="menu_import">"Importați"</string>
 </resources>

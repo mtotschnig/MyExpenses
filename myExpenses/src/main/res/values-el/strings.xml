@@ -169,7 +169,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">\"Αντιστροφή\"</string>
     <string name="menu_manage_plans">Πρότυπα και σχέδια</string>
-    <string name="menu_import">Εισαγωγή</string>
     <string name="menu_reset">Εξαγωγή και επαναφορά</string>
     <string name="menu_reset_all">Εξαγωγή και επαναφορά όλων</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

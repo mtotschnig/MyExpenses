@@ -52,6 +52,7 @@
     <string name="toast_text_copied">Text copied</string>
     <string name="copy_text">Copy to clipboard</string>
     <string name="menu_export">Export</string>
+    <string name="menu_import">"Import"</string>
     <string name="display_options_sort_list_by">Sort by</string>
     <string name="take_photo">Take photo</string>
     <!--  packages/apps/DeskClock/res/values/strings.xml name="timer_stop" -->

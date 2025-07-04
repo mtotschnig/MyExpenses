@@ -166,4 +166,5 @@
     <string name="at_start">开始</string>
     <string name="at_end">结束</string>
     <string name="widgets">"微件"</string>
+    <string name="menu_import">"导入"</string>
 </resources>

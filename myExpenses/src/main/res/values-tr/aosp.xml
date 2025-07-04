@@ -167,4 +167,5 @@
     <string name="at_start">Başlangıç</string>
     <string name="at_end">Bitiş</string>
     <string name="widgets">"Widget'lar"</string>
+    <string name="menu_import">"İçe aktar"</string>
 </resources>

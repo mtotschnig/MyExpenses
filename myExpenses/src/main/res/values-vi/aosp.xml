@@ -163,4 +163,5 @@
     <string name="at_start">Bắt đầu</string>
     <string name="at_end">Kết thúc</string>
     <string name="widgets">"Tiện ích"</string>
+    <string name="menu_import">"Nhập"</string>
 </resources>

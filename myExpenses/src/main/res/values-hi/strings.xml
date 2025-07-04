@@ -140,7 +140,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">उलटें</string>
     <string name="menu_manage_plans">टेम्पलेट और योजनाएं</string>
-    <string name="menu_import">आयात</string>
     <string name="menu_reset">निर्यात और रीसेट करें</string>
     <string name="menu_reset_all">सभी को निर्यात और रीसेट करें</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

@@ -166,4 +166,5 @@
     <string name="at_start">開始日時</string>
     <string name="at_end">終了日時</string>
     <string name="widgets">"ウィジェット"</string>
+    <string name="menu_import">"インポート"</string>
 </resources>

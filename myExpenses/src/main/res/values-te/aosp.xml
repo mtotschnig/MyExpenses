@@ -140,4 +140,5 @@
     <string name="margins">"అంచులు"</string>
     <string name="menu_restore">"ఆటోమేటిక్‌కు రీసెట్ చేయి"</string>
     <string name="widgets">"విడ్జెట్‌లు"</string>
+    <string name="menu_import">"దిగుమతి చేయండి"</string>
 </resources>

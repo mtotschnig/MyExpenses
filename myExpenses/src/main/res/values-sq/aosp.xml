@@ -85,4 +85,5 @@
     <string name="at_start">Fillim</string>
     <string name="at_end">Fund</string>
     <string name="widgets">"Miniaplikacionet"</string>
+    <string name="menu_import">"Importo"</string>
 </resources>

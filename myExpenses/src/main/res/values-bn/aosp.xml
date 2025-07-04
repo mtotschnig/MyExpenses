@@ -139,4 +139,5 @@
     <string name="margins">"মার্জিন"</string>
     <string name="menu_restore">"ডিফল্টে রিসেট করুন"</string>
     <string name="widgets">"উইজেট"</string>
+    <string name="menu_import">"আমদানি করুন"</string>
 </resources>

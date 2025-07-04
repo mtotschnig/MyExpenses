@@ -94,4 +94,5 @@
     <string name="at_start">Pradžia</string>
     <string name="at_end">Pabaiga</string>
     <string name="widgets">"Valdikliai"</string>
+    <string name="menu_import">"Importuoti"</string>
 </resources>

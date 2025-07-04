@@ -79,4 +79,5 @@
     <string name="at_start">Почетак</string>
     <string name="at_end">Крај</string>
     <string name="widgets">"Виџети"</string>
+    <string name="menu_import">"Увeзи"</string>
 </resources>

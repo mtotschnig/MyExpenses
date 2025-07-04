@@ -169,7 +169,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Размяна</string>
     <string name="menu_manage_plans">Шаблони и планове</string>
-    <string name="menu_import">Внасяне на данни</string>
     <string name="menu_reset">Експорт и нулиране</string>
     <string name="menu_reset_all">Експорт и нулиране на всичко</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

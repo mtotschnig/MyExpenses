@@ -168,4 +168,5 @@
     <string name="at_start">Έναρξη</string>
     <string name="at_end">Λήξη</string>
     <string name="widgets">"Γραφικά στοιχεία"</string>
+    <string name="menu_import">"Εισαγωγή"</string>
 </resources>

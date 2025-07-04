@@ -104,4 +104,5 @@
     <string name="at_start">Algus</string>
     <string name="at_end">Lõpp</string>
     <string name="widgets">"Vidinad"</string>
+    <string name="menu_import">"Importimine"</string>
 </resources>

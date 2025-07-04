@@ -104,4 +104,5 @@
     <string name="at_start">Mulai</string>
     <string name="at_end">Selesai</string>
     <string name="widgets">"Widget"</string>
+    <string name="menu_import">"Impor"</string>
 </resources>

@@ -566,7 +566,6 @@
     <string name="menu_reset_plan_instance">రీసెట్ చేయండి</string>
     <string name="menu_reset_all">అన్నింటినీ ఎగుమతి చేసి రీసెట్ చేయండి</string>
     <string name="menu_reset">ఎగుమతి చేసి రీసెట్ చేయండి</string>
-    <string name="menu_import">దిగుమతి</string>
     <string name="menu_manage_plans">టెంప్లేట్లు మరియు ప్రణాళికలు</string>
     <string name="menu_invert_transfer">విలోమం</string>
     <string name="menu_help">సహాయం</string>

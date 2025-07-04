@@ -103,4 +103,5 @@
     <string name="at_start">Začiatok</string>
     <string name="at_end">Koniec</string>
     <string name="widgets">"Miniaplikácie"</string>
+    <string name="menu_import">"Importovať"</string>
 </resources>

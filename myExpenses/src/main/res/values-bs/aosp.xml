@@ -82,4 +82,5 @@
     <string name="at_start">Početak</string>
     <string name="at_end">Kraj</string>
     <string name="widgets">"Vidžeti"</string>
+    <string name="menu_import">"Uvoz"</string>
 </resources>

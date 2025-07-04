@@ -125,4 +125,5 @@
     <string name="layout">"版面配置"</string>
     <string name="menu_restore">"重設回預設值"</string>
     <string name="widgets">"小工具"</string>
+    <string name="menu_import">"匯入"</string>
 </resources>

@@ -78,4 +78,5 @@
     <string name="right">ຂວາ</string>
     <string name="menu_restore">"ຣີເຊັດໄປໃຊ້ຄ່າເລີ່ມຕົ້ນ"</string>
     <string name="widgets">"ວິດເຈັດ"</string>
+    <string name="menu_import">"ນຳເຂົ້າ"</string>
 </resources>

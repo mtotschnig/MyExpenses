@@ -103,4 +103,5 @@
     <string name="at_start">Start</string>
     <string name="at_end">Slutt</string>
     <string name="widgets">"Moduler"</string>
+    <string name="menu_import">"Importér"</string>
 </resources>

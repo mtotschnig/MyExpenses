@@ -157,4 +157,5 @@
     <string name="at_start">เริ่ม</string>
     <string name="at_end">สิ้นสุด</string>
     <string name="widgets">"วิดเจ็ต"</string>
+    <string name="menu_import">"นำเข้า"</string>
 </resources>

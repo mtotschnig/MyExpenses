@@ -141,7 +141,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverteix</string>
     <string name="menu_manage_plans">Plantilles i planificacions</string>
-    <string name="menu_import">Importació</string>
     <string name="menu_reset">Exporta i reinicia</string>
     <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

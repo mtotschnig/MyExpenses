@@ -165,4 +165,5 @@
     <string name="at_start">開始時間</string>
     <string name="at_end">結束時間</string>
     <string name="widgets">"小工具"</string>
+    <string name="menu_import">"匯入"</string>
 </resources>

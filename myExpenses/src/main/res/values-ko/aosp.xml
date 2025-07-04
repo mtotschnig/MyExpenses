@@ -158,4 +158,5 @@
     <string name="at_start">개시 일자</string>
     <string name="at_end">종료 일자</string>
     <string name="widgets">"위젯"</string>
+    <string name="menu_import">"가져오기"</string>
 </resources>

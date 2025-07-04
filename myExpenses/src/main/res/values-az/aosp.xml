@@ -66,4 +66,5 @@
     <string name="layout">"Düzən"</string>
     <string name="menu_restore">"Sıfırlayın"</string>
     <string name="widgets">"Vidcet"</string>
+    <string name="menu_import">"İmport edin"</string>
 </resources>

@@ -176,7 +176,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">ইনভার্ট</string>
     <string name="menu_manage_plans">টেমপ্লেট এবং প্লানসমূহ</string>
-    <string name="menu_import">ইমপোর্ট</string>
     <string name="menu_reset">এক্সপোর্ট এবং রিসেট</string>
     <string name="menu_reset_all">এক্সপোর্ট এবং সবকিছু রিসেট</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

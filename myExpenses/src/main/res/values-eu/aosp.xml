@@ -166,4 +166,5 @@
     <string name="at_start">Hasiera</string>
     <string name="at_end">Amaiera</string>
     <string name="widgets">"Widgetak"</string>
+    <string name="menu_import">"Inportatu"</string>
 </resources>

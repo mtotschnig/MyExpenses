@@ -155,7 +155,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">반전</string>
     <string name="menu_manage_plans">템플릿과 재무 계획</string>
-    <string name="menu_import">가져오기</string>
     <string name="menu_reset">내보내기 및 초기화</string>
     <string name="menu_reset_all">내보내기 및 전체 초기화</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

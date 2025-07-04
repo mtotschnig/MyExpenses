@@ -63,4 +63,5 @@
     <string name="layout">"Layout"</string>
     <string name="menu_restore">"I-reset sa default"</string>
     <string name="widgets">"Mga Widget"</string>
+    <string name="menu_import">"I-import"</string>
 </resources>

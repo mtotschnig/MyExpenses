@@ -59,4 +59,5 @@
     <string name="layout">"Калып"</string>
     <string name="menu_restore">"Баштапкы абалга келтирүү"</string>
     <string name="widgets">"Виджеттер"</string>
+    <string name="menu_import">"Өткөрүп алуу"</string>
 </resources>

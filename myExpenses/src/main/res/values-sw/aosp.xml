@@ -63,4 +63,5 @@
     <string name="layout">"Muundo"</string>
     <string name="menu_restore">"Rudisha kwenye chaguomsingi"</string>
     <string name="widgets">"Wijeti"</string>
+    <string name="menu_import">"Leta"</string>
 </resources>

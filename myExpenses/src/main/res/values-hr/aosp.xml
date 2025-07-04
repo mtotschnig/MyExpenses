@@ -161,4 +161,5 @@
     <string name="at_start">Počinje</string>
     <string name="at_end">Završava</string>
     <string name="widgets">"Widgeti"</string>
+    <string name="menu_import">"Uvoz"</string>
 </resources>

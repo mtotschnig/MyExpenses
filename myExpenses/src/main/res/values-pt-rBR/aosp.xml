@@ -156,4 +156,5 @@
     <string name="menu_restore">"Redefinir para o padrão"</string>
     <string name="at_start">Início</string>
     <string name="at_end">Fim</string>
+    <string name="menu_import">"Importar"</string>
 </resources>

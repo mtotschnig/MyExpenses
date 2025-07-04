@@ -29,7 +29,6 @@
     <string name="description">Beskrivning</string>
     <string name="contrib_feature_csv_import_label">CSV-importering</string>
     <string name="menu_delete">Ta bort</string>
-    <string name="menu_import">Importera</string>
     <string name="account_type_bank">Bankkonto</string>
     <string name="feedback">Återgivning</string>
     <string name="contrib_feature_accounts_unlimited_label">Obegränsat antal konton</string>

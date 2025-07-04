@@ -170,7 +170,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverter</string>
     <string name="menu_manage_plans">Modelos e planos</string>
-    <string name="menu_import">Importar</string>
     <string name="menu_reset">Exportar e redefinir</string>
     <string name="menu_reset_all">Exportar e redefinir tudo</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

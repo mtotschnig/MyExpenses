@@ -170,7 +170,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverser</string>
     <string name="menu_manage_plans">Modèles et échéances</string>
-    <string name="menu_import">Import</string>
     <string name="menu_reset">Exporter et réinitialiser</string>
     <string name="menu_reset_all">Exporter et réinitialiser tous</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

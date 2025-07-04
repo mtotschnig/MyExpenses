@@ -97,4 +97,5 @@
     <string name="at_start">Սկսել</string>
     <string name="at_end">Ավարտ</string>
     <string name="widgets">"Վիջեթներ"</string>
+    <string name="menu_import">"Ներմուծել"</string>
 </resources>

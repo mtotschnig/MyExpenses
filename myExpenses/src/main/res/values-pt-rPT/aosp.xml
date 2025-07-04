@@ -129,4 +129,5 @@
     <string name="margins">"Margens"</string>
     <string name="menu_restore">"Repor predefinição"</string>
     <string name="widgets">"Widgets"</string>
+    <string name="menu_import">"Importar"</string>
 </resources>

@@ -158,7 +158,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inversează</string>
     <string name="menu_manage_plans">Şabloane şi scadenţe</string>
-    <string name="menu_import">Import</string>
     <string name="menu_reset">Export şi resetare</string>
     <string name="menu_reset_all">Export şi a resetează toate</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

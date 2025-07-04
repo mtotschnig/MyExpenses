@@ -132,4 +132,5 @@
     <string name="at_start">Mula</string>
     <string name="at_end">Tamat</string>
     <string name="widgets">"Widget"</string>
+    <string name="menu_import">"Import"</string>
 </resources>

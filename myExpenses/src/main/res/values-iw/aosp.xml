@@ -160,4 +160,5 @@
     <string name="at_start">התחלה</string>
     <string name="at_end">סיום</string>
     <string name="widgets">"ווידג'טים"</string>
+    <string name="menu_import">"ייבוא"</string>
 </resources>

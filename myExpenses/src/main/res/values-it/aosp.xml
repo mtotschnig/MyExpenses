@@ -168,4 +168,5 @@
     <string name="at_start">Inizio</string>
     <string name="at_end">Fine</string>
     <string name="widgets">"Widget"</string>
+    <string name="menu_import">"Importa"</string>
 </resources>

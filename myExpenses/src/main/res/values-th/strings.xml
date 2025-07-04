@@ -207,7 +207,6 @@
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">มีวัตถุ %1$d รายการที่ถูกจับคู่กับธุรกรรมและไม่สามารถลบได้</item>
     </plurals>
-    <string name="menu_import">นำเข้า</string>
     <string name="menu_edit_plan_instance">แก้ไขการเกิดขึ้นของแผนครั้งเดียว</string>
     <string name="menu_reset_plan_instance">รีเซ็ต</string>
     <string name="menu_forward">ส่งต่อ</string>

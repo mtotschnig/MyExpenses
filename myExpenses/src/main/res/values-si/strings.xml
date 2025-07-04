@@ -120,7 +120,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">යටිකුරු කරනවා</string>
     <string name="menu_manage_plans">අච්චු සහ සැලසුම් </string>
-    <string name="menu_import">ආනයනය </string>
     <string name="menu_reset">අපනයන සහ යලිපිහිටුවීම </string>
     <string name="menu_reset_all">සියල්ල අපනයන කර නැවත පිහිටුවන්න </string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

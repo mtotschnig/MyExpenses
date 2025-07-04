@@ -167,7 +167,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">反転</string>
     <string name="menu_manage_plans">テンプレートと計画</string>
-    <string name="menu_import">インポート</string>
     <string name="menu_reset">エクスポートおよびリセット</string>
     <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

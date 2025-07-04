@@ -82,4 +82,5 @@
     <string name="margins">Margins"</string>
     <string name="menu_restore">"بازنشانی به موارد پیش‌فرض"</string>
     <string name="widgets">"ابزارک‌ها"</string>
+    <string name="menu_import">"وارد کردن"</string>
 </resources>
