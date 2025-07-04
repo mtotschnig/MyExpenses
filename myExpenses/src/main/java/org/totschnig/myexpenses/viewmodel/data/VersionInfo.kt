@@ -152,8 +152,8 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
 
             "401" -> arrayOf(
                 t(R.string.whats_new_401),
-                "${t(R.string.menu_print)} : ${t(R.string.balance_sheet)}, ${t(R.string.title_activity_debt_overview)}",
-                "${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}"
+                "${t(R.string.menu_print)} : ${t(R.string.balance_sheet)}, ${t(R.string.title_activity_debt_overview)}.",
+                "${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}."
             )
 
             else -> {

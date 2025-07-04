@@ -134,6 +134,57 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.1
+      - '2025-07-04'
+      - bg: 'Списъкът с транзакции вече показва повече подробности за разделени транзакции.
+          Печат : Баланс, Преглед на дълга. История на обменния курс : Внасяне на
+          данни / Експортиране.'
+        cs: 'Seznam transakcí nyní zobrazuje více podrobností o rozdělených transakcích.
+          Tisk : Rozvaha, Přehled dluhu. Historie cen : Importovat / Exportovat.'
+        de: 'In der Buchungsliste werden jetzt mehr Details für mehrteilige Buchungen
+          angezeigt. Drucken : Bilanz, Schuldenübersicht. Preisverlauf : Import /
+          Export.'
+        el: 'Η λίστα συναλλαγών εμφανίζει πλέον περισσότερες λεπτομέρειες για τις
+          διαιρεμένες συναλλαγές. Εκτύπωση : Ισολογισμός, Επισκόπηση χρέους. Ιστορικό
+          τιμών : Εισαγωγή / Εξαγωγή.'
+        es: 'La lista de transacciones ahora muestra más detalles para las transacciones
+          divididas. Imprimir : Hoja de Balance, Vista general de la deuda. Historial
+          de precios : Importar / Exportar.'
+        fr: 'La liste des transactions affiche désormais plus de détails pour les
+          opérations ventilées. Imprimer : Bilan, Aperçu des dettes. Historique des
+          prix : Import / Export.'
+        hr: 'Popis transakcija sada prikazuje više pojedinosti za podijeljene Transakcije.
+          Ispis : Bilanca, Pregled dugova. Povijest cijena : Uvezi / Izvezi.'
+        hu: 'A tranzakciólista mostantól további részleteket jelenít meg a felosztási
+          tranzakciókról. Nyomtatás : Mérleg, Adósság áttekintése. Ártörténet : Import
+          / Export.'
+        it: 'L''elenco delle transazioni ora mostra ulteriori dettagli per le transazioni
+          suddivise. Stampa : Bilancio, Panoramica dei Debiti. Cronologia dei prezzi
+          : Importa / Esporta.'
+        iw: 'רשימת התנועות מציגה כעת פרטים נוספים עבור תנועות מפוצלות. הדפס : גיליון
+          מאזן, סקירת חוב. היסטוריית מחירים : יבוא / יצוא.'
+        nl: 'De transactielijst toont nu meer details voor gesplitste transacties.
+          Afdrukken : Balans, Schuldenoverzicht. Prijs geschiedenis : Importeren /
+          Exporteren.'
+        pl: 'Lista transakcji zawiera teraz więcej szczegółów dotyczących podzielonych
+          transakcji. Drukuj : Bilans, Przegląd zadłużenia. Historia cen : Import
+          / Eksport.'
+        pt: 'A lista de transações agora mostra mais detalhes para transações divididas.
+          Imprimir : Balanço Patrimonial, Visão geral da dívida. Histórico de preços
+          : Importar / Exportar.'
+        ro: 'Lista de tranzacții afișează acum mai multe detalii pentru tranzacțiile
+          împărțite. Printați : Bilanț, Prezentare generală a datoriilor. Istoricul
+          prețurilor : Import / Export.'
+        tr: 'İşlem listesi artık bölünmüş işlemler için daha fazla ayrıntı gösteriyor.
+          Yazdır : Bilanço, Borç Genel Görünümü. Fiyat geçmişi : İçe aktar / Dışa
+          aktar.'
+        vi: 'Danh sách giao dịch hiện hiển thị nhiều chi tiết hơn cho các giao dịch
+          chia nhỏ. In : Bảng tổng kết tài sản, Tổng quan về nợ. Lịch sử giá : Nhập
+          dữ liệu / Xuất dữ liệu.'
+        en: 'Transaction list now shows more details for split transactions. Print
+          : Balance Sheet, Debt Overview. Price history : Import / Export.'
+      - github2: '164'
+        mastodon: '114779558620418016'
   -   - 4.0.0
       - '2025-06-19'
       - bg: 'Кръгова диаграма, показваща разпределението на парите по сметки. История
