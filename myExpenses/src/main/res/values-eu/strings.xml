@@ -602,4 +602,5 @@
     <string name="balance_sheet_section_assets">Aktiboak</string>
     <string name="balance_sheet_section_liabilities">Pasiboak</string>
     <string name="balance_sheet_net_worth">Ondare garbia</string>
+    <string name="price_history">Prezioen historia</string>
 </resources>
