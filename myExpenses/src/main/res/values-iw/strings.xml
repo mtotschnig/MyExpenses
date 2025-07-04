@@ -981,4 +981,5 @@
     <string name="balance_sheet">גיליון מאזן</string>
     <string name="balance_sheet_section_assets">נכסים</string>
     <string name="balance_sheet_section_liabilities">התחייבויות</string>
+    <string name="price_history">היסטוריית מחירים</string>
 </resources>
