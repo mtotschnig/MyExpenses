@@ -374,50 +374,46 @@ object PdfPrinter {
                 val (_, amountMinor) = headerRow.delta
                 val interimBalance = headerRow.interimBalance
                 val formattedDelta = String.format(
-                    "%s %s", if (java.lang.Long.signum(
-                            amountMinor
-                        ) > -1
-                    ) "+" else "-",
+                    "%s %s", if (amountMinor.sign > -1) "+" else "-",
                     currencyFormatter.convAmount(abs(amountMinor), currencyUnit)
                 )
-                var cell = helper.printToCell(
-                    if (filter == null) String.format(
-                        "%s %s = %s",
-                        currencyFormatter.formatMoney(headerRow.previousBalance), formattedDelta,
-                        currencyFormatter.formatMoney(interimBalance)
-                    ) else formattedDelta, FontType.HEADER
-                )
-                cell.horizontalAlignment = Element.ALIGN_RIGHT
-                groupSummary.addCell(
-                    helper.printToCell(
-                        buildString {
-                            append(context.getString(R.string.at_start))
-                            append(": ")
-                            append(
-                                currencyFormatter.formatMoney(
-                                    headerRow.previousBalance
+                if (filter == null) {
+                    groupSummary.addCell(
+                        helper.printToCell(
+                            buildString {
+                                append(context.getString(R.string.at_start))
+                                append(": ")
+                                append(
+                                    currencyFormatter.formatMoney(
+                                        headerRow.previousBalance
+                                    )
                                 )
-                            )
-                        }
+                            }
+                        )
                     )
-                )
-                groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
-                    horizontalAlignment = Element.ALIGN_CENTER
-                })
-                groupSummary.addCell(
-                    helper.printToCell(
-                        buildString {
-                            append(context.getString(R.string.at_end))
-                            append(": ")
-                            append(
-                                currencyFormatter.formatMoney(
-                                    interimBalance
-                                )
-                            )
-                        }
-                    ).apply {
-                        horizontalAlignment = Element.ALIGN_RIGHT
+                    groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
+                        horizontalAlignment = Element.ALIGN_CENTER
                     })
+                    groupSummary.addCell(
+                        helper.printToCell(
+                            buildString {
+                                append(context.getString(R.string.at_end))
+                                append(": ")
+                                append(
+                                    currencyFormatter.formatMoney(
+                                        interimBalance
+                                    )
+                                )
+                            }
+                        ).apply {
+                            horizontalAlignment = Element.ALIGN_RIGHT
+                        })
+                } else {
+                    groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
+                        colspan = 3
+                        horizontalAlignment = Element.ALIGN_CENTER
+                    })
+                }
                 groupSummary.addCell(
                     PdfPCell(
                         Phrase().apply {
@@ -479,24 +475,28 @@ object PdfPrinter {
 
                 val header2Table = helper.newTable(3)
                 header2Table.widthPercentage = 100f
-                cell = helper.printToCell(
-                    "+ " + currencyFormatter.formatMoney(sumIncome),
-                    FontType.INCOME
-                )
-                cell.horizontalAlignment = Element.ALIGN_CENTER
-                header2Table.addCell(cell)
-                cell = helper.printToCell(
-                    "- " + currencyFormatter.formatMoney(sumExpense.negate()),
-                    FontType.EXPENSE
-                )
-                cell.horizontalAlignment = Element.ALIGN_CENTER
-                header2Table.addCell(cell)
-                cell = helper.printToCell(
-                    Transfer.BI_ARROW + " " + currencyFormatter.formatMoney(sumTransfer),
-                    FontType.TRANSFER
-                )
-                cell.horizontalAlignment = Element.ALIGN_CENTER
-                header2Table.addCell(cell)
+                header2Table.addCell(
+                    helper.printToCell(
+                        "+ " + currencyFormatter.formatMoney(sumIncome),
+                        FontType.INCOME
+                    ).apply {
+                        horizontalAlignment = Element.ALIGN_CENTER
+                    })
+
+                header2Table.addCell(
+                    helper.printToCell(
+                        "- " + currencyFormatter.formatMoney(sumExpense.negate()),
+                        FontType.EXPENSE
+                    ).apply {
+                        horizontalAlignment = Element.ALIGN_CENTER
+                    })
+                header2Table.addCell(
+                    helper.printToCell(
+                        Transfer.BI_ARROW + " " + currencyFormatter.formatMoney(sumTransfer),
+                        FontType.TRANSFER
+                    ).apply {
+                        horizontalAlignment = Element.ALIGN_CENTER
+                    })
                 header2Table.spacingAfter = 2f
 
                 val wrapper2 = PdfPTable(1)
