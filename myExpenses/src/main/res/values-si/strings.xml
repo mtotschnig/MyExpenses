@@ -338,4 +338,5 @@
     <string name="balance_sheet_section_assets">දේපළ</string>
     <string name="balance_sheet_section_liabilities">වගකීම්</string>
     <string name="balance_sheet_net_worth">ශුද්ධ වටිනාකම</string>
+    <string name="price_history">මිල ඉතිහාසය</string>
 </resources>
