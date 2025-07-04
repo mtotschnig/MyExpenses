@@ -396,5 +396,6 @@
     <style name="FullscreenDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>

@@ -42,7 +42,8 @@ abstract class ComposeBaseDialogFragment3 : BaseDialogFragment() {
                                 .padding(
                                     start = horizontalPadding,
                                     end = horizontalPadding,
-                                    bottom = bottomPadding,
+                                    //on fullScreen 24.dp seems to much, due to System UI
+                                    bottom = if (fullScreen) 0.dp else bottomPadding,
                                     top = titlePadding
                                 )
                         ) {

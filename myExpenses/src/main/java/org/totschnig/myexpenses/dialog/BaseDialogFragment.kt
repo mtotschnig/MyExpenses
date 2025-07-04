@@ -61,7 +61,6 @@ abstract class BaseDialogFragment : DialogFragment() {
                 val width = ViewGroup.LayoutParams.MATCH_PARENT
                 val height = ViewGroup.LayoutParams.MATCH_PARENT
                 it.setLayout(width, height)
-                WindowCompat.setDecorFitsSystemWindows(it, false)
             }
         }
     }
