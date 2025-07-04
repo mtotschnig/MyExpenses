@@ -348,4 +348,5 @@
     <string name="balance_sheet_section_assets">ទ្រព្យសកម្ម</string>
     <string name="balance_sheet_section_liabilities">បំណុល</string>
     <string name="balance_sheet_net_worth">ទ្រព្យសម្បត្តិសុទ្ធ</string>
+    <string name="price_history">ប្រវត្តិតម្លៃ</string>
 </resources>
