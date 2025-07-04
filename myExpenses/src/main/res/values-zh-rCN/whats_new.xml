@@ -8,4 +8,5 @@
     <string name="whats_new_399">改进的 PDF 导出布局，可通过拖放完全自定义。</string>
     <string name="whats_new_400_2">价格历史记录：批量下载缺失的条目</string>
     <string name="whats_new_400_1">显示账户之间资金分配的饼图</string>
+    <string name="whats_new_401">交易列表现在显示拆分交易的更多详细信息。</string>
 </resources>
