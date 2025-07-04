@@ -236,7 +236,7 @@ class OnboardingUiFragment : OnboardingFragment() {
         binding.fontSizeDisplayName.text = entry
         binding.fontSizeDisplayName.contentDescription =
             "${getString(R.string.title_font_size)}: $entry"
-        FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale, activity)
+        FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale)
     }
 
     private fun setContentDescriptionToThemeSwitch(themeSwitch: View, isLight: Boolean) {
