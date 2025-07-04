@@ -11,4 +11,5 @@
     <string name="whats_new_399">PDFエクスポートレイアウトが改善され、ドラッグアンドドロップで完全にカスタマイズできます。</string>
     <string name="whats_new_400_2">価格履歴:不足しているエントリの一括ダウンロード</string>
     <string name="whats_new_400_1">口座間のお金の分布を示す円グラフ</string>
+    <string name="whats_new_401">トランザクション リストに、分割トランザクションの詳細が表示されるようになりました。</string>
 </resources>
