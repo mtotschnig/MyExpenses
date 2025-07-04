@@ -918,4 +918,5 @@
     <string name="balance_sheet_section_assets">Active</string>
     <string name="balance_sheet_section_liabilities">Datorii</string>
     <string name="balance_sheet_net_worth">Valoare netă</string>
+    <string name="price_history">Istoricul prețurilor</string>
 </resources>
