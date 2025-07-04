@@ -1,0 +1,6 @@
+• A lista de transações agora mostra mais detalhes para transações divididas.
+• Imprimir : Balanço, Visão geral da dívida
+• Histórico de preços : Importar / Exportar
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

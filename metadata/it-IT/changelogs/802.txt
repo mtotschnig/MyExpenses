@@ -1,0 +1,6 @@
+• L'elenco delle transazioni ora mostra ulteriori dettagli per le transazioni suddivise.
+• Stampa : Bilancio, Panoramica dei Debiti
+• Cronologia dei prezzi : Importa / Esporta
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

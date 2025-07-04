@@ -1,0 +1,6 @@
+• A tranzakciólista mostantól további részleteket jelenít meg a felosztási tranzakciókról.
+• Nyomtatás : Mérleg, Adósság áttekintése
+• Ártörténet : Import / Export
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

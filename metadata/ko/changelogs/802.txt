@@ -1,0 +1,6 @@
+• 이제 거래 목록에서 분할 거래에 대한 세부 정보가 더 많이 표시됩니다.
+• 인쇄 : 대차 대조표, Debt Overview
+• 가격 내역 : 가져오기 / 내보내기
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

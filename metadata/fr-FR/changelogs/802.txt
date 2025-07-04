@@ -1,0 +1,6 @@
+• La liste des transactions affiche désormais plus de détails pour les opérations ventilées.
+• Imprimer : Bilan, Aperçu des dettes
+• Historique des prix : Import / Export
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

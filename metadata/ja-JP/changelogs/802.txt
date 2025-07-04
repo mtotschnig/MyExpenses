@@ -1,0 +1,6 @@
+• トランザクション リストに、分割トランザクションの詳細が表示されるようになりました。
+• 印刷 : 貸借対照表, Debt Overview
+• 価格履歴 : インポート / エクスポート
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

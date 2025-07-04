@@ -1,0 +1,6 @@
+• Lista transakcji zawiera teraz więcej szczegółów dotyczących podzielonych transakcji.
+• Drukuj : Bilans, Przegląd zadłużenia
+• Historia cen : Import / Eksport
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

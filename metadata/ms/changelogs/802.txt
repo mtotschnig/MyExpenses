@@ -1,0 +1,6 @@
+• Senarai transaksi kini menunjukkan butiran lanjut untuk transaksi berpecah.
+• Cetak : Lembaran imbangan, Ringkasan Hutang
+• Sejarah harga : Import / Eksport
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

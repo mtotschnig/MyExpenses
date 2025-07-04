@@ -1,0 +1,6 @@
+• 交易列表现在显示拆分交易的更多详细信息。
+• 打印 : 资产负债表, 债务概览
+• 价格历史 : 导入 / 导出
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

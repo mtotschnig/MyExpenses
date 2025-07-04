@@ -1,0 +1,6 @@
+• İşlem listesi artık bölünmüş işlemler için daha fazla ayrıntı gösteriyor.
+• Yazdır : Bilanço, Borç Genel Görünümü
+• Fiyat geçmişi : İçe aktar / Dışa aktar
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016

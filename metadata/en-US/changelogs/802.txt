@@ -1,0 +1,6 @@
+• Transaction list now shows more details for split transactions.
+• Print : Balance Sheet, Debt Overview
+• Price history : Import / Export
+
+https://github.com/users/mtotschnig/projects/164
+https://mastodon.social/@myexpenses/114779558620418016
