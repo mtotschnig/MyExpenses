@@ -59,6 +59,15 @@ class SplitInfoTest  : BaseTestWithRepository() {
     }
 
     @Test
+    fun shouldReturnNullForNoIcon() {
+        val (splitId, _) = insertTransaction(testAccountId, 100)
+        insertTransaction(testAccountId, 100, parentId = splitId, categoryId = writeCategory("noIcon"))
+        val list = repository.calculateSplitSummary(splitId)!!
+        assertThat(list.map { it.first }).containsExactly("noIcon")
+        assertThat(list.map { it.second }).containsExactly(null)
+    }
+
+    @Test
     fun shouldReturnNullForNotSplit() {
         val (transactionId, _) = insertTransaction(testAccountId, 100)
         assertThat(repository.calculateSplitSummary(transactionId)).isNull()

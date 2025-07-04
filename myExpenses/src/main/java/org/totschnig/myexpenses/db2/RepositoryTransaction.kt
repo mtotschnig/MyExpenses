@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -257,6 +258,6 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
         arrayOf(KEY_LABEL, KEY_ICON), null, null,null
     )
         ?.useAndMapToList {
-            it.getString(KEY_LABEL) to it.getString(KEY_ICON)
+            it.getString(KEY_LABEL) to it.getStringOrNull(KEY_ICON)
         }?.takeIf { it.isNotEmpty() }
 }
