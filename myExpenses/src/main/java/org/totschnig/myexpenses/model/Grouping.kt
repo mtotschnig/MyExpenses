@@ -58,7 +58,8 @@ enum class Grouping {
         groupSecond: Int,
         dateInfo: DateInfo,
         weekStart: LocalDate?,
-        weekRangeOnly: Boolean = false
+        weekRangeOnly: Boolean = false,
+        relativeDay: Boolean = true
     ): String {
         val locale = ctx.resources.configuration.locale
         return try {
@@ -67,12 +68,12 @@ enum class Grouping {
                 DAY -> {
                     val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
                     val day = LocalDate.ofYearDay(groupYear, groupSecond)
-                    val closeReference = when (ChronoUnit.DAYS.between(day, today)) {
+                    val closeReference = if (relativeDay) when (ChronoUnit.DAYS.between(day, today)) {
                         1L -> R.string.yesterday
                         0L -> R.string.today
                         -1L -> R.string.tomorrow
                         else -> null
-                    }?.let { ctx.getString(it) }
+                    }?.let { ctx.getString(it) } else null
                     val formatStyle =
                         if (closeReference == null) FormatStyle.FULL else FormatStyle.LONG
                     val dateFormatted = DateTimeFormatter.ofLocalizedDate(formatStyle)

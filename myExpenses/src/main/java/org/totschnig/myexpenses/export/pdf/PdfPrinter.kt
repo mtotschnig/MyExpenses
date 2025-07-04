@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.export.pdf
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import com.itextpdf.text.BaseColor
 import com.itextpdf.text.Chunk
@@ -354,12 +355,13 @@ object PdfPrinter {
 
                     val groupHeader = helper.print(
                         account.grouping.getDisplayTitle(
-                            context,
-                            transaction.year,
-                            headerRow.second,
-                            DateInfo.load(context.contentResolver),
-                            headerRow.weekStart,
-                            false
+                            ctx = context,
+                            groupYear = transaction.year,
+                            groupSecond = headerRow.second,
+                            dateInfo = DateInfo.load(context.contentResolver),
+                            weekStart = headerRow.weekStart,
+                            weekRangeOnly = true,
+                            relativeDay = false
                         ),
                         FontType.HEADER
                     )
@@ -528,10 +530,13 @@ object PdfPrinter {
                     val border =
                         if (index == columns.lastIndex) NO_BORDER else Rectangle.RIGHT
                     val alignment = columnAlignment(fields)
+                    val extra = Bundle(1).apply {
+                        putBoolean(Date.KEY_IS_TIME_FIELD, account.grouping == Grouping.DAY)
+                    }
                     if (fields.size == 1) {
                         table.addCell(
                             headerCell(
-                                fields[0].toString(context),
+                                fields[0].toString(context, extra),
                                 headerFont,
                                 alignment,
                                 border
@@ -543,7 +548,7 @@ object PdfPrinter {
                                 headerFont,
                                 alignment,
                                 border,
-                                *fields.map { it.toString(context) }.toTypedArray(),
+                                *fields.map { it.toString(context, extra) }.toTypedArray()
                             )
                         )
                     }

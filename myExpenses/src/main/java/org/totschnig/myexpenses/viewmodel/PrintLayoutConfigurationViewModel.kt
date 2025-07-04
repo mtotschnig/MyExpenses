@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.runtime.snapshots.Snapshot
@@ -41,13 +42,14 @@ sealed class Field : Position() {
 
     operator fun plus(other: Field): Field = CombinedField(this.asList() + other.asList())
 
-    abstract fun toString(context: Context): String
+    abstract fun toString(context: Context, extra: Bundle? = null): String
 }
 
 @Parcelize
 @Serializable
 data class CombinedField(val fields: List<SimpleField>) : Field() {
-    override fun toString(context: Context) = fields.joinToString(" / ") { it.toString(context) }
+    override fun toString(context: Context, extra: Bundle?) =
+        fields.joinToString(" / ") { it.toString(context, extra) }
 }
 
 @Serializable
@@ -55,12 +57,18 @@ sealed class SimpleField(@StringRes val label: Int) : Field() {
     @GenSealedEnum
     companion object;
 
-    override fun toString(context: Context) = context.getString(label)
+    override fun toString(context: Context, extra: Bundle?) = context.getString(label)
 }
 
 @Parcelize
 @Serializable
-data object Date : SimpleField(R.string.date)
+data object Date : SimpleField(R.string.date) {
+    const val KEY_IS_TIME_FIELD = "isTimeField"
+    override fun toString(context: Context, extra: Bundle?): String {
+        val isTimeField = extra?.getBoolean(KEY_IS_TIME_FIELD) == true
+        return if (isTimeField) context.getString(R.string.time) else super.toString(context, extra)
+    }
+}
 
 @Parcelize
 @Serializable
