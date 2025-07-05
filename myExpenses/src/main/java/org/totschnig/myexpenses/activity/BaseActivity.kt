@@ -118,7 +118,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.AmountInput
@@ -412,10 +411,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             Feature.WEBUI -> activateWebUi()
             else -> {}
         }
-    }
-
-    open fun maybeRepairRequerySchema() {
-        maybeRepairRequerySchema(prefHandler)
     }
 
     fun harmonizeColors() {

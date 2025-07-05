@@ -425,9 +425,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   @Override
   public void onCorruption(@NonNull SupportSQLiteDatabase db) {
-    if (Build.VERSION.SDK_INT == 30) {
-        MoreDbUtilsKt.maybeRepairRequerySchema(db.getPath());
-    }
+    throw new RuntimeException("Database corrupted");
   }
 
   @Override

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabaseCorruptException
-import android.database.sqlite.SQLiteException
+import android.os.Build
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -23,9 +23,7 @@ import org.totschnig.myexpenses.preference.PrefHandlerImpl
 import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
-import org.totschnig.myexpenses.provider.doRepairRequerySchema
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import timber.log.Timber
 import java.io.File
@@ -117,13 +115,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { context, path ->
             runCatching {
-                val version = try {
-                    SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
-                } catch (e: SQLiteException) {
-                    CrashHandler.report(e)
-                    doRepairRequerySchema(path)
-                    null
-                }?.use { database ->
+                val version = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use { database ->
                     database.version.also {
                         if (it > DATABASE_VERSION)
                             throw Throwable(
@@ -133,8 +125,8 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                             )
                     }
                 }
-                if (version == 132 || version == 133) {
-                    doRepairRequerySchema(path)
+                if ((version == 132 || version == 133) && Build.VERSION.SDK_INT == 30) {
+                    throw Throwable("Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance.")
                 }
                 SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
                     if (!try {
@@ -143,7 +135,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                             false
                         }
                     ) {
-                        throw Exception("Database integrity check failed")
+                        throw Throwable("Database integrity check failed")
                     }
                 }
             }

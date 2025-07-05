@@ -30,22 +30,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 import javax.inject.Inject
 
@@ -55,6 +59,8 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     lateinit var licenceHandler: LicenceHandler
 
     private lateinit var versions: List<VersionInfo>
+
+    private val upgradeHandlerViewModel: UpgradeHandlerViewModel by activityViewModels()
 
     private val from: Int
         get() = requireArguments().getInt(KEY_FROM)
@@ -71,11 +77,19 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     @Composable
     override fun BuildContent() {
         val context = LocalContext.current
-        if (versions.isEmpty()) {
-            Text(
-                modifier = Modifier.padding(24.dp),
-                text = "${DistributionHelper.versionName} ($from -> ${DistributionHelper.versionNumber})"
-            )
+        val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState()
+        val upgradeIsPending = upgradeInfo.value is UpgradeHandlerViewModel.UpgradePending
+        if (versions.isEmpty() || upgradeIsPending) {
+            Column(Modifier.padding(start = 24.dp, end = 8.dp)) {
+                if (upgradeIsPending) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                }
+                Text(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = "${DistributionHelper.versionName} ($from -> ${DistributionHelper.versionNumber})"
+                )
+            }
+
         } else {
             LazyColumn(Modifier.padding(start = 24.dp, end = 8.dp)) {
                 items(versions.size) { position ->

@@ -259,8 +259,6 @@ dependencies {
 
     implementation libs.fontdrawable
 
-    implementation libs.sqlite.android
-
     // Lifecycle components
     implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.androidx.lifecycle.common.java8

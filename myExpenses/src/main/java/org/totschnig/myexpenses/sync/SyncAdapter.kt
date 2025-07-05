@@ -91,7 +91,6 @@ class SyncAdapter @JvmOverloads constructor(
         if (notificationContent[notificationId] == null) {
             notificationContent.put(notificationId, mutableListOf())
         }
-        context.maybeRepairRequerySchema(prefHandler)
         shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true)
         if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
             !isConnectedWifi(context)

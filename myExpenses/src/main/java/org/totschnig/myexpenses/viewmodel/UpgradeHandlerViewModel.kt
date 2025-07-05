@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
 import org.totschnig.myexpenses.widget.BudgetWidget
@@ -102,7 +103,13 @@ class UpgradeHandlerViewModel(application: Application) :
     private var upgradeInfoShowIndex: Int = -1
     private val upgradeInfoList: MutableList<String> = mutableListOf()
 
-    data class UpgradeInfo(val info: String, val index: Int, val count: Int)
+    sealed class UpgradeInfo
+
+    data class UpgradeSuccess(val info: String, val index: Int, val count: Int): UpgradeInfo()
+
+    data class UpgradeError(val info: String): UpgradeInfo()
+
+    data class UpgradePending(val fromVersion: Int, val toVersion: Int): UpgradeInfo()
 
     private val _upgradeInfo: MutableStateFlow<UpgradeInfo?> = MutableStateFlow(null)
     val upgradeInfo: StateFlow<UpgradeInfo?> = _upgradeInfo
@@ -112,35 +119,8 @@ class UpgradeHandlerViewModel(application: Application) :
         fromVersion: Int,
         toVersion: Int
     ) {
-        //first check changes that need to run synchronously because they are needed when data is loaded and rendered
-        if (fromVersion < 749) {
-            try {
-                prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
-                    if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false))
-                        ScrollToCurrentDate.AppLaunch.name else ScrollToCurrentDate.Never.name
-                )
-            } catch (e: Exception) {
-                // if for any reason (app is killed before upgrade coroutine is finished),
-                // upgrade is run twice, we would run into ClassCastException the second time
-                CrashHandler.report(e)
-            }
-        }
-        if (fromVersion < 754) {
-            prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
-                prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
-            }
-        }
-        if (fromVersion < 797) {
-            prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
-                try {
-                    prefHandler.enumValueOrDefault("scroll_to_current_date", ScrollToCurrentDate.Never)
-                } catch (e: Exception) {
-                    CrashHandler.report(e)
-                    ScrollToCurrentDate.Never
-                }.name
-            )
-            prefHandler.remove("scroll_to_current_date")
-        }
+        _upgradeInfo.update { UpgradePending(fromVersion, toVersion) }
+
         viewModelScope.launch(context = coroutineContext()) {
             try {
                 if (fromVersion < 19) {
@@ -606,6 +586,23 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
                     }
                 }
+                if (fromVersion < 749) {
+                    try {
+                        prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
+                            if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false))
+                                ScrollToCurrentDate.AppLaunch.name else ScrollToCurrentDate.Never.name
+                        )
+                    } catch (e: Exception) {
+                        // if for any reason (app is killed before upgrade coroutine is finished),
+                        // upgrade is run twice, we would run into ClassCastException the second time
+                        CrashHandler.report(e)
+                    }
+                }
+                if (fromVersion < 754) {
+                    prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
+                        prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
+                    }
+                }
                 if (fromVersion < 774) {
                     prefHandler.getString("exchange_rate_provider")?.let {
                         prefHandler.putStringSet(PrefKey.EXCHANGE_RATE_PROVIDER, setOf(it))
@@ -626,12 +623,28 @@ class UpgradeHandlerViewModel(application: Application) :
                         migrateFilterHelper(cursor, BudgetViewModel::prefNameForCriteriaLegacy, BudgetViewModel::prefNameForCriteria)
                     }
                 }
+                if (fromVersion < 797) {
+                    prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
+                        try {
+                            prefHandler.enumValueOrDefault("scroll_to_current_date", ScrollToCurrentDate.Never)
+                        } catch (e: Exception) {
+                            CrashHandler.report(e)
+                            ScrollToCurrentDate.Never
+                        }.name
+                    )
+                    prefHandler.remove("scroll_to_current_date")
+                }
+                prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
+                if (upgradeInfoList.isNotEmpty()) {
+                    postNextUpgradeInfo()
+                } else {
+                    _upgradeInfo.update { null }
+                }
             } catch (e: Exception) {
-                throw Exception("upgrade from $fromVersion to $toVersion failed", e)
-            }
-            prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
-            if (upgradeInfoList.isNotEmpty()) {
-                postNextUpgradeInfo()
+                CrashHandler.report(e)
+                _upgradeInfo.update {
+                    UpgradeError("upgrade from $fromVersion to $toVersion failed (${e.safeMessage}). Please contact ${getString(R.string.support_email)} .")
+                }
             }
         }
     }
@@ -663,7 +676,7 @@ class UpgradeHandlerViewModel(application: Application) :
             upgradeInfoShowIndex = if (info == null) -1 else index
             _upgradeInfo.update {
                 info?.let {
-                    UpgradeInfo(it, index + 1, upgradeInfoList.size)
+                    UpgradeSuccess(it, index + 1, upgradeInfoList.size)
                 }
             }
         }

@@ -185,7 +185,6 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -545,7 +544,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
-        maybeRepairRequerySchema()
         readAccountGroupingFromPref()
         accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
@@ -567,27 +565,46 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
 
         binding.viewPagerMain.viewPager.setContent {
-            MainContent()
+            val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
+            if  (upgradeInfo == null || upgradeInfo is UpgradeHandlerViewModel.UpgradeSuccess) {
+                MainContent()
+            }
         }
         setupToolbarClickHandlers()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 upgradeHandlerViewModel.upgradeInfo.collect { info ->
-                    info?.let {
-                        showDismissibleSnackBar(
-                            message = info.info,
-                            actionLabel = getString(R.string.dialog_dismiss) +
-                                    if (info.count > 1) " (${info.index} / ${info.count})" else "",
-                            callback = object : Snackbar.Callback() {
-                                override fun onDismissed(
-                                    transientBottomBar: Snackbar,
-                                    event: Int,
-                                ) {
-                                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
-                                        upgradeHandlerViewModel.messageShown()
-                                }
-                            })
+                    when (info) {
+                        is UpgradeHandlerViewModel.UpgradeError -> {
+                            showMessage(
+                                info.info,
+                                null,
+                                null,
+                                MessageDialogFragment.Button(
+                                    R.string.button_label_close,
+                                    R.id.QUIT_COMMAND,
+                                    null
+                                ),
+                                false
+                            )
+                        }
+                        is UpgradeHandlerViewModel.UpgradeSuccess -> {
+                            showDismissibleSnackBar(
+                                message = info.info,
+                                actionLabel = getString(R.string.dialog_dismiss) +
+                                        if (info.count > 1) " (${info.index} / ${info.count})" else "",
+                                callback = object : Snackbar.Callback() {
+                                    override fun onDismissed(
+                                        transientBottomBar: Snackbar,
+                                        event: Int,
+                                    ) {
+                                        if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                                            upgradeHandlerViewModel.messageShown()
+                                    }
+                                })
+                        }
+                        else -> {}
                     }
                 }
             }
@@ -698,10 +715,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
 
         binding.accountPanel.accountList.setContent {
-            val banks = viewModel.banks.collectAsState()
             AppTheme {
                 viewModel.accountData.collectAsState().value.let { result ->
                     result?.onSuccess { data ->
+                        val banks = viewModel.banks.collectAsState()
                         LaunchedEffect(Unit) {
                             toolbar.isVisible = true
                         }
@@ -763,7 +780,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {
                             is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
-                            is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact support@myexpenses.mobi !" to true
+                            is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact ${getString(R.string.support_email)} !" to true
                             else -> "Data loading failed" to false
                         }
                         showMessage(
@@ -849,7 +866,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     else -> 0
                 }
                 rightMargin = when {
-                    !isLtr  -> right
+                    !isLtr -> right
                     else -> 0
                 }
             }
@@ -861,8 +878,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainContent) { v, insets ->
             val accountPanelIsVisible = binding.accountPanel.root.isVisible
             val isLtr = v.layoutDirection == View.LAYOUT_DIRECTION_LTR
-            val originalNavigationBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            val originalDisplayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            val originalNavigationBarInsets =
+                insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val originalDisplayCutoutInsets =
+                insets.getInsets(WindowInsetsCompat.Type.displayCutout())
 
             val systemBarsInsetsForChildren = Insets.of(
                 if (accountPanelIsVisible && isLtr) 0 else originalNavigationBarInsets.left,
@@ -890,8 +909,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
         ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar.root) { v, insets ->
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left
-                rightMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right
+                leftMargin =
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).left
+                rightMargin =
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right
             }
             WindowInsetsCompat.CONSUMED
         }
@@ -1911,7 +1932,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
                 .onSuccess {
-                    contribFeatureRequested(ContribFeature.PRINT, ExportViewModel.PRINT_TRANSACTION_LIST)
+                    contribFeatureRequested(
+                        ContribFeature.PRINT,
+                        ExportViewModel.PRINT_TRANSACTION_LIST
+                    )
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage)
                 }
@@ -2070,10 +2094,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     onSetDate = {
                         viewModel.setBalanceDate(it)
                     },
-                    onPrint= {
+                    onPrint = {
                         AppDirHelper.checkAppDir(this)
                             .onSuccess {
-                                contribFeatureRequested(ContribFeature.PRINT, ExportViewModel.PRINT_BALANCE_SHEET)
+                                contribFeatureRequested(
+                                    ContribFeature.PRINT,
+                                    ExportViewModel.PRINT_BALANCE_SHEET
+                                )
                             }.onFailure {
                                 showDismissibleSnackBar(it.safeMessage)
                             }
@@ -2391,9 +2418,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     binding.toolbar.bankIcon.setImageResource(it)
                 }
             }
+
             ACCOUNT_VISUAL_COLOR -> {
-                (binding.toolbar.accountColorIndicator.background as GradientDrawable).setColor(account._color)
+                (binding.toolbar.accountColorIndicator.background as GradientDrawable).setColor(
+                    account._color
+                )
             }
+
             ACCOUNT_VISUAL_PROGRESS -> {
                 val (sign, progress) = progress!!
                 with(binding.toolbar.donutView) {
@@ -2539,7 +2570,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     )
                     if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
                         viewModel.print(currentAccount, currentFilter.whereFilter.value)
-                    } else  if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
+                    } else if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
                         viewModel.printBalanceSheet()
                     }
                 }

@@ -91,7 +91,6 @@ playServicesAuth = "21.3.0"
 playServicesMlkitTextRecognitionCommon = "19.1.0"
 recyclerview = "1.4.0"
 relinker = "1.4.5"
-requery = "3.36.0"
 retrofitVersion = "3.0.0"
 robolectricVersion = "4.15.1"
 runner = "1.6.2"
@@ -255,7 +254,6 @@ screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" 
 simpledialogfragments = { module = "com.github.mtotschnig:SimpleDialogFragments", version.ref = "simpledialogfragments" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
-sqlite-android = { module = "com.github.requery:sqlite-android", version.ref = "requery" }
 taptargetview = { module = "com.getkeepsafe.taptargetview:taptargetview", version.ref = "taptargetview" }
 tesseract4android-openmp = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract4androidOpenmp" }
 text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "mlkitTextRecognition" }

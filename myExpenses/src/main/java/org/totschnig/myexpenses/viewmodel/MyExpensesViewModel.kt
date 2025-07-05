@@ -481,23 +481,25 @@ open class MyExpensesViewModel(
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, 0L)
 
-    val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
-        uri = ACCOUNTS_URI.buildUpon()
-            .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
-            .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
-            .build(),
-        selection = "$KEY_HIDDEN = 0",
-        notifyForDescendants = true
-    )
-        .mapToListCatchingWithExtra {
-            FullAccount.fromCursor(it, currencyContext)
-        }.onEach { result ->
-            result.onSuccess { pair ->
-                hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT)
+    val accountData: StateFlow<Result<List<FullAccount>>?> by lazy {
+        contentResolver.observeQuery(
+            uri = ACCOUNTS_URI.buildUpon()
+                .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
+                .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
+                .build(),
+            selection = "$KEY_HIDDEN = 0",
+            notifyForDescendants = true
+        )
+            .mapToListCatchingWithExtra {
+                FullAccount.fromCursor(it, currencyContext)
+            }.onEach { result ->
+                result.onSuccess { pair ->
+                    hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT)
+                }
             }
-        }
-        .map { result -> result.map { it.second } }
-        .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .map { result -> result.map { it.second } }
+            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+    }
 
     fun headerData(account: PageAccount) = headerData.getValue(account)
 

@@ -688,55 +688,6 @@ fun backup(
     }
 }
 
-fun Context.maybeRepairRequerySchema(prefHandler: PrefHandler) {
-    if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
-            PrefKey.CURRENT_VERSION,
-            -1
-        ) in 1..588
-    ) {
-        try {
-            maybeRepairRequerySchema(getDatabasePath("data").path)
-            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
-        } catch (e: Exception) {
-            CrashHandler.report(e)
-        }
-    }
-}
-
-
-fun maybeRepairRequerySchema(path: String) {
-    val version = io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
-        path,
-        null,
-        io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READONLY
-    ).use {
-        it.version
-    }
-    if (version == 132 || version == 133) {
-        doRepairRequerySchema(path)
-    }
-}
-
-fun doRepairRequerySchema(path: String) {
-    io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
-        path,
-        null,
-        io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READWRITE
-    ).use { db ->
-        if (db.version < 132 || db.version > 133) throw IllegalStateException()
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_ALL")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_EXTENDED")
-        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
-    }
-    CrashHandler.report(Throwable("Requery repair done"))
-}
-
 fun checkSyncAccounts(context: Context) {
     val validAccounts = getAccountNames(context)
     val where =

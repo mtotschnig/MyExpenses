@@ -10,6 +10,4 @@ class TestMyExpenses: MyExpenses() {
 
     override val checkSealedHandler
         get() = decoratedCheckSealedHandler
-
-    override fun maybeRepairRequerySchema() {}
 }
