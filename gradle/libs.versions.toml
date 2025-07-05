@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.36.0"
+accompanist = "0.37.3"
 acraVersion = "5.12.0"
 activityCompose = "1.10.1"
 androidDesugar = "2.1.5"
@@ -113,7 +113,6 @@ reorderable = "2.5.1"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
-accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 acra-core = { module = "ch.acra:acra-core", version.ref = "acraVersion" }
 acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acraVersion" }
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acraVersion" }
