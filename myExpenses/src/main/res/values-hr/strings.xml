@@ -937,5 +937,36 @@
     <string name="balance_sheet_section_assets">Imovina</string>
     <string name="balance_sheet_section_liabilities">Obveze</string>
     <string name="balance_sheet_net_worth">Neto vrijednost</string>
-    <string name="price_history">Povijest cijena</string>
+    <string name="price_history">Povijest cijene</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Ispravni podaci su pronađeni u %d retku.</item>
+        <item quantity="few">Ispravni podaci su pronađeni u %d retka.</item>
+        <item quantity="other">Ispravni podaci su pronađeni u %d redaka.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d redak nije bilo moguće obraditi.</item>
+        <item quantity="few">%d retka nije bilo moguće obraditi.</item>
+        <item quantity="other">%d redaka nije bilo moguće obraditi.</item>
+    </plurals>
+    <string name="menu_recalculate">Izračunaj ponovo</string>
+    <string name="recalculate_equivalent_amounts_warning">Ekvivalentni iznosi će se (ponovo) izračunati ako su primjenjivi spremljeni tečajevi dostupni.</string>
+    <string name="menu_show_equivalent_value">Ekvivalentna vrijednost</string>
+    <string name="initial_value">Početna vrijednost</string>
+    <string name="current_value">Aktualna vrijednost</string>
+    <string name="total_value">Ukupna vrijednost</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Automatsko preuzimanje dnevnog tečaja</string>
+    <string name="dynamic_exchange_rate">Dinamički tečaj</string>
+    <string name="progress_recalculating">Ponovno izračunavanje</string>
+    <string name="equivalent_amount_plural">Ekvivalentni iznosi</string>
+    <string name="account_closed">Račun je zatvoren</string>
+    <string name="mark_as_cleared">Označi kao odobreno</string>
+    <string name="mark_as_unreconciled">Označi kao neusklađeno</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Automatski aktualiziraj ekvivalentne iznose kada se cijene promijene</string>
+    <string name="sort_direction">Smjer razvrstavanja</string>
+    <string name="batch_download">Skupno preuzimanje</string>
+    <string name="warning_batch_download_quota">Skupno preuzimanje s %s može dovesti do prekoračenja tvoje kvote korištenja.</string>
+    <string name="batch_download_result">%d cijene su preuzete i spremljene u bazu podataka.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Prikaži novi saldo nakon što se transakcija spremi</string>
+    <string name="print_configuration_empty">Dodaj barem jedno polje za ispis.</string>
+    <string name="confirm_process_file_message">Stvarno želiš uvesti cijene za „%1$s” od „%2$s”? Nove cijene mogu utjecati na postojeće ekvivalentne iznose.</string>
 </resources>
