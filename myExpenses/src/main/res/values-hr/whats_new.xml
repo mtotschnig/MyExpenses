@@ -19,10 +19,10 @@
     <string name="whats_new_386">Distribucija po troškovima i distribucija po prihodu mogu se prikazati zajedno u dvostrukom kružnom dijagramu.</string>
     <string name="whats_new_388">Transakcije se mogu arhivirati.</string>
     <string name="whats_new_395">Izvezene datoteke (PDF, sigurnosna kopija, QIF, CSV, JSON) mogu se preuzeti putem web korisničkog sučelja.</string>
-    <string name="whats_new_396">Poboljšano upravljanje deviznim računom s automatskim ažuriranjem tečaj i praćenjem vrijednosti u stvarnom vremenu.</string>
+    <string name="whats_new_396">Poboljšano upravljanje deviznim računom s automatskim aktualiziranjima tečaja i praćenjem vrijednosti u stvarnom vremenu.</string>
     <string name="whats_new_398">Pogledajte svoju imovinu, obveze i neto vrijednost — sve na jednom mjestu.</string>
     <string name="whats_new_399">Poboljšani izgled izvoza PDF-a, potpuno prilagodljiv povlačenjem i ispuštanjem.</string>
     <string name="whats_new_400_2">Povijest cijena: Skupno preuzimanje nedostajućih unosa</string>
     <string name="whats_new_400_1">Tortni grafikon koji prikazuje raspodjelu novca između računa</string>
-    <string name="whats_new_401">Popis transakcija sada prikazuje više pojedinosti za podijeljene Transakcije.</string>
+    <string name="whats_new_401">Popis transakcija sada prikazuje više detalja za podijeljene transakcije.</string>
 </resources>
