@@ -1420,7 +1420,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 transaction.amount.amountMinor - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
-                                label
+                                label,
+                                false
                             )
                         }
                     }?.takeIf { it.hasReached() },
@@ -1442,7 +1443,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 transaction.transferAmount!!.amountMinor - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
-                                label
+                                label,
+                                false
                             )
                         }
                     }?.takeIf { it.hasReached() }

@@ -2310,7 +2310,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 0,
                                 _color,
                                 currencyUnit,
-                                label
+                                label,
+                                sealed
                             ), withAnimation = false
                         )
                             .show(supportFragmentManager, "CRITERION")

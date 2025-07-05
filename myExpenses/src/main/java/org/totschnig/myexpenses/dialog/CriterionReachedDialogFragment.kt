@@ -107,6 +107,7 @@ data class CriterionInfo(
     val accountColor: Int,
     val currency: CurrencyUnit,
     val accountLabel: String,
+    val isSealed: Boolean
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -177,24 +178,25 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
                 progressColor = progressColor,
                 overageColor = overageColor,
                 withProgressAnimation = withProgressAnimation,
-                onEdit = {
-                    with(info) {
-                        AmountInputHostDialog.build().title(label)
-                            .fields(
-                                AmountInput.plain(KEY_AMOUNT)
-                                    .label(label)
-                                    .fractionDigits(currency.fractionDigits)
-                                    .amount(criterion.asMoney.amountMajor)
-                            )
-                            .neg()
-                            .show(this@CriterionReachedDialogFragment, DIALOG_TAG_NEW_CRITERION)
+                onEdit = with(info) {
+                    if (isSealed) null else {
+                        {
+                            AmountInputHostDialog.build().title(label)
+                                .fields(
+                                    AmountInput.plain(KEY_AMOUNT)
+                                        .label(label)
+                                        .fractionDigits(currency.fractionDigits)
+                                        .amount(criterion.asMoney.amountMajor)
+                                )
+                                .neg()
+                                .show(this@CriterionReachedDialogFragment, DIALOG_TAG_NEW_CRITERION)
+                        }
                     }
-                },
-                onDismiss = {
-                    dismiss()
-                    onFinished()
                 }
-            )
+            ) {
+                dismiss()
+                onFinished()
+            }
         }
     }
 
@@ -247,7 +249,7 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
         which: Int,
         extras: Bundle,
     ) = if (dialogTag == DIALOG_TAG_NEW_CRITERION) {
-        BundleCompat.getSerializable<BigDecimal>(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
+        BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
             with(viewModel.info) {
                 if (it.compareTo(BigDecimal.ZERO) == 0) {
                     Toast.makeText(
@@ -310,13 +312,13 @@ fun GraphInternal(
 
 
 @Composable
-fun ColumnScope.CriterionReachedGraph(
+fun CriterionReachedGraph(
     info: CriterionInfo,
     showDataInitially: Boolean = false,
     progressColor: Color = Color.Green,
     overageColor: Color = Color.Red,
     withProgressAnimation: MutableState<Boolean>,
-    onEdit: () -> Unit = {},
+    onEdit: (() -> Unit)? = {},
     onDismiss: () -> Unit = {},
 ) {
     var progress by remember(info) { mutableFloatStateOf(info.startProgress) }
@@ -521,21 +523,24 @@ fun ValueRow(
 
 @Composable
 fun Circle(radius: Dp, color: Color, modifier: Modifier = Modifier) {
-    Box(modifier = modifier then Modifier
-        .size(radius, radius)
-        .drawBehind {
-            drawCircle(color, radius.toPx(), size.center)
-        })
+    Box(
+        modifier = modifier then Modifier
+            .size(radius, radius)
+            .drawBehind {
+                drawCircle(color, radius.toPx(), size.center)
+            })
 }
 
 @Composable
-fun ColumnScope.Buttons(
-    onEdit: () -> Unit,
+fun Buttons(
+    onEdit: (() -> Unit)?,
     onDismiss: () -> Unit,
 ) {
     ButtonRow {
-        TextButton(onClick = onEdit) {
-            Text(stringResource(id = R.string.menu_edit))
+        if (onEdit != null) {
+            TextButton(onClick = onEdit) {
+                Text(stringResource(id = R.string.menu_edit))
+            }
         }
         TextButton(onClick = onDismiss) {
             Text(stringResource(id = R.string.menu_close))
@@ -557,7 +562,8 @@ fun Demo() {
                 transaction = 45,
                 android.graphics.Color.GREEN,
                 CurrencyUnit.DebugInstance,
-                "My savings account"
+                "My savings account",
+                false
             ),
             showDataInitially = true,
             withProgressAnimation = remember { mutableStateOf(true) }
