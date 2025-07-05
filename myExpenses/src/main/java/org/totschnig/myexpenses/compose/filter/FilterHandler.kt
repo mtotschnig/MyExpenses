@@ -127,64 +127,64 @@ fun FilterHandler(
         }
     }
     val handler = object: FilterHandlerScope {
-        override fun handleAmountEdit(criterion: AmountCriterion?) {
+        override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
             AmountFilterDialog.newInstance(requestKey,
-                account.currencyUnit, criterion
+                account.currencyUnit, amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
         }
 
-        override fun handleCommentEdit(criterion: CommentCriterion?) {
-            showCommentFilterPrompt = criterion ?: CommentCriterion("")
+        override fun handleCommentEdit(commentCriterion: CommentCriterion?) {
+            showCommentFilterPrompt = commentCriterion ?: CommentCriterion("")
         }
 
-        override fun handleCrStatusEdit(criterion: CrStatusCriterion?) {
-            SelectCrStatusDialogFragment.newInstance(requestKey, criterion)
+        override fun handleCrStatusEdit(crStCriterion: CrStatusCriterion?) {
+            SelectCrStatusDialogFragment.newInstance(requestKey, crStCriterion)
                 .show(activity.supportFragmentManager, "STATUS_FILTER")
         }
 
-        override fun handleDateEdit(criterion: DateCriterion?) {
-            DateFilterDialog.newInstance(requestKey, criterion)
+        override fun handleDateEdit(dateCriterion: DateCriterion?) {
+            DateFilterDialog.newInstance(requestKey, dateCriterion)
                 .show(activity.supportFragmentManager, "DATE_FILTER")
         }
 
-        override fun handleAccountEdit(criterion: AccountCriterion?) {
+        override fun handleAccountEdit(accountCriterion: AccountCriterion?) {
             SelectMultipleAccountDialogFragment.newInstance(
                 requestKey,
                 if (account.isHomeAggregate) null else account.currency,
-                criterion
+                accountCriterion
             )
                 .show(activity.supportFragmentManager, "ACCOUNT_FILTER")
         }
 
-        override fun handleCategoryEdit(criterion: CategoryCriterion?) {
-            getCategory.launch(account.id to criterion)
+        override fun handleCategoryEdit(categoryCriterion: CategoryCriterion?) {
+            getCategory.launch(account.id to categoryCriterion)
         }
 
-        override fun handleMethodEdit(criterion: MethodCriterion?) {
+        override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
                 requestKey,
-                account.id, criterion
+                account.id, methodCriterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
 
-        override fun handlePayeeEdit(criterion: PayeeCriterion?) {
-            getPayee.launch(account.id to criterion)
+        override fun handlePayeeEdit(payeeCriterion: PayeeCriterion?) {
+            getPayee.launch(account.id to payeeCriterion)
         }
 
-        override fun handleTagEdit(criterion: TagCriterion?) {
-            getTags.launch(account.id to criterion)
+        override fun handleTagEdit(tagCriterion: TagCriterion?) {
+            getTags.launch(account.id to tagCriterion)
         }
 
-        override fun handleTransferEdit(criterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(requestKey,account.id, criterion)
+        override fun handleTransferEdit(transferCriterion: TransferCriterion?) {
+            SelectTransferAccountDialogFragment.newInstance(requestKey,account.id, transferCriterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }
 
     handler.content()
 
-    showCommentFilterPrompt?.let {
-        var search by rememberSaveable { mutableStateOf(it.searchString) }
+    showCommentFilterPrompt?.let { prompt ->
+        var search by rememberSaveable { mutableStateOf(prompt.searchString) }
 
         AlertDialog(
             onDismissRequest = {
