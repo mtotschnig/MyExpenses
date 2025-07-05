@@ -4,12 +4,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,14 +120,17 @@ fun CategoryEdit(
     }
     if (showIconSelection) {
         Dialog(
-            properties = DialogProperties(usePlatformDefaultWidth = false),
+            properties = DialogProperties(
+                usePlatformDefaultWidth = booleanResource(R.bool.isLarge),
+                decorFitsSystemWindows = false
+            ),
             onDismissRequest = { showIconSelection = false }
         ) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background,
             ) {
-                Column {
+                Column(Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical))) {
                     IconSelector(
                         modifier = Modifier.weight(1f),
                         onIconSelected = {
@@ -128,6 +139,7 @@ fun CategoryEdit(
                         }
                     )
                     ButtonRow(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
                         onCancel = { showIconSelection = false },
                         positiveButton = if (icon != null)
                             Triple(R.string.remove, true) {
@@ -229,7 +241,7 @@ private fun DialogFrame(
             shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.background,
         ) {
-            Column(modifier = Modifier.padding(18.dp)) {
+            Column(modifier = Modifier.padding(18.dp).verticalScroll(rememberScrollState())) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
                     text = title,
@@ -248,13 +260,14 @@ private fun DialogFrame(
 
 @Composable
 private fun ButtonRow(
+    modifier: Modifier = Modifier,
     onCancel: () -> Unit,
     positiveButton: Triple<Int, Boolean, () -> Unit>?,
     cancelEnabled: Boolean = true
 ) {
     val buttonRowTopPadding = 12.dp
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(top = buttonRowTopPadding)
     ) {

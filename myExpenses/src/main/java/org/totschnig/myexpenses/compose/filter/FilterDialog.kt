@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -188,7 +191,10 @@ fun FilterDialog(
     }
 
     Dialog(
-        properties = DialogProperties(usePlatformDefaultWidth = isLarge),
+        properties = DialogProperties(
+            usePlatformDefaultWidth = isLarge,
+            decorFitsSystemWindows = false
+        ),
         onDismissRequest = onDismiss
     ) {
 
@@ -203,7 +209,7 @@ fun FilterDialog(
             FilterHandler(account, "confirmFilterDialog", onResult) {
 
                 Column(
-                    modifier = Modifier
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
                         .conditional(isLarge && criteriaSet.value.isEmpty()) {
                             height(400.dp)
                         }

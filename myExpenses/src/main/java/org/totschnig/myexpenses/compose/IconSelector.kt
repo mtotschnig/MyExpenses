@@ -9,8 +9,14 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -34,14 +40,16 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcons
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconCategory
 import org.totschnig.myexpenses.viewmodel.data.values
+import timber.log.Timber
 
 @Composable
 fun IconSelector(
@@ -72,7 +80,16 @@ fun IconSelector(
         // We try to ignore this first focus change
         //TODO revisit if this is still necessary (instead of harmful) with future Compose versions
         var initialFocusProcessed by remember { mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) }
-        ScrollableTabRow(selectedTabIndex = selectedTabIndex) {
+        // Get safe drawing insets
+
+        val safeDrawingInsets = WindowInsets.safeDrawing.asPaddingValues()
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+/*            edgePadding = maxOf(
+                TabRowDefaults.ScrollableTabRowEdgeStartPadding,
+                safeDrawingInsets.calculateStartPadding(LocalLayoutDirection.current)
+            )*/
+        ) {
             Tab(
                 modifier = Modifier.width(100.dp),
                 selected = selectedTabIndex == 0,
@@ -107,12 +124,16 @@ fun IconSelector(
                 }
             }
         }
+
+        val minSize = with(LocalDensity.current) { 96.sp.toDp() }
+        Timber.d("minSize: $minSize")
         LazyVerticalGrid(
             modifier = Modifier
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                 .padding(horizontal = 16.dp)
                 .padding(top = 12.dp, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
-            columns = GridCells.Fixed(3)
+            columns = GridCells.Adaptive(minSize = minSize)
         ) {
             for (icon in icons.value) {
                 item {
@@ -144,7 +165,9 @@ fun CategoryTab(
     onclick: () -> Unit
 ) {
     Tab(
-        modifier = Modifier.focusRequester(focusRequester).focusable(),
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .focusable(),
         selected = selected,
         onClick = onclick,
         text = { Text(text = stringResource(category.label)) }
@@ -160,7 +183,7 @@ fun CategoryTab(
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    AppTheme {
         Surface {
             IconSelector(
                 iconsForCategory = { _, _ ->
