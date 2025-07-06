@@ -269,12 +269,12 @@ class PartyListViewModel(
             val operations = ArrayList<ContentProviderOperation>().apply {
                 when (mergeStrategy) {
                     MergeStrategy.DELETE -> {
-                        val inOp = "IN (${duplicateIds.joinToString()})"
+                        val joined = duplicateIds.joinToString()
                         val contentValues = ContentValues(1).apply {
                             put(KEY_PAYEEID, keepId)
                         }
 
-                        val where = "$KEY_PAYEEID $inOp"
+                        val where = "$KEY_PAYEEID IN ($joined, (select $KEY_ROWID from $TABLE_PAYEES where $KEY_PARENTID IN ($joined)))"
                         add(
                             newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, -1)
                                 .withSelection("$KEY_SEALED = 1", null).build()
@@ -301,7 +301,7 @@ class PartyListViewModel(
                         )
                         add(
                             newDelete(PAYEES_URI).withSelection(
-                                "$KEY_ROWID $inOp",
+                                "$KEY_ROWID IN ($joined)",
                                 null
                             ).build()
                         )

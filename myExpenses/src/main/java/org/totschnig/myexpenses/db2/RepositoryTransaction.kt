@@ -231,6 +231,12 @@ fun Repository.hasParent(id: Long) = contentResolver.findBySelection(
     KEY_PARENTID
 ) != 0L
 
+fun Repository.getPayeeForTransaction(id: Long) = contentResolver.findBySelection(
+    "$KEY_ROWID = ?",
+    arrayOf(id.toString()),
+    KEY_PAYEEID
+)
+
 private fun ContentResolver.findBySelection(
     selection: String,
     selectionArgs: Array<String>,
@@ -245,11 +251,6 @@ private fun ContentResolver.findBySelection(
     )?.use {
         if (it.moveToFirst()) it.getLong(0) else null
     } ?: -1
-
-
-fun Repository.deleteTemplate(id: Long) {
-    contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TEMPLATES_URI, id), null, null)
-}
 
 fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
     return contentResolver.query(

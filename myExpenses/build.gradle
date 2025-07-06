@@ -176,7 +176,6 @@ dependencies {
     implementation libs.androidx.material.icons.extended
     implementation libs.androidx.paging.compose
     implementation libs.accompanist.drawablepainter
-    implementation libs.accompanist.themeadapter.material3
     implementation libs.donut.compose
     implementation libs.donut
 

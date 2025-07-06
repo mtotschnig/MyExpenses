@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
+import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
@@ -69,13 +70,24 @@ fun Repository.unsetParentId(partyId: Long) {
     setParentId(partyId, null)
 }
 
-fun Repository.getParty(partyId: Long) = contentResolver.query(
+fun Repository.getPartyName(partyId: Long) = contentResolver.query(
         ContentUris.withAppendedId(PAYEES_URI, partyId),
         arrayOf(KEY_PAYEE_NAME), null, null, null
     )?.use {
         it.moveToFirst()
         it.getString(0)
     }
+
+@VisibleForTesting
+fun Repository.getParty(partyId: Long) = contentResolver.query(
+    ContentUris.withAppendedId(PAYEES_URI, partyId),
+    arrayOf(KEY_PAYEE_NAME, KEY_PARENTID), null, null, null
+)?.use {
+    if (it.moveToFirst()) {
+        Party(partyId, it.getString(0), parentId = it.getLongOrNull(1))
+    } else
+        null
+}
 
 @VisibleForTesting
 fun Repository.setParentId(partyId: Long, parentId: Long?) {

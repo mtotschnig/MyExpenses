@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.getCategoryInfoList
 import org.totschnig.myexpenses.db2.getMethod
-import org.totschnig.myexpenses.db2.getParty
+import org.totschnig.myexpenses.db2.getPartyName
 import org.totschnig.myexpenses.db2.getTag
 import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.db2.importBudget
@@ -367,7 +367,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                                     .filterIsInstance<PayeeCriterion>()
                                     .firstOrNull()
                                     ?.values
-                                    ?.mapNotNull { repository.getParty(it) },
+                                    ?.mapNotNull { repository.getPartyName(it) },
                                 methodFilter = criteria
                                     .filterIsInstance<MethodCriterion>()
                                     .firstOrNull()

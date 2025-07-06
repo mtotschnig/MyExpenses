@@ -54,7 +54,8 @@ abstract class BaseTestWithRepository {
         categoryId: Long? = null,
         crStatus: CrStatus = CrStatus.UNRECONCILED,
         date: LocalDateTime = LocalDateTime.now(),
-        equivalentAmount: Long? = null
+        equivalentAmount: Long? = null,
+        payeeId: Long? = null
     ): Pair<Long, String> {
         val contentValues = TransactionInfo(
             accountId = accountId,
@@ -63,7 +64,8 @@ abstract class BaseTestWithRepository {
             crStatus = crStatus,
             parentId = parentId,
             date = date,
-            equivalentAmount = equivalentAmount
+            equivalentAmount = equivalentAmount,
+            payeeId = payeeId
         ).contentValues
         val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)
@@ -73,13 +75,15 @@ abstract class BaseTestWithRepository {
         accountId: Long,
         title: String,
         amount: Long,
-        categoryId: Long? = null
+        categoryId: Long? = null,
+        payeeId: Long? = null
     ) = ContentUris.parseId(contentResolver.insert(
         TransactionProvider.TEMPLATES_URI, TemplateInfo(
             accountId = accountId,
             amount = amount,
             title = title,
-            catId = categoryId
+            catId = categoryId,
+            payeeId = payeeId
         ).contentValues
     )!!)
 

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.model2
 import android.content.ContentValues
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
@@ -13,7 +14,8 @@ data class Party(
     val name: String,
     val shortName: String? = null,
     val iban: String? = null,
-    val bic: String? = null
+    val bic: String? = null,
+    val parentId: Long? = null
 ) {
 
     val asContentValues
@@ -23,6 +25,7 @@ data class Party(
             put(KEY_SHORT_NAME, shortName?.takeIf { it.isNotEmpty() })
             put(KEY_IBAN, iban)
             put(KEY_BIC, bic)
+            put(KEY_PARENTID, parentId)
         }
 
     companion object {
@@ -39,14 +42,16 @@ data class Party(
             shortName: String? = null,
             id: Long = 0,
             iban: String? = null,
-            bic: String? = null
+            bic: String? = null,
+            parentId: Long? = null
         ) =
             Party(
                 id = id,
                 name = requireNotNull(name.trim().takeIf { it.isNotEmpty() }),
                 shortName = shortName?.trim(),
                 iban = iban,
-                bic = bic
+                bic = bic,
+                parentId = parentId
             )
     }
 }
