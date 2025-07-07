@@ -100,7 +100,6 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment3() {
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                         .selectable(
                             selected = isSelected,
                             onClick = { selectedMergeStrategy = strategy },
