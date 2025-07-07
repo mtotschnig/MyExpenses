@@ -601,7 +601,7 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
         if (needsEquivalentAmount) {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
-            if (isInitialSetup && host.newInstance) {
+            if (isInitialSetup) {
                 loadPrice()
             }
         }

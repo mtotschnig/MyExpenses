@@ -914,7 +914,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             delegate.planButton.setDate(it)
         }
         if (accountsLoaded) {
-            delegate.setAccount(true)
+            delegate.setAccount(newInstance)
         }
         setHelpVariant(delegate.helpVariant)
         setTitle()
