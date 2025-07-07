@@ -8,7 +8,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers.greaterThan
 import org.junit.After
 import org.junit.Test
@@ -34,7 +34,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         onView(withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
         clickFab()
         assertFinishing()
-        assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
+        assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull()
         cleanup {
             deleteAccount(LABEL)
         }

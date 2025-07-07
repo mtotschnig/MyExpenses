@@ -6,7 +6,7 @@ import android.net.Uri
 import android.provider.CalendarContract
 import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -75,7 +75,7 @@ class PlanInfoTest : BaseTemplateTest() {
 
         } while (cursor.moveToNext())
         cursor.close()
-        assertThat(orderedElements).containsExactly(*expectedSort)
+        assertThat(orderedElements).isEqualTo(expectedSort)
     }
 
     /*
@@ -129,6 +129,6 @@ class EventProvider : MockContentProvider() {
 }
 
 data class Plan(val id: Long, val rrule: String, val date: Long = System.currentTimeMillis()) {
-    fun toMatrixRow() = arrayOf(id, rrule, date)
+    fun toMatrixRow() = arrayOf<Any>(id, rrule, date)
 }
 

@@ -319,8 +319,6 @@ dependencies {
     }
     androidTestImplementation libs.kotlin.test.junit
     androidTestImplementation libs.compose.ui.test.junit4
-    //noinspection GradleDependency
-    androidTestImplementation libs.assertj.core
     androidTestImplementation libs.truth
     androidTestImplementation libs.androidx.core.testing
     androidTestImplementation(project(":shared-test"))
@@ -335,7 +333,6 @@ dependencies {
     testImplementation libs.mockito.kotlin
     testImplementation libs.robolectric
     testImplementation libs.androidx.test.core
-    testImplementation libs.assertj.core.v3190
     testImplementation libs.truth
     testImplementation libs.androidx.espresso.core
     testImplementation libs.androidx.rules

@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.model
 
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
@@ -25,7 +25,7 @@ class SortTest {
     fun configuredWithUnsupportedFallsBackToDefault() {
         whenever(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any()))
             .thenReturn(Sort.LABEL.name)
-        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE,))
+        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE))
             .isEqualTo("title COLLATE NOCASE")
     }
 
@@ -33,7 +33,7 @@ class SortTest {
     fun configuredWithDefault() {
         whenever(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any()))
             .thenReturn(Sort.TITLE.name)
-        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE,))
+        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE))
             .isEqualTo("title COLLATE NOCASE")
     }
 
@@ -41,20 +41,20 @@ class SortTest {
     fun returnsConfiguredWithSecondary() {
         whenever(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any()))
             .thenReturn(Sort.USAGES.name)
-        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE,))
+        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE))
             .isEqualTo("usages DESC, title COLLATE NOCASE")
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun calledWithUnsupportedThrowsException() {
-        Sort.preferredOrderByForTemplates(prefHandler, Sort.LABEL,)
+        Sort.preferredOrderByForTemplates(prefHandler, Sort.LABEL)
     }
 
     @Test
     fun returnsDefault() {
         whenever(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any()))
             .thenAnswer { i -> i.arguments[1] }
-        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE,))
+        assertThat(Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE))
             .isEqualTo("title COLLATE NOCASE")
     }
 }

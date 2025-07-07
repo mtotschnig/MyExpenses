@@ -1,6 +1,6 @@
 package org.totschnig.ocr
 
-import org.assertj.core.api.Assertions
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -15,7 +15,7 @@ class OcrHandlerImplTest(private val country: String?, private val expectedLangu
             Locale.getAvailableLocales().count { it.country == country } == 1
         val value = if (countryHasSingleLocale) getLocaleForUserCountry(country) else
             getLocaleForUserCountry(country, Locale(expectedLanguage))
-        Assertions.assertThat(value.language).isEqualTo(expectedLanguage)
+        assertThat(value.language).isEqualTo(expectedLanguage)
     }
 
     companion object {

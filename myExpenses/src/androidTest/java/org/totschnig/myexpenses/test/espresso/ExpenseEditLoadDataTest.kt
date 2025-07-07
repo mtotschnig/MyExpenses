@@ -17,7 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
-import org.assertj.core.api.Assertions
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
 import org.junit.Before
@@ -149,8 +149,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             val status = transaction.status
             closeKeyboardAndSave()
             val t = getTransactionFromDb(transaction.id)
-            Assertions.assertThat(t.status).isEqualTo(status)
-            Assertions.assertThat(t.uuid).isEqualTo(uuid)
+            assertThat(t.status).isEqualTo(status)
+            assertThat(t.uuid).isEqualTo(uuid)
         }
     }
 
@@ -277,8 +277,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
         load(transfer.transferPeer!!).use {
             testScenario.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue
-                Assertions.assertThat(
+                assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue()
+                assertThat(
                     (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
                         1
                     ).id
@@ -292,8 +292,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldKeepAccountViewsForGivingTransferPart() {
         load(transfer.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse
-                Assertions.assertThat(
+                assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse()
+                assertThat(
                     (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
                         1
                     ).id
@@ -326,7 +326,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat(activity.isTemplate).isTrue()
+                assertThat(activity.isTemplate).isTrue()
             }
             toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
             checkEffectiveVisible(R.id.SplitRow)
@@ -343,7 +343,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat(activity.isTemplate).isFalse()
+                assertThat(activity.isTemplate).isFalse()
             }
             toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_create_split))))
             checkEffectiveVisible(R.id.SplitRow)
@@ -404,7 +404,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             )
             checkEffectiveGone(R.id.Recurrence)
             testScenario.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat(activity.isTemplate).isTrue()
+                assertThat(activity.isTemplate).isTrue()
             }
             checkAmount(7)
             onView(withId(R.id.Title))
@@ -437,7 +437,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             )
             checkEffectiveGone(R.id.PB, R.id.TitleRow)
             testScenario.onActivity { activity: ExpenseEdit ->
-                Assertions.assertThat(activity.isTemplate).isFalse()
+                assertThat(activity.isTemplate).isFalse()
             }
             checkAmount(8)
         }

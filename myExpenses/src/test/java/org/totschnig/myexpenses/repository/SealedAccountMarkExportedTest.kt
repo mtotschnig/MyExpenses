@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.repository
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.test.core.app.ApplicationProvider
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import java.util.*
 
 
 @RunWith(RobolectricTestRunner::class)

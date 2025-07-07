@@ -18,8 +18,6 @@ androidxTextExtJunit = "1.2.1"
 annotation = "1.9.1"
 appcompatVersion = "1.7.1"
 arrowCore = "2.1.2"
-assertjVersion = "3.19.0"
-assertjVersionAndroid = "2.9.1"
 autoValue = "1.11.0"
 autoValueCursor = "2.0.1"
 autoValueGson = "1.3.1"
@@ -174,8 +172,6 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
-assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertjVersionAndroid" }
-assertj-core-v3190 = { module = "org.assertj:assertj-core", version.ref = "assertjVersion" }
 auto-value = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
 auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
 auto-value-cursor = { module = "com.gabrielittner.auto.value:auto-value-cursor", version.ref = "autoValueCursor" }

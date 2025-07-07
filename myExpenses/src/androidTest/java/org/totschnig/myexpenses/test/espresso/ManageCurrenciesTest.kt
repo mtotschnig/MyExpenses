@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.adevinta.android.barista.interaction.BaristaCheckboxInteractions
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsString
 import org.junit.After
@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
 

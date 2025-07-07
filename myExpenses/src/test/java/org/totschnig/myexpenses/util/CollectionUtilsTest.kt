@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.util
 
+import com.google.common.truth.Truth.assertThat
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
-import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -12,7 +12,7 @@ class CollectionUtilsTest {
     @Test
     @Parameters(method = "parametersToTestReplace")
     fun testReplace(input: Set<Long>, replace: Iterable<Long>, new: Long, expected: Set<Long>) {
-        Assertions.assertThat(input.replace(replace, new)).isEqualTo(expected)
+        assertThat(input.replace(replace, new)).isEqualTo(expected)
     }
 
     @Suppress("unused")

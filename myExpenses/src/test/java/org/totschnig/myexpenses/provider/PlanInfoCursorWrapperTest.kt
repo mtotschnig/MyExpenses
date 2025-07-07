@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import androidx.test.core.app.ApplicationProvider
-import org.assertj.core.api.Assertions
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -17,6 +17,6 @@ class PlanInfoCursorWrapperTest {
                 .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
                 .build(), null, null, null, null)!!
         val planInfoColumnIndex = cursor.getColumnIndex(KEY_PLAN_INFO)
-        Assertions.assertThat(cursor.getColumnName(planInfoColumnIndex)).isEqualTo(KEY_PLAN_INFO)
+        assertThat(cursor.getColumnName(planInfoColumnIndex)).isEqualTo(KEY_PLAN_INFO)
     }
 }
