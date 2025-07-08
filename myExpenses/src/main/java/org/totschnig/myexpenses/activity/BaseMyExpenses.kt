@@ -566,7 +566,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         binding.viewPagerMain.viewPager.setContent {
             val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
-            if  (upgradeInfo == null || upgradeInfo is UpgradeHandlerViewModel.UpgradeSuccess) {
+            if (upgradeInfo == null || upgradeInfo is UpgradeHandlerViewModel.UpgradeSuccess) {
                 MainContent()
             }
         }
@@ -589,6 +589,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 false
                             )
                         }
+
                         is UpgradeHandlerViewModel.UpgradeSuccess -> {
                             showDismissibleSnackBar(
                                 message = info.info,
@@ -604,6 +605,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     }
                                 })
                         }
+
                         else -> {}
                     }
                 }
@@ -762,6 +764,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             onToggleExcludeFromTotals = {
                                 toggleExcludeFromTotals(it)
                             },
+                            onToggleDynamicExchangeRate = {
+                                toggleDynamicExchangeRate(it)
+                            },
                             listState = viewModel.listState,
                             showEquivalentWorth = viewModel.showEquivalentWorth()
                                 .collectAsState(false).value,
@@ -780,7 +785,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {
                             is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
-                            is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact ${getString(R.string.support_email)} !" to true
+                            is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact ${
+                                getString(
+                                    R.string.support_email
+                                )
+                            } !" to true
+
                             else -> "Data loading failed" to false
                         }
                         showMessage(
@@ -1993,6 +2003,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
 
+            R.id.DYNAMIC_EXCHANGE_RATE_COMMAND -> currentAccount?.let { toggleDynamicExchangeRate(it) }
+
             R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
 
             R.id.HELP_COMMAND_DRAWER -> startActivity(Intent(this, Help::class.java).apply {
@@ -2245,6 +2257,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             ?.setEnabledAndVisible(!sealed)
                         subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)?.isChecked =
                             excludeFromTotals
+                        subMenu?.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)?.isChecked =
+                            dynamic
                     }
                 }
                 menu.findItem(R.id.ARCHIVE_COMMAND)
@@ -2653,6 +2667,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun toggleExcludeFromTotals(account: FullAccount) {
         viewModel.setExcludeFromTotals(account.id, !account.excludeFromTotals)
+    }
+
+    private fun toggleDynamicExchangeRate(account: FullAccount) {
+        viewModel.setDynamicExchangeRate(account.id, !account.dynamic)
     }
 
     val navigationView: NavigationView

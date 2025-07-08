@@ -101,6 +101,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
@@ -622,31 +623,26 @@ open class MyExpensesViewModel(
         }
 
     fun setSealed(accountId: Long, isSealed: Boolean) {
-        if (DataBaseAccount.isAggregate(accountId)) {
-            CrashHandler.report(IllegalStateException("setSealed called on aggregate account"))
-        } else {
-            viewModelScope.launch(context = coroutineContext()) {
-                contentResolver.update(
-                    ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
-                    ContentValues(1).apply {
-                        put(KEY_SEALED, isSealed)
-                    },
-                    null,
-                    null
-                )
-            }
-        }
+        setBooleanProperty(accountId, KEY_SEALED, isSealed)
     }
 
     fun setExcludeFromTotals(accountId: Long, excludeFromTotals: Boolean) {
+        setBooleanProperty(accountId, KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
+    }
+
+    fun setDynamicExchangeRate(accountId: Long, dynamicExchangeRate: Boolean) {
+        setBooleanProperty(accountId, KEY_DYNAMIC, dynamicExchangeRate)
+    }
+
+    private fun setBooleanProperty(accountId: Long, column: String, value: Boolean) {
         if (DataBaseAccount.isAggregate(accountId)) {
-            CrashHandler.report(IllegalStateException("setSealed called on aggregate account"))
+            CrashHandler.report(IllegalStateException("setBooleanProperty for $column called on aggregate account"))
         } else {
             viewModelScope.launch(context = coroutineContext()) {
                 contentResolver.update(
                     ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
                     ContentValues(1).apply {
-                        put(KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
+                        put(column, value)
                     },
                     null,
                     null

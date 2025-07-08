@@ -17,4 +17,8 @@
         android:id="@id/EXCLUDE_FROM_TOTALS_COMMAND"
         android:checkable="true"
         android:title="@string/menu_exclude_from_totals" />
+    <item
+        android:id="@id/DYNAMIC_EXCHANGE_RATE_COMMAND"
+        android:checkable="true"
+        android:title="@string/dynamic_exchange_rate" />
 </menu>

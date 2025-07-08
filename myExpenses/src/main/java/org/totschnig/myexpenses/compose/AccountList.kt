@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
-import android.os.Bundle
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
@@ -20,7 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
@@ -51,21 +50,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.isolateText
@@ -86,6 +80,7 @@ fun AccountList(
     onHide: (Long) -> Unit,
     onToggleSealed: (FullAccount) -> Unit,
     onToggleExcludeFromTotals: (FullAccount) -> Unit,
+    onToggleDynamicExchangeRate: (FullAccount) -> Unit,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)?,
@@ -126,6 +121,7 @@ fun AccountList(
                                 onHide = onHide,
                                 onToggleSealed = onToggleSealed,
                                 onToggleExcludeFromTotals = onToggleExcludeFromTotals,
+                                onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
                                 toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
                                 bankIcon = bankIcon,
                                 showEquivalentWorth = showEquivalentWorth
@@ -224,10 +220,10 @@ fun AccountCard(
     onHide: (Long) -> Unit = {},
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
+    onToggleDynamicExchangeRate: (FullAccount) -> Unit = {},
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
-    val context = LocalContext.current
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -303,6 +299,14 @@ fun AccountCard(
                     )
                 )
             }
+            if (account.dynamic)  {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ShowChart,
+                    contentDescription = stringResource(
+                        id = R.string.menu_exclude_from_totals
+                    )
+                )
+            }
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -346,6 +350,13 @@ fun AccountCard(
                             command = "EXCLUDE_FROM_TOTALS_COMMAND"
                         ) {
                             onToggleExcludeFromTotals(account)
+                        })
+                        add(CheckableMenuEntry(
+                            isChecked = account.dynamic,
+                            label = R.string.dynamic_exchange_rate,
+                            command = "DYNAMIC_EXCHANGE_RATE"
+                        ) {
+                            onToggleDynamicExchangeRate(account)
                         })
                     }
                 }
@@ -508,5 +519,5 @@ private fun AccountPreview() {
 @Composable
 fun MixedText() {
     val symbol = '﷼'
-    Text("1 $symbol = 345 \$")
+    Text("1 $symbol = 345 $")
 }
