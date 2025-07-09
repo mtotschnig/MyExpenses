@@ -351,13 +351,15 @@ fun AccountCard(
                         ) {
                             onToggleExcludeFromTotals(account)
                         })
-                        add(CheckableMenuEntry(
-                            isChecked = account.dynamic,
-                            label = R.string.dynamic_exchange_rate,
-                            command = "DYNAMIC_EXCHANGE_RATE"
-                        ) {
-                            onToggleDynamicExchangeRate(account)
-                        })
+                        if (account.currency != homeCurrency.code) {
+                            add(CheckableMenuEntry(
+                                isChecked = account.dynamic,
+                                label = R.string.dynamic_exchange_rate,
+                                command = "DYNAMIC_EXCHANGE_RATE"
+                            ) {
+                                onToggleDynamicExchangeRate(account)
+                            })
+                        }
                     }
                 }
             )
