@@ -920,4 +920,15 @@
     <string name="warning_batch_download_quota">Bij batch-downloads van %s bestaat het risico dat je gebruikslimiet wordt overschreden.</string>
     <string name="batch_download_result">%d prijzen werden gedownload en opgeslagen in de database.</string>
     <string name="sort_direction">Sorteerrichting</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Toon nieuw saldo nadat de transactie is opgeslagen</string>
+    <string name="print_configuration_empty">Voeg minimaal één veld toe dat moet worden afgedrukt.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Geldige gegevens gevonden op regel %d.</item>
+        <item quantity="other">Geldige gegevens gevonden op %d regels.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d regel kon niet worden verwerkt.</item>
+        <item quantity="other">%d regels konden niet worden verwerkt.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Weet je zeker dat je de prijzen voor \'%1$s\' wilt importeren uit \'%2$s\'? Nieuwe prijzen kunnen van invloed zijn op bestaande equivalente bedragen.</string>
 </resources>
