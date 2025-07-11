@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
 @Composable
@@ -59,7 +60,7 @@ fun CategoryEdit(
     val context = LocalContext.current
     var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
     var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
-    var typeFlags by rememberSaveable { mutableStateOf(dialogState.category?.typeFlags ?: 0) }
+    var typeFlags by rememberSaveable { mutableStateOf(dialogState.category?.typeFlags ?: FLAG_NEUTRAL) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 

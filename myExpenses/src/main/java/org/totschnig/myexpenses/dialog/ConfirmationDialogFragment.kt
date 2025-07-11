@@ -63,7 +63,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         if (bundle.getString(KEY_PREFKEY) != null || checkboxLabel != null) {
             val cb = LayoutInflater.from(builder.context).inflate(R.layout.checkbox, null)
 
-            checkBox = cb.findViewById<CheckBox?>(R.id.checkBox).apply {
+            checkBox = cb.findViewById<CheckBox>(R.id.checkBox).apply {
                 text = checkboxLabel ?: getString(R.string.do_not_show_again)
                 isChecked = initiallyChecked
                 if (checkedLabel != 0) {
@@ -147,7 +147,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         const val KEY_COMMAND_POSITIVE = "positiveCommand"
         const val KEY_COMMAND_NEGATIVE = "negativeCommand"
         const val KEY_COMMAND_NEUTRAL = "neutralCommand"
-        const val KEY_TAG_POSITIVE = "positiveTag"
+        const val KEY_TAG_POSITIVE_BUNDLE = "positiveTagBundle"
         const val KEY_PREFKEY = "prefKey"
         const val KEY_CHECKBOX_LABEL = "checkboxLabel"
         const val KEY_CHECKBOX_INITIALLY_CHECKED = "checkboxInitiallyChecked"

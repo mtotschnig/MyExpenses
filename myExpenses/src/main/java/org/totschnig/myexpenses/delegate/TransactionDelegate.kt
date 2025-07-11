@@ -28,6 +28,8 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -84,6 +86,9 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @State
     var catId: Long? = null
+
+    @State
+    var catType: Byte = FLAG_NEUTRAL
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -369,10 +374,16 @@ abstract class TransactionDelegate<T : ITransaction>(
         )
     }
 
-    fun setCategory(label: String?, categoryIcon: String?, catId: Long?) {
+    fun setCategory(
+        label: String?,
+        categoryIcon: String?,
+        catId: Long?,
+        catType: Byte = FLAG_NEUTRAL
+    ) {
         this.label = label
         this.categoryIcon = categoryIcon
         this.catId = catId
+        this.catType = catType
         setCategoryButton()
     }
 
@@ -727,6 +738,9 @@ abstract class TransactionDelegate<T : ITransaction>(
      */
     val isIncome: Boolean
         get() = viewBinding.Amount.type
+
+    val shouldShowCategoryWarning: Byte?
+        get() = catType.takeIf {  it != FLAG_NEUTRAL && it != isIncome.asCategoryType }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
         return ZonedDateTime.of(

@@ -4,6 +4,7 @@ import android.app.Application
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.os.BundleCompat
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -131,10 +133,12 @@ open class CategoryViewModel(
     val mergeResult: Flow<Unit?> = _mergeResult.asStateFlow()
     val defaultSort = Sort.USAGES
 
-    sealed class DialogState : java.io.Serializable
+    sealed class DialogState : Parcelable
 
+    @Parcelize
     data object NoShow : DialogState()
 
+    @Parcelize
     data class Edit(
         val category: Category? = null,
         val parent: Category? = null,
@@ -145,6 +149,7 @@ open class CategoryViewModel(
             get() = category == null || category.id == 0L
     }
 
+    @Parcelize
     data class Merge(
         val categories: List<Category>,
         val saving: Boolean = false,
@@ -176,16 +181,16 @@ open class CategoryViewModel(
         }
 
     var typeFilter: Byte?
-        get() = savedStateHandle.get<Byte>(KEY_TYPE_FILTER)
+        get() = savedStateHandle.get<Byte>(KEY_TYPE)
         set(value) {
-            savedStateHandle[KEY_TYPE_FILTER] = value
+            savedStateHandle[KEY_TYPE] = value
         }
 
     fun toggleTypeFilterIsShown() {
         typeFilter = if (typeFilter == null) FLAG_NEUTRAL else null
     }
 
-    val typeFilterLiveData = savedStateHandle.getLiveData<Byte?>(KEY_TYPE_FILTER, null)
+    val typeFilterLiveData = savedStateHandle.getLiveData<Byte?>(KEY_TYPE, null)
 
     fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
@@ -650,8 +655,6 @@ open class CategoryViewModel(
 
     companion object {
 
-        const val KEY_TYPE_FILTER = "typeFilter"
-
         fun ingest(
             withColors: Boolean,
             cursor: Cursor,
@@ -668,7 +671,7 @@ open class CategoryViewModel(
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
-                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toByte()
+                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toByte() ?: FLAG_NEUTRAL
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)

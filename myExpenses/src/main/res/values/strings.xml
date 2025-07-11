@@ -1082,4 +1082,6 @@
     </plurals>
     <!-- Placeholder: 1 will be replaced with the description of the price pair, e.g. EUR:USD, 2 will be replaced with file name -->
     <string name="confirm_process_file_message">Are you sure you want to import prices for \'%1$s\' from \'%2$s\'? New prices may affect existing equivalent amounts.</string>
+    <string name="warning_expense_category_credit">You are assigning an expense category to an income transaction. As a consequence, the transaction will reduce the sum of your expenses, and by default will be shown in red.</string>
+    <string name="warning_income_category_debit">You are assigning an income category to an expense transaction. As a consequence, the transaction will reduce the sum of your income, and by default will be shown in green.</string>
 </resources>

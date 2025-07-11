@@ -235,10 +235,6 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                             ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                             R.string.remove
                         )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                            android.R.string.cancel
-                        )
                         putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
                     })
                         .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")

@@ -37,6 +37,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.MenuRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.view.menu.MenuBuilder
@@ -68,6 +69,8 @@ import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.delegate.CategoryDelegate
@@ -76,6 +79,11 @@ import org.totschnig.myexpenses.delegate.SplitDelegate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_NEGATIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.CriterionInfo
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
@@ -109,9 +117,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.ui.AmountInput
@@ -131,7 +141,6 @@ import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
 import org.totschnig.myexpenses.util.ui.setAttachmentInfo
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel.Companion.KEY_TYPE_FILTER
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -290,17 +299,60 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        if(!canUseContentColor) {
+        if (!canUseContentColor) {
             tintFab(color)
         }
     }
 
     private val createAccountForTransfer =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        registerForActivityResult(StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 restartWithType(TYPE_TRANSFER)
             }
         }
+
+    val categorySelectionLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let {
+                delegate.setCategory(
+                    it.getStringExtra(KEY_LABEL),
+                    it.getStringExtra(KEY_ICON),
+                    it.getLongExtra(KEY_ROWID, 0),
+                    it.getByteExtra(KEY_TYPE, FLAG_NEUTRAL)
+                )
+                setDirty()
+                showCategoryWarning()
+            }
+        }
+    }
+
+    private fun showCategoryWarning() {
+        delegate.shouldShowCategoryWarning?.let { type ->
+            val prefKey = "category_type_warning_shown"
+            if (!prefHandler.getBoolean(prefKey, false)) {
+                ConfirmationDialogFragment.newInstance(
+                    Bundle().apply {
+                        putCharSequence(
+                            KEY_MESSAGE,
+                            getString(
+                                if (type == FLAG_EXPENSE)
+                                    R.string.warning_expense_category_credit
+                                else
+                                    R.string.warning_income_category_debit
+                            )
+                        )
+                        putInt(KEY_COMMAND_POSITIVE, R.id.FAQ_COMMAND)
+                        putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.learn_more)
+                        putBundle(KEY_TAG_POSITIVE_BUNDLE, Bundle(1).apply {
+                            putString(KEY_PATH, "category-types")
+                        })
+                        putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.menu_close)
+                        putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
+                    }
+                ).show(supportFragmentManager, "CATEGORY_TYPE")
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -335,8 +387,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 injector
             )
             setupObservers(
-                if(intent.getBooleanExtra("IS_MANUAL_RECREATE", false)) {
-                    intent.removeExtra("IS_MANUAL_RECREATE")
+                if (intent.getBooleanExtra(KEY_IS_MANUAL_RECREATE, false)) {
+                    intent.removeExtra(KEY_IS_MANUAL_RECREATE)
                     true
                 } else false
             )
@@ -720,7 +772,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (::delegate.isInitialized) {
                 delegate.setAccounts(accounts, !accountsLoaded, isInitialSetup)
                 loadDebts()
-                if (wasStartedFromWidget && accountsLoaded && prefHandler.getBoolean(PrefKey.UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE, true)) {
+                if (wasStartedFromWidget && accountsLoaded && prefHandler.getBoolean(
+                        PrefKey.UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE,
+                        true
+                    )
+                ) {
                     currentAccount?.let { newData ->
                         Toast.makeText(
                             this,
@@ -982,6 +1038,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             loadMethods(currentAccount)
         }
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
+        showCategoryWarning()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -1192,7 +1249,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_ACCOUNTID, account.id)
             putExtra(KEY_PARENTID, delegate.rowId)
             putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
-            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, (delegate as? MainDelegate)?.originalAmountExchangeRate)
+            putExtra(
+                KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE,
+                (delegate as? MainDelegate)?.originalAmountExchangeRate
+            )
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
@@ -1205,20 +1265,22 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
      * calls the activity for selecting (and managing) categories
      */
     fun startSelectCategory() {
-        startActivityForResult(Intent(this, ManageCategories::class.java).apply {
-            forwardDataEntryFromWidget(this)
-            //we pass the currently selected category in to prevent
-            //it from being deleted, which can theoretically lead
-            //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-            (delegate as? CategoryDelegate)?.catId?.let<Long, Unit> {
-                putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
+        categorySelectionLauncher.launch(
+            Intent(this, ManageCategories::class.java).apply {
+                forwardDataEntryFromWidget(this)
+                //we pass the currently selected category in to prevent
+                //it from being deleted, which can theoretically lead
+                //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
+                (delegate as? CategoryDelegate)?.catId?.let<Long, Unit> {
+                    putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
+                }
+                putExtra(KEY_COLOR, color)
+                putExtra(
+                    KEY_TYPE, if (delegate is TransferDelegate) FLAG_TRANSFER
+                    else delegate.isIncome.asCategoryType
+                )
             }
-            putExtra(KEY_COLOR, color)
-            putExtra(
-                KEY_TYPE_FILTER, if (delegate is TransferDelegate) FLAG_TRANSFER
-                else delegate.isIncome.asCategoryType
-            )
-        }, SELECT_CATEGORY_REQUEST)
+        )
     }
 
     val wasStartedFromWidget: Boolean
@@ -1231,9 +1293,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate).observe(this) {
-                    onSaved(it, transaction)
-                }
+                viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate)
+                    .observe(this) {
+                        onSaved(it, transaction)
+                    }
                 if (wasStartedFromWidget) {
                     when (operationType) {
                         TYPE_TRANSACTION -> prefHandler.putLong(
@@ -1270,18 +1333,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            SELECT_CATEGORY_REQUEST -> if (intent != null) {
-                delegate.setCategory(
-                    intent.getStringExtra(KEY_LABEL),
-                    intent.getStringExtra(KEY_ICON),
-                    intent.getLongExtra(KEY_ROWID, 0)
-                )
-                setDirty()
-            }
-
             PLAN_REQUEST -> finish()
             EDIT_REQUEST -> if (resultCode == RESULT_OK) {
                 setDirty()
@@ -1456,7 +1510,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     else -> null
                 }?.let {
                     CriterionReachedDialogFragment
-                        .newInstance(it,
+                        .newInstance(
+                            it,
                             if (criterionInfos.size == 2) with(criterionInfos.first { it.criterion > 0 }) {
                                 "$accountLabel: ${getString(dialogTitle)}"
                             } else null
@@ -1636,7 +1691,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override val fabIcon: Int
         get() = if (createNew && delegate.createNewOverride) R.drawable.ic_action_save_new else super.fabIcon
     override val fabDescription: Int
-        get() = if (createNew && delegate.createNewOverride)  R.string.menu_save_and_new_content_description else super.fabDescription
+        get() = if (createNew && delegate.createNewOverride) R.string.menu_save_and_new_content_description else super.fabDescription
 
     fun showPlanMonthFragment(originTemplate: Template, color: Int) {
         PlanMonthFragment.newInstance(

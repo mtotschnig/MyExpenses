@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -54,6 +53,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.util.checkMenuIcon
@@ -409,6 +410,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             putExtra(KEY_ROWID, category.id)
             putExtra(KEY_LABEL, category.path)
             putExtra(KEY_ICON, category.icon)
+            putExtra(KEY_TYPE, category.typeFlags)
         }
         setResult(RESULT_OK, intent)
         finish()
@@ -797,7 +799,7 @@ class ManageCategories : ProtectedFragmentActivity(),
         viewModel.dialogState = CategoryViewModel.Edit(
             parent = parent,
             category = if (parent == null) Category(
-                typeFlags = viewModel.typeFilter
+                typeFlags = viewModel.typeFilter ?: FLAG_NEUTRAL
             ) else null
         )
     }

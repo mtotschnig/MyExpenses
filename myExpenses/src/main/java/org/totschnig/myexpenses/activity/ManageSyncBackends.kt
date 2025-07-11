@@ -180,10 +180,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                     R.string.dialog_command_sync_link_local
                 )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                    android.R.string.cancel
-                )
                 b.putSerializable(KEY_ACCOUNT, tag as Account?)
                 ConfirmationDialogFragment.newInstance(b)
                     .show(supportFragmentManager, "SYNC_LINK_LOCAL")
@@ -203,10 +199,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 b.putInt(
                     ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                     R.string.dialog_command_sync_link_remote
-                )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                    android.R.string.cancel
                 )
                 b.putSerializable(KEY_ACCOUNT, tag as Account?)
                 ConfirmationDialogFragment.newInstance(b)

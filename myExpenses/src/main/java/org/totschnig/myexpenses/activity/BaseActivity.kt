@@ -157,6 +157,7 @@ import javax.inject.Inject
 import kotlin.math.sign
 import androidx.core.net.toUri
 import kotlinx.coroutines.flow.StateFlow
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
@@ -801,7 +802,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
         dispatchCommand(
             command,
-            args.getParcelable(ConfirmationDialogFragment.KEY_TAG_POSITIVE)
+            args.getBundle(ConfirmationDialogFragment.KEY_TAG_POSITIVE_BUNDLE)
         )
     }
 
@@ -928,6 +929,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             android.R.id.home -> {
                 doHome()
+                true
+            }
+
+            R.id.FAQ_COMMAND -> {
+                val path = (tag as? String) ?: (tag as? Bundle)?.getString(KEY_PATH)
+                startActionView("https://faq.myexpenses.mobi/$path")
                 true
             }
 

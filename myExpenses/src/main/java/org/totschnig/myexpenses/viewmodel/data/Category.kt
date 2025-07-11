@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
@@ -29,7 +30,7 @@ data class Category(
      * [org.totschnig.myexpenses.db2.FLAG_NEUTRAL]
      * [org.totschnig.myexpenses.db2.FLAG_TRANSFER]
      */
-    val typeFlags: Byte? = null
+    val typeFlags: Byte = FLAG_NEUTRAL
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {

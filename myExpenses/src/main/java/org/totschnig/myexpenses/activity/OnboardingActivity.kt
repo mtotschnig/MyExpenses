@@ -197,12 +197,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    override fun onNeutral(args: Bundle) {
-        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL) == R.id.ENCRYPT_LEARN_MORE_COMMAND) {
-            startActionView("https://faq.myexpenses.mobi/data-encryption")
-        }
-    }
-
     override fun startBanking() {
         startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
     }

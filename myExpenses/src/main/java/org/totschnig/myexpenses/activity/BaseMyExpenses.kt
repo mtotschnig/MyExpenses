@@ -1172,7 +1172,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             val filter = viewModel.filterPersistence.getValue(account.id)
                 .whereFilter
                 .collectAsState(null)
-            filter.value?.let {
+            filter.value?.let { filter ->
                 if (preferredSearchType == TYPE_QUICK) {
                     FilterHandler(account, "confirmFilterDirect_${account.id}", {
                         if (it != null) {
@@ -1182,12 +1182,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         }
                     }
                     ) {
-                        FilterCard(it, editFilter = { handleEdit(it) }) {
+                        FilterCard(filter, editFilter = { handleEdit(it) }) {
                             confirmClearFilter()
                         }
                     }
                 } else {
-                    FilterCard(it) {
+                    FilterCard(filter) {
                         confirmClearFilter()
                     }
                 }
@@ -2039,8 +2039,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.HIDDEN_ACCOUNTS_COMMAND -> SelectHiddenAccountDialogFragment.newInstance().show(
                 supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
             )
-
-            R.id.OCR_FAQ_COMMAND -> startActionView("https://faq.myexpenses.mobi/OCR")
 
             R.id.BACKUP_COMMAND -> startActivity(
                 Intent(

@@ -9,8 +9,11 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingWizzardPrivacyBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -58,13 +61,17 @@ class OnBoardingPrivacyFragment : OnboardingFragment() {
                             R.id.ENCRYPT_CANCEL_COMMAND
                         )
                         putInt(
-                            ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL,
-                            R.id.ENCRYPT_LEARN_MORE_COMMAND
+                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            R.id.FAQ_COMMAND
                         )
                         putInt(
-                            ConfirmationDialogFragment.KEY_NEUTRAL_BUTTON_LABEL,
+                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                             R.string.learn_more
                         )
+                        putBundle(KEY_TAG_POSITIVE_BUNDLE, Bundle(1).apply {
+                            putString(KEY_PATH, "data-encryption")
+                        })
+
                     }).show(parentFragmentManager, "ENCRYPT")
                 }
                 true

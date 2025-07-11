@@ -309,7 +309,6 @@ class ExchangeRateService(
 
             ExchangeRateApi.CoinApi -> {
                 requireNotNull(apiKey)
-                val utcTimeZoneId: ZoneId = ZoneId.of("UTC")
                 val timeStart = "${start}T00:00:00"
                 val timeEnd = "${end}T23:59:59"
                 coinApi.getHistory(base, symbol, timeStart, timeEnd, apiKey).map { (date, rate) ->
