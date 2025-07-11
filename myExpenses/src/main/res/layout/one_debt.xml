@@ -25,7 +25,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_expense_edit" />
+            layout="@layout/toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

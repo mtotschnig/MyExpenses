@@ -42,6 +42,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -110,10 +112,13 @@ class PriceHistory : ProtectedFragmentActivity() {
         observeImportResult()
         binding.composeView.setContent {
             AppTheme {
+                val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 PriceListScreen(
                     viewModel.pricesWithMissingDates.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
                     currencyContext.homeCurrencyUnit,
-                    Modifier.padding(horizontal = 8.dp),
+                    Modifier
+                        .nestedScroll(nestedScrollInterop)
+                        .padding(horizontal = 8.dp),
                     onDelete = {
                         viewModel.deletePrice(it).observe(this) {
                             if (!it) {

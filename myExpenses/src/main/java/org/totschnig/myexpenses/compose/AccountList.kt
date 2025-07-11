@@ -94,6 +94,7 @@ fun AccountList(
         val grouped: Map<String, List<FullAccount>> =
             accountData.groupBy { getHeaderId(grouping, it) }
         LazyColumnWithScrollbarAndBottomPadding(
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             state = listState,
             itemsAvailable = accountData.size + grouped.size,
             withFab = false,
