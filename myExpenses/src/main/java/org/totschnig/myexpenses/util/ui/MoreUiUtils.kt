@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util.ui
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.os.Build
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.util.Size
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -359,3 +361,26 @@ fun ImageView.setEnabledWithColor(enabled: Boolean) {
 
 val Float.displayProgress
     get() = takeIf { it < 1000f }?.let { "%d".format(it.fastRoundToInt()) } ?: ">1k"
+
+fun resolveThemeColor(context: Context, attr: Int): Int {
+    val typedValue = TypedValue()
+    val theme = context.theme
+    if (theme.resolveAttribute(attr, typedValue, true)) {
+        // Check if it's a direct color integer
+        if (typedValue.type >= TypedValue.TYPE_FIRST_INT && typedValue.type <= TypedValue.TYPE_LAST_INT) {
+            return typedValue.data // It's a direct color int
+        } else if (typedValue.type == TypedValue.TYPE_STRING) {
+            // It might be a ColorStateList resource
+            // typedValue.resourceId will hold the ID of the ColorStateList
+            try {
+                val colorStateList = ContextCompat.getColorStateList(context, typedValue.resourceId)
+                if (colorStateList != null) {
+                    return colorStateList.defaultColor
+                }
+            } catch (e: Resources.NotFoundException) {
+                CrashHandler.report(e)
+            }
+        }
+    }
+    return 0
+}

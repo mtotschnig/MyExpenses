@@ -122,7 +122,9 @@ class ManageCategories : ProtectedFragmentActivity(),
             menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
                 it.isChecked = parentSelectionOnTap.value
             }
-            menu.findItem(R.id.TYPE_FILTER_COMMAND)?.let { checkMenuIcon(it) }
+            menu.findItem(R.id.TYPE_FILTER_COMMAND)?.let {
+                checkMenuIcon(it, R.drawable.ic_filter)
+            }
         }
         menu.prepareSearch(viewModel.filter)
         menu.prepareSync(this)

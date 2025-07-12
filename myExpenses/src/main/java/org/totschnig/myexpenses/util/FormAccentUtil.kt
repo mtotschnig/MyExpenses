@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Typeface
-import android.util.TypedValue
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
@@ -11,7 +9,9 @@ import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import com.google.android.material.R
 import org.totschnig.myexpenses.util.ui.findParentWithTypeRecursively
+import org.totschnig.myexpenses.util.ui.resolveThemeColor
 
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
@@ -29,20 +29,12 @@ fun linkInputsWithLabels(table: TableLayout) {
     }
 }
 
-fun readPrimaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorPrimary)
+fun readPrimaryTextColor(context: Context) = resolveThemeColor(context, android.R.attr.textColorPrimary)
 
-fun readPrimaryColor(context: Context) = readThemeColor(context, androidx.appcompat.R.attr.colorPrimary)
-
-fun readThemeColor(context: Context, attr: Int): Int {
-    val typedValue = TypedValue()
-    val a: TypedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(attr))
-    val primaryColor = a.getColor(0, 0)
-    a.recycle()
-    return primaryColor
-}
+fun readPrimaryColor(context: Context) = resolveThemeColor(context, R.attr.colorPrimary)
 
 private fun setOnFocusChangeListenerRecursive(view: View, listener: OnFocusChangeListener) {
-    if (view is ViewGroup && view !is Spinner && (!view.isFocusable() || view.descendantFocusability == ViewGroup.FOCUS_AFTER_DESCENDANTS)) {
+    if (view is ViewGroup && view !is Spinner && (!view.isFocusable || view.descendantFocusability == ViewGroup.FOCUS_AFTER_DESCENDANTS)) {
         for (i in 0 until view.childCount) {
             setOnFocusChangeListenerRecursive(view.getChildAt(i), listener)
         }

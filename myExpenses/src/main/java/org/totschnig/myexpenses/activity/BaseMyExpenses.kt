@@ -2196,17 +2196,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val checkedColor = currentAccount?.let {
-            if (it.isAggregate) 0 else it.color(resources)
-        }
         menu.findItem(R.id.WEB_UI_COMMAND)?.let {
             it.isChecked = isWebUiActive()
-            checkMenuIcon(it)
+            checkMenuIcon(it, R.drawable.ic_computer)
         }
         if (accountData.isNotEmpty() && currentAccount != null) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = isScanMode()
-                checkMenuIcon(it)
+                checkMenuIcon(it, R.drawable.ic_scan)
             }
             with(currentAccount!!) {
                 val reconciliationAvailable = type != AccountType.CASH && !sealed
@@ -2232,7 +2229,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
                             isChecked = viewModel.showStatusHandle().first()
-                            checkMenuIcon(this@apply)
+                            checkMenuIcon(this@apply, R.drawable.ic_square)
                         }
                     }
                 }
@@ -2265,7 +2262,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 it.setEnabledAndVisible(hasItems)
                 it.isChecked = currentFilter.whereFilter.value != null
-                checkMenuIcon(it, checkedColor)
+                checkMenuIcon(it, R.drawable.ic_menu_search)
             }
             menu.findItem(R.id.DISTRIBUTION_COMMAND)
                 ?.setEnabledAndVisible(sumInfo.value.mappedCategories)

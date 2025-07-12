@@ -1045,11 +1045,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (::delegate.isInitialized) {
             menu.findItem(R.id.SAVE_AND_NEW_COMMAND)?.let {
                 it.isChecked = createNew
-                checkMenuIcon(it)
+                checkMenuIcon(
+                    it,
+                   R.drawable.ic_action_save_new
+                )
             }
             menu.findItem(R.id.CREATE_TEMPLATE_COMMAND)?.let {
                 it.isChecked = createTemplate
-                checkMenuIcon(it)
+                checkMenuIcon(it, R.drawable.ic_action_template_add)
             }
             menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)?.let {
                 it.isChecked = (delegate as? MainDelegate)?.originalAmountVisible == true

@@ -210,7 +210,7 @@ class PriceHistory : ProtectedFragmentActivity() {
             menu.findItem(R.id.INVERT_COMMAND)?.let {
                 val first = viewModel.inverseRate.first()
                 it.isChecked = first
-                checkMenuIcon(it)
+                checkMenuIcon(it, R.drawable.ic_menu_move)
             }
         }
         return true

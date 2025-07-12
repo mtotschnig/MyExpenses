@@ -12,9 +12,9 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
-import org.totschnig.myexpenses.util.readThemeColor
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.preferredDatePickerBuilder
+import org.totschnig.myexpenses.util.ui.resolveThemeColor
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -50,7 +50,7 @@ class DateButton @JvmOverloads constructor(
         TextViewCompat.setCompoundDrawableTintList(
             this,
             ColorStateList.valueOf(
-                readThemeColor(
+                resolveThemeColor(
                     getContext(),
                     androidx.appcompat.R.attr.colorPrimary
                 )

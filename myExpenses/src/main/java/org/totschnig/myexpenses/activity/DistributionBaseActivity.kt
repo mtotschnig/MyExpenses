@@ -101,7 +101,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         menu.findItem(R.id.BACK_COMMAND).setEnabledAndVisible(grouped)
         menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
             it.isChecked = showChart.value
-            checkMenuIcon(it)
+            checkMenuIcon(it, R.drawable.ic_menu_chart)
         }
         return true
     }
