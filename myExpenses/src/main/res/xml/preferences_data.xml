@@ -100,4 +100,12 @@
         android:key="@string/pref_equivalent_amounts_automatic_update_key"
         android:title="@string/pref_equivalent_amounts_automatic_update_title"
         my:singleLineTitle="false" />
+    <ListPreference
+        android:defaultValue="PER_ACCOUNT"
+        android:key="dynamic_exchange_rates_default"
+        android:title="@string/dynamic_exchange_rate"
+        android:entries="@array/pref_dynamic_exchange_rates_default_entries"
+        android:entryValues="@array/pref_dynamic_exchange_rates_default_values"
+        android:persistent="false"
+        my:useSimpleSummaryProvider="true" />
 </PreferenceScreen> 

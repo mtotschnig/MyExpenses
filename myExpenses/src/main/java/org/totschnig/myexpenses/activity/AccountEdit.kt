@@ -33,6 +33,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -380,11 +382,17 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND).isChecked = excludeFromTotals
-        with(menu.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
-            _currencyUnit?.let {
-                val isFX = it.code != homeCurrency.code
-                this.setEnabledAndVisible(isFX)
-                isChecked = isFX && dynamicExchangeRates
+        lifecycleScope.launch {
+            with(menu.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
+                if (viewModel.dynamicExchangeRatesPerAccount.first()) {
+                    _currencyUnit?.let {
+                        val isFX = it.code != homeCurrency.code
+                        this.setEnabledAndVisible(isFX)
+                        isChecked = isFX && dynamicExchangeRates
+                    }
+                } else {
+                    this.setEnabledAndVisible(false)
+                }
             }
         }
         return super.onPrepareOptionsMenu(menu)

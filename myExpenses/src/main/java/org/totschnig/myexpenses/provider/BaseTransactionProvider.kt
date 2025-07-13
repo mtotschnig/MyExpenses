@@ -49,6 +49,9 @@ import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.model2.ICategoryInfo
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.dynamicExchangeRates
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -88,6 +91,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
@@ -124,14 +128,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -612,6 +621,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val typeWithFallBack: String
         get() = typeWithFallBack(prefHandler)
 
+    val dynamicExchangeRatesDefault: String
+        get() = runBlocking {
+            dataStore.dynamicExchangeRates.first()
+        }
+
     fun buildAccountQuery(
         minimal: Boolean,
         mergeAggregate: String?,
@@ -633,7 +647,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } != FutureCriterion.Current else true
 
         val cte = if (minimal) "" else
-            accountQueryCTE(homeCurrency, endOfDay, aggregateFunction, typeWithFallBack, date)
+            accountQueryCTE(
+                homeCurrency,
+                endOfDay,
+                aggregateFunction,
+                typeWithFallBack,
+                date,
+                dynamicExchangeRatesDefault
+            )
 
         val tableName = if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS
         val query = if (mergeAggregate == null) {
@@ -1045,12 +1066,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun oldestTransactionForCurrency(db: SupportSQLiteDatabase, currency: String) =
+    fun oldestTransactionForCurrency(
+        db: SupportSQLiteDatabase,
+        currency: String,
+        prefHandler: PrefHandler
+    ) =
         Bundle(1).apply {
             db.query(
                 TABLE_TRANSACTIONS,
                 arrayOf("min($KEY_DATE)"),
-                "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_DYNAMIC)",
+                "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $dynamicExchangeRatesDefault)",
                 arrayOf(currency)
             ).use {
                 if (it.moveToFirst() && !it.isNull(0)) epoch2LocalDate(it.getLong(0)) else null
@@ -2078,6 +2103,45 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     /**
+     * @param baseTable if not null, extended projection is calculated
+     */
+    fun templateProjection(
+        baseTable: String?
+    ): Array<String> = buildList {
+        add(KEY_ROWID)
+        add(KEY_AMOUNT)
+        add(KEY_COMMENT)
+        add(KEY_CATID)
+        add(KEY_PATH)
+        add(KEY_PAYEE_NAME)
+        add(KEY_TRANSFER_ACCOUNT)
+        add(TRANSFER_ACCOUNT_LABEL)
+        add(KEY_ACCOUNTID)
+        add(KEY_ACCOUNT_LABEL)
+        add(KEY_METHODID)
+        add(KEY_TITLE)
+        add(KEY_PLANID)
+        add(KEY_PLAN_EXECUTION)
+        add(KEY_UUID)
+        add(KEY_PARENTID)
+        add(KEY_PLAN_EXECUTION_ADVANCE)
+        add(KEY_DEFAULT_ACTION)
+        add(KEY_DEBT_ID)
+        add(KEY_ORIGINAL_CURRENCY)
+        add(KEY_ORIGINAL_AMOUNT)
+        if (baseTable != null) {
+            add(KEY_COLOR)
+            add(KEY_CURRENCY)
+            add(KEY_METHOD_LABEL)
+            add("$dynamicExchangeRatesDefault AS $KEY_DYNAMIC")
+            add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS  + $KEY_SEALED")
+        }
+    }.toTypedArray()
+
+    val dynamicCurrenciesSelection
+        get() = "$dynamicExchangeRatesDefault AND $KEY_CURRENCY != ?"
+
+    /**
      * @param transactionId can be passed in as Long or String
      */
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
@@ -2088,7 +2152,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         // update trigger and we would not be able to check if value has changed
         val count = update(
             TABLE_EQUIVALENT_AMOUNTS,
-            ContentValues(1).apply<ContentValues> {
+            ContentValues(1).apply {
                 put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
             }, "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?", arrayOf(transactionId, homeCurrency)
         )
@@ -2108,7 +2172,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val sql1 =
             """INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
-          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC, ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
+          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = $VIEW_WITH_ACCOUNT.$KEY_CURRENCY and $TABLE_PRICES.$KEY_DATE <=  strftime('%Y-%m-%d', $VIEW_WITH_ACCOUNT.$KEY_DATE, 'unixepoch', 'localtime') ORDER BY $KEY_DATE DESC, ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $dynamicExchangeRatesDefault AND $KEY_CURRENCY != ? AND $KEY_PARENTID IS NULL $accountIdClause AND new_equivalent_amount IS NOT NULL
         """
         val count1 = compileStatement(sql1).use {
             it.bindAllArgsAsStrings(listOf(currency, currency, currency))
@@ -2163,7 +2227,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val dateString = date.toString()
         val sql =
             """INSERT OR REPLACE INTO $TABLE_EQUIVALENT_AMOUNTS ($KEY_TRANSACTIONID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT)
-          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = ? and $TABLE_PRICES.$KEY_DATE = ? ORDER BY ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $KEY_DYNAMIC AND $KEY_CURRENCY = ? AND $KEY_PARENTID IS NULL AND strftime('%Y-%m-%d', $KEY_DATE, 'unixepoch', 'localtime') = ? AND new_equivalent_amount IS NOT NULL
+          SELECT $KEY_ROWID, ?, round($KEY_AMOUNT * (SELECT $KEY_VALUE FROM $TABLE_PRICES WHERE $TABLE_PRICES.$KEY_CURRENCY = ? AND $TABLE_PRICES.$KEY_COMMODITY = ? and $TABLE_PRICES.$KEY_DATE = ? ORDER BY ${priceSort()} LIMIT 1)) AS new_equivalent_amount FROM $VIEW_WITH_ACCOUNT WHERE $dynamicExchangeRatesDefault AND $KEY_CURRENCY = ? AND $KEY_PARENTID IS NULL AND strftime('%Y-%m-%d', $KEY_DATE, 'unixepoch', 'localtime') = ? AND new_equivalent_amount IS NOT NULL
         """
         return compileStatement(sql).use {
             it.bindAllArgsAsStrings(

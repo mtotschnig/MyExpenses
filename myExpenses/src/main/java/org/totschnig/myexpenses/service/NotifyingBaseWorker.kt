@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.service
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import org.totschnig.myexpenses.R
@@ -17,11 +19,13 @@ abstract class NotifyingBaseWorker(context: Context, workerParameters: WorkerPar
         get() = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val wrappedContext: Context
     val prefHandler: PrefHandler
+    val datastore: DataStore<Preferences>
 
     init {
         val app = context.myApplication
         wrappedContext = app.wrapContext(context)
         prefHandler = app.appComponent.prefHandler()
+        datastore = app.appComponent.preferencesDataStore()
     }
 
     private val notificationTitle: String

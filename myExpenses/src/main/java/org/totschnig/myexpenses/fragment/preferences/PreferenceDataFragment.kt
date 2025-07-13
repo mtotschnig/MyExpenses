@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.preference.DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
@@ -120,6 +121,12 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                 getString(R.string.pref_exchange_rates_api_key_summary, it.host)
         }
         configureExchangeRatesPreference(ExchangeRateApi.configuredSources(prefHandler))
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleList(findPreference(DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY)!!)
+            }
+        }
     }
 
     private fun configureCurrenciesForAutomaticFXDownload(
@@ -173,7 +180,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
     val automaticChangeRateCurrencyOnChangeListener =
         OnPreferenceChangeListener { preference, newValue ->
             if (newValue == SERVICE_DEACTIVATED) return@OnPreferenceChangeListener true
-            val source = ExchangeRateApi.getByName(newValue as String)!!
+            val source = ExchangeRateApi.getByName(newValue as String)
             if (source is ExchangeRateApi.SourceWithApiKey && source.getApiKey(prefHandler).isNullOrEmpty()) {
                 preferenceActivity.showSnackBar(getString(R.string.pref_exchange_rates_api_key_summary, source.host))
                 return@OnPreferenceChangeListener false

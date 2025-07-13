@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 import javax.inject.Inject
@@ -97,3 +99,24 @@ private val Preference.changeFlow: Flow<Pair<Preference?, Any?>>
 
         awaitClose { this@changeFlow.onPreferenceChangeListener = null }
     }
+
+const val DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY = "dynamic_exchange_rates_default"
+
+val dynamicExchangeRatesDefaultKey = stringPreferencesKey(DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY)
+
+/**
+ * 1 if all accounts should have dynamic exchange rates,
+ * 0 if none should have dynamic exchange rates,
+ * KEY_DYNAMIC if dynamic exchange rates should be set per account
+ */
+val DataStore<Preferences>.dynamicExchangeRates: Flow<String>
+    get() = data.map { preferences ->
+        when(preferences[dynamicExchangeRatesDefaultKey]) {
+            "DYNAMIC" -> "1"
+            "STATIC" -> "0"
+            else -> KEY_DYNAMIC
+        }
+    }
+
+val DataStore<Preferences>.dynamicExchangeRatesPerAccount: Flow<Boolean>
+    get() = dynamicExchangeRates.map { it == KEY_DYNAMIC }

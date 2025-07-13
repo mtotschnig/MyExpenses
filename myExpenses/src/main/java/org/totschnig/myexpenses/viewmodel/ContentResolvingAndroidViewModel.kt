@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -135,6 +136,10 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         dataStore.data.map {
             it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON)] != false
         }
+    }
+
+    val dynamicExchangeRatesPerAccount: Flow<Boolean> by lazy {
+        dataStore.dynamicExchangeRatesPerAccount
     }
 
     val colorSource: Flow<ColorSource> by lazy {

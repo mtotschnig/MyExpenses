@@ -539,7 +539,8 @@ fun accountQueryCTE(
     endOfDay: Boolean,
     aggregateFunction: String,
     typeWithFallBack: String,
-    date: String = "now",
+    date: String,
+    dynamicExpression: String,
 ): String {
     val dateCriterion =
         if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', '-1 second', 'utc'" else "'$date'"
@@ -551,8 +552,8 @@ fun accountQueryCTE(
     val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
 
     val fullAccountProjection = arrayOf(
-        "CASE WHEN $KEY_DYNAMIC THEN $CTE_LATEST_RATES.$KEY_VALUE END AS $KEY_LATEST_EXCHANGE_RATE ",
-        "CASE WHEN $KEY_DYNAMIC THEN $CTE_LATEST_RATES.$KEY_DATE END AS $KEY_LATEST_EXCHANGE_RATE_DATE",
+        "CASE WHEN $dynamicExpression THEN $CTE_LATEST_RATES.$KEY_VALUE END AS $KEY_LATEST_EXCHANGE_RATE ",
+        "CASE WHEN $dynamicExpression THEN $CTE_LATEST_RATES.$KEY_DATE END AS $KEY_LATEST_EXCHANGE_RATE_DATE",
         KEY_EXCHANGE_RATE,
         "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
         KEY_LABEL,
@@ -572,7 +573,7 @@ fun accountQueryCTE(
         KEY_CRITERION,
         KEY_SEALED,
         "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
-        "($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $KEY_DYNAMIC THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_CURRENT_BALANCE",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_CURRENT_BALANCE",
         KEY_SUM_INCOME,
         KEY_SUM_EXPENSES,
         KEY_SUM_TRANSFERS,
@@ -580,7 +581,7 @@ fun accountQueryCTE(
         KEY_EQUIVALENT_EXPENSES,
         KEY_EQUIVALENT_TRANSFERS,
         "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
-        "($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $KEY_DYNAMIC THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_TOTAL",
+        "($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_TOTAL",
         "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
         "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
         KEY_USAGES,
@@ -590,7 +591,7 @@ fun accountQueryCTE(
         KEY_LAST_USED,
         KEY_BANK_ID,
         KEY_HIDDEN,
-        "$KEY_CURRENCY != '$homeCurrency' AND $KEY_DYNAMIC AS $KEY_DYNAMIC"
+        "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC"
     )
     return """
 WITH now as (

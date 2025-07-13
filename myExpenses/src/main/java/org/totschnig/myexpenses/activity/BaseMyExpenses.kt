@@ -150,6 +150,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -758,15 +759,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             onHide = {
                                 viewModel.setAccountVisibility(true, it)
                             },
-                            onToggleSealed = {
-                                toggleAccountSealed(it)
-                            },
-                            onToggleExcludeFromTotals = {
-                                toggleExcludeFromTotals(it)
-                            },
-                            onToggleDynamicExchangeRate = {
-                                toggleDynamicExchangeRate(it)
-                            },
+                            onToggleSealed = { toggleAccountSealed(it) },
+                            onToggleExcludeFromTotals = { toggleExcludeFromTotals(it) },
+                            onToggleDynamicExchangeRate = if (viewModel.dynamicExchangeRatesPerAccount.collectAsState(true).value) {
+                                { toggleDynamicExchangeRate(it) }
+                            } else null,
                             listState = viewModel.listState,
                             showEquivalentWorth = viewModel.showEquivalentWorth()
                                 .collectAsState(false).value,
@@ -2252,8 +2249,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             ?.setEnabledAndVisible(!sealed)
                         subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)?.isChecked =
                             excludeFromTotals
-                        subMenu?.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)?.isChecked =
-                            dynamic
+                        lifecycleScope.launch {
+                            with(subMenu?.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
+                                setEnabledAndVisible(viewModel.dynamicExchangeRatesPerAccount.first())
+                                isChecked = dynamic
+                            }
+                        }
                     }
                 }
                 menu.findItem(R.id.ARCHIVE_COMMAND)

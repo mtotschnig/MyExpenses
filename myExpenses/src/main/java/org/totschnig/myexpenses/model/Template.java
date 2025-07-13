@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.provider.CursorExtKt.getBoolean;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -55,7 +54,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
 
 import android.Manifest;
 import android.content.ContentProviderOperation;
@@ -143,42 +141,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
   @Override
   public void saveTags(@NonNull ContentResolver contentResolver, @NonNull List<Tag> tags) {
     RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, getId());
-  }
-
-
-  public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
-
-  static {
-    PROJECTION_BASE = new String[]{
-        KEY_ROWID,
-        KEY_AMOUNT,
-        KEY_COMMENT,
-        KEY_CATID,
-        KEY_PATH,
-        KEY_PAYEE_NAME,
-        KEY_TRANSFER_ACCOUNT,
-        TRANSFER_ACCOUNT_LABEL,
-        KEY_ACCOUNTID,
-        KEY_ACCOUNT_LABEL,
-        KEY_METHODID,
-        KEY_TITLE,
-        KEY_PLANID,
-        KEY_PLAN_EXECUTION,
-        KEY_UUID,
-        KEY_PARENTID,
-        KEY_PLAN_EXECUTION_ADVANCE,
-        KEY_DEFAULT_ACTION,
-        KEY_DEBT_ID,
-        KEY_ORIGINAL_CURRENCY,
-        KEY_ORIGINAL_AMOUNT
-    };
-    int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 4];
-    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
-    PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
-    PROJECTION_EXTENDED[baseLength + 1] = KEY_CURRENCY;
-    PROJECTION_EXTENDED[baseLength + 2] = KEY_METHOD_LABEL;
-    PROJECTION_EXTENDED[baseLength + 3] = KEY_DYNAMIC;
   }
 
   /**
@@ -287,7 +249,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  public void setAmount(Money amount) {
+  public void setAmount(@NonNull Money amount) {
     if (template instanceof Transfer) {
       //transfer template only have one part set
       ((Transfer) template).setAmountAndTransferAmount(amount, null);
@@ -296,6 +258,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
   }
 
+  @NonNull
   @Override
   public Money getAmount() {
     return template.getAmount();
@@ -607,7 +570,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (runPlanner) {
       PlanExecutor.Companion.enqueueSelf(MyApplication.Companion.getInstance(), MyApplication.Companion.getInstance().getAppComponent().prefHandler(), true);
     }
-
     return uri;
   }
 

@@ -80,7 +80,7 @@ fun AccountList(
     onHide: (Long) -> Unit,
     onToggleSealed: (FullAccount) -> Unit,
     onToggleExcludeFromTotals: (FullAccount) -> Unit,
-    onToggleDynamicExchangeRate: (FullAccount) -> Unit,
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)?,
@@ -221,7 +221,7 @@ fun AccountCard(
     onHide: (Long) -> Unit = {},
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
-    onToggleDynamicExchangeRate: (FullAccount) -> Unit = {},
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
@@ -300,7 +300,7 @@ fun AccountCard(
                     )
                 )
             }
-            if (account.dynamic)  {
+            if (onToggleDynamicExchangeRate != null && account.dynamic) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ShowChart,
                     contentDescription = stringResource(
@@ -332,35 +332,40 @@ fun AccountCard(
                             add(edit("EDIT_ACCOUNT") { onEdit(account) })
                         }
                         add(delete("DELETE_ACCOUNT") { onDelete(account) })
-                        add(MenuEntry(
-                            icon = Icons.Filled.VisibilityOff,
-                            label = R.string.hide,
-                            command = "HIDE_COMMAND"
-                        ) {
-                            onHide(account.id)
-                        }
+                        add(
+                            MenuEntry(
+                                icon = Icons.Filled.VisibilityOff,
+                                label = R.string.hide,
+                                command = "HIDE_COMMAND"
+                            ) {
+                                onHide(account.id)
+                            }
                         )
                         add(
                             toggle("ACCOUNT", account.sealed) {
                                 onToggleSealed(account)
                             }
                         )
-                        add(CheckableMenuEntry(
-                            isChecked = account.excludeFromTotals,
-                            label = R.string.menu_exclude_from_totals,
-                            command = "EXCLUDE_FROM_TOTALS_COMMAND"
-                        ) {
-                            onToggleExcludeFromTotals(account)
-                        })
-                        if (account.currency != homeCurrency.code) {
-                            add(CheckableMenuEntry(
-                                isChecked = account.dynamic,
-                                label = R.string.dynamic_exchange_rate,
-                                command = "DYNAMIC_EXCHANGE_RATE"
+                        add(
+                            CheckableMenuEntry(
+                                isChecked = account.excludeFromTotals,
+                                label = R.string.menu_exclude_from_totals,
+                                command = "EXCLUDE_FROM_TOTALS_COMMAND"
                             ) {
-                                onToggleDynamicExchangeRate(account)
+                                onToggleExcludeFromTotals(account)
                             })
-                        }
+                        onToggleDynamicExchangeRate
+                            ?.takeIf { account.currency != homeCurrency.code }
+                            ?.let {
+                                add(
+                                    CheckableMenuEntry(
+                                        isChecked = account.dynamic,
+                                        label = R.string.dynamic_exchange_rate,
+                                        command = "DYNAMIC_EXCHANGE_RATE"
+                                    ) {
+                                        onToggleDynamicExchangeRate(account)
+                                    })
+                            }
                     }
                 }
             )
@@ -398,7 +403,11 @@ fun AccountCard(
                     )
                 )
                 if (showEquivalent && isFx && account.equivalentOpeningBalance != 0L && account.initialExchangeRate != null) {
-                    val realRate = calculateRealExchangeRate(account.initialExchangeRate, account.currencyUnit, homeCurrency)
+                    val realRate = calculateRealExchangeRate(
+                        account.initialExchangeRate,
+                        account.currencyUnit,
+                        homeCurrency
+                    )
                     Text("1 $accountCurrencyIsolated = ${fXFormat.format(realRate)} $homeCurrencyIsolated")
                 }
                 val displayIncome =
@@ -448,7 +457,8 @@ fun AccountCard(
 
                     account.latestExchangeRate?.let { (date, rate) ->
                         val dateFormatted = LocalDateFormatter.current.format(date)
-                        val realRate = calculateRealExchangeRate(rate, account.currencyUnit, homeCurrency)
+                        val realRate =
+                            calculateRealExchangeRate(rate, account.currencyUnit, homeCurrency)
                         Text(
                             "1 $accountCurrencyIsolated = ${fXFormat.format(realRate)} $homeCurrencyIsolated ($dateFormatted)"
                         )

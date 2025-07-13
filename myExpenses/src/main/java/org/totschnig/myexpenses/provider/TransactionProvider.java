@@ -165,6 +165,7 @@ import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefHandlerKt;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -713,7 +714,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                   (TextUtils.isEmpty(selector) ? "" : " AND " + selector));
           qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_EXTENDED);
           if (projection == null) {
-            projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
+            projection = templateProjection(VIEW_TEMPLATES_EXTENDED);
           }
         } else {
           qb = SupportSQLiteQueryBuilder.builder(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %1$s.%3$s = %4$s AND %5$s = %6$s LEFT JOIN %7$s ON %7$s.%3$s = %2$s.%8$s",
@@ -731,13 +732,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TEMPLATES_UNCOMMITTED:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_UNCOMMITTED);
         if (projection == null)
-          projection = Template.PROJECTION_BASE;
+          projection = templateProjection(null);
         break;
       case TEMPLATE_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_ALL);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         if (projection == null) {
-          projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_ALL);
+          projection = templateProjection(VIEW_TEMPLATES_ALL);
         }
         break;
       case SQLITE_SEQUENCE_TABLE:
@@ -940,7 +941,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (commodity != null) {
           selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";
           selectionArgs = new String[]{getHomeCurrency(), commodity};
-          extras = oldestTransactionForCurrency(db, commodity);
+          extras = oldestTransactionForCurrency(db, commodity, prefHandler);
         }
         break;
       }
@@ -948,7 +949,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case DYNAMIC_CURRENCIES: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
         projection = new String[] { "distinct " + KEY_CURRENCY };
-        selection = KEY_DYNAMIC + " AND " + KEY_CURRENCY + " != ?";
+        selection = getDynamicCurrenciesSelection();
         selectionArgs = new String[] { getHomeCurrency() };
         break;
       }

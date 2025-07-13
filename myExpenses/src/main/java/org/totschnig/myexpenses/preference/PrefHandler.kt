@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.Account

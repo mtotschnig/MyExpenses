@@ -9,6 +9,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.savePrice
@@ -20,10 +21,10 @@ import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHA
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
+import org.totschnig.myexpenses.preference.dynamicExchangeRates
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -115,10 +116,11 @@ class DailyExchangeRateDownloadService(context: Context, workerParameters: Worke
             ContribUtils.showContribNotification(applicationContext, ContribFeature.AUTOMATIC_FX_DOWNLOAD)
             return Result.failure()
         }
+
         val result: List<kotlin.Result<Unit>>? = applicationContext.contentResolver.query(
             TransactionProvider.ACCOUNTS_MINIMAL_URI,
             arrayOf("distinct $KEY_CURRENCY"),
-            "$KEY_DYNAMIC AND $KEY_CURRENCY != ? AND NOT EXISTS(SELECT 1 from $TABLE_PRICES where $KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY and $KEY_DATE = date('now'))",
+            "${datastore.dynamicExchangeRates.first()} AND $KEY_CURRENCY != ? AND NOT EXISTS(SELECT 1 from $TABLE_PRICES where $KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY and $KEY_DATE = date('now'))",
             arrayOf(currencyContext.homeCurrencyString),
             null
         )

@@ -382,4 +382,16 @@
         <item>FRANKFURTER</item>
     </string-array>
 
+    <string-array name="pref_dynamic_exchange_rates_default_values">
+        <item>DYNAMIC</item>
+        <item>STATIC</item>
+        <item>PER_ACCOUNT</item>
+    </string-array>
+
+    <string-array name="pref_dynamic_exchange_rates_default_entries">
+        <item>@string/pref_dynamic_exchange_rates_dynamic</item>
+        <item>@string/pref_dynamic_exchange_rates_static</item>
+        <item>@string/pref_dynamic_exchange_rates_per_account</item>
+    </string-array>
+
 </resources>
