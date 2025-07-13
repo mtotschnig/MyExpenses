@@ -12,7 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -174,6 +176,17 @@ class TagList : Fragment(), OnDialogResultListener {
                 visibility = View.GONE
             }
         }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView, { v, insets ->
+            val navigationInsets = insets.getInsets(
+                WindowInsetsCompat.Type.navigationBars()
+            )
+
+            v.updatePadding(
+                bottom = navigationInsets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        })
     }
 
     private fun removeTag(tag: Tag) {
