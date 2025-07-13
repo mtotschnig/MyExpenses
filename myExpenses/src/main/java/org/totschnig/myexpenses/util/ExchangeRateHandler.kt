@@ -89,6 +89,7 @@ class ExchangeRateHandler(
         source: ExchangeRateApi,
         start: LocalDate,
         end: LocalDate,
+        except: Set<LocalDate>,
         other: String,
         base: String,
     ): Pair<Int, Exception?> = withContext(Dispatchers.IO) {
@@ -97,6 +98,7 @@ class ExchangeRateHandler(
             (source as? ExchangeRateApi.SourceWithApiKey)?.requireApiKey(prefHandler),
             start,
             end,
+            except,
             other,
             base
         )

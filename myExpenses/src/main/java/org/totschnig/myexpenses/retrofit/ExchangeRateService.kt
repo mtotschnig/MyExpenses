@@ -8,10 +8,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
 import java.io.IOException
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -37,6 +33,8 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
     ExchangeRateSource(name) {
 
     open val limitToOneRequestPerDay: Boolean = false
+
+    open val hasTimeSeriesRequest: Boolean = true
 
     fun convertError(e: HttpException) = e.response()?.errorBody()?.let { body ->
         extractError(body)?.let { IOException(it) }
@@ -133,6 +131,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         id = R.id.OPENEXCHANGERATES_ID,
         name = "OPENEXCHANGERATES"
     ) {
+        override val hasTimeSeriesRequest = false
         override fun extractError(body: ResponseBody): String =
             JSONObject(body.string()).getString("description")
     }
@@ -274,6 +273,7 @@ class ExchangeRateService(
         apiKey: String?,
         start: LocalDate,
         end: LocalDate,
+        except: Collection<LocalDate>,
         base: String,
         symbol: String,
     ): Pair<List<Pair<LocalDate, Double>>, Exception?> = try {
@@ -296,7 +296,7 @@ class ExchangeRateService(
 
                 val result = mutableMapOf<LocalDate, Double>()
                 var exception: Exception? = null
-                getDatesBetween(start, end).forEach { date ->
+                getDatesBetween(start, end, except).forEach { date ->
                     try {
                         result += getRate(source, apiKey, date, base, symbol)
                     } catch (e: Exception) {
@@ -322,11 +322,13 @@ class ExchangeRateService(
 }
 
 // Helper function to get all dates in a range (inclusive)
-fun getDatesBetween(startDate: LocalDate, endDate: LocalDate): List<LocalDate> {
+fun getDatesBetween(startDate: LocalDate, endDate: LocalDate, except: Collection<LocalDate>): List<LocalDate> {
     val dates = mutableListOf<LocalDate>()
     var currentDate = startDate
     while (!currentDate.isAfter(endDate)) {
-        dates.add(currentDate)
+        if (currentDate !in except) {
+            dates.add(currentDate)
+        }
         currentDate = currentDate.plusDays(1)
     }
     return dates

@@ -190,10 +190,14 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         start: LocalDate,
         end: LocalDate,
     ) {
+        val except  = if (source.hasTimeSeriesRequest) emptySet() else
+            pricesWithMissingDates.value.filter { it.key in start..end  && it.value != null }.keys
+        Timber.d("loadTimeSeries skip : ${except.joinToString()}")
         val (count, exception) = exchangeRateHandler.loadTimeSeries(
             source,
             start,
             end,
+            except,
             commodity,
             currencyContext.homeCurrencyString
         )
