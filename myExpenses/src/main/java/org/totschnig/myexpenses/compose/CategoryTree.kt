@@ -40,7 +40,9 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -249,6 +251,7 @@ fun CategoryRenderer(
             }
             .conditional(choiceMode.isNodeSelected(category.id)) {
                 background(activatedBackgroundColor)
+                    .semantics { selected = true }
             }
             .padding(end = 24.dp, start = startPadding)
             .conditional(category.children.isNotEmpty()) {
@@ -265,22 +268,29 @@ fun CategoryRenderer(
                         }
                     }
                 }
+            }
+            .semantics {
+                contentDescription = (if (category.level == 1)
+                    "Hauptkategorie" else "Unterkategorie") + ", Ebene ${category.level}"  +
+                        if (category.children.isEmpty()) ""
+                        else ", enthält ${category.children.size} Unterkategorien der Ebene ${category.level + 1}"
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
             Spacer(modifier = Modifier.width(48.dp))
         } else {
-            ExpansionHandle(isExpanded = isExpanded) {
+            ExpansionHandle(
+                isExpanded = isExpanded
+            ) {
                 expansionMode.toggle(category)
             }
         }
         if (category.icon != null) {
             Box(
                 modifier = Modifier
-                    .size(48.dp).clearAndSetSemantics {
-
-                    },
+                    .size(48.dp)
+                    .clearAndSetSemantics {},
                 contentAlignment = Alignment.Center
             ) {
 
@@ -299,7 +309,7 @@ fun CategoryRenderer(
         Text(
             text = category.label,
             modifier = Modifier.weight(1f),
-            color = category.typeFlags?.takeIf { withTypeColors }.typeTextColor
+            color = category.typeFlags.takeIf { withTypeColors }.typeTextColor
         )
 
         sumCurrency?.let {
@@ -454,10 +464,10 @@ sealed class ChoiceMode(
         }
     }
 
-        data object NoChoice : ChoiceMode(false, isSelectable = { false }) {
-            override fun isSelected(id: Long) = false
+    data object NoChoice : ChoiceMode(false, isSelectable = { false }) {
+        override fun isSelected(id: Long) = false
 
-            override fun toggleSelection(selectedAncestor: Category?, category: Category) {}
-        }
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {}
+    }
 }
 

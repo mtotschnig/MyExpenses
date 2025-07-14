@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithText
@@ -26,13 +27,16 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
+import java.time.ZonedDateTime
 
 class DistributionTest : BaseUiTest<DistributionActivity>() {
     @get:Rule
@@ -41,11 +45,13 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     private lateinit var account: Account
 
     private var categoryExpenseId = 0L
+    private var categoryExpenseId2 = 0L
     private var categoryIncomeId = 0L
 
     private fun baseFixture(
         showIncome: Boolean = false,
         showExpense: Boolean = true,
+        grouping: Grouping = Grouping.NONE,
         additionalFixture: () -> Unit = {}
     ) {
         account = buildAccount("Test account 1")
@@ -55,10 +61,11 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
                 putExtra(KEY_ACCOUNTID, account.id)
                 putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
                 putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
+                putExtra(KEY_GROUPING, grouping)
             })
     }
 
-    private fun fixtureWithMappedTransactions(
+    private fun fixtureWithExpenseAndIncome(
         showIncome: Boolean = false,
         showExpense: Boolean = true
     ) {
@@ -73,6 +80,39 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
             with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)
                 catId = categoryIncomeId
+                save(contentResolver)
+            }
+        }
+    }
+
+    private fun fixtureWithMultipleMonths(
+        showIncome: Boolean = false,
+        showExpense: Boolean = true
+    ) {
+        baseFixture(showIncome, showExpense, Grouping.MONTH) {
+            categoryExpenseId = writeCategory("Expense 1")
+            categoryExpenseId2 = writeCategory("Expense 2")
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+                amount = Money(homeCurrency, -1200L)
+                catId = categoryExpenseId
+                save(contentResolver)
+            }
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+                amount = Money(homeCurrency, -3400L)
+                catId = categoryExpenseId2
+                save(contentResolver)
+            }
+            val date = ZonedDateTime.now().minusMonths(1)
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+                amount = Money(homeCurrency, -3400L)
+                catId = categoryExpenseId
+                setDate(date)
+                save(contentResolver)
+            }
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+                amount = Money(homeCurrency, -1200L)
+                catId = categoryExpenseId2
+                setDate(date)
                 save(contentResolver)
             }
         }
@@ -140,12 +180,23 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         }
     }
 
+    @Test
+    fun shouldKeepSelectedCategory() {
+        fixtureWithMultipleMonths()
+        composeTestRule.onNodeWithText("Expense 2").assertIsSelected()
+        clickMenuItem(R.id.BACK_COMMAND)
+        composeTestRule.onNodeWithText("Expense 2").assertIsSelected()
+        doWithRotation {
+            composeTestRule.onNodeWithText("Expense 2").assertIsSelected()
+        }
+    }
+
     private fun launchWithContextCommand(
         @StringRes menuLabel: Int,
         assertIncome: (() -> Unit)?,
         assertExpense: (() -> Unit)?
     ) {
-        fixtureWithMappedTransactions(assertIncome != null, assertExpense != null)
+        fixtureWithExpenseAndIncome(assertIncome != null, assertExpense != null)
         if (assertIncome != null) {
             composeTestRule
                 .onNodeWithText("Income").performTouchInput {

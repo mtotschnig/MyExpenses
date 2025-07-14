@@ -83,7 +83,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Collections
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.absoluteValue
 
 data class ScrollCalculationResult(

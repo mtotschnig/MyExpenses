@@ -83,7 +83,7 @@ open class CurrencyFormatter(
             try {
                 nf.applyLocalizedPattern(prefFormat)
                 return nf
-            } catch (ignored: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 //fallback to default currency instance
             }
         }
@@ -97,11 +97,12 @@ open class CurrencyFormatter(
             val fractionDigits = currencyUnit.fractionDigits
             try {
                 numberFormat.currency = Currency.getInstance(currencyUnit.code)
-            } catch (ignored: Exception) { /*Custom locale}*/
+            } catch (_: Exception) { /*Custom locale}*/
             }
             val currencySymbol = currencyUnit.symbol
             val decimalFormatSymbols = (numberFormat as DecimalFormat).decimalFormatSymbols
             decimalFormatSymbols.currencySymbol = currencySymbol
+            decimalFormatSymbols.minusSign = '\u2212'
             numberFormat.decimalFormatSymbols = decimalFormatSymbols
             if (fractionDigits <= 3) {
                 numberFormat.minimumFractionDigits = fractionDigits
