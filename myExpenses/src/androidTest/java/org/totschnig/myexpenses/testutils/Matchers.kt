@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.ui.DateButton
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.time.LocalDate
 
@@ -66,6 +67,17 @@ fun withOperationType(type: Int): Matcher<Any> =
 
         override fun describeTo(description: Description) {
             description.appendText("with operation type '$type'")
+        }
+    }
+
+fun withCurrency(currency: String): Matcher<Any> =
+    object : BoundedMatcher<Any, Currency>(Currency::class.java) {
+        override fun matchesSafely(myObj: Currency): Boolean {
+            return myObj.code == currency
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText("with currency '$currency'")
         }
     }
 

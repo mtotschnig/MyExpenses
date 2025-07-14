@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.cleanup
@@ -84,7 +85,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         ActivityScenario.launch<ManageCategories>(
             Intent(targetContext, ManageCategories::class.java).also {
                 it.action = Action.MANAGE.name
-                it.putExtra(CategoryViewModel.KEY_TYPE_FILTER, FLAG_NEUTRAL)
+                it.putExtra(KEY_TYPE, FLAG_NEUTRAL)
             }
         ).also {
             testScenario = it
