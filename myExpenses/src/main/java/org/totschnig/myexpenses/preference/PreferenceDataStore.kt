@@ -56,7 +56,10 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    suspend fun handleList(preference: ListPreference) {
+    suspend fun handleList(
+        preference: ListPreference,
+        onChanged: ((String) -> Unit)? = null
+    ) {
         val prefKey = stringPreferencesKey(preference.key)
         val value = dataStore.data.first()[prefKey]
             ?: preference.value ////this gives us defaultValue from XML if no value is persisted yet
@@ -73,7 +76,10 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
                 setValue(value)
 
                 try {
-                    dataStore.edit { it[prefKey] = checked }
+                    dataStore.edit {
+                        it[prefKey] = checked
+                        onChanged?.invoke(checked)
+                    }
                 } catch (ex: IOException) {
                     CrashHandler.report(ex)
                 }

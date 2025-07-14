@@ -35,8 +35,9 @@ import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -302,8 +303,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> enqueuePlanner(false)
 
             getKey(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER) -> {
-                contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
-                contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
+                contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
+                contentResolver.notifyChange(ACCOUNTS_URI, null, false)
             }
 
             getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()

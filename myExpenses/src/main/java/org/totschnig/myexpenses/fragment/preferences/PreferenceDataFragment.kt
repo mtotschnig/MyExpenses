@@ -27,6 +27,8 @@ import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHA
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -124,7 +126,10 @@ class PreferenceDataFragment : BasePreferenceFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                preferenceDataStore.handleList(findPreference(DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY)!!)
+                preferenceDataStore.handleList(findPreference(DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY)!!) {
+                    requireContext().contentResolver.notifyChange(DYNAMIC_CURRENCIES_URI, null, false)
+                    requireContext().contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+                }
             }
         }
     }

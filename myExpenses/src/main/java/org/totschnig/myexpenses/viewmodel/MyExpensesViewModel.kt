@@ -331,12 +331,6 @@ open class MyExpensesViewModel(
                 it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)],
                 FutureCriterion.EndOfDay
             )
-        }.distinctUntilChanged().also {
-            viewModelScope.launch {
-                it.drop(1).collect {
-                    triggerAccountListRefresh()
-                }
-            }
         }
     }
 
