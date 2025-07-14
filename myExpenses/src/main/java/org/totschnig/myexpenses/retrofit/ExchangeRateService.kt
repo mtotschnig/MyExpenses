@@ -273,9 +273,9 @@ class ExchangeRateService(
         apiKey: String?,
         start: LocalDate,
         end: LocalDate,
-        except: Collection<LocalDate>,
         base: String,
         symbol: String,
+        except: Collection<LocalDate> = emptySet(),
     ): Pair<List<Pair<LocalDate, Double>>, Exception?> = try {
         require(start <= end)
         if (!source.isSupported(symbol, base)) {
