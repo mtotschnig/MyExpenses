@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -13,7 +12,8 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources xmlns:tools="http://schemas.android.com/tools">
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Konto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Kontotypen</string>
@@ -1022,4 +1022,11 @@
         <item quantity="other">%d Zeilen konnten nicht verarbeitet werden.</item>
     </plurals>
     <string name="confirm_process_file_message">Sind Sie sicher, dass Sie die Preise für \'%1$s\' von \'%2$s\' importieren möchten? Neue Preise können sich auf bestehende gleichwertige Beträge auswirken.</string>
+    <string name="category_type_main">Hauptkategorie</string>
+    <string name="category_type_sub">Unterkategorie</string>
+    <string name="category_description_base">%1$s, Ebene %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, enthält eine Unterkategorie der Ebene %2$d</item>
+        <item quantity="other">, enthält %1$d Unterkategorien der Ebene %2$d</item>
+    </plurals>
 </resources>

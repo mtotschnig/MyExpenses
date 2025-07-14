@@ -1037,4 +1037,16 @@
         <item quantity="other">%d lignes n’ont pas pu être traitées.</item>
     </plurals>
     <string name="confirm_process_file_message">Voulez-vous vraiment importer les prix de « %1$s » depuis « %2$s » ? Les nouveaux prix peuvent affecter les montants équivalents existants.</string>
+    <resources>
+        <string name="category_type_main">Catégorie principale</string>
+        <string name="category_type_sub">Sous-catégorie</string>
+
+        <string name="category_description_base">%1$s, niveau %2$d</string>
+
+        <plurals name="category_description_children_suffix">
+            <item quantity="one">, contient une sous-catégorie de niveau %2$d</item>
+            <item quantity="other">, contient %1$d sous-catégories de niveau %2$d</item>
+        </plurals>
+    </resources>
+
 </resources>

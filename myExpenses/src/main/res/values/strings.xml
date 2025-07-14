@@ -1087,4 +1087,22 @@
     <string name="pref_dynamic_exchange_rates_dynamic">Dynamic rates for all accounts</string>
     <string name="pref_dynamic_exchange_rates_static">Static rates for all accounts</string>
     <string name="pref_dynamic_exchange_rates_per_account">Configure each account individually</string>
+    <!-- Type of category. Used in the string "category_description_base" -->
+    <string name="category_type_main">Main category</string>
+    <!-- Type of category. Used in the string "category_description_base" -->
+    <string name="category_type_sub">Subcategory</string>
+    <!-- Base description for a category.
+        %1$s is the category type (e.g., "Main category" or "Subcategory" translated).
+        %2$d is the category's current level number.
+     Example: "Main category, level 1" -->
+    <string name="category_description_base">%1$s, level %2$d</string>
+    <!-- Suffix added to the base description if the category contains child subcategories.
+            %1$d is the NUMBER of child subcategories (e.g., 1, 5). Used for display AND quantity selection.
+            %2$d is the level NUMBER of those child subcategories (e.g., 2, 3).
+         Example for 'one' quantity in English: ", contains one subcategory of level 2"
+         Example for 'other' quantity in English: ", contains 5 subcategories of level 2"-->
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, contains one subcategory of level %2$d.</item>
+        <item quantity="other">, contains %1$d subcategories of level %2$d.</item>
+    </plurals>
 </resources>

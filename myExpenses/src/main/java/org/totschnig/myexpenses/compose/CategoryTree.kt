@@ -34,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -198,6 +200,32 @@ fun Category(
     }
 }
 
+@Composable
+fun getCategoryContentDescription(category: Category): String {
+     val categoryTypeString = if (category.level == 1) {
+        stringResource(id = R.string.category_type_main)
+    } else {
+        stringResource(id = R.string.category_type_sub)
+    }
+
+    var description = stringResource(
+        id = R.string.category_description_base,
+        categoryTypeString, // %1$s
+        category.level      // %2$d
+    )
+
+    if (category.children.isNotEmpty()) {
+        val childrenSuffix = pluralStringResource(
+            id = R.plurals.category_description_children_suffix,
+            count = category.children.size,
+            category.children.size,
+            category.level + 1
+        )
+        description += childrenSuffix
+    }
+    return description
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryRenderer(
@@ -214,6 +242,7 @@ fun CategoryRenderer(
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     val menu = menuGenerator(category)
+    val contentDescription = getCategoryContentDescription(category)
     Row(
         modifier = Modifier
             .height(48.dp)
@@ -269,12 +298,7 @@ fun CategoryRenderer(
                     }
                 }
             }
-            .semantics {
-                contentDescription = (if (category.level == 1)
-                    "Hauptkategorie" else "Unterkategorie") + ", Ebene ${category.level}"  +
-                        if (category.children.isEmpty()) ""
-                        else ", enthält ${category.children.size} Unterkategorien der Ebene ${category.level + 1}"
-            },
+            .semantics { this.contentDescription = contentDescription },
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
