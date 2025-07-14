@@ -124,6 +124,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     val selectionState
         get() = viewModel.selectionState
 
+    private fun select(category: Category?) {
+        selectionState.value = category
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         super.onPrepareOptionsMenu(menu)
         Utils.configureGroupingMenu(
@@ -246,9 +250,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 )
             }
         }
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(WindowInsets.navigationBars.asPaddingValues())
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.navigationBars.asPaddingValues())
         ) {
             val accountInfo = viewModel.accountInfo.collectAsState(null).value
             if (categoryState.value === Category.LOADING || accountInfo == null) {
@@ -406,17 +411,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 super.toggle(category)
                 // when we collapse a category, we want it to be selected;
                 // when we expand, the first child should be selected
-                if (isExpanded(category.id)) {
-                    selectionState.value = category.children.firstOrNull()
-                } else {
-                    selectionState.value = category
-                }
+                select(if (isExpanded(category.id)) category.children.firstOrNull() else category)
             }
         }
         val accountInfo = viewModel.accountInfo.collectAsState(null).value
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(WindowInsets.navigationBars.asPaddingValues())
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.navigationBars.asPaddingValues())
         ) {
             when {
                 categoryTree.value === Category.LOADING || accountInfo == null -> {
@@ -701,12 +703,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             },
             colors = categories.map { it.color ?: 0 },
             onValueSelected = { index ->
-                selectionState.value = index?.let {
-                    categories.getOrNull(it)
-                }
+                select(index?.let { categories.getOrNull(it) })
             }
         ) {
-            selectionState.value = categories.firstOrNull()
+            if (selectionState.value == null) {
+                select(categories.firstOrNull())
+            }
         }
     }
 
