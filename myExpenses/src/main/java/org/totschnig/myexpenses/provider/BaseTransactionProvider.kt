@@ -50,8 +50,6 @@ import org.totschnig.myexpenses.model2.ICategoryInfo
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.dynamicExchangeRates
-import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
-import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -1068,8 +1066,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun oldestTransactionForCurrency(
         db: SupportSQLiteDatabase,
-        currency: String,
-        prefHandler: PrefHandler
+        currency: String
     ) =
         Bundle(1).apply {
             db.query(

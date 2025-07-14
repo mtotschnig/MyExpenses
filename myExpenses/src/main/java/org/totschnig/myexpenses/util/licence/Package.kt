@@ -42,15 +42,15 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     @Parcelize
     @Keep
-    data object Contrib : Package(1550)
+    data object Contrib : Package(1440)
 
     @Parcelize
     @Keep
-    data object Upgrade : Package(730)
+    data object Upgrade : Package(660)
 
     @Parcelize
     @Keep
-    data object Extended : Package(1935)
+    data object Extended : Package(1890)
 }
 
 @Suppress("ClassName")
