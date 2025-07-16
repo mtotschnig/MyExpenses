@@ -18,7 +18,6 @@ import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -41,8 +40,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -55,7 +52,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
-import org.totschnig.myexpenses.compose.ExpansionHandler
+import org.totschnig.myexpenses.compose.DataStoreExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
 import org.totschnig.myexpenses.compose.addToSelection
@@ -154,7 +151,6 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
 import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitionByAccountType
@@ -235,25 +231,13 @@ open class MyExpensesViewModel(
 
     fun expansionHandlerForTransactionGroups(account: PageAccount) =
         if (account.grouping == Grouping.NONE) null else
-            expansionHandler("collapsedHeaders_${account.id}_${account.grouping}")
+            DataStoreExpansionHandler(
+                "collapsedHeaders_${account.id}_${account.grouping}",
+                dataStore,
+                viewModelScope
+            )
 
-    fun expansionHandler(key: String) = object : ExpansionHandler {
-        val collapsedIdsPrefKey = stringSetPreferencesKey(key)
-        override val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->
-            preferences[collapsedIdsPrefKey] ?: emptySet()
-        }
-
-        override fun toggle(id: String) {
-            viewModelScope.launch {
-                dataStore.edit { settings ->
-                    settings[collapsedIdsPrefKey] =
-                        settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
-                            it.toggle(id)
-                        } ?: setOf(id)
-                }
-            }
-        }
-    }
+    fun expansionHandler(key: String) = DataStoreExpansionHandler(key, dataStore, viewModelScope)
 
     val selectedTransactionSum: Long
         get() = selectionState.value.sumOf { it.amount.amountMinor }

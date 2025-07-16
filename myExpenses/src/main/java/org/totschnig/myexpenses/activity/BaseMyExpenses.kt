@@ -768,7 +768,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             showEquivalentWorth = viewModel.showEquivalentWorth()
                                 .collectAsState(false).value,
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
-                            expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
+                            expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts"),
                             bankIcon = { modifier, id ->
                                 banks.value.find { it.id == id }
                                     ?.let { bank ->

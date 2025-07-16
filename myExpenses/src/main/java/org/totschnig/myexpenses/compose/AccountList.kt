@@ -86,11 +86,11 @@ fun AccountList(
     bankIcon: (@Composable (Modifier, Long) -> Unit)?,
 ) {
     val context = LocalContext.current
-    val collapsedGroupIds = expansionHandlerGroups.collapsedIds.collectAsState(initial = null).value
-    val collapsedAccountIds =
-        expansionHandlerAccounts.collapsedIds.collectAsState(initial = null).value
+    val collapsedGroupIds = expansionHandlerGroups.state.collectAsState(initial = null).value
+    val expandedAccountIds =
+        expansionHandlerAccounts.state.collectAsState(initial = null).value
 
-    if (collapsedGroupIds != null && collapsedAccountIds != null) {
+    if (collapsedGroupIds != null && expandedAccountIds != null) {
         val grouped: Map<String, List<FullAccount>> =
             accountData.groupBy { getHeaderId(grouping, it) }
         LazyColumnWithScrollbarAndBottomPadding(
@@ -114,7 +114,7 @@ fun AccountList(
                             //TODO add collectionItemInfo
                             AccountCard(
                                 account = account,
-                                isCollapsed = collapsedAccountIds.contains(account.id.toString()),
+                                isCollapsed = !expandedAccountIds.contains(account.id.toString()),
                                 isSelected = account.id == selectedAccount,
                                 onSelected = { onSelected(account.id) },
                                 onEdit = onEdit,

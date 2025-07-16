@@ -160,7 +160,7 @@ fun TransactionList(
 ) {
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
-        expansionHandler.collapsedIds.collectAsState(initial = null).value
+        expansionHandler.state.collectAsState(initial = null).value
     else emptySet()
 
     val splitInfoCache = remember(lazyPagingItems.loadState.refresh) {
