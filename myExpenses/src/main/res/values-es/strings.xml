@@ -1024,15 +1024,13 @@
     <string name="mark_as_unreconciled">Marcar como no reconciliado</string>
     <string name="batch_download_result">%d precios se descargaron y almacenaron en la base de datos.</string>
     <string name="mark_as_cleared">Marcar como despejado</string>
-    <resources>
-        <string name="category_type_main">Categoría principal</string>
-        <string name="category_type_sub">Subcategoría</string>
+    <string name="category_type_main">Categoría principal</string>
+    <string name="category_type_sub">Subcategoría</string>
 
-        <string name="category_description_base">%1$s, nivel %2$d</string>
+    <string name="category_description_base">%1$s, nivel %2$d</string>
 
-        <plurals name="category_description_children_suffix">
-            <item quantity="one">, contiene una subcategoría de nivel %2$d</item>
-            <item quantity="other">, contiene %1$d subcategorías de nivel %2$d</item>
-        </plurals>
-    </resources>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, contiene una subcategoría de nivel %2$d</item>
+        <item quantity="other">, contiene %1$d subcategorías de nivel %2$d</item>
+    </plurals>
 </resources>
