@@ -144,12 +144,12 @@
     <string name="menu_distribution">Распределение</string>
     <string name="menu_edit">Правка</string>
     <string name="menu_edit_account">Правка счёта</string>
-    <string name="menu_edit_cat">Правка категорий</string>
+    <string name="menu_edit_cat">Редактировать категорию</string>
     <string name="menu_edit_method">Правка способов оплаты</string>
     <string name="menu_edit_party">Редактировать стороны</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
     <string name="menu_edit_split">Правка разделения</string>
-    <string name="menu_edit_split_part_category">Правка категории разделённой части</string>
+    <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
     <string name="menu_edit_split_part_transfer">Правка перевода разделённой части</string>
     <string name="menu_edit_template">Редактировать шаблон</string>
     <string name="menu_edit_transaction">Правка операции</string>
