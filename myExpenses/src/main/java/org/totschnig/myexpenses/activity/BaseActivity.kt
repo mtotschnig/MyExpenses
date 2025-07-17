@@ -243,7 +243,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         val intent = Intent(this, CalculatorInput::class.java).apply {
             forwardDataEntryFromWidget(this)
             if (amount != null) {
-                putExtra(DatabaseConstants.KEY_AMOUNT, amount)
+                putExtra(DatabaseConstants.KEY_AMOUNT, amount.toString())
             }
             putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id)
             putExtra(KEY_COLOR, color)

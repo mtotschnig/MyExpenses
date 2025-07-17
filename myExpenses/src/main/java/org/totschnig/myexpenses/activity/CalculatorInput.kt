@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.CalculatorBinding
 import org.totschnig.myexpenses.databinding.OkCancelButtonsBinding
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
 import java.math.MathContext
@@ -31,7 +31,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     private lateinit var okCancelButtonsBinding: OkCancelButtonsBinding
 
     private var stack = Stack<String>()
-    private var result: String? = "0"
+    private var result: String = "0"
     private var isRestart = true
     private var isInEquals = false
     private var lastOp = 0
@@ -82,7 +82,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
                     popup.inflate(R.menu.paste)
                     popup.show()
                     true
-                } catch (e: ParseException) {
+                } catch (_: ParseException) {
                     false
                 }
             } ?: false
@@ -99,8 +99,8 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             setResult(RESULT_CANCELED)
             finish()
         }
-        (intent?.getSerializableExtra(DatabaseConstants.KEY_AMOUNT) as? BigDecimal)?.let {
-            setDisplay(it.toPlainString())
+        (intent?.getStringExtra(KEY_AMOUNT))?.let {
+            setDisplay(BigDecimal(it).toPlainString())
         }
     }
 
@@ -116,10 +116,12 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             '%' -> doPercentChar()
             else -> null
         } != null -> true
+
         keyCode == KeyEvent.KEYCODE_DEL -> {
             doBackspace()
             true
         }
+
         else -> super.onKeyUp(keyCode, event)
     }
 
@@ -136,7 +138,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     private fun setDisplay(s: String?) {
         if (!s.isNullOrEmpty()) {
             result = s.replace(",".toRegex(), ".")
-            binding.resultPane.result.text = localize(result!!)
+            binding.resultPane.result.text = localize(result)
         }
     }
 
@@ -189,7 +191,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         if ("0" == s || isRestart) {
             return
         }
-        var newDisplay = if (s!!.length > 1) s.substring(0, s.length - 1) else "0"
+        var newDisplay = if (s.length > 1) s.substring(0, s.length - 1) else "0"
         if ("-" == newDisplay) {
             newDisplay = "0"
         }
@@ -218,7 +220,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
 
     private fun addChar(c: Char) {
         var s = result
-        if (c == '.' && s!!.indexOf('.') != -1 && !isRestart) {
+        if (c == '.' && s.indexOf('.') != -1 && !isRestart) {
             return
         }
         if (isRestart) {
@@ -240,7 +242,9 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             isInEquals = false
         }
         stack.push(result)
-        doLastOp()
+        if (!isRestart) {
+            doLastOp()
+        }
         lastOp = op
         binding.resultPane.op.text = lastOpLabel
     }
@@ -280,7 +284,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         } else if (lastOp == R.id.bSubtract) {
             stack.push(BigDecimal(valOne).subtract(BigDecimal(valTwo)).toPlainString())
         } else if (lastOp == R.id.bMultiply) {
-            stack.push(BigDecimal(valOne).multiply(BigDecimal(valTwo)).toPlainString())
+            stack.push(BigDecimal(valOne).multiply(BigDecimal(valTwo)).stripTrailingZeros().toPlainString())
         } else if (lastOp == R.id.bDivide) {
             val d2 = BigDecimal(valTwo)
             if (d2.compareTo(NULL_VALUE) == 0) {
@@ -296,16 +300,18 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     }
 
     private fun doPercentChar() {
-        if (stack.isEmpty()) return
         setDisplay(
-            BigDecimal(result).divide(HUNDRED).multiply(BigDecimal(stack.peek()))
-                .toPlainString()
+            BigDecimal(result).let {
+                if (lastOp == R.id.bAdd || lastOp == R.id.bSubtract)
+                    it.multiply(BigDecimal(stack.peek()))
+                else it
+            }.divide(HUNDRED).toPlainString()
         )
-        binding.resultPane.op.text = ""
+        doEqualsChar()
     }
 
     private fun doEqualsChar() {
-        if (lastOp == 0) {
+        if (lastOp == 0 || isRestart) {
             return
         }
         if (!isInEquals) {
@@ -318,7 +324,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
 
     private fun close() {
         val data = Intent()
-        data.putExtra(DatabaseConstants.KEY_AMOUNT, result)
+        data.putExtra(KEY_AMOUNT, result)
         data.putExtra(EXTRA_KEY_INPUT_ID, intent.getIntExtra(EXTRA_KEY_INPUT_ID, 0))
         setResult(RESULT_OK, data)
         finish()
@@ -329,16 +335,18 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         outState.putString("result", result)
         outState.putInt("lastOp", lastOp)
         outState.putBoolean("isInEquals", isInEquals)
-        outState.putSerializable("stack", stack.toTypedArray())
+        outState.putStringArray("stack", stack.toTypedArray())
+        outState.putBoolean("isRestart", isRestart)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        result = savedInstanceState.getString("result")
+        result = savedInstanceState.getString("result") ?: "0"
         lastOp = savedInstanceState.getInt("lastOp")
         isInEquals = savedInstanceState.getBoolean("isInEquals")
+        isRestart = savedInstanceState.getBoolean("isRestart")
         stack = Stack()
-        stack.addAll(savedInstanceState.getSerializable("stack") as Array<String>)
+        savedInstanceState.getStringArray("stack")?.let { stack.addAll(it) }
         if (lastOp != 0 && !isInEquals) binding.resultPane.op.text = lastOpLabel
         setDisplay(result)
     }
