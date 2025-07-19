@@ -108,12 +108,6 @@
             android:key="@string/pref_debug_logging_share_key"
             android:title="@string/pref_debug_logging_share_summary" />
 
-        <Preference
-            android:key="@string/pref_crashlytics_user_id_key"
-            android:selectable="false"
-            android:title="Crashlytics User Id"
-            my:enableCopying="true" />
-
         <SwitchPreferenceCompat
             android:key="@string/pref_debug_show_ads_key"
             android:title="Ads"

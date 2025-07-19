@@ -880,6 +880,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }.takeIf { it.isNotEmpty() }?.let {
                     "LICENCE: $it\n"
                 }
+                val crashHandlerInfo = crashHandler.getInfo()?.let {
+                    "${it.first.uppercase(Locale.ROOT)}: ${it.second}\n"
+                }
                 val firstInstallVersion = prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0)
                 val firstInstallSchema =
                     prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1)
@@ -894,7 +897,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         BRAND:${Build.BRAND}
                         MODEL:${Build.MODEL}
                         CONFIGURATION:${ConfigurationHelper.configToJson(resources.configuration)}
-                        $licenceInfo
+                        ${licenceInfo ?: ""}
+                        ${crashHandlerInfo ?: ""}
 
                     """.trimIndent()
                 )

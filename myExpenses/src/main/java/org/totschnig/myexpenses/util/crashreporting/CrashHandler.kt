@@ -19,6 +19,7 @@ interface CrashHandler {
     fun setUserEmail(email: String?) {}
     fun addBreadcrumb(breadcrumb: String) {}
     fun initProcess(context: Context, syncService: Boolean) {}
+    fun  getInfo(): Pair<String, String>? = null
 
     companion object {
         @JvmStatic

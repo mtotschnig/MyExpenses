@@ -50,17 +50,6 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
-            if (DistributionHelper.isGithub ||
-                !prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, false)
-            ) {
-                requirePreference<PreferenceCategory>(PrefKey.DEBUG_SCREEN).removePreference(it)
-            } else {
-                it.summary =
-                    prefHandler.getString(PrefKey.CRASHLYTICS_USER_ID, null).toString()
-            }
-        }
-
         viewModel.dataCorrupted().observe(this) {
             if (it > 0) {
                 with(requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987)) {
