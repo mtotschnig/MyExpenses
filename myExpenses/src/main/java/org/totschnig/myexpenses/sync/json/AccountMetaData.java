@@ -11,11 +11,12 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
+import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.db2.RepositoryAccountTypesKt;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model2.Account;
-import org.totschnig.myexpenses.preference.PrefKey;
 
 @AutoValue
 public abstract class  AccountMetaData implements Parcelable {
@@ -67,13 +68,7 @@ public abstract class  AccountMetaData implements Parcelable {
     return label() + " (" + currency() + ")";
   }
 
-  public Account toAccount(String homeCurrency, String syncAccount) {
-    AccountType accountType;
-    try {
-      accountType = AccountType.valueOf(type());
-    } catch (IllegalArgumentException e) {
-      accountType = AccountType.CASH;
-    }
+  public Account toAccount(String homeCurrency, String syncAccount, Repository repository) {
     Double exchangeRate = exchangeRate();
     if (exchangeRate == null || !homeCurrency.equals(exchangeRateOtherCurrency())) {
       exchangeRate = 1.0;
@@ -84,7 +79,7 @@ public abstract class  AccountMetaData implements Parcelable {
             description(),
             openingBalance(),
             currency(),
-            accountType,
+            RepositoryAccountTypesKt.findAccountType(repository, type()), //TODO: deal with null
             color(),
             _criterion(),
             syncAccount,
@@ -109,7 +104,7 @@ public abstract class  AccountMetaData implements Parcelable {
         .setDescription(account.getDescription())
         .setLabel(account.getLabel())
         .setOpeningBalance(account.getOpeningBalance())
-        .setType(account.getType().name())
+        .setType(account.getType().getNameForSync())
         .setExcludeFromTotals(account.getExcludeFromTotals())
         .setCriterion(account.getCriterion() != null ? account.getCriterion() : 0);
     if (homeCurrency != null && !homeCurrency.equals(accountCurrency)) {

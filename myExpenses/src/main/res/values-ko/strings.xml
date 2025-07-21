@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">계좌 타입</string>
     <string name="account_type_asset">자산 계좌</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">자산 계좌</string>
     <string name="account_type_bank">은행 계좌</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">은행 계좌</string>
     <string name="account_type_cash">현금 계좌</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">현금 계좌</string>
     <string name="account_type_ccard">신용카드</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">신용카드</string>
     <string name="account_type_liability">부채 계좌</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">부채 계좌</string>
     <string name="already_defined">%1$s 이미 정의됨</string>
     <string name="amount">금액</string>
     <string name="app_name">내 지출</string>

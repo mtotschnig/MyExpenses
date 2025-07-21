@@ -17,14 +17,14 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.CheckBox
 import android.widget.CompoundButton
 import androidx.activity.viewModels
-import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneMethodBinding
@@ -38,6 +38,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.MethodViewModel
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
+
+private const val KEY_SELECTED_TYPES = "selectedTypes"
 
 class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIconSelectedListener {
     lateinit var binding: OneMethodBinding
@@ -64,7 +66,12 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
         if (savedInstanceState == null) {
             populateFields()
         } else {
-            setUpAccountTypeGrid { false }
+            lifecycleScope.launch {
+                setUpAccountTypeGrid(
+                    viewModel.accountTypes.first(),
+                    savedInstanceState.getLongArray(KEY_SELECTED_TYPES)?.toList()
+                )
+            }
         }
         setTitle(if (rowId == 0L) R.string.menu_create_method else R.string.menu_edit_method)
         binding.Icon.setOnClickListener {
@@ -77,6 +84,11 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
             configureIcon()
         }
         floatingActionButton = binding.fab.CREATECOMMAND
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLongArray(KEY_SELECTED_TYPES, selectedTypes.toLongArray())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -95,42 +107,28 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
                     binding.Label.setText(label)
                     binding.IsNumbered.isChecked = isNumbered
                     typeSpinner.setSelection(type + 1)
-                    setUpAccountTypeGrid { isValidForAccountType(it) }
                     preDefined = preDefinedPaymentMethod
                     this@MethodEdit.icon = icon
+                    setUpAccountTypeGrid(viewModel.accountTypes.first(), this.accountTypes)
                 }
                 setupListeners()
                 configureIcon()
             }
         } else {
-            setUpAccountTypeGrid { false }
             setupListeners()
         }
 
         linkInputsWithLabels()
     }
 
-    private fun setUpAccountTypeGrid(isValid: (AccountType) -> Boolean) {
-        AccountType.entries.forEach { accountType ->
+    private fun setUpAccountTypeGrid(allTypes: List<AccountType>, checked: List<Long>?) {
+        allTypes.forEach { accountType ->
             binding.AccountTypeGrid.addView(AppCompatCheckBox(this).apply {
-                setText(accountType.toStringRes())
-                tag = accountType
-                isChecked = isValid(accountType)
-                //setting Id makes state be retained on orientation change
-                id = getCheckBoxId(accountType)
+                text = accountType.name
+                isChecked = checked?.contains(accountType.id) == true
+                tag = accountType.id.toInt()
                 setOnCheckedChangeListener(this@MethodEdit)
             })
-        }
-    }
-
-    @IdRes
-    private fun getCheckBoxId(accountType: AccountType): Int {
-        return when (accountType) {
-            AccountType.CASH -> R.id.AccountTypeCheckboxCash
-            AccountType.BANK -> R.id.AccountTypeCheckboxBank
-            AccountType.CCARD -> R.id.AccountTypeCheckboxCcard
-            AccountType.ASSET -> R.id.AccountTypeCheckboxAsset
-            AccountType.LIABILITY -> R.id.AccountTypeCheckboxLiability
         }
     }
 
@@ -148,9 +146,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
                         icon = icon,
                         type = typeSpinner.selectedItemPosition - 1,
                         isNumbered = binding.IsNumbered.isChecked,
-                        accountTypes = AccountType.entries.filter {
-                            binding.AccountTypeGrid.findViewWithTag<CheckBox>(it).isChecked
-                        },
+                        accountTypes = selectedTypes,
                         preDefinedPaymentMethod = preDefined
                     )
                 )
@@ -158,6 +154,13 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
             }
         }
     }
+
+    private val selectedTypes: List<Long>
+        get() = binding.AccountTypeGrid.children.mapNotNull {
+            (it as? AppCompatCheckBox)?.let { checkBox ->
+                if (checkBox.isChecked) checkBox.tag as Long else null
+            }
+        }.toList()
 
     private fun setupListeners() {
         binding.Label.addTextChangedListener(this)

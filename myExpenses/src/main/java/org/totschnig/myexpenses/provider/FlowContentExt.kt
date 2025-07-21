@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
+import androidx.annotation.CheckResult
 import app.cash.copper.Query
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -44,4 +45,26 @@ fun <T> Flow<Query>.mapToListCatchingWithExtra(
             Result.failure(e)
         }
     }?.let { emit(it) }
+}
+
+@CheckResult
+fun <T : Any, E: Any> Flow<Pair<E, Query>>.mapToOne(
+    default: T? = null,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    mapper: (E, Cursor) -> T
+): Flow<T> = transform { (extra, query) ->
+    val item = withContext(dispatcher) {
+        query.run()?.use { cursor ->
+            if (cursor.moveToNext()) {
+                val item = mapper(extra, cursor)
+                check(!cursor.moveToNext()) { "Cursor returned more than 1 row" }
+                item
+            } else {
+                default
+            }
+        }
+    }
+    if (item != null) {
+        emit(item)
+    }
 }

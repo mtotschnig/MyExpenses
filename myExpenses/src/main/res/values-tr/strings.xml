@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Hesap türleri</string>
     <string name="account_type_asset">Aktif hesabı</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Aktif hesapları</string>
     <string name="account_type_bank">Banka hesabı</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Banka hesapları</string>
     <string name="account_type_cash">Nakit hesabı</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Nakit hesapları</string>
     <string name="account_type_ccard">Kredi kartı</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kredi kartları</string>
     <string name="account_type_liability">Borç hesabı</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Borç hesapları</string>
     <string name="already_defined">%1$s zaten tanımlanmış</string>
     <string name="amount">Miktar</string>
     <string name="app_name">Harcamalarım</string>

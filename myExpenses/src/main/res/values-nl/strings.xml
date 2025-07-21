@@ -18,17 +18,9 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Soorten rekeningen</string>
     <string name="account_type_asset">Vermogensrekening</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Vermogensrekeningen</string>
     <string name="account_type_bank">Bankrekening</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Bankrekeningen</string>
     <string name="account_type_cash">Geldrekening</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Geldrekeningen</string>
     <string name="account_type_ccard">Kredietkaart</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kredietkaarten</string>
     <string name="already_defined">%1$s is reeds gedefinieerd</string>
     <string name="amount">Bedrag</string>
     <string name="app_name">Mijn Uitgaven</string>

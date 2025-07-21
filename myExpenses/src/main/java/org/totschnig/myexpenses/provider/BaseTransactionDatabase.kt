@@ -12,8 +12,10 @@ import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -44,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
@@ -64,6 +67,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
@@ -86,6 +90,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
@@ -246,6 +251,15 @@ CREATE TABLE $TABLE_PAYEES (
     $KEY_PAYEE_NAME_NORMALIZED text,
     $KEY_PARENTID integer references $TABLE_PAYEES($KEY_ROWID) ON DELETE CASCADE,
     unique($KEY_PAYEE_NAME, $KEY_IBAN));
+"""
+
+const val ACCOUNT_TYPE_CREATE = """
+CREATE TABLE $TABLE_ACCOUNT_TYPES (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_LABEL text not null,
+    $KEY_IS_ASSET boolean not null,
+    $KEY_SUPPORTS_RECONCILIATION boolean not null
+)
 """
 
 //the unique index on ($KEY_PAYEE_NAME, $KEY_IBAN) does not prevent duplicate names when iban is null
@@ -1317,6 +1331,36 @@ abstract class BaseTransactionDatabase(
             put(KEY_ROWID, NULL_ROW_ID)
             put(KEY_LABEL, NULL_CHANGE_INDICATOR)
         })
+    }
+
+    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods() {
+        val accountTypes: Map<String, Long> = AccountType.predefinedAccounts.associate {
+            it.name to
+            insert(
+                TABLE_ACCOUNT_TYPES,
+                SQLiteDatabase.CONFLICT_NONE,
+                it.asContentValues
+            )
+        }
+        val bank = accountTypes[AccountType.BANK.name]!!
+        for (pm in PreDefinedPaymentMethod.entries) {
+            val id = insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE,
+                ContentValues().apply {
+                    put(KEY_LABEL, pm.name)
+                    put(KEY_TYPE, pm.paymentType)
+                    put(DatabaseConstants.KEY_IS_NUMBERED, pm.isNumbered)
+                    put(KEY_ICON, pm.icon)
+                }
+            )
+            insert(
+                DatabaseConstants.TABLE_ACCOUNTTYES_METHODS,
+                SQLiteDatabase.CONFLICT_NONE,
+                ContentValues().apply {
+                    put(KEY_METHODID, id)
+                    put(KEY_TYPE, bank)
+                }
+            )
+        }
     }
 }
 

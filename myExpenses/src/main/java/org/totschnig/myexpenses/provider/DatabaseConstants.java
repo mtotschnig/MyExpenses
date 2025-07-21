@@ -486,6 +486,10 @@ public class DatabaseConstants {
           " ELSE null" +
           " END AS " + KEY_ICON;
 
+  public static final String TABLE_ACCOUNT_TYPES = "accountTypes";
+  public static final String KEY_IS_ASSET = "isAsset";
+  public static final String KEY_SUPPORTS_RECONCILIATION = "supportsReconciliation";
+
   public static final Long SPLIT_CATID = 0L;
   public static final long NULL_ROW_ID = 0L;
   public static final String NULL_CHANGE_INDICATOR = "__NULL__";

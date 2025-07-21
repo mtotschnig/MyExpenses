@@ -6,8 +6,8 @@ import org.junit.After
 import org.junit.Before
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.updateAccount
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
@@ -26,12 +26,13 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
     fun fixture() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        account1 = Account(label = "Test label 1", currency = currency1.code).createIn(repository)
+        val type = repository.findAccountType("_BANK_")!!
+        account1 = Account(label = "Test label 1", currency = currency1.code, type = type).createIn(repository)
         account2 =
-            Account(label = "Test label 2", currency = currency2.code, type = AccountType.BANK)
+            Account(label = "Test label 2", currency = currency2.code, type = type)
                 .createIn(repository)
         hiddenAccount =
-            Account(label = "AAA", currency = "JPY").createIn(repository).also {
+            Account(label = "AAA", currency = "JPY", type = type).createIn(repository).also {
                 repository.updateAccount(it.id) {
                     put(KEY_HIDDEN, true)
                 }

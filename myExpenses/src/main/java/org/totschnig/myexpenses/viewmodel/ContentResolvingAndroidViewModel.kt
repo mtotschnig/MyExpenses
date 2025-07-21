@@ -31,10 +31,10 @@ import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
+import org.totschnig.myexpenses.db2.loadAccountType
 import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
@@ -169,7 +169,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 else
                     cursor.getString(KEY_LABEL),
                 cursor.getString(KEY_CURRENCY),
-                if (id < 0) null else AccountType.valueOf(cursor.getString(KEY_TYPE))
+                if (id < 0) null else repository.loadAccountType(cursor.getLong(KEY_TYPE))
             )
         }
 

@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">账户类型</string>
     <string name="account_type_asset">资产账户</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">资产账户</string>
     <string name="account_type_bank">银行账户</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">银行账户</string>
     <string name="account_type_cash">现金账户</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">现金账户</string>
     <string name="account_type_ccard">信用卡</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">信用卡</string>
     <string name="account_type_liability">负债账户</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">负债账户</string>
     <string name="already_defined">%1$s 已被定义</string>
     <string name="amount">金额</string>
     <string name="app_name">开支助手</string>

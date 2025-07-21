@@ -280,11 +280,7 @@
     <string name="bug_fixes" tools:ignore="UnusedResources">错误修复</string>
     <string name="ui_refinement">完善用户界面</string>
     <string name="pref_ui_home_screen_shortcuts">主螢幕快捷方式</string>
-    <string name="account_type_bank_plural">銀行帳戶</string>
-    <string name="account_type_ccard_plural">信用卡</string>
-    <string name="account_type_cash_plural">現金帳戶</string>
     <string name="account_types">帳戶類型</string>
-    <string name="account_type_asset_plural">資產帳戶</string>
     <string name="contrib_feature_split_template_label">無限數量的分割模板</string>
     <string name="dialog_confirm_discard_changes">放棄更改？</string>
     <string name="contrib_feature_csv_import_label">CSV 導入</string>
@@ -299,7 +295,6 @@
     <string name="import_transactions_none">沒有交易導入帳戶 %1$s</string>
     <string name="dialog_command_disabled_balance">沒有已清算的交易需要對帳。</string>
     <string name="contrib_feature_ad_free_label">無廣告</string>
-    <string name="account_type_liability_plural">負債帳戶</string>
     <string name="default_account_name">預算書</string>
     <plurals name="warning_delete_main_category">
         <item quantity="other">%1$d 所選類別有子類別，這些子類別也將被刪除。</item>

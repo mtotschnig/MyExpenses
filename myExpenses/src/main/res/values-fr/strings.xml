@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Types de compte</string>
     <string name="account_type_asset">Compte d\'actif</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Comptes d\'actif</string>
     <string name="account_type_bank">Compte bancaire</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Comptes bancaire</string>
     <string name="account_type_cash">Compte de caisse</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Comptes de caisse</string>
     <string name="account_type_ccard">Carte de crédit</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Cartes de crédit</string>
     <string name="account_type_liability">Compte de passif</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Comptes de passif</string>
     <string name="already_defined">%1$s existe</string>
     <string name="amount">Montant</string>
     <string name="app_name">Mes dépenses</string>

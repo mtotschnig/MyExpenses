@@ -74,6 +74,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
@@ -299,6 +300,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
   public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
+  public static final Uri ACCOUNT_TYPES_URI = Uri.parse("content://" + AUTHORITY + "/accountTypes");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -946,6 +948,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         selectionArgs = new String[] { getHomeCurrency() };
         break;
       }
+      case ACCOUNT_TYPES: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
+        break;
+      }
+      case ACCOUNT_TYPE_ID: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1133,13 +1143,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
       }
       case BUDGET_ALLOCATIONS -> {
-        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, values);
+        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, Objects.requireNonNull(values));
         return BUDGET_ALLOCATIONS_URI;
       }
       case PRICES -> {
-        id = db.insert(TABLE_PRICES, CONFLICT_REPLACE, values);
+        id = db.insert(TABLE_PRICES, CONFLICT_REPLACE, Objects.requireNonNull(values));
         newUri = ContentUris.withAppendedId(PRICES_URI, id);
-
+      }
+      case ACCOUNT_TYPES -> {
+        id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNT_TYPES, Objects.requireNonNull(values));
+        newUri = ContentUris.withAppendedId(ACCOUNT_TYPES_URI, id);
       }
       default -> throw unknownUri(uri);
     }
@@ -1308,6 +1321,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TAGS -> count = db.delete(TABLE_TAGS, where, whereArgs);
       case BUDGET_ALLOCATIONS -> count = db.delete(TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
       case PRICES ->  count = db.delete(TABLE_PRICES, where, whereArgs);
+      case ACCOUNT_TYPE_ID -> count = db.delete(TABLE_ACCOUNT_TYPES, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1489,6 +1503,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
       //used during restore
       case ATTACHMENTS -> count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
+      case ACCOUNT_TYPE_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNT_TYPES, values, KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
@@ -1757,6 +1772,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
     URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
+    URI_MATCHER.addURI(AUTHORITY, "accountTypes", ACCOUNT_TYPES);
+    URI_MATCHER.addURI(AUTHORITY, "accountTypes/#", ACCOUNT_TYPE_ID);
   }
 
   /**

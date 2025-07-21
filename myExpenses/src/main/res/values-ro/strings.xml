@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipuri cont</string>
     <string name="account_type_asset">Cont activ</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Conturi activ</string>
     <string name="account_type_bank">Cont bancar</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Conturi bancare</string>
     <string name="account_type_cash">Cont numerar</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Conturi numerar</string>
     <string name="account_type_ccard">Carte de credit</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Cărţi de credit</string>
     <string name="account_type_liability">Cont pasiv</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Conturi pasiv</string>
     <string name="already_defined">%1$s deja există</string>
     <string name="amount">Valoare</string>
     <string name="app_name">Cheltuielile Mele</string>

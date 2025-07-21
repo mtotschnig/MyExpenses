@@ -74,7 +74,10 @@ fun Repository.loadAccount(accountId: Long): Account? {
         Account.PROJECTION,
         null, null, null
     )?.use {
-        if (it.moveToFirst()) Account.fromCursor(it) else null
+        if (it.moveToFirst()) {
+            val accountType = this.loadAccountType(it.getLong(KEY_TYPE))
+            Account.fromCursor(it, accountType)
+        } else null
     }
 }
 
@@ -85,26 +88,7 @@ fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
         Account.PROJECTION,
         null, null, null
     ).mapToOne {
-        Account.fromCursor(it)
-    }
-}
-
-fun Repository.loadAggregateAccount(accountId: Long): Account? {
-    require(accountId < 0L)
-    return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
-        null, null, null, null
-    )?.use {
-        if (it.moveToFirst()) Account(
-            id = accountId,
-            label = it.getString(KEY_LABEL),
-            currency = it.getString(KEY_CURRENCY),
-            openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
-            isSealed = it.getBoolean(KEY_SEALED),
-            sortBy = it.getString(KEY_SORT_BY),
-            sortDirection = it.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC)
-        ) else null
+        Account.fromCursor(it, this.loadAccountType(it.getLong(KEY_TYPE)))
     }
 }
 
@@ -120,7 +104,8 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
             grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
-            isSealed = it.getBoolean(KEY_SEALED)
+            isSealed = it.getBoolean(KEY_SEALED),
+            type = TODO()
         )
     }
 }

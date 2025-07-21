@@ -16,20 +16,10 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">គណនី</string>
     <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">គណនីទ្រព្យសកម្ម</string>
     <string name="account_type_bank">គណនីធនាគារ</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">គណនីធនាគារ</string>
     <string name="account_type_cash">គណនីសាច់ប្រាក់</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">គណនីសាច់ប្រាក់</string>
     <string name="account_type_ccard">កាតឥណទាន</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">កាតឥណទាន</string>
     <string name="account_type_liability">គណនីទ្រព្យ​អសកម្ម</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">គណនីអសកម្ម</string>
     <string name="already_defined">%1$s កំណត់​ហើយ</string>
     <string name="amount">ចំនួនទឹកប្រាក់</string>
     <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>

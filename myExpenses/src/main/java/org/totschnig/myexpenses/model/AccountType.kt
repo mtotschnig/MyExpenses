@@ -1,67 +1,79 @@
 package org.totschnig.myexpenses.model
 
-import androidx.annotation.StringRes
+import android.database.Cursor
+import android.os.Parcelable
+import androidx.core.content.contentValuesOf
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.util.TextUtils.joinEnum
+import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 
+@Parcelize
+data class AccountType(
+    override val id: Long = 0,
+    val name: String,
+    val isAsset: Boolean = true,
+    val supportsReconciliation: Boolean = false,
+) : IdHolder, Parcelable {
+    @IgnoredOnParcel
+    val asContentValues = contentValuesOf(
+        KEY_LABEL to name,
+        KEY_IS_ASSET to isAsset,
+        KEY_SUPPORTS_RECONCILIATION to supportsReconciliation
+    )
 
-enum class AccountType(val isAsset: Boolean) {
-    CASH(true), BANK(true), CCARD(false), ASSET(true), LIABILITY(false);
+    @IgnoredOnParcel
+    val nameForSync =
+        if (name.startsWith("_") && name.endsWith("_")) name.substring(1, name.length - 1) else name
 
-    fun toStringResPlural() = when (this) {
-        CASH -> R.string.account_type_cash_plural
-        BANK -> R.string.account_type_bank_plural
-        CCARD -> R.string.account_type_ccard_plural
-        ASSET -> R.string.account_type_asset_plural
-        LIABILITY -> R.string.account_type_liability_plural
+    @IgnoredOnParcel
+    val qifName = when (name) {
+        "_CASH_" -> "Cash"
+        "_BANK_" -> "Bank"
+        "_CCARD_" -> "CCard"
+        "_ASSET_" -> "Oth A"
+        "_LIABILITY_" -> "Oth L"
+        "_INVST_" -> "Invst"
+        else -> if (isAsset) "Oth A" else "Oth L"
     }
 
-    fun toQifName() = when (this) {
-        CASH -> "Cash"
-        BANK -> "Bank"
-        CCARD -> "CCard"
-        ASSET -> "Oth A"
-        LIABILITY -> "Oth L"
+    val localizedName = when (name) {
+        "_CASH_" -> R.string.account_type_cash
+        "_BANK_" -> R.string.account_type_bank
+        "_CCARD_" -> R.string.account_type_ccard
+        "_ASSET_" -> R.string.account_type_asset
+        "_LIABILITY_" -> R.string.account_type_liability
+        "_INVST_" -> R.string.account_type_investment
+        else -> 0
     }
 
-    private val sortOrder: String
-        get() = when (this) {
-            CASH -> "0"
-            BANK -> "1"
-            CCARD -> "2"
-            ASSET -> "3"
-            LIABILITY -> "4"
-        }
-
-    @StringRes
-    fun toStringRes() = when (this) {
-        CASH -> R.string.account_type_cash
-        BANK -> R.string.account_type_bank
-        CCARD -> R.string.account_type_ccard
-        ASSET -> R.string.account_type_asset
-        LIABILITY -> R.string.account_type_liability
-    }
+    val isCashAccount: Boolean
+        get() = name == "_CASH_"
 
     companion object {
-        @JvmField
-        val JOIN: String = joinEnum<AccountType>(AccountType::class.java)
+        val CASH = AccountType(name = "_CASH_", isAsset = true, supportsReconciliation = false)
+        val BANK = AccountType(name = "_BANK_", isAsset = true, supportsReconciliation = true)
+        val CCARD = AccountType(name = "_CCARD_", isAsset = false, supportsReconciliation = true)
+        val ASSET = AccountType(name = "_ASSET_", isAsset = true, supportsReconciliation = true)
+        val LIABILITY =
+            AccountType(name = "_LIABILITY_", isAsset = false, supportsReconciliation = true)
+        val INVESTMENT =
+            AccountType(name = "_INVST_", isAsset = true, supportsReconciliation = true)
 
-        fun fromQifName(qifName: String) = when (qifName) {
-            "Oth L" -> LIABILITY
-            "Oth A" -> ASSET
-            "CCard" -> CCARD
-            "Cash" -> CASH
-            else -> BANK
-        }
+        val predefinedAccounts = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
 
-        fun sqlOrderExpression() = buildString {
-            append("CASE $KEY_TYPE")
-            for (type in entries) {
-                append(" WHEN '${type.name}' THEN ${type.sortOrder}")
-            }
-            append(" ELSE -1 END AS $KEY_SORT_KEY_TYPE")
-        }
+        fun fromCursor(cursor: Cursor) = AccountType(
+            id = cursor.getLong(KEY_ROWID),
+            name = cursor.getString(KEY_LABEL),
+            isAsset = cursor.getBoolean(KEY_IS_ASSET),
+            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION)
+        )
     }
 }

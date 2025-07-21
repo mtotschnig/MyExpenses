@@ -7,7 +7,6 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.unarchive
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
@@ -25,7 +24,7 @@ class ArchiveTest : BaseTestWithRepository() {
 
     private var testAccountId: Long = 0
 
-    fun setup(accountType: AccountType = AccountType.CASH) {
+    fun setup(accountType: String = "_CASH_") {
         testAccountId = insertAccount("Test account", accountType = accountType)
     }
 
@@ -44,7 +43,7 @@ class ArchiveTest : BaseTestWithRepository() {
 
     @Test
     fun createArchiveWithInconsistentStatesForCashAccount() {
-        setup(AccountType.CASH)
+        setup()
         insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
         insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
@@ -54,7 +53,7 @@ class ArchiveTest : BaseTestWithRepository() {
 
     @Test(expected = IllegalStateException::class)
     fun createArchiveWithInconsistentStatesForBankAccount() {
-        setup(AccountType.BANK)
+        setup("_BANK_")
         insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
         insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         repository.archive(testAccountId, LocalDate.now() to LocalDate.now())

@@ -140,7 +140,6 @@ import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDia
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
@@ -150,7 +149,6 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -377,8 +375,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     val hasTransfer = selectionState.any { it.isTransfer }
                     val hasSplit = selectionState.any { it.isSplit }
                     val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
-                    val noMethods = currentAccount!!.type == AccountType.CASH ||
-                            (currentAccount!!.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
+                    //TODO check logic for retrieving methods for account type
+                    val noMethods = false
                     findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
                     findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasSplit
                     findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
@@ -1138,7 +1136,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             if (account.sealed) finishActionMode()
         }
 
-        val showStatusHandle = if (account.isAggregate || account.type == AccountType.CASH)
+        val showStatusHandle = if (account.isAggregate || !account.type.supportsReconciliation)
             false
         else
             viewModel.showStatusHandle().collectAsState(initial = true).value
@@ -2203,7 +2201,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 checkMenuIcon(it, R.drawable.ic_scan)
             }
             with(currentAccount!!) {
-                val reconciliationAvailable = type != AccountType.CASH && !sealed
+                val reconciliationAvailable = type.supportsReconciliation && !sealed
                 val groupingMenu = menu.findItem(R.id.GROUPING_COMMAND)
                 val groupingEnabled = sortBy == KEY_DATE
                 groupingMenu?.setEnabledAndVisible(groupingEnabled)

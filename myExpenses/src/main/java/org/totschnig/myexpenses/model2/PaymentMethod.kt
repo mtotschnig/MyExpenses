@@ -21,11 +21,11 @@ data class PaymentMethod(
     @PaymentMethodType val type: Int = PAYMENT_METHOD_NEUTRAL,
     val isNumbered: Boolean = false,
     val preDefinedPaymentMethod: PreDefinedPaymentMethod? = null,
-    val accountTypes: List<AccountType>
+    val accountTypes: List<Long>
 )  {
 
-    fun isValidForAccountType(accountType: AccountType?) =
-        accountTypes.contains(accountType)
+    fun isValidForAccountType(accountType: AccountType) =
+        accountTypes.contains(accountType.id)
 
     fun label(context: Context) = preDefinedPaymentMethod?.let { context.getString(it.resId) } ?: label
 }

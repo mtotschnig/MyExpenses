@@ -9,7 +9,6 @@ import org.junit.After
 import org.junit.Assert.assertThrows
 import org.junit.Rule
 import org.junit.Test
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.AccountInfo
@@ -41,12 +40,13 @@ class AccountTest {
         get() = providerRule.resolver
 
     private val testAccounts = arrayOf(
-        AccountInfo("Account 0", AccountType.CASH, 0),
-        AccountInfo("Account 1", AccountType.BANK, 100),
-        AccountInfo("Account 2", AccountType.CCARD, -100)
+        AccountInfo("Account 0", 1, 0),
+        AccountInfo("Account 1", 2, 100),
+        AccountInfo("Account 2", 3, -100)
     )
 
     private fun insertData() {
+        //TODO set up account type
         for (account in testAccounts) {
             resolver.insert(
                 TransactionProvider.ACCOUNTS_URI,
@@ -67,12 +67,13 @@ class AccountTest {
     private fun insertAccountWithTwoBudgets(): Long {
         val grouping = Grouping.MONTH
 
+        //TODO set up account type
         return ContentUris.parseId(
             resolver.insert(
                 TransactionProvider.ACCOUNTS_URI,
                 AccountInfo(
                     "Account with 2 budgets",
-                    AccountType.CCARD,
+                    1,
                     -100,
                     "EUR"
                 ).contentValues
@@ -220,7 +221,7 @@ class AccountTest {
         }
         val account = AccountInfo(
             "Account 4",
-            AccountType.ASSET, 1000
+            4, 1000
         )
 
         val accountId = ContentUris.parseId(
@@ -401,7 +402,7 @@ class AccountTest {
     fun testQueryWithSum() {
         val id = resolver.insert(
             TransactionProvider.ACCOUNTS_URI,
-            AccountInfo("Account 0", AccountType.CASH, 0).contentValues
+            AccountInfo("Account 0", 1, 0).contentValues
         ).let {
             ContentUris.parseId(it!!)
         }

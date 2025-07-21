@@ -600,6 +600,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val PRICES = 79
         protected const val DYNAMIC_CURRENCIES = 80
         protected const val BUDGET_FOR_PERIOD = 81
+        protected const val ACCOUNT_TYPES = 82
+        protected const val ACCOUNT_TYPE_ID = 83
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
     }
@@ -702,7 +704,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 "0 AS $KEY_IS_AGGREGATE",
                                 KEY_HAS_FUTURE,
                                 KEY_HAS_CLEARED,
-                                KEY_SORT_KEY_TYPE,
                                 KEY_LAST_USED,
                                 KEY_BANK_ID,
                                 KEY_EXCHANGE_RATE,
@@ -766,7 +767,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         aggregateColumn,
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
-                        "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
                         "null AS $KEY_BANK_ID",
                         "null AS $KEY_EXCHANGE_RATE",
@@ -840,7 +840,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         aggregateColumn,
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
-                        "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
                         "null AS $KEY_BANK_ID",
                         "null AS $KEY_EXCHANGE_RATE",
@@ -868,7 +867,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     AccountGrouping.TYPE
                 }) {
                     AccountGrouping.CURRENCY -> "$KEY_CURRENCY,$KEY_IS_AGGREGATE"
-                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_SORT_KEY_TYPE"
+                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_TYPE"
                     else -> KEY_IS_AGGREGATE
                 }
             } else KEY_IS_AGGREGATE

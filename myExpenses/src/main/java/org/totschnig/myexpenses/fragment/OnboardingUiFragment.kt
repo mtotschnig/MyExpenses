@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference
@@ -152,7 +153,8 @@ class OnboardingUiFragment : OnboardingFragment() {
                         stringResource(id = R.string.testData_tag_project),
                         ResourcesCompat.getColor(resources, R.color.appDefault, null)
                     )
-                )
+                ),
+                accountType = AccountType.CASH
             )
             AppTheme {
                 Column {

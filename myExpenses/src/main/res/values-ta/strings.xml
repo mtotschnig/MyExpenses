@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">கணக்கு வகைகள்</string>
     <string name="account_type_asset">சொத்து கணக்கு</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">சொத்து கணக்குகள்</string>
     <string name="account_type_bank">வங்கி கணக்கு</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">வங்கி கணக்குகள்</string>
     <string name="account_type_cash">பணக் கணக்கு</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">பணக் கணக்குகள்</string>
     <string name="account_type_ccard">கடன் அட்டை</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">கடன் அட்டைகள்</string>
     <string name="account_type_liability">பொறுப்பு கணக்கு</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">பொறுப்பு கணக்குகள்</string>
     <string name="already_defined">%1$s ஏற்கனவே வரையறுக்கப்பட்டுள்ளது</string>
     <string name="amount">தொகை</string>
     <string name="app_name">எனது செலவுகள்</string>

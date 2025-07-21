@@ -518,15 +518,10 @@
     <string name="app_name">నా ఖర్చులు</string>
     <string name="amount">మొత్తం</string>
     <string name="already_defined">%1$s ఇప్పటికే నిర్వచించబడింది</string>
-    <string name="account_type_liability_plural">బాధ్యతల ఖాతాలు</string>
     <string name="account_type_liability">బాధ్యతల ఖాతా</string>
-    <string name="account_type_ccard_plural">క్రెడిట్ కార్డులు</string>
     <string name="account_type_ccard">క్రెడిట్ కార్డు</string>
-    <string name="account_type_cash_plural">నగదు ఖాతాలు</string>
     <string name="account_type_cash">నగదు ఖాతా</string>
-    <string name="account_type_bank_plural">బ్యాంకు ఖాతాలు</string>
     <string name="account_type_bank">బ్యాంకు ఖాతా</string>
-    <string name="account_type_asset_plural">ఆస్తి ఖాతాలు</string>
     <string name="account_types">ఖాతా రకాలు</string>
     <string name="account_type_asset">ఆస్తి ఖాతా</string>
     <string name="account">ఖాతా</string>

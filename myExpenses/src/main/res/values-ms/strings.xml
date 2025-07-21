@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Jenis akaun</string>
     <string name="account_type_asset">Akaun aset</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Akaun aset</string>
     <string name="account_type_bank">Akaun bank</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Akaun bank</string>
     <string name="account_type_cash">Akaun tunai</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Akaun tunai</string>
     <string name="account_type_ccard">Kad kredit</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kad kredit</string>
     <string name="account_type_liability">Akaun liabiliti</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Akaun liabiliti</string>
     <string name="already_defined">%1$s sudah ditakrif</string>
     <string name="amount">Amaun</string>
     <string name="app_name">Perbelanjaan Saya</string>

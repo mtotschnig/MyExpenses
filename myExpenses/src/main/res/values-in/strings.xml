@@ -52,9 +52,7 @@
     <string name="contrib_feature_roadmap_voting_label">Ikut tentukan <b>peta jalan pengembangan</b></string>
     <string name="contrib_feature_pro_support_label"><b>Bantuan email</b> dengan respons yang dijamin dalam waktu 2 hari kerja</string>
     <string name="app_name">Pengeluaran Ku</string>
-    <string name="account_type_bank_plural">Akun bank</string>
     <string name="account_type_bank">Akun Bank</string>
-    <string name="account_type_ccard_plural">Kartu kredit</string>
     <string name="account_type_ccard">Kartu kredit</string>
     <string name="extended_key">Kunci Diperpanjang</string>
     <string name="contrib_key">Kunci Contrib</string>
@@ -99,13 +97,10 @@
     <string name="account">Akun</string>
     <string name="account_types">Tipe akun</string>
     <string name="account_type_asset">Akun aset</string>
-    <string name="account_type_asset_plural">Akun aset</string>
-    <string name="account_type_liability_plural">Akun liabilitas</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Jumlah akun tidak terbatas</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lampirkan gambar ke transaksi</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Jumlah templat split yang tidak terbatas</string>
     <string name="account_type_cash">Akun tunai</string>
-    <string name="account_type_cash_plural">Akun tunai</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagram lingkaran (Distribusi per kategori)</string>
     <string name="title_activity_debt_overview">Ringkasan Utang</string>
     <string name="feature_download_requested">Fitur %s diminta dari Play Store.</string>

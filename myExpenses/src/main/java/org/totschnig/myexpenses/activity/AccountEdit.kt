@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -48,7 +49,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -151,7 +151,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 viewModel.loadTags(rowId)
             } else {
                 populateFields(
-                    Account(currency = currencyViewModel.default.code)
+                    Account(currency = currencyViewModel.default.code, type = AccountType.CASH)
                 )
             }
         } else {
@@ -258,7 +258,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         )
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
-        accountTypeSpinner.setSelection(account.type.ordinal)
+        accountTypeSpinner.setSelection((accountTypeSpinner.adapter as IdAdapter<AccountType>).getPosition(account.type))
         val criterion = account.criterion
         if (criterion != null) {
             binding.Criterion.setAmount(Money(currencyUnit, account.criterion).amountMajor)

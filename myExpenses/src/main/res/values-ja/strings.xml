@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">勘定種類</string>
     <string name="account_type_asset">資産勘定</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">資産勘定</string>
     <string name="account_type_bank">銀行口座</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">銀行口座</string>
     <string name="account_type_cash">現金勘定</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">現金勘定</string>
     <string name="account_type_ccard">クレジットカード</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">クレジットカード</string>
     <string name="account_type_liability">負債勘定</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">負債勘定</string>
     <string name="already_defined">%1$s は既に定義されています</string>
     <string name="amount">金額</string>
     <string name="app_name">マイ エクスペンス</string>

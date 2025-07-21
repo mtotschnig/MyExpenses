@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
     <string name="account_type_asset">حساب الاصول</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">حسابات الاصول</string>
     <string name="account_type_bank">حساب البنك</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">حسابات البنك</string>
     <string name="account_type_cash">حساب النقد</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">الحسابات النقدية</string>
     <string name="account_type_ccard">بطاقة ائتمانية</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">بطاقات الإتمان</string>
     <string name="account_type_liability">حساب الالتزامات</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">حسابات الالتزامات</string>
     <string name="already_defined">%1$s معرّف مسبقاً</string>
     <string name="amount">القيمة</string>
     <string name="app_name">نفقاتي</string>

@@ -75,7 +75,7 @@ class CsvParserTest {
             assertThat(amount).isEqualToIgnoringScale(-50L)
             assertThat(category).isEqualTo("Salary:Leave allowance")
         }
-        with(transaction.splits!![1]) {
+        with(transaction.splits[1]) {
             assertThat(date).isEqualTo(referenceDate)
             assertThat(amount).isEqualToIgnoringScale(-50L)
             assertThat(toAccount).isEqualTo("Budget Book")

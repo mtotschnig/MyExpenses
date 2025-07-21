@@ -4,7 +4,6 @@
     <string name="add_shortcut">Lägg till genväg</string>
     <string name="dialog_title_warning_delete_category">Ta bort kategori?</string>
     <string name="grouping_month">Månad</string>
-    <string name="account_type_ccard_plural">Kreditkort</string>
     <string name="menu_create_template">Ny mall</string>
     <string name="currency">Valuta</string>
     <string name="licence_status_free">Gratis</string>
@@ -58,7 +57,6 @@
     <string name="label">Etikett</string>
     <string name="grouping_last_week">Förra veckan</string>
     <string name="extended_key">Förlängd nyckel</string>
-    <string name="account_type_bank_plural">Bankkonton</string>
     <string name="dialog_remind_rate_yes">Betygssätt nu</string>
     <string name="date_format">Datumformat</string>
     <string name="dialog_security_answer">Svara</string>
@@ -81,7 +79,6 @@
     <string name="contrib_feature_attach_picture_label">Bifoga bild till överföring</string>
     <string name="contrib_key_requires">Kräver %1$s.</string>
     <string name="decimal_separator">Decimaltecken</string>
-    <string name="account_type_liability_plural">Likviditetskonton</string>
     <string name="dialog_confirm_discard_changes">Kasta bort ändringarna?</string>
     <string name="already_defined">%1$s är redan definierat</string>
     <string name="grisbi_import_parties_loading">Laddar parter från %1$s</string>
@@ -106,7 +103,6 @@
     <string name="menu_share">Berätta för en vän</string>
     <string name="menu_reset_plan_instance">Återställ</string>
     <string name="dialog_password_activate_protection">Aktivera lösenordsskydd</string>
-    <string name="account_type_cash_plural">Kontantkonton</string>
     <string name="account_type_cash">Kontantkonto</string>
     <string name="account_type_asset">Konto för tillgångar</string>
     <string name="pref_shortcut_not_added">Ingen Hemskärm tillgänglig som accepterar genvägar.</string>
@@ -249,7 +245,6 @@
     <string name="planner_notification_channel_name">Planerare</string>
     <string name="thank_you">Tack för ditt stöd!</string>
     <string name="pref_manage_methods_summary">Skapa och redigera betalningsmetoder och associera dem med kontotyper.</string>
-    <string name="account_type_asset_plural">Kontosaldon</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pm_type_debit">Skuld</string>
     <string name="pref_import_from_grisbi_summary">Importera kategorier och parter från Grisbi XML-fil</string>

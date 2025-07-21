@@ -27,7 +27,7 @@ class HistoryViewModel(application: Application, val savedStateHandle: SavedStat
     val grouping by lazy {
         dataStore.data.map {
             enumValueOrDefault(it[groupingPrefKey], defaultGrouping)
-        }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, defaultGrouping)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, defaultGrouping)
     }
 
     fun accountInfo(accountId: Long) = combine(account(accountId), grouping) {

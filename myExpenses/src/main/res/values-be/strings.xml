@@ -204,13 +204,8 @@
     <string name="comparison_operator_equal">роўна</string>
     <string name="menu_undelete_transaction">Не выдаляць</string>
     <string name="account_types">Тып акаўнта</string>
-    <string name="account_type_asset_plural">Рахункі актываў</string>
-    <string name="account_type_bank_plural">Банкаўскія рахункі</string>
-    <string name="account_type_cash_plural">Грашовыя рахункі</string>
-    <string name="account_type_ccard_plural">Крэдытныя карткі</string>
     <string name="already_defined">%1$s ужо вызначаны</string>
     <string name="backup_success">База дадзеных і налады паспяхова запісаны ў \"%1$s\".</string>
-    <string name="account_type_liability_plural">Рахункі абавязкаў</string>
     <string name="number_format_illegal">Недапушчальны фармат нумара</string>
     <string name="decimal_separator">Дзесятковы падзельнік</string>
     <string name="pref_sync_frequency_summary_0">Усталюйце 0, каб адключыць аўтаматычную сінхранізацыю.</string>

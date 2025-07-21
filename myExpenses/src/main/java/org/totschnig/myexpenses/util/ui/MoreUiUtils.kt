@@ -143,7 +143,7 @@ fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
 }
 
 fun getDateMode(accountType: AccountType?, prefHandler: PrefHandler) = when {
-    (accountType == null || accountType != AccountType.CASH) &&
+    (accountType?.isCashAccount != true) &&
             prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
         -> DateMode.BOOKING_VALUE
 
@@ -310,7 +310,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
     }
 }
 
-tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
+fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
 
 
@@ -352,11 +352,6 @@ fun EditText.setHintForA11yOnly(hint: CharSequence) {
             info.hintText = hint
         }
     })
-}
-
-fun ImageView.setEnabledWithColor(enabled: Boolean) {
-    imageAlpha = if (enabled) 0xFF else 0x3F
-    this.isEnabled = isEnabled
 }
 
 val Float.displayProgress

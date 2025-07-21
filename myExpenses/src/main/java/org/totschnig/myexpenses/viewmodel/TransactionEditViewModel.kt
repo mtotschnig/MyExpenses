@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.db2.deleteAttachments
 import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
+import org.totschnig.myexpenses.db2.loadAccountType
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.savePrice
@@ -84,7 +85,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
@@ -183,7 +183,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             label = cursor.getString(KEY_LABEL),
             currency,
             color = cursor.getInt(KEY_COLOR),
-            type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
+            type = repository.loadAccountType(cursor.getLong(KEY_TYPE)),
             criterion = cursor.getLongOrNull(KEY_CRITERION),
             isDynamic = cursor.getBoolean(KEY_DYNAMIC),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)

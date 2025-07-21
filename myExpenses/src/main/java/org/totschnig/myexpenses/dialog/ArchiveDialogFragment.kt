@@ -42,7 +42,7 @@ data class ArchiveInfo(
     val canArchive: Boolean
         get() = count > 0 &&
                 !hasNested &&
-                (accountType == AccountType.CASH || statuses.filter { it != CrStatus.VOID }.size <= 1)
+                (!accountType.supportsReconciliation || statuses.filter { it != CrStatus.VOID }.size <= 1)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

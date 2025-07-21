@@ -183,7 +183,7 @@ private fun getHeaderId(
 ) = when (grouping) {
     AccountGrouping.NONE -> if (account.id > 0) "0" else "1"
 
-    AccountGrouping.TYPE -> (account.type?.ordinal ?: AccountType.entries.size).toString()
+    AccountGrouping.TYPE -> account.type.id.toString()
 
     AccountGrouping.CURRENCY ->
         if (account.id == HOME_AGGREGATE_ID) AGGREGATE_HOME_CURRENCY_CODE else account.currency
@@ -199,7 +199,7 @@ private fun getHeaderTitle(
     )
 
     AccountGrouping.TYPE -> context.getString(
-        account.type?.toStringResPlural() ?: R.string.menu_aggregates
+         if (account.isAggregate) R.string.menu_aggregates else account.type.localizedName
     )
 
     AccountGrouping.CURRENCY -> if (account.id == HOME_AGGREGATE_ID)
@@ -472,7 +472,7 @@ fun AccountCard(
                     )
                 }
 
-                if (!(showEquivalent || account.isAggregate || account.type == AccountType.CASH)) {
+                if (!(showEquivalent || account.isAggregate || !account.type.supportsReconciliation)) {
                     SumRow(
                         R.string.total_cleared,
                         format.convAmount(account.clearedTotal, account.currencyUnit)
@@ -521,7 +521,7 @@ private fun AccountPreview() {
             sumIncome = 2000,
             sumExpense = 1000,
             sealed = true,
-            type = AccountType.CASH,
+            type = AccountType(name ="_CASH_"),
             criterion = 5000,
             excludeFromTotals = true
         )

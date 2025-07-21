@@ -16,20 +16,10 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Compte</string>
     <string name="account_type_asset">Compte d\'actiu</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Comptes d\'actius</string>
     <string name="account_type_bank">Compte bancari</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Comptes bancaris</string>
     <string name="account_type_cash">Compte de caixa</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Comptes de caixa</string>
     <string name="account_type_ccard">Targeta de crèdit</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Targetes de crèdit</string>
     <string name="account_type_liability">Compte de passiu</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Compte de passiu</string>
     <string name="already_defined">%1$s ja existeix</string>
     <string name="amount">Import</string>
     <string name="app_name">Les meves despeses</string>

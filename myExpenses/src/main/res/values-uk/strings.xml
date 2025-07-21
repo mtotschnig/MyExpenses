@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Типи рахунків</string>
     <string name="account_type_asset">Рахунок активу</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Рахунки активів</string>
     <string name="account_type_bank">Банківський рахунок</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Банківські рахунки</string>
     <string name="account_type_cash">Готівковий рахунок</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Готівкові рахунки</string>
     <string name="account_type_ccard">Кредитна картка</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Кредитні картки</string>
     <string name="account_type_liability">Рахунок пасиву</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Рахунки пасивів</string>
     <string name="already_defined">%1$s уже визначено</string>
     <string name="amount">Сума</string>
     <string name="app_name">Мої Витрати</string>

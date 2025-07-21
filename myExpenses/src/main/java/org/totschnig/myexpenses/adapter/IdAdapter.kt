@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.adapter
 
 import android.content.Context
 import android.widget.ArrayAdapter
-import org.totschnig.myexpenses.R
 
 interface IdHolder {
     val id: Long

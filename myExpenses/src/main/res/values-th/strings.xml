@@ -23,14 +23,9 @@
     <string name="account">บัญชี</string>
     <string name="account_types">บัญชีประเภทต่าง ๆ</string>
     <string name="account_type_asset">บัญชีสินทรัพย์</string>
-    <string name="account_type_asset_plural">บัญชีสินทรัพย์</string>
     <string name="account_type_bank">บัญชีธนาคาร</string>
-    <string name="account_type_bank_plural">บัญชีธนาคาร</string>
     <string name="account_type_cash">บัญชีเงินสด</string>
-    <string name="account_type_cash_plural">บัญชีเงินสด</string>
     <string name="account_type_ccard">บัตรเครดิต</string>
-    <string name="account_type_ccard_plural">บัตรเครดิต</string>
-    <string name="account_type_liability_plural">บัญชีหนี้สิน</string>
     <string name="account_type_liability">บัญชีหนี้สิน</string>
     <string name="already_defined">%1$s ถูกกำหนดไว้แล้ว</string>
     <string name="amount">จำนวน</string>

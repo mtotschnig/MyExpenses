@@ -78,7 +78,6 @@ import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
 import kotlin.math.max
@@ -113,7 +112,7 @@ data class Transaction2(
     val transferPeerIsArchived: Boolean? = null,
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
-    val accountType: AccountType? = AccountType.CASH,
+    val accountType: AccountType,
     val tagList: List<Triple<Long, String, Int?>> = emptyList(),
     val year: Int,
     val month: Int,
@@ -266,9 +265,7 @@ data class Transaction2(
                 ),
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
-                accountType = enumValueOrNull<AccountType>(
-                    cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
-                ),
+                accountType = AccountType.fromCursor(cursor), //TODO
                 transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->

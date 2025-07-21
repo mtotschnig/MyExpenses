@@ -611,7 +611,7 @@ fun SupportSQLiteDatabase.safeInsert(table: String, values: ContentValues): Long
 
 fun SupportSQLiteDatabase.query(
     table: String,
-    columns: Array<String>,
+    columns: Array<String>?,
     selection: String? = null,
     selectionArgs: Array<Any>? = null,
     groupBy: String? = null,

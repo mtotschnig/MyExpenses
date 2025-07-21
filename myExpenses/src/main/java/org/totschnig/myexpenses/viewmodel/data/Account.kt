@@ -10,7 +10,7 @@ data class Account(
     val label: String,
     val currency: CurrencyUnit,
     val color: Int = -1,
-    val type: AccountType = AccountType.CASH,
+    val type: AccountType,
     val criterion: Long?,
     val isDynamic: Boolean,
     var currentBalance: Long,

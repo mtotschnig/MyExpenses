@@ -5,8 +5,10 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.loadAccountType
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
@@ -47,10 +49,12 @@ class TransactionDetailViewModel(application: Application) :
                 null,
                 null
             )?.useAndMapToOne {
+                val accountType = repository.loadAccountType(it.getLong(KEY_ACCOUNT_TYPE))
                 it.readTransaction(
                     getApplication(),
                     currencyContext,
-                    currencyContext.homeCurrencyUnit
+                    currencyContext.homeCurrencyUnit,
+                    accountType
                 )
             }.let { emit(LoadResult(it)) }
         }
@@ -82,7 +86,8 @@ class TransactionDetailViewModel(application: Application) :
                 it.readTransaction(
                     getApplication(),
                     currencyContext,
-                    currencyContext.homeCurrencyUnit
+                    currencyContext.homeCurrencyUnit,
+                    TODO()
                 )
             }?.let { emit(it) }
         }

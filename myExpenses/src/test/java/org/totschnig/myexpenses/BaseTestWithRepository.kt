@@ -5,8 +5,8 @@ import android.content.ContentUris
 import androidx.test.core.app.ApplicationProvider
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.saveCategory
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
@@ -104,11 +104,11 @@ abstract class BaseTestWithRepository {
     protected fun insertAccount(
         label: String,
         openingBalance: Long = 0,
-        accountType: AccountType = AccountType.CASH,
+        accountType: String,
         currency: String = currencyContext.homeCurrencyString,
         dynamic: Boolean = false
     ) = ContentUris.parseId(contentResolver.insert(
         TransactionProvider.ACCOUNTS_URI,
-        AccountInfo(label, accountType, openingBalance, currency, dynamic).contentValues
+        AccountInfo(label, repository.findAccountType(accountType)!!.id, openingBalance, currency, dynamic).contentValues
     )!!)
 }

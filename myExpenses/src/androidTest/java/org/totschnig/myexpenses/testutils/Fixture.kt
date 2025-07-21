@@ -13,9 +13,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.setGrouping
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -87,11 +87,15 @@ class Fixture(inst: Instrumentation) {
         val contentResolver = repository.contentResolver
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
+        val accountTypeCash = repository.findAccountType("_CASH_")!!
+        val accountTypeBank = repository.findAccountType("_BANK_")!!
+        val accountTypeCard = repository.findAccountType("_CCARD_")!!
         account1 = Account(
             label = appContext.getString(R.string.testData_account1Label),
             currency = defaultCurrency.code,
             openingBalance = 90000,
             description = appContext.getString(R.string.testData_account1Description),
+            type = accountTypeCash,
             syncAccountName = syncAccount1
         ).createIn(repository)
         repository.setGrouping(account1.id, Grouping.WEEK)
@@ -101,7 +105,7 @@ class Fixture(inst: Instrumentation) {
             currency = foreignCurrency.code,
             openingBalance = 50000,
             description = formatter.format(LocalDate.now()),
-            type = AccountType.CASH,
+            type = accountTypeCash,
             color = testContext.resources.getColor(RT.color.material_red),
             syncAccountName = syncAccount2
         ).createIn(repository)
@@ -110,7 +114,7 @@ class Fixture(inst: Instrumentation) {
             currency = defaultCurrency.code,
             openingBalance = 200000,
             description = appContext.getString(R.string.testData_account3Description),
-            type = AccountType.BANK,
+            type = accountTypeBank,
             color = testContext.resources.getColor(RT.color.material_blue),
             grouping = Grouping.DAY,
             syncAccountName = syncAccount3
@@ -118,7 +122,7 @@ class Fixture(inst: Instrumentation) {
         account4 = Account(
             label = appContext.getString(R.string.testData_account3Description),
             currency = foreignCurrency.code,
-            type = AccountType.CCARD,
+            type = accountTypeCard,
             color = testContext.resources.getColor(RT.color.material_cyan)
         ).createIn(repository)
 
@@ -145,7 +149,7 @@ class Fixture(inst: Instrumentation) {
             testContext.getString(RT.string.testData_transaction6MainCat),
             null
         )
-        for (i in 0..14) {
+        repeat(14) {
             //Transaction 1
             val builder = TransactionBuilder()
                 .accountId(account1.id)

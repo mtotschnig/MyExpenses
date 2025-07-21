@@ -11,14 +11,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_CURREN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import kotlin.math.roundToLong
 
 data class BalanceData(
@@ -52,7 +49,7 @@ data class BalanceAccount(
         ) = BalanceAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
-            type = enumValueOrDefault(cursor.getStringOrNull(KEY_TYPE), AccountType.CASH),
+            type = TODO(),
             color = cursor.getInt(KEY_COLOR),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
             equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE)

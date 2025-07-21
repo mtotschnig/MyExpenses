@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">অ্যাকাউন্টের ধরন</string>
     <string name="account_type_asset">সম্পদ অ্যাকাউন্ট</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">সম্পদ অ্যাকাউন্টসমূহ</string>
     <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">ব্যাংক অ্যাকাউন্টসমূহ</string>
     <string name="account_type_cash">নগদ অ্যাকাউন্ট</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">নগদ অ্যাকাউন্টসমূহ</string>
     <string name="account_type_ccard">ক্রেডিট কার্ড</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">ক্রেডিট কার্ডসমূহ</string>
     <string name="account_type_liability">দায়বদ্ধতা অ্যাকাউন্ট</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">দায়বদ্ধতা অ্যাকাউন্টসমূহ</string>
     <string name="already_defined">%1$s ইতিমধ্যে সংজ্ঞায়িত</string>
     <string name="amount">পরিমাণ</string>
     <string name="app_name">My Expenses</string>

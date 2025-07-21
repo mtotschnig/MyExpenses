@@ -13,13 +13,13 @@ import java.math.BigDecimal
 import java.util.Date
 
 data class ImportAccount(
-    val type: AccountType = AccountType.BANK,
+    val type: String? = "_CASH_",
     val memo: String  = "",
     val desc: String = "",
     val openingBalance: BigDecimal = BigDecimal.ZERO,
     val transactions: List<ImportTransaction> = mutableListOf()
 ) {
-    fun toAccount(currency: CurrencyUnit): Account {
+    fun toAccount(currency: CurrencyUnit, type: AccountType): Account {
         return Account(
             label = memo,
             currency = currency.code,
@@ -30,7 +30,7 @@ data class ImportAccount(
     }
 
     class Builder {
-        var type: AccountType? = null
+        var type: String? = null
             private set
         var memo: String? = null
             private set
@@ -38,14 +38,13 @@ data class ImportAccount(
         private var openingBalance: BigDecimal? = null
         private var transactions: MutableList<ImportTransaction.Builder> = mutableListOf()
 
-        fun type(type: String) = apply { this.type = AccountType.fromQifName(type) }
-        fun type(type: AccountType) = apply { this.type = type }
+        fun type(type: String) = apply { this.type = type }
         fun memo(memo: String) = apply { this.memo = memo }
         fun desc(desc: String) = apply { this.desc = desc }
         fun openingBalance(openingBalance: BigDecimal) = apply { this.openingBalance = openingBalance }
         fun addTransaction(transaction: ImportTransaction.Builder) = apply { transactions.add(transaction) }
         fun build() = ImportAccount(
-            type = type ?: AccountType.BANK,
+            type = type,
             memo = memo ?: "",
             desc = desc ?: "",
             openingBalance = openingBalance ?: BigDecimal.ZERO,

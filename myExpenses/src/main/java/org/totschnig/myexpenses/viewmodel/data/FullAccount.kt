@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
@@ -62,7 +61,6 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.enumValueOrNull
 import java.time.LocalDate
 import kotlin.math.roundToLong
 import kotlin.math.sign
@@ -73,7 +71,7 @@ abstract class BaseAccount : DataBaseAccount() {
     /**
      * null for aggregate accounts
      */
-    abstract val type: AccountType?
+    abstract val type: AccountType
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
 }
@@ -85,7 +83,7 @@ data class FullAccount(
     val description: String? = null,
     override val currencyUnit: CurrencyUnit,
     override val _color: Int = -1,
-    override val type: AccountType? = AccountType.CASH,
+    override val type: AccountType,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
@@ -149,7 +147,7 @@ data class FullAccount(
                 description = cursor.getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
                 _color = cursor.getInt(KEY_COLOR),
-                type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
+                type = AccountType(name = "TODO"), //TODO() enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
                 sealed = cursor.getInt(KEY_SEALED) == 1,
                 openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
                 currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
@@ -191,7 +189,7 @@ data class FullAccount(
 @Immutable
 data class PageAccount(
     override val id: Long,
-    override val type: AccountType?,
+    override val type: AccountType,
     override val sortBy: String,
     override val sortDirection: SortDirection,
     override val grouping: Grouping,

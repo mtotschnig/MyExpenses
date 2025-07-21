@@ -442,7 +442,7 @@ fun LazyListScope.accountTypeSection(
                 .padding(vertical = 4.dp)
         ) {
             Text(
-                text = stringResource(section.type.toStringResPlural()), // Display the AccountType name
+                text = section.type.name,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)

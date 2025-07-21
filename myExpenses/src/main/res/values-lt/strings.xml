@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Sąskaitų tipai</string>
     <string name="account_type_asset">Turto (aktyvų) sąskaita</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Turto (aktyvų) sąskaitos</string>
     <string name="account_type_bank">Banko sąskaita</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Banko sąskaitos</string>
     <string name="account_type_cash">Grynųjų pinigų sąskaita</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Grynųjų pinigų sąskaitos</string>
     <string name="account_type_ccard">Kreditinė kortelė</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kreditinės kortelės</string>
     <string name="account_type_liability">Įsipareigojimų (skolų) sąskaita</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Įsipareigojimų (skolų) sąskaitos</string>
     <string name="amount">Suma</string>
     <string name="app_name">Mano išlaidos</string>
     <string name="backup_success">Duomenų bazė bei nustatymai sėkmingai įrašyti į \"%1$s\".</string>

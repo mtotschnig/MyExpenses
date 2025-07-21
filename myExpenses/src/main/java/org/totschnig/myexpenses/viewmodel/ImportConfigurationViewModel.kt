@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 
@@ -25,7 +24,7 @@ open class ImportConfigurationViewModel(application: Application, val savedState
                     AccountMinimal(
                         0, getString(R.string.menu_create_account) + " / " + getString(R.string.read_from_data),
                         currencyContext.homeCurrencyString,
-                        AccountType.CASH
+                        null
                     )
                 )
                 addAll(it)

@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -116,9 +117,9 @@ private fun Bundle.parseArchiveArguments() = Triple(
 )
 
 private fun SupportSQLiteDatabase.accountType(accountId: Long) =
-    query(TABLE_ACCOUNTS, arrayOf(KEY_TYPE), "$KEY_ROWID = ?", arrayOf(accountId)).use {
+    query(TABLE_ACCOUNT_TYPES, null, "$KEY_ROWID = (SELECT $KEY_TYPE FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ?)", arrayOf(accountId)).use {
         it.moveToFirst()
-        AccountType.valueOf(it.getString(0))
+        AccountType.fromCursor(it)
     }
 
 fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
@@ -151,7 +152,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
                 }
 
                 if (states.keys.filter { it != CrStatus.VOID.name }.size > 1 &&
-                    accountType(accountId) != AccountType.CASH
+                    accountType(accountId).supportsReconciliation
                 ) {
                     throw IllegalStateException("Transactions in archive have different states.")
                 }

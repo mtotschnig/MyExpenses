@@ -587,7 +587,6 @@ fun accountQueryCTE(
         KEY_USAGES,
         KEY_HAS_FUTURE,
         KEY_HAS_CLEARED,
-        AccountType.sqlOrderExpression(),
         KEY_LAST_USED,
         KEY_BANK_ID,
         KEY_HIDDEN,

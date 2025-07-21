@@ -277,7 +277,8 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                         .map { accountMetaData ->
                             accountMetaData.toAccount(
                                 currencyContext.homeCurrencyString,
-                                accountName
+                                accountName,
+                                repository
                             )
                         }
                         .forEach {

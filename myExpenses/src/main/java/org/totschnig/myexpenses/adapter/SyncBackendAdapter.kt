@@ -10,6 +10,7 @@ import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
@@ -27,6 +28,7 @@ class SyncBackendAdapter(
     private val accountMetaDataMap = SparseArray<List<Result<AccountMetaData>>?>()
     private val layoutInflater = LayoutInflater.from(context)
     private var localAccountInfo: List<LocalAccountInfo>? = null
+    private val repository = context.injector.repository()
 
     fun getMetaData(groupPosition: Int, childPosititon: Int) = getChild(groupPosition, childPosititon).getOrNull()
 
@@ -166,7 +168,7 @@ class SyncBackendAdapter(
             ExpandableListView.getPackedPositionChild(packedPosition)
         )
         result.onSuccess { accountMetaData ->
-            return accountMetaData.toAccount(homeCurrency, getBackendLabel(groupPosition))
+            return accountMetaData.toAccount(homeCurrency, getBackendLabel(groupPosition), repository)
         }
         return null
     }

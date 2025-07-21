@@ -157,7 +157,8 @@ data class Transaction(
         fun Cursor.readTransaction(
             context: Context,
             currencyContext: CurrencyContext,
-            homeCurrency: CurrencyUnit
+            homeCurrency: CurrencyUnit,
+            accountType: AccountType
         ): Transaction {
             val currencyUnit = currencyContext[getString(KEY_CURRENCY)]
             val amountRaw = getLong(KEY_AMOUNT)
@@ -201,10 +202,7 @@ data class Transaction(
                 },
                 isSealed = getInt(KEY_SEALED) > 0,
                 accountLabel = getString(KEY_ACCOUNT_LABEL),
-                accountType = enumValueOrDefault(
-                    getStringOrNull(KEY_ACCOUNT_TYPE),
-                    AccountType.CASH
-                ),
+                accountType = accountType,
                 transferPeerIsPart = getBoolean(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = getBoolean(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),

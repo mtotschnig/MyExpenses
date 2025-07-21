@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -952,7 +951,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun configureStatusSpinner() {
         currentAccount()?.let {
             statusSpinner.spinner.isVisible =
-                !isSplitPart && !isTemplate && it.type != AccountType.CASH && crStatus != CrStatus.RECONCILED
+                !isSplitPart && !isTemplate && it.type.supportsReconciliation && crStatus != CrStatus.RECONCILED
         }
     }
 

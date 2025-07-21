@@ -8,8 +8,38 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getDoubleIfExists
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import java.io.Serializable
 
 data class Account(
@@ -18,7 +48,7 @@ data class Account(
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,
-    val type: AccountType = AccountType.CASH,
+    val type: AccountType,
     val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
     val syncAccountName: String? = null,
@@ -81,7 +111,7 @@ data class Account(
             "0 AS $KEY_IS_AGGREGATE"
         )
 
-        fun fromCursor(cursor: Cursor): Account {
+        fun fromCursor(cursor: Cursor, accountType: AccountType): Account {
             val sortBy = cursor.getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
@@ -91,7 +121,7 @@ data class Account(
                 description = cursor.getString(KEY_DESCRIPTION),
                 openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
                 currency = cursor.getString(KEY_CURRENCY),
-                type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
+                type = accountType,
                 color = cursor.getInt(KEY_COLOR),
                 criterion = cursor.getLong(KEY_CRITERION),
                 syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),

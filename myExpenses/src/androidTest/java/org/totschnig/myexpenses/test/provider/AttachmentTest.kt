@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.net.Uri
 import android.os.Bundle
 import com.google.common.truth.Truth.assertThat
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -36,7 +35,8 @@ class AttachmentTest : BaseDbTest() {
 
 
     private fun insertFixture() {
-        val account = AccountInfo("Test account", AccountType.CASH, 0, "USD")
+        //TODO set up account type
+        val account = AccountInfo("Test account", 1, 0, "USD")
         val accountId = mDb.insert(TABLE_ACCOUNTS, account.contentValues)
         val transaction = TransactionInfo(accountId, 0, comment = "Transaction 0")
         //We insert two transactions, in order to have transactionId and attachmentId with different values,

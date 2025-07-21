@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Kontotypen</string>
     <string name="account_type_asset">Anlagekonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Anlagekonten</string>
     <string name="account_type_bank">Bankkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Bankkonten</string>
     <string name="account_type_cash">Bargeldkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Bargeldkonten</string>
     <string name="account_type_ccard">Kreditkarte</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kreditkarten</string>
     <string name="account_type_liability">Kreditkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Kreditkonten</string>
     <string name="already_defined">%1$s existiert bereits</string>
     <string name="amount">Betrag</string>
     <string name="app_name">Meine Ausgaben</string>

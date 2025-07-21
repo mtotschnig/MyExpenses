@@ -13,12 +13,12 @@ import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
@@ -75,7 +75,10 @@ abstract class ImportDataViewModel(application: Application) :
                             dbAccountId
                 )
             } else {
-                account.toAccount(currencyUnit).let {
+                val accountTypeV2 = account.type?.let {
+                    repository.findAccountType(it)
+                } ?: throw IllegalArgumentException("Account type is null")
+                account.toAccount(currencyUnit, accountTypeV2).let {
                     importCount++
                     if (!hasUnlimitedAccounts &&
                         nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS

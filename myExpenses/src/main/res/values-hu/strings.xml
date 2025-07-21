@@ -18,20 +18,10 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Számlák</string>
     <string name="account_type_asset">Forgóeszköz számla</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Forgóeszköz számlák</string>
     <string name="account_type_bank">Bankszámla</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Bankszámlák</string>
     <string name="account_type_cash">Készpénz számla</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Készpénz számlák</string>
     <string name="account_type_ccard">Hitelkártya</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Hitelkártyák</string>
     <string name="account_type_liability">Megtakarítási számla</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Kötelezettség alá eső számlák</string>
     <string name="already_defined">%1$s már létezik</string>
     <string name="amount">Összeg</string>
     <string name="app_name">Kiadásaim</string>

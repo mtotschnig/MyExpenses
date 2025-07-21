@@ -23,6 +23,7 @@ import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEU
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNTS_SEALED_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_TYPE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
@@ -66,7 +67,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.CalendarContract.Events;
 
@@ -77,7 +77,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -149,7 +148,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_OPENING_BALANCE + " integer, "
           + KEY_DESCRIPTION + " text, "
           + KEY_CURRENCY + " text not null  references " + TABLE_CURRENCIES + "(" + KEY_CODE + "), "
-          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + AccountType.JOIN + ")) default '" + AccountType.CASH.name() + "', "
+          + KEY_TYPE + " integer references " + TABLE_ACCOUNT_TYPES + "(" + KEY_ROWID + "), "
           + KEY_COLOR + " integer default -3355444, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
           + KEY_USAGES + " integer default 0,"
@@ -219,7 +218,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("
-          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + AccountType.JOIN + ")), "
+          + KEY_TYPE + " integer references " + TABLE_ACCOUNT_TYPES + "(" + KEY_ROWID + "), "
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
@@ -474,8 +473,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
+    db.execSQL(ACCOUNT_TYPE_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
-    insertDefaultPaymentMethods(db);
+    insertDefaultAccountTypesAndMethods(db);
     db.execSQL(CURRENCY_CREATE);
     //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
@@ -583,26 +583,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     for (CurrencyEnum currency : CurrencyEnum.values()) {
       initialValues.put(KEY_CODE, currency.name());
       db.insert(TABLE_CURRENCIES, CONFLICT_NONE, initialValues);
-    }
-  }
-
-  /**
-   * @param db insert the predefined payment methods in the database, all of them are valid only for bank accounts
-   */
-  private void insertDefaultPaymentMethods(SupportSQLiteDatabase db) {
-    ContentValues initialValues;
-    long _id;
-    for (PreDefinedPaymentMethod pm : PreDefinedPaymentMethod.values()) {
-      initialValues = new ContentValues();
-      initialValues.put(KEY_LABEL, pm.name());
-      initialValues.put(KEY_TYPE, pm.getPaymentType());
-      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered());
-      initialValues.put(KEY_ICON, pm.getIcon());
-      _id = db.insert(TABLE_METHODS, CONFLICT_NONE, initialValues);
-      initialValues = new ContentValues();
-      initialValues.put(KEY_METHODID, _id);
-      initialValues.put(KEY_TYPE, "BANK");
-      db.insert(TABLE_ACCOUNTTYES_METHODS, CONFLICT_NONE, initialValues);
     }
   }
 

@@ -16,20 +16,10 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Účet</string>
     <string name="account_type_asset">Účet aktív</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Účty aktív</string>
     <string name="account_type_bank">Bankový účet</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Bankové účty</string>
     <string name="account_type_cash">Peňažný účet</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Peňažné účty</string>
     <string name="account_type_ccard">Kreditná karta</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kreditné karty</string>
     <string name="account_type_liability">Účet záväzkov</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Účty záväzkov</string>
     <string name="already_defined">%1$s je definované</string>
     <string name="amount">Čiastka</string>
     <string name="app_name">Moje výdavky</string>

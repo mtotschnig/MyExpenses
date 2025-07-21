@@ -16,20 +16,10 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Konto</string>
     <string name="account_type_asset">Aktivkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Aktivkonti</string>
     <string name="account_type_bank">Bankkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Bankkonti</string>
     <string name="account_type_cash">Kontantkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Kontantkonti</string>
     <string name="account_type_ccard">Kreditkort</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Kreditkort</string>
     <string name="account_type_liability">Passivkonto</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">Passivkonti</string>
     <string name="already_defined">%1$s allerede defineret</string>
     <string name="amount">Beløb</string>
     <string name="app_name">Mine Udgifter</string>

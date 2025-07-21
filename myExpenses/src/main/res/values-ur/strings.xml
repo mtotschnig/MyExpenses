@@ -5,15 +5,10 @@
     <string name="dialog_remind_rate_1_suggest_improvement">براہ کرم ہمیں بہتری کے لیے اپنی تجاویز بھیجنے کے لیے تھوڑا وقت نکالیں.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">آپ کی موجودہ لائسنس کی حیثیت (%2$s) آپ کو %1$d اکاؤنٹس بنانے کی اجازت دیتی ہے۔</string>
     <string name="account_type_asset">اثاثہ اکاؤنٹ</string>
-    <string name="account_type_asset_plural">اثاثہ جات کے اکاؤنٹس</string>
     <string name="account_type_bank">بینک اکاؤنٹ</string>
-    <string name="account_type_bank_plural">بینک اکاؤنٹ</string>
     <string name="account_type_cash">کیش اکاؤنٹ</string>
-    <string name="account_type_cash_plural">کیش اکاؤنٹس</string>
     <string name="account_type_ccard">کریڈٹ کارڈ</string>
-    <string name="account_type_ccard_plural">کریڈٹ کارڈ</string>
     <string name="account_type_liability">واجبات کا اکاؤنٹ</string>
-    <string name="account_type_liability_plural">واجبات کے اکاؤنٹس</string>
     <string name="already_defined">%1$sپہلے ہی بیان کیا گیا ہے</string>
     <string name="amount">رقم</string>
     <string name="category">قسم</string>

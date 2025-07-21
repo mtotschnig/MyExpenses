@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
 class AccountMetaDataDialogFragment: BaseDialogFragment() {
@@ -48,12 +47,8 @@ class AccountMetaDataDialogFragment: BaseDialogFragment() {
                 AccountMetaDataRow(R.string.description, it)
             }
             AccountMetaDataRow(label = R.string.currency, value = data.currency())
-            AccountMetaDataRow(label = R.string.type, value = stringResource(
-                try {
-                    AccountType.valueOf(data.type())
-                } catch (e: Exception) {
-                    AccountType.CASH
-                }.toStringRes()))
+            //TODO resolve name of predefined types
+            AccountMetaDataRow(label = R.string.type, value = data.type())
             AccountMetaDataRow(label = R.string.uuid, value = data.uuid())
         }
     }

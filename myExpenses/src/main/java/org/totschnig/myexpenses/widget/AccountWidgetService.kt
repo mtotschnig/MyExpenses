@@ -143,7 +143,7 @@ class AccountRemoteViewsFactory(
             buttons: List<AccountWidgetConfigurationFragment.Button>
         ) {
             with(remoteViews) {
-                val account = Account.fromCursor(cursor)
+                val account = Account.fromCursor(cursor, TODO())
                 setBackgroundColorSave(
                     R.id.divider3,
                     if (account.isAggregate) ContextCompat.getColor(context, R.color.colorAggregate)

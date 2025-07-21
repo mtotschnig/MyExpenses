@@ -16,9 +16,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHODS_URI
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getEnumOrNull
+import org.totschnig.myexpenses.provider.useAndMapToList
 
 fun fullProjection(context: Context) = basePaymentMethodProjection(context) + mappingColumns + KEY_ROWID
 
@@ -61,17 +61,15 @@ fun localizedLabelSqlColumn(ctx: Context, keyLabel: String?) =
 fun Repository.loadPaymentMethod(context: Context, id: Long): PaymentMethod {
     val accountTypes = contentResolver.query(
         ACCOUNTTYPES_METHODS_URI,
-        arrayOf(KEY_TYPE),
+        arrayOf(KEY_ROWID),
         "$KEY_METHODID = ?",
         arrayOf(id.toString()),
         null
-    )!!.use { cursor ->
-        cursor.asSequence.mapNotNull {
-            it.getEnumOrNull<AccountType>(0)
-        }.toList()
+    )!!.useAndMapToList { cursor ->
+        cursor.getLong(0)
     }
     return contentResolver.query(
-        instanceUir(id),
+        instanceUri(id),
         basePaymentMethodProjection(context),
         null,
         null,
@@ -114,11 +112,11 @@ fun Repository.createPaymentMethod(context: Context?, method: PaymentMethod): Pa
     return method.copy(id = id)
 }
 
-private fun instanceUir(id: Long) = ContentUris.withAppendedId(METHODS_URI, id)
+private fun instanceUri(id: Long) = ContentUris.withAppendedId(METHODS_URI, id)
 
 fun Repository.updatePaymentMethod(context: Context, method: PaymentMethod) {
     contentResolver.update(
-        instanceUir(method.id),
+        instanceUri(method.id),
         method.toContentValues(context),
         null,
         null
@@ -126,7 +124,7 @@ fun Repository.updatePaymentMethod(context: Context, method: PaymentMethod) {
     setMethodAccountTypes(method.id, method.accountTypes)
 }
 
-private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<AccountType>) {
+private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<Long>) {
     contentResolver.delete(
         ACCOUNTTYPES_METHODS_URI,
         "$KEY_METHODID = ?",
@@ -136,7 +134,7 @@ private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<Accoun
         put(KEY_METHODID, id)
     }
     for (accountType in accountTypes) {
-        initialValues.put(KEY_TYPE, accountType.name)
+        initialValues.put(KEY_TYPE, accountType)
         contentResolver.insert(ACCOUNTTYPES_METHODS_URI, initialValues)
     }
 }
@@ -152,8 +150,10 @@ fun Repository.findPaymentMethod(label: String) = contentResolver.query(
 /**
  * this method does not check, if label is predefined
  */
-fun Repository.writePaymentMethod(label: String, accountType: AccountType?): Long {
-    return createPaymentMethod(null, PaymentMethod(label = label, accountTypes = listOfNotNull(accountType))).id
+fun Repository.writePaymentMethod(label: String, accountType: AccountType): Long {
+    return createPaymentMethod(null, PaymentMethod(label = label, accountTypes = listOfNotNull(
+        accountType.id
+    ))).id
 }
 
 fun Repository.deleteMethod(id: Long) {
@@ -162,7 +162,7 @@ fun Repository.deleteMethod(id: Long) {
         "$KEY_METHODID = ?",
         arrayOf(id.toString())
     )
-    contentResolver.delete(instanceUir(id), null, null)
+    contentResolver.delete(instanceUri(id), null, null)
 }
 
 fun Repository.getMethod(methodId: Long) = contentResolver.query(

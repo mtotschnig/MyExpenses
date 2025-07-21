@@ -292,7 +292,7 @@ fun FilterDialog(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
-                        if (account.isAggregate || account.type != AccountType.CASH)
+                        if (account.isAggregate || account.type.supportsReconciliation)
                             CrStatusCriterion else null,
                         if (sumInfo.mappedPayees) PayeeCriterion else null,
                         if (sumInfo.mappedMethods) MethodCriterion else null,
@@ -588,6 +588,7 @@ fun FilterDialogEmpty() {
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
+            type = AccountType.CASH,
         ),
         sumInfo = SumInfo.EMPTY,
     )
@@ -601,6 +602,7 @@ fun FilterDialogPreview() {
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
+            type = AccountType.CASH,
         ),
         sumInfo = SumInfo.EMPTY,
         criterion = AndCriterion(

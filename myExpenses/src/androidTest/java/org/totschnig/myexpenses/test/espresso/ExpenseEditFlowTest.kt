@@ -19,8 +19,7 @@ import org.totschnig.myexpenses.db2.createPaymentMethod
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.deleteMethod
-import org.totschnig.myexpenses.db2.deleteTemplate
-import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
@@ -39,6 +38,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     fun fixture() {
         account1 = buildAccount("Test label 1")
 
+        val accountType = repository.findAccountType("_CASH_")!!
         methodId = repository.createPaymentMethod(
             targetContext,
             PaymentMethod(
@@ -48,7 +48,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 PAYMENT_METHOD_EXPENSE,
                 true,
                 null,
-                listOf(AccountType.CASH)
+                listOf(accountType.id)
             )
         ).id
 

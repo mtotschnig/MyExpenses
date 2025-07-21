@@ -1,18 +1,16 @@
 package org.totschnig.myexpenses.test.provider
 
 import junit.framework.TestCase
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.testutils.CurrencyInfo
-import java.lang.IllegalArgumentException
 
 class CurrencyTest : BaseDbTest() {
     private val testCurrency = CurrencyInfo("Bitcoin", "BTC")
-    private val testAccount = AccountInfo("Account 0", AccountType.CASH, 0, testCurrency.code)
+    private val testAccount = AccountInfo("Account 0", 1, 0, testCurrency.code)
 
     fun testShouldNotDeleteFrameworkCurrency() {
         try {
