@@ -11,7 +11,10 @@ import android.widget.TableRow
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.QifImport
@@ -121,21 +124,26 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
             PREF_KEY_IMPORT_ENCODING
         )
         currencySpinner = view.findViewById(R.id.Currency)
-        DialogUtils.configureCurrencySpinner(currencySpinner, this)
-        lifecycleScope.launchWhenStarted {
-            currencyViewModel.currencies.collect {
-                val adapter = currencySpinner.adapter as CurrencyAdapter
-                adapter.addAll(it)
-                currencySpinner.setSelection(adapter.getPosition(currencyViewModel.default))
+        currencySpinner.configureCurrencySpinner(this)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                currencyViewModel.currencies.collect {
+                    val adapter = currencySpinner.adapter as CurrencyAdapter
+                    adapter.addAll(it)
+                    currencySpinner.setSelection(adapter.getPosition(currencyViewModel.default))
+                }
             }
         }
-        lifecycleScope.launchWhenStarted {
-            viewModel.accounts.collect {
-                accountsAdapter.clear()
-                accountsAdapter.addAll(it)
-                accountSpinner.setSelection(accountsAdapter.getPosition(viewModel.accountId))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accounts.collect {
+                    accountsAdapter.clear()
+                    accountsAdapter.addAll(it)
+                    accountSpinner.setSelection(accountsAdapter.getPosition(viewModel.accountId))
+                }
             }
         }
+
         view.findViewById<View>(R.id.AccountType).isVisible = false
         mImportTransactions.setOnCheckedChangeListener { _, isChecked ->
             autoFillRow.isVisible = isChecked

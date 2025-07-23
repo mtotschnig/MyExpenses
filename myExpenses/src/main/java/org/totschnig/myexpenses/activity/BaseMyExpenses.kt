@@ -1845,6 +1845,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
+                startActivity(Intent(this, ManageAccountTypes::class.java))
+            }
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
                     || allAccountCount < ContribFeature.FREE_ACCOUNTS

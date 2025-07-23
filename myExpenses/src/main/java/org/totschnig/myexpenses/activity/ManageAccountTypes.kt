@@ -39,7 +39,9 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +49,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -94,7 +97,7 @@ fun ManageAccountTypesScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Manage Account Types") })
+            TopAppBar(title = { Text(stringResource(R.string.manage_account_types)) })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAdd) {
@@ -119,6 +122,7 @@ fun ManageAccountTypesScreen(
 
             if (uiState.editingAccountType != null) {
                 AddEditAccountTypeDialog(
+                    allTypes = uiState.accountTypes,
                     editingAccountType = uiState.editingAccountType,
                     onDismiss = onDialogDismiss,
                     onSave = { name, isAsset, supportsReconciliation ->
@@ -136,6 +140,8 @@ fun AccountTypeList(
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit
 ) {
+    val context = LocalContext.current
+
     if (accountTypes.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(stringResource(R.string.no_data))
@@ -150,10 +156,20 @@ fun AccountTypeList(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         groups[true]?.let { assetTypes ->
-            section("Assets", assetTypes, onEditClick, onDeleteClick)
+            section(
+                context.getString(R.string.balance_sheet_section_assets),
+                assetTypes.sortedBy { it.localizedName(context) },
+                onEditClick,
+                onDeleteClick
+            )
         }
         groups[false]?.let { liabilityTypes ->
-            section("Liabilities", liabilityTypes, onEditClick, onDeleteClick)
+            section(
+                context.getString(R.string.balance_sheet_section_liabilities),
+                liabilityTypes.sortedBy { it.localizedName(context) },
+                onEditClick,
+                onDeleteClick
+            )
         }
     }
 }
@@ -184,22 +200,26 @@ fun AccountTypeItem(
     onDeleteClick: () -> Unit,
     modifier: Modifier
 ) {
+    val context = LocalContext.current
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .minimumInteractiveComponentSize(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = accountType.name,
+            text = accountType.localizedName(context),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
-        IconButton(onClick = onEditClick) {
-            Icon(Icons.Filled.Edit, contentDescription = "Edit")
-        }
-        IconButton(onClick = onDeleteClick) {
-            Icon(Icons.Filled.Delete, contentDescription = "Delete")
+        if (!accountType.isPredefined) {
+            IconButton(onClick = onEditClick) {
+                Icon(Icons.Filled.Edit, contentDescription = "Edit")
+            }
+            IconButton(onClick = onDeleteClick) {
+                Icon(Icons.Filled.Delete, contentDescription = "Delete")
+            }
         }
     }
 }
@@ -207,23 +227,30 @@ fun AccountTypeItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditAccountTypeDialog(
-    editingAccountType: AccountType?,
+    editingAccountType: AccountType,
     onDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit =
-        { _, _, _ -> }
+        { _, _, _ -> },
+    allTypes: List<AccountType> = emptyList()
 ) {
-    var name by remember { mutableStateOf(editingAccountType?.name ?: "") }
-    // Add state for icon selection if needed
-    val isEditing = editingAccountType != null
-    val title = if (isEditing) "Edit Account Type" else "Add New Account Type"
-    val options = listOf("Asset", "Liability")
+    val context = LocalContext.current
+    var name by remember { mutableStateOf(editingAccountType.name) }
+    val title =
+        stringResource(if (editingAccountType.id == 0L) R.string.new_account_type else R.string.edit_account_type)
+    val options =
+        listOf(R.string.balance_sheet_section_assets, R.string.balance_sheet_section_liabilities)
     var selectedIndex by remember {
-        mutableIntStateOf(if (editingAccountType?.isAsset == false) 1 else 0) // 0 for Asset, 1 for Liability
+        mutableIntStateOf(if (editingAccountType.isAsset) 0 else 1)
     }
     var supportsReconciliation by remember {
         mutableStateOf(
-            editingAccountType?.supportsReconciliation ?: false
-        ) // Initialize from editing type or default
+            editingAccountType.supportsReconciliation
+        )
+    }
+    val nameAlreadyExists = remember {
+        derivedStateOf {
+            allTypes.any { it.id != editingAccountType.id && (it.name == name || it.localizedName(context) == name) }
+        }
     }
     Dialog(onDismissRequest = onDismiss) {
         Card {
@@ -235,10 +262,19 @@ fun AddEditAccountTypeDialog(
                     onValueChange = { name = it },
                     label = { Text("Account Type Name") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    isError = nameAlreadyExists.value,
+                    supportingText = {
+                        if (nameAlreadyExists.value) {
+                            Text(
+                                text = "Name already exists",
+                                color = MaterialTheme.colorScheme.error // Use theme's error color
+                            )
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                // --- Asset or Liability Selection with SegmentedButton ---
+
                 SingleChoiceSegmentedButtonRow(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -251,11 +287,11 @@ fun AddEditAccountTypeDialog(
                             onClick = { selectedIndex = index },
                             selected = index == selectedIndex
                         ) {
-                            Text(label)
+                            Text(stringResource(label))
                         }
                     }
                 }
-                // --- Supports Reconciliation Checkbox ---
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -272,7 +308,9 @@ fun AddEditAccountTypeDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Supports Reconciliation")
                 }
+
                 Spacer(modifier = Modifier.height(12.dp))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
@@ -282,10 +320,10 @@ fun AddEditAccountTypeDialog(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(
-                        enabled = name.isNotBlank(),
+                        enabled = name.isNotBlank() && !nameAlreadyExists.value,
                         onClick = {
                             onSave(name, selectedIndex == 0, supportsReconciliation)
-                    }) {
+                        }) {
                         Text("Save")
                     }
                 }
@@ -304,5 +342,7 @@ fun ListPreview() {
 @Composable
 @Preview(showBackground = true, group = "Dialog")
 fun EditPreview() {
-    AddEditAccountTypeDialog(null)
+    AddEditAccountTypeDialog(
+        AccountType(name = "")
+    )
 }

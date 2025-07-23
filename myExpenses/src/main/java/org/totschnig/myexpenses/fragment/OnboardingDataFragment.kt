@@ -8,16 +8,22 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.adapter.CurrencyAdapter
+import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
-import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.addAll
 import org.totschnig.myexpenses.dialog.buildColorDialog
+import org.totschnig.myexpenses.dialog.configureCurrencySpinner
+import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -148,18 +154,27 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         binding.Amount.findViewById<View>(R.id.Calculator).visibility = View.GONE
 
         //currency
-        DialogUtils.configureCurrencySpinner(binding.Currency, this)
+        val currencyAdapter = binding.Currency.configureCurrencySpinner(this)
         val code = savedInstanceState?.getString(DatabaseConstants.KEY_CURRENCY)
         val currency =
             if (code != null) create(code, requireActivity()) else currencyViewModel.default
-        val adapter = binding.Currency.adapter as CurrencyAdapter
-        adapter.clear()
-        adapter.addAll(currencyViewModel.currenciesFromEnum)
-        binding.Currency.setSelection(adapter.getPosition(currency))
+        currencyAdapter.clear()
+        currencyAdapter.addAll(currencyViewModel.currenciesFromEnum)
+        binding.Currency.setSelection(currencyAdapter.getPosition(currency))
         nextButton.visibility = View.VISIBLE
 
         //type
-        DialogUtils.configureTypeSpinner(binding.AccountType)
+        val typeAdapter = binding.AccountType.configureTypeSpinner()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountTypes.collect { accountTypes ->
+                    typeAdapter.addAll(accountTypes)
+                    accountTypes.find { it.isCashAccount }?.let {
+                        binding.AccountType.setSelection(typeAdapter.getPosition(it.id))
+                    }
+                }
+            }
+        }
 
         //color
         binding.colorInput.setColor(viewModel.accountColor)
@@ -208,13 +223,14 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     private fun buildAccount(): Account? {
         val currency = selectedCurrency
         return binding.Amount.getAmount(currency, showToUser = true).getOrNull()?.let { money ->
+            @Suppress("UNCHECKED_CAST")
             Account(
                 label = binding.Label.text.toString().takeIf { it.isNotEmpty() }
                     ?: getString(R.string.default_account_name),
                 currency = currency.code,
                 openingBalance = money.amountMinor,
                 description = binding.Description.text.toString(),
-                type = binding.AccountType.selectedItem as AccountType,
+                type = (binding.AccountType.selectedItem as SpinnerItem.Item<AccountType>).data,
                 color = viewModel.accountColor
             )
         }

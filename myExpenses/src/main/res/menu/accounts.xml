@@ -10,6 +10,11 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
+        android:id="@id/MANAGE_ACCOUNT_TYPES_COMMAND"
+        android:title="@string/account_types"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
         android:id="@id/GROUPING_ACCOUNTS_COMMAND"
         android:icon="@drawable/ic_action_group"
         android:title="@string/menu_grouping" />

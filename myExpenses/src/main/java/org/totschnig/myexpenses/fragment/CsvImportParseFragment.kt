@@ -47,6 +47,10 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
 import androidx.core.net.toUri
+import org.totschnig.myexpenses.adapter.SpinnerItem
+import org.totschnig.myexpenses.dialog.addAll
+import org.totschnig.myexpenses.dialog.configureCurrencySpinner
+import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.model.AccountType
 
 class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener,
@@ -118,7 +122,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             adapter = IdAdapter<AccountMinimal>(requireContext())
             onItemSelectedListener = this@CsvImportParseFragment
         }
-        DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
+        binding.AccountTable.Currency.configureCurrencySpinner(this)
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -144,7 +148,14 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         }
 
         with(binding.AccountTable.AccountType) {
-            DialogUtils.configureTypeSpinner(this)
+            val accountTypeAdapter = configureTypeSpinner()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.accountTypes.collect { accountTypes ->
+                        accountTypeAdapter.addAll(accountTypes)
+                    }
+                }
+            }
             onItemSelectedListener = this@CsvImportParseFragment
         }
 
@@ -329,8 +340,9 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
     val dateFormat: QifDateFormat
         get() = binding.DateFormatTable.DateFormat.selectedItem as QifDateFormat
 
+    @Suppress("UNCHECKED_CAST")
     val accountType: AccountType
-        get() = binding.AccountTable.AccountType.selectedItem as AccountType
+        get() = (binding.AccountTable.AccountType.selectedItem as SpinnerItem.Item<AccountType>).data
 
     val autoFillCategories: Boolean
         get() = binding.AutoFillTable.autofillCategories.isChecked

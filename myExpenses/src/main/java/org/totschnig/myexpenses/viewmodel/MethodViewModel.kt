@@ -18,10 +18,6 @@ class MethodViewModel(application: Application) : ContentResolvingAndroidViewMod
         repository.loadPaymentMethod(localizedContext, id)
     }
 
-    val accountTypes by lazy {
-        repository.getAccountTypes().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-    }
-
 
     suspend fun saveMethod(paymentMethod: PaymentMethod) {
         withContext(coroutineDispatcher) {

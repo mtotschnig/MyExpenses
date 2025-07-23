@@ -955,6 +955,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_TYPE_ID: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       }
       default:
         throw unknownUri(uri);

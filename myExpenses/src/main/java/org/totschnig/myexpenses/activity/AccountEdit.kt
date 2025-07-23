@@ -38,11 +38,16 @@ import kotlinx.coroutines.launch
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
+import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.IdAdapter
+import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.addAll
 import org.totschnig.myexpenses.dialog.buildColorDialog
+import org.totschnig.myexpenses.dialog.configureCurrencySpinner
+import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -84,6 +89,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     private lateinit var accountTypeSpinner: SpinnerHelper
     private lateinit var syncSpinner: SpinnerHelper
     private lateinit var currencyAdapter: CurrencyAdapter
+    private lateinit var accountTypeAdapter: GroupedSpinnerAdapter<Boolean, AccountType>
     private lateinit var currencyViewModel: CurrencyViewModel
     private lateinit var syncViewModel: SyncBackendViewModel
 
@@ -129,13 +135,23 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             inject(currencyViewModel)
             inject(syncViewModel)
         }
+
         currencySpinner = SpinnerHelper(binding.Currency)
-        currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
+        currencyAdapter = binding.Currency.configureCurrencySpinner()
         currencySpinner.adapter = currencyAdapter
-        val spinner = binding.AccountType
-        DialogUtils.configureTypeSpinner(spinner)
-        accountTypeSpinner = SpinnerHelper(spinner)
+
+        accountTypeSpinner = SpinnerHelper(binding.AccountType)
+        accountTypeAdapter = binding.AccountType.configureTypeSpinner()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountTypes.collect { accountTypes ->
+                    accountTypeAdapter.addAll(accountTypes)
+                }
+            }
+        }
+
         syncSpinner = SpinnerHelper(binding.Sync)
+
         newInstance = rowId == 0L
         setTitle(if (rowId != 0L) R.string.menu_edit_account else R.string.menu_create_account)
         if (savedInstanceState == null || !dataLoaded) {
@@ -258,7 +274,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         )
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
-        accountTypeSpinner.setSelection((accountTypeSpinner.adapter as IdAdapter<AccountType>).getPosition(account.type))
+        accountTypeSpinner.setSelection(accountTypeAdapter.getPosition(account.type))
         val criterion = account.criterion
         if (criterion != null) {
             binding.Criterion.setAmount(Money(currencyUnit, account.criterion).amountMajor)
@@ -300,13 +316,13 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val currency = (currencySpinner.selectedItem as Currency).code
         val currencyUnit = currencyContext[currency]
         val isForeignExchange = currencyContext.homeCurrencyString != currency
-        val account = Account(
+        @Suppress("UNCHECKED_CAST") val account = Account(
             id = rowId,
             label = label,
             currency = currency,
             openingBalance = Money(currencyUnit, openingBalance).amountMinor,
             description = binding.Description.text.toString(),
-            type = accountTypeSpinner.selectedItem as AccountType,
+            type = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data,
             color = color,
             uuid = uuid,
             syncAccountName = if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,

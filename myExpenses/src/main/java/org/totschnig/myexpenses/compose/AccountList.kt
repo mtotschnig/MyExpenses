@@ -198,9 +198,9 @@ private fun getHeaderTitle(
         if (account.id > 0) R.string.pref_manage_accounts_title else R.string.menu_aggregates
     )
 
-    AccountGrouping.TYPE -> context.getString(
-         if (account.isAggregate) R.string.menu_aggregates else account.type.localizedName
-    )
+    AccountGrouping.TYPE ->
+         if (account.isAggregate) context.getString(R.string.menu_aggregates) else
+             account.type.localizedName(context)
 
     AccountGrouping.CURRENCY -> if (account.id == HOME_AGGREGATE_ID)
         context.getString(R.string.menu_aggregates)

@@ -115,7 +115,7 @@ fun Account.toContentValues() = ContentValues().apply {
     put(KEY_OPENING_BALANCE, openingBalance)
     put(KEY_DESCRIPTION, description)
     put(KEY_CURRENCY, currency)
-    put(KEY_TYPE, type.name)
+    put(KEY_TYPE, type.id)
     put(KEY_COLOR, color)
     put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
     if (criterion != null) {

@@ -17,10 +17,12 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -29,6 +31,7 @@ import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
 import org.totschnig.myexpenses.db2.loadAccountType
@@ -177,6 +180,10 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         repository.loadAccountFlow(accountId)
     else
         repository.loadAggregateAccountFlow(accountId)
+
+    val accountTypes by lazy {
+        repository.getAccountTypes().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
 
     sealed class DeleteState {
         data class DeleteProgress(val count: Int, val total: Int) : DeleteState()

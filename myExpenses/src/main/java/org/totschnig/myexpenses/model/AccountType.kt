@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import android.content.Context
 import android.database.Cursor
 import android.os.Parcelable
 import androidx.core.content.contentValuesOf
@@ -14,6 +15,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCIL
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
+
+const val PREDEFINED_NAME_CASH = "_CASH_"
+const val PREDEFINED_NAME_BANK = "_BANK_"
+const val PREDEFINED_NAME_CCARD = "_CCARD_"
+const val PREDEFINED_NAME_ASSET = "_ASSET_"
+const val PREDEFINED_NAME_LIABILITY = "_LIABILITY_"
+const val PREDEFINED_NAME_INVESTMENT = "_INVST_"
 
 @Parcelize
 data class AccountType(
@@ -30,42 +38,43 @@ data class AccountType(
     )
 
     @IgnoredOnParcel
+    val isPredefined: Boolean = name.startsWith("_") && name.endsWith("_")
+
+    @IgnoredOnParcel
     val nameForSync =
-        if (name.startsWith("_") && name.endsWith("_")) name.substring(1, name.length - 1) else name
+        if (isPredefined) name.substring(1, name.length - 1) else name
 
     @IgnoredOnParcel
     val qifName = when (name) {
-        "_CASH_" -> "Cash"
-        "_BANK_" -> "Bank"
-        "_CCARD_" -> "CCard"
-        "_ASSET_" -> "Oth A"
-        "_LIABILITY_" -> "Oth L"
-        "_INVST_" -> "Invst"
+        PREDEFINED_NAME_CASH -> "Cash"
+        PREDEFINED_NAME_BANK -> "Bank"
+        PREDEFINED_NAME_CCARD -> "CCard"
+        PREDEFINED_NAME_INVESTMENT -> "Invst"
         else -> if (isAsset) "Oth A" else "Oth L"
     }
 
-    val localizedName = when (name) {
-        "_CASH_" -> R.string.account_type_cash
-        "_BANK_" -> R.string.account_type_bank
-        "_CCARD_" -> R.string.account_type_ccard
-        "_ASSET_" -> R.string.account_type_asset
-        "_LIABILITY_" -> R.string.account_type_liability
-        "_INVST_" -> R.string.account_type_investment
-        else -> 0
-    }
-
     val isCashAccount: Boolean
-        get() = name == "_CASH_"
+        get() = name == PREDEFINED_NAME_CASH
+
+    fun localizedName(context: Context) = when (name) {
+        PREDEFINED_NAME_CASH -> R.string.account_type_cash
+        PREDEFINED_NAME_BANK -> R.string.account_type_bank
+        PREDEFINED_NAME_CCARD -> R.string.account_type_ccard
+        PREDEFINED_NAME_ASSET -> R.string.account_type_asset
+        PREDEFINED_NAME_LIABILITY -> R.string.account_type_liability
+        PREDEFINED_NAME_INVESTMENT -> R.string.account_type_investment
+        else -> 0
+    }.takeIf { it != 0 }?.let { context.getString(it) } ?: name
 
     companion object {
-        val CASH = AccountType(name = "_CASH_", isAsset = true, supportsReconciliation = false)
-        val BANK = AccountType(name = "_BANK_", isAsset = true, supportsReconciliation = true)
-        val CCARD = AccountType(name = "_CCARD_", isAsset = false, supportsReconciliation = true)
-        val ASSET = AccountType(name = "_ASSET_", isAsset = true, supportsReconciliation = true)
+        val CASH = AccountType(name = PREDEFINED_NAME_CASH, isAsset = true, supportsReconciliation = false)
+        val BANK = AccountType(name = PREDEFINED_NAME_BANK, isAsset = true, supportsReconciliation = true)
+        val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true)
+        val ASSET = AccountType(name = PREDEFINED_NAME_ASSET, isAsset = true, supportsReconciliation = true)
         val LIABILITY =
-            AccountType(name = "_LIABILITY_", isAsset = false, supportsReconciliation = true)
+            AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = false, supportsReconciliation = true)
         val INVESTMENT =
-            AccountType(name = "_INVST_", isAsset = true, supportsReconciliation = true)
+            AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = true, supportsReconciliation = true)
 
         val predefinedAccounts = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
 

@@ -192,17 +192,6 @@ public class DialogUtils {
             .indexOf(prefHandler.getString(prefName, ",")));
   }
 
-  public static void configureCurrencySpinner(Spinner spinner, AdapterView.OnItemSelectedListener listener) {
-    CurrencyAdapter curAdapter = new CurrencyAdapter(spinner.getContext(), android.R.layout.simple_spinner_item);
-    spinner.setAdapter(curAdapter);
-    spinner.setOnItemSelectedListener(listener);
-  }
-
-  public static void configureTypeSpinner(Spinner spinner) {
-    ArrayAdapter<AccountType> typAdapter = new IdAdapter<>(spinner.getContext());
-    spinner.setAdapter(typAdapter);
-  }
-
   public static void openBrowse(Uri uri, Fragment fragment) {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);

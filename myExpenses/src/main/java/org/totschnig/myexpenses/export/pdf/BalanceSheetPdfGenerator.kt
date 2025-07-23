@@ -152,7 +152,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
     ) {
         addLine(
             table = table,
-            label = context.getString(section.type.localizedName),
+            label = section.type.localizedName(context),
             amount = section.total,
             isAbsolute = true,
             labelFontType = FontType.BALANCE_SECTION

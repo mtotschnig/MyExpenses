@@ -23,7 +23,10 @@ fun Repository.loadAccountType(id: Long): AccountType = contentResolver.query(
     null,
     null,
     null
-)!!.use { AccountType.fromCursor(it) }
+)!!.use {
+    it.moveToFirst()
+    AccountType.fromCursor(it)
+}
 
 fun Repository.addAccountType(accountType: AccountType): AccountType {
     val id = ContentUris.parseId(
