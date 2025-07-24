@@ -85,4 +85,5 @@
     <string name="menu_restore">"रिसेट गरी डिफल्ट बनाउनुहोस्"</string>
     <string name="widgets">"विजेटहरू"</string>
     <string name="menu_import">"आयात गर्नुहोस्"</string>
+    <string name="already_exists">"नाम पहिले नै अवस्थित छ"</string>
 </resources>

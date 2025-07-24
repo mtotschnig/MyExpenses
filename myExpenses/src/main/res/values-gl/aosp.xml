@@ -102,4 +102,5 @@
     <string name="at_end">Fin</string>
     <string name="widgets">"Widgets"</string>
     <string name="menu_import">"Importar"</string>
+    <string name="already_exists">"Ese nome xa existe"</string>
 </resources>

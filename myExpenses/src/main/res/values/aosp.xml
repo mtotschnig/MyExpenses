@@ -311,4 +311,6 @@
     <string name="at_end">End</string>
     <!-- /opt/extra/AOSP/packages/apps/Launcher3$ grep -ri widget_button_text | sed 's/widget_button_text/widgets/' | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="widgets">"Widgets"</string>
+    <!-- LibreOffice basctl/messages.po 6ubXB -->
+    <string name="already_exists">"Name already exists"</string>
 </resources>

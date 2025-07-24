@@ -156,4 +156,5 @@
     <string name="at_end">Sfârșit</string>
     <string name="widgets">"Widgeturi"</string>
     <string name="menu_import">"Importați"</string>
+    <string name="already_exists">"Numele există deja"</string>
 </resources>

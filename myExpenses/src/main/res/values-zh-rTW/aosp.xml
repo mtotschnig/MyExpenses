@@ -166,4 +166,5 @@
     <string name="at_end">結束時間</string>
     <string name="widgets">"小工具"</string>
     <string name="menu_import">"匯入"</string>
+    <string name="already_exists">"名稱已經指定"</string>
 </resources>

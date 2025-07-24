@@ -83,4 +83,5 @@
     <string name="at_end">Kraj</string>
     <string name="widgets">"Vidžeti"</string>
     <string name="menu_import">"Uvoz"</string>
+    <string name="already_exists">"Ime već postoji"</string>
 </resources>

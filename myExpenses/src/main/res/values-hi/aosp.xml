@@ -85,4 +85,5 @@
     <string name="menu_restore">"डिफ़ॉल्ट पर रीसेट करें"</string>
     <string name="widgets">"विजेट"</string>
     <string name="menu_import">"संपर्क लेकर आएं"</string>
+    <string name="already_exists">"फाइल का नाम पहले से मौजूद है"</string>
 </resources>

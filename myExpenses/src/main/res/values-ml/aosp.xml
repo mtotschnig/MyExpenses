@@ -79,4 +79,5 @@
     <string name="menu_restore">"ഡിഫോൾട്ടിലേക്ക് റീസെറ്റ് ചെയ്യൂ"</string>
     <string name="widgets">"വിജറ്റുകൾ"</string>
     <string name="menu_import">"ഇമ്പോർട്ടുചെയ്യുക"</string>
+    <string name="already_exists">"നിലവിലുള്ള പേരു്"</string>
 </resources>

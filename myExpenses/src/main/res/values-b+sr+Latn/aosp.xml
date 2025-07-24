@@ -67,4 +67,5 @@
     <string name="menu_restore">"Resetuj na podrazumevano"</string>
     <string name="widgets">"Vidžeti"</string>
     <string name="menu_import">"Uvezi"</string>
+    <string name="already_exists">"Ime već postoji"</string>
 </resources>

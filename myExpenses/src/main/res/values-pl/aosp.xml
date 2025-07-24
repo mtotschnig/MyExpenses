@@ -172,4 +172,5 @@
     <string name="at_end">Koniec</string>
     <string name="widgets">"Widżety"</string>
     <string name="menu_import">"Importuj"</string>
+    <string name="already_exists">"Nazwa już istnieje"</string>
 </resources>

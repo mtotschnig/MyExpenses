@@ -171,4 +171,5 @@
     <string name="at_end">Befejezés</string>
     <string name="widgets">"Modulok"</string>
     <string name="menu_import">"Importálás"</string>
+    <string name="already_exists">"A név már létezik"</string>
 </resources>

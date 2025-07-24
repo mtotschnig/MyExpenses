@@ -157,4 +157,5 @@
     <string name="at_start">Início</string>
     <string name="at_end">Fim</string>
     <string name="menu_import">"Importar"</string>
+    <string name="already_exists">"O nome já existe"</string>
 </resources>

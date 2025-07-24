@@ -140,4 +140,5 @@
     <string name="menu_restore">"ডিফল্টে রিসেট করুন"</string>
     <string name="widgets">"উইজেট"</string>
     <string name="menu_import">"আমদানি করুন"</string>
+    <string name="already_exists">"এই নাম ইতোমধ্যে আছে"</string>
 </resources>

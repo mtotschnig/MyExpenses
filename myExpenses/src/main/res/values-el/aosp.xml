@@ -169,4 +169,5 @@
     <string name="at_end">Λήξη</string>
     <string name="widgets">"Γραφικά στοιχεία"</string>
     <string name="menu_import">"Εισαγωγή"</string>
+    <string name="already_exists">"Το όνομα ήδη υπάρχει"</string>
 </resources>

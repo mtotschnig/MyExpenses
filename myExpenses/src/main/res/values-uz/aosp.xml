@@ -78,4 +78,5 @@
     <string name="at_end">Tugashi</string>
     <string name="widgets">"Vidjetlar"</string>
     <string name="menu_import">"Import qilish"</string>
+    <string name="already_exists">"Bunday nom allaqachon mavjud"</string>
 </resources>

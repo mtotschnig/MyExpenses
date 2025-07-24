@@ -80,4 +80,5 @@
     <string name="menu_restore">"डीफॉल्टवर रीसेट करा"</string>
     <string name="widgets">"विजेट"</string>
     <string name="menu_import">"इंपोर्ट करा"</string>
+    <string name="already_exists">"नाव आधीच अस्तित्वात आहे"</string>
 </resources>

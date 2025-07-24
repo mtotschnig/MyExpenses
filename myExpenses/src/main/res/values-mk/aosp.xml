@@ -84,4 +84,5 @@
     <string name="menu_restore">"Ресетирај на стандардни вредности"</string>
     <string name="widgets">"Виџети"</string>
     <string name="menu_import">"Изврши увоз"</string>
+    <string name="already_exists">"Името веќе постои"</string>
 </resources>

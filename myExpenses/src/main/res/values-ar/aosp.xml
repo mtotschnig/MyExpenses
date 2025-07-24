@@ -168,4 +168,5 @@
     <string name="at_end">الانتهاء</string>
     <string name="widgets">"التطبيقات المصغّرة"</string>
     <string name="menu_import">"استيراد"</string>
+    <string name="already_exists">"الاسم موجود بالفعل"</string>
 </resources>

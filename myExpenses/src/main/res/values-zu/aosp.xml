@@ -81,4 +81,5 @@
     <string name="menu_restore">"Setha kabusha kube okumisiwe"</string>
     <string name="widgets">"Amawijethi"</string>
     <string name="menu_import">"Ngenisa"</string>
+    <string name="already_exists">"Igama selikhona"</string>
 </resources>

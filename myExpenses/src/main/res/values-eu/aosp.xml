@@ -167,4 +167,5 @@
     <string name="at_end">Amaiera</string>
     <string name="widgets">"Widgetak"</string>
     <string name="menu_import">"Inportatu"</string>
+    <string name="already_exists">"Izen hori badago lehendik ere"</string>
 </resources>

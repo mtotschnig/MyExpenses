@@ -159,4 +159,5 @@
     <string name="at_end">종료 일자</string>
     <string name="widgets">"위젯"</string>
     <string name="menu_import">"가져오기"</string>
+    <string name="already_exists">"이름이 이미 있음"</string>
 </resources>

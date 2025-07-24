@@ -95,4 +95,5 @@
     <string name="at_end">Pabaiga</string>
     <string name="widgets">"Valdikliai"</string>
     <string name="menu_import">"Importuoti"</string>
+    <string name="already_exists">"Toks pavadinimas jau yra"</string>
 </resources>

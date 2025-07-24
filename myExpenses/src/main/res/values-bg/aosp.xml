@@ -171,4 +171,5 @@
     <string name="at_end">Край</string>
     <string name="widgets">"Приспособления"</string>
     <string name="menu_import">"Импортиране"</string>
+    <string name="already_exists">"Името вече съществува"</string>
 </resources>

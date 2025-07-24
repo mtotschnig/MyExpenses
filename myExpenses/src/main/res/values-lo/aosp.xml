@@ -79,4 +79,5 @@
     <string name="menu_restore">"ຣີເຊັດໄປໃຊ້ຄ່າເລີ່ມຕົ້ນ"</string>
     <string name="widgets">"ວິດເຈັດ"</string>
     <string name="menu_import">"ນຳເຂົ້າ"</string>
+    <string name="already_exists">"ມີຊື່ນີ້ແລ້ວ"</string>
 </resources>

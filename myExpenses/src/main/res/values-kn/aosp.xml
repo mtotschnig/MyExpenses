@@ -146,4 +146,5 @@
     <string name="menu_restore">"ಡೀಫಾಲ್ಟ್‌ಗೆ  ಮರುಹೊಂದಿಸಿ"</string>
     <string name="widgets">"ವಿಜೆಟ್‌ಗಳು"</string>
     <string name="menu_import">"ಆಮದು ಮಾಡಿ"</string>
+    <string name="already_exists">"ಹೆಸರು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ"</string>
 </resources>

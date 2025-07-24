@@ -96,4 +96,5 @@
     <string name="menu_restore">"ወደ ነባሪ ዳግም አስጀምር"</string>
     <string name="widgets">"ፍርግሞች"</string>
     <string name="menu_import">"አምጣ"</string>
+    <string name="already_exists">"ስሙ በቅድሚያ ነበር"</string>
 </resources>

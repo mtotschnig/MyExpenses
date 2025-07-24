@@ -103,4 +103,5 @@
     <string name="at_end">Päättyy</string>
     <string name="widgets">"Widgetit"</string>
     <string name="menu_import">"Tuo"</string>
+    <string name="already_exists">"Nimi on jo olemassa"</string>
 </resources>

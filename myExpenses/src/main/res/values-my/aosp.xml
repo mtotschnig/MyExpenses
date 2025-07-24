@@ -79,4 +79,5 @@
     <string name="menu_restore">"မူရင်းသို့ ပြန်လည်သတ်မှတ်ရန်"</string>
     <string name="widgets">"ဝိဂျက်များ"</string>
     <string name="menu_import">"ထည့်သွင်းရန်"</string>
+    <string name="already_exists">"အမည်ရှိပြီးသားဖြစ်သည်။"</string>
 </resources>

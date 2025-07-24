@@ -130,4 +130,5 @@
     <string name="menu_restore">"Repor predefinição"</string>
     <string name="widgets">"Widgets"</string>
     <string name="menu_import">"Importar"</string>
+    <string name="already_exists">"O nome já existe"</string>
 </resources>

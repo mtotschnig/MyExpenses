@@ -67,4 +67,5 @@
     <string name="menu_restore">"Sıfırlayın"</string>
     <string name="widgets">"Vidcet"</string>
     <string name="menu_import">"İmport edin"</string>
+    <string name="already_exists">"Ad artıq mövcuddur"</string>
 </resources>

@@ -158,4 +158,5 @@
     <string name="at_end">สิ้นสุด</string>
     <string name="widgets">"วิดเจ็ต"</string>
     <string name="menu_import">"นำเข้า"</string>
+    <string name="already_exists">"มีชื่อนี้อยู่แล้ว"</string>
 </resources>
