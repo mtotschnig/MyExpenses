@@ -38,7 +38,7 @@ data class AccountType(
     )
 
     @IgnoredOnParcel
-    val isPredefined: Boolean = name.startsWith("_") && name.endsWith("_")
+    val isPredefined: Boolean = isReservedName(name)
 
     @IgnoredOnParcel
     val nameForSync =
@@ -84,5 +84,7 @@ data class AccountType(
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION)
         )
+
+        fun isReservedName(name: String) = name.startsWith("_") && name.endsWith("_")
     }
 }

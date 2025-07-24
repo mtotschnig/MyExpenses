@@ -233,25 +233,37 @@ fun AddEditAccountTypeDialog(
         { _, _, _ -> },
     allTypes: List<AccountType> = emptyList()
 ) {
+
     val context = LocalContext.current
+
     var name by remember { mutableStateOf(editingAccountType.name) }
+
     val title =
         stringResource(if (editingAccountType.id == 0L) R.string.new_account_type else R.string.edit_account_type)
+
     val options =
         listOf(R.string.balance_sheet_section_assets, R.string.balance_sheet_section_liabilities)
+
     var selectedIndex by remember {
         mutableIntStateOf(if (editingAccountType.isAsset) 0 else 1)
     }
+
     var supportsReconciliation by remember {
         mutableStateOf(
             editingAccountType.supportsReconciliation
         )
     }
+
     val nameAlreadyExists = remember {
         derivedStateOf {
-            allTypes.any { it.id != editingAccountType.id && (it.name == name || it.localizedName(context) == name) }
+            AccountType.isReservedName(name) ||
+            allTypes.any {
+                it.id != editingAccountType.id &&
+                        (it.name == name || it.localizedName(context) == name)
+            }
         }
     }
+
     Dialog(onDismissRequest = onDismiss) {
         Card {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -267,8 +279,8 @@ fun AddEditAccountTypeDialog(
                     supportingText = {
                         if (nameAlreadyExists.value) {
                             Text(
-                                text = "Name already exists",
-                                color = MaterialTheme.colorScheme.error // Use theme's error color
+                                text = stringResource(R.string.already_exists),
+                                color = MaterialTheme.colorScheme.error
                             )
                         }
                     }
