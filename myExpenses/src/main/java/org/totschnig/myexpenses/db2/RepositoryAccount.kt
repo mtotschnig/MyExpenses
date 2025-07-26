@@ -241,7 +241,7 @@ fun Repository.markAsExported(accountId: Long, filter: Criterion?) {
  * @param label label of the account we want to retrieve
  * @return id or null if not found
  */
-fun Repository.findAnyOpenByLabel(label: String) = findAnyOpen(KEY_LABEL, label)
+fun Repository.findAnyOpenByLabel(label: String) = findAnyOpen("$TABLE_ACCOUNTS.$KEY_LABEL", label)
 
 /**
  * Returns the first account which uses the passed in currency, order is undefined
@@ -254,7 +254,7 @@ fun Repository.findAnyOpenByCurrency(currency: String) =
 
 fun Repository.findAnyOpen(column: String? = null, search: String? = null) = contentResolver.query(
     TransactionProvider.ACCOUNTS_URI,
-    arrayOf(KEY_ROWID),
+    arrayOf("$TABLE_ACCOUNTS.$KEY_ROWID"),
     (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
     search?.let { arrayOf(it) },
     null

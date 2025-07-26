@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.os.Parcelable
@@ -36,11 +37,12 @@ data class AccountType(
     val count: Int? = null
 ) : IdHolder, Parcelable {
     @IgnoredOnParcel
-    val asContentValues = contentValuesOf(
-        KEY_LABEL to name,
-        KEY_IS_ASSET to isAsset,
-        KEY_SUPPORTS_RECONCILIATION to supportsReconciliation
-    )
+    val asContentValues: ContentValues
+        get() = contentValuesOf(
+            KEY_LABEL to name,
+            KEY_IS_ASSET to isAsset,
+            KEY_SUPPORTS_RECONCILIATION to supportsReconciliation
+        )
 
     @IgnoredOnParcel
     val isPredefined: Boolean = isReservedName(name)

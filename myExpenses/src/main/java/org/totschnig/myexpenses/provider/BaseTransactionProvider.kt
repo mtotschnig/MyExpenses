@@ -614,10 +614,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         get() = currencyContext.homeCurrencyString
 
     val accountWithType: String
-        get() = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON ($KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID)"
+        get() = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID"
 
     val accountsWithExchangeRate: String
-        get() = exchangeRateJoin(accountWithType, KEY_ROWID, homeCurrency)
+        get() = exchangeRateJoin(accountWithType, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
 
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"

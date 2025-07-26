@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 
@@ -46,18 +45,18 @@ class DistributionTest : BaseTestWithRepository() {
         get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val currency = CurrencyUnit.DebugInstance
-    private lateinit var account: Account
+    private var accountId: Long = 0
 
     private fun baseFixture(
         showIncome: Boolean = false,
         showExpense: Boolean = true,
         additionalFixture: () -> Unit = {}
     ) {
-        account = Account(label = "Test account 1", currency = currency.code).createIn(repository)
+        accountId = insertAccount("Test account 1", currency = currency.code)
         additionalFixture()
         scenario =
             ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
-                putExtra(KEY_ACCOUNTID, account.id)
+                putExtra(KEY_ACCOUNTID, accountId)
                 putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
                 putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
             })
@@ -70,12 +69,12 @@ class DistributionTest : BaseTestWithRepository() {
         baseFixture(showIncome, showExpense) {
             val categoryExpenseId = writeCategory("Expense", type = FLAG_EXPENSE)
             val categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            with(Transaction.getNewInstance(accountId, homeCurrency)) {
                 amount = Money(homeCurrency, 3400L)
                 catId = categoryIncomeId
                 save(contentResolver)
             }
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            with(Transaction.getNewInstance(accountId, homeCurrency)) {
                 amount = Money(homeCurrency, -1200L)
                 catId = categoryExpenseId
                 save(contentResolver)

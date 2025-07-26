@@ -9,31 +9,28 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model2.Account
-import java.util.*
+import org.totschnig.myexpenses.model.Transfer
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class ProviderUtilsTest: BaseTestWithRepository() {
 
-    private lateinit var euroAccount: Account
-    private lateinit var dollarAccount: Account
+    private var euroAccount: Long = 0
+    private var dollarAccount: Long = 0
 
     @Before
     fun setupAccounts() {
 
-        euroAccount = repository.createAccount(Account(
+        euroAccount = insertAccount(
             label = "EUR-Account",
             currency = "EUR"
-        ))
-        dollarAccount = repository.createAccount(Account(
+        )
+        dollarAccount = insertAccount(
             label = "USD-Account",
             currency = "USD"
-        ))
+        )
     }
 
     private fun buildFromExtras(extras: Bundle) = ProviderUtils.buildFromExtras(repository, extras)!!
@@ -43,11 +40,11 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         var extras = Bundle()
         extras.putString(Transactions.CURRENCY, "EUR")
         var transaction = buildFromExtras(extras)
-        assertEquals(euroAccount.id, transaction.accountId)
+        assertEquals(euroAccount, transaction.accountId)
         extras = Bundle()
         extras.putString(Transactions.CURRENCY, "USD")
         transaction = buildFromExtras(extras)
-        assertEquals(dollarAccount.id, transaction.accountId)
+        assertEquals(dollarAccount, transaction.accountId)
     }
 
     @Test
@@ -55,11 +52,11 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         var extras = Bundle()
         extras.putString(Transactions.ACCOUNT_LABEL, "EUR-Account")
         var transaction = buildFromExtras(extras)
-        assertEquals(euroAccount.id, transaction.accountId)
+        assertEquals(euroAccount, transaction.accountId)
         extras = Bundle()
         extras.putString(Transactions.ACCOUNT_LABEL, "USD-Account")
         transaction = buildFromExtras(extras)
-        assertEquals(dollarAccount.id, transaction.accountId)
+        assertEquals(dollarAccount, transaction.accountId)
     }
 
     @Test
@@ -150,6 +147,6 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         extras.putString(Transactions.TRANSFER_ACCOUNT_LABEL, "USD-Account")
         val transaction = buildFromExtras(extras)
         Assert.assertTrue(transaction is Transfer)
-        assertEquals(dollarAccount.id, transaction.transferAccountId.toLong())
+        assertEquals(dollarAccount, transaction.transferAccountId.toLong())
     }
 }

@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -143,16 +144,19 @@ suspend fun Repository.loadTransactions(accountId: Long): List<Transaction> {
 
 }
 
-fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = null): Long {
+fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = null) =
+    getTransactionSum(account.id, account.currency, filter)
+
+fun Repository.getTransactionSum(id: Long, currency: String? = null, filter: Criterion? = null): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
-    var selectionArgs: Array<String>? = arrayOf(account.id.toString())
+    var selectionArgs: Array<String>? = arrayOf(id.toString())
     if (filter != null) {
         selection += " AND " + filter.getSelectionForParents()
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }
     return contentResolver.query(
-        account.uriForTransactionList(extended = false),
+        uriBuilderForTransactionList(id, currency, extended = false).build(),
         arrayOf("${DbUtils.aggregateFunction(prefHandler)}($KEY_AMOUNT)"),
         selection,
         selectionArgs,
@@ -162,6 +166,7 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = 
         it.getLong(0)
     }
 }
+
 
 fun Repository.archive(
     accountId: Long,

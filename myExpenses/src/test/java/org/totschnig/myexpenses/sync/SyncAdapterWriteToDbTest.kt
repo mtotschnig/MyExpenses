@@ -9,6 +9,7 @@ import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -26,12 +27,12 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
 
     private fun setupSync() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency)
-        syncDelegate.account = Account(label = "", currency = "EUR")
+        syncDelegate.account = Account(label = "", currency = "EUR", type = AccountType.CASH)
     }
 
     private fun setupSyncWithFakeResolver() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency) { _, _ -> 1 }
-        syncDelegate.account = Account(label = "", currency = "EUR")
+        syncDelegate.account = Account(label = "", currency = "EUR", type = AccountType.CASH)
     }
 
     private val featureManager = Mockito.mock(FeatureManager::class.java)

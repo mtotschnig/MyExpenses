@@ -29,6 +29,7 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
@@ -201,14 +202,14 @@ class ExportTest : BaseTestWithRepository() {
         label = "Account 1",
         currency = CurrencyUnit.DebugInstance.code,
         openingBalance = openingBalance,
-        type = AccountType.BANK
+        type = repository.findAccountType(AccountType.BANK.name)!!
     ).createIn(repository)
 
     private fun buildAccount2() = Account(
         label = "Account 2",
         currency = CurrencyUnit.DebugInstance.code,
         openingBalance = openingBalance,
-        type = AccountType.CASH
+        type = repository.findAccountType(AccountType.CASH.name)!!
     ).createIn(repository)
 
     private fun insertData3(): Pair<Account, Account> {

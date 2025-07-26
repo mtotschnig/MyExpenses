@@ -55,7 +55,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
 
         fun uriBuilderForTransactionList(
             id: Long,
-            currency: String,
+            currency: String?,
             shortenComment: Boolean = false,
             extended: Boolean = true
         ): Uri.Builder {

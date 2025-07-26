@@ -45,7 +45,15 @@ abstract class BaseTestWithRepository {
         type: Byte = FLAG_NEUTRAL,
         icon: String? = null
     ) =
-        repository.saveCategory(Category(label = label, parentId = parentId, uuid = uuid, type = type, icon = icon))!!
+        repository.saveCategory(
+            Category(
+                label = label,
+                parentId = parentId,
+                uuid = uuid,
+                type = type,
+                icon = icon
+            )
+        )!!
 
     protected fun insertTransaction(
         accountId: Long,
@@ -67,7 +75,12 @@ abstract class BaseTestWithRepository {
             equivalentAmount = equivalentAmount,
             payeeId = payeeId
         ).contentValues
-        val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
+        val id = ContentUris.parseId(
+            contentResolver.insert(
+                TransactionProvider.TRANSACTIONS_URI,
+                contentValues
+            )!!
+        )
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)
     }
 
@@ -77,38 +90,52 @@ abstract class BaseTestWithRepository {
         amount: Long,
         categoryId: Long? = null,
         payeeId: Long? = null
-    ) = ContentUris.parseId(contentResolver.insert(
-        TransactionProvider.TEMPLATES_URI, TemplateInfo(
-            accountId = accountId,
-            amount = amount,
-            title = title,
-            catId = categoryId,
-            payeeId = payeeId
-        ).contentValues
-    )!!)
+    ) = ContentUris.parseId(
+        contentResolver.insert(
+            TransactionProvider.TEMPLATES_URI, TemplateInfo(
+                accountId = accountId,
+                amount = amount,
+                title = title,
+                catId = categoryId,
+                payeeId = payeeId
+            ).contentValues
+        )!!
+    )
 
     protected fun insertBudget(
         accountId: Long,
         title: String,
         amount: Long,
         grouping: Grouping = Grouping.MONTH
-    ) = ContentUris.parseId(contentResolver.insert(
-        TransactionProvider.BUDGETS_URI, BudgetInfo(
-            accountId = accountId,
-            title = title,
-            amount = amount,
-            grouping = grouping
-        ).contentValues
-    )!!)
+    ) = ContentUris.parseId(
+        contentResolver.insert(
+            TransactionProvider.BUDGETS_URI, BudgetInfo(
+                accountId = accountId,
+                title = title,
+                amount = amount,
+                grouping = grouping
+            ).contentValues
+        )!!
+    )
 
     protected fun insertAccount(
         label: String,
         openingBalance: Long = 0,
-        accountType: String,
+        accountType: String = "_CASH_",
         currency: String = currencyContext.homeCurrencyString,
-        dynamic: Boolean = false
-    ) = ContentUris.parseId(contentResolver.insert(
-        TransactionProvider.ACCOUNTS_URI,
-        AccountInfo(label, repository.findAccountType(accountType)!!.id, openingBalance, currency, dynamic).contentValues
-    )!!)
+        dynamic: Boolean = false,
+        description: String = "My account of type $accountType"
+    ) = ContentUris.parseId(
+        contentResolver.insert(
+            TransactionProvider.ACCOUNTS_URI,
+            AccountInfo(
+                label = label,
+                type = repository.findAccountType(accountType)!!.id,
+                openingBalance = openingBalance,
+                currency = currency,
+                dynamic = dynamic,
+                description = description
+            ).contentValues
+        )!!
+    )
 }

@@ -20,7 +20,8 @@ data class AccountInfo @JvmOverloads constructor(
     val currency: String = "EUR",
     val dynamic: Boolean = false,
     val usages: Int = 0,
-    val lastUsed: Long = 0
+    val lastUsed: Long = 0,
+    val description: String = "My account of type $type"
 ) {
 
     val contentValues = ContentValues().apply {
@@ -31,8 +32,6 @@ data class AccountInfo @JvmOverloads constructor(
         put(KEY_TYPE, type)
         put(KEY_DYNAMIC, dynamic)
         put(KEY_USAGES, usages)
-        put(KEY_LAST_USED, lastUsed)    }
-
-    val description: String
-        get() = "My account of type $type"
+        put(KEY_LAST_USED, lastUsed)
+    }
 }

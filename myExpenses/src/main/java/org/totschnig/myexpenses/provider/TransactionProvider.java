@@ -583,10 +583,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
         final String sumsForDate = uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS);
         final String mergeAggregate = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
-        if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate());
-        }
         if (mergeAggregate != null || sumsForDate != null) {
+          if (sortOrder == null) {
+            sortOrder = minimal ? KEY_LABEL :
+                    Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), null);
+          }
           if (projection != null) {
             CrashHandler.throwOrReport(
                     "When calling accounts cursor with sums or aggregates, projection is ignored ", TAG
@@ -600,10 +601,16 @@ public class TransactionProvider extends BaseTransactionProvider {
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
+          if (sortOrder == null) {
+            sortOrder = minimal ? (TABLE_ACCOUNTS + "." + KEY_LABEL) :
+                    Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
+          }
           sortOrder = KEY_HIDDEN + ", " + sortOrder;
           qb = SupportSQLiteQueryBuilder.builder(minimal ? TABLE_ACCOUNTS : getAccountsWithExchangeRate());
-          if (projection == null)
-            projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
+          if (projection == null) {
+              projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
+          }
+
           break;
         }
 
@@ -620,7 +627,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case ACCOUNT_ID:
         qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
-        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        additionalWhere.append(TABLE_ACCOUNTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case PAYEES:
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {

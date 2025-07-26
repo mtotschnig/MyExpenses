@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.requireParty
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -35,25 +34,24 @@ import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
 
-    private lateinit var mAccount1: Account
-    private lateinit var mAccount2: Account
+    private var mAccount1: Long = 0
+    private var mAccount2: Long = 0
     private var categoryId: Long = 0
     private var payeeId: Long = 0
 
     @Before
     fun setUp() {
-        mAccount1 = Account(
+        mAccount1 = insertAccount(
             label = "TestAccount 1",
-            currency = CurrencyUnit.DebugInstance.code,
             openingBalance = 100,
-            description = "Main account"
-        ).createIn(repository)
-        mAccount2 = Account(
+            currency = CurrencyUnit.DebugInstance.code
+        )
+        mAccount2 = insertAccount(
             label = "TestAccount 2",
             currency = CurrencyUnit.DebugInstance.code,
             openingBalance = 100,
             description = "Secondary account"
-        ).createIn(repository)
+        )
         categoryId = writeCategory("TestCategory", null)
         payeeId = repository.requireParty("N.N")!!
     }
@@ -62,7 +60,7 @@ class TemplateTest: BaseTestWithRepository() {
     fun testTemplateFromTransaction() {
         val start = repository.getTransactionSum(mAccount1)
         val amount = 100.toLong()
-        val op1 = Transaction.getNewInstance(mAccount1.id, CurrencyUnit.DebugInstance)!!
+        val op1 = Transaction.getNewInstance(mAccount1, CurrencyUnit.DebugInstance)!!
         op1.amount = Money(CurrencyUnit.DebugInstance, amount)
         op1.comment = "test transaction"
         op1.save(contentResolver)
@@ -143,10 +141,10 @@ class TemplateTest: BaseTestWithRepository() {
     }
 
     private fun newInstanceTestHelper(type: Int) {
-        val t: Template = Template.getTypedNewInstance(contentResolver, type, mAccount1.id, CurrencyUnit.DebugInstance, false, null)!!.apply {
+        val t: Template = Template.getTypedNewInstance(contentResolver, type, mAccount1, CurrencyUnit.DebugInstance, false, null)!!.apply {
             title = "Template"
             if (type == Transactions.TYPE_TRANSFER) {
-                setTransferAccountId(mAccount2.id)
+                setTransferAccountId(mAccount2)
             }
             save(contentResolver)
         }
@@ -154,7 +152,7 @@ class TemplateTest: BaseTestWithRepository() {
         assertThat(Template.getInstanceFromDb(contentResolver, t.id)).isEqualTo(t)
     }
 
-    private fun buildTransactionTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
+    private fun buildTransactionTemplate() = Template(contentResolver, mAccount1, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
         payee = "N.N"
         payeeId = this@TemplateTest.payeeId
@@ -166,16 +164,16 @@ class TemplateTest: BaseTestWithRepository() {
         save(contentResolver)
     }
 
-    private fun buildTransferTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSFER, null).apply {
+    private fun buildTransferTemplate() = Template(contentResolver, mAccount1, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSFER, null).apply {
         comment = "Some comment"
-        setTransferAccountId(mAccount2.id)
+        setTransferAccountId(mAccount2)
         save(contentResolver)
     }
 
-    private fun buildSplitTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, null).apply {
+    private fun buildSplitTemplate() = Template(contentResolver, mAccount1, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, null).apply {
         comment = "Some comment"
         val parentId = ContentUris.parseId(save(contentResolver)!!)
-        val part = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, parentId)
+        val part = Template(contentResolver, mAccount1, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, parentId)
         part.catId = this@TemplateTest.categoryId
         part.save(contentResolver, true)
     }

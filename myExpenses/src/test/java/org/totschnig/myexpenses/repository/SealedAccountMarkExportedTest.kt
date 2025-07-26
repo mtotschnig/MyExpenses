@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -25,18 +24,18 @@ class SealedAccountMarkExportedTest: BaseTestWithRepository() {
     fun allowExportOnSealedAccount() {
         val currency = CurrencyUnit.DebugInstance
         val resolver = ApplicationProvider.getApplicationContext<MyApplication>().contentResolver
-        val sealedAccount = Account(label = "EUR-Account", currency = currency.code).createIn(repository)
-        val sealed = Transaction.getNewInstance(sealedAccount.id, currency)
+        val sealedAccount = insertAccount(label = "EUR-Account", currency = currency.code)
+        val sealed = Transaction.getNewInstance(sealedAccount, currency)
         sealed.amount = Money(currency, 500L)
         sealed.save(contentResolver)
-        val openAccount = Account(label = "EUR-Account", currency = currency.code).createIn(repository)
-        val open = Transaction.getNewInstance(openAccount.id, currency)
+        val openAccount = insertAccount(label = "EUR-Account", currency = currency.code)
+        val open = Transaction.getNewInstance(openAccount, currency)
         open.amount = Money(currency, 500L)
         open.save(contentResolver)
         val values = ContentValues(1)
         values.put(DatabaseConstants.KEY_SEALED, true)
-        resolver.update(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, sealedAccount.id), values, null, null)
-        repository.markAsExported(sealedAccount.id, null)
+        resolver.update(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, sealedAccount), values, null, null)
+        repository.markAsExported(sealedAccount, null)
         val cursor = resolver.query(TransactionProvider.TRANSACTIONS_URI, arrayOf("count(*)"), "${DatabaseConstants.KEY_STATUS} = ${DatabaseConstants.STATUS_EXPORTED}", null, null)!!
         cursor.moveToFirst()
         assertThat(cursor.getInt(0)).isEqualTo(1)

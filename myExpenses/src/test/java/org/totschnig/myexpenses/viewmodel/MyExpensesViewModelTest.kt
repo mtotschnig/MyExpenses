@@ -8,6 +8,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.CrStatus
@@ -46,9 +47,20 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private var categoryId: Long = 0
 
     private fun insertData() {
-        account1 = Account(label = "Account 1", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+        val accountTypeCash = repository.findAccountType("_CASH_")!!
+        account1 = Account(
+            label = "Account 1",
+            openingBalance = openingBalance,
+            currency = CurrencyUnit.DebugInstance.code,
+            type = accountTypeCash
+        )
             .createIn(repository)
-        val account2 = Account(label = "Account 2", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+        val account2 = Account(
+            label = "Account 2",
+            openingBalance = openingBalance,
+            currency = CurrencyUnit.DebugInstance.code,
+            type = accountTypeCash
+        )
             .createIn(repository)
         categoryId = writeCategory(TEST_CAT, null)
         Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance).apply {
@@ -176,7 +188,12 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     fun ungroupSplit() {
         prefHandler.putString(PrefKey.HOME_CURRENCY, "USD")
         val homeCurrency = currencyContext.homeCurrencyUnit
-        val account = Account(label = "Account 2", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+        val account = Account(
+            label = "Account 2",
+            openingBalance = openingBalance,
+            currency = CurrencyUnit.DebugInstance.code,
+            type = repository.findAccountType("_CASH_")!!
+        )
             .createIn(repository)
         val (split, part1, part2) = with(SplitTransaction.getNewInstance(contentResolver, account.id, CurrencyUnit.DebugInstance)) {
             amount = Money(CurrencyUnit.DebugInstance, 10000)

@@ -87,7 +87,7 @@ data class Account(
 
         val PROJECTION = arrayOf(
             "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
-            KEY_LABEL,
+            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_LABEL",
             "$TABLE_ACCOUNTS.$KEY_DESCRIPTION AS $KEY_DESCRIPTION",
             KEY_OPENING_BALANCE,
             "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
@@ -111,8 +111,8 @@ data class Account(
         )
 
         val PROJECTION_MINIMAL = arrayOf(
-            KEY_ROWID,
-            KEY_LABEL,
+            "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
+            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_LABEL",
             KEY_CURRENCY,
             "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
             KEY_IS_ASSET,
