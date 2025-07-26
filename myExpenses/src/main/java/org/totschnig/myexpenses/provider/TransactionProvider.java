@@ -1795,13 +1795,4 @@ public class TransactionProvider extends BaseTransactionProvider {
     values.put(KEY_STATUS, "1");
     return MoreDbUtilsKt.insert(db, TABLE_SYNC_STATE, values);
   }
-
-  private String[] extendProjectionWithSealedCheck(String[] baseProjection, String baseTable) {
-    int baseLength = baseProjection.length;
-    String[] projection = new String[baseLength + 1];
-    System.arraycopy(baseProjection, 0, projection, 0, baseLength);
-    projection[baseLength] = checkForSealedAccount(baseTable, TABLE_TEMPLATES, true) + " AS " + KEY_SEALED;
-    return projection;
-  }
-
 }
