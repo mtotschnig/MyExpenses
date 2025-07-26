@@ -245,7 +245,7 @@ class MainPreferenceFragment : BasePreferenceFragment(),
             pickFolder.launch(appDirInfo?.documentFile?.uri)
         } catch (_: ActivityNotFoundException) {
             preferenceActivity.showSnackBar(
-                "No activity found for picking application directory."
+                "Could not open directory picker. This feature may not be supported on your device.",
             )
         }
     }
