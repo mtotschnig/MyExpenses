@@ -41,7 +41,6 @@
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
     <string name="account_type_liability">Schuldenrekening</string>
-    <string name="account_type_liability_plural">Schuldenrekeningen</string>
     <string name="date_format">Datumindeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
     <string name="extended_key">Uitgebreide Sleutel</string>

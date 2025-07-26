@@ -259,9 +259,7 @@
     <string name="app_name">Mine utgifter</string>
     <string name="amount">Beløp</string>
     <string name="already_defined">%1$s finnes allerede</string>
-    <string name="account_type_cash_plural">Brukskontoer</string>
     <string name="account_type_cash">Brukskonto</string>
-    <string name="account_type_bank_plural">Bankkontoer</string>
     <string name="account_type_bank">Bankkonto</string>
     <string name="account_types">Kontotyper</string>
     <string name="account">Konto</string>

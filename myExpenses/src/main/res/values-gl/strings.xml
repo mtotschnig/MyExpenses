@@ -18,11 +18,7 @@
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
     <string name="account_type_bank">Conta bancaria</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">Contas bancarias</string>
     <string name="account_type_ccard">Tarxeta de crédito</string>
-    <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">Tarxetas de crédito</string>
     <string name="already_defined">%1$s xa definida</string>
     <string name="amount">Importe</string>
     <string name="app_name">Os meus gastos</string>
@@ -230,6 +226,5 @@
     <string name="pref_acra_user_email">O correo electrónico do usuario vai incluído no informe de erros.</string>
     <string name="pref_acra_user_email_summary">Por favor, insire o teu enderezo electrónico se queres axudar na depuración de erros e permites que contactemos contigo.</string>
     <string name="new_version">Versión nova</string>
-    <string name="account_type_cash_plural">Cash accounts</string>
     <string name="add_shortcut">Engadir atallo</string>
 </resources>
