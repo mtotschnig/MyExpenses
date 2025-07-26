@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,6 +44,12 @@ class SafSetup : ProtectedFragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        restoreRequest.launch(null)
+        try {
+            restoreRequest.launch(null)
+        } catch (_: ActivityNotFoundException) {
+            showSnackBar(
+                "Could not open directory picker. This feature may not be supported on your device.",
+            )
+        }
     }
 }

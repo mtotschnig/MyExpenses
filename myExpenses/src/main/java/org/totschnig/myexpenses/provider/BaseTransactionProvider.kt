@@ -2146,7 +2146,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add(KEY_CURRENCY)
             add(KEY_METHOD_LABEL)
             add("$dynamicExchangeRatesDefault AS $KEY_DYNAMIC")
-            add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS  + $KEY_SEALED")
+            add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS $KEY_SEALED")
         }
     }.toTypedArray()
 
