@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator
 import org.totschnig.myexpenses.export.pdf.PdfPrinter
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
@@ -108,7 +107,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -122,7 +120,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
-import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SORT_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_DISTINCT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GROUP_BY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
@@ -147,6 +144,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatchingWithExtra
 import org.totschnig.myexpenses.provider.mapToListWithExtra
+import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -250,7 +248,7 @@ open class MyExpensesViewModel(
         val transferAccount: Long?,
         val isSplit: Boolean,
         val crStatus: CrStatus,
-        val accountType: AccountType?,
+        val accountType: Long?,
     ) : Parcelable {
         constructor(transaction: Transaction2) : this(
             transaction.id,
@@ -548,7 +546,7 @@ open class MyExpensesViewModel(
     }
 
     fun triggerAccountListRefresh() {
-        contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+        contentResolver.triggerAccountListRefresh()
     }
 
     fun linkTransfer(itemIds: LongArray) = liveData(context = coroutineContext()) {
@@ -659,19 +657,6 @@ open class MyExpensesViewModel(
                 ContentValues().apply { put(KEY_HIDDEN, hidden) },
                 "$KEY_ROWID ${Operation.IN.getOp(itemIds.size)}",
                 itemIds.map { it.toString() }.toTypedArray()
-            )
-        }
-    }
-
-    fun sortAccounts(sortedIds: LongArray) {
-        viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.call(
-                DUAL_URI,
-                METHOD_SORT_ACCOUNTS,
-                null,
-                Bundle(1).apply {
-                    putLongArray(KEY_SORT_KEY, sortedIds)
-                }
             )
         }
     }

@@ -81,7 +81,7 @@ import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.getBoolean
@@ -104,6 +104,7 @@ import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
+import timber.log.Timber
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -162,16 +163,18 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
         loadMethodJob?.cancel()
-        viewModelScope.launch {
+        loadMethodJob = viewModelScope.launch {
             contentResolver.observeQuery(
                 TransactionProvider.METHODS_URI.buildUpon()
                     .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
                     .appendPath(if (isIncome) "1" else "-1")
-                    .appendQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST, type.name)
+                    .appendQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST, type.id.toString())
                     .build(), null, null, null, null, false
             )
                 .mapToList { PaymentMethod.create(it) }
-                .collect { methods.postValue(it) }
+                .collect {
+                    methods.postValue(it)
+                }
         }
     }
 

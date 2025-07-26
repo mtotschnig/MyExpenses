@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTA
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LATEST_EXCHANGE_RATE
@@ -50,6 +52,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
@@ -147,7 +150,7 @@ data class FullAccount(
                 description = cursor.getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
                 _color = cursor.getInt(KEY_COLOR),
-                type = AccountType(name = "TODO"), //TODO() enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
+                type = AccountType.fromAccountCursor(cursor),
                 sealed = cursor.getInt(KEY_SEALED) == 1,
                 openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
                 currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),

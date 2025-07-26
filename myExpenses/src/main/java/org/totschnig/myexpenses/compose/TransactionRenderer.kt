@@ -251,13 +251,11 @@ abstract class ItemRenderer(
         onToggleCrStatus?.let { toggle ->
             val color = colorResource(id = crStatus.color)
             val contentDescription = stringResource(crStatus.toStringRes())
-            val onClickLabel = if (accountType.supportsReconciliation)
-                when (crStatus) {
-                    CrStatus.UNRECONCILED -> stringResource(R.string.mark_as_cleared)
-                    CrStatus.CLEARED -> stringResource(R.string.mark_as_unreconciled)
-                    else -> null
-                }
-            else null
+            val onClickLabel = when (crStatus) {
+                CrStatus.UNRECONCILED -> stringResource(R.string.mark_as_cleared)
+                CrStatus.CLEARED -> stringResource(R.string.mark_as_unreconciled)
+                else -> null
+            }
             Box(
                 modifier = Modifier
                     .size(32.dp)
@@ -265,7 +263,7 @@ abstract class ItemRenderer(
                         clickable(onClickLabel = it) { toggle(id) }
                     }
                     .padding(8.dp)
-                    .conditional(crStatus != CrStatus.VOID && accountType.supportsReconciliation) {
+                    .conditional(crStatus != CrStatus.VOID) {
                         background(color = color)
                             .semantics {
                                 this.contentDescription = contentDescription
@@ -576,7 +574,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
                 Triple(1, "Hund", android.graphics.Color.RED),
                 Triple(2, "Katz", android.graphics.Color.GREEN)
             ),
-            accountType = AccountType.CASH
+            accountType = 0
         ),
         Transaction2(
             id = -1,
@@ -594,7 +592,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
                 Triple(1, "Hund", android.graphics.Color.RED),
                 Triple(2, "Katz", android.graphics.Color.GREEN)
             ),
-            accountType = AccountType.BANK
+            accountType = 0
         )
     )
 }

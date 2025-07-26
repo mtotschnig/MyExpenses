@@ -211,6 +211,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PRINT_MARGIN_RIGHT(R.string.pref_print_margin_right_key),
     EQUIVALENT_AMOUNTS_AUTOMATIC_UPDATE(R.string.pref_equivalent_amounts_automatic_update_key),
     UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE(R.string.pref_ui_home_screen_shortcuts_show_new_balance_key),
+    ACCOUNT_LIST_DISPLAY_CONFIGURATION(R.string.pref_account_list_display_configuration_key)
     ;
 
     @Deprecated("")

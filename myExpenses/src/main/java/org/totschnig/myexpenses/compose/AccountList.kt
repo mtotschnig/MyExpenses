@@ -183,7 +183,7 @@ private fun getHeaderId(
 ) = when (grouping) {
     AccountGrouping.NONE -> if (account.id > 0) "0" else "1"
 
-    AccountGrouping.TYPE -> account.type.id.toString()
+    AccountGrouping.TYPE -> account.type.name
 
     AccountGrouping.CURRENCY ->
         if (account.id == HOME_AGGREGATE_ID) AGGREGATE_HOME_CURRENCY_CODE else account.currency

@@ -229,8 +229,8 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 val hasExpense = selectionState.any { it.amount.amountMinor < 0 }
                 val hasIncome = selectionState.any { it.amount.amountMinor > 0 }
                 val accountTypes = if (currentAccount!!.isAggregate)
-                    selectionState.mapNotNull { it.accountType?.name }.distinct().toTypedArray()
-                else arrayOf(currentAccount!!.type.name)
+                    selectionState.mapNotNull { it.accountType }.distinct().toLongArray()
+                else longArrayOf(currentAccount!!.type.id)
                 val type = when {
                     hasExpense && !hasIncome -> -1
                     hasIncome && !hasExpense -> 1

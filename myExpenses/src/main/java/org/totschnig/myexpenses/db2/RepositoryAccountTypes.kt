@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.provider.withAppendedId
 fun Repository.getAccountTypes(): Flow<List<AccountType>> = contentResolver.observeQuery(
     TransactionProvider.ACCOUNT_TYPES_URI,
     notifyForDescendants = true,
-    sortOrder = "$KEY_LABEL COLLATE NOCASE"
 ).mapToList {
     AccountType.fromCursor(it)
 }

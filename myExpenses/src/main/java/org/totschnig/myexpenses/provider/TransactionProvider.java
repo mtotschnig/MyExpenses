@@ -367,7 +367,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   /**
    * Colon separated list of account types
    */
-  public static final String QUERY_PARAMETER_ACCOUNTY_TYPE_LIST = "accountTypeList";
+  public static final String QUERY_PARAMETER_ACCOUNT_TYPE_LIST = "accountTypeList";
 
   public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
 
@@ -688,7 +688,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           default -> typeSelect = "= 0";
         }
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
-        String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST).split(";");
+        String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST).split(";");
 
         selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type " + Operation.IN.getOp(accountTypes.length);
         selectionArgs = accountTypes;
@@ -949,6 +949,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case ACCOUNT_TYPES: {
+        projection = new String[]{"*", "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_TYPE + " = " + TABLE_ACCOUNT_TYPES + "." + KEY_ROWID + ") AS " + KEY_COUNT};
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
         break;
       }

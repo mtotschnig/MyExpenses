@@ -68,10 +68,11 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
         } else {
             lifecycleScope.launch {
                 setUpAccountTypeGrid(
-                    viewModel.accountTypes.first(),
+                    viewModel.accountTypesRaw.first(),
                     savedInstanceState.getLongArray(KEY_SELECTED_TYPES)?.toList()
                 )
             }
+            linkInputsWithLabels()
         }
         setTitle(if (rowId == 0L) R.string.menu_create_method else R.string.menu_edit_method)
         binding.Icon.setOnClickListener {
@@ -109,12 +110,15 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
                     typeSpinner.setSelection(type + 1)
                     preDefined = preDefinedPaymentMethod
                     this@MethodEdit.icon = icon
-                    setUpAccountTypeGrid(viewModel.accountTypes.first(), this.accountTypes)
+                    setUpAccountTypeGrid(viewModel.accountTypesRaw.first(), this.accountTypes)
                 }
                 setupListeners()
                 configureIcon()
             }
         } else {
+            lifecycleScope.launch {
+                setUpAccountTypeGrid(viewModel.accountTypesRaw.first(), emptyList())
+            }
             setupListeners()
         }
 
@@ -123,11 +127,11 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
 
     private fun setUpAccountTypeGrid(allTypes: List<AccountType>, checked: List<Long>?) {
         allTypes.forEach { accountType ->
-            binding.AccountTypeGrid.addView(AppCompatCheckBox(this).apply {
-                text = accountType.name
-                isChecked = checked?.contains(accountType.id) == true
-                tag = accountType.id.toInt()
-                setOnCheckedChangeListener(this@MethodEdit)
+            binding.AccountTypeGrid.addView(AppCompatCheckBox(this).also {
+                it.text = accountType.localizedName(this)
+                it.isChecked = checked?.contains(accountType.id) == true
+                it.tag = accountType.id
+                it.setOnCheckedChangeListener(this)
             })
         }
     }

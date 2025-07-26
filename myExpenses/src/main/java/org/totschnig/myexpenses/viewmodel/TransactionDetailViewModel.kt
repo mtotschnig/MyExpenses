@@ -86,8 +86,7 @@ class TransactionDetailViewModel(application: Application) :
                 it.readTransaction(
                     getApplication(),
                     currencyContext,
-                    currencyContext.homeCurrencyUnit,
-                    TODO()
+                    currencyContext.homeCurrencyUnit
                 )
             }?.let { emit(it) }
         }

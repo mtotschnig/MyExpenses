@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
@@ -115,6 +116,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
@@ -155,6 +157,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
@@ -181,6 +184,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
@@ -609,8 +613,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val homeCurrency: String
         get() = currencyContext.homeCurrencyString
 
+    val accountWithType: String
+        get() = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON ($KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID)"
+
     val accountsWithExchangeRate: String
-        get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)
+        get() = exchangeRateJoin(accountWithType, KEY_ROWID, homeCurrency)
 
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
@@ -679,7 +686,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 KEY_CURRENCY,
                                 KEY_COLOR,
                                 KEY_GROUPING,
+                                KEY_ACCOUNT_TYPE_LABEL,
                                 KEY_TYPE,
+                                KEY_IS_ASSET,
+                                KEY_SUPPORTS_RECONCILIATION,
                                 KEY_SORT_KEY,
                                 KEY_EXCLUDE_FROM_TOTALS,
                                 KEY_SYNC_ACCOUNT_NAME,
@@ -742,7 +752,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         KEY_CURRENCY,
                         "-1 AS $KEY_COLOR",
                         "$TABLE_CURRENCIES.$KEY_GROUPING",
-                        "'AGGREGATE' AS $KEY_TYPE",
+                        "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
+                        "0 AS $KEY_TYPE",
+                        "0 AS $KEY_IS_ASSET",
+                        "0 AS $KEY_SUPPORTS_RECONCILIATION",
                         "0 AS $KEY_SORT_KEY",
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
@@ -815,7 +828,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         currencyColumn,
                         "-1 AS $KEY_COLOR",
                         "'$grouping' AS $KEY_GROUPING",
-                        "'AGGREGATE' AS $KEY_TYPE",
+                        "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
+                        "0 AS $KEY_TYPE",
+                        "0 AS $KEY_IS_ASSET",
+                        "0 AS $KEY_SUPPORTS_RECONCILIATION",
                         "0 AS $KEY_SORT_KEY",
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",

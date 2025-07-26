@@ -29,7 +29,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
         super.onAttach(context)
         callback = try {
             context as OnConfirmListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             throw ClassCastException(
                 context.toString()
                         + " must implement OnConfirmListener"

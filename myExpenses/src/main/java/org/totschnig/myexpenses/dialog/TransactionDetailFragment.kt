@@ -457,7 +457,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 content = transaction.referenceNumber
             )
         }
-        if (!transaction.isArchive && transaction.accountType.supportsReconciliation) {
+        if (!transaction.isArchive && transaction.accountType?.supportsReconciliation == true) {
             val roles = transaction.crStatus.toColorRoles(requireContext())
             TableRow(
                 modifier = Modifier.background(color = Color(roles.accent)),

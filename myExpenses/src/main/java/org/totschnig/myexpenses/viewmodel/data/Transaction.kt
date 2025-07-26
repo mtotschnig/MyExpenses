@@ -93,7 +93,7 @@ data class Transaction(
     val originTemplate: Template?,
     val isSealed: Boolean,
     val accountLabel: String,
-    val accountType: AccountType,
+    val accountType: AccountType?,
     override val debtLabel: String?,
     override val tagList: List<Tag>,
     override val icon: String? = null,
@@ -158,7 +158,7 @@ data class Transaction(
             context: Context,
             currencyContext: CurrencyContext,
             homeCurrency: CurrencyUnit,
-            accountType: AccountType
+            accountType: AccountType? = null
         ): Transaction {
             val currencyUnit = currencyContext[getString(KEY_CURRENCY)]
             val amountRaw = getLong(KEY_AMOUNT)

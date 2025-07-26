@@ -34,10 +34,10 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
-import org.totschnig.myexpenses.db2.loadAccountType
 import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
@@ -58,9 +58,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_MINIMAL_URI
@@ -95,7 +95,7 @@ const val KEY_ROW_IDS = "rowIds"
 
 class AccountSealedException : IllegalStateException()
 
-abstract class ContentResolvingAndroidViewModel(application: Application) :
+open class ContentResolvingAndroidViewModel(application: Application) :
     BaseViewModel(application) {
 
     @Inject
@@ -161,7 +161,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI, null,
         query,
-        null, null, false
+        null, KEY_SORT_KEY, false
     )
         .mapToList { cursor ->
             val id = cursor.getLong(KEY_ROWID)
@@ -172,7 +172,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 else
                     cursor.getString(KEY_LABEL),
                 cursor.getString(KEY_CURRENCY),
-                if (id < 0) null else repository.loadAccountType(cursor.getLong(KEY_TYPE))
+                if (id < 0) null else AccountType.fromAccountCursor(cursor)
             )
         }
 
@@ -181,8 +181,12 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     else
         repository.loadAggregateAccountFlow(accountId)
 
+    val accountTypesRaw by lazy {
+        repository.getAccountTypes()
+    }
+
     val accountTypes by lazy {
-        repository.getAccountTypes().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        accountTypesRaw.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     }
 
     sealed class DeleteState {

@@ -82,15 +82,12 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInput
 import eltos.simpledialogfragment.form.AmountInputHostDialog
-import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
-import eltos.simpledialogfragment.list.MenuDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
@@ -130,7 +127,6 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
@@ -146,7 +142,6 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -235,7 +230,7 @@ const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
-    OnConfirmListener, NewProgressDialogFragment.Host {
+    NewProgressDialogFragment.Host {
     override val fabActionName = "CREATE_TRANSACTION"
 
     private val accountData: List<FullAccount>
@@ -375,11 +370,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     val hasTransfer = selectionState.any { it.isTransfer }
                     val hasSplit = selectionState.any { it.isSplit }
                     val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
-                    //TODO check logic for retrieving methods for account type
-                    val noMethods = false
                     findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
                     findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasSplit
-                    findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
+                    findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
                     findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
                     findItem(R.id.LINK_TRANSFER_COMMAND).isVisible =
                         selectionState.count() == 2 &&
@@ -1768,11 +1761,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         else if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
 
-                DIALOG_TAG_GROUPING ->
-                    handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
-
-                DIALOG_TAG_SORTING -> handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
-
                 DIALOG_TAG_NEW_BALANCE -> {
                     createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
                         putExtra(
@@ -1882,15 +1870,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
 
             R.id.RESET_COMMAND -> doReset()
-
-            R.id.GROUPING_ACCOUNTS_COMMAND -> {
-                MenuDialog.build()
-                    .menu(this, R.menu.accounts_grouping)
-                    .choiceIdPreset(accountGrouping.value.commandId.toLong())
-                    .title(R.string.menu_grouping)
-                    .show(this, DIALOG_TAG_GROUPING)
-            }
-
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -2025,12 +2004,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }, getResources().getText(R.string.menu_share)))
 
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
-
-            R.id.SORT_COMMAND -> MenuDialog.build()
-                .menu(this, R.menu.accounts_sort)
-                .choiceIdPreset(accountSort.commandId.toLong())
-                .title(R.string.display_options_sort_list_by)
-                .show(this, DIALOG_TAG_SORTING)
 
             R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
 
@@ -2809,44 +2782,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         exportViewModel.startExport(args)
     }
 
-    private fun handleAccountsGrouping(itemId: Int): Boolean {
-        val newGrouping: AccountGrouping? = when (itemId) {
-            R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND -> AccountGrouping.CURRENCY
-            R.id.GROUPING_ACCOUNTS_TYPE_COMMAND -> AccountGrouping.TYPE
-            R.id.GROUPING_ACCOUNTS_NONE_COMMAND -> AccountGrouping.NONE
-            else -> null
-        }
-        return if (newGrouping != null && newGrouping != accountGrouping.value) {
-            accountGrouping.value = newGrouping
-            prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name)
-            viewModel.triggerAccountListRefresh()
-            true
-        } else false
-    }
-
-    private fun handleSortOption(itemId: Int): Boolean {
-        val newSort = fromCommandId(itemId)
-        var result = false
-        if (newSort != null) {
-            if (newSort != accountSort) {
-                accountSort = newSort
-                prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name)
-            }
-            viewModel.triggerAccountListRefresh()
-            result = true
-            if (itemId == R.id.SORT_CUSTOM_COMMAND) {
-                SortUtilityDialogFragment.newInstance(
-                    ArrayList(
-                        accountData
-                            .filter { it.id > 0 }
-                            .map { SortableItem(it.id, it.label) }
-                    ))
-                    .show(supportFragmentManager, "SORT_ACCOUNTS")
-            }
-        }
-        return result
-    }
-
     fun addFilterCriterion(c: SimpleCriterion<*>) {
         lifecycleScope.launch {
             currentFilter.addCriterion(c)
@@ -2978,10 +2913,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
-    override fun onSortOrderConfirmed(sortedIds: LongArray) {
-        viewModel.sortAccounts(sortedIds)
-    }
-
     fun showTransactionFromIntent(extras: Bundle) {
         val idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0)
         if (idFromNotification != 0L) {
@@ -3001,8 +2932,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
-        const val DIALOG_TAG_GROUPING = "GROUPING"
-        const val DIALOG_TAG_SORTING = "SORTING"
         const val ACCOUNT_VISUAL_NONE = 0
         const val ACCOUNT_VISUAL_PROGRESS = 1
         const val ACCOUNT_VISUAL_ICON = 2

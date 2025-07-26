@@ -10,8 +10,8 @@ class SelectSingleMethodDialogFragment : SelectSingleDialogFragment() {
         get() = TransactionProvider.METHODS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
             .appendPath(arguments?.getString(KEY_SIGNUM))
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST,
-                    arguments?.getStringArray(KEY_ACCOUNT_TYPES)?.joinToString(separator = ";"))
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_ACCOUNT_TYPE_LIST,
+                    arguments?.getLongArray(KEY_ACCOUNT_TYPES)?.joinToString(separator = ";"))
             .build()
 
     override val column: String = DatabaseConstants.KEY_LABEL
@@ -20,9 +20,9 @@ class SelectSingleMethodDialogFragment : SelectSingleDialogFragment() {
         const val KEY_SIGNUM = "signum"
         const val KEY_ACCOUNT_TYPES = "accountTypes"
         @JvmStatic
-        fun newInstance(dialogTitle: Int, remap_empty_list: Int, accountTypes: Array<String>, signum: Int) = SelectSingleMethodDialogFragment().apply {
-            arguments = buildArguments(dialogTitle, remap_empty_list, MAP_METHOD_REQUEST).apply {
-                putStringArray(KEY_ACCOUNT_TYPES, accountTypes)
+        fun newInstance(dialogTitle: Int, emptyListMessage: Int, accountTypes: LongArray, signum: Int) = SelectSingleMethodDialogFragment().apply {
+            arguments = buildArguments(dialogTitle, emptyListMessage, MAP_METHOD_REQUEST).apply {
+                putLongArray(KEY_ACCOUNT_TYPES, accountTypes)
                 putString(KEY_SIGNUM, signum.toString())
             }
         }

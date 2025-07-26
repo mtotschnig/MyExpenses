@@ -8,11 +8,15 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 
@@ -29,6 +33,7 @@ data class AccountType(
     val name: String,
     val isAsset: Boolean = true,
     val supportsReconciliation: Boolean = false,
+    val count: Int? = null
 ) : IdHolder, Parcelable {
     @IgnoredOnParcel
     val asContentValues = contentValuesOf(
@@ -81,6 +86,14 @@ data class AccountType(
         fun fromCursor(cursor: Cursor) = AccountType(
             id = cursor.getLong(KEY_ROWID),
             name = cursor.getString(KEY_LABEL),
+            isAsset = cursor.getBoolean(KEY_IS_ASSET),
+            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
+            count = cursor.getIntIfExists(KEY_COUNT)
+        )
+
+        fun fromAccountCursor(cursor: Cursor) = AccountType(
+            id = cursor.getLong(KEY_TYPE),
+            name = cursor.getString(KEY_ACCOUNT_TYPE_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION)
         )

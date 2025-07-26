@@ -61,7 +61,7 @@ fun localizedLabelSqlColumn(ctx: Context, keyLabel: String?) =
 fun Repository.loadPaymentMethod(context: Context, id: Long): PaymentMethod {
     val accountTypes = contentResolver.query(
         ACCOUNTTYPES_METHODS_URI,
-        arrayOf(KEY_ROWID),
+        arrayOf(KEY_TYPE),
         "$KEY_METHODID = ?",
         arrayOf(id.toString()),
         null

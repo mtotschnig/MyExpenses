@@ -7,9 +7,9 @@ import androidx.core.database.getStringOrNull
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.*
@@ -42,7 +42,7 @@ fun Repository.getLastUsedOpenAccount() =
         null,
         "$KEY_LAST_USED DESC"
     )?.use {
-        if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
+        if (it.moveToFirst()) it.getLong(0) to currencyContext[it.getString(1)] else null
     }
 
 
@@ -75,8 +75,7 @@ fun Repository.loadAccount(accountId: Long): Account? {
         null, null, null
     )?.use {
         if (it.moveToFirst()) {
-            val accountType = this.loadAccountType(it.getLong(KEY_TYPE))
-            Account.fromCursor(it, accountType)
+            Account.fromCursor(it, AccountType.fromAccountCursor(it))
         } else null
     }
 }
@@ -88,7 +87,7 @@ fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
         Account.PROJECTION,
         null, null, null
     ).mapToOne {
-        Account.fromCursor(it, this.loadAccountType(it.getLong(KEY_TYPE)))
+        Account.fromCursor(it, AccountType.fromAccountCursor(it))
     }
 }
 
@@ -105,7 +104,7 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
             grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
             isSealed = it.getBoolean(KEY_SEALED),
-            type = TODO()
+            type = AccountType(name = "Aggregate")
         )
     }
 }

@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
@@ -63,7 +64,7 @@ import timber.log.Timber
 import java.io.Serializable
 import javax.inject.Inject
 
-class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
+class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtilityDialogFragment.OnConfirmListener {
 
     @Inject
     lateinit var configurator: Configurator
@@ -460,6 +461,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
 
     override val createAccountTaskShouldQueryRemoteAccounts = false
     override val offerEncryption = false
+
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+        viewModel?.sortAccounts(sortedIds)
+    }
 
     companion object {
         fun getIntent(context: Context, initialScreen: String? = null) =

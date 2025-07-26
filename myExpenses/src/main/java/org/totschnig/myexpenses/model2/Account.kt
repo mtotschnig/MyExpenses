@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -21,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -28,10 +30,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
@@ -89,6 +93,9 @@ data class Account(
             "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
             KEY_COLOR,
             "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
+            "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
+            KEY_IS_ASSET,
+            KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
             KEY_SORT_KEY,
             KEY_EXCLUDE_FROM_TOTALS,
@@ -107,6 +114,9 @@ data class Account(
             KEY_ROWID,
             KEY_LABEL,
             KEY_CURRENCY,
+            "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
+            KEY_IS_ASSET,
+            KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
             "0 AS $KEY_IS_AGGREGATE"
         )

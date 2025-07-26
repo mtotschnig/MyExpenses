@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
+import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.documentfile.provider.DocumentFile
@@ -24,11 +25,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SORT_ACCOUNTS
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -64,7 +68,7 @@ class SettingsViewModel(
             arrayOf("count(*)"), null, null, null, true
         ).mapToOne { cursor -> cursor.getInt(0) > 0 }
 
-    fun logData() = liveData<Array<String>>(context = coroutineContext()) {
+    fun logData() = liveData(context = coroutineContext()) {
         getApplication<MyApplication>().getExternalFilesDir(null)?.let { dir ->
             File(dir, "logs").listFiles()
                 ?.filter { it.length() > 0 }
@@ -85,7 +89,7 @@ class SettingsViewModel(
     }
 
     private fun corruptedIdList(): LongArray? = contentResolver.call(
-        TransactionProvider.DUAL_URI,
+        DUAL_URI,
         TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
     )?.getLongArray(TransactionProvider.KEY_RESULT)
 
@@ -131,7 +135,7 @@ class SettingsViewModel(
                                     Utils.ensureDateFormatWithShortYear(getApplication())
                                 ) + " " + currencyFormatter.convAmount(
                             it.getLong(1),
-                            currencyContext.get(it.getString(2))
+                            currencyContext[it.getString(2)]
                         )
                     }
                 }?.let { emit(it) }
@@ -180,7 +184,7 @@ class SettingsViewModel(
 
     fun deleteAppFiles(files: Array<String>) = liveData(context = coroutineContext()) {
         with(appDirInfo.value?.getOrThrow()!!.documentFile) {
-            emit(files.sumBy {
+            emit(files.sumOf {
                 findFile(it)?.delete()
                 1
             })
@@ -192,4 +196,18 @@ class SettingsViewModel(
     fun deleteLocalCalendar() = liveData(context = coroutineContext()) {
         emit(contentResolver.deleteLocalCalendar())
     }
+
+    fun sortAccounts(sortedIds: LongArray) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.call(
+                DUAL_URI,
+                METHOD_SORT_ACCOUNTS,
+                null,
+                Bundle(1).apply {
+                    putLongArray(KEY_SORT_KEY, sortedIds)
+                }
+            )
+        }
+    }
+
 }

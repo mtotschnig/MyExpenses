@@ -20,7 +20,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
@@ -73,6 +75,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
             AppTheme {
                 ManageAccountTypesScreen(
                     uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+                    onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
                     onDelete = viewModel::deleteAccountType,
@@ -88,6 +91,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
 @Composable
 fun ManageAccountTypesScreen(
     uiState: AccountTypesUiState,
+    onClose: () -> Unit = {},
     onAdd: () -> Unit = {},
     onEdit: (AccountType) -> Unit = {},
     onDelete: (AccountType) -> Unit = {},
@@ -97,7 +101,17 @@ fun ManageAccountTypesScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.manage_account_types)) })
+            TopAppBar(
+                title = { Text(stringResource(R.string.manage_account_types)) },
+                navigationIcon = {
+                    IconButton(onClick = onClose) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
+                        )
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAdd) {
@@ -208,8 +222,10 @@ fun AccountTypeItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        val isUsedBy = accountType.count ?: 0
         Text(
-            text = accountType.localizedName(context),
+            text = accountType.localizedName(context) +
+                    (isUsedBy.takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
@@ -217,8 +233,10 @@ fun AccountTypeItem(
             IconButton(onClick = onEditClick) {
                 Icon(Icons.Filled.Edit, contentDescription = "Edit")
             }
-            IconButton(onClick = onDeleteClick) {
-                Icon(Icons.Filled.Delete, contentDescription = "Delete")
+            if (isUsedBy == 0) {
+                IconButton(onClick = onDeleteClick) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Delete")
+                }
             }
         }
     }
@@ -257,10 +275,10 @@ fun AddEditAccountTypeDialog(
     val nameAlreadyExists = remember {
         derivedStateOf {
             AccountType.isReservedName(name) ||
-            allTypes.any {
-                it.id != editingAccountType.id &&
-                        (it.name == name || it.localizedName(context) == name)
-            }
+                    allTypes.any {
+                        it.id != editingAccountType.id &&
+                                (it.name == name || it.localizedName(context) == name)
+                    }
         }
     }
 

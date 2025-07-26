@@ -8,7 +8,6 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -72,6 +71,7 @@ import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
@@ -112,7 +112,7 @@ data class Transaction2(
     val transferPeerIsArchived: Boolean? = null,
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
-    val accountType: AccountType,
+    val accountType: Long?,
     val tagList: List<Triple<Long, String, Int?>> = emptyList(),
     val year: Int,
     val month: Int,
@@ -265,7 +265,7 @@ data class Transaction2(
                 ),
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
-                accountType = AccountType.fromCursor(cursor), //TODO
+                accountType = cursor.getLongIfExists(KEY_ACCOUNT_TYPE),
                 transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
@@ -282,13 +282,13 @@ data class Transaction2(
                 type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
                     ?: if (typeRaw) FLAG_INCOME else FLAG_EXPENSE,
                 isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) != false,
-                originalAmount = cursor.getStringIfExists(KEY_ORIGINAL_CURRENCY)?.let {
+                originalAmount = cursor.getStringIfExists(KEY_ORIGINAL_CURRENCY)?.let { currency ->
                     //for historical reasons, original amount is stored unsigned in DB, we convert it
                     //with the sign stored for amount
                     val originalAmountRaw = cursor.getLong(KEY_ORIGINAL_AMOUNT).let {
                         if (typeRaw) it else -it
                     }
-                    Money(currencyContext[it], originalAmountRaw)
+                    Money(currencyContext[currency], originalAmountRaw)
                 }
             )
         }

@@ -49,7 +49,7 @@ data class BalanceAccount(
         ) = BalanceAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
-            type = TODO(),
+            type = AccountType.fromAccountCursor(cursor),
             color = cursor.getInt(KEY_COLOR),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
             equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE)

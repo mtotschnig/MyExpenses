@@ -11,18 +11,9 @@
 
     <item
         android:id="@id/MANAGE_ACCOUNT_TYPES_COMMAND"
+        android:icon="@drawable/category"
         android:title="@string/account_types"
         tools:ignore="AlwaysShowAction" />
-
-    <item
-        android:id="@id/GROUPING_ACCOUNTS_COMMAND"
-        android:icon="@drawable/ic_action_group"
-        android:title="@string/menu_grouping" />
-
-    <item
-        android:id="@id/SORT_COMMAND"
-        android:icon="@drawable/ic_menu_sort"
-        android:title="@string/display_options_sort_list_by" />
 
     <item
         android:id="@id/HIDDEN_ACCOUNTS_COMMAND"

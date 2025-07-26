@@ -41,8 +41,12 @@
 
     <Preference
         android:key="@string/pref_customize_main_menu_key"
-        android:title="@string/menu"
-        android:summary="@string/customize" />
+        android:summary="@string/customize"
+        android:title="@string/menu" />
+
+    <Preference
+        android:key="@string/pref_account_list_display_configuration_key"
+        android:title="@string/pref_account_list_display_configuration_title" />
 
     <PreferenceCategory
         android:key="category_auto_fill"
@@ -105,9 +109,9 @@
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            android:title="@string/menu_original_amount"
             android:dependency="@string/pref_ui_item_renderer_legacy_key"
-            android:key="@string/pref_ui_item_renderer_original_amount_key" />
+            android:key="@string/pref_ui_item_renderer_original_amount_key"
+            android:title="@string/menu_original_amount" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
@@ -134,8 +138,8 @@
             android:defaultValue="true"
             android:key="@string/pref_group_header_show_details_key"
             android:persistent="false"
-            android:title="@string/details"
-            android:summary="@string/pref_group_header_show_details_summary" />
+            android:summary="@string/pref_group_header_show_details_summary"
+            android:title="@string/details" />
 
         <ListPreference
             android:defaultValue="EndOfDay"

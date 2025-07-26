@@ -26,6 +26,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.ColorSource
@@ -213,6 +214,11 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         matches(preference, PrefKey.CUSTOMIZE_MAIN_MENU) -> {
             CustomizeMenuDialogFragment()
                 .show(childFragmentManager, "CUSTOMIZE_MENU")
+            true
+        }
+
+        matches(preference, PrefKey.ACCOUNT_LIST_DISPLAY_CONFIGURATION) -> {
+            AccountListDisplayConfigurationDialogFragment().show(childFragmentManager, "ACCOUNT_LIST_DISPLAY_CONFIGURATION")
             true
         }
 
