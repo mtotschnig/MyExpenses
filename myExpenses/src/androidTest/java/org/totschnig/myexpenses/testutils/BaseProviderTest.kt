@@ -18,8 +18,10 @@ import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -67,7 +69,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
             label = label,
             currency = homeCurrency.code,
             openingBalance = openingBalance,
-            syncAccountName = syncAccountName
+            syncAccountName = syncAccountName,
+            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         ).createIn(repository)
 
     fun deleteAccount(id: Long) {

@@ -146,6 +146,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountTypes.collect { accountTypes ->
                     accountTypeAdapter.addAll(accountTypes)
+                    accountTypes.find { it.isCashAccount }?.let {
+                        binding.AccountType.setSelection(accountTypeAdapter.getPosition(it.id))
+                    }
                 }
             }
         }

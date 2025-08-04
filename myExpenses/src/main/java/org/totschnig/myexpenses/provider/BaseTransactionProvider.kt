@@ -613,8 +613,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val homeCurrency: String
         get() = currencyContext.homeCurrencyString
 
-    val accountWithType: String
-        get() = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID"
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(accountWithType, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
@@ -663,10 +661,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 dynamicExchangeRatesDefault
             )
 
-        val tableName = if (minimal) TABLE_ACCOUNTS else CTE_TABLE_NAME_FULL_ACCOUNTS
+        val tableName = if (minimal) accountWithType else CTE_TABLE_NAME_FULL_ACCOUNTS
+
         val query = if (mergeAggregate == null) {
             SupportSQLiteQueryBuilder.builder(tableName)
-                .columns(if (minimal) Account.PROJECTION_MINIMAL else null)
+                .columns(if (minimal) mapAccountProjection(Account.PROJECTION_MINIMAL) else null)
                 .selection(selection, emptyArray())
                 .orderBy("$KEY_HIDDEN, $sortOrder")
                 .create().sql
@@ -677,7 +676,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     SupportSQLiteQueryBuilder
                         .builder(tableName)
                         .columns(
-                            if (minimal) Account.PROJECTION_MINIMAL else arrayOf(
+                            if (minimal) mapAccountProjection(Account.PROJECTION_MINIMAL) else arrayOf(
                                 KEY_ROWID,
                                 KEY_LABEL,
                                 KEY_DESCRIPTION,
@@ -740,7 +739,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     rowIdColumn,
                     labelColumn,
                     KEY_CURRENCY,
-                    "'AGGREGATE' AS $KEY_TYPE",
+                    "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
+                    "0 AS $KEY_IS_ASSET",
+                    "0 AS $KEY_SUPPORTS_RECONCILIATION",
+                    "0 AS $KEY_TYPE",
                     aggregateColumn
                 ) else {
                     arrayOf(
@@ -815,7 +817,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         rowIdColumn,
                         labelColumn,
                         currencyColumn,
-                        "'AGGREGATE' AS $KEY_TYPE",
+                        "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
+                        "0 AS $KEY_IS_ASSET",
+                        "0 AS $KEY_SUPPORTS_RECONCILIATION",
+                        "0 AS $KEY_TYPE",
                         aggregateColumn
                     )
                 } else {

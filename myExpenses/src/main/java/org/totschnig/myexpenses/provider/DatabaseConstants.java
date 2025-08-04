@@ -490,7 +490,7 @@ public class DatabaseConstants {
           " ELSE null" +
           " END AS " + KEY_ICON;
 
-  public static final String TABLE_ACCOUNT_TYPES = "accountTypes";
+  public static final String TABLE_ACCOUNT_TYPES = "account_types";
   public static final String KEY_IS_ASSET = "isAsset";
   public static final String KEY_SUPPORTS_RECONCILIATION = "supportsReconciliation";
 

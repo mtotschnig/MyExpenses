@@ -31,6 +31,8 @@ import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -54,8 +56,8 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        val accountTypeCash = repository.findAccountType("_CASH_")!!
-        val accountTypeBank = repository.findAccountType("_BANK_")!!
+        val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+        val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(
             label = accountLabel1,

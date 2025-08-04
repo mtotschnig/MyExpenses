@@ -21,9 +21,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCurrencies
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -74,7 +76,8 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
             Account(
                 label = "TEST ACCOUNT",
                 openingBalance = 5000L,
-                currency = CURRENCY_CODE
+                currency = CURRENCY_CODE,
+                type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
             )
         )
         val op = Transaction.getNewInstance(account.id, currencyUnit)

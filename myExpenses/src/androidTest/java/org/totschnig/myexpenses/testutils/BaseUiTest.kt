@@ -48,11 +48,13 @@ import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -108,7 +110,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             openingBalance = openingBalance,
             currency = currency,
             excludeFromTotals = excludeFromTotals,
-            dynamicExchangeRates = dynamicExchangeRates
+            dynamicExchangeRates = dynamicExchangeRates,
+            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         ).createIn(repository)
 
     fun deleteAccount(label: String) {

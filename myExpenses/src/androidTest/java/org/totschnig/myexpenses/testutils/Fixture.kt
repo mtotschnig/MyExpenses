@@ -20,6 +20,9 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CCARD
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
@@ -87,9 +90,9 @@ class Fixture(inst: Instrumentation) {
         val contentResolver = repository.contentResolver
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
-        val accountTypeCash = repository.findAccountType("_CASH_")!!
-        val accountTypeBank = repository.findAccountType("_BANK_")!!
-        val accountTypeCard = repository.findAccountType("_CCARD_")!!
+        val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+        val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
+        val accountTypeCard = repository.findAccountType(PREDEFINED_NAME_CCARD)!!
         account1 = Account(
             label = appContext.getString(R.string.testData_account1Label),
             currency = defaultCurrency.code,

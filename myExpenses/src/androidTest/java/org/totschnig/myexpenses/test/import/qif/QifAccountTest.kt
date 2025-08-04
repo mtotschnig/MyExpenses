@@ -21,7 +21,7 @@ class QifAccountTest {
         with(qifAccount.toAccount(CurrencyUnit.DebugInstance, AccountType(name= "_BANK_"))) {
             Truth.assertThat(label).isEqualTo("People's Bank")
             Truth.assertThat(description).isEqualTo("Savings")
-            Truth.assertThat(type).isEqualTo("_BANK_")
+            Truth.assertThat(type.name).isEqualTo("_BANK_")
             Truth.assertThat(currency).isEqualTo(CurrencyUnit.DebugInstance.code)
             Truth.assertThat(openingBalance).isEqualTo(-123445678)
         }

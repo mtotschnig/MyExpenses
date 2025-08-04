@@ -153,6 +153,9 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.accountTypes.collect { accountTypes ->
                         accountTypeAdapter.addAll(accountTypes)
+                        accountTypes.find { it.isCashAccount }?.let {
+                            binding.AccountTable.AccountType.setSelection(accountTypeAdapter.getPosition(it.id))
+                        }
                     }
                 }
             }
@@ -292,7 +295,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
 
             R.id.AccountType -> {
                 if (viewModel.accountId == 0L) {
-                    type = parent.selectedItem as AccountType
+                    @Suppress("UNCHECKED_CAST")
+                    type = (parent.selectedItem as SpinnerItem.Item<AccountType>).data
                 }
                 return
             }

@@ -23,6 +23,8 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -43,8 +45,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        val accountTypeCash = repository.findAccountType("_CASH_")!!
-        val accountTypeBank = repository.findAccountType("_BANK_")!!
+        val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+        val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         account1 = Account(label = "Test label 1", currency = currency1.code, type = accountTypeCash).createIn(repository)

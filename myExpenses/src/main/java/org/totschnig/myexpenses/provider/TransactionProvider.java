@@ -110,6 +110,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithType;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildSearchCte;
@@ -132,6 +133,7 @@ import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.dualQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapAccountProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
@@ -606,11 +608,11 @@ public class TransactionProvider extends BaseTransactionProvider {
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
           }
           sortOrder = KEY_HIDDEN + ", " + sortOrder;
-          qb = SupportSQLiteQueryBuilder.builder(minimal ? TABLE_ACCOUNTS : getAccountsWithExchangeRate());
+          qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithType : getAccountsWithExchangeRate());
           if (projection == null) {
               projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
           }
-
+          projection = mapAccountProjection(projection);
           break;
         }
 
@@ -628,6 +630,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_ID:
         qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
         additionalWhere.append(TABLE_ACCOUNTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        projection = mapAccountProjection(projection);
         break;
       case PAYEES:
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {

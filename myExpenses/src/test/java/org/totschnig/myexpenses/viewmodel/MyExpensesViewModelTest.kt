@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -47,7 +48,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private var categoryId: Long = 0
 
     private fun insertData() {
-        val accountTypeCash = repository.findAccountType("_CASH_")!!
+        val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         account1 = Account(
             label = "Account 1",
             openingBalance = openingBalance,
@@ -192,7 +193,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
             label = "Account 2",
             openingBalance = openingBalance,
             currency = CurrencyUnit.DebugInstance.code,
-            type = repository.findAccountType("_CASH_")!!
+            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         )
             .createIn(repository)
         val (split, part1, part2) = with(SplitTransaction.getNewInstance(contentResolver, account.id, CurrencyUnit.DebugInstance)) {

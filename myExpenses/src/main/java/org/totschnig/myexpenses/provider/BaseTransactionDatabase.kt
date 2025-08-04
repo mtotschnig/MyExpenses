@@ -122,7 +122,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 176
+const val DATABASE_VERSION = 177
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1137,6 +1137,33 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo177() {
+        execSQL("CREATE TABLE account_types (_id integer primary key autoincrement, label text not null, isAsset boolean not null, supportsReconciliation boolean not null)")
+        val accountTypes = insertDefaultAccountTypes("account_types")
+        val cash = accountTypes[AccountType.CASH.name]!!
+        val bank = accountTypes[AccountType.BANK.name]!!
+        val ccard = accountTypes[AccountType.CCARD.name]!!
+        val asset = accountTypes[AccountType.ASSET.name]!!
+        val liability = accountTypes[AccountType.LIABILITY.name]!!
+        val migrateTypeCaseStatement = "CASE type WHEN 'CASH' THEN $cash WHEN 'BANK' THEN $bank WHEN 'CCARD' THEN $ccard WHEN 'ASSET' THEN $asset WHEN 'LIABILITY' THEN $liability ELSE $cash END"
+
+
+        execSQL("ALTER TABLE accounts RENAME to accounts_old")
+        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references accountTypes(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,hidden boolean default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
+        execSQL("""INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id)
+            SELECT _id, label, opening_balance, description, currency, $migrateTypeCaseStatement, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id FROM accounts_old;
+        """)
+        execSQL("DROP TABLE accounts_old")
+
+        execSQL("ALTER TABLE accounttype_paymentmethod to accounttype_paymentmethod_old")
+        execSQL("CREATE TABLE accounttype_paymentmethod (type integer references accountTypes(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
+        execSQL("""INSERT INTO accounttype_paymentmethod (type, method_id)
+            SELECT $migrateTypeCaseStatement, method_id FROM accounttype_paymentmethod_old;
+        """)
+        execSQL("DROP TABLE accounttype_paymentmethod_old")
+    }
+
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -1282,9 +1309,9 @@ abstract class BaseTransactionDatabase(
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
         if (tableName != TABLE_CHANGES) {
-            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, ")
-            append("$TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, ")
-            append("$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
+            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC")
+            append(", $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE")
+            append(", $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
@@ -1333,18 +1360,23 @@ abstract class BaseTransactionDatabase(
         })
     }
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods() {
-        val accountTypes: Map<String, Long> = AccountType.predefinedAccounts.associate {
+    fun SupportSQLiteDatabase.insertDefaultAccountTypes(table: String = TABLE_ACCOUNT_TYPES) =
+        AccountType.predefinedAccounts.associate {
             it.name to
-            insert(
-                TABLE_ACCOUNT_TYPES,
-                SQLiteDatabase.CONFLICT_NONE,
-                it.asContentValues
-            )
+                    insert(
+                        table,
+                        SQLiteDatabase.CONFLICT_NONE,
+                        it.asContentValues
+                    )
         }
+
+
+    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods() {
+        val accountTypes = insertDefaultAccountTypes()
         val bank = accountTypes[AccountType.BANK.name]!!
         for (pm in PreDefinedPaymentMethod.entries) {
-            val id = insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE,
+            val id = insert(
+                TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE,
                 ContentValues().apply {
                     put(KEY_LABEL, pm.name)
                     put(KEY_TYPE, pm.paymentType)

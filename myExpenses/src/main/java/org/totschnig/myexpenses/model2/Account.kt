@@ -34,8 +34,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCIL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
@@ -86,14 +84,14 @@ data class Account(
         fun getProjection(minimal: Boolean) = if (minimal) PROJECTION_MINIMAL else PROJECTION
 
         val PROJECTION = arrayOf(
-            "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
-            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_LABEL",
-            "$TABLE_ACCOUNTS.$KEY_DESCRIPTION AS $KEY_DESCRIPTION",
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_DESCRIPTION,
             KEY_OPENING_BALANCE,
-            "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
+            KEY_CURRENCY,
             KEY_COLOR,
-            "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
-            "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
+            KEY_GROUPING,
+            KEY_ACCOUNT_TYPE_LABEL,
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
@@ -111,10 +109,10 @@ data class Account(
         )
 
         val PROJECTION_MINIMAL = arrayOf(
-            "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
-            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_LABEL",
+            KEY_ROWID,
+            KEY_LABEL,
             KEY_CURRENCY,
-            "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
+            KEY_ACCOUNT_TYPE_LABEL,
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,

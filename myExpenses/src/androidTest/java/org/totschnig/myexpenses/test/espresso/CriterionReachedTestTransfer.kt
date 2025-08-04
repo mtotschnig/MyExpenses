@@ -11,8 +11,10 @@ import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -28,15 +30,18 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
     lateinit var account2: Account
 
     fun fixture() {
+        val cashType = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         account1 = Account(
             label = "Credit",
             currency = currency.code,
-            criterion = -10000
+            criterion = -10000,
+            type = cashType
         ).createIn(repository)
         account2 = Account(
             label = "Saving",
             currency = currency.code,
-            criterion = 5000
+            criterion = 5000,
+            type = cashType
         ).createIn(repository)
     }
 

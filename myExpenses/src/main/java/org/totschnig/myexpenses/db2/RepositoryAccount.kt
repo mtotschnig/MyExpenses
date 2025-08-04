@@ -254,7 +254,7 @@ fun Repository.findAnyOpenByCurrency(currency: String) =
 
 fun Repository.findAnyOpen(column: String? = null, search: String? = null) = contentResolver.query(
     TransactionProvider.ACCOUNTS_URI,
-    arrayOf("$TABLE_ACCOUNTS.$KEY_ROWID"),
+    arrayOf(KEY_ROWID),
     (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
     search?.let { arrayOf(it) },
     null

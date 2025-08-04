@@ -105,7 +105,7 @@ class AccountTest {
             KEY_DESCRIPTION,
             KEY_CURRENCY
         )
-        val commentSelection = "$KEY_LABEL = ?"
+        val commentSelection = "$TABLE_ACCOUNTS.$KEY_LABEL = ?"
         val selectionColumns =
             "$commentSelection OR $commentSelection OR $commentSelection"
         val selectionArgs = arrayOf("Account 0", "Account 1", "Account 2")
@@ -175,7 +175,7 @@ class AccountTest {
 
     @Test
     fun testQueriesOnAccountIdUri() {
-        val columns = "$KEY_LABEL = ?"
+        val selection = "$TABLE_ACCOUNTS.$KEY_LABEL = ?"
         val query = "Account 0"
         val args = arrayOf(query)
         val projection = arrayOf(
@@ -198,7 +198,7 @@ class AccountTest {
 
         resolver.query(
             uri, arrayOf(KEY_LABEL),
-            columns,
+            selection,
             args,
             null
         ).useAndAssert {
@@ -258,12 +258,12 @@ class AccountTest {
 
     @Test
     fun testDeletes() {
-        val columns = "$KEY_LABEL = ?"
+        val selection = "$TABLE_ACCOUNTS.$KEY_LABEL = ?"
         val args = arrayOf("Account 0")
         assertThat(
             resolver.delete(
                 TransactionProvider.ACCOUNTS_URI,
-                columns,
+                selection,
                 args
             )
         ).isEqualTo(0)
@@ -271,14 +271,14 @@ class AccountTest {
         assertThat(
             resolver.delete(
                 TransactionProvider.ACCOUNTS_URI,
-                columns,
+                selection,
                 args
             )
         ).isEqualTo(1)
         resolver.query(
             TransactionProvider.ACCOUNTS_URI,
             null,
-            columns,
+            selection,
             args,
             null
         ).useAndAssert {
@@ -288,7 +288,7 @@ class AccountTest {
 
     @Test
     fun testUpdates() {
-        val columns = "$KEY_LABEL = ?"
+        val selection = "$TABLE_ACCOUNTS.$KEY_LABEL = ?"
         val selectionArgs = arrayOf("Account 1")
         val values = ContentValues().apply {
             put(KEY_LABEL, "Testing an update with this string")
@@ -298,7 +298,7 @@ class AccountTest {
             resolver.update(
                 TransactionProvider.ACCOUNTS_URI,
                 values,
-                columns,
+                selection,
                 selectionArgs
             )
         ).isEqualTo(0)
@@ -307,7 +307,7 @@ class AccountTest {
             resolver.update(
                 TransactionProvider.ACCOUNTS_URI,
                 values,
-                columns,
+                selection,
                 selectionArgs
             )
         ).isEqualTo(1)

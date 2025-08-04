@@ -81,7 +81,7 @@ data class AccountType(
         val LIABILITY =
             AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = false, supportsReconciliation = true)
         val INVESTMENT =
-            AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = true, supportsReconciliation = true)
+            AccountType(name = PREDEFINED_NAME_INVESTMENT, isAsset = true, supportsReconciliation = true)
 
         val predefinedAccounts = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
 

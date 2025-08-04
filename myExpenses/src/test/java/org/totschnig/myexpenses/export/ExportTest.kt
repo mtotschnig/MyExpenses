@@ -35,11 +35,12 @@ import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.UTF_8_BOM
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
@@ -202,14 +203,14 @@ class ExportTest : BaseTestWithRepository() {
         label = "Account 1",
         currency = CurrencyUnit.DebugInstance.code,
         openingBalance = openingBalance,
-        type = repository.findAccountType(AccountType.BANK.name)!!
+        type = repository.findAccountType(PREDEFINED_NAME_BANK)!!
     ).createIn(repository)
 
     private fun buildAccount2() = Account(
         label = "Account 2",
         currency = CurrencyUnit.DebugInstance.code,
         openingBalance = openingBalance,
-        type = repository.findAccountType(AccountType.CASH.name)!!
+        type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
     ).createIn(repository)
 
     private fun insertData3(): Pair<Account, Account> {

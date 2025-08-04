@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -26,7 +27,7 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
     fun fixture() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        val type = repository.findAccountType("_BANK_")!!
+        val type = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         account1 = Account(label = "Test label 1", currency = currency1.code, type = type).createIn(repository)
         account2 =
             Account(label = "Test label 2", currency = currency2.code, type = type)

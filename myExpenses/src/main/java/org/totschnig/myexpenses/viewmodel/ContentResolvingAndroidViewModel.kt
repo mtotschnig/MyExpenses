@@ -161,7 +161,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI, null,
         query,
-        null, KEY_SORT_KEY, false
+        null, null, false
     )
         .mapToList { cursor ->
             val id = cursor.getLong(KEY_ROWID)
