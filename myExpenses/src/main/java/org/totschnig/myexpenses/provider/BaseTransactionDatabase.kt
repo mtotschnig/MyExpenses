@@ -537,6 +537,58 @@ fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) 
         )
        END"""
 
+
+const val UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = ("CREATE TRIGGER update_account_sync_null "
+        + "AFTER UPDATE ON " + TABLE_ACCOUNTS
+        + " WHEN new." + KEY_SYNC_ACCOUNT_NAME + " IS NULL AND old." + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL "
+        + "BEGIN "
+        + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID + " = old." + KEY_ROWID + "; "
+        + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID + " = old." + KEY_ROWID + "; "
+        + "END;")
+
+const val ACCOUNTS_TRIGGER_CREATE = "CREATE TRIGGER sort_key_default " +
+        "AFTER INSERT ON " + TABLE_ACCOUNTS + " " +
+        "BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + DatabaseConstants.KEY_SORT_KEY +
+        " = (SELECT coalesce(max(" + DatabaseConstants.KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
+        KEY_ROWID + " = NEW." + KEY_ROWID + "; END"
+
+val UPDATE_ACCOUNT_METADATA_TRIGGER = String.format(
+    ("CREATE TRIGGER update_account_metadata AFTER UPDATE OF %1\$s,%2\$s,%3\$s,%4\$s,%5\$s,%6\$s,%7\$s,%8\$s ON %9\$s "
+            + " WHEN new.%10\$s IS NOT NULL AND new.%16\$s > 0 AND NOT EXISTS (SELECT 1 FROM %11\$s)"
+            + " BEGIN INSERT INTO %12\$s (%13\$s, %14\$s, %15\$s, %16\$s) VALUES ('metadata', '_ignored_', new.%17\$s, new.%16\$s); END;"),
+    KEY_LABEL,
+    KEY_OPENING_BALANCE,
+    KEY_DESCRIPTION,
+    KEY_CURRENCY,
+    KEY_TYPE,
+    KEY_COLOR,
+    KEY_EXCLUDE_FROM_TOTALS,
+    KEY_CRITERION,
+    TABLE_ACCOUNTS,
+    KEY_SYNC_ACCOUNT_NAME,
+    TABLE_SYNC_STATE,
+    TABLE_CHANGES,
+    KEY_TYPE,
+    KEY_UUID,
+    KEY_ACCOUNTID,
+    KEY_SYNC_SEQUENCE_LOCAL,
+    KEY_ROWID
+)
+
+val UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER = String.format(
+    ("CREATE TRIGGER update_account_exchange_rate AFTER UPDATE ON %1\$s "
+            + " WHEN %2\$s"
+            + " BEGIN INSERT INTO %3\$s (%4\$s, %5\$s, %6\$s, %7\$s) VALUES ('metadata', '_ignored_', new.%6\$s, %8\$s); END;"),
+    DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES,
+    shouldWriteChangeTemplate("new"),
+    TABLE_CHANGES,
+    KEY_TYPE,
+    KEY_UUID,
+    KEY_ACCOUNTID,
+    KEY_SYNC_SEQUENCE_LOCAL,
+    sequenceNumberSelect("old")
+)
+
 abstract class BaseTransactionDatabase(
     val context: Context,
     val prefHandler: PrefHandler
@@ -1149,18 +1201,41 @@ abstract class BaseTransactionDatabase(
 
 
         execSQL("ALTER TABLE accounts RENAME to accounts_old")
-        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references accountTypes(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,hidden boolean default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
+        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,hidden boolean default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
         execSQL("""INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id)
             SELECT _id, label, opening_balance, description, currency, $migrateTypeCaseStatement, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id FROM accounts_old;
         """)
         execSQL("DROP TABLE accounts_old")
+        execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
+        createOrRefreshAccountTriggers();
+        createOrRefreshAccountMetadataTrigger();
 
         execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old")
-        execSQL("CREATE TABLE accounttype_paymentmethod (type integer references accountTypes(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
+        execSQL("CREATE TABLE accounttype_paymentmethod (type integer references account_types(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
         execSQL("""INSERT INTO accounttype_paymentmethod (type, method_id)
             SELECT $migrateTypeCaseStatement, method_id FROM accounttype_paymentmethod_old;
         """)
         execSQL("DROP TABLE accounttype_paymentmethod_old")
+    }
+
+    protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
+        execSQL("DROP TRIGGER IF EXISTS update_account_sync_null")
+        execSQL("DROP TRIGGER IF EXISTS sort_key_default")
+        execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER)
+        execSQL(ACCOUNTS_TRIGGER_CREATE)
+        createOrRefreshAccountSealedTrigger()
+    }
+
+    protected fun SupportSQLiteDatabase.createOrRefreshAccountSealedTrigger() {
+        execSQL("DROP TRIGGER IF EXISTS sealed_account_update")
+        execSQL(ACCOUNTS_SEALED_TRIGGER_CREATE)
+    }
+
+    protected fun SupportSQLiteDatabase.createOrRefreshAccountMetadataTrigger() {
+        execSQL("DROP TRIGGER IF EXISTS update_account_metadata")
+        execSQL("DROP TRIGGER IF EXISTS update_account_exchange_rate")
+        execSQL(UPDATE_ACCOUNT_METADATA_TRIGGER)
+        execSQL(UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER)
     }
 
 
