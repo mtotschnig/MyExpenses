@@ -148,7 +148,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_OPENING_BALANCE + " integer, "
           + KEY_DESCRIPTION + " text, "
           + KEY_CURRENCY + " text not null  references " + TABLE_CURRENCIES + "(" + KEY_CODE + "), "
-          + KEY_TYPE + " integer references " + TABLE_ACCOUNT_TYPES + "(" + KEY_ROWID + "), "
+          + KEY_TYPE + " integer references " + TABLE_ACCOUNT_TYPES + "(" + KEY_ROWID + ") NOT NULL, "
           + KEY_COLOR + " integer default -3355444, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
           + KEY_USAGES + " integer default 0,"

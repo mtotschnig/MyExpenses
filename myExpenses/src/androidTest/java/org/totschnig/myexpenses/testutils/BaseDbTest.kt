@@ -25,9 +25,8 @@ open class BaseDbTest : BaseProviderTest() {
     }
 
     fun setupTestAccount(): Long = mDb.insert(
-        //TODO setup account type
         TABLE_ACCOUNTS,
-        AccountInfo("Test account", 1, 0).contentValues
+        AccountInfo("Test account", cashAccount.id, 0).contentValues
     )
 
     @Deprecated("Deprecated in Java")

@@ -35,8 +35,8 @@ class AttachmentTest : BaseDbTest() {
 
 
     private fun insertFixture() {
-        //TODO set up account type
-        val account = AccountInfo("Test account", 1, 0, "USD")
+        //Assume account types are populated
+        val account = AccountInfo("Test account", cashAccount.id, 0, "USD")
         val accountId = mDb.insert(TABLE_ACCOUNTS, account.contentValues)
         val transaction = TransactionInfo(accountId, 0, comment = "Transaction 0")
         //We insert two transactions, in order to have transactionId and attachmentId with different values,

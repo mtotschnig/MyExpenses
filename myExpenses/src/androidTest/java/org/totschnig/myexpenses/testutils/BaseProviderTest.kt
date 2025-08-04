@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
@@ -70,12 +71,15 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
             currency = homeCurrency.code,
             openingBalance = openingBalance,
             syncAccountName = syncAccountName,
-            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+            type = cashAccount
         ).createIn(repository)
 
     fun deleteAccount(id: Long) {
         repository.deleteAccount(id)
     }
+
+    val cashAccount: AccountType
+        get() = repository.findAccountType(PREDEFINED_NAME_CASH)!!
 
     fun getTransactionFromDb(id: Long): Transaction? =
         Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)

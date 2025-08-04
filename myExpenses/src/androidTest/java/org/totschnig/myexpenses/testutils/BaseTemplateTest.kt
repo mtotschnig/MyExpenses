@@ -26,11 +26,10 @@ abstract class BaseTemplateTest : BaseDbTest() {
     val dailyPlan = Plan(1, "FREQ=DAILY")
     val weeklyPlan = Plan(2, "FREQ=WEEKLY")
     val monthlyPlan = Plan(3, "FREQ=MONTHLY")
-    //TODO setup account type
     val testAccountId by lazy {
         mDb.insert(
             DatabaseConstants.TABLE_ACCOUNTS,
-            AccountInfo("Test account", 1, 0).contentValues
+            AccountInfo("Test account", cashAccount.id, 0).contentValues
         )
     }
     val templateInfos: Array<TemplateInfo> by lazy {

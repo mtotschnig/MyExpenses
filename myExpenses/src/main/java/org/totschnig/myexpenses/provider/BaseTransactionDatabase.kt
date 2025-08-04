@@ -1155,7 +1155,7 @@ abstract class BaseTransactionDatabase(
         """)
         execSQL("DROP TABLE accounts_old")
 
-        execSQL("ALTER TABLE accounttype_paymentmethod to accounttype_paymentmethod_old")
+        execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old")
         execSQL("CREATE TABLE accounttype_paymentmethod (type integer references accountTypes(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
         execSQL("""INSERT INTO accounttype_paymentmethod (type, method_id)
             SELECT $migrateTypeCaseStatement, method_id FROM accounttype_paymentmethod_old;
