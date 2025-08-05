@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses.provider;
 
-import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelSqlColumn;
+import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelForPaymentMethod;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
 
 import android.content.Context;
@@ -111,7 +111,7 @@ public class DatabaseConstants {
             KEY_TRANSFER_ACCOUNT,
             TRANSFER_ACCOUNT_LABEL,
             KEY_METHODID,
-            localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            localizedLabelForPaymentMethod(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
@@ -245,7 +245,6 @@ public class DatabaseConstants {
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
   public static final String KEY_SUM = "sum";
   public static final String KEY_SORT_KEY = "sort_key";
-  public static final String KEY_SORT_KEY_TYPE = "sort_key_type";
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
@@ -390,7 +389,6 @@ public class DatabaseConstants {
 
 
   public static final String KEY_ACCOUNT_TYPE_LABEL = "account_type_label";
-  public static final String KEY_ACCOUNT_TYPE_ID = "account_type_id";
   /**
    * No special status
    */

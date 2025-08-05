@@ -5,7 +5,7 @@ import android.database.Cursor
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
-import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
+import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -131,7 +131,7 @@ data class Transaction(
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
-            localizedLabelSqlColumn(
+            localizedLabelForPaymentMethod(
                 context,
                 KEY_METHOD_LABEL
             ) + " AS " + KEY_METHOD_LABEL,

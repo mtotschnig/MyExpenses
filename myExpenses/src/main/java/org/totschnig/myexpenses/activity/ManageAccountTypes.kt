@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
@@ -63,6 +62,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
 import org.totschnig.myexpenses.viewmodel.AccountTypesUiState
+import java.text.Collator
 
 class ManageAccountTypes : ProtectedFragmentActivity() {
 
@@ -155,6 +155,7 @@ fun AccountTypeList(
     onDeleteClick: (AccountType) -> Unit
 ) {
     val context = LocalContext.current
+    val collator = remember { Collator.getInstance(java.util.Locale.getDefault()) }
 
     if (accountTypes.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -172,7 +173,7 @@ fun AccountTypeList(
         groups[true]?.let { assetTypes ->
             section(
                 context.getString(R.string.balance_sheet_section_assets),
-                assetTypes.sortedBy { it.localizedName(context) },
+                assetTypes.sortedWith(compareBy(collator) { it.localizedName(context) }),
                 onEditClick,
                 onDeleteClick
             )
@@ -180,7 +181,7 @@ fun AccountTypeList(
         groups[false]?.let { liabilityTypes ->
             section(
                 context.getString(R.string.balance_sheet_section_liabilities),
-                liabilityTypes.sortedBy { it.localizedName(context) },
+                liabilityTypes.sortedWith(compareBy(collator) { it.localizedName(context) }),
                 onEditClick,
                 onDeleteClick
             )

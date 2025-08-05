@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
+import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -104,7 +104,7 @@ abstract class AbstractExporter
             KEY_PAYEE_NAME,
             KEY_AMOUNT,
             KEY_COMMENT,
-            localizedLabelSqlColumn(
+            localizedLabelForPaymentMethod(
                 context,
                 KEY_METHOD_LABEL
             ) + " AS " + KEY_METHOD_LABEL,

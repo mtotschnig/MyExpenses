@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
+import android.content.Context
+import android.database.DatabaseUtils
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
@@ -66,3 +68,13 @@ null
         AccountType.fromCursor(it)
     } else null
 }
+
+fun localizedLabelForAccountType(ctx: Context, keyLabel: String) =
+    StringBuilder().apply {
+        append("CASE ").append(keyLabel)
+        AccountType.predefinedAccounts.forEach {
+            append(" WHEN '").append(it.name).append("' THEN ")
+            DatabaseUtils.appendEscapedSQLString(this, it.localizedName(ctx))
+        }
+        append(" ELSE ").append(keyLabel).append(" END")
+    }.toString()

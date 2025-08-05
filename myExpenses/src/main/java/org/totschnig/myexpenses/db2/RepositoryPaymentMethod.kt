@@ -8,12 +8,18 @@ import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PREDEFINED_METHOD_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHODS_URI
 import org.totschnig.myexpenses.provider.getBoolean
@@ -23,19 +29,19 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 fun fullProjection(context: Context) = basePaymentMethodProjection(context) + mappingColumns + KEY_ROWID
 
 fun basePaymentMethodProjection(context: Context) = arrayOf(
-    localizedLabelSqlColumn(
+    localizedLabelForPaymentMethod(
         context,
         KEY_LABEL
     ) + " AS " + KEY_LABEL, //0
     KEY_ICON, //1
     KEY_TYPE, //2
-    DatabaseConstants.KEY_IS_NUMBERED, //3
-    preDefinedName + " AS " + DatabaseConstants.KEY_PREDEFINED_METHOD_NAME, //4
+    KEY_IS_NUMBERED, //3
+    "$preDefinedName AS $KEY_PREDEFINED_METHOD_NAME", //4
 )
 
 val mappingColumns = arrayOf(
-    "(select count(*) from " + DatabaseConstants.TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-    "(select count(*) from " + DatabaseConstants.TABLE_TEMPLATES + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+    "(select count(*) from $TABLE_TRANSACTIONS WHERE $KEY_METHODID=$TABLE_METHODS.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS",
+    "(select count(*) from $TABLE_TEMPLATES WHERE $KEY_METHODID=$TABLE_METHODS.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES"
 
 )
 
@@ -48,7 +54,7 @@ val preDefinedName = StringBuilder().apply {
     append(" ELSE null END")
 }.toString()
 
-fun localizedLabelSqlColumn(ctx: Context, keyLabel: String?) =
+fun localizedLabelForPaymentMethod(ctx: Context, keyLabel: String) =
     StringBuilder().apply {
         append("CASE ").append(keyLabel)
         for (method in PreDefinedPaymentMethod.entries) {
@@ -97,7 +103,7 @@ private fun PaymentMethod.toContentValues(context: Context?) = ContentValues().a
     } ?: run {
         putNull(KEY_ICON)
     }
-    put(DatabaseConstants.KEY_IS_NUMBERED, isNumbered)
+    put(KEY_IS_NUMBERED, isNumbered)
     if (preDefinedPaymentMethod == null || preDefinedPaymentMethod.getLocalizedLabel(context!!) != label) {
         put(KEY_LABEL, label)
     }

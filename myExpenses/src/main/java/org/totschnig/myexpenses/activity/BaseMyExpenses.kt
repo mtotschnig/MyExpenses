@@ -74,6 +74,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -710,7 +711,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
         binding.accountPanel.accountList.setContent {
             AppTheme {
-                viewModel.accountData.collectAsState().value.let { result ->
+                viewModel.accountData.collectAsStateWithLifecycle().value.let { result ->
                     result?.onSuccess { data ->
                         val banks = viewModel.banks.collectAsState()
                         LaunchedEffect(Unit) {

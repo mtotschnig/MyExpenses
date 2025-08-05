@@ -14,9 +14,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.addAccountType
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.storeExchangeRate
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -70,7 +73,14 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     protected fun doSave(accountIn: Account) {
-        val account = repository.createAccount(accountIn)
+        val accountType = repository.findAccountType(accountIn.type.name) ?:
+            AccountType.predefinedAccounts.firstOrNull { it.nameForSyncLegacy == accountIn.type.name }?.let {
+                repository.findAccountType(it.name)
+            } ?:  repository.addAccountType(accountIn.type)
+
+        val account = repository.createAccount(
+            accountIn.copy(type = accountType)
+        )
         val homeCurrency = currencyContext.homeCurrencyUnit
         repository.storeExchangeRate(
             account.id,

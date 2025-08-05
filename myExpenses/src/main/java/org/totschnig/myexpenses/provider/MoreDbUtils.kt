@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.DEFAULT_CATEGORY_PATH_SEPARATOR
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
+import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
@@ -254,7 +254,7 @@ fun tableForPaymentMethodQuery(projection: Array<String>?) =
 fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context) =
     projection.map { column ->
         when (column) {
-            KEY_LABEL -> "${localizedLabelSqlColumn(ctx, column)} AS $column"
+            KEY_LABEL -> "${localizedLabelForPaymentMethod(ctx, column)} AS $column"
             KEY_TYPE -> "$TABLE_METHODS.$column"
             KEY_ACCOUNT_TPYE_LIST -> "group_concat($TABLE_ACCOUNTTYES_METHODS.$KEY_TYPE) AS $column"
             else -> column

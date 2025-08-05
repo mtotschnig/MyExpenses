@@ -79,7 +79,7 @@ public abstract class  AccountMetaData implements Parcelable {
             description(),
             openingBalance(),
             currency(),
-            RepositoryAccountTypesKt.findAccountType(repository, type()), //TODO: deal with null
+            AccountType.Companion.withName(type()),
             color(),
             _criterion(),
             syncAccount,
@@ -95,7 +95,7 @@ public abstract class  AccountMetaData implements Parcelable {
     );
   }
 
-  public static AccountMetaData from(org.totschnig.myexpenses.model2.Account account, String homeCurrency) {
+  public static AccountMetaData from(Account account, String homeCurrency) {
     final String accountCurrency = account.getCurrency();
     final Builder builder = builder()
         .setCurrency(accountCurrency)
@@ -104,7 +104,7 @@ public abstract class  AccountMetaData implements Parcelable {
         .setDescription(account.getDescription())
         .setLabel(account.getLabel())
         .setOpeningBalance(account.getOpeningBalance())
-        .setType(account.getType().getNameForSync())
+        .setType(account.getType().getName())
         .setExcludeFromTotals(account.getExcludeFromTotals())
         .setCriterion(account.getCriterion() != null ? account.getCriterion() : 0);
     if (homeCurrency != null && !homeCurrency.equals(accountCurrency)) {

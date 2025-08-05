@@ -48,7 +48,7 @@ data class AccountType(
     val isPredefined: Boolean = isReservedName(name)
 
     @IgnoredOnParcel
-    val nameForSync =
+    val nameForSyncLegacy =
         if (isPredefined) name.substring(1, name.length - 1) else name
 
     @IgnoredOnParcel
@@ -92,6 +92,8 @@ data class AccountType(
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
             count = cursor.getIntIfExists(KEY_COUNT)
         )
+
+        fun withName(name: String) = AccountType(name = name)
 
         fun fromAccountCursor(cursor: Cursor) = AccountType(
             id = cursor.getLong(KEY_TYPE),

@@ -123,7 +123,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
             } ?: defaultSort
             val orderBy = configuredOrDefault.toOrderBy(collate, tableName = tableName)
             return if (orderBy == null || configuredOrDefault == defaultSort) orderBy else
-                orderBy + ", " + defaultSort.toOrderBy(collate)
+                orderBy + ", " + defaultSort.toOrderBy(collate, tableName = tableName)
         }
     }
 }

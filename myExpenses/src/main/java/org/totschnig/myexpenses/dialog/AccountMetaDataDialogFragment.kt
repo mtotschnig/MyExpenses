@@ -1,56 +1,58 @@
 package org.totschnig.myexpenses.dialog
 
-import android.app.Dialog
 import android.os.Bundle
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.core.os.BundleCompat
+import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
-class AccountMetaDataDialogFragment: BaseDialogFragment() {
+class AccountMetaDataDialogFragment: ComposeBaseDialogFragment3() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val data = requireArguments().getParcelable<AccountMetaData>(KEY_DATA)!!
-        return initBuilder().also {
-            dialogView = ComposeView(requireContext()).apply {
-                setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-                setContent {
-                    AppTheme {
-                        AccountMetaData(data)
-                    }
-                }
-            }
-            it.setView(dialogView)
-            it.setTitle(data.label())
-        }.create()
+    val viewModel: ContentResolvingAndroidViewModel by viewModels()
+
+    val data: AccountMetaData
+        get() = BundleCompat.getParcelable(requireArguments(), KEY_DATA, AccountMetaData::class.java)!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injector.inject(viewModel)
     }
 
     @Composable
+    override fun ColumnScope.MainContent() {
+        AccountMetaData(data)
+    }
+
+    override val title: CharSequence?
+        get() = data.label()
+
+
+    @Composable
     private fun AccountMetaData(data: AccountMetaData) {
-        Column(modifier = Modifier.padding(
-            horizontal = dimensionResource(id = R.dimen.padding_dialog_side),
-            vertical = dimensionResource(id = R.dimen.padding_dialog_content_top)
-        
-        )) {
-            data.description().takeIf { it.isNotEmpty() }?.let {
-                AccountMetaDataRow(R.string.description, it)
-            }
-            AccountMetaDataRow(label = R.string.currency, value = data.currency())
-            //TODO resolve name of predefined types
-            AccountMetaDataRow(label = R.string.type, value = data.type())
-            AccountMetaDataRow(label = R.string.uuid, value = data.uuid())
+        val type = AccountType.predefinedAccounts.firstOrNull() {
+                it.name == data.type() || it.nameForSyncLegacy == data.type()
+            }?.localizedName(LocalContext.current)
+            ?: data.type()
+
+        data.description().takeIf { it.isNotEmpty() }?.let {
+            AccountMetaDataRow(R.string.description, it)
         }
+        AccountMetaDataRow(label = R.string.currency, value = data.currency())
+        AccountMetaDataRow(label = R.string.type, value = type)
+        AccountMetaDataRow(label = R.string.uuid, value = data.uuid())
     }
 
     @Composable

@@ -150,7 +150,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
@@ -184,7 +183,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
@@ -653,6 +651,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val cte = if (minimal) "" else
             accountQueryCTE(
+                requireContext(),
                 homeCurrency,
                 endOfDay,
                 aggregateFunction,
@@ -888,7 +887,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     AccountGrouping.TYPE
                 }) {
                     AccountGrouping.CURRENCY -> "$KEY_CURRENCY,$KEY_IS_AGGREGATE"
-                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_TYPE"
+                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_ACCOUNT_TYPE_LABEL COLLATE $collate"
                     else -> KEY_IS_AGGREGATE
                 }
             } else KEY_IS_AGGREGATE
