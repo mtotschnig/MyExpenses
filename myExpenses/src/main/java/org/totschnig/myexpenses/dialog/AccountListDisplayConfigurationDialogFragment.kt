@@ -20,6 +20,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,8 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
@@ -55,14 +59,20 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
 
     @Composable
     override fun ColumnScope.MainContent() {
+
         var selectedGrouping by rememberSaveable {
-            mutableStateOf(
-                prefHandler.enumValueOrDefault(
-                    PrefKey.ACCOUNT_GROUPING,
+            mutableStateOf(AccountGrouping.TYPE)
+        }
+
+        LaunchedEffect(Unit) {
+            selectedGrouping =  dataStore.data.map {
+                org.totschnig.myexpenses.util.enumValueOrDefault(
+                    it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
                     AccountGrouping.TYPE
                 )
-            )
+            }.first()
         }
+
         var selectedSort by rememberSaveable {
             mutableStateOf(
                 prefHandler.enumValueOrDefault(
@@ -105,10 +115,14 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
         )
         ButtonRow {
             TextButton(onClick = {
-                prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.name)
-                prefHandler.putString(PrefKey.ACCOUNT_GROUPING, selectedGrouping.name)
-                requireContext().contentResolver.triggerAccountListRefresh()
-                dismiss()
+                lifecycleScope.launch {
+                    prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.name)
+                    dataStore.edit { preference ->
+                        preference[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)] = selectedGrouping.name
+                    }
+                    requireContext().contentResolver.triggerAccountListRefresh()
+                    dismiss()
+                }
             }
             ) {
                 Text(stringResource(id = android.R.string.ok))

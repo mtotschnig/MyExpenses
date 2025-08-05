@@ -287,9 +287,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     val accountCount
         get() = accountData.count { it.id > 0 }
 
-    private val accountGrouping: MutableState<AccountGrouping> =
-        mutableStateOf(AccountGrouping.TYPE)
-
     private lateinit var accountSort: Sort
 
     private var actionMode: ActionMode? = null
@@ -537,7 +534,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
-        readAccountGroupingFromPref()
         accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
         with(injector) {
@@ -731,6 +727,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             navigationView.menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND).isVisible =
                                 data.any { it.isHomeAggregate }
                         }
+
+                        val accountGrouping = viewModel.accountGrouping.collectAsState(
+                            AccountGrouping.TYPE
+                        )
 
                         AccountList(
                             accountData = data,
@@ -1684,16 +1684,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     prepareBundle()
                 })
                 .show(supportFragmentManager, tag)
-        }
-    }
-
-    private fun readAccountGroupingFromPref() {
-        accountGrouping.value = try {
-            AccountGrouping.valueOf(
-                prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
-            )
-        } catch (_: IllegalArgumentException) {
-            AccountGrouping.TYPE
         }
     }
 

@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator
 import org.totschnig.myexpenses.export.pdf.PdfPrinter
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
@@ -312,6 +313,15 @@ open class MyExpensesViewModel(
             enumValueOrDefault(
                 it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)],
                 FutureCriterion.EndOfDay
+            )
+        }
+    }
+
+    val accountGrouping: Flow<AccountGrouping> by lazy {
+        dataStore.data.map {
+            enumValueOrDefault(
+                it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
+                AccountGrouping.TYPE
             )
         }
     }

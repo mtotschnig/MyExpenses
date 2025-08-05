@@ -10,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -33,6 +35,10 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
+
 
     open val fullScreenIfNotLarge = false
 
