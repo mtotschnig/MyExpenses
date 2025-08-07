@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.db2.deleteAttachments
 import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
-import org.totschnig.myexpenses.db2.loadAccountType
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.savePrice
@@ -74,7 +73,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
@@ -104,7 +102,6 @@ import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
-import timber.log.Timber
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -186,7 +183,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             label = cursor.getString(KEY_LABEL),
             currency,
             color = cursor.getInt(KEY_COLOR),
-            type = repository.loadAccountType(cursor.getLong(KEY_TYPE)),
+            type = AccountType.fromAccountCursor(cursor),
             criterion = cursor.getLongOrNull(KEY_CRITERION),
             isDynamic = cursor.getBoolean(KEY_DYNAMIC),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)

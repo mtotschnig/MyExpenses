@@ -75,10 +75,10 @@ abstract class ImportDataViewModel(application: Application) :
                             dbAccountId
                 )
             } else {
-                val accountTypeV2 = account.type?.let {
+                val accountType = account.type?.let {
                     repository.findAccountType(it)
                 } ?: throw IllegalArgumentException("Account type is null")
-                account.toAccount(currencyUnit, accountTypeV2).let {
+                account.toAccount(currencyUnit, accountType).let {
                     importCount++
                     if (!hasUnlimitedAccounts &&
                         nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS

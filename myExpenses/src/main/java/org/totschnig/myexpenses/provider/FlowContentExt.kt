@@ -46,25 +46,3 @@ fun <T> Flow<Query>.mapToListCatchingWithExtra(
         }
     }?.let { emit(it) }
 }
-
-@CheckResult
-fun <T : Any, E: Any> Flow<Pair<E, Query>>.mapToOne(
-    default: T? = null,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    mapper: (E, Cursor) -> T
-): Flow<T> = transform { (extra, query) ->
-    val item = withContext(dispatcher) {
-        query.run()?.use { cursor ->
-            if (cursor.moveToNext()) {
-                val item = mapper(extra, cursor)
-                check(!cursor.moveToNext()) { "Cursor returned more than 1 row" }
-                item
-            } else {
-                default
-            }
-        }
-    }
-    if (item != null) {
-        emit(item)
-    }
-}

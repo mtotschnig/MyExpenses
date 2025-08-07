@@ -1,13 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.createPaymentMethod
 import org.totschnig.myexpenses.db2.deleteMethod
-import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.loadPaymentMethod
 import org.totschnig.myexpenses.db2.updatePaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
