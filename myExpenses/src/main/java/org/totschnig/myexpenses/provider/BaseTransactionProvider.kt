@@ -876,22 +876,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         .create().sql
                 )
             }
-            val grouping = if (!minimal) {
-                when (try {
-                    AccountGrouping.valueOf(
-                        prefHandler.getString(
-                            PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name
-                        )!!
-                    )
-                } catch (_: IllegalArgumentException) {
-                    AccountGrouping.TYPE
-                }) {
-                    AccountGrouping.CURRENCY -> "$KEY_CURRENCY,$KEY_IS_AGGREGATE"
-                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_ACCOUNT_TYPE_LABEL COLLATE $collate"
-                    else -> KEY_IS_AGGREGATE
-                }
-            } else KEY_IS_AGGREGATE
-            buildUnionQuery(subQueries.toTypedArray(), "$grouping,$sortOrder")
+            buildUnionQuery(subQueries.toTypedArray(), "$KEY_IS_AGGREGATE,$sortOrder")
         }
         return "$cte\n$query"
     }

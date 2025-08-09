@@ -634,6 +634,14 @@ class UpgradeHandlerViewModel(application: Application) :
                     )
                     prefHandler.remove("scroll_to_current_date")
                 }
+                if (fromVersion < 803) {
+                    if (prefHandler.isSet(PrefKey.ACCOUNT_GROUPING)) {
+                        dataStore.edit {
+                            it[prefHandler.getBooleanPreferencesKey(PrefKey.ACCOUNT_GROUPING)] =
+                                prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false)
+                        }
+                    }
+                }
                 prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
                 if (upgradeInfoList.isNotEmpty()) {
                     postNextUpgradeInfo()

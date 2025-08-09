@@ -230,10 +230,8 @@ open class MyExpensesViewModel(
 
     fun expansionHandlerForTransactionGroups(account: PageAccount) =
         if (account.grouping == Grouping.NONE) null else
-            DataStoreExpansionHandler(
-                "collapsedHeaders_${account.id}_${account.grouping}",
-                dataStore,
-                viewModelScope
+            expansionHandler(
+                "collapsedHeaders_${account.id}_${account.grouping}"
             )
 
     fun expansionHandler(key: String) = DataStoreExpansionHandler(key, dataStore, viewModelScope)
