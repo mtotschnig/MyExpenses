@@ -1956,7 +1956,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                contribFeatureRequested(ContribFeature.BANKING, it.bankId to it.id)
+                contribFeatureRequested(ContribFeature.BANKING, Triple(it.bankId, it.id, it.type.id))
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it) }
@@ -2578,8 +2578,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 }
 
                 ContribFeature.BANKING -> {
-                    val (bankId, accountId) = tag as Pair<Long, Long>
-                    bankingFeature.startSyncFragment(bankId, accountId, supportFragmentManager)
+                    val (bankId, accountId, accountTypeId) = tag as Triple<Long, Long, Long>
+                    bankingFeature.startSyncFragment(bankId, accountId, accountTypeId, supportFragmentManager)
                 }
 
                 else -> super.contribFeatureCalled(feature, tag)

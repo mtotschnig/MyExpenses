@@ -288,7 +288,7 @@ class Banking : ProtectedFragmentActivity() {
                 val importMaxDuration = remember { derivedStateOf { nrDays == null } }
 
                 val availableAccounts =
-                    viewModel.accounts.collectAsState(initial = emptyList())
+                    viewModel.accounts.collectAsState()
                 val targetOptions = remember {
                     derivedStateOf {
                         buildList {

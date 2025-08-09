@@ -19,9 +19,10 @@ class BankingFeatureImpl: BankingFeature {
     override fun startSyncFragment(
         bankId: Long,
         accountId: Long,
+        accountTypeId: Long,
         fragmentManager: FragmentManager
     ) {
-        BankingSyncFragment.newInstance(bankId, accountId).show(fragmentManager, "BANKING_SYNC")
+        BankingSyncFragment.newInstance(bankId, accountId, accountTypeId).show(fragmentManager, "BANKING_SYNC")
 
     }
 

@@ -156,9 +156,9 @@ fun Repository.findPaymentMethod(label: String) = contentResolver.query(
 /**
  * this method does not check, if label is predefined
  */
-fun Repository.writePaymentMethod(label: String, accountType: AccountType): Long {
+fun Repository.writePaymentMethod(label: String, accountTypeId: Long): Long {
     return createPaymentMethod(null, PaymentMethod(label = label, accountTypes = listOfNotNull(
-        accountType.id
+        accountTypeId
     ))).id
 }
 

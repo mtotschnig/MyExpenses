@@ -11,7 +11,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.fints.R as RF
 
 class BankingSyncFragment : ComposeBaseDialogFragment2() {
@@ -89,9 +89,11 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                                 Text(stringResource(id = android.R.string.cancel))
                             }
                             Button(enabled = state.value.isComplete, onClick = {
+                                val args = requireArguments()
                                 viewModel.syncAccount(
                                     state.value,
-                                    requireArguments().getLong(KEY_ACCOUNTID)
+                                    args.getLong(KEY_ACCOUNTID),
+                                    args.getLong(KEY_TYPE)
                                 )
                             }) {
                                 Text(stringResource(RF.string.load))
@@ -127,10 +129,11 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
     }
 
     companion object {
-        fun newInstance(bankId: Long, accountId: Long) = BankingSyncFragment().apply {
+        fun newInstance(bankId: Long, accountId: Long, accountTypeId: Long) = BankingSyncFragment().apply {
             arguments = Bundle().apply {
                 putLong(KEY_BANK_ID, bankId)
                 putLong(KEY_ACCOUNTID, accountId)
+                putLong(KEY_TYPE, accountTypeId)
             }
         }
     }

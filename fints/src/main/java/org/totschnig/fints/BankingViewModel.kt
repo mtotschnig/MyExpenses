@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.db2.accountInformation
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createBank
 import org.totschnig.myexpenses.db2.deleteBank
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.importedAccounts
 import org.totschnig.myexpenses.db2.loadBank
 import org.totschnig.myexpenses.db2.loadBanks
@@ -413,7 +414,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun syncAccount(
         credentials: BankingCredentials,
-        accountId: Long
+        accountId: Long,
+        accountTypeId: Long
     ) {
         if (_workState.value is WorkState.Loading) {
             log("Double click")
@@ -476,7 +478,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     for (umsLine in result.flatData) {
                         with(converter) {
                             val (transaction, attributes: Map<out Attribute, String>) =
-                                umsLine.toTransaction(accountId, currencyContext)
+                                umsLine.toTransaction(currencyContext, accountId, accountTypeId)
                             if (!isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
                                 val id = ContentUris.parseId(transaction.save(contentResolver)!!)
                                 repository.saveTransactionAttributes(id, attributes)
@@ -594,24 +596,27 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             return@doHBCI
                         }
 
-                        val accountId = targetAccount.takeIf { it != 0L }?.also {
+                        val (accountId, accountType) = targetAccount.takeIf { it != 0L }?.also {
                             repository.updateAccount(it) {
                                 put(KEY_BANK_ID, bank.id)
                             }
-                        } ?: repository.createAccount(
-                            konto.toAccount(
-                                bank,
-                                result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
-                            )
-                        ).id
+                        }?.let { id -> id to this@BankingViewModel.accounts.value.first { it.id == id }.type!! }
+                            ?: run {
+                            val accountType = repository.findAccountType(AccountType.BANK.name)!!
+                            repository.createAccount(
+                                konto.toAccount(
+                                    bank,
+                                    result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
+                                ).copy(type = accountType)
+                            ).id to accountType
+                        }
 
                         repository.saveAccountAttributes(accountId, konto.asAttributes)
 
                         for (umsLine in result.flatData) {
                             with(converter) {
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
-                                    accountId,
-                                    currencyContext
+                                    currencyContext, accountId, accountType.id
                                 )
                                 val id = ContentUris.parseId(transaction.save(contentResolver)!!)
                                 repository.saveTransactionAttributes(id, transactionAttributes)
@@ -847,8 +852,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     val accounts by lazy {
         accountsMinimal(
-            query = "${DatabaseConstants.KEY_TYPE} != '${AccountType.CASH.name}' AND $KEY_BANK_ID IS NULL",
+            query = "${DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL} != '${AccountType.CASH.name}' AND $KEY_BANK_ID IS NULL",
             withAggregates = false
+        ).stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            emptyList()
         )
     }
 

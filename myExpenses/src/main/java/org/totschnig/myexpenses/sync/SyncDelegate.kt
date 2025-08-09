@@ -665,7 +665,7 @@ class SyncDelegate(
 
     private fun extractMethodId(methodLabel: String): Long =
         methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
-            ?: repository.writePaymentMethod(methodLabel, account.type)).also {
+            ?: repository.writePaymentMethod(methodLabel, account.type.id)).also {
             methodToId[methodLabel] = it
         }
 

@@ -49,8 +49,9 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
     private val payeeCache: MutableMap<Party, Pair<Long, AutoFillInfo>> = HashMap()
 
     fun UmsLine.toTransaction(
+        currencyContext: CurrencyContext,
         accountId: Long,
-        currencyContext: CurrencyContext
+        accountTypeId: Long,
     ): Pair<Transaction, Map<out Attribute, String>> {
         val transaction = Transaction(accountId, Money(eur, value.longValue))
         orig_value?.let {
@@ -90,7 +91,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
                     ).joinToString("\n")
         }
 
-        transaction.methodId = text?.let { clean(it) }?.let { extractMethodId(it) }
+        transaction.methodId = text?.let { clean(it) }?.let { extractMethodId(it, accountTypeId) }
 
         val attributes = buildMap {
             extractAttribute(transfer, this, Tag.EREF, FinTsAttribute.EREF)
@@ -148,9 +149,9 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         return Party.create(name= name, iban = iban, bic = bic)
     }
 
-    private fun extractMethodId(methodLabel: String): Long =
+    private fun extractMethodId(methodLabel: String, accountTypeId: Long): Long =
         methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
-            ?: repository.writePaymentMethod(methodLabel, null)).also {
+            ?: repository.writePaymentMethod(methodLabel, accountTypeId)).also {
             methodToId[methodLabel] = it
         }
 }
