@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Plan
@@ -637,8 +638,8 @@ class UpgradeHandlerViewModel(application: Application) :
                 if (fromVersion < 803) {
                     if (prefHandler.isSet(PrefKey.ACCOUNT_GROUPING)) {
                         dataStore.edit {
-                            it[prefHandler.getBooleanPreferencesKey(PrefKey.ACCOUNT_GROUPING)] =
-                                prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false)
+                            it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)] =
+                                prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
                         }
                     }
                 }
