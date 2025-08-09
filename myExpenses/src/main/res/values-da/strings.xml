@@ -921,7 +921,6 @@
     <string name="progress_recalculating">Genberegner</string>
     <string name="recalculate_equivalent_amounts_warning">Tilsvarende beløb (gen)beregnes, hvis de relevante lagrede valutakurser er tilgængelige.</string>
     <string name="equivalent_amount_plural">Tilsvarende beløb</string>
-    <string name="menu_recalculate">Genberegn</string>
     <string name="quick_search">Hurtig søgning</string>
     <string name="complex_search">Kompleks søgning</string>
     <string name="account_closed">Kontoen er låst</string>

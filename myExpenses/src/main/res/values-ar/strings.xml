@@ -1026,7 +1026,6 @@
     <string name="dynamic_exchange_rate">سعر الصرف المتغير</string>
     <string name="progress_recalculating">إعَادة الحساب</string>
     <string name="equivalent_amount_plural">المبالغ المعادلة</string>
-    <string name="menu_recalculate">إعادة الحساب</string>
     <string name="content_description_exchange_rate">سعر الصرف لوحدة 1 %1$s مقابل %2$s</string>
     <string name="filter_dialog_empty">لم تتم إضافة معايير حتى الآن. اضغط على الأزرار أعلاه لتحديد استعلامك وتحسين نتائجك.</string>
     <string name="recalculate_equivalent_amounts_warning">سيتم إعادة حساب المبالغ المعادلة إذا كانت أسعار الصرف المخزنة متوفرة.</string>

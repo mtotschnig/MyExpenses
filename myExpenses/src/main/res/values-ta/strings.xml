@@ -987,7 +987,6 @@
     <string name="initial_value">தொடக்க மதிப்பு</string>
     <string name="current_value">தற்போதைய மதிப்பு</string>
     <string name="equivalent_amount_plural">சமமான அளவு</string>
-    <string name="menu_recalculate">மறுபரிசீலனை செய்யுங்கள்</string>
     <string name="recalculate_equivalent_amounts_warning">பொருந்தக்கூடிய சேமிக்கப்பட்ட பரிமாற்ற விகிதங்கள் கிடைத்தால் சமமான தொகைகள் (மறு) கணக்கிடப்படும்.</string>
     <string name="account_closed">கணக்கு மூடப்பட்டுள்ளது</string>
     <string name="pref_sync_frequency_summary_0">தானியங்கி ஒத்திசைவை செயலிழக்க 0 என அமைக்கவும்.</string>

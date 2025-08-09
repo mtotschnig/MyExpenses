@@ -1042,7 +1042,6 @@
     <string name="dynamic_exchange_rate">Dynamic exchange rate</string>
     <string name="progress_recalculating">Recalculating</string>
     <string name="equivalent_amount_plural">Equivalent amounts</string>
-    <string name="menu_recalculate">Recalculate</string>
     <string name="recalculate_equivalent_amounts_warning">Equivalent amounts will be (re)calculated if applicable stored exchange rates are available.</string>
     <string name="quick_search">Quick search</string>
     <string name="complex_search">Complex search</string>

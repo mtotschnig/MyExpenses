@@ -786,7 +786,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun trackCommand(command: Int) {
         try {
             resources.getResourceName(command)
-        } catch (e: Resources.NotFoundException) {
+        } catch (_: Resources.NotFoundException) {
             null
         }?.let { fullResourceName ->
             trackCommand(fullResourceName.substring(fullResourceName.indexOf('/') + 1))
@@ -947,7 +947,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     val shareTarget: String
-        get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
+        get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim()
 
     protected open fun doHome() {
         setResult(RESULT_CANCELED)
@@ -1112,9 +1112,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun startActionView(uri: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(uri)
+                data = uri.toUri()
             })
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             showSnackBar("No activity found for opening $uri")
         }
     }
@@ -1129,7 +1129,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             )
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             showSnackBar(
                 MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(mimeType)
@@ -1314,7 +1314,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     private fun areNotificationsEnabled(channelId: String) =
         if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 val channel = manager.getNotificationChannel(channelId)
                 channel?.importance != NotificationManager.IMPORTANCE_NONE
             } else {
@@ -1360,7 +1360,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } else {
             showSnackBar(
                 PermissionHelper.getRationale(
-                    this, requestCode, PermissionHelper.PermissionGroup.NOTIFICATION
+                    this, requestCode, PermissionGroup.NOTIFICATION
                 )
             )
         }

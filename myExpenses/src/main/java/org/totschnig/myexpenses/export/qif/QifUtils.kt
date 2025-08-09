@@ -46,7 +46,7 @@ object QifUtils {
                     cal[Calendar.MINUTE] = parseInt(timeChunks, 1, 0)
                     cal[Calendar.SECOND] = parseInt(timeChunks, 2, 0)
                     return cal.time
-                } catch (ignored: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                 }
             }
             Date()
@@ -62,9 +62,9 @@ object QifUtils {
      */
     fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
         val cal = Calendar.getInstance()
-        var month = cal[Calendar.MONTH] + 1
-        var day = cal[Calendar.DAY_OF_MONTH]
-        var year = cal[Calendar.YEAR]
+        var month: Int
+        var day: Int
+        var year: Int
         val hourOfDay = 0
         val minute = 0
         val second = 0
@@ -100,13 +100,13 @@ object QifUtils {
 
     private fun parseInt(array: Array<String>, position: Int, defaultValue: Int) = try {
         parseInt(array, position)
-    } catch (e: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         defaultValue
     }
 
     @Throws(IllegalArgumentException::class)
     private fun parseInt(array: Array<String>, position: Int) = try {
-        array[position].trim { it <= ' ' }.toInt()
+        array[position].trim().toInt()
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException(e)
     } catch (e: IndexOutOfBoundsException) {
@@ -132,10 +132,10 @@ object QifUtils {
     @JvmStatic
     fun parseMoney(money: String, maxSize: Int): BigDecimal {
         var result: BigDecimal
-        val sMoney = money.trim { it <= ' ' }.replace(" ", "") // to be safe
+        val sMoney = money.trim().replace(" ", "") // to be safe
         try {
             result = BigDecimal(sMoney)
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             /* there must be commas, etc in the number.  Need to look for them
              * and remove them first, and then try BigDecimal again.  If that
              * fails, then give up and use NumberFormat and scale it down
@@ -155,12 +155,12 @@ object QifUtils {
                 buf.append(split[split.size - 1])
                 try {
                     result = BigDecimal(buf.toString())
-                } catch (e2: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     val formatter = NumberFormat.getNumberInstance()
                     result = try {
                         val num = formatter.parse(sMoney)
                         BigDecimal.valueOf(num.toFloat().toDouble())
-                    } catch (ignored: ParseException) {
+                    } catch (_: ParseException) {
                         BigDecimal(0)
                     }
                     CrashHandler.report(Exception("Could not parse money $sMoney"))

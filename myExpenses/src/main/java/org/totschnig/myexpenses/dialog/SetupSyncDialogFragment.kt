@@ -6,13 +6,29 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,13 +51,16 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment.AccountRow
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel.SyncSource
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
-import kotlin.collections.set
 
 class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener {
 
@@ -151,13 +170,13 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        modifier = columnLabel(),
+                        modifier = Modifier.weight(LABEL_WEIGHT),
                         text = stringResource(id = R.string.account) + " (UUID)",
                         fontWeight = FontWeight.Bold
                     )
-                    Text(modifier = columnSource(), text = "Local", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-                    Spacer(modifier = columnLink())
-                    Text(modifier = columnSource(), text = "Remote", fontWeight = FontWeight.Bold)
+                    Text(modifier = Modifier.weight(SOURCE_WEIGHT), text = "Local", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
+                    Text(modifier = Modifier.weight(SOURCE_WEIGHT), text = "Remote", fontWeight = FontWeight.Bold)
                 }
                 HorizontalDivider()
             }
@@ -296,7 +315,7 @@ private fun Account(
     Column {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = columnLabel()) {
+            Column(modifier = Modifier.weight(LABEL_WEIGHT)) {
                 Text(text = item.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
                     text = item.uuid,
@@ -307,7 +326,7 @@ private fun Account(
             }
             if (item.isLocal) {
                 Icon(
-                    modifier = columnSource(),
+                    modifier = Modifier.weight(SOURCE_WEIGHT),
                     painter = painterResource(
                         id = when {
                             item.isSealed -> R.drawable.ic_lock
@@ -320,7 +339,7 @@ private fun Account(
                     contentDescription = "Local"
                 )
             } else {
-                Spacer(modifier = columnSource())
+                Spacer(modifier = Modifier.weight(SOURCE_WEIGHT))
             }
             if (!item.isSealed) {
                 IconButton(onLinkClick) {
@@ -334,18 +353,18 @@ private fun Account(
                     )
                 }
             } else {
-                Spacer(modifier = columnLink())
+                Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
             }
             if (item.isRemote) {
                 Icon(
-                    modifier = columnSource(),
+                    modifier = Modifier.weight(SOURCE_WEIGHT),
                     painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
                     tint = if (linkState == SyncSource.REMOTE) Color.Green else
                         LocalContentColor.current,
                     contentDescription = "Remote"
                 )
             } else {
-                Spacer(modifier = columnSource())
+                Spacer(modifier = Modifier.weight(SOURCE_WEIGHT))
             }
         }
     }
@@ -377,10 +396,12 @@ private fun Account(
 @Preview(widthDp = 246)
 @Composable
 fun AccountPreview() {
-    Account(AccountRow("Test-Level-${Build.VERSION.SDK_INT}", "Test-UUID", true, true, false), null) { }
+    Account(AccountRow("Test-Level-${Build.VERSION.SDK_INT}", "Test-UUID",
+        isLocal = true,
+        isRemote = true,
+        isSealed = false
+    ), null) { }
 }
 
-private fun RowScope.columnLabel() = Modifier.weight(3f)
-@Composable
-private fun columnLink() = Modifier.width(LocalMinimumInteractiveComponentSize.current)
-private fun RowScope.columnSource() = Modifier.weight(1f)
+private const val LABEL_WEIGHT = 3f
+private const val SOURCE_WEIGHT = 1f

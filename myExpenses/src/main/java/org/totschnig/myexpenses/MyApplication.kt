@@ -408,7 +408,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         private val currentProcessName: String?
             //from ACRA
             get() = try {
-                StreamReader("/proc/self/cmdline").read().trim { it <= ' ' }
+                StreamReader("/proc/self/cmdline").read().trim()
             } catch (_: IOException) {
                 null
             }

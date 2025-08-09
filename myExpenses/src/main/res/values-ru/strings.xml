@@ -978,7 +978,6 @@
     <string name="dynamic_exchange_rate">Динамический курс обмена</string>
     <string name="progress_recalculating">Перерасчет</string>
     <string name="equivalent_amount_plural">Эквивалентные суммы</string>
-    <string name="menu_recalculate">Пересчитать</string>
     <string name="recalculate_equivalent_amounts_warning">Эквивалентные суммы будут (пере)рассчитаны, если доступны соответствующие сохраненные курсы обмена.</string>
     <string name="enable_automatic_daily_exchange_rate_download">Автоматическая ежедневная загрузка курса обмена</string>
     <string name="price_history">История курсов</string>

@@ -994,7 +994,6 @@
     <string name="price_history">Historial de precios</string>
     <string name="dynamic_exchange_rate">Tipo de cambio dinámico</string>
     <string name="equivalent_amount_plural">Cantidades equivalentes</string>
-    <string name="menu_recalculate">Recalcular</string>
     <string name="filter_dialog_empty">Todavía no se han añadido criterios. Toque los botones de arriba para definir su consulta y refinar sus resultados.</string>
     <string name="pref_sync_frequency_summary_0">Establézcalo en 0 para desactivar la sincronización automática.</string>
     <string name="current_value">Valor actual</string>

@@ -1041,7 +1041,6 @@
     <string name="dynamic_exchange_rate">গতিশীল এক্সচেঞ্জ রেট</string>
     <string name="progress_recalculating">পুনরায় গণনা করা হচ্ছে</string>
     <string name="equivalent_amount_plural">সমতুল্য পরিমাণ</string>
-    <string name="menu_recalculate">পুনরায় গণনা করুন</string>
     <string name="recalculate_equivalent_amounts_warning">সমতুল্য পরিমাণ পুনরায় গণনা করা হবে যদি প্রযোজ্য সেভ করা এক্সচেঞ্জ রেট উপলব্ধ থাকে।</string>
     <string name="quick_search">কুইক সার্চ</string>
     <string name="complex_search">কমপ্লেক্স সার্চ</string>

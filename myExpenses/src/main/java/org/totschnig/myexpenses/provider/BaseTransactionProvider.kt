@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
-import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
@@ -651,7 +650,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val cte = if (minimal) "" else
             accountQueryCTE(
-                requireContext(),
+                context!!,
                 homeCurrency,
                 endOfDay,
                 aggregateFunction,

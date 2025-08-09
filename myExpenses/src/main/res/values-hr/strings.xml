@@ -938,7 +938,6 @@
         <item quantity="few">%d retka nije bilo moguće obraditi.</item>
         <item quantity="other">%d redaka nije bilo moguće obraditi.</item>
     </plurals>
-    <string name="menu_recalculate">Izračunaj ponovo</string>
     <string name="recalculate_equivalent_amounts_warning">Ekvivalentni iznosi će se (ponovo) izračunati ako su primjenjivi spremljeni tečajevi dostupni.</string>
     <string name="menu_show_equivalent_value">Ekvivalentna vrijednost</string>
     <string name="initial_value">Početna vrijednost</string>

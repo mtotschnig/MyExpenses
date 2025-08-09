@@ -898,7 +898,6 @@
     <string name="dynamic_exchange_rate">Dynamische wisselkoers</string>
     <string name="progress_recalculating">Herberekenen</string>
     <string name="equivalent_amount_plural">Equivalente bedragen</string>
-    <string name="menu_recalculate">Herberekenen</string>
     <string name="recalculate_equivalent_amounts_warning">Equivalente bedragen worden (her)berekend als toepasselijke opgeslagen wisselkoersen beschikbaar zijn.</string>
     <string name="balance_sheet">Balans</string>
     <string name="balance_sheet_section_assets">Activa</string>

@@ -903,7 +903,6 @@
     <string name="dynamic_exchange_rate">Дынамічны абменны курс</string>
     <string name="progress_recalculating">Пераразлік</string>
     <string name="equivalent_amount_plural">Эквівалентныя сумы</string>
-    <string name="menu_recalculate">Пералічыць</string>
     <string name="menu_transform_to_transfer">Канвертаваць у перавод</string>
     <string name="filter_dialog_empty">Крытэрыі пакуль не дададзены. Націсніце кнопкі вышэй, каб вызначыць свой запыт і ўдакладніць вынікі.</string>
     <string name="merge_parties_strategy_group">Дублікаты групаваны як залежныя.</string>

@@ -795,7 +795,6 @@
     <string name="dynamic_exchange_rate">อัตราแลกเปลี่ยนแบบไดนามิก</string>
     <string name="progress_recalculating">กำลังคำนวณใหม่</string>
     <string name="equivalent_amount_plural">จำนวนที่เท่ากัน</string>
-    <string name="menu_recalculate">คำนวณใหม่</string>
     <string name="recalculate_equivalent_amounts_warning">จำนวนที่เท่ากันจะถูกคำนวณใหม่หากมีอัตราแลกเปลี่ยนที่บันทึกไว้ applicable</string>
     <string name="archive_warning">รายการทั้งหมด (%d) ในช่วงวันที่ที่เลือกจะถูกเก็บถาวร</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">ใช้ปุ่มสวิตช์นี้เพื่อบันทึกรายรับ</string>

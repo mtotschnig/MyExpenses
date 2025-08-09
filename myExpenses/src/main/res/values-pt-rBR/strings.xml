@@ -986,7 +986,6 @@
     <string name="dynamic_exchange_rate">Taxa de câmbio dinâmica</string>
     <string name="progress_recalculating">Recalculando</string>
     <string name="equivalent_amount_plural">Quantias equivalentes</string>
-    <string name="menu_recalculate">Recalcular</string>
     <string name="recalculate_equivalent_amounts_warning">Quantias equivalentes serão (re)calculadas se estiverem disponíveis taxas de câmbio armazenadas aplicáveis.</string>
     <string name="dialog_title_warning_delete_archive">Excluir arquivo?</string>
     <string name="content_description_original_amount">Defina o valor original dessa transação selecionando uma moeda e inserindo o valor. Você também pode definir uma taxa de câmbio que será usada para calcular o valor efetivo.</string>

@@ -8,7 +8,6 @@
 //adapted to My Expenses by Michael Totschnig
 package org.totschnig.myexpenses.export.qif
 
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.Closeable
@@ -24,7 +23,7 @@ class QifBufferedReader(private val r: BufferedReader): Closeable {
     fun readLine(): String? {
         while (true) {
             var line = r.readLine() ?: return null
-            line = line.trim { it <= ' ' }
+            line = line.trim()
             if (line.isNotEmpty()) {
                 return line
             }
