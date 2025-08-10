@@ -274,6 +274,13 @@
             android:checked="false"
             android:text="@string/dialog_export_delete" />
 
+        <TextView
+            android:id="@+id/export_delete_disabled_text"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/handle_deleted"
             android:layout_width="match_parent"

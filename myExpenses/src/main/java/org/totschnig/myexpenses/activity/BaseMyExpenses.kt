@@ -128,7 +128,6 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
@@ -753,7 +752,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             },
                             onToggleSealed = { toggleAccountSealed(it) },
                             onToggleExcludeFromTotals = { toggleExcludeFromTotals(it) },
-                            onToggleDynamicExchangeRate = if (viewModel.dynamicExchangeRatesPerAccount.collectAsState(true).value) {
+                            onToggleDynamicExchangeRate = if (viewModel.dynamicExchangeRatesPerAccount.collectAsState(
+                                    true
+                                ).value
+                            ) {
                                 { toggleDynamicExchangeRate(it) }
                             } else null,
                             listState = viewModel.listState,
@@ -1827,6 +1829,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
                 startActivity(Intent(this, ManageAccountTypes::class.java))
             }
+
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
                     || allAccountCount < ContribFeature.FREE_ACCOUNTS
@@ -1860,7 +1863,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
 
-            R.id.RESET_COMMAND -> doReset()
+            R.id.RESET_COMMAND -> checkReset()
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -1956,7 +1959,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                contribFeatureRequested(ContribFeature.BANKING, Triple(it.bankId, it.id, it.type.id))
+                contribFeatureRequested(
+                    ContribFeature.BANKING,
+                    Triple(it.bankId, it.id, it.type.id)
+                )
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it) }
@@ -2579,7 +2585,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
                 ContribFeature.BANKING -> {
                     val (bankId, accountId, accountTypeId) = tag as Triple<Long, Long, Long>
-                    bankingFeature.startSyncFragment(bankId, accountId, accountTypeId, supportFragmentManager)
+                    bankingFeature.startSyncFragment(
+                        bankId,
+                        accountId,
+                        accountTypeId,
+                        supportFragmentManager
+                    )
                 }
 
                 else -> super.contribFeatureCalled(feature, tag)
@@ -2671,28 +2682,53 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
     }
 
-    private fun doReset() {
+    private fun checkReset() {
         exportViewModel.checkAppDir().observe(this) { result ->
             result.onSuccess {
-                currentAccount?.let {
-                    with(it) {
-                        exportViewModel.hasExported(this)
-                            .observe(this@BaseMyExpenses) { hasExported ->
-                                ExportDialogFragment.newInstance(
-                                    ExportDialogFragment.AccountInfo(
-                                        id,
-                                        label,
-                                        currency,
-                                        sealed,
-                                        hasExported,
-                                        currentFilter.whereFilter.value != null
+                currentAccount?.let { account ->
+                    if (account.isAggregate) {
+                        //for aggregate account sealed is checked for each account during export
+                        showExportDialog(emptyList())
+                    } else if (account.sealed) {
+                        showExportDialog(listOf(R.string.account_closed))
+                    } else {
+                        checkSealedHandler.checkAccount(account.id) { result ->
+                            result.onSuccess {
+                                showExportDialog(
+                                    listOfNotNull(
+                                        if (!it.first) R.string.object_sealed else null,
+                                        if (!it.second) R.string.object_sealed_debt else null
                                     )
-                                ).show(supportFragmentManager, "EXPORT")
+                                )
                             }
+                                .onFailure {
+                                    showSnackBar(it.safeMessage)
+                                }
+                        }
                     }
                 }
             }.onFailure {
                 showDismissibleSnackBar(it.safeMessage)
+            }
+        }
+    }
+
+    private fun showExportDialog(cannotResetConditions: List<Int>) {
+        currentAccount?.let {
+            with(it) {
+                exportViewModel.hasExported(this)
+                    .observe(this@BaseMyExpenses) { hasExported ->
+                        ExportDialogFragment.newInstance(
+                            ExportDialogFragment.AccountInfo(
+                                id,
+                                label,
+                                currency,
+                                cannotResetConditions,
+                                hasExported,
+                                currentFilter.whereFilter.value != null
+                            )
+                        ).show(supportFragmentManager, "EXPORT")
+                    }
             }
         }
     }

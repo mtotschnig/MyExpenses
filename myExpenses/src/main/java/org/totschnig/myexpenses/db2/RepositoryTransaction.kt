@@ -8,8 +8,9 @@ import android.os.Bundle
 import androidx.core.os.BundleCompat
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction.CONTENT_URI
+import org.totschnig.myexpenses.model.Transaction.generateUuid
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
@@ -21,6 +22,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_DEBT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
@@ -46,6 +49,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -98,7 +102,7 @@ fun Repository.createTransaction(transaction: Transaction): Long {
         contentResolver.insert(
             TRANSACTIONS_URI,
             toContentValues(transaction).apply {
-                put(KEY_UUID, Model.generateUuid())
+                put(KEY_UUID, generateUuid())
             })!!
     )
     contentResolver.saveTagsForTransaction(transaction.tags.toLongArray(), id)
@@ -147,7 +151,11 @@ suspend fun Repository.loadTransactions(accountId: Long): List<Transaction> {
 fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = null) =
     getTransactionSum(account.id, account.currency, filter)
 
-fun Repository.getTransactionSum(id: Long, currency: String? = null, filter: Criterion? = null): Long {
+fun Repository.getTransactionSum(
+    id: Long,
+    currency: String? = null,
+    filter: Criterion? = null
+): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
     var selectionArgs: Array<String>? = arrayOf(id.toString())
@@ -236,6 +244,22 @@ fun Repository.hasParent(id: Long) = contentResolver.findBySelection(
     KEY_PARENTID
 ) != 0L
 
+fun Repository.hasSealed(accountId: Long) = contentResolver.query(
+    TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+        TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1"
+    ).build(),
+    arrayOf(
+        KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER,
+        KEY_HAS_SEALED_DEBT
+    ),
+    "$KEY_ACCOUNTID = ?",
+    arrayOf(accountId.toString()),
+    null
+)!!.use {
+    it.moveToFirst()
+    it.getBoolean(0) to it.getBoolean(1)
+}
+
 fun Repository.getPayeeForTransaction(id: Long) = contentResolver.findBySelection(
     "$KEY_ROWID = ?",
     arrayOf(id.toString()),
@@ -248,7 +272,7 @@ private fun ContentResolver.findBySelection(
     column: String
 ) =
     query(
-        org.totschnig.myexpenses.model.Transaction.CONTENT_URI,
+        CONTENT_URI,
         arrayOf(column),
         selection,
         selectionArgs,
@@ -261,7 +285,7 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
     return contentResolver.query(
         TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(KEY_TRANSACTIONID, id.toString()).build(),
-        arrayOf(KEY_LABEL, KEY_ICON), null, null,null
+        arrayOf(KEY_LABEL, KEY_ICON), null, null, null
     )
         ?.useAndMapToList {
             it.getString(KEY_LABEL) to it.getStringOrNull(KEY_ICON)

@@ -82,7 +82,6 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             ExportDialogBinding.inflate(it)
         }
 
-        val canReset = !accountInfo.isSealed
         if (accountInfo.id == HOME_AGGREGATE_ID) {
             allP = true
             warningText = getString(R.string.warning_reset_account_all, "")
@@ -99,7 +98,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
         }
         if (accountInfo.isFiltered) {
-            dialogView.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
+            dialogView.findViewById<View>(R.id.with_filter).isVisible = true
             warningText = getString(R.string.warning_reset_account_matched)
         }
 
@@ -238,7 +237,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 }
             }
         }
-        if (canReset) {
+        if (accountInfo.cannotResetConditions.isEmpty()) {
             binding.exportDelete.setOnCheckedChangeListener { _, isChecked ->
                 configure(isChecked)
                 if (isChecked) {
@@ -249,17 +248,21 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 )
             }
         } else {
-            binding.exportDelete.visibility = View.GONE
+            binding.exportDelete.isEnabled = false
+            binding.exportDeleteDisabledText.isVisible = true
+            binding.exportDeleteDisabledText.text = accountInfo.cannotResetConditions.joinToString {
+                getString(it)
+            }
         }
         if (accountInfo.hasExported) {
             binding.exportNotYetExported.isChecked = true
-            binding.exportNotYetExported.visibility = View.VISIBLE
+            binding.exportNotYetExported.isVisible = true
         }
         binding.warningReset.text = warningText
         if (allP) {
             val mergeAccounts = prefHandler.getBoolean(KEY_MERGE_P, false)
             setFileNameLabel(false)
-            binding.mergeAccounts.visibility = View.VISIBLE
+            binding.mergeAccounts.isVisible = true
             binding.mergeAccounts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 setFileNameLabel(
                     isChecked
@@ -401,10 +404,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
     private fun configure(delete: Boolean) {
         binding.exportNotYetExported.isEnabled = !delete
         binding.exportNotYetExported.isChecked = !delete
-        binding.warningReset.visibility =
-            if (delete) View.VISIBLE else View.GONE
-        binding.handleDeleted.visibility =
-            if (delete) View.VISIBLE else View.GONE
+        binding.warningReset.isVisible = delete
+        binding.handleDeleted.isVisible = delete
     }
 
     private fun configureButton() {
@@ -422,7 +423,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         val id: Long,
         val label: String,
         val currency: String,
-        val isSealed: Boolean,
+        val cannotResetConditions: List<Int>,
         val hasExported: Boolean,
         val isFiltered: Boolean
     ) : Serializable
