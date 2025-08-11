@@ -766,7 +766,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        throwAndReport(HBCI_Exception("Flicker not yet implemented. Please contact support@myexpenses.mobi !"))
+                        throwAndReport(HBCI_Exception("Flicker not yet implemented for ${bankingCredentials.blz} Please contact support@myexpenses.mobi !"))
                     } else {
                         val tan = runBlocking {
                             requestTan(msg, null).await()
