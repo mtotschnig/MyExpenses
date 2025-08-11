@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">অ্যাকাউন্ট</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">অ্যাকাউন্টের ধরন</string>
@@ -576,8 +576,8 @@
     <string name="sync_auth_exception">অনুমোদন করা যায়নি।</string>
     <string name="sync_login_again">অনুগ্রহ করে আবার লগ ইন করুন।</string>
     <plurals name="delete_success">
-    <item quantity="one">একটি অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
-    <item quantity="other">%d অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
+        <item quantity="one">একটি অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
+        <item quantity="other">%d অবজেক্ট সফলভাবে মুছে ফেলা হয়েছে।</item>
     </plurals>
     <string name="feature_deprecated">বাতিল</string>
     <string name="pref_protection_device_lock_screen_title">ডিভাইস লক স্ক্রিন</string>
@@ -731,7 +731,7 @@
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
             because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">এমন কোন আইটেম পাওয়া যায়নি, যা সমস্ত নির্বাচিত লেনদেনে ম্যাপ করা যেতে পারে।</string>
-        <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
         <string name="button_label_clone_and_remap">ক্লোন এবং রিম্যাপ করুন</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
     <string name="pref_clone_with_current_date_summary_on">ক্লোন করা লেনদেনের বর্তমান তারিখ রাখবে</string>
