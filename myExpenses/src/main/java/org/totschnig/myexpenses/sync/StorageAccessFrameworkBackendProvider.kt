@@ -28,7 +28,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
         super.withAccount(account)
-        accountDir = baseDir.getFolder(accountUuid)!!
+        accountDir = baseDir.getFolder(accountUuid) ?: throw IOException("Cannot create accountDir")
         writeAccount(account, false)
     }
 
