@@ -679,11 +679,12 @@ object PdfPrinter {
                 else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
             }
 
-            fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f) {
+            fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f, isSplitPart: Boolean = false) {
                 columns.forEachIndexed { index, fields ->
+                    val finalFields = if (isSplitPart) fields.filter { it != Payee } else fields
                     val border = (if (index == columns.lastIndex) 0 else Rectangle.RIGHT) +
                             if (isSplitPart) 0 else Rectangle.TOP
-                    val rows: List<Pair<FontType, String>> = fields.flatMap { field ->
+                    val rows: List<Pair<FontType, String>> = finalFields.flatMap { field ->
                         print(field).map {
                             fontType(field, isSplitPart) to it
                         }
@@ -691,7 +692,7 @@ object PdfPrinter {
                     val cell =
                         helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
                             helper.printToCell(text, fontType, withPadding = false).also {
-                                it.horizontalAlignment = columnAlignment(fields)
+                                it.horizontalAlignment = columnAlignment(finalFields)
                             }.apply {
                                 if (index != rows.lastIndex) {
                                     this.paddingBottom = 2f
@@ -730,7 +731,8 @@ object PdfPrinter {
                     list.forEachIndexed { index, split ->
                         split.print(
                             paddingTop = 0f,
-                            paddingBottom = if (index == list.lastIndex) 5f else 0f
+                            paddingBottom = if (index == list.lastIndex) 5f else 0f,
+                            isSplitPart = true
                         )
                     }
                 }

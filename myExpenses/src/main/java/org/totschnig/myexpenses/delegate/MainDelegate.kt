@@ -179,10 +179,12 @@ abstract class MainDelegate<T : ITransaction>(
             return null
         return buildMainTransaction(account).apply {
             this.amount = amount
-            if (this@MainDelegate.payeeId != null) {
-                this.payeeId = this@MainDelegate.payeeId
+            if (!isSplitPart) {
+                if (this@MainDelegate.payeeId != null) {
+                    this.payeeId = this@MainDelegate.payeeId
+                }
+                payee = viewBinding.Payee.text.toString().trim()
             }
-            payee = viewBinding.Payee.text.toString().trim()
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency

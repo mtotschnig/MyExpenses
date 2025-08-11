@@ -1787,7 +1787,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         const val KEY_OCR_RESULT = "ocrResult"
         const val KEY_INCOME = "income"
-        const val KEY_PARENT_HAS_DEBT = "parentHasSplit"
+        const val KEY_PARENT_HAS_DEBT = "parentHasDebt"
 
         /**
          * holds pair of rate and currency

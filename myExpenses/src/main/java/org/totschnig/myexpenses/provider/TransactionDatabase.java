@@ -2101,6 +2101,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo177(db);
       }
 
+      if (oldVersion < 178) {
+        db.execSQL("update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)");
+      }
+
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
