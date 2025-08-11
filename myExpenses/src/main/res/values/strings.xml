@@ -1099,4 +1099,5 @@
     <string name="edit_account_type">Edit Account Type</string>
     <string name="new_account_type">New Account Type</string>
     <string name="pref_account_list_display_configuration_title">Account list</string>
+    <string name="pref_print_layout_summary">Configure width and composition of columns</string>
 </resources>
