@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
@@ -109,7 +110,7 @@ fun Repository.createTransaction(transaction: Transaction): Long {
     return id
 }
 
-suspend fun Repository.loadTransactions(accountId: Long): List<Transaction> {
+suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): List<Transaction> {
     val filter = FilterPersistence(
         dataStore = dataStore,
         prefKey = MyExpensesViewModel.prefNameForCriteria(accountId),
@@ -118,7 +119,9 @@ suspend fun Repository.loadTransactions(accountId: Long): List<Transaction> {
     }
     //noinspection Recycle
     return contentResolver.query(
-        DataBaseAccount.uriForTransactionList(true),
+        DataBaseAccount.uriForTransactionList(true).let {
+            if (limit != null) it.withLimit(limit) else it
+        },
         DatabaseConstants.getProjectionExtended(),
         "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
             filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
