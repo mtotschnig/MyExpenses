@@ -1469,8 +1469,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } == OnboardingActivity::class.java.simpleName
 
     val bankingFeature: BankingFeature
-        get() = requireApplication().appComponent.bankingFeature() ?: object :
-            BankingFeature {}
+        get() = requireApplication().appComponent.bankingFeature() ?: BankingFeature
 
     protected open fun restartAfterRestore() {
         (application as MyApplication).invalidateHomeCurrency()

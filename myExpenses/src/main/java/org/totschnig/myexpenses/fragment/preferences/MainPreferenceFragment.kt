@@ -12,6 +12,7 @@ import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MoreInfoDialogFragment
+import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
@@ -99,8 +100,10 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         requirePreference<Preference>(PrefKey.CATEGORY_IO).title = ioTitle
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_RESTORE).title = backupRestoreTitle
         requirePreference<Preference>(PrefKey.CATEGORY_SECURITY).title = protectionTitle
-        requirePreference<Preference>(PrefKey.BANKING_FINTS).summary =
-            "FinTS (${Locale.GERMANY.displayCountry})"
+        with(requirePreference<Preference>(PrefKey.BANKING_FINTS)) {
+            summary = "FinTS (${Locale.GERMANY.displayCountry})"
+            isVisible = preferenceActivity.bankingFeature != BankingFeature
+        }
 
         viewModel.appData.observe(this) {
             with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {

@@ -10,8 +10,9 @@ import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.model2.Bank
 
 interface BankingFeature {
-    companion object {
+    companion object: BankingFeature {
         const val TAG = "Banking"
+
     }
 
     val bankingActivityClass: Class<out Activity>

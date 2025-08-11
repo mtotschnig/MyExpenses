@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Singleton
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 // force R8 to keep toInstant method
 @Keep
 object Bogus {
-    fun calculateInstant() = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()
+    fun calculateInstant(): Instant = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()
 }
 
 @Module
@@ -32,7 +33,7 @@ open class FeatureModule {
                 .newInstance(prefHandler) as OcrFeature).also {
                 ocrFeature = it
             }
-        } catch (e: ClassNotFoundException) {
+        } catch (_: ClassNotFoundException) {
             null
         }
 
@@ -42,7 +43,7 @@ open class FeatureModule {
         (Class.forName("org.totschnig.fints.BankingFeatureImpl").getConstructor().newInstance() as BankingFeature).also {
             bankingFeature = it
         }
-    } catch (e: ClassNotFoundException) {
+    } catch (_: ClassNotFoundException) {
         null
     }
 
