@@ -15,11 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">ගිණුම </string>
-    <string name="account_type_asset">වත්කම් ගිණුම </string>
-    <string name="account_type_bank">බැංකු ගිණුම </string>
-    <string name="account_type_cash">මුදල් ගිණුම   </string>
+    <string name="account_type_asset">වත්කම් ගිණුම</string>
+    <string name="account_type_bank">බැංකු ගිණුම</string>
+    <string name="account_type_cash">මුදල් ගිණුම</string>
     <string name="account_type_ccard">ණය පත</string>
-    <string name="account_type_liability">වගකීම් ගිණුම </string>
+    <string name="account_type_liability">වගකීම් ගිණුම</string>
     <string name="already_defined">%1$s දැනටමත් අර්ථ දක්වා ඇත</string>
     <string name="amount">ප්‍රමාණය</string>
     <string name="app_name">මාගේ වියදම්</string>
