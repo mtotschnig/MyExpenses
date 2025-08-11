@@ -142,18 +142,18 @@
     <string name="menu_create_transfer">Новый перевод</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_distribution">Распределение</string>
-    <string name="menu_edit">Правка</string>
-    <string name="menu_edit_account">Правка счёта</string>
-    <string name="menu_edit_cat">Правка категорий</string>
-    <string name="menu_edit_method">Правка способов оплаты</string>
+    <string name="menu_edit">Редактировать</string>
+    <string name="menu_edit_account">Редактировать счёт</string>
+    <string name="menu_edit_cat">Редактировать категорию</string>
+    <string name="menu_edit_method">Редактировать способы оплаты</string>
     <string name="menu_edit_party">Редактировать стороны</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
-    <string name="menu_edit_split">Правка разделения</string>
-    <string name="menu_edit_split_part_category">Правка категории разделённой части</string>
-    <string name="menu_edit_split_part_transfer">Правка перевода разделённой части</string>
+    <string name="menu_edit_split">Редактировать разделение</string>
+    <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
+    <string name="menu_edit_split_part_transfer">Редактировать перевод разделённой части</string>
     <string name="menu_edit_template">Редактировать шаблон</string>
-    <string name="menu_edit_transaction">Правка операции</string>
-    <string name="menu_edit_transfer">Правка перевода</string>
+    <string name="menu_edit_transaction">Редактировать операцию</string>
+    <string name="menu_edit_transfer">Редактировать перевод</string>
     <string name="menu_exclude_from_totals">Исключить из суммы</string>
     <string name="menu_forward">Вперёд</string>
     <string name="menu_grouping">Группировка</string>
@@ -186,16 +186,16 @@
     <string name="no_templates">Нет шаблонов.</string>
     <string name="no_accounts">Нет счетов.</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>
-        <item quantity="few">%1$d объекта связаны с операциями и не могут быть удалены.</item>
-        <item quantity="many">%1$d объектов связаны с операциями и не могут быть удалены.</item>
-        <item quantity="other">%1$d объектов связаны с операциями и не могут быть удалены.</item>
+        <item quantity="one">Выбранный объект сопоставлен с операцией и не может быть удален.</item>
+        <item quantity="few">%1$d объекта сопоставлены с операциями и не могут быть удалены.</item>
+        <item quantity="many">%1$d объектов сопоставлены с операциями и не могут быть удалены.</item>
+        <item quantity="other">%1$d объектов сопоставлены с операциями и не могут быть удалены.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">Выбранный объект связан с шаблоном и не может быть удален.</item>
-        <item quantity="few">%1$d объекта связаны с шаблонами и не могут быть удалены.</item>
-        <item quantity="many">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
-        <item quantity="other">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
+        <item quantity="one">Выбранный объект сопоставлен с шаблоном и не может быть удален.</item>
+        <item quantity="few">%1$d объекта сопоставлены с шаблонами и не могут быть удалены.</item>
+        <item quantity="many">%1$d объектов сопоставлены с шаблонами и не могут быть удалены.</item>
+        <item quantity="other">%1$d объектов сопоставлены с шаблонами и не могут быть удалены.</item>
     </plurals>
     <string name="numbered">Пронумерованный</string>
     <string name="opening_balance">Начальный баланс</string>
@@ -439,7 +439,7 @@
     <string name="export_to_format">Экспорт в %s</string>
     <string name="pref_csv_import_delimiter">Разделитель</string>
     <string name="menu_parse">Анализировать</string>
-    <string name="csv_import_field_mapped_more_than_once">%s отображается более одного раза.</string>
+    <string name="csv_import_field_mapped_more_than_once">%s сопоставлен более одного раза.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Записи %d были отброшены.</string>
     <string name="csv_import_subcategory_requires_category">Если вы отображаете подкатегорию, вы также должны отобразить категорию.</string>
     <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>
@@ -472,7 +472,7 @@
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">принятый</string>
     <string name="progress_dialog_updating_split_parts">Обновление частей</string>
-    <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку имеются другие состовляюшие, которые имеют отношение к этому счету.</string>
+    <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку есть части перевода, которые ссылаются на этот счет.</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
     <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
     <string name="search_transfer">Поиск перевода</string>
@@ -496,7 +496,7 @@
     <string name="url_not_valid">URL не действителен</string>
     <string name="menu_sync_unlink">Остановить синхронизацию</string>
     <string name="menu_sync_link">Начать синхронизацию</string>
-    <string name="menu_sync_download">Скачать и синхронизировать</string>
+    <string name="menu_sync_download">Загрузить и синхронизировать</string>
     <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах).</string>
     <string name="dialog_confirm_sync_unlink">Если вы отсоедините этот счет от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
     <string name="dialog_sync_link">Счет с uuid %s существует как в локальной базе данных, так и на удаленном сервере. Когда вы свяжете оба, вам нужно решить, сначала Вы хотите загрузить локальные данные на удаленный сервер, или загрузить удаленные данные в локальную базу данных.</string>
@@ -625,7 +625,7 @@
     <string name="credit_limit">Кредитный лимит</string>
     <string name="clear_all_filters">Очистите все фильтры</string>
     <string name="menu_budget">Бюджетирование</string>
-    <string name="dialog_title_edit_budget">Изменить бюджет</string>
+    <string name="dialog_title_edit_budget">Редактировать бюджет</string>
     <string name="budget_table_header_budgeted">в бюджете</string>
     <string name="budget_table_header_allocated">Выделено</string>
     <string name="budget_table_header_spent">потраченный</string>
@@ -646,11 +646,11 @@
     <string name="dialog_title_new_currency">Новая валюта</string>
     <string name="currency_code_already_definded">Код валюты уже определен.</string>
     <string name="currency_still_used">Валюта используется, и не может быть удалена.</string>
-    <string name="unmapped">не нанесенный на карту</string>
+    <string name="unmapped">Не сопоставлен</string>
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">Фильтр «ненанесенный на карту » не может быть включен в множественный выбор</string>
+    <string name="unmapped_filter_only_single">Фильтр \'не сопоставлен\' не может быть включен в множественный выбор</string>
     <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
     <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
     <string name="backup_is_encrypted">Файл резервной копии зашифрован. Чтобы расшифровать его, вам нужно указать его парольную фразу. </string>
@@ -680,7 +680,7 @@
     <string name="roadmap_vote">Дорожная карта и голосование</string>
     <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>
     <string name="object_sealed">Объект относится к закрытому счету.</string>
-    <string name="content_description_download_exchange_rate">Скачать курс обмена</string>
+    <string name="content_description_download_exchange_rate">Загрузить курс обмена</string>
     <string name="exchange_rate_not_supported">Сконфигурированный поставщик обменного курса не предоставляет курс %1$s: %2$s. Вы можете попробовать выбрать другой в настройках.</string>
     <string name="pref_category_exchange_rates">Курсы валют</string>
     <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
@@ -702,7 +702,7 @@
     <string name="budget_filter_all_tags">Все теги</string>
     <string name="dialog_title_warning_delete_budget">Удалить бюджет?</string>
     <string name="warning_delete_budget">Бюджет \"%1$s\" будет удален.</string>
-    <string name="menu_edit_budget">Изменить бюджет</string>
+    <string name="menu_edit_budget">Редактировать бюджет</string>
     <string name="onboarding_privacy_title">Ваши данные остаются в ваших руках</string>
     <string name="onboarding_privacy_intro">Ваши финансовые данные не пересылаются ни на какой сервер, как находящийся под нашим контролем, так и под контролем какой-либо третьей стороны. </string>
     <string name="app_restart_required">Для вступления в силу новой конфигурации требуется перезапуск приложения.</string>
@@ -713,8 +713,8 @@
     <string name="remap_payee">Все выбранные операции будут сопоставлены плательщику/получателю платежа %s.</string>
     <string name="remap_method">Все выбранные операции будут сопоставлены с методом %s.</string>
     <string name="remap_account">Все выбранные операции будут сопоставлены с счетом %s.</string>
-    <string name="remapping_result">Выбранные операции были переназначены.</string>
-    <string name="clone_and_remap_result">Выбранные операции были клонированы и переназначены.</string>
+    <string name="remapping_result">Выбранные операции были повторно сопоставлены.</string>
+    <string name="clone_and_remap_result">Выбранные операции были клонированы и повторно сопоставлены.</string>
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">Не найден ни один элемент, который может быть сопоставлен со всеми выбранными транзакциями.</string>
@@ -725,9 +725,9 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонированные операции сохраняют исходную дату</string>
     <string name="tags_create_or_select">Создать или выбрать теги</string>
-    <string name="pref_manage_tags_summary">Добавить, изменить, удалить теги.</string>
+    <string name="pref_manage_tags_summary">Добавить, отредактировать, удалить теги.</string>
     <string name="dialog_title_warning_delete_tag">Удалить тег?</string>
-    <string name="menu_edit_tag">Изменить тег</string>
+    <string name="menu_edit_tag">Редактировать тег</string>
     <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
     <string name="menu_tag">Добавить тег</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
@@ -766,9 +766,9 @@
     <string name="tesseract_download_confirmation">Вы хотите загрузить данные распознавания текста для %s\?</string>
     <string name="pref_tesseract_language_title">Язык для Tesseract</string>
     <string name="pref_ocr_engine_title">Движок распознавания текста</string>
-    <string name="content_description_edit_plan">Изменить план в приложении календаря</string>
+    <string name="content_description_edit_plan">Редактировать план в приложении календаря</string>
     <string name="plan_automatic_without_amount_hint">План без суммы не следует сохранять при автоматическом выполнении плана</string>
-    <string name="template_default_action_without_amount_hint">Шаблон без суммы должен быть сохранен с действием по умолчанию «Редактировать»</string>
+    <string name="template_default_action_without_amount_hint">Шаблон без суммы должен быть сохранен с действием по умолчанию \'Редактировать\'</string>
     <string name="pref_clone_with_current_date_title">Дата клонированных транзакций</string>
     <string name="confirmation_load_template_discard_data">Существующие данные формы будут удалены.</string>
     <string name="warning_balance_account_delete">Если вы продолжите, все согласованные операции этого счета будут удалены из базы данных, и вы не сможете их восстановить.</string>
@@ -867,7 +867,7 @@
     <string name="button_relink_keep_date">Перепривязать, но сохранить дату</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">учитываются как расход / доход</string>
     <string name="pref_csv_export_split_amount_summary">Использовать отдельные столбцы для доходов и расходов</string>
-    <string name="pref_unmapped_transaction_as_transfer_title">Непривязанные транзакции</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Не сопоставленные транзакции</string>
     <string name="show_duplicates">Показать дубликаты</string>
     <string name="menu_reconfigure">Перенастроить</string>
     <string name="dialog_title_purge_backups">Очистить старые резервные копии</string>
@@ -927,11 +927,11 @@
     <string name="remove_from_group">Удалить из группы</string>
     <string name="pref_attachment_mime_types_title">Разрешенные типы MIME для вложений</string>
     <string name="contact_us">Свяжитесь с нами</string>
-    <string name="warning_delete_default_transfer_category">Категория %s задана как категория передачи по умолчанию и не может быть удалена.</string>
+    <string name="warning_delete_default_transfer_category">Категория %s задана как категория перевода по умолчанию и не может быть удалена.</string>
     <string name="overage">Превышение</string>
     <string name="credit_limit_available_credit">Доступный кредит</string>
     <string name="saving_goal_short_fall">Дефицит</string>
-    <string name="default_transfer_category">Категория передачи по умолчанию</string>
+    <string name="default_transfer_category">Категория перевода по умолчанию</string>
     <string name="menu_unpack">Распаковать</string>
     <string name="warning_unarchive">Архив будет распакован. Все содержащиеся транзакции будут повторно вставлены в список.</string>
     <string name="archive">Архив</string>
@@ -955,7 +955,7 @@
     <string name="warning_transform_to_transfer">Выбранная транзакция будет заменена переводом с %1$s на %2$s.</string>
     <string name="remap_date">Дата всех выбранных транзакций будет изменена на %s.</string>
     <string name="pref_sync_now_all_summary">%s синхронизирует все счета для одного и того же бэкенда</string>
-    <string name="warning_unlink_transfer">Выбранный перевод будет разорван: он будет заменен обычными транзакциями на обоих счетах.</string>
+    <string name="warning_unlink_transfer">Выбранный перевод будет отсоединён: он будет заменен обычными транзакциями на обоих счетах.</string>
     <string name="merge_categories_dialog_title">Объединить категории</string>
     <string name="merge_categories_prompt">Выберите категорию, которую хотите сохранить</string>
     <string name="not_enough_data">Недостаточно данных</string>
@@ -1010,4 +1010,6 @@
         <item quantity="many">%d строк не могут быть обработаны.</item>
         <item quantity="other">%d строк не могут быть обработаны.</item>
     </plurals>
+    <string name="warning_expense_category_credit">Вы назначаете категорию расходов для транзакции дохода. В результате транзакция уменьшит сумму ваших расходов и по умолчанию будет отображаться красным цветом.</string>
+    <string name="warning_income_category_debit">Вы назначаете категорию дохода для транзакции расхода. В результате транзакция уменьшит сумму вашего дохода и по умолчанию будет отображаться зеленым цветом.</string>
 </resources>

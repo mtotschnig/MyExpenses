@@ -1000,4 +1000,17 @@
     <string name="batch_download_result">%d цени бяха заредени и запазени в базата данни.</string>
     <string name="warning_batch_download_quota">Груповото зареждане от %s поражда риск от изразходване на лимита на употреба.</string>
     <string name="sort_direction">Посока на сортиране</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Покажи новия баланс след запис на транзакция</string>
+    <string name="print_configuration_empty">Моля, изберете поне едно поле за печат.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Намерени валидни данни в %d ред.</item>
+        <item quantity="other">Намерени валидни данни в %d реда.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d ред не може да бъде обработен.</item>
+        <item quantity="other">%d реда не могат да бъдат обработени.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Наистина ли искате да импортирате цени за \'%1$s\' от \'%2$s\'? Новите цени може да засегнат вече съществуващи еквивалентни суми.</string>
+    <string name="warning_expense_category_credit">Назначавате категория за разход на транзакция за приход. Такава транзакция ще намали сумата на разходите Ви и по подразбиране ще бъде в червено.</string>
+    <string name="warning_income_category_debit">Назначавате категория за приход на транзакция за разход. Такава транзакция ще намали сумата на приходите Ви и по подразбиране ще бъде в червено.</string>
 </resources>
