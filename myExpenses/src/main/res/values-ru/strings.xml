@@ -17,11 +17,11 @@
     <string name="account">Счёт</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Типы счетов</string>
-    <string name="account_type_asset">Счёт активов</string>
-    <string name="account_type_bank">Банковский счёт</string>
-    <string name="account_type_cash">Наличный счёт</string>
+    <string name="account_type_asset">Другие активы</string>
+    <string name="account_type_bank">Банк</string>
+    <string name="account_type_cash">Наличные</string>
     <string name="account_type_ccard">Кредитная карта</string>
-    <string name="account_type_liability">Счёт обязательств</string>
+    <string name="account_type_liability">Прочие обязательства</string>
     <string name="already_defined">%1$s уже определен</string>
     <string name="amount">Сумма</string>
     <string name="app_name">Мои расходы</string>
@@ -1012,4 +1012,21 @@
     </plurals>
     <string name="warning_expense_category_credit">Вы назначаете категорию расходов для транзакции дохода. В результате транзакция уменьшит сумму ваших расходов и по умолчанию будет отображаться красным цветом.</string>
     <string name="warning_income_category_debit">Вы назначаете категорию дохода для транзакции расхода. В результате транзакция уменьшит сумму вашего дохода и по умолчанию будет отображаться зеленым цветом.</string>
+    <string name="account_type_investment">Инвестиции</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Динамические курсы для всех счетов</string>
+    <string name="pref_dynamic_exchange_rates_static">Статические курсы для всех счетов</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Настройте каждый счёт индивидуально</string>
+    <string name="category_type_main">Основная категория</string>
+    <string name="category_type_sub">Подкатегории</string>
+    <string name="category_description_base">%1$s, уровень %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, содержит одну подкатегорию уровня %2$d.</item>
+        <item quantity="few">, содержит %1$d подкатегории уровня %2$d.</item>
+        <item quantity="many">, содержит %1$d подкатегорий уровня %2$d.</item>
+        <item quantity="other">, содержит %1$d подкатегорий уровня %2$d.</item>
+    </plurals>
+    <string name="manage_account_types">Управление типами счетов</string>
+    <string name="edit_account_type">Редактировать тип счета</string>
+    <string name="new_account_type">Новый тип счета</string>
+    <string name="pref_account_list_display_configuration_title">Список счетов</string>
 </resources>
