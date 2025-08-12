@@ -17,11 +17,11 @@
     <string name="account">Сметка</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Типове сметки</string>
-    <string name="account_type_asset">сметка Активи</string>
-    <string name="account_type_bank">Банкова сметка</string>
-    <string name="account_type_cash">разплащателна сметка</string>
+    <string name="account_type_asset">Други активи</string>
+    <string name="account_type_bank">Банка</string>
+    <string name="account_type_cash">В брой</string>
     <string name="account_type_ccard">кредитна карта</string>
-    <string name="account_type_liability">сметка Пасиви</string>
+    <string name="account_type_liability">Други задължения</string>
     <string name="already_defined">%1$s вече е дефинирана</string>
     <string name="amount">Сума</string>
     <string name="app_name">Моите разходи</string>
@@ -575,7 +575,7 @@
     <string name="history_chart_in_label">Приход</string>
     <string name="menu_history_totals">Показване на суми</string>
     <string name="pref_home_currency_title">Основна валута</string>
-    <string name="grand_total">Общо</string>
+    <string name="grand_total">Общо всичко</string>
     <string name="menu_original_amount">Оригинална сума</string>
     <string name="menu_equivalent_amount">Еквивалентна сума</string>
     <string name="warning_split_transactions">Избраните транзакции ще бъдат групирани в една разпределена транзакция. Информацията им за дата ще бъде изгубена, т.е. заменена от средната им стойност.</string>
@@ -1013,4 +1013,19 @@
     <string name="confirm_process_file_message">Наистина ли искате да импортирате цени за \'%1$s\' от \'%2$s\'? Новите цени може да засегнат вече съществуващи еквивалентни суми.</string>
     <string name="warning_expense_category_credit">Назначавате категория за разход на транзакция за приход. Такава транзакция ще намали сумата на разходите Ви и по подразбиране ще бъде в червено.</string>
     <string name="warning_income_category_debit">Назначавате категория за приход на транзакция за разход. Такава транзакция ще намали сумата на приходите Ви и по подразбиране ще бъде в червено.</string>
+    <string name="account_type_investment">Инвестиции</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Динамични курсове за всички сметки</string>
+    <string name="pref_dynamic_exchange_rates_static">Статични курсове за всички сметки</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Настройте всяка сметка индивидуално</string>
+    <string name="category_type_main">Основна категория</string>
+    <string name="category_type_sub">Подкатегория</string>
+    <string name="category_description_base">%1$s, ниво %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, съдържа една подкатегория от ниво %2$d.</item>
+        <item quantity="other">, съдържа %1$d подкатегории от ниво %2$d.</item>
+    </plurals>
+    <string name="manage_account_types">Управление на типа на сметките</string>
+    <string name="edit_account_type">Редактиране на типа на сметката</string>
+    <string name="new_account_type">Нов тип на сметка</string>
+    <string name="pref_account_list_display_configuration_title">Списък на сметките</string>
 </resources>
