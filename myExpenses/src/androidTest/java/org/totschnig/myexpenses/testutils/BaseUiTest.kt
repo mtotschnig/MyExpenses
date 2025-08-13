@@ -39,6 +39,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers.not
+import org.junit.Assume
 import org.junit.Before
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -234,6 +235,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     protected fun doWithRotation(actions: () -> Unit) {
         val device = UiDevice.getInstance(getInstrumentation())
+        Assume.assumeTrue(device.isNaturalOrientation)
         device.setOrientationRight()
         actions()
         device.setOrientationNatural()

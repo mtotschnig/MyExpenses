@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions
@@ -12,6 +13,8 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import com.adevinta.android.barista.interaction.BaristaClickInteractions
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
@@ -22,11 +25,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountEdit
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.getUuidForAccount
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.withAccountType
 import org.totschnig.myexpenses.testutils.withCurrency
 import org.totschnig.myexpenses.testutils.withListSize
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -105,13 +110,31 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         assertCanceled()
     }
 
+    @Test
+    fun shouldKeepStateAfterRotation() {
+        launch()
+        setCurrency("VND")
+        setAccountType(AccountType.INVESTMENT.name)
+        doWithRotation {
+            onView(withId(R.id.Currency)).check(matches(withSpinnerText(java.util.Currency.getInstance("VND").displayName)))
+            onView(withId(R.id.AccountType)).check(matches(withSpinnerText(AccountType.INVESTMENT.name)))
+        }
+    }
+
     private fun setCurrency(currency: String) {
-        onView(withId(R.id.Currency)).perform(click())
+        BaristaClickInteractions.clickOn(R.id.Currency)
         onData(
             allOf(
                 instanceOf(Currency::class.java),
                 withCurrency(currency)
             )
+        ).perform(click())
+    }
+
+    private fun setAccountType(accountType: String) {
+        BaristaClickInteractions.clickOn(R.id.AccountType)
+        onData(
+            withAccountType(accountType)
         ).perform(click())
     }
 

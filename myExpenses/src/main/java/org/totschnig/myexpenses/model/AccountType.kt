@@ -73,6 +73,8 @@ data class AccountType(
         else -> 0
     }.takeIf { it != 0 }?.let { context.getString(it) } ?: name
 
+    override fun toString() = name
+
     companion object {
         val CASH = AccountType(name = PREDEFINED_NAME_CASH, isAsset = true, supportsReconciliation = false)
         val BANK = AccountType(name = PREDEFINED_NAME_BANK, isAsset = true, supportsReconciliation = true)

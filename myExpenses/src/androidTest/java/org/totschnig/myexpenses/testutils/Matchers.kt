@@ -19,7 +19,9 @@ import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -80,6 +82,19 @@ fun withCurrency(currency: String): Matcher<Any> =
             description.appendText("with currency '$currency'")
         }
     }
+
+fun withAccountType(expectedTypeName: String): Matcher<SpinnerItem.Item<AccountType>> {
+    return object : TypeSafeMatcher<SpinnerItem.Item<AccountType>>() {
+        override fun describeTo(description: Description) {
+            description.appendText("SpinnerItem.Item<AccountType> with AccountType.typeName: '$expectedTypeName'")
+        }
+
+        override fun matchesSafely(item: SpinnerItem.Item<AccountType>): Boolean {
+            return item.data.name == expectedTypeName
+        }
+    }
+}
+
 
 /**
  * https://stackoverflow.com/a/63330069/1199911

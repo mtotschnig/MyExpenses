@@ -369,20 +369,26 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     ) {
         setDirty()
         val parentId = parent.id
-        if (parentId == R.id.Currency) {
-            try {
-                (currencySpinner.selectedItem as? Currency)?.code?.let {
-                    _currencyUnit = currencyContext[it]
-                    configureForCurrency(currencyUnit)
+        when (parentId) {
+            R.id.Currency -> {
+                try {
+                    (currencySpinner.selectedItem as? Currency)?.code?.let {
+                        _currencyUnit = currencyContext[it]
+                        configureForCurrency(currencyUnit)
+                    }
+                } catch (_: IllegalArgumentException) {
+                    //will be reported to user when he tries so safe
                 }
-            } catch (_: IllegalArgumentException) {
-                //will be reported to user when he tries so safe
             }
-        } else if (parentId == R.id.Sync) {
-            if (position > 0) {
-                contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
-            } else {
-                syncAccountName = null
+            R.id.Sync -> {
+                if (position > 0) {
+                    contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
+                } else {
+                    syncAccountName = null
+                }
+            }
+            R.id.AccountType -> {
+                //accountType = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data.id
             }
         }
     }

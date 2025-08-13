@@ -13,6 +13,7 @@ sealed class SpinnerItem() {
     data class Header<H>(val header: H, override val itemId: Long) : SpinnerItem()
     data class Item<T: IdHolder>(val data: T) : SpinnerItem() {
         override val itemId: Long = data.id
+        override fun toString() = data.toString()
     }
 }
 
