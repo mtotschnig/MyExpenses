@@ -25,4 +25,5 @@
     <string name="whats_new_400_1">Gráfico de pizza mostrando a distribuição de dinheiro entre contas</string>
     <string name="whats_new_400_2">Histórico de preços: download em massa de entradas ausentes</string>
     <string name="whats_new_401">A lista de transações agora mostra mais detalhes para transações divididas.</string>
+    <string name="whats_new_402">Os tipos de conta podem ser personalizados</string>
 </resources>

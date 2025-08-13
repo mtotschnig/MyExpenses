@@ -17,11 +17,11 @@
     <string name="account">Konto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Kontotypen</string>
-    <string name="account_type_asset">Anlagekonto</string>
-    <string name="account_type_bank">Bankkonto</string>
-    <string name="account_type_cash">Bargeldkonto</string>
+    <string name="account_type_asset">Sonstige Vermögenswerte</string>
+    <string name="account_type_bank">Bank</string>
+    <string name="account_type_cash">Bargeld</string>
     <string name="account_type_ccard">Kreditkarte</string>
-    <string name="account_type_liability">Kreditkonto</string>
+    <string name="account_type_liability">Sonstige Verbindlichkeiten</string>
     <string name="already_defined">%1$s existiert bereits</string>
     <string name="amount">Betrag</string>
     <string name="app_name">Meine Ausgaben</string>
@@ -1018,4 +1018,15 @@
         <item quantity="one">, enthält eine Unterkategorie der Ebene %2$d</item>
         <item quantity="other">, enthält %1$d Unterkategorien der Ebene %2$d</item>
     </plurals>
+    <string name="account_type_investment">Investitionen</string>
+    <string name="warning_expense_category_credit">Sie weisen einer Einnahme eine Ausgabenkategorie zu. Die Buchung reduziert dadurch die Summe Ihrer Ausgaben und wird standardmäßig rot angezeigt.</string>
+    <string name="warning_income_category_debit">Sie weisen einer Ausgabe eine Einnahmekategorie zu. Die Buchung reduziert dadurch die Summe Ihrer Einnahmen und wird standardmäßig grün angezeigt.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dynamische Kurse für alle Konten</string>
+    <string name="pref_dynamic_exchange_rates_static">Statische Kurse für alle Konten</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Jedes Konto individuell konfigurieren</string>
+    <string name="manage_account_types">Kontotypen verwalten</string>
+    <string name="edit_account_type">Kontotyp bearbeiten</string>
+    <string name="new_account_type">Neuer Kontotyp</string>
+    <string name="pref_account_list_display_configuration_title">Kontenliste</string>
+    <string name="pref_print_layout_summary">Konfigurieren der Breite und Zusammensetzung von Spalten</string>
 </resources>

@@ -11,4 +11,5 @@
     <string name="whats_new_400_1">A pénz számlák közötti eloszlását bemutató kördiagram</string>
     <string name="whats_new_400_2">Árelőzmények: Hiányzó bejegyzések tömeges letöltése</string>
     <string name="whats_new_401">A tranzakciólista mostantól további részleteket jelenít meg a felosztási tranzakciókról.</string>
+    <string name="whats_new_402">A számlatípusok testreszabhatók</string>
 </resources>
