@@ -17,11 +17,11 @@
     <string name="account">Compte</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Types de compte</string>
-    <string name="account_type_asset">Compte d\'actif</string>
-    <string name="account_type_bank">Compte bancaire</string>
-    <string name="account_type_cash">Compte de caisse</string>
+    <string name="account_type_asset">Autres actifs</string>
+    <string name="account_type_bank">Banque</string>
+    <string name="account_type_cash">Caisse</string>
     <string name="account_type_ccard">Carte de crédit</string>
-    <string name="account_type_liability">Compte de passif</string>
+    <string name="account_type_liability">Autres passifs</string>
     <string name="already_defined">%1$s existe</string>
     <string name="amount">Montant</string>
     <string name="app_name">Mes dépenses</string>
@@ -1033,4 +1033,15 @@
         <item quantity="one">, contient une sous-catégorie de niveau %2$d</item>
         <item quantity="other">, contient %1$d sous-catégories de niveau %2$d</item>
     </plurals>
+    <string name="account_type_investment">Investissements</string>
+    <string name="warning_expense_category_credit">Vous affectez une catégorie de dépenses à une opération de revenus. Par conséquent, l\'opération réduira la somme de vos dépenses et sera affichée par défaut en rouge.</string>
+    <string name="warning_income_category_debit">Vous affectez une catégorie de revenus à une opération de dépenses. Par conséquent, l\'opération réduira la somme de vos revenus et sera affichée par défaut en vert.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Taux dynamiques pour tous les comptes</string>
+    <string name="pref_dynamic_exchange_rates_static">Taux statiques pour tous les comptes</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configurer chaque compte individuellement</string>
+    <string name="manage_account_types">Gérer les types de comptes</string>
+    <string name="edit_account_type">Modifier le type de compte</string>
+    <string name="new_account_type">Nouveau type de compte</string>
+    <string name="pref_account_list_display_configuration_title">Liste des comptes</string>
+    <string name="pref_print_layout_summary">Configurer la largeur et la composition des colonnes</string>
 </resources>
