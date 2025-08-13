@@ -21,8 +21,8 @@
     <string name="account_type_bank">חשבון בנק</string>
     <string name="account_type_cash">חשבון מזומן</string>
     <string name="account_type_ccard">כרטיס אשראי</string>
-    <string name="account_type_liability">חשבון התחייבויות</string>
-    <string name="already_defined">%1$sכבר מוגדר</string>
+    <string name="account_type_liability">התחייבויות אחרות</string>
+    <string name="already_defined">%1$s כבר מוגדר</string>
     <string name="amount">סכום</string>
     <string name="app_name">ההוצאות שלי</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבו בהצלחה ל־„%1$s”.</string>
@@ -972,4 +972,5 @@
     <string name="balance_sheet_section_assets">נכסים</string>
     <string name="balance_sheet_section_liabilities">התחייבויות</string>
     <string name="price_history">היסטוריית מחירים</string>
+    <string name="account_type_investment">השקעות</string>
 </resources>
