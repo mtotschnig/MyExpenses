@@ -15,11 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Račun</string>
-    <string name="account_type_asset">Imovinski račun</string>
-    <string name="account_type_bank">Bankovni račun</string>
-    <string name="account_type_cash">Gotovinski račun</string>
+    <string name="account_type_asset">Druge imovine</string>
+    <string name="account_type_bank">Banka</string>
+    <string name="account_type_cash">Gotovina</string>
     <string name="account_type_ccard">Kreditna kartica</string>
-    <string name="account_type_liability">Račun obveza</string>
+    <string name="account_type_liability">Druge obveze</string>
     <string name="already_defined">%1$s je već spremljen</string>
     <string name="amount">Iznos</string>
     <string name="app_name">Moji troškovi</string>
@@ -958,4 +958,5 @@
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Prikaži novi saldo nakon što se transakcija spremi</string>
     <string name="print_configuration_empty">Dodaj barem jedno polje za ispis.</string>
     <string name="confirm_process_file_message">Stvarno želiš uvesti cijene za „%1$s” od „%2$s”? Nove cijene mogu utjecati na postojeće ekvivalentne iznose.</string>
+    <string name="account_type_investment">Investicije</string>
 </resources>
