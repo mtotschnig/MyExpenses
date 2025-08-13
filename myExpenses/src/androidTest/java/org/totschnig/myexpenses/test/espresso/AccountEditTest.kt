@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -32,10 +33,18 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {
 
+    private fun launch(id: Long? = null) {
+        val i = Intent(targetContext, AccountEdit::class.java).apply {
+            if (id != null) {
+                putExtra(DatabaseConstants.KEY_ROWID, id)
+            }
+        }
+        testScenario = ActivityScenario.launchActivityForResult(i)
+    }
+
     @Test
     fun saveAccount() {
-        val i = Intent(targetContext, AccountEdit::class.java)
-        testScenario = ActivityScenario.launchActivityForResult(i)
+        launch()
         onView(withId(R.id.Currency)).check(matches(isDisplayed()))
         onView(withId(R.id.Currency)).perform(wait(withListSize(greaterThan(0)), 1000))
         onView(withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
@@ -49,8 +58,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
 
     @Test
     fun shouldSetExcludeFromTotals() {
-        val i = Intent(targetContext, AccountEdit::class.java)
-        testScenario = ActivityScenario.launchActivityForResult(i)
+        launch()
         assertOverflowItemChecked(R.id.EXCLUDE_FROM_TOTALS_COMMAND, false)
         clickMenuItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
         assertOverflowItemChecked(R.id.EXCLUDE_FROM_TOTALS_COMMAND, true)
@@ -58,8 +66,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
 
     @Test
     fun shouldSetDynamicExchangeRate() {
-        val i = Intent(targetContext, AccountEdit::class.java)
-        testScenario = ActivityScenario.launchActivityForResult(i)
+        launch()
         setCurrency("VND")
         assertOverflowItemChecked(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND, false)
         clickMenuItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)
@@ -73,8 +80,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
                 it[dynamicExchangeRatesDefaultKey] = "DYNAMIC"
             }
         }
-        val i = Intent(targetContext, AccountEdit::class.java)
-        testScenario = ActivityScenario.launchActivityForResult(i)
+        launch()
         setCurrency("VND")
         assertMenuItemHidden(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)
     }
@@ -84,15 +90,19 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         val (id, uuid) = with(buildAccount(LABEL)) {
             id to uuid
         }
-        val i = Intent(targetContext, AccountEdit::class.java).apply {
-            putExtra(DatabaseConstants.KEY_ROWID, id)
-        }
-        testScenario = ActivityScenario.launchActivityForResult(i)
+        launch(id)
         clickFab()
         assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
         cleanup {
             deleteAccount(LABEL)
         }
+    }
+
+    @Test
+    fun shouldNotShowDiscardDialogWithoutChanges() {
+        launch()
+        pressBackUnconditionally()
+        assertCanceled()
     }
 
     private fun setCurrency(currency: String) {

@@ -39,7 +39,6 @@ import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
-import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -106,6 +105,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         get() = if (dataLoaded) _currencyUnit!! else throw IllegalStateException()
 
     @State
+    var accountType = 0L
+
+    @State
     var excludeFromTotals = false
 
     @State
@@ -142,16 +144,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
         accountTypeSpinner = SpinnerHelper(binding.AccountType)
         accountTypeAdapter = binding.AccountType.configureTypeSpinner()
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accountTypes.collect { accountTypes ->
-                    accountTypeAdapter.addAll(accountTypes)
-                    accountTypes.find { it.isCashAccount }?.let {
-                        binding.AccountType.setSelection(accountTypeAdapter.getPosition(it.id))
-                    }
-                }
-            }
-        }
 
         syncSpinner = SpinnerHelper(binding.Sync)
 
@@ -218,6 +210,16 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountTypes.collect { accountTypes ->
+                    accountTypeAdapter.addAll(accountTypes)
+                    (accountType.takeIf { it != 0L } ?: accountTypes.find { it.isCashAccount }?.id)?.let {
+                        accountTypeSpinner.setSelection(accountTypeAdapter.getPosition(it))
+                    }
+                }
+            }
+        }
         binding.colorInput.setColor(color)
         setupListeners()
     }
@@ -263,6 +265,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
         _currencyUnit = currencyContext[account.currency]
+        accountType = account.type.id
         color = account.color
         excludeFromTotals = account.excludeFromTotals
         dynamicExchangeRates = account.dynamicExchangeRates
