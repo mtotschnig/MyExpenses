@@ -171,4 +171,6 @@
     <string name="help_HistoryActivity_info">Ovaj ekran prikazuje tvoj novčani tok, kako se tvoji troškovi i prihodi razvijaju tijekom godina, mjeseci, tjedana ili dana.</string>
     <string name="help_ManageTags_select_filter_info">Označi ili odznači oznake za filtriranje popisa transakcija dodirom na oznake.</string>
     <string name="cab_MyExpenses_filter_help_text">Traži transakcije s istim svojstvima.</string>
+    <string name="help_Budget_amount_click">Klikom na budžetirane iznose omogućuje se njihova promjena.</string>
+    <string name="help_Budget_amount_click_1">Mijenjanje iznosa nikada neće utjecati na prošla razdoblja. Osim ako ne odlučiš postaviti ga samo za trenutačno razdoblje, promjena će utjecati na buduća razdoblja.</string>
 </resources>
