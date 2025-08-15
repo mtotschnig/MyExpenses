@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.semantics.scrollBy
 import androidx.compose.ui.test.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -166,11 +167,9 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         //Hack: we scroll by large amount to make sure all numbers are visible
         composeTestRule
             .onNodeWithTag(TEST_TAG_BUDGET_ROOT)
-            .fetchSemanticsNode()
-            .config
-            .getOrNull(SemanticsActions.ScrollBy)
-            ?.action
-            ?.invoke(1000f, 0f)
+            .performTouchInput {
+                swipeLeft()
+            }
         node.onChildren().filterToOne(hasTestTag(TEST_TAG_BUDGET_BUDGET))
             .assert(hasAmount(budget))
         allocation?.let {
