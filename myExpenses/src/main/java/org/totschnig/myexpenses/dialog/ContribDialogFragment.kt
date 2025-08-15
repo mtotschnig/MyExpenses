@@ -260,16 +260,22 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
             .setPositiveButton( if (canTry) R.string.button_try else R.string.buy, null
             )
 
-        if (licenceHandler.needsKeyEntry && !licenceHandler.hasValidKey()) {
-            builder.setNeutralButton(R.string.pref_enter_licence_title, null)
+        if (licenceHandler.needsKeyEntry) {
+            if (!licenceHandler.hasValidKey()) {
+                builder.setNeutralButton(R.string.pref_enter_licence_title, null)
+            }
+        } else {
+            builder.setNegativeButton(R.string.dialog_dismiss, null)
         }
 
         val dialog = builder.create()
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener { onPositiveButtonClicked() }
+                ?.setOnClickListener { onPositiveButtonClicked() }
             dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
-                .setOnClickListener { onNeutralButtonClicked() }
+                ?.setOnClickListener { onNeutralButtonClicked() }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                ?.setOnClickListener { onCancel(dialog) }
             if (savedInstanceState != null) {
                 selectedPackage?.let {
                     updateButtons(
