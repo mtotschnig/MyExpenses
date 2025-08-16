@@ -1406,7 +1406,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.insertDefaultAccountTypes(table: String = TABLE_ACCOUNT_TYPES) =
-        AccountType.predefinedAccounts.associate {
+        AccountType.initialAccountTypes.associate {
             it.name to
                     insert(
                         table,
