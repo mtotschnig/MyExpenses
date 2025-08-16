@@ -201,6 +201,11 @@ class Banking : ProtectedFragmentActivity() {
                         Box(
                             modifier = Modifier
                                 .padding(paddingValues)
+                                .padding(
+                                    horizontal = dimensionResource(
+                                        id = R.dimen.padding_main_screen
+                                    )
+                                )
                                 .fillMaxSize()
                         ) {
                             if (data.value.isEmpty()) {
@@ -209,13 +214,7 @@ class Banking : ProtectedFragmentActivity() {
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             } else {
-                                LazyColumn(
-                                    modifier = Modifier.padding(
-                                        horizontal = dimensionResource(
-                                            id = R.dimen.padding_main_screen
-                                        )
-                                    )
-                                ) {
+                                LazyColumn {
                                     data.value.forEach {
                                         item {
                                             BankRow(
