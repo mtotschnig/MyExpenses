@@ -16,11 +16,9 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@id/HIDDEN_ACCOUNTS_COMMAND"
-        android:icon="@drawable/ic_hide"
-        android:title="@string/menu_hidden_accounts"
-        android:visible="false"
-        tools:ignore="PrivateResource" />
+        android:id="@id/ACCOUNT_FLAGS_COMMAND"
+        android:icon="@drawable/ic_flag"
+        android:title="@string/menu_account_flags" />
 
     <item
         android:id="@+id/EQUIVALENT_WORTH_COMMAND"

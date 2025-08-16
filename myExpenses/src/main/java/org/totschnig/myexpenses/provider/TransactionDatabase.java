@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INC
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNTS_SEALED_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_FLAG_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_TYPE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACHMENTS_CREATE;
@@ -443,8 +444,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
     db.execSQL(ACCOUNT_TYPE_CREATE);
+    db.execSQL(ACCOUNT_FLAG_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultAccountTypesAndMethods(db);
+    insertDefaultAccountFlags(db, TABLE_ACCOUNT_FLAGS);
     db.execSQL(CURRENCY_CREATE);
     //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();

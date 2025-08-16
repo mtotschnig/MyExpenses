@@ -129,7 +129,6 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.KEY_IS_INCOME
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
@@ -281,7 +280,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     lateinit var binding: ActivityMainBinding
 
     val allAccountCount
-        get() = accountCount + viewModel.hasHiddenAccounts.value
+        get() = accountCount  // + TODO
 
     val accountCount
         get() = accountData.count { it.id > 0 }
@@ -655,15 +654,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
         }
 
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.hasHiddenAccounts.collect { result ->
-                    navigationView.menu.findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).isVisible =
-                        result > 0
-                }
-            }
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.bulkDeleteState.filterNotNull().collect { result ->
@@ -1830,6 +1820,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 startActivity(Intent(this, ManageAccountTypes::class.java))
             }
 
+            R.id.ACCOUNT_FLAGS_COMMAND -> {
+                startActivity(Intent(this, ManageAccountFlags::class.java))
+            }
+
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
                     || allAccountCount < ContribFeature.FREE_ACCOUNTS
@@ -2003,10 +1997,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
 
             R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
-
-            R.id.HIDDEN_ACCOUNTS_COMMAND -> SelectHiddenAccountDialogFragment.newInstance().show(
-                supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
-            )
 
             R.id.BACKUP_COMMAND -> startActivity(
                 Intent(

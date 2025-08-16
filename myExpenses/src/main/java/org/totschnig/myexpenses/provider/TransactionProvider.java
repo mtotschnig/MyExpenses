@@ -370,8 +370,6 @@ public class TransactionProvider extends BaseTransactionProvider {
    */
   public static final String QUERY_PARAMETER_ACCOUNT_TYPE_LIST = "accountTypeList";
 
-  public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
-
   public static final String QUERY_PARAMETER_WITH_FILTER = "withFilter";
 
   public static final String QUERY_PARAMETER_TRANSACTION_ID_LIST = "transaction_id_list";
@@ -596,9 +594,6 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder, sumsForDate);
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
-          if (uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT, false)) {
-            c = wrapWithResultCompat(c, hiddenAccountCount(db));
-          }
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {

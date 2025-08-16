@@ -126,7 +126,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GRO
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
@@ -143,7 +142,7 @@ import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.mapToListCatchingWithExtra
+import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -174,9 +173,6 @@ open class MyExpensesViewModel(
     application: Application,
     val savedStateHandle: SavedStateHandle,
 ) : PrintViewModel(application) {
-
-    private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
-    val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
     private val showEquivalentWorthPrefKey = booleanPreferencesKey("showEquivalentWorth")
@@ -470,19 +466,13 @@ open class MyExpensesViewModel(
         contentResolver.observeQuery(
             uri = ACCOUNTS_URI.buildUpon()
                 .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
-                .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
                 .build(),
             selection = "$KEY_HIDDEN = 0",
             notifyForDescendants = true
         )
-            .mapToListCatchingWithExtra {
+            .mapToListCatching {
                 FullAccount.fromCursor(it, currencyContext)
-            }.onEach { result ->
-                result.onSuccess { pair ->
-                    hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT)
-                }
             }
-            .map { result -> result.map { it.second } }
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
 

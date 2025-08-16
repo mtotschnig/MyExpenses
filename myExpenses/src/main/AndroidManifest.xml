@@ -399,7 +399,12 @@
 
         <activity
             android:name=".activity.ManageAccountTypes"
-            android:exported="true"
+            android:exported="false"
+            android:theme="@style/EditDialog"/>
+
+        <activity
+            android:name=".activity.ManageAccountFlags"
+            android:exported="false"
             android:theme="@style/EditDialog"/>
 
         <service

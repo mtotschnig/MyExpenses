@@ -156,7 +156,7 @@
     <item name="BACK_COMMAND" type="id" />
     <item name="FORWARD_COMMAND" type="id" />
     <item name="ROADMAP_COMMAND" type="id" />
-    <item name="HIDDEN_ACCOUNTS_COMMAND" type="id" />
+    <item name="ACCOUNT_FLAGS_COMMAND" type="id" />
     <item name="BUDGET_ALLOCATED_ONLY" type="id" />
     <item name="REMAP_CATEGORY_COMMAND" type="id" />
     <item name="REMAP_PAYEE_COMMAND" type="id" />
