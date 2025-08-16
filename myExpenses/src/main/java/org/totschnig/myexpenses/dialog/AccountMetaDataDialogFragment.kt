@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -42,7 +41,7 @@ class AccountMetaDataDialogFragment: ComposeBaseDialogFragment3() {
 
     @Composable
     private fun AccountMetaData(data: AccountMetaData) {
-        val type = AccountType.predefinedAccounts.firstOrNull() {
+        val type = AccountType.initialAccountTypes.firstOrNull() {
                 it.name == data.type() || it.nameForSyncLegacy == data.type()
             }?.localizedName(LocalContext.current)
             ?: data.type()

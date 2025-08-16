@@ -85,7 +85,7 @@ data class AccountType(
         val INVESTMENT =
             AccountType(name = PREDEFINED_NAME_INVESTMENT, isAsset = true, supportsReconciliation = true)
 
-        val predefinedAccounts = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
+        val initialAccountTypes = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
 
         fun fromCursor(cursor: Cursor) = AccountType(
             id = cursor.getLong(KEY_ROWID),

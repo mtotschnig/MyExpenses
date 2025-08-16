@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,6 +53,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,8 +102,12 @@ fun ManageAccountTypesScreen(
     onDialogDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit = { _, _, _ -> }
 ) {
-
     Scaffold(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(
+                id = R.dimen.padding_main_screen
+            )
+        ),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.account_types)) },
@@ -121,13 +129,22 @@ fun ManageAccountTypesScreen(
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
         ) {
             if (uiState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
+
+                val layoutDirection = LocalLayoutDirection.current
+
+                val totalPadding = PaddingValues(
+                    start = paddingValues.calculateStartPadding(layoutDirection) + 0.dp, // Or add horizontal FAB padding if needed
+                    top = paddingValues.calculateTopPadding() + 0.dp,
+                    end = paddingValues.calculateEndPadding(layoutDirection) + 0.dp,   // Or add horizontal FAB padding if needed
+                    bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
+                )
                 AccountTypeList(
+                    paddingValues = totalPadding,
                     accountTypes = uiState.accountTypes,
                     onEditClick = { onEdit(it) },
                     onDeleteClick = { onDelete(it) }
@@ -152,7 +169,8 @@ fun ManageAccountTypesScreen(
 fun AccountTypeList(
     accountTypes: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
-    onDeleteClick: (AccountType) -> Unit
+    onDeleteClick: (AccountType) -> Unit,
+    paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
     val collator = remember { Collator.getInstance(java.util.Locale.getDefault()) }
@@ -166,8 +184,8 @@ fun AccountTypeList(
     val groups = accountTypes.groupBy { it.isAsset }
 
     LazyColumn(
+        contentPadding = paddingValues,
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         groups[true]?.let { assetTypes ->

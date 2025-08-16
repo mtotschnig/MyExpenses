@@ -74,7 +74,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     protected fun doSave(accountIn: Account) {
         val accountType = repository.findAccountType(accountIn.type.name) ?:
-            AccountType.predefinedAccounts.firstOrNull { it.nameForSyncLegacy == accountIn.type.name }?.let {
+            AccountType.initialAccountTypes.firstOrNull { it.nameForSyncLegacy == accountIn.type.name }?.let {
                 repository.findAccountType(it.name)
             } ?:  repository.addAccountType(accountIn.type)
 

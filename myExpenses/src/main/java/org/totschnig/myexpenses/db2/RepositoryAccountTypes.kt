@@ -72,7 +72,7 @@ null
 fun localizedLabelForAccountType(ctx: Context, keyLabel: String) =
     StringBuilder().apply {
         append("CASE ").append(keyLabel)
-        AccountType.predefinedAccounts.forEach {
+        AccountType.initialAccountTypes.forEach {
             append(" WHEN '").append(it.name).append("' THEN ")
             DatabaseUtils.appendEscapedSQLString(this, it.localizedName(ctx))
         }
