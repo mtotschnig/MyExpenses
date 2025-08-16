@@ -102,7 +102,7 @@ fun ManageAccountTypesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.manage_account_types)) },
+                title = { Text(stringResource(R.string.account_types)) },
                 navigationIcon = {
                     IconButton(onClick = onClose) {
                         Icon(

@@ -966,7 +966,6 @@
         <item quantity="many">, змяшчае %1$d падкатэгорый узроўню %2$d.</item>
         <item quantity="other">, змяшчае %1$d падкатэгорый узроўню %2$d.</item>
     </plurals>
-    <string name="manage_account_types">Кіраванне тыпамі рахункаў</string>
     <string name="edit_account_type">Рэдагаваць тып акаўнта</string>
     <string name="new_account_type">Новы тып акаўнта</string>
     <string name="pref_account_list_display_configuration_title">Спіс уліковых запісаў</string>

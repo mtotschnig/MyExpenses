@@ -1024,7 +1024,6 @@
     <string name="pref_dynamic_exchange_rates_dynamic">Dynamische Kurse für alle Konten</string>
     <string name="pref_dynamic_exchange_rates_static">Statische Kurse für alle Konten</string>
     <string name="pref_dynamic_exchange_rates_per_account">Jedes Konto individuell konfigurieren</string>
-    <string name="manage_account_types">Kontotypen verwalten</string>
     <string name="edit_account_type">Kontotyp bearbeiten</string>
     <string name="new_account_type">Neuer Kontotyp</string>
     <string name="pref_account_list_display_configuration_title">Kontenliste</string>

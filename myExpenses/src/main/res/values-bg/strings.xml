@@ -1024,7 +1024,6 @@
         <item quantity="one">, съдържа една подкатегория от ниво %2$d.</item>
         <item quantity="other">, съдържа %1$d подкатегории от ниво %2$d.</item>
     </plurals>
-    <string name="manage_account_types">Управление на типа на сметките</string>
     <string name="edit_account_type">Редактиране на типа на сметката</string>
     <string name="new_account_type">Нов тип на сметка</string>
     <string name="pref_account_list_display_configuration_title">Списък на сметките</string>

@@ -1039,7 +1039,6 @@
     <string name="pref_dynamic_exchange_rates_dynamic">Taux dynamiques pour tous les comptes</string>
     <string name="pref_dynamic_exchange_rates_static">Taux statiques pour tous les comptes</string>
     <string name="pref_dynamic_exchange_rates_per_account">Configurer chaque compte individuellement</string>
-    <string name="manage_account_types">Gérer les types de comptes</string>
     <string name="edit_account_type">Modifier le type de compte</string>
     <string name="new_account_type">Nouveau type de compte</string>
     <string name="pref_account_list_display_configuration_title">Liste des comptes</string>

@@ -1025,7 +1025,6 @@
         <item quantity="many">, содержит %1$d подкатегорий уровня %2$d.</item>
         <item quantity="other">, содержит %1$d подкатегорий уровня %2$d.</item>
     </plurals>
-    <string name="manage_account_types">Управление типами счетов</string>
     <string name="edit_account_type">Редактировать тип счета</string>
     <string name="new_account_type">Новый тип счета</string>
     <string name="pref_account_list_display_configuration_title">Список счетов</string>
