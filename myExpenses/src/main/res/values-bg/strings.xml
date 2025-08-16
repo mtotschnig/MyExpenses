@@ -1027,4 +1027,5 @@
     <string name="edit_account_type">Редактиране на типа на сметката</string>
     <string name="new_account_type">Нов тип на сметка</string>
     <string name="pref_account_list_display_configuration_title">Списък на сметките</string>
+    <string name="pref_print_layout_summary">Настройка на ширината и разположението на колоните</string>
 </resources>
