@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
@@ -65,6 +66,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
@@ -91,6 +93,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_FLAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
@@ -260,6 +263,14 @@ CREATE TABLE $TABLE_ACCOUNT_TYPES (
     $KEY_LABEL text not null,
     $KEY_IS_ASSET boolean not null,
     $KEY_SUPPORTS_RECONCILIATION boolean not null
+)
+"""
+
+const val ACCOUNT_FLAG_CREATE = """
+CREATE TABLE $TABLE_ACCOUNT_FLAGS (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_LABEL text not null,
+    $KEY_SORT_KEY integer not null
 )
 """
 
@@ -1408,6 +1419,16 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.insertDefaultAccountTypes(table: String = TABLE_ACCOUNT_TYPES) =
         AccountType.predefinedAccounts.associate {
             it.name to
+                    insert(
+                        table,
+                        SQLiteDatabase.CONFLICT_NONE,
+                        it.asContentValues
+                    )
+        }
+
+    fun SupportSQLiteDatabase.insertDefaultAccountFlags(table: String) =
+        AccountFlag.initialFlags.associate {
+            it.label to
                     insert(
                         table,
                         SQLiteDatabase.CONFLICT_NONE,
