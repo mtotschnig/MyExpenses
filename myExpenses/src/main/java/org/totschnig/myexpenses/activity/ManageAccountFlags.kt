@@ -1,0 +1,235 @@
+package org.totschnig.myexpenses.activity
+
+// For ViewModel (you'd use your actual ViewModel injection)
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
+import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
+
+class ManageAccountFlags : ProtectedFragmentActivity() {
+
+    val viewModel: AccountFlagsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injector.inject(viewModel)
+        setContent {
+            AppTheme {
+                ManageFlagsScreen(
+                    uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+                    onClose = { finish() },
+                    onAdd = viewModel::onAdd,
+                    onEdit = viewModel::onEdit,
+                    onDelete = viewModel::onDelete,
+                    onDialogDismiss = viewModel::onDialogDismiss
+                )
+            }
+        }
+    }
+}
+
+
+// Drag and Drop support using a library or custom implementation can be complex.
+// This example will use a simplified conceptual drag indication.
+// For full drag and drop, libraries like "androidx.compose.foundation:foundation-draganddrop" (experimental)
+// or custom implementations with pointerInput are needed.
+// This example simulates the idea with long press.
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun ManageFlagsScreen(
+    uiState: AccountFlagsUiState,
+    onClose: () -> Unit = {},
+    onAdd: () -> Unit = {},
+    onEdit: (AccountFlag) -> Unit = {},
+    onDelete: (AccountFlag) -> Unit = {},
+    onDialogDismiss: () -> Unit = {},
+) {
+    Scaffold(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(
+                id = R.dimen.padding_main_screen
+            )
+        ),
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.menu_account_flags)) },
+                navigationIcon = {
+                    IconButton(onClick = onClose) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
+                        )
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAdd) {
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.new_account_flag)
+                )
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else {
+
+                val layoutDirection = LocalLayoutDirection.current
+
+                val totalPadding = PaddingValues(
+                    start = paddingValues.calculateStartPadding(layoutDirection) + 0.dp, // Or add horizontal FAB padding if needed
+                    top = paddingValues.calculateTopPadding() + 0.dp,
+                    end = paddingValues.calculateEndPadding(layoutDirection) + 0.dp,   // Or add horizontal FAB padding if needed
+                    bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
+                )
+                AccountFlagList(
+                    paddingValues = totalPadding,
+                    list = uiState.accountFlags,
+                    onEditClick = { onEdit(it) },
+                    onDeleteClick = { onDelete(it) }
+                )
+            }
+
+            if (uiState.editingAccountFlag != null) {
+                AddEditAccountFlagDialog(
+                    allFlags = uiState.accountFlags,
+                    editingAccountFlag = uiState.editingAccountFlag,
+                    onDismiss = onDialogDismiss,
+                    onSave = { name, icon -> TODO() }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AccountFlagList(
+    list: List<AccountFlag>,
+    onEditClick: (AccountFlag) -> Unit,
+    onDeleteClick: (AccountFlag) -> Unit,
+    paddingValues: PaddingValues
+) {
+    LazyColumn(
+        contentPadding = paddingValues,
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(list, key = { it.id }) { flag ->
+            AccountFlagItem(
+                modifier = Modifier.animateItem(),
+                flag = flag,
+                onVisibilityToggle = {  },
+                onEditClick = {
+                    onEditClick(flag)
+                },
+                onDeleteClick = {
+                    onDeleteClick(flag)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun AccountFlagItem(
+    modifier: Modifier = Modifier,
+    flag: AccountFlag,
+    onVisibilityToggle: () -> Unit,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+) {
+    val showMenu = remember { mutableStateOf(false) }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                showMenu.value = true
+            },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        flag.icon?.let { org.totschnig.myexpenses.compose.Icon(icon = it) }
+        Text(
+            text = flag.label,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        val menu = Menu(
+            buildList {
+                add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
+                add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+            }
+        )
+        Checkbox(checked = true, onCheckedChange = { })
+        HierarchicalMenu(showMenu, menu)
+    }
+}
+
+@Composable
+fun AddEditAccountFlagDialog(
+    editingAccountFlag: AccountFlag,
+    onDismiss: () -> Unit = {},
+    onSave: (name: String, icon: String) -> Unit =
+        { _, _ -> },
+    allFlags: List<AccountFlag> = emptyList()
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card {
+            Text("TODO")
+        }
+    }
+}

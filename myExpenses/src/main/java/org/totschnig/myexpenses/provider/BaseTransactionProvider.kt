@@ -603,6 +603,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val BUDGET_FOR_PERIOD = 81
         protected const val ACCOUNT_TYPES = 82
         protected const val ACCOUNT_TYPE_ID = 83
+        protected const val ACCOUNT_FLAGS = 84
+        protected const val ACCOUNT_FLAG_ID = 85
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
     }
@@ -665,7 +667,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             SupportSQLiteQueryBuilder.builder(tableName)
                 .columns(if (minimal) mapAccountProjection(Account.PROJECTION_MINIMAL) else null)
                 .selection(selection, emptyArray())
-                .orderBy("$KEY_HIDDEN, $sortOrder")
+                .orderBy(sortOrder)
                 .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()

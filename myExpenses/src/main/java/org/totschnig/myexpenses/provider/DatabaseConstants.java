@@ -179,6 +179,7 @@ public class DatabaseConstants {
   public static final String KEY_LEVEL = "level";
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
+  public static final String KEY_FLAG = "flag";
   public static final String KEY_CURRENCY = "currency";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
@@ -331,6 +332,8 @@ public class DatabaseConstants {
    * boolean flag for accounts: An archived account is not displayed
    */
   public static final String KEY_HIDDEN = "hidden";
+
+  public static final String KEY_VISIBLE = "visible";
 
   /**
    * boolean flag for accounts: A sealed account can no longer be edited

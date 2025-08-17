@@ -680,8 +680,7 @@
     <string name="menu_close">Close</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Reopen</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_account_flags">Flags</string>
+
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Closed</string>
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
@@ -1099,4 +1098,8 @@
     <string name="new_account_type">New Account Type</string>
     <string name="pref_account_list_display_configuration_title">Account list</string>
     <string name="pref_print_layout_summary">Configure width and composition of columns</string>
+    <!-- Flags allow to define subset of accounts, e.g. Favorite accounts, archive accounts -->
+    <string name="menu_account_flags">Flags</string>
+    <string name="edit_account_flag">Edit Flag</string>
+    <string name="new_account_flag">New Flag</string>
 </resources>

@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
@@ -270,7 +271,9 @@ const val ACCOUNT_FLAG_CREATE = """
 CREATE TABLE $TABLE_ACCOUNT_FLAGS (
     $KEY_ROWID integer primary key autoincrement,
     $KEY_LABEL text not null,
-    $KEY_SORT_KEY integer not null
+    $KEY_SORT_KEY integer not null,
+    $KEY_ICON text,
+    $KEY_VISIBLE boolean not null
 )
 """
 

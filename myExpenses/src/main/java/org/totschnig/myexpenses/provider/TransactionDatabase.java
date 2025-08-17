@@ -162,7 +162,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_SORT_BY + " text default 'date', "
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
           + KEY_CRITERION + " integer,"
-          + KEY_HIDDEN + " boolean default 0,"
+          + KEY_FLAG + " integer references " + TABLE_ACCOUNT_FLAGS + "(" + KEY_ROWID + "), "
           + KEY_SEALED + " boolean default 0,"
           + KEY_DYNAMIC + " boolean default 0,"
           + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";

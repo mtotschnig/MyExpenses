@@ -82,7 +82,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
                     onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
-                    onDelete = viewModel::deleteAccountType,
+                    onDelete = viewModel::onDelete,
                     onDialogDismiss = viewModel::onDialogDismiss,
                     onSave = viewModel::onSave
                 )
@@ -93,7 +93,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageAccountTypesScreen(
+private fun ManageAccountTypesScreen(
     uiState: AccountTypesUiState,
     onClose: () -> Unit = {},
     onAdd: () -> Unit = {},
@@ -123,7 +123,10 @@ fun ManageAccountTypesScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAdd) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Account Type")
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.new_account_type)
+                )
             }
         }
     ) { paddingValues ->
@@ -166,7 +169,7 @@ fun ManageAccountTypesScreen(
 }
 
 @Composable
-fun AccountTypeList(
+private fun AccountTypeList(
     accountTypes: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit,
@@ -207,7 +210,7 @@ fun AccountTypeList(
     }
 }
 
-fun LazyListScope.section(
+private fun LazyListScope.section(
     title: String,
     list: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
@@ -227,11 +230,11 @@ fun LazyListScope.section(
 }
 
 @Composable
-fun AccountTypeItem(
+private fun AccountTypeItem(
+    modifier: Modifier,
     accountType: AccountType,
     onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    modifier: Modifier
+    onDeleteClick: () -> Unit
 ) {
     val context = LocalContext.current
     Row(
@@ -263,7 +266,7 @@ fun AccountTypeItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEditAccountTypeDialog(
+private fun AddEditAccountTypeDialog(
     editingAccountType: AccountType,
     onDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit =

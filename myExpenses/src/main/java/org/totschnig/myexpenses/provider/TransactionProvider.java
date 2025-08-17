@@ -39,6 +39,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -74,6 +75,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_FLAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
@@ -302,6 +304,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
   public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
   public static final Uri ACCOUNT_TYPES_URI = Uri.parse("content://" + AUTHORITY + "/accountTypes");
+  public static final Uri ACCOUNT_FLAGS_URI = Uri.parse("content://" + AUTHORITY + "/accountFlags");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -960,6 +963,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_TYPE_ID: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
+      }
+      case ACCOUNT_FLAGS: {
+        projection = new String[]{"*", "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_FLAG + " = " + TABLE_ACCOUNT_FLAGS + "." + KEY_ROWID + ") AS " + KEY_COUNT};
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_FLAGS);
         break;
       }
       default:
