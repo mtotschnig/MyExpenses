@@ -612,7 +612,7 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo122() {
         //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
-        repairWithSealedAccountsAndDebts(this) {
+        repairWithSealedAccountsAndDebts {
             execSQL(
                 "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
             )
@@ -622,7 +622,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo124() {
-        repairWithSealedAccounts(this) {
+        repairWithSealedAccounts {
             query("accounts", arrayOf("_id"), "uuid is null", null, null, null, null)
                 .use { cursor ->
                     cursor.asSequence.forEach {
@@ -946,7 +946,7 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo156() {
         //repair split transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/1333
-        repairWithSealedAccountsAndDebts(this) {
+        repairWithSealedAccountsAndDebts {
             val affected =
                 query("select _id,account_id from transactions where cat_id = 0 and exists(select 1 from transactions parts where parts.parent_id = transactions._id and parts.account_id != transactions.account_id)").use { cursor ->
                     cursor.asSequence.map { it.getLong(0) to it.getLong(1) }.toList()
@@ -969,7 +969,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo157() {
-        repairWithSealedAccountsAndDebts(this) {
+        repairWithSealedAccountsAndDebts {
             prefHandler.defaultTransferCategory?.let {
                 execSQL("UPDATE transactions SET cat_id = $it WHERE cat_id IS NULL AND transfer_peer is not null")
             }
@@ -1056,13 +1056,13 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo169() {
-        repairWithSealedAccountsAndDebts(this) {
+        repairWithSealedAccountsAndDebts {
             execSQL("UPDATE transactions SET status = 0 WHERE status = 5 AND parent_id is null")
         }
     }
 
     fun SupportSQLiteDatabase.upgradeTo170() {
-        repairWithSealedAccountsAndDebts(this) {
+        repairWithSealedAccountsAndDebts {
             // KEY_ARCHIVED = 5, SPLIT_CAT_ID = 0
             val newStatus = ContentValues(1).apply {
                 put("status", 5)
@@ -1188,6 +1188,12 @@ abstract class BaseTransactionDatabase(
         execSQL("DROP TABLE accounttype_paymentmethod_old")
     }
 
+    fun SupportSQLiteDatabase.upgradeTo178() {
+        repairWithSealedAccountsAndDebts {
+            execSQL("update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)")
+        }
+    }
+
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
         execSQL("DROP TRIGGER IF EXISTS update_account_sync_null")
         execSQL("DROP TRIGGER IF EXISTS sort_key_default")
@@ -1266,18 +1272,18 @@ abstract class BaseTransactionDatabase(
         execSQL(TRANSACTIONS_SEALED_DEBT_DELETE_TRIGGER_CREATE)
     }
 
-    fun repairWithSealedAccounts(db: SupportSQLiteDatabase, run: Runnable) {
-        db.execSQL("update accounts set sealed = -1 where sealed = 1")
+    fun SupportSQLiteDatabase.repairWithSealedAccounts(run: Runnable) {
+        execSQL("update accounts set sealed = -1 where sealed = 1")
         run.run()
-        db.execSQL("update accounts set sealed = 1 where sealed = -1")
+        execSQL("update accounts set sealed = 1 where sealed = -1")
     }
 
-    fun repairWithSealedAccountsAndDebts(db: SupportSQLiteDatabase, run: Runnable) {
-        db.execSQL("update accounts set sealed = -1 where sealed = 1")
-        db.execSQL("update debts set sealed = -1 where sealed = 1")
+    fun SupportSQLiteDatabase.repairWithSealedAccountsAndDebts(run: Runnable) {
+        execSQL("update accounts set sealed = -1 where sealed = 1")
+        execSQL("update debts set sealed = -1 where sealed = 1")
         run.run()
-        db.execSQL("update accounts set sealed = 1 where sealed = -1")
-        db.execSQL("update debts set sealed = 1 where sealed = -1")
+        execSQL("update accounts set sealed = 1 where sealed = -1")
+        execSQL("update debts set sealed = 1 where sealed = -1")
     }
 
     fun SupportSQLiteDatabase.createOrRefreshCategoryHierarchyTrigger() {
