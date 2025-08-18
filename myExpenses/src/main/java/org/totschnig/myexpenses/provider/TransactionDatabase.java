@@ -20,7 +20,6 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNTS_SEALED_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_FLAG_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
@@ -2105,7 +2104,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 178) {
-        db.execSQL("update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)");
+        upgradeTo178(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
