@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -41,10 +43,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcons
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconCategory
@@ -82,7 +88,6 @@ fun IconSelector(
         var initialFocusProcessed by remember { mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) }
         // Get safe drawing insets
 
-        val safeDrawingInsets = WindowInsets.safeDrawing.asPaddingValues()
         ScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
 /*            edgePadding = maxOf(
@@ -175,6 +180,47 @@ fun CategoryTab(
     LaunchedEffect(selected) {
         if (selected) {
             focusRequester.requestFocus()
+        }
+    }
+}
+
+@Composable
+fun IconSelectorDialog(
+    showIconSelection: MutableState<Boolean>,
+    icon: MutableState<String?>
+) {
+    if (showIconSelection.value) {
+        Dialog(
+            properties = DialogProperties(
+                usePlatformDefaultWidth = booleanResource(R.bool.isLarge),
+                decorFitsSystemWindows = false
+            ),
+            onDismissRequest = { showIconSelection.value = false }
+        ) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                Column(Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical))) {
+                    IconSelector(
+                        modifier = Modifier.weight(1f),
+                        onIconSelected = {
+                            icon.value = it
+                            showIconSelection.value = false
+                        }
+                    )
+
+                    ButtonRow2(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
+                        onCancel = { showIconSelection.value = false },
+                        positiveButton = if (icon.value != null)
+                            ButtonDefinition(text = R.string.remove, enabled = true) {
+                                icon.value = null
+                                showIconSelection.value = false
+                            } else null
+                    )
+                }
+            }
         }
     }
 }

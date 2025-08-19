@@ -47,12 +47,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -103,11 +106,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_FLAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
@@ -573,6 +578,11 @@ fun accountQueryCTE(
         KEY_IS_ASSET,
         KEY_SUPPORTS_RECONCILIATION,
         KEY_TYPE,
+        KEY_FLAG,
+        KEY_FLAG_LABEL,
+        KEY_VISIBLE,
+        KEY_FLAG_SORT_KEY,
+        KEY_FLAG_ICON,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,
         KEY_SYNC_ACCOUNT_NAME,
@@ -598,7 +608,7 @@ fun accountQueryCTE(
         KEY_HAS_CLEARED,
         KEY_LAST_USED,
         KEY_BANK_ID,
-        KEY_HIDDEN,
+        KEY_VISIBLE,
         "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC"
     )
     return """
@@ -656,7 +666,7 @@ WITH now as (
    from amounts group by $KEY_ACCOUNTID
 ), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
     SELECT ${fullAccountProjection.joinToString()}
-    FROM $accountWithType LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  ${
+    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  ${
         exchangeRateJoin(
             "",
             KEY_ROWID,
@@ -668,7 +678,7 @@ WITH now as (
 """
 }
 
-const val accountWithType = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID"
+const val accountWithTypeAndFlag = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNT_FLAGS ON $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID"
 
 fun exchangeRateJoin(
     table: String,

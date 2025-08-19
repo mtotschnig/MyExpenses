@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
@@ -187,6 +188,10 @@ open class ContentResolvingAndroidViewModel(application: Application) :
 
     val accountTypes by lazy {
         accountTypesRaw.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
+
+    val accountFlags by lazy {
+        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     }
 
     sealed class DeleteState {

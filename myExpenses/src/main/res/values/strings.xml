@@ -1100,6 +1100,10 @@
     <string name="pref_print_layout_summary">Configure width and composition of columns</string>
     <!-- Flags allow to define subset of accounts, e.g. Favorite accounts, archive accounts -->
     <string name="menu_account_flags">Flags</string>
+    <string name="menu_flag">Flag</string>
     <string name="edit_account_flag">Edit Flag</string>
     <string name="new_account_flag">New Flag</string>
+    <string name="flag_unflagged">No flag</string>
+    <string name="flag_favorite">Favorite</string>
+    <string name="flag_inactive">Inactive</string>
 </resources>

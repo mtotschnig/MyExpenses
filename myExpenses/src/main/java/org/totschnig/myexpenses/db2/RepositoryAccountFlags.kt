@@ -1,14 +1,59 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentUris
+import androidx.core.content.contentValuesOf
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountFlag
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_FLAGS_URI
+import org.totschnig.myexpenses.provider.withAppendedId
 
 fun Repository.getAccountFlags(): Flow<List<AccountFlag>>  = contentResolver.observeQuery(
-    TransactionProvider.ACCOUNT_FLAGS_URI,
+    ACCOUNT_FLAGS_URI,
     notifyForDescendants = true,
+    sortOrder = "$KEY_FLAG_SORT_KEY DESC"
 ).mapToList {
     AccountFlag.fromCursor(it)
+}
+
+fun Repository.updateAccountFlag(accountFlag: AccountFlag) {
+    require(accountFlag.id > 0)
+    contentResolver.update(
+        ACCOUNT_FLAGS_URI.withAppendedId(accountFlag.id),
+        accountFlag.asContentValues,
+        null,
+        null
+    )
+}
+
+fun Repository.setAccountFlagVisible(accountTypeId: Long, visible: Boolean) {
+    contentResolver.update(
+        ACCOUNT_FLAGS_URI.withAppendedId(accountTypeId),
+        contentValuesOf(
+            KEY_VISIBLE to visible
+        ),
+        null,
+        null
+    )
+}
+
+fun Repository.addAccountFlag(accountFlag: AccountFlag): AccountFlag {
+    val id = ContentUris.parseId(
+        contentResolver.insert(
+            ACCOUNT_FLAGS_URI,
+            accountFlag.asContentValues
+        )!!
+    )
+    return accountFlag.copy(id = id)
+}
+
+fun Repository.deleteAccountFlag(accountTypeId: Long) {
+    contentResolver.delete(
+        ACCOUNT_FLAGS_URI.withAppendedId(accountTypeId),
+        null,
+        null
+    )
 }

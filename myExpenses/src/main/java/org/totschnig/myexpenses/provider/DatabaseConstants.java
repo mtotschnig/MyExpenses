@@ -328,12 +328,10 @@ public class DatabaseConstants {
    */
   public static final String KEY_BUDGET_ROLLOVER_NEXT = "rollOverNext";
 
-  /**
-   * boolean flag for accounts: An archived account is not displayed
-   */
-  public static final String KEY_HIDDEN = "hidden";
-
   public static final String KEY_VISIBLE = "visible";
+  public static final String KEY_FLAG_LABEL = "flag_label";
+  public static final String KEY_FLAG_SORT_KEY = "flag_sort_key";
+  public static final String KEY_FLAG_ICON = "flag_icon";
 
   /**
    * boolean flag for accounts: A sealed account can no longer be edited

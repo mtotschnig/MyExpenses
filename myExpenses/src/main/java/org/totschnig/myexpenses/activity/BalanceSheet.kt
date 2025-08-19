@@ -456,7 +456,7 @@ fun LazyListScope.accountTypeSection(
         }
     }
     section.accounts
-        .filter { showAll || (!it.isHidden && it.currentBalance != 0L) }
+        .filter { showAll || (it.isVisible && it.currentBalance != 0L) }
         .forEach { account ->
             item {
                 BalanceAccountItemView(account = account, highlight == account.id, onNavigate)

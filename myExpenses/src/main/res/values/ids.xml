@@ -194,7 +194,6 @@
     <item name="SAFE_MODE_COMMAND" type="id" />
     <item name="EDIT_ACCOUNT_COMMAND" type="id" />
     <item name="DELETE_ACCOUNT_COMMAND" type="id" />
-    <item name="HIDE_ACCOUNT_COMMAND" type="id" />
     <item name="TOGGLE_SEALED_COMMAND" type="id" />
     <item name="RECONFIGURE_COMMAND" type="id" />
     <item name="ENCRYPT_CANCEL_COMMAND" type="id" />
@@ -210,7 +209,6 @@
     <item name="FILTER_INCOME_COMMAND" type="id" />
     <item name="AGGREGATE_COMMAND" type="id" />
     <item name="CATEGORY_COMMAND" type="id" />
-    <item name="MANAGE_ACCOUNT_COMMAND" type="id" />
     <item name="DELETE_CALENDAR_COMMAND" type="id" />
     <item name="UNLINK_TRANSFER_COMMAND" type="id" />
     <item name="TRANSFORM_TO_TRANSFER_COMMAND" type="id" />

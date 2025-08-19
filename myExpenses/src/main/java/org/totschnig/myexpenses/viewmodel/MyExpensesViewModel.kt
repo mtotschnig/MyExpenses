@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.contentValuesOf
 import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -36,7 +37,6 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -94,14 +93,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
@@ -112,6 +110,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -467,7 +466,7 @@ open class MyExpensesViewModel(
             uri = ACCOUNTS_URI.buildUpon()
                 .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
                 .build(),
-            selection = "$KEY_HIDDEN = 0",
+            selection = "$KEY_VISIBLE = 1",
             notifyForDescendants = true
         )
             .mapToListCatching {
@@ -597,27 +596,31 @@ open class MyExpensesViewModel(
         }
 
     fun setSealed(accountId: Long, isSealed: Boolean) {
-        setBooleanProperty(accountId, KEY_SEALED, isSealed)
+        setAccountProperty(accountId, KEY_SEALED, isSealed)
     }
 
     fun setExcludeFromTotals(accountId: Long, excludeFromTotals: Boolean) {
-        setBooleanProperty(accountId, KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
+        setAccountProperty(accountId, KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
     }
 
     fun setDynamicExchangeRate(accountId: Long, dynamicExchangeRate: Boolean) {
-        setBooleanProperty(accountId, KEY_DYNAMIC, dynamicExchangeRate)
+        setAccountProperty(accountId, KEY_DYNAMIC, dynamicExchangeRate)
     }
 
-    private fun setBooleanProperty(accountId: Long, column: String, value: Boolean) {
+    fun setFlag(accountId: Long, flagId: Long?) {
+        setAccountProperty(accountId, KEY_FLAG, flagId)
+    }
+
+    private fun setAccountProperty(accountId: Long, column: String, value: Any?) {
         if (DataBaseAccount.isAggregate(accountId)) {
             CrashHandler.report(IllegalStateException("setBooleanProperty for $column called on aggregate account"))
         } else {
             viewModelScope.launch(context = coroutineContext()) {
                 contentResolver.update(
                     ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
-                    ContentValues(1).apply {
-                        put(column, value)
-                    },
+                    contentValuesOf(
+                        column to value
+                    ),
                     null,
                     null
                 )
@@ -647,17 +650,6 @@ open class MyExpensesViewModel(
                 Unit
             })
         }
-
-    fun setAccountVisibility(hidden: Boolean, vararg itemIds: Long) {
-        viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.update(
-                ACCOUNTS_URI,
-                ContentValues().apply { put(KEY_HIDDEN, hidden) },
-                "$KEY_ROWID ${Operation.IN.getOp(itemIds.size)}",
-                itemIds.map { it.toString() }.toTypedArray()
-            )
-        }
-    }
 
     fun undeleteTransactions(itemIds: List<Long>): LiveData<Int> =
         liveData(context = coroutineContext()) {

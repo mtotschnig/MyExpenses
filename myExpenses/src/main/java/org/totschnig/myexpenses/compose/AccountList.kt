@@ -8,7 +8,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,9 +20,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -77,13 +79,14 @@ fun AccountList(
     onSelected: (Long) -> Unit,
     onEdit: (FullAccount) -> Unit,
     onDelete: (FullAccount) -> Unit,
-    onHide: (Long) -> Unit,
+    onSetFlag: (Long, Long?) -> Unit,
     onToggleSealed: (FullAccount) -> Unit,
     onToggleExcludeFromTotals: (FullAccount) -> Unit,
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)?,
+    flags: List<AccountFlag>
 ) {
     val context = LocalContext.current
     val collapsedGroupIds = expansionHandlerGroups.state.collectAsState(initial = null).value
@@ -119,13 +122,14 @@ fun AccountList(
                                 onSelected = { onSelected(account.id) },
                                 onEdit = onEdit,
                                 onDelete = onDelete,
-                                onHide = onHide,
+                                onSetFlag = onSetFlag,
                                 onToggleSealed = onToggleSealed,
                                 onToggleExcludeFromTotals = onToggleExcludeFromTotals,
                                 onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
                                 toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
                                 bankIcon = bankIcon,
-                                showEquivalentWorth = showEquivalentWorth
+                                showEquivalentWorth = showEquivalentWorth,
+                                flags = flags
                             )
                             if (index != group.value.lastIndex) {
                                 Spacer(Modifier.height(10.dp))
@@ -199,8 +203,8 @@ private fun getHeaderTitle(
     )
 
     AccountGrouping.TYPE ->
-         if (account.isAggregate) context.getString(R.string.menu_aggregates) else
-             account.type.localizedName(context)
+        if (account.isAggregate) context.getString(R.string.menu_aggregates) else
+            account.type.localizedName(context)
 
     AccountGrouping.CURRENCY -> if (account.id == HOME_AGGREGATE_ID)
         context.getString(R.string.menu_aggregates)
@@ -218,12 +222,13 @@ fun AccountCard(
     onSelected: () -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
-    onHide: (Long) -> Unit = {},
+    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
     toggleExpansion: () -> Unit = { },
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
+    flags: List<AccountFlag> = emptyList(),
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
@@ -241,10 +246,7 @@ fun AccountCard(
             .conditional(isSelected) {
                 background(activatedBackgroundColor)
             }
-            .combinedClickable(
-                onClick = { onSelected() },
-                onLongClick = { showMenu.value = true }
-            )
+            .clickable { showMenu.value = true }
             .padding(start = dimensionResource(id = R.dimen.drawer_padding))
 
     ) {
@@ -254,7 +256,7 @@ fun AccountCard(
             val modifier = Modifier
                 .padding(end = 6.dp)
                 .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
-            val color = Color(account.color(LocalContext.current.resources))
+            val color = Color(account.color(LocalResources.current))
 
             account.progress?.let { (sign, progress) ->
                 DonutInABox(
@@ -327,19 +329,31 @@ fun AccountCard(
             )
             val menu = Menu(
                 buildList {
+                    add(
+                        MenuEntry(
+                            icon = Icons.Filled.Loupe,
+                            label = R.string.menu_show_transactions,
+                            command = "SHOW_TRANSACTIONS"
+                        ) {
+                            onSelected()
+                        })
                     if (account.id > 0) {
                         if (!account.sealed) {
                             add(edit("EDIT_ACCOUNT") { onEdit(account) })
                         }
                         add(delete("DELETE_ACCOUNT") { onDelete(account) })
                         add(
-                            MenuEntry(
-                                icon = Icons.Filled.VisibilityOff,
-                                label = R.string.hide,
-                                command = "HIDE_COMMAND"
-                            ) {
-                                onHide(account.id)
-                            }
+                            SubMenuEntry(
+                                icon = Icons.Filled.Flag,
+                                label = R.string.menu_flag,
+                                subMenu = Menu(
+                                    flags.map {
+                                        CheckableMenuEntry(UiText.StringValue(it.localizedLabel(LocalContext.current)), "SET_FLAG", account.flag.id == it.id) {
+                                            onSetFlag(account.id, it.id)
+                                        }
+                                    }
+                                )
+                            )
                         )
                         add(
                             toggle("ACCOUNT", account.sealed) {
@@ -521,10 +535,10 @@ private fun AccountPreview() {
             sumIncome = 2000,
             sumExpense = 1000,
             sealed = true,
-            type = AccountType(name ="_CASH_"),
+            type = AccountType.CASH,
             criterion = 5000,
             excludeFromTotals = true
-        )
+        ),
     )
 }
 

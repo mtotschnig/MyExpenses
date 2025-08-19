@@ -45,6 +45,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
@@ -270,9 +273,9 @@ CREATE TABLE $TABLE_ACCOUNT_TYPES (
 const val ACCOUNT_FLAG_CREATE = """
 CREATE TABLE $TABLE_ACCOUNT_FLAGS (
     $KEY_ROWID integer primary key autoincrement,
-    $KEY_LABEL text not null,
-    $KEY_SORT_KEY integer not null,
-    $KEY_ICON text,
+    $KEY_FLAG_LABEL text unique not null,
+    $KEY_FLAG_SORT_KEY integer not null,
+    $KEY_FLAG_ICON text,
     $KEY_VISIBLE boolean not null
 )
 """

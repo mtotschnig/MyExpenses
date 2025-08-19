@@ -737,9 +737,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 closeDrawer()
                                 confirmAccountDelete(it)
                             },
-                            onHide = {
-                                viewModel.setAccountVisibility(true, it)
-                            },
+                            onSetFlag = { accountId, flagId -> viewModel.setFlag(accountId, flagId) },
                             onToggleSealed = { toggleAccountSealed(it) },
                             onToggleExcludeFromTotals = { toggleExcludeFromTotals(it) },
                             onToggleDynamicExchangeRate = if (viewModel.dynamicExchangeRatesPerAccount.collectAsState(
@@ -761,7 +759,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                             bank
                                         )
                                     }
-                            }
+                            },
+                            flags = viewModel.accountFlags.collectAsState(emptyList()).value
                         )
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {
@@ -1963,10 +1962,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
 
-            R.id.HIDE_ACCOUNT_COMMAND -> currentAccount?.let {
-                viewModel.setAccountVisibility(true, it.id)
-            }
-
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
 
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
@@ -2199,25 +2194,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         title = bankingFeature.syncMenuTitle(this@BaseMyExpenses)
                     }
                 }
-
-                menu.findItem(R.id.MANAGE_ACCOUNT_COMMAND)?.apply {
-                    setEnabledAndVisible(!isAggregate)
-                    if (!isAggregate) {
-                        subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
-                            if (sealed) R.string.menu_reopen else R.string.menu_close
-                        )
-                        subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)
-                            ?.setEnabledAndVisible(!sealed)
-                        subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)?.isChecked =
-                            excludeFromTotals
-                        lifecycleScope.launch {
-                            with(subMenu?.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
-                                setEnabledAndVisible(viewModel.dynamicExchangeRatesPerAccount.first())
-                                isChecked = dynamic
-                            }
-                        }
-                    }
-                }
                 menu.findItem(R.id.ARCHIVE_COMMAND)
                     ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
@@ -2244,7 +2220,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 R.id.PRINT_COMMAND,
                 R.id.GROUPING_COMMAND,
                 R.id.SHOW_STATUS_HANDLE_COMMAND,
-                R.id.MANAGE_ACCOUNT_COMMAND,
                 R.id.FINTS_SYNC_COMMAND
             )) {
                 menu.findItem(item)?.setEnabledAndVisible(false)

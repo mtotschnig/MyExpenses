@@ -104,6 +104,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
@@ -111,7 +115,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_DEBT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
@@ -175,6 +178,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
@@ -614,7 +618,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
 
     val accountsWithExchangeRate: String
-        get() = exchangeRateJoin(accountWithType, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
+        get() = exchangeRateJoin(accountWithTypeAndFlag, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
 
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
@@ -661,7 +665,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 dynamicExchangeRatesDefault
             )
 
-        val tableName = if (minimal) accountWithType else CTE_TABLE_NAME_FULL_ACCOUNTS
+        val tableName = if (minimal) accountWithTypeAndFlag else CTE_TABLE_NAME_FULL_ACCOUNTS
 
         val query = if (mergeAggregate == null) {
             SupportSQLiteQueryBuilder.builder(tableName)
@@ -689,6 +693,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 KEY_TYPE,
                                 KEY_IS_ASSET,
                                 KEY_SUPPORTS_RECONCILIATION,
+                                KEY_FLAG,
+                                KEY_FLAG_LABEL,
+                                KEY_VISIBLE,
+                                KEY_FLAG_SORT_KEY,
+                                KEY_FLAG_ICON,
                                 KEY_SORT_KEY,
                                 KEY_EXCLUDE_FROM_TOTALS,
                                 KEY_SYNC_ACCOUNT_NAME,
@@ -758,6 +767,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_TYPE",
                         "0 AS $KEY_IS_ASSET",
                         "0 AS $KEY_SUPPORTS_RECONCILIATION",
+                        "0 AS $KEY_FLAG",
+                        "null AS $KEY_FLAG_LABEL",
+                        "1 AS $KEY_VISIBLE",
+                        "0 AS $KEY_FLAG_SORT_KEY",
+                        "null AS $KEY_FLAG_ICON",
                         "0 AS $KEY_SORT_KEY",
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
@@ -795,7 +809,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
                         .groupBy(KEY_CURRENCY)
                         .having(
-                            if (mergeAggregate == "1") "count(*) > 1 OR (count(*) = 1 AND sum($KEY_HIDDEN) = 1)" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
+                            if (mergeAggregate == "1") "count(*) > 1 OR (count(*) = 1 AND sum($KEY_VISIBLE) = 0)" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
                                     mergeAggregate.substring(1)
                         ).create().sql
                 )
@@ -837,6 +851,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_TYPE",
                         "0 AS $KEY_IS_ASSET",
                         "0 AS $KEY_SUPPORTS_RECONCILIATION",
+                        "0 AS $KEY_FLAG",
+                        "null AS $KEY_FLAG_LABEL",
+                        "1 AS $KEY_VISIBLE",
+                        "0 AS $KEY_FLAG_SORT_KEY",
+                        "null AS $KEY_FLAG_ICON",
                         "0 AS $KEY_SORT_KEY",
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
@@ -1058,15 +1077,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             arrayOf(group, accountSelectionArg)
         )
             .use { it.takeIf { it.moveToFirst() }?.getLong(0) }
-    }
-
-    fun hiddenAccountCount(db: SupportSQLiteDatabase) = Bundle(1).apply {
-        putInt(
-            KEY_COUNT,
-            db.query("select count(*) from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1").use {
-                if (it.moveToFirst()) it.getInt(0) else 0
-            }
-        )
     }
 
     fun oldestTransactionForCurrency(

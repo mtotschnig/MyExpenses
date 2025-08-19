@@ -8,7 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.addAccountFlag
+import org.totschnig.myexpenses.db2.deleteAccountFlag
 import org.totschnig.myexpenses.db2.getAccountFlags
+import org.totschnig.myexpenses.db2.setAccountFlagVisible
+import org.totschnig.myexpenses.db2.updateAccountFlag
 import org.totschnig.myexpenses.model.AccountFlag
 
 data class AccountFlagsUiState(
@@ -24,7 +29,7 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
     val uiState: StateFlow<AccountFlagsUiState> by lazy {
         combine(repository.getAccountFlags(), editingAccountFLag) { data, edit ->
             AccountFlagsUiState(
-                accountFlags = data,
+                accountFlags = data.sortedByDescending { it.sortKey },
                 editingAccountFlag = edit
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
@@ -41,10 +46,48 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
     }
 
     fun onDelete(accountFlag: AccountFlag) {
-
+        viewModelScope.launch(coroutineDispatcher) {
+            repository.deleteAccountFlag(accountFlag.id)
+        }
     }
 
     fun onDialogDismiss() {
         editingAccountFLag.update { null }
+    }
+
+    fun onToggleVisibility(
+        id: Long,
+        visible: Boolean
+    ) {
+        viewModelScope.launch(coroutineDispatcher) {
+            repository.setAccountFlagVisible(id, visible)
+        }
+    }
+
+    fun onSave(
+        label: String,
+        icon: String?
+    ) {
+        val currentEditingFlag = editingAccountFLag.value ?: return
+        viewModelScope.launch(coroutineDispatcher) {
+
+            if (currentEditingFlag.id > 0) {
+                repository.updateAccountFlag(
+                    currentEditingFlag.copy(
+                        label = label,
+                        icon = icon
+                    )
+                )
+            } else {
+                // Add new
+                val newFlag = AccountFlag(
+                    label = label,
+                    icon = icon,
+                    sortKey = 0
+                )
+                repository.addAccountFlag(newFlag)
+            }
+            onDialogDismiss()
+        }
     }
 }

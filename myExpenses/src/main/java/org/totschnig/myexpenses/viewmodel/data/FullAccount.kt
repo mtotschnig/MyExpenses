@@ -7,6 +7,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -87,6 +88,7 @@ data class FullAccount(
     override val currencyUnit: CurrencyUnit,
     override val _color: Int = -1,
     override val type: AccountType,
+    val flag: AccountFlag = AccountFlag.DEFAULT,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
@@ -151,6 +153,7 @@ data class FullAccount(
                 currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
                 _color = cursor.getInt(KEY_COLOR),
                 type = AccountType.fromAccountCursor(cursor),
+                flag = AccountFlag.fromAccountCursor(cursor),
                 sealed = cursor.getInt(KEY_SEALED) == 1,
                 openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
                 currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),

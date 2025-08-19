@@ -8,18 +8,18 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_TYPES_URI
 import org.totschnig.myexpenses.provider.withAppendedId
 
 fun Repository.getAccountTypes(): Flow<List<AccountType>> = contentResolver.observeQuery(
-    TransactionProvider.ACCOUNT_TYPES_URI,
+    ACCOUNT_TYPES_URI,
     notifyForDescendants = true,
 ).mapToList {
     AccountType.fromCursor(it)
 }
 
 fun Repository.loadAccountType(id: Long): AccountType = contentResolver.query(
-    TransactionProvider.ACCOUNT_TYPES_URI.withAppendedId(id),
+    ACCOUNT_TYPES_URI.withAppendedId(id),
     null,
     null,
     null,
@@ -32,7 +32,7 @@ fun Repository.loadAccountType(id: Long): AccountType = contentResolver.query(
 fun Repository.addAccountType(accountType: AccountType): AccountType {
     val id = ContentUris.parseId(
         contentResolver.insert(
-            TransactionProvider.ACCOUNT_TYPES_URI,
+            ACCOUNT_TYPES_URI,
             accountType.asContentValues
         )!!
     )
@@ -42,7 +42,7 @@ fun Repository.addAccountType(accountType: AccountType): AccountType {
 fun Repository.updateAccountType(accountType: AccountType) {
     require(accountType.id > 0)
     contentResolver.update(
-        TransactionProvider.ACCOUNT_TYPES_URI.withAppendedId(accountType.id),
+        ACCOUNT_TYPES_URI.withAppendedId(accountType.id),
         accountType.asContentValues,
         null,
         null
@@ -51,14 +51,14 @@ fun Repository.updateAccountType(accountType: AccountType) {
 
 fun Repository.deleteAccountType(accountTypeId: Long) {
     contentResolver.delete(
-        TransactionProvider.ACCOUNT_TYPES_URI.withAppendedId(accountTypeId),
+        ACCOUNT_TYPES_URI.withAppendedId(accountTypeId),
         null,
         null
     )
 }
 
 fun Repository.findAccountType(name: String): AccountType? = contentResolver.query(
-TransactionProvider.ACCOUNT_TYPES_URI,
+    ACCOUNT_TYPES_URI,
 null,
 "$KEY_LABEL = ?",
 arrayOf(name),

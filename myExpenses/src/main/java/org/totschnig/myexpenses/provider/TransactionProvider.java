@@ -41,7 +41,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -69,6 +68,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -112,7 +112,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithType;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithTypeAndFlag;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildSearchCte;
@@ -604,8 +604,8 @@ public class TransactionProvider extends BaseTransactionProvider {
             sortOrder = minimal ? (TABLE_ACCOUNTS + "." + KEY_LABEL) :
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
           }
-          sortOrder = KEY_HIDDEN + ", " + sortOrder;
-          qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithType : getAccountsWithExchangeRate());
+          sortOrder = KEY_VISIBLE + ", " + sortOrder;
+          qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithTypeAndFlag : getAccountsWithExchangeRate());
           if (projection == null) {
               projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
           }
@@ -1168,6 +1168,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNT_TYPES, Objects.requireNonNull(values));
         newUri = ContentUris.withAppendedId(ACCOUNT_TYPES_URI, id);
       }
+      case ACCOUNT_FLAGS -> {
+        id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNT_FLAGS, Objects.requireNonNull(values));
+        newUri = ContentUris.withAppendedId(ACCOUNT_FLAGS_URI, id);
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
@@ -1336,6 +1340,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGET_ALLOCATIONS -> count = db.delete(TABLE_BUDGET_ALLOCATIONS, where, whereArgs);
       case PRICES ->  count = db.delete(TABLE_PRICES, where, whereArgs);
       case ACCOUNT_TYPE_ID -> count = db.delete(TABLE_ACCOUNT_TYPES, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case ACCOUNT_FLAG_ID -> count = db.delete(TABLE_ACCOUNT_FLAGS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1518,6 +1523,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       //used during restore
       case ATTACHMENTS -> count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
       case ACCOUNT_TYPE_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNT_TYPES, values, KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
+      case ACCOUNT_FLAG_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNT_FLAGS, values, KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
@@ -1791,6 +1797,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes", ACCOUNT_TYPES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes/#", ACCOUNT_TYPE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accountFlags", ACCOUNT_FLAGS);
+    URI_MATCHER.addURI(AUTHORITY, "accountFlags/#", ACCOUNT_FLAG_ID);
   }
 
   /**
