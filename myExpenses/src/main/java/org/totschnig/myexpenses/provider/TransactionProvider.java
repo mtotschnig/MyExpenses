@@ -1569,6 +1569,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == ACCOUNT_TYPE_ID) {
       notifyChange(ACCOUNTS_URI, false);
     }
+    if (uriMatch == ACCOUNT_FLAG_ID) {
+      notifyChange(ACCOUNTS_URI, false);
+    }
     return count;
   }
 

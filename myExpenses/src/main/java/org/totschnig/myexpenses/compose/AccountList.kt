@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
@@ -347,8 +348,16 @@ fun AccountCard(
                                 icon = Icons.Filled.Flag,
                                 label = R.string.menu_flag,
                                 subMenu = Menu(
-                                    flags.map {
-                                        CheckableMenuEntry(UiText.StringValue(it.localizedLabel(LocalContext.current)), "SET_FLAG", account.flag.id == it.id) {
+                                    flags.filter { it.id != DEFAULT_FLAG_ID }.map {
+                                        val isChecked = account.flag.id == it.id
+                                        CheckableMenuEntry(
+                                            label = UiText.StringValue(it.localizedLabel(LocalContext.current)),
+                                            command = "SET_FLAG",
+                                            isChecked = isChecked
+                                        ) {
+                                            if (isChecked) {
+                                                onSetFlag(account.id, DEFAULT_FLAG_ID)
+                                            } else
                                             onSetFlag(account.id, it.id)
                                         }
                                     }

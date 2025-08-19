@@ -362,7 +362,7 @@ private fun AddEditAccountTypeDialog(
                 onCheckedChange = { supportsReconciliation = it }
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Supports Reconciliation")
+            Text(stringResource(R.string.supports_reconciliation))
         }
     }
 }

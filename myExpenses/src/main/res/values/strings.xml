@@ -1106,4 +1106,8 @@
     <string name="flag_unflagged">No flag</string>
     <string name="flag_favorite">Favorite</string>
     <string name="flag_inactive">Inactive</string>
+    <!-- Label of checkbox in account type form, which configures if accounts of this type have the Reconciliation feature -->
+    <string name="supports_reconciliation">Supports Reconciliation</string>
+    <string name="visible">Visible</string>
+    <string name="count">Count</string>
 </resources>

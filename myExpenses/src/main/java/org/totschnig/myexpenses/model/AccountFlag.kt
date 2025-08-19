@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.getStringOrNull
 const val PREDEFINED_NAME_DEFAULT = "_DEFAULT_"
 const val PREDEFINED_NAME_FAVORITE = "_FAVORITE_"
 const val PREDEFINED_NAME_INACTIVE = "_INACTIVE_"
+const val DEFAULT_FLAG_ID = 0L
 
 data class AccountFlag(
     val id: Long = 0,
@@ -40,7 +41,7 @@ data class AccountFlag(
             KEY_VISIBLE to isVisible
         ).apply {
             if (label == "_DEFAULT_") {
-                put(KEY_ROWID, 0)
+                put(KEY_ROWID, DEFAULT_FLAG_ID)
             }
         }
 
