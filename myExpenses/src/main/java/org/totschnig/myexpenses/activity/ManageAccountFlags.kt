@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -54,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.DialogFrame
@@ -61,17 +63,18 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.IconSelectorDialog
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
+import timber.log.Timber
 
 private const val WEIGHT_ICON = 1f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
 
-
-class ManageAccountFlags : ProtectedFragmentActivity() {
+class ManageAccountFlags : ProtectedFragmentActivity(), SortUtilityDialogFragment.OnConfirmListener {
 
     val viewModel: AccountFlagsViewModel by viewModels()
 
@@ -80,8 +83,9 @@ class ManageAccountFlags : ProtectedFragmentActivity() {
         injector.inject(viewModel)
         setContent {
             AppTheme {
+                val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
                 ManageFlagsScreen(
-                    uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+                    uiState = uiState,
                     onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
@@ -89,9 +93,22 @@ class ManageAccountFlags : ProtectedFragmentActivity() {
                     onDialogDismiss = viewModel::onDialogDismiss,
                     onSave = viewModel::onSave,
                     onToggleVisibility = viewModel::onToggleVisibility
-                )
+                ) {
+                    SortUtilityDialogFragment.newInstance(
+                        ArrayList(
+                            uiState.accountFlags.map {
+                                SortableItem(it.id, it.localizedLabel(this))
+                            }
+                        ))
+                        .show(supportFragmentManager, "SORT_ACCOUNTS")
+                }
             }
         }
+    }
+
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+        viewModel.onSortOrderConfirmed(sortedIds)
+        Timber.d("onSortOrderConfirmed: ${sortedIds.joinToString()}")
     }
 }
 
@@ -112,7 +129,8 @@ fun ManageFlagsScreen(
     onDelete: (AccountFlag) -> Unit = {},
     onDialogDismiss: () -> Unit = {},
     onSave: (String, String?) -> Unit,
-    onToggleVisibility: (Long, Boolean) -> Unit
+    onToggleVisibility: (Long, Boolean) -> Unit,
+    onSort: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.padding(
@@ -130,7 +148,15 @@ fun ManageFlagsScreen(
                             contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
                         )
                     }
-                }
+                },
+                actions = {
+                    IconButton(onClick = onSort) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Sort,
+                            contentDescription = stringResource(id = R.string.sort_order)
+                        )
+                    }
+                },
             )
         },
         floatingActionButton = {

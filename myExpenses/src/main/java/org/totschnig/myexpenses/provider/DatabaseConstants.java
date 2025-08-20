@@ -332,6 +332,8 @@ public class DatabaseConstants {
   public static final String KEY_FLAG_LABEL = "flag_label";
   public static final String KEY_FLAG_SORT_KEY = "flag_sort_key";
   public static final String KEY_FLAG_ICON = "flag_icon";
+  public static final String METHOD_FLAG_SORT = "flagSort";
+  public static final String KEY_SORTED_FLAG_IDS = "sortedFlagIds";
 
   /**
    * boolean flag for accounts: A sealed account can no longer be edited

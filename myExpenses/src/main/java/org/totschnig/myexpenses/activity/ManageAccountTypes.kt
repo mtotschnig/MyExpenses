@@ -61,6 +61,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.DialogFrame
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
@@ -236,10 +239,16 @@ private fun AccountTypeItem(
     onDeleteClick: () -> Unit
 ) {
     val context = LocalContext.current
+
+    val showMenu = remember { mutableStateOf(false) }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .minimumInteractiveComponentSize(),
+            .minimumInteractiveComponentSize()
+            .clickable {
+                showMenu.value = true
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -250,14 +259,15 @@ private fun AccountTypeItem(
             modifier = Modifier.weight(1f)
         )
         if (!accountType.isPredefined) {
-            IconButton(onClick = onEditClick) {
-                Icon(Icons.Filled.Edit, contentDescription = "Edit")
-            }
-            if ((accountType.count ?: 0) == 0) {
-                IconButton(onClick = onDeleteClick) {
-                    Icon(Icons.Filled.Delete, contentDescription = "Delete")
+            val menu = Menu(
+                buildList {
+                    add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+                    if ((accountType.count ?: 0) == 0) {
+                        add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
+                    }
                 }
-            }
+            )
+            HierarchicalMenu(showMenu, menu)
         }
     }
 }

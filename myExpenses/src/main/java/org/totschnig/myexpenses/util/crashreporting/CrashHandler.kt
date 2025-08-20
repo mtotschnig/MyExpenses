@@ -51,7 +51,7 @@ interface CrashHandler {
             throwOrReport(IllegalStateException(message), tag)
         }
 
-        private fun throwOrReport(e: RuntimeException, tag: String? = null) {
+        fun throwOrReport(e: Throwable, tag: String? = null) {
             if (BuildConfig.DEBUG) {
                 throw e
             } else {

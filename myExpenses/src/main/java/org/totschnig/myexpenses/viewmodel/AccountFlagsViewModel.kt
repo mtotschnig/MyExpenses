@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.addAccountFlag
 import org.totschnig.myexpenses.db2.deleteAccountFlag
 import org.totschnig.myexpenses.db2.getAccountFlags
+import org.totschnig.myexpenses.db2.saveAccountFlagOrder
 import org.totschnig.myexpenses.db2.setAccountFlagVisible
 import org.totschnig.myexpenses.db2.updateAccountFlag
 import org.totschnig.myexpenses.model.AccountFlag
@@ -29,7 +30,7 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
     val uiState: StateFlow<AccountFlagsUiState> by lazy {
         combine(repository.getAccountFlags(), editingAccountFLag) { data, edit ->
             AccountFlagsUiState(
-                accountFlags = data.sortedByDescending { it.sortKey },
+                accountFlags = data,
                 editingAccountFlag = edit
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
@@ -89,5 +90,9 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
             }
             onDialogDismiss()
         }
+    }
+
+    fun onSortOrderConfirmed(sortedIds: LongArray) {
+        repository.saveAccountFlagOrder(sortedIds)
     }
 }

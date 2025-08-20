@@ -1,17 +1,21 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
+import android.os.Bundle
 import androidx.core.content.contentValuesOf
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_FLAG_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_FLAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.withAppendedId
 
-fun Repository.getAccountFlags(): Flow<List<AccountFlag>>  = contentResolver.observeQuery(
+fun Repository.getAccountFlags(): Flow<List<AccountFlag>> = contentResolver.observeQuery(
     ACCOUNT_FLAGS_URI,
     notifyForDescendants = true,
     sortOrder = "$KEY_FLAG_SORT_KEY DESC"
@@ -56,4 +60,10 @@ fun Repository.deleteAccountFlag(accountTypeId: Long) {
         null,
         null
     )
+}
+
+fun Repository.saveAccountFlagOrder(sortedIds: LongArray) {
+    contentResolver.call(DUAL_URI, METHOD_FLAG_SORT, null, Bundle().apply {
+        putLongArray(KEY_SORTED_FLAG_IDS, sortedIds)
+    })
 }

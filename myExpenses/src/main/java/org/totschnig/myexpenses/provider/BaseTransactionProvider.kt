@@ -149,6 +149,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_FLAG_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
@@ -229,6 +230,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2LocalDate
@@ -2254,5 +2256,45 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
             it.executeUpdateDelete()
         }
+    }
+
+    fun SupportSQLiteDatabase.setFlagSort(extras: Bundle): Bundle {
+        val sortedIds = extras.getLongArray(KEY_SORTED_FLAG_IDS)!!
+        val resultBundle = Bundle()
+        var result = true
+
+        beginTransaction()
+        try {
+            val sql = """
+                UPDATE ${DatabaseConstants.TABLE_ACCOUNT_FLAGS}
+                SET $KEY_FLAG_SORT_KEY = ?
+                WHERE $KEY_ROWID = ?
+            """.trimIndent()
+            val statement = compileStatement(sql)
+            //the default flag should have sort key 0, flags that are more important have positive key,
+            //flags that are less important have negative key
+            var startIndex = sortedIds.indexOf(0).toLong()
+            sortedIds.forEach { flagId ->
+                statement.bindLong(1, startIndex--)
+                statement.bindLong(2, flagId)
+                val affectedRows = statement.executeUpdateDelete()
+                if (affectedRows != 1) {
+                    CrashHandler.throwOrReport("Update failed, expected 1 affected row, got $affectedRows")
+                    result = false
+                }
+            }
+
+            statement.close()
+
+            setTransactionSuccessful()
+
+        } catch (e: Exception) {
+            CrashHandler.throwOrReport(e)
+            result = false
+        } finally {
+            endTransaction()
+            resultBundle.putBoolean(KEY_RESULT, result)
+        }
+        return resultBundle
     }
 }
