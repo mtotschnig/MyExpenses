@@ -77,7 +77,7 @@ class AccountTypeViewModel(application: Application) : ContentResolvingAndroidVi
         }
     }
 
-    fun deleteAccountType(accountType: AccountType) {
+    fun onDelete(accountType: AccountType) {
         viewModelScope.launch(coroutineDispatcher) {
             repository.deleteAccountType(accountType.id)
         }

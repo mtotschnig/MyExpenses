@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,9 +22,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +35,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -49,6 +43,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,10 +53,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.ButtonDefinition
+import org.totschnig.myexpenses.compose.DialogFrame
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
@@ -82,7 +82,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
                     onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
-                    onDelete = viewModel::deleteAccountType,
+                    onDelete = viewModel::onDelete,
                     onDialogDismiss = viewModel::onDialogDismiss,
                     onSave = viewModel::onSave
                 )
@@ -93,7 +93,7 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageAccountTypesScreen(
+private fun ManageAccountTypesScreen(
     uiState: AccountTypesUiState,
     onClose: () -> Unit = {},
     onAdd: () -> Unit = {},
@@ -123,7 +123,10 @@ fun ManageAccountTypesScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAdd) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Account Type")
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.new_account_type)
+                )
             }
         }
     ) { paddingValues ->
@@ -166,7 +169,7 @@ fun ManageAccountTypesScreen(
 }
 
 @Composable
-fun AccountTypeList(
+private fun AccountTypeList(
     accountTypes: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit,
@@ -185,8 +188,7 @@ fun AccountTypeList(
 
     LazyColumn(
         contentPadding = paddingValues,
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         groups[true]?.let { assetTypes ->
             section(
@@ -207,7 +209,7 @@ fun AccountTypeList(
     }
 }
 
-fun LazyListScope.section(
+private fun LazyListScope.section(
     title: String,
     list: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
@@ -227,43 +229,51 @@ fun LazyListScope.section(
 }
 
 @Composable
-fun AccountTypeItem(
+private fun AccountTypeItem(
+    modifier: Modifier,
     accountType: AccountType,
     onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    modifier: Modifier
+    onDeleteClick: () -> Unit
 ) {
     val context = LocalContext.current
+
+    val showMenu = remember { mutableStateOf(false) }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .conditional(!accountType.isPredefined) {
+                clickable {
+                    showMenu.value = true
+                }
+
+            }
             .minimumInteractiveComponentSize(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val isUsedBy = accountType.count ?: 0
         Text(
             text = accountType.localizedName(context) +
-                    (isUsedBy.takeIf { it > 0 }?.let { " ($it)" } ?: ""),
+                    ((accountType.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f)
         )
         if (!accountType.isPredefined) {
-            IconButton(onClick = onEditClick) {
-                Icon(Icons.Filled.Edit, contentDescription = "Edit")
-            }
-            if (isUsedBy == 0) {
-                IconButton(onClick = onDeleteClick) {
-                    Icon(Icons.Filled.Delete, contentDescription = "Delete")
+            val menu = Menu(
+                buildList {
+                    add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+                    if ((accountType.count ?: 0) == 0) {
+                        add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
+                    }
                 }
-            }
+            )
+            HierarchicalMenu(showMenu, menu)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEditAccountTypeDialog(
+private fun AddEditAccountTypeDialog(
     editingAccountType: AccountType,
     onDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit =
@@ -273,7 +283,7 @@ fun AddEditAccountTypeDialog(
 
     val context = LocalContext.current
 
-    var name by remember { mutableStateOf(editingAccountType.name) }
+    var name by rememberSaveable { mutableStateOf(editingAccountType.name) }
 
     val title =
         stringResource(if (editingAccountType.id == 0L) R.string.new_account_type else R.string.edit_account_type)
@@ -281,11 +291,11 @@ fun AddEditAccountTypeDialog(
     val options =
         listOf(R.string.balance_sheet_section_assets, R.string.balance_sheet_section_liabilities)
 
-    var selectedIndex by remember {
+    var selectedIndex by rememberSaveable {
         mutableIntStateOf(if (editingAccountType.isAsset) 0 else 1)
     }
 
-    var supportsReconciliation by remember {
+    var supportsReconciliation by rememberSaveable {
         mutableStateOf(
             editingAccountType.supportsReconciliation
         )
@@ -301,87 +311,71 @@ fun AddEditAccountTypeDialog(
         }
     }
 
-    Dialog(onDismissRequest = onDismiss) {
-        Card {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(title, style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text("Account Type Name") },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    isError = nameAlreadyExists.value,
-                    supportingText = {
-                        if (nameAlreadyExists.value) {
-                            Text(
-                                text = stringResource(R.string.already_exists),
-                                color = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                SingleChoiceSegmentedButtonRow(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    options.forEachIndexed { index, label ->
-                        SegmentedButton(
-                            shape = SegmentedButtonDefaults.itemShape(
-                                index = index,
-                                count = options.size
-                            ),
-                            onClick = { selectedIndex = index },
-                            selected = index == selectedIndex
-                        ) {
-                            Text(stringResource(label))
-                        }
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            supportsReconciliation = !supportsReconciliation
-                        } // Make row clickable
-                        .padding(vertical = 4.dp), // Add some vertical padding for better touch target
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = supportsReconciliation,
-                        onCheckedChange = { supportsReconciliation = it }
+    DialogFrame(
+        title = title,
+        onDismissRequest = onDismiss,
+        positiveButton = ButtonDefinition(
+            text = R.string.menu_save,
+            enabled = name.isNotBlank() && !nameAlreadyExists.value
+        ) {
+            onSave(name, selectedIndex == 0, supportsReconciliation)
+        }
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text(stringResource(R.string.label)) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            isError = nameAlreadyExists.value,
+            supportingText = {
+                if (nameAlreadyExists.value) {
+                    Text(
+                        text = stringResource(R.string.already_exists),
+                        color = MaterialTheme.colorScheme.error
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Supports Reconciliation")
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = onDismiss) {
-                        Text("Cancel")
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    TextButton(
-                        enabled = name.isNotBlank() && !nameAlreadyExists.value,
-                        onClick = {
-                            onSave(name, selectedIndex == 0, supportsReconciliation)
-                        }) {
-                        Text("Save")
-                    }
                 }
             }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            options.forEachIndexed { index, label ->
+                SegmentedButton(
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = options.size
+                    ),
+                    onClick = { selectedIndex = index },
+                    selected = index == selectedIndex
+                ) {
+                    Text(stringResource(label))
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    supportsReconciliation = !supportsReconciliation
+                } // Make row clickable
+                .padding(vertical = 4.dp), // Add some vertical padding for better touch target
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = supportsReconciliation,
+                onCheckedChange = { supportsReconciliation = it }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(stringResource(R.string.supports_reconciliation))
         }
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 fun ListPreview() {

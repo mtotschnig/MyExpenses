@@ -1099,4 +1099,6 @@
     <string name="new_account_type">New Account Type</string>
     <string name="pref_account_list_display_configuration_title">Account list</string>
     <string name="pref_print_layout_summary">Configure width and composition of columns</string>
+    <!-- Label of checkbox in account type form, which configures if accounts of this type have the Reconciliation feature -->
+    <string name="supports_reconciliation">Supports Reconciliation</string>
 </resources>
