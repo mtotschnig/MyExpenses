@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -35,8 +35,7 @@ fun AppTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography()
+        colorScheme = colorScheme
     ) {
         val injector = context.injector
         CompositionLocalProvider(
@@ -50,7 +49,8 @@ fun AppTheme(
             LocalHomeCurrency provides injector.currencyContext().homeCurrencyUnit,
             LocalTracker provides injector.tracker(),
             LocalContentColor provides MaterialTheme.colorScheme.onBackground,
-            content = content
-        )
+        ) {
+           ProvideTextStyle(MaterialTheme.typography.bodyMedium, content)
+        }
     }
 }

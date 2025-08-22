@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.adapter
 
 import android.content.Context
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ class FontSizeAdapter(context: Context) : ArrayAdapter<String?>(
 ) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val row = super.getView(position, convertView, parent) as TextView
-        updateTextView(row, position)
+        row.updateTextSize(context, position)
         return row
     }
 
@@ -32,12 +33,13 @@ class FontSizeAdapter(context: Context) : ArrayAdapter<String?>(
             return resId
         }
 
-        fun updateTextView(textView: TextView, value: Int) {
-            val base = 30f // We can take a random base, the important thing is that it is not dependent on the current fontscale
+        fun TextView.updateTextSize(context: Context, value: Int) {
+            val systemFontScale = Settings.System.getFloat(context.contentResolver, Settings.System.FONT_SCALE, 1.0f)
+            val base = 14f
             val factor = 1 + value / 10f
-            val size = base * factor
-            Timber.d("updateTextView: size: %s", size)
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+            val size = base * systemFontScale * factor
+            Timber.d("updateTextView: systemFontScale %f, factor: %f, size: %f", systemFontScale, factor, size)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, size)
         }
     }
 }

@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.FontSizeAdapter
+import org.totschnig.myexpenses.adapter.FontSizeAdapter.Companion.updateTextSize
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
@@ -237,7 +238,7 @@ class OnboardingUiFragment : OnboardingFragment() {
         binding.fontSizeDisplayName.text = entry
         binding.fontSizeDisplayName.contentDescription =
             "${getString(R.string.title_font_size)}: $entry"
-        FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale)
+        binding.fontSizeDisplayName.updateTextSize(requireContext(), fontScale)
     }
 
     private fun setContentDescriptionToThemeSwitch(themeSwitch: View, isLight: Boolean) {

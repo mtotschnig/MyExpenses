@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -23,8 +22,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,6 +61,7 @@ import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
@@ -190,8 +188,7 @@ private fun AccountTypeList(
 
     LazyColumn(
         contentPadding = paddingValues,
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         groups[true]?.let { assetTypes ->
             section(
@@ -245,10 +242,12 @@ private fun AccountTypeItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .minimumInteractiveComponentSize()
-            .clickable {
-                showMenu.value = true
-            },
+            .conditional(!accountType.isPredefined) {
+                clickable {
+                    showMenu.value = true
+                }
+            }
+            .minimumInteractiveComponentSize(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -256,7 +255,6 @@ private fun AccountTypeItem(
             text = accountType.localizedName(context) +
                     ((accountType.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f)
         )
         if (!accountType.isPredefined) {
             val menu = Menu(

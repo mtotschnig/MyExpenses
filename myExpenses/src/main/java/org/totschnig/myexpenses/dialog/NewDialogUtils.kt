@@ -86,10 +86,10 @@ fun Spinner.configureTypeSpinner() = GroupedSpinnerAdapter<Boolean, AccountType>
 
 fun GroupedSpinnerAdapter<Boolean, AccountType>.addAll(data: List<AccountType>) {
     clear()
-    addAll(data.groupBy { it.isAsset }.let {
+    addAll(data.groupBy { it.isAsset }.let { map ->
         listOfNotNull(
-            it[true]?.let { assets -> true to assets.sortedBy { it.localizedName(context) } },
-            it[false]?.let { liabilities -> false to liabilities.sortedBy { it.localizedName(context) } }
+            map[true]?.let { assets -> true to assets.sortedBy { it.localizedName(context) } },
+            map[false]?.let { liabilities -> false to liabilities.sortedBy { it.localizedName(context) } }
         )
     })
 }

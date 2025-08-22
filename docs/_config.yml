@@ -134,6 +134,27 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.2
+      - '2025-08-21'
+      - bg: Персонализация на типа на сметките
+        cs: Typy účtů lze přizpůsobit
+        de: Kontotypen können angepasst werden
+        el: Οι τύποι λογαριασμών μπορούν να προσαρμοστούν
+        es: Los tipos de cuentas se pueden personalizar
+        fr: Les types de comptes peuvent être personnalisés
+        hr: Vrste računa mogu se prilagoditi
+        hu: A számlatípusok testreszabhatók
+        it: I tipi di conto possono essere personalizzati
+        iw: ניתן להתאים אישית סוגי חשבון
+        nl: Accounttypes kunnen worden aangepast
+        pl: Typy kont można dostosować
+        pt: Os tipos de conta podem ser personalizados
+        ro: Tipurile de conturi pot fi personalizate
+        tr: Hesap türleri özelleştirilebilir
+        vi: Các loại tài khoản có thể được tùy chỉnh
+        en: Account types can be customized
+      - github2: '165'
+        mastodon: '115033555938780143'
   -   - 4.0.1
       - '2025-07-04'
       - bg: 'Списъкът с транзакции вече показва повече подробности за разделени транзакции.

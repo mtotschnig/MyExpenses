@@ -1043,4 +1043,5 @@
     <string name="new_account_type">Nouveau type de compte</string>
     <string name="pref_account_list_display_configuration_title">Liste des comptes</string>
     <string name="pref_print_layout_summary">Configurer la largeur et la composition des colonnes</string>
+    <string name="supports_reconciliation">Soutient le rapprochement</string>
 </resources>

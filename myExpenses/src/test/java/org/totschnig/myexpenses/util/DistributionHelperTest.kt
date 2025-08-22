@@ -32,7 +32,7 @@ class DistributionHelperTest {
         val versionInfo = getVersionInfo(mockContext)
         //then
         val expected = String.format(
-            Locale.ROOT, "%s (revision %d) %s %s %s",
+            Locale.ROOT, "%s (%d) %s %s %s",
             BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, buildDateFormatted,
             BuildConfig.DISTRIBUTION, playInstaller
         )
@@ -47,7 +47,7 @@ class DistributionHelperTest {
         val versionInfo = getVersionInfo(mockContext)
         //then
         val expected = String.format(
-            Locale.ROOT, "%s (revision %d) %s %s null",
+            Locale.ROOT, "%s (%d) %s %s null",
             BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, buildDateFormatted,
             BuildConfig.DISTRIBUTION
         )
