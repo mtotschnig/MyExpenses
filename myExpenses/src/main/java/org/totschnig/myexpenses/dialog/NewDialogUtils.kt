@@ -12,9 +12,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.export.qif.QifDateFormat
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.viewmodel.data.Account
 
 fun Spinner.configureDateFormat(
     context: Context,
@@ -84,7 +86,7 @@ fun Spinner.configureTypeSpinner() = GroupedSpinnerAdapter<Boolean, AccountType>
     setAdapter(it)
 }
 
-fun GroupedSpinnerAdapter<Boolean, AccountType>.addAll(data: List<AccountType>) {
+fun GroupedSpinnerAdapter<Boolean, AccountType>.addAllAccountTypes(data: List<AccountType>) {
     clear()
     addAll(data.groupBy { it.isAsset }.let { map ->
         listOfNotNull(
@@ -92,4 +94,9 @@ fun GroupedSpinnerAdapter<Boolean, AccountType>.addAll(data: List<AccountType>) 
             map[false]?.let { liabilities -> false to liabilities.sortedBy { it.localizedName(context) } }
         )
     })
+}
+
+fun GroupedSpinnerAdapter<AccountFlag, Account>.addAllAccounts(data: List<Account>) {
+    clear()
+    addAll(data.groupBy { it.flag }.toList().sortedByDescending { it.first.sortKey })
 }

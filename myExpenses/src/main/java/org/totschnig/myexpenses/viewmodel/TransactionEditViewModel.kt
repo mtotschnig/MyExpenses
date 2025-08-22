@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -130,11 +131,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
             uri = ACCOUNTS_FULL_URI,
-            projection = null,
-            selection = "$KEY_SEALED = 0",
-            selectionArgs = null,
-            sortOrder = null,
-            notifyForDescendants = false
+            selection = "$KEY_SEALED = 0"
         ).mapToList {
             buildAccount(it, currencyContext)
         }
@@ -144,13 +141,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             uri = TransactionProvider.TEMPLATES_URI.buildUpon()
                 .build(), projection = arrayOf(KEY_ROWID, KEY_TITLE),
             selection = "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
-            selectionArgs = null,
             sortOrder = Sort.preferredOrderByForTemplatesWithPlans(
                 prefHandler,
                 Sort.USAGES,
                 collate
-            ),
-            notifyForDescendants = false
+            )
         ).mapToList { DataTemplate.fromCursor(it) }
 
 
@@ -186,6 +181,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             type = AccountType.fromAccountCursor(cursor),
             criterion = cursor.getLongOrNull(KEY_CRITERION),
             isDynamic = cursor.getBoolean(KEY_DYNAMIC),
+            flag = AccountFlag.fromAccountCursor(cursor),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
         )
     }

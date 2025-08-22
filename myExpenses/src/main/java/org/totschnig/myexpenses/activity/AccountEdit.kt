@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.dialog.addAll
+import org.totschnig.myexpenses.dialog.addAllAccountTypes
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
 import org.totschnig.myexpenses.dialog.configureTypeSpinner
@@ -213,7 +213,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountTypes.collect { accountTypes ->
-                    accountTypeAdapter.addAll(accountTypes)
+                    accountTypeAdapter.addAllAccountTypes(accountTypes)
                     (accountType.takeIf { it != 0L } ?: accountTypes.find { it.isCashAccount }?.id)?.let {
                         accountTypeSpinner.setSelection(accountTypeAdapter.getPosition(it))
                     }

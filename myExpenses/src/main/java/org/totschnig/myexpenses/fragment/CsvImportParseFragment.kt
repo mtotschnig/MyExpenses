@@ -49,7 +49,7 @@ import javax.inject.Inject
 import androidx.core.net.toUri
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.SpinnerItem
-import org.totschnig.myexpenses.dialog.addAll
+import org.totschnig.myexpenses.dialog.addAllAccountTypes
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
 import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.model.AccountType
@@ -153,7 +153,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.accountTypes.collect { accountTypes ->
-                        accountTypeAdapter.addAll(accountTypes)
+                        accountTypeAdapter.addAllAccountTypes(accountTypes)
                         accountTypes.find { it.isCashAccount }?.let {
                             binding.AccountTable.AccountType.setSelection(accountTypeAdapter.getPosition(it.id))
                         }

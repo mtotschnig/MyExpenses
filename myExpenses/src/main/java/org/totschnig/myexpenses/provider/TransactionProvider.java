@@ -40,6 +40,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
@@ -605,7 +606,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             sortOrder = minimal ? (TABLE_ACCOUNTS + "." + KEY_LABEL) :
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
           }
-          sortOrder = KEY_VISIBLE + ", " + sortOrder;
+          sortOrder = KEY_FLAG_SORT_KEY + " DESC, " + sortOrder;
           qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithTypeAndFlag : getAccountsWithExchangeRate());
           if (projection == null) {
               projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);

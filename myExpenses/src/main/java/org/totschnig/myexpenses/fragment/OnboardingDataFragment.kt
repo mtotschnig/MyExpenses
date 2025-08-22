@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
-import org.totschnig.myexpenses.dialog.addAll
+import org.totschnig.myexpenses.dialog.addAllAccountTypes
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
 import org.totschnig.myexpenses.dialog.configureTypeSpinner
@@ -168,7 +168,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountTypes.collect { accountTypes ->
-                    typeAdapter.addAll(accountTypes)
+                    typeAdapter.addAllAccountTypes(accountTypes)
                     accountTypes.find { it.isCashAccount }?.let {
                         binding.AccountType.setSelection(typeAdapter.getPosition(it.id))
                     }

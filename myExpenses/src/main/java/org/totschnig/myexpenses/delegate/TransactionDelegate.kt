@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
-import org.totschnig.myexpenses.adapter.IdAdapter
+import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
@@ -31,6 +31,8 @@ import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.dialog.addAllAccounts
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -117,6 +119,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     val recurrenceSpinner = SpinnerHelper(viewBinding.Recurrence)
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: ArrayAdapter<OperationType>
+    private lateinit var accountAdapter: GroupedSpinnerAdapter<AccountFlag, Account>
 
     init {
         createMethodAdapter()
@@ -124,7 +127,8 @@ abstract class TransactionDelegate<T : ITransaction>(
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 seekBar.requestFocusFromTouch() //prevent jump to first EditText https://stackoverflow.com/a/6177270/1199911
-                viewBinding.advanceExecutionValue.text = String.format(Locale.getDefault(), "%d", progress)
+                viewBinding.advanceExecutionValue.text =
+                    String.format(Locale.getDefault(), "%d", progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -442,7 +446,8 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun updateStatusContentDescription() {
-        statusSpinner.spinner.contentDescription =  context.getString(R.string.status) + ": " + context.getString(crStatus.toStringRes())
+        statusSpinner.spinner.contentDescription =
+            context.getString(R.string.status) + ": " + context.getString(crStatus.toStringRes())
     }
 
     fun fillAmount(amount: BigDecimal) {
@@ -569,6 +574,17 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
+    protected fun createAccountAdapter() {
+        accountAdapter = object : GroupedSpinnerAdapter<AccountFlag, Account>(
+            context,
+            itemToString = { it.label },
+            headerToString = { if (it.id == 0L) "" else it.localizedLabel(context) }
+        ) {
+            override fun showHeader(header: AccountFlag) = header.id != 0L
+        }
+        accountSpinner.adapter = accountAdapter
+    }
+
     private fun createMethodAdapter() {
         methodsAdapter =
                 //TODO Use IdAdapter
@@ -650,7 +666,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
             accountSpinner.id -> {
                 val oldAccount = mAccounts.first { it.id == accountId }
-                val newAccount = mAccounts[position]
+                val newAccount = mAccounts.first { it.id == id }
                 if (newAccount.color == oldAccount.color || !host.maybeApplyDynamicColor()) {
                     updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                 } else {
@@ -739,7 +755,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         get() = viewBinding.Amount.type
 
     val shouldShowCategoryWarning: Byte?
-        get() = catType.takeIf {  it != FLAG_NEUTRAL && it != isIncome.asCategoryType }
+        get() = catType.takeIf { it != FLAG_NEUTRAL && it != isIncome.asCategoryType }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
         return ZonedDateTime.of(
@@ -917,25 +933,16 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     open fun setAccount(isInitialSetup: Boolean) {
         //if the accountId we have been passed does not exist, we select the first entry
-        var selected = 0
-        for (item in mAccounts.indices) {
-            val account = mAccounts[item]
-            if (account.id == accountId) {
-                selected = item
-                break
-            }
-        }
-        accountSpinner.setSelection(selected)
-        updateAccount(mAccounts[selected], isInitialSetup)
+        val selected = mAccounts.find { it.id == accountId } ?: mAccounts.first()
+        accountSpinner.setSelection(accountAdapter.getPosition(selected.id))
+        updateAccount(selected, isInitialSetup)
     }
 
     open fun setAccounts(data: List<Account>, firstLoad: Boolean, isInitialSetup: Boolean) {
         if (firstLoad) {
             mAccounts.clear()
             mAccounts.addAll(data)
-            accountSpinner.adapter = IdAdapter(context, data).apply {
-                setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
-            }
+            accountAdapter.addAllAccounts(data)
             viewBinding.Amount.setTypeEnabled(true)
             isProcessingLinkedAmountInputs = true
             configureType()

@@ -225,6 +225,7 @@ abstract class MainDelegate<T : ITransaction>(
         if (withTypeSpinner) {
             createOperationTypeAdapter()
         }
+        createAccountAdapter()
     }
 
     override fun populateFields(transaction: T, withAutoFill: Boolean) {

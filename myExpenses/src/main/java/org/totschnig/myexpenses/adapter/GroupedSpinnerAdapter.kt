@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.adapter
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,17 @@ import org.totschnig.myexpenses.R
 
 sealed class SpinnerItem() {
     abstract val itemId: Long
+
     data class Header<H>(val header: H, override val itemId: Long) : SpinnerItem()
-    data class Item<T: IdHolder>(val data: T) : SpinnerItem() {
+    data class Item<T : IdHolder>(val data: T) : SpinnerItem() {
         override val itemId: Long = data.id
         override fun toString() = data.toString()
     }
+
+    data class Divider(override val itemId: Long) : SpinnerItem()
 }
 
-class GroupedSpinnerAdapter<H, T: IdHolder>(
+open class GroupedSpinnerAdapter<H, T : IdHolder>(
     val context: Context,
     private val itemToString: (T) -> String,
     private val headerToString: (H) -> String
@@ -33,10 +37,23 @@ class GroupedSpinnerAdapter<H, T: IdHolder>(
     }
 
     fun addAll(items: List<Pair<H, List<T>>>) {
-        items.forEachIndexed { index, (header, data) ->
-            this.items.add(SpinnerItem.Header(header, -(index + 1L)))
-            data.forEach {
+        //if we have only one group, we skip display of headers
+        if (items.size == 1) {
+            items.first().second.forEach {
                 this.items.add(SpinnerItem.Item(it))
+            }
+        } else {
+            var itemId = 0L
+            items.forEachIndexed { index, (header, data) ->
+                if (showHeader(header)) {
+                    this.items.add(SpinnerItem.Header(header, itemId--))
+                }
+                data.forEach {
+                    this.items.add(SpinnerItem.Item(it))
+                }
+                if (index < items.lastIndex) {
+                    this.items.add(SpinnerItem.Divider(itemId--))
+                }
             }
         }
         notifyDataSetChanged()
@@ -45,21 +62,17 @@ class GroupedSpinnerAdapter<H, T: IdHolder>(
     fun getPosition(item: T) = getPosition(item.id)
     fun getPosition(id: Long) = items.indexOfFirst { it.itemId == id }
 
+    open fun showHeader(header: H): Boolean = true
+
     override fun isEnabled(position: Int): Boolean =
         items[position] !is SpinnerItem.Header<*>
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val item = items[position]
-        return if (item is SpinnerItem.Item<*>) {
+        return ((convertView ?: LayoutInflater.from(context)
+            .inflate(android.R.layout.simple_spinner_item, parent, false)) as TextView).apply {
             @Suppress("UNCHECKED_CAST")
-            val data = item.data as T
-            val view = LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
-            (view as TextView).text = itemToString(data)
-            view
-        } else {
-            val view = LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
-            (view as TextView).text = ""
-            view
+            text = if (item is SpinnerItem.Item<*>) itemToString(item.data as T) else ""
         }
     }
 
@@ -69,19 +82,37 @@ class GroupedSpinnerAdapter<H, T: IdHolder>(
             is SpinnerItem.Header<*> -> {
                 @Suppress("UNCHECKED_CAST")
                 val header = item.header as H
-                LayoutInflater.from(context).inflate(R.layout.spinner_header_item, parent, false).apply {
-                    (this as TextView).text = headerToString(header)
-                }
+                LayoutInflater.from(context)
+                    .inflate(R.layout.spinner_header_item, parent, false).apply {
+                        (this as TextView).apply {
+                            text = headerToString(header)
+                        }
+                    }
             }
 
             is SpinnerItem.Item<*> -> {
                 @Suppress("UNCHECKED_CAST")
                 val data = item.data as T
-                LayoutInflater.from(context).inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false).apply {
+                LayoutInflater.from(context).inflate(
+                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                    parent,
+                    false
+                ).apply {
                     (this as TextView).text = itemToString(data)
                 }
             }
 
+            is SpinnerItem.Divider -> {
+                View(context).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        10
+                    )
+                    val typedValue = TypedValue()
+                    context.theme.resolveAttribute(android.R.attr.listDivider, typedValue, true)
+                    setBackgroundResource(typedValue.resourceId)
+                }
+            }
         }
     }
 }
