@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
 import androidx.core.net.toUri
+import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.dialog.addAll
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
@@ -85,8 +86,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         get() = binding.AccountTable.Currency.adapter as CurrencyAdapter
 
     @Suppress("UNCHECKED_CAST")
-    private val typeAdapter: IdAdapter<AccountType>
-        get() = binding.AccountTable.AccountType.adapter as IdAdapter<AccountType>
+    private val typeAdapter: GroupedSpinnerAdapter<Boolean, AccountType>
+        get() = binding.AccountTable.AccountType.adapter as GroupedSpinnerAdapter<Boolean, AccountType>
 
     private var currency: String? = null
     private var type: AccountType? = null
@@ -322,8 +323,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                     isEnabled = position == 0
                 }
                 with(binding.AccountTable.AccountType) {
-                    if (selected.id != 0L) {
-                        setSelection(typeAdapter.getPosition(selected.type))
+                    if (selected.id != 0L && selected.type != null) {
+                        setSelection(typeAdapter.getPosition(selected.type.id))
                     }
                     isEnabled = position == 0
                 }
