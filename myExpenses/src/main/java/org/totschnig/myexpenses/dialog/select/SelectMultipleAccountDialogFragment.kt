@@ -26,7 +26,11 @@ class SelectMultipleAccountDialogFragment :
         get() = requireArguments().getString(KEY_CURRENCY)
 
     companion object {
-        fun newInstance(requestKey: String, currencyCode: String?, criterion: AccountCriterion?) =
+        fun newInstance(
+            requestKey: String,
+            currencyCode: String?,
+            criterion: AccountCriterion?
+        ) =
             SelectMultipleAccountDialogFragment().apply {
                 arguments = configureArguments(requestKey).apply {
                     currencyCode?.let {
