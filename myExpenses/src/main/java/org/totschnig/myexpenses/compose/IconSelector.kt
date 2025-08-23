@@ -212,12 +212,17 @@ fun IconSelectorDialog(
 
                     ButtonRow2(
                         modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
-                        onCancel = { showIconSelection.value = false },
                         positiveButton = if (icon.value != null)
                             ButtonDefinition(text = R.string.remove, enabled = true) {
                                 icon.value = null
                                 showIconSelection.value = false
-                            } else null
+                            } else null,
+                        negativeButton = ButtonDefinition(
+                            text = android.R.string.cancel,
+                            enabled = true
+                        ) {
+                            showIconSelection.value = false
+                        }
                     )
                 }
             }

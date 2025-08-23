@@ -552,6 +552,7 @@ fun accountQueryCTE(
     typeWithFallBack: String,
     date: String,
     dynamicExpression: String,
+    aggregateInvisible: Boolean,
 ): String {
     val dateCriterion =
         if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', '-1 second', 'utc'" else "'$date'"
@@ -561,6 +562,8 @@ fun accountQueryCTE(
     val isIncome =
         "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0)"
     val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
+
+    val invisibleFilter = if (aggregateInvisible) "" else " WHERE $KEY_VISIBLE = 1"
 
     val fullAccountProjection = arrayOf(
         "CASE WHEN $dynamicExpression THEN $CTE_LATEST_RATES.$KEY_VALUE END AS $KEY_LATEST_EXCHANGE_RATE ",
@@ -666,14 +669,8 @@ WITH now as (
    from amounts group by $KEY_ACCOUNTID
 ), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
     SELECT ${fullAccountProjection.joinToString()}
-    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  ${
-        exchangeRateJoin(
-            "",
-            KEY_ROWID,
-            homeCurrency,
-            TABLE_ACCOUNTS
-        )
-    }
+    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  
+    ${exchangeRateJoin("", KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)} $invisibleFilter
 )
 """
 }

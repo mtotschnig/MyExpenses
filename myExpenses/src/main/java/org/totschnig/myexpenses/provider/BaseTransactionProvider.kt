@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -646,17 +647,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val date = sumsForDate ?: "now"
         val aggregateFunction = this.aggregateFunction
 
-        val endOfDay = if (date == "now") runBlocking {
-            enumValueOrDefault(
-                dataStore.data.first()[stringPreferencesKey(
-                    prefHandler.getKey(
-                        PrefKey.CRITERION_FUTURE
-                    )
-                )], FutureCriterion.EndOfDay
-            )
-        } != FutureCriterion.Current else true
-
-        val cte = if (minimal) "" else
+        val cte = if (minimal) "" else {
+            val endOfDay = if (date == "now") runBlocking {
+                enumValueOrDefault(
+                    dataStore.data.first()[stringPreferencesKey(
+                        prefHandler.getKey(
+                            PrefKey.CRITERION_FUTURE
+                        )
+                    )], FutureCriterion.EndOfDay
+                )
+            } != FutureCriterion.Current else true
+            val aggregateInvisible = runBlocking {
+                dataStore.data.first()[booleanPreferencesKey(prefHandler.getKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED))] != false
+            }
             accountQueryCTE(
                 context!!,
                 homeCurrency,
@@ -664,8 +667,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 aggregateFunction,
                 typeWithFallBack,
                 date,
-                dynamicExchangeRatesDefault
+                dynamicExchangeRatesDefault,
+                aggregateInvisible
             )
+        }
 
         val tableName = if (minimal) accountWithTypeAndFlag else CTE_TABLE_NAME_FULL_ACCOUNTS
 

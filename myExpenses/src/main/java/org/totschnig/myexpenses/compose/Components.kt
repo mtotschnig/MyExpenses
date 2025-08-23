@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,9 +45,8 @@ data class ButtonDefinition(
 @Composable
 fun ButtonRow2(
     modifier: Modifier = Modifier,
-    onCancel: () -> Unit,
     positiveButton: ButtonDefinition?,
-    cancelEnabled: Boolean = true
+    negativeButton: ButtonDefinition?
 ) {
     val buttonRowTopPadding = 12.dp
     Row(
@@ -56,12 +54,14 @@ fun ButtonRow2(
             .fillMaxWidth()
             .padding(top = buttonRowTopPadding)
     ) {
-        TextButton(
-            modifier = Modifier.weight(1f),
-            enabled = cancelEnabled,
-            onClick = onCancel
-        ) {
-            Text(stringResource(id = android.R.string.cancel))
+        if (negativeButton != null) {
+            TextButton(
+                modifier = Modifier.weight(1f),
+                enabled = negativeButton.enabled,
+                onClick = negativeButton.onClick
+            ) {
+                Text(stringResource(id = negativeButton.text))
+            }
         }
 
         if (positiveButton != null) {
@@ -86,6 +86,26 @@ fun DialogFrame(
     positiveButton: ButtonDefinition?,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    DialogFrame(
+        title = title,
+        positiveButton = positiveButton,
+        negativeButton = ButtonDefinition(
+            text = android.R.string.cancel,
+            enabled = cancelEnabled,
+            onClick = onDismissRequest
+        ),
+        content = content
+    )
+}
+
+
+@Composable
+fun DialogFrame(
+    title: String,
+    positiveButton: ButtonDefinition?,
+    negativeButton: ButtonDefinition?,
+    content: @Composable ColumnScope.() -> Unit
+) {
     val titleBottomPadding = 12.dp
     Dialog(
         onDismissRequest = { }
@@ -94,9 +114,11 @@ fun DialogFrame(
             shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.background,
         ) {
-            Column(modifier = Modifier
-                .padding(18.dp)
-                .verticalScroll(rememberScrollState())) {
+            Column(
+                modifier = Modifier
+                    .padding(18.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
                     text = title,
@@ -104,9 +126,8 @@ fun DialogFrame(
                 )
                 content()
                 ButtonRow2(
-                    onCancel = onDismissRequest,
                     positiveButton = positiveButton,
-                    cancelEnabled = cancelEnabled
+                    negativeButton = negativeButton
                 )
             }
         }

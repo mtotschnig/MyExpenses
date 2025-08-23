@@ -237,7 +237,7 @@ private fun AccountTypeItem(
 ) {
     val context = LocalContext.current
 
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = modifier

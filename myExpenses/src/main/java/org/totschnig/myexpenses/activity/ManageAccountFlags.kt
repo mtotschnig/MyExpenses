@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +60,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
+import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.IconSelectorDialog
@@ -86,22 +89,27 @@ class ManageAccountFlags : ProtectedFragmentActivity(), SortUtilityDialogFragmen
                 val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
                 ManageFlagsScreen(
                     uiState = uiState,
+                    aggregateInvisible = viewModel.aggregateInvisible.collectAsState(true).value,
                     onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
                     onDelete = viewModel::onDelete,
                     onDialogDismiss = viewModel::onDialogDismiss,
                     onSave = viewModel::onSave,
-                    onToggleVisibility = viewModel::onToggleVisibility
-                ) {
-                    SortUtilityDialogFragment.newInstance(
-                        ArrayList(
-                            uiState.accountFlags.map {
-                                SortableItem(it.id, it.localizedLabel(this))
-                            }
-                        ))
-                        .show(supportFragmentManager, "SORT_ACCOUNTS")
-                }
+                    onToggleVisibility = viewModel::onToggleVisibility,
+                    onSort = {
+                        SortUtilityDialogFragment.newInstance(
+                            ArrayList(
+                                uiState.accountFlags.map {
+                                    SortableItem(it.id, it.localizedLabel(this))
+                                }
+                            ))
+                            .show(supportFragmentManager, "SORT_ACCOUNTS")
+                    },
+                    onSetAggregateInvisible = {
+                        viewModel.persistAggregateInvisible(it)
+                    }
+                )
             }
         }
     }
@@ -123,15 +131,19 @@ class ManageAccountFlags : ProtectedFragmentActivity(), SortUtilityDialogFragmen
 @Composable
 fun ManageFlagsScreen(
     uiState: AccountFlagsUiState,
-    onClose: () -> Unit = {},
-    onAdd: () -> Unit = {},
-    onEdit: (AccountFlag) -> Unit = {},
-    onDelete: (AccountFlag) -> Unit = {},
-    onDialogDismiss: () -> Unit = {},
+    onClose: () -> Unit,
+    onAdd: () -> Unit,
+    onEdit: (AccountFlag) -> Unit,
+    onDelete: (AccountFlag) -> Unit,
+    onDialogDismiss: () -> Unit,
     onSave: (String, String?) -> Unit,
     onToggleVisibility: (Long, Boolean) -> Unit,
-    onSort: () -> Unit = {}
+    aggregateInvisible: Boolean,
+    onSort: () -> Unit,
+    onSetAggregateInvisible: (Boolean) -> Unit
 ) {
+    var showConfigDialog by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         modifier = Modifier.padding(
             horizontal = dimensionResource(
@@ -154,6 +166,12 @@ fun ManageFlagsScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Sort,
                             contentDescription = stringResource(id = R.string.sort_order)
+                        )
+                    }
+                    IconButton(onClick = { showConfigDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = stringResource(id = R.string.settings_label)
                         )
                     }
                 },
@@ -202,6 +220,20 @@ fun ManageFlagsScreen(
                     onDismiss = onDialogDismiss,
                     onSave = onSave
                 )
+            }
+        }
+    }
+    if (showConfigDialog) {
+        DialogFrame(
+            title = "${stringResource(R.string.menu_account_flags)} ${stringResource(R.string.settings_label)}",
+            positiveButton = null,
+            negativeButton = ButtonDefinition(
+                text = R.string.menu_close,
+                onClick = { showConfigDialog = false }
+            )
+        ) {
+            CheckBoxWithLabel(stringResource(R.string.aggregate_invisible),aggregateInvisible) {
+                onSetAggregateInvisible(it)
             }
         }
     }
@@ -275,7 +307,7 @@ fun AccountFlagItem(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = modifier

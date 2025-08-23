@@ -1,11 +1,15 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,6 +20,8 @@ import org.totschnig.myexpenses.db2.saveAccountFlagOrder
 import org.totschnig.myexpenses.db2.setAccountFlagVisible
 import org.totschnig.myexpenses.db2.updateAccountFlag
 import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 
 data class AccountFlagsUiState(
     val isLoading: Boolean = false,
@@ -34,6 +40,25 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
                 editingAccountFlag = edit
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
+    }
+
+    val aggregateInvisibleKey: Preferences.Key<Boolean>
+        get() = prefHandler.getBooleanPreferencesKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED)
+
+
+    val aggregateInvisible: Flow<Boolean> by lazy {
+        dataStore.data.map {
+            it[aggregateInvisibleKey] != false
+        }
+    }
+
+    fun persistAggregateInvisible(aggregate: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[aggregateInvisibleKey] = aggregate
+                contentResolver.triggerAccountListRefresh()
+            }
+        }
     }
 
     fun onAdd() {

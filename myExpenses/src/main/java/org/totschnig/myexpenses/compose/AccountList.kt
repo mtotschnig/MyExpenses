@@ -35,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -232,7 +233,7 @@ fun AccountCard(
     flags: List<AccountFlag> = emptyList(),
 ) {
     val format = LocalCurrencyFormatter.current
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val homeCurrency = LocalHomeCurrency.current
     val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
@@ -353,6 +354,7 @@ fun AccountCard(
                                         CheckableMenuEntry(
                                             label = UiText.StringValue(it.localizedLabel(LocalContext.current)),
                                             command = "SET_FLAG",
+                                            isRadio = true,
                                             isChecked = isChecked
                                         ) {
                                             if (isChecked) {

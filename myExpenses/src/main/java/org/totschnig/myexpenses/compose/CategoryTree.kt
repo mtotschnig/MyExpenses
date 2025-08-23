@@ -27,6 +27,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -240,7 +241,7 @@ fun CategoryRenderer(
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val isExpanded = expansionMode.isExpanded(category.id)
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
     val menu = menuGenerator(category)
     val contentDescription = getCategoryContentDescription(category)
     Row(

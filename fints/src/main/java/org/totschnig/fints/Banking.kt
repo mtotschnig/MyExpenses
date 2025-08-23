@@ -215,10 +215,10 @@ class Banking : ProtectedFragmentActivity() {
                                 )
                             } else {
                                 LazyColumn {
-                                    data.value.forEach {
+                                    data.value.forEach { bank ->
                                         item {
                                             BankRow(
-                                                bank = it,
+                                                bank = bank,
                                                 onDelete = {
                                                     if (it.count > 0) {
                                                         confirmBankDelete(it)
@@ -231,11 +231,11 @@ class Banking : ProtectedFragmentActivity() {
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
-                                                onMigrate = if (it.version == 1) {
+                                                onMigrate = if (bank.version == 1) {
                                                     { migrationDialogShown.value = it }
                                                 } else null,
                                                 onResetTanMechanism =
-                                                if (viewModel.hasStoredTanMech(it.id)) {
+                                                if (viewModel.hasStoredTanMech(bank.id)) {
                                                     { viewModel.resetTanMechanism(it.id) }
                                                 } else null
                                             )
@@ -594,7 +594,7 @@ fun BankRow(
     onResetTanMechanism: ((Bank) -> Unit)? = null,
     onMigrate: ((Bank) -> Unit)? = null,
 ) {
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
     Row(
         modifier = Modifier.clickable { showMenu.value = true },
         verticalAlignment = Alignment.CenterVertically,
@@ -652,7 +652,7 @@ fun AccountRow(
 ) {
     Row {
         if (selectable) {
-            val showMenu = remember { mutableStateOf(false) }
+            val showMenu = rememberSaveable { mutableStateOf(false) }
             Checkbox(checked = selected != null, onCheckedChange = {
                 if (targetOptions.size > 1 && it) {
                     showMenu.value = true

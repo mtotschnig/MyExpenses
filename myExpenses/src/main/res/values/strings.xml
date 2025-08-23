@@ -1110,4 +1110,5 @@
     <string name="supports_reconciliation">Supports Reconciliation</string>
     <string name="visible">Visible</string>
     <string name="count">Count</string>
+    <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
 </resources>

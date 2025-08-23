@@ -285,8 +285,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     val accountCount
         get() = accountData.count { it.id > 0 }
 
-    private lateinit var accountSort: Sort
-
     private var actionMode: ActionMode? = null
 
     var selectionState
@@ -532,7 +530,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
-        accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
         with(injector) {
             inject(viewModel)
@@ -1677,9 +1674,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .show(supportFragmentManager, tag)
         }
     }
-
-    private fun readAccountSortFromPref() =
-        prefHandler.enumValueOrDefault(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES)
 
     private fun closeDrawer() = binding.drawer?.closeDrawers() != null
 

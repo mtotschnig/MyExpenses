@@ -18,6 +18,8 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.RadioButtonChecked
+import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -29,6 +31,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,13 +68,19 @@ data class CheckableMenuEntry(
     override val label: UiText,
     override val command: String? = null,
     val isChecked: Boolean,
+    val isRadio: Boolean = false,
     override val action: () -> Unit
 ) : IActionMenuEntry {
-    constructor(label: Int, command: String, isChecked: Boolean,  action: () -> Unit) :
-            this(UiText.StringResource(label), command, isChecked, action)
+    constructor(label: Int, command: String, isChecked: Boolean, isRadio: Boolean = false, action: () -> Unit) :
+            this(UiText.StringResource(label), command, isChecked, isRadio, action)
 
     override val icon: ImageVector
-        get() = if (isChecked) Icons.Filled.CheckBox else Icons.Filled.CheckBoxOutlineBlank
+        get() = when {
+            isRadio && isChecked -> Icons.Filled.RadioButtonChecked
+            isRadio -> Icons.Filled.RadioButtonUnchecked
+            isChecked -> Icons.Filled.CheckBox
+            else -> Icons.Filled.CheckBoxOutlineBlank
+        }
 }
 
 data class MenuEntry(
@@ -118,7 +127,7 @@ fun OverFlowMenu(
     modifier: Modifier = Modifier,
     menu: Menu
 ) {
-    val showMenu = remember { mutableStateOf(false) }
+    val showMenu = rememberSaveable { mutableStateOf(false) }
     Box(modifier = modifier) {
         IconButton(
             onClick = { showMenu.value = true }) {

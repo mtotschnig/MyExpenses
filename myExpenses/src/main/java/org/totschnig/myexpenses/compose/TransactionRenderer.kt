@@ -37,6 +37,7 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -205,7 +206,7 @@ abstract class ItemRenderer(
         menuGenerator: (Transaction2) -> Menu? = { null },
         resolvedSplitInfo: List<Pair<String , String?>>? = null,
     ) {
-        val showMenu = remember { mutableStateOf(false) }
+        val showMenu = rememberSaveable { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
         Row(
             modifier = modifier
