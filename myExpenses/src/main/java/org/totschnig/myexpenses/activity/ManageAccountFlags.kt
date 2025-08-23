@@ -38,6 +38,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -62,6 +63,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.DialogFrame
+import org.totschnig.myexpenses.compose.DialogFrame2
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.IconSelectorDialog
 import org.totschnig.myexpenses.compose.Menu
@@ -71,13 +73,15 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
+import org.totschnig.myexpenses.viewmodel.AccountForSelection
 import timber.log.Timber
 
 private const val WEIGHT_ICON = 1f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
 
-class ManageAccountFlags : ProtectedFragmentActivity(), SortUtilityDialogFragment.OnConfirmListener {
+class ManageAccountFlags : ProtectedFragmentActivity(),
+    SortUtilityDialogFragment.OnConfirmListener {
 
     val viewModel: AccountFlagsViewModel by viewModels()
 
@@ -108,7 +112,9 @@ class ManageAccountFlags : ProtectedFragmentActivity(), SortUtilityDialogFragmen
                     },
                     onSetAggregateInvisible = {
                         viewModel.persistAggregateInvisible(it)
-                    }
+                    },
+                    onStartSelection = viewModel::onStartSelection,
+                    onSaveSelection = viewModel::onSaveSelection
                 )
             }
         }
@@ -134,13 +140,15 @@ fun ManageFlagsScreen(
     onClose: () -> Unit,
     onAdd: () -> Unit,
     onEdit: (AccountFlag) -> Unit,
-    onDelete: (AccountFlag) -> Unit,
+    onDelete: (Long) -> Unit,
     onDialogDismiss: () -> Unit,
     onSave: (String, String?) -> Unit,
     onToggleVisibility: (Long, Boolean) -> Unit,
+    onStartSelection: (AccountFlag) -> Unit,
     aggregateInvisible: Boolean,
     onSort: () -> Unit,
-    onSetAggregateInvisible: (Boolean) -> Unit
+    onSetAggregateInvisible: (Boolean) -> Unit,
+    onSaveSelection: (Set<Long>) -> Unit
 ) {
     var showConfigDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -209,7 +217,8 @@ fun ManageFlagsScreen(
                     onDeleteClick = { onDelete(it) },
                     onToggleVisibility = { id, visible ->
                         onToggleVisibility(id, visible)
-                    }
+                    },
+                    onStartSelection = { onStartSelection(it) }
                 )
             }
 
@@ -223,6 +232,7 @@ fun ManageFlagsScreen(
             }
         }
     }
+
     if (showConfigDialog) {
         DialogFrame(
             title = "${stringResource(R.string.menu_account_flags)} ${stringResource(R.string.settings_label)}",
@@ -232,10 +242,21 @@ fun ManageFlagsScreen(
                 onClick = { showConfigDialog = false }
             )
         ) {
-            CheckBoxWithLabel(stringResource(R.string.aggregate_invisible),aggregateInvisible) {
+            CheckBoxWithLabel(
+                label = stringResource(R.string.aggregate_invisible),
+                checked = aggregateInvisible
+            ) {
                 onSetAggregateInvisible(it)
             }
         }
+    }
+
+    if (uiState.selectingAccountsForFlag != null) {
+        AccountSelectionDialog(
+            uiState.selectingAccountsForFlag,
+            onDismiss = onDialogDismiss,
+            onSave = onSaveSelection
+        )
     }
 }
 
@@ -243,8 +264,9 @@ fun ManageFlagsScreen(
 fun AccountFlagList(
     list: List<AccountFlag>,
     onEditClick: (AccountFlag) -> Unit,
-    onDeleteClick: (AccountFlag) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onToggleVisibility: (Long, Boolean) -> Unit,
+    onStartSelection: (AccountFlag) -> Unit,
     paddingValues: PaddingValues
 ) {
     Column(
@@ -274,12 +296,8 @@ fun AccountFlagList(
         }
         HorizontalDivider()
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            item {
-
-            }
             items(list, key = { it.id }) { flag ->
                 AccountFlagItem(
                     modifier = Modifier.animateItem(),
@@ -291,7 +309,10 @@ fun AccountFlagList(
                         onEditClick(flag)
                     },
                     onDeleteClick = {
-                        onDeleteClick(flag)
+                        onDeleteClick(flag.id)
+                    },
+                    onStartSelection = {
+                        onStartSelection(flag)
                     }
                 )
             }
@@ -306,6 +327,7 @@ fun AccountFlagItem(
     onToggleVisibility: (Boolean) -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
+    onStartSelection: () -> Unit
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
 
@@ -346,6 +368,9 @@ fun AccountFlagItem(
                     if ((flag.count ?: 0) == 0) {
                         add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
                     }
+                    add(MenuEntry.select("SELECT_ACCOUNTS_FOR_FLAG") {
+                        onStartSelection()
+                    })
                 }
             )
             HierarchicalMenu(showMenu, menu)
@@ -354,7 +379,7 @@ fun AccountFlagItem(
 }
 
 @Composable
-fun AddEditAccountFlagDialog(
+private fun AddEditAccountFlagDialog(
     editingAccountFlag: AccountFlag,
     onDismiss: () -> Unit = {},
     onSave: (name: String, icon: String?) -> Unit =
@@ -415,5 +440,53 @@ fun AddEditAccountFlagDialog(
             } ?: Text(stringResource(id = R.string.select))
         }
         IconSelectorDialog(showIconSelection, icon)
+    }
+}
+
+@Composable
+private fun AccountSelectionDialog(
+    selectingAccountsForFlag: Pair<AccountFlag, List<AccountForSelection>>,
+    onDismiss: () -> Unit,
+    onSave: (Set<Long>) -> Unit
+) {
+    val (flag, accounts) = selectingAccountsForFlag
+
+    var selectedIds by rememberSaveable {
+        mutableStateOf(accounts.filter { it.selected }.map { it.id }.toSet())
+    }
+
+    DialogFrame2(
+        title = stringResource(
+            R.string.select_accounts_for_flag,
+            flag.localizedLabel(LocalContext.current)
+        ),
+        positiveButton = ButtonDefinition(
+            text = android.R.string.ok,
+            onClick = {
+                onSave(selectedIds)
+            }
+        ),
+        negativeButton = ButtonDefinition(
+            text = android.R.string.cancel,
+            onClick = {
+                onDismiss()
+            }
+        )
+    ) {
+        items(accounts, key = { it.id }) { account ->
+            CheckBoxWithLabel(
+                modifier = Modifier
+                    .minimumInteractiveComponentSize()
+                    .fillMaxWidth(),
+                account.label,
+                selectedIds.contains(account.id)
+            ) {
+                selectedIds = if (it) {
+                    selectedIds + account.id
+                } else {
+                    selectedIds - account.id
+                }
+            }
+        }
     }
 }

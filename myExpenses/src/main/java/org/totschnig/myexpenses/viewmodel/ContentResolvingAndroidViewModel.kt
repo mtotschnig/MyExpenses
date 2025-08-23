@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.db2.loadAccountFlow
 import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
@@ -173,7 +174,8 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 else
                     cursor.getString(KEY_LABEL),
                 cursor.getString(KEY_CURRENCY),
-                if (id < 0) null else AccountType.fromAccountCursor(cursor)
+                if (id < 0) null else AccountType.fromAccountCursor(cursor),
+                flag = AccountFlag.fromAccountCursor(cursor)
             )
         }
 

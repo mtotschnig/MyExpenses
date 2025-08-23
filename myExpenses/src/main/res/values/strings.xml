@@ -1111,4 +1111,5 @@
     <string name="visible">Visible</string>
     <string name="count">Count</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
+    <string name="select_accounts_for_flag">Select accounts for flag %s</string>
 </resources>

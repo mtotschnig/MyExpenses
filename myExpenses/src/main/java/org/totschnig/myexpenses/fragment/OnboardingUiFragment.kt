@@ -170,7 +170,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                             }
                         )
                         CheckBoxWithLabel(
-                            stringResource(id = R.string.icons_for_categories),
+                            label = stringResource(id = R.string.icons_for_categories),
                             checked = withCategoryIcon,
                             onCheckedChange = {
                                 viewModel.setWithCategoryIcon(it)

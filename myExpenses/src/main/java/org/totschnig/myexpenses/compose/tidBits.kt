@@ -179,6 +179,7 @@ fun TypeConfiguration(
 
 @Composable
 fun CheckBoxWithLabel(
+    modifier: Modifier = Modifier,
     label: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -189,8 +190,7 @@ fun CheckBoxWithLabel(
                 value = checked,
                 role = Role.Checkbox,
                 onValueChange = onCheckedChange
-            )
-            .padding(16.dp),
+            ).then(modifier),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

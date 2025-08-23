@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -98,7 +101,6 @@ fun DialogFrame(
     )
 }
 
-
 @Composable
 fun DialogFrame(
     title: String,
@@ -129,6 +131,45 @@ fun DialogFrame(
                     positiveButton = positiveButton,
                     negativeButton = negativeButton
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun DialogFrame2(
+    title: String,
+    positiveButton: ButtonDefinition?,
+    negativeButton: ButtonDefinition?,
+    content:  LazyListScope.() -> Unit
+) {
+    val titleBottomPadding = 12.dp
+    Dialog(
+        onDismissRequest = { }
+    ) {
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.background,
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(18.dp)
+
+            ) {
+                item {
+                    Text(
+                        modifier = Modifier.padding(bottom = titleBottomPadding),
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                content()
+                item {
+                    ButtonRow2(
+                        positiveButton = positiveButton,
+                        negativeButton = negativeButton
+                    )
+                }
             }
         }
     }

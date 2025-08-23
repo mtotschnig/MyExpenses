@@ -7,10 +7,13 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_FLAG_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_FLAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.withAppendedId
@@ -33,9 +36,9 @@ fun Repository.updateAccountFlag(accountFlag: AccountFlag) {
     )
 }
 
-fun Repository.setAccountFlagVisible(accountTypeId: Long, visible: Boolean) {
+fun Repository.setAccountFlagVisible(accountFlagId: Long, visible: Boolean) {
     contentResolver.update(
-        ACCOUNT_FLAGS_URI.withAppendedId(accountTypeId),
+        ACCOUNT_FLAGS_URI.withAppendedId(accountFlagId),
         contentValuesOf(
             KEY_VISIBLE to visible
         ),
@@ -54,9 +57,9 @@ fun Repository.addAccountFlag(accountFlag: AccountFlag): AccountFlag {
     return accountFlag.copy(id = id)
 }
 
-fun Repository.deleteAccountFlag(accountTypeId: Long) {
+fun Repository.deleteAccountFlag(accountFlagId: Long) {
     contentResolver.delete(
-        ACCOUNT_FLAGS_URI.withAppendedId(accountTypeId),
+        ACCOUNT_FLAGS_URI.withAppendedId(accountFlagId),
         null,
         null
     )
@@ -66,4 +69,18 @@ fun Repository.saveAccountFlagOrder(sortedIds: LongArray) {
     contentResolver.call(DUAL_URI, METHOD_FLAG_SORT, null, Bundle().apply {
         putLongArray(KEY_SORTED_FLAG_IDS, sortedIds)
     })
+}
+
+fun Repository.saveSelectedAccountsForFlag(
+    accountFlagId: Long,
+    flaggedAccounts: Set<Long>
+) {
+    contentResolver.update(
+        ACCOUNTS_URI,
+        contentValuesOf(
+            KEY_FLAG to accountFlagId,
+        ),
+        "$KEY_ROWID IN (${flaggedAccounts.joinToString(",") { "?" }})",
+        flaggedAccounts.map { it.toString() }.toTypedArray()
+    )
 }

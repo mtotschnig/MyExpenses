@@ -20,6 +20,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
@@ -34,6 +38,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCIL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
@@ -116,6 +121,11 @@ data class Account(
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
+            KEY_FLAG,
+            KEY_FLAG_LABEL,
+            KEY_VISIBLE,
+            KEY_FLAG_SORT_KEY,
+            KEY_FLAG_ICON,
             "0 AS $KEY_IS_AGGREGATE"
         )
 

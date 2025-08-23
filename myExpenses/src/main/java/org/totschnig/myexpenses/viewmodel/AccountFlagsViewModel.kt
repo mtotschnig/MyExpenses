@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -17,27 +18,40 @@ import org.totschnig.myexpenses.db2.addAccountFlag
 import org.totschnig.myexpenses.db2.deleteAccountFlag
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.saveAccountFlagOrder
+import org.totschnig.myexpenses.db2.saveSelectedAccountsForFlag
 import org.totschnig.myexpenses.db2.setAccountFlagVisible
 import org.totschnig.myexpenses.db2.updateAccountFlag
 import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_FLAGS_URI
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
+import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
+
+data class AccountForSelection(
+    val id: Long,
+    val label: String,
+    val selected: Boolean
+)
 
 data class AccountFlagsUiState(
     val isLoading: Boolean = false,
     val accountFlags: List<AccountFlag> = emptyList(),
-    val editingAccountFlag: AccountFlag? = null // For editing an existing one
+    val editingAccountFlag: AccountFlag? = null,
+    val selectingAccountsForFlag: Pair<AccountFlag, List<AccountForSelection>>? = null
 )
 
 class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     private val editingAccountFLag = MutableStateFlow<AccountFlag?>(null)
+    private val selectionAccountsForFlag = MutableStateFlow<Pair<AccountFlag, List<AccountForSelection>>?>(null)
 
     val uiState: StateFlow<AccountFlagsUiState> by lazy {
-        combine(repository.getAccountFlags(), editingAccountFLag) { data, edit ->
+        combine(repository.getAccountFlags(), editingAccountFLag, selectionAccountsForFlag) { data, edit, selection ->
             AccountFlagsUiState(
                 accountFlags = data,
-                editingAccountFlag = edit
+                editingAccountFlag = edit,
+                selectingAccountsForFlag = selection
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
     }
@@ -67,18 +81,19 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
         }
     }
 
-    fun onEdit(accountType: AccountFlag) {
-        editingAccountFLag.update { accountType }
+    fun onEdit(accountFlag: AccountFlag) {
+        editingAccountFLag.update { accountFlag }
     }
 
-    fun onDelete(accountFlag: AccountFlag) {
+    fun onDelete(id: Long) {
         viewModelScope.launch(coroutineDispatcher) {
-            repository.deleteAccountFlag(accountFlag.id)
+            repository.deleteAccountFlag(id)
         }
     }
 
     fun onDialogDismiss() {
         editingAccountFLag.update { null }
+        selectionAccountsForFlag.update { null }
     }
 
     fun onToggleVisibility(
@@ -87,6 +102,21 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
     ) {
         viewModelScope.launch(coroutineDispatcher) {
             repository.setAccountFlagVisible(id, visible)
+        }
+    }
+
+    fun onStartSelection(flag: AccountFlag) {
+        viewModelScope.launch(coroutineDispatcher) {
+            val accounts: List<AccountMinimal> = accountsMinimal(withAggregates = false).first()
+            selectionAccountsForFlag.update {
+                flag to accounts.map {
+                    AccountForSelection(
+                        id = it.id,
+                        label = it.label,
+                        selected = it.flag?.id == flag.id
+                    )
+                }
+            }
         }
     }
 
@@ -115,6 +145,21 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
             }
             onDialogDismiss()
         }
+    }
+
+    fun onSaveSelection(
+        selected: Set<Long>
+    ) {
+        val currentSelection= selectionAccountsForFlag.value ?: return
+        val currentSelectionFlag = currentSelection.first
+        val unselectedIds = currentSelection.second.map { it.id }.toSet() - selected
+
+        selectionAccountsForFlag.update { null }
+        viewModelScope.launch(coroutineDispatcher) {
+            repository.saveSelectedAccountsForFlag(currentSelectionFlag.id, selected)
+            repository.saveSelectedAccountsForFlag(DEFAULT_FLAG_ID, unselectedIds)
+            contentResolver.notifyChange(ACCOUNT_FLAGS_URI, null, false)
+         }
     }
 
     fun onSortOrderConfirmed(sortedIds: LongArray) {
