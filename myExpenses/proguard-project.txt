@@ -10,6 +10,7 @@
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
+-dontwarn com.google.j2objc.annotations.RetainedWith
 
 -keepclassmembers class * {
     @androidx.annotation.VisibleForTesting *;
