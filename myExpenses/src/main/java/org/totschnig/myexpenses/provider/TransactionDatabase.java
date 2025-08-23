@@ -28,6 +28,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACH
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_TYPE_UPDATE_TRIGGER_MAIN;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.DEFAULT_FLAG_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.EQUIVALENT_AMOUNTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
@@ -447,6 +448,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultAccountTypesAndMethods(db);
     insertDefaultAccountFlags(db, TABLE_ACCOUNT_FLAGS);
+    db.execSQL(DEFAULT_FLAG_TRIGGER);
     db.execSQL(CURRENCY_CREATE);
     //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
@@ -2105,6 +2107,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 178) {
         upgradeTo178(db);
+      }
+
+      if (oldVersion < 179) {
+        upgradeTo179(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

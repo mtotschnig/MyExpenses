@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -130,7 +131,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 178
+const val DATABASE_VERSION = 179
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -568,13 +569,15 @@ const val UPDATE_ACCOUNT_METADATA_TRIGGER =
        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL) VALUES ('metadata', '_ignored_', new.$KEY_ROWID, new.$KEY_SYNC_SEQUENCE_LOCAL); END;
 """
 
-
 val UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER =
     """CREATE TRIGGER update_account_exchange_rate AFTER UPDATE ON $TABLE_ACCOUNT_EXCHANGE_RATES
     WHEN ${shouldWriteChangeTemplate("new")}
     BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
     VALUES ('metadata', '_ignored_', new.$KEY_ACCOUNTID, ${sequenceNumberSelect("old")});
     END;"""
+
+const val DEFAULT_FLAG_TRIGGER =
+    """CREATE TRIGGER protect_default_flag BEFORE DELETE ON $TABLE_ACCOUNT_FLAGS WHEN (OLD.$KEY_ROWID = 0) BEGIN SELECT RAISE (FAIL, 'default flag can not be deleted'); END;"""
 
 abstract class BaseTransactionDatabase(
     val context: Context,
@@ -1209,6 +1212,24 @@ abstract class BaseTransactionDatabase(
         repairWithSealedAccountsAndDebts {
             execSQL("update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)")
         }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo179() {
+        execSQL(
+            "CREATE TABLE account_flags (_id integer primary key autoincrement, flag_label text unique not null, flag_sort_key integer not null, flag_icon text, visible boolean not null)"
+        )
+        val accountFlags = insertDefaultAccountFlags("account_flags")
+        execSQL(DEFAULT_FLAG_TRIGGER)
+        val inactive = accountFlags[PREDEFINED_NAME_INACTIVE]
+        execSQL("ALTER TABLE accounts RENAME to accounts_old")
+        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,flag integer references account_flags(_id) NOT NULL default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
+        execSQL("""INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, flag, sealed, dynamic, bank_id)
+            SELECT _id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, case when hidden then $inactive else 0 end, sealed, dynamic, bank_id FROM accounts_old;
+        """)
+        execSQL("DROP TABLE accounts_old")
+        execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
+        createOrRefreshAccountTriggers();
+        createOrRefreshAccountMetadataTrigger();
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
