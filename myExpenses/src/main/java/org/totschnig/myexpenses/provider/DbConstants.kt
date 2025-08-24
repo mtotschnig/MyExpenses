@@ -103,6 +103,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
@@ -581,6 +582,7 @@ fun accountQueryCTE(
         KEY_IS_ASSET,
         KEY_SUPPORTS_RECONCILIATION,
         KEY_TYPE,
+        KEY_TYPE_SORT_KEY,
         KEY_FLAG,
         KEY_FLAG_LABEL,
         KEY_VISIBLE,

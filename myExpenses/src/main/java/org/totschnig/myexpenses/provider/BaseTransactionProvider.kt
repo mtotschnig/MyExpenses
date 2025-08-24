@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
@@ -651,15 +652,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val cte = if (minimal) "" else {
             val endOfDay = if (date == "now") runBlocking {
                 enumValueOrDefault(
-                    dataStore.data.first()[stringPreferencesKey(
-                        prefHandler.getKey(
-                            PrefKey.CRITERION_FUTURE
-                        )
-                    )], FutureCriterion.EndOfDay
+                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)], FutureCriterion.EndOfDay
                 )
             } != FutureCriterion.Current else true
             val aggregateInvisible = runBlocking {
-                dataStore.data.first()[booleanPreferencesKey(prefHandler.getKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED))] != false
+                dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED)] != false
             }
             accountQueryCTE(
                 context!!,
@@ -679,7 +676,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             SupportSQLiteQueryBuilder.builder(tableName)
                 .columns(if (minimal) mapAccountProjection(Account.PROJECTION_MINIMAL) else null)
                 .selection(selection, emptyArray())
-                .orderBy(sortOrder)
+                //for balance sheet, we need to respect the sort order of account types
+                .orderBy(if (sumsForDate != null) "$KEY_TYPE_SORT_KEY DESC,$sortOrder" else sortOrder)
                 .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()
@@ -699,6 +697,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 KEY_GROUPING,
                                 KEY_ACCOUNT_TYPE_LABEL,
                                 KEY_TYPE,
+                                KEY_TYPE_SORT_KEY,
                                 KEY_IS_ASSET,
                                 KEY_SUPPORTS_RECONCILIATION,
                                 KEY_FLAG,
@@ -773,6 +772,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "$TABLE_CURRENCIES.$KEY_GROUPING",
                         "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
                         "0 AS $KEY_TYPE",
+                        "0 AS $KEY_TYPE_SORT_KEY",
                         "0 AS $KEY_IS_ASSET",
                         "0 AS $KEY_SUPPORTS_RECONCILIATION",
                         "0 AS $KEY_FLAG",
@@ -857,6 +857,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "'$grouping' AS $KEY_GROUPING",
                         "'AGGREGATE' AS $KEY_ACCOUNT_TYPE_LABEL",
                         "0 AS $KEY_TYPE",
+                        "0 AS $KEY_TYPE_SORT_KEY",
                         "0 AS $KEY_IS_ASSET",
                         "0 AS $KEY_SUPPORTS_RECONCILIATION",
                         "0 AS $KEY_FLAG",
@@ -904,7 +905,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         .create().sql
                 )
             }
-            buildUnionQuery(subQueries.toTypedArray(), "$KEY_IS_AGGREGATE,$sortOrder")
+            val accountGrouping =  runBlocking {
+                enumValueOrDefault(
+                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)], AccountGrouping.NONE
+                )
+            }
+            val sortOrderForGrouping = if (accountGrouping == AccountGrouping.TYPE) "$KEY_TYPE_SORT_KEY DESC," else ""
+            buildUnionQuery(subQueries.toTypedArray(), "$KEY_IS_AGGREGATE,$sortOrderForGrouping$sortOrder")
         }
         return "$cte\n$query"
     }

@@ -1724,6 +1724,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_TYPE_SORT ->  {
         Bundle result = setTypeSort(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(ACCOUNT_TYPES_URI, false);
+        notifyChange(ACCOUNTS_URI, false);
         return result;
       }
     }
