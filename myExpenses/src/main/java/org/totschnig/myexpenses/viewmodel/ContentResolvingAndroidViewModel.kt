@@ -160,10 +160,13 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         emit(DateInfo.load(contentResolver))
     }.flowOn(Dispatchers.IO)
 
-    fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
-        if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI, null,
-        query,
-        null, null, false
+    fun accountsMinimal(
+        query: String? = null,
+        queryArgs: Array<String>? = null,
+        withAggregates: Boolean = true
+    ): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
+        if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI,
+        null, query, queryArgs, null, false
     )
         .mapToList { cursor ->
             val id = cursor.getLong(KEY_ROWID)
@@ -381,7 +384,8 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         contentResolver.applyBatch(AUTHORITY, ops)
     }
 
-    fun childCount(transactionId : Long) = repository.count(TRANSACTIONS_URI,
+    fun childCount(transactionId: Long) = repository.count(
+        TRANSACTIONS_URI,
         "$KEY_PARENTID = ?", arrayOf(transactionId.toString())
     )
 
