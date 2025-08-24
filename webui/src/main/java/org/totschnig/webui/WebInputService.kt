@@ -69,7 +69,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -437,7 +437,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                         KEY_LABEL,
                         KEY_IS_NUMBERED,
                         KEY_TYPE,
-                        KEY_ACCOUNT_TPYE_LIST
+                        KEY_ACCOUNT_TYPE_LIST
                     ),
                     null, null, null
                 )?.useAndMapToList {

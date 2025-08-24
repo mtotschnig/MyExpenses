@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -55,6 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.DialogFrame
@@ -62,13 +64,15 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
 import org.totschnig.myexpenses.viewmodel.AccountTypesUiState
 import java.text.Collator
 
-class ManageAccountTypes : ProtectedFragmentActivity() {
+class ManageAccountTypes : ProtectedFragmentActivity(),
+    SortUtilityDialogFragment.OnConfirmListener  {
 
     val viewModel: AccountTypeViewModel by viewModels()
 
@@ -77,17 +81,32 @@ class ManageAccountTypes : ProtectedFragmentActivity() {
         injector.inject(viewModel)
         setContent {
             AppTheme {
+                val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
                 ManageAccountTypesScreen(
-                    uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+                    uiState = uiState,
                     onClose = { finish() },
                     onAdd = viewModel::onAdd,
                     onEdit = viewModel::onEdit,
                     onDelete = viewModel::onDelete,
                     onDialogDismiss = viewModel::onDialogDismiss,
-                    onSave = viewModel::onSave
+                    onSave = viewModel::onSave,
+                    onSort = { isAsset ->
+                        SortUtilityDialogFragment.newInstance(
+                            ArrayList(
+                                uiState.accountTypes.filter { it.isAsset  == isAsset }.map {
+                                    SortableItem(it.id, it.localizedName(this))
+                                }
+                            ))
+                            .show(supportFragmentManager, "SORT_TYPES")
+                    }
                 )
             }
         }
+    }
+
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+
+        viewModel.onSortOrderConfirmed(sortedIds)
     }
 }
 
@@ -100,7 +119,8 @@ private fun ManageAccountTypesScreen(
     onEdit: (AccountType) -> Unit = {},
     onDelete: (AccountType) -> Unit = {},
     onDialogDismiss: () -> Unit = {},
-    onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit = { _, _, _ -> }
+    onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit = { _, _, _ -> },
+    onSort: (Boolean) -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.padding(
@@ -150,7 +170,8 @@ private fun ManageAccountTypesScreen(
                     paddingValues = totalPadding,
                     accountTypes = uiState.accountTypes,
                     onEditClick = { onEdit(it) },
-                    onDeleteClick = { onDelete(it) }
+                    onDeleteClick = { onDelete(it) },
+                    onSortClick = onSort
                 )
             }
 
@@ -173,6 +194,7 @@ private fun AccountTypeList(
     accountTypes: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit,
+    onSortClick: (Boolean) -> Unit,
     paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
@@ -193,17 +215,19 @@ private fun AccountTypeList(
         groups[true]?.let { assetTypes ->
             section(
                 context.getString(R.string.balance_sheet_section_assets),
-                assetTypes.sortedWith(compareBy(collator) { it.localizedName(context) }),
+                assetTypes,
                 onEditClick,
-                onDeleteClick
+                onDeleteClick,
+                onSort = { onSortClick(true) }
             )
         }
         groups[false]?.let { liabilityTypes ->
             section(
                 context.getString(R.string.balance_sheet_section_liabilities),
-                liabilityTypes.sortedWith(compareBy(collator) { it.localizedName(context) }),
+                liabilityTypes,
                 onEditClick,
-                onDeleteClick
+                onDeleteClick,
+                onSort = { onSortClick(false) }
             )
         }
     }
@@ -213,10 +237,16 @@ private fun LazyListScope.section(
     title: String,
     list: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
-    onDeleteClick: (AccountType) -> Unit
+    onDeleteClick: (AccountType) -> Unit,
+    onSort: () -> Unit
 ) {
     item {
-        Text(title, style = MaterialTheme.typography.titleMedium)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            IconButton(onClick = onSort) {
+                Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = stringResource(R.string.menu_sort))
+            }
+        }
     }
     items(list, key = { it.id }) { accountType ->
         AccountTypeItem(

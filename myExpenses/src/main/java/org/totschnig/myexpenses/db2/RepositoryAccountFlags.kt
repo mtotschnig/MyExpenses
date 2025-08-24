@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_FLAG_IDS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -67,7 +67,7 @@ fun Repository.deleteAccountFlag(accountFlagId: Long) {
 
 fun Repository.saveAccountFlagOrder(sortedIds: LongArray) {
     contentResolver.call(DUAL_URI, METHOD_FLAG_SORT, null, Bundle().apply {
-        putLongArray(KEY_SORTED_FLAG_IDS, sortedIds)
+        putLongArray(KEY_SORTED_IDS, sortedIds)
     })
 }
 

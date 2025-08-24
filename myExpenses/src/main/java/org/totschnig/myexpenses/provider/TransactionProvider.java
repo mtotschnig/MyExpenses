@@ -69,8 +69,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_TYPE_SORT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -1719,6 +1719,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_FLAG_SORT -> {
         Bundle result = setFlagSort(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(ACCOUNT_FLAGS_URI, false);
+        return result;
+      }
+      case METHOD_TYPE_SORT ->  {
+        Bundle result = setTypeSort(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(ACCOUNT_TYPES_URI, false);
         return result;
       }
     }

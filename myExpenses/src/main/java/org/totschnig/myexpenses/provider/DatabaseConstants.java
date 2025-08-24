@@ -299,7 +299,7 @@ public class DatabaseConstants {
    * If this field is part of a projection for a query to the Methods URI, only payment methods
    * mapped to account types will be returned
    */
-  public static final String KEY_ACCOUNT_TPYE_LIST = "account_type_list";
+  public static final String KEY_ACCOUNT_TYPE_LIST = "account_type_list";
 
   /**
    * Used for both saving goal and credit limit on accounts
@@ -333,7 +333,7 @@ public class DatabaseConstants {
   public static final String KEY_FLAG_SORT_KEY = "flag_sort_key";
   public static final String KEY_FLAG_ICON = "flag_icon";
   public static final String METHOD_FLAG_SORT = "flagSort";
-  public static final String KEY_SORTED_FLAG_IDS = "sortedFlagIds";
+  public static final String KEY_SORTED_IDS = "sortedIds";
 
   /**
    * boolean flag for accounts: A sealed account can no longer be edited
@@ -493,7 +493,9 @@ public class DatabaseConstants {
 
   public static final String TABLE_ACCOUNT_TYPES = "account_types";
   public static final String KEY_IS_ASSET = "isAsset";
+  public static final String KEY_TYPE_SORT_KEY = "type_sort_key";
   public static final String KEY_SUPPORTS_RECONCILIATION = "supportsReconciliation";
+  public static final String METHOD_TYPE_SORT = "typeSort";
 
   public static final String TABLE_ACCOUNT_FLAGS = "account_flags";
 

@@ -82,6 +82,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
@@ -266,6 +267,7 @@ const val ACCOUNT_TYPE_CREATE = """
 CREATE TABLE $TABLE_ACCOUNT_TYPES (
     $KEY_ROWID integer primary key autoincrement,
     $KEY_LABEL text not null,
+    $KEY_TYPE_SORT_KEY integer not null default 0,
     $KEY_IS_ASSET boolean not null,
     $KEY_SUPPORTS_RECONCILIATION boolean not null
 )
@@ -275,7 +277,7 @@ const val ACCOUNT_FLAG_CREATE = """
 CREATE TABLE $TABLE_ACCOUNT_FLAGS (
     $KEY_ROWID integer primary key autoincrement,
     $KEY_FLAG_LABEL text unique not null,
-    $KEY_FLAG_SORT_KEY integer not null,
+    $KEY_FLAG_SORT_KEY integer not null default 0,
     $KEY_FLAG_ICON text,
     $KEY_VISIBLE boolean not null
 )
@@ -1216,7 +1218,7 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo179() {
         execSQL(
-            "CREATE TABLE account_flags (_id integer primary key autoincrement, flag_label text unique not null, flag_sort_key integer not null, flag_icon text, visible boolean not null)"
+            "CREATE TABLE account_flags (_id integer primary key autoincrement, flag_label text unique not null, flag_sort_key integer not null default 0, flag_icon text, visible boolean not null)"
         )
         val accountFlags = insertDefaultAccountFlags("account_flags")
         execSQL(DEFAULT_FLAG_TRIGGER)

@@ -150,7 +150,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_FLAG_IDS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
@@ -174,6 +174,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
@@ -2264,7 +2265,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun SupportSQLiteDatabase.setFlagSort(extras: Bundle): Bundle {
-        val sortedIds = extras.getLongArray(KEY_SORTED_FLAG_IDS)!!
+        val sortedIds = extras.getLongArray(KEY_SORTED_IDS)!!
         val resultBundle = Bundle()
         var result = true
 
@@ -2281,6 +2282,46 @@ abstract class BaseTransactionProvider : ContentProvider() {
             var startIndex = sortedIds.indexOf(0).toLong()
             sortedIds.forEach { flagId ->
                 statement.bindLong(1, startIndex--)
+                statement.bindLong(2, flagId)
+                val affectedRows = statement.executeUpdateDelete()
+                if (affectedRows != 1) {
+                    CrashHandler.throwOrReport("Update failed, expected 1 affected row, got $affectedRows")
+                    result = false
+                }
+            }
+
+            statement.close()
+
+            setTransactionSuccessful()
+
+        } catch (e: Exception) {
+            CrashHandler.throwOrReport(e)
+            result = false
+        } finally {
+            endTransaction()
+            resultBundle.putBoolean(KEY_RESULT, result)
+        }
+        return resultBundle
+    }
+
+    fun SupportSQLiteDatabase.setTypeSort(extras: Bundle): Bundle {
+        val sortedIds = extras.getLongArray(KEY_SORTED_IDS)!!
+        val resultBundle = Bundle()
+        var result = true
+
+        beginTransaction()
+        try {
+            val sql = """
+                UPDATE ${DatabaseConstants.TABLE_ACCOUNT_TYPES}
+                SET $KEY_TYPE_SORT_KEY = ?
+                WHERE $KEY_ROWID = ?
+            """.trimIndent()
+            val statement = compileStatement(sql)
+            //we use a range that ends with -1, so that new types (with default to 0) will be sorted
+            //before the last type, assuming that in many cases the last type will be the Other assetes/liabilities type
+            val startIndex = sortedIds.size.toLong() - 2
+            sortedIds.forEachIndexed { index, flagId ->
+                statement.bindLong(1, startIndex - index)
                 statement.bindLong(2, flagId)
                 val affectedRows = statement.executeUpdateDelete()
                 if (affectedRows != 1) {

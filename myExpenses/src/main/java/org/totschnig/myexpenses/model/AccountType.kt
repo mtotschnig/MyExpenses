@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
@@ -34,6 +35,7 @@ const val PREDEFINED_NAME_INVESTMENT = "_INVST_"
 data class AccountType(
     override val id: Long = 0,
     val name: String,
+    val sortKey: Int = 0,
     val isAsset: Boolean = true,
     val supportsReconciliation: Boolean = false,
     val count: Int? = null
@@ -42,6 +44,7 @@ data class AccountType(
     val asContentValues: ContentValues
         get() = contentValuesOf(
             KEY_LABEL to name,
+            KEY_TYPE_SORT_KEY to sortKey,
             KEY_IS_ASSET to isAsset,
             KEY_SUPPORTS_RECONCILIATION to supportsReconciliation
         )
@@ -85,14 +88,14 @@ data class AccountType(
 
         fun qif2Internal(qifName: String) = qifToInternalMap[qifName]
 
-        val CASH = AccountType(name = PREDEFINED_NAME_CASH, isAsset = true, supportsReconciliation = false)
-        val BANK = AccountType(name = PREDEFINED_NAME_BANK, isAsset = true, supportsReconciliation = true)
-        val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true)
-        val ASSET = AccountType(name = PREDEFINED_NAME_ASSET, isAsset = true, supportsReconciliation = true)
-        val LIABILITY =
-            AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = false, supportsReconciliation = true)
+        val CASH = AccountType(name = PREDEFINED_NAME_CASH, isAsset = true, supportsReconciliation = false, sortKey = 2)
+        val BANK = AccountType(name = PREDEFINED_NAME_BANK, isAsset = true, supportsReconciliation = true, sortKey = 1)
         val INVESTMENT =
-            AccountType(name = PREDEFINED_NAME_INVESTMENT, isAsset = true, supportsReconciliation = true)
+            AccountType(name = PREDEFINED_NAME_INVESTMENT, isAsset = true, supportsReconciliation = true, sortKey = 0)
+        val ASSET = AccountType(name = PREDEFINED_NAME_ASSET, isAsset = true, supportsReconciliation = true, sortKey = -1)
+        val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true, sortKey = 0)
+        val LIABILITY =
+            AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = false, supportsReconciliation = true, sortKey = -1)
 
         val initialAccountTypes = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
 

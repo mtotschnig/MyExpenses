@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -240,13 +240,13 @@ fun SupportSQLiteStatement.bindAllArgsAsStrings(argsList: List<String>) {
 }
 
 fun groupByForPaymentMethodQuery(projection: Array<String>?) =
-    if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true) KEY_ROWID else null
+    if (projection?.contains(KEY_ACCOUNT_TYPE_LIST) == true) KEY_ROWID else null
 
 fun havingForPaymentMethodQuery(projection: Array<String>?) =
-    if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true) "$KEY_ACCOUNT_TPYE_LIST is not null" else null
+    if (projection?.contains(KEY_ACCOUNT_TYPE_LIST) == true) "$KEY_ACCOUNT_TYPE_LIST is not null" else null
 
 fun tableForPaymentMethodQuery(projection: Array<String>?) =
-    if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true)
+    if (projection?.contains(KEY_ACCOUNT_TYPE_LIST) == true)
         "$TABLE_METHODS left join $TABLE_ACCOUNTTYES_METHODS on $KEY_METHODID = $KEY_ROWID"
     else
         TABLE_METHODS
@@ -256,7 +256,7 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context) =
         when (column) {
             KEY_LABEL -> "${localizedLabelForPaymentMethod(ctx, column)} AS $column"
             KEY_TYPE -> "$TABLE_METHODS.$column"
-            KEY_ACCOUNT_TPYE_LIST -> "group_concat($TABLE_ACCOUNTTYES_METHODS.$KEY_TYPE) AS $column"
+            KEY_ACCOUNT_TYPE_LIST -> "group_concat($TABLE_ACCOUNTTYES_METHODS.$KEY_TYPE) AS $column"
             else -> column
         }
     }.toTypedArray()

@@ -108,7 +108,7 @@ class ManageAccountFlags : ProtectedFragmentActivity(),
                                     SortableItem(it.id, it.localizedLabel(this))
                                 }
                             ))
-                            .show(supportFragmentManager, "SORT_ACCOUNTS")
+                            .show(supportFragmentManager, "SORT_FLAGS")
                     },
                     onSetAggregateInvisible = {
                         viewModel.persistAggregateInvisible(it)
@@ -122,7 +122,6 @@ class ManageAccountFlags : ProtectedFragmentActivity(),
 
     override fun onSortOrderConfirmed(sortedIds: LongArray) {
         viewModel.onSortOrderConfirmed(sortedIds)
-        Timber.d("onSortOrderConfirmed: ${sortedIds.joinToString()}")
     }
 }
 

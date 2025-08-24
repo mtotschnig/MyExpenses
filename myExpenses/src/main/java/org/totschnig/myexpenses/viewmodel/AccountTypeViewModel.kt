@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.addAccountType
 import org.totschnig.myexpenses.db2.deleteAccountType
 import org.totschnig.myexpenses.db2.getAccountTypes
+import org.totschnig.myexpenses.db2.saveAccountTypeOrder
 import org.totschnig.myexpenses.db2.updateAccountType
 import org.totschnig.myexpenses.model.AccountType
 
@@ -81,5 +82,9 @@ class AccountTypeViewModel(application: Application) : ContentResolvingAndroidVi
         viewModelScope.launch(coroutineDispatcher) {
             repository.deleteAccountType(accountType.id)
         }
+    }
+
+    fun onSortOrderConfirmed(sortedIds: LongArray) {
+        repository.saveAccountTypeOrder(sortedIds)
     }
 }
