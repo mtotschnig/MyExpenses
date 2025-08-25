@@ -700,12 +700,12 @@
     <plurals name="warning_delete_tag">
         <item quantity="one">L\'etiqueta %1$s està assignada a una operació. Hauria de suprimir-se?</item>
         <item quantity="many">L\'etiqueta %1$s està assignada a %2$d operacions. Hauria de suprimir-se?</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">No s\'ha pogut suprimir un fitxer antic de còpia de seguretat.</item>
         <item quantity="many">No s\'han pogut suprimir %d fitxers antics de còpia de seguretat.</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <string name="menu_transform_to_transfer">Converteix en transferència</string>
     <string name="title_webui">Interfície d\'usuari web</string>
@@ -715,7 +715,7 @@
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Una categoria s\'ha actualitzat amb icona.</item>
         <item quantity="many">S\'han actualitzat %1$d categories amb icones.</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <string name="menu_parent_category_selection">Selecciona la categoria mare en tocar breument</string>
     <string name="purge_backups">Se suprimiran els fitxers de còpia de seguretat antics següents:</string>
@@ -767,7 +767,7 @@
     <plurals name="debt_mapped_transactions">
         <item quantity="one">El deute %1$s té %2$d operació assignada.</item>
         <item quantity="many">El deute %1$s té %2$d operacions assignades.</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <string name="title_activity_debt_overview">Resum del deute</string>
     <plurals name="purge_backup_success">
@@ -881,4 +881,5 @@
     <string name="balance_sheet_section_liabilities">Passius</string>
     <string name="balance_sheet_net_worth">Patrimoni net</string>
     <string name="price_history">Historial de preus</string>
+    <string name="pref_account_list_display_configuration_title">Llista de comptes</string>
 </resources>
