@@ -952,4 +952,5 @@
         <item quantity="many">%d linhas não puderam ser processadas.</item>
         <item quantity="other">%d linhas não puderam ser processadas.</item>
     </plurals>
+    <string name="pref_account_list_display_configuration_title">Lista de contas</string>
 </resources>
