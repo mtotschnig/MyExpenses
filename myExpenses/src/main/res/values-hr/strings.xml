@@ -957,4 +957,5 @@
     <string name="print_configuration_empty">Dodaj barem jedno polje za ispis.</string>
     <string name="confirm_process_file_message">Stvarno želiš uvesti cijene za „%1$s” od „%2$s”? Nove cijene mogu utjecati na postojeće ekvivalentne iznose.</string>
     <string name="account_type_investment">Investicije</string>
+    <string name="pref_account_list_display_configuration_title">Popis računa</string>
 </resources>
