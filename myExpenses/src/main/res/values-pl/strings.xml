@@ -687,7 +687,7 @@
     <string name="dialog_title_warning_delete_budget">Usunąć budżet?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Dłużna %1$s ma %2$d zmapowaną transakcję.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Dług %1$s ma %2$d zmapowanych transakcji.</item>
         <item quantity="other">Dług %1$s ma %2$d zmapowanych transakcji.</item>
     </plurals>
@@ -772,7 +772,7 @@
     <string name="select_package">Wybierz pakiet licencji.</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Jeden stary plik kopii zapasowej został wyczyszczony.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">%d stare pliki kopii zapasowych zostały usunięte.</item>
         <item quantity="other">%d stare pliki kopii zapasowych zostały usunięte.</item>
     </plurals>
@@ -792,7 +792,7 @@
     <string name="dialog_multi_tag_replace">Zastępowanie istniejących tagów nowymi tagami</string>
     <plurals name="purge_backup_failure">
         <item quantity="one">Nie można usunąć jednego starego pliku kopii zapasowej.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Nie można usunąć %d starych plików kopii zapasowych.</item>
         <item quantity="other">Nie można usunąć %d starych plików kopii zapasowych.</item>
     </plurals>
@@ -804,7 +804,7 @@
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s jest mapowany na jedną transakcję. Czy należy go usunąć?</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
         <item quantity="other">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
     </plurals>
@@ -897,7 +897,7 @@
     <string name="move_category_failure">Jedna kategoria nie została przeniesiona, ponieważ ta sama etykieta już istnieje w miejscu docelowym.</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Jedna kategoria została zaktualizowana o ikonę.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">%1$d kategorie zostały zaktualizowane o ikony.</item>
         <item quantity="other">%1$d kategorie zostały zaktualizowane o ikony.</item>
     </plurals>
@@ -921,4 +921,5 @@
     <string name="balance_sheet_section_liabilities">Pasywa</string>
     <string name="balance_sheet_net_worth">Wartość netto</string>
     <string name="price_history">Historia cen</string>
+    <string name="pref_account_list_display_configuration_title">Lista kont</string>
 </resources>
