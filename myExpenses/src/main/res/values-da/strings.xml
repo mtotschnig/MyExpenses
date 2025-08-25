@@ -931,4 +931,5 @@
     <string name="pref_equivalent_amounts_automatic_update_title">Opdater automatisk de tilsvarende beløb, når priserne ændres</string>
     <string name="sort_direction">Sorteringsretning</string>
     <string name="batch_download_result">%d priser blev hentet og gemt i databasen.</string>
+    <string name="pref_account_list_display_configuration_title">Kontoliste</string>
 </resources>
