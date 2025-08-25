@@ -970,4 +970,5 @@
     <string name="balance_sheet_section_liabilities">התחייבויות</string>
     <string name="price_history">היסטוריית מחירים</string>
     <string name="account_type_investment">השקעות</string>
+    <string name="pref_account_list_display_configuration_title">רשימת חשבון</string>
 </resources>
