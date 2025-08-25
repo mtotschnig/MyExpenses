@@ -724,7 +724,7 @@
     <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Il tag %1$s è associato a una transazione. Vuoi eliminarlo\?</item>
-        <item quantity="many"/>
+        <item quantity="many"></item>
         <item quantity="other">I tag %1$s sono assegnati a %2$d transazioni. Vuoi eliminarli\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
@@ -1005,4 +1005,5 @@
     <string name="batch_download_result">%d prezzi sono stati scaricati e memorizzati nel database.</string>
     <string name="mark_as_cleared">Contrassegna come liquidato</string>
     <string name="mark_as_unreconciled">Contrassegna come non riconciliato</string>
+    <string name="pref_account_list_display_configuration_title">Elenco dei conti</string>
 </resources>
