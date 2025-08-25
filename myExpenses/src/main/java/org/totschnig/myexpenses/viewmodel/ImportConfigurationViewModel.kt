@@ -22,9 +22,10 @@ open class ImportConfigurationViewModel(application: Application, val savedState
             buildList {
                 add(
                     AccountMinimal(
-                        0, getString(R.string.menu_create_account) + " / " + getString(R.string.read_from_data),
-                        currencyContext.homeCurrencyString,
-                        null,
+                        id = 0,
+                        label = getString(R.string.menu_create_account) + " / " + getString(R.string.read_from_data),
+                        currency = currencyContext.homeCurrencyString,
+                        type = null,
                         flag = null
                     )
                 )
