@@ -593,4 +593,5 @@
     <string name="balance_sheet_section_liabilities">Pasiboak</string>
     <string name="balance_sheet_net_worth">Ondare garbia</string>
     <string name="price_history">Prezioen historia</string>
+    <string name="pref_account_list_display_configuration_title">Kontuen zerrenda</string>
 </resources>
