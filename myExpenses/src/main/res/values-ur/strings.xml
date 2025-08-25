@@ -772,4 +772,5 @@
     <string name="balance_sheet_section_assets">اثاثے</string>
     <string name="balance_sheet_section_liabilities">ذمہ داریاں</string>
     <string name="balance_sheet_net_worth">خالص مالیت</string>
+    <string name="pref_account_list_display_configuration_title">اکاؤنٹ فہرست</string>
 </resources>
