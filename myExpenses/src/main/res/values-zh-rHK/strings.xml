@@ -450,4 +450,5 @@
     <string name="balance_sheet_section_assets">資產</string>
     <string name="balance_sheet_section_liabilities">負債</string>
     <string name="balance_sheet_net_worth">淨值</string>
+    <string name="pref_account_list_display_configuration_title">帳戶清單</string>
 </resources>
