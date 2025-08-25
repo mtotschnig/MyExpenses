@@ -971,4 +971,5 @@
     <string name="price_history">Історія цін</string>
     <string name="dynamic_exchange_rate">Динамічний курс валют</string>
     <string name="progress_recalculating">Перерахування</string>
+    <string name="pref_account_list_display_configuration_title">Список рахунків</string>
 </resources>
