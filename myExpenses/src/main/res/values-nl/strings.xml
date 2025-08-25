@@ -919,4 +919,5 @@
         <item quantity="other">%d regels konden niet worden verwerkt.</item>
     </plurals>
     <string name="confirm_process_file_message">Weet je zeker dat je de prijzen voor \'%1$s\' wilt importeren uit \'%2$s\'? Nieuwe prijzen kunnen van invloed zijn op bestaande equivalente bedragen.</string>
+    <string name="pref_account_list_display_configuration_title">Rekeninglijst</string>
 </resources>
