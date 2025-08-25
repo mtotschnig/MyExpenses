@@ -67,7 +67,7 @@
     <string name="grouping_week">සතිය </string>
     <string name="grouping_year">අවුරුද්ද </string>
     <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
-    <string name="help_heading_credits"/>
+    <string name="help_heading_credits"></string>
     <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
     <string name="import_select_transactions">ගනුදෙනු </string>
     <string name="income">ආදායම</string>
@@ -339,4 +339,5 @@
     <string name="balance_sheet_section_liabilities">වගකීම්</string>
     <string name="balance_sheet_net_worth">ශුද්ධ වටිනාකම</string>
     <string name="price_history">මිල ඉතිහාසය</string>
+    <string name="pref_account_list_display_configuration_title">ගිණුම් ලැයිස්තුව</string>
 </resources>
