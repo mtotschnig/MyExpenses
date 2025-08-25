@@ -1051,4 +1051,5 @@
     <string name="mark_as_cleared">ক্লিয়ার্ড অ্যাকাউন্টে চিহ্নিত করুন</string>
     <!-- This is used for Talkback to describe the action of toggling the status of a transaction from cleared to unreconciled -->
     <string name="mark_as_unreconciled">অমিলিত অ্যাকাউন্টে চিহ্নিত করুন</string>
+    <string name="pref_account_list_display_configuration_title">হিসাব তালিকা</string>
 </resources>
