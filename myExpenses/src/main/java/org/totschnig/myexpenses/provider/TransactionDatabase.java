@@ -447,7 +447,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_FLAG_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultAccountTypesAndMethods(db);
-    insertDefaultAccountFlags(db, TABLE_ACCOUNT_FLAGS);
+    insertDefaultAccountFlags(db);
     db.execSQL(DEFAULT_FLAG_TRIGGER);
     db.execSQL(CURRENCY_CREATE);
     //category for splits needed to honour foreign constraint

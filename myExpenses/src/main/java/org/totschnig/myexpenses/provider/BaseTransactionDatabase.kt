@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
+import androidx.core.content.contentValuesOf
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import org.totschnig.myexpenses.R
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyEnum
+import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -1182,7 +1184,7 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo177() {
         execSQL("CREATE TABLE account_types (_id integer primary key autoincrement, label text not null, isAsset boolean not null, supportsReconciliation boolean not null)")
-        val accountTypes = insertDefaultAccountTypes("account_types")
+        val accountTypes = insertDefaultAccountTypesForMigration()
         val cash = accountTypes[AccountType.CASH.name]!!
         val bank = accountTypes[AccountType.BANK.name]!!
         val ccard = accountTypes[AccountType.CCARD.name]!!
@@ -1219,7 +1221,7 @@ abstract class BaseTransactionDatabase(
         execSQL(
             "CREATE TABLE account_flags (_id integer primary key autoincrement, flag_label text unique not null, flag_sort_key integer not null default 0, flag_icon text, visible boolean not null)"
         )
-        val accountFlags = insertDefaultAccountFlags("account_flags")
+        val accountFlags = insertDefaultAccountFlagsForMigration()
         execSQL(DEFAULT_FLAG_TRIGGER)
         val inactive = accountFlags[PREDEFINED_NAME_INACTIVE]
         execSQL("ALTER TABLE accounts RENAME to accounts_old")
@@ -1457,23 +1459,56 @@ abstract class BaseTransactionDatabase(
         })
     }
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypes(table: String = TABLE_ACCOUNT_TYPES) =
+    fun SupportSQLiteDatabase.insertDefaultAccountTypes() =
         AccountType.initialAccountTypes.associate {
             it.name to
                     insert(
-                        table,
+                        TABLE_ACCOUNT_TYPES,
                         SQLiteDatabase.CONFLICT_NONE,
                         it.asContentValues
                     )
         }
 
-    fun SupportSQLiteDatabase.insertDefaultAccountFlags(table: String) =
+    fun SupportSQLiteDatabase.insertDefaultAccountTypesForMigration() =
+        AccountType.initialAccountTypes.associate {
+            it.name to
+                    insert(
+                        "account_types",
+                        SQLiteDatabase.CONFLICT_NONE,
+                        contentValuesOf(
+                            KEY_LABEL to it.name,
+                            KEY_IS_ASSET to it.isAsset,
+                            KEY_SUPPORTS_RECONCILIATION to it.supportsReconciliation
+                        )
+                    )
+        }
+
+    fun SupportSQLiteDatabase.insertDefaultAccountFlags() =
         AccountFlag.initialFlags.associate {
             it.label to
                     insert(
-                        table,
+                        TABLE_ACCOUNT_FLAGS,
                         SQLiteDatabase.CONFLICT_NONE,
                         it.asContentValues
+                    )
+        }
+
+    fun SupportSQLiteDatabase.insertDefaultAccountFlagsForMigration() =
+        AccountFlag.initialFlags.associate {
+            it.label to
+                    insert(
+                        "account_flags",
+                        SQLiteDatabase.CONFLICT_NONE,
+                        contentValuesOf(
+                            KEY_FLAG_LABEL to it.label,
+                            KEY_FLAG_SORT_KEY to it.sortKey,
+                            KEY_FLAG_ICON to it.icon,
+                            KEY_VISIBLE to it.isVisible
+                        ).apply {
+                            if (it.label == "_DEFAULT_") {
+                                put(KEY_ROWID, DEFAULT_FLAG_ID)
+                            }
+                        }
                     )
         }
 
