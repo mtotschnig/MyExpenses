@@ -997,4 +997,5 @@
     <string name="pref_equivalent_amounts_automatic_update_title">விலைகள் மாறும்போது சமமான தொகைகளை தானாகவே புதுப்பிக்கவும்</string>
     <string name="batch_download">தொகுதி பதிவிறக்கம்</string>
     <string name="warning_batch_download_quota">%s இலிருந்து தொகுதி பதிவிறக்கம் உங்கள் பயன்பாட்டு வரம்பைக் குறைக்கும் அபாயத்தை ஏற்படுத்துகிறது.</string>
+    <string name="pref_account_list_display_configuration_title">கணக்கு பட்டியல்</string>
 </resources>
