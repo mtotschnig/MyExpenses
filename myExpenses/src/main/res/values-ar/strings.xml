@@ -685,13 +685,10 @@
     <string name="menu_close">إغلاق</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">إعادة فتح</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">الحسابات المخفية</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">تم الإغلاق</string>
     <string name="warning_synced_account_cannot_be_closed">لا يمكن إغلاق حساب مرتبط بخلفية مزامنة</string>
     <string name="translated_by">مت الترجمة بواسطة</string>
-    <string name="warning_no_account">يجب أن يكون حساب واحد على الأقل مرئياً ومفتوحاً من أجل إنشاء معاملات جديدة.</string>
     <string name="content_description_dates_are_linked">يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
     <string name="content_description_dates_are_not_linked">لا يتم تحديث تاريخ الحجز وتاريخ القيمة معاً</string>
     <string name="roadmap_vote">التصويت على خارطة الطريق</string>

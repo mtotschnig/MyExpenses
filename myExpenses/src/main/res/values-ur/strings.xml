@@ -478,7 +478,6 @@
     <string name="content_description_closed">بند</string>
     <string name="warning_synced_account_cannot_be_closed">ایک اکاؤنٹ جو مطابقت پذیری کے پس منظر سے منسلک ہے بند نہیں کیا جا سکتا</string>
     <string name="translated_by">کی طرف سے ترجمہ</string>
-    <string name="warning_no_account">نئی ٹرانزیکشنز بنانے کے لیے کم از کم ایک اکاؤنٹ کھلا اور ظاہر ہونا چاہیے.</string>
     <string name="content_description_dates_are_not_linked">بکنگ کی تاریخ اور قیمت کی تاریخ ایک ساتھ اپ ڈیٹ نہیں کی جاتی ہے</string>
     <string name="roadmap_vote">روڈ میپ ووٹ</string>
     <string name="object_sealed">آبجیکٹ سے مراد بند اکاؤنٹ ہے.</string>
@@ -709,7 +708,6 @@
     <string name="exchange_rate_not_supported">ترتیب شدہ ایکسچینج ریٹ فراہم کنندہ شرح %1$s : %2$s فراہم نہیں کرتا ہے. آپ ترتیبات میں ایک مختلف کو منتخب کرنے کی کوشش کر سکتے ہیں.</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">آمدنی ریکارڈ کرنے کے لیے اس سوئچ بٹن کا استعمال کریں.</string>
     <string name="sync_backend_is_encrypted">ریموٹ بیک اینڈ کو انکرپٹ کیا گیا ہے. آپ کو ایک پاس فریز بتانے کی ضرورت ہے.</string>
-    <string name="menu_hidden_accounts">پوشیدہ اکاؤنٹس</string>
     <string name="menu_close">بند کریں</string>
     <string name="content_description_dates_are_linked">بکنگ کی تاریخ اور قیمت کی تاریخ ایک ساتھ اپ ڈیٹ کی جاتی ہے</string>
     <string name="warning_account_for_transaction_is_closed">منتخب کردہ ٹرانزیکشنز میں سے کم از کم ایک میں ترمیم نہیں کی جا سکتی ہے:</string>

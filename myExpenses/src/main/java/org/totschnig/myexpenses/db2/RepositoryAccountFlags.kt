@@ -7,14 +7,18 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_IDS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_FLAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_TYPES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.withAppendedId
 
@@ -83,4 +87,16 @@ fun Repository.saveSelectedAccountsForFlag(
         "$KEY_ROWID IN (${flaggedAccounts.joinToString(",") { "?" }})",
         flaggedAccounts.map { it.toString() }.toTypedArray()
     )
+}
+
+fun Repository.findAccountFlag(name: String): AccountFlag? = contentResolver.query(
+    ACCOUNT_FLAGS_URI,
+    null,
+    "$KEY_FLAG_LABEL = ?",
+    arrayOf(name),
+    null
+)?.use {
+    if (it.moveToFirst()) {
+        AccountFlag.fromCursor(it)
+    } else null
 }

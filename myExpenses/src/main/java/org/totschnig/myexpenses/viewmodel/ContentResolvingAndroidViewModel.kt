@@ -60,7 +60,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
@@ -195,8 +194,12 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         accountTypesRaw.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     }
 
+    val accountFlagsRaw by lazy {
+        repository.getAccountFlags()
+    }
+
     val accountFlags by lazy {
-        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
     }
 
     sealed class DeleteState {

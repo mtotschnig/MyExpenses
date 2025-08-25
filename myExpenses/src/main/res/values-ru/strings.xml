@@ -668,13 +668,10 @@
     <string name="menu_close">Закрыть</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Открыть вновь </string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Скрытые счета</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Закрыт</string>
     <string name="warning_synced_account_cannot_be_closed">Счёт, связанный с сервером синхронизации, не может быть закрыт</string>
     <string name="translated_by">Перевод</string>
-    <string name="warning_no_account">Как минимум один счёт должен быть видимым и открыт для создания новых транзакций.</string>
     <string name="content_description_dates_are_linked">Дата бронирования и дата стоимости обновятся вместе</string>
     <string name="content_description_dates_are_not_linked">Дата бронирования и дата стоимости не обновятся вместе</string>
     <string name="roadmap_vote">Дорожная карта и голосование</string>

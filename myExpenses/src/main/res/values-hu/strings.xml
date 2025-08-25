@@ -656,13 +656,10 @@
     <string name="menu_close">Bezár</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Újranyitás</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Rejtett fiókok</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Zárva</string>
     <string name="warning_synced_account_cannot_be_closed">A szinkronizációs háttérprogramhoz kapcsolt fiókot nem lehet bezárni</string>
     <string name="translated_by">A fordítást készítette</string>
-    <string name="warning_no_account">Legalább egy számlának láthatónak és nyitottnak kell lennie új tranzakciók létrehozásához.</string>
     <string name="content_description_dates_are_linked">A foglalás és az érték dátuma együtt van frissítve</string>
     <string name="content_description_dates_are_not_linked">A foglalási dátum és az érték dátuma nem frissül együtt</string>
     <string name="roadmap_vote">Ütemterv szavazás</string>

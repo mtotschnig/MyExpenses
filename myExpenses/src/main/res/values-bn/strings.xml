@@ -679,13 +679,10 @@
     <string name="menu_close">বন্ধ করুন</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">পুনরায় খুলুন</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">লুকানো অ্যাকাউন্টসমূহ</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">বন্ধ</string>
     <string name="warning_synced_account_cannot_be_closed">একটি অ্যাকাউন্ট যা একটি সিঙ্ক্রোনাইজেশন ব্যাকএন্ডের সাথে লিঙ্ক করা আছে তা বন্ধ করা যাবে না</string>
     <string name="translated_by">অনুবাদ করেছেন</string>
-    <string name="warning_no_account">নতুন লেনদেন তৈরি করতে অন্তত একটি অ্যাকাউন্ট দৃশ্যমান এবং খোলা থাকতে হবে।</string>
     <string name="content_description_dates_are_linked">বুকিং তারিখ এবং মূল্য তারিখ একসাথে আপডেট করা হয়</string>
     <string name="content_description_dates_are_not_linked">বুকিং তারিখ এবং মূল্য তারিখ একসাথে আপডেট করা হয় না</string>
     <string name="roadmap_vote">রোডম্যাপ ভোট</string>

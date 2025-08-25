@@ -643,13 +643,10 @@
     <string name="menu_close">閉じる</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">再度開く</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">非表示の勘定</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">閉じています</string>
     <string name="warning_synced_account_cannot_be_closed">同期バックエンドにリンクされている勘定は閉じられません</string>
     <string name="translated_by">翻訳者</string>
-    <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
     <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
     <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
     <string name="roadmap_vote">ロードマップの投票</string>

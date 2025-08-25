@@ -1595,14 +1595,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
         recordUsage(ContribFeature.OCR)
-        editIntent?.apply {
-            putExtra(KEY_OCR_RESULT, result)
-            putExtra(KEY_URI, scanUri)
-        }?.let { startEdit(it) }
+        lifecycleScope.launch {
+            getEditIntent()?.apply {
+                putExtra(KEY_OCR_RESULT, result)
+                putExtra(KEY_URI, scanUri)
+            }?.let { startEdit(it) }
+        }
     }
 
-    open val editIntent: Intent?
-        get() = Intent(this, ExpenseEdit::class.java)
+    open suspend fun getEditIntent(): Intent? = Intent(this, ExpenseEdit::class.java)
 
     open fun startEdit(intent: Intent) {
         startActivityForResult(intent, EDIT_REQUEST)

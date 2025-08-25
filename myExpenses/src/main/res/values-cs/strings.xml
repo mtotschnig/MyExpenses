@@ -670,13 +670,10 @@
     <string name="menu_close">Zavřít</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Znovu otevřít</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Skryté účty</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Uzavřeno</string>
     <string name="warning_synced_account_cannot_be_closed">Účet spojený se synchronizačním back-endem nelze zavřít</string>
     <string name="translated_by">Přeložil</string>
-    <string name="warning_no_account">Aby bylo možné vytvářet nové transakce, musí být viditelný a otevřený alespoň jeden účet. </string>
     <string name="content_description_dates_are_linked">Datum rezervace a datum hodnoty jsou aktualizovány společně</string>
     <string name="content_description_dates_are_not_linked">Datum rezervace a datum hodnoty nejsou aktualizovány společně</string>
     <string name="roadmap_vote">Hlasování o plánovaných součástech</string>

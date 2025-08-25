@@ -765,7 +765,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     @VisibleForTesting
     open fun setAccounts(accounts: List<Account>, isInitialSetup: Boolean) {
         if (accounts.isEmpty()) {
-            abortWithMessage(getString(R.string.warning_no_account))
+            abortWithMessage(getString(R.string.no_accounts))
         } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
             abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
         } else {
@@ -867,7 +867,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun populateWithNewInstance(transaction: Transaction?) {
         transaction?.also { populate(it, withAutoFill) } ?: run {
-            val errMsg = getString(R.string.warning_no_account)
+            val errMsg = getString(R.string.no_accounts)
             abortWithMessage(errMsg)
             return
         }

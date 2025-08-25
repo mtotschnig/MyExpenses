@@ -622,7 +622,6 @@
     <string name="joining_or">หรือ</string>
     <string name="menu_close">ปิด</string>
     <string name="menu_reopen">เปิดอีกครั้ง</string>
-    <string name="menu_hidden_accounts">บัญชีที่ซ่อนไว้</string>
     <string name="content_description_dates_are_linked">วันที่บันทึกและวันที่มูลค่าถูกอัปเดตร่วมกัน</string>
     <string name="roadmap_vote">โหวตแผนงาน</string>
     <string name="pref_exchange_rate_provider_summary">เลือกผู้ให้บริการเพื่อดาวน์โหลดอัตราแลกเปลี่ยน</string>
@@ -800,7 +799,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">ใช้ปุ่มสวิตช์นี้เพื่อบันทึกรายรับ</string>
     <string name="pref_clone_with_current_date_summary_on">รายการที่โคลนมาจะมีวันที่ปัจจุบัน</string>
     <string name="app_restart_required">การกำหนดค่าใหม่ต้องการให้เริ่มต้นแอปใหม่เพื่อให้มีผล</string>
-    <string name="warning_no_account">ต้องมีบัญชีที่มองเห็นได้และเปิดอยู่อย่างน้อยหนึ่งบัญชีเพื่อสร้างรายการใหม่</string>
     <string name="warning_plan_instance_delete">รายการที่สร้างขึ้นสำหรับวันที่เลือกจะถูกลบ</string>
     <string name="pref_purge_backup_require_confirmation_summary">แสดงข้อความยืนยันก่อนล้างไฟล์</string>
     <string name="warning_party_delete_debt">เมื่อลบคู่กรณีนี้ หนี้สินที่กำหนดไว้จะถูกลบไปด้วย</string>

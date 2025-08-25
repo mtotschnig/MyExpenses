@@ -279,11 +279,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     lateinit var binding: ActivityMainBinding
 
-    val allAccountCount
-        get() = accountCount  // + TODO
-
     val accountCount
         get() = accountData.count { it.id > 0 }
+
+    suspend fun getHiddenAccountCount() = withContext(Dispatchers.IO) {
+        viewModel.accountFlagsRaw.first().filter { !it.isVisible }.sumOf { it.count ?: 0 }
+    }
 
     private var actionMode: ActionMode? = null
 
@@ -734,7 +735,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 closeDrawer()
                                 confirmAccountDelete(it)
                             },
-                            onSetFlag = { accountId, flagId -> viewModel.setFlag(accountId, flagId) },
+                            onSetFlag = { accountId, flagId ->
+                                viewModel.setFlag(
+                                    accountId,
+                                    flagId
+                                )
+                            },
                             onToggleSealed = { toggleAccountSealed(it) },
                             onToggleExcludeFromTotals = { toggleExcludeFromTotals(it) },
                             onToggleDynamicExchangeRate = if (viewModel.dynamicExchangeRatesPerAccount.collectAsState(
@@ -1100,7 +1106,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                         Text(
                             modifier = Modifier.wrapContentSize(),
                             textAlign = TextAlign.Center,
-                            text = stringResource(id = R.string.warning_no_account)
+                            text = stringResource(id = R.string.no_accounts)
                         )
                         Button(onClick = { createAccountDo() }) {
                             Text(text = stringResource(id = R.string.menu_create_account))
@@ -1692,26 +1698,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
      * start ExpenseEdit Activity for a new transaction/transfer/split
      * Originally the form for transaction is rendered, user can change from spinner in toolbar
      */
-    open fun createRowIntent(type: Int, isIncome: Boolean) = editIntent?.apply {
+    suspend fun createRowIntent(type: Int, isIncome: Boolean) = getEditIntent()?.apply {
         putExtra(Transactions.OPERATION_TYPE, type)
         putExtra(ExpenseEdit.KEY_INCOME, isIncome)
     }
 
-    override val editIntent: Intent?
-        get() = accountForNewTransaction?.let {
-            super.editIntent!!.apply {
-                putExtra(KEY_ACCOUNTID, it.id)
-                putExtra(KEY_CURRENCY, it.currency)
-                putExtra(KEY_COLOR, it._color)
+    override suspend fun getEditIntent(): Intent? {
+        val candidate = accountForNewTransaction
+        return if (candidate != null || getHiddenAccountCount() > 0) {
+            super.getEditIntent()!!.apply {
+                candidate?.let {
+                    putExtra(KEY_ACCOUNTID, it.id)
+                    putExtra(KEY_CURRENCY, it.currency)
+                    putExtra(KEY_COLOR, it._color)
+                }
                 val accountId = selectedAccountId
                 if (isAggregate(accountId)) {
                     putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
                 }
             }
-        } ?: run {
-            showSnackBar(R.string.warning_no_account)
+        } else {
+            showSnackBar(R.string.no_accounts)
             null
         }
+    }
 
     private fun createRow(type: Int, isIncome: Boolean = false) {
         if (type == TYPE_SPLIT) {
@@ -1724,7 +1734,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     private fun createRowDo(type: Int, isIncome: Boolean) {
-        createRowIntent(type, isIncome)?.let { startEdit(it) }
+        lifecycleScope.launch {
+            createRowIntent(type, isIncome)?.let { startEdit(it) }
+        }
     }
 
     override fun startEdit(intent: Intent) {
@@ -1738,21 +1750,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             when (dialogTag) {
 
                 DIALOG_TAG_NEW_BALANCE -> {
-                    createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
-                        putExtra(
-                            KEY_AMOUNT,
-                            (BundleCompat.getSerializable(
-                                extras,
+                    lifecycleScope.launch {
+                        createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
+                            putExtra(
                                 KEY_AMOUNT,
-                                BigDecimal::class.java
-                            ))!! -
-                                    Money(
-                                        currentAccount!!.currencyUnit,
-                                        currentAccount!!.currentBalance
-                                    ).amountMajor
-                        )
-                    }?.let {
-                        startEdit(it)
+                                (BundleCompat.getSerializable(
+                                    extras,
+                                    KEY_AMOUNT,
+                                    BigDecimal::class.java
+                                ))!! -
+                                        Money(
+                                            currentAccount!!.currencyUnit,
+                                            currentAccount!!.currentBalance
+                                        ).amountMajor
+                            )
+                        }?.let {
+                            startEdit(it)
+                        }
                     }
                     true
                 }
@@ -1784,6 +1798,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
 
     private fun createAccountDo() {
+        closeDrawer()
         createAccount.launch(createAccountIntent)
     }
 
@@ -1818,13 +1833,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.CREATE_ACCOUNT_COMMAND -> {
-                if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
-                    || allAccountCount < ContribFeature.FREE_ACCOUNTS
-                ) {
-                    closeDrawer()
+                if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)) {
                     createAccountDo()
                 } else {
-                    showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
+                    lifecycleScope.launch {
+                        if (accountCount + getHiddenAccountCount() < ContribFeature.FREE_ACCOUNTS) {
+                            createAccountDo()
+                        } else {
+                            showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
+                        }
+                    }
                 }
             }
 
@@ -2081,10 +2099,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
-            if (accountCount == 0) {
-                showSnackBar(R.string.warning_no_account)
-                return@setOnLongClickListener true
-            }
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.FabLongPress)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
@@ -2293,7 +2307,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     override fun onFabClicked() {
         super.onFabClicked()
         when {
-            accountCount == 0 -> showSnackBar(R.string.warning_no_account)
             currentAccount?.sealed == true -> showSnackBar(
                 message = getString(R.string.account_closed),
                 snackBarAction = SnackbarAction(getString(R.string.menu_reopen)) {
@@ -2418,32 +2431,42 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     fun updateFab() {
+        if (accountCount > 0) {
+            updateFabDo()
+        } else {
+            lifecycleScope.launch {
+                if (getHiddenAccountCount() > 0) {
+                    updateFabDo()
+                } else {
+                    floatingActionButton.hide()
+                }
+            }
+        }
+    }
+
+    fun updateFabDo() {
         val scanMode = isScanMode()
         val sealed = currentAccount?.sealed == true
         with(floatingActionButton) {
-            if (allAccountCount == 0) {
-                hide()
-            } else {
-                show()
-                alpha = if (sealed) 0.5f else 1f
-                setImageResource(
-                    when {
-                        sealed -> R.drawable.ic_lock
-                        scanMode -> R.drawable.ic_scan
-                        else -> R.drawable.ic_menu_add_fab
-                    }
-                )
-                contentDescription = when {
-                    sealed -> getString(R.string.content_description_closed)
-                    scanMode -> getString(R.string.contrib_feature_ocr_label)
-                    else -> TextUtils.concatResStrings(
-                        this@BaseMyExpenses,
-                        ". ",
-                        R.string.menu_create_transaction,
-                        R.string.menu_create_transfer,
-                        R.string.menu_create_split
-                    )
+            show()
+            alpha = if (sealed) 0.5f else 1f
+            setImageResource(
+                when {
+                    sealed -> R.drawable.ic_lock
+                    scanMode -> R.drawable.ic_scan
+                    else -> R.drawable.ic_menu_add_fab
                 }
+            )
+            contentDescription = when {
+                sealed -> getString(R.string.content_description_closed)
+                scanMode -> getString(R.string.contrib_feature_ocr_label)
+                else -> TextUtils.concatResStrings(
+                    this@BaseMyExpenses,
+                    ". ",
+                    R.string.menu_create_transaction,
+                    R.string.menu_create_transfer,
+                    R.string.menu_create_split
+                )
             }
         }
     }

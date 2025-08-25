@@ -48,12 +48,11 @@ class OcrLauncher: ProtectedFragmentActivity() {
         }
     }
 
-    override val editIntent: Intent
-        get() = super.editIntent!!.apply {
-            putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
-            putExtra(KEY_CURRENCY, intent.getStringExtra(KEY_CURRENCY))
-            putExtra(KEY_COLOR, intent.getIntExtra(KEY_COLOR, 0))
-        }
+    override suspend fun getEditIntent(): Intent = super.getEditIntent()!!.apply {
+        putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
+        putExtra(KEY_CURRENCY, intent.getStringExtra(KEY_CURRENCY))
+        putExtra(KEY_COLOR, intent.getIntExtra(KEY_COLOR, 0))
+    }
 
     override fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
         super.startEditFromOcrResult(result, scanUri)

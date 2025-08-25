@@ -630,13 +630,10 @@
     <string name="menu_close">Tutup</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Buka Semula</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Akaun tersembunyi</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Ditutup</string>
     <string name="warning_synced_account_cannot_be_closed">Satu akaun yang terpaut dengan bahagian belakang penyegerakan tidak dapat ditutup</string>
     <string name="translated_by">terjemahan</string>
-    <string name="warning_no_account">Sekurang-kurangnya satu akaun mesti kelihatan dan boleh dibuka supaya dapat mencipta transaksi baharu.</string>
     <string name="content_description_dates_are_linked">Tarikh tempahan dan tarikh nilai dikemaskini bersama-sama</string>
     <string name="content_description_dates_are_not_linked">Tarikh tempahan dan tarikh nilai tidak dikemaskini bersama-sama</string>
     <string name="warning_account_for_transaction_is_closed">Sekurang-kurangnya satu transaksi terpilih tidak boleh disunting:</string>

@@ -621,11 +621,9 @@
     <string name="roadmap_vote">Votar no roteiro</string>
     <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas</string>
     <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas</string>
-    <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
     <string name="translated_by">Traduzido por</string>
     <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um destino de sincronização não pode ser encerrada</string>
     <string name="content_description_closed">Encerrada</string>
-    <string name="menu_hidden_accounts">Contas ocultas</string>
     <string name="menu_reopen">Reabrir</string>
     <string name="menu_close">Encerrar</string>
     <string name="joining_or">ou</string>

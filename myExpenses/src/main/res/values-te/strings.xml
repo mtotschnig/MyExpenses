@@ -4,11 +4,9 @@
     <string name="roadmap_vote">రోడ్‌మ్యాప్ ఓటు</string>
     <string name="content_description_dates_are_not_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడవు</string>
     <string name="content_description_dates_are_linked">బుకింగ్ తేదీ మరియు విలువ తేదీ కలిసి నవీకరించబడతాయి</string>
-    <string name="warning_no_account">క్రొత్త లావాదేవీలను సృష్టించడానికి కనీసం ఒక ఖాతా కనిపించాలి మరియు తెరవాలి.</string>
     <string name="translated_by">అనువాదించినవారు</string>
     <string name="warning_synced_account_cannot_be_closed">సమకాలీకరణ బ్యాకెండ్‌తో అనుసంధానించబడిన ఖాతా మూసివేయబడదు</string>
     <string name="content_description_closed">మూసివేయబడింది</string>
-    <string name="menu_hidden_accounts">దాచిన ఖాతాలు</string>
     <string name="menu_reopen">తిరిగి తెరవండి</string>
     <string name="menu_close">దగ్గరగా</string>
     <string name="joining_or">లేదా</string>

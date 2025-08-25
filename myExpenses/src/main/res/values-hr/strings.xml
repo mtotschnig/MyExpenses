@@ -676,10 +676,8 @@
     <string name="warning_account_for_transaction_is_closed">Barem jedna od odabranih transakcija se ne može urediti:</string>
     <string name="content_description_dates_are_not_linked">Datum uknjiženja i datum vrijednosti se ne aktualiziraju zajedno</string>
     <string name="content_description_dates_are_linked">Datum uknjiženja i datum vrijednosti se aktualiziraju zajedno</string>
-    <string name="warning_no_account">Za izradu nove transakcije barem jedan račun mora biti vidljiv i otvoren.</string>
     <string name="warning_synced_account_cannot_be_closed">Račun koji je povezan s pozadinskim sustavom sinkronizacije ne može se zatvoriti</string>
     <string name="content_description_closed">Zatvoreno</string>
-    <string name="menu_hidden_accounts">Skriveni računi</string>
     <string name="menu_reopen">Otvori ponovo</string>
     <string name="menu_close">Zatvori</string>
     <string name="joining_or">ili</string>

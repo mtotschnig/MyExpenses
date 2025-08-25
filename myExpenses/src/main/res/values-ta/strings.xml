@@ -654,13 +654,10 @@
     <string name="menu_close">மூடு</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">மீண்டும் திற</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">மறைக்கப்பட்ட கணக்குகள்</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">மூடப்பட்டது</string>
     <string name="warning_synced_account_cannot_be_closed">ஒத்திசைவு பின்தளத்துடன் இணைக்கப்பட்ட கணக்கை மூட முடியாது</string>
     <string name="translated_by">இவர்களால் மொழிபெயர்க்கப்பட்டது</string>
-    <string name="warning_no_account">புதிய பரிவர்த்தனைகளை உருவாக்க குறைந்தபட்சம் ஒரு கணக்காவது மறைக்கபடாமலோ அல்லது மூடப்படாமலோ இருக்க வேண்டும்.</string>
     <string name="content_description_dates_are_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படுகிறது</string>
     <string name="content_description_dates_are_not_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படவில்லை</string>
     <string name="roadmap_vote">திட்ட வாக்களிப்பு</string>

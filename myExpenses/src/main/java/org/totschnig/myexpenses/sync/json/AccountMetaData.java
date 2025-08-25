@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.db2.Repository;
-import org.totschnig.myexpenses.db2.RepositoryAccountTypesKt;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
@@ -80,6 +79,7 @@ public abstract class  AccountMetaData implements Parcelable {
             openingBalance(),
             currency(),
             AccountType.Companion.withName(type()),
+            0L,
             color(),
             _criterion(),
             syncAccount,

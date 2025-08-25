@@ -759,6 +759,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     "0 AS $KEY_IS_ASSET",
                     "0 AS $KEY_SUPPORTS_RECONCILIATION",
                     "0 AS $KEY_TYPE",
+                    "0 AS $KEY_FLAG",
+                    "null AS $KEY_FLAG_LABEL",
+                    "1 AS $KEY_VISIBLE",
+                    "0 AS $KEY_FLAG_SORT_KEY",
+                    "null AS KEY_FLAG_ICON",
                     aggregateColumn
                 ) else {
                     arrayOf(
@@ -843,6 +848,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_IS_ASSET",
                         "0 AS $KEY_SUPPORTS_RECONCILIATION",
                         "0 AS $KEY_TYPE",
+                        "0 AS $KEY_FLAG",
+                        "null AS $KEY_FLAG_LABEL",
+                        "1 AS $KEY_VISIBLE",
+                        "0 AS $KEY_FLAG_SORT_KEY",
+                        "null AS KEY_FLAG_ICON",
                         aggregateColumn
                     )
                 } else {
@@ -1330,7 +1340,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val result = try {
             block()
         } catch (e: Exception) {
-            Timber.tag(TAG).w("Query failed: ${lazyMessage()}")
+            Timber.tag(TAG).e(e,"Query failed: ${lazyMessage()}")
             throw e
         }
         val endTime = Instant.now()
@@ -1340,7 +1350,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     } else try {
         block()
     } catch (e: Exception) {
-        Timber.tag(TAG).w("Query failed: ${lazyMessage()}")
+        Timber.tag(TAG).e(e,"Query failed: ${lazyMessage()}")
         throw e
     }
 

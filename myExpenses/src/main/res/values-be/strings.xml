@@ -636,7 +636,6 @@
     <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Тэрмін дзеяння вашага прафесійнага ключа скончыцца праз %d дзён.</string>
     <string name="pref_value_date_summary">Дазволіць усталёўваць дату валютавання ў дадатак да даты браніравання. Час транзакцыі будзе схаваны. Гэтая налада не распаўсюджваецца на грашовыя рахункі.</string>
     <string name="booking_date">Дата браніравання</string>
-    <string name="warning_no_account">Для стварэння новых транзакцый павінен быць бачны і адкрыты хаця б адзін рахунак.</string>
     <string name="pref_sync_wifi_only_summary">Сінхранізаваць толькі пры падключэнні да Wi-Fi</string>
     <string name="goal_or_limit">Мэта / Ліміт</string>
     <string name="remap_empty_list">Не знойдзены ніводны элемент, які можа быць супастаўлены з усімі абранымі транзакцыямі.</string>
@@ -645,7 +644,6 @@
     <string name="currency_code_already_definded">Код валюты ўжо вызначаны.</string>
     <string name="currency_still_used">Валюта выкарыстоўваецца, яе нельга выдаліць.</string>
     <string name="unmapped_filter_only_single">Фільтр «Не нанесена на карту» нельга ўключыць у множны выбар</string>
-    <string name="menu_hidden_accounts">Схаваныя акаўнты</string>
     <string name="pref_exchange_rate_provider_summary">Выберыце пастаўшчыка для загрузкі курсаў абмену</string>
     <string name="grand_total">Агульная сума</string>
     <string name="synchronization_postponed">Сінхранізацыя адкладзена.</string>

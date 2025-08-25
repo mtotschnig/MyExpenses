@@ -56,6 +56,7 @@ data class Account(
     val openingBalance: Long = 0L,
     override val currency: String,
     val type: AccountType,
+    val flagId: Long = 0L,
     val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
     val syncAccountName: String? = null,

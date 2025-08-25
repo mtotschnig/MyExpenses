@@ -602,8 +602,6 @@
     <string name="menu_close">Κλείσιμο</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Άνοιγμα ξανά</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Κρυφοί λογαριασμοί</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Κλειστός</string>
     <string name="translated_by">Μεταφράστηκε από</string>
@@ -744,7 +742,6 @@
     <string name="sync_io_exception_locking">Το απομακρυσμένο backend είναι κλειδωμένο ή δεν μπορεί να κλειδωθεί.</string>
     <string name="link_account_failure_2">Υπάρχει ήδη ένας λογαριασμός με το ίδιο uuid στο απομακρυσμένο backend.</string>
     <string name="budget_filter_all_parties">Όλα τα μέρη</string>
-    <string name="warning_no_account">Τουλάχιστον ένας λογαριασμός πρέπει να είναι ορατός και ανοιχτός για τη δημιουργία νέων συναλλαγών.</string>
     <string name="auto_fill_focus">Ορίστε την εστίαση στον δικαιούχο πληρωμής</string>
     <string name="budget_onetime">Μια φορά</string>
     <string name="warning_synced_account_cannot_be_closed">Δεν είναι δυνατό να κλείσει ένας λογαριασμός που συνδέεται με ένα backend συγχρονισμού</string>

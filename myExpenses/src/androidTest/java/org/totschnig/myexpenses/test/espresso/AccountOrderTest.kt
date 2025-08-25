@@ -10,10 +10,12 @@ import org.junit.After
 import org.junit.Before
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
@@ -51,7 +53,9 @@ class AccountOrderTest : BaseMyExpensesTest() {
                 put(KEY_LAST_USED, lastUsed)
                 put(KEY_USAGES, usages)
                 put(KEY_SORT_KEY, customSort)
-                put(KEY_HIDDEN, !visible)
+                if (!visible) {
+                    put(KEY_FLAG, repository.findAccountFlag(PREDEFINED_NAME_INACTIVE)!!.id)
+                }
             }
         }
         return copy(id=dbAccount.id)

@@ -742,14 +742,12 @@
     <string name="debts">Борги</string>
     <string name="content_description_closed">Зачинено</string>
     <string name="translated_by">Переклали</string>
-    <string name="menu_hidden_accounts">Приховані рахунки</string>
     <string name="content_description_remove_icon">Видалити піктограму</string>
     <string name="dialog_contrib_trial_info_play">Ця безкоштовна пробна версія ніколи не буде перетворена на будь-який тип підписки.</string>
     <string name="dialog_contrib_trial_info">Ваш поточний статус ліцензії (%1$s) дозволяє пробувати %2$s протягом %3$d днів (до %4$s).</string>
     <string name="warning_delete_category_with_budget">Принаймні для однієї обраної категорії є бютжет виділення, які також будуть видалені.</string>
     <string name="pref_manage_tags_summary">Додати, редагувати, видаляти мітки.</string>
     <string name="remapping_result">Вибрані транзакції були перепризначені.</string>
-    <string name="warning_no_account">Принаймні одна рахунок має бути видимою та відкритою, щоб створювати нові транзакції.</string>
     <string name="scan_result_multiple_candidates_dialog_title">Знайдено кілька кандидатів. Будь ласка, виберіть:</string>
     <string name="scan_result_no_date">Дата не знайдена</string>
     <string name="scan_result_no_payee">Одержувача не знайдено</string>

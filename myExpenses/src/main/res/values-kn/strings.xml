@@ -652,13 +652,10 @@
     <string name="menu_close">ಮುಚ್ಚಿ</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">ಮತ್ತೆ ತೆರೆಯಿರಿ</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">ಗುಪ್ತ ಖಾತೆಗಳು</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">ಮುಚ್ಚಲಾಗಿದೆ</string>
     <string name="warning_synced_account_cannot_be_closed">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾದ ಖಾತೆಯನ್ನು ಮುಚ್ಚಲಾಗುವುದಿಲ್ಲ</string>
     <string name="translated_by">ಅನುವಾದಿಸಿದ್ದಾರೆ</string>
-    <string name="warning_no_account">ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ರಚಿಸಲು ಕನಿಷ್ಠ ಒಂದು ಖಾತೆಯಾದರೂ ಗೋಚರಿಸಬೇಕು ಮತ್ತು ತೆರೆಯಬೇಕು.</string>
     <string name="content_description_dates_are_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ</string>
     <string name="content_description_dates_are_not_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ</string>
     <string name="roadmap_vote">ಮಾರ್ಗಸೂಚಿ ಮತ</string>

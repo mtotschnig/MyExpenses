@@ -646,13 +646,10 @@
     <string name="menu_close">关闭</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">重新开启</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">隐藏的账户</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">已关闭的</string>
     <string name="warning_synced_account_cannot_be_closed">链接到同步后端的账户无法关闭</string>
     <string name="translated_by">翻译者</string>
-    <string name="warning_no_account">为了创建新交易，请至少开设一个非隐藏的账户。</string>
     <string name="content_description_dates_are_linked">账面交易日期(booking date)和生效日期(value date)会一起更新</string>
     <string name="content_description_dates_are_not_linked">账面交易日期(booking date)和生效日期(value date)不会一起更新</string>
     <string name="roadmap_vote">程序开发蓝图投票</string>

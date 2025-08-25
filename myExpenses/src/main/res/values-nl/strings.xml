@@ -360,7 +360,6 @@
     <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
     <string name="link_account_failure_3">Het conflict kan handmatig worden opgelost vanuit het contextmenu van het item.</string>
     <string name="feature_deprecated">Verouderd</string>
-    <string name="menu_hidden_accounts">Verborgen rekeningen</string>
     <string name="progress_dialog_updating_split_parts">Gesplitste delen bijwerken</string>
     <string name="warning_change_fraction_digits_3">Als bedragen worden bijgewerkt, verlies je de informatie over hun fractionele deel.</string>
     <string name="search_payee">Zoek naar begunstigde/betaler</string>
@@ -568,7 +567,6 @@
     <string name="passphrase_for_synchronization">Voer een wachtwoordzin in als je wilt dat synchronisatiegegevens op deze backend worden gecodeerd.</string>
     <string name="sync_backend_is_not_encrypted">Externe backend is niet versleuteld.</string>
     <string name="joining_or">of</string>
-    <string name="warning_no_account">Er moet ten minste één rekening zichtbaar en geopend zijn om nieuwe transacties te kunnen aanmaken.</string>
     <string name="exchange_rate_not_supported">De geconfigureerde wisselkoersprovider biedt niet de koers %1$s : %2$s. Je kunt proberen een andere te selecteren in de instellingen.</string>
     <string name="budget_date_end_after_start">De einddatum van het budget moet na de startdatum vallen.</string>
     <string name="pref_exchange_rate_provider_title">Wisselkoers Aanbieder</string>

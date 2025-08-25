@@ -654,13 +654,10 @@
     <string name="menu_close">Schließen</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Erneut öffnen</string>
-    <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Verborgene Konten</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Geschlossen</string>
     <string name="warning_synced_account_cannot_be_closed">Ein Konto, das mit einem Synchronisations-Backend verknüpft ist, kann nicht geschlossen werden</string>
     <string name="translated_by">Übersetzt von</string>
-    <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
     <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
     <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>
     <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>

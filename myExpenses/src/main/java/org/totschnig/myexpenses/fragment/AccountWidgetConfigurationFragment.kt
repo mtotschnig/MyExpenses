@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Butt
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.SimpleValuePreference
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
 @Suppress("unused")
@@ -51,7 +52,7 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
         with(viewLifecycleOwner) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.accountsMinimal("${DatabaseConstants.KEY_HIDDEN} = 0")
+                    viewModel.accountsMinimal("$KEY_VISIBLE = 1")
                         .collect { list ->
                             with(accountPreference) {
                                 entries =

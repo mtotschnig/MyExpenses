@@ -656,9 +656,7 @@
     <string name="sync_backend_is_not_encrypted">El sistema de servei remot no està encriptat.</string>
     <string name="button_label_no_encryption">Sense encriptar</string>
     <string name="joining_or">o</string>
-    <string name="menu_hidden_accounts">Amaga comptes</string>
     <string name="warning_synced_account_cannot_be_closed">Un compte vinculat a la sincronització al sistema de servei no es pot tancar</string>
-    <string name="warning_no_account">Com a mínim un compte ha de ser visible i obert per tal de crear noves transaccions.</string>
     <string name="content_description_dates_are_linked">La data de reserva i la data valor s\'actualitzen conjuntament</string>
     <string name="content_description_dates_are_not_linked">La data de reserva i la data valor no s\'actualitzen conjuntament</string>
     <string name="pref_plan_executor_time_title">Hora de notificació al planificador</string>
