@@ -449,4 +449,5 @@
     <string name="balance_sheet_section_liabilities">부채</string>
     <string name="balance_sheet_net_worth">순자산</string>
     <string name="price_history">가격 내역</string>
+    <string name="pref_account_list_display_configuration_title">계정 목록</string>
 </resources>
