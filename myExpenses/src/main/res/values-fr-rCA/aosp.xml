@@ -14,4 +14,5 @@
     <string name="action_move_bottom">"Déplacer dans le bas"</string>
     <string name="layout">"Disposition"</string>
     <string name="widgets">"Widgets"</string>
+    <string name="flag_inactive">"Inactive"</string>
 </resources>

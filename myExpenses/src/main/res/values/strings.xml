@@ -1103,10 +1103,8 @@
     <string name="new_account_flag">New Flag</string>
     <string name="flag_unflagged">No flag</string>
     <string name="flag_favorite">Favorite</string>
-    <string name="flag_inactive">Inactive</string>
     <!-- Label of checkbox in account type form, which configures if accounts of this type have the Reconciliation feature -->
     <string name="supports_reconciliation">Supports Reconciliation</string>
-    <string name="visible">Visible</string>
     <string name="count">Count</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
     <string name="select_accounts_for_flag">Select accounts for flag %s</string>

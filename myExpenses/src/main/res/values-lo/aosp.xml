@@ -80,4 +80,5 @@
     <string name="widgets">"ວິດເຈັດ"</string>
     <string name="menu_import">"ນຳເຂົ້າ"</string>
     <string name="already_exists">"ມີຊື່ນີ້ແລ້ວ"</string>
+    <string name="flag_inactive">"ບໍ່ໄດ້ນຳໃຊ້"</string>
 </resources>

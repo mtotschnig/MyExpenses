@@ -171,4 +171,5 @@
     <string name="widgets">"Widgets"</string>
     <string name="menu_import">"Importa"</string>
     <string name="already_exists">"Aquest nom ja existeix"</string>
+    <string name="flag_inactive">"Inactiva"</string>
 </resources>

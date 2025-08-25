@@ -169,4 +169,5 @@
     <string name="widgets">"التطبيقات المصغّرة"</string>
     <string name="menu_import">"استيراد"</string>
     <string name="already_exists">"الاسم موجود بالفعل"</string>
+    <string name="flag_inactive">"غير نشطة"</string>
 </resources>

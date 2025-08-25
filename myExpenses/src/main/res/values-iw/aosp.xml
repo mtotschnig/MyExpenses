@@ -162,4 +162,5 @@
     <string name="widgets">"ווידג'טים"</string>
     <string name="menu_import">"ייבוא"</string>
     <string name="already_exists">"השם כבר קיים"</string>
+    <string name="flag_inactive">"לא פעיל"</string>
 </resources>

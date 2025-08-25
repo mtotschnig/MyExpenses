@@ -81,4 +81,5 @@
     <string name="widgets">"Виџети"</string>
     <string name="menu_import">"Увeзи"</string>
     <string name="already_exists">"Име већ постоји"</string>
+    <string name="flag_inactive">"Неактивно"</string>
 </resources>

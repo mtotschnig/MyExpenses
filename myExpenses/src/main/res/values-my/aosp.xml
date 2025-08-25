@@ -80,4 +80,5 @@
     <string name="widgets">"ဝိဂျက်များ"</string>
     <string name="menu_import">"ထည့်သွင်းရန်"</string>
     <string name="already_exists">"အမည်ရှိပြီးသားဖြစ်သည်။"</string>
+    <string name="flag_inactive">"အသုံးမပြုပါ"</string>
 </resources>

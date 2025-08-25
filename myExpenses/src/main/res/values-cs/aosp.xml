@@ -173,4 +173,5 @@
     <string name="widgets">"Widgety"</string>
     <string name="menu_import">"Importovat"</string>
     <string name="already_exists">"Název již existuje"</string>
+    <string name="flag_inactive">"Neaktivní"</string>
 </resources>

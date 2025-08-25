@@ -96,4 +96,5 @@
     <string name="widgets">"Valdikliai"</string>
     <string name="menu_import">"Importuoti"</string>
     <string name="already_exists">"Toks pavadinimas jau yra"</string>
+    <string name="flag_inactive">"Neaktyvi"</string>
 </resources>

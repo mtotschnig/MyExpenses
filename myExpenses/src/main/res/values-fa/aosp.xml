@@ -84,4 +84,5 @@
     <string name="widgets">"ابزارک‌ها"</string>
     <string name="menu_import">"وارد کردن"</string>
     <string name="already_exists">"نام از قبل وجود دارد"</string>
+    <string name="flag_inactive">"غیرفعال"</string>
 </resources>

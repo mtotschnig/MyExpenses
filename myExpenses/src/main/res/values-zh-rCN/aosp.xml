@@ -168,4 +168,5 @@
     <string name="widgets">"微件"</string>
     <string name="menu_import">"导入"</string>
     <string name="already_exists">"名称已经存在"</string>
+    <string name="flag_inactive">"未使用"</string>
 </resources>

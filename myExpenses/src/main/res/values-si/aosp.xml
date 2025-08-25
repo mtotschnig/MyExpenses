@@ -142,4 +142,5 @@
     <string name="widgets">"විජට්"</string>
     <string name="menu_import">"ආයාත කරන්න"</string>
     <string name="already_exists">"නම දැනටමත් පවතී"</string>
+    <string name="flag_inactive">"අක්‍රිය"</string>
 </resources>

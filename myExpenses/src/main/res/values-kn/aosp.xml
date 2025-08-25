@@ -147,4 +147,5 @@
     <string name="widgets">"ವಿಜೆಟ್‌ಗಳು"</string>
     <string name="menu_import">"ಆಮದು ಮಾಡಿ"</string>
     <string name="already_exists">"ಹೆಸರು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ"</string>
+    <string name="flag_inactive">"ನಿಷ್ಕ್ರಿಯವಾಗಿದೆ"</string>
 </resources>

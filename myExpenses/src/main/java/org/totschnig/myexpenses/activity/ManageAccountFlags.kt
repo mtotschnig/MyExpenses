@@ -287,7 +287,7 @@ fun AccountFlagList(
             )
             Text(
                 modifier = Modifier.weight(WEIGHT_VISIBLE),
-                text = stringResource(R.string.visible),
+                text = stringResource(R.string.show),
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 maxLines = 1

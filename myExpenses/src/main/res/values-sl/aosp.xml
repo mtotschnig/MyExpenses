@@ -73,4 +73,5 @@
     <string name="at_end">Konec</string>
     <string name="widgets">"Pripomočki"</string>
     <string name="menu_import">"Uvozi"</string>
+    <string name="flag_inactive">"Neaktivna"</string>
 </resources>

@@ -168,4 +168,5 @@
     <string name="widgets">"ウィジェット"</string>
     <string name="menu_import">"インポート"</string>
     <string name="already_exists">"この名前はすでに使われています。"</string>
+    <string name="flag_inactive">"無効"</string>
 </resources>
