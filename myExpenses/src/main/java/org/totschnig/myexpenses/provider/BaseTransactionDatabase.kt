@@ -70,7 +70,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
@@ -132,7 +131,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 179
+const val DATABASE_VERSION = 180
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1232,6 +1231,13 @@ abstract class BaseTransactionDatabase(
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
         createOrRefreshAccountTriggers();
         createOrRefreshAccountMetadataTrigger();
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo180() {
+        execSQL("ALTER TABLE account_types add column type_sort_key integer not null default 0")
+        AccountType.initialAccountTypes.filter { it.sortKey != 0 }.forEach {
+            execSQL("UPDATE account_types set type_sort_key = ? WHERE label = ?", arrayOf(it.sortKey.toString(), it.name))
+        }
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
