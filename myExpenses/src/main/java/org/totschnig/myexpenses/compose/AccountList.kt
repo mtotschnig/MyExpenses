@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -314,11 +315,27 @@ fun AccountCard(
             }
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = account.label,
-                    maxLines = if (isCollapsed) 1 else Int.MAX_VALUE,
-                    overflow = if (isCollapsed) TextOverflow.Ellipsis else TextOverflow.Clip
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = account.label,
+                        maxLines = if (isCollapsed) 1 else Int.MAX_VALUE,
+                        overflow = if (isCollapsed) TextOverflow.Ellipsis else TextOverflow.Clip
+                    )
+                    if (account.flag.icon != null) {
+                        val contentDescription = account.flag.localizedLabel(LocalContext.current)
+                        @Suppress("RemoveRedundantQualifierName")
+                        org.totschnig.myexpenses.compose.Icon(
+                            icon = account.flag.icon,
+                            size = 12.sp,
+                            modifier = Modifier.semantics {
+                                this.contentDescription = contentDescription
+                            }
+                        )
+                    }
+                }
                 AnimatedVisibility(visible = isCollapsed) {
                     Text(text = currentBalance)
                 }
