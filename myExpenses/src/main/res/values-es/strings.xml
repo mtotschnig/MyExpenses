@@ -1017,4 +1017,5 @@
         <item quantity="one">, contiene una subcategoría de nivel %2$d</item>
         <item quantity="other">, contiene %1$d subcategorías de nivel %2$d</item>
     </plurals>
+    <string name="pref_account_list_display_configuration_title">Lista de cuentas</string>
 </resources>
