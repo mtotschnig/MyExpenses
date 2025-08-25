@@ -749,4 +749,5 @@
     <string name="balance_sheet_section_liabilities">負債</string>
     <string name="balance_sheet_net_worth">純資産</string>
     <string name="price_history">価格履歴</string>
+    <string name="pref_account_list_display_configuration_title">アカウント一覧</string>
 </resources>
