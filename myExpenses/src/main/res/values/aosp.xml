@@ -315,5 +315,6 @@
     <string name="already_exists">"Name already exists"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r sim_category_inactive_sim res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/sim_category_inactive_sim/flag_inactive/' | aosp_helper -->
     <string name="flag_inactive">"Inactive"</string>
-
+    <!-- LibreOffice sc/messages.po SZAUf -->
+    <string name="count">Count</string>
 </resources>

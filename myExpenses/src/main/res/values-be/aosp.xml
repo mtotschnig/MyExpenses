@@ -148,4 +148,5 @@
     <string name="menu_import">"Імпартаваць"</string>
     <string name="already_exists">"Такая назва ўжо існуе"</string>
     <string name="flag_inactive">"Неактыўная"</string>
+    <string name="count">"Колькасць"</string>
 </resources>

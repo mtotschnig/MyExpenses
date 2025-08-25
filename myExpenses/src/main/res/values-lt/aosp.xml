@@ -97,4 +97,5 @@
     <string name="menu_import">"Importuoti"</string>
     <string name="already_exists">"Toks pavadinimas jau yra"</string>
     <string name="flag_inactive">"Neaktyvi"</string>
+    <string name="count">"Kiekis"</string>
 </resources>

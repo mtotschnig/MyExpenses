@@ -1105,7 +1105,6 @@
     <string name="flag_favorite">Favorite</string>
     <!-- Label of checkbox in account type form, which configures if accounts of this type have the Reconciliation feature -->
     <string name="supports_reconciliation">Supports Reconciliation</string>
-    <string name="count">Count</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
     <string name="select_accounts_for_flag">Select accounts for flag %s</string>
 </resources>

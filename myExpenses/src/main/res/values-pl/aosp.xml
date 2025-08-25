@@ -174,4 +174,5 @@
     <string name="menu_import">"Importuj"</string>
     <string name="already_exists">"Nazwa już istnieje"</string>
     <string name="flag_inactive">"Nieaktywna"</string>
+    <string name="count">"Liczba"</string>
 </resources>

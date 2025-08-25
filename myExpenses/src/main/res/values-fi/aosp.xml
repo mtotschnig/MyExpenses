@@ -105,4 +105,5 @@
     <string name="menu_import">"Tuo"</string>
     <string name="already_exists">"Nimi on jo olemassa"</string>
     <string name="flag_inactive">"Ei aktiivinen"</string>
+    <string name="count">"Laske"</string>
 </resources>

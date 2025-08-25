@@ -98,4 +98,5 @@
     <string name="menu_import">"አምጣ"</string>
     <string name="already_exists">"ስሙ በቅድሚያ ነበር"</string>
     <string name="flag_inactive">"ያልነቃ"</string>
+    <string name="count">"መቁጠሪያ"</string>
 </resources>
