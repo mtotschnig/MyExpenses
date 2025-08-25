@@ -1010,4 +1010,5 @@
     <string name="batch_download">Download em lote</string>
     <string name="warning_batch_download_quota">O download em lote do %s incorre no risco de esgotar seu limite de uso.</string>
     <string name="batch_download_result">%d preços foram baixados e armazenados no banco de dados.</string>
+    <string name="pref_account_list_display_configuration_title">Lista de contas</string>
 </resources>
