@@ -17,11 +17,11 @@
     <string name="account">Conta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
-    <string name="account_type_asset">Conta de ativos</string>
-    <string name="account_type_bank">Conta bancária</string>
-    <string name="account_type_cash">Conta de dinheiro</string>
+    <string name="account_type_asset">Outros ativos</string>
+    <string name="account_type_bank">Banco</string>
+    <string name="account_type_cash">Dinheiro</string>
     <string name="account_type_ccard">Cartão de crédito</string>
-    <string name="account_type_liability">Conta de passivos</string>
+    <string name="account_type_liability">Outros passivos</string>
     <string name="already_defined">%1$s já definido</string>
     <string name="amount">Quantia</string>
     <string name="app_name">Minhas Despesas</string>
@@ -1011,4 +1011,6 @@
     <string name="warning_batch_download_quota">O download em lote do %s incorre no risco de esgotar seu limite de uso.</string>
     <string name="batch_download_result">%d preços foram baixados e armazenados no banco de dados.</string>
     <string name="pref_account_list_display_configuration_title">Lista de contas</string>
+    <string name="account_type_investment">Investimentos</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostrar novo saldo após a transação ser salva</string>
 </resources>
