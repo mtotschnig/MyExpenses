@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog
-import org.totschnig.myexpenses.dialog.EditCurrencyDialog.Companion.newInstance
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
@@ -117,7 +116,7 @@ class CurrencyList : ListFragment() {
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         val item = currencyAdapter.getItem(position)
-        val editCurrencyDialog = newInstance(item)
+        val editCurrencyDialog = EditCurrencyDialog.newInstance(item)
         editCurrencyDialog.setTargetFragment(this, EDIT_REQUEST)
         editCurrencyDialog.show(parentFragmentManager, "SET_FRACTION_DIGITS")
     }

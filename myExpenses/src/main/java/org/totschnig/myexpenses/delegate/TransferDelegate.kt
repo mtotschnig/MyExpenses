@@ -11,11 +11,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
-import org.totschnig.myexpenses.adapter.IdAdapter
+import org.totschnig.myexpenses.adapter.AccountAdapter
+import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.dialog.addAllAccounts
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.ITransfer
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
@@ -46,7 +49,7 @@ class TransferDelegate(
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
-    private lateinit var transferAccountsAdapter: IdAdapter<Account>
+    private lateinit var transferAccountsAdapter:  GroupedSpinnerAdapter<AccountFlag, Account>
 
     @State
     var mTransferAccountId: Long? = null
@@ -123,13 +126,6 @@ class TransferDelegate(
 
     }
 
-    override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
-        createStatusAdapter()
-        if (withTypeSpinner) {
-            createOperationTypeAdapter()
-        }
-    }
-
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         super.onItemSelected(parent, view, position, id)
         when (parent.id) {
@@ -140,33 +136,10 @@ class TransferDelegate(
         }
     }
 
-    override fun setAccount(isInitialSetup: Boolean) {
-        super.setAccount(isInitialSetup)
-        val selectedPosition = setTransferAccountFilterMap()
-        transferAccountSpinner.setSelection(selectedPosition)
-        mTransferAccountId = transferAccountSpinner.selectedItemId
-        configureTransferInput()
-    }
-
-    private fun setTransferAccountFilterMap(): Int {
-        val fromAccount = mAccounts[accountSpinner.selectedItemPosition]
-        val list = mutableListOf<Account>()
-        var position = 0
-        var selectedPosition = 0
-        for (i in mAccounts.indices) {
-            val account = mAccounts[i]
-            if (fromAccount.id != account.id) {
-                list.add(account)
-                if (mTransferAccountId != null && mTransferAccountId == account.id) {
-                    selectedPosition = position
-                }
-                position++
-            }
-        }
+    private fun setTransferAccountFilterMap() {
+        val fromAccount = getAccountFromSpinner(accountSpinner)!!
         requireTransferAccountsAdapter()
-        transferAccountsAdapter.clear()
-        transferAccountsAdapter.addAll(list)
-        return selectedPosition
+        transferAccountsAdapter.addAllAccounts(mAccounts.filter { it.id != fromAccount.id })
     }
 
     fun transferAccount() = getAccountFromSpinner(transferAccountSpinner)
@@ -194,8 +167,7 @@ class TransferDelegate(
 
     private fun requireTransferAccountsAdapter() {
         if (!::transferAccountsAdapter.isInitialized) {
-            transferAccountsAdapter = IdAdapter(context)
-            transferAccountsAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
+            transferAccountsAdapter = AccountAdapter(context)
             transferAccountSpinner.adapter = transferAccountsAdapter
             transferAccountSpinner.setOnItemSelectedListener(this)
         }
@@ -247,7 +219,7 @@ class TransferDelegate(
             isProcessingLinkedAmountInputs = true
             if (isTemplate) {
                 (if (isMain) viewBinding.TransferAmount else viewBinding.Amount).clear()
-            } else if (viewBinding.ERR.root.visibility == View.VISIBLE) {
+            } else if (viewBinding.ERR.root.isVisible) {
                 val currentFocus = if (isMain) INPUT_AMOUNT else INPUT_TRANSFER_AMOUNT
                 if (lastExchangeRateRelevantInputs[0] != currentFocus) {
                     lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0]
@@ -326,8 +298,15 @@ class TransferDelegate(
 
     override fun updateAccount(account: Account, isInitialSetup: Boolean) {
         super.updateAccount(account, isInitialSetup)
-        transferAccountSpinner.setSelection(setTransferAccountFilterMap())
-        mTransferAccountId = transferAccountSpinner.selectedItemId
+        setTransferAccountFilterMap()
+        if (accountId == mTransferAccountId) {
+            mTransferAccountId = null
+        }
+        mTransferAccountId?.also {
+            transferAccountSpinner.setSelection(transferAccountsAdapter.getPosition(it))
+        } ?: run {
+            mTransferAccountId = transferAccountSpinner.selectedItemId
+        }
         configureTransferInput()
     }
 

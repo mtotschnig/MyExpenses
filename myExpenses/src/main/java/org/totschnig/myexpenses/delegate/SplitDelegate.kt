@@ -198,7 +198,7 @@ class SplitDelegate(
     }
 
     fun onUncommittedSplitPartsMoved(success: Boolean) {
-        val account = mAccounts[accountSpinner.selectedItemPosition]
+        val account = getAccountFromSpinner(accountSpinner)!!
         if (success) {
             super.updateAccount(account, false)
         } else {

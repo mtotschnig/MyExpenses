@@ -19,17 +19,13 @@ import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
 import org.junit.Assume
 import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -40,7 +36,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
-import org.totschnig.myexpenses.testutils.withAccount
+import org.totschnig.myexpenses.testutils.withAccountGrouped
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
@@ -109,10 +105,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         setOperationType(Transactions.TYPE_TRANSFER)
         onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
         onData(
-            allOf(
-                instanceOf(IdHolder::class.java),
-                withAccount(account2.label)
-            )
+            withAccountGrouped(account2.label)
         ).perform(click())
         clickFab()//save part
         setAccount(account2.label)

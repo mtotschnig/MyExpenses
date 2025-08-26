@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
@@ -226,8 +227,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             setAmount(amount)
             clickFab()
             val restored = Template.getInstanceFromDb(contentResolver, template.id)!!
-            Truth.assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
-            Truth.assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
+            assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
+            assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
         }
     }
 

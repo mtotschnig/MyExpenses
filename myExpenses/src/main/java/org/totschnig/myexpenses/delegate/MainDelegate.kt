@@ -221,11 +221,7 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
         createPayeeAdapter(withAutoFill)
-        createStatusAdapter()
-        if (withTypeSpinner) {
-            createOperationTypeAdapter()
-        }
-        createAccountAdapter()
+        super.createAdapters(withTypeSpinner, withAutoFill)
     }
 
     override fun populateFields(transaction: T, withAutoFill: Boolean) {

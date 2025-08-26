@@ -17,9 +17,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.instanceOf
-import org.hamcrest.Matchers.`is`
 import org.junit.After
 import org.junit.Before
 import org.totschnig.myexpenses.R
@@ -33,7 +30,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withAccount
-import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
+import org.totschnig.myexpenses.testutils.withAccountGrouped
 import kotlin.reflect.KClass
 import kotlin.test.Test
 
@@ -107,7 +104,7 @@ class BudgetEditTest : BaseUiTest<BudgetEdit>() {
             )
         )
         onView(withId(R.id.Accounts)).perform(click())
-        onData(allOf(`is`(instanceOf(AccountMinimal::class.java)), withAccount(homeCurrency.code)))
+        onData( withAccount(homeCurrency.code))
             .perform(click())
         testFilterWithDialog(R.id.FILTER_ACCOUNT_COMMAND, R.string.search_account)
     }

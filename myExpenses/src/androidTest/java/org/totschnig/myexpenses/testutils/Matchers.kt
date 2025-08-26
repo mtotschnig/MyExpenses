@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.ui.DateButton
+import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.time.LocalDate
@@ -50,17 +51,6 @@ fun withStatus(status: CrStatus): Matcher<Any> =
         }
     }
 
-fun withAccount(content: String): Matcher<Any> =
-    object : BoundedMatcher<Any, IdHolder>(IdHolder::class.java) {
-        override fun matchesSafely(myObj: IdHolder): Boolean {
-            return myObj.toString() == content
-        }
-
-        override fun describeTo(description: Description) {
-            description.appendText("with label '$content'")
-        }
-    }
-
 fun withOperationType(type: Int): Matcher<Any> =
     object : BoundedMatcher<Any, OperationType>(OperationType::class.java) {
         override fun matchesSafely(myObj: OperationType): Boolean {
@@ -83,18 +73,39 @@ fun withCurrency(currency: String): Matcher<Any> =
         }
     }
 
-fun withAccountType(expectedTypeName: String): Matcher<SpinnerItem.Item<AccountType>> {
-    return object : TypeSafeMatcher<SpinnerItem.Item<AccountType>>() {
+fun withAccountType(expectedTypeName: String) =
+    object : TypeSafeMatcher<SpinnerItem.Item<AccountType>>() {
         override fun describeTo(description: Description) {
-            description.appendText("SpinnerItem.Item<AccountType> with AccountType.typeName: '$expectedTypeName'")
+            description.appendText("SpinnerItem.Item<AccountType>: '$expectedTypeName'")
         }
 
         override fun matchesSafely(item: SpinnerItem.Item<AccountType>): Boolean {
             return item.data.name == expectedTypeName
         }
     }
-}
 
+fun withAccount(content: String): Matcher<Any> =
+    object : BoundedMatcher<Any, IdHolder>(IdHolder::class.java) {
+        override fun matchesSafely(myObj: IdHolder): Boolean {
+            return myObj.toString() == content
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText("with label '$content'")
+        }
+    }
+
+
+fun withAccountGrouped(expectedAccount: String): Matcher<SpinnerItem.Item<Account>> =
+    object : TypeSafeMatcher<SpinnerItem.Item<Account>>() {
+        override fun describeTo(description: Description) {
+            description.appendText("SpinnerItem.Item<Account>: '$expectedAccount'")
+        }
+
+        override fun matchesSafely(item: SpinnerItem.Item<Account>): Boolean {
+            return item.data.label == expectedAccount
+        }
+    }
 
 /**
  * https://stackoverflow.com/a/63330069/1199911
@@ -128,7 +139,6 @@ fun childAtPosition(parentMatcher: Matcher<View>, position: Int) =
                     && view == parent.getChildAt(position)
         }
     }
-
 
 
 //https://google.github.io/android-testing-support-library/docs/espresso/advanced/#asserting-that-a-data-item-is-not-in-an-adapter

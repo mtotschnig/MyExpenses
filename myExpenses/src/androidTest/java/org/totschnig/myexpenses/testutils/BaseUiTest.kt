@@ -35,9 +35,7 @@ import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.google.common.truth.Truth.assertThat
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers.not
 import org.junit.Assume
 import org.junit.Before
@@ -45,7 +43,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
@@ -332,7 +329,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     fun setAccount(label: String) {
         onView(withId(R.id.Account)).perform(scrollTo(), click())
-        onData(allOf(instanceOf(IdHolder::class.java), withAccount(label)))
+        onData(withAccountGrouped(label))
             .perform(click())
     }
 }

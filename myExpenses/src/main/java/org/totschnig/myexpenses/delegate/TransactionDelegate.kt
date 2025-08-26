@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
+import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
@@ -537,7 +538,13 @@ abstract class TransactionDelegate<T : ITransaction>(
     val host: ExpenseEdit
         get() = context as ExpenseEdit
 
-    abstract fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean)
+    open fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
+        createStatusAdapter()
+        if (withTypeSpinner) {
+            createOperationTypeAdapter()
+        }
+        createAccountAdapter()
+    }
 
     private fun labelForNewInstance(type: Int) = context.getString(
         when (type) {
@@ -575,13 +582,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     protected fun createAccountAdapter() {
-        accountAdapter = object : GroupedSpinnerAdapter<AccountFlag, Account>(
-            context,
-            itemToString = { it.label },
-            headerToString = { if (it.id == 0L) "" else it.localizedLabel(context) }
-        ) {
-            override fun showHeader(header: AccountFlag) = header.id != 0L
-        }
+        accountAdapter = AccountAdapter(context)
         accountSpinner.adapter = accountAdapter
     }
 
@@ -767,19 +768,9 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun currentAccount() = getAccountFromSpinner(accountSpinner)
 
-    protected fun getAccountFromSpinner(spinner: SpinnerHelper): Account? {
-        val selected = spinner.selectedItemPosition
-        if (selected == AdapterView.INVALID_POSITION) {
-            return null
-        }
-        val selectedID = spinner.selectedItemId
-        for (account in mAccounts) {
-            if (account.id == selectedID) {
-                return account
-            }
-        }
-        return null
-    }
+    protected fun getAccountFromSpinner(spinner: SpinnerHelper) =
+        if (spinner.selectedItemPosition == AdapterView.INVALID_POSITION)
+            null else mAccounts.find { it.id == spinner.selectedItemId }
 
     protected fun buildTemplate(account: Account) =
         Template.getTypedNewInstance(
