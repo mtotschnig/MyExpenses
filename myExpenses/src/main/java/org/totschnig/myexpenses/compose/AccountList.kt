@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +24,6 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -249,7 +249,10 @@ fun AccountCard(
             .conditional(isSelected) {
                 background(activatedBackgroundColor)
             }
-            .clickable { showMenu.value = true }
+            .combinedClickable(
+                onClick = { onSelected() },
+                onLongClick = { showMenu.value = true }
+            )
             .padding(start = dimensionResource(id = R.dimen.drawer_padding))
 
     ) {
@@ -348,14 +351,6 @@ fun AccountCard(
             )
             val menu = Menu(
                 buildList {
-                    add(
-                        MenuEntry(
-                            icon = Icons.Filled.Loupe,
-                            label = R.string.menu_show_transactions,
-                            command = "SHOW_TRANSACTIONS"
-                        ) {
-                            onSelected()
-                        })
                     if (account.id > 0) {
                         if (!account.sealed) {
                             add(edit("EDIT_ACCOUNT") { onEdit(account) })
