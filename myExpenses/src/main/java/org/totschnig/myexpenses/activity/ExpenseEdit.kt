@@ -953,7 +953,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             methodRowBinding,
             injector
         )
-        setupObservers(true)
+        setupObservers(newInstance)
         if (intent.getBooleanExtra(KEY_CREATE_TEMPLATE, false)) {
             createTemplate = true
             delegate.setCreateTemplate(true)
