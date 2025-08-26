@@ -92,8 +92,6 @@
     <string name="menu_templates_help_text">Obriu un menú que llista totes les plantilles que permeten carregar-les ràpidament al formulari.</string>
     <string name="form_AccountEdit_type_help_text_reconciliation">La funció de conciliació està disponible per a tots els comptes excepte en efectiu: permet establir l\'estat de les operacions a liquidar, una vegada confirmat, i reconciliar tot el compte amb el vostre compte bancari a través de l\'ordre \"Compte de saldo\".</string>
     <string name="help_ExportDialog_date_format">El text es pot citar utilitzant cometes simples (\') per evitar la interpretació. «» (dues cometes simples) representa una cometa única. Consulteu l\'especificació completa &lt;a href=%s&gt;&lt;/a&gt; per a més detalls, o contacteu amb support@myexpenses.mobi per obtenir ajuda.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">En fer clic a \"Personalitzar\" podreu configurar lliurement la posició de cada compte.</string>
-    <string name="cab_NavigationDrawer_hide_help_text">Elimina el compte de la llista.</string>
     <string name="help_ManageSyncBackends_drive">Trieu qualsevol carpeta que tingueu o que es comparteixi amb vós.</string>
     <string name="cab_sync_now_help_text">Activa la sincronització immediata amb el servei seleccionat.</string>
     <string name="help_BudgetEdit_info">Utilitzeu aquest formulari per crear un pressupost nou o per editar-ne un d\'existent.</string>
@@ -103,9 +101,6 @@
     <string name="help_ManageSyncBackends_intro">Les Meves Despeses permet configurar diferents serveis de sincronització per a cada compte. Per exemple, podeu sincronitzar un compte amb una carpeta compartida, mentre que sincronitzeu un altre compte amb una carpeta privada. En aquesta pantalla afegiu o suprimiu serveis de sincronització, inicieu o atureu la sincronització amb els comptes disponibles remotament. Mentre la sincronització es produeix automàticament de manera periòdica, aquí també podeu activar-la manualment amb un servei. Tingueu en compte que Les Meves Despeses necessita un control total sobre la carpeta remota. No hauríeu d\'utilitzar altres eines o interfícies per canviar el seu contingut, ja que això probablement provocarà errors durant la sincronització.</string>
     <string name="menu_create_account_help_text">Crea un compte nou. La versió gratuïta està limitada a cinc comptes.</string>
     <string name="help_HistoryActivity_info">Aquesta pantalla mostra el teu flux de caixa, com evolucionen les teves despeses i ingressos al llarg d\'anys, mesos, setmanes o dies.</string>
-    <string name="menu_NavigationDrawer_sort_help_text">La llista de comptes es pot ordenar per títol (alfabèticament), per freqüència d\'usos, o per l\'última vegada que s\'hi va crear una transacció.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">La llista de comptes es pot mostrar agrupada per tipus de compte, per divisa o desagrupada.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Mostra una llista de tots els comptes ocults, on es poden tornar a fer visibles o suprimir.</string>
     <string name="menu_BudgetActivity_edit_help_text">Canvieu la definició del pressupost.</string>
     <string name="form_plan_help_text">Quan creeu un pla per a una plantilla, s\'afegeix a un calendari privat gestionat per l\'aplicació Calendari. Pots definir el pla com un esdeveniment únic, o com un esdeveniment recurrent diari, setmanal, mensual o anual.</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">En tancar un compte, eviteu canvis (addició, supressió, edició) en les seves dades. Tanmateix, permeteu que es tingui en compte per a tots els càlculs estadístics.</string>

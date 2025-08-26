@@ -7,7 +7,6 @@
     <string name="form_comment_help_text">Introduzir qualquer nota sobre o objeto.</string>
     <string name="form_split_parts_heading_help_text_1">Use o ícone + para digitar quantas partes da divisão forem necessárias.</string>
     <string name="help_AccountEdit_title">Formulário para contas</string>
-    <string name="cab_NavigationDrawer_hide_help_text">Remove a conta da lista.</string>
     <string name="help_ManageSyncBackends_drive">Escolha qualquer pasta que possua ou que esteja partilhada consigo.</string>
     <string name="help_ManageSyncBackends_saf">Esta opção permite selecionar uma pasta através do diálogo de seleção de ficheiros do Android. É principalmente útil se tiver instalado uma app de armazenamento na cloud que suporte a seleção de uma pasta para armazenar conteúdo, como o NextCloud.</string>
     <string name="menu_BudgetActivity_edit_help_text">Altera a definição do orçamento.</string>
@@ -150,10 +149,6 @@
     <string name="help_ExportDialog_date_format">O texto pode ser citado usando apóstrofos (\') para evitar a interpretação. \" (aspas) representam um apóstrofo. Consulte a &lt;a href=%s&gt;especificação&lt;/a&gt; completa para mais detalhes, ou contacte support@myexpenses.mobi para obter ajuda.</string>
     <string name="help_NavigationDrawer_info">A lista de contas permite-lhe facilmente navegar entre contas com um simples clique numa entrada.</string>
     <string name="menu_create_account_help_text">Criar uma nova conta. A versão gratuita está limitada a cinco contas.</string>
-    <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">Clicar em \"Personalizar\" permite configurar livremente a posição de cada conta.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">A lista de contas pode ser exibida agrupada por tipo de conta, moeda, ou não agrupada.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Exibe uma lista de todas as contas ocultas, que podem ser novamente tornadas visíveis ou excluídas.</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">Ao encerrar uma conta, evite que seja feita qualquer alteração (adição, exclusão, edição) nos dados dela, mas ainda permite que eles sejam considerados em todos os cálculos estatísticos.</string>
     <string name="help_ManageSyncBackends_intro">Minhas Despesas lhe permite configurar diferentes destinos de sincronização para cada conta. Por exemplo, pode sincronizar uma conta com uma pasta compartilhada, enquanto sincroniza outra conta com uma pasta privada. Neste ecrã adiciona ou remove destinos de sincronização, inicia ou interrompe a sincronização com contas disponíveis remotamente. Embora a sincronização aconteça automaticamente de maneira periódica, aqui também pode acioná-la manualmente em algum destino. Esteja ciente de que Minhas Despesas precisa de controle total sobre a pasta remota. Não deve usar outras ferramentas ou interfaces para alterar o conteúdo dele, pois isso provavelmente levará a falhas durante a sincronização.</string>
     <string name="help_ManageSyncBackends_webdav">Se o seu provedor de armazenamento em nuvem suporta esse protocolo, o Minhas Despesas poderá sincronizar dados com ele. Basta fornecer a URL para uma pasta, juntamente com o seu nome de utilizador e palavra-passe. Caso o seu servidor web use https através de um certificado autoassinado, poderá permitir a confiança nele explicitamente.</string>

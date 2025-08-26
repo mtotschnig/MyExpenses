@@ -32,17 +32,27 @@
 
     <string-array name="NavigationDrawer_menuitems">
         <item>create_account</item>
-        <item>sort</item>
-        <item>grouping</item>
-        <item>hidden_accounts</item>
+        <item>account_types</item>
+        <item>account_flags</item>
+        <item>balance_sheet</item>
         <item>show_equivalent_value</item>
+    </string-array>
+
+    <string-array name="menu_account_types_help_text">
+        <item>account_types_help_v2</item>
+    </string-array>
+
+    <string-array name="menu_account_flags_help_text">
+        <item>account_flags_help_v2</item>
     </string-array>
 
     <string-array name="NavigationDrawer_cabitems">
         <item>edit</item>
         <item>delete</item>
-        <item>hide</item>
         <item>close.reopen</item>
+        <item>flag</item>
+        <item>exclude_from_totals</item>
+        <item>dynamic_exchange_rate</item>
     </string-array>
 
     <string-array name="ManageMethods_cabitems">
@@ -349,11 +359,6 @@
         <item>form_date_time_help_text_link</item>
     </string-array>
 
-    <string-array name="menu_NavigationDrawer_sort_help_text">
-        <item>menu_NavigationDrawer_sort_help_text</item>
-        <item>menu_NavigationDrawer_sort_help_text_custom</item>
-    </string-array>
-
     <string-array name="AccountEdit_menuitems">
         <item>exclude_from_totals</item>
         <item>dynamic_exchange_rate</item>
@@ -368,6 +373,12 @@
     <string-array name="menu_equivalent_amount_help_text">
         <item>menu_equivalent_amount_help_text</item>
         <item>dynamic_exchange_rate_help_text_1</item>
+    </string-array>
+
+    <string-array name="cab_dynamic_exchange_rate_help_text">
+        <item>dynamic_exchange_rate_help_text_1</item>
+        <item>dynamic_exchange_rate_help_text_2</item>
+        <item>dynamic_exchange_rate_help_text_3</item>
     </string-array>
 
     <string-array name="AccountEdit_formfields">

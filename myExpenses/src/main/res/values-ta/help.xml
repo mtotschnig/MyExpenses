@@ -44,10 +44,7 @@
     <string name="help_ExpenseEdit_templateSplit_title">பிளவு வார்ப்புருக்கள் படிவம்</string>
     <string name="help_ManageTags_select_filter_info">பரிவர்த்தனை பட்டியலை தட்டுவதன் மூலம் வடிகட்டுவதற்கான குறிச்சொற்களைத் தேர்ந்தெடுக்கவும் அல்லது தேர்வுநீக்கவும்.</string>
     <string name="help_fab_confirm_selection">தேர்வை உறுதிப்படுத்த மிதக்கும் செயல் பொத்தானைப் பயன்படுத்தவும்.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">\"தனிப்பயன்\" என்பதைக் கிளிக் செய்வதன் மூலம் ஒவ்வொரு கணக்கின் நிலையையும் சுதந்திரமாக உள்ளமைக்க உங்களை அனுமதிக்கிறது.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">தற்போதைய இருப்பை கிளிப்போர்டுக்கு நகலெடுக்கவும்.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">மறைக்கப்பட்ட அனைத்து கணக்குகளின் பட்டியலையும் காட்டுகிறது, அங்கு அவை மீண்டும் காணப்படலாம் அல்லது நீக்கப்படலாம்.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">கணக்கு பட்டியலை கணக்கு வகை, நாணயம் அல்லது குழுவாகக் காட்டலாம்.</string>
     <string name="menu_BudgetActivity_delete_help_text">தற்போது காட்டப்படும் பட்ஜெட் நீக்கப்படும்.</string>
     <string name="form_MethodEdit_type_help_text">ஒரு முறை வகை மூலம், செலவுகள் (பற்று), வருமானம் (கடன்) அல்லது இரண்டிற்கும் (நடுநிலை) பொருந்துமா என்பதை நீங்கள் தீர்மானிக்கிறீர்கள்.</string>
     <string name="help_ManageTemplates_plans_title">காலண்டர் காட்சியைத் திட்டமிடுங்கள்</string>
@@ -123,7 +120,6 @@
     <string name="menu_balance_help_text">இந்த கட்டளை கடைசியாக சரிசெய்யப்பட்ட இருப்பு மற்றும் அழிக்கப்பட்ட இருப்பு ஆகியவற்றைக் காட்டும் உரையாடலைத் திறக்கிறது. பிந்தையதை உங்கள் வங்கி அறிக்கையுடன் ஒப்பிட்டு, அழிக்கப்பட்ட அனைத்து பரிவர்த்தனைகளையும் சமரசம் செய்ததாக குறிக்கலாம். சமரச பரிவர்த்தனைகளை நீக்க விருப்பமாக நீங்கள் முடிவு செய்யலாம்.</string>
     <string name="form_synchronization_help_text_select">மேகக்கணி ஒத்திசைவுக்கு ஒரு பின்தளத்தில் தேர்ந்தெடுக்கவும்.</string>
     <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">தேர்ந்தெடுக்கப்பட்ட திட்ட நிகழ்வுக்காக உருவாக்கப்பட்ட பரிவர்த்தனையைத் திருத்தவும்.</string>
-    <string name="cab_NavigationDrawer_hide_help_text">பட்டியலிலிருந்து கணக்கை அகற்று.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon">பொத்தான் கால்குலேட்டரைத் திறக்கிறது.]]></string>
     <string name="cab_remove_help_text">தேர்ந்தெடுக்கப்பட்ட பின்தளத்தில் அகற்றவும்.</string>
     <string name="help_ManageCategories_distribution_info">ஒரு கணக்கிற்கான அனைத்து பரிவர்த்தனைகளுக்கும் அல்லது ஒரு குறிப்பிட்ட குழுவிற்கும் உங்கள் செலவுகள் மற்றும் வருமானங்களின் வகைகளை இந்த திரை காட்டுகிறது. பட்டியலில் நீங்கள் ஒரு முக்கிய வகையை விரிவுபடுத்தினால், பை விளக்கப்படம் அதன் துணைப்பிரிவுகளின் விநியோகத்தைக் காண்பிக்கும். பட்டியலில் நீங்கள் ஒரு வகையைத் தேர்ந்தெடுத்தால், அது பை விளக்கப்படத்தில் முன்னிலைப்படுத்தப்படும், மற்றும் நேர்மாறாகவும். ஒரு வகை வரைபடத்தின் பரிவர்த்தனைகளின் மொத்த பட்டியலைக் காண்பிப்பதற்காக ஒரு வகையை நீண்ட நேரம் அழுத்தவும்.</string>
@@ -157,7 +153,6 @@
     <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">தேர்ந்தெடுக்கப்பட்ட நிகழ்வு நிகழ்வுகளுக்காக பரிவர்த்தனைகள் உருவாக்கப்பட்டிருந்தால், அவை நீக்கப்படும், அவை ரத்து செய்யப்பட்டதாக கொடியிடப்பட்டிருந்தால், கொடிகள் அகற்றப்படும்.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">இந்த பொருள் மாற்றப்பட்ட இடத்திலிருந்து அல்லது மாற்றப்பட்ட கணக்குகளை ஒதுக்கவும்.</string>
     <string name="help_ExpenseEdit_templateTransfer_title">பரிமாற்ற வார்ப்புருக்களுக்கான படிவம்</string>
-    <string name="menu_NavigationDrawer_sort_help_text">கணக்கு பட்டியலை தலைப்பு (அகர வரிசைப்படி), பயன்பாடுகளின் அதிர்வெண் மூலம் வரிசைப்படுத்தலாம் அல்லது கடைசியாக ஒரு பரிவர்த்தனை உருவாக்கப்பட்டது.</string>
     <string name="menu_create_sync_backend_help_text">துணைமெனுவிலிருந்து நீங்கள் சேர்க்க விரும்பும் ஒத்திசைவு பின்தளத்தில் வகையைத் தேர்ந்தெடுத்து, ஒவ்வொன்றிற்கும் குறிப்பிட்ட விவரங்களை வழங்கவும்.</string>
     <string name="menu_BudgetActivity_edit_help_text">பட்ஜெட்டின் வரையறையை மாற்றவும்.</string>
     <string name="help_BudgetEdit_info">புதிய பட்ஜெட்டை உருவாக்க அல்லது ஏற்கனவே உள்ள ஒன்றைத் திருத்த இந்த படிவத்தைப் பயன்படுத்தவும்.</string>

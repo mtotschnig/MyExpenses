@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -13,7 +12,8 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <string name="help_menu_commands">Menu commands</string>
     <string name="help_contextual_actions">Contextual actions</string>
     <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
@@ -157,11 +157,6 @@
     <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href="%s">specification</a> for more details, or contact support@myexpenses.mobi for help.]]></string>
     <string name="help_NavigationDrawer_info">The account list allows you to easily navigate between accounts by simply clicking on an entry.</string>
     <string name="menu_create_account_help_text">Create a new account. The free version is limited to five accounts.</string>
-    <string name="menu_NavigationDrawer_sort_help_text">The account list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was created for it.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">Clicking on \"Custom\" allows you to freely configure the position of each account.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">The account list can be displayed grouped by account type, by currency, or ungrouped.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Displays a list of all hidden accounts, where they can be made visible again or deleted.</string>
-    <string name="cab_NavigationDrawer_hide_help_text">Remove the account from the list.</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">By closing an account, you can prevent any changes (additions, deletions, edits) to its data, but still allow it to be taken into consideration for all statistical calculations.</string>
     <string name="help_ManageSyncBackends_intro">My Expenses allows to configure different synchronization backends for each account. For example, you can sync one account with a shared folder, while you sync another account with a private folder. On this screen you add or remove synchronization backends, start or stop synchronization with accounts available remotely. While synchronization happens automatically in a periodic manner, here you can also manually trigger it with a backend. Please be aware that My Expenses needs full control over the remote folder. You should not use other tools or interfaces for changing its contents, since this will most likely lead to failures during synchronization.</string>
     <string name="help_ManageSyncBackends_webdav">If your cloud storage provider supports this protocol, My Expenses will be able to sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
@@ -242,4 +237,14 @@
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Income and expense sums</b> are calculated using the equivalent amounts specified for each transaction.</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">The <b>current value</b> is based on the latest exchange rate for the account’s currency.</string>
     <string name="help_PrintLayoutConfiguration_info">Columns can be resized by dragging the black rectangle between columns. The icons &lt;img src=add_column_start&gt; and &lt;img src=add_column_end&gt; allow to add new columns. Fields can be dragged, and either dropped to a new position or to the recycle area. If you drop a field onto another field, you create a combined field, i.e. the two fields will be printed together on one line.</string>
+    <string name="account_types_help_v2">Account types classify accounts as
+        \n\u2022 <b>Assets</b> (something you own, such as cash, bank accounts, or investments) or as
+        \n\u2022 <b>Liabilities</b> (something you owe, such as credit cards or loans).
+        \nYou can add custom types and set their order, which mainly affects how they appear on the balance sheet.</string>
+    <string name="account_flags_help_v2">Flags let you configure an account’s visibility and priority:
+        \n\u2022 Hide rarely used accounts, while still choosing whether invisible accounts are included in aggregate accounts and the balance sheet.
+        \n\u2022 Configure the order in which accounts appear in the account selection on the transaction form.
+        \nYou can also use flags to indicate accounts belonging to a specific purpose, like household versus personal accounts, and then alternatively only show one or the other.</string>
+    <string name="menu_balance_sheet_help_text">"The balance sheet shows the net worth of all your accounts as the difference between your Assets (what you own) and your Liabilities (what you owe). It reflects your financial position at a chosen moment — whether in the past, the present, or even in the future. The balance sheet presentation is also influenced by flags (which can change the inclusion of accounts in totals)."</string>
+    <string name="cab_flag_help_text">Assign a flag to the selected account, e.g. Favorite or Inactive.</string>
 </resources>

@@ -70,4 +70,7 @@
     <string name="help_PriceHistory_title">@string/price_history</string>
     <string name="menu_download">@string/action_download</string>
     <string name="menu_dynamic_exchange_rate">@string/dynamic_exchange_rate</string>
+    <string name="menu_account_types">@string/account_types</string>
+    <string name="menu_balance_sheet">@string/balance_sheet</string>
+    <string name="cab_exclude_from_totals_help_text">@string/menu_exclude_from_totals_help_text</string>
 </resources>

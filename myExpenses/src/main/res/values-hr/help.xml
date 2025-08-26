@@ -53,7 +53,6 @@
     <string name="cab_ManageCategories_select_filter_select_help_text">Odabrane kategorije će se koristiti za filtriranje popisa transakcija.</string>
     <string name="help_ExpenseEdit_transfer_title">Obrazac za prijenose</string>
     <string name="menu_save_help_text">Spremi podatke i zatvori obrazac.</string>
-    <string name="cab_NavigationDrawer_hide_help_text">Ukloni račun iz popisa.</string>
     <string name="help_ManageBudgets_title">Popis svih proračuna</string>
     <string name="help_WebUI_info_2">Internetsko korisničko sučelje trenutačno ne podržava prijenose ili podijeljene transakcije.</string>
     <string name="help_ManageParties_manage_info">Ovaj ekran prikazuje popis stranaka koje se koriste za automatsko popunjavanje polja Platiša/Primalac.</string>
@@ -137,15 +136,12 @@
     <string name="help_fab_confirm_selection">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
     <string name="help_ManageParties_mergeMode_info_1">Odaberi duple stranke koje želiš sjediniti.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Uključi/Isključi prikaz salda.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">Pritiskom na „Prilagođeno” možeš slobodno konfigurirati poziciju za svaki račun.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">Popis računa se može prikazati grupiran prema vrsti računa, valuti ili negrupirano.</string>
     <string name="menu_BudgetActivity_edit_help_text">Promijeni definiciju proračuna.</string>
     <string name="menu_budget_allocated_only_help_text">Aktiviranjem ove opcije prikazuju se samo kategorije za koje je neki iznos alociran.</string>
     <string name="menu_BudgetActivity_delete_help_text">Trenutačno prikazani proračun će se izbrisati.</string>
     <string name="form_DebtEdit_date_help_text">Upiši datum nastanka duga.</string>
     <string name="menu_type_filter_help_text">Kada je ova opcija aktivirana možeš odabrati prikaz samo kategorija troškova, prihoda ili prijenosa.</string>
     <string name="menu_create_account_help_text">Stvori novi račun. Besplatna verzija je ograničena na pet računa.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Prikazuje popis svih skrivenih računa gdje se mogu ponovo prikazati ili izbrisati.</string>
     <string name="form_BudgetEdit_amount_help_text">Količina novca koji je dostupan u kontekstu ovog proračuna.</string>
     <string name="help_ManageTags_manage_info">Stvori nove oznake upisivanjem u tekstualno polje.</string>
     <string name="help_ManageTags_context_menu_info">Dodirni ikonu &lt;img src=more&gt; za uređivanje, dodjeljivanje boje ili brisanje oznake.</string>
@@ -158,7 +154,6 @@
     <string name="form_AccountEdit_type_help_text">Možeš odrediti vrstu računa kao gotovina, banka, imovina, obveze, kreditna kartica. Vrsta određuje dostupne načine plaćanja koje možeš konfigurirati u Postavke -&gt; Upravljanje -&gt; Načini plaćanja.</string>
     <string name="form_MethodEdit_account_types_help_text">Odaberi vrste računa za koje se ovaj način primijenjuje.</string>
     <string name="help_NavigationDrawer_info">Popis računa omogućuje jednostavnu navigaciju između računa pritiskom na unos.</string>
-    <string name="menu_NavigationDrawer_sort_help_text">Popis računa može se poredati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu kada je za njega stvorena transakcija.</string>
     <string name="cab_remove_help_text">Ukloni odabrani pozadinski sustav.</string>
     <string name="cab_ManageCategories_merge_help_text">Kategorije iste vrste mogu se sjediniti.</string>
     <string name="help_ManageSyncBackends_drive">Odaberi bilo koju mapu koju posjeduješ ili koja se s tobom dijeli.</string>

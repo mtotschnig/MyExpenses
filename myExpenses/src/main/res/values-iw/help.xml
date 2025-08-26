@@ -132,11 +132,6 @@
     <string name="help_ExportDialog_date_format">ניתן לצטט טקסט באמצעות מירכאות בודדות (\') כדי למנוע פענוח. \'\' (שתי מירכאות בודדות) מייצגות ציטוט בודד. נא לעיין ב&lt;a href=%s&gt;מפרט המלא&lt;/a&gt; למידע נוסף, או לפנות אל support@myexpenses.mobi לקבלת עזרה.</string>
     <string name="help_NavigationDrawer_info">רשימת החשבונות מאפשרת לך לנווט בקלות בין חשבונות על ידי לחיצה על רשומה.</string>
     <string name="menu_create_account_help_text">אפשר ליצור חשבון חדש. הגרסה החינמית מוגבלת לחמישה חשבונות.</string>
-    <string name="menu_NavigationDrawer_sort_help_text">ניתן לסווג את רשימת החשבונות לפי כותרת (בסדר אלפביתי), לפי תדירות השימוש, או בפעם האחרונה שנוצרה בו עסקה.</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">לחיצה על „התאמה אישית” מאפשרת לך להגדיר באופן חופשי את המיקום של כל חשבון.</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">רשימת החשבונות יכולה להיות מקובצת לפי סוג חשבון, לפי מטבע או ללא קיבוץ.</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">מוצגת רשימה של כל החשבונות המוסתרים, כאן ניתן להציג אותם שוב או למחוק אותם.</string>
-    <string name="cab_NavigationDrawer_hide_help_text">הסרת החשבון מהרשימה.</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">על ידי סגירת חשבון, אפשר למנוע כל שינוי (תוספות, מחיקות, עריכה) לנתונים שלו, ועדיין לאפשר להביא בחשבון לכל החישובים הסטטיסטיים.</string>
     <string name="help_ManageSyncBackends_intro">היישומון ‚My Expenses’ מאפשר להגדיר מנגנוני סנכרון מגוונים. למשל, אפשר לסנכרן חשבון מול תיקייה משותפת תוך סנכרון תיקייה פרטית מול חשבון אחר. במסך הזה אפשר להוסיף או להסיר מנגנוני סנכרון, להתחיל או לעצור סנכרון מול חשבונות שזמינים לגישה מרחוק. למרות שהסנכרון מתבצע אוטומטית באופן שגרתי, כאן אפשר להזניק אותו ידנית דרך המנגנון. נא לשים לב של־My Expenses נדרשת שליטה מלאה בתיקייה המרוחקת. אסור להשתמש בכלים אחרים או מנשקים לשינוי התוכן, מאחר שזה יכול להוביל לכשלים במהלך הסנכרון.</string>
     <string name="help_ManageSyncBackends_webdav">אם ספק אחסון הענן שלך תומך בפרוטוקול זה, אפשר לסנכרן אותו עם נתוני היישומון ‚My Expenses’. כל שיש לעשות הוא לספק את כתובת האתר לתיקייה עם שם המשתמש והסיסמה שלך. בשימוש ב־https עם אישור שנחתם עצמית, אפשר יהיה לתת בו אמון בצורה מפורשת.</string>

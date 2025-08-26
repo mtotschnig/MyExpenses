@@ -63,9 +63,6 @@
     <string name="form_MethodEdit_account_types_help_text">เลือกประเภทบัญชีที่วิธีการนี้ใช้ได้</string>
     <string name="help_ManageCurrencies_symbol">คุณยังสามารถกำหนดสัญลักษณ์สกุลเงิน ซึ่งใช้เมื่อจัดรูปแบบจำนวนเงินในสกุลเงินเฉพาะ</string>
     <string name="menu_create_account_help_text">สร้างบัญชีใหม่ เวอร์ชันฟรีจำกัดไว้ที่ห้าบัญชี</string>
-    <string name="menu_NavigationDrawer_sort_help_text">รายการบัญชีสามารถจัดเรียงตามชื่อ (ตามลำดับตัวอักษร) ตามความถี่ในการใช้งาน หรือตามเวลาล่าสุดที่มีการสร้างธุรกรรมสำหรับบัญชีนั้น</string>
-    <string name="menu_NavigationDrawer_sort_help_text_custom">คลิกที่ \"กำหนดเอง\" เพื่อตั้งค่าตำแหน่งของแต่ละบัญชีตามต้องการ</string>
-    <string name="cab_NavigationDrawer_hide_help_text">นำบัญชีออกจากรายการ</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">การปิดบัญชีช่วยป้องกันการเปลี่ยนแปลงใดๆ (เพิ่ม ลบ แก้ไข) กับข้อมูลของบัญชี แต่ยังคงนำบัญชีไปคำนวณในสถิติทั้งหมดได้</string>
     <string name="help_ManageSyncBackends_webdav">หากผู้ให้บริการจัดเก็บข้อมูลคลาวด์ของคุณรองรับโปรโตคอลนี้ My Expenses จะสามารถซิงค์ข้อมูลกับมันได้ เพียงระบุ URL ไปยังโฟลเดอร์พร้อมชื่อผู้ใช้และรหัสผ่านของคุณ หากคุณใช้ https และเว็บเซิร์ฟเวอร์ของคุณใช้ใบรับรองที่ลงชื่อเอง คุณจะสามารถเชื่อถือมันได้อย่างชัดเจน</string>
     <string name="help_ManageSyncBackends_drive">เลือกโฟลเดอร์ใดก็ได้ที่คุณเป็นเจ้าของหรือที่แชร์กับคุณ</string>
@@ -155,8 +152,6 @@
     <string name="form_goal_or_limit_help_text">ช่องนี้ช่วยให้ระบุเป้าหมายการออมที่เป็นบวกหรือวงเงินเครดิตที่เป็นลบ ไม่ว่าในกรณีใด ในรายการบัญชี ตัวชี้วัดความคืบหน้าจะแสดงภาพระยะห่างระหว่างยอดคงเหลือปัจจุบันกับเป้าหมายหรือวงเงิน</string>
     <string name="help_ManageCurrencies_new">สำหรับสกุลเงินที่กำหนดเอง คุณต้องกำหนดป้ายชื่อเพิ่มเติม ซึ่งจะแสดงในเมนูสำหรับเลือกสกุลเงิน และรหัสตัวอักษร ซึ่งตามธรรมเนียมประกอบด้วยสามอักขระ–</string>
     <string name="form_MethodEdit_type_help_text">ผ่านประเภทวิธีการ คุณกำหนดว่ามันใช้ได้สำหรับค่าใช้จ่าย (เดบิต) รายได้ (เครดิต) หรือทั้งสองอย่าง (กลาง)</string>
-    <string name="menu_NavigationDrawer_grouping_help_text">รายการบัญชีสามารถแสดงแบบจัดกลุ่มตามประเภทบัญชี ตามสกุลเงิน หรือแบบไม่จัดกลุ่มก็ได้</string>
-    <string name="menu_NavigationDrawer_hidden_accounts_help_text">แสดงรายการบัญชีที่ถูกซ่อนทั้งหมด ซึ่งสามารถทำให้มองเห็นได้อีกครั้งหรือลบทิ้ง</string>
     <string name="help_Budget_amount_click_1">การเปลี่ยนจำนวนเงินจะไม่ส่งผลต่อช่วงเวลาที่ผ่านมา ยกเว้นคุณตัดสินใจตั้งค่าเฉพาะสำหรับช่วงเวลาปัจจุบัน มันจะส่งผลต่อช่วงเวลาในอนาคต</string>
     <string name="form_calculator_help_text"><![CDATA[ปุ่ม <img src="?calcIcon"> เปิดเครื่องคิดเลข]]></string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">กำหนดบัญชีที่รายการนี้ถูกโอนจากหรือไปยัง</string>

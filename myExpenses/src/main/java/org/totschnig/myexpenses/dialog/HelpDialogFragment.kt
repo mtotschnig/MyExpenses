@@ -97,7 +97,6 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "manage_categories" to null,
             "show_transactions" to null,
             "back.forward" to null,
-            "hidden_accounts" to R.drawable.ic_hide,
             "hide" to R.drawable.ic_hide,
             "close.reopen" to R.drawable.ic_lock,
             "remap" to R.drawable.redo,
@@ -112,7 +111,11 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "archive" to R.drawable.ic_archive,
             "budget_synchronization" to R.drawable.ic_sync,
             "download" to R.drawable.ic_menu_download,
-            "add" to R.drawable.ic_menu_add
+            "add" to R.drawable.ic_menu_add,
+            "account_types" to R.drawable.category,
+            "account_flags" to R.drawable.ic_flag,
+            "flag" to R.drawable.ic_flag,
+            "balance_sheet" to R.drawable.ic_table_chart
         )
 
         @JvmStatic

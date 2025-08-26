@@ -97,23 +97,26 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
                     if (stringId == 0) {
                         null
                     } else {
-                        getString(stringId).parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this)
+                        if (isV2(resIdString)) resources.getText(stringId) else
+                            getString(stringId).parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this)
                     }
                 } else {
 
                     val components = resources.getStringArray(arrayId)
                         .filter { component -> !shouldSkip(component) }
-                        .map { component -> handle(component) }
+                        .map { component -> component to handle(component) }
                     TextUtils.concat(*buildList {
                         for (i in components.indices) {
-                            this.add(
-                                components[i].parseAsHtml(
-                                    HtmlCompat.FROM_HTML_MODE_LEGACY,
-                                    this@HelpDialogHelper
-                                )
+                            val (component, text) = components[i]
+                            add(
+                                if (isV2(component)) text else
+                                    text.toString().parseAsHtml(
+                                        HtmlCompat.FROM_HTML_MODE_LEGACY,
+                                        this@HelpDialogHelper
+                                    )
                             )
                             if (i < components.size - 1) {
-                                this.add(if (separateComponentsByLineFeeds) "\n" else " ")
+                                add(if (separateComponentsByLineFeeds) "\n" else " ")
                             }
                         }
                     }.toTypedArray())
@@ -122,19 +125,27 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
         }
     }
 
-    private fun handle(component: String) = if (component.startsWith("popup")) {
-        getStringOrThrowIf0(component + "_intro") + " " +
-                getStringArray(
-                    resolveArray(
-                        component + "_items"
-                    )
-                ).joinToString(" ") {
-                    "<b>${getStringOrThrowIf0(it)}</b>: ${getStringOrThrowIf0(component + "_" + it)}"
-                }
+    private fun isV2(resIdString: String) = resIdString.contains("v2")
+
+
+    private fun handle(component: String): CharSequence = if (component.startsWith("popup")) {
+        TextUtils.concat(
+            getStringOrThrowIf0(component + "_intro"),
+            " ",
+            getStringArray(
+                resolveArray(
+                    component + "_items"
+                )
+            ).joinToString(" ") {
+                "<b>${getStringOrThrowIf0(it)}</b>: ${getStringOrThrowIf0(component + "_" + it)}"
+            }
+        )
     } else {
-        (getStringOrNull(component + "_title")
-            ?.let { "<b>$it</b> " } ?: "") +
-                getStringOrThrowIf0(component)
+        TextUtils.concat(
+            (getStringOrNull(component + "_title")
+                ?.let { "<b>$it</b> " } ?: ""),
+            getStringOrThrowIf0(component)
+        )
     }
 
     private fun shouldSkip(component: String) = when (component) {
@@ -151,7 +162,7 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
      * the resulting exception is caught and empty String is returned.
      */
     @Throws(Resources.NotFoundException::class)
-    fun getStringOrThrowIf0(resIdString: String): String {
+    fun getStringOrThrowIf0(resIdString: String): CharSequence {
         fun toBold(resId: Int) = "<b>${getString(resId)}</b>"
         return when (resIdString) {
             "help_ManageTemplates_plans_info" -> arrayOf<CharSequence>(
@@ -184,13 +195,16 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
 
             "help_PrintLayoutConfiguration_title" -> context.screenTitle
 
-            else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
+            else ->
+                getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
         }
     }
 
-    fun getStringOrNull(resIdString: String) = resolveString(resIdString)
+    fun getStringOrNull(resIdString: String): CharSequence? = resolveString(resIdString)
         .takeIf { it != 0 }
-        ?.let { getString(it) }
+        ?.let {
+            if (isV2(resIdString)) resources.getText(it) else getString(it)
+        }
 
     @ArrayRes
     fun resolveArray(resIdString: String) = resolve(resIdString, "array")
