@@ -43,7 +43,7 @@ espressoVersion = "3.7.0"
 evernote = "1.4.1"
 composeBom = "2025.08.00"
 
-dagger = "2.57"
+dagger = "2.57.1"
 datastorePreferences = "1.1.7"
 donut = "c11f2d1aeb"
 flexbox = "3.0.0"
@@ -132,7 +132,7 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidX
 androidx-core-remoteviews = { module = "androidx.core:core-remoteviews", version.ref = "coreRemoteviews" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchVersion" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
-android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugar" }
+android-desugar = { module = "com.android.tools:desugar_jdk_libs_nio", version.ref = "androidDesugar" }
 androidx-drawer = { module = "androidx.drawerlayout:drawerlayout", version.ref = "androidxDrawer" }
 androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espressoVersion" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoVersion" }
