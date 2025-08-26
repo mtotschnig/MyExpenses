@@ -27,4 +27,5 @@
     <string name="whats_new_400_2">Price History: Bulk download of missing entries</string>
     <string name="whats_new_401">Transaction list now shows more details for split transactions.</string>
     <string name="whats_new_402">Account types can be customized</string>
+    <string name="whats_new_403">Account flags extend customization of account visibility and priority.</string>
 </resources>

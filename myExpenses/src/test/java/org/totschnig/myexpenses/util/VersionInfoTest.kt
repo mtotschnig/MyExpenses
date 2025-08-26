@@ -36,10 +36,10 @@ class VersionInfoTest {
     fun testVersionLinksForCurrentVersion() {
         Assume.assumeFalse(BuildConfig.BETA)
         val context = ApplicationProvider.getApplicationContext<Application>()
+        urlReachable(currentVersion.githubUrl(context)!!)
         if (!isBugFixVersion) {
             urlReachable(currentVersion.mastodonUrl(context)!!)
         }
-        urlReachable(currentVersion.githubUrl(context)!!)
     }
 
     @Test
