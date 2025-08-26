@@ -38,6 +38,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.pinnedScrollBehavior
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,6 +50,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
@@ -74,7 +76,6 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
 import org.totschnig.myexpenses.viewmodel.AccountForSelection
-import timber.log.Timber
 
 private const val WEIGHT_ICON = 1f
 private const val WEIGHT_LABEL = 7f
@@ -150,13 +151,9 @@ fun ManageFlagsScreen(
     onSaveSelection: (Set<Long>) -> Unit
 ) {
     var showConfigDialog by rememberSaveable { mutableStateOf(false) }
-
+    val scrollBehavior = pinnedScrollBehavior()
     Scaffold(
-        modifier = Modifier.padding(
-            horizontal = dimensionResource(
-                id = R.dimen.padding_main_screen
-            )
-        ),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.menu_account_flags)) },
@@ -182,6 +179,7 @@ fun ManageFlagsScreen(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior
             )
         },
         floatingActionButton = {
@@ -193,6 +191,7 @@ fun ManageFlagsScreen(
             }
         }
     ) { paddingValues ->
+        val horizontalPadding = dimensionResource(id = R.dimen.padding_main_screen)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -204,9 +203,9 @@ fun ManageFlagsScreen(
                 val layoutDirection = LocalLayoutDirection.current
 
                 val totalPadding = PaddingValues(
-                    start = paddingValues.calculateStartPadding(layoutDirection) + 0.dp, // Or add horizontal FAB padding if needed
-                    top = paddingValues.calculateTopPadding() + 0.dp,
-                    end = paddingValues.calculateEndPadding(layoutDirection) + 0.dp,   // Or add horizontal FAB padding if needed
+                    start = paddingValues.calculateStartPadding(layoutDirection) + horizontalPadding,
+                    top = paddingValues.calculateTopPadding(),
+                    end = paddingValues.calculateEndPadding(layoutDirection) + horizontalPadding,
                     bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
                 )
                 AccountFlagList(
