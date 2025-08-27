@@ -92,7 +92,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                                 val args = requireArguments()
                                 viewModel.syncAccount(
                                     state.value,
-                                    args.getLong(KEY_ACCOUNTID),
+                                    args.getLong(KEY_ACCOUNTID) to
                                     args.getLong(KEY_TYPE)
                                 )
                             }) {

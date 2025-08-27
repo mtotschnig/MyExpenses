@@ -32,7 +32,7 @@ class BankingFeatureImpl: BankingFeature {
 
     override fun syncMenuTitle(context: Context) = try {
         context.getString(R.string.menu_sync_account) + " (FinTS)"
-    } catch (e: Exception) { super.syncMenuTitle(context) }
+    } catch (_: Exception) { super.syncMenuTitle(context) }
 
     override fun resolveAttributeLabel(context: Context, finTsAttribute: FinTsAttribute): String {
         return when(finTsAttribute) {

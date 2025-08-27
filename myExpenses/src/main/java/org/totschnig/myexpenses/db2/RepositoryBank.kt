@@ -14,12 +14,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.useAndMapToList
 import java.time.LocalDate
 
@@ -64,6 +63,8 @@ fun Repository.deleteBank(id: Long) {
 }
 
 data class AccountInformation(
+    val accountId: Long,
+    val accountTypeId: Long,
     val name: String?,
     val blz: String?,
     val number: String?,
@@ -73,39 +74,38 @@ data class AccountInformation(
     val lastSynced: LocalDate?
 ) {
     companion object {
-        fun fromMap(map: Map<Attribute, String>) = AccountInformation(
-            map[BankingAttribute.NAME],
-            map[BankingAttribute.BLZ],
-            map[BankingAttribute.NUMBER],
-            map[BankingAttribute.SUBNUMBER],
-            map[BankingAttribute.IBAN],
-            map[BankingAttribute.BIC],
-            map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) }
+        fun fromMap(accountId: Long, accountTypeId: Long, map: Map<Attribute, String>) = AccountInformation(
+            accountId = accountId,
+            accountTypeId = accountTypeId,
+            name = map[BankingAttribute.NAME],
+            blz = map[BankingAttribute.BLZ],
+            number = map[BankingAttribute.NUMBER],
+            subnumber = map[BankingAttribute.SUBNUMBER],
+            iban = map[BankingAttribute.IBAN],
+            bic = map[BankingAttribute.BIC],
+            lastSynced = map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) }
         )
     }
 }
 
 fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
-        arrayOf(KEY_ACCOUNTID, KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-        "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = ?) AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
+        TransactionProvider.ACCOUNTS_URI,
+        arrayOf(KEY_ROWID, KEY_TYPE),
+        "$KEY_BANK_ID = ?",
         arrayOf(bankId.toString()),
-        KEY_ACCOUNTID
-    )?.use { cursor ->
-        cursor.asSequence.groupBy(
-            keySelector = { it.getLong(0) },
-            valueTransform = { Attribute.from(it) }
-        )
-    }?.map { (_, value) -> AccountInformation.fromMap(value.toMap()) } ?: emptyList()
+        KEY_ROWID
+    )?.useAndMapToList { cursor ->
+      accountInformation(cursor.getLong(0), cursor.getLong(1))
+    }?.filterNotNull() ?: emptyList()
 
 //noinspection Recycle
-fun Repository.accountInformation(accountId: Long): AccountInformation? = contentResolver.query(
+fun Repository.accountInformation(accountId: Long, accountTypeId: Long): AccountInformation? = contentResolver.query(
     TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
     arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
     "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
     arrayOf(accountId.toString()),
     null
 )?.useAndMapToList { cursor -> Attribute.from(cursor) }?.let {
-    AccountInformation.fromMap(it.toMap())
+    AccountInformation.fromMap(accountId, accountTypeId, it.toMap())
 }

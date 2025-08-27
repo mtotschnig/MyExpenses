@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -98,8 +99,7 @@ class Banking : ProtectedFragmentActivity() {
     private val viewModel: BankingViewModel by viewModels()
 
     enum class DialogState {
-        NoShow, Credentials, Loading, AccountSelection, Done
-
+        NoShow, Credentials, CredentialsForSync, Loading, AccountSelection, Done
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -231,13 +231,18 @@ class Banking : ProtectedFragmentActivity() {
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
+                                                onSync = {
+                                                    dialogState = DialogState.CredentialsForSync
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                },
                                                 onMigrate = if (bank.version == 1) {
                                                     { migrationDialogShown.value = it }
                                                 } else null,
                                                 onResetTanMechanism =
-                                                if (viewModel.hasStoredTanMech(bank.id)) {
-                                                    { viewModel.resetTanMechanism(it.id) }
-                                                } else null
+                                                    if (viewModel.hasStoredTanMech(bank.id)) {
+                                                        { viewModel.resetTanMechanism(it.id) }
+                                                    } else null
                                             )
                                         }
                                     }
@@ -435,7 +440,7 @@ class Banking : ProtectedFragmentActivity() {
                 )
             }
 
-            DialogState.Credentials -> {
+            DialogState.Credentials, DialogState.CredentialsForSync -> {
                 val autofillManager = LocalAutofillManager.current
                 AlertDialog(
                     properties = DialogProperties(dismissOnClickOutside = false),
@@ -451,7 +456,10 @@ class Banking : ProtectedFragmentActivity() {
                         Button(
                             onClick = {
                                 autofillManager?.commit()
-                                viewModel.addBank(bankingCredentials.value)
+                                if (dialogState == DialogState.CredentialsForSync)
+                                    viewModel.syncAccount(bankingCredentials.value, null)
+                                else
+                                    viewModel.addBank(bankingCredentials.value)
                             },
                             enabled = bankingCredentials.value.isComplete
                         ) {
@@ -593,6 +601,7 @@ fun BankRow(
     onShow: (Bank) -> Unit = {},
     onResetTanMechanism: ((Bank) -> Unit)? = null,
     onMigrate: ((Bank) -> Unit)? = null,
+    onSync: (Bank) -> Unit = {}
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
     Row(
@@ -621,6 +630,13 @@ fun BankRow(
                     icon = Icons.Filled.Checklist
                 ) { onShow(bank) }
             )
+            add(
+                MenuEntry(
+                    command = "SYNC_ALL",
+                    label = RF.string.menu_sync_account,
+                    icon = Icons.Filled.Sync
+                ) { onSync(bank) }
+            )
             onMigrate?.let {
                 add(
                     MenuEntry(
@@ -632,7 +648,7 @@ fun BankRow(
             onResetTanMechanism?.let {
                 add(
                     MenuEntry(
-                        command = "MIGRATION",
+                        command = "RESET_TAN",
                         label = RF.string.reset_stored_configuration
                     ) { onResetTanMechanism(bank) }
                 )
