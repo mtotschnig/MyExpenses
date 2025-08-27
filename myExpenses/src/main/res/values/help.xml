@@ -243,7 +243,7 @@
         \nYou can add custom types and set their order, which mainly affects how they appear on the balance sheet.</string>
     <string name="account_flags_help_v2">Flags let you configure an account’s visibility and priority:
         \n\u2022 Hide rarely used accounts, while still choosing whether invisible accounts are included in aggregate accounts and the balance sheet.
-        \n\u2022 Configure the order in which accounts appear in the account selection on the transaction form.
+        \n\u2022 Prioritize favorite accounts in the account selection on the transaction form.
         \nYou can also use flags to indicate accounts belonging to a specific purpose, like household versus personal accounts, and then alternatively only show one or the other.</string>
     <string name="menu_balance_sheet_help_text">"The balance sheet shows the net worth of all your accounts as the difference between your Assets (what you own) and your Liabilities (what you owe). It reflects your financial position at a chosen moment — whether in the past, the present, or even in the future. The balance sheet presentation is also influenced by flags (which can change the inclusion of accounts in totals)."</string>
     <string name="cab_flag_help_text">Assign a flag to the selected account, e.g. Favorite or Inactive.</string>

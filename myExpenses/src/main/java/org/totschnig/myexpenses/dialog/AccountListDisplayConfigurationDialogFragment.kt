@@ -31,26 +31,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
 class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3() {
 
     val viewModel: ContentResolvingAndroidViewModel by viewModels()
+
+    val accountGroupingKey: Preferences.Key<String>
+        get() = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
+
+    val sortByFlagKey: Preferences.Key<Boolean>
+        get() = prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(viewModel)
@@ -63,14 +73,18 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
         var selectedGrouping by rememberSaveable {
             mutableStateOf(AccountGrouping.TYPE)
         }
+        var sortByFlagFirst by rememberSaveable {
+            mutableStateOf(false)
+        }
 
         LaunchedEffect(Unit) {
-            selectedGrouping =  dataStore.data.map {
-                org.totschnig.myexpenses.util.enumValueOrDefault(
-                    it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
+            with(dataStore.data.first()) {
+                selectedGrouping =  enumValueOrDefault(
+                    this[accountGroupingKey],
                     AccountGrouping.TYPE
                 )
-            }.first()
+                sortByFlagFirst = this[sortByFlagKey] != false
+            }
         }
 
         var selectedSort by rememberSaveable {
@@ -97,6 +111,12 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(Modifier.height(4.dp))
+        CheckBoxWithLabel(
+            label = "Sort by flag first",
+            checked = sortByFlagFirst
+        ) {
+            sortByFlagFirst = it
+        }
         val scope = rememberCoroutineScope()
         RadioGroupSection(
             options = Sort.accountSortLabels,
@@ -118,7 +138,8 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
                 lifecycleScope.launch {
                     prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.name)
                     dataStore.edit { preference ->
-                        preference[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)] = selectedGrouping.name
+                        preference[accountGroupingKey] = selectedGrouping.name
+                        preference[sortByFlagKey] = sortByFlagFirst
                     }
                     requireContext().contentResolver.triggerAccountListRefresh()
                     dismiss()
