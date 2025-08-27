@@ -1027,4 +1027,12 @@
     <string name="pref_account_list_display_configuration_title">Список счетов</string>
     <string name="pref_print_layout_summary">Настройка ширины и набора столбцов</string>
     <string name="supports_reconciliation">Поддерживает сверку</string>
+    <string name="select_accounts_for_flag">Выберите счета для флага %s</string>
+    <string name="aggregate_invisible">Включать невидимые счета в совокупные счета и баланс</string>
+    <string name="menu_account_flags">Флаги</string>
+    <string name="menu_flag">Флаг</string>
+    <string name="edit_account_flag">Изменить флаг</string>
+    <string name="new_account_flag">Новый флаг</string>
+    <string name="flag_unflagged">Без флага</string>
+    <string name="flag_favorite">Избранные</string>
 </resources>
