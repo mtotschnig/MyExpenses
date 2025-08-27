@@ -958,4 +958,21 @@
     <string name="confirm_process_file_message">Stvarno želiš uvesti cijene za „%1$s” od „%2$s”? Nove cijene mogu utjecati na postojeće ekvivalentne iznose.</string>
     <string name="account_type_investment">Investicije</string>
     <string name="pref_account_list_display_configuration_title">Popis računa</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dinamički tečajevi za sve račune</string>
+    <string name="pref_dynamic_exchange_rates_static">Statički tečajevi za sve račune</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Konfiguriraj svaki račun pojedinačno</string>
+    <string name="category_type_main">Glavna kategorija</string>
+    <string name="category_type_sub">Podkategorija</string>
+    <string name="category_description_base">%1$s, razina %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, sadrži jednu podkategoriju razine %2$d.</item>
+        <item quantity="few">, sadrži %1$d podkategorije razine %2$d.</item>
+        <item quantity="other">, sadrži %1$d podkategorija razine %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Uredi vrstu računa</string>
+    <string name="new_account_type">Nova vrsta računa</string>
+    <string name="pref_print_layout_summary">Konfiguriraj širinu i sastav stupaca</string>
+    <string name="flag_favorite">Favorit</string>
+    <string name="warning_expense_category_credit">Dodjeljuješ kategoriju troškova transakciji prihoda. Zbog toga će transakcija smanjiti zbroj tvojih troškova i standardno će se prikazati crvenom bojom.</string>
+    <string name="warning_income_category_debit">Dodjeljuješ kategoriju prihoda transakciji trošakova. Zbog toga će transakcija smanjiti zbroj tvojih prihoda i standardno će se prikazati zelenom bojom.</string>
 </resources>
