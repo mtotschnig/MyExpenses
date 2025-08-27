@@ -108,4 +108,5 @@
     <string name="already_exists">"Namnet finns redan"</string>
     <string name="flag_inactive">"Inaktiv"</string>
     <string name="count">"Antal"</string>
+    <string name="empty">"Tom"</string>
 </resources>

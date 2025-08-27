@@ -161,4 +161,5 @@
     <string name="already_exists">"มีชื่อนี้อยู่แล้ว"</string>
     <string name="flag_inactive">"ไม่ใช้งาน"</string>
     <string name="count">"นับจำนวน"</string>
+    <string name="empty">"ว่าง"</string>
 </resources>

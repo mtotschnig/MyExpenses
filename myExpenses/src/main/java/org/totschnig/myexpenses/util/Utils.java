@@ -414,7 +414,7 @@ public class Utils {
         "");
   }
 
-  public static String escapeSqlLikeExpression(String str) {
+  public static String escapeSqlLikeExpression(@NonNull String str) {
     return str
         .replace(LIKE_ESCAPE_CHAR,
             LIKE_ESCAPE_CHAR + LIKE_ESCAPE_CHAR)

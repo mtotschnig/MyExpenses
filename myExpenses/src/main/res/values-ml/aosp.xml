@@ -82,4 +82,5 @@
     <string name="already_exists">"നിലവിലുള്ള പേരു്"</string>
     <string name="flag_inactive">"നിഷ്ക്രിയം"</string>
     <string name="count">"എണ്ണം"</string>
+    <string name="empty">"കാലി"</string>
 </resources>

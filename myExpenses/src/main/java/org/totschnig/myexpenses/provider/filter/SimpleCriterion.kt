@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import kotlin.reflect.KClass
 
@@ -58,8 +57,8 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
     open val columnForExport: String
         get() = column
 
-    val isNull: Boolean
-        get() = operation == Operation.ISNULL
+    open val isNull: Boolean
+        get() = operation == Operation.IS_NULL
 
     open fun getSelection(forExport: Boolean): String =
         (if (forExport) columnForExport else column) +

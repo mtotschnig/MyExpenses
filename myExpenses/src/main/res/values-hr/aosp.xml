@@ -165,4 +165,5 @@
     <string name="already_exists">"Ime već postoji"</string>
     <string name="flag_inactive">"Neaktivno"</string>
     <string name="count">"Brojanje"</string>
+    <string name="empty">"Prazno"</string>
 </resources>

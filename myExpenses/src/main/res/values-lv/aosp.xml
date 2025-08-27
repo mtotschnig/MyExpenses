@@ -97,4 +97,5 @@
     <string name="already_exists">"Nosaukums jau pastāv"</string>
     <string name="flag_inactive">"Neaktīva"</string>
     <string name="count">"Skaitlis"</string>
+    <string name="empty">"Tukšs"</string>
 </resources>

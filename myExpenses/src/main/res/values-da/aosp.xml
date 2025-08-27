@@ -173,4 +173,5 @@
     <string name="already_exists">"Navnet findes allerede"</string>
     <string name="flag_inactive">"Inaktiv"</string>
     <string name="count">"Tæl"</string>
+    <string name="empty">"Tom"</string>
 </resources>

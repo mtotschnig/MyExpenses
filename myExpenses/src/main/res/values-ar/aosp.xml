@@ -171,4 +171,5 @@
     <string name="already_exists">"الاسم موجود بالفعل"</string>
     <string name="flag_inactive">"غير نشطة"</string>
     <string name="count">"العدد"</string>
+    <string name="empty">"فارغ"</string>
 </resources>

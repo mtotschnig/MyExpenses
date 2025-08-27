@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.categoryTreeSelect
-import kotlin.reflect.KClass
 
 @Parcelize
 @Serializable
@@ -51,7 +50,7 @@ data class CategoryCriterion(
         get() = CategoryCriterion
 
     override fun getSelection(forExport: Boolean): String =
-        if (operation === Operation.ISNULL) {
+        if (operation === Operation.IS_NULL) {
             super.getSelection(false)
         } else "$column IN (" + categoryTreeSelect(
             sortOrder = null,

@@ -19,19 +19,31 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
 import kotlinx.serialization.Serializable
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 
 @Serializable
 sealed class TextCriterion : SimpleCriterion<String>() {
 
-    abstract val searchString : String
+    abstract val searchString : String?
+
+    override fun getSelection(forExport: Boolean): String {
+        return if (searchString == null) "IFNULL(TRIM($column), '') = ''" else super.getSelection(forExport)
+    }
 
     override val values: List<String>
-        get() = listOf("%${Utils.escapeSqlLikeExpression(searchString)}%")
+        get() = listOfNotNull(
+            searchString?.let { "%${Utils.escapeSqlLikeExpression(it)}%" }
+        )
 
     override val operation = Operation.LIKE
 
-    override fun prettyPrint(context: Context): String {
-        return searchString
-    }
+    override val isNullable: Boolean
+        get() = true
+
+    override val isNull: Boolean
+        get() = searchString == null
+
+    override fun prettyPrint(context: Context) =
+        searchString ?: context.getString(R.string.empty)
 }

@@ -170,4 +170,5 @@
     <string name="already_exists">"この名前はすでに使われています。"</string>
     <string name="flag_inactive">"無効"</string>
     <string name="count">"数値の個数"</string>
+    <string name="empty">"空白"</string>
 </resources>

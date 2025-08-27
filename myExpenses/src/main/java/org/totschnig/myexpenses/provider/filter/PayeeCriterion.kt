@@ -47,7 +47,7 @@ data class PayeeCriterion(
         get() = PayeeCriterion
 
     override fun getSelection(forExport: Boolean): String {
-        return if (operation === Operation.ISNULL) {
+        return if (operation === Operation.IS_NULL) {
             super.getSelection(false)
         } else {
             val selection = Operation.IN.getOp(values.size)

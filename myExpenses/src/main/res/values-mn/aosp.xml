@@ -87,4 +87,5 @@
     <string name="already_exists">"Нэр аль хэдийн байна"</string>
     <string name="flag_inactive">"Идэвхгүй"</string>
     <string name="count">"Тоо"</string>
+    <string name="empty">Empty"</string>
 </resources>

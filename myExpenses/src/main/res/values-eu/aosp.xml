@@ -170,4 +170,5 @@
     <string name="already_exists">"Izen hori badago lehendik ere"</string>
     <string name="flag_inactive">"Inaktibo"</string>
     <string name="count">"Zenbakia"</string>
+    <string name="empty">"Hutsik"</string>
 </resources>

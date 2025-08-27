@@ -99,4 +99,5 @@
     <string name="already_exists">"Naam bestaan reeds"</string>
     <string name="flag_inactive">"Onaktief"</string>
     <string name="count">"Tel"</string>
+    <string name="empty">"Leeg"</string>
 </resources>

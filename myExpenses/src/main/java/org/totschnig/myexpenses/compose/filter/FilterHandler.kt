@@ -193,9 +193,7 @@ fun FilterHandler(
             },
             confirmButton = {
                 Button(onClick = {
-                    if (search.isNotEmpty()) {
-                        onResult(CommentCriterion(search))
-                    }
+                    onResult(CommentCriterion(search?.takeIf { it.isNotBlank() }))
                     showCommentFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))
@@ -212,7 +210,7 @@ fun FilterHandler(
                                 keyboardController?.show()
                             }
                         },
-                    value = search,
+                    value = search ?: "",
                     onValueChange = {
                         search = it
                     },

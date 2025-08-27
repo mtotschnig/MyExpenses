@@ -28,10 +28,10 @@ sealed class IdCriterion : SimpleCriterion<Long>() {
     abstract val label : String
 
     final override val operation
-        get() = if (values.isEmpty()) Operation.ISNULL else Operation.IN
+        get() = if (values.isEmpty()) Operation.IS_NULL else Operation.IN
 
     override fun prettyPrint(context: Context): String {
-        return if (operation == Operation.ISNULL) context.getString(R.string.unmapped) else label
+        return if (operation == Operation.IS_NULL) context.getString(R.string.unmapped) else label
     }
 
     companion object {

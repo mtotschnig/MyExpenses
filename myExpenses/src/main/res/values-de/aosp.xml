@@ -172,4 +172,5 @@
     <string name="already_exists">"Name bereits vergeben"</string>
     <string name="flag_inactive">"Inaktiv"</string>
     <string name="count">"Anzahl"</string>
+    <string name="empty">"Leer"</string>
 </resources>

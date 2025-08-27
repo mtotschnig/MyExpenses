@@ -317,4 +317,6 @@
     <string name="flag_inactive">"Inactive"</string>
     <!-- LibreOffice sc/messages.po SZAUf -->
     <string name="count">Count</string>
+    <!-- LibreOffice sc/messages.po FNDLK -->
+    <string name="empty">Empty</string>
 </resources>

@@ -133,4 +133,5 @@
     <string name="already_exists">"O nome já existe"</string>
     <string name="flag_inactive">"Inativo"</string>
     <string name="count">"Número"</string>
+    <string name="empty">"Vazio"</string>
 </resources>

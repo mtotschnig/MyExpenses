@@ -88,4 +88,5 @@
     <string name="already_exists">"फाइल का नाम पहले से मौजूद है"</string>
     <string name="flag_inactive">"बंद है"</string>
     <string name="count">"गिनती"</string>
+    <string name="empty">"रिक्त"</string>
 </resources>

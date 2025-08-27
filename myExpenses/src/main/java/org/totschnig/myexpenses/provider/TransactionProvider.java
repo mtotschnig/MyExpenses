@@ -699,7 +699,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
         String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST).split(";");
 
-        selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type " + Operation.IN.getOp(accountTypes.length);
+        selection += " AND " + TABLE_ACCOUNTTYES_METHODS + ".type " + Operation.IN.getOp(accountTypes.length);
         selectionArgs = accountTypes;
         if (sortOrder == null) {
           sortOrder = localizedLabel + " COLLATE " + getCollate();

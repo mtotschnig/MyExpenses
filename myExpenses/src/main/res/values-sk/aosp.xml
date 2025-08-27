@@ -107,4 +107,5 @@
     <string name="already_exists">"Názov už existuje"</string>
     <string name="flag_inactive">"Neaktívna"</string>
     <string name="count">"Počet"</string>
+    <string name="empty">"Prázdne"</string>
 </resources>

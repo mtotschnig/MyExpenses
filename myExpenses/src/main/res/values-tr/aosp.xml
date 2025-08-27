@@ -171,4 +171,5 @@
     <string name="already_exists">"Bu ad mevcut"</string>
     <string name="flag_inactive">"Etkin değil"</string>
     <string name="count">"Say"</string>
+    <string name="empty">"Boş"</string>
 </resources>

@@ -30,7 +30,7 @@ import kotlin.reflect.KClass
 @Parcelize
 @Serializable
 @SerialName(DatabaseConstants.KEY_COMMENT)
-data class CommentCriterion(override val searchString: String) : TextCriterion() {
+data class CommentCriterion(override val searchString: String?) : TextCriterion() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_COMMENT_COMMAND
