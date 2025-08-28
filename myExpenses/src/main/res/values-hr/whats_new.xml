@@ -26,4 +26,5 @@
     <string name="whats_new_400_1">Tortni grafikon koji prikazuje raspodjelu novca između računa</string>
     <string name="whats_new_401">Popis transakcija sada prikazuje više detalja za podijeljene transakcije.</string>
     <string name="whats_new_402">Vrste računa se mogu prilagoditi</string>
+    <string name="whats_new_403">Zastavice računa proširuju prilagodbu vidljivosti i prioriteta računa.</string>
 </resources>
