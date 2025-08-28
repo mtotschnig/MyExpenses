@@ -37,8 +37,11 @@ class CsvExporter(
     private val splitCategoryLevels: Boolean = false,
     private val splitAmount: Boolean = true,
     timeFormat: String? = null,
-    private val withOriginalAndEquivalentAmounts: Boolean = false,
-    override val categoryPathSeparator: String = " > "
+    private val withOriginalAmount: Boolean = false,
+    private val withEquivalentAmountHeader: Boolean = false,
+    override val withEquivalentAmount: Boolean = false,
+    override val categoryPathSeparator: String = " > ",
+    private val withCurrencyColumn: Boolean = false
 ) :
     AbstractExporter(
         account, currencyContext, filter, notYetExportedP, dateFormat,
@@ -64,9 +67,6 @@ class CsvExporter(
         return super.export(context, outputStream, append)
     }
 
-    override val withEquivalentAmount: Boolean
-        get() = withOriginalAndEquivalentAmounts && account.currency != currencyContext.homeCurrencyString
-
     override val format = ExportFormat.CSV
 
     override fun sanitizeCategoryLabel(label: String) = label
@@ -85,6 +85,9 @@ class CsvExporter(
             } else {
                 add(context.getString(R.string.amount))
             }
+            if (withCurrencyColumn) {
+                add(context.getString(R.string.currency))
+            }
             if (splitCategoryLevels) {
                 repeat(numberOfCategoryColumns) {
                     add(context.getString(R.string.category) + " " + (it +1))
@@ -98,11 +101,11 @@ class CsvExporter(
             add(context.getString(R.string.reference_number))
             add(context.getString(R.string.attachments))
             add(context.getString(R.string.tags))
-            if (withOriginalAndEquivalentAmounts) {
+            if (withOriginalAmount) {
                 add(context.getString(R.string.menu_original_amount))
                 add(context.getString(R.string.menu_original_amount) + " (" + context.getString(R.string.currency) + ")")
             }
-            if (withEquivalentAmount) {
+            if (withEquivalentAmountHeader) {
                 add(context.getString(R.string.menu_equivalent_amount))
             }
         }
@@ -191,6 +194,10 @@ class CsvExporter(
             appendQ(payee)
             append(delimiter)
             handleAmount(this)
+            if (withCurrencyColumn) {
+                appendQ(currency)
+                append(delimiter)
+            }
             handleLabel(this)
             appendQ(comment)
             append(delimiter)
@@ -203,7 +210,7 @@ class CsvExporter(
             handleList(attachmentFileNames)
             append(delimiter)
             handleList(tagList)
-            if (withOriginalAndEquivalentAmounts) {
+            if (withOriginalAmount) {
                 append(delimiter)
                 if (originalCurrency != null) {
                     appendQ(
@@ -215,7 +222,7 @@ class CsvExporter(
                     appendQ(originalCurrency)
                 }
             }
-            if (withEquivalentAmount) {
+            if (withEquivalentAmountHeader) {
                 append(delimiter)
                 equivalentAmount?.let {
                     appendQ(nfFormats.getValue(currencyContext.homeCurrencyUnit).format(it))

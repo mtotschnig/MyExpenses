@@ -2,14 +2,40 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
@@ -168,7 +194,7 @@ abstract class AbstractExporter
                 "$KEY_TRANSACTIONID = ?", arrayOf(rowId.toString()),
                 null
             )?.useAndMapToList {
-                val uri = Uri.parse(it.getString(0))
+                val uri = it.getString(0).toUri()
                 //We should only see file uri from unit test
                 if (uri.scheme == "file") uri.toFile().name else uri.fileName(context)
             }?.takeIf { it.isNotEmpty() }?.filterNotNull()
@@ -181,6 +207,7 @@ abstract class AbstractExporter
                 date = epoch2ZonedDateTime(getLong(KEY_DATE)),
                 payee = getStringOrNull(KEY_PAYEE_NAME),
                 amount = money.amountMajor,
+                currency = money.currencyUnit.code,
                 catId = readCat.getLongOrNull(KEY_CATID),
                 transferAccount = readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 comment = getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
