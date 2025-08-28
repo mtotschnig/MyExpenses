@@ -917,13 +917,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             val accountGrouping =  runBlocking {
                 enumValueOrDefault(
-                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)], AccountGrouping.NONE
+                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)], AccountGrouping.TYPE
                 )
             }
             val sortByFlagFirst = runBlocking {
                 dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false
             }
-            val sortOrderForGrouping = if (accountGrouping == AccountGrouping.TYPE) "$KEY_TYPE_SORT_KEY DESC," else ""
+            val sortOrderForGrouping = if (accountGrouping == AccountGrouping.TYPE) "$KEY_IS_ASSET DESC,$KEY_TYPE_SORT_KEY DESC," else ""
             val sortByFlag = if (sortByFlagFirst) "$KEY_FLAG_SORT_KEY DESC," else ""
             buildUnionQuery(subQueries.toTypedArray(), "$KEY_IS_AGGREGATE,$sortOrderForGrouping$sortByFlag$sortOrder")
         }
