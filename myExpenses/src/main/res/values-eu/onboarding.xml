@@ -4,7 +4,7 @@
   <string name="testData_account1Description">Eguneroko gastuak</string>
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
-  <string name="testData_account2Label">asteburua Parisen</string>
+  <string name="testData_account2Label">Asteburua Londresen</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Banku kontua</string>
   <string name="testData_account3Description">Bank of America</string>
