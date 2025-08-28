@@ -1012,8 +1012,8 @@
     <string name="category_type_sub">Unterkategorie</string>
     <string name="category_description_base">%1$s, Ebene %2$d</string>
     <plurals name="category_description_children_suffix">
-        <item quantity="one">, enthält eine Unterkategorie der Ebene %2$d</item>
-        <item quantity="other">, enthält %1$d Unterkategorien der Ebene %2$d</item>
+        <item quantity="one">, enthält eine Unterkategorie der Ebene %2$d.</item>
+        <item quantity="other">, enthält %1$d Unterkategorien der Ebene %2$d.</item>
     </plurals>
     <string name="account_type_investment">Investitionen</string>
     <string name="warning_expense_category_credit">Sie weisen einer Einnahme eine Ausgabenkategorie zu. Die Buchung reduziert dadurch die Summe Ihrer Ausgaben und wird standardmäßig rot angezeigt.</string>
@@ -1026,4 +1026,12 @@
     <string name="pref_account_list_display_configuration_title">Kontenliste</string>
     <string name="pref_print_layout_summary">Konfigurieren der Breite und Zusammensetzung von Spalten</string>
     <string name="supports_reconciliation">Unterstützt Kontenabgleich</string>
+    <string name="menu_account_flags">Markierungen</string>
+    <string name="menu_flag">Markierung</string>
+    <string name="edit_account_flag">Markierung bearbeiten</string>
+    <string name="new_account_flag">Neue Markierung</string>
+    <string name="flag_unflagged">Keine Markierung</string>
+    <string name="flag_favorite">Favorit</string>
+    <string name="aggregate_invisible">Unsichtbare Konten in aggregierte Konten und Bilanz einbeziehen</string>
+    <string name="select_accounts_for_flag">Wählen Sie Konten für die Markierung %s</string>
 </resources>

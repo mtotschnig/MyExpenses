@@ -26,4 +26,5 @@
     <string name="whats_new_400_2">Historial de precios: Descarga masiva de entradas faltantes</string>
     <string name="whats_new_401">La lista de transacciones ahora muestra más detalles para las transacciones divididas.</string>
     <string name="whats_new_402">Los tipos de cuentas se pueden personalizar</string>
+    <string name="whats_new_403">Los indicadores de cuenta amplían la personalización de la visibilidad y la prioridad de la cuenta.</string>
 </resources>

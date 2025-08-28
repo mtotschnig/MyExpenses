@@ -244,8 +244,8 @@
     <string name="save_transaction_and_new_success">සාර්ථකව සුරකින ලදී </string>
     <string name="save_transaction_error">අච්චුවෙන් අලුත් ගනුදෙනුව සුරැකීමට නොහැකි විය.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">නව ගනුදෙනුව  සාර්ථකව අච්චු තුලට සුරැකිය  </item>
-        <item quantity="other">%1$d නව ගනුදෙනු සාර්ථකව අච්චු තුලට සුරැකිය  </item>
+        <item quantity="one">නව ගනුදෙනුව සාර්ථකව අච්චු තුලට සුරැකිය.</item>
+        <item quantity="other">%1$d නව ගනුදෙනු සාර්ථකව අච්චු තුලට සුරැකිය.</item>
     </plurals>
     <string name="save_transaction_template_deleted">අච්චුව මකා දමන ලදී </string>
     <string name="select">තෝරන්න </string>

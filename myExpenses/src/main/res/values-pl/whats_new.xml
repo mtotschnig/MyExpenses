@@ -22,4 +22,5 @@
     <string name="whats_new_400_2">Historia cen: Zbiorcze pobieranie brakujących wpisów</string>
     <string name="whats_new_401">Lista transakcji zawiera teraz więcej szczegółów dotyczących podzielonych transakcji.</string>
     <string name="whats_new_402">Typy kont można dostosować</string>
+    <string name="whats_new_403">Flagi konta rozszerzają dostosowywanie widoczności i priorytetu konta.</string>
 </resources>

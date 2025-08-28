@@ -26,4 +26,5 @@
     <string name="whats_new_400_1">Grafico a torta che mostra la distribuzione del denaro tra i conti</string>
     <string name="whats_new_401">L\'elenco delle transazioni ora mostra ulteriori dettagli per le transazioni suddivise.</string>
     <string name="whats_new_402">I tipi di conto possono essere personalizzati</string>
+    <string name="whats_new_403">I indicatori degli conti estendono la personalizzazione della visibilità e della priorità degli conti.</string>
 </resources>

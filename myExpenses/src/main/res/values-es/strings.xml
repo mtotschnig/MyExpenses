@@ -999,7 +999,7 @@
     <string name="total_value">Valor total</string>
     <string name="recalculate_equivalent_amounts_warning">Los importes equivalentes se (re)calcularán si se dispone de los tipos de cambio almacenados aplicables.</string>
     <string name="account_closed">La cuenta está cerrada</string>
-    <string name="balance_sheet">Hoja de Balance</string>
+    <string name="balance_sheet">Balance General</string>
     <string name="balance_sheet_section_assets">Activos</string>
     <string name="balance_sheet_section_liabilities">Pasivos</string>
     <string name="balance_sheet_net_worth">Patrimonio neto</string>
@@ -1018,4 +1018,35 @@
         <item quantity="other">, contiene %1$d subcategorías de nivel %2$d</item>
     </plurals>
     <string name="pref_account_list_display_configuration_title">Lista de cuentas</string>
+    <string name="account_type_investment">Inversiones</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostrar nuevo saldo después de guardar la transacción</string>
+    <string name="print_configuration_empty">Agregue al menos un campo para imprimir.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">El dato válido encontrado encima %d línea.</item>
+        <item quantity="many">Datos válidos encontrados en %d líneas.</item>
+        <item quantity="other">Datos válidos encontrados en %d líneas.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d línea no podía ser procesada.</item>
+        <item quantity="many">%d líneas no se pudieron procesar.</item>
+        <item quantity="other">%d líneas no se pudieron procesar.</item>
+    </plurals>
+    <string name="confirm_process_file_message">¿Está seguro de que desea importar precios para \'%1$s\' desde \'%2$s\'? Los nuevos precios pueden afectar a los importes equivalentes existentes.</string>
+    <string name="warning_expense_category_credit">Estás asignando una categoría de gasto a una transacción de ingresos. Como consecuencia, la transacción reducirá la suma de tus gastos y, por defecto, se mostrará en rojo.</string>
+    <string name="warning_income_category_debit">Está asignando una categoría de ingresos a una transacción de gastos. Como consecuencia, la transacción reducirá la suma de sus ingresos y, por defecto, se mostrará en verde.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Tarifas dinámicas para todas las cuentas</string>
+    <string name="pref_dynamic_exchange_rates_static">Tarifas estáticas para todas las cuentas</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configurar cada cuenta individualmente</string>
+    <string name="edit_account_type">Editar tipo de cuenta</string>
+    <string name="new_account_type">Nuevo tipo de cuenta</string>
+    <string name="pref_print_layout_summary">Configurar el ancho y la composición de las columnas</string>
+    <string name="menu_account_flags">Indicadores</string>
+    <string name="menu_flag">Indicador</string>
+    <string name="edit_account_flag">Editar indicador</string>
+    <string name="new_account_flag">Nuevo indicador</string>
+    <string name="flag_unflagged">Sin indicador</string>
+    <string name="flag_favorite">Favorito</string>
+    <string name="aggregate_invisible">Incluir cuentas invisibles en las cuentas agregadas y el balance general</string>
+    <string name="select_accounts_for_flag">Seleccionar cuentas para el indicador %s</string>
+    <string name="supports_reconciliation">Apoya la reconciliación</string>
 </resources>

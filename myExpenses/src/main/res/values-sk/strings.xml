@@ -15,8 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Účet</string>
-    <string name="account_type_asset">Účet aktív</string>
-    <string name="account_type_bank">Bankový účet</string>
+    <string name="account_type_asset">Ostatné aktíva</string>
+    <string name="account_type_bank">Banka</string>
     <string name="account_type_cash">Peňažný účet</string>
     <string name="account_type_ccard">Kreditná karta</string>
     <string name="account_type_liability">Účet záväzkov</string>

@@ -242,7 +242,7 @@
     <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>
     <string name="save_transaction_error">មិន​អាច​រក្សា​ទុក​ ប្រតិបត្តិការ​ថ្មី​យក​ចេញ​ពី​ពុម្ព​បានទេ</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ</item>
+        <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ.</item>
     </plurals>
     <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
     <string name="select">ជ្រើសរើស</string>

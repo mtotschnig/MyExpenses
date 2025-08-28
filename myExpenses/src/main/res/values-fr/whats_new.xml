@@ -26,4 +26,5 @@
     <string name="whats_new_400_2">Historique des prix : téléchargement en masse des entrées manquantes</string>
     <string name="whats_new_401">La liste des transactions affiche désormais plus de détails pour les opérations ventilées.</string>
     <string name="whats_new_402">Les types de comptes peuvent être personnalisés</string>
+    <string name="whats_new_403">Les indicateurs de compte étendent la personnalisation de la visibilité et de la priorité des comptes.</string>
 </resources>

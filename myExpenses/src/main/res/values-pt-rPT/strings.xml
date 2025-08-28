@@ -286,6 +286,7 @@
     <string name="save_transaction_error">Não foi possível salvar a nova transação do modelo.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">A nova transação foi salva do modelo com sucesso.</item>
+        <item quantity="many">%1$d novas transações salvas do modelo com sucesso.</item>
         <item quantity="other">%1$d novas transações salvas do modelo com sucesso.</item>
     </plurals>
     <string name="save_transaction_template_deleted">O modelo foi excluído</string>
