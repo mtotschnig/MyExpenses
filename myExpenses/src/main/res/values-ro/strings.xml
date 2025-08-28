@@ -285,9 +285,9 @@
     <string name="save_transaction_and_new_success">Salvată</string>
     <string name="save_transaction_error">Noua tranzacţia din şablon nu afost salvată</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Tranzacţie nouă salvată din şablon</item>
-        <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane</item>
-        <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane</item>
+        <item quantity="one">Tranzacţie nouă salvată din şablon.</item>
+        <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane.</item>
+        <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Şablonul a fost şters</string>
     <string name="select">Selectează </string>
