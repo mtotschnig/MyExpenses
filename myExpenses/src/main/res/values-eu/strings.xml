@@ -298,7 +298,7 @@
     <string name="save_transaction_and_new_success">Ondo gorde da</string>
     <string name="save_transaction_error">Ezin izan da transakzio berria gorde txantiloitik</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Transakzio berria ondo gorde da txantiloitik</item>
+        <item quantity="one">Transakzio berria ondo gorde da txantiloitik.</item>
         <item quantity="other">%1$d transakzio berri ondo gorde dira txantiloietatik.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Txantiloia ezabatu da</string>
