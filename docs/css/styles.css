@@ -130,12 +130,6 @@ td.checked {
   font-size: x-large; 
 }
 
-.target img {
-  height: 480px;
-  width: 270px;
-}
-
-
 #features nav a {
     padding: 5px;
     display: block;
