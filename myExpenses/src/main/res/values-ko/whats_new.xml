@@ -10,4 +10,5 @@
     <string name="whats_new_400_1">계좌 간의 자금 분배를 보여주는 파이 차트</string>
     <string name="whats_new_401">이제 거래 목록에서 분할 거래에 대한 세부 정보가 더 많이 표시됩니다.</string>
     <string name="whats_new_402">계정 유형을 사용자 지정할 수 있습니다.</string>
+    <string name="whats_new_403">계정 플래그는 계정 가시성 및 우선 순위의 사용자 지정을 확장합니다.</string>
 </resources>
