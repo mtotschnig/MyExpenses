@@ -1041,4 +1041,12 @@
     <string name="pref_account_list_display_configuration_title">Liste des comptes</string>
     <string name="pref_print_layout_summary">Configurer la largeur et la composition des colonnes</string>
     <string name="supports_reconciliation">Soutient le rapprochement</string>
+    <string name="menu_account_flags">Indicateurs</string>
+    <string name="menu_flag">Indicateur</string>
+    <string name="edit_account_flag">Modifier l’indicateur</string>
+    <string name="new_account_flag">Nouveau indicateur</string>
+    <string name="flag_unflagged">Pas d\'indicateur</string>
+    <string name="flag_favorite">Favori</string>
+    <string name="aggregate_invisible">Inclure les comptes invisibles dans les comptes agrégés et le bilan</string>
+    <string name="select_accounts_for_flag">Sélectionnez les comptes pour l\'indicateur %s</string>
 </resources>
