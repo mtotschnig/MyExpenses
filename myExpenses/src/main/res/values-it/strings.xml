@@ -994,7 +994,7 @@
     <string name="content_description_exchange_rate">Tasso di cambio per 1 %1$s in %2$s</string>
     <string name="total_value">Valore totale</string>
     <string name="account_closed">Il conto è chiuso</string>
-    <string name="balance_sheet">Bilancio</string>
+    <string name="balance_sheet">Stato patrimoniale</string>
     <string name="balance_sheet_section_assets">Attività</string>
     <string name="balance_sheet_section_liabilities">Passività</string>
     <string name="balance_sheet_net_worth">Patrimonio netto</string>
@@ -1006,4 +1006,43 @@
     <string name="mark_as_cleared">Contrassegna come liquidato</string>
     <string name="mark_as_unreconciled">Contrassegna come non riconciliato</string>
     <string name="pref_account_list_display_configuration_title">Elenco dei conti</string>
+    <string name="account_type_investment">Investimenti</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostra il nuovo saldo dopo che la transazione è stata salvata</string>
+    <string name="print_configuration_empty">Si prega di aggiungere almeno un campo da stampare.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Dati validi trovati sulla %d linea.</item>
+        <item quantity="many">Dati validi trovati sulle righe %d .</item>
+        <item quantity="other">Dati validi trovati sulle righe %d .</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d riga non può essere elaborata.</item>
+        <item quantity="many">%d righe non possono essere elaborate.</item>
+        <item quantity="other">%d righe non possono essere elaborate.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Vuoi davvero importare i prezzi per \'%1$s\' da \'%2$s\'? I nuovi prezzi potrebbero influire sugli importi equivalenti esistenti.</string>
+    <string name="warning_expense_category_credit">Si sta assegnando una categoria di spesa a una transazione di reddito. Di conseguenza, la transazione ridurrà la somma delle tue spese e per impostazione predefinita verrà mostrata in rosso.</string>
+    <string name="warning_income_category_debit">Si sta assegnando una categoria di reddito a una transazione di spesa. Di conseguenza, la transazione ridurrà la somma del tuo reddito e, per impostazione predefinita, verrà mostrata in verde.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Tariffe dinamiche per tutti i conti</string>
+    <string name="pref_dynamic_exchange_rates_static">Tassi statici per tutti i conti</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configura ogni conto individualmente</string>
+    <string name="category_type_main">Categoria principale</string>
+    <string name="category_type_sub">Sottocategoria</string>
+    <string name="category_description_base">%1$s, livello %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, contiene una sottocategoria di livello %2$d.</item>
+        <item quantity="many">, contiene %1$d sottocategorie di livello %2$d.</item>
+        <item quantity="other">, contiene %1$d sottocategorie di livello %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Modifica tipo di conto</string>
+    <string name="new_account_type">Nuovo tipo di conto</string>
+    <string name="pref_print_layout_summary">Configurare la larghezza e la composizione delle colonne</string>
+    <string name="menu_account_flags">Indicatori</string>
+    <string name="menu_flag">Indicatore</string>
+    <string name="edit_account_flag">Modifica indicatore</string>
+    <string name="new_account_flag">Nuovo indicatore</string>
+    <string name="flag_unflagged">Nessuno indicatore</string>
+    <string name="flag_favorite">Preferito</string>
+    <string name="supports_reconciliation">Supporta la riconciliazione</string>
+    <string name="aggregate_invisible">Includere i conti invisibili nei conti aggregati e nello stato patrimoniale</string>
+    <string name="select_accounts_for_flag">Seleziona gli conti per il indicatore %s</string>
 </resources>
