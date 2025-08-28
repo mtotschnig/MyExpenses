@@ -26,4 +26,5 @@
     <string name="whats_new_400_2">Preisverlauf: Massendownload von fehlenden Einträgen</string>
     <string name="whats_new_401">In der Buchungsliste werden jetzt mehr Details für mehrteilige Buchungen angezeigt.</string>
     <string name="whats_new_402">Kontotypen können angepasst werden</string>
+    <string name="whats_new_403">Markierungen für Konten erweitern die Anpassung der Sichtbarkeit und Priorität.</string>
 </resources>
