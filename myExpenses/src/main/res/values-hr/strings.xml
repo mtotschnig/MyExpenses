@@ -975,4 +975,7 @@
     <string name="flag_favorite">Favorit</string>
     <string name="warning_expense_category_credit">Dodjeljuješ kategoriju troškova transakciji prihoda. Zbog toga će transakcija smanjiti zbroj tvojih troškova i standardno će se prikazati crvenom bojom.</string>
     <string name="warning_income_category_debit">Dodjeljuješ kategoriju prihoda transakciji trošakova. Zbog toga će transakcija smanjiti zbroj tvojih prihoda i standardno će se prikazati zelenom bojom.</string>
+    <string name="menu_account_flags">Oznake</string>
+    <string name="edit_account_flag">Uredi oznaku</string>
+    <string name="aggregate_invisible">Uključi nevidljive račune u zbrojene račune i bilancu</string>
 </resources>
