@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,21 +17,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -66,10 +70,10 @@ import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.DialogFrame2
-import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.IconSelectorDialog
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
@@ -291,12 +295,14 @@ fun AccountFlagList(
                 textAlign = TextAlign.Center,
                 maxLines = 1
             )
+            Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }
         HorizontalDivider()
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(list, key = { it.id }) { flag ->
+            itemsIndexed(list, key = { index, item -> item.id }) { index, flag ->
                 AccountFlagItem(
                     modifier = Modifier.animateItem(),
                     flag = flag,
@@ -313,6 +319,9 @@ fun AccountFlagList(
                         onStartSelection(flag)
                     }
                 )
+                if (index < list.lastIndex) {
+                    HorizontalDivider()
+                }
             }
         }
     }
@@ -327,14 +336,10 @@ fun AccountFlagItem(
     onDeleteClick: () -> Unit,
     onStartSelection: () -> Unit
 ) {
-    val showMenu = rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                showMenu.value = true
-            },
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -352,13 +357,22 @@ fun AccountFlagItem(
                     ((flag.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             modifier = Modifier
                 .weight(WEIGHT_LABEL),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.titleMedium
         )
-        Checkbox(
+        IconToggleButton(
             modifier = Modifier.weight(WEIGHT_VISIBLE),
             checked = flag.isVisible,
             onCheckedChange = { onToggleVisibility(it) }
-        )
+        ) {
+            if (flag.isVisible) {
+                Icon(Icons.Filled.Visibility, contentDescription = stringResource(R.string.hide))
+            } else {
+                Icon(
+                    Icons.Outlined.VisibilityOff,
+                    contentDescription = stringResource(R.string.show)
+                )
+            }
+        }
         if (flag.id > 0) {
             val menu = Menu(
                 buildList {
@@ -371,7 +385,9 @@ fun AccountFlagItem(
                     })
                 }
             )
-            HierarchicalMenu(showMenu, menu)
+            OverFlowMenu(menu = menu)
+        } else {
+            Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }
     }
 }
