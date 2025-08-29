@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.getBoolean
@@ -122,6 +123,7 @@ data class Account(
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
+            KEY_TYPE_SORT_KEY,
             KEY_FLAG,
             KEY_FLAG_LABEL,
             KEY_VISIBLE,

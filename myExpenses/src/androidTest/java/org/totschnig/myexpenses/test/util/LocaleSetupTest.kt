@@ -6,7 +6,7 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assume
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,8 +22,10 @@ class LocaleSetupTest {
         val supportedLocales = LocaleConfig(context).supportedLocales
         val stringArray = context.resources.getStringArray(R.array.pref_ui_language_values)
         for (i in 0..<supportedLocales!!.size()) {
-            Truth.assertThat(stringArray).asList().contains(
-                supportedLocales.get(i).toString().replace('_','-')
+            assertThat(stringArray).asList().contains(
+                supportedLocales.get(i).toString().replace('_','-').let {
+                    if (it == "iw") "he" else it
+                }
             )
         }
     }

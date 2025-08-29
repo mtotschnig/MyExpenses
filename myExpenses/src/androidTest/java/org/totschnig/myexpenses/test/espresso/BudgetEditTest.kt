@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withAccount
-import org.totschnig.myexpenses.testutils.withAccountGrouped
 import kotlin.reflect.KClass
 import kotlin.test.Test
 

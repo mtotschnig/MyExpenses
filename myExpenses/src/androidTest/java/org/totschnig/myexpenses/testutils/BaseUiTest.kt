@@ -234,8 +234,13 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         val device = UiDevice.getInstance(getInstrumentation())
         Assume.assumeTrue(device.isNaturalOrientation)
         device.setOrientationRight()
-        actions()
-        device.setOrientationNatural()
+        try {
+            //without the sleep, actions might run before the orientation change
+            Thread.sleep(500)
+            actions()
+        } finally {
+            device.setOrientationNatural()
+        }
     }
 
     fun assertCanceled() {
