@@ -16,6 +16,7 @@
     <!-- Bootstrap core CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/jumbotron-narrow.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
@@ -141,7 +142,9 @@
           <li><a class="featuretoc{% if forloop.index0 == 0 %} active{% endif %}" href="#{{feature}}">{% if msg.screenshots[feature] %}{{msg.screenshots[feature]}}{% else %}{{site.data.en.en.screenshots[feature]}}{% endif %}</a>
                     <article id="{{feature}}" class="target{% if forloop.index0 == 0 %} active{% endif %}">
             <figure>
-              <img src="{{screenshotdir}}{{feature}}_25.png">
+             <a href="{{screenshotdir}}{{feature}}.webp" data-lightbox="features" data-title="{% if msg.screenshots[feature] %}{{msg.screenshots[feature]}}{% else %}{{site.data.en.en.screenshots[feature]}}{% endif %}">
+              <img src="{{screenshotdir}}{{feature}}_25.webp" >
+              </a>
             </figure>
           </article>
           </li>
@@ -168,7 +171,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
     <script type="text/javascript">
+
       $(document).ready(function(){
         // Credits: http://webdesignerwall.com/tutorials/animated-scroll-to-top
 
@@ -212,7 +217,7 @@
       });
       $('.featuretoc').click(function(event){
         event.preventDefault();
-        if ($(this).hasClass("active") && window.matchMedia("(max-width: 599px)").matches) {
+        if ($(this).hasClass("active")) {
           $(this).removeClass("active");
           $(this.hash).removeClass("active");
         } else {

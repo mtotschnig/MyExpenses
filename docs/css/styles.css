@@ -144,21 +144,19 @@ td.checked {
     text-decoration: none;
 }
 
-  .target {
+#features nav ul {
+   list-style-type: square;
+   margin: 0 0 0 -20px;
+}
+
+.target {
     display: none;
     text-align: center;
     margin-top: 5px;
     margin-bottom: 5px;
-  }
-  .target.active  {
+}
+
+.target.active  {
     display: block;
-  }
-  
-  #features nav ul {
-   list-style-type: square;
-   margin: 0 0 0 -20px;
-  }
-  .target.active  {
-      top: 10px;
-  }
+    top: 10px;
 }
