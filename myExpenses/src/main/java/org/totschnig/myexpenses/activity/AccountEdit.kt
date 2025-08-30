@@ -388,7 +388,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 }
             }
             R.id.AccountType -> {
-                //accountType = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data.id
+                @Suppress("UNCHECKED_CAST")
+                accountType = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data.id
             }
         }
     }
