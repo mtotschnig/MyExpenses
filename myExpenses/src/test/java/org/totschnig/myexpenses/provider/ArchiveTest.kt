@@ -8,6 +8,8 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.archive
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -24,7 +26,7 @@ class ArchiveTest : BaseTestWithRepository() {
 
     private var testAccountId: Long = 0
 
-    fun setup(accountType: String = "_CASH_") {
+    fun setup(accountType: String = PREDEFINED_NAME_CASH) {
         testAccountId = insertAccount("Test account", accountType = accountType)
     }
 
@@ -53,7 +55,7 @@ class ArchiveTest : BaseTestWithRepository() {
 
     @Test(expected = IllegalStateException::class)
     fun createArchiveWithInconsistentStatesForBankAccount() {
-        setup("_BANK_")
+        setup(PREDEFINED_NAME_BANK)
         insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
         insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         repository.archive(testAccountId, LocalDate.now() to LocalDate.now())

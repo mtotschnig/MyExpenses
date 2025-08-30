@@ -17,7 +17,7 @@ import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
-class AccountTest: BaseTestWithRepository() {
+class AccountFutureCriterionTest: BaseTestWithRepository() {
     private var testAccountId: Long = 0
 
     fun runQueryTest(futureCriterion: FutureCriterion) {

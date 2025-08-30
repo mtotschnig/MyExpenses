@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -13,7 +14,7 @@ import java.math.BigDecimal
 import java.util.Date
 
 data class ImportAccount(
-    val type: String? = "_CASH_",
+    val type: String? = PREDEFINED_NAME_CASH,
     val memo: String  = "",
     val desc: String = "",
     val openingBalance: BigDecimal = BigDecimal.ZERO,
