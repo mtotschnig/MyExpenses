@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="history_title">Dijagram povijesti</string>
-    <string name="history_description">Saznaj kako se tvoja financijska situacija mijenja tijekom vremena</string>
+    <string name="history_description">Pogledaj kako se tvoja financijska situacija razvija kroz vrijeme</string>
     <string name="budget_description">Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim proračunima</string>
     <string name="ocr_title">Snimi račun</string>
     <string name="ocr_description">Automatski izdvoji iznos, datum i primaoca</string>
