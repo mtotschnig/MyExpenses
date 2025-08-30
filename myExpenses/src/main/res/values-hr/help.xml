@@ -160,7 +160,7 @@
     <string name="cab_sync_now_help_text">Pokreni trenutnu sinkronizaciju s odabranim pozadinskim sustavom.</string>
     <string name="cab_sync_unlink_help_text">Odabrani račun se više neće sinkronizirati u pozadinski sustav</string>
     <string name="menu_HistoryActivity_grouping_help_text">Promijeni prikaz na dnevno, tjedno, mjesečno ili godišnje grupiranje tvojih podataka o novčanom toku.</string>
-    <string name="form_BudgetEdit_filter_help_text">Budžeti se mogu filtrirati prema kategorijama, strankama, metodama ili stanjima. U obzir se uzimaju samo transakcije koje odgovaraju ovim filtrima.</string>
+    <string name="form_BudgetEdit_filter_help_text">Proračuni se mogu filtrirati prema kategorijama, strankama, metodama ili stanjima. U obzir se uzimaju samo transakcije koje odgovaraju ovim filtrima.</string>
     <string name="cab_remap_help_text">Koristi naredbe u ovom podizborniku, ako želiš promijeniti zadano svojstvo (račun, kategorija, platiša/primalac ili način plaćanja) za sve odabrane transakcije.</string>
     <string name="menu_chart_help_text">Uključi/Isključi vidljivost dijagrama.</string>
     <string name="help_HistoryActivity_info">Ovaj ekran prikazuje tvoj novčani tok, kako se tvoji troškovi i prihodi razvijaju tijekom godina, mjeseci, tjedana ili dana.</string>
