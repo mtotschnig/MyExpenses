@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import androidx.core.content.contentValuesOf
 import androidx.datastore.preferences.core.edit
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
@@ -14,10 +15,11 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_MINIMAL_URI
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 
-// We do not test order of results, because current behaviour is hacky and will be refactored
 @RunWith(RobolectricTestRunner::class)
 class AccountsMinimalTest : BaseTestWithRepository() {
     private val testAccount1 = "Test account"
@@ -32,8 +34,9 @@ class AccountsMinimalTest : BaseTestWithRepository() {
     }
 
     fun runQueryTest(
-        accountGrouping: AccountGrouping,
-        withAggregates: Boolean,
+        accountGrouping: AccountGrouping = AccountGrouping.NONE,
+        withAggregates: Boolean = false,
+        withCustomSort: Boolean = false,
         vararg expected: String
     ) {
         val prefKey = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
@@ -48,18 +51,39 @@ class AccountsMinimalTest : BaseTestWithRepository() {
             null,
             null,
             null,
-            null
+            if (withCustomSort) KEY_SORT_KEY else null
         )!!.useAndMapToList {
             AccountMinimal.fromCursor(application, it)
         }.map { it.label }
-        assertThat(accounts).containsExactly(*expected)
+        if (withCustomSort) {
+            assertThat(accounts).containsExactly(*expected).inOrder()
+        } else {
+            assertThat(accounts).containsExactly(*expected)
+        }
     }
 
+    //Grouping does not influence the result, we just test there are is no side effect,
+    // that would make the query fail
     @Test
     fun testUngrouped() {
         runQueryTest(
-            AccountGrouping.NONE,
-            false,
+            accountGrouping = AccountGrouping.NONE,
+            withAggregates = false,
+            withCustomSort = false,
+            testAccount1,
+            testAccount2,
+            testAccount3
+        )
+    }
+
+    //Grouping does not influence the result, we just test there are is no side effect,
+    // that would make the query fail
+    @Test
+    fun testGroupedByType() {
+        runQueryTest(
+            accountGrouping = AccountGrouping.TYPE,
+            withAggregates = false,
+            withCustomSort = false,
             testAccount1,
             testAccount2,
             testAccount3
@@ -67,21 +91,28 @@ class AccountsMinimalTest : BaseTestWithRepository() {
     }
 
     @Test
-    fun testGroupedByType() {
+    fun testSorted() {
+        val customSort = arrayOf(testAccount2, testAccount1, testAccount3)
+        customSort.forEachIndexed { index, s ->
+            contentResolver.update(TransactionProvider.ACCOUNTS_URI,
+                contentValuesOf(KEY_SORT_KEY to index),
+                "$KEY_LABEL=?",
+                arrayOf(s))
+        }
         runQueryTest(
-            AccountGrouping.TYPE,
-            false,
-            testAccount1,
-            testAccount2,
-            testAccount3
+            accountGrouping = AccountGrouping.TYPE,
+            withAggregates = false,
+            withCustomSort = true,
+            expected = customSort
         )
     }
 
     @Test
     fun testUngroupedWithAggregate() {
         runQueryTest(
-            AccountGrouping.NONE,
-            true,
+            accountGrouping = AccountGrouping.NONE,
+            withAggregates = true,
+            withCustomSort = false,
             testAccount1,
             testAccount2,
             testAccount3,
@@ -93,8 +124,9 @@ class AccountsMinimalTest : BaseTestWithRepository() {
     @Test
     fun testGroupedByTypeWithAggregate() {
         runQueryTest(
-            AccountGrouping.TYPE,
-            true,
+            accountGrouping = AccountGrouping.TYPE,
+            withAggregates = true,
+            withCustomSort = false,
             testAccount1,
             testAccount2,
             testAccount3,

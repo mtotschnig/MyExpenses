@@ -154,10 +154,11 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     fun accountsMinimal(
         query: String? = null,
         queryArgs: Array<String>? = null,
-        withAggregates: Boolean = true
+        withAggregates: Boolean = true,
+        sortOrder: String? = null
     ): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI,
-        null, query, queryArgs, null, false
+        null, query, queryArgs, sortOrder, false
     )
         .mapToList { AccountMinimal.fromCursor(localizedContext, it) }
 

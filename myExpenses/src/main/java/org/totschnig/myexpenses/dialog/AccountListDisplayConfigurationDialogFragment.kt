@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
@@ -126,7 +127,7 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
                 scope.launch {
                     SortUtilityDialogFragment.newInstance(
                         ArrayList(
-                            viewModel.accountsMinimal(withAggregates = false).first()
+                            viewModel.accountsMinimal(withAggregates = false, sortOrder = KEY_SORT_KEY).first()
                                 .map { SortableItem(it.id, it.label) }
                         ))
                         .show(childFragmentManager, "SORT_ACCOUNTS")

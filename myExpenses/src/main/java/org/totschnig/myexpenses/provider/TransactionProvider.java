@@ -605,8 +605,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           if (sortOrder == null) {
             sortOrder = minimal ? (TABLE_ACCOUNTS + "." + KEY_LABEL) :
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
+            sortOrder = KEY_FLAG_SORT_KEY + " DESC, " + sortOrder;
           }
-          sortOrder = KEY_FLAG_SORT_KEY + " DESC, " + sortOrder;
           qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithTypeAndFlag : getAccountsWithExchangeRate());
           if (projection == null) {
               projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);

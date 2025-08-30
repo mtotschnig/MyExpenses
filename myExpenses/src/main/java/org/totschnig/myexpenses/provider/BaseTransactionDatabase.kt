@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
@@ -564,7 +565,7 @@ const val UPDATE_ACCOUNT_SYNC_NULL_TRIGGER =
     "CREATE TRIGGER update_account_sync_null AFTER UPDATE ON $TABLE_ACCOUNTS WHEN new.$KEY_SYNC_ACCOUNT_NAME IS NULL AND old.$KEY_SYNC_ACCOUNT_NAME IS NOT NULL BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_SYNC_SEQUENCE_LOCAL = 0 WHERE $KEY_ROWID = old.$KEY_ROWID; DELETE FROM $TABLE_CHANGES WHERE $KEY_ACCOUNTID = old.$KEY_ROWID; END;"
 
 const val ACCOUNTS_TRIGGER_CREATE =
-    "CREATE TRIGGER sort_key_default AFTER INSERT ON $TABLE_ACCOUNTS BEGIN UPDATE $TABLE_ACCOUNTS SET ${DatabaseConstants.KEY_SORT_KEY} = (SELECT coalesce(max(${DatabaseConstants.KEY_SORT_KEY}),0) FROM $TABLE_ACCOUNTS) + 1 WHERE $KEY_ROWID = NEW.$KEY_ROWID; END"
+    "CREATE TRIGGER sort_key_default AFTER INSERT ON $TABLE_ACCOUNTS BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_SORT_KEY = (SELECT coalesce(max($KEY_SORT_KEY),0) FROM $TABLE_ACCOUNTS) + 1 WHERE $KEY_ROWID = NEW.$KEY_ROWID; END"
 
 const val UPDATE_ACCOUNT_METADATA_TRIGGER =
     """CREATE TRIGGER update_account_metadata AFTER UPDATE OF $KEY_LABEL,$KEY_OPENING_BALANCE,$KEY_DESCRIPTION,$KEY_CURRENCY,$KEY_TYPE,$KEY_COLOR,$KEY_EXCLUDE_FROM_TOTALS,$KEY_CRITERION ON $TABLE_ACCOUNTS 
