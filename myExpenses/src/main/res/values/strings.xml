@@ -722,6 +722,7 @@
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
     <string name="remap_category">All selected transactions will be mapped to category %s.</string>
     <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
+    <string name="remap_payee_null">Payer/payee will be removed from all selected transactions.</string>
     <string name="remap_method">All selected transactions will be mapped to method %s.</string>
     <string name="remap_account">All selected transactions will be mapped to account %s.</string>
     <string name="remapping_result">The selected transactions were remapped.</string>

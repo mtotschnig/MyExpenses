@@ -515,7 +515,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     if (parties.isEmpty()) View.GONE else View.VISIBLE
                             }
                             adapter.submitList(
-                                if (action == Action.SELECT_FILTER)
+                                if (action != Action.MANAGE)
                                     listOf(Party(NULL_ITEM_ID, getString(R.string.unmapped))).plus(
                                         parties
                                     )
