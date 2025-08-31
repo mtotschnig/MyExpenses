@@ -216,6 +216,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
+import org.totschnig.myexpenses.util.SampleDataHelper
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
@@ -478,6 +479,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 showFilterDialog = true
                 true
             }
+
+            R.id.CUSTOM_ACTION_COMMAND -> {
+            org.totschnig.myexpenses.util.SampleDataHelper.insertSampleTransactions(contentResolver)
+            true
+        }
 
             else -> handleGrouping(item) ||
                     handleSortDirection(item) ||

@@ -174,9 +174,17 @@ sealed class MenuItem(
         isEnabledByDefault = false
     )
 
+
+    data object CustomAction : MenuItem(
+    R.id.CUSTOM_ACTION_COMMAND, // Add this ID to your R file
+    R.string.menu_custom_action, // Add this string to your resources
+    R.drawable.ic_custom_action // Add this drawable to your resources
+)
+
     @GenSealedEnum
     companion object {
         val defaultConfiguration: List<MenuItem>
             get() = values.filter { it.isEnabledByDefault }
     }
+    
 }
