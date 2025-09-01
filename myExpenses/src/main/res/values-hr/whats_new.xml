@@ -2,7 +2,7 @@
 <resources>
     <string name="whats_new_361_1">Popis transakcija se može razvrstati po iznosu.</string>
     <string name="whats_new_361_2">Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.</string>
-    <string name="whats_new_364_2">Nova strategija za upravljanje duplim podacima primalaca/platiše</string>
+    <string name="whats_new_364_2">Nova strategija za upravljanje podacima duplih platiša/primalaca</string>
     <string name="whats_new_365">Priloži proizvoljan broj slika i dokumenata (PDF)</string>
     <string name="whats_new_364_1">Uvoz u više računa iz jedne CSV datoteke</string>
     <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
@@ -26,5 +26,5 @@
     <string name="whats_new_400_1">Tortni grafikon koji prikazuje raspodjelu novca između računa</string>
     <string name="whats_new_401">Popis transakcija sada prikazuje više detalja za podijeljene transakcije.</string>
     <string name="whats_new_402">Vrste računa se mogu prilagoditi</string>
-    <string name="whats_new_403">Oznake računa proširuju prilagodbu vidljivosti i prioriteta računa.</string>
+    <string name="whats_new_403">Značke računa proširuju prilagodbu vidljivosti i prioriteta računa.</string>
 </resources>
