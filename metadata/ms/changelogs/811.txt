@@ -1,0 +1,4 @@
+• Account flags extend customization of account visibility and priority.
+
+https://github.com/users/mtotschnig/projects/166
+https://mastodon.social/@myexpenses/115099447789262389
