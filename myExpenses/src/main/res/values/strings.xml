@@ -1108,4 +1108,9 @@
     <string name="supports_reconciliation">Supports Reconciliation</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
     <string name="select_accounts_for_flag">Select accounts for flag %s</string>
+    <string name="menu_cleanup">Clean up</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d unused party will be deleted.</item>
+        <item quantity="other">%d unused parties will be deleted.</item>
+    </plurals>
 </resources>

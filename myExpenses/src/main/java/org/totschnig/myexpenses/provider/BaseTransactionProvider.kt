@@ -20,8 +20,6 @@ import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
@@ -616,6 +614,39 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ACCOUNT_FLAG_ID = 85
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
+
+        const val COUNT_UNUSED_PAYEE_QUERY = """
+        WITH
+            DirectlyUsedPayees AS (
+                SELECT DISTINCT $KEY_PAYEEID AS id
+                FROM $TABLE_TRANSACTIONS
+                WHERE $KEY_PAYEEID IS NOT NULL
+                UNION
+                SELECT DISTINCT $KEY_PAYEEID AS id
+                FROM $TABLE_TEMPLATES
+                WHERE $KEY_PAYEEID IS NOT NULL
+                UNION
+                SELECT DISTINCT $KEY_PAYEEID AS id
+                FROM $TABLE_DEBTS
+                WHERE $KEY_PAYEEID IS NOT NULL
+            ),
+            ParentsOfUsedPayees AS (
+                SELECT DISTINCT p.$KEY_PARENTID AS id
+                FROM $TABLE_PAYEES p
+                JOIN DirectlyUsedPayees dup ON p.$KEY_ROWID = dup.id
+                WHERE p.$KEY_PARENTID IS NOT NULL
+            ),
+            AllActivePayees AS (
+                SELECT id FROM DirectlyUsedPayees
+                UNION
+                SELECT id FROM ParentsOfUsedPayees
+                WHERE id IS NOT NULL
+            )
+        SELECT COUNT(p_all.$KEY_ROWID) -- Using LEFT JOIN version here
+        FROM $TABLE_PAYEES p_all
+        LEFT JOIN AllActivePayees aap ON p_all.$KEY_ROWID = aap.id
+        WHERE aap.id IS NULL;
+    """
     }
 
     val homeCurrency: String
@@ -2365,5 +2396,36 @@ abstract class BaseTransactionProvider : ContentProvider() {
             resultBundle.putBoolean(KEY_RESULT, result)
         }
         return resultBundle
+    }
+
+    fun SupportSQLiteDatabase.cleanupUnusedPayees() {
+        beginTransaction()
+        try {
+            val deleteUnusedChildrenSql = """
+            DELETE FROM $TABLE_PAYEES
+            WHERE $KEY_PARENTID IS NOT NULL
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID IS NOT NULL)
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID IS NOT NULL)
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_DEBTS WHERE $KEY_PAYEEID IS NOT NULL)
+        """
+            execSQL(deleteUnusedChildrenSql)
+
+            val deleteUnusedRootsSql = """
+            DELETE FROM $TABLE_PAYEES
+            WHERE $KEY_PARENTID IS NULL -- This identifies it as a root
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID IS NOT NULL)
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID IS NOT NULL)
+              AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_DEBTS WHERE $KEY_PAYEEID IS NOT NULL)
+              AND NOT EXISTS (
+                  SELECT 1 FROM $TABLE_PAYEES p_child
+                  WHERE p_child.$KEY_PARENTID = $TABLE_PAYEES.$KEY_ROWID
+              )
+        """
+            execSQL(deleteUnusedRootsSql)
+
+            setTransactionSuccessful()
+        } finally {
+            endTransaction()
+        }
     }
 }

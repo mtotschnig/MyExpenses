@@ -234,4 +234,6 @@
     <item name="BATCH_DOWNLOAD_COMMAND" type="id" />
     <item name="IMPORT_COMMAND_DO" type="id" />
     <item name="MANAGE_ACCOUNT_TYPES_COMMAND" type="id" />
+    <item name="CLEANUP_COMMAND" type="id" />
+    <item name="CLEANUP_COMMAND_DO" type="id" />
 </resources>

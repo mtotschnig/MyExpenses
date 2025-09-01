@@ -106,7 +106,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             menu.findItem(R.id.TYPE_FILTER_COMMAND).isChecked = viewModel.typeFilter != null
         }
         menuInflater.inflate(R.menu.search, menu)
-        configureSearch(this, menu, this::onQueryTextChange)
+        configureSearch(this, menu, callback = ::onQueryTextChange)
         super.onCreateOptionsMenu(menu)
         return true
     }

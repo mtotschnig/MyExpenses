@@ -412,9 +412,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val itemIds = selectionState.map { it.id }
         checkSealed(itemIds) {
             showConfirmationDialog(
-                "LINK_TRANSFER",
-                getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
-                R.id.LINK_TRANSFER_COMMAND, R.string.menu_create_transfer
+                tag = "LINK_TRANSFER",
+                message = getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
+                commandPositive = R.id.LINK_TRANSFER_COMMAND,
+                commandPositiveLabel = R.string.menu_create_transfer
             ) {
                 putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
             }
@@ -1516,9 +1517,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun unarchive(transaction: Transaction2) {
         showConfirmationDialog(
-            "UNARCHIVE",
-            getString(R.string.warning_unarchive),
-            R.id.UNARCHIVE_COMMAND, R.string.menu_unpack
+            tag = "UNARCHIVE",
+            message = getString(R.string.warning_unarchive),
+            commandPositive = R.id.UNARCHIVE_COMMAND,
+            commandPositiveLabel = R.string.menu_unpack
         ) {
             putLong(KEY_ROWID, transaction.id)
         }
@@ -1526,9 +1528,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun ungroupSplit(transaction: Transaction2) {
         showConfirmationDialog(
-            "UNSPLIT_TRANSACTION",
-            getString(R.string.warning_ungroup_split_transactions),
-            R.id.UNGROUP_SPLIT_COMMAND, R.string.menu_ungroup_split_transaction
+            tag = "UNSPLIT_TRANSACTION",
+            message = getString(R.string.warning_ungroup_split_transactions),
+            commandPositive = R.id.UNGROUP_SPLIT_COMMAND,
+            commandPositiveLabel = R.string.menu_ungroup_split_transaction
         ) {
             putLong(KEY_ROWID, transaction.id)
         }
@@ -1536,10 +1539,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     private fun unlinkTransfer(transaction: Transaction2) {
         showConfirmationDialog(
-            "UNLINK_TRANSFER",
-            getString(R.string.warning_unlink_transfer),
-            R.id.UNLINK_TRANSFER_COMMAND,
-            R.string.menu_unlink_transfer
+            tag = "UNLINK_TRANSFER",
+            message = getString(R.string.warning_unlink_transfer),
+            commandPositive = R.id.UNLINK_TRANSFER_COMMAND,
+            commandPositiveLabel = R.string.menu_unlink_transfer
         ) {
             putLong(KEY_ROWID, transaction.id)
         }
@@ -1612,10 +1615,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             showConfirmationDialog(
-                "DELETE_TRANSACTION",
-                message,
-                R.id.DELETE_COMMAND_DO,
-                R.string.menu_delete
+                tag = "DELETE_TRANSACTION",
+                message = message,
+                commandPositive = R.id.DELETE_COMMAND_DO,
+                commandPositiveLabel = R.string.menu_delete
             ) {
                 putInt(
                     ConfirmationDialogFragment.KEY_TITLE,
@@ -1640,10 +1643,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 message += " " + getString(R.string.warning_delete_reconciled)
             }
             showConfirmationDialog(
-                "DELETE_TRANSACTION",
-                message,
-                R.id.DELETE_COMMAND_DO,
-                R.string.menu_delete
+                tag = "DELETE_TRANSACTION",
+                message = message,
+                commandPositive = R.id.DELETE_COMMAND_DO,
+                commandPositiveLabel = R.string.menu_delete
             ) {
                 putInt(
                     ConfirmationDialogFragment.KEY_TITLE,
@@ -1657,27 +1660,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 }
                 putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
             }
-        }
-    }
-
-    fun showConfirmationDialog(
-        tag: String,
-        message: String,
-        @IdRes commandPositive: Int,
-        @StringRes commandPositiveLabel: Int = 0,
-        @IdRes commandNegative: Int? = R.id.CANCEL_CALLBACK_COMMAND,
-        prepareBundle: Bundle.() -> Unit,
-    ) {
-        lifecycleScope.launchWhenResumed {
-            ConfirmationDialogFragment
-                .newInstance(Bundle().apply {
-                    putString(KEY_MESSAGE, message)
-                    putInt(KEY_COMMAND_POSITIVE, commandPositive)
-                    putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
-                    commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
-                    prepareBundle()
-                })
-                .show(supportFragmentManager, tag)
         }
     }
 
@@ -2515,10 +2497,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 ContribFeature.SPLIT_TRANSACTION -> {
                     if (tag != null) {
                         showConfirmationDialog(
-                            "SPLIT_TRANSACTION",
-                            getString(R.string.warning_split_transactions),
-                            R.id.SPLIT_TRANSACTION_COMMAND,
-                            R.string.menu_split_transaction
+                            tag = "SPLIT_TRANSACTION",
+                            message = getString(R.string.warning_split_transactions),
+                            commandPositive = R.id.SPLIT_TRANSACTION_COMMAND,
+                            commandPositiveLabel = R.string.menu_split_transaction
                         ) {
                             putLongArray(KEY_ROW_IDS, tag as LongArray?)
                         }

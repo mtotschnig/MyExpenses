@@ -157,6 +157,11 @@ import javax.inject.Inject
 import kotlin.math.sign
 import androidx.core.net.toUri
 import kotlinx.coroutines.flow.StateFlow
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
@@ -799,10 +804,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @CallSuper
     override fun onPositive(args: Bundle, checked: Boolean) {
-        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
+        val command = args.getInt(KEY_COMMAND_POSITIVE)
         dispatchCommand(
             command,
-            args.getBundle(ConfirmationDialogFragment.KEY_TAG_POSITIVE_BUNDLE)
+            args.getBundle(KEY_TAG_POSITIVE_BUNDLE)
         )
     }
 
@@ -1132,10 +1137,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } catch (_: ActivityNotFoundException) {
             showSnackBar(
                 MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(mimeType)
-                ?.uppercase(Locale.getDefault())
-                ?.let { getString(R.string.no_app_handling_mime_type_available, it) }
-                ?: "No activity found for opening $uri"
+                    .getExtensionFromMimeType(mimeType)
+                    ?.uppercase(Locale.getDefault())
+                    ?.let { getString(R.string.no_app_handling_mime_type_available, it) }
+                    ?: "No activity found for opening $uri"
             )
         }
     }
@@ -1298,11 +1303,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                             )
                         )
                         putInt(
-                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            KEY_COMMAND_POSITIVE,
                             R.id.NOTIFICATION_SETTINGS_COMMAND
                         )
                         putInt(
-                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                            KEY_POSITIVE_BUTTON_LABEL,
                             R.string.menu_reconfigure
                         )
                     }
@@ -1734,38 +1739,60 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult(): Nothing  = collect { result ->
-        result?.let {
-            dismissSnackBar()
-            result.onSuccess { (uri, name) ->
-                recordUsage(ContribFeature.PRINT)
-                showMessage(
-                    getString(R.string.export_sdcard_success, name),
-                    MessageDialogFragment.Button(
-                        R.string.menu_open,
-                        R.id.OPEN_PDF_COMMAND,
-                        uri.toString(),
-                        true
-                    ),
-                    MessageDialogFragment.nullButton(R.string.button_label_close),
-                    MessageDialogFragment.Button(
-                        R.string.share,
-                        R.id.SHARE_PDF_COMMAND,
-                        uri.toString(),
-                        true
-                    ),
-                    false
-                )
-            }.onFailure {
-                report(it)
-                showSnackBar(it.safeMessage)
+    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult(): Nothing =
+        collect { result ->
+            result?.let {
+                dismissSnackBar()
+                result.onSuccess { (uri, name) ->
+                    recordUsage(ContribFeature.PRINT)
+                    showMessage(
+                        getString(R.string.export_sdcard_success, name),
+                        MessageDialogFragment.Button(
+                            R.string.menu_open,
+                            R.id.OPEN_PDF_COMMAND,
+                            uri.toString(),
+                            true
+                        ),
+                        MessageDialogFragment.nullButton(R.string.button_label_close),
+                        MessageDialogFragment.Button(
+                            R.string.share,
+                            R.id.SHARE_PDF_COMMAND,
+                            uri.toString(),
+                            true
+                        ),
+                        false
+                    )
+                }.onFailure {
+                    report(it)
+                    showSnackBar(it.safeMessage)
+                }
+                onPdfResultProcessed()
             }
-            onPdfResultProcessed()
         }
-    }
 
     open fun onPdfResultProcessed() {
 
+    }
+
+    fun showConfirmationDialog(
+        tag: String,
+        message: String,
+        @IdRes commandPositive: Int,
+        tagPositive: Bundle? = null,
+        @StringRes commandPositiveLabel: Int = 0,
+        @IdRes commandNegative: Int? = R.id.CANCEL_CALLBACK_COMMAND,
+        prepareBundle: Bundle.() -> Unit = { },
+    ) {
+        ConfirmationDialogFragment
+            .newInstance(Bundle().apply {
+                putString(KEY_MESSAGE, message)
+                putInt(KEY_COMMAND_POSITIVE, commandPositive)
+                putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
+                tagPositive?.let { putBundle(KEY_TAG_POSITIVE_BUNDLE, it) }
+                commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
+                prepareBundle()
+            })
+            .show(supportFragmentManager, tag)
     }
 
 

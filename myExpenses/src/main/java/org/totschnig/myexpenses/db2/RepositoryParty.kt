@@ -10,6 +10,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CLEANUP_UNUSED_PAYEES
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
@@ -95,6 +97,15 @@ fun Repository.setParentId(partyId: Long, parentId: Long?) {
         ContentUris.withAppendedId(PAYEES_URI, partyId),
         ContentValues(1).apply { put(KEY_PARENTID, parentId) },
         null, null
+    )
+}
+
+fun Repository.cleanupUnusedParties() {
+    contentResolver.call(
+        TransactionProvider.DUAL_URI,
+        METHOD_CLEANUP_UNUSED_PAYEES,
+        null,
+        null
     )
 }
 

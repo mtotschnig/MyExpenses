@@ -128,10 +128,10 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         value: Long
     ) {
         activity.showConfirmationDialog(
-            "dialogRemap",
-            message + " " + getString(R.string.continue_confirmation),
-            R.id.REMAP_COMMAND,
-            R.string.menu_remap,
+            tag = "dialogRemap",
+            message = message + " " + getString(R.string.continue_confirmation),
+            commandPositive = R.id.REMAP_COMMAND,
+            commandPositiveLabel = R.string.menu_remap,
             commandNegative = null
         ) {
             putString(KEY_COLUMN, column)
