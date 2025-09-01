@@ -55,7 +55,7 @@
     <string name="dialog_remind_rate_1">Izdvoji trenutak za ocjenjivanje i recenziranje programa {app_name}.</string>
     <string name="dialog_remind_rate_2">Tvoji nam komentari pomažu poboljšati i unaprijediti program.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Izdvoji trenutak za slanje tvojih prijedloga za unapređivanje programa.</string>
-    <string name="dialog_remind_rate_yes">Ocijeni</string>
+    <string name="dialog_remind_rate_yes">Ocijeni sada</string>
     <string name="dialog_security_answer">Odgovor</string>
     <string name="dialog_security_question">Pitanje</string>
     <!-- %1$s is replace with account label -->
@@ -84,7 +84,7 @@
     <string name="help_heading_whats_new">Što je novo</string>
     <string name="import_select_transactions">Transakcije</string>
     <string name="income">Prihod</string>
-    <string name="label">Oznaka</string>
+    <string name="label">Etiketa</string>
     <string name="licence_validation_failure">Neuspjela provjera valjanosti licensnog ključa.</string>
     <string name="licence_validation_success">Licencni ključ je uspješno provjeren:</string>
     <string name="menu_aggregates">Ukupno</string>
@@ -220,7 +220,7 @@
     <string name="pref_manage_categories_title">Kategorije</string>
     <string name="pref_manage_methods_summary">Stvori i uredi načine plaćanja te ih pridruži vrstama računa.</string>
     <string name="pref_manage_methods_title">Načini plaćanja</string>
-    <string name="pref_manage_parties_summary">Dodaj, uredi ili izbriši stranke (platiše i primaoce).</string>
+    <string name="pref_manage_parties_summary">Dodaj, uredi ili izbriši stranke (platiše i primaoci).</string>
     <string name="pref_manage_parties_title">Stranke</string>
     <string name="pref_manage_sync_backends_title">Pozadinski programi za sinkronizaciju</string>
     <string name="pref_more_info_dialog_title">Licence i zasluge</string>
@@ -636,12 +636,12 @@
     <string name="tags_create_or_select">Stvori ili odaberi oznake</string>
     <string name="pref_clone_with_current_date_summary_off">Kopije transakcije zadržavaju trenutačni datum</string>
     <string name="pref_clone_with_current_date_summary_on">Kopije transakcije imaju trenutačni datum</string>
-    <string name="button_label_clone_and_remap">Dupliciraj i poveži</string>
+    <string name="button_label_clone_and_remap">Dupliciraj i premapiraj</string>
     <string name="remap_empty_list">Nije pronađen nijedan element koji se može povezati sa svim odabranim transakcijama.</string>
     <string name="clone_and_remap_result">Odabrane transakcije su duplicirane i novo povezane.</string>
     <string name="remapping_result">Odabrane transakcije su novo povezane.</string>
     <string name="remap_account">Sve odabrane transakcije će se povezati s računom %s.</string>
-    <string name="remap_method">Sve odabrane transakcije će se povezati s metodom %s.</string>
+    <string name="remap_method">Sve odabrane transakcije će se mapirati načinu %s.</string>
     <string name="remap_payee">Sve odabrane transakcije će se povezati s platišem/primaocem %s.</string>
     <string name="remap_category">Sve odabrane transakcije će se povezati s kategorijom %s.</string>
     <string name="dialog_title_confirm_remap">Promijeniti povezivanje (%s)\?</string>
@@ -667,7 +667,7 @@
     <string name="synchronization_select_folder_dialog_title">Odaberi postojeću mapu ili stvori novu</string>
     <string name="pref_plan_executor_time_title">Vrijeme obavještavanja planera</string>
     <string name="pref_exchange_rates_api_key_summary">Registriraj besplatni račun na %s i navedi tvoj ID programa</string>
-    <string name="pref_exchange_rate_provider_title">Usluga za preuzimanje tečajeva</string>
+    <string name="pref_exchange_rate_provider_title">Pružatelj tečajeva</string>
     <string name="pref_exchange_rate_provider_summary">Odaberi uslugu za preuzimanje tečajeva</string>
     <string name="pref_category_exchange_rates">Tečajevi</string>
     <string name="exchange_rate_not_supported">Konfigurirana usluga tečajeva ne daje tečaj %1$s : %2$s. U postavkama možeš pokušati odabrati jednu drugu uslugu.</string>
@@ -739,7 +739,7 @@
     <string name="warning_change_fraction_digits_1">Iznosi u bazi podataka moraju se aktualizirati kako bi odgovarali novom broju decimalnih mjesta.</string>
     <string name="warning_reset_account_matched">Ako nastaviš, s trenutačnim filtrom pronađene transakcije će se nepovratno izbrisati iz baze podataka.</string>
     <string name="move_category_success">Jedna kategorija je uspješno premještena. </string>
-    <string name="move_category_failure">Jedna kategorija nije premještena, jer ista oznaka već postoji na cilju.</string>
+    <string name="move_category_failure">Jedna kategorija nije premještena, jer ista etiketa već postoji na cilju.</string>
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
     <string name="status_void">anulirano</string>
     <string name="select_payee">Odaberi platišu/primaoca</string>
@@ -783,7 +783,7 @@
         <item quantity="few">%1$d kategorije su aktualizirane s ikonama.</item>
         <item quantity="other">%1$d kategorija je aktualizirano s ikonama.</item>
     </plurals>
-    <string name="cb_label_merge_accounts">Spoji račune</string>
+    <string name="cb_label_merge_accounts">Sjedini račune</string>
     <string name="pref_mlkit_script_title">Skripta za MlKit</string>
     <string name="dialog_title_purge_backups">Izbriši stare sigurnosne kopije</string>
     <string name="purge_backups">Izbrisat će se sljedeće stare sigurnosne kopije:</string>
@@ -853,7 +853,7 @@
     <string name="pref_attachment_mime_types_title">Dopuštene MIME vrste za priloge</string>
     <string name="pref_copy_attachments_summary_on">Datoteke se kopiraju u mapu aplikacije.</string>
     <string name="attachments">Prilozi</string>
-    <string name="pref_copy_attachments_title">Kopiraj privitke u mapu aplikacije</string>
+    <string name="pref_copy_attachments_title">Kopiraj priloge u mapu aplikacije</string>
     <string name="read_from_data">Učitaj iz podataka</string>
     <string name="merge_parties_strategy_group">Duplikati su grupirani zajedno.</string>
     <string name="pref_copy_attachments_summary_off">Datoteke se ne kopiraju. Sprema se samo referenca.</string>
@@ -877,7 +877,7 @@
     <string name="pref_sync_now_all_summary">%s sinkronizira sve račune za isti pozadinski sustav</string>
     <string name="menu_unlink_transfer">Rastavi prijenos na dijelove</string>
     <string name="warning_unlink_transfer">Odabrani prijenos će se rastaviti na dijelove: zamijenit će se normalnim transakcijama na oba računa.</string>
-    <string name="subcategories_merged_recursively">Ako bilo koja od sjedinjenih kategorija ima potkategorije s istom oznakom, one će se najprije sjediniti, rekurzivno.</string>
+    <string name="subcategories_merged_recursively">Ako bilo koja od sjedinjenih kategorija ima potkategorije s istom etiketom, one će se najprije sjediniti, rekurzivno.</string>
     <string name="merge_categories_dialog_title">Sjedini kategorije</string>
     <string name="warning_transform_to_transfer">Odabrana transakcija će se zamijenti prijenosom od %1$s na %2$s.</string>
     <string name="merge_categories_prompt">Odaberi kategoriju koju želiš zadržati</string>
@@ -975,7 +975,12 @@
     <string name="flag_favorite">Favorit</string>
     <string name="warning_expense_category_credit">Dodjeljuješ kategoriju troškova transakciji prihoda. Zbog toga će transakcija smanjiti zbroj tvojih troškova i standardno će se prikazati crvenom bojom.</string>
     <string name="warning_income_category_debit">Dodjeljuješ kategoriju prihoda transakciji trošakova. Zbog toga će transakcija smanjiti zbroj tvojih prihoda i standardno će se prikazati zelenom bojom.</string>
-    <string name="menu_account_flags">Oznake</string>
-    <string name="edit_account_flag">Uredi oznaku</string>
+    <string name="menu_account_flags">Značke</string>
+    <string name="edit_account_flag">Uredi značku</string>
     <string name="aggregate_invisible">Uključi nevidljive račune u zbrojene račune i bilancu</string>
+    <string name="menu_flag">Značka</string>
+    <string name="new_account_flag">Nova značka</string>
+    <string name="flag_unflagged">Bez značke</string>
+    <string name="select_accounts_for_flag">Odaberi račune za značku %s</string>
+    <string name="supports_reconciliation">Poržava usklađivanje</string>
 </resources>
