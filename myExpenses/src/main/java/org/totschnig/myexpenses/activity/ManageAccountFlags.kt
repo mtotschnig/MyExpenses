@@ -238,11 +238,9 @@ fun ManageFlagsScreen(
     if (showConfigDialog) {
         DialogFrame(
             title = "${stringResource(R.string.menu_account_flags)} ${stringResource(R.string.settings_label)}",
+            onDismissRequest = { showConfigDialog = false },
             positiveButton = null,
-            negativeButton = ButtonDefinition(
-                text = R.string.menu_close,
-                onClick = { showConfigDialog = false }
-            )
+            negativeButtonLabel =  R.string.menu_close
         ) {
             CheckBoxWithLabel(
                 label = stringResource(R.string.aggregate_invisible),
@@ -480,12 +478,7 @@ private fun AccountSelectionDialog(
                 onSave(selectedIds)
             }
         ),
-        negativeButton = ButtonDefinition(
-            text = android.R.string.cancel,
-            onClick = {
-                onDismiss()
-            }
-        )
+        onDismissRequest = onDismiss
     ) {
         items(accounts, key = { it.id }) { account ->
             CheckBoxWithLabel(
