@@ -183,6 +183,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
@@ -642,10 +643,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 SELECT id FROM ParentsOfUsedPayees
                 WHERE id IS NOT NULL
             )
-        SELECT COUNT(p_all.$KEY_ROWID) -- Using LEFT JOIN version here
+        SELECT COUNT(p_all.$KEY_ROWID)
         FROM $TABLE_PAYEES p_all
         LEFT JOIN AllActivePayees aap ON p_all.$KEY_ROWID = aap.id
-        WHERE aap.id IS NULL;
+    WHERE aap.id IS NULL AND $KEY_ROWID != $NULL_ROW_ID;
     """
     }
 
@@ -2407,6 +2408,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
               AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID IS NOT NULL)
               AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID IS NOT NULL)
               AND $KEY_ROWID NOT IN (SELECT DISTINCT $KEY_PAYEEID FROM $TABLE_DEBTS WHERE $KEY_PAYEEID IS NOT NULL)
+              AND $KEY_ROWID != $NULL_ROW_ID
         """
             execSQL(deleteUnusedChildrenSql)
 
@@ -2420,6 +2422,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                   SELECT 1 FROM $TABLE_PAYEES p_child
                   WHERE p_child.$KEY_PARENTID = $TABLE_PAYEES.$KEY_ROWID
               )
+               AND $KEY_ROWID != $NULL_ROW_ID
         """
             execSQL(deleteUnusedRootsSql)
 
