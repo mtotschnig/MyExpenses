@@ -31,6 +31,8 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.di.AppComponent
@@ -211,24 +213,31 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         Timber.plant(TagFilterFileLoggingTree(this, tag))
     }
 
+    private val loggingSetupMutex = Mutex()
+
     private fun setupLogging() {
         MainScope().launch(Dispatchers.IO) {
-            Timber.uprootAll()
-            if (prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)) {
+            val debugLoggingEnabled = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+            val crashReportEnabled = prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)
 
-                Timber.plant(Timber.DebugTree())
-                try {
-                    plantTree(PlanExecutor.TAG)
-                    plantTree(SyncAdapter.TAG)
-                    plantTree(LicenceHandler.TAG)
-                    plantTree(BaseTransactionProvider.TAG)
-                    plantTree(OcrFeature.TAG)
-                    plantTree(BankingFeature.TAG)
-                } catch (e: Exception) {
-                    report(e)
+            loggingSetupMutex.withLock { // Critical section protected by the Mutex
+                Timber.uprootAll()
+                if (debugLoggingEnabled) {
+                    Timber.plant(Timber.DebugTree())
+                    try {
+                        plantTree(PlanExecutor.TAG)
+                        plantTree(SyncAdapter.TAG)
+                        plantTree(LicenceHandler.TAG)
+                        plantTree(BaseTransactionProvider.TAG)
+                        plantTree(OcrFeature.TAG)
+                        plantTree(BankingFeature.TAG)
+                    } catch (e: Exception) {
+                        report(e)
+                    }
                 }
             }
-            if (prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)) {
+
+            if (crashReportEnabled) {
                 crashHandler.setupLogging(this@MyApplication)
             }
         }
