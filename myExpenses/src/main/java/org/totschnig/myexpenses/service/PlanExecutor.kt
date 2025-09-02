@@ -92,31 +92,30 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             prefHandler: PrefHandler,
             forceImmediate: Boolean = false
         ) {
-            if (PermissionGroup.CALENDAR.hasPermission(context) && planCount(context.contentResolver) > 0) {
-
+            val hasPermission = PermissionGroup.CALENDAR.hasPermission(context)
+            val planCount = planCount(context.contentResolver)
+            if (hasPermission && planCount > 0) {
+                val scheduledTime = if (forceImmediate) null else TimePreference.getScheduledTime(
+                    prefHandler, PrefKey.PLANNER_EXECUTION_TIME
+                )
+                log("enqueueSelf %d", scheduledTime)
                 WorkManager.getInstance(context).enqueueUniqueWork(
                     WORK_NAME,
                     ExistingWorkPolicy.REPLACE,
-                    buildWorkRequest(
-                        if (forceImmediate) null else TimePreference.getScheduledTime(
-                            prefHandler, PrefKey.PLANNER_EXECUTION_TIME
-                        )
-                    )
+                    buildWorkRequest(scheduledTime)
                 )
+            } else {
+                log("not enqueueing, has calendar permission: %b, planCount: %d", hasPermission, planCount)
             }
         }
 
         fun cancel(context: Context) {
             WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)
         }
-    }
 
-    private fun log(e: java.lang.Exception) {
-        Timber.tag(TAG).w(e)
-    }
-
-    private fun log(message: String, vararg args: Any) {
-        Timber.tag(TAG).i(message, *args)
+        private fun log(message: String, vararg args: Any?) {
+            Timber.tag(TAG).i(message, *args)
+        }
     }
 
     private fun scheduleNextRun() {

@@ -204,9 +204,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         launch()
         onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
             .perform(ViewActions.click())
-        cleanup {
-            Plan.delete(contentResolver, plan1.id)
-        }
+        Plan.delete(contentResolver, plan1.id)
     }
 
     private fun launch() {

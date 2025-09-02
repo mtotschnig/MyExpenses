@@ -134,6 +134,37 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.3
+      - '2025-09-01'
+      - bg: Флагове на сметката разширяват персонализирането на нейната видимост и
+          приоритет.
+        cs: Příznaky účtu rozšiřují přizpůsobení viditelnosti a priority účtu.
+        de: Markierungen für Konten erweitern die Anpassung der Sichtbarkeit und Priorität.
+        el: λογαριασμός σημαίες επεκτείνουν την προσαρμογή της ορατότητας και της
+          προτεραιότητας λογαριασμός.
+        es: Los indicadores de cuenta amplían la personalización de la visibilidad
+          y la prioridad de la cuenta.
+        fr: Les indicateurs de compte étendent la personnalisation de la visibilité
+          et de la priorité des comptes.
+        hr: Značke računa proširuju prilagodbu vidljivosti i prioriteta računa.
+        hu: A fiókjelzők kiterjesztik a fiók láthatóságának és prioritásának testreszabását.
+        it: I indicatori degli conti estendono la personalizzazione della visibilità
+          e della priorità degli conti.
+        iw: דגלי חשבון מרחיבים את ההתאמה האישית של הנראות והעדיפות של חשבון.
+        nl: Rekeningvlaggen vergroten de aanpassing van de zichtbaarheid en prioriteit
+          van rekeningen.
+        pl: Flagi konta rozszerzają dostosowywanie widoczności i priorytetu konta.
+        pt: Os sinalizadores de conta estendem a personalização da visibilidade e
+          prioridade da conta.
+        ro: Indicatoarele de cont extind personalizarea vizibilității și priorității
+          contului.
+        tr: Hesap bayrakları, hesap görünürlüğünün ve önceliğinin özelleştirilmesini
+          sağlar.
+        vi: Cờ tài khoản mở rộng tùy chỉnh khả năng hiển thị và mức độ ưu tiên của
+          tài khoản.
+        en: Account flags extend customization of account visibility and priority.
+      - github2: '166'
+        mastodon: '115099447789262389'
   -   - 4.0.2
       - '2025-08-21'
       - bg: Персонализация на типа на сметките

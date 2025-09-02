@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -87,30 +86,12 @@ fun DialogFrame(
     onDismissRequest: () -> Unit = {},
     cancelEnabled: Boolean = true,
     positiveButton: ButtonDefinition?,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    DialogFrame(
-        title = title,
-        positiveButton = positiveButton,
-        negativeButton = ButtonDefinition(
-            text = android.R.string.cancel,
-            enabled = cancelEnabled,
-            onClick = onDismissRequest
-        ),
-        content = content
-    )
-}
-
-@Composable
-fun DialogFrame(
-    title: String,
-    positiveButton: ButtonDefinition?,
-    negativeButton: ButtonDefinition?,
+    negativeButtonLabel: Int = android.R.string.cancel,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val titleBottomPadding = 12.dp
     Dialog(
-        onDismissRequest = { }
+        onDismissRequest = { if (cancelEnabled) onDismissRequest() }
     ) {
         Surface(
             shape = MaterialTheme.shapes.medium,
@@ -129,7 +110,11 @@ fun DialogFrame(
                 content()
                 ButtonRow2(
                     positiveButton = positiveButton,
-                    negativeButton = negativeButton
+                    negativeButton = ButtonDefinition(
+                        text = negativeButtonLabel,
+                        enabled = cancelEnabled,
+                        onClick = onDismissRequest
+                    )
                 )
             }
         }
@@ -139,13 +124,14 @@ fun DialogFrame(
 @Composable
 fun DialogFrame2(
     title: String,
+    onDismissRequest: () -> Unit = {},
     positiveButton: ButtonDefinition?,
-    negativeButton: ButtonDefinition?,
+    negativeButtonLabel: Int = android.R.string.cancel,
     content:  LazyListScope.() -> Unit
 ) {
     val titleBottomPadding = 12.dp
     Dialog(
-        onDismissRequest = { }
+        onDismissRequest = onDismissRequest
     ) {
         Surface(
             shape = MaterialTheme.shapes.medium,
@@ -167,7 +153,10 @@ fun DialogFrame2(
                 item {
                     ButtonRow2(
                         positiveButton = positiveButton,
-                        negativeButton = negativeButton
+                        negativeButton = ButtonDefinition(
+                            text = negativeButtonLabel,
+                            onClick = onDismissRequest
+                        )
                     )
                 }
             }
