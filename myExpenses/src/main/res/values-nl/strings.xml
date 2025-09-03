@@ -17,11 +17,11 @@
     <string name="account">Rekening</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Soorten rekeningen</string>
-    <string name="account_type_asset">Vermogensrekening</string>
-    <string name="account_type_bank">Bankrekening</string>
-    <string name="account_type_cash">Geldrekening</string>
+    <string name="account_type_asset">Overige activa</string>
+    <string name="account_type_bank">Bank</string>
+    <string name="account_type_cash">Contant</string>
     <string name="account_type_ccard">Kredietkaart</string>
-    <string name="already_defined">%1$s is reeds gedefinieerd</string>
+    <string name="already_defined">%1$s is al gedefinieerd</string>
     <string name="amount">Bedrag</string>
     <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
@@ -40,7 +40,7 @@
     <string name="sum_income">Inkomsten</string>
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
-    <string name="account_type_liability">Schuldenrekening</string>
+    <string name="account_type_liability">Overige Schulden</string>
     <string name="date_format">Datumindeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
     <string name="extended_key">Uitgebreide Sleutel</string>
@@ -920,4 +920,29 @@
     </plurals>
     <string name="confirm_process_file_message">Weet je zeker dat je de prijzen voor \'%1$s\' wilt importeren uit \'%2$s\'? Nieuwe prijzen kunnen van invloed zijn op bestaande equivalente bedragen.</string>
     <string name="pref_account_list_display_configuration_title">Rekeninglijst</string>
+    <string name="account_type_investment">Investeringen</string>
+    <string name="warning_expense_category_credit">Je wijst een kostencategorie toe aan een inkomstentransactie. Als gevolg hiervan verlaagt de transactie het totaal van je kosten en wordt deze standaard in het rood weergegeven.</string>
+    <string name="warning_income_category_debit">Je wijst een inkomstencategorie toe aan een kostentransactie. Als gevolg hiervan verlaagt de transactie je inkomsten en wordt deze standaard in het groen weergegeven.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dynamische tarieven voor alle rekeningen</string>
+    <string name="pref_dynamic_exchange_rates_static">Statische tarieven voor alle rekeningen</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configureer elk account afzonderlijk</string>
+    <string name="category_type_main">Hoofdcategorie</string>
+    <string name="category_type_sub">Subcategorie</string>
+    <string name="category_description_base">Basisbeschrijving voor een categorie. %1$s is het categorietype (bijv. vertaald als \"Hoofdcategorie\" of \"Subcategorie\"). %2$d is het huidige niveaunummer van de categorie. Voorbeeld: \"Hoofdcategorie, niveau 1\"</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, bevat één subcategorie van niveau %2$d.</item>
+        <item quantity="other">, bevat %1$d subcategorieën van niveau %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Accounttype Bewerken</string>
+    <string name="new_account_type">Nieuw Accounttype</string>
+    <string name="pref_print_layout_summary">Breedte en samenstelling van kolommen configureren</string>
+    <string name="menu_account_flags">Vlaggen</string>
+    <string name="menu_flag">Vlag</string>
+    <string name="edit_account_flag">Bewerk Vlag</string>
+    <string name="new_account_flag">Nieuwe Vlag</string>
+    <string name="flag_unflagged">Geen vlag</string>
+    <string name="flag_favorite">Favoriet</string>
+    <string name="supports_reconciliation">Ondersteunt Verzoening</string>
+    <string name="aggregate_invisible">Neem onzichtbare rekeningen op in de totale rekeningen en de balans</string>
+    <string name="select_accounts_for_flag">Selecteer accounts voor vlag %s</string>
 </resources>
