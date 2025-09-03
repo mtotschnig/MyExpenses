@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.ui
 
 import android.view.View
 import android.widget.AdapterView
-import android.widget.BaseAdapter
+import android.widget.ListAdapter
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
 
@@ -95,7 +95,7 @@ class SpinnerHelper(val spinner: Spinner) : AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (position != lastPosition) {
-            if ((parent?.adapter as? BaseAdapter)?.isEnabled(position) != true) {
+            if ((parent?.adapter as? ListAdapter)?.isEnabled(position) != true) {
                 parent?.setSelection(lastPosition)
             } else {
                 lastPosition = position
