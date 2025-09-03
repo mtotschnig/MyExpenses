@@ -666,13 +666,14 @@ abstract class TransactionDelegate<T : ITransaction>(
             }
 
             accountSpinner.id -> {
-                val oldAccount = mAccounts.first { it.id == accountId }
-                val newAccount = mAccounts.first { it.id == id }
-                if (newAccount.color == oldAccount.color || !host.maybeApplyDynamicColor()) {
-                    updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
-                } else {
-                    accountId = newAccount.id
-                    host.color = newAccount.color
+                mAccounts.firstOrNull() { it.id == id }?.let { newAccount ->
+                    val oldAccount = mAccounts.first { it.id == accountId }
+                    if (newAccount.color == oldAccount.color || !host.maybeApplyDynamicColor()) {
+                        updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
+                    } else {
+                        accountId = newAccount.id
+                        host.color = newAccount.color
+                    }
                 }
             }
 
