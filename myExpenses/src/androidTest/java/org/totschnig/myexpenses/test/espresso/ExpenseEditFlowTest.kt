@@ -83,7 +83,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
      */
     @Test
     fun testScenarioForBug5b11072e6007d59fcd92c40b() {
-        launchForResult(intentForNewTransaction)
+        launchForResult()
         setAmount(10)
         toggleType()
         closeSoftKeyboard()
@@ -95,7 +95,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     @Test
     fun calculatorMaintainsType() {
-        launchForResult(intentForNewTransaction)
+        launchForResult()
         setAmount(123)
         closeSoftKeyboard()
         onView(
@@ -127,7 +127,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     @Test
     fun templateMenuShouldLoadTemplateForNewTransaction() {
-        launchForResult(intentForNewTransaction)
+        launchForResult()
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
         onView(withText("Template")).perform(click())
         toolbarTitle().check(ViewAssertions.matches(withText(R.string.menu_create_transaction)))
@@ -137,7 +137,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     //Bug https://github.com/mtotschnig/MyExpenses/issues/1408
     @Test
     fun saveAsTemplateCreatesTemplateWithTags() {
-        launchForResult(intentForNewTransaction)
+        launchForResult()
         clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
         setTitle()
         linkWithTag()

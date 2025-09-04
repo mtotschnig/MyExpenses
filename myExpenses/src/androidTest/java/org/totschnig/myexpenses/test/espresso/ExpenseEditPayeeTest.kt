@@ -24,7 +24,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
         party = repository.createParty(Party.create(name = "John", iban = withIban))!!
-        testScenario = ActivityScenario.launch(intentForNewTransaction)
+        launch()
         assertThat(load()).isEmpty()
     }
 

@@ -154,7 +154,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
-        testScenario = ActivityScenario.launch(intentForNewTransaction)
+        launch()
         doWithRotation {
             onIdle()
             toolbarTitle().check(doesNotExist())

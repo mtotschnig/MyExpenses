@@ -131,12 +131,12 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
     }
 
-    protected fun launch(i: Intent): ActivityScenario<TestExpenseEdit> =
+    protected fun launch(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launch<TestExpenseEdit>(i).also {
             testScenario = it
         }
 
-    protected fun launchForResult(i: Intent): ActivityScenario<TestExpenseEdit> =
+    protected fun launchForResult(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
             testScenario = it
         }

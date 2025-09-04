@@ -75,16 +75,6 @@ null
     } else null
 }
 
-fun localizedLabelForAccountType(ctx: Context, keyLabel: String) =
-    StringBuilder().apply {
-        append("CASE ").append(keyLabel)
-        AccountType.initialAccountTypes.forEach {
-            append(" WHEN '").append(it.name).append("' THEN ")
-            DatabaseUtils.appendEscapedSQLString(this, it.localizedName(ctx))
-        }
-        append(" ELSE ").append(keyLabel).append(" END")
-    }.toString()
-
 fun Repository.saveAccountTypeOrder(sortedIds: LongArray) {
     contentResolver.call(DUAL_URI, METHOD_TYPE_SORT, null, Bundle().apply {
         putLongArray(KEY_SORTED_IDS, sortedIds)

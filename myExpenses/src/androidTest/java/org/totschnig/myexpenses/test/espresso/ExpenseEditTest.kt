@@ -113,7 +113,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun helpDialogIsOpened() {
-        launch(intentForNewTransaction)
+        launch()
         clickMenuItem(R.id.HELP_COMMAND)
         onView(withText(containsString(getString(R.string.help_ExpenseEdit_transaction_title))))
             .check(matches(isDisplayed()))

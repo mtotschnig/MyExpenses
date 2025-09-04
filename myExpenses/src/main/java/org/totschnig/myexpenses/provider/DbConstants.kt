@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.provider
 
-import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import androidx.core.text.isDigitsOnly
@@ -10,7 +9,6 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
-import org.totschnig.myexpenses.db2.localizedLabelForAccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CTE_TABLE_NAME_FULL_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -546,7 +544,6 @@ const val TRANSFER_ACCOUNT_LABEL =
 
 
 fun accountQueryCTE(
-    context: Context,
     homeCurrency: String,
     endOfDay: Boolean,
     aggregateFunction: String,
@@ -578,7 +575,7 @@ fun accountQueryCTE(
         "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
         KEY_COLOR,
         "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
-        "${localizedLabelForAccountType(context, "$TABLE_ACCOUNT_TYPES.$KEY_LABEL")} AS $KEY_ACCOUNT_TYPE_LABEL",
+        "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
         KEY_IS_ASSET,
         KEY_SUPPORTS_RECONCILIATION,
         KEY_TYPE,

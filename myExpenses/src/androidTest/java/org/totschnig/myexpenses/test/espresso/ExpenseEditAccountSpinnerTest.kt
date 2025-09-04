@@ -53,7 +53,7 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
 
     @Test
     fun hiddenAccountIsSortedLast() {
-        launch(intentForNewTransaction)
+        launch()
         testScenario.onActivity {
             val expectedOrder = listOf(favoriteAccount.id, account1.id, hiddenAccount.id)
             val actualOrder = buildList {

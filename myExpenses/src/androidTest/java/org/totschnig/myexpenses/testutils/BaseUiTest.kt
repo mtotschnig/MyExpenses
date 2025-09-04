@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -101,7 +102,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         openingBalance: Long = 0L,
         currency: String = homeCurrency.code,
         excludeFromTotals: Boolean = false,
-        dynamicExchangeRates: Boolean = false
+        dynamicExchangeRates: Boolean = false,
+        type: AccountType = AccountType.CASH,
     ) =
         Account(
             label = label,
@@ -109,7 +111,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             currency = currency,
             excludeFromTotals = excludeFromTotals,
             dynamicExchangeRates = dynamicExchangeRates,
-            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+            type = repository.findAccountType(type.name)!!
         ).createIn(repository)
 
     fun deleteAccount(label: String) {
@@ -228,7 +230,6 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     lateinit var testScenario: ActivityScenario<A>
-
 
     protected fun doWithRotation(actions: () -> Unit) {
         val device = UiDevice.getInstance(getInstrumentation())

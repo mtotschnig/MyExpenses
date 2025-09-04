@@ -34,7 +34,7 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
         party = repository.createParty(Party.create(name = "John"))!!
-        testScenario = ActivityScenario.launch(intentForNewTransaction)
+        launch()
         unlock()
         setAmount(200)
         setStoredPayee("John")
