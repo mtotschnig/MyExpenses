@@ -32,6 +32,9 @@ data class Party(
 ) {
     override fun toString() = name
 
+    val isUnused: Boolean
+        get() = !mappedTransactions && !mappedTemplates && !mappedDebts && duplicates.all { it.isUnused }
+
     companion object {
         fun fromCursor(cursor: Cursor) = Party(
             cursor.getLong(KEY_ROWID),

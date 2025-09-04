@@ -544,7 +544,7 @@ class Banking : ProtectedFragmentActivity() {
     }
 
     override fun dispatchCommand(command: Int, tag: Any?) =
-        if (super.dispatchCommand(command, tag)) true else when (command) {
+        super.dispatchCommand(command, tag) || when (command) {
             R.id.DELETE_BANK_COMMAND_DO -> {
                 viewModel.deleteBank(tag as Bank)
                 true

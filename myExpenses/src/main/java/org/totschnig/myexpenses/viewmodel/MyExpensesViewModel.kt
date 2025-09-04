@@ -137,6 +137,7 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -431,23 +432,25 @@ open class MyExpensesViewModel(
         )
 
     @OptIn(SavedStateHandleSaveableApi::class)
-    var balanceDate = savedStateHandle.getLiveData<LocalDate>(KEY_BALANCE_DATE, LocalDate.now()).asFlow()
+    var balanceDate =
+        savedStateHandle.getLiveData<LocalDate>(KEY_BALANCE_DATE, LocalDate.now()).asFlow()
 
     fun setBalanceDate(date: LocalDate) {
         savedStateHandle[KEY_BALANCE_DATE] = date
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> = balanceDate.flatMapLatest { date ->
-        contentResolver.observeQuery(
-            TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
-            selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
-        )
-            .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
-            .map {
-                date to it
-            }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, LocalDate.now() to emptyList())
+    val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> =
+        balanceDate.flatMapLatest { date ->
+            contentResolver.observeQuery(
+                TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
+                selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+            )
+                .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
+                .map {
+                    date to it
+                }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, LocalDate.now() to emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: Flow<Long> = balanceDate.flatMapLatest { date ->
@@ -680,7 +683,8 @@ open class MyExpensesViewModel(
                 transaction.prepareForEdit(contentResolver, true, false)
                 val ops = transaction.buildSaveOperations(contentResolver, true)
                 val newUpdate =
-                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, value)
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                        .withValue(column, value.takeIf { it != NULL_ITEM_ID })
                 if (transaction.isSplit) {
                     var selection = "$KEY_ROWID = ${transaction.id}"
                     if (column == KEY_ACCOUNTID) {
@@ -737,7 +741,7 @@ open class MyExpensesViewModel(
                 }
                 contentResolver.update(
                     TRANSACTIONS_URI,
-                    ContentValues().apply { put(column, value) },
+                    ContentValues().apply { put(column, value.takeIf { it != NULL_ITEM_ID }) },
                     selection,
                     null
                 )
@@ -801,62 +805,62 @@ open class MyExpensesViewModel(
         )?.use { cursor ->
             emit(
                 when (cursor.count) {
-                1 -> {
-                    cursor.moveToFirst()
-                    val accountId = cursor.getLong(KEY_ACCOUNTID)
-                    val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
-                    val amount = Money(
-                        currencyUnit,
-                        cursor.getLong(KEY_AMOUNT)
-                    )
-                    val equivalentAmount = Money(
-                        currencyContext.homeCurrencyUnit,
-                        cursor.getLong(KEY_EQUIVALENT_AMOUNT)
-                    )
-                    val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
-                    val date = cursor.getLong(KEY_DATE)
-                    val crStatus =
-                        enumValueOrDefault(
-                            cursor.getString(KEY_CR_STATUS),
-                            CrStatus.UNRECONCILED
+                    1 -> {
+                        cursor.moveToFirst()
+                        val accountId = cursor.getLong(KEY_ACCOUNTID)
+                        val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
+                        val amount = Money(
+                            currencyUnit,
+                            cursor.getLong(KEY_AMOUNT)
                         )
-                    val parent = SplitTransaction.getNewInstance(
-                        contentResolver,
-                        accountId,
-                        currencyUnit,
-                        false
-                    ).also {
-                        it.amount = amount
-                        it.date = date
-                        it.payeeId = payeeId
-                        it.crStatus = crStatus
-                        it.equivalentAmount = equivalentAmount
+                        val equivalentAmount = Money(
+                            currencyContext.homeCurrencyUnit,
+                            cursor.getLong(KEY_EQUIVALENT_AMOUNT)
+                        )
+                        val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                        val date = cursor.getLong(KEY_DATE)
+                        val crStatus =
+                            enumValueOrDefault(
+                                cursor.getString(KEY_CR_STATUS),
+                                CrStatus.UNRECONCILED
+                            )
+                        val parent = SplitTransaction.getNewInstance(
+                            contentResolver,
+                            accountId,
+                            currencyUnit,
+                            false
+                        ).also {
+                            it.amount = amount
+                            it.date = date
+                            it.payeeId = payeeId
+                            it.crStatus = crStatus
+                            it.equivalentAmount = equivalentAmount
+                        }
+                        val operations = parent.buildSaveOperations(contentResolver, false)
+                        val where = KEY_ROWID + " " + Operation.IN.getOp(count)
+                        val selectionArgs = ids.map { it.toString() }.toTypedArray()
+                        operations.add(
+                            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                                .withValues(ContentValues().apply {
+                                    put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                                    put(KEY_DATE, parent.date)
+                                    putNull(KEY_PAYEEID)
+                                })
+                                .withValueBackReference(KEY_PARENTID, 0)
+                                .withSelection(where, selectionArgs)
+                                .withExpectedCount(count)
+                                .build()
+                        )
+                        contentResolver.applyBatch(AUTHORITY, operations)
+                        Result.success(true)
                     }
-                    val operations = parent.buildSaveOperations(contentResolver, false)
-                    val where = KEY_ROWID + " " + Operation.IN.getOp(count)
-                    val selectionArgs = ids.map { it.toString() }.toTypedArray()
-                    operations.add(
-                        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                            .withValues(ContentValues().apply {
-                                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                                put(KEY_DATE, parent.date)
-                                putNull(KEY_PAYEEID)
-                            })
-                            .withValueBackReference(KEY_PARENTID, 0)
-                            .withSelection(where, selectionArgs)
-                            .withExpectedCount(count)
-                            .build()
-                    )
-                    contentResolver.applyBatch(AUTHORITY, operations)
-                    Result.success(true)
+
+                    0 -> Result.failure(IllegalStateException().also {
+                        CrashHandler.report(it)
+                    })
+
+                    else -> Result.success(false)
                 }
-
-                0 -> Result.failure(IllegalStateException().also {
-                    CrashHandler.report(it)
-                })
-
-                else -> Result.success(false)
-            }
             )
         }
     }

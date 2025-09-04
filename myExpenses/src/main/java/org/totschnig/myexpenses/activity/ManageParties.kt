@@ -18,6 +18,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.PartiesList
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
 const val HELP_VARIANT_MERGE_MODE = "mergeMode"
@@ -72,6 +73,20 @@ class ManageParties : DebtActivity() {
             }
         }
         if (title != 0) supportActionBar!!.setTitle(title)
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        return super.dispatchCommand(command, tag) || when (command) {
+            R.id.DELETE_COMMAND -> {
+                listFragment.doDelete((tag as Bundle).getLong(KEY_ROWID))
+                true
+            }
+            R.id.CLEANUP_COMMAND_DO -> {
+                listFragment.doCleanup()
+                true
+            }
+            else -> false
+        }
     }
 
     override val fabActionName = "CREATE_PARTY"

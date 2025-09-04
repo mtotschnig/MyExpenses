@@ -352,6 +352,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   public static final String QUERY_PARAMETER_SEARCH = "search";
+  public static final String QUERY_PARAMETER_COUNT_UNUSED = "countUnused";
   /**
    * do not honour EXCLUDE_FROM_TOTAL flag
    */
@@ -409,6 +410,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS = "recalculateEquivalentAmounts";
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
+
+  public static final String METHOD_CLEANUP_UNUSED_PAYEES = "cleanupUnusedPayees";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -638,6 +641,12 @@ public class TransactionProvider extends BaseTransactionProvider {
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         }
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_COUNT_UNUSED, false)) {
+          c = measureAndLogQuery(db, uri, COUNT_UNUSED_PAYEE_QUERY, selection, selectionArgs);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        }
+
         qb = SupportSQLiteQueryBuilder.builder(TABLE_PAYEES);
         if (sortOrder == null) {
           sortOrder = KEY_PAYEE_NAME + " COLLATE " + getCollate();
@@ -1726,6 +1735,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(ACCOUNT_TYPES_URI, false);
         notifyChange(ACCOUNTS_URI, false);
         return result;
+      }
+      case METHOD_CLEANUP_UNUSED_PAYEES -> {
+        cleanupUnusedPayees(getHelper().getWritableDatabase());
+        notifyChange(PAYEES_URI, false);
+        return null;
       }
     }
     return null;

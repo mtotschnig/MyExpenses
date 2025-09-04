@@ -722,6 +722,7 @@
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
     <string name="remap_category">All selected transactions will be mapped to category %s.</string>
     <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
+    <string name="remap_payee_null">Payer/payee will be removed from all selected transactions.</string>
     <string name="remap_method">All selected transactions will be mapped to method %s.</string>
     <string name="remap_account">All selected transactions will be mapped to account %s.</string>
     <string name="remapping_result">The selected transactions were remapped.</string>
@@ -1107,4 +1108,9 @@
     <string name="supports_reconciliation">Supports Reconciliation</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
     <string name="select_accounts_for_flag">Select accounts for flag %s</string>
+    <string name="menu_cleanup">Clean up</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d unused party will be deleted.</item>
+        <item quantity="other">%d unused parties will be deleted.</item>
+    </plurals>
 </resources>

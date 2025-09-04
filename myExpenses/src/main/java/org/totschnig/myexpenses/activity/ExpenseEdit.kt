@@ -1129,10 +1129,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (isDirty) {
                 Bundle().apply {
                     putString(
-                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        KEY_MESSAGE,
                         getString(R.string.confirmation_load_template_discard_data)
                     )
-                    putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.LOAD_TEMPLATE_DO)
+                    putInt(KEY_COMMAND_POSITIVE, R.id.LOAD_TEMPLATE_DO)
                     putLong(KEY_ROWID, it.id)
                     ConfirmationDialogFragment.newInstance(this)
                         .show(supportFragmentManager, "CONFIRM_LOAD")

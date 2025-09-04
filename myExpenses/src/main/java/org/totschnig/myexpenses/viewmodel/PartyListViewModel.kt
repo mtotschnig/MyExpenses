@@ -15,17 +15,22 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.cleanupUnusedParties
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.unsetParentId
@@ -39,12 +44,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.CHANGES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_COUNT_UNUSED
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_HIERARCHICAL
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -66,7 +73,7 @@ import timber.log.Timber
 
 const val KEY_EXPANDED_ITEM = "expandedItem"
 
-enum class MergeStrategy(@StringRes val description: Int) {
+enum class MergeStrategy(@param:StringRes val description: Int) {
     DELETE(R.string.merge_parties_strategy_delete),
     GROUP(R.string.merge_parties_strategy_group)
 }
@@ -90,70 +97,92 @@ class PartyListViewModel(
             savedStateHandle[KEY_EXPANDED_ITEM] = value
         }
 
-    fun getDebts(partyId: Long): List<DisplayDebt>? = if (::debts.isInitialized) debts[partyId] else null
+    fun getDebts(partyId: Long): List<DisplayDebt>? =
+        if (::debts.isInitialized) debts[partyId] else null
+
+    val hasDebts: Boolean
+        get() = if (::debts.isInitialized) debts.isNotEmpty() else false
+
+    val unusedCount: StateFlow<Int> by lazy {
+        contentResolver.observeQuery(
+            PAYEES_URI.buildUpon().appendBooleanQueryParameter(QUERY_PARAMETER_COUNT_UNUSED)
+                .build(),
+            notifyForDescendants = true
+        ).mapToOne {
+            it.getInt(0)
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, 0)
+    }
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun parties(hierarchical: Boolean): Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
-        .asFlow()
-        .distinctUntilChanged()
-        .flatMapLatest { filter ->
-            val (selection, selectionArgs) = joinQueryAndAccountFilter(
-                filter,
-                savedStateHandle.get<Long>(KEY_ACCOUNTID),
-                KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
-            )
-            contentResolver.observeQuery(
-                PAYEES_URI.buildUpon().also {
-                    if (hierarchical) it.appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
-                }.build(),
-                null,
-                selection,
-                selectionArgs, null, true
-            ).transform { query ->
-                val list = withContext(Dispatchers.IO) {
-                    query.run()?.use { cursor ->
-                        val items = mutableListOf<Party>()
-                        val duplicates = mutableListOf<Party>()
-                        var currentItem: Party? = null
-                        while (cursor.moveToNext()) {
-                            val element = Party.fromCursor(cursor)
-                            if (hierarchical) {
-                                if (cursor.getLongOrNull(KEY_PARENTID) == null) {
-                                    if (currentItem != null) {
-                                        items.add(currentItem.copy(
-                                            duplicates = buildList { addAll(duplicates) }
-                                        ))
-                                        duplicates.clear()
+    fun parties(hierarchical: Boolean): Flow<List<Party>> =
+        savedStateHandle.getLiveData(KEY_FILTER, "")
+            .asFlow()
+            .distinctUntilChanged()
+            .flatMapLatest { filter ->
+                val (selection, selectionArgs) = joinQueryAndAccountFilter(
+                    filter,
+                    savedStateHandle.get<Long>(KEY_ACCOUNTID),
+                    KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
+                )
+                contentResolver.observeQuery(
+                    PAYEES_URI.buildUpon().also {
+                        if (hierarchical) it.appendBooleanQueryParameter(
+                            QUERY_PARAMETER_HIERARCHICAL
+                        )
+                    }.build(),
+                    null,
+                    selection,
+                    selectionArgs, null, true
+                ).transform { query ->
+                    val list = withContext(Dispatchers.IO) {
+                        query.run()?.use { cursor ->
+                            val items = mutableListOf<Party>()
+                            val duplicates = mutableListOf<Party>()
+                            var currentItem: Party? = null
+                            while (cursor.moveToNext()) {
+                                val element = Party.fromCursor(cursor)
+                                if (hierarchical) {
+                                    if (cursor.getLongOrNull(KEY_PARENTID) == null) {
+                                        if (currentItem != null) {
+                                            items.add(
+                                                currentItem.copy(
+                                                    duplicates = buildList { addAll(duplicates) }
+                                                ))
+                                            duplicates.clear()
+                                        }
+                                        currentItem = element
+                                    } else {
+                                        duplicates.add(element)
                                     }
-                                    currentItem = element
                                 } else {
-                                    duplicates.add(element)
+                                    items.add(element)
                                 }
-                            } else {
-                                items.add(element)
                             }
+                            if (currentItem != null) {
+                                items.add(currentItem.copy(duplicates = buildList {
+                                    addAll(
+                                        duplicates
+                                    )
+                                }))
+                            }
+                            items
                         }
-                        if (currentItem != null) {
-                            items.add(currentItem.copy(duplicates = buildList { addAll(duplicates) }))
-                        }
-                        items
+                    }
+                    if (list != null) {
+                        emit(list)
                     }
                 }
-                if (list != null) {
-                    emit(list)
+            }.combine(
+                savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
+            ) { parties, expandedItem ->
+                if (expandedItem == null) parties else parties.flatMap {
+                    buildList {
+                        add(it)
+                        if (it.id == expandedItem) addAll(it.duplicates)
+                    }
                 }
             }
-        }.combine(
-            savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
-        ) { parties, expandedItem ->
-            if (expandedItem == null) parties else parties.flatMap {
-                buildList {
-                    add(it)
-                    if (it.id == expandedItem) addAll(it.duplicates)
-                }
-            }
-        }
 
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
@@ -207,7 +236,7 @@ class PartyListViewModel(
         old: Set<Long>,
         new: Long,
     ): Criterion {
-        return when(criterion) {
+        return when (criterion) {
             is PayeeCriterion -> {
                 val oldSet = criterion.values.toSet()
                 val newSet: Set<Long> = oldSet.replace(old, new)
@@ -229,9 +258,14 @@ class PartyListViewModel(
                     )
                 } else criterion
             }
+
             is NotCriterion -> NotCriterion(updateCriterion(criterion.criterion, old, new))
-            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
-            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new)}.toSet())
+            is AndCriterion -> AndCriterion(criterion.criteria.map { updateCriterion(it, old, new) }
+                .toSet())
+
+            is OrCriterion -> OrCriterion(criterion.criteria.map { updateCriterion(it, old, new) }
+                .toSet())
+
             else -> criterion
         }
     }
@@ -274,7 +308,8 @@ class PartyListViewModel(
                             put(KEY_PAYEEID, keepId)
                         }
 
-                        val where = "$KEY_PAYEEID IN ($joined, (select $KEY_ROWID from $TABLE_PAYEES where $KEY_PARENTID IN ($joined)))"
+                        val where =
+                            "$KEY_PAYEEID IN ($joined, (select $KEY_ROWID from $TABLE_PAYEES where $KEY_PARENTID IN ($joined)))"
                         add(
                             newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, -1)
                                 .withSelection("$KEY_SEALED = 1", null).build()
@@ -358,5 +393,9 @@ class PartyListViewModel(
 
     fun removeDuplicateFromGroup(id: Long) {
         repository.unsetParentId(id)
+    }
+
+    fun cleanup() {
+        repository.cleanupUnusedParties()
     }
 }
