@@ -86,7 +86,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         val payee = "John Doe"
         extras.putString(Transactions.PAYEE_NAME, payee)
         val transaction = buildFromExtras(extras)
-        assertEquals(payee, transaction.payee)
+        assertEquals(payee, transaction.party?.name)
     }
 
     @Test

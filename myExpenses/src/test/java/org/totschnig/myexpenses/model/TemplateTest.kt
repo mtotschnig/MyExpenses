@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @RunWith(RobolectricTestRunner::class)
@@ -89,7 +90,7 @@ class TemplateTest: BaseTestWithRepository() {
         val transaction = Transaction.getInstanceFromTemplate(contentResolver, template)
         assertThat(transaction.catId).isEqualTo(template.catId)
         assertThat(transaction.accountId).isEqualTo(template.accountId)
-        assertThat(transaction.payeeId).isEqualTo(template.payeeId)
+        assertThat(transaction.party).isEqualTo(template.party)
         assertThat(transaction.methodId).isEqualTo(template.methodId)
         assertThat(transaction.comment).isEqualTo(template.comment)
     }
@@ -154,8 +155,7 @@ class TemplateTest: BaseTestWithRepository() {
 
     private fun buildTransactionTemplate() = Template(contentResolver, mAccount1, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
-        payee = "N.N"
-        payeeId = this@TemplateTest.payeeId
+        party = DisplayParty(payeeId, "N.N")
         comment = "Some comment"
         repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).let {
             assertThat(it).isGreaterThan(-1L)

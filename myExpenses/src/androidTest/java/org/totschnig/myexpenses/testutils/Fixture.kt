@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findCategory
+import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model.CrStatus
@@ -41,6 +42,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import timber.log.Timber
@@ -325,7 +327,7 @@ class Fixture(inst: Instrumentation) {
                 )
             )
         template.title = templateSubCat
-        template.payee = johnDoe
+        template.party = DisplayParty(repository.requireParty(johnDoe), johnDoe)
         planId = ContentUris.parseId(
             Plan(
                 LocalDate.now(),
@@ -451,7 +453,7 @@ class Fixture(inst: Instrumentation) {
             crStatus?.let {
                 transaction.crStatus = it
             }
-            transaction.payee = payee
+            transaction.party = payee?.let { DisplayParty(repository.requireParty(it), it) }
             transaction.comment = comment
             transaction.parentId = parentId
             transaction.save(repository.contentResolver)

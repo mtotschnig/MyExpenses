@@ -460,7 +460,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.Amount
                 )
             ).check(matches(withText(formatAmount(1.23f))))
-            onView(withId(R.id.Payee))
+            onView(withId(R.id.auto_complete_textview))
                 .check(matches(withText("John Doe")))
             onView(withId(R.id.Comment))
                 .check(matches(withText("A note")))

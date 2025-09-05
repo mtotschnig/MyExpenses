@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
@@ -53,7 +54,7 @@ data class DisplayParty(
             DisplayParty(
                 it,
                 cursor.getString(KEY_PAYEE_NAME),
-                cursor.getString(KEY_SHORT_NAME)
+                cursor.getStringOrNull(KEY_SHORT_NAME)
             )
         }
     }
@@ -89,8 +90,8 @@ class PartyInput @JvmOverloads constructor(
     var party: DisplayParty? = null
         set(value) {
             field = value
-            if (value == null) {
-                autoCompleteTextView.text = null
+            if (value?.id == null) {
+                autoCompleteTextView.setText(value?.name)
                 switchView(INDEX_AUTOCOMPLETE_TEXTVIEW)
             } else {
                 selectedItemChip.text = value.name

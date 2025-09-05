@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
+import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.UTF_8_BOM
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.ui.DisplayParty
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
@@ -120,7 +122,7 @@ class ExportTest : BaseTestWithRepository() {
         contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
         op.amount = (Money(CurrencyUnit.DebugInstance, expense2))
         op.catId = cat1Id
-        op.payee = "N.N."
+        op.party = DisplayParty(repository.requireParty("N.N."), "N.N.")
         op.crStatus = CrStatus.UNRECONCILED
         op.referenceNumber = "2"
         op.date = baseSinceEpoch + 1
@@ -128,7 +130,7 @@ class ExportTest : BaseTestWithRepository() {
         uuidList.add(op.uuid!!)
         op.amount = Money(CurrencyUnit.DebugInstance, income1)
         op.catId = cat2Id
-        op.payee = null
+        op.party = null
         op.methodId = null
         op.referenceNumber = null
         op.date = baseSinceEpoch + 2
@@ -159,7 +161,7 @@ class ExportTest : BaseTestWithRepository() {
         ) ?: throw IllegalStateException()
         split.amount = Money(CurrencyUnit.DebugInstance, split1)
         split.date = baseSinceEpoch + 6
-        split.payee = "N.N."
+        split.party = DisplayParty(repository.requireParty("N.N."), "N.N.")
         val part = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance, split.id)
             ?: throw IllegalStateException()
         part.amount = Money(CurrencyUnit.DebugInstance, part1)
@@ -191,7 +193,7 @@ class ExportTest : BaseTestWithRepository() {
             save(contentResolver)
             amount = Money(CurrencyUnit.DebugInstance, income3)
             comment = "Income inserted after first export"
-            payee = "N.N."
+            party = DisplayParty(repository.requireParty("N.N."), "N.N")
             methodId = null
             referenceNumber = null
             date = baseSinceEpoch + 1

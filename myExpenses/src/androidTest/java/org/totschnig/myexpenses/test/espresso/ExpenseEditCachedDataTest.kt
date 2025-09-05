@@ -40,7 +40,7 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
         setStoredPayee("John")
         typeToAndCloseKeyBoard(R.id.Comment, "Kommentar")
         setOperationType(TransactionsContract.Transactions.TYPE_SPLIT)
-        onView(withId(R.id.Payee)).check(matches(withText("John")))
+        onView(withId(R.id.selected_item_chip)).check(matches(withText("John")))
         checkAmount(200)
         onView(withId(R.id.Comment)).check(matches(withText("Kommentar")))
     }

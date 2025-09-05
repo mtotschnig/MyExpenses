@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import static org.totschnig.myexpenses.db2.RepositoryPartyKt.requireParty;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 import android.content.ContentValues;
@@ -33,6 +34,7 @@ import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.InstrumentationRegistryUtilsKt;
 import org.totschnig.myexpenses.testutils.ModelTest;
+import org.totschnig.myexpenses.ui.DisplayParty;
 
 import java.util.Date;
 
@@ -79,7 +81,7 @@ public class TransactionWithChangeTriggersTest extends ModelTest {
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
-    op1.setPayee(payee);
+    op1.setParty(new DisplayParty(requireParty(getRepository(), payee), payee, null));
     op1.save(getContentResolver());
     assertTrue(op1.getId() > 0);
     assertEquals(start  + 1, getRepository().getSequenceCount());

@@ -72,7 +72,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedCount(TransactionProvider.TEMPLATES_UNCOMMITTED_URI, count)
     }
 
-    private fun launch(
+    private fun launchWithAccountSetup(
         excludeFromTotals: Boolean = false,
         configureIntent: Intent.() -> Unit = {},
     ) {
@@ -81,7 +81,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun launchEdit(excludeFromTotals: Boolean = false) {
-        launch(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit(account1.id)) }
+        launchWithAccountSetup(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit(account1.id)) }
     }
 
     @After
@@ -98,7 +98,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun bug987() {
         val account2 = buildAccount("Test Account 2")
-        launch()
+        launchWithAccountSetup()
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         setAmount(50)
@@ -122,7 +122,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun bug1664() {
         buildAccount("Test Account 2") //for transfer
-        launch()
+        launchWithAccountSetup()
         setAmount(10)
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND)
@@ -137,7 +137,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledSplitCleanup() {
-        launch()
+        launchWithAccountSetup()
         assertUncommittedTransactions(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
@@ -147,7 +147,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledTemplateSplitCleanup() {
-        launch { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
+        launchWithAccountSetup { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
         assertUncommittedTemplates(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
@@ -189,7 +189,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun createPartAndSave() {
-        launch()
+        launchWithAccountSetup()
         verifyTypeToggle(false)
         createParts(5)
         verifyTypeToggle(true)
@@ -200,7 +200,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun withAccountExcludedFromTotalsCreateNewSplit() {
-        launch(excludeFromTotals = true)
+        launchWithAccountSetup(excludeFromTotals = true)
         createParts(1)
         clickFab()
         assertFinishing()
@@ -262,7 +262,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun create_and_save() {
-        launch()
+        launchWithAccountSetup()
         createParts(1)
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new on
         clickFab()
@@ -280,7 +280,7 @@ class SplitEditTest : BaseExpenseEditTest() {
      */
     @Test
     fun createPartsWhichFlipSign() {
-        launch()
+        launchWithAccountSetup()
         createParts(1, 50)
         createParts(1, 100, true, initialChildCount = 1)
     }

@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.ui.DisplayParty
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private lateinit var account: Account
@@ -39,14 +40,14 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
-        op.payee = payee1
+        op.party = DisplayParty(p1, payee1)
         op.save(contentResolver)
-        op.payee = payee2
+        op.party = DisplayParty(p2, payee2)
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
         d = repository.createParty(Party(name = duplicate))!!.id
         repository.setParentId(d, p2)
-        op.payee = duplicate
+        op.party = DisplayParty(d, duplicate)
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
         launch(account.id)

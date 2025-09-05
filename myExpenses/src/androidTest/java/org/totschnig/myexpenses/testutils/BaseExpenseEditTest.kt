@@ -76,7 +76,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     }
 
     fun setStoredPayee(payee: String) {
-        typeToAndCloseKeyBoard(R.id.Payee, payee.first().toString())
+        typeToAndCloseKeyBoard(R.id.auto_complete_textview, payee.first().toString())
         onView(withText(payee))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(click())
@@ -87,7 +87,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                 withText(R.string.response_yes)
             )
         ).perform(click())
-        onView(withId(R.id.Payee)).check(matches(withText(payee)))
+        onView(withId(R.id.auto_complete_textview)).check(matches(withText(payee)))
     }
 
     fun setOperationType(@TransactionsContract.Transactions.TransactionType operationType: Int) {
