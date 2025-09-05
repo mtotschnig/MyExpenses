@@ -29,12 +29,14 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
 import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
+import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -406,6 +408,23 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         }.takeIf { it.isNotEmpty() }
         return selection to joinArrays(filterSelectionArgs, accountSelectionArgs)
     }
+
+    fun saveParty(id: Long, name: String, shortName: String?): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            val party = org.totschnig.myexpenses.model2.Party.create(
+                id = id,
+                name = name,
+                shortName = shortName
+            )
+            emit(
+                try {
+                    if (id == 0L) repository.createParty(party) else repository.saveParty(party)
+                    true
+                } catch (_: SQLiteConstraintException) {
+                    false
+                }
+            )
+        }
 
     /*    fun loadDebugDebts(count: Int = 10) {
             debts.postValue(List(

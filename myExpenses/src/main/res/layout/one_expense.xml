@@ -283,14 +283,10 @@
                         android:labelFor="@+id/Payee"
                         android:text="@string/payee" />
 
-                    <AutoCompleteTextView
+                    <org.totschnig.myexpenses.ui.PartyInput
                         android:id="@+id/Payee"
                         style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:completionThreshold="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textCapWords" />
-
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow

@@ -1405,7 +1405,7 @@ abstract class BaseTransactionDatabase(
                 )
             )
         }
-        append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
+        append(" SELECT $tableName.*, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_PAYEES.$KEY_PAYEE_NAME, ")
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
         if (tableName != TABLE_CHANGES) {

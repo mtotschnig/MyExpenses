@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model.Money.Companion.buildWithMicros
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.ui.DisplayParty
 
 object ProviderUtils {
     //TODO add tags to contract
@@ -48,10 +49,11 @@ object ProviderUtils {
                 if (date != 0L) {
                     this.date = date
                 }
-                val payeeName = extras.getString(Transactions.PAYEE_NAME)
-                if (!TextUtils.isEmpty(payeeName)) {
-                    payee = payeeName
-                }
+                extras.getString(Transactions.PAYEE_NAME)
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let {
+                        party = DisplayParty(null, it)
+                    }
                 if (this !is Transfer) {
                     val categoryLabel = extras.getString(Transactions.CATEGORY_LABEL)
                     if (!TextUtils.isEmpty(categoryLabel)) {

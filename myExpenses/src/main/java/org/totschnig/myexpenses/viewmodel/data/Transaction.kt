@@ -34,10 +34,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
@@ -64,6 +66,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
@@ -78,7 +81,7 @@ data class Transaction(
     val valueDate: Long,
     override val comment: String?,
     val catId: Long?,
-    val payee: String,
+    val party: DisplayParty?,
     val methodLabel: String?,
     override val categoryPath: String?,
     override val transferAccount: String?,
@@ -121,7 +124,9 @@ data class Transaction(
             KEY_CATID,
             KEY_PATH,
             TRANSFER_ACCOUNT_LABEL,
+            KEY_PAYEEID,
             KEY_PAYEE_NAME,
+            KEY_SHORT_NAME,
             KEY_TRANSFER_PEER,
             KEY_TRANSFER_ACCOUNT,
             TRANSFER_CURRENCY,
@@ -177,7 +182,7 @@ data class Transaction(
                 valueDate = getLongOrNull(KEY_VALUE_DATE) ?: date,
                 comment = getStringOrNull(KEY_COMMENT),
                 catId = getLongOrNull(KEY_CATID),
-                payee = getString(KEY_PAYEE_NAME),
+                party = DisplayParty.fromCursor(this),
                 methodLabel = getStringOrNull(KEY_METHOD_LABEL),
                 categoryPath = getStringOrNull(KEY_PATH, allowEmpty = true),
                 transferAccount = getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),

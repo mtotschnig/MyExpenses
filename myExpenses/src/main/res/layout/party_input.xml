@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_switcher"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:inAnimation="@android:anim/fade_in"
+    android:outAnimation="@android:anim/fade_out">
+
+    <AutoCompleteTextView
+        android:id="@+id/auto_complete_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:imeOptions="actionNext"
+        android:inputType="textPersonName|textCapWords" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/selected_item_chip"
+            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:closeIcon="@drawable/ic_menu_edit"
+            app:closeIconVisible="true"
+            tools:text="Sample Chip Text" />
+
+        <ImageView
+            android:id="@+id/button_clear"
+            style="?actionButtonStyle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Clear text"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
+
+</ViewSwitcher>
+

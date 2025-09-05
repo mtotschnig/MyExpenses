@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_POSITION
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_STRATEGY
+import org.totschnig.myexpenses.dialog.buildPartyEditDialog
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -212,8 +213,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
                 if (party.isDuplicate) {
-                    menu.add(Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
-                        getString(R.string.remove_from_group))
+                    menu.add(
+                        Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
+                        getString(R.string.remove_from_group)
+                    )
                         .setIcon(R.drawable.ic_group_remove)
                 }
                 if (action == Action.MANAGE) {
@@ -284,6 +287,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 putExtra(KEY_PAYEE_NAME, party.name)
                             })
                         }
+
                         REMOVE_FROM_GROUP_COMMAND -> {
                             viewModel.removeDuplicateFromGroup(party.id)
                         }
@@ -447,12 +451,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 startActivity(Intent(context, DebtOverview::class.java))
                 true
             }
+
             R.id.CLEANUP_COMMAND -> {
                 val unusedCount = viewModel.unusedCount.value
                 (requireActivity() as BaseActivity).showConfirmationDialog(
                     tag = "CLEANUP_PARTIES",
                     message =
-                        resources.getQuantityString(R.plurals.warning_cleanup_parties, unusedCount, unusedCount) +
+                        resources.getQuantityString(
+                            R.plurals.warning_cleanup_parties,
+                            unusedCount,
+                            unusedCount
+                        ) +
                                 " " + getString(R.string.continue_confirmation),
                     commandPositive = R.id.CLEANUP_COMMAND_DO,
                 )
@@ -467,7 +476,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             invalidateOptionsMenu()
             configureFloatingActionButton()
             setFabEnabled(!mergeMode)
-            setHelpVariant(if(mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
+            setHelpVariant(if (mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
         }
     }
 
@@ -562,7 +571,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_DEBT_DETAILS = "DEBT_DETAILS"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
-        const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
         const val SELECT_COMMAND = -1
         const val EDIT_COMMAND = -2
         const val DELETE_COMMAND = -3
@@ -629,30 +637,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
         } else if (mergeMode) {
             val selected = adapter.getSelected().map { it.name }.toTypedArray()
-            MergePartiesDialogFragment.newInstance(selected).show(childFragmentManager, DIALOG_MERGE_PARTY)
+            MergePartiesDialogFragment.newInstance(selected)
+                .show(childFragmentManager, DIALOG_MERGE_PARTY)
         } else {
             showEditDialog(null)
         }
     }
 
     private fun showEditDialog(party: Party?) {
-        SimpleFormDialog.build()
-            .fields(
-                Input.name(KEY_PAYEE_NAME)
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                    .required()
-                    .hint(R.string.full_name).text(party?.name),
-                Input.name(KEY_SHORT_NAME)
-                    .hint(R.string.nickname).text(party?.shortName)
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            )
-            .title(if (party == null) R.string.menu_create_party else R.string.menu_edit_party)
-            .cancelable(false)
-            .pos(if (party == null) R.string.menu_add else R.string.menu_save)
-            .neut()
-            .extra(Bundle().apply {
-                putLong(KEY_ROWID, party?.id ?: 0L)
-            })
+        buildPartyEditDialog(party?.id, party?.name, party?.shortName)
             .show(this, DIALOG_EDIT_PARTY)
     }
 

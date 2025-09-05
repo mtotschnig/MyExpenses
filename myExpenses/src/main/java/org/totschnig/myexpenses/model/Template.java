@@ -82,6 +82,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.ui.DisplayParty;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -165,7 +166,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setComment(t.getComment());
     setMethodId(t.getMethodId());
     setMethodLabel(t.getMethodLabel());
-    setPayee(t.getPayee());
+    setParty(t.getParty());
     if (isSplit()) {
       persistForEdit(contentResolver);
       Cursor c = contentResolver.query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
@@ -228,24 +229,15 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return template.getMethodLabel();
   }
 
+
   @Override
-  public void setPayeeId(Long payeeId) {
-    template.setPayeeId(payeeId);
+  public void setParty(@Nullable DisplayParty displayParty) {
+    template.setParty(displayParty);
   }
 
   @Override
-  public Long getPayeeId() {
-    return template.getPayeeId();
-  }
-
-  @Override
-  public void setPayee(String payee) {
-    template.setPayee(payee);
-  }
-
-  @Override
-  public String getPayee() {
-    return template.getPayee();
+  public DisplayParty getParty() {
+    return template.getParty();
   }
 
   @Override
@@ -311,7 +303,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         setCatId(catId);
       }
       setMethodId(getLongOrNull(c, KEY_METHODID));
-      setPayee(getString(c, KEY_PAYEE_NAME));
+      setParty(DisplayParty.Companion.fromCursor(c));
       setMethodLabel(getString(c, KEY_METHOD_LABEL));
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
@@ -496,10 +488,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     Uri uri;
     Long payeeStore;
-    if (getPayeeId() != null) {
-      payeeStore = getPayeeId();
-    } else if (!android.text.TextUtils.isEmpty(getPayee())) {
-      payeeStore = RepositoryPartyKt.requireParty(contentResolver, getPayee());
+    if (getParty() != null) {
+      payeeStore = getParty().getId();
     } else {
       payeeStore = null;
     }

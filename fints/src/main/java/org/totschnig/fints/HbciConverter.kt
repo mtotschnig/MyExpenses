@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Party
+import org.totschnig.myexpenses.ui.DisplayParty
 import java.util.zip.CRC32
 
 
@@ -75,7 +76,9 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
                 payeeId?.let { it to repository.autoFill(it) }
                     ?: repository.createParty(party)?.let {  it.id to null }
             }
-            transaction.payeeId = payeeInfo?.first
+            payeeInfo?.let {
+                transaction.party = DisplayParty(payeeInfo.first, party.name)
+            }
             payeeInfo?.second?.categoryId?.let {
                 transaction.catId = it
             }

@@ -644,7 +644,7 @@ object PdfPrinter {
                     )
 
                     Notes -> listOf(comment)
-                    Payee -> listOf(payee)
+                    Payee -> listOf(party?.displayName)
                     Tags -> listOf(tagList.joinToString { it.second })
 
                     ReferenceNumber -> listOf(referenceNumber)

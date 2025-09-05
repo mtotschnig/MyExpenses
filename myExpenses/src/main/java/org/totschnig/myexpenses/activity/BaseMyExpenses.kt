@@ -1359,28 +1359,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                             )
                                                         }
                                                     }
-                                                    if (transaction.payeeId != null) {
-                                                        if (transaction.payee != null) {
-                                                            add(
-                                                                MenuEntry(
-                                                                    label = UiText.StringValue(
-                                                                        transaction.payee
-                                                                    ),
-                                                                    command = "FILTER_FOR_PAYEE"
-                                                                ) {
-                                                                    addFilterCriterion(
-                                                                        PayeeCriterion(
-                                                                            transaction.payee,
-                                                                            transaction.payeeId
-                                                                        )
+                                                    if (transaction.party?.id != null) {
+                                                        add(
+                                                            MenuEntry(
+                                                                label = UiText.StringValue(
+                                                                    transaction.party.name
+                                                                ),
+                                                                command = "FILTER_FOR_PAYEE"
+                                                            ) {
+                                                                addFilterCriterion(
+                                                                    PayeeCriterion(
+                                                                        transaction.party.name,
+                                                                        transaction.party.id
                                                                     )
-                                                                }
-                                                            )
-                                                        } else {
-                                                            CrashHandler.report(
-                                                                IllegalStateException("Payee is null")
-                                                            )
-                                                        }
+                                                                )
+                                                            }
+                                                        )
                                                     }
                                                     if (transaction.methodId != null) {
                                                         val label =

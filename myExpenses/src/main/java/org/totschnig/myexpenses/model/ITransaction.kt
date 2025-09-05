@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -19,7 +20,7 @@ interface ITransaction: IModel {
     var equivalentAmount: Money?
     var originalAmount: Money?
     var referenceNumber: String?
-    var payee: String?
+    var party: DisplayParty?
     var comment: String?
     var valueDate: Long
     var date: Long
@@ -30,7 +31,6 @@ interface ITransaction: IModel {
     var parentId: Long?
     var originPlanInstanceId: Long?
     var originPlanId: Long?
-    var payeeId: Long?
     var debtId: Long?
 
     val isTransfer: Boolean

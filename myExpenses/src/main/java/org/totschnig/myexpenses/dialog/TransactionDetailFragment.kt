@@ -427,15 +427,17 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 content = transaction.comment
             )
         }
-        if (transaction.payee != "" || transaction.debtLabel != null) {
+        if (transaction.party != null || transaction.debtLabel != null) {
             TableRow(
                 label = when {
-                    transaction.payee == "" -> R.string.debt
+                    transaction.party == null -> R.string.debt
                     isIncome -> R.string.payer
                     else -> R.string.payee
                 },
                 content = buildString {
-                    append(transaction.payee)
+                    transaction.party?.let {
+                        append(it.displayName)
+                    }
                     transaction.debtLabel?.let {
                         append(" ($it)")
                     }
@@ -637,12 +639,12 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         }
                     }
                     if (parentIsArchive) {
-                        part.payee.takeIf { it.isNotEmpty() }?.let {
+                        part.party?.let {
                             if (length > 0) {
                                 append(COMMENT_SEPARATOR)
                             }
                             withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                append(it)
+                                append(it.displayName)
                             }
                         }
                     } else {

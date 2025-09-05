@@ -1,21 +1,14 @@
 package org.totschnig.myexpenses.delegate
 
-import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
-import android.widget.AdapterView
-import android.widget.FilterQueryProvider
-import android.widget.ListPopupWindow
-import android.widget.SimpleCursorAdapter
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.bold
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
@@ -34,16 +27,12 @@ import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED
 import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -79,8 +68,9 @@ abstract class MainDelegate<T : ITransaction>(
         get() = viewBinding.EquivalentAmount.userSetExchangeRate
 
     private var debts: List<DisplayDebt> = emptyList()
-    private lateinit var payeeAdapter: SimpleCursorAdapter
 
+    val payeeId
+        get() = viewBinding.Payee.party?.id
 
     override fun bind(
         transaction: T?,
@@ -97,7 +87,6 @@ abstract class MainDelegate<T : ITransaction>(
             withAutoFill
         )
 
-        payeeId = host.parentPayeeId
         viewBinding.EquivalentAmount.addTextChangedListener(amountChangeWatcher)
 
         if (isSplitPart) {
@@ -180,10 +169,7 @@ abstract class MainDelegate<T : ITransaction>(
         return buildMainTransaction(account).apply {
             this.amount = amount
             if (!isSplitPart) {
-                if (this@MainDelegate.payeeId != null) {
-                    this.payeeId = this@MainDelegate.payeeId
-                }
-                payee = viewBinding.Payee.text.toString().trim()
+                this.party = viewBinding.Payee.partyForSave
             }
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
@@ -220,13 +206,44 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
-        createPayeeAdapter(withAutoFill)
+        viewBinding.Payee.createPayeeAdapter(
+            withInputMethodNeeded = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]
+        ) { partyId ->
+            handleDebts()
+            if (partyId != null) {
+                if (withAutoFill && shouldAutoFill) {
+                    if (shouldStartAutoFill(prefHandler)) {
+                        host.startAutoFill(partyId, false)
+                    } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
+                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                            putLong(KEY_ROWID, partyId)
+                            putInt(KEY_TITLE, R.string.information)
+                            putString(
+                                KEY_MESSAGE,
+                                context.getString(R.string.hint_auto_fill)
+                            )
+                            putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
+                            putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
+                            putString(
+                                KEY_PREFKEY,
+                                prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
+                            )
+                            putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                            putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
+                        }).show(
+                            (context as FragmentActivity).supportFragmentManager,
+                            "AUTO_FILL_HINT"
+                        )
+                    }
+                }
+            }
+        }
         super.createAdapters(withTypeSpinner, withAutoFill)
     }
 
     override fun populateFields(transaction: T, withAutoFill: Boolean) {
         if (!isSplitPart) {
-            viewBinding.Payee.setText(transaction.payee)
+            viewBinding.Payee.party = transaction.party
         }
         transaction.equivalentAmount?.let {
             viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
@@ -257,83 +274,8 @@ abstract class MainDelegate<T : ITransaction>(
 
     abstract fun buildMainTransaction(account: Account): T
 
-    private fun createPayeeAdapter(withAutoFill: Boolean) {
-        payeeAdapter = SimpleCursorAdapter(
-            context,
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            null,
-            arrayOf(KEY_PAYEE_NAME),
-            intArrayOf(android.R.id.text1),
-            0
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]) {
-            viewBinding.Payee.inputMethodMode = ListPopupWindow.INPUT_METHOD_NEEDED
-        }
-        viewBinding.Payee.setAdapter(payeeAdapter)
-        payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
-            if (constraint != null) {
-                val (selection, selectArgs) =
-                    " AND ${Party.SELECTION}" to Party.selectionArgs(
-                        Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
-                    )
-                context.contentResolver.query(
-                    TransactionProvider.PAYEES_URI,
-                    arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                    "$KEY_PARENTID IS NULL $selection",
-                    selectArgs,
-                    null
-                )
-            } else null
-        }
-        payeeAdapter.stringConversionColumn = 1
-        viewBinding.Payee.onItemClickListener =
-            AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                val c = payeeAdapter.getItem(position) as Cursor
-                if (c.moveToPosition(position)) {
-                    c.getLong(0).let {
-                        payeeId = it
-                        handleDebts()
-                        if (withAutoFill && shouldAutoFill) {
-                            if (shouldStartAutoFill(prefHandler)) {
-                                host.startAutoFill(it, false)
-                            } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
-                                ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                    putLong(KEY_ROWID, it)
-                                    putInt(KEY_TITLE, R.string.information)
-                                    putString(
-                                        KEY_MESSAGE,
-                                        context.getString(R.string.hint_auto_fill)
-                                    )
-                                    putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
-                                    putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
-                                    putString(
-                                        KEY_PREFKEY,
-                                        prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
-                                    )
-                                    putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
-                                    putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
-                                }).show(
-                                    (context as FragmentActivity).supportFragmentManager,
-                                    "AUTO_FILL_HINT"
-                                )
-                            }
-                        }
-                    }
-
-                }
-            }
-    }
-
     override fun onDestroy() {
-        if (::payeeAdapter.isInitialized) {
-            payeeAdapter.cursor?.let {
-                if (!it.isClosed) {
-                    it.close()
-                }
-            }
-        } else {
-            CrashHandler.report(IllegalStateException("PayeeAdapter not initialized"))
-        }
+        viewBinding.Payee.onDestroy()
     }
 
     fun setDebts(debts: List<DisplayDebt>) {
@@ -473,16 +415,16 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
-        if (viewBinding.Payee.text.isEmpty()) {
+        val party = viewBinding.Payee.party
+        if (party == null) {
             val focussed: Boolean = viewBinding.Payee.hasFocus()
             if (focussed) {
                 viewBinding.Payee.clearFocus()
             }
-            viewBinding.Payee.setText(debt.payeeName)
+            viewBinding.Payee.party = DisplayParty(debt.payeeId, debt.payeeName)
             if (focussed) {
                 viewBinding.Amount.requestFocus()
             }
-            payeeId = debt.payeeId
         }
     }
 
@@ -510,16 +452,6 @@ abstract class MainDelegate<T : ITransaction>(
 
     private fun singleDebtForPayee(debts: List<DisplayDebt>) =
         if (debts.size == 1) debts.first().takeIf { it.payeeId == payeeId } else null
-
-    override fun setupListeners(watcher: TextWatcher) {
-        super.setupListeners(watcher)
-        viewBinding.Payee.addTextChangedListener {
-            if (viewBinding.Payee.isFocused) {
-                payeeId = null
-                handleDebts()
-            }
-        }
-    }
 
     fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->

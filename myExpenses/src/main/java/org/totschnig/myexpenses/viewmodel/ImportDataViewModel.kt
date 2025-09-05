@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.io.FileUtils
 
 data class ImportResult(val label: String, val successCount: Int)
@@ -151,7 +152,9 @@ abstract class ImportDataViewModel(application: Application) :
     ) {
         for (transaction in transactions) {
             val t = transaction.toTransaction(account, currencyUnit)
-            t.payeeId = payeeToId[transaction.payee]
+            t.party = transaction.payee?.let {
+                DisplayParty(payeeToId[it], it)
+            }
             findToAccount(transaction, t)
             if (transaction.splits != null) {
                 t.save(contentResolver)
@@ -192,7 +195,7 @@ abstract class ImportDataViewModel(application: Application) :
 
     private fun findCategory(transaction: ImportTransaction, t: Transaction, autofill: Boolean) {
         t.catId = categoryToId[transaction.category] ?: when {
-            autofill -> t.payeeId?.let {
+            autofill -> t.party?.id?.let {
                 (autoFillCache[it] ?: repository.autoFill(it)
                     ?.apply { autoFillCache[it] = this })?.categoryId
             }

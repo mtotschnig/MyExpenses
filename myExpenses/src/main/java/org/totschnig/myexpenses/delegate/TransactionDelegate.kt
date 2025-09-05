@@ -213,9 +213,6 @@ abstract class TransactionDelegate<T : ITransaction>(
     var uuid: String? = null
 
     @State
-    var payeeId: Long? = null
-
-    @State
     var debtId: Long? = null
 
     @State
@@ -268,7 +265,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
-            payeeId = transaction.payeeId
             debtId = transaction.debtId
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legacy virtual keyboards where configuring the

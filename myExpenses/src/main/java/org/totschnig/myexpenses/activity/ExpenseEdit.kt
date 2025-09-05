@@ -91,6 +91,7 @@ import org.totschnig.myexpenses.dialog.OnCriterionDialogDismissedListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
+import org.totschnig.myexpenses.fragment.PartiesList.Companion.DIALOG_EDIT_PARTY
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.injector
@@ -119,7 +120,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
@@ -128,6 +131,7 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -881,7 +885,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
                 }
                 ocrResultFlat.payee?.let {
-                    rootBinding.Payee.setText(it.name)
+                    rootBinding.Payee.party = DisplayParty(it.id, it.name)
                     startAutoFill(it.id, true)
                 }
             }
@@ -915,8 +919,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.valueDate = cached.valueDate
             transaction.crStatus = cached.crStatus
             transaction.comment = cached.comment
-            transaction.payee = cached.payee
-            transaction.payeeId = cached.payeeId
+            transaction.party = cached.party
             (transaction as? Template)?.let { template ->
                 with(cached.cachedTemplate!!) {
                     template.title = title
@@ -1734,8 +1737,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val valueDate: Long,
         val crStatus: CrStatus,
         val comment: String?,
-        val payeeId: Long?,
-        val payee: String?,
+        val party: DisplayParty?,
         val cachedTemplate: CachedTemplate?,
         val referenceNumber: String?,
         val amount: Money,
@@ -1761,8 +1763,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             valueDate,
             crStatus,
             comment,
-            payeeId,
-            payee,
+            party,
             (this as? Template)?.run {
                 CachedTemplate(
                     title,
@@ -1849,4 +1850,33 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             doFinish()
         }
     }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
+        super.onResult(dialogTag, which, extras) || if (which == BUTTON_POSITIVE) {
+            when (dialogTag) {
+                DIALOG_EDIT_PARTY -> {
+                    val name = extras.getString(KEY_PAYEE_NAME)!!
+                    val shortName = extras.getString(KEY_SHORT_NAME)
+                    val id = extras.getLong(KEY_ROWID)
+                    viewModel.saveParty(
+                        id,
+                        name,
+                        shortName
+                    ).observe(this) {
+                        if (it) {
+                            rootBinding.Payee.party = DisplayParty(id, name, shortName)
+                        } else {
+                            showSnackBar(
+                                getString(
+                                    R.string.already_defined,
+                                    name
+                                )
+                            )
+                        }
+                    }
+                    true
+                }
+                else -> false
+            }
+        } else false
 }

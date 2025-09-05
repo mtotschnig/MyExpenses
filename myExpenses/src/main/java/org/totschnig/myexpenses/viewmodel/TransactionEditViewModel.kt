@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.AccountFlag
@@ -92,6 +93,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -189,6 +191,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     fun save(transaction: ITransaction, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             emit(runCatching {
+                transaction.party?.let {
+                    if (it.id == null) {
+                        transaction.party = DisplayParty(repository.requireParty(it.name), it.name)
+                    }
+                }
 
                 transaction.save(contentResolver, plannerUtils, true)
 
@@ -479,7 +486,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
             ) {
                 Pair(
-                    Template(contentResolver, this, payee ?: categoryPath),
+                    Template(contentResolver, this, party?.name ?: categoryPath),
                     this.loadTags(contentResolver)
                 )
             }

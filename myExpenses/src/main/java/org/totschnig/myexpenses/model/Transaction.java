@@ -42,6 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -84,6 +85,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.UriExtKt;
+import org.totschnig.myexpenses.ui.DisplayParty;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -106,7 +108,7 @@ import kotlin.Triple;
  */
 public class Transaction extends Model implements ITransaction {
   private String comment = "";
-  private String payee = "";
+  private DisplayParty party = null;
   private String referenceNumber = "";
   private String categoryPath = "";
   /**
@@ -123,7 +125,6 @@ public class Transaction extends Model implements ITransaction {
   private Long methodId;
   private String methodLabel = null;
   private Long parentId = null;
-  private Long payeeId = null;
   private Long debtId = null;
   private String categoryIcon = null;
   private boolean isSealed = false;
@@ -201,16 +202,14 @@ public class Transaction extends Model implements ITransaction {
     this.methodLabel = methodLabel;
   }
 
-  public String getPayee() {
-    return payee;
+  @Nullable
+  public DisplayParty getParty() {
+    return party;
   }
 
-  public Long getPayeeId() {
-    return payeeId;
-  }
-
-  public void setPayeeId(Long payeeId) {
-    this.payeeId = payeeId;
+  @Override
+  public void setParty(@Nullable DisplayParty party) {
+    this.party = party;
   }
 
   public Long getDebtId() {
@@ -363,7 +362,7 @@ public class Transaction extends Model implements ITransaction {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.Companion.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        KEY_PATH, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
+        KEY_PATH, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_SHORT_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_METHOD_LABEL, KEY_STATUS, KEY_TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, KEY_SEALED};
@@ -407,8 +406,7 @@ public class Transaction extends Model implements ITransaction {
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
     t.setMethodLabel(getStringOrNull(c, KEY_METHOD_LABEL, false));
     t.setCatId(catId);
-    t.setPayee(getString(c, KEY_PAYEE_NAME));
-    t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
+    t.setParty(DisplayParty.Companion.fromCursor(c));
     t.setDebtId(getLongOrNull(c, KEY_DEBT_ID));
     t.setId(id);
     final long date = c.getLong(c.getColumnIndexOrThrow(KEY_DATE));
@@ -494,8 +492,7 @@ public class Transaction extends Model implements ITransaction {
       tr.setOriginalAmount(te.getOriginalAmount());
     }
     tr.setComment(te.getComment());
-    tr.setPayee(te.getPayee());
-    tr.setPayeeId(te.getPayeeId());
+    tr.setParty(te.getParty());
     tr.setCategoryPath(te.getCategoryPath());
     tr.originTemplateId = te.getId();
     if (tr instanceof SplitTransaction) {
@@ -636,14 +633,6 @@ public class Transaction extends Model implements ITransaction {
     return valueDate;
   }
 
-  /**
-   * updates the payee string to a new value
-   * it will be mapped to an existing or new row in payee table during save
-   */
-  public void setPayee(String payee) {
-    this.payee = payee;
-  }
-
   @Override
   public Uri save(ContentResolver contentResolver) {
     return save(contentResolver, false);
@@ -670,7 +659,7 @@ public class Transaction extends Model implements ITransaction {
     }
     if (initialPlan != null) {
       String title = initialPlan.getFirst() != null ? initialPlan.getFirst() :
-              (!isEmpty(getPayee()) ? getPayee() :
+              (getParty() != null ? getParty().getName() :
                       (!isSplit() && !isEmpty(getCategoryPath()) ? getCategoryPath() :
                               (!isEmpty(getComment()) ? getComment() :
                                       MyApplication.Companion.getInstance().getString(R.string.menu_create_template)
@@ -858,10 +847,8 @@ public class Transaction extends Model implements ITransaction {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;
-    if (getPayeeId() != null) {
-      payeeStore = getPayeeId();
-    } else if (!TextUtils.isEmpty(getPayee())) {
-      payeeStore = RepositoryPartyKt.requireParty(contentResolver, getPayee());
+    if (getParty() != null) {
+      payeeStore = getParty().getId();
     } else {
       payeeStore = null;
     }
@@ -923,11 +910,11 @@ public class Transaction extends Model implements ITransaction {
       sb.append("\n");
     }
     //payee
-    if (!getPayee().equals("")) {
+    if (getParty() != null) {
       sb.append(ctx.getString(
           getAmount().getAmountMajor().signum() == 1 ? R.string.payer : R.string.payee));
       sb.append(" : ");
-      sb.append(getPayee());
+      sb.append(getParty().getName());
       sb.append("\n");
     }
     //Method
@@ -982,10 +969,10 @@ public class Transaction extends Model implements ITransaction {
         return false;
     } else if (!getMethodId().equals(other.getMethodId()))
       return false;
-    if (getPayee() == null) {
-      if (other.getPayee() != null)
+    if (getParty() == null) {
+      if (other.getParty() != null)
         return false;
-    } else if (!getPayee().equals(other.getPayee()))
+    } else if (!getParty().getId().equals(other.getParty().getId()))
       return false;
     return true;
   }
@@ -993,7 +980,6 @@ public class Transaction extends Model implements ITransaction {
   @Override
   public int hashCode() {
     int result = this.getComment() != null ? this.getComment().hashCode() : 0;
-    result = 31 * result + (this.getPayee() != null ? this.getPayee().hashCode() : 0);
     result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
     result = 31 * result + (this.getCategoryPath() != null ? this.getCategoryPath().hashCode() : 0);
     result = 31 * result + Long.valueOf(getDate()).hashCode();
@@ -1004,7 +990,7 @@ public class Transaction extends Model implements ITransaction {
     result = 31 * result + (this.getMethodId() != null ? this.getMethodId().hashCode() : 0);
     result = 31 * result + (this.getMethodLabel() != null ? this.getMethodLabel().hashCode() : 0);
     result = 31 * result + (this.getParentId() != null ? this.getParentId().hashCode() : 0);
-    result = 31 * result + (this.getPayeeId() != null ? this.getPayeeId().hashCode() : 0);
+    result = 31 * result + (this.getParty() != null ? this.getParty().hashCode() : 0);
     result = 31 * result + (this.getOriginTemplateId() != null ? this.getOriginTemplateId().hashCode() : 0);
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;

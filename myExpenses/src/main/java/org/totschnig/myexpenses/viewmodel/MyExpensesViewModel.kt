@@ -145,6 +145,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -832,7 +833,7 @@ open class MyExpensesViewModel(
                         ).also {
                             it.amount = amount
                             it.date = date
-                            it.payeeId = payeeId
+                            it.party = payeeId?.let { DisplayParty(it, "") }
                             it.crStatus = crStatus
                             it.equivalentAmount = equivalentAmount
                         }

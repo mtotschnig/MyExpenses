@@ -374,23 +374,6 @@ class PartyListViewModel(
         }
     }
 
-    fun saveParty(id: Long, name: String, shortName: String?): LiveData<Boolean> =
-        liveData(context = coroutineContext()) {
-            val party = org.totschnig.myexpenses.model2.Party.create(
-                id = id,
-                name = name,
-                shortName = shortName
-            )
-            emit(
-                try {
-                    if (id == 0L) repository.createParty(party) else repository.saveParty(party)
-                    true
-                } catch (_: SQLiteConstraintException) {
-                    false
-                }
-            )
-        }
-
     fun removeDuplicateFromGroup(id: Long) {
         repository.unsetParentId(id)
     }

@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
@@ -77,6 +78,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
@@ -96,8 +98,7 @@ data class Transaction2(
     val comment: String? = null,
     val catId: Long? = null,
     val categoryPath: String? = null,
-    val payeeId: Long? = null,
-    val payee: String? = null,
+    val party: DisplayParty? = null,
     val transferPeer: Long? = null,
     val transferAccount: Long? = null,
     val transferAccountLabel: String? = null,
@@ -190,6 +191,7 @@ data class Transaction2(
                 TRANSFER_ACCOUNT_LABEL,
                 KEY_PAYEEID,
                 KEY_PAYEE_NAME,
+                KEY_SHORT_NAME,
                 KEY_TRANSFER_PEER,
                 KEY_TRANSFER_ACCOUNT,
                 KEY_ACCOUNTID,
@@ -249,7 +251,7 @@ data class Transaction2(
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),
                 comment = cursor.getStringOrNull(KEY_COMMENT),
                 catId = cursor.getLongOrNull(KEY_CATID),
-                payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
+                party = DisplayParty.fromCursor(cursor),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 methodIcon = cursor.getStringIfExists(KEY_METHOD_ICON),
                 categoryPath = cursor.getStringOrNull(KEY_PATH, allowEmpty = true),
@@ -258,7 +260,6 @@ data class Transaction2(
                 transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
-                payeeId = cursor.getLongOrNull(KEY_PAYEEID),
                 crStatus = enumValueOrDefault(
                     cursor.getString(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED

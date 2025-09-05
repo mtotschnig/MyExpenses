@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.fromSyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -618,7 +619,7 @@ class SyncDelegate(
         } else {
             change.payeeName()?.let { name ->
                 extractParty(name)?.let {
-                    values.put(KEY_PAYEEID, it)
+                    values.put(KEY_PAYEEID, it.id)
                 }
             }
         }
@@ -658,9 +659,11 @@ class SyncDelegate(
         } ?:  categoryInfo()?.let { repository.ensureCategoryPath(it) }
     }
 
-    private fun extractParty(party: String): Long? =
-        payeeToId[party] ?: repository.requireParty(party)?.also {
+    private fun extractParty(party: String): DisplayParty? =
+        (payeeToId[party] ?: repository.requireParty(party)?.also {
             payeeToId[party] = it
+        })?.let {
+            DisplayParty(it, party)
         }
 
     private fun extractMethodId(methodLabel: String): Long =
@@ -704,7 +707,7 @@ class SyncDelegate(
         change.date()?.let { t.date = it }
         t.valueDate = change.valueDate() ?: t.date
         change.payeeName()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { name ->
-            t.payeeId = extractParty(name)
+            t.party = extractParty(name)
         }
         change.methodLabel()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { label ->
             t.methodId = extractMethodId(label)
