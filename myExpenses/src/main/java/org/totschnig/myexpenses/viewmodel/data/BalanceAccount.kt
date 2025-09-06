@@ -39,7 +39,7 @@ data class BalanceAccount(
     val color: Int = 0,
     val currency: CurrencyUnit = CurrencyUnit.DebugInstance,
     val equivalentCurrentBalance: Long = currentBalance,
-    val isVisible: Boolean = false,
+    val isVisible: Boolean = true,
 ) {
     companion object {
 

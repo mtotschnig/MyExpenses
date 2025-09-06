@@ -15,8 +15,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
@@ -140,10 +138,8 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
-import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID

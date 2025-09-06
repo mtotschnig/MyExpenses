@@ -57,7 +57,7 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
         }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
     }
 
-    val aggregateInvisibleKey: Preferences.Key<Boolean>
+    private val aggregateInvisibleKey: Preferences.Key<Boolean>
         get() = prefHandler.getBooleanPreferencesKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED)
 
 
@@ -71,8 +71,8 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
         viewModelScope.launch {
             dataStore.edit {
                 it[aggregateInvisibleKey] = aggregate
-                contentResolver.triggerAccountListRefresh()
             }
+            contentResolver.triggerAccountListRefresh()
         }
     }
 

@@ -1113,4 +1113,8 @@
         <item quantity="one">%d unused party will be deleted.</item>
         <item quantity="other">%d unused parties will be deleted.</item>
     </plurals>
+    <!-- Label of a menu entry on the Balance Sheet Screen, which toggles visibility of accounts which are flagged as invisible -->
+    <string name="show_invisible">Hidden accounts</string>
+    <!-- Label of a menu entry on the Balance Sheet Screen, which toggles visibility of accounts where current balance is zero -->
+    <string name="show_zero">Zero balance accounts</string>
 </resources>
