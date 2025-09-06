@@ -595,7 +595,7 @@
     <string name="split_transaction_group_success">%1$d opérations ont été regroupées avec succès en une seule opération ventilée.</string>
     <string name="split_transaction_not_possible">Seules les opérations ayant le même compte, le même bénéficiaire et le même statut peuvent être regroupées en une seule opération ventilée.</string>
     <string name="pref_transaction_time_summary">Permet de définir l\'heure exacte de l\'opération.</string>
-    <string name="pref_value_date_summary">Permet de définir la date de valeur en plus de la date d\'enregistrement. L\'heure de l\'opération sera cachéé. Ce paramètre n\'est pas appliqué aux comptes de caisse.</string>
+    <string name="pref_value_date_summary">Permet de définir la date de valeur en plus de la date d\'enregistrement. L\'heure de l\'opération sera cachée. Ce paramètre n\'est pas appliqué aux comptes de caisse.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">Date d\'enregistrement</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
