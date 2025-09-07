@@ -1042,4 +1042,5 @@
     </plurals>
     <string name="show_invisible">Verborgene Konten</string>
     <string name="show_zero">Konten mit Nullsaldo</string>
+    <string name="content_description_clear_party">Ausgewählte Partei entfernen</string>
 </resources>
