@@ -280,7 +280,7 @@
                     <TextView
                         android:id="@+id/PayeeLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@+id/Payee"
+                        android:labelFor="@+id/auto_complete_textview"
                         android:text="@string/payee" />
 
                     <org.totschnig.myexpenses.ui.PartyInput

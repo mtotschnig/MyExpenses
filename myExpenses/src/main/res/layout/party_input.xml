@@ -30,6 +30,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:clickable="false"
+            android:checkable="false"
             app:closeIcon="@drawable/ic_menu_edit"
             app:closeIconVisible="true"
             tools:text="Sample Chip Text" />
@@ -37,11 +39,11 @@
         <ImageView
             android:id="@+id/button_clear"
             style="?actionButtonStyle"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Clear text"
+            android:contentDescription="@string/content_description_clear_party"
             android:padding="8dp"
             app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
 

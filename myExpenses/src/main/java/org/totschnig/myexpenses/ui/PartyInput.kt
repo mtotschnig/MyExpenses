@@ -22,6 +22,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.chip.Chip
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.databinding.PartyInputBinding
 import org.totschnig.myexpenses.dialog.buildPartyEditDialog
@@ -140,6 +141,7 @@ class PartyInput @JvmOverloads constructor(
             buildPartyEditDialog(party?.id, party?.name, party?.shortName)
                 .show(host, DIALOG_EDIT_PARTY)
         }
+        selectedItemChip.closeIconContentDescription = context.getString(R.string.menu_edit_party)
     }
 
     private fun switchView(index: Int) {
