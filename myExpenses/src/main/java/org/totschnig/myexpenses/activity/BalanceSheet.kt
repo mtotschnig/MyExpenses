@@ -54,6 +54,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -99,11 +100,13 @@ fun BalanceSheetView(
     debtSum: Long = 0L,
     date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
-    onNavigate: (Long) -> Unit = {},
+    onNavigate: (BalanceAccount) -> Unit = {},
     onSetDate: (LocalDate) -> Unit = {},
     onPrint: () -> Unit = {},
 ) {
-    var showAll by rememberSaveable { mutableStateOf(true) }
+
+    var showHidden by rememberSaveable { mutableStateOf(true) }
+    var showZero by rememberSaveable { mutableStateOf(true) }
     var showChart by rememberSaveable { mutableStateOf(false) }
 
     val datePickerState = rememberDatePickerState(
@@ -151,17 +154,26 @@ fun BalanceSheetView(
                 }
                 HierarchicalMenu(
                     expanded, Menu(
-                        listOf(
-                            CheckableMenuEntry(
-                                label = R.string.show_all,
-                                command = "TOGGLE_SHOW_ALL",
-                                showAll
-                            ) {
-                                showAll = !showAll
-                            },
+                        listOfNotNull(
+                            if (accounts.any { !it.isVisible })
+                                CheckableMenuEntry(
+                                    label = R.string.show_invisible,
+                                    command = "TOGGLE_SHOW_INVISIBLE",
+                                    showHidden
+                                ) {
+                                    showHidden = !showHidden
+                                } else null,
+                            if (accounts.any { it.currentBalance == 0L })
+                                CheckableMenuEntry(
+                                    label = R.string.show_zero,
+                                    command = "TOGGLE_SHOW_ZERO",
+                                    showZero
+                                ) {
+                                    showZero = !showZero
+                                } else null,
                             CheckableMenuEntry(
                                 label = R.string.menu_chart,
-                                command = "TOGGLE_SHOW_ALL",
+                                command = "TOGGLE_CHART_BALANCE",
                                 showChart
                             ) {
                                 showChart = !showChart
@@ -170,7 +182,7 @@ fun BalanceSheetView(
                             MenuEntry(
                                 icon = Icons.Filled.Print,
                                 label = R.string.menu_print,
-                                command = "PRINT"
+                                command = "PRINT_BALANCE"
                             ) {
                                 onPrint()
                             }
@@ -319,7 +331,8 @@ fun BalanceSheetView(
                         title = R.string.balance_sheet_section_assets,
                         total = totalAssets,
                         sections = assets,
-                        showAll = showAll,
+                        showHidden = showHidden,
+                        showZero = showZero,
                         highlight = highlight.value?.third,
                         onNavigate = onNavigate
                     )
@@ -327,7 +340,8 @@ fun BalanceSheetView(
                         title = R.string.balance_sheet_section_liabilities,
                         total = totalLiabilities,
                         sections = liabilities,
-                        showAll = showAll,
+                        showHidden = showHidden,
+                        showZero = showZero,
                         highlight = highlight.value?.third,
                         onNavigate = onNavigate
                     )
@@ -371,9 +385,10 @@ fun LazyListScope.accountTypeChapter(
     @StringRes title: Int,
     total: Long,
     sections: List<BalanceSection>,
-    showAll: Boolean,
+    showHidden: Boolean,
+    showZero: Boolean,
     highlight: Long?,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     item {
         BalanceSheetSectionHeaderView(
@@ -385,7 +400,8 @@ fun LazyListScope.accountTypeChapter(
     sections.forEach {
         accountTypeSection(
             section = it,
-            showAll = showAll,
+            showHidden = showHidden,
+            showZero = showZero,
             highlight = highlight,
             onNavigate = onNavigate
         )
@@ -430,9 +446,10 @@ fun BalanceSheetSectionHeaderView(
 
 fun LazyListScope.accountTypeSection(
     section: BalanceSection,
-    showAll: Boolean,
+    showHidden: Boolean,
+    showZero: Boolean,
     highlight: Long?,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     item {
         val homeCurrency = LocalHomeCurrency.current
@@ -456,7 +473,7 @@ fun LazyListScope.accountTypeSection(
         }
     }
     section.accounts
-        .filter { showAll || (it.isVisible && it.currentBalance != 0L) }
+        .filter { (showHidden || it.isVisible) && (showZero || it.currentBalance != 0L) }
         .forEach { account ->
             item {
                 BalanceAccountItemView(account = account, highlight == account.id, onNavigate)
@@ -468,7 +485,7 @@ fun LazyListScope.accountTypeSection(
 fun BalanceAccountItemView(
     account: BalanceAccount,
     highlight: Boolean,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
     Row(
@@ -477,7 +494,7 @@ fun BalanceAccountItemView(
                 background(MaterialTheme.colorScheme.primaryContainer)
             }
             .clickable {
-                onNavigate(account.id)
+                onNavigate(account)
             }
             .fillMaxWidth()
             .padding(vertical = 3.dp)
@@ -536,7 +553,7 @@ fun RenderChart(
             ),
         colors = if (debts == null) colors else colors +
                 ResourcesCompat.getColor(
-                    context.resources,
+                    LocalResources.current,
                     if (inner) R.color.colorExpense else R.color.colorIncome,
                     context.theme
                 )

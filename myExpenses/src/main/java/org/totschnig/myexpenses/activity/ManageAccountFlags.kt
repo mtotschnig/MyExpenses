@@ -62,6 +62,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
@@ -74,6 +75,7 @@ import org.totschnig.myexpenses.compose.IconSelectorDialog
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
@@ -81,7 +83,8 @@ import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
 import org.totschnig.myexpenses.viewmodel.AccountForSelection
 
-private const val WEIGHT_ICON = 1f
+private const val SIZE_ICON = 24f
+private const val PADDING_ICON= 4f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
 
@@ -279,7 +282,7 @@ fun AccountFlagList(
                 .fillMaxWidth()
                 .padding(bottom = 4.dp),
         ) {
-            Spacer(modifier = Modifier.weight(WEIGHT_ICON))
+            Spacer(modifier = Modifier.size((SIZE_ICON + PADDING_ICON).sp))
             Text(
                 modifier = Modifier.weight(WEIGHT_LABEL),
                 text = "${stringResource(R.string.label)} (${stringResource(R.string.count)})",
@@ -341,7 +344,7 @@ fun AccountFlagItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Box(modifier = Modifier.weight(WEIGHT_ICON)) {
+        Box(modifier = Modifier.size(SIZE_ICON.sp)) {
             if (flag.icon != null) {
                 org.totschnig.myexpenses.compose.Icon(
                     modifier = Modifier.align(Alignment.Center),
@@ -349,6 +352,7 @@ fun AccountFlagItem(
                 )
             }
         }
+        Spacer(Modifier.size(PADDING_ICON.sp))
         val context = LocalContext.current
         Text(
             text = flag.localizedLabel(context) +
