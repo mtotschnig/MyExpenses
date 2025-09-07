@@ -1045,4 +1045,14 @@
     <string name="supports_reconciliation">Supporta la riconciliazione</string>
     <string name="aggregate_invisible">Includere i conti invisibili nei conti aggregati e nello stato patrimoniale</string>
     <string name="select_accounts_for_flag">Seleziona gli conti per il indicatore %s</string>
+    <string name="remap_payee_null">Il pagatore/beneficiario verrà rimosso da tutte le transazioni selezionate.</string>
+    <string name="menu_cleanup">Pulire</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">La parte non utilizzata verrà eliminata.</item>
+        <item quantity="many">"%d  parti non utilizzate verranno eliminate."</item>
+        <item quantity="other">"%d  parti non utilizzate verranno eliminate."</item>
+    </plurals>
+    <string name="show_invisible">Conti nascosti</string>
+    <string name="show_zero">Conti a saldo zero</string>
+    <string name="content_description_clear_party">Cancella la parte selezionata</string>
 </resources>
