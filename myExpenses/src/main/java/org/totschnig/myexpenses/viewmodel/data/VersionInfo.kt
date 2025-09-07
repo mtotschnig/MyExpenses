@@ -156,6 +156,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}."
             )
 
+            "404" -> arrayOf(
+                "${t(R.string.payer_or_payee)}: ${t(R.string.ui_refinement)}"
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(

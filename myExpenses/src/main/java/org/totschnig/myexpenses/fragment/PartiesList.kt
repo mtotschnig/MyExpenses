@@ -208,10 +208,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select)
                         .setIcon(R.drawable.ic_menu_done)
                 }
-                menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit)
-                    .setIcon(R.drawable.ic_menu_edit)
-                menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
-                    .setIcon(R.drawable.ic_menu_delete)
+                if (party.id != NULL_ITEM_ID) {
+                    menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit)
+                        .setIcon(R.drawable.ic_menu_edit)
+                    menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
+                        .setIcon(R.drawable.ic_menu_delete)
+                }
                 if (party.isDuplicate) {
                     menu.add(
                         Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,

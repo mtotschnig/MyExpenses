@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
@@ -33,7 +34,7 @@ data class Party(
     override fun toString() = name
 
     val isUnused: Boolean
-        get() = !mappedTransactions && !mappedTemplates && !mappedDebts && duplicates.all { it.isUnused }
+        get() = id != NULL_ITEM_ID && !mappedTransactions && !mappedTemplates && !mappedDebts && duplicates.all { it.isUnused }
 
     companion object {
         fun fromCursor(cursor: Cursor) = Party(
