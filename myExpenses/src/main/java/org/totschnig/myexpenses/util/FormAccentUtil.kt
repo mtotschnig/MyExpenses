@@ -9,7 +9,6 @@ import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import com.google.android.material.R
 import org.totschnig.myexpenses.util.ui.findParentWithTypeRecursively
 import org.totschnig.myexpenses.util.ui.resolveThemeColor
 
@@ -31,7 +30,7 @@ fun linkInputsWithLabels(table: TableLayout) {
 
 fun readPrimaryTextColor(context: Context) = resolveThemeColor(context, android.R.attr.textColorPrimary)
 
-fun readPrimaryColor(context: Context) = resolveThemeColor(context, R.attr.colorPrimary)
+fun readPrimaryColor(context: Context) = resolveThemeColor(context, android.R.attr.colorPrimary)
 
 private fun setOnFocusChangeListenerRecursive(view: View, listener: OnFocusChangeListener) {
     if (view is ViewGroup && view !is Spinner && (!view.isFocusable || view.descendantFocusability == ViewGroup.FOCUS_AFTER_DESCENDANTS)) {

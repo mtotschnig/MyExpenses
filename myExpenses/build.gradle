@@ -227,6 +227,8 @@ dependencies {
 
     api libs.material
 
+    api libs.androidx.documentfile
+
     implementation libs.androidx.gridlayout
     api project(':preferences')
     implementation libs.androidx.constraintlayout
