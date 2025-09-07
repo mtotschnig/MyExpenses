@@ -1049,4 +1049,14 @@
     <string name="flag_favorite">Favori</string>
     <string name="aggregate_invisible">Inclure les comptes invisibles dans les comptes agrégés et le bilan</string>
     <string name="select_accounts_for_flag">Sélectionnez les comptes pour l\'indicateur %s</string>
+    <string name="remap_payee_null">Le payeur/bénéficiaire sera supprimé de toutes les opérations sélectionnées.</string>
+    <string name="menu_cleanup">Nettoyer</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d tier non utilisées sera supprimés.</item>
+        <item quantity="many">%d tiers non utilisées seront supprimés.</item>
+        <item quantity="other">%d tiers non utilisées seront supprimés.</item>
+    </plurals>
+    <string name="show_invisible">Comptes cachés</string>
+    <string name="show_zero">Comptes à solde zéro</string>
+    <string name="content_description_clear_party">Supprimer le tiers sélectionné</string>
 </resources>
