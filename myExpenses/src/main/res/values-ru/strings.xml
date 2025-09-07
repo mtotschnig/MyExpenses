@@ -96,7 +96,7 @@
     <string name="feedback">Отзыв</string>
     <string name="ftp_uri_malformed">Неверно сформирован URI %1$s</string>
     <string name="grisbi_import_categories_loading">Загрузка категорий из %1$s</string>
-    <string name="grisbi_import_parties_loading">Загрузка сторон из %1$s</string>
+    <string name="grisbi_import_parties_loading">Загрузка контрагентов из %1$s</string>
     <string name="grouping_day">День</string>
     <string name="grouping_last_week">На прошлой неделе</string>
     <string name="grouping_month">Месяц</string>
@@ -129,7 +129,7 @@
     <string name="menu_create_instance_save">Применить и сохранить</string>
     <string name="menu_create_main_cat">Новая основная категория</string>
     <string name="menu_create_method">Новый способ оплаты</string>
-    <string name="menu_create_party">Новый участник</string>
+    <string name="menu_create_party">Новый контрагент</string>
     <string name="menu_create_split">Новое разделение</string>
     <string name="menu_create_split_part_category">Новая категория разделённой части</string>
     <string name="menu_create_split_part_transfer">Новый перевод разделённой части</string>
@@ -146,7 +146,7 @@
     <string name="menu_edit_account">Редактировать счёт</string>
     <string name="menu_edit_cat">Редактировать категорию</string>
     <string name="menu_edit_method">Редактировать способы оплаты</string>
-    <string name="menu_edit_party">Редактировать стороны</string>
+    <string name="menu_edit_party">Редактировать контрагентов</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
     <string name="menu_edit_split">Редактировать разделение</string>
     <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
@@ -181,7 +181,7 @@
     <string name="no_calendar_app_installed">Не найдено приложение для редактирования событий календаря.</string>
     <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
     <string name="no_methods">Нет методов оплаты.</string>
-    <string name="no_parties">Нет участников.</string>
+    <string name="no_parties">Нет контрагентов.</string>
     <string name="no_split_parts">Нет разделённых частей.</string>
     <string name="no_templates">Нет шаблонов.</string>
     <string name="no_accounts">Нет счетов.</string>
@@ -244,10 +244,10 @@
     <string name="pref_custom_currency_title">Настроить курс обмена</string>
     <string name="pref_enter_licence_title">Ввести ключ</string>
     <string name="pref_export_format_title">Формат даты</string>
-    <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
+    <string name="pref_import_from_grisbi_summary">Импорт категорий и контрагентов из файла Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Импорт операций, категорий и участников из %s файла</string>
+    <string name="pref_import_summary">Импорт операций, категорий и контрагентов из файла %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Импорт %s</string>
     <string name="pref_manage_accounts_title">Счета</string>
@@ -255,8 +255,8 @@
     <string name="pref_manage_categories_title">Категории</string>
     <string name="pref_manage_methods_summary">Создание и редактирование методов оплаты и связывание с типами счетов.</string>
     <string name="pref_manage_methods_title">Способы оплаты</string>
-    <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
-    <string name="pref_manage_parties_title">Участники</string>
+    <string name="pref_manage_parties_summary">Добавление, редактирование, удаление контрагентов (плательщиков и получателей).</string>
+    <string name="pref_manage_parties_title">Контрагенты</string>
     <string name="pref_manage_sync_backends_title">Серверы синхронизации</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">Добавьте сервера для синхронизации счетов (%s).</string>
@@ -292,7 +292,7 @@
     <string name="pref_visit_website_title">Посетить веб-сайт</string>
     <string name="progress_dialog_deleting">Удалить объекты</string>
     <string name="progress_dialog_printing">Создание %s</string>
-    <string name="qif_parse_result">Проанализированно: %1$s счетов; %2$s категорий и %3$s участников</string>
+    <string name="qif_parse_result">Проанализировано: %1$s счетов; %2$s категорий и %3$s контрагентов</string>
     <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в %s-файле.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
     <string name="reference_number">Номер ссылки</string>
@@ -385,12 +385,12 @@
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обновить суммы в базе данных</string>
     <string name="import_categories_success">%1$d категорий успешно импортированы.</string>
-    <string name="import_parties_success">%1$d участников успешно импортированы.</string>
+    <string name="import_parties_success">%1$d контрагентов успешно импортировано.</string>
     <string name="import_accounts_success">%1$d счета успешно импортированы.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>
     <string name="import_accounts_none">Нет импортированных счетов</string>
     <string name="import_categories_none">Категории не импортированы</string>
-    <string name="import_parties_none">Ни один участник не импортирован</string>
+    <string name="import_parties_none">Контрагенты не импортированы</string>
     <string name="import_transactions_none">Операции не импортированы в счёт %1$s</string>
     <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>
     <string name="menu_categories_setup_default">Установить категории по умолчанию</string>
@@ -693,7 +693,7 @@
     <string name="budget_date_end_after_start">Дата окончания бюджета должна следовать после даты начала.</string>
     <string name="menu_budget_allocated_only">Показавать только категории с распределением</string>
     <string name="budget_filter_all_categories">Все категории</string>
-    <string name="budget_filter_all_parties">Все участники</string>
+    <string name="budget_filter_all_parties">Все контрагенты</string>
     <string name="budget_filter_all_methods">Все методы</string>
     <string name="budget_filter_all_states">Все статусы</string>
     <string name="budget_filter_all_tags">Все теги</string>
@@ -752,7 +752,7 @@
     <string name="pref_planner_manual_time_current">Время применения</string>
     <string name="pref_planner_manual_time_noon">12 часов дня</string>
     <string name="budget_filter_all_accounts">Все счета</string>
-    <string name="single_feature_info">В качестве альтернативы вы можете купить неограниченный доступ только к этой функции.</string>
+    <string name="single_feature_info">Либо вы можете купить безлимитный доступ только к этой функции.</string>
     <string name="title_webui">Веб-интерфейс пользователя</string>
     <string name="new_balance">Новый баланс</string>
     <string name="pref_group_header_show_details_summary">Показать подробные суммы в заголовке группы</string>
@@ -804,8 +804,8 @@
     </plurals>
     <string name="account_widget_configuration_sum_total">Включить будущие операции</string>
     <string name="warning_link_transfer">Две выбранные транзакции будут объединены. Информация об отправителей/получателей средств и категории будут удалены.</string>
-    <string name="warning_party_delete_debt">При удалении этой стороны будут удалены также и заданные для нее долги.</string>
-    <string name="merge_parties_select">Выберите название объединенной стороны</string>
+    <string name="warning_party_delete_debt">При удалении этого контрагента также будут удалены все связанные с ним долги.</string>
+    <string name="merge_parties_select">Выберите имя контрагента после объединения</string>
     <string name="account_widget_configuration">Настройка виджета счета</string>
     <string name="debt_managment">Управление долгом</string>
     <string name="object_sealed_debt">Объект относится к закрытому долгу.</string>
@@ -1035,4 +1035,15 @@
     <string name="new_account_flag">Новый флаг</string>
     <string name="flag_unflagged">Без флага</string>
     <string name="flag_favorite">Избранные</string>
+    <string name="menu_cleanup">Очистить</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d неиспользуемый контрагент будет удален.</item>
+        <item quantity="few">%d неиспользуемых контрагента будут удалены.</item>
+        <item quantity="many">%d неиспользуемых контрагентов будет удалено.</item>
+        <item quantity="other">%d неиспользуемых контрагентов будет удалено.</item>
+    </plurals>
+    <string name="content_description_clear_party">Очистить контрагента</string>
+    <string name="remap_payee_null">Плательщик/Получатель будет удалён из всех выделенных операций.</string>
+    <string name="show_invisible">Скрытые счета</string>
+    <string name="show_zero">Счета с нулевым балансом</string>
 </resources>
