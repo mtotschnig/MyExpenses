@@ -100,7 +100,7 @@ fun BalanceSheetView(
     debtSum: Long = 0L,
     date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
-    onNavigate: (Long) -> Unit = {},
+    onNavigate: (BalanceAccount) -> Unit = {},
     onSetDate: (LocalDate) -> Unit = {},
     onPrint: () -> Unit = {},
 ) {
@@ -388,7 +388,7 @@ fun LazyListScope.accountTypeChapter(
     showHidden: Boolean,
     showZero: Boolean,
     highlight: Long?,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     item {
         BalanceSheetSectionHeaderView(
@@ -449,7 +449,7 @@ fun LazyListScope.accountTypeSection(
     showHidden: Boolean,
     showZero: Boolean,
     highlight: Long?,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     item {
         val homeCurrency = LocalHomeCurrency.current
@@ -485,7 +485,7 @@ fun LazyListScope.accountTypeSection(
 fun BalanceAccountItemView(
     account: BalanceAccount,
     highlight: Boolean,
-    onNavigate: (Long) -> Unit,
+    onNavigate: (BalanceAccount) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
     Row(
@@ -494,7 +494,7 @@ fun BalanceAccountItemView(
                 background(MaterialTheme.colorScheme.primaryContainer)
             }
             .clickable {
-                onNavigate(account.id)
+                onNavigate(account)
             }
             .fillMaxWidth()
             .padding(vertical = 3.dp)

@@ -40,15 +40,17 @@ class TransactionListViewModel(
     data class LoadingInfo(
         val accountId: Long,
         val currency: CurrencyUnit,
+        val label: String,
         val catId: Long = 0,
-        val grouping: Grouping?,
-        val groupingClause: String?,
+        val grouping: Grouping? = null,
+        val groupingClause: String? = null,
         val groupingArgs: Array<String> = emptyArray(),
-        val label: String?,
-        val type: Boolean,
+        val type: Boolean? = null,
         val aggregateNeutral: Boolean = false,
         val withTransfers: Boolean = false,
-        val icon: String? = null
+        val icon: String? = null,
+        val withNewButton: Boolean = false,
+        val color: Int? = null
     ) : Parcelable
 
     val sum: Flow<Long>
@@ -123,12 +125,14 @@ class TransactionListViewModel(
                 selectionArgs.addAll(groupingArgs)
             }
             val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
-            val typeExpression = when {
-                aggregateNeutral -> "$typeWithFallback IN (${type.asCategoryType}, $FLAG_NEUTRAL)"
-                withTransfers -> effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType
-                else -> effectiveTypeExpression(typeWithFallback) + " = " + type.asCategoryType
+            if (type != null) {
+                val typeExpression = when {
+                    aggregateNeutral -> "$typeWithFallback IN (${type.asCategoryType}, $FLAG_NEUTRAL)"
+                    withTransfers -> effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType
+                    else -> effectiveTypeExpression(typeWithFallback) + " = " + type.asCategoryType
+                }
+                selectionParts += typeExpression
             }
-            selectionParts += typeExpression
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 }

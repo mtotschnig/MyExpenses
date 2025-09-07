@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
@@ -16,10 +18,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
@@ -30,7 +37,8 @@ import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
+class TransactionListComposeDialogFragment : ComposeBaseDialogFragment(),
+    DialogInterface.OnClickListener {
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
@@ -46,21 +54,29 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val loadingInfo = viewModel.loadingInfo
                 viewModel.sum.collect {
-                    val title = viewModel.loadingInfo.label + TABS +
-                            currencyFormatter.convAmount(it, viewModel.loadingInfo.currency)
+                    val title = loadingInfo.label + TABS +
+                            currencyFormatter.convAmount(it, loadingInfo.currency)
                     dialog!!.setTitle(title)
                 }
             }
         }
     }
 
-    override fun initBuilder(): AlertDialog.Builder = super.initBuilder().apply {
-        setTitle(viewModel.loadingInfo.label)
-        setPositiveButton(android.R.string.ok, null)
-        viewModel.loadingInfo.icon?.let {
-            IIconInfo.resolveIcon(it)?.asDrawable(requireContext())
-        }?.let { setIcon(it) }
+    override fun initBuilder(): AlertDialog.Builder {
+        val loadingInfo = viewModel.loadingInfo
+        return super.initBuilder().apply {
+            setTitle(loadingInfo.label)
+            setPositiveButton(
+                if (loadingInfo.withNewButton) R.string.menu_create_transaction else android.R.string.ok,
+                if (loadingInfo.withNewButton)
+                    this@TransactionListComposeDialogFragment else null
+            )
+            loadingInfo.icon?.let {
+                IIconInfo.resolveIcon(it)?.asDrawable(requireContext())
+            }?.let { setIcon(it) }
+        }
     }
 
     @Composable
@@ -72,16 +88,26 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
                 4.6f
             ),
             withCategoryIcon = false,
-            withOriginalAmount = prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)
+            withOriginalAmount = prefHandler.getBoolean(
+                PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT,
+                false
+            )
         )
-        LazyColumn(modifier = Modifier.padding(top = dialogPadding, start = dialogPadding, end = dialogPadding)) {
+        LazyColumn(
+            modifier = Modifier.padding(
+                top = dialogPadding,
+                start = dialogPadding,
+                end = dialogPadding
+            )
+        ) {
             data.value.forEach {
                 item {
-                    Row(modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .clickable {
-                            showDetails(it.parentId ?: it.id)
-                        },
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .clickable {
+                                showDetails(it.parentId ?: it.id)
+                            },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         with(renderer) {
@@ -90,6 +116,18 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        with(viewModel.loadingInfo) {
+            startActivity(
+                Intent(requireContext(), ExpenseEdit::class.java).apply {
+                    putExtra(KEY_ACCOUNTID, accountId)
+                    putExtra(KEY_CURRENCY, currency)
+                    putExtra(KEY_COLOR, color)
+                }
+            )
         }
     }
 
