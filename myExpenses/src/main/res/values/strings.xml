@@ -1117,6 +1117,6 @@
     <string name="show_invisible">Hidden accounts</string>
     <!-- Label of a menu entry on the Balance Sheet Screen, which toggles visibility of accounts where current balance is zero -->
     <string name="show_zero">Zero balance accounts</string>
-    <!-- Description for button that allows to clear the selected party (payer /payee) -->
+    <!-- Description for button that allows to clear the selected party (payer /payee) from the currently edited transaction -->
     <string name="content_description_clear_party">Clear selected party</string>
 </resources>
