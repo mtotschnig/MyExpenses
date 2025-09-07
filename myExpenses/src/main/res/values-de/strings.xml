@@ -1034,4 +1034,12 @@
     <string name="flag_favorite">Favorit</string>
     <string name="aggregate_invisible">Unsichtbare Konten in aggregierte Konten und Bilanz einbeziehen</string>
     <string name="select_accounts_for_flag">Wählen Sie Konten für die Markierung %s</string>
+    <string name="remap_payee_null">Zahler/Zahlungsempfänger werden aus allen ausgewählten Buchungen entfernt.</string>
+    <string name="menu_cleanup">Aufräumen</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d nicht verwendete Partei wird gelöscht.</item>
+        <item quantity="other">%d nicht verwendete Parteien werden gelöscht.</item>
+    </plurals>
+    <string name="show_invisible">Verborgene Konten</string>
+    <string name="show_zero">Konten mit Nullsaldo</string>
 </resources>
