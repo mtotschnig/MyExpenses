@@ -83,6 +83,7 @@ import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.balanceUri
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
@@ -444,7 +445,7 @@ open class MyExpensesViewModel(
     val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> =
         balanceDate.flatMapLatest { date ->
             contentResolver.observeQuery(
-                TransactionProvider.balanceUri(if (date == LocalDate.now()) "now" else date.toString()),
+                balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
                 selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
             )
                 .mapToList { BalanceAccount.fromCursor(it, currencyContext) }

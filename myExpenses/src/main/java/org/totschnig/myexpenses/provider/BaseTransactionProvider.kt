@@ -449,6 +449,20 @@ abstract class BaseTransactionProvider : ContentProvider() {
     )
 
     companion object {
+
+        fun balanceUri(date: String?, forBalanceSheet: Boolean) = TransactionProvider.ACCOUNTS_URI.buildUpon()
+            .appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
+                date
+            )
+            .apply {
+                if (forBalanceSheet)
+                    appendBooleanQueryParameter(
+                        TransactionProvider.QUERY_PARAMETER_BALANCE_SHEET
+                    )
+            }
+            .build()
+
         val CATEGORY_TREE_URI: Uri
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
                 .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
@@ -708,7 +722,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .columns(if (minimal) mapAccountProjection(Account.PROJECTION_MINIMAL) else null)
                 .selection(selection, emptyArray())
                 //for balance sheet, we need to respect the sort order of account types
-                .orderBy(if (sumsForDate != null) "$KEY_TYPE_SORT_KEY DESC,$sortOrder" else sortOrder)
+                .orderBy(sortOrder)
                 .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()

@@ -65,6 +65,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
@@ -327,12 +328,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS = "fullProjectionWithSums";
+  public static final String QUERY_PARAMETER_BALANCE_SHEET = "balanceSheet";
   //uses full projection with sums for each account
-  public static final Uri ACCOUNTS_FULL_URI = balanceUri("now");
-  public static Uri balanceUri(String date) {
-    return ACCOUNTS_URI.buildUpon()
-            .appendQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, date).build();
-  }
+  public static final Uri ACCOUNTS_FULL_URI = BaseTransactionProvider.Companion.balanceUri("now", false);
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
@@ -594,6 +592,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           if (sortOrder == null) {
             sortOrder = minimal ? KEY_LABEL :
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), null);
+            if (uri.getBooleanQueryParameter(QUERY_PARAMETER_BALANCE_SHEET, false)) {
+              sortOrder = KEY_TYPE_SORT_KEY + " DESC, " + sortOrder;
+            }
           }
           if (projection != null) {
             CrashHandler.throwOrReport(
