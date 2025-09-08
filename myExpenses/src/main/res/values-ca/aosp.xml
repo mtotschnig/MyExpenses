@@ -18,7 +18,6 @@
     <string name="style">"Estil"</string>
     <string name="loading">"S\'està carregant…"</string>
     <string name="button_label_continue">Continua</string>
-    <string name="autofill">"Emplenament automàtic"</string>
     <string name="discard">"Descarta"</string>
     <string name="dialog_dismiss">"Ignora"</string>
     <string name="details">"Detalls"</string>

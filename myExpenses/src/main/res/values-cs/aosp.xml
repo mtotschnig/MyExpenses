@@ -18,7 +18,6 @@
     <string name="style">"Styl"</string>
     <string name="loading">"Načítání…"</string>
     <string name="button_label_continue">Pokračovat</string>
-    <string name="autofill">"Automatické vyplňování"</string>
     <string name="discard">"Zahodit"</string>
     <string name="dialog_dismiss">"Zavřít"</string>
     <string name="details">"Podrobnosti"</string>

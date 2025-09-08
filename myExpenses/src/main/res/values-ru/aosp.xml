@@ -18,7 +18,6 @@
     <string name="style">"Стиль"</string>
     <string name="loading">"Загрузка…"</string>
     <string name="button_label_continue">Продолжить</string>
-    <string name="autofill">"Автозаполнение"</string>
     <string name="discard">"Отменить"</string>
     <string name="dialog_dismiss">"Закрыть"</string>
     <string name="details">"Информация"</string>

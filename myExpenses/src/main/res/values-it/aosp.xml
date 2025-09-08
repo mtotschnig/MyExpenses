@@ -17,7 +17,6 @@
     <string name="style">"Stile"</string>
     <string name="loading">"Caricamento…"</string>
     <string name="button_label_continue">Continua</string>
-    <string name="autofill">"Compilazione automatica"</string>
     <string name="discard">"Ignora"</string>
     <string name="dialog_dismiss">"Ignora"</string>
     <string name="details">"Dettagli"</string>

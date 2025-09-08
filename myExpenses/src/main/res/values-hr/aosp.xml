@@ -19,7 +19,6 @@
     <string name="style">"Stil"</string>
     <string name="loading">"Učitavanje…"</string>
     <string name="button_label_continue">Nastavi</string>
-    <string name="autofill">"Automatsko ispunjavanje"</string>
     <string name="discard">"Odbaci"</string>
     <string name="dialog_dismiss">"Odbaci"</string>
     <string name="details">"Pojedinosti"</string>

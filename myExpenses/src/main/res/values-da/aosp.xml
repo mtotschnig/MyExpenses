@@ -18,7 +18,6 @@
     <string name="style">"Urtype"</string>
     <string name="loading">"Indlæser…"</string>
     <string name="button_label_continue">Fortsæt</string>
-    <string name="autofill">"Autofyld"</string>
     <string name="discard">"Kassér"</string>
     <string name="dialog_dismiss">"Luk"</string>
     <string name="details">"Detaljer"</string>

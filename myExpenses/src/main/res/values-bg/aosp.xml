@@ -19,7 +19,6 @@
     <string name="style">"Стил"</string>
     <string name="loading">"Зарежда се…"</string>
     <string name="button_label_continue">Напред</string>
-    <string name="autofill">"Автоматично попълване"</string>
     <string name="discard">"Отхвърляне"</string>
     <string name="dialog_dismiss">"Отхвърляне"</string>
     <string name="details">"Подробности"</string>

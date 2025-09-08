@@ -17,7 +17,6 @@
     <string name="style">"Design"</string>
     <string name="loading">"Wird geladen…"</string>
     <string name="button_label_continue">Weiter</string>
-    <string name="autofill">"AutoFill"</string>
     <string name="discard">"Verwerfen"</string>
     <string name="dialog_dismiss">"Schließen"</string>
     <string name="details">"Details"</string>

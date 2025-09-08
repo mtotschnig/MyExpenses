@@ -18,7 +18,6 @@
      <string name="style">"Estilo"</string>
     <string name="loading">"Cargando…"</string>
     <string name="button_label_continue">Continuar</string>
-    <string name="autofill">"Autocompletar"</string>
     <string name="discard">"Descartar"</string>
     <string name="dialog_dismiss">"Aceptar"</string>
     <string name="details">"Detalles"</string>

@@ -14,7 +14,6 @@
     <string name="style">"Stijl"</string>
     <string name="loading">"Laden…"</string>
     <string name="button_label_continue">Doorgaan</string>
-    <string name="autofill">Autom. aanvullen</string>
     <string name="discard">Ongedaan maken</string>
     <string name="dialog_dismiss">Sluiten</string>
     <string name="details">Details</string>

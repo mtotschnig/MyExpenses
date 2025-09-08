@@ -18,7 +18,6 @@
     <string name="style">"スタイル"</string>
     <string name="loading">"読み込んでいます…"</string>
     <string name="button_label_continue">"次へ"</string>
-    <string name="autofill">"自動入力"</string>
     <string name="discard">"破棄"</string>
     <string name="dialog_dismiss">"閉じる"</string>
     <string name="details">"詳細"</string>

@@ -62,8 +62,6 @@
     <string name="style">Style</string>
     <!-- name="loading_widget" -->
     <string name="loading">"Loading…"</string>
-    <!-- AndroidSDK/platforms/android-30/data/res autofill_this_form -->
-    <string name="autofill">Autofill</string>
     <!--  packages/apps/Gallery/res/values/strings.xml crop_discard_text-->
     <string name="discard">Discard</string>
     <!--  packages/apps/Camera2/res/values/strings.xml-->

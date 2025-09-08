@@ -17,7 +17,6 @@
     <string name="style">"样式"</string>
     <string name="loading">"正在加载…"</string>
     <string name="button_label_continue">继续</string>
-    <string name="autofill">"自动填充"</string>
     <string name="discard">"放弃"</string>
     <string name="dialog_dismiss">"关闭"</string>
     <string name="details">"详细信息"</string>

@@ -18,7 +18,6 @@
     <string name="style">"종류"</string>
     <string name="loading">"로드 중…"</string>
     <string name="button_label_continue">계속</string>
-    <string name="autofill">"자동완성"</string>
     <string name="discard">"취소"</string>
     <string name="dialog_dismiss">"닫기"</string>
     <string name="details">"세부정보"</string>

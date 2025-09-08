@@ -18,7 +18,6 @@
     <string name="style">"ಶೈಲಿ"</string>
     <string name="loading">"ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…"</string>
     <string name="button_label_continue">"ಮುಂದುವರಿಸು"</string>
-    <string name="autofill">"ಸ್ವಯಂತುಂಬುವಿಕೆ"</string>
     <string name="discard">"ತಿರಸ್ಕರಿಸು"</string>
     <string name="dialog_dismiss">"ವಜಾಗೊಳಿಸು"</string>
     <string name="details">"ವಿವರಗಳು"</string>
