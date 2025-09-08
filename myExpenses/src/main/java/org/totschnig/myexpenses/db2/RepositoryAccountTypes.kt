@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
-import android.content.Context
-import android.database.DatabaseUtils
 import android.os.Bundle
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -10,8 +8,10 @@ import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_IDS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_TYPE_SORT
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_TYPES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.withAppendedId
@@ -56,6 +56,11 @@ fun Repository.updateAccountType(accountType: AccountType) {
 }
 
 fun Repository.deleteAccountType(accountTypeId: Long) {
+    contentResolver.delete(
+        ACCOUNTTYPES_METHODS_URI,
+        "$KEY_TYPE = ?",
+        arrayOf(accountTypeId.toString())
+    )
     contentResolver.delete(
         ACCOUNT_TYPES_URI.withAppendedId(accountTypeId),
         null,
