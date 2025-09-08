@@ -120,7 +120,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     val recurrenceSpinner = SpinnerHelper(viewBinding.Recurrence)
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: ArrayAdapter<OperationType>
-    private lateinit var accountAdapter: GroupedSpinnerAdapter<AccountFlag, Account>
+    lateinit var accountAdapter: GroupedSpinnerAdapter<AccountFlag, Account>
 
     init {
         createMethodAdapter()

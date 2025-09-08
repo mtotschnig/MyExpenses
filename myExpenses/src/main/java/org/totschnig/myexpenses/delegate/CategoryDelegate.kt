@@ -100,10 +100,10 @@ class CategoryDelegate(
         }
         if (data.accountId != null && data.accountId != accountId) {
             val oldAccount = mAccounts.firstOrNull { it.id == accountId }
-            val newAccountIndex = mAccounts.indexOfFirst { it.id == data.accountId }
-            if (oldAccount != null && newAccountIndex > -1) {
-                accountSpinner.setSelection(newAccountIndex)
-                updateAccount(mAccounts[newAccountIndex], mAccounts[newAccountIndex].currency.code != oldAccount.currency.code)
+            val newAccount = mAccounts.firstOrNull { it.id == data.accountId }
+            if (oldAccount != null && newAccount != null) {
+                accountSpinner.setSelection(accountAdapter.getPosition(newAccount.id))
+                updateAccount(newAccount, newAccount.currency.code != oldAccount.currency.code)
             }
         }
         if (data.debtId != null) {
