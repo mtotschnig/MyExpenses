@@ -98,11 +98,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     @State
     var syncAccountName: String? = null
 
-    @State
-    var _currencyUnit: CurrencyUnit? = null
-
-    val currencyUnit: CurrencyUnit
-        get() = if (dataLoaded) _currencyUnit!! else throw IllegalStateException()
+    lateinit var currencyUnit: CurrencyUnit
 
     @State
     var accountType = 0L
@@ -264,7 +260,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Label.setText(account.label)
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
-        _currencyUnit = currencyContext[account.currency]
+        currencyUnit = currencyContext[account.currency]
         accountType = account.type.id
         color = account.color
         excludeFromTotals = account.excludeFromTotals
@@ -373,7 +369,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             R.id.Currency -> {
                 try {
                     (currencySpinner.selectedItem as? Currency)?.code?.let {
-                        _currencyUnit = currencyContext[it]
+                        currencyUnit = currencyContext[it]
                         configureForCurrency(currencyUnit)
                     }
                 } catch (_: IllegalArgumentException) {
@@ -415,8 +411,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         lifecycleScope.launch {
             with(menu.findItem(R.id.DYNAMIC_EXCHANGE_RATE_COMMAND)) {
                 if (viewModel.dynamicExchangeRatesPerAccount.first()) {
-                    _currencyUnit?.let {
-                        val isFX = it.code != homeCurrency.code
+                    if (::currencyUnit.isInitialized) {
+                        val isFX = currencyUnit.code != homeCurrency.code
                         this.setEnabledAndVisible(isFX)
                         isChecked = isFX && dynamicExchangeRates
                     }

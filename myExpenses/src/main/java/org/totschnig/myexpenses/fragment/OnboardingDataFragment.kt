@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
+import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.ui.setColor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -46,6 +47,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     OnDialogResultListener {
     private var _binding: OnboardingWizzardDataBinding? = null
     private val binding get() = _binding!!
+    private lateinit var accountTypeSpinner: SpinnerHelper
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -136,6 +138,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         binding.MoreOptionsButton.setOnClickListener {
             viewModel.moreOptionsShown = true
             showMoreOptions()
+        }
+        accountTypeSpinner = SpinnerHelper(binding.AccountType).also {
+            it.setOnItemSelectedListener(null)
         }
     }
 
@@ -230,7 +235,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
                 currency = currency.code,
                 openingBalance = money.amountMinor,
                 description = binding.Description.text.toString(),
-                type = (binding.AccountType.selectedItem as SpinnerItem.Item<AccountType>).data,
+                type = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data,
                 color = viewModel.accountColor
             )
         }
