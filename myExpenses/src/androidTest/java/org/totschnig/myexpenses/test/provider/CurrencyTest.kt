@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.testutils.CurrencyInfo
 
 class CurrencyTest : BaseDbTest() {
     private val testCurrency = CurrencyInfo("Bitcoin", "BTC")
-    private val testAccount = AccountInfo("Account 0", cashAccount.id, 0, testCurrency.code)
 
     fun testShouldNotDeleteFrameworkCurrency() {
         try {
@@ -38,6 +37,8 @@ class CurrencyTest : BaseDbTest() {
     }
 
     fun testShouldNotDeleteUsedCurrency() {
+        val testAccount = AccountInfo("Account 0", cashAccount.id, 0, testCurrency.code)
+
         mDb
             .insert(
                 DatabaseConstants.TABLE_CURRENCIES,
