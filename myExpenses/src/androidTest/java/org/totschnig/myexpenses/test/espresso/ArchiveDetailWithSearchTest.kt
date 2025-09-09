@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -32,6 +33,7 @@ import java.time.LocalTime
 import java.time.ZoneOffset
 import kotlin.math.absoluteValue
 
+@TestShard1
 class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
     private lateinit var account: Account
 

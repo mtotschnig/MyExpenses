@@ -52,12 +52,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
 import java.util.Currency
 
+@TestShard1
 class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private lateinit var account: org.totschnig.myexpenses.model2.Account

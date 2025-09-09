@@ -9,8 +9,10 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 
+@TestShard1
 class CustomizedMenuTest: BaseMyExpensesTest() {
 
     @Test

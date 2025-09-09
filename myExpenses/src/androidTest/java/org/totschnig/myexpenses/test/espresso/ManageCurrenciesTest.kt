@@ -30,10 +30,12 @@ import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
 
+@TestShard3
 class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
 
     @get:Rule

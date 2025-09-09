@@ -43,12 +43,14 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarMainSubtitle
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
 
+@TestShard4
 class MyExpensesTest : BaseMyExpensesTest() {
     private lateinit var account1: Account
     private lateinit var account2: Account

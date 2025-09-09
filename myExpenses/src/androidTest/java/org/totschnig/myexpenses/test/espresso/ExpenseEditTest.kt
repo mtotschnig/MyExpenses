@@ -33,11 +33,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.dateButtonHasDate
 import java.time.LocalDate
 import java.util.Currency
 
+@TestShard2
 class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var account2: Account
     private lateinit var yenAccount: Account

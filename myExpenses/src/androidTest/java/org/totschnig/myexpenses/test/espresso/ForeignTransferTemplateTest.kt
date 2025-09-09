@@ -19,9 +19,11 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
+@TestShard2
 class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     lateinit var account2: Account
 

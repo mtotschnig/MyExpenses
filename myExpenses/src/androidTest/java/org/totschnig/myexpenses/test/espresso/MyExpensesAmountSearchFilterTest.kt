@@ -19,8 +19,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 
+@TestShard3
 class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
 
     lateinit var account: Account

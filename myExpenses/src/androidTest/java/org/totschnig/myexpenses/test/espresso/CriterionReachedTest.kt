@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 import kotlin.math.absoluteValue
@@ -23,6 +24,7 @@ import kotlin.math.sign
 import kotlin.test.Test
 
 
+@TestShard1
 class CriterionReachedTest : BaseExpenseEditTest() {
     val currency = CurrencyUnit(Currency.getInstance("USD"))
 

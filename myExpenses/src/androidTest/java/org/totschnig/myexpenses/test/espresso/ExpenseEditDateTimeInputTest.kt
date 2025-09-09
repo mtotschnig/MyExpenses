@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TestShard2
 import kotlin.test.Test
 
 data class TestConfig(
@@ -21,6 +22,7 @@ data class TestConfig(
         "${accountType.name}: ${if (withTimePreference) "with" else "without"} time, ${if (withValuDatePreference) "with" else "without"} value date"
 }
 
+@TestShard2
 @RunWith(Parameterized::class)
 class ExpenseEditDateTimeInputTest(
     private val config: TestConfig

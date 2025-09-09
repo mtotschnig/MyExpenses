@@ -33,9 +33,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import java.time.ZonedDateTime
 
+@TestShard4
 class RemapTest : BaseMyExpensesTest() {
 
     private fun createMoney() = Money(homeCurrency, 2000)

@@ -19,9 +19,11 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@TestShard3
 class GroupedHeaderTest : BaseMyExpensesTest() {
     private lateinit var account: Account
 

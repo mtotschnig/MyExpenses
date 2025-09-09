@@ -3,9 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
-import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.semantics.getOrNull
-import androidx.compose.ui.semantics.scrollBy
 import androidx.compose.ui.test.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -34,11 +31,13 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.test.R
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import timber.log.Timber
 import java.time.LocalDate
 
+@TestShard1
 class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
     lateinit var account: Account

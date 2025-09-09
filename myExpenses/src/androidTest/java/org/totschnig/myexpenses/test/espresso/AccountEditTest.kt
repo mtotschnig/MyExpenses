@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions
@@ -30,12 +29,14 @@ import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withAccountType
 import org.totschnig.myexpenses.testutils.withCurrency
 import org.totschnig.myexpenses.testutils.withListSize
 import org.totschnig.myexpenses.viewmodel.data.Currency
 
+@TestShard1
 class AccountEditTest : BaseUiTest<AccountEdit>() {
 
     private fun launch(id: Long? = null) {

@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withMethod
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.testutils.withStatus
 import java.util.Currency
 
 
+@TestShard4
 class OrientationChangeTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
     private lateinit var currency1: CurrencyUnit

@@ -13,8 +13,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 
+@TestShard4
 class MyExpensesTagsTest: BaseMyExpensesTest() {
 
     private lateinit var account: Account

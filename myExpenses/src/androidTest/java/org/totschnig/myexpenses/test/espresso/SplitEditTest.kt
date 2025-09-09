@@ -34,10 +34,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.testutils.withAccountGrouped
 
+@TestShard4
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
     private val accountLabel2 = "Test label 2"

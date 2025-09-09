@@ -28,8 +28,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.util.Utils
 
+@TestShard4
 class OnboardingTest : BaseUiTest<OnboardingActivity>() {
 
     private lateinit var viewPager2IdlingResource: ViewPager2IdlingResource

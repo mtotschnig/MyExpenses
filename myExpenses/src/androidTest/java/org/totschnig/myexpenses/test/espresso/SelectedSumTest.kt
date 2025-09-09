@@ -15,8 +15,10 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 
+@TestShard4
 class SelectedSumTest : BaseMyExpensesTest() {
     lateinit var account: org.totschnig.myexpenses.model2.Account
 

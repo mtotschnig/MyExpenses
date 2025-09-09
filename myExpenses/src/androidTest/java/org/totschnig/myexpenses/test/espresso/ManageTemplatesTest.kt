@@ -30,10 +30,12 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import java.time.LocalDate
 
 //TODO test CAB actions
+@TestShard3
 class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     @get:Rule
     var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(

@@ -28,12 +28,14 @@ import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withAccount
 import kotlin.reflect.KClass
 import kotlin.test.Test
 
 
+@TestShard1
 class BudgetEditTest : BaseUiTest<BudgetEdit>() {
 
     lateinit var account1: Account

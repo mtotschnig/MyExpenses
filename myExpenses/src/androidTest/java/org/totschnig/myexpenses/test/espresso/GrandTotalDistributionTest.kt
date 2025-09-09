@@ -35,11 +35,13 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import java.util.Currency
 
+@TestShard3
 class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
     @get:Rule
     val composeTestRule = createEmptyComposeRule()

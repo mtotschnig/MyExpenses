@@ -28,10 +28,12 @@ import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
 
+@TestShard2
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
     var templateId: Long = 0
     var methodId: Long = 0

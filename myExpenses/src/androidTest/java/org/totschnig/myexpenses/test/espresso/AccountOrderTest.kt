@@ -20,8 +20,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import kotlin.test.Test
+
+@TestShard1
 
 class AccountOrderTest : BaseMyExpensesTest() {
     private lateinit var accounts: List<TestAccount>

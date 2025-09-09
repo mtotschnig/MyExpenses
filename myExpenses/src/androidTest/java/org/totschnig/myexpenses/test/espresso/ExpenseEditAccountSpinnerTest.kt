@@ -9,18 +9,18 @@ import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.findAccountType
-import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_FAVORITE
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 import kotlin.test.Test
 
+@TestShard2
 class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
     private lateinit var favoriteAccount: Account
     private lateinit var hiddenAccount: Account

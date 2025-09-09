@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.*
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndAncestor
@@ -44,6 +45,7 @@ import java.text.DecimalFormat
 import java.time.LocalDate
 import java.util.*
 
+@TestShard2
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @get:Rule

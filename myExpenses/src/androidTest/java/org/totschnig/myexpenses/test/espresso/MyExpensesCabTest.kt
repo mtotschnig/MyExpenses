@@ -44,9 +44,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 
+@TestShard3
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     private lateinit var account: Account

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onIdle
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
@@ -13,9 +12,11 @@ import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 
 // fails on Nexus 7 emulator Portrait
+@TestShard2
 class ExpenseEditPayeeTest: BaseExpenseEditTest() {
 
     private lateinit var party: Party

@@ -6,7 +6,9 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -16,13 +18,17 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.setParentId
 import org.totschnig.myexpenses.fragment.PartiesList
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.ui.DisplayParty
 
+@TestShard3
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private lateinit var account: Account
     private var payee1 = "John Doe"
