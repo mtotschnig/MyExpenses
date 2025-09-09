@@ -1034,4 +1034,13 @@
     <string name="supports_reconciliation">Поддържа сверяване</string>
     <string name="aggregate_invisible">Включи невидимите сметки в обобщените сметки и баланса</string>
     <string name="select_accounts_for_flag">Изберете сметки за флага %s</string>
+    <string name="remap_payee_null">Платец/Получател ще бъде премахнат от всички избрани транзакции.</string>
+    <string name="menu_cleanup">Почисти</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d неизползван контрагент ще бъде премахнат.</item>
+        <item quantity="other">%d неизползвани контрагенти ще бъдат премахнати.</item>
+    </plurals>
+    <string name="show_invisible">Скрити сметки</string>
+    <string name="show_zero">Сметки с нулев баланс</string>
+    <string name="content_description_clear_party">Премахни избрания контрагент</string>
 </resources>
