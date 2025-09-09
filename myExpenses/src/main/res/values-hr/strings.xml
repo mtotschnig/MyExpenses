@@ -983,4 +983,5 @@
     <string name="flag_unflagged">Bez značke</string>
     <string name="select_accounts_for_flag">Odaberi račune za značku %s</string>
     <string name="supports_reconciliation">Poržava usklađivanje</string>
+    <string name="remap_payee_null">Platiša/Primalac će se ukloniti iz svih transakcija.</string>
 </resources>
