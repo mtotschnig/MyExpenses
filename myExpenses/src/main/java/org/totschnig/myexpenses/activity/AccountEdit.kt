@@ -98,6 +98,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     @State
     var syncAccountName: String? = null
 
+    @State
     lateinit var currencyUnit: CurrencyUnit
 
     @State
