@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
+import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
@@ -114,7 +115,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
@@ -621,14 +621,7 @@ open class MyExpensesViewModel(
             CrashHandler.report(IllegalStateException("setBooleanProperty for $column called on aggregate account"))
         } else {
             viewModelScope.launch(context = coroutineContext()) {
-                contentResolver.update(
-                    ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
-                    contentValuesOf(
-                        column to value
-                    ),
-                    null,
-                    null
-                )
+                repository.setAccountProperty(accountId, column, value)
             }
         }
     }

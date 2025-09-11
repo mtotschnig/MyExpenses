@@ -1,11 +1,6 @@
 package org.totschnig.myexpenses.sync.json;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -16,6 +11,11 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model2.Account;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 
 @AutoValue
 public abstract class  AccountMetaData implements Parcelable {
@@ -79,7 +79,6 @@ public abstract class  AccountMetaData implements Parcelable {
             openingBalance(),
             currency(),
             AccountType.Companion.withName(type()),
-            0L,
             color(),
             _criterion(),
             syncAccount,

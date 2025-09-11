@@ -9,11 +9,13 @@ import org.totschnig.myexpenses.adapter.SpinnerItem
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_FAVORITE
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -36,10 +38,13 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
         val type = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         account1 = Account(label = "Test label 1", currency = currency1.code, type = type).createIn(repository)
         favoriteAccount =
-            Account(label = "ZZZ", currency = currency2.code, type = type, flagId = favorite)
+            Account(label = "ZZZ", currency = currency2.code, type = type)
                 .createIn(repository)
+        repository.setAccountProperty(favoriteAccount.id, KEY_FLAG, favorite)
         hiddenAccount =
-            Account(label = "AAA", currency = "JPY", type = type, flagId = inactive).createIn(repository)
+            Account(label = "AAA", currency = "JPY", type = type).createIn(repository)
+        repository.setAccountProperty(favoriteAccount.id, KEY_FLAG, inactive)
+
     }
 
     @After
