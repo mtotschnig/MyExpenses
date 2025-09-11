@@ -134,6 +134,27 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.4
+      - '2025-09-11'
+      - bg: 'Получател / платец: Подобрения в потребителския интерфейс'
+        cs: 'Příjemce/plátce: Zdokonalení uživatelského rozhraní'
+        de: 'Empfänger/Zahler: Verfeinerung der Benutzeroberfläche'
+        el: 'Δικαιούχος/Πληρωτής: Βελτίωση του περιβάλλοντος εργασίας χρήστη'
+        es: 'Acreedor/Ordenante: Interfaz de usuario mejorada'
+        fr: 'Tiers: Raffinement de l''interface utilisateur'
+        hr: 'Primalac/Platiša: Poboljšanje korisničkog sučelja'
+        hu: 'Kedvezményezett/Fizető: A felhasználói felület finomítása'
+        it: 'Beneficiario / Pagante: Miglioramento dell''interfaccia utente'
+        iw: 'מקבל התשלום/המשלם: חידוד ממשק המשתמש'
+        nl: 'Begunstigde/Betaler: Verfijning van de gebruikersinterface'
+        pl: 'Odbiorca płatności/Płatnik: Udoskonalenie interfejsu użytkownika'
+        pt: 'Beneficiário/pagador: Melhorias na interface do usuário'
+        ro: 'Beneficiar/Plătitor: Perfecționarea interfeței cu utilizatorul'
+        tr: 'Alacaklı/Mükellef: Kullanıcı arayüzü iyileştirildi'
+        vi: 'Người nhận trả/Người trả: Cải tiến giao diện người dùng'
+        en: 'Payee/Payer: Refinement of the user interface'
+      - github2: '168'
+        mastodon: '115162955035521599'
   -   - 4.0.3
       - '2025-09-01'
       - bg: Флагове на сметката разширяват персонализирането на нейната видимост и
