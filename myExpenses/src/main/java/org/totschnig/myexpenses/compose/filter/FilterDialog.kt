@@ -153,16 +153,13 @@ fun FilterDialog(
     }
 
     var confirmDiscard by rememberSaveable { mutableStateOf(false) }
+    var confirmClear by rememberSaveable { mutableStateOf(false) }
 
-    val currentEdit: MutableState<Criterion?> = rememberSaveable {
-        mutableStateOf(null)
-    }
-
-    val onResult: (SimpleCriterion<*>?) -> Unit = remember(isComplexSearch) {
-        { newValue ->
+    val onResult: (SimpleCriterion<*>?, SimpleCriterion<*>?) -> Unit = remember(isComplexSearch) {
+        { oldValue, newValue ->
             if (newValue != null) {
                 if (isComplexSearch) {
-                    currentEdit.value?.also { current ->
+                    oldValue?.also { current ->
                         criteriaSet.value = criteriaSet.value.map {
                             if (it == current)
                                 if (it is NotCriterion) NotCriterion(newValue) else newValue
@@ -176,7 +173,6 @@ fun FilterDialog(
                     )
                 }
             }
-            currentEdit.value = null
         }
     }
 
@@ -209,7 +205,8 @@ fun FilterDialog(
             FilterHandler(account, "confirmFilterDialog", onResult) {
 
                 Column(
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.safeDrawing)
                         .conditional(isLarge && criteriaSet.value.isEmpty()) {
                             height(400.dp)
                         }
@@ -272,7 +269,7 @@ fun FilterDialog(
                                     icon = Icons.Filled.ClearAll,
                                     enabled = criteriaSet.value.isNotEmpty()
                                 ) {
-                                    criteriaSet.value = emptySet()
+                                    confirmClear = true
                                 }
                                 ActionButton(
                                     hintText = stringResource(R.string.apply),
@@ -380,7 +377,6 @@ fun FilterDialog(
                                         { criteriaSet.value = criteriaSet.value.negate(index) }
                                     val delete = { criteriaSet.value -= criterion }
                                     val edit = {
-                                        currentEdit.value = criterion
                                         handleEdit(criterion)
                                     }
                                     val title = stringResource(criterion.displayTitle)
@@ -506,6 +502,29 @@ fun FilterDialog(
                     },
                     text = {
                         Text(stringResource(R.string.dialog_confirm_discard_changes))
+                    }
+                )
+
+            }
+
+            if (confirmClear) {
+                AlertDialog(
+                    onDismissRequest = { confirmClear = false },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            confirmClear = false
+                            criteriaSet.value = emptySet()
+                        }) {
+                            Text(stringResource(android.R.string.ok))
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { confirmClear = false }) {
+                            Text(stringResource(android.R.string.cancel))
+                        }
+                    },
+                    text = {
+                        Text(stringResource(R.string.clear_all_filters))
                     }
                 )
 

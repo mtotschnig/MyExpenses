@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -98,12 +99,22 @@ interface FilterHandlerScope {
 fun FilterHandler(
     account: BaseAccount,
     requestKey: String,
-    onResult: (SimpleCriterion<*>?) -> Unit,
+    onResult: (SimpleCriterion<*>?, SimpleCriterion<*>?) -> Unit,
     content: @Composable FilterHandlerScope.() -> Unit
 ) {
-    val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
-    val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
-    val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
+    val currentEdit: MutableState<SimpleCriterion<*>?> = rememberSaveable {
+        mutableStateOf(null)
+    }
+
+    val getCategory = rememberLauncherForActivityResult(PickCategoryContract()) {
+        onResult(currentEdit.value, it)
+    }
+    val getPayee = rememberLauncherForActivityResult(PickPayeeContract()) {
+        onResult(currentEdit.value, it)
+    }
+    val getTags = rememberLauncherForActivityResult(PickTagContract()) {
+        onResult(currentEdit.value, it)
+    }
 
     var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
 
@@ -115,6 +126,7 @@ fun FilterHandler(
             requestKey, activity
         ) { _, result ->
             onResult(
+                currentEdit.value,
                 BundleCompat.getParcelable(
                     result,
                     KEY_RESULT_FILTER,
@@ -127,6 +139,12 @@ fun FilterHandler(
         }
     }
     val handler = object: FilterHandlerScope {
+
+        override fun handleEdit(criterion: Criterion) {
+            currentEdit.value = criterion as? SimpleCriterion<*>
+            super.handleEdit(criterion)
+        }
+
         override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
             AmountFilterDialog.newInstance(requestKey,
                 account.currencyUnit, amountCriterion
@@ -189,11 +207,11 @@ fun FilterHandler(
         AlertDialog(
             onDismissRequest = {
                 showCommentFilterPrompt = null
-                onResult(null)
+                onResult(currentEdit.value, null)
             },
             confirmButton = {
                 Button(onClick = {
-                    onResult(CommentCriterion(search?.takeIf { it.isNotBlank() }))
+                    onResult(currentEdit.value, CommentCriterion(search?.takeIf { it.isNotBlank() }))
                     showCommentFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))

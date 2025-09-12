@@ -106,7 +106,6 @@ import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.filter.FilterDialog
 import org.totschnig.myexpenses.compose.filter.FilterHandler
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
-import org.totschnig.myexpenses.compose.filter.TYPE_QUICK
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -1155,23 +1154,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 .whereFilter
                 .collectAsState(null)
             filter.value?.let { filter ->
-                if (preferredSearchType == TYPE_QUICK) {
-                    FilterHandler(account, "confirmFilterDirect_${account.id}", {
-                        if (it != null) {
+                FilterHandler(account, "confirmFilterDirect_${account.id}", {
+                    oldValue, newValue ->
+                    if (newValue != null && oldValue != null) {
+                        lifecycleScope.launch {
+                            currentFilter.replaceCriterion(oldValue, newValue)
+                        }
+                    }
+                }) {
+                    FilterCard(filter,
+                        editFilter = { handleEdit(it) },
+                        clearAllFilter = { confirmClearFilter() },
+                        clearFilter = {
                             lifecycleScope.launch {
-                                currentFilter.replaceCriterion(it)
+                                currentFilter.removeCriterion(it)
+                                invalidateOptionsMenu()
                             }
                         }
-                    }
-                    ) {
-                        FilterCard(filter, editFilter = { handleEdit(it) }) {
-                            confirmClearFilter()
-                        }
-                    }
-                } else {
-                    FilterCard(filter) {
-                        confirmClearFilter()
-                    }
+                    )
                 }
             }
 

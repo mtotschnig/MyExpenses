@@ -1,20 +1,18 @@
 package org.totschnig.myexpenses.compose.filter
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -29,7 +27,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.CollectionItemInfo
-import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.contentDescription
@@ -52,13 +49,14 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 fun FilterCard(
     whereFilter: Criterion,
     editFilter: ((Criterion) -> Unit)? = null,
-    clearFilter: (() -> Unit)? = null,
+    clearAllFilter: (() -> Unit)? = null,
+    clearFilter: ((Criterion) -> Unit)? = null,
 ) {
-    if (clearFilter != null) {
+    if (clearAllFilter != null) {
         val dismissState = rememberSwipeToDismissBoxState(
             confirmValueChange = { newValue ->
                 if (newValue != SwipeToDismissBoxValue.Settled) {
-                    clearFilter()
+                    clearAllFilter()
                 }
                 false
             }
@@ -75,28 +73,31 @@ fun FilterCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    listOf(
-                        SwipeToDismissBoxValue.StartToEnd,
-                        SwipeToDismissBoxValue.EndToStart
-                    ).forEach {
-                        Icon(
-                            imageVector = Icons.Filled.Clear,
-                            contentDescription = null
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = null
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = null
+                    )
                 }
             }
         ) {
-            FilterCardImpl(whereFilter, editFilter)
+            FilterCardImpl(whereFilter, editFilter, clearFilter)
         }
     } else {
-        FilterCardImpl(whereFilter, editFilter)
+        FilterCardImpl(whereFilter, editFilter, clearFilter)
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FilterCardImpl(whereFilter: Criterion, editFilter: ((Criterion) -> Unit)?) {
+private fun FilterCardImpl(
+    whereFilter: Criterion,
+    editFilter: ((Criterion) -> Unit)?,
+    clearFilter: ((Criterion) -> Unit)? = null,
+) {
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,8 +111,7 @@ private fun FilterCardImpl(whereFilter: Criterion, editFilter: ((Criterion) -> U
                 semantics {
                     collectionInfo = CollectionInfo(it.criteria.size, 1)
                 }
-            }
-        ,
+            },
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -119,7 +119,7 @@ private fun FilterCardImpl(whereFilter: Criterion, editFilter: ((Criterion) -> U
         if (whereFilter is ComplexCriterion) {
             val separatorDescription = stringResource(whereFilter.description)
             whereFilter.criteria.forEachIndexed { index, criterion ->
-                FilterItemImpl(criterion, index, editFilter)
+                FilterItemImpl(criterion, index, editFilter, clearFilter)
                 if (index < whereFilter.criteria.size - 1) {
                     CharIcon(
                         whereFilter.symbol,
@@ -131,7 +131,7 @@ private fun FilterCardImpl(whereFilter: Criterion, editFilter: ((Criterion) -> U
                 }
             }
         } else {
-            FilterItemImpl(whereFilter, editFilter = editFilter)
+            FilterItemImpl(whereFilter, editFilter = editFilter, clearFilter = clearFilter)
         }
     }
 }
@@ -141,33 +141,37 @@ fun FilterItemImpl(
     criterion: Criterion,
     index: Int? = null,
     editFilter: ((Criterion) -> Unit)?,
+    clearFilter: ((Criterion) -> Unit)?,
 ) {
     val contentDescription = criterion.contentDescription(LocalContext.current)
-    Row(
-        Modifier
-            .optional(editFilter) {
-                clickable { it(criterion) }
+    InputChip(
+        modifier = Modifier.semantics {
+            this.contentDescription = contentDescription
+            index?.let {
+                collectionItemInfo = CollectionItemInfo(index, 1, -1, -1)
             }
-            .border(
-                SuggestionChipDefaults.suggestionChipBorder(true),
-                SuggestionChipDefaults.shape
+        },
+        selected = true,
+        onClick = { editFilter?.invoke(criterion) },
+        label = { Text(criterion.prettyPrint(LocalContext.current)) },
+        leadingIcon = {
+            Icon(
+                imageVector = criterion.displayIcon,
+                contentDescription = stringResource(criterion.displayTitle)
             )
-            .defaultMinSize(minHeight = 32.dp)
-            .padding(horizontal = 8.dp)
-            .clearAndSetSemantics {
-                this.contentDescription = contentDescription
-                index?.let {
-                    collectionItemInfo = CollectionItemInfo(index, 1, -1, -1)
-                }
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = criterion.displayIcon,
-            contentDescription = stringResource(criterion.displayTitle)
-        )
-        Text(criterion.prettyPrint(LocalContext.current))
-    }
+        },
+        trailingIcon = if (clearFilter != null) {
+            {
+                Icon(
+                    modifier = Modifier.clickable {
+                        clearFilter(criterion)
+                    },
+                    imageVector = Icons.Filled.Clear,
+                    contentDescription = null
+                )
+            }
+        } else null
+    )
 }
 
 @Preview(widthDp = 350)

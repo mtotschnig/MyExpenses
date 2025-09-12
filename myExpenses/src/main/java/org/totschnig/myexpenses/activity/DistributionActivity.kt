@@ -289,7 +289,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 )
                 if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
                     if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter = clearFilter)
+                        FilterCard(whereFilter, clearAllFilter = clearFilter)
                     }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -300,7 +300,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter = clearFilter)
+                            FilterCard(whereFilter, clearAllFilter = clearFilter)
                         }
                         LayoutHelper(
                             data = { modifier, _ ->
@@ -431,7 +431,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                 categoryTree.value.children.isEmpty() -> {
                     if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter = clearFilter)
+                        FilterCard(whereFilter, clearAllFilter = clearFilter)
                     }
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -444,7 +444,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter = clearFilter)
+                            FilterCard(whereFilter, clearAllFilter = clearFilter)
                         }
                         LayoutHelper(
                             data = { modifier, _ ->
