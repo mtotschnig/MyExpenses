@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.requireAccountTypeForSync
-import org.totschnig.myexpenses.db2.toContentValues
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.preference.PrefHandler
