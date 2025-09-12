@@ -39,7 +39,7 @@ interface ITransaction: IModel {
     fun setDate(zonedDateTime: ZonedDateTime)
     fun setValueDate(zonedDateTime: ZonedDateTime)
     fun setInitialPlan(initialPlan: Triple<String?, Recurrence, LocalDate>)
-    fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils, withCommit: Boolean): Uri?
+    fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils, withCommit: Boolean): Uri
 
     fun saveTags(contentResolver: ContentResolver, tags: List<Tag>)
 }

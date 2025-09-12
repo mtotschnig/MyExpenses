@@ -197,7 +197,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     }
                 }
 
-                transaction.save(contentResolver, plannerUtils, true)
+                transaction.save(contentResolver, plannerUtils, true) ?: throw Throwable("Error while saving transaction")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
                     if (

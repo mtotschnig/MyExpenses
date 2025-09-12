@@ -27,42 +27,44 @@ suspend fun instantiateTemplate(
     planInstanceInfo: PlanInstanceInfo,
     homeCurrencyUnit: CurrencyUnit,
     ifOpen: Boolean = false
-    ) = (if (ifOpen)
+) = (if (ifOpen)
     Transaction.getInstanceFromTemplateIfOpen(
         repository.contentResolver,
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
     ) else
-    Transaction.getInstanceFromTemplateWithTags(repository.contentResolver, planInstanceInfo.templateId))?.let {
-        val (t, tagList, dynamic) = it
-        if (planInstanceInfo.date != null) {
-            val date = planInstanceInfo.date / 1000
-            t.date = date
-            t.valueDate = date
-            t.originPlanInstanceId = planInstanceInfo.instanceId
-        }
-        t.status = STATUS_NONE
-        if (dynamic) {
-            try {
-                val rate = exchangeRateHandler.loadExchangeRate(
-                    t.amount.currencyUnit,
-                    homeCurrencyUnit,
-                    epoch2LocalDate(t.date)
-                )
-                t.equivalentAmount = Money(homeCurrencyUnit, t.amount.amountMajor.multiply(rate))
-            } catch (e: Exception) {
-                repository.loadAccount(t.accountId)?.exchangeRate?.also {
-                    t.equivalentAmount = Money(homeCurrencyUnit, (t.amount.amountMinor * it).roundToLong())
-                } ?: run {
-                    CrashHandler.report(
-                        Exception("Could not apply exchange rate to transaction", e)
-                    )
-                }
-            }
-
-        }
-        if (t.save(repository.contentResolver, true) != null) {
-            t.saveTags(repository.contentResolver, tagList)
-            t
-        } else null
+    Transaction.getInstanceFromTemplateWithTags(
+        repository.contentResolver,
+        planInstanceInfo.templateId
+    ))?.let { (t, tagList, dynamic) ->
+    if (planInstanceInfo.date != null) {
+        val date = planInstanceInfo.date / 1000
+        t.date = date
+        t.valueDate = date
+        t.originPlanInstanceId = planInstanceInfo.instanceId
     }
+    t.status = STATUS_NONE
+    if (dynamic) {
+        try {
+            val rate = exchangeRateHandler.loadExchangeRate(
+                t.amount.currencyUnit,
+                homeCurrencyUnit,
+                epoch2LocalDate(t.date)
+            )
+            t.equivalentAmount = Money(homeCurrencyUnit, t.amount.amountMajor.multiply(rate))
+        } catch (e: Exception) {
+            repository.loadAccount(t.accountId)?.exchangeRate?.also {
+                t.equivalentAmount =
+                    Money(homeCurrencyUnit, (t.amount.amountMinor * it).roundToLong())
+            } ?: run {
+                CrashHandler.report(
+                    Exception("Could not apply exchange rate to transaction", e)
+                )
+            }
+        }
+
+    }
+    t.save(repository.contentResolver, true)
+    t.saveTags(repository.contentResolver, tagList)
+    t
+}

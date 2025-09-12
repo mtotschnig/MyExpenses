@@ -15,10 +15,49 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.RepositoryTagsKt;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.PlannerUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.UriExtKt;
+import org.totschnig.myexpenses.ui.DisplayParty;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import kotlin.Pair;
+import kotlin.Triple;
+
 import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -56,50 +95,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
-import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
-import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.RemoteException;
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.db2.RepositoryPartyKt;
-import org.totschnig.myexpenses.db2.RepositoryTagsKt;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.PlannerUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.UriExtKt;
-import org.totschnig.myexpenses.ui.DisplayParty;
-import org.totschnig.myexpenses.util.ICurrencyFormatter;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import kotlin.Pair;
-import kotlin.Triple;
 
 /**
  * Domain class for transactions
@@ -638,10 +635,12 @@ public class Transaction extends Model implements ITransaction {
     return save(contentResolver, false);
   }
 
+  @NonNull
   public Uri save(ContentResolver contentResolver, boolean withCommit) {
     return save(contentResolver, null, withCommit);
   }
 
+  @NonNull
   public Uri save(ContentResolver contentResolver, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
     Uri uri;
     try {
@@ -655,7 +654,7 @@ public class Transaction extends Model implements ITransaction {
         uri = Uri.parse(CONTENT_URI + "/" + getId());
       }
     } catch (RemoteException | OperationApplicationException e) {
-      return null;
+      throw new RuntimeException(e);
     }
     if (initialPlan != null) {
       String title = initialPlan.getFirst() != null ? initialPlan.getFirst() :
