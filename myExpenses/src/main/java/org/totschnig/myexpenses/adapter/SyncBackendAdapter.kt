@@ -168,7 +168,7 @@ class SyncBackendAdapter(
             ExpandableListView.getPackedPositionChild(packedPosition)
         )
         result.onSuccess { accountMetaData ->
-            return accountMetaData.toAccount(homeCurrency, getBackendLabel(groupPosition), repository)
+            return accountMetaData.toAccount(homeCurrency, getBackendLabel(groupPosition))
         }
         return null
     }

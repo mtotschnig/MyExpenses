@@ -6,7 +6,6 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
-import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
@@ -67,7 +66,7 @@ public abstract class  AccountMetaData implements Parcelable {
     return label() + " (" + currency() + ")";
   }
 
-  public Account toAccount(String homeCurrency, String syncAccount, Repository repository) {
+  public Account toAccount(String homeCurrency, String syncAccount) {
     Double exchangeRate = exchangeRate();
     if (exchangeRate == null || !homeCurrency.equals(exchangeRateOtherCurrency())) {
       exchangeRate = 1.0;

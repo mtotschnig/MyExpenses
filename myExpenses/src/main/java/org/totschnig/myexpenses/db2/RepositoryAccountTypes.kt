@@ -85,3 +85,8 @@ fun Repository.saveAccountTypeOrder(sortedIds: LongArray) {
         putLongArray(KEY_SORTED_IDS, sortedIds)
     })
 }
+
+fun Repository.requireAccountTypeForSync(name: String): AccountType = findAccountType(name) ?:
+AccountType.initialAccountTypes.firstOrNull { it.nameForSyncLegacy == name }?.let {
+    findAccountType(it.name)
+} ?:  addAccountType(AccountType(name =name))
