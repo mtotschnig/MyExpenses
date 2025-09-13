@@ -43,7 +43,7 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
         repository.setAccountProperty(favoriteAccount.id, KEY_FLAG, favorite)
         hiddenAccount =
             Account(label = "AAA", currency = "JPY", type = type).createIn(repository)
-        repository.setAccountProperty(favoriteAccount.id, KEY_FLAG, inactive)
+        repository.setAccountProperty(hiddenAccount.id, KEY_FLAG, inactive)
 
     }
 
