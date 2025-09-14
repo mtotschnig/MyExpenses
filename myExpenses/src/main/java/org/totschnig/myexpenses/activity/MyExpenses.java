@@ -15,25 +15,20 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
+
+import androidx.annotation.NonNull;
+
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 /**
  * This is the main activity where all expenses are listed
@@ -111,13 +106,6 @@ public class MyExpenses extends BaseMyExpenses implements
           reviewManager.onEditTransactionResult(this);
         }
       }
-    }
-  }
-
-  @Override
-  public void contribFeatureNotCalled(@NonNull ContribFeature feature) {
-    if (!DistributionHelper.isGithub() && feature == ContribFeature.AD_FREE) {
-      finish();
     }
   }
 
