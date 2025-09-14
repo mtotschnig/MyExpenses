@@ -1315,7 +1315,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET,
                                 accountId
                             )
-                            (delegate as? TransferDelegate)?.mTransferAccountId?.let {
+                            (delegate as? TransferDelegate)?.transferAccountId?.let {
                                 prefHandler.putLong(
                                     PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,
                                     it

@@ -52,7 +52,7 @@ class TransferDelegate(
     private lateinit var transferAccountsAdapter:  GroupedSpinnerAdapter<AccountFlag, Account>
 
     @State
-    var mTransferAccountId: Long? = null
+    var transferAccountId: Long? = null
 
     @State
     var transferPeer: Long? = null
@@ -86,7 +86,7 @@ class TransferDelegate(
         withAutoFill: Boolean
     ) {
         if (transaction != null) {
-            mTransferAccountId = transaction.transferAccountId
+            transferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
             passedInTransferAmount = transaction.transferAmount?.amountMinor
             passedInTransferAccountId = transaction.transferAccountId
@@ -130,7 +130,7 @@ class TransferDelegate(
         super.onItemSelected(parent, view, position, id)
         when (parent.id) {
             R.id.TransferAccount -> {
-                mTransferAccountId = transferAccountSpinner.selectedItemId
+                transferAccountId = transferAccountSpinner.selectedItemId
                 configureTransferInput()
             }
         }
@@ -299,21 +299,25 @@ class TransferDelegate(
     override fun updateAccount(account: Account, isInitialSetup: Boolean) {
         super.updateAccount(account, isInitialSetup)
         setTransferAccountFilterMap()
-        if (accountId == mTransferAccountId) {
-            mTransferAccountId = null
+        if (accountId == transferAccountId) {
+            transferAccountId = null
         }
-        mTransferAccountId?.also {
+        transferAccountId?.also {
             transferAccountSpinner.setSelection(transferAccountsAdapter.getPosition(it))
         } ?: run {
-            mTransferAccountId = transferAccountSpinner.selectedItemId
+            transferAccountsAdapter.getFirstSelectable()?.let {
+                transferAccountSpinner.setSelection(it.index)
+                transferAccountId = it.value.itemId
+            }
         }
         configureTransferInput()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val transferAccountId = transferAccountSpinner.selectedItemId
-        if (transferAccountId != AdapterView.INVALID_ROW_ID) {
-            mTransferAccountId = transferAccountId
+        transferAccountSpinner.selectedItemId.takeIf {
+            it != AdapterView.INVALID_ROW_ID
+        }?.also {
+            transferAccountId = it
         }
         super.onSaveInstanceState(outState)
     }

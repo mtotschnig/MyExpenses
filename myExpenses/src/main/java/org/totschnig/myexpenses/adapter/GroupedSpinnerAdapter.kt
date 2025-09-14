@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,6 +64,7 @@ open class GroupedSpinnerAdapter<H, T : IdHolder>(
 
     fun getPosition(item: T) = getPosition(item.id)
     fun getPosition(id: Long) = items.indexOfFirst { it.itemId == id }
+    fun getFirstSelectable(): IndexedValue<SpinnerItem>? = items.withIndex().firstOrNull { (_, item) -> item is SpinnerItem.Item<*> }
 
     open fun showHeader(header: H): Boolean = true
 
