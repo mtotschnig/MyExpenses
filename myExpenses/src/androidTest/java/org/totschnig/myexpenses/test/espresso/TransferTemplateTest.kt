@@ -20,10 +20,11 @@ import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard4
+import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
-@TestShard4
+@TestShard5
 class TransferTemplateTest : BaseExpenseEditTest() {
     lateinit var account2: Account
 

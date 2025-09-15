@@ -16,13 +16,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
+import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import kotlin.properties.Delegates
 
 //tests if account is selected in MyExpenses view pager
 //and which account is selected in form for new transaction
-@TestShard4
+@TestShard5
 class SelectAccountTest : BaseMyExpensesTest() {
 
     lateinit var accountUSD1: Account
