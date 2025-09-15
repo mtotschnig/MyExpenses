@@ -967,4 +967,25 @@
     <string name="edit_account_type">Рэдагаваць тып акаўнта</string>
     <string name="new_account_type">Новы тып акаўнта</string>
     <string name="pref_account_list_display_configuration_title">Спіс уліковых запісаў</string>
+    <string name="remap_payee_null">Плацельшчык/атрымальнік будзе выдалены з усіх выбраных транзакцый.</string>
+    <string name="pref_print_layout_summary">Наладзіць шырыню і склад слупкоў</string>
+    <string name="menu_account_flags">Флагі</string>
+    <string name="menu_flag">Сцяг</string>
+    <string name="edit_account_flag">Рэдагаваць сцяг</string>
+    <string name="new_account_flag">Новы сцяг</string>
+    <string name="flag_unflagged">Няма сцяга</string>
+    <string name="flag_favorite">Упадабанае</string>
+    <string name="supports_reconciliation">Падтрымлівае прымірэнне</string>
+    <string name="aggregate_invisible">Уключыць нябачныя рахункі ў агрэгаваныя рахункі і баланс</string>
+    <string name="select_accounts_for_flag">Выберыце рахункі для сцяга %s</string>
+    <string name="menu_cleanup">Ачысціць</string>
+    <string name="show_invisible">Схаваныя акаўнты</string>
+    <string name="show_zero">Рахункі з нулявым балансам</string>
+    <string name="content_description_clear_party">Ачысціць контрагента</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d невыкарыстоўваны контрагент будзе выдалены.</item>
+        <item quantity="few">%d невыкарыстоўваемых контрагента будуць выдаленыя.</item>
+        <item quantity="many">%d невыкарыстоўваемых контрагентаў будзе выдалена.</item>
+        <item quantity="other">%d невыкарыстоўваемых контрагентаў будзе выдалена.</item>
+    </plurals>
 </resources>
