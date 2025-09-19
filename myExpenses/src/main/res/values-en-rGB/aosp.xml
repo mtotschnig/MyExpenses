@@ -7,15 +7,5 @@
     <string name="license_title">"Licence"</string>
     <string name="color">"Colour"</string>
     <string name="color_component_title">"Choose colour"</string>
-    <string name="action_archive">"Archive"</string>
     <string name="percent_long">"{value,plural, =1{1 per cent}other{# per cent}}"</string>
-    <string name="enabled">"Enabled"</string>
-    <string name="disabled">"Disabled"</string>
-    <string name="preview">"Preview"</string>
-    <string name="user">"User"</string>
-    <string name="action_move_top">"Move to top"</string>
-    <string name="action_move_bottom">"Move to bottom"</string>
-    <string name="layout">"Layout"</string>
-    <string name="widgets">"Widgets"</string>
-    <string name="flag_inactive">"Inactive"</string>
 </resources>

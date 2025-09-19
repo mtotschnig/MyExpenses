@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_transaction_amount_color_source_title">Colours for amounts</string>
+    <string name="flag_favorite">Favourite</string>
 </resources>
