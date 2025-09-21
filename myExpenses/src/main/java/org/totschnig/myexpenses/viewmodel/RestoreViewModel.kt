@@ -233,7 +233,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             permissionRequestFuture = it
                         }.await()
                         _permissionRequested.postValue(null)
-                        if (granted != true) {
+                        if (!granted) {
                             failureResult(
                                 Utils.getTextWithAppName(
                                     getApplication(),
@@ -242,32 +242,32 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             )
                             return@launch
                         }
-                        if (try {
-                                contentResolver.query(
-                                    CalendarContract.Calendars.CONTENT_URI,
-                                    arrayOf(CalendarContract.Calendars._ID),
-                                    "$CALENDAR_FULL_PATH_PROJECTION = ?",
-                                    arrayOf(calendarPath),
-                                    null
-                                )?.use {
-                                    it.moveToFirst()
-                                }
-                            } catch (e: SecurityException) {
-                                failureResult(e)
-                                return@launch
-                            } == false
-                        ) {
-                            //the calendar configured in the backup does not exist
-                            currentPlannerId = plannerUtils.checkPlanner()
-                            currentPlannerPath =
-                                prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-                            if (INVALID_CALENDAR_ID == currentPlannerId) {
-                                //there is no locally configured calendar, we create a new one
-                                //noinspection MissingPermission
-                                currentPlannerId = plannerUtils.createPlanner(false)
-                                currentPlannerPath =
-                                    getCalendarPath(contentResolver, currentPlannerId)
+                    }
+                    if (try {
+                            contentResolver.query(
+                                CalendarContract.Calendars.CONTENT_URI,
+                                arrayOf(CalendarContract.Calendars._ID),
+                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                arrayOf(calendarPath),
+                                null
+                            )?.use {
+                                it.moveToFirst()
                             }
+                        } catch (e: SecurityException) {
+                            failureResult(e)
+                            return@launch
+                        } == false
+                    ) {
+                        //the calendar configured in the backup does not exist
+                        currentPlannerId = plannerUtils.checkPlanner()
+                        currentPlannerPath =
+                            prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+                        if (INVALID_CALENDAR_ID == currentPlannerId) {
+                            //there is no locally configured calendar, we create a new one
+                            //noinspection MissingPermission
+                            currentPlannerId = plannerUtils.createPlanner(false)
+                            currentPlannerPath =
+                                getCalendarPath(contentResolver, currentPlannerId)
                         }
                     }
                 }
