@@ -37,6 +37,12 @@ data class Party(
             "*[ (.;,]$search*"
         )
 
+        fun createIfNotEmpty(
+            name: String,
+            iban: String? = null,
+            bic: String? = null
+        ) = if (name.isNotEmpty()) create(name = name, iban = iban, bic = bic) else null
+
         fun create(
             name: String,
             shortName: String? = null,

@@ -68,7 +68,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         val transfer = VerwendungszweckUtil.apply(lines)
 
 
-        (getTag(transfer, Tag.ABWA)?.let { Party.create(name = it) }
+        (getTag(transfer, Tag.ABWA)?.let { Party.createIfNotEmpty(name = it) }
             ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }
                 ?.toParty())?.let { party ->
             val payeeInfo = payeeCache[party] ?: run {
@@ -137,7 +137,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
             StringUtils.replaceEach(text, replacements[0], replacements[1])
 
 
-    private fun Konto.toParty(): Party {
+    private fun Konto.toParty(): Party? {
 
         var name: String = StringUtils.trimToEmpty(name)
         val name2: String = StringUtils.trimToEmpty(name2)
@@ -149,7 +149,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
                     HBCI_TRANSFER_NAME_MAXLENGTH
                 )
             )
-        return Party.create(name= name, iban = iban, bic = bic)
+        return Party.createIfNotEmpty(name= name, iban = iban, bic = bic)
     }
 
     private fun extractMethodId(methodLabel: String, accountTypeId: Long): Long =
