@@ -665,19 +665,6 @@ object PdfPrinter {
                     .filter { it.isNotEmpty() }
             }
 
-            fun fontType(field: Field, isSplitPart: Boolean) = when (field) {
-                is Amount, OriginalAmount -> {
-                    if (account.id >= 0 || !transaction.isSameCurrency)
-                        (colorSource.transformType(transaction.type)
-                            ?: when (transaction.displayAmount.amountMinor.sign) {
-                                1 -> FLAG_INCOME
-                                -1 -> FLAG_EXPENSE
-                                else -> FLAG_NEUTRAL
-                            }).asFontType(isSplitPart) else FontType.NORMAL
-                }
-
-                else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
-            }
 
             fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f, isSplitPart: Boolean = false) {
                 columns.forEachIndexed { index, fields ->
@@ -685,9 +672,21 @@ object PdfPrinter {
                     val border = (if (index == columns.lastIndex) 0 else Rectangle.RIGHT) +
                             if (isSplitPart) 0 else Rectangle.TOP
                     val rows: List<Pair<FontType, String>> = finalFields.flatMap { field ->
-                        print(field).map {
-                            fontType(field, isSplitPart) to it
+                        val fontType = when (field) {
+                            is Amount, OriginalAmount -> {
+                                if (account.id >= 0 || !isSameCurrency)
+                                    (colorSource.transformType(type)
+                                        ?: when (displayAmount.amountMinor.sign) {
+                                            1 -> FLAG_INCOME
+                                            -1 -> FLAG_EXPENSE
+                                            else -> FLAG_NEUTRAL
+                                        }).asFontType(isSplitPart) else FontType.NORMAL
+                            }
+
+                            else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
                         }
+
+                        print(field).map { fontType to it }
                     }
                     val cell =
                         helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
