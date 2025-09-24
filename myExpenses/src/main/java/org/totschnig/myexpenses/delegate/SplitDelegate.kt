@@ -202,12 +202,7 @@ class SplitDelegate(
         if (success) {
             super.updateAccount(account, false)
         } else {
-            for ((index, a) in mAccounts.withIndex()) {
-                if (a.id == accountId) {
-                    accountSpinner.setSelection(index)
-                    break
-                }
-            }
+            accountSpinner.setSelection(accountAdapter.getPosition(accountId!!))
             host.showSnackBar(
                 host.getString(
                     R.string.warning_cannot_move_split_transaction,
