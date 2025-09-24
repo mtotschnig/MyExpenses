@@ -275,7 +275,10 @@ private fun ContentResolver.findBySelection(
     column: String
 ) =
     query(
-        CONTENT_URI,
+        CONTENT_URI
+            .buildUpon()
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1")
+            .build(),
         arrayOf(column),
         selection,
         selectionArgs,
