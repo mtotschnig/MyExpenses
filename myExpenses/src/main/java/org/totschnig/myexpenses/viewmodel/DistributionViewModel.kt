@@ -74,14 +74,15 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                 ContentUris.withAppendedId(base, accountId),
                 projection, null, null, null
             )?.use {
-                it.moveToFirst()
-                _accountInfo.tryEmit(object : DistributionAccountInfo {
-                    val label = it.getString(0)
-                    override val accountId = accountId
-                    override fun label(context: Context) = label
-                    override val currency = it.getString(1)
-                    override val color = if (isAggregate) -1 else it.getInt(2)
-                })
+                if (it.moveToFirst()) {
+                    _accountInfo.tryEmit(object : DistributionAccountInfo {
+                        val label = it.getString(0)
+                        override val accountId = accountId
+                        override fun label(context: Context) = label
+                        override val currency = it.getString(1)
+                        override val color = if (isAggregate) -1 else it.getInt(2)
+                    })
+                }
             }
         }
         viewModelScope.launch {
