@@ -16,7 +16,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
-fun Repository.createParty(party: String) = contentResolver.createParty(Party.create(name = party))
+fun Repository.createParty(party: String) = Party.create(name = party)
+    ?.let { contentResolver.createParty(it) }
 
 fun Repository.saveParty(party: Party) {
     contentResolver.update(
@@ -43,7 +44,8 @@ fun Repository.deleteParty(id: Long) {
 
 // legacy methods with ContentResolver receiver
 fun ContentResolver.requireParty(name: String): Long? {
-    return findParty(name) ?: createParty(Party.create(name = name))?.id
+    return findParty(name) ?: Party.create(name = name)
+        ?.let { createParty(it) }?.id
 }
 
 fun ContentResolver.createParty(party: Party) =
@@ -73,12 +75,12 @@ fun Repository.unsetParentId(partyId: Long) {
 }
 
 fun Repository.getPartyName(partyId: Long) = contentResolver.query(
-        ContentUris.withAppendedId(PAYEES_URI, partyId),
-        arrayOf(KEY_PAYEE_NAME), null, null, null
-    )?.use {
-        it.moveToFirst()
-        it.getString(0)
-    }
+    ContentUris.withAppendedId(PAYEES_URI, partyId),
+    arrayOf(KEY_PAYEE_NAME), null, null, null
+)?.use {
+    it.moveToFirst()
+    it.getString(0)
+}
 
 @VisibleForTesting
 fun Repository.getParty(partyId: Long) = contentResolver.query(

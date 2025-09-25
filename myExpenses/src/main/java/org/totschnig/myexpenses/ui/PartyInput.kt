@@ -45,7 +45,7 @@ data class DisplayParty(
     val id: Long?,
     val name: String,
     val shortName: String? = null
-): Parcelable {
+) : Parcelable {
 
     val displayName: String
         get() = shortName ?: name
@@ -83,9 +83,8 @@ class PartyInput @JvmOverloads constructor(
         get() = binding.selectedItemChip
 
     val partyForSave: DisplayParty?
-        get() = party ?: autoCompleteTextView.text.toString().takeIf { it.isNotEmpty() }?.let {
-            DisplayParty(null, it)
-        }
+        get() = party ?: Party.validate(autoCompleteTextView.text.toString())
+            ?.let { DisplayParty(null, it) }
 
     @State
     var party: DisplayParty? = null

@@ -29,7 +29,7 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
     fun shouldRestoreCachedData() {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
-        party = repository.createParty(Party.create(name = "John"))!!
+        party = repository.createParty(Party.create(name = "John")!!)!!
         launch()
         unlock()
         setAmount(200)

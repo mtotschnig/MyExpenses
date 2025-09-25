@@ -379,8 +379,7 @@ public class Utils {
     for (int i = 0, partiesListSize = partiesList.size(); i < partiesListSize; i++) {
       String party = partiesList.get(i);
       if (RepositoryPartyKt.findParty(repository, party) == null) {
-        RepositoryPartyKt.createParty(repository, party);
-        total++;
+        if (RepositoryPartyKt.createParty(repository, party) != null) total++;
       }
       if (task != null && i % 10 == 0) {
         task.publishProgress(i);

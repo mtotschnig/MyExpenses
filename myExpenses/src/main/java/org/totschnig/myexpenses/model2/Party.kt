@@ -37,13 +37,18 @@ data class Party(
             "*[ (.;,]$search*"
         )
 
-        fun createIfNotEmpty(
-            name: String,
-            iban: String? = null,
-            bic: String? = null
-        ) = if (name.isNotEmpty()) create(name = name, iban = iban, bic = bic) else null
+        fun validate(name: String) = name.trim().takeIf { it.isNotEmpty() }
 
         fun create(
+            name: String,
+            shortName: String? = null,
+            id: Long = 0,
+            iban: String? = null,
+            bic: String? = null,
+            parentId: Long? = null
+        ) = validate(name)?.let { createInternal(name, shortName, id, iban, bic, parentId) }
+
+        private fun createInternal(
             name: String,
             shortName: String? = null,
             id: Long = 0,
@@ -53,7 +58,7 @@ data class Party(
         ) =
             Party(
                 id = id,
-                name = requireNotNull(name.trim().takeIf { it.isNotEmpty() }),
+                name = name,
                 shortName = shortName?.trim(),
                 iban = iban,
                 bic = bic,

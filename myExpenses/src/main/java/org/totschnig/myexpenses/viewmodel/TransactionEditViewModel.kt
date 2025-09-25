@@ -193,11 +193,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(runCatching {
                 transaction.party?.let {
                     if (it.id == null) {
-                        transaction.party = DisplayParty(repository.requireParty(it.name), it.name)
+                        transaction.party = repository.requireParty(it.name)
+                            ?.let { id -> DisplayParty(id, it.name) }
                     }
                 }
 
-                transaction.save(contentResolver, plannerUtils, true) ?: throw Throwable("Error while saving transaction")
+                transaction.save(contentResolver, plannerUtils, true)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
                     if (

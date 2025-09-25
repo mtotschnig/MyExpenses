@@ -417,12 +417,13 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 shortName = shortName
             )
             emit(
-                try {
-                    if (id == 0L) repository.createParty(party) else repository.saveParty(party)
-                    true
-                } catch (_: SQLiteConstraintException) {
-                    false
-                }
+                if (party == null) false else
+                    try {
+                        if (id == 0L) repository.createParty(party) else repository.saveParty(party)
+                        true
+                    } catch (_: SQLiteConstraintException) {
+                        false
+                    }
             )
         }
 
