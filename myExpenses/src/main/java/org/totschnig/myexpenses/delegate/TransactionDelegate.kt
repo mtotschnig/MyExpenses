@@ -664,12 +664,9 @@ abstract class TransactionDelegate<T : ITransaction>(
             accountSpinner.id -> {
                 mAccounts.firstOrNull() { it.id == id }?.let { newAccount ->
                     val oldAccount = mAccounts.first { it.id == accountId }
-                    if (newAccount.color == oldAccount.color || !host.maybeApplyDynamicColor()) {
-                        updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
-                    } else {
-                        accountId = newAccount.id
-                        host.color = newAccount.color
-                    }
+                    updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
+                    host.color = newAccount.color
+                    host.maybeApplyDynamicColor()
                 }
             }
 

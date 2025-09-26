@@ -28,13 +28,13 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
-import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
@@ -136,6 +136,24 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkAmount(7)
         clickFab()//saves part and returns to main
         checkPartCount(2)
+    }
+
+    @Test
+    fun bug1783() {
+        val account2 = buildAccount("Test Account 2")
+        launchEdit()
+        assertThat(repository.count(
+            TRANSACTIONS_URI,
+            "$KEY_ACCOUNTID = ?",
+            arrayOf(account1.id.toString())
+        )).isEqualTo(3)
+        setAccount("Test Account 2")
+        clickFab()
+        assertThat(repository.count(
+            TRANSACTIONS_URI,
+            "$KEY_ACCOUNTID = ?",
+            arrayOf(account2.id.toString())
+        )).isEqualTo(3)
     }
 
     @Test
@@ -293,7 +311,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         account1 = buildAccount(accountLabel1)
         val account2 = buildAccount(accountLabel2)
         launchForResult(baseIntent.apply {
-            putExtra(DatabaseConstants.KEY_ACCOUNTID, account2.id)
+            putExtra(KEY_ACCOUNTID, account2.id)
         })
         createParts(2, 50)
         checkAccount(accountLabel2)
