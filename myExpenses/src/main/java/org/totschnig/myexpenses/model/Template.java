@@ -473,6 +473,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
    */
 
   @RequiresPermission(allOf = {Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, conditional = true)
+  @NonNull
   public Uri save(ContentResolver contentResolver, PlannerUtils plannerUtils, Long withLinkedTransaction) {
     boolean runPlanner = false;
     if (plan != null) {
@@ -551,7 +552,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
       try {
         contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops);
       } catch (RemoteException | OperationApplicationException e) {
-        return null;
+        throw new RuntimeException(e);
       }
     }
     updateNewPlanEnabled();
