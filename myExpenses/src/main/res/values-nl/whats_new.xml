@@ -26,5 +26,5 @@
     <string name="whats_new_400_1">Cirkeldiagram dat de verdeling van geld tussen rekeningen weergeeft</string>
     <string name="whats_new_401">De transactielijst toont nu meer details voor gesplitste transacties.</string>
     <string name="whats_new_402">Accounttypes kunnen worden aangepast</string>
-    <string name="whats_new_403">Rekeningvlaggen vergroten de aanpassing van de zichtbaarheid en prioriteit van rekeningen.</string>
+    <string name="whats_new_403">Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account aanpassen.</string>
 </resources>
