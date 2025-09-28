@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
@@ -95,8 +94,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
     private var initialPrefToShow: String? = null
 
     val calledFromSystemSettings
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                intent.action == Intent.ACTION_APPLICATION_PREFERENCES
+        get() = intent.action == Intent.ACTION_APPLICATION_PREFERENCES
 
     private fun observeLicenceApiResult() {
         lifecycleScope.launch {

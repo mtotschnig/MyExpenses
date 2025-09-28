@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="showTransactionBulkActions">false</bool>
-    <bool name="is26">false</bool>
-    <bool name="isBelow26">true</bool>
-    <bool name="pin_shortcut_support">true</bool>
     <bool name="fints">false</bool>
     <bool name="allowFullScreen">false</bool>
     <bool name="isLarge">false</bool>

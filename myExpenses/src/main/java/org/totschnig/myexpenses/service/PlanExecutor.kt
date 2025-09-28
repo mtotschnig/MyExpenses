@@ -270,7 +270,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                             .putExtra(KEY_TITLE, title)
                                     builder.addAction(
                                         R.drawable.ic_menu_close_clear_cancel,
-                                        R.drawable.ic_menu_close_clear_cancel,
                                         wrappedContext.getString(android.R.string.cancel),
                                         PendingIntent.getService(
                                             applicationContext,
@@ -306,7 +305,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     )
                                     builder.addAction(
                                         R.drawable.ic_menu_edit,
-                                        R.drawable.ic_menu_edit,
                                         wrappedContext.getString(R.string.menu_edit),
                                         resultIntent
                                     )
@@ -327,7 +325,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         applyIntent.putExtra(DatabaseConstants.KEY_DATE, date)
                                     }
                                     builder.addAction(
-                                        R.drawable.ic_menu_save,
                                         R.drawable.ic_menu_save,
                                         wrappedContext.getString(R.string.menu_apply_template),
                                         PendingIntent.getService(

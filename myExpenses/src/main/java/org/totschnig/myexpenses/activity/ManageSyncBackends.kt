@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -22,7 +21,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
@@ -102,16 +100,12 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
 
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
-                    if (syncViewModel.removeBackend(accountName)) {
-                        listFragment.reloadAccountList()
-                        if (prefHandler.cloudStorage == accountName) {
-                            prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
-                        }
+                val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
+                if (syncViewModel.removeBackend(accountName)) {
+                    listFragment.reloadAccountList()
+                    if (prefHandler.cloudStorage == accountName) {
+                        prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
                     }
-                } else {
-                    CrashHandler.report(IllegalStateException("Remove backend not supported on API 21"))
                 }
             }
 

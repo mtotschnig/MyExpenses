@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.drawable.Animatable2.AnimationCallback
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Pair
 import android.view.Gravity
@@ -77,15 +76,13 @@ class MoreInfoDialogFragment : DialogViewBinding<MoreInfoBinding>() {
     }
 
     private fun ImageView.startAnimation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            (background as? AnimatedVectorDrawable)?.apply {
-                start()
-                registerAnimationCallback( object: AnimationCallback() {
-                    override fun onAnimationEnd(drawable: Drawable) {
-                        start()
-                    }
-                })
-            }
+        (background as? AnimatedVectorDrawable)?.apply {
+            start()
+            registerAnimationCallback( object: AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable) {
+                    start()
+                }
+            })
         }
     }
 

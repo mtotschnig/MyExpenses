@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:importantForAutofill="noExcludeDescendants"
     android:layout="@layout/suw_template"
-    app:suwBackgroundTile="@drawable/bg_tile_teal"
-    tools:targetApi="o">
+    app:suwBackgroundTile="@drawable/bg_tile_teal">
 
     <ViewStub
         android:id="@+id/onboarding_content"

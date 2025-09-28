@@ -309,7 +309,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         if (intent != null) {
             intent.setAction(action)
             val componentName =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && action == START_ACTION) {
+                if (action == START_ACTION) {
                     startForegroundService(intent)
                 } else {
                     startService(intent)

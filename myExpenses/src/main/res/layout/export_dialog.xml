@@ -21,8 +21,7 @@
     android:layout_weight="1"
     android:importantForAutofill="noExcludeDescendants"
     tools:background="@android:color/background_dark"
-    tools:layout_height="wrap_content"
-    tools:targetApi="o">
+    tools:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"

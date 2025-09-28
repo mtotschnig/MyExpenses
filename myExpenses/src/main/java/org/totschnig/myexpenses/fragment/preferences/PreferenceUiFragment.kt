@@ -1,16 +1,12 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
@@ -36,7 +32,6 @@ import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getLocale
-import org.totschnig.myexpenses.util.ui.UiUtils
 import timber.log.Timber
 import java.text.DateFormatSymbols
 import java.util.Calendar
@@ -189,24 +184,21 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
             addShortcut(
-                R.string.transaction, TransactionsContract.Transactions.TYPE_TRANSACTION,
-                R.drawable.shortcut_create_transaction_icon_lollipop
+                TransactionsContract.Transactions.TYPE_TRANSACTION
             )
             true
         }
 
         matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
             addShortcut(
-                R.string.transfer, TransactionsContract.Transactions.TYPE_TRANSFER,
-                R.drawable.shortcut_create_transfer_icon_lollipop
+                TransactionsContract.Transactions.TYPE_TRANSFER
             )
             true
         }
 
         matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
             addShortcut(
-                R.string.split_transaction, TransactionsContract.Transactions.TYPE_SPLIT,
-                R.drawable.shortcut_create_split_icon_lollipop
+                TransactionsContract.Transactions.TYPE_SPLIT
             )
             true
         }
@@ -226,66 +218,26 @@ class PreferenceUiFragment : BasePreferenceFragment() {
     }
 
     private fun addShortcut(
-        nameId: Int,
-        @TransactionsContract.Transactions.TransactionType operationType: Int,
-        @DrawableRes iconIdLegacy: Int
+        @TransactionsContract.Transactions.TransactionType operationType: Int
     ) {
-        when {
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
-                addShortcutLegacy(nameId, operationType, getBitmapForShortcut(iconIdLegacy))
-            }
-            //on Build.VERSION_CODES.N_MR1 we do not provide the feature
-            Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
-                try {
-                    requireContext().getSystemService(ShortcutManager::class.java)
-                        .requestPinShortcut(
-                            ShortcutInfo.Builder(
-                                requireContext(), when (operationType) {
-                                    TransactionsContract.Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
-                                    TransactionsContract.Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
-                                    TransactionsContract.Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
-                                    else -> throw IllegalStateException()
-                                }
-                            ).build(),
-                            null
-                        )
-                } catch (e: IllegalArgumentException) {
-                    Timber.w("requestPinShortcut failed for %d", operationType)
-                    CrashHandler.report(e)
-                }
-            }
+        try {
+            requireContext().getSystemService(ShortcutManager::class.java)
+                .requestPinShortcut(
+                    ShortcutInfo.Builder(
+                        requireContext(), when (operationType) {
+                            TransactionsContract.Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                            TransactionsContract.Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                            TransactionsContract.Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                            else -> throw IllegalStateException()
+                        }
+                    ).build(),
+                    null
+                )
+        } catch (e: IllegalArgumentException) {
+            Timber.w("requestPinShortcut failed for %d", operationType)
+            CrashHandler.report(e)
         }
     }
-
-    // credits Financisto
-    // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-    @Suppress("DEPRECATION")
-    private fun addShortcutLegacy(nameId: Int, operationType: Int, bitmap: Bitmap) {
-        val shortcutIntent =
-            ShortcutHelper.createIntentForNewTransaction(requireContext(), operationType)
-
-        val intent = Intent().apply {
-            putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-            putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId))
-            putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
-            action = "com.android.launcher.action.INSTALL_SHORTCUT"
-        }
-
-        if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
-            requireActivity().sendBroadcast(intent)
-            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_added))
-        } else {
-            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_not_added))
-        }
-    }
-
-    private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
-        ResourcesCompat.getDrawable(
-            resources,
-            iconId,
-            null
-        )!!
-    )
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

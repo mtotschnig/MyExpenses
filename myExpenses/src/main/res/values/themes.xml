@@ -15,7 +15,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
-    <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+    <style name="MyTheme" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
         <item name="colorPrimaryDark">?colorSurface</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="windowActionModeOverlay">true</item>
@@ -25,10 +25,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
-    </style>
-
-    <style name="MyTheme" parent="MyThemeBase">
-        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 
     <style name="DarkBackground">
@@ -58,10 +57,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.Material3.MaterialCalendar.Fullscreen</item>
         <item name="materialCalendarTheme">@style/ThemeOverlay.Material3.MaterialCalendar</item>
         <item name="materialTimePickerTheme">@style/ThemeOverlay.Material3.MaterialTimePicker</item>
-    </style>
-
-    <style name="EditDialog" parent="EditDialogBase">
-        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 
     <style name="Translucent" parent="MyTheme">
@@ -74,14 +70,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
+    <style name="Onboarding" parent="@style/SuwThemeMaterial">
         <item name="colorPrimaryDark">?colorSurface</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
-    </style>
-
-    <style name="Onboarding" parent="OnboardingBase">
-        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 
     <style name="Calculator" parent="Theme.Material3.DayNight.Dialog">

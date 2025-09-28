@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.io
 
-import okhttp3.internal.toImmutableList
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -123,7 +122,7 @@ data class ImportTransaction(
                 status,
                 number,
                 method,
-                if (tags.isEmpty()) null else tags.toImmutableList(),
+                if (tags.isEmpty()) null else tags,
                 if (splits.isEmpty()) null else splits.mapNotNull { split -> split.build() }
             )
         }

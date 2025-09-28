@@ -2,7 +2,7 @@
 <resources>
     <style name="Starting" parent="android:Theme.DeviceDefault.DayNight" />
 
-    <style name="EditDialog" parent="EditDialog.V23">
+    <style name="EditDialog" parent="EditDialogBase">
         <item name="isMaterial3DynamicColorApplied">true</item>
 
 

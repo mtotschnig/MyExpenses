@@ -437,17 +437,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".service.LegacyAccountChangedReceiver"
-            android:enabled="@bool/isBelow26"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
             android:name=".service.AccountRemovedReceiver"
-            android:enabled="@bool/is26"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.action.ACCOUNT_REMOVED" />

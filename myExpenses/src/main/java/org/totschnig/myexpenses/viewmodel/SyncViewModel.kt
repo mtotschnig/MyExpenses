@@ -64,7 +64,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         liveData(context = coroutineContext()) {
             try {
                 configureLocalAccountForSync(accountName, uuid)
-            } catch (e: SQLiteConstraintException) {
+            } catch (_: SQLiteConstraintException) {
                 emit(Result.failure(AccountSealedException()))
             }
             resetRemote(accountName, uuid)
@@ -316,7 +316,6 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             )
         }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun removeBackend(accountName: String) =
         get(getApplication()).removeAccountExplicitly(getAccount(accountName))
 

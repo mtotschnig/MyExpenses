@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.database.sqlite.SQLiteConstraintException
-import android.os.Build
 import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -276,12 +275,10 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         }
 
     open fun updateTransferShortcut() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutHelper.configureTransferShortcut(
-                getApplication(),
-                isTransferEnabled
-            )
-        }
+        ShortcutHelper.configureTransferShortcut(
+            getApplication(),
+            isTransferEnabled
+        )
     }
 
     val isTransferEnabled

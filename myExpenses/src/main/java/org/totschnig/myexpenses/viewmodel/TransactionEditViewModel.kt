@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
@@ -200,7 +199,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
                 transaction.save(contentResolver, plannerUtils, true)
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
+                if (transaction is Template && transaction.id != 0L) {
                     if (
                         ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
                             .any {
