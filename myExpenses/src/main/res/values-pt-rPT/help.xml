@@ -98,7 +98,6 @@
     <string name="form_account_help_text">Selecionar a conta a que pretence a transação.</string>
     <string name="form_date_time_help_text">Insira a data e a hora em que a transação ocorreu.</string>
     <string name="form_date_time_help_text_configuration">Nas configurações, pode desativar a entrada de horário e permitir a diferenciação entre a data do pagamento e a data da contabilização.</string>
-    <string name="form_payer_or_payee_help_text">Este campo relembra os valores que introduz e sugerirá os mesmos no futuro.</string>
     <string name="form_date_time_help_text_link">Se o indicador &lt;img src=\"ic_hchain\"&gt;/&lt;img src=\"ic_hchain_broken\"&gt; estiver no estado vinculado dele, definir a data da contabilização ou a data do pagamento também atualizará a outra data.</string>
     <string name="form_amount_switch_help_text">Utilize o interruptor para alternar entre despesa e receita.</string>
     <string name="form_calculator_help_text">O botão &lt;img src=\"?calcIcon\"&gt; abre a calculadora.</string>

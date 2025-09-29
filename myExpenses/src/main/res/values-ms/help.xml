@@ -69,7 +69,6 @@
   <string name="form_date_time_help_text">Masukkan tarikh dan waktu bila transaksi berlaku.</string>
   <string name="form_date_time_help_text_configuration">Dalam tetapan anda boleh lumpuhkan input waktu dan benarkan perbezaan diantara tarikh tempahan dengan tarikh nilai.</string>
   <string name="form_date_time_help_text_link"><![CDATA[Jika togol <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> dalam keadaan terpautnya, tetapan sama ada tarikh nilai atau tarikh tempahan juga akan mengemaskini tarikh yang lain.]]></string>
-  <string name="form_payer_or_payee_help_text">Medan ini mengingati nilai yang anda masukkan dan akan cadangkannya pada masa hadapan.</string>
   <string name="form_amount_switch_help_text">Guna suis untuk togol diantara perbelanjaan dengan pendapatan.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> butang yang membuka kalculator.]]></string>
   <string name="form_crstatus_help_text">Bagi transaksi berkaitan dengan akaun bank, anda boleh mengubah status transaksi menjadi kosong. Untuk menetapnya supaya disesuaikan, anda mesti gunakan perintah \"Imbangan akaun\" dari senarai transaksi. Jika status ditetapkan menjadi mansuh, transaksi tidak akan dikira.</string>

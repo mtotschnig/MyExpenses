@@ -63,7 +63,6 @@
     <string name="help_ExpenseEdit_templateCategory_info">Użyj tego formularza, aby wprowadzić nowy szablon lub edytować istniejący. Użyj menu rozwijanego na pasku akcji, aby przełączać się między szablonami transakcji, przelewów i podziałów.</string>
     <string name="help_ExpenseEdit_split_info">Podzielona transakcja to pojedyncza transakcja podzielona na części, w której każda część może zostać przypisana do innej kategorii lub przeniesiona na inne konto.</string>
     <string name="form_account_help_text">Wskaż konto do którego należy transakcja.</string>
-    <string name="form_payer_or_payee_help_text">To pole zapamiętuje wprowadzone dane i zasugeruje je w przyszłości.</string>
     <string name="form_amount_switch_help_text">Użyj przełącznika aby zmieniać widok pomiędzy wydatkiem i przychodem.</string>
     <string name="form_calculator_help_text"><![CDATA[Przycisk <img src=\"?calcIcon\"> otwiera kalkulator.]]></string>
     <string name="form_crstatus_help_text">W przypadku transakcji należących do kont bankowych, możesz zmienić status transakcji na wyczyszczony. Aby go ustawić, musisz użyć polecenia \"Saldo konta\" z listy transakcji. Jeśli status zostanie unieważniony, transakcja nie zostanie policzona.</string>

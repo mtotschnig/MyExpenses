@@ -75,7 +75,6 @@
     <string name="form_account_help_text">Selecteer het account waartoe de transactie behoort.</string>
     <string name="form_date_time_help_text_configuration">In de instellingen kun je tijdinvoer uitschakelen en het onderscheid tussen boekingsdatum en valutadatum inschakelen.</string>
     <string name="form_date_time_help_text">Voer de datum en tijd in waarop de transactie heeft plaatsgevonden.</string>
-    <string name="form_payer_or_payee_help_text">Dit veld onthoudt de waarden die je invoert en zal deze in de toekomst voorstellen.</string>
     <string name="form_amount_switch_help_text">Gebruik de schakelaar om te schakelen tussen uitgaven en inkomsten.</string>
     <string name="form_calculator_help_text"><![CDATA[De <img src="?calcIcon"> knop opent de rekenmachine.]]></string>
     <string name="form_date_time_help_text_link"><![CDATA[Als de <img src="ic_hchain">/<img src="ic_hchain_broken">-schakelaar in de gekoppelde status staat, wordt bij het instellen van de waardedatum of de boekingsdatum ook de andere datum bijgewerkt.]]></string>

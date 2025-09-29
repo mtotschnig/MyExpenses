@@ -88,7 +88,6 @@
     <string name="form_crstatus_help_text">బ్యాంక్ ఖాతాలకు చెందిన లావాదేవీల కోసం, మీరు లావాదేవీల స్థితిని క్లియర్ చేయడానికి మార్చవచ్చు. దీన్ని రాజీ చేయడానికి, మీరు లావాదేవీ జాబితా నుండి \"బ్యాలెన్స్ ఖాతా\" ఆదేశాన్ని ఉపయోగించాలి. స్థితి శూన్యంగా సెట్ చేయబడితే, లావాదేవీ లెక్కించబడదు.</string>
     <string name="form_calculator_help_text">&lt;Img src =? CalcIcon&gt; బటన్ కాలిక్యులేటర్‌ను తెరుస్తుంది.</string>
     <string name="form_amount_switch_help_text">ఖర్చు మరియు ఆదాయాల మధ్య టోగుల్ చేయడానికి స్విచ్ ఉపయోగించండి.</string>
-    <string name="form_payer_or_payee_help_text">ఈ ఫీల్డ్ మీరు నమోదు చేసిన విలువలను గుర్తుంచుకుంటుంది మరియు భవిష్యత్తులో వాటిని సూచిస్తుంది.</string>
     <string name="form_date_time_help_text_link">&lt;Img src = ic_hchain&gt; / &lt;img src = ic_hchain_broken&gt; టోగుల్ దాని అనుసంధాన స్థితిలో ఉంటే, విలువ తేదీ లేదా బుకింగ్ తేదీని సెట్ చేయడం కూడా ఇతర తేదీని నవీకరిస్తుంది.</string>
     <string name="form_date_time_help_text_configuration">సెట్టింగులలో మీరు సమయ ఇన్పుట్ను నిలిపివేయవచ్చు మరియు బుకింగ్ తేదీ మరియు విలువ తేదీ మధ్య భేదాన్ని ప్రారంభించవచ్చు.</string>
     <string name="form_date_time_help_text">లావాదేవీ జరిగిన తేదీ మరియు సమయాన్ని నమోదు చేయండి.</string>

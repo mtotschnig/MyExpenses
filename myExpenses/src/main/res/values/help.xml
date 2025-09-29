@@ -104,7 +104,6 @@
     <string name="form_date_time_help_text">Enter the date and time when the transaction took place.</string>
     <string name="form_date_time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
     <string name="form_date_time_help_text_link"><![CDATA[If the <img src="ic_hchain">/<img src="ic_hchain_broken"> toggle is in its linked state, setting either value date or booking date will also update the other date.]]></string>
-    <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
     <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
     <string name="form_crstatus_help_text">For transactions belonging to bank accounts, you can change the transaction\'s status to cleared. For setting it to reconciled, you must use the \"Balance account\" command from the transaction list. If the status is set to void, the transaction will not be counted.</string>
@@ -247,4 +246,7 @@
         \nYou can also use flags to indicate accounts belonging to a specific purpose, like household versus personal accounts, and then alternatively only show one or the other.</string>
     <string name="menu_balance_sheet_help_text">"The balance sheet shows the net worth of all your accounts as the difference between your Assets (what you own) and your Liabilities (what you owe). It reflects your financial position at a chosen moment — whether in the past, the present, or even in the future. The balance sheet presentation is also influenced by flags (which can change the inclusion of accounts in totals)."</string>
     <string name="cab_flag_help_text">Assign a flag to the selected account, e.g. Favorite or Inactive.</string>
+    <string name="form_payer_or_payee_help_text"><![CDATA[This field allows you to select or create a Payer/Payee. Begin typing the name, and suggestions will appear. If no suggestion is selected, a new party is created. If a suggestion is selected, it is displayed as a chip.
+        <br><img src="ic_menu_edit"> Modify the details of the selected party.
+        <br><img src="ic_menu_close_clear_cancel"> Remove the current selection. The text field will then reappear.]]></string>
 </resources>

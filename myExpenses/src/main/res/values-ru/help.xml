@@ -72,7 +72,6 @@
     <string name="form_date_time_help_text">Введите дату и время совершения трансакции.</string>
     <string name="form_date_time_help_text_configuration">В настройках вы можете отключить ввод времени и включить различие между датой бронирования и датой валютирования.</string>
     <string name="form_date_time_help_text_link"><![CDATA[Если<img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\"> переключатель находится в связанном состоянии, установка даты валютирования или даты бронирования также обновит другую дату.]]></string>
-    <string name="form_payer_or_payee_help_text">Это поле запоминает введенные вами значения и предложит их в будущем.</string>
     <string name="form_amount_switch_help_text">Используйте для переключения между расходами и доходами.</string>
     <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> Кнопка открывает калькулятор.]]></string>
     <string name="form_crstatus_help_text">Для трансакций, принадлежащих банковским счетам, вы можете изменить статус трансакции на очищенный. Чтобы согласовать его, необходимо использовать команду «Баланс счета» из списка трансакций. Если статус установлен в void, транзакция не будет засчитана.</string>

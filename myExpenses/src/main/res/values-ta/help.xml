@@ -80,7 +80,6 @@
     <string name="menu_distribution_help_text">ஒரு வகைக்கு உங்கள் செலவினங்களின் விநியோகத்தைக் காண்பி. ஒரு குறிப்பிட்ட காலத்திற்கு விநியோகத்தை ஆய்வு செய்ய குழு தலைப்பில் நீண்ட நேரம் கிளிக் செய்யலாம்.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">இந்த பிளவு பகுதிக்கு ஒரு வகையைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="menu_categories_setup_default_help_text">இயல்புநிலை வகைகளின் தொகுப்பு இறக்குமதி செய்யப்படும்.</string>
-    <string name="form_payer_or_payee_help_text">இந்த புலம் நீங்கள் உள்ளிட்ட மதிப்புகளை நினைவில் கொள்கிறது மற்றும் எதிர்காலத்தில் அவற்றை பரிந்துரைக்கும்.</string>
     <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">\'From\' மற்றும் \'To\' கணக்கின் நாணயங்கள் வேறுபட்டால், அவற்றில் ஒன்றை மட்டுமே நீங்கள் குறிப்பிடுகிறீர்கள். நீங்கள் டெம்ப்ளேட்டிலிருந்து நிகழ்வுகளை உருவாக்கும்போது மற்றொன்று கணக்கிடப்படும்.</string>
     <string name="form_description_help_text">விளக்கத்திற்கு ஒரு தகவல் நோக்கம் மட்டுமே உள்ளது.</string>
     <string name="help_ExpenseEdit_splitPartCategory_title">வகை பிளவு பகுதிகளுக்கான படிவம்</string>

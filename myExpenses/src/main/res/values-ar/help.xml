@@ -78,7 +78,6 @@
     <string name="form_date_time_help_text">أدخل التاريخ والوقت اللذين تمت فيهما المعاملة.</string>
     <string name="form_date_time_help_text_configuration">في الإعدادات، يمكنك تعطيل إدخال الوقت وتفعيل التفريق بين تاريخ الحجز وتاريخ القيمة.</string>
     <string name="form_date_time_help_text_link"><![CDATA[إذا كان مفتاح <img src="ic_hchain">/<img src="ic_hchain_broken"> في حالة الربط، فإن تحديد تاريخ القيمة أو تاريخ الحجز يحدث التاريخ الآخر أيضًا.]]></string>
-    <string name="form_payer_or_payee_help_text">يحتفظ هذا الحقل بالقيم التي تُدخلها ويقترحها في المستقبل.</string>
     <string name="form_amount_switch_help_text">استخدم المفتاح للتبديل بين المصروفات والإيرادات.</string>
     <string name="form_calculator_help_text"><![CDATA[الزر <img src="?calcIcon"> يفتح الآلة الحاسبة.]]></string>
     <string name="form_crstatus_help_text">بالنسبة للمعاملات التابعة لحسابات بنكية، يمكنك تغيير حالة المعاملة إلى مسوّاة. لتعيينها كمطابقة، يجب استخدام أمر حساب الرصيد من قائمة المعاملات. إذا تم تعيين الحالة إلى باطلة، لن تُحسب المعاملة.</string>

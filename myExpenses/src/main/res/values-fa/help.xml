@@ -95,7 +95,6 @@
     <string name="help_ExpenseEdit_split_info">تسهیم تراکنش یک تراکنش منفرد است که به بخش‌هایی تقسیم می‌شود، که در آن هر بخش می‌تواند به دسته‌ای اختصاص داده شود یا به حساب دیگری منتقل شود.</string>
     <string name="form_date_time_help_text">تاریخ و زمان انجام معامله را وارد کنید.</string>
     <string name="form_date_time_help_text_configuration">در تنظیمات می توانید ورودی زمان را غیرفعال کنید و تمایز بین تاریخ ثبت و تاریخ ارزش را فعال کنید.</string>
-    <string name="form_payer_or_payee_help_text">این فیلد مقادیری را که شما وارد می کنید به خاطر می آورد و در آینده آنها را پیشنهاد خواهد کرد.</string>
     <string name="form_amount_switch_help_text">از سوئیچ برای جابجایی بین هزینه و درآمد استفاده کنید.</string>
     <string name="form_calculator_help_text">دکمه &lt;img src=?calcIcon&gt; ماشین حساب را باز می کند.</string>
     <string name="form_comment_help_text">هر گونه یادداشتی را در مورد این موضوع وارد کنید.</string>

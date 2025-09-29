@@ -99,7 +99,6 @@
     <string name="form_AccountEdit_label_help_text">Заголовок ідентифікує рахунок у списку рахунків.</string>
     <string name="form_description_help_text">Опис має виключно інформаційну мету.</string>
     <string name="form_AccountEdit_amount_switch_help_text">Використовуйте перемикач, щоб почати з від’ємним початковим балансом.</string>
-    <string name="form_payer_or_payee_help_text">Це поле запам’ятовує введені значення та пропонуватиме їх у майбутньому.</string>
     <string name="form_date_time_help_text_link">Якщо перемикач &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; перебуває у зв’язаному стані, встановлення дати валютування або дати бронювання також оновить іншу дату.</string>
     <string name="form_amount_switch_help_text">Використовуйте перемикач для перемикання між витратами та доходами.</string>
     <string name="form_calculator_help_text"><![CDATA[Кнопка <img src="?calcIcon"> відкриває калькулятор.]]></string>

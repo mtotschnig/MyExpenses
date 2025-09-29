@@ -69,7 +69,6 @@
     <string name="cab_ManageCategories_color_help_text">Du kan tildele en farve til hovedkategorier som bruges til at repræsentere dem i diagrammer. Underkategorier bruger nuancer af deres hovedkategoris farve.</string>
     <string name="help_ExpenseEdit_templateCategory_info">Brug denne formular til at indtaste en ny skabelon eller redigere en eksisterende. Brug rullemenuen i handlingslinjen til at skifte mellem skabeloner for transaktioner, overførsler og opdelinger.</string>
     <string name="form_date_time_help_text_configuration">I indstillingerne kan du deaktivere indtastning af klokkeslæt og aktivere skelnen mellem bogførings- og værdidato.</string>
-    <string name="form_payer_or_payee_help_text">Dette felt husker værdierne, du indtaster, og vil foreslå dem i fremtiden.</string>
     <string name="form_calculator_help_text"><![CDATA[Knappen <img src="?calcIcon"> åbner lommeregneren.]]></string>
     <string name="form_comment_help_text">Indtast en note om objektet.</string>
     <string name="form_category_help_text">Denne knap åbner listen over kategorier, hvor du kan vælge kategorien, du vil knytte til transaktionen.</string>

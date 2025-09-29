@@ -72,7 +72,6 @@
     <string name="form_date_time_help_text">ವಹಿವಾಟು ನಡೆದ ದಿನಾಂಕ ಮತ್ತು ಸಮಯವನ್ನು ನಮೂದಿಸಿ.</string>
     <string name="form_date_time_help_text_configuration">ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೀವು ಸಮಯದ ಇನ್‌ಪುಟ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಬಹುದು ಮತ್ತು ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯ ದಿನಾಂಕದ ನಡುವಿನ ವ್ಯತ್ಯಾಸವನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
     <string name="form_date_time_help_text_link"><![CDATA[If the <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\"> ಟಾಗಲ್ ಅದರ ಲಿಂಕ್ ಸ್ಥಿತಿಯಲ್ಲಿದೆ, ಮೌಲ್ಯದ ದಿನಾಂಕ ಅಥವಾ ಬುಕಿಂಗ್ ದಿನಾಂಕವನ್ನು ಹೊಂದಿಸುವುದರಿಂದ ಇತರ ದಿನಾಂಕವನ್ನು ಸಹ ನವೀಕರಿಸಲಾಗುತ್ತದೆ.]]></string>
-    <string name="form_payer_or_payee_help_text">ಈ ಕ್ಷೇತ್ರವು ನೀವು ನಮೂದಿಸಿದ ಮೌಲ್ಯಗಳನ್ನು ನೆನಪಿಸುತ್ತದೆ ಮತ್ತು ಭವಿಷ್ಯದಲ್ಲಿ ಅವುಗಳನ್ನು ಸೂಚಿಸುತ್ತದೆ.</string>
     <string name="form_amount_switch_help_text">ಖರ್ಚು ಮತ್ತು ಆದಾಯದ ನಡುವೆ ಟಾಗಲ್ ಮಾಡಲು ಸ್ವಿಚ್ ಬಳಸಿ.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> ಬಟನ್ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಅನ್ನು ತೆರೆಯುತ್ತದೆ.]]></string>
     <string name="form_crstatus_help_text">ಬ್ಯಾಂಕ್ ಖಾತೆಗಳಿಗೆ ಸೇರಿದ ವಹಿವಾಟುಗಳಿಗೆ, ನೀವು ವ್ಯವಹಾರದ ಸ್ಥಿತಿಯನ್ನು ತೆರವುಗೊಳಿಸಲು ಬದಲಾಯಿಸಬಹುದು. ಅದನ್ನು ಹೊಂದಾಣಿಕೆ ಮಾಡಲು, ನೀವು ವಹಿವಾಟು ಪಟ್ಟಿಯಿಂದ \"ಬ್ಯಾಲೆನ್ಸ್ ಖಾತೆ\" ಆಜ್ಞೆಯನ್ನು ಬಳಸಬೇಕು. ಸ್ಥಿತಿಯನ್ನು ಅನೂರ್ಜಿತಗೊಳಿಸಿದರೆ, ವಹಿವಾಟನ್ನು ಎಣಿಸಲಾಗುವುದಿಲ್ಲ.</string>

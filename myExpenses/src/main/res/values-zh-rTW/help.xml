@@ -97,7 +97,6 @@
     <string name="form_date_time_help_text">輸入交易發生的日期和時間。</string>
     <string name="form_date_time_help_text_configuration">您可以在設定中停用時間輸入，並啟用記帳日期和價值日期之間的區分。</string>
     <string name="form_date_time_help_text_link">如果 &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; 切換鈕處於連結狀態，則設定價值日期或記帳日期也會更新另一個日期。</string>
-    <string name="form_payer_or_payee_help_text">此欄位會記住您輸入的值，並在日後建議這些值。</string>
     <string name="form_amount_switch_help_text">使用切換鈕在支出和收入之間切換。</string>
     <string name="form_crstatus_help_text">對於屬於銀行帳戶的交易，您可以將交易狀態變更為已清算。要將其設定為已核對，您必須使用交易列表中的「平衡帳戶」指令。如果狀態設定為無效，則不會計算該交易。</string>
     <string name="form_method_help_text">僅當目前帳戶的類型連結至任何付款方式時，此欄位才可用。預設情況下，只有銀行帳戶連結至付款方式（支票、信用卡、存款、直接扣款）。前往「設定」-&gt;「管理」-&gt;「付款方式」以設定帳戶類型與付款方式之間的關聯。當您選擇定義為編號的方式時，會顯示一個額外的欄位，用於輸入參考編號。</string>

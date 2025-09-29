@@ -42,7 +42,6 @@
     <string name="help_ExpenseEdit_templateCategory_title">แบบฟอร์มสำหรับเทมเพลตธุรกรรม</string>
     <string name="help_ExpenseEdit_templateSplit_title">แบบฟอร์มสำหรับเทมเพลตการแยก</string>
     <string name="form_account_help_text">เลือกบัญชีที่ธุรกรรมนี้เกี่ยวข้อง</string>
-    <string name="form_payer_or_payee_help_text">ช่องนี้จะจดจำค่าที่คุณป้อนและจะแนะนำค่าเหล่านั้นในอนาคต</string>
     <string name="form_comment_help_text">ป้อนหมายเหตุเกี่ยวกับรายการ</string>
     <string name="form_category_help_text">ปุ่มนี้เปิดรายการหมวดหมู่ ซึ่งคุณสามารถเลือกหมวดหมู่ที่ต้องการเชื่อมโยงกับธุรกรรมได้</string>
     <string name="form_split_parts_heading_help_text_1">ใช้ไอคอน + เพื่อป้อนส่วนแยกตามจำนวนที่ต้องการ</string>

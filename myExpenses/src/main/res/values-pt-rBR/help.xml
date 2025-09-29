@@ -82,7 +82,6 @@
     <string name="form_date_time_help_text">Insira a data e a hora em que a transação ocorreu.</string>
     <string name="form_date_time_help_text_configuration">Nas configurações, você pode desativar a entrada de horário e permitir a diferenciação entre a data do pagamento e a data da contabilização.</string>
     <string name="form_date_time_help_text_link"><![CDATA[Se o indicador <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> estiver em seu estado vinculado, definir a data da contabilização ou a data do pagamento também atualizará a outra data.]]></string>
-    <string name="form_payer_or_payee_help_text">Este campo guarda os valores inseridos e irá sugeri-los no futuro.</string>
     <string name="form_amount_switch_help_text">Use o botão para alternar entre despesas e receitas.</string>
     <string name="form_calculator_help_text"><![CDATA[O <img src=\"?calcIcon\">botão abre a calculadora.]]></string>
     <string name="form_crstatus_help_text">Para transações pertencentes a contas bancárias, você pode alterar o status da transação para compensada. Para configurá-la como reconciliada, você deve usar o comando \"Balanço de conta\", na lista de transações. Se o status for definido como nulo, a transação não será contada.</string>
