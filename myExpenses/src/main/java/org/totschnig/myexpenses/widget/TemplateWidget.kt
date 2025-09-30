@@ -10,6 +10,7 @@ import android.widget.Toast
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.showTemplateInstantiationResult
 import org.totschnig.myexpenses.model.instantiateTemplate
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefKey
@@ -46,11 +47,13 @@ class TemplateWidget : AbstractListWidget(
                     ).show()
                 } else {
                     doAsync {
-                        instantiateTemplate(
-                            repository,
-                            exchangeRateHandler,
-                            PlanInstanceInfo(templateId),
-                            currencyContext.homeCurrencyUnit
+                        context.showTemplateInstantiationResult(
+                            if (instantiateTemplate(
+                                repository,
+                                exchangeRateHandler,
+                                PlanInstanceInfo(templateId),
+                                currencyContext.homeCurrencyUnit
+                            ) == null) 0 else 1
                         )
                     }
                 }
