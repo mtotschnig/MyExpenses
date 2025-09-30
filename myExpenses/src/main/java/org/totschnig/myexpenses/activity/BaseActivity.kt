@@ -128,7 +128,6 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.PictureDirHelper
-import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -137,7 +136,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.localizedQuote
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.UiUtils
@@ -728,19 +726,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open fun showDeviceLockScreenWarning() {
         showSnackBar(
-            getString(R.string.warning_device_lock_screen_not_set_up_1) + " " +
-                    getString(
-                        R.string.warning_device_lock_screen_not_set_up_2,
-                        localizedQuote(
-                            concatResStrings(
-                                this,
-                                " -> ",
-                                R.string.settings_label,
-                                R.string.security_settings_title,
-                                R.string.screen_lock
-                            )
-                        )
-                    )
+            getString(R.string.warning_device_lock_screen_not_set_up_1),
+            snackBarAction = SnackbarAction(getString(R.string.settings_label)) {
+                val intent = Intent(Settings.ACTION_SECURITY_SETTINGS)
+                try {
+                    startActivity(intent)
+                } catch (_: ActivityNotFoundException) {
+                    Toast.makeText(this, "Could not open Security Settings", Toast.LENGTH_SHORT).show()
+                }
+            }
         )
     }
 
