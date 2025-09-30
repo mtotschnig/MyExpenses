@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.di.AppComponent
@@ -750,7 +752,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         get() = viewBinding.Amount.type
 
     val shouldShowCategoryWarning: Byte?
-        get() = catType.takeIf { it != FLAG_NEUTRAL && it != isIncome.asCategoryType }
+        get() = catType.takeIf { (it == FLAG_EXPENSE || it == FLAG_INCOME) && it != isIncome.asCategoryType }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
         return ZonedDateTime.of(
