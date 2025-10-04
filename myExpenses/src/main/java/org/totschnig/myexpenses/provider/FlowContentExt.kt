@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
+import androidx.annotation.CheckResult
 import app.cash.copper.Query
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -44,4 +45,24 @@ fun <T> Flow<Query>.mapToListCatching(
             Result.failure(e)
         }
     }?.let { emit(it) }
+}
+
+@CheckResult
+fun <K, V> Flow<Query>.mapToMap(
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    rowMapper: (Cursor) -> Pair<K, V>
+): Flow<Map<K, V>> = transform { query ->
+    val map = withContext(dispatcher) {
+        query.run()?.use { cursor ->
+            val map = LinkedHashMap<K, V>()
+            while (cursor.moveToNext()) {
+                val (key, value) = rowMapper(cursor)
+                map[key] = value
+            }
+            map
+        }
+    }
+    if (map != null) {
+        emit(map)
+    }
 }

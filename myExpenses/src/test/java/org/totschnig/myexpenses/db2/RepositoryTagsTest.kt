@@ -17,10 +17,10 @@ class RepositoryTagsTest : BaseTestWithRepository() {
         val tagId = repository.writeTag("Good Tag")
         val controlTag = Tag(tagId, "Good Tag")
         repository.saveTagsForTransaction(listOf(controlTag), transactionId)
-        assertThat(contentResolver.loadTagsForTransaction(transactionId))
+        assertThat(repository.loadTagsForTransaction(transactionId))
             .containsExactly(controlTag)
         repository.saveTagsForTransaction(emptyList(), transactionId)
-        assertThat(contentResolver.loadTagsForTransaction(transactionId)).isEmpty()
+        assertThat(repository.loadTagsForTransaction(transactionId)).isEmpty()
     }
 
 }

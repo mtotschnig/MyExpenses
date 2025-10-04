@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
@@ -26,12 +25,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
-import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.mapToMap
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -41,21 +40,21 @@ import java.io.IOException
 fun Repository.loadActiveTagsForAccount(accountId: Long) =
     contentResolver.loadTags(ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
 
-fun ContentResolver.loadTagsForTransaction(transactionId: Long) =
-    loadTags(TRANSACTIONS_TAGS_URI, KEY_TRANSACTIONID, transactionId)
+fun Repository.loadTagsForTransaction(transactionId: Long) =
+    contentResolver.loadTags(TRANSACTIONS_TAGS_URI, KEY_TRANSACTIONID, transactionId)
 
-fun ContentResolver.loadTagsForTemplate(templateId: Long) =
-    loadTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
+fun Repository.loadTagsForTemplate(templateId: Long) =
+    contentResolver.loadTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
 
 fun Repository.saveActiveTagsForAccount(tags: List<Tag>?, accountId: Long) =
     contentResolver.saveTags(ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
 
 fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
-    contentResolver.saveTagsForTransaction(tags.map { it.id }.toLongArray(), transactionId)
+    saveTagsForTransaction(tags.map { it.id }.toLongArray(), transactionId)
 }
 
-fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
-    call(
+fun Repository.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
+    contentResolver.call(
         DUAL_URI,
         METHOD_SAVE_TRANSACTION_TAGS,
         null,
@@ -66,8 +65,8 @@ fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long)
     )
 }
 
-fun ContentResolver.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
-    saveTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
+fun Repository.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
+    contentResolver.saveTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
 
 private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
     //noinspection Recycle
@@ -189,4 +188,14 @@ fun Repository.getTag(tagId: Long) = contentResolver.query(
 )?.use {
     it.moveToFirst()
     it.getString(0)
+}
+
+
+fun Repository.observeTagMap(): Flow<Map<Long, String>> {
+    return contentResolver.observeQuery(
+        TAGS_URI,
+        arrayOf(KEY_ROWID, KEY_LABEL)
+    ).mapToMap { cursor ->
+        cursor.getLong(0) to cursor.getString(1)
+    }
 }

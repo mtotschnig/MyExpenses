@@ -157,26 +157,25 @@ abstract class ImportDataViewModel(application: Application) :
             }
             findToAccount(transaction, t)
             if (transaction.splits != null) {
-                t.save(contentResolver)
+                t.save(repository)
                 for (split in transaction.splits) {
                     val s = split.toTransaction(account, currencyUnit)
                     s.parentId = t.id
                     s.status = DatabaseConstants.STATUS_UNCOMMITTED
                     findToAccount(split, s)
                     findCategory(split, s, autofill)
-                    s.save(contentResolver)
+                    s.save(repository)
                 }
             } else {
                 findCategory(transaction, t, autofill)
             }
             findMethod(transaction, t)
-            t.save(contentResolver, true)?.let {
-                transaction.tags?.let { list ->
-                    contentResolver.saveTagsForTransaction(
-                        list.mapNotNull { tag -> tagToId[tag] }.toLongArray(),
-                        ContentUris.parseId(it)
-                    )
-                }
+            val id = ContentUris.parseId(t.save(repository, true))
+            transaction.tags?.let { list ->
+                repository.saveTagsForTransaction(
+                    list.mapNotNull { tag -> tagToId[tag] }.toLongArray(),
+                    id
+                )
             }
         }
     }

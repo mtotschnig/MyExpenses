@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
@@ -160,7 +161,7 @@ data class Transaction(
         )
 
         fun Cursor.readTransaction(
-            context: Context,
+            repository: Repository,
             currencyContext: CurrencyContext,
             homeCurrency: CurrencyUnit,
             accountType: AccountType? = null
@@ -203,7 +204,7 @@ data class Transaction(
                 ),
                 referenceNumber = getStringOrNull(KEY_REFERENCE_NUMBER),
                 originTemplate = getLongOrNull(KEY_TEMPLATEID)?.let {
-                    Template.getInstanceFromDb(context.contentResolver, it)
+                    Template.getInstanceFromDb(repository.contentResolver, it)
                 },
                 isSealed = getInt(KEY_SEALED) > 0,
                 accountLabel = getString(KEY_ACCOUNT_LABEL),
@@ -211,7 +212,7 @@ data class Transaction(
                 transferPeerIsPart = getBoolean(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = getBoolean(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
-                tagList = context.contentResolver.loadTagsForTransaction(id),
+                tagList = repository.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),
                 iban = getStringOrNull(KEY_IBAN),
                 status = getInt(KEY_STATUS),

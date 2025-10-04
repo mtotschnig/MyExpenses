@@ -675,7 +675,7 @@ open class MyExpensesViewModel(
                     id,
                     currencyContext.homeCurrencyUnit
                 )
-                transaction.prepareForEdit(contentResolver, true, false)
+                transaction.prepareForEdit(repository, true, false)
                 val ops = transaction.buildSaveOperations(contentResolver, true)
                 val newUpdate =
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
@@ -709,8 +709,8 @@ open class MyExpensesViewModel(
                 if (results.size == ops.size
                 ) {
                     transaction.updateFromResult(results)
-                    contentResolver.saveTagsForTransaction(
-                        contentResolver.loadTagsForTransaction(id).map { it.id }.toLongArray(),
+                    repository.saveTagsForTransaction(
+                        repository.loadTagsForTransaction(id).map { it.id }.toLongArray(),
                         transaction.id
                     )
                     repository.addAttachments(transaction.id, repository.loadAttachments(id))
@@ -820,7 +820,7 @@ open class MyExpensesViewModel(
                                 CrStatus.UNRECONCILED
                             )
                         val parent = SplitTransaction.getNewInstance(
-                            contentResolver,
+                            repository,
                             accountId,
                             currencyUnit,
                             false

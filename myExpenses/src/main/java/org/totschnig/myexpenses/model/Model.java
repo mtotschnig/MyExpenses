@@ -15,10 +15,11 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.ContentResolver;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
+
+import org.totschnig.myexpenses.db2.Repository;
 
 import java.util.UUID;
 
@@ -58,5 +59,5 @@ public abstract class Model implements IModel {
   }
 
   @Nullable
-  public abstract Uri save(ContentResolver contentResolver);
+  public abstract Uri save(Repository repository);
 }

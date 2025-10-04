@@ -88,9 +88,9 @@ open class TransactionPagingSource(
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>) =
         if (hasNewCriterion) null
-        else state.anchorPosition?.let<Int, Int> { anchorPosition ->
+        else state.anchorPosition?.let { anchorPosition ->
             (anchorPosition - state.config.pageSize / 2).coerceAtLeast(0)
-        }.also<Int?> {
+        }.also {
             Timber.i("Calculating refreshKey for anchorPosition %d: %d", state.anchorPosition, it)
         }
 

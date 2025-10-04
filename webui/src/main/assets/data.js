@@ -185,17 +185,20 @@ document.addEventListener('alpine:init', () => {
             {
                 id: 'edit',
                 icon: 'edit',
-                label: 'menu_edit'
+                label: 'menu_edit',
+                requiresEdit: true
             },
             {
                 id: 'clone',
                 icon: 'content_copy',
-                label: 'menu_clone_transaction'
+                label: 'menu_clone_transaction',
+                requiresEdit: true
             },
             {
                 id: 'delete',
                 icon: 'delete',
-                label: 'menu_delete'
+                label: 'menu_delete',
+                requiresEdit: false
             }
         ],
         contextAction(menuId) {

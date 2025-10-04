@@ -72,7 +72,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
@@ -198,7 +197,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     }
                 }
 
-                transaction.save(contentResolver, plannerUtils, true)
+                transaction.save(repository, plannerUtils, true)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
                     if (
@@ -218,7 +217,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         )
                     }
                 }
-                tagsLiveData.value?.let { transaction.saveTags(contentResolver, it) }
+                tagsLiveData.value?.let { transaction.saveTags(repository, it) }
                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                     repository.deleteAttachments(transaction.id, it)
                 }
@@ -344,7 +343,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     ): Template? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
             Template.getTypedNewInstance(
-                contentResolver,
+                repository,
                 operationType,
                 it.first,
                 it.second,
@@ -392,7 +391,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): SplitTransaction? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-            SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, true)
+            SplitTransaction.getNewInstance(repository, accountId, currencyUnit, true)
         }
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
@@ -412,12 +411,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 KEY_TRANSFER_ACCOUNT,
                 TRANSFER_ACCOUNT_LABEL,
                 if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                KEY_TAGLIST,
                 KEY_ICON
             ).toTypedArray(),
             selection = "$KEY_PARENTID = ?",
             selectionArgs = arrayOf(parentId.toString())
-        ).mapToList { SplitPart.fromCursor(it, contentResolver) }
+        ).mapToList { SplitPart.fromCursor(it, repository) }
     }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
@@ -459,17 +457,17 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         when (task) {
             InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(
-                contentResolver,
+                repository,
                 transactionId
             )
 
             InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
-                Transaction.getInstanceFromTemplateWithTags(contentResolver, transactionId)?.let {
+                Transaction.getInstanceFromTemplateWithTags(repository, transactionId)?.let {
                     it.first to it.second
                 }
 
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
-                contentResolver,
+                repository,
                 transactionId,
                 currencyContext.homeCurrencyUnit
             )
@@ -487,14 +485,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
             ) {
                 Pair(
-                    Template(contentResolver, this, party?.name ?: categoryPath),
-                    this.loadTags(contentResolver)
+                    Template(repository, this, party?.name ?: categoryPath),
+                    this.loadTags(repository)
                 )
             }
         }?.also { pair ->
             if (forEdit) {
                 pair.first.prepareForEdit(
-                    contentResolver,
+                    repository,
                     clone,
                     clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
                 )

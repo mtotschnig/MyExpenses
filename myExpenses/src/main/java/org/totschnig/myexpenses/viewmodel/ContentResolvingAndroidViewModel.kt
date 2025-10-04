@@ -347,7 +347,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             helper.comment = helperComment
             helper.status = STATUS_HELPER
             handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
-                .withValues(helper.buildInitialValues(contentResolver)).build()
+                .withValues(helper.buildInitialValues()).build()
         }
         val rowSelect = buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())

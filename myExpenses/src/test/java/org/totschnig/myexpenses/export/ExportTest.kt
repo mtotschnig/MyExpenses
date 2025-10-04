@@ -119,7 +119,7 @@ class ExportTest : BaseTestWithRepository() {
         op.date = baseSinceEpoch
         op.save(contentResolver)
         uuidList.add(op.uuid!!)
-        contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
+        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
         op.amount = (Money(CurrencyUnit.DebugInstance, expense2))
         op.catId = cat1Id
         op.party = DisplayParty(repository.requireParty("N.N."), "N.N.")
@@ -173,7 +173,7 @@ class ExportTest : BaseTestWithRepository() {
         part.catId = catForFilter
         part.saveAsNew(contentResolver)
         uuidList.add(part.uuid!!)
-        contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), part.id)
+        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), part.id)
         split.status = DatabaseConstants.STATUS_NONE
         split.save(contentResolver, true)
         uuidList.add(split.uuid!!)

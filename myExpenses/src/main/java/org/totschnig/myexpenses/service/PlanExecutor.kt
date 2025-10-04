@@ -222,30 +222,26 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                 builder.setContentText(content)
                                 if (template.isPlanExecutionAutomatic) {
                                     val (t, second) = Transaction.getInstanceFromTemplateWithTags(
-                                        contentResolver, template
+                                        repository, template
                                     )
                                     t.originPlanInstanceId = instanceId
                                     t.date = date / 1000
-                                    if (t.save(contentResolver, true) != null) {
-                                        t.saveTags(contentResolver, second)
-                                        val displayIntent: Intent =
-                                            Intent(applicationContext, MyExpenses::class.java)
-                                                .putExtra(
-                                                    DatabaseConstants.KEY_ROWID,
-                                                    template.accountId
-                                                )
-                                                .putExtra(
-                                                    DatabaseConstants.KEY_TRANSACTIONID,
-                                                    t.id
-                                                )
-                                        resultIntent = PendingIntent.getActivity(
-                                            applicationContext, notificationId, displayIntent,
-                                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                                        )
-                                        builder.setContentIntent(resultIntent)
-                                    } else {
-                                        builder.setContentText(wrappedContext.getString(R.string.save_transaction_error))
-                                    }
+                                    t.saveTags(repository, second)
+                                    val displayIntent: Intent =
+                                        Intent(applicationContext, MyExpenses::class.java)
+                                            .putExtra(
+                                                DatabaseConstants.KEY_ROWID,
+                                                template.accountId
+                                            )
+                                            .putExtra(
+                                                DatabaseConstants.KEY_TRANSACTIONID,
+                                                t.id
+                                            )
+                                    resultIntent = PendingIntent.getActivity(
+                                        applicationContext, notificationId, displayIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                    )
+                                    builder.setContentIntent(resultIntent)
                                     builder.setAutoCancel(true)
                                     notification = builder.build()
                                 } else {

@@ -123,7 +123,7 @@ class SplitDelegate(
         super.prepareForNew()
         val account = currentAccount()!!
         rowId = SplitTransaction.getNewInstance(
-            context.contentResolver,
+            repository,
             account.id,
             account.currency,
             true

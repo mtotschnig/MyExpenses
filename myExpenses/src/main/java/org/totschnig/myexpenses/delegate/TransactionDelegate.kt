@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.dialog.addAllAccounts
@@ -105,6 +106,9 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @Inject
     lateinit var configurator: Configurator
+
+    @Inject
+    lateinit var repository: Repository
 
     val homeCurrency by lazy {
         currencyContext.homeCurrencyUnit
@@ -770,7 +774,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     protected fun buildTemplate(account: Account) =
         Template.getTypedNewInstance(
-            context.contentResolver,
+            repository,
             operationType,
             account.id,
             account.currency,

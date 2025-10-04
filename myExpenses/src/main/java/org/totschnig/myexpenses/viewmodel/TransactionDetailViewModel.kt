@@ -51,7 +51,7 @@ class TransactionDetailViewModel(application: Application) :
             )?.useAndMapToOne {
                 val accountType = repository.loadAccountType(it.getLong(KEY_ACCOUNT_TYPE))
                 it.readTransaction(
-                    getApplication(),
+                    repository,
                     currencyContext,
                     currencyContext.homeCurrencyUnit,
                     accountType
@@ -84,7 +84,7 @@ class TransactionDetailViewModel(application: Application) :
                 sortOrder
             )?.useAndMapToList {
                 it.readTransaction(
-                    getApplication(),
+                    repository,
                     currencyContext,
                     currencyContext.homeCurrencyUnit
                 )

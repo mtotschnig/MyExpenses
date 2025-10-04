@@ -167,6 +167,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
@@ -1019,6 +1020,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTIONS, UNCOMMITTED -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
+        values.put(KEY_UUID, Model.generateUuid());
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
         if (equivalentAmount != null) {

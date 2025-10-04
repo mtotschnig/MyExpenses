@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.db2.RepositoryTagsKt;
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.locks.ReentrantLock;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -132,13 +134,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   @Nullable
   @Override
-  public List<Tag> loadTags(ContentResolver contentResolver) {
-    return RepositoryTagsKt.loadTagsForTemplate(contentResolver, getId());
+  public List<Tag> loadTags(Repository repository) {
+    return RepositoryTagsKt.loadTagsForTemplate(repository, getId());
   }
 
   @Override
-  public void saveTags(@NonNull ContentResolver contentResolver, @NonNull List<Tag> tags) {
-    RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, getId());
+  public void saveTags(@NonNull Repository repository, @NonNull List<Tag> tags) {
+    RepositoryTagsKt.saveTagsForTemplate(repository, tags, getId());
   }
 
   /**
@@ -148,7 +150,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
    *              populates the template
    * @param title identifies the template in the template list
    */
-  public Template(ContentResolver contentResolver, Transaction t, String title) {
+  public Template(Repository repository, Transaction t, String title) {
     super();
     setTitle(title);
     if (t instanceof Transfer) {
@@ -165,19 +167,19 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setMethodLabel(t.getMethodLabel());
     setParty(t.getParty());
     if (isSplit()) {
-      persistForEdit(contentResolver);
-      Cursor c = contentResolver.query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
+      persistForEdit(repository);
+      Cursor c = repository.getContentResolver().query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
           KEY_PARENTID + " = ?", new String[]{String.valueOf(t.getId())}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> splitPart = t.getSplitPart(contentResolver, c.getLong(0));
+          Pair<Transaction, List<Tag>> splitPart = t.getSplitPart(repository, c.getLong(0));
           if (splitPart != null) {
-            Template part = new Template(contentResolver, splitPart.getFirst(), title);
+            Template part = new Template(repository, splitPart.getFirst(), title);
             part.setStatus(STATUS_UNCOMMITTED);
             part.setParentId(getId());
-            part.save(contentResolver);
-            part.saveTags(contentResolver, splitPart.getSecond());
+            part.save(repository);
+            part.saveTags(repository, splitPart.getSecond());
           }
           c.moveToNext();
         }
@@ -333,7 +335,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   public Template(
-          ContentResolver contentResolver,
+          Repository repository,
           long id,
           CurrencyUnit currencyUnit,
           int operationType,
@@ -344,7 +346,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     switch (operationType) {
       case TYPE_TRANSACTION -> template = Transaction.getNewInstance(id, currencyUnit);
       case TYPE_TRANSFER -> template = Transfer.getNewInstance(id, currencyUnit, 0L, null);
-      case TYPE_SPLIT -> template = SplitTransaction.getNewInstance(contentResolver, id, currencyUnit, false);
+      case TYPE_SPLIT -> template = SplitTransaction.getNewInstance(repository, id, currencyUnit, false);
       default -> throw new UnsupportedOperationException(
               String.format(Locale.ROOT, "Unknown type %d", operationType));
     }
@@ -352,19 +354,19 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Nullable
-  public static Template getTypedNewInstance(ContentResolver contentResolver, int operationType, long accountId, @NonNull CurrencyUnit currencyUnit,  boolean forEdit, Long parentId) {
-    Template t = new Template(contentResolver, accountId, currencyUnit, operationType, parentId);
+  public static Template getTypedNewInstance(Repository repository, int operationType, long accountId, @NonNull CurrencyUnit currencyUnit, boolean forEdit, Long parentId) {
+    Template t = new Template(repository, accountId, currencyUnit, operationType, parentId);
     if (forEdit && t.isSplit()) {
-      if (!t.persistForEdit(contentResolver)) {
+      if (!t.persistForEdit(repository)) {
         return null;
       }
     }
     return t;
   }
 
-  private boolean persistForEdit(ContentResolver contentResolver) {
+  private boolean persistForEdit(Repository repository) {
     setStatus(STATUS_UNCOMMITTED);
-    return save(contentResolver) != null;
+    return save(repository) != null;
   }
 
   /**
@@ -414,9 +416,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(ContentResolver contentResolver, long id) {
-    Template t = getInstanceFromDb(contentResolver, id);
-    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(contentResolver));
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(Repository repository, long id) {
+    Template t = getInstanceFromDb(repository.getContentResolver(), id);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(repository));
   }
 
   @Nullable
@@ -462,8 +464,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   @Override
   @NonNull
-  public Uri save(@NonNull ContentResolver contentResolver, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
-    return save(contentResolver, plannerUtils, null);
+  public Uri save(@NotNull Repository repository, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
+    return save(repository.getContentResolver(), plannerUtils, null);
   }
 
   /**
@@ -717,8 +719,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  protected Pair<Transaction, List<Tag>> getSplitPart(ContentResolver contentResolver, long partId) {
-    return Template.getInstanceFromDbWithTags(contentResolver, partId);
+  protected Pair<Transaction, List<Tag>> getSplitPart(Repository repository, long partId) {
+    return Template.getInstanceFromDbWithTags(repository, partId);
   }
 
   @Nullable

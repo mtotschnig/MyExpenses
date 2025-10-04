@@ -29,12 +29,12 @@ suspend fun instantiateTemplate(
     ifOpen: Boolean = false
 ) = (if (ifOpen)
     Transaction.getInstanceFromTemplateIfOpen(
-        repository.contentResolver,
+        repository,
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
     ) else
     Transaction.getInstanceFromTemplateWithTags(
-        repository.contentResolver,
+        repository,
         planInstanceInfo.templateId
     ))?.let { (t, tagList, dynamic) ->
     if (planInstanceInfo.date != null) {
@@ -64,7 +64,7 @@ suspend fun instantiateTemplate(
         }
 
     }
-    t.save(repository.contentResolver, true)
-    t.saveTags(repository.contentResolver, tagList)
+    t.save(repository, true)
+    t.saveTags(repository, tagList)
     t
 }

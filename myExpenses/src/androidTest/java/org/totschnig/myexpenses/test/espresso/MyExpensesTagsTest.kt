@@ -28,7 +28,7 @@ class MyExpensesTagsTest: BaseMyExpensesTest() {
         op.amount = Money(CurrencyUnit.DebugInstance, -1200L)
         val id = ContentUris.parseId(op.save(contentResolver)!!)
         val tagId = repository.writeTag("Good Tag")
-        contentResolver.saveTagsForTransaction(
+        repository.saveTagsForTransaction(
             longArrayOf(tagId),
             id
         )

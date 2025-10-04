@@ -40,7 +40,6 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
@@ -50,7 +49,6 @@ import javax.inject.Singleton
 open class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
-    val currencyFormatter: ICurrencyFormatter,
     val prefHandler: PrefHandler,
     val dataStore: DataStore<Preferences>
 ) {

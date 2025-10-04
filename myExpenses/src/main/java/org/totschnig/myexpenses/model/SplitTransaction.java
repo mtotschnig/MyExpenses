@@ -30,6 +30,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -64,16 +65,16 @@ public class SplitTransaction extends Transaction implements ISplit {
     return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
   }
 
-  public static SplitTransaction getNewInstance(ContentResolver contentResolver, long accountId, CurrencyUnit currencyUnit)  {
-    return getNewInstance(contentResolver, accountId, currencyUnit, true);
+  public static SplitTransaction getNewInstance(Repository repository, long accountId, CurrencyUnit currencyUnit)  {
+    return getNewInstance(repository, accountId, currencyUnit, true);
   }
 
-  public static SplitTransaction getNewInstance(ContentResolver contentResolver, long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
+  public static SplitTransaction getNewInstance(Repository repository, long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(accountId, new Money(currencyUnit, 0L));
     if (forEdit) {
       t.setStatus(STATUS_UNCOMMITTED);
       //TODO: Strict mode
-      t.save(contentResolver);
+      t.save(repository);
     }
     return t;
   }

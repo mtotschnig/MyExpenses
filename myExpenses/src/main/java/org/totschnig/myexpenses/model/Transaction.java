@@ -26,8 +26,10 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.db2.RepositoryTagsKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.PlannerUtils;
@@ -438,29 +440,29 @@ public class Transaction extends Model implements ITransaction {
    * @param homeCurrency may be null in case of split part
    */
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(ContentResolver contentResolver, long id, @Nullable CurrencyUnit homeCurrency) {
-    Transaction t = getInstanceFromDb(contentResolver, id, homeCurrency);
-    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(contentResolver));
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(Repository repository, long id, @Nullable CurrencyUnit homeCurrency) {
+    Transaction t = getInstanceFromDb(repository.getContentResolver(), id, homeCurrency);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(repository));
   }
 
   @Nullable
-  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(ContentResolver contentResolver, long id) {
-    Template te = Template.getInstanceFromDb(contentResolver, id);
-    return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(Repository repository, long id) {
+    Template te = Template.getInstanceFromDb(repository.getContentResolver(), id);
+    return te == null ? null : getInstanceFromTemplateWithTags(repository, te);
   }
 
-  public static Transaction getInstanceFromTemplate(ContentResolver contentResolver, long id) {
-    Template te = Template.getInstanceFromDb(contentResolver, id);
-    return te == null ? null : getInstanceFromTemplate(contentResolver, te);
+  public static Transaction getInstanceFromTemplate(Repository repository, long id) {
+    Template te = Template.getInstanceFromDb(repository.getContentResolver(), id);
+    return te == null ? null : getInstanceFromTemplate(repository, te);
   }
 
   @Nullable
-  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateIfOpen(ContentResolver contentResolver, long id, long instanceId) {
-    Template te = Template.getInstanceFromDbIfInstanceIsOpen(contentResolver, id, instanceId);
-    return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateIfOpen(Repository repository, long id, long instanceId) {
+    Template te = Template.getInstanceFromDbIfInstanceIsOpen(repository.getContentResolver(), id, instanceId);
+    return te == null ? null : getInstanceFromTemplateWithTags(repository, te);
   }
 
-  public static Transaction getInstanceFromTemplate(ContentResolver contentResolver, Template te) {
+  public static Transaction getInstanceFromTemplate(Repository repository, Template te) {
     Transaction tr;
     switch (te.operationType()) {
       case TYPE_TRANSACTION -> {
@@ -493,8 +495,8 @@ public class Transaction extends Model implements ITransaction {
     tr.setCategoryPath(te.getCategoryPath());
     tr.originTemplateId = te.getId();
     if (tr instanceof SplitTransaction) {
-      tr.save(contentResolver);
-      Cursor c = contentResolver.query(
+      tr.save(repository);
+      Cursor c = repository.getContentResolver().query(
               uriForParts(Template.CONTENT_URI, te.getId()),
               new String[]{KEY_ROWID}, null, null, null
       );
@@ -502,22 +504,22 @@ public class Transaction extends Model implements ITransaction {
         c.moveToFirst();
         while (!c.isAfterLast()) {
           Triple<Transaction, List<Tag>, Boolean> part = Transaction.getInstanceFromTemplateWithTags(
-                  contentResolver,
+                  repository,
                   c.getLong(c.getColumnIndexOrThrow(KEY_ROWID))
           );
           if (part != null) {
             Transaction t = part.getFirst();
             t.status = STATUS_UNCOMMITTED;
             t.setParentId(tr.getId());
-            t.saveAsNew(contentResolver);
-            t.saveTags(contentResolver, part.getSecond());
+            t.saveAsNew(repository);
+            t.saveTags(repository, part.getSecond());
           }
           c.moveToNext();
         }
         c.close();
       }
     }
-    contentResolver.update(
+    repository.getContentResolver().update(
             ContentUris.appendId(TransactionProvider.TEMPLATES_URI.buildUpon(), te.getId())
             .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
             .build(),
@@ -529,20 +531,20 @@ public class Transaction extends Model implements ITransaction {
     return contentUri.buildUpon().appendQueryParameter(KEY_PARENTID, String.valueOf(mainId)).build();
   }
 
-  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(ContentResolver contentResolver, Template te) {
-    return new kotlin.Triple<>(getInstanceFromTemplate(contentResolver, te), te.loadTags(contentResolver), te.isDynamic);
+  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateWithTags(Repository repository, Template te) {
+    return new kotlin.Triple<>(getInstanceFromTemplate(repository, te), te.loadTags(repository), te.isDynamic);
   }
 
   @Nullable
-  public List<Tag> loadTags(ContentResolver contentResolver) {
-    return RepositoryTagsKt.loadTagsForTransaction(contentResolver, getId());
+  public List<Tag> loadTags(Repository repository) {
+    return RepositoryTagsKt.loadTagsForTransaction(repository, getId());
   }
 
   @Override
-  public void saveTags(@NonNull ContentResolver contentResolver, @NonNull  List<Tag> tags) {
-    RepositoryTagsKt.saveTagsForTransaction(contentResolver, tags.stream().mapToLong(Tag::getId).toArray(), getId());
+  public void saveTags(@NonNull Repository repository, @NonNull  List<Tag> tags) {
+    RepositoryTagsKt.saveTagsForTransaction(repository, tags.stream().mapToLong(Tag::getId).toArray(), getId());
     if (initialPlan != null) {
-      RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, originTemplateId);
+      RepositoryTagsKt.saveTagsForTemplate(repository, tags, originTemplateId);
     }
   }
 
@@ -631,21 +633,21 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Override
-  public Uri save(ContentResolver contentResolver) {
-    return save(contentResolver, false);
+  public Uri save(Repository repository) {
+    return save(repository, false);
   }
 
   @NonNull
-  public Uri save(ContentResolver contentResolver, boolean withCommit) {
-    return save(contentResolver, null, withCommit);
+  public Uri save(Repository repository, boolean withCommit) {
+    return save(repository, null, withCommit);
   }
 
   @NonNull
-  public Uri save(ContentResolver contentResolver, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
+  public Uri save(@NotNull Repository repository, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
     Uri uri;
     try {
-      ContentProviderResult[] result = contentResolver.applyBatch(TransactionProvider.AUTHORITY,
-          buildSaveOperations(contentResolver, withCommit));
+      ContentProviderResult[] result = repository.getContentResolver().applyBatch(TransactionProvider.AUTHORITY,
+          buildSaveOperations(repository.getContentResolver(), withCommit));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -665,7 +667,7 @@ public class Transaction extends Model implements ITransaction {
                               )
                       )
               );
-      Template originTemplate = new Template(contentResolver, this, title);
+      Template originTemplate = new Template(repository, this, title);
       String description = originTemplate.compileDescription(MyApplication.Companion.getInstance()); //TODO proper context
       originTemplate.setPlanExecutionAutomatic(true);
       Long withLinkedTransaction = null;
@@ -673,7 +675,7 @@ public class Transaction extends Model implements ITransaction {
         originTemplate.setPlan(new Plan(initialPlan.getThird(), initialPlan.getSecond(), title, description));
         withLinkedTransaction = getId();
       }
-      originTemplate.save(contentResolver, plannerUtils, withLinkedTransaction);
+      originTemplate.save(repository.getContentResolver(), plannerUtils, withLinkedTransaction);
       originTemplateId = originTemplate.getId();
       originPlanId = originTemplate.planId;
     }
@@ -726,7 +728,7 @@ public class Transaction extends Model implements ITransaction {
    * all Split Parts are cloned and we work with the uncommitted clones
    * @param clone  if true an uncommited clone of the instance is prepared
    */
-  public void prepareForEdit(ContentResolver contentResolver, boolean clone, boolean withCurrentDate) {
+  public void prepareForEdit(Repository repository, boolean clone, boolean withCurrentDate) {
     if (withCurrentDate) {
       final ZonedDateTime now = ZonedDateTime.now();
       setDate(now);
@@ -737,11 +739,11 @@ public class Transaction extends Model implements ITransaction {
       Long oldId = getId();
       if (clone) {
         status = STATUS_UNCOMMITTED;
-        saveAsNew(contentResolver);
+        saveAsNew(repository);
       }
       String idStr = String.valueOf(oldId);
       //we only create uncommited clones if none exist yet
-      Cursor c = contentResolver.query(
+      Cursor c = repository.getContentResolver().query(
               uriForParts(getContentUri(), oldId),
               new String[]{KEY_ROWID},
               "NOT EXISTS (SELECT 1 from " + getUncommittedView()
@@ -749,13 +751,13 @@ public class Transaction extends Model implements ITransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> part = getSplitPart(contentResolver, c.getLong(0));
+          Pair<Transaction, List<Tag>> part = getSplitPart(repository, c.getLong(0));
           if (part != null) {
             Transaction t = part.getFirst();
             t.status = STATUS_UNCOMMITTED;
             t.setParentId(getId());
-            t.saveAsNew(contentResolver);
-            t.saveTags(contentResolver, part.getSecond());
+            t.saveAsNew(repository);
+            t.saveTags(repository, part.getSecond());
           }
           c.moveToNext();
         }
@@ -767,8 +769,8 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  protected Pair<Transaction, List<Tag>> getSplitPart(ContentResolver contentResolver, long partId) {
-    return Transaction.getInstanceFromDbWithTags(contentResolver, partId, null);
+  protected Pair<Transaction, List<Tag>> getSplitPart(Repository repository, long partId) {
+    return Transaction.getInstanceFromDbWithTags(repository, partId, null);
   }
 
   public Uri getContentUri() {
@@ -800,7 +802,7 @@ public class Transaction extends Model implements ITransaction {
           int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ContentValues initialValues = buildInitialValues(contentResolver);
+    ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
@@ -842,7 +844,7 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  public ContentValues buildInitialValues(ContentResolver contentResolver) {
+  public ContentValues buildInitialValues() {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;
@@ -876,10 +878,10 @@ public class Transaction extends Model implements ITransaction {
     return initialValues;
   }
 
-  public Uri saveAsNew(ContentResolver contentResolver) {
+  public Uri saveAsNew(Repository repository) {
     setId(0L);
     setUuid(null);
-    return save(contentResolver);
+    return save(repository);
   }
 
   public String compileDescription(MyApplication ctx) {

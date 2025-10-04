@@ -43,6 +43,9 @@ import io.ktor.server.routing.routing
 import io.ktor.utils.io.jvm.javaio.toByteReadChannel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.apache.commons.text.StringSubstitutor
 import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
@@ -54,7 +57,11 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.db2.observePayeeMap
+import org.totschnig.myexpenses.db2.observeTagMap
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.di.LocalDateAdapter
 import org.totschnig.myexpenses.di.LocalTimeAdapter
@@ -66,7 +73,6 @@ import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
@@ -84,8 +90,10 @@ import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.FileInfo
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getActiveIpAddress
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -116,6 +124,9 @@ class WebInputService : LifecycleService(), IWebInputService {
     @Inject
     lateinit var currencyContext: CurrencyContext
 
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
+
     private lateinit var wrappedContext: Context
 
     private var serverStateObserver: ServerStateObserver? = null
@@ -126,6 +137,9 @@ class WebInputService : LifecycleService(), IWebInputService {
         override fun getService() = webInputService.get()
     }
 
+    private lateinit var payeeMapFlow: StateFlow<Map<Long, String>>
+    private lateinit var tagMapFlow: StateFlow<Map<Long, String>>
+
     override fun onCreate() {
         super.onCreate()
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
@@ -134,13 +148,24 @@ class WebInputService : LifecycleService(), IWebInputService {
         //This shows the notification also if we bind to the service from WebUiViewModel.
         //unfortunately I am not aware of any means to distinguish between being created in the context
         //bindService or startService
-/*        val notification: Notification =
-            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-                this,
-                getString(R.string.title_webui),
-                "Starting ..."
-            ).build()
-        startForeground(NOTIFICATION_WEB_UI, notification)*/
+        /*        val notification: Notification =
+                    NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                        this,
+                        getString(R.string.title_webui),
+                        "Starting ..."
+                    ).build()
+                startForeground(NOTIFICATION_WEB_UI, notification)*/
+
+        payeeMapFlow = repository.observePayeeMap().stateIn(
+            scope = lifecycleScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyMap()
+        )
+        tagMapFlow = repository.observeTagMap().stateIn(
+            scope = lifecycleScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyMap()
+        )
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -148,7 +173,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         return LocalBinder(WeakReference(this))
     }
 
-    private var server: EmbeddedServer<*,*>? = null
+    private var server: EmbeddedServer<*, *>? = null
 
     private var serverAddress: String? = null
 
@@ -205,7 +230,8 @@ class WebInputService : LifecycleService(), IWebInputService {
                 ) {
                     try {
                         val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
-                        server = embeddedServer(if (useHttps) Netty else CIO,
+                        server = embeddedServer(
+                            if (useHttps) Netty else CIO,
                             configure = {
                                 if (useHttps) {
                                     val keystore = generateCertificate(keyAlias = "myKey")
@@ -278,6 +304,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         )
                                     }
                                     get("messages.js") {
+                                        //@formatter:off
                                         call.respondText(
                                             """
                                         let messages = {
@@ -306,10 +333,12 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         ${i18nJson("webui_warning_move_transaction", R.string.webui_warning_move_transaction)},
                                         ${i18nJson("validate_error_not_empty", R.string.validate_error_not_empty)},
                                         ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)},
-                                        ${i18nJson("action_download", R.string.action_download)}
+                                        ${i18nJson("action_download", R.string.action_download)},
+                                        ${i18nJson("split_transaction", R.string.split_transaction)},
                                         };
                                     """.trimIndent(), ContentType.Text.JavaScript
                                         )
+                                        //@formatter:on
                                     }
                                     if (passWord == null) {
                                         serve()
@@ -499,8 +528,13 @@ class WebInputService : LifecycleService(), IWebInputService {
         }
 
         put("/transactions/{id}") {
-            val transaction = call.receive<Transaction>()
-            val updated = repository.updateTransaction(call.parameters["id"]!!.toLong(), transaction)
+            val transaction = call.receive<TransactionDTO>()
+            val id = call.parameters["id"]!!.toLong()
+            val updated = repository.updateTransaction(
+                id,
+                transaction.toEntity(repository.getCurrencyUnitForAccount(transaction.account)!!)
+            )
+            repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
             if (updated) {
                 call.respond(
                     HttpStatusCode.OK,
@@ -515,8 +549,13 @@ class WebInputService : LifecycleService(), IWebInputService {
         }
 
         post("/transactions") {
-            val transaction = call.receive<Transaction>()
-            val id = repository.createTransaction(transaction)
+            val transaction = call.receive<TransactionDTO>()
+            val id = repository.createTransaction(
+                transaction.toEntity(
+                    repository.getCurrencyUnitForAccount(transaction.account)!!
+                )
+            )
+            repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
             call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
             call.respond(
                 HttpStatusCode.Created,
@@ -529,7 +568,22 @@ class WebInputService : LifecycleService(), IWebInputService {
         }
 
         get("/transactions") {
-            call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
+            val accountId = call.request.queryParameters["account_id"]!!.toLong()
+            val currencyUnit = repository.getCurrencyUnitForAccount(accountId)!!
+            val dateFormat = Utils.ensureDateFormatWithShortYear(this@WebInputService)
+            call.respond(
+                repository.loadTransactions(accountId)
+                    .map { entity ->
+                        TransactionDTO.fromEntity(
+                            entity,
+                            currencyUnit,
+                            currencyFormatter,
+                            dateFormat,
+                            payeeMapFlow.value,
+                            tagMapFlow.value
+                        )
+                    }
+            )
         }
 
         get("/download") {
@@ -548,6 +602,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                 }
                         )
                     }
+
                     "no_results" -> getString(R.string.webui_download_no_data)
                     else -> throw IllegalStateException("Unknown substitution key $key")
                 }
@@ -584,7 +639,11 @@ class WebInputService : LifecycleService(), IWebInputService {
         false
     }
 
-    private fun i18nJsonPlurals(resourceName: String, @PluralsRes resourceId: Int, quantity: Int = 1) =
+    private fun i18nJsonPlurals(
+        resourceName: String,
+        @PluralsRes resourceId: Int,
+        quantity: Int = 1
+    ) =
         "$resourceName : '${tqPlurals(resourceId, quantity)}'"
 
     private fun i18nJson(resourceName: String, @StringRes resourceId: Int) =

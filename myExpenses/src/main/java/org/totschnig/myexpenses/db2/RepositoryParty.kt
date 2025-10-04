@@ -5,14 +5,17 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getLongOrNull
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CLEANUP_UNUSED_PAYEES
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.mapToMap
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
@@ -64,7 +67,7 @@ fun ContentResolver.createParty(party: Party) =
 
 fun ContentResolver.findParty(party: String, iban: String? = null) = query(
     PAYEES_URI,
-    arrayOf(DatabaseConstants.KEY_ROWID),
+    arrayOf(KEY_ROWID),
     KEY_PAYEE_NAME + " = ? AND " + KEY_IBAN + if (iban == null) " IS NULL" else " = ?",
     if (iban == null) arrayOf(party.trim()) else arrayOf(party, iban),
     null
@@ -112,3 +115,11 @@ fun Repository.cleanupUnusedParties() {
 }
 
 
+fun Repository.observePayeeMap(): Flow<Map<Long, String>> {
+    return contentResolver.observeQuery(
+        PAYEES_URI,
+        arrayOf(KEY_ROWID, KEY_PAYEE_NAME)
+    ).mapToMap { cursor ->
+        cursor.getLong(0) to cursor.getString(1)
+    }
+}

@@ -492,9 +492,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         for (umsLine in result.flatData) {
                             with(converter) {
                                 val (transaction, attributes: Map<out Attribute, String>) =
-                                    umsLine.toTransaction(currencyContext, accountInformation.accountId, 1) //TODO
+                                    umsLine.toTransaction(currencyContext, accountInformation.accountId, 1)
                                 if (!isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
-                                    val id = ContentUris.parseId(transaction.save(contentResolver)!!)
+                                    val id = ContentUris.parseId(transaction.save(repository)!!)
                                     repository.saveTransactionAttributes(id, attributes)
 
                                     importCount++
@@ -634,7 +634,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
                                     currencyContext, accountId, accountType.id
                                 )
-                                val id = ContentUris.parseId(transaction.save(contentResolver)!!)
+                                val id = ContentUris.parseId(transaction.save(repository)!!)
                                 repository.saveTransactionAttributes(id, transactionAttributes)
                             }
                         }
