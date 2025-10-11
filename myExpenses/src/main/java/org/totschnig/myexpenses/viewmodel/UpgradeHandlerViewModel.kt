@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
 import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.dialog.MenuItem
@@ -38,7 +39,6 @@ import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -275,7 +275,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     try {
                         contentResolver.query(
                             TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
-                        )?.useAndMapToList { Template(it) }?.forEach {
+                        )?.useAndMapToList { Template.fromCursor(it) }?.forEach {
                             Plan.updateDescription(
                                 it.planId,
                                 it.compileDescription(getApplication()),

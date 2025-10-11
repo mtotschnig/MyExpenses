@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
@@ -46,14 +46,14 @@ class GroupQueryTest : BaseTestWithRepository() {
         neutralCategoryId = insertCategory("Neutral", FLAG_NEUTRAL)
         expenseCategoryId = insertCategory("Expense", FLAG_EXPENSE)
         incomeCategoryId = insertCategory("Income", FLAG_INCOME)
-        transferCategoryId = insertCategory("Transfer", FLAG_TRANSFER)
+        transferCategoryId = prefHandler.defaultTransferCategory!!
     }
 
     private fun insertTransactions() {
-        insertTransaction(testAccountId, 100, categoryId = neutralCategoryId)
-        insertTransaction(testAccountId,-200, categoryId = expenseCategoryId)
-        insertTransaction(testAccountId,400, categoryId = incomeCategoryId)
-        insertTransaction(testAccountId,800, categoryId = transferCategoryId)
+        repository.insertTransaction(testAccountId, 100, categoryId = neutralCategoryId)
+        repository.insertTransaction(testAccountId,-200, categoryId = expenseCategoryId)
+        repository.insertTransaction(testAccountId,400, categoryId = incomeCategoryId)
+        repository.insertTransaction(testAccountId,800, categoryId = transferCategoryId)
     }
 
     @Test

@@ -14,15 +14,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
-import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -35,30 +33,30 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 
 @TestShard4
 class RemapTest : BaseMyExpensesTest() {
 
-    private fun createMoney() = Money(homeCurrency, 2000)
+    private val amount = 2000L
 
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
         val account1 = buildAccount("K1")
         val account2 = buildAccount("K2")
         val account3 = buildAccount("K3")
-        Transaction(account1.id, createMoney()).also {
-            it.setDate(ZonedDateTime.now().minusDays(4))
-            it.save(contentResolver)
-        }
-        val transfer = Transfer(account1.id, createMoney(), account2.id).also {
-            it.save(contentResolver)
-        }
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = amount,
+            date = LocalDateTime.now().minusDays(4)
+        )
+        val transfer = repository.insertTransfer(account1.id, account2.id, amount)
+
         doRemapAccount(account1.id, "K3")
-        val self = getTransactionFromDb(transfer.id)
+        val self = getTransactionFromDb(transfer.first.id)
         assertThat(self.accountId).isEqualTo(account3.id)
         assertThat(self.transferAccountId).isEqualTo(account2.id)
-        val peer = getTransactionFromDb(transfer.transferPeer!!)
+        val peer = getTransactionFromDb(transfer.second.id)
         assertThat(peer.accountId).isEqualTo(account2.id)
         assertThat(peer.transferAccountId).isEqualTo(account3.id)
         cleanup {
@@ -107,9 +105,11 @@ class RemapTest : BaseMyExpensesTest() {
     private fun doRemapCategory(doClone: Boolean) {
         val account1 = buildAccount("K1")
         val account2 = buildAccount("K2")
-        Transfer(account1.id, createMoney(), account2.id).also {
-            it.save(contentResolver)
-        }
+        repository.insertTransfer(
+            account1.id,
+            account2.id,
+            amount,
+        )
         val catLabel = "Food"
         val catId = writeCategory(catLabel)
         launch(account1.id)

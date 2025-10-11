@@ -11,11 +11,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 
@@ -26,11 +23,11 @@ class SelectedSumTest : BaseMyExpensesTest() {
     @Before
     fun fixture() {
         account =  buildAccount("Test account 1")
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
-        op0.save(contentResolver)
-        repeat(5) {
-            op0.saveAsNew(contentResolver)
+        repeat(6) {
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -1200L
+            )
         }
         launch(account.id)
     }

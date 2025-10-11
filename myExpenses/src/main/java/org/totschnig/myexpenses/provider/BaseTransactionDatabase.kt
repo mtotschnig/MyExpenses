@@ -961,7 +961,7 @@ abstract class BaseTransactionDatabase(
             insertDefaultTransferCategory(this, defaultTransferCategoryLabel)
         } else {
             if (conflictingEntry.second == FLAG_TRANSFER.toInt()) {
-                prefHandler.putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, conflictingEntry.first)
+                prefHandler.defaultTransferCategory = conflictingEntry.first
             } else {
                 insertDefaultTransferCategory(this, "_${defaultTransferCategoryLabel}_")
             }
@@ -1434,17 +1434,14 @@ abstract class BaseTransactionDatabase(
     }
 
     fun insertDefaultTransferCategory(db: SupportSQLiteDatabase, label: String) {
-        prefHandler.putLong(
-            PrefKey.DEFAULT_TRANSFER_CATEGORY,
-            db.insert(
-                TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
-                ContentValues(3).apply {
-                    put(KEY_LABEL, label)
-                    put(KEY_TYPE, 0)
-                    put(KEY_COLOR, suggestNewCategoryColor(db))
-                    put(KEY_UUID, DEFAULT_TRANSFER_CATEGORY_UUID)
-                }
-            )
+        prefHandler.defaultTransferCategory = db.insert(
+            TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
+            ContentValues(3).apply {
+                put(KEY_LABEL, label)
+                put(KEY_TYPE, 0)
+                put(KEY_COLOR, suggestNewCategoryColor(db))
+                put(KEY_UUID, DEFAULT_TRANSFER_CATEGORY_UUID)
+            }
         )
     }
 

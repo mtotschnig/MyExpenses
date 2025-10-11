@@ -16,17 +16,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteParty
-import org.totschnig.myexpenses.db2.setParentId
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.fragment.PartiesList
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.ui.DisplayParty
+import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
@@ -42,20 +39,27 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     fun fixture() {
         p1 = repository.createParty(Party(name = payee1))!!.id
         p2 = repository.createParty(Party(name = payee2))!!.id
-        val currency = CurrencyUnit.DebugInstance
         account =  buildAccount("Test account 1")
-        val op = Transaction.getNewInstance(account.id, homeCurrency)
-        op.amount = Money(currency, -1200L)
-        op.party = DisplayParty(p1, payee1)
-        op.save(contentResolver)
-        op.party = DisplayParty(p2, payee2)
-        op.date = op.date - 10000
-        op.saveAsNew(contentResolver)
-        d = repository.createParty(Party(name = duplicate))!!.id
-        repository.setParentId(d, p2)
-        op.party = DisplayParty(d, duplicate)
-        op.date = op.date - 10000
-        op.saveAsNew(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            payeeId = p1
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            payeeId = p2,
+            date = LocalDateTime.now().minusMinutes(1)
+        )
+        d = repository.createParty(Party(name = duplicate, parentId = p2))!!.id
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            payeeId = d,
+            date = LocalDateTime.now().minusMinutes(2)
+        )
+        launch(account.id)
+
         launch(account.id)
     }
 

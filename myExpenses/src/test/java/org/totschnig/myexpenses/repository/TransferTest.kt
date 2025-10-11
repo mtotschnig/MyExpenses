@@ -7,10 +7,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -57,29 +55,30 @@ class TransferTest : BaseTestWithRepository() {
 
     @Test
     fun linkTransfer() {
-        val (id1, uuid1) = insertTransaction(testAccount1, 100)
-        val (id2, uuid2) = insertTransaction(testAccount2, -100)
+        val t1 = repository.insertTransaction(testAccount1, 100)
+        val t2 = repository.insertTransaction(testAccount2, -100)
         contentResolver.update(
             TransactionProvider.TRANSACTIONS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
-                .appendPath(uuid1)
+                .appendPath(t1.data.uuid)
                 .build(),
             ContentValues(1).apply {
-                put(KEY_UUID, uuid2)
+                put(KEY_UUID, t2.data.uuid)
             }, null, null
         )
-        verifyTransaction(id1, id2, testAccount1, testAccount2)
-        verifyTransaction(id2, id1, testAccount2, testAccount1)
+        verifyTransaction(t1.id, t2.id, testAccount1, testAccount2)
+        verifyTransaction(t2.id, t1.id, testAccount2, testAccount1)
     }
 
     @Test
     fun unlinkTransfer() {
-        val transfer = Transfer.getNewInstance(testAccount1, CurrencyUnit.DebugInstance, testAccount2)
-        transfer.setAmount(Money(CurrencyUnit.DebugInstance, 500))
-        transfer.save(contentResolver)
-        val transferPeer = (Transaction.getInstanceFromDb(contentResolver, transfer.id, null) as Transfer).transferPeer!!
-        verifyTransaction(transfer.id, transferPeer, testAccount1, testAccount2)
-        verifyTransaction(transferPeer, transfer.id, testAccount2, testAccount1)
+        val (transfer, peer) = repository.insertTransfer(
+            testAccount1,
+            testAccount2,
+            500
+        )
+        verifyTransaction(transfer.id, transfer.transferPeerId, testAccount1, testAccount2)
+        verifyTransaction(peer!!.id, peer.transferPeerId, testAccount2, testAccount1)
         contentResolver.update(
             ContentUris.appendId(
                 TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_UNLINK_TRANSFER),
@@ -87,12 +86,12 @@ class TransferTest : BaseTestWithRepository() {
             ).build(), null, null, null
         )
         verifyTransaction(transfer.id, null, testAccount1, null)
-        verifyTransaction(transferPeer, null, testAccount2, null)
+        verifyTransaction(peer.id, null, testAccount2, null)
     }
 
     @Test
     fun transformToTransfer() {
-        val id = insertTransaction(testAccount1, 100).first
+        val id = repository.insertTransaction(testAccount1, 100).id
         val transferPeer = ContentUris.parseId(contentResolver.insert(
             ContentUris.appendId(
                 ContentUris.appendId(TransactionProvider.TRANSACTIONS_URI.buildUpon(), id)

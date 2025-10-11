@@ -11,8 +11,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.instantiateTemplate
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ExchangeRateHandler
@@ -43,7 +43,6 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
     override fun onHandleIntent(intent: Intent?) {
         var message: String?
         if (intent == null) return
-        val contentResolver = getContentResolver()
         val extras = intent.extras
         val action = intent.action
         if (extras == null || action == null) return
@@ -63,11 +62,10 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                     extras.getLong(DatabaseConstants.KEY_DATE, Instant.now().toEpochMilli())
                 val t =
                     runBlocking {
-                        instantiateTemplate(
-                            repository,
+                        repository.instantiateTemplate(
                             exchangeRateHandler,
                             PlanInstanceInfo(templateId, instanceId, date),
-                            currencyContext.homeCurrencyUnit
+                            currencyContext
                         )
                     }
                 if (t != null) {
@@ -75,7 +73,7 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                         R.plurals.save_transaction_from_template_success, 1, 1
                     )
                     val displayIntent = Intent(this, MyExpenses::class.java)
-                        .putExtra(DatabaseConstants.KEY_ROWID, t.accountId)
+                        .putExtra(DatabaseConstants.KEY_ROWID, t.data.accountId)
                         .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.id)
                     val resultIntent = PendingIntent.getActivity(
                         this, notificationId, displayIntent,

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onView
@@ -12,10 +11,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -148,10 +146,11 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
         expectedSnackBar: Int? = null,
     ) {
         fixture()
-        val transactionId = Transfer.getNewInstance(account1.id, currency, account2.id).let {
-            it.amount = Money(currency, -4000)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
+        val transactionId = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = -4000
+        ).first.id
         launchForResult(intentForNewTransaction.apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
@@ -173,10 +172,12 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
     @Test
     fun doTheTestWithInvertedTransfer() {
         fixture()
-        val transactionId = Transfer.getNewInstance(account1.id, currency, account2.id).let {
-            it.amount = Money(currency, 6000)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
+        val transactionId = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = 6000
+        ).first.id
+
         launchForResult(intentForNewTransaction.apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)

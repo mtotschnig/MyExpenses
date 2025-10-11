@@ -1,18 +1,16 @@
 package org.totschnig.myexpenses.viewmodel.data
 
-import android.content.ContentResolver
 import android.database.Cursor
 import android.os.Parcelable
 import android.provider.CalendarContract
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.getPlanInstance
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import java.time.LocalDate
-import java.time.ZoneId
 
 enum class PlanInstanceState {
     OPEN, APPLIED, CANCELLED
@@ -46,11 +44,8 @@ data class PlanInstance(
     companion object {
         fun fromEventCursor(
             cursor: Cursor,
-            contentResolver: ContentResolver,
-            currencyContext: CurrencyContext
-        ) = Template.getPlanInstance(
-                contentResolver,
-                currencyContext,
+            repository: Repository
+        ) = repository.getPlanInstance(
                 cursor.getLong(CalendarContract.Instances.EVENT_ID),
                 cursor.getLong(CalendarContract.Instances.BEGIN)
         )

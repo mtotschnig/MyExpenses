@@ -27,16 +27,15 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 
 class DistributionTest : BaseUiTest<DistributionActivity>() {
     @get:Rule
@@ -72,16 +71,16 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         baseFixture(showIncome, showExpense) {
             categoryExpenseId = writeCategory("Expense")
             categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, -1200L)
-                catId = categoryExpenseId
-                save(contentResolver)
-            }
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, 3400L)
-                catId = categoryIncomeId
-                save(contentResolver)
-            }
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -1200L,
+                categoryId = categoryExpenseId
+            )
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = 3400L,
+                categoryId = categoryIncomeId
+            )
         }
     }
 
@@ -92,29 +91,29 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         baseFixture(showIncome, showExpense, Grouping.MONTH) {
             categoryExpenseId = writeCategory("Expense 1")
             categoryExpenseId2 = writeCategory("Expense 2")
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, -1200L)
-                catId = categoryExpenseId
-                save(contentResolver)
-            }
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, -3400L)
-                catId = categoryExpenseId2
-                save(contentResolver)
-            }
-            val date = ZonedDateTime.now().minusMonths(1)
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, -3400L)
-                catId = categoryExpenseId
-                setDate(date)
-                save(contentResolver)
-            }
-            with(Transaction.getNewInstance(account.id, homeCurrency)) {
-                amount = Money(homeCurrency, -1200L)
-                catId = categoryExpenseId2
-                setDate(date)
-                save(contentResolver)
-            }
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -1200L,
+                categoryId = categoryExpenseId
+            )
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -3400L,
+                categoryId = categoryExpenseId2
+            )
+            val date = LocalDateTime.now().minusMonths(1)
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -3400L,
+                categoryId = categoryExpenseId,
+                date = date
+            )
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -1200L,
+                categoryId = categoryExpenseId2,
+                date = date
+            )
         }
     }
 

@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.getParty
 import org.totschnig.myexpenses.db2.getPayeeForTemplate
 import org.totschnig.myexpenses.db2.getPayeeForTransaction
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Party
@@ -43,7 +44,7 @@ class PartyListViewModelTest: BaseTestWithRepository() {
         val partyB = repository.requireParty("B")!!
         val partyC = repository.requireParty("C")!!
         val accountId = insertAccount("Test account", currency = "EUR")
-        val (transactionId, _) = insertTransaction(accountId, 123, payeeId = partyB)
+        val transactionId = repository.insertTransaction(accountId, 123, payeeId = partyB).id
         val templateId = insertTemplate(accountId, "Test template", 123, payeeId = partyC)
         viewModel.mergeParties(setOf(partyB, partyC), partyA, MergeStrategy.DELETE)
         assertThat(repository.getParty(partyA)!!.parentId).isNull()
@@ -60,7 +61,7 @@ class PartyListViewModelTest: BaseTestWithRepository() {
         val partyB = repository.createParty(Party(name = "B"))!!.id
         val partyC = repository.createParty(Party(name = "C", parentId = partyB))!!.id
         val accountId = insertAccount("Test account", currency = "EUR")
-        val (transactionId, _) = insertTransaction(accountId, 123, payeeId = partyC)
+        val transactionId = repository.insertTransaction(accountId, 123, payeeId = partyC).id
         val templateId = insertTemplate(accountId, "Test template", 123, payeeId = partyC)
         viewModel.mergeParties(setOf(partyB), partyA, MergeStrategy.DELETE)
         assertThat(repository.getParty(partyA)!!.parentId).isNull()

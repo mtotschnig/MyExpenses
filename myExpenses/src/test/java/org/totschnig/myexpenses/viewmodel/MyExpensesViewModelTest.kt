@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.viewmodel
 
-import android.content.ContentUris
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -8,24 +7,25 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.totschnig.myexpenses.db2.createSplitTransaction
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 
 @RunWith(AndroidJUnit4::class)
-class MyExpensesViewModelTest: BaseViewModelTest() {
+class MyExpensesViewModelTest : BaseViewModelTest() {
 
     private lateinit var viewModel: MyExpensesViewModel
 
@@ -64,30 +64,39 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         )
             .createIn(repository)
         categoryId = writeCategory(TEST_CAT, null)
-        Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance).apply {
-            amount = Money(CurrencyUnit.DebugInstance, -expense1)
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = -expense1,
             crStatus = CrStatus.CLEARED
-            save(contentResolver)
-            amount = Money(CurrencyUnit.DebugInstance, -expense2)
-            saveAsNew(contentResolver)
-            amount = Money(CurrencyUnit.DebugInstance, income1)
-            saveAsNew(contentResolver)
-            amount = Money(CurrencyUnit.DebugInstance, income2)
-            this.catId = categoryId
-            saveAsNew(contentResolver)
-        }
-
-        Transfer.getNewInstance(account1.id, CurrencyUnit.DebugInstance, account2.id).apply {
-            setAmount(Money(CurrencyUnit.DebugInstance, transferP))
-            save(contentResolver)
-            setAmount(Money(CurrencyUnit.DebugInstance, -transferN))
-            saveAsNew(contentResolver)
-        }
+        )
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = -expense2,
+            crStatus = CrStatus.CLEARED
+        )
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = income1,
+            crStatus = CrStatus.CLEARED
+        )
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = income2,
+            crStatus = CrStatus.CLEARED,
+            categoryId = categoryId
+        )
+        repository.insertTransfer(
+            account1.id, account2.id, transferP
+        )
+        repository.insertTransfer(
+            account1.id, account2.id, -transferN
+        )
     }
 
     @Before
     fun setupViewModel() {
-        viewModel = MyExpensesViewModel(ApplicationProvider.getApplicationContext(), SavedStateHandle())
+        viewModel =
+            MyExpensesViewModel(ApplicationProvider.getApplicationContext(), SavedStateHandle())
         application.appComponent.inject(viewModel)
     }
 
@@ -97,13 +106,15 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
 
     private fun getReconciledAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
-                repository.getTransactionSum(account,
+                repository.getTransactionSum(
+                    account,
                     CrStatusCriterion(listOf(CrStatus.RECONCILED))
                 )
 
     private fun getClearedAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
-                repository.getTransactionSum(account,
+                repository.getTransactionSum(
+                    account,
                     CrStatusCriterion(listOf(CrStatus.CLEARED))
                 )
 
@@ -112,7 +123,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         insertData()
         val initialTotalBalance = getTotalAccountBalance(account1)
         assertThat(count()).isEqualTo(6)
-        viewModel.reset(account1,null, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+        viewModel.reset(account1, null, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         assertThat(count()).isEqualTo(0)
         assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
@@ -153,7 +164,9 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         assertThat(initialCleared).isNotEqualTo(getReconciledAccountBalance(account1))
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(4)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(0)
-        assertThat(viewModel.balanceAccount(account1.id, false).getOrAwaitValue().isSuccess).isTrue()
+        assertThat(
+            viewModel.balanceAccount(account1.id, false).getOrAwaitValue().isSuccess
+        ).isTrue()
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(0)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(4)
         assertThat(getReconciledAccountBalance(account1)).isEqualTo(initialCleared)
@@ -166,8 +179,12 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(4)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(0)
         assertThat(viewModel.balanceAccount(account1.id, true).getOrAwaitValue().isSuccess).isTrue()
-        assertThat(count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")).isEqualTo(0)
-        assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.UNRECONCILED.name}'")).isEqualTo(2)
+        assertThat(count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")).isEqualTo(
+            0
+        )
+        assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.UNRECONCILED.name}'")).isEqualTo(
+            2
+        )
         assertThat(getReconciledAccountBalance(account1)).isEqualTo(initialCleared)
     }
 
@@ -188,7 +205,6 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     @Test
     fun ungroupSplit() {
         prefHandler.putString(PrefKey.HOME_CURRENCY, "USD")
-        val homeCurrency = currencyContext.homeCurrencyUnit
         val account = Account(
             label = "Account 2",
             openingBalance = openingBalance,
@@ -196,24 +212,31 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
             type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         )
             .createIn(repository)
-        val (split, part1, part2) = with(SplitTransaction.getNewInstance(contentResolver, account.id, CurrencyUnit.DebugInstance)) {
-            amount = Money(CurrencyUnit.DebugInstance, 10000)
-            status = STATUS_NONE
-            equivalentAmount = Money(homeCurrency, 5000)
-            save(contentResolver, true)
-            val part = Transaction.getNewInstance(accountId, CurrencyUnit.DebugInstance, id)
-            part.amount = Money(CurrencyUnit.DebugInstance, 6000)
-            val part1 = ContentUris.parseId(part.save(contentResolver)!!)
-            part.amount = Money(CurrencyUnit.DebugInstance, 4000)
-            val part2 = ContentUris.parseId(part.saveAsNew(contentResolver)!!)
-            Triple(id, part1, part2)
-        }
-        val splitRestored = Transaction.getInstanceFromDb(contentResolver, split, homeCurrency)
-        assertThat(splitRestored.equivalentAmount?.amountMinor).isEqualTo(5000)
-        assertThat(viewModel.revokeSplit(split).getOrAwaitValue().isSuccess).isTrue()
-        val part1Restored = Transaction.getInstanceFromDb(contentResolver, part1, homeCurrency)
-        assertThat(part1Restored.equivalentAmount?.amountMinor).isEqualTo(3000)
-        assertThat(Transaction.getInstanceFromDb(contentResolver, part2, homeCurrency).equivalentAmount?.amountMinor).isEqualTo(2000)
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account.id,
+                amount = 10000,
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                equivalentAmount = 5000
+            ), listOf(
+                Transaction(
+                    accountId = account.id,
+                    amount = 6000
+                ),
+                Transaction(
+                    accountId = account.id,
+                    amount = 4000
+                )
+            )
+        )
+
+        val splitRestored = repository.loadTransaction(split.data.id)
+        assertThat(splitRestored.data.equivalentAmount).isEqualTo(5000)
+        assertThat(viewModel.revokeSplit(split.data.id).getOrAwaitValue().isSuccess).isTrue()
+        val part1Restored = repository.loadTransaction(split.splitParts[0].data.id)
+        assertThat(part1Restored.data.equivalentAmount).isEqualTo(3000)
+        val part2Restored = repository.loadTransaction(split.splitParts[1].data.id)
+        assertThat(part2Restored.data.equivalentAmount).isEqualTo(2000)
     }
 
     companion object {

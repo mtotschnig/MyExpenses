@@ -28,13 +28,12 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -84,11 +83,12 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepAccountAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id, currency1)
-        transaction.amount = Money(currency1, 500L)
-        transaction.save(contentResolver)
+        val id = repository.insertTransaction(
+            accountId = account1.id,
+            amount = 500L
+        ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+        i.putExtra(DatabaseConstants.KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         setAccount(accountLabel2)
         checkAccount(accountLabel2)
@@ -100,12 +100,13 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id, currency1)
-        transaction.amount = Money(currency1, -500L)
-        transaction.methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
-        transaction.save(contentResolver)
+        val id = repository.insertTransaction(
+            accountId = account1.id,
+            amount = -500L,
+            methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
+        ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+        i.putExtra(DatabaseConstants.KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
@@ -127,12 +128,13 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id, currency1)
-        transaction.amount = Money(currency1, -500L)
-        transaction.crStatus = CrStatus.UNRECONCILED
-        transaction.save(contentResolver)
+        val id = repository.insertTransaction(
+            accountId = account1.id,
+            amount = -500L,
+            methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
+        ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+        i.putExtra(DatabaseConstants.KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         closeSoftKeyboard()
         //onView(withId(R.id.Status)).perform(nestedScrollToAction(), click()) leads to Status spinner
@@ -166,12 +168,11 @@ class OrientationChangeTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldHandleExistingInstanceAfterOrientationChange() {
-        val id = with(Transaction.getNewInstance(account1.id, currency1)) {
-            amount = Money(currency1, -500L)
-            crStatus = CrStatus.UNRECONCILED
-            save(contentResolver)
-            id
-        }
+        val id = repository.insertTransaction(
+            accountId = account1.id,
+            amount = -500L,
+            methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
+        ).id
         testScenario = ActivityScenario.launch(
             Intent(targetContext, ExpenseEdit::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)

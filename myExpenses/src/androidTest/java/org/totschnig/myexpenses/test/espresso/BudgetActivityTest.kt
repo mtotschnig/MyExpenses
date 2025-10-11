@@ -3,7 +3,17 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeLeft
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -17,12 +27,16 @@ import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ALLOCATION
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_BUDGET
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_SPENT
+import org.totschnig.myexpenses.compose.TEST_TAG_HEADER
+import org.totschnig.myexpenses.compose.TEST_TAG_ROW
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -52,10 +66,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         catIgnore = writeCategory("ignore")
         mainCat1 = writeCategory("A", null)
         mainCat2 = writeCategory("B", null)
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(homeCurrency, -12300L)
-        op0.catId = mainCat1
-        op0.save(contentResolver)
+        repository.insertTransaction(account.id, -12300L, categoryId = mainCat1)
 
         val budgetId = createBudget(account)
 

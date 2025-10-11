@@ -35,10 +35,10 @@ import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -47,28 +47,28 @@ import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
+import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     private lateinit var account: Account
-    private var op0Id: Long = 0
+    private var opId: Long = 0
 
     private fun doLaunch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
         account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(homeCurrency, -100L)
-        op0.save(contentResolver)
-        op0Id = op0.id
-        for (i in 2..initialOpCount) {
+        opId = (1..initialOpCount).map { i ->
+            val id = repository.insertTransaction(
+                accountId = account.id,
+                amount = -100L * i,
+                date = LocalDateTime.now().minusMinutes(i.toLong())
+            ).id
             repository.addAttachments(
-                op0.id,
+                id,
                 listOf(Uri.parse("file:///android_asset/screenshot.jpg"))
             )
-            op0.amount = Money(homeCurrency, -100L * i)
-            op0.date -= 10000
-            op0.saveAsNew(contentResolver)
-        }
+            id
+        }.first()
         launch(account.id)
     }
 
@@ -245,7 +245,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             .performClick()
         onView(withId(android.R.id.button1)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
-        val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency)
+        val op = repository.loadTransaction(opId)
         assertThat(op.isTransfer).isTrue()
         assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
         cleanup {
@@ -257,27 +257,19 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun unlinkTransfer() {
         account = buildAccount("Test account 1")
         val transferAccount = buildAccount("Test account 2")
-        val op0 = Transfer.getNewInstance(account.id, homeCurrency, transferAccount.id)
-        op0.amount = Money(homeCurrency, -100L)
-        op0.save(contentResolver)
-        op0Id = op0.id
-        val transferPeer = op0.transferPeer!!
+        val (transfer, peer) = repository.insertTransfer(
+            accountId = account.id,
+            transferAccountId = transferAccount.id,
+            amount = -100L
+        )
         launch(account.id)
         clickContextItem(R.string.menu_unlink_transfer)
         onView(withId(android.R.id.button1)).perform(click())
         assertThat(
-            Transaction.getInstanceFromDb(
-                contentResolver,
-                op0Id,
-                homeCurrency
-            ).isTransfer
+            repository.loadTransaction(transfer.id).isTransfer
         ).isFalse()
         assertThat(
-            Transaction.getInstanceFromDb(
-                contentResolver,
-                transferPeer,
-                homeCurrency
-            ).isTransfer
+            repository.loadTransaction(peer.id).isTransfer
         ).isFalse()
         cleanup {
             repository.deleteAccount(transferAccount.id)
@@ -288,13 +280,14 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun linkTransfer() {
         account = buildAccount("Test account 1")
         val transferAccount = buildAccount("Test account 2")
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(homeCurrency, -100L)
-        op0.save(contentResolver)
-        op0Id = op0.id
-        val peer = Transaction.getNewInstance(transferAccount.id, homeCurrency)
-        peer.amount = Money(homeCurrency, 100L)
-        peer.save(contentResolver)
+        val op0Id = repository.insertTransaction(
+            accountId = account.id,
+            amount = -100L
+        ).id
+        val peerId = repository.insertTransaction(
+            accountId = transferAccount.id,
+            amount = 100L
+        ).id
         val currencyId = contentResolver.query(
             TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(homeCurrency.code).build(),
             null, null, null, null
@@ -308,10 +301,10 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         listNode.onChildren()[1].performClick()
         clickMenuItem(R.id.LINK_TRANSFER_COMMAND, true)
         onView(withId(android.R.id.button1)).perform(click())
-        val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency) as Transfer
+        val op = repository.loadTransaction(op0Id)
         assertThat(op.isTransfer).isTrue()
         assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
-        assertThat(op.transferPeer).isEqualTo(peer.id)
+        assertThat(op.transferPeerId).isEqualTo(peerId)
         cleanup {
             repository.deleteAccount(transferAccount.id)
         }

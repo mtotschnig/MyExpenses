@@ -49,8 +49,6 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSF
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getPRIORITIZED_PRICES_CREATE;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshEquivalentAmountTriggers;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
@@ -78,6 +76,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.entities.Template;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -85,7 +84,6 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -99,8 +97,6 @@ import java.util.Locale;
 import timber.log.Timber;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
-  protected boolean shouldInsertDefaultTransferCategory;
-
   /**
    * SQL statement for expenses TABLE
    * both transactions and transfers are stored in this table
@@ -134,9 +130,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ORIGINAL_CURRENCY + " text, "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
-  public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
+  public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler) {
     super(context, prefHandler);
-    this.shouldInsertDefaultTransferCategory = shouldInsertDefaultTransferCategory;
   }
 
   /**
@@ -456,9 +451,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues);
-    if (shouldInsertDefaultTransferCategory) {
-      insertDefaultTransferCategory(db, getContext().getString(R.string.transfer));
-    }
+    insertDefaultTransferCategory(db, getContext().getString(R.string.transfer));
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(CHANGES_CREATE);
@@ -1237,7 +1230,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
                 Plan.updateCustomAppUri(
                         MyApplication.Companion.getInstance().getContentResolver(),
                         c.getLong(1),
-                        Template.buildCustomAppUri(c.getLong(0))
+                        BaseTransactionProvider.Companion.templateUri(c.getLong(0)).toString()
                 );
                 c.moveToNext();
               }

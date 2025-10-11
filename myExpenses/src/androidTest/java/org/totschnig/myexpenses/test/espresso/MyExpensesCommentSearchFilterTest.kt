@@ -8,13 +8,12 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
+import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
@@ -22,15 +21,18 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        val currency = DebugInstance
         account =  buildAccount("Test account 1")
-        val op = Transaction.getNewInstance(account.id, homeCurrency)
-        op.amount = Money(currency, 1000L)
-        op.comment = comment1
-        op.save(contentResolver)
-        op.comment =  comment2
-        op.date = op.date - 10000
-        op.saveAsNew(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = 1000L,
+            comment = COMMENT_1
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = 1000L,
+            comment = COMMENT_2,
+            date = LocalDateTime.now().minusMinutes(1)
+        )
         launch(account.id)
     }
 
@@ -44,17 +46,17 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
     @Test
     fun commentFilterShouldHideTransaction() {
         assertListSize(2)
-        commentIsDisplayed(comment1, 0)
-        commentIsDisplayed(comment2, 1)
+        commentIsDisplayed(COMMENT_1, 0)
+        commentIsDisplayed(COMMENT_2, 1)
         selectFilter(R.string.notes) {
-            composeTestRule.onNodeWithText(getString(R.string.search_comment)).performTextInput(comment1)
+            composeTestRule.onNodeWithText(getString(R.string.search_comment)).performTextInput(COMMENT_1)
             composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()
         }
         assertListSize(1)
-        commentIsDisplayed(comment1, 0)
+        commentIsDisplayed(COMMENT_1, 0)
         clearFilters()
         assertListSize(2)
-        commentIsDisplayed(comment2, 1)
+        commentIsDisplayed(COMMENT_2, 1)
     }
 
     private fun commentIsDisplayed(comment: String, position: Int) {
@@ -62,7 +64,7 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
     }
 
     companion object {
-        private const val comment1 = "something"
-        private const val comment2 = "different"
+        private const val COMMENT_1 = "something"
+        private const val COMMENT_2 = "different"
     }
 }

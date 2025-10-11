@@ -5,9 +5,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -17,7 +16,7 @@ import java.util.Currency
 
 @TestShard2
 class ForeignTransferEditTest : BaseExpenseEditTest() {
-    private var transfer: Transfer? = null
+    private var transfer: Long = 0
     lateinit var account2: Account
     @Before
     fun fixture() {
@@ -33,10 +32,12 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
             accountLabel2,
             currency = currency2.code
         )
-        transfer = Transfer.getNewInstance(account1.id, currency1, account2.id).apply {
-            setAmountAndTransferAmount(Money(currency1, -2000L), Money(currency2, -3000L))
-            save(contentResolver)
-        }
+        transfer = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = -2000L,
+            transferAmount = 3000L,
+        ).first.id
     }
 
     @After
@@ -50,7 +51,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
     @Test
     fun shouldSaveForeignTransfer() {
         val i = intent
-        i.putExtra(DatabaseConstants.KEY_ROWID, transfer!!.id)
+        i.putExtra(DatabaseConstants.KEY_ROWID, transfer)
         testScenario = ActivityScenario.launchActivityForResult(i)
         androidx.test.espresso.Espresso.onIdle()
         closeKeyboardAndSave()

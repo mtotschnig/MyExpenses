@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.After
@@ -9,10 +8,9 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -217,10 +215,10 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         expectedTitle: Int?,
     ) {
         fixture(criterion)
-        val transactionId = Transaction.getNewInstance(account1.id, currency).let {
-            it.amount = Money(currency, existingAmount)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
+        val transactionId = repository.insertTransaction(
+            accountId = account1.id,
+            amount = existingAmount
+        ).id
         launchForResult(intentForNewTransaction.apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
@@ -251,10 +249,10 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             criterion = criterion,
             type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         ).createIn(repository)
-        val transactionId = Transaction.getNewInstance(account1.id, currency).let {
-            it.amount = Money(currency, existingAmount)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
+        val transactionId = repository.insertTransaction(
+            accountId = account1.id,
+            amount = existingAmount
+        ).id
         launchForResult(intentForNewTransaction.apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)

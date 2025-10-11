@@ -13,8 +13,8 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.SimpleToastActivity
 import org.totschnig.myexpenses.activity.TemplateSaver
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.TemplateInfo

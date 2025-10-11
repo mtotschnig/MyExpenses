@@ -12,7 +12,6 @@ import android.text.TextUtils
 import androidx.core.os.BundleCompat
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -26,7 +25,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
@@ -39,6 +37,7 @@ import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
 import org.totschnig.myexpenses.provider.getBackupDataStoreFile
@@ -582,7 +581,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         calendarId
                     )
                     contentResolver.query(
-                        Template.CONTENT_URI, arrayOf(
+                        TEMPLATES_URI, arrayOf(
                             DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
                             DatabaseConstants.KEY_UUID
                         ), DatabaseConstants.KEY_PLANID
@@ -614,7 +613,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                                 )
                                                 val updated = contentResolver.update(
                                                     ContentUris.withAppendedId(
-                                                        Template.CONTENT_URI, templateId
+                                                        TEMPLATES_URI, templateId
                                                     ), planValues, null,
                                                     null
                                                 )
@@ -665,7 +664,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                         planValues.putNull(DatabaseConstants.KEY_PLANID)
                                         contentResolver.update(
                                             ContentUris.withAppendedId(
-                                                Template.CONTENT_URI,
+                                                TEMPLATES_URI,
                                                 templateId
                                             ),
                                             planValues, null, null

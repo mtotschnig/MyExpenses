@@ -27,13 +27,26 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.Transfer
+import org.totschnig.myexpenses.db2.createSplitTemplate
+import org.totschnig.myexpenses.db2.createSplitTransaction
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
-import org.totschnig.myexpenses.testutils.Espresso.*
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
@@ -43,7 +56,7 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import java.text.DecimalFormat
 import java.time.LocalDate
-import java.util.*
+import java.util.Currency
 
 @TestShard2
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
@@ -64,14 +77,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         check(foreignCurrency.code != homeCurrency.code)
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
-        transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
-            amount = Money(homeCurrency, 500L)
-            save(contentResolver)
-        }
-        transfer = Transfer.getNewInstance(account1.id, homeCurrency, account2.id).apply {
-            setAmount(Money(homeCurrency, -600L))
-            save(contentResolver)
-        }
+        transaction = repository.insertTransaction(
+            amount = 500L, accountId = account1.id
+        )
+        transfer = repository.insertTransfer(
+            amount = -600L, accountId = account1.id, transferAccountId = account2.id
+        )
     }
 
     @After
@@ -104,11 +115,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithOriginalAmount() {
-        val transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
-            amount = Money(homeCurrency, 500L)
-            originalAmount = Money(foreignCurrency, 1000)
-            save(contentResolver)
-        }
+        val transaction = repository.insertTransaction(
+            amount = 500L,
+            accountId = account1.id,
+            originalAmount = 1000,
+            originalCurrency = foreignCurrency.code
+        )
         load(transaction.id).use {
             checkAmount(5)
             onView(withId(R.id.OriginalAmountRow)).check(matches(isDisplayed()))
@@ -125,11 +137,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldPopulateWithEquivalentAmount() {
         val foreignAccount = buildForeignAccount()
-        val transaction = Transaction.getNewInstance(foreignAccount.id, foreignCurrency).apply {
-            amount = Money(foreignCurrency, 500L)
-            equivalentAmount = Money(homeCurrency, 1000)
-            save(contentResolver)
-        }
+        val transaction = repository.insertTransaction(
+            accountId = foreignAccount.id, amount = 500L, equivalentAmount = 1000
+        )
+
         load(transaction.id).use {
             checkAmount(5)
             onView(withId(R.id.EquivalentAmountRow)).check(matches(isDisplayed()))
@@ -148,10 +159,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldKeepStatusAndUuidAfterSave() {
         load(transaction.id).use {
             val uuid = transaction.uuid
-            val status = transaction.status
+            //TODO check if this actually tests the problem
+            val status = CrStatus.UNRECONCILED
             closeKeyboardAndSave()
-            val t = getTransactionFromDb(transaction.id)
-            assertThat(t.status).isEqualTo(status)
+            val t = repository.loadTransaction(transaction.id)
+            assertThat(t.crStatus).isEqualTo(status)
             assertThat(t.uuid).isEqualTo(uuid)
         }
     }
@@ -160,14 +172,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
         val foreignAccount = buildForeignAccount()
-        val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
-        foreignTransfer.setAmountAndTransferAmount(
-            Money(homeCurrency, 100L), Money(
-                foreignCurrency, 200L
-            )
+        val foreignTransfer = repository.insertTransfer(
+            account1.id, foreignAccount.id, 100L, 200L
         )
-        foreignTransfer.save(contentResolver)
-        load(foreignTransfer.id).use {
+        load(foreignTransfer.first.id).use {
             checkAmount(1)
             checkAmount(2, R.id.TransferAmount)
             onView(
@@ -184,7 +192,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             ).check(matches(withText(formatAmount(0.5f))))
         }
         cleanup {
-            repository.deleteTransaction(foreignTransfer.id)
+            repository.deleteTransaction(foreignTransfer.first.id)
             repository.deleteAccount(foreignAccount.id)
         }
     }
@@ -209,7 +217,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun testTransfer(loadFromPeer: Boolean) {
-        load((if (loadFromPeer) transfer.transferPeer else transfer.id)!!).use {
+        load((if (loadFromPeer) transfer.second else transfer.first).id).use {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
             checkEffectiveVisible(
@@ -261,7 +269,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         launchAndWait(intent.apply {
             putExtra(
                 DatabaseConstants.KEY_ROWID,
-                if (loadFromPeer) transfer.transferPeer else transfer.id
+                (if (loadFromPeer) transfer.second else transfer.first).id
             )
             putExtra(ExpenseEdit.KEY_CLONE, true)
         }).use {
@@ -277,7 +285,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
-        load(transfer.transferPeer!!).use {
+        load(transfer.second.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue()
                 assertThat(
@@ -292,7 +300,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepAccountViewsForGivingTransferPart() {
-        load(transfer.id).use {
+        load(transfer.first.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse()
                 assertThat(
@@ -307,11 +315,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction =
-            SplitTransaction.getNewInstance(contentResolver, account1.id, homeCurrency)
-        splitTransaction.status = DatabaseConstants.STATUS_NONE
-        splitTransaction.save(contentResolver, true)
-        load(splitTransaction.id).use {
+        val splitTransaction = repository.createSplitTransaction(
+            Transaction(
+                amount = 0L,
+                accountId = account1.id,
+                categoryId = DatabaseConstants.SPLIT_CATID
+            ), emptyList<Transaction>()
+        )
+        load(splitTransaction.first.id).use {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
             checkEffectiveVisible(
@@ -356,47 +367,43 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun buildSplitTemplate(): Long {
-        val template =
-            Template.getTypedNewInstance(
-                contentResolver,
-                Transactions.TYPE_SPLIT,
-                account1.id,
-                homeCurrency,
-                false,
-                null
+        val template = repository.createSplitTemplate(
+            Template(
+                amount = 0L,
+                accountId = account1.id,
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                title = "Split"
+            ), listOf(
+                Template(
+                    amount = 0L,
+                    accountId = account1.id,
+                    title = "Part"
+                )
             )
-        template!!.save(contentResolver, true)
-        val part = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_SPLIT,
-            account1.id,
-            homeCurrency,
-            false,
-            template.id
         )
-        part!!.save(contentResolver)
-        return template.id
+        return template.first.id
     }
 
     @Test
     fun shouldPopulateWithPlanAndPrepareForm() {
-        val plan = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account1.id,
-            homeCurrency,
-            false,
-            null
+        val template = Template(
+            accountId = account1.id,
+            title = "Daily plan",
+            amount = 700L
         )
-        plan!!.title = "Daily plan"
-        plan.amount = Money(homeCurrency, 700L)
-        plan.plan = Plan(
+        val event = Plan(
             LocalDate.now(),
             Plan.Recurrence.DAILY,
-            "Daily",
-            plan.compileDescription(app)
+            "Daily plan",
+            template.compileDescription(app)
         )
-        plan.save(contentResolver, plannerUtils, false)
+        val eventId = ContentUris.parseId(
+            event.save(contentResolver, PlannerUtils(app, prefHandler))!!
+        )
+        val plan = repository.createTemplate(
+            template.copy(planId = eventId)
+        )
+
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
         }).use {
@@ -413,22 +420,18 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("Daily plan")))
 
         }
-        Plan.delete(contentResolver, plan.planId)
+        Plan.delete(contentResolver, eventId)
     }
 
     @Test
     fun shouldInstantiateFromTemplateAndPrepareForm() {
-        val template = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account1.id,
-            homeCurrency,
-            false,
-            null
+        val template = repository.createTemplate(
+            Template(
+                accountId = account1.id,
+                title =  "Nothing but a plan",
+                amount = 800,
+            )
         )
-        template!!.title = "Nothing but a plan"
-        template.amount = Money(homeCurrency, 800L)
-        template.save(contentResolver)
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
@@ -475,9 +478,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldNotEditSealed() {
         val sealedAccount = buildAccount("Sealed account")
-        val sealed = Transaction.getNewInstance(sealedAccount.id, homeCurrency)
-        sealed.amount = Money(homeCurrency, 500L)
-        sealed.save(contentResolver)
+        val sealed = repository.insertTransaction(accountId = sealedAccount.id, amount = 500L)
         val values = ContentValues(1)
         values.put(DatabaseConstants.KEY_SEALED, true)
         app.contentResolver.update(

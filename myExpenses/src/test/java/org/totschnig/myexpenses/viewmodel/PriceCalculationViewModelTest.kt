@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.injector
@@ -105,10 +106,10 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun reCalculateEquivalentAmountsWithoutPrice() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
-        val transactionId = insertTransaction(accountId, 100)
+        val transactionId = repository.insertTransaction(accountId, 100).id
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to null),
+            transactionExpectedAmounts = listOf(transactionId to null),
             accountExpectedRates = listOf(accountId to null)
         )
     }
@@ -117,13 +118,13 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun reCalculateEquivalentAmountsWithStatic() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = false)
-        val transactionId = insertTransaction(accountId, 100)
+        val transactionId = repository.insertTransaction(accountId, 100).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         prefHandler.putString(PrefKey.HOME_CURRENCY, "USD")
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to null),
+            transactionExpectedAmounts = listOf(transactionId to null),
             accountExpectedRates = listOf(accountId to 1.5)
         )
     }
@@ -132,12 +133,12 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun reCalculateEquivalentAmountsWithApplicableDateInThePast() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
-        val transactionId = insertTransaction(accountId, 100)
+        val transactionId = repository.insertTransaction(accountId, 100).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to 150),
+            transactionExpectedAmounts = listOf(transactionId to 150),
             accountExpectedRates = listOf(accountId to 1.5)
         )
     }
@@ -146,12 +147,12 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun reCalculateEquivalentAmountsWithNoApplicableDateInThePast() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
-        val transactionId = insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1))
+        val transactionId = repository.insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1)).id
         repository.savePrice("USD", "EUR", LocalDate.now(),
             ExchangeRateApi.Frankfurter, 1.5)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to null),
+            transactionExpectedAmounts = listOf(transactionId to null),
             accountExpectedRates = listOf(accountId to null)
         )
     }
@@ -161,12 +162,12 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
         repository.storeExchangeRate(accountId, 1.6, "EUR", "USD")
-        val transactionId = insertTransaction(accountId, 100, equivalentAmount = 160)
+        val transactionId = repository.insertTransaction(accountId, 100, equivalentAmount = 160).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to 150),
+            transactionExpectedAmounts = listOf(transactionId to 150),
             accountExpectedRates = listOf(accountId to 1.5)
         )
     }
@@ -175,14 +176,14 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun recalculateEquivalentAmountsForAllAccounts() = runTest {
         val viewModel = buildViewModel()
         val account1Id = insertAccount("Test account 1", currency = "EUR", dynamic = true)
-        val transaction1Id = insertTransaction(account1Id, 100)
+        val transaction1Id = repository.insertTransaction(account1Id, 100).id
         val account2Id = insertAccount("Test account 2", currency = "EUR", dynamic = true)
-        val transaction2Id = insertTransaction(account2Id, 100)
+        val transaction2Id = repository.insertTransaction(account2Id, 100).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transaction1Id.first to 150, transaction2Id.first to 150),
+            transactionExpectedAmounts = listOf(transaction1Id to 150, transaction2Id to 150),
             accountExpectedRates = listOf(account1Id to 1.5, account2Id to 1.5)
         )
     }
@@ -191,15 +192,15 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun recalculateEquivalentAmountsForOneAccount() = runTest {
         val viewModel = buildViewModel()
         val account1Id = insertAccount("Test account 1", currency = "EUR", dynamic = true)
-        val transaction1Id = insertTransaction(account1Id, 100)
+        val transaction1Id = repository.insertTransaction(account1Id, 100).id
         val account2Id = insertAccount("Test account 2", currency = "EUR", dynamic = true)
-        val transaction2Id = insertTransaction(account2Id, 100)
+        val transaction2Id = repository.insertTransaction(account2Id, 100).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.5)
         viewModel.recalculateAmountsAndAssert(
             "USD",
             onlyAccount = account1Id,
-            transactionExpectedAmounts = listOf(transaction1Id.first to 150, transaction2Id.first to null),
+            transactionExpectedAmounts = listOf(transaction1Id to 150, transaction2Id to null),
             accountExpectedRates = listOf(account1Id to 1.5)
         )
     }
@@ -208,12 +209,12 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun recalculateEquivalentAmountsRounding() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account 1", currency = "EUR", dynamic = true)
-        val transactionId = insertTransaction(accountId, 100)
+        val transactionId = repository.insertTransaction(accountId, 100).id
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.666666666)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to 167),
+            transactionExpectedAmounts = listOf(transactionId to 167),
             accountExpectedRates = listOf(accountId to 1.666666666)
         )
     }
@@ -236,14 +237,14 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
     fun recalculateAccountExchangeRateWithTransaction() = runTest {
         val viewModel = buildViewModel()
         val accountId = insertAccount("Test account", currency = "EUR", dynamic = true)
-        val transactionId = insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1), equivalentAmount = 190)
+        val transactionId = repository.insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1), equivalentAmount = 190).id
         repository.savePrice("USD", "EUR", LocalDate.now(),
             ExchangeRateApi.Frankfurter, 1.5)
         repository.savePrice("USD", "EUR", LocalDate.now().minusDays(1),
             ExchangeRateApi.Frankfurter, 1.6)
         viewModel.recalculateAmountsAndAssert(
             "USD",
-            transactionExpectedAmounts = listOf(transactionId.first to 160),
+            transactionExpectedAmounts = listOf(transactionId to 160),
             accountExpectedRates = listOf(accountId to 1.6)
         )
     }

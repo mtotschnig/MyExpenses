@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.ShortcutManagerCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.util.ShortcutHelper.buildTemplateShortcut
 import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.viewmodel.TemplateShortcutSelectViewModel

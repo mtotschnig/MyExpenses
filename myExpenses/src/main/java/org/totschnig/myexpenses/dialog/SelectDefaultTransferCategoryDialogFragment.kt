@@ -17,11 +17,7 @@ class SelectDefaultTransferCategoryDialogFragment: SelectCategoryBaseDialogFragm
     override fun actionButtonLabel(selection: Category?) = getString(R.string.select)
 
     override fun onActionButtonClick(value: Category) {
-        if (value.id > 0) {
-            prefHandler.putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, value.id)
-        } else {
-            prefHandler.remove(PrefKey.DEFAULT_TRANSFER_CATEGORY)
-        }
+        prefHandler.defaultTransferCategory = value.id
         setFragmentResult(SELECT_CATEGORY_REQUEST, bundleOf(
             KEY_PATH to if (value.id > 0) value.path else getString(withRoot)
         ))

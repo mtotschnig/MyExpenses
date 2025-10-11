@@ -100,7 +100,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -471,9 +470,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         if (transaction.originTemplate != null) {
             TableRow(
                 label = R.string.plan,
-                content = transaction.originTemplate.plan?.let {
-                    Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
-                } ?: stringResource(R.string.plan_event_deleted)
+                content = transaction.originTemplate
             )
         }
         if (transaction.tagList.isNotEmpty()) {

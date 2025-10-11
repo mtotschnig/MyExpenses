@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -67,6 +66,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -568,7 +568,7 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
         TransactionProvider.EVENT_CACHE_URI, null, null
     )
     cr.query(
-        Template.CONTENT_URI, arrayOf(
+        TEMPLATES_URI, arrayOf(
             KEY_PLANID
         ),
         "$KEY_PLANID IS NOT null", null, null
@@ -716,7 +716,7 @@ fun insertEventAndUpdatePlan(
     val planValues = ContentValues()
     planValues.put(KEY_PLANID, planId)
     val updated = contentResolver.update(
-        ContentUris.withAppendedId(Template.CONTENT_URI, templateId),
+        ContentUris.withAppendedId(TEMPLATES_URI, templateId),
         planValues, null, null
     )
     return updated > 0

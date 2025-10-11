@@ -198,7 +198,7 @@ public class Transfer extends Transaction implements ITransfer {
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
       transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
-      //the account from which is transfered could also have been altered
+      //the account from which is transferred could also have been altered
       transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
       Preconditions.checkNotNull(getUuid());
       transferValues.put(KEY_UUID, getUuid());

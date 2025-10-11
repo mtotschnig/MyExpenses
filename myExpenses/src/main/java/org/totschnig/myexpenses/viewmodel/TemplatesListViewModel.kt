@@ -12,8 +12,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.instantiateTemplate
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
@@ -78,13 +78,12 @@ class TemplatesListViewModel(application: Application) :
     fun newFromTemplate(vararg plans: PlanInstanceInfo) =
         liveData(context = coroutineContext()) {
             emit(plans.map { plan ->
-                instantiateTemplate(
-                    repository,
+                repository.instantiateTemplate(
                     exchangeRateHandler,
                     plan,
-                    currencyContext.homeCurrencyUnit
+                    currencyContext
                 )
-            }.sumBy { if (it == null) 0 else 1 })
+            }.sumOf { if (it == null) 0 else 1 })
         }
 
     fun reset(instance: PlanInstanceInfo) {

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.Manifest
+import android.content.ContentUris
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
@@ -21,14 +22,16 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.db2.countTransactionsPerAccount
+import org.totschnig.myexpenses.db2.createSplitTemplate
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
@@ -60,60 +63,43 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         val title = "Espresso $type Template ${defaultAction.name}"
         when (type) {
             TYPE_TRANSACTION -> {
-                Template(
-                    contentResolver,
-                    account1.id,
-                    homeCurrency,
-                    TYPE_TRANSACTION,
-                    null
-                ).apply {
-                    amount = Money(homeCurrency, -1200L)
-                    this.defaultAction = defaultAction
-                    this.title = title
-                    save(contentResolver)
-                }
+                repository.createTemplate(
+                    Template(
+                        accountId = account1.id,
+                        defaultAction = defaultAction,
+                        title = title,
+                        amount = -1200L
+                    )
+                )
             }
 
             TYPE_TRANSFER -> {
-                Template.getTypedNewInstance(
-                    contentResolver,
-                    TYPE_TRANSFER,
-                    account1.id,
-                    homeCurrency,
-                    false,
-                    null
-                )!!.apply {
-                    amount = Money(homeCurrency, -1200L)
-                    setTransferAccountId(account2.id)
-                    this.title = title
-                    this.defaultAction = defaultAction
-                    save(contentResolver)
-                }
+                repository.createTemplate(
+                    Template(
+                        accountId = account1.id,
+                        transferAccountId = account2.id,
+                        defaultAction = defaultAction,
+                        title = title,
+                        amount = -1200L
+                    )
+                )
             }
 
             TYPE_SPLIT -> {
-                Template.getTypedNewInstance(
-                    contentResolver,
-                    TYPE_SPLIT,
-                    account1.id,
-                    homeCurrency,
-                    false,
-                    null
-                )!!.apply {
-                    amount = Money(homeCurrency, -1200L)
-                    this.title = title
-                    this.defaultAction = defaultAction
-                    save(contentResolver, true)
-                    val part = Template.getTypedNewInstance(
-                        contentResolver,
-                        TYPE_SPLIT,
-                        account1.id,
-                        homeCurrency,
-                        false,
-                        id
-                    )!!
-                    part.save(contentResolver)
-                }
+                repository.createSplitTemplate(
+                    Template(
+                        accountId = account1.id,
+                        defaultAction = defaultAction,
+                        title = title,
+                        amount = -1200L
+                    ), listOf(
+                        Template(
+                            accountId = account1.id,
+                            amount = -1200L,
+                            title = ""
+                        )
+                    )
+                )
             }
         }
     }
@@ -137,7 +123,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     private fun verifySaveAction() {
         assertThat(
             repository.count(
-                Transaction.CONTENT_URI,
+                TransactionProvider.TRANSACTIONS_URI,
                 DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " IS NULL",
                 arrayOf(account1.id.toString())
             )
@@ -182,27 +168,24 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         assertWithMessage("Unable to create planner").that(
             plannerUtils.createPlanner(true)
         ).isNotEqualTo(INVALID_CALENDAR_ID)
-        Template(
-            contentResolver,
-            account1.id,
-            homeCurrency,
-            TYPE_TRANSACTION,
-            null
-        ).apply {
-            amount = Money(homeCurrency, -1200L)
-            this.isPlanExecutionAutomatic = true
-            title = "Espresso Plan"
-            plan1 = Plan(
-                LocalDate.now(),
-                "FREQ=WEEKLY;COUNT=10;WKST=SU",
-                title,
-                compileDescription(app)
-            ).apply {
-                save(contentResolver, plannerUtils)
-            }
-            planId = plan1.id
-            save(contentResolver)
-        }
+        val title = "Espresso Plan"
+        val template = Template(
+            accountId = account1.id,
+            title = title,
+            amount = -1200L,
+        )
+        val event = Plan(
+            LocalDate.now(),
+            "FREQ=WEEKLY;COUNT=10;WKST=SU",
+            title,
+            template.compileDescription(app)
+        )
+        val eventId = ContentUris.parseId(
+            event.save(contentResolver, PlannerUtils(app, prefHandler))!!
+        )
+        repository.createTemplate(
+            template.copy(planId = eventId)
+        )
         launch()
         onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
             .perform(ViewActions.click())

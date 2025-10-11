@@ -1020,7 +1020,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTIONS, UNCOMMITTED -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
-        values.put(KEY_UUID, Model.generateUuid());
+        if (!values.containsKey(KEY_UUID)) {
+          throw new IllegalStateException("required value uuid is missing");
+        }
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
         if (equivalentAmount != null) {

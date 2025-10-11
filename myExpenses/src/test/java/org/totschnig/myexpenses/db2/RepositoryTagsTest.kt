@@ -13,7 +13,7 @@ class RepositoryTagsTest : BaseTestWithRepository() {
     @Test
     fun transactionStoreAndRemoveTags() {
         val testAccountId = insertAccount("Test account")
-        val transactionId = insertTransaction(testAccountId, 100).first
+        val transactionId = repository.insertTransaction(testAccountId, 100).id
         val tagId = repository.writeTag("Good Tag")
         val controlTag = Tag(tagId, "Good Tag")
         repository.saveTagsForTransaction(listOf(controlTag), transactionId)

@@ -23,16 +23,14 @@ import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.myexpenses.testutils.BaseComposeTest
-import org.totschnig.myexpenses.testutils.withIdAndParent
-import org.totschnig.myexpenses.testutils.withOperationType
 
 const val TEMPLATE_TITLE = "Espresso template"
 
@@ -122,9 +120,10 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             it.moveToFirst()
             it.getLong(0)
         }
-        val (transaction, tags) = Template.getInstanceFromDbWithTags(contentResolver, templateId)!!
-        with(transaction as Template) {
-            assertThat(amount.amountMinor).isEqualTo(expectedAmount)
+        val template = repository.loadTemplate(templateId)
+        val tags = repository.loadTagsForTemplate(templateId)
+        with(template) {
+            assertThat(amount).isEqualTo(expectedAmount)
             assertThat(title).isEqualTo(templateTitle)
             assertThat(accountId).isEqualTo(expectedAccount)
         }

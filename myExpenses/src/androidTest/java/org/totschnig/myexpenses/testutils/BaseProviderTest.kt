@@ -23,11 +23,9 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.io.File
 
 open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
@@ -56,7 +54,6 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
         get() = Repository(
             targetContextWrapper,
             Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
             prefHandler,
             Mockito.mock(DataStore::class.java) as DataStore<Preferences>
         )
@@ -80,9 +77,6 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
 
     val cashAccount: AccountType
         get() = repository.findAccountType(PREDEFINED_NAME_CASH)!!
-
-    fun getTransactionFromDb(id: Long): Transaction? =
-        Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)
 
     @Deprecated("Deprecated in Java")
     @Throws(Exception::class)

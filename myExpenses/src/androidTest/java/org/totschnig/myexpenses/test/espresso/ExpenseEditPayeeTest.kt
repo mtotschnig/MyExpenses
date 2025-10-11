@@ -59,7 +59,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
             setAmount(101)
             clickFab()
             onIdle()
-            assertThat(load().first().party).isEqualTo(party.id)
+            assertThat(load().first().payeeId).isEqualTo(party.id)
         }
     }
 }

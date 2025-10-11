@@ -44,7 +44,9 @@ import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.db2.accountInformation
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createBank
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteBank
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.importedAccounts
 import org.totschnig.myexpenses.db2.loadBank
@@ -55,7 +57,6 @@ import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -216,7 +217,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     val errorState: StateFlow<String?> = _errorState
 
     private val converter: HbciConverter
-        get() = HbciConverter(repository, currencyContext["EUR"])
+        get() = HbciConverter(repository)
 
     sealed class WorkState {
 
@@ -494,7 +495,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 val (transaction, attributes: Map<out Attribute, String>) =
                                     umsLine.toTransaction(currencyContext, accountInformation.accountId, 1)
                                 if (!isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
-                                    val id = ContentUris.parseId(transaction.save(repository)!!)
+                                    val id = repository.createTransaction(transaction).id
                                     repository.saveTransactionAttributes(id, attributes)
 
                                     importCount++
@@ -544,7 +545,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             "(select $KEY_VALUE from $TABLE_TRANSACTION_ATTRIBUTES left join $TABLE_ATTRIBUTES on $KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID WHERE $KEY_ATTRIBUTE_NAME = ? and $KEY_TRANSACTIONID = $VIEW_COMMITTED.$KEY_ROWID) = ? ",
             arrayOf(FinTsAttribute.CHECKSUM.name, checkSum), null
         )?.useAndMapToList {
-            it.getLong(0) == transaction.amount.amountMinor && it.getLong(1) == transaction.date
+            it.getLong(0) == transaction.amount && it.getLong(1) == transaction.date
         }?.any { it } == true
     }
 
@@ -634,7 +635,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
                                     currencyContext, accountId, accountType.id
                                 )
-                                val id = ContentUris.parseId(transaction.save(repository)!!)
+                                val id = repository.createTransaction(transaction).id
                                 repository.saveTransactionAttributes(id, transactionAttributes)
                             }
                         }

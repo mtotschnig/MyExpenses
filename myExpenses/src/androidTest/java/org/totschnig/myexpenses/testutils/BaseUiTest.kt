@@ -45,17 +45,18 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -64,7 +65,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
@@ -128,8 +128,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         repository.deleteAccount(accountId)
     }
 
-    fun getTransactionFromDb(id: Long): Transaction =
-        Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)
+    fun getTransactionFromDb(id: Long): Transaction = repository.loadTransaction(id)
 
     @Before
     fun setUp() {
@@ -277,7 +276,6 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
             currencyContext,
-            DebugCurrencyFormatter,
             prefHandler,
             dataStore
         )
@@ -310,20 +308,13 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)
     }
 
-    protected fun prepareSplit(accountId: Long): Long {
-        val currencyUnit = homeCurrency
-        return with(SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit)) {
-            amount = Money(currencyUnit, 10000)
-            status = STATUS_NONE
-            save(contentResolver, true)
-            val part = Transaction.getNewInstance(accountId, currencyUnit, id)
-            part.amount = Money(currencyUnit, 5000)
-            part.save(contentResolver)
-            part.amount = Money(currencyUnit, 5000)
-            part.saveAsNew(contentResolver)
-            id
-        }
-    }
+    protected fun prepareSplit(accountId: Long) = repository.createSplitTransaction(
+        Transaction(accountId = accountId, amount = 10000),
+        listOf(
+            Transaction(accountId = accountId, amount = 5000),
+            Transaction(accountId = accountId, amount = 5000)
+        )
+    ).first.id
 
     fun clickFab() {
         onView(withId(R.id.fab)).perform(click())

@@ -5,23 +5,20 @@ import android.content.ContentUris
 import androidx.test.core.app.ApplicationProvider
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.saveCategory
-import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
-import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BudgetInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TemplateInfo
-import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
-import java.time.LocalDateTime
 
 abstract class BaseTestWithRepository {
 
-    val application = ApplicationProvider.getApplicationContext<MyApplication>()
+    val application: MyApplication = ApplicationProvider.getApplicationContext<MyApplication>()
 
     val currencyContext = application.appComponent.currencyContext()
 
@@ -32,7 +29,6 @@ abstract class BaseTestWithRepository {
     val repository: Repository = Repository(
         application,
         currencyContext,
-        application.appComponent.currencyFormatter(),
         prefHandler,
         dataStore
     )
@@ -55,35 +51,6 @@ abstract class BaseTestWithRepository {
                 icon = icon
             )
         )!!
-
-    protected fun insertTransaction(
-        accountId: Long,
-        amount: Long,
-        parentId: Long? = null,
-        categoryId: Long? = null,
-        crStatus: CrStatus = CrStatus.UNRECONCILED,
-        date: LocalDateTime = LocalDateTime.now(),
-        equivalentAmount: Long? = null,
-        payeeId: Long? = null
-    ): Pair<Long, String> {
-        val contentValues = TransactionInfo(
-            accountId = accountId,
-            amount = amount,
-            catId = categoryId,
-            crStatus = crStatus,
-            parentId = parentId,
-            date = date,
-            equivalentAmount = equivalentAmount,
-            payeeId = payeeId
-        ).contentValues
-        val id = ContentUris.parseId(
-            contentResolver.insert(
-                TransactionProvider.TRANSACTIONS_URI,
-                contentValues
-            )!!
-        )
-        return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)
-    }
 
     protected fun insertTemplate(
         accountId: Long,
@@ -125,18 +92,17 @@ abstract class BaseTestWithRepository {
         accountType: String = PREDEFINED_NAME_CASH,
         currency: String = currencyContext.homeCurrencyString,
         dynamic: Boolean = false,
-        description: String = "My account of type $accountType"
-    ) = ContentUris.parseId(
-        contentResolver.insert(
-            TransactionProvider.ACCOUNTS_URI,
-            AccountInfo(
-                label = label,
-                type = repository.findAccountType(accountType)!!.id,
-                openingBalance = openingBalance,
-                currency = currency,
-                dynamic = dynamic,
-                description = description
-            ).contentValues
-        )!!
-    )
+        description: String = "My account of type $accountType",
+        syncAccountName: String? = null
+    ) = repository.createAccount(
+        Account(
+            label = label,
+            type = repository.findAccountType(accountType)!!,
+            openingBalance = openingBalance,
+            currency = currency,
+            dynamicExchangeRates = dynamic,
+            description = description,
+            syncAccountName = syncAccountName
+        )
+    ).id
 }

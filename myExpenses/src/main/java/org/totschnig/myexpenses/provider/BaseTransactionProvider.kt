@@ -226,6 +226,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_ALLOCATIONS
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -527,6 +528,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .build()
 
         fun budgetUri(budgetId: Long) = ContentUris.withAppendedId(BUDGETS_URI, budgetId)
+
+        fun templateUri(templateId: Long) = ContentUris.withAppendedId(TEMPLATES_URI, templateId)
 
         fun budgetAllocationUri(budgetId: Long, categoryId: Long): Uri =
             appendId(

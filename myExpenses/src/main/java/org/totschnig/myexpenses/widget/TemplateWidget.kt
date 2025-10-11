@@ -2,16 +2,12 @@ package org.totschnig.myexpenses.widget
 
 import android.content.Context
 import android.content.Intent
-import android.hardware.display.DisplayManager
-import android.os.Build
-import android.view.Display
-import android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 import android.widget.Toast
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.showTemplateInstantiationResult
-import org.totschnig.myexpenses.model.instantiateTemplate
+import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -48,11 +44,10 @@ class TemplateWidget : AbstractListWidget(
                 } else {
                     doAsync {
                         context.showTemplateInstantiationResult(
-                            if (instantiateTemplate(
-                                repository,
+                            if (repository.instantiateTemplate(
                                 exchangeRateHandler,
                                 PlanInstanceInfo(templateId),
-                                currencyContext.homeCurrencyUnit
+                                currencyContext
                             ) == null) 0 else 1
                         )
                     }
@@ -71,16 +66,6 @@ class TemplateWidget : AbstractListWidget(
                     putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
                 })
         }
-    }
-
-    private fun Context.forToast() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        createDisplayContext(
-            getSystemService(DisplayManager::class.java)
-                .getDisplay(Display.DEFAULT_DISPLAY)
-        )
-            .createWindowContext(TYPE_APPLICATION_OVERLAY, null)
-    } else {
-        this
     }
 
     companion object {

@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
@@ -41,7 +42,6 @@ import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.ColorSource
@@ -196,7 +196,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             var failure = 0
             ids.forEach {
                 try {
-                    Template.delete(contentResolver, it, deletePlan)
+                    repository.deleteTemplate(it, deletePlan)
                     success++
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(contentResolver, e)

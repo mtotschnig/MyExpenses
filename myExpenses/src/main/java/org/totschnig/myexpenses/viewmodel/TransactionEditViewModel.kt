@@ -211,7 +211,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             listOf(
                                 ShortcutHelper.buildTemplateShortcut(
                                     getApplication(),
-                                    TemplateInfo.fromTemplate(transaction)
+                                    TODO() //TemplateInfo.fromTemplate(transaction)
                                 )
                             )
                         )

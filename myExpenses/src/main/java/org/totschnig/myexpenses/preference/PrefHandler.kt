@@ -145,8 +145,15 @@ interface PrefHandler {
     val shouldSecureWindow
         get() = isProtected && !getBoolean(PrefKey.PROTECTION_ALLOW_SCREENSHOT, false)
 
-    val defaultTransferCategory: Long?
+    var defaultTransferCategory: Long?
         get() = getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L).takeIf { it != -1L }
+        set(value) {
+            if (value?.takeIf { it > 0L } == null) {
+                remove(PrefKey.DEFAULT_TRANSFER_CATEGORY)
+            } else {
+                putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, value)
+            }
+        }
 
     val mainMenu: List<MenuItem>
         get() = getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)

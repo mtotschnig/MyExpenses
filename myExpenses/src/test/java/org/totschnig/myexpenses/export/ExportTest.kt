@@ -29,8 +29,12 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.createSplitTransaction
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
@@ -39,24 +43,19 @@ import org.totschnig.myexpenses.export.AbstractExporter.Companion.UTF_8_BOM
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.toEpoch
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @RunWith(RobolectricTestRunner::class)
@@ -81,10 +80,10 @@ class ExportTest : BaseTestWithRepository() {
     private var catForFilter = 0L
 
     @Suppress("DEPRECATION")
-    private val base = Date(117, 11, 15, 12, 0, 0)
-    private val baseSinceEpoch = base.time / 1000
-    private val date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
-    private val time: String = SimpleDateFormat("HH:mm", Locale.US).format(base)
+    private val base = LocalDateTime.of(2017, 12, 15, 12, 0, 0)
+    private val date: String = base.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    private val time: String = base.format(DateTimeFormatter.ofPattern("HH:mm"))
+
     private lateinit var outFile: File
     private val uuidList: MutableList<String> = mutableListOf()
 
@@ -110,95 +109,109 @@ class ExportTest : BaseTestWithRepository() {
         val cat2Id = writeCategory("Sub", cat1Id)
         val cat3Id = writeCategory("Sub2", cat1Id)
         catForFilter = writeCategory("Sub3", cat1Id)
-        val op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance)
-            ?: throw IllegalStateException()
-        op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = cheque
-        op.crStatus = CrStatus.CLEARED
-        op.referenceNumber = "1"
-        op.date = baseSinceEpoch
-        op.save(contentResolver)
+        var op = repository.insertTransaction(
+            accountId = account1.id,
+            amount = expense1,
+            methodId = cheque,
+            crStatus = CrStatus.CLEARED,
+            referenceNumber = "1",
+            date = base
+        ).data
         uuidList.add(op.uuid!!)
         repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
-        op.amount = (Money(CurrencyUnit.DebugInstance, expense2))
-        op.catId = cat1Id
-        op.party = DisplayParty(repository.requireParty("N.N."), "N.N.")
-        op.crStatus = CrStatus.UNRECONCILED
-        op.referenceNumber = "2"
-        op.date = baseSinceEpoch + 1
-        op.saveAsNew(contentResolver)
+        op = repository.insertTransaction(
+            accountId = account1.id,
+            amount = expense2,
+            categoryId = cat1Id,
+            methodId = cheque,
+            payeeId = repository.requireParty("N.N."),
+            crStatus = CrStatus.UNRECONCILED,
+            referenceNumber = "2",
+            date = base.plusSeconds(1)
+        ).data
         uuidList.add(op.uuid!!)
-        op.amount = Money(CurrencyUnit.DebugInstance, income1)
-        op.catId = cat2Id
-        op.party = null
-        op.methodId = null
-        op.referenceNumber = null
-        op.date = baseSinceEpoch + 2
-        op.saveAsNew(contentResolver)
+        op = repository.insertTransaction(
+            accountId = account1.id,
+            amount = income1,
+            categoryId = cat2Id,
+            date = base.plusSeconds(2)
+        ).data
         uuidList.add(op.uuid!!)
         repository.addAttachments(op.id, listOf(Uri.parse("file:///sdcard/picture.png")))
-        op.amount = Money(CurrencyUnit.DebugInstance, income2)
-        op.comment = "Note for myself with \"quote\""
-        op.date = baseSinceEpoch + 3
-        op.saveAsNew(contentResolver)
+        op = repository.insertTransaction(
+            accountId = account1.id,
+            amount = income2,
+            categoryId = cat2Id,
+            comment = "Note for myself with \"quote\"",
+            date = base.plusSeconds(3)
+        ).data
         uuidList.add(op.uuid!!)
-        val transfer = Transfer.getNewInstance(account1.id, CurrencyUnit.DebugInstance, account2.id)
-            ?: throw IllegalStateException()
-        transfer.setAmount(Money(CurrencyUnit.DebugInstance, transferP))
-        transfer.crStatus = CrStatus.RECONCILED
-        transfer.date = baseSinceEpoch + 4
-        transfer.save(contentResolver)
-        uuidList.add(transfer.uuid!!)
-        transfer.crStatus = CrStatus.UNRECONCILED
-        transfer.setAmount(Money(CurrencyUnit.DebugInstance, -transferN))
-        transfer.date = baseSinceEpoch + 5
-        transfer.saveAsNew(contentResolver)
-        uuidList.add(transfer.uuid!!)
-        val split = SplitTransaction.getNewInstance(
-            contentResolver,
-            account1.id,
-            CurrencyUnit.DebugInstance
-        ) ?: throw IllegalStateException()
-        split.amount = Money(CurrencyUnit.DebugInstance, split1)
-        split.date = baseSinceEpoch + 6
-        split.party = DisplayParty(repository.requireParty("N.N."), "N.N.")
-        val part = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance, split.id)
-            ?: throw IllegalStateException()
-        part.amount = Money(CurrencyUnit.DebugInstance, part1)
-        part.catId = cat3Id
-        part.status = DatabaseConstants.STATUS_UNCOMMITTED
-        part.save(contentResolver)
-        uuidList.add(part.uuid!!)
-        part.amount = Money(CurrencyUnit.DebugInstance, part2)
-        part.catId = catForFilter
-        part.saveAsNew(contentResolver)
-        uuidList.add(part.uuid!!)
-        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), part.id)
-        split.status = DatabaseConstants.STATUS_NONE
-        split.save(contentResolver, true)
-        uuidList.add(split.uuid!!)
+        var transfer = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            categoryId = null,
+            amount = transferP,
+            date = base.plusSeconds(4),
+            crStatus = CrStatus.RECONCILED
+        )
+        uuidList.add(transfer.data.uuid!!)
+        transfer = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = -transferN,
+            date = base.plusSeconds(5),
+            categoryId = null
+        )
+        uuidList.add(transfer.data.uuid!!)
+        val splitDate = base.plusSeconds(6).toEpoch()
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account1.id,
+                amount = split1,
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                date = splitDate,
+                payeeId = repository.requireParty("N.N.")
+            ), listOf(
+                Transaction(
+                    accountId = account1.id,
+                    amount = part1,
+                    categoryId = cat3Id,
+                    date = splitDate
+                ),
+                Transaction(
+                    accountId = account1.id,
+                    amount = part2,
+                    date = splitDate,
+                    categoryId = catForFilter
+                )
+            )
+        )
+        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), split.splitParts[1].data.id)
+
+        uuidList.add(split.splitParts[0].data.uuid!!)
+        uuidList.add(split.splitParts[1].data.uuid!!)
+        uuidList.add(split.data.uuid!!)
         return account1
     }
 
     private fun insertData2(account: Account) {
-        with(
-            Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
-                ?: throw IllegalStateException()
-        ) {
-            amount = Money(CurrencyUnit.DebugInstance, expense3)
-            methodId = cheque
-            comment = "Expense inserted after first export"
-            referenceNumber = "3"
-            date = baseSinceEpoch
-            save(contentResolver)
-            amount = Money(CurrencyUnit.DebugInstance, income3)
-            comment = "Income inserted after first export"
-            party = DisplayParty(repository.requireParty("N.N."), "N.N")
-            methodId = null
-            referenceNumber = null
-            date = baseSinceEpoch + 1
-            saveAsNew(contentResolver)
-        }
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = expense3,
+            methodId = cheque,
+            comment = "Expense inserted after first export",
+            referenceNumber = "3",
+            crStatus = CrStatus.UNRECONCILED,
+            date = base
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income3,
+            comment = "Income inserted after first export",
+            crStatus = CrStatus.UNRECONCILED,
+            date = base.plusSeconds(1),
+            payeeId = repository.requireParty("N.N."),
+        )
     }
 
     private fun buildAccount1() = Account(
@@ -216,29 +229,24 @@ class ExportTest : BaseTestWithRepository() {
     ).createIn(repository)
 
     private fun insertData3(): Pair<Account, Account> {
-        var op: Transaction?
         val account1 = buildAccount1()
         val account2 = buildAccount2()
-        op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance)
-        if (op == null) {
-            throw IllegalStateException()
-        }
-        op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = cheque
-        op.crStatus = CrStatus.CLEARED
-        op.referenceNumber = "1"
-        op.date = baseSinceEpoch
-        op.save(contentResolver)
-        op = Transaction.getNewInstance(account2.id, CurrencyUnit.DebugInstance)
-        if (op == null) {
-            throw IllegalStateException()
-        }
-        op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = cheque
-        op.crStatus = CrStatus.CLEARED
-        op.referenceNumber = "1"
-        op.date = baseSinceEpoch
-        op.save(contentResolver)
+        repository.insertTransaction(
+            accountId = account1.id,
+            amount = expense1,
+            methodId = cheque,
+            crStatus = CrStatus.CLEARED,
+            referenceNumber = "1",
+            date = base
+        )
+        repository.insertTransaction(
+            accountId = account2.id,
+            amount = expense1,
+            methodId = cheque,
+            crStatus = CrStatus.CLEARED,
+            referenceNumber = "1",
+            date = base
+        )
         return account1 to account2
     }
 
@@ -248,33 +256,36 @@ class ExportTest : BaseTestWithRepository() {
         val cat1Id = writeCategory("A")
         val cat2Id = writeCategory("B", cat1Id)
         val cat3Id = writeCategory("C", cat2Id)
-        with(
-            Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
-                ?: throw IllegalStateException()
-        ) {
-            amount = Money(CurrencyUnit.DebugInstance, income1)
-            date = baseSinceEpoch
-            catId = cat1Id
-            save(contentResolver)
-            catId = cat2Id
-            date = baseSinceEpoch + 1
-            saveAsNew(contentResolver)
-            catId = cat3Id
-            date = baseSinceEpoch + 2
-            saveAsNew(contentResolver)
-            catId = null
-            date = baseSinceEpoch + 3
-            amount = Money(CurrencyUnit.DebugInstance, expense1)
-            saveAsNew(contentResolver)
-        }
-        with(
-            Transfer.getNewInstance(account.id, CurrencyUnit.DebugInstance, transferAccount.id)
-                ?: throw IllegalStateException()
-        ) {
-            setAmount(Money(CurrencyUnit.DebugInstance, transferP))
-            date = baseSinceEpoch + 4
-            save(contentResolver)
-        }
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income1,
+            categoryId = cat1Id,
+            date = base
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income1,
+            categoryId = cat2Id,
+            date = base.plusSeconds(1)
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income1,
+            categoryId = cat3Id,
+            date = base.plusSeconds(2)
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = expense1,
+            date = base.plusSeconds(3)
+        )
+        repository.insertTransfer(
+            accountId = account.id,
+            transferAccountId = transferAccount.id,
+            amount = transferP,
+            categoryId = null,
+            date = base.plusSeconds(4)
+        )
         return account
     }
 
@@ -412,7 +423,7 @@ class ExportTest : BaseTestWithRepository() {
 
     @Test
     fun testExportCSVCustomFormat() {
-        val date = SimpleDateFormat("M/d/yyyy", Locale.US).format(base)
+        val date =   base.format(DateTimeFormatter.ofPattern("M/d/yyyy"))
         val linesCSV = arrayOf(
             csvHeader(',', false),
             """"","$date","","0","0,10","","","${context.getString(R.string.pm_cheque)}","*","1","","Tag One, 'Tags, Tags, Tags'"""",
@@ -462,12 +473,12 @@ class ExportTest : BaseTestWithRepository() {
         )
 
         val account = buildAccount1()
-        val op = Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
-            ?: throw IllegalStateException()
-        op.amount = Money(CurrencyUnit.DebugInstance, income2)
-        op.date = baseSinceEpoch
-        op.comment = "Tacos\nService charge, 10%"
-        op.save(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income2,
+            date = base,
+            comment = "Tacos\nService charge, 10%"
+        )
 
         expect.that(
             exportAll(
@@ -496,12 +507,12 @@ class ExportTest : BaseTestWithRepository() {
         )
 
         val account = buildAccount1()
-        val op = Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
-            ?: throw IllegalStateException()
-        op.amount = Money(CurrencyUnit.DebugInstance, income2)
-        op.catId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
-        op.date = baseSinceEpoch
-        op.save(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = income2,
+            date = base,
+            categoryId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
+        )
 
         expect.that(
             exportAll(
@@ -649,7 +660,8 @@ class ExportTest : BaseTestWithRepository() {
         writeCategory("Sub", cat1Id)
         val result = CategoryExporter.export(context, "UTF-8", lazyFile)
         result.onSuccess {
-            compare(arrayOf("!Type:Cat", "NMain", "^", "NMain:Sub", "^"))
+            //includes default transfer category, that is automatically set up
+            compare(arrayOf("!Type:Cat", "N${context.getString(R.string.transfer)}", "^", "NMain", "^", "NMain:Sub", "^"))
         }.onFailure {
             expect.fail()
         }

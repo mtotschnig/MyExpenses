@@ -19,11 +19,15 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.getLabelForAccount
+import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTemplateIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.planCount
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.planCount
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
@@ -38,8 +42,8 @@ import org.totschnig.myexpenses.util.PermissionHelper.hasCalendarPermission
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.toEpochMillis
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
@@ -57,6 +61,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     lateinit var repository: Repository
     @Inject
     lateinit var plannerUtils: PlannerUtils
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     val contentResolver: ContentResolver
         get() = repository.contentResolver
@@ -93,7 +99,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             forceImmediate: Boolean = false
         ) {
             val hasPermission = PermissionGroup.CALENDAR.hasPermission(context)
-            val planCount = planCount(context.contentResolver)
+            val planCount = context.injector.repository().planCount()
             if (hasPermission && planCount > 0) {
                 val scheduledTime = if (forceImmediate) null else TimePreference.getScheduledTime(
                     prefHandler, PrefKey.PLANNER_EXECUTION_TIME
@@ -199,10 +205,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     //3) execute the template
                     log("found instance %d of plan %d", instanceId, planId)
                     //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
-                    val template = Template.getInstanceForPlanIfInstanceIsOpen(contentResolver, planId, instanceId)
-                    if (!(template == null || template.isSealed)) {
-                        if (template.planExecutionAdvance >= diff) {
-                            val accountLabel = repository.getLabelForAccount(template.accountId)
+                    val template = repository.loadTemplateIfInstanceIsOpen(planId, instanceId)
+                    if (!(template == null || template.data.sealed)) {
+                        if (template.data.planExecutionAdvance >= diff) {
+                            val accountLabel = repository.getLabelForAccount(template.data.accountId)
                             if (accountLabel != null) {
                                 log("belongs to template %d", template.id)
                                 var notification: Notification
@@ -217,25 +223,27 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     .setSmallIcon(R.drawable.ic_stat_notification_sigma)
                                     .setContentTitle(title)
                                 builder.setWhen(date)
-                                var content: String = template.categoryPath?.let { "$it : " } ?: ""
-                                content += currencyFormatter.formatMoney(template.amount)
-                                builder.setContentText(content)
-                                if (template.isPlanExecutionAutomatic) {
-                                    val (t, second) = Transaction.getInstanceFromTemplateWithTags(
-                                        repository, template
+                                var content: String = template.data.categoryPath?.let { "$it : " } ?: ""
+                                content += currencyFormatter.formatMoney(
+                                    Money(
+                                        currencyContext[template.data.currency!!],
+                                        template.data.amount
                                     )
-                                    t.originPlanInstanceId = instanceId
-                                    t.date = date / 1000
-                                    t.saveTags(repository, second)
+                                )
+                                builder.setContentText(content)
+                                if (template.data.planExecutionAutomatic) {
+                                    val transaction = repository.createTransaction(template.instantiate())
+                                    //t.originPlanInstanceId = instanceId TODO
+                                    repository.saveTagsForTransaction(repository.loadTagsForTemplate(template.id), transaction.id)
                                     val displayIntent: Intent =
                                         Intent(applicationContext, MyExpenses::class.java)
                                             .putExtra(
                                                 DatabaseConstants.KEY_ROWID,
-                                                template.accountId
+                                                template.data.accountId
                                             )
                                             .putExtra(
                                                 DatabaseConstants.KEY_TRANSACTIONID,
-                                                t.id
+                                                transaction.id
                                             )
                                     resultIntent = PendingIntent.getActivity(
                                         applicationContext, notificationId, displayIntent,
@@ -346,7 +354,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                             log(
                                 "Instance is not ready yet (%d days in the future), advance execution is %d",
                                 diff,
-                                template.planExecutionAdvance
+                                template.data.planExecutionAdvance
                             )
                         }
                     } else {

@@ -10,26 +10,27 @@ import android.net.Uri
 import com.google.common.truth.Truth
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.createSplitTransaction
+import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findCategory
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CCARD
 import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
@@ -38,17 +39,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import timber.log.Timber
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.concurrent.ThreadLocalRandom
 import org.totschnig.myexpenses.test.R as RT
 
@@ -168,7 +167,7 @@ class Fixture(inst: Instrumentation) {
         //set up categories
         setUpCategories(appContext.contentResolver)
         //set up transactions
-        var offset = System.currentTimeMillis() - 1000
+        val offset = LocalDateTime.now().minusMinutes(1)
         //are used twice
         val mainCat1 = findCat(
             testContext.getString(RT.string.testData_transaction1MainCat),
@@ -187,51 +186,52 @@ class Fixture(inst: Instrumentation) {
             null
         )
         repeat(14) {
+            val offset = offset.minusDays(it.toLong())
             //Transaction 1
             val builder = TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -random(12000))
+                .amount(-random(12000))
                 .catId(
                     findCat(
                         RT.string.testData_transaction1SubCat,
                         mainCat1
                     )
                 )
-                .date(offset - 300000)
+                .date(offset)
             val transaction = builder.persist()
             if (withPicture) {
-                repository.addAttachments(transaction.id, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
+                repository.addAttachments(transaction, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
             }
 
             //Transaction 2
             TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -random(2200L))
+                .amount(-random(2200L))
                 .catId(
                     findCat(
                         RT.string.testData_transaction2SubCat,
                         mainCat2
                     )
                 )
-                .date(offset - 7200000)
+                .date(offset.minusHours(3))
                 .comment(appContext.getString(R.string.testData_transaction2Comment))
                 .persist()
 
             TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -random(2500L))
+                .amount(-random(2500L))
                 .catId(
                     findCat(
                         RT.string.testData_transaction3SubCat,
                         mainCat3
                     )
                 )
-                .date(offset - 72230000)
+                .date(offset.minusHours(6))
                 .persist()
 
             TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -random(5000L))
+                .amount(-random(5000L))
                 .catId(
                     findCat(
                         RT.string.testData_transaction4SubCat,
@@ -239,63 +239,61 @@ class Fixture(inst: Instrumentation) {
                     )
                 )
                 .payee(appContext.getString(R.string.testData_transaction4Payee))
-                .date(offset - 98030000)
+                .date(offset.minusHours(9))
                 .persist()
 
             TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -random(10000L))
-                .date(offset - 100390000)
+                .amount(-random(10000L))
+                .date(offset.minusHours(12))
                 .payee(johnDoe)
                 .persist()
 
             TransactionBuilder()
                 .accountId(account1.id)
-                .amount(defaultCurrency, -10000L)
+                .amount(-10000L)
                 .catId(mainCat6)
-                .date(offset - 210390000)
+                .date(offset.minusHours(15))
                 .persist()
 
             //Salary
             TransactionBuilder()
                 .accountId(account3.id)
-                .amount(defaultCurrency, 200000)
-                .date(offset - 100000)
+                .amount(200000)
+                .date(offset.minusHours(18))
                 .persist()
 
             //Transfer
-            val transfer = Transfer.getNewInstance(account1.id, defaultCurrency, account3.id)
-            transfer.setAmount(Money(defaultCurrency, 25000L))
-            transfer.setDate(Date(offset))
-            transfer.save(contentResolver)
-            offset -= 400000000
+            repository.insertTransfer(
+                accountId = account1.id, transferAccountId = account3.id, amount = 25000, date = offset
+            )
         }
 
         //Second account foreign Currency
         TransactionBuilder()
             .accountId(account2.id)
-            .amount(foreignCurrency, -random(34567))
-            .date(offset - 303900000)
+            .amount(-random(34567))
+            .date(offset)
             .persist()
 
         //Transaction 8: Split
-        val split: Transaction = SplitTransaction.getNewInstance(contentResolver, account1.id, defaultCurrency, true)
-        split.amount = Money(defaultCurrency, -8967L)
-        split.status  = STATUS_NONE
-        split.save(contentResolver, true)
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account1.id,
+                amount = -8967L
+            ), listOf<Transaction>(
+                Transaction(
+                    accountId = account1.id,
+                    amount = -4523L
+                ),
+                Transaction(
+                    accountId = account1.id,
+                    amount = -4444L
+                )
+            )
+        )
         val label = appContext.getString(R.string.testData_tag_project)
-        val tagList = listOf(Tag(saveTag(label), label, 0))
-        split.saveTags(contentResolver, tagList)
-        TransactionBuilder()
-            .accountId(account1.id).parentId(split.id)
-            .amount(defaultCurrency, -4523L)
-            .catId(mainCat2)
-            .persist()
-        TransactionBuilder()
-            .accountId(account1.id).parentId(split.id)
-            .amount(defaultCurrency, -4444L)
-            .catId(mainCat6)
-            .persist()
+        repository.saveTagsForTransaction(listOf(Tag(saveTag(label), label, 0)), split.first.id)
 
         // Template
         Truth.assertWithMessage("Unable to create planner").that(
@@ -309,37 +307,32 @@ class Fixture(inst: Instrumentation) {
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-        val template = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account3.id, defaultCurrency,
-            false,
-            null
-        )!!
-        template.amount = Money(defaultCurrency, -90000L)
-        val templateSubCat =
-            testContext.getString(RT.string.testData_templateSubCat)
-        template.catId = findCat(
+        val templateSubCat = testContext.getString(RT.string.testData_templateSubCat)
+        val template = Template(
+            accountId = account3.id,
+            title = templateSubCat,
+            amount = -90000L,
+            payeeId = repository.requireParty(johnDoe),
+            categoryId = findCat(
                 templateSubCat,
                 findCat(
                     testContext.getString(RT.string.testData_templateMainCat),
                     null
                 )
             )
-        template.title = templateSubCat
-        template.party = DisplayParty(repository.requireParty(johnDoe), johnDoe)
-        planId = ContentUris.parseId(
-            Plan(
-                LocalDate.now(),
-                "FREQ=WEEKLY;COUNT=10;WKST=SU",
-                template.title,
-                template.compileDescription(appContext)
-            )
-                .save(contentResolver, plannerUtils)!!
         )
-        template.planId = planId
-        template.save(contentResolver)
-            ?: throw RuntimeException("Could not save template")
+        val plan = Plan(
+            LocalDate.now(),
+            "FREQ=WEEKLY;COUNT=10;WKST=SU",
+            template.title,
+            template.compileDescription(appContext)
+        )
+        planId = ContentUris.parseId(
+            plan.save(contentResolver, plannerUtils)!!
+        )
+        repository.createTemplate(
+            template.copy(planId = planId)
+        )
         val budget = Budget(
             0L,
             account1.id,
@@ -397,9 +390,9 @@ class Fixture(inst: Instrumentation) {
     private inner class TransactionBuilder {
         private var accountId: Long = 0
         private var parentId: Long? = null
-        lateinit var amount: Money
+        private var amount: Long = 0
         private var catId: Long? = null
-        private var date: Date? = null
+        private var date: LocalDateTime? = null
         private var crStatus: CrStatus? = null
         private var comment: String? = null
         private var payee: String? = null
@@ -408,13 +401,8 @@ class Fixture(inst: Instrumentation) {
             return this
         }
 
-        fun parentId(parentId: Long): TransactionBuilder {
-            this.parentId = parentId
-            return this
-        }
-
-        fun amount(currency: CurrencyUnit, amountMinor: Long): TransactionBuilder {
-            amount = Money(currency, amountMinor)
+        fun amount(amountMinor: Long): TransactionBuilder {
+            amount = amountMinor
             return this
         }
 
@@ -423,13 +411,8 @@ class Fixture(inst: Instrumentation) {
             return this
         }
 
-        fun date(date: Long): TransactionBuilder {
-            this.date = Date(date)
-            return this
-        }
-
-        fun crStatus(crStatus: CrStatus): TransactionBuilder {
-            this.crStatus = crStatus
+        fun date(date: LocalDateTime): TransactionBuilder {
+            this.date = date
             return this
         }
 
@@ -443,22 +426,16 @@ class Fixture(inst: Instrumentation) {
             return this
         }
 
-        fun persist(): Transaction {
-            val transaction = Transaction.getNewInstance(accountId, amount.currencyUnit)
-            transaction.amount = amount
-            transaction.catId = catId
-            date?.let {
-                transaction.setDate(it)
-            }
-            crStatus?.let {
-                transaction.crStatus = it
-            }
-            transaction.party = payee?.let { DisplayParty(repository.requireParty(it), it) }
-            transaction.comment = comment
-            transaction.parentId = parentId
-            transaction.save(repository.contentResolver)
-            return transaction
-        }
+        fun persist() = repository.insertTransaction(
+            accountId = accountId,
+            amount = amount,
+            categoryId = catId,
+            date = date ?: LocalDateTime.now(),
+            crStatus = crStatus ?: CrStatus.UNRECONCILED,
+            payeeId = payee?.let { repository.requireParty(it) },
+            comment = comment,
+            parentId = parentId
+        ).id
     }
 
     private fun saveTag(label: String?): Long {

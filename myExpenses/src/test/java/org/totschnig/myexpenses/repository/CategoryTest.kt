@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.budgetAllocation
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
@@ -115,6 +117,9 @@ class CategoryTest : BaseTestWithRepository() {
         val subSub1 = Category(label = "SubSub", parentId = sub1.id).saveCopy
         Category(label = "SubSub", parentId = sub2.id).saveCopy
         repository.mergeCategories(listOf(main2.id!!), main1.id!!)
+        prefHandler.defaultTransferCategory?.let {
+            repository.deleteCategory(it)
+        }
         val cursor = contentResolver.query(
             CATEGORY_TREE_URI, null, null, null, null
         )!!
@@ -170,7 +175,7 @@ class CategoryTest : BaseTestWithRepository() {
         val testAccountId = insertAccount("Test account")
         val main1 = Category(label = "Main 1", type = FLAG_EXPENSE).saveCopy
         val main2 = Category(label = "Main 2", type = FLAG_EXPENSE).saveCopy
-        val transactionId = insertTransaction(testAccountId, 100, categoryId = main2.id!!).first
+        val transactionId = repository.insertTransaction(testAccountId, 100, categoryId = main2.id!!).id
         val templateId = insertTemplate(testAccountId, "Template", 100, main2.id)
         val budgetId = insertBudget(testAccountId, "Budget", 100)
         contentResolver.update(

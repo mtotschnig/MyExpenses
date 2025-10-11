@@ -35,17 +35,15 @@ import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.deleteTemplate
-import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -56,7 +54,6 @@ import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
-import java.util.Currency
 
 @TestShard1
 class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
@@ -94,28 +91,19 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private fun fixtureWithMappedTransaction(): Long {
         baseFixture()
-        return with(Transaction.getNewInstance(account.id, homeCurrency)) {
-            amount = Money(homeCurrency, -1200L)
-            catId = categoryId
-            ContentUris.parseId(save(contentResolver)!!)
-        }
+        return repository.insertTransaction(account.id, -1200L, categoryId = categoryId).id
     }
 
     private fun fixtureWithMappedTemplate(): Long {
         baseFixture()
-        return with(
+        return repository.createTemplate(
             Template(
-                contentResolver,
-                account.id,
-                homeCurrency,
-                Transactions.TYPE_TRANSACTION,
-                null
+                title = "Template",
+                accountId = account.id,
+                amount = -1200L,
+                categoryId = categoryId
             )
-        ) {
-            amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
-            catId = categoryId
-            ContentUris.parseId(save(contentResolver)!!)
-        }
+        ).id
     }
 
     private fun fixtureWithMappedBudget(): Long {

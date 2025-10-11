@@ -12,16 +12,13 @@ import org.junit.Test
 import org.totschnig.myexpenses.compose.TEST_TAG_GROUP_SUMMARY
 import org.totschnig.myexpenses.compose.TEST_TAG_GROUP_SUMS
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.setGrouping
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @TestShard3
 class GroupedHeaderTest : BaseMyExpensesTest() {
@@ -31,14 +28,19 @@ class GroupedHeaderTest : BaseMyExpensesTest() {
     fun fixture() {
         account = buildAccount("Test account 1", openingBalance = 1000)
         repository.setGrouping(account.id, Grouping.MONTH)
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         val date = LocalDateTime.of(2024, 1, 22, 12, 0)
-        op0.date = date.toEpochSecond(ZoneOffset.UTC)
-        op0.amount = Money(CurrencyUnit.DebugInstance, -100L)
-        op0.save(contentResolver)
-        op0.amount = Money(CurrencyUnit.DebugInstance, -200L)
-        op0.date = date.minusMonths(1).toEpochSecond(ZoneOffset.UTC)
-        op0.saveAsNew(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -100L,
+            categoryId = 0,
+            date = date
+        )
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -200L,
+            categoryId = 0,
+            date = date.minusMonths(1)
+        )
         launch(account.id)
     }
 

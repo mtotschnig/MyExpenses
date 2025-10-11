@@ -2,17 +2,19 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import android.database.Cursor
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
+import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
@@ -94,7 +96,7 @@ data class Transaction(
     val equivalentAmount: Money?,
     val crStatus: CrStatus,
     val referenceNumber: String?,
-    val originTemplate: Template?,
+    val originTemplate: String?,
     val isSealed: Boolean,
     val accountLabel: String,
     val accountType: AccountType?,
@@ -203,8 +205,12 @@ data class Transaction(
                     CrStatus.UNRECONCILED
                 ),
                 referenceNumber = getStringOrNull(KEY_REFERENCE_NUMBER),
-                originTemplate = getLongOrNull(KEY_TEMPLATEID)?.let {
-                    Template.getInstanceFromDb(repository.contentResolver, it)
+                originTemplate = getLongOrNull(KEY_TEMPLATEID)?.let { templateId ->
+                    repository.loadTemplate(templateId)?.data?.planId?.let { planId ->
+                        Plan.getInstanceFromDb(repository.contentResolver, planId)?.let {
+                            Plan.prettyTimeInfo(repository.context, it.rRule, it.dtStart)
+                        } ?: repository.context.getString(R.string.plan_event_deleted)
+                    }
                 },
                 isSealed = getInt(KEY_SEALED) > 0,
                 accountLabel = getString(KEY_ACCOUNT_LABEL),

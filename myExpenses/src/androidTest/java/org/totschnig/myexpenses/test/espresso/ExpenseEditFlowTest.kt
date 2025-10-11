@@ -14,15 +14,14 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createPaymentMethod
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.deleteMethod
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -55,19 +54,14 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             )
         ).id
 
-        templateId = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account1.id,
-            homeCurrency,
-            false,
-            null
-        )!!.apply {
-            amount = Money(homeCurrency, 500L)
-            title = "Template"
-            defaultAction = Template.Action.EDIT
-            save(contentResolver)
-        }.id
+        templateId = repository.createTemplate(
+            Template(
+                accountId = account1.id,
+                title = "Template",
+                amount = 500L,
+                defaultAction = Template.Action.EDIT
+            )
+        ).id
     }
 
     @After
@@ -164,8 +158,8 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             action = ACTION_CREATE_FROM_TEMPLATE
             putExtra(KEY_TEMPLATEID, templateId)
         })
-        linkWithTag()
         setAmount(5)
+        linkWithTag()
         clickFab()
         //asserts that template is still without tags
         assertTemplate(account1.id, 500, templateTitle = "Template")

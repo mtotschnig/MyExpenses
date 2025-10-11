@@ -531,7 +531,6 @@ class WebInputService : LifecycleService(), IWebInputService {
             val transaction = call.receive<TransactionDTO>()
             val id = call.parameters["id"]!!.toLong()
             val updated = repository.updateTransaction(
-                id,
                 transaction.toEntity(repository.getCurrencyUnitForAccount(transaction.account)!!)
             )
             repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
@@ -550,7 +549,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         post("/transactions") {
             val transaction = call.receive<TransactionDTO>()
-            val id = repository.createTransaction(
+            val (id,_) = repository.createTransaction(
                 transaction.toEntity(
                     repository.getCurrencyUnitForAccount(transaction.account)!!
                 )

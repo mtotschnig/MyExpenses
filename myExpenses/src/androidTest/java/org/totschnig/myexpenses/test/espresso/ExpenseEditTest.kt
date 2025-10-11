@@ -20,13 +20,15 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
@@ -217,20 +219,23 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSaveTemplateWithAmount() {
-        val template =
-            Template.getTypedNewInstance(contentResolver, Transactions.TYPE_TRANSFER, account1.id, currency1, false, null)
-        template!!.setTransferAccountId(account2.id)
-        template.title = "Test template"
-        template.save(contentResolver)
+        val template = repository.createTemplate(
+            Template(
+                accountId = account1.id,
+                amount = 0L,
+                title = "Test template",
+                transferAccountId = account2.id
+            )
+        )
         launch(intent.apply {
             putExtra(KEY_TEMPLATEID, template.id)
         }).use {
             val amount = 2
             setAmount(amount)
             clickFab()
-            val restored = Template.getInstanceFromDb(contentResolver, template.id)!!
-            assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
-            assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
+            val restored = repository.loadTemplate(template.id)
+            assertThat(restored.isTransfer).isTrue()
+            assertThat(restored.amount).isEqualTo(-amount * 100L)
         }
     }
 

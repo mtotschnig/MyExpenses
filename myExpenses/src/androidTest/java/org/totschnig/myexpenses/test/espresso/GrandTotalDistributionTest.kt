@@ -28,9 +28,8 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -98,16 +97,16 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
         baseFixture(showIncome, showExpense) {
             categoryExpenseId = writeCategory("Expense")
             categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            with(Transaction.getNewInstance(account1.id, currency1)) {
-                amount = Money(homeCurrency, -1200L)
-                catId = categoryExpenseId
-                save(contentResolver)
-            }
-            with(Transaction.getNewInstance(account2.id, currency2)) {
-                amount = Money(homeCurrency, 3400L)
-                catId = categoryIncomeId
-                save(contentResolver)
-            }
+            repository.insertTransaction(
+                accountId = account1.id,
+                amount = -1200L,
+                categoryId = categoryExpenseId
+            )
+            repository.insertTransaction(
+                accountId = account2.id,
+                amount = 3400L,
+                categoryId = categoryIncomeId
+            )
         }
     }
 

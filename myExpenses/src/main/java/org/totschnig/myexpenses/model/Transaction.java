@@ -97,6 +97,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -497,7 +498,7 @@ public class Transaction extends Model implements ITransaction {
     if (tr instanceof SplitTransaction) {
       tr.save(repository);
       Cursor c = repository.getContentResolver().query(
-              uriForParts(Template.CONTENT_URI, te.getId()),
+              uriForParts(TEMPLATES_URI, te.getId()),
               new String[]{KEY_ROWID}, null, null, null
       );
       if (c != null) {

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -11,13 +10,12 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
-import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
+import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
@@ -38,21 +36,27 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         catLabel1 = "Main category 1"
         catLabel1Sub = "Sub category 1"
         catLabel2 = "Test category 2"
-        val currency = DebugInstance
         account = buildAccount("Test account 1")
         categoryId1 = writeCategory(catLabel1)
         categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
         categoryId2 = writeCategory(catLabel2)
-        val op = Transaction.getNewInstance(account.id, homeCurrency)
-        op.amount = Money(currency, -1200L)
-        op.catId = categoryId1
-        id1Main = ContentUris.parseId(op.save(contentResolver)!!)
-        op.catId = categoryId2
-        op.date -= 10000
-        id2Main = ContentUris.parseId(op.saveAsNew(contentResolver))
-        op.catId = categoryId1Sub
-        op.date -= 10000
-        id1Sub = ContentUris.parseId(op.saveAsNew(contentResolver))
+        id1Main = repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            categoryId = categoryId1
+        ).id
+        id2Main = repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            categoryId = categoryId2,
+            date = LocalDateTime.now().minusMinutes(1)
+        ).id
+        id1Sub = repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L,
+            categoryId = categoryId1Sub,
+            date = LocalDateTime.now().minusMinutes(2)
+        ).id
         launch(account.id)
         allLabelsAreDisplayed()
     }
