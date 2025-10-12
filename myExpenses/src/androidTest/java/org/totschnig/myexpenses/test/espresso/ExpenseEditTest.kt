@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
@@ -219,7 +220,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSaveTemplateWithAmount() {
-        val template = repository.createTemplate(
+        val template = repository.createTransferTemplate(
             Template(
                 accountId = account1.id,
                 amount = 0L,
@@ -233,9 +234,9 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             val amount = 2
             setAmount(amount)
             clickFab()
-            val restored = repository.loadTemplate(template.id)
-            assertThat(restored.isTransfer).isTrue()
-            assertThat(restored.amount).isEqualTo(-amount * 100L)
+            val restored = repository.loadTemplate(template.id)!!
+            assertThat(restored.data.isTransfer).isTrue()
+            assertThat(restored.data.amount).isEqualTo(-amount * 100L)
         }
     }
 

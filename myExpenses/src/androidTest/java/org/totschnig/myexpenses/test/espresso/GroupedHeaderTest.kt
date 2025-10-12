@@ -32,13 +32,11 @@ class GroupedHeaderTest : BaseMyExpensesTest() {
         repository.insertTransaction(
             accountId = account.id,
             amount = -100L,
-            categoryId = 0,
             date = date
         )
         repository.insertTransaction(
             accountId = account.id,
             amount = -200L,
-            categoryId = 0,
             date = date.minusMonths(1)
         )
         launch(account.id)

@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
@@ -280,8 +281,9 @@ class Fixture(inst: Instrumentation) {
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = account1.id,
-                amount = -8967L
-            ), listOf<Transaction>(
+                amount = -8967L,
+                categoryId = DatabaseConstants.SPLIT_CATID
+            ), listOf(
                 Transaction(
                     accountId = account1.id,
                     amount = -4523L
@@ -293,7 +295,7 @@ class Fixture(inst: Instrumentation) {
             )
         )
         val label = appContext.getString(R.string.testData_tag_project)
-        repository.saveTagsForTransaction(listOf(Tag(saveTag(label), label, 0)), split.first.id)
+        repository.saveTagsForTransaction(listOf(Tag(saveTag(label), label, 0)), split.id)
 
         // Template
         Truth.assertWithMessage("Unable to create planner").that(

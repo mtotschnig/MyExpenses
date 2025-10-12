@@ -120,9 +120,9 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             it.moveToFirst()
             it.getLong(0)
         }
-        val template = repository.loadTemplate(templateId)
+        val template = repository.loadTemplate(templateId)!!
         val tags = repository.loadTagsForTemplate(templateId)
-        with(template) {
+        with(template.data) {
             assertThat(amount).isEqualTo(expectedAmount)
             assertThat(title).isEqualTo(templateTitle)
             assertThat(accountId).isEqualTo(expectedAccount)

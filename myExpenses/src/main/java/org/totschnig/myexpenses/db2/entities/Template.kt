@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
@@ -56,7 +55,6 @@ data class Template(
     val planId: Long? = null,
     val planExecutionAutomatic: Boolean = false,
     val planExecutionAdvance: Int = 0,
-    val status: Int = 0,
     val defaultAction: Action = Action.EDIT,
     val originalAmount: Long? = null,
     val originalCurrency: String? = null,
@@ -85,7 +83,6 @@ data class Template(
             put(KEY_PLANID, planId)
             put(KEY_PLAN_EXECUTION, if (planExecutionAutomatic) 1 else 0)
             put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance)
-            put(KEY_STATUS, status)
             put(KEY_DEFAULT_ACTION, defaultAction.name)
             put(KEY_ORIGINAL_AMOUNT, originalAmount)
             put(KEY_ORIGINAL_CURRENCY, originalCurrency)
@@ -146,10 +143,9 @@ data class Template(
                 planId = getLongOrNull(KEY_PLANID),
                 planExecutionAutomatic = getInt(KEY_PLAN_EXECUTION) > 0,
                 planExecutionAdvance = getInt(KEY_PLAN_EXECUTION_ADVANCE),
-                status = getInt(KEY_STATUS),
                 defaultAction = getEnum(KEY_DEFAULT_ACTION, Action.EDIT),
                 originalAmount = getLongOrNull(KEY_ORIGINAL_AMOUNT),
-                originalCurrency = getString(KEY_ORIGINAL_CURRENCY),
+                originalCurrency = getStringOrNull(KEY_ORIGINAL_CURRENCY),
                 debtId = getLongOrNull(KEY_DEBT_ID),
                 dynamic = getBoolean(KEY_DYNAMIC),
                 categoryPath = getStringOrNull(KEY_PATH),

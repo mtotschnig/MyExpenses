@@ -247,7 +247,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         onView(withId(android.R.id.button1)).perform(click())
         val op = repository.loadTransaction(opId)
         assertThat(op.isTransfer).isTrue()
-        assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
+        assertThat(op.data.transferAccountId).isEqualTo(transferAccount.id)
         cleanup {
             repository.deleteAccount(transferAccount.id)
         }
@@ -269,7 +269,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             repository.loadTransaction(transfer.id).isTransfer
         ).isFalse()
         assertThat(
-            repository.loadTransaction(peer.id).isTransfer
+            repository.loadTransaction(peer!!.id).isTransfer
         ).isFalse()
         cleanup {
             repository.deleteAccount(transferAccount.id)
@@ -303,8 +303,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         onView(withId(android.R.id.button1)).perform(click())
         val op = repository.loadTransaction(op0Id)
         assertThat(op.isTransfer).isTrue()
-        assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
-        assertThat(op.transferPeerId).isEqualTo(peerId)
+        assertThat(op.data.transferAccountId).isEqualTo(transferAccount.id)
+        assertThat(op.data.transferPeerId).isEqualTo(peerId)
         cleanup {
             repository.deleteAccount(transferAccount.id)
         }

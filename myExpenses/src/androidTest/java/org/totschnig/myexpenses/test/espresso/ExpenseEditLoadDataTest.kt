@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.Transfer
+import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
@@ -67,8 +67,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     )
     private lateinit var foreignCurrency: CurrencyUnit
     private lateinit var account2: Account
-    private lateinit var transaction: Transaction
-    private lateinit var transfer: Transfer
+    private lateinit var transaction: RepositoryTransaction
+    private lateinit var transfer: RepositoryTransaction
 
     @Before
     fun fixture() {
@@ -158,11 +158,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldKeepStatusAndUuidAfterSave() {
         load(transaction.id).use {
-            val uuid = transaction.uuid
+            val uuid = transaction.data.uuid
             //TODO check if this actually tests the problem
             val status = CrStatus.UNRECONCILED
             closeKeyboardAndSave()
-            val t = repository.loadTransaction(transaction.id)
+            val t = repository.loadTransaction(transaction.id).data
             assertThat(t.crStatus).isEqualTo(status)
             assertThat(t.uuid).isEqualTo(uuid)
         }
@@ -175,7 +175,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val foreignTransfer = repository.insertTransfer(
             account1.id, foreignAccount.id, 100L, 200L
         )
-        load(foreignTransfer.first.id).use {
+        load(foreignTransfer.data.id).use {
             checkAmount(1)
             checkAmount(2, R.id.TransferAmount)
             onView(
@@ -192,7 +192,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             ).check(matches(withText(formatAmount(0.5f))))
         }
         cleanup {
-            repository.deleteTransaction(foreignTransfer.first.id)
+            repository.deleteTransaction(foreignTransfer.data.id)
             repository.deleteAccount(foreignAccount.id)
         }
     }
@@ -217,7 +217,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun testTransfer(loadFromPeer: Boolean) {
-        load((if (loadFromPeer) transfer.second else transfer.first).id).use {
+        load((if (loadFromPeer) transfer.transferPeer!! else transfer.data).id).use {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
             checkEffectiveVisible(
@@ -269,7 +269,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         launchAndWait(intent.apply {
             putExtra(
                 DatabaseConstants.KEY_ROWID,
-                (if (loadFromPeer) transfer.second else transfer.first).id
+                (if (loadFromPeer) transfer.transferPeer!! else transfer.data).id
             )
             putExtra(ExpenseEdit.KEY_CLONE, true)
         }).use {
@@ -285,7 +285,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
-        load(transfer.second.id).use {
+        load(transfer.transferPeer!!.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue()
                 assertThat(
@@ -300,7 +300,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepAccountViewsForGivingTransferPart() {
-        load(transfer.first.id).use {
+        load(transfer.data.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse()
                 assertThat(
@@ -322,7 +322,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 categoryId = DatabaseConstants.SPLIT_CATID
             ), emptyList<Transaction>()
         )
-        load(splitTransaction.first.id).use {
+        load(splitTransaction.id).use {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
             checkEffectiveVisible(
@@ -381,7 +381,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 )
             )
         )
-        return template.first.id
+        return template.id
     }
 
     @Test

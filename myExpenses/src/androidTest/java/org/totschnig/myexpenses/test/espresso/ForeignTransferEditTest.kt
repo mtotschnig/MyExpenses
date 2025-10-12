@@ -37,7 +37,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
             transferAccountId = account2.id,
             amount = -2000L,
             transferAmount = 3000L,
-        ).first.id
+        ).data.id
     }
 
     @After

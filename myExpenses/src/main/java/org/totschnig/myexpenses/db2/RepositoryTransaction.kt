@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Transaction.CONTENT_URI
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
@@ -79,7 +80,8 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) =
 }
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
-    require(transaction.transferAccountId == null)
+    require(transaction.transferAccountId == null) { "Use createTransfer instead" }
+    require(transaction.categoryId != DatabaseConstants.SPLIT_CATID) { "Use createSplitTransaction instead" }
     require((transaction.originalAmount != null) == (transaction.originalCurrency != null)) {
         "originalAmount and originalCurrency must be set together"
     }
@@ -126,8 +128,8 @@ fun Repository.createTransfer(
     val second = ContentUris.parseId(results[1].uri!!)
 
     return RepositoryTransaction(
-        sourceTransaction.copy(id = first, uuid = sharedUuid),
-        destinationTransaction.copy(id = second, uuid = sharedUuid)
+        sourceTransaction.copy(id = first, uuid = sharedUuid, transferPeerId = second),
+        destinationTransaction.copy(id = second, uuid = sharedUuid, transferPeerId = first)
     )
 }
 
@@ -305,7 +307,7 @@ suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): Lis
     )!!.useAndMapToList { cursor -> Transaction.fromCursor(cursor) }
 }
 
-fun Repository.loadTransaction(transactionId: Long): RepositoryTransaction = contentResolver.query(
+fun Repository.loadTransaction(transactionId: Long, withTransfer: Boolean = true): RepositoryTransaction = contentResolver.query(
     ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
     Transaction.projection,
     null,
@@ -315,11 +317,11 @@ fun Repository.loadTransaction(transactionId: Long): RepositoryTransaction = con
     if (cursor.moveToFirst()) Transaction.fromCursor(cursor).let {
         RepositoryTransaction(
             data = it,
-            transferPeer = if (it.transferPeerId != null) loadTransaction(it.transferPeerId).data else null,
+            transferPeer = if (withTransfer && it.transferPeerId != null) loadTransaction(it.transferPeerId, false).data else null,
             splitParts = if (it.isSplit) loadSplitParts(it.id).map { split ->
                 RepositoryTransaction(
                     split,
-                    transferPeer = if (split.transferPeerId != null) loadTransaction(split.transferPeerId).data else null
+                    transferPeer = if (withTransfer && split.transferPeerId != null) loadTransaction(split.transferPeerId, false).data else null
                 )
             } else emptyList()
         )

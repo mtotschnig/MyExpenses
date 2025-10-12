@@ -53,10 +53,10 @@ class RemapTest : BaseMyExpensesTest() {
         val transfer = repository.insertTransfer(account1.id, account2.id, amount)
 
         doRemapAccount(account1.id, "K3")
-        val self = getTransactionFromDb(transfer.first.id)
+        val self = getTransactionFromDb(transfer.data.id)
         assertThat(self.accountId).isEqualTo(account3.id)
         assertThat(self.transferAccountId).isEqualTo(account2.id)
-        val peer = getTransactionFromDb(transfer.second.id)
+        val peer = getTransactionFromDb(transfer.transferPeer!!.id)
         assertThat(peer.accountId).isEqualTo(account2.id)
         assertThat(peer.transferAccountId).isEqualTo(account3.id)
         cleanup {

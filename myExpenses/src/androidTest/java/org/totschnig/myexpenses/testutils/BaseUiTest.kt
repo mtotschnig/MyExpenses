@@ -55,14 +55,12 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -128,7 +126,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         repository.deleteAccount(accountId)
     }
 
-    fun getTransactionFromDb(id: Long): Transaction = repository.loadTransaction(id)
+    fun getTransactionFromDb(id: Long): Transaction = repository.loadTransaction(id).data
 
     @Before
     fun setUp() {
@@ -309,12 +307,12 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     protected fun prepareSplit(accountId: Long) = repository.createSplitTransaction(
-        Transaction(accountId = accountId, amount = 10000),
+        Transaction(accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID),
         listOf(
             Transaction(accountId = accountId, amount = 5000),
             Transaction(accountId = accountId, amount = 5000)
         )
-    ).first.id
+    ).id
 
     fun clickFab() {
         onView(withId(R.id.fab)).perform(click())

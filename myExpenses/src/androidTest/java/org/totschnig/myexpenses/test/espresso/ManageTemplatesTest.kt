@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.Trans
 import org.totschnig.myexpenses.db2.countTransactionsPerAccount
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.Plan
@@ -46,7 +47,6 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     )
     private lateinit var account1: Account
     private lateinit var account2: Account
-    private lateinit var plan1: Plan
 
     private fun buildAccount() {
         account1 = buildAccount("Test account 1", 0)
@@ -74,7 +74,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             }
 
             TYPE_TRANSFER -> {
-                repository.createTemplate(
+                repository.createTransferTemplate(
                     Template(
                         accountId = account1.id,
                         transferAccountId = account2.id,
@@ -91,7 +91,8 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                         accountId = account1.id,
                         defaultAction = defaultAction,
                         title = title,
-                        amount = -1200L
+                        amount = -1200L,
+                        categoryId = DatabaseConstants.SPLIT_CATID
                     ), listOf(
                         Template(
                             accountId = account1.id,
@@ -189,7 +190,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         launch()
         onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
             .perform(ViewActions.click())
-        Plan.delete(contentResolver, plan1.id)
+        Plan.delete(contentResolver, eventId)
     }
 
     private fun launch() {

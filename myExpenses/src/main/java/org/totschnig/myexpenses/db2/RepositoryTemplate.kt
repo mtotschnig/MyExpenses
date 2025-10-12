@@ -143,7 +143,16 @@ private fun Repository.loadSplitParts(templateId: Long) = contentResolver.query(
 fun Repository.createTemplate(template: RepositoryTemplate) = createTemplate(template.data)
 
 fun Repository.createTemplate(template: Template): RepositoryTemplate {
-    require(template.transferAccountId == null)
+    require(template.transferAccountId == null) { "Use createTransferTemplate for transfer transactions" }
+    return createTemplateInternal(template)
+}
+
+fun Repository.createTransferTemplate(template: Template): RepositoryTemplate {
+    require(template.transferAccountId != null) { "Use createTemplate for regular transactions" }
+    return createTemplateInternal(template)
+}
+
+private fun Repository.createTemplateInternal(template: Template): RepositoryTemplate {
     require((template.originalAmount != null) == (template.originalCurrency != null)) {
         "originalAmount and originalCurrency must be set together"
     }

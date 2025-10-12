@@ -89,7 +89,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.FileInfo
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
@@ -549,11 +548,11 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         post("/transactions") {
             val transaction = call.receive<TransactionDTO>()
-            val (id,_) = repository.createTransaction(
+            val id = repository.createTransaction(
                 transaction.toEntity(
                     repository.getCurrencyUnitForAccount(transaction.account)!!
                 )
-            )
+            ).id
             repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
             call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
             call.respond(
@@ -593,7 +592,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                             AppDirHelper
                                 .getAppDirFiles(this@WebInputService)
                                 .getOrThrow()
-                                .map<FileInfo, Map<String, String>> { it ->
+                                .map { it ->
                                     mapOf(
                                         "name" to it.format(this@WebInputService),
                                         "link" to "download/${it.name}"

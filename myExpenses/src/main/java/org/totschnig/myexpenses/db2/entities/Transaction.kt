@@ -146,7 +146,8 @@ data class Transaction(
             KEY_DEBT_ID,
             KEY_PATH,
             KEY_TAGLIST,
-            KEY_UUID
+            KEY_UUID,
+            KEY_EQUIVALENT_AMOUNT
         )
 
         /**
@@ -174,7 +175,8 @@ data class Transaction(
                 debtId = getLongOrNull(KEY_DEBT_ID),
                 categoryPath = getStringOrNull(KEY_PATH),
                 tagList = splitStringList(KEY_TAGLIST).map { it.toLong() },
-                uuid = getStringOrNull(KEY_UUID)
+                uuid = getStringOrNull(KEY_UUID),
+                equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
             )
         }
     }

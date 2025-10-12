@@ -107,14 +107,19 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         with(restored.data) {
             assertThat(amount).isEqualTo(100L)
             assertThat(comment).isEqualTo("test transfer")
-            assertThat(transferPeerId).isEqualTo(peer)
+            assertThat(transferPeerId).isEqualTo(peer.id)
         }
+        assertThat(restored.transferPeer!!.id).isEqualTo(restored.data.transferPeerId)
+        assertThat(restored.transferPeer.transferPeerId).isEqualTo(restored.data.id)
+
         val restoredPeer = repository.loadTransaction(peer.id)
         with(restoredPeer.data) {
             assertThat(amount).isEqualTo(-100L)
             assertThat(comment).isEqualTo("test transfer")
-            assertThat(transferPeerId).isEqualTo(id)
+            assertThat(transferPeerId).isEqualTo(transfer.id)
         }
+        assertThat(restoredPeer.transferPeer!!.id).isEqualTo(restoredPeer.data.transferPeerId)
+        assertThat(restoredPeer.transferPeer.transferPeerId).isEqualTo(restoredPeer.data.id)
         repository.deleteTransaction(transfer.id, markAsVoid = false, inBulk = false)
         assertThat(repository.transactionExists(transfer.id)).isFalse()
         assertThat(repository.transactionExists(peer.id)).isFalse()

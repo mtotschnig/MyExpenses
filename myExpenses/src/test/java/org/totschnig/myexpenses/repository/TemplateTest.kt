@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findPaymentMethod
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
@@ -59,17 +61,23 @@ class TemplateTest: BaseTestWithRepository() {
         val t = repository.createTemplate(RepositoryTemplate.Companion.fromTransaction(op1, "Test Transaction"))
         repository.createTransaction(t.instantiate())
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
-        val restored = repository.loadTemplate(t.id)
-        assertThat(restored).isEqualTo(t)
         repository.deleteTemplate(t.id)
-        Truth.assertWithMessage("Template deleted, but can still be retrieved").that(repository.loadTemplate(t.id)).isNull()
+        Truth.assertWithMessage("Template deleted, but can still be retrieved").that(repository.loadTemplate(t.id, require = false)).isNull()
     }
 
     @Test
     fun testTemplate() {
         val template = buildTransactionTemplate()
-        val restored = repository.loadTemplate(template.id)
-        assertThat(restored).isEqualTo(template)
+        with(repository.loadTemplate(template.id)!!) {
+            assertThat(title).isEqualTo(template.title)
+            assertThat(data.categoryId).isEqualTo(template.data.categoryId)
+            assertThat(data.accountId).isEqualTo(template.data.accountId)
+            assertThat(data.payeeId).isEqualTo(template.data.payeeId)
+            assertThat(data.methodId).isEqualTo(template.data.methodId)
+            assertThat(data.comment).isEqualTo(template.data.comment)
+            assertThat(splitParts).isEmpty()
+            assertThat(data.isTransfer).isFalse()
+        }
     }
 
     @Test
@@ -96,23 +104,19 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testSplitFromTemplate() {
         val template = buildSplitTemplate()
-        val transaction = template.instantiate().data
-        assertThat(transaction.isSplit).isTrue()
-        assertThat(transaction.accountId).isEqualTo(template.data.accountId)
-        assertThat(transaction.comment).isEqualTo(template.data.comment)
-
-        //TODO check split parts
- /*       contentResolver.query(
-            TransactionProvider.UNCOMMITTED_URI,
-            null,
-            "${DatabaseConstants.KEY_PARENTID}=?",
-            arrayOf(transaction.id.toString()),
-            null
-        ).useAndAssert {
-            hasCount(1)
-            movesToFirst()
-            hasLong(DatabaseConstants.KEY_CATID, categoryId)
-        }*/
+        val transaction = template.instantiate()
+        with(transaction.data) {
+            assertThat(isSplit).isTrue()
+            assertThat(accountId).isEqualTo(template.data.accountId)
+            assertThat(comment).isEqualTo(template.data.comment)
+        }
+        with(transaction.splitParts) {
+            assertThat(size).isEqualTo(1)
+            with(first().data) {
+                assertThat(comment).isEqualTo(template.splitParts.first().data.comment)
+                assertThat(categoryId).isEqualTo(template.splitParts.first().data.categoryId)
+            }
+        }
     }
 
     private fun buildTransactionTemplate() = repository.createTemplate(
@@ -128,7 +132,7 @@ class TemplateTest: BaseTestWithRepository() {
         )
     )
 
-    private fun buildTransferTemplate() = repository.createTemplate(
+    private fun buildTransferTemplate() = repository.createTransferTemplate(
         Template(
             accountId = mAccount1,
             transferAccountId = mAccount2,
@@ -141,7 +145,8 @@ class TemplateTest: BaseTestWithRepository() {
         Template(
             accountId = mAccount1,
             comment = "Some comment",
-            title = "Template"
+            title = "Template",
+            categoryId = DatabaseConstants.SPLIT_CATID
         ), listOf(
             Template(
                 accountId = mAccount1,
