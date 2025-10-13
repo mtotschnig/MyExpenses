@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
@@ -42,16 +41,17 @@ import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import java.math.BigDecimal
 import kotlin.math.sign
 
 //Transaction or Split
-abstract class MainDelegate<T : ITransaction>(
+abstract class MainDelegate(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean,
-) : TransactionDelegate<T>(
+) : TransactionDelegate(
     viewBinding,
     dateEditBinding,
     methodRowBinding,
@@ -73,7 +73,7 @@ abstract class MainDelegate<T : ITransaction>(
         get() = viewBinding.Payee.party?.id
 
     override fun bind(
-        transaction: T?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -162,38 +162,27 @@ abstract class MainDelegate<T : ITransaction>(
     override fun buildTransaction(
         forSave: Boolean,
         account: Account,
-    ): T? {
+    ): TransactionEditData? {
         val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
             ?: //Snackbar is shown in validateAmountInput
             return null
-        return buildMainTransaction(account).apply {
-            this.amount = amount
-            if (!isSplitPart) {
-                this.party = viewBinding.Payee.partyForSave
-            }
-            this.debtId = this@MainDelegate.debtId
-            this.methodId = this@MainDelegate.methodId
-            val selectedItem = viewBinding.OriginalAmount.selectedCurrency
-            if (selectedItem != null) {
-                val currency = selectedItem.code
-                val originalAmount = viewBinding.OriginalAmount.getAmount(
-                    currencyContext[currency]
-                )
-                originalAmount.onFailure {
-                    return null
-                }.onSuccess {
-                    prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
-                    this.originalAmount = it
+        return buildMainTransaction(account).let {
+            it.copy(
+                amount = amount,
+                party = if (!isSplitPart)  viewBinding.Payee.partyForSave else null,
+                debtId = this@MainDelegate.debtId,
+                methodId = this@MainDelegate.methodId,
+                originalAmount = viewBinding.OriginalAmount.selectedCurrency?.let {
+                    val currency = it.code
+                    viewBinding.OriginalAmount.getAmount(
+                        currencyContext[currency]
+                    ).getOrNull()
+                    //prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
+                },
+                equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()?.let {
+                    if (isIncome) it else it.negate()
                 }
-            } else {
-                this.originalAmount = null
-            }
-            val equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency)
-            equivalentAmount.onFailure {
-                return null
-            }.onSuccess {
-                this.equivalentAmount = if (isIncome) it else it?.negate()
-            }
+            )
         }
     }
 
@@ -241,7 +230,7 @@ abstract class MainDelegate<T : ITransaction>(
         super.createAdapters(withTypeSpinner, withAutoFill)
     }
 
-    override fun populateFields(transaction: T, withAutoFill: Boolean) {
+    override fun populateFields(transaction: TransactionEditData, withAutoFill: Boolean) {
         if (!isSplitPart) {
             viewBinding.Payee.party = transaction.party
         }
@@ -272,7 +261,7 @@ abstract class MainDelegate<T : ITransaction>(
         super.onSaveInstanceState(outState)
     }
 
-    abstract fun buildMainTransaction(account: Account): T
+    abstract fun buildMainTransaction(account: Account): TransactionEditData
 
     override fun onDestroy() {
         viewBinding.Payee.onDestroy()

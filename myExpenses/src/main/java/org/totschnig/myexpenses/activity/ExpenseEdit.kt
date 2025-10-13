@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.MainDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
@@ -102,8 +103,6 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
@@ -139,6 +138,8 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.epoch2LocalDate
+import org.totschnig.myexpenses.util.epoch2LocalDateTime
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
@@ -160,10 +161,13 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -245,7 +249,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
-    lateinit var delegate: TransactionDelegate<*>
+    lateinit var delegate: TransactionDelegate
 
     private var menuItem2TemplateMap: MutableMap<Int, DataTemplate> = mutableMapOf()
 
@@ -483,14 +487,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                             isTemplate = true
                             viewModel.newTemplate(
                                 operationType,
-                                if (parentId != 0L) parentId else null
-                            )?.also {
-                                mRowId = it.id
-                                it.defaultAction = prefHandler.enumValueOrDefault(
+                                if (parentId != 0L) parentId else null,
+                                prefHandler.enumValueOrDefault(
                                     PrefKey.TEMPLATE_CLICK_DEFAULT,
                                     Template.Action.SAVE
                                 )
-                            }
+                            )
                         } else {
                             var accountId = intent.getLongExtra(KEY_ACCOUNTID, 0)
                             when (operationType) {
@@ -523,7 +525,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                     viewModel.newTransfer(
                                         accountId,
                                         currencyUnit,
-                                        if (transferAccountId != 0L) transferAccountId else null,
+                                        transferAccountId,
                                         if (parentId != 0L) parentId else null
                                     )
                                 }
@@ -848,7 +850,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun populateFromTask(
-        transaction: Transaction?,
+        transaction: TransactionEditData?,
         task: InstantiationTask,
     ) {
         transaction?.also {
@@ -869,7 +871,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun populateWithNewInstance(transaction: Transaction?) {
+    private fun populateWithNewInstance(transaction: TransactionEditData?) {
         transaction?.also { populate(it, withAutoFill) } ?: run {
             val errMsg = getString(R.string.no_accounts)
             abortWithMessage(errMsg)
@@ -902,36 +904,39 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun populate(transaction: Transaction, withAutoFill: Boolean) {
+    private fun populate(transaction: TransactionEditData, withAutoFill: Boolean) {
         parentId = transaction.parentId ?: 0L
-        if (isClone) {
-            transaction.crStatus = CrStatus.UNRECONCILED
-            transaction.status = STATUS_NONE
-            transaction.uuid = Model.generateUuid()
+        var t = if (isClone) {
             newInstance = true
-        }
+            transaction.copy(
+                id = 0,
+                uuid = Model.generateUuid(),
+                crStatus = CrStatus.UNRECONCILED
+            )
+        } else transaction
         //processing data from user switching operation type
         val cached = intent.getParcelableExtra(KEY_CACHED_DATA) as? CachedTransaction
-        if (cached != null) {
-            transaction.accountId = cached.accountId
-            transaction.methodId = cached.methodId
-            transaction.date = cached.date
-            transaction.valueDate = cached.valueDate
-            transaction.crStatus = cached.crStatus
-            transaction.comment = cached.comment
-            transaction.party = cached.party
-            (transaction as? Template)?.let { template ->
-                with(cached.cachedTemplate!!) {
-                    template.title = title
-                    template.isPlanExecutionAutomatic = isPlanExecutionAutomatic
-                    template.planExecutionAdvance = planExecutionAdvance
-                }
-            }
-            transaction.referenceNumber = cached.referenceNumber
-            transaction.amount = cached.amount
-            transaction.originalAmount = cached.originalAmount
-            transaction.equivalentAmount = cached.equivalentAmount
-            intent.clipData?.let {
+        t = if (cached != null) {
+            setDirty()
+            t.copy(
+                accountId = cached.accountId,
+                methodId = cached.methodId,
+                date = cached.date,
+                valueDate = cached.valueDate,
+                crStatus = cached.crStatus,
+                comment = cached.comment,
+                party = cached.party,
+                templateEditData = if (t.isTemplate && cached.cachedTemplate != null) t.templateEditData?.copy(
+                    title = cached.cachedTemplate.title ?: "",
+                    isPlanExecutionAutomatic = cached.cachedTemplate.isPlanExecutionAutomatic,
+                    planExecutionAdvance = cached.cachedTemplate.planExecutionAdvance
+                ) else null,
+                referenceNumber = cached.referenceNumber,
+                amount = cached.amount,
+                originalAmount = cached.originalAmount,
+                equivalentAmount = cached.equivalentAmount
+            )
+/*            intent.clipData?.let {
                 viewModel.addAttachmentUris(
                     *buildList {
                         for (i in 0 until it.itemCount) {
@@ -939,15 +944,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         }
                     }.toTypedArray()
                 )
-            }
-            setDirty()
+            }*/
         } else {
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
-                transaction.date = it
-                transaction.valueDate = it
-            }
+                epoch2LocalDateTime(it).let {
+                    t.copy(
+                        date = it,
+                        valueDate = it.toLocalDate()
+                    )
+                }
+            } ?: t
         }
-        operationType = transaction.operationType()
+        operationType = transaction.operationType
         updateOnBackPressedCallbackEnabled()
         delegate = TransactionDelegate.create(
             transaction,
@@ -961,13 +969,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             createTemplate = true
             delegate.setCreateTemplate(true)
         }
-        delegate.bindUnsafe(
+        delegate.bind(
             transaction,
             withTypeSpinner,
             null,
             cached?.recurrence,
-            withAutoFill,
-            cached != null
+            withAutoFill
         )
         cached?.cachedTemplate?.date?.let {
             delegate.planButton.setDate(it)
@@ -1297,7 +1304,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             delegate.syncStateAndValidate(true)?.let { transaction ->
                 isSaving = true
                 if (planInstanceId > 0L) {
-                    transaction.originPlanInstanceId = planInstanceId
+                //TODO
+                //transaction.originPlanInstanceId = planInstanceId
                 }
                 viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate)
                     .observe(this) {
@@ -1365,9 +1373,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private fun cleanup(onComplete: () -> Unit) {
         if (isSplitParent && ::delegate.isInitialized) {
             delegate.rowId.let {
-                viewModel.cleanupSplit(it, isTemplate).observe(this) {
+/*                viewModel.cleanupSplit(it, isTemplate).observe(this) {
                     onComplete()
-                }
+                }*/
             }
         } else {
             onComplete()
@@ -1456,7 +1464,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         finish()
     }
 
-    private fun onSaved(result: Result<Unit>, transaction: ITransaction) {
+    private fun onSaved(result: Result<Unit>, transaction: TransactionEditData) {
         result.onSuccess {
             if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
@@ -1538,9 +1546,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     if (isTemplate) {
-                        (transaction as? Template)?.planId
+                        transaction.templateEditData?.planEditData?.plan?.id
                     } else {
-                        transaction.originPlanId
+                        TODO() //transaction.originPlanId
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
@@ -1699,11 +1707,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override val fabDescription: Int
         get() = if (createNew && delegate.createNewOverride) R.string.menu_save_and_new_content_description else super.fabDescription
 
-    fun showPlanMonthFragment(originTemplate: Template, color: Int) {
+    fun showPlanMonthFragment(originTemplate: TemplateEditData, color: Int) {
         PlanMonthFragment.newInstance(
             originTemplate.title,
-            originTemplate.id,
-            originTemplate.planId,
+            originTemplate.templateId,
+            originTemplate.planEditData?.plan?.id ?: 0L,
             color, true, prefHandler
         ).show(
             supportFragmentManager,
@@ -1725,7 +1733,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     fun loadOriginTemplate(templateId: Long) {
         viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
             .observe(this) { transaction ->
-                (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
+                transaction?.let { delegate.originTemplateLoaded(it) }
             }
     }
 
@@ -1733,8 +1741,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     data class CachedTransaction(
         val accountId: Long,
         val methodId: Long?,
-        val date: Long,
-        val valueDate: Long,
+        val date: LocalDateTime,
+        val valueDate: LocalDate,
         val crStatus: CrStatus,
         val comment: String?,
         val party: DisplayParty?,
@@ -1755,20 +1763,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val date: LocalDate,
     ) : Parcelable
 
-    private fun ITransaction.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
+    private fun TransactionEditData.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
         CachedTransaction(
             accountId,
             methodId,
-            if (this is Template) plan?.dtStart ?: 0L else date,
+            templateEditData?.planEditData?.plan?.dtStart?.let { epoch2LocalDateTime(it) } ?: date,
             valueDate,
             crStatus,
             comment,
             party,
-            (this as? Template)?.run {
+            templateEditData?.let {
                 CachedTemplate(
-                    title,
-                    isPlanExecutionAutomatic,
-                    planExecutionAdvance,
+                    it.title,
+                    it.isPlanExecutionAutomatic,
+                    it.planExecutionAdvance,
                     withPlanDate
                 )
             },

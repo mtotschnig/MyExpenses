@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
 class SplitDelegate(
     viewBinding: OneExpenseBinding,
@@ -25,7 +26,7 @@ class SplitDelegate(
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean
 ) :
-    MainDelegate<ISplit>(
+    MainDelegate(
         viewBinding,
         dateEditBinding,
         methodRowBinding,
@@ -46,29 +47,8 @@ class SplitDelegate(
     @State
     var userSetAmount: Boolean = false
 
-    override fun bindUnsafe(
-        transaction: ITransaction?,
-        withTypeSpinner: Boolean,
-        savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
-        withAutoFill: Boolean,
-        isCached: Boolean
-    ) {
-        super.bindUnsafe(
-            transaction,
-            withTypeSpinner,
-            savedInstanceState,
-            recurrence,
-            withAutoFill,
-            isCached
-        )
-        if (transaction?.amount?.amountMinor != 0L) {
-            userSetAmount = true
-        }
-    }
-
     override fun bind(
-        transaction: ISplit?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -81,6 +61,10 @@ class SplitDelegate(
             recurrence,
             withAutoFill
         )
+
+        if ((transaction?.amount?.amountMinor ?: 0L) != 0L) {
+            userSetAmount = true
+        }
 
         viewBinding.CategoryRow.isVisible = false
         viewBinding.SplitRow.isVisible = true
@@ -116,8 +100,8 @@ class SplitDelegate(
         }
     }
 
-    override fun buildMainTransaction(account: Account): ISplit =
-        if (isTemplate) buildTemplate(account) else SplitTransaction(account.id)
+    override fun buildMainTransaction(account: Account): TransactionEditData =
+        if (isTemplate) buildTemplate(account) else TODO()
 
     override fun prepareForNew(): Boolean {
         super.prepareForNew()

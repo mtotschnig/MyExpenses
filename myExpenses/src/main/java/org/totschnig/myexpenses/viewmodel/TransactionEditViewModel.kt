@@ -6,10 +6,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -27,31 +24,32 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.db2.addAttachments
-import org.totschnig.myexpenses.db2.deleteAttachments
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.RepositoryTemplate
+import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
-import org.totschnig.myexpenses.db2.loadAttachments
-import org.totschnig.myexpenses.db2.requireParty
-import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.updateTemplate
+import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -76,7 +74,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
-import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
@@ -91,22 +88,21 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
-import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
-import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
-import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.SplitPart
+import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransferEditData
+import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import java.io.IOException
 import java.math.BigDecimal
-import java.time.LocalDate
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -187,10 +183,23 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         )
     }
 
-    fun save(transaction: ITransaction, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
+    fun save(transaction: TransactionEditData, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
+            if (transaction.isTemplate) {
+                if (transaction.id == 0L) {
+                    repository.createTemplate(TransactionMapper.mapTemplate(transaction))
+                } else {
+                    repository.updateTemplate(TransactionMapper.mapTemplate(transaction).data)
+                }
+            } else {
+                if (transaction.id == 0L) {
+                    repository.createTransaction(TransactionMapper.mapTransaction(transaction))
+                } else {
+                    repository.updateTransaction(TransactionMapper.mapTransaction(transaction).data)
+                }
+            }
             emit(runCatching {
-                transaction.party?.let {
+/*                transaction.party?.let {
                     if (it.id == null) {
                         transaction.party = repository.requireParty(it.name)
                             ?.let { id -> DisplayParty(id, it.name) }
@@ -242,8 +251,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             it.toDouble()
                         )
                     }
-                }
-                Unit
+                }*/
             })
         }
 
@@ -312,13 +320,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
+/*    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
         liveData(context = coroutineContext()) {
             emit(
                 if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
                     SplitTransaction.cleanupCanceledEdit(contentResolver, id)
             )
-        }
+        }*/
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
@@ -326,32 +334,35 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    private fun Transaction.applyDefaultTransferCategory() {
-        if (isTransfer) {
+    private fun TransactionEditData.applyDefaultTransferCategory(): TransactionEditData {
+        return if (isTransfer) {
             prefHandler.defaultTransferCategory?.let { id ->
                 repository.getCategoryPath(id)?.let { path ->
-                    catId = id
-                    categoryPath = path
+                    copy(
+                        categoryId = id,
+                        categoryPath = path
+                    )
                 }
-            }
-        }
+            } ?: this
+        } else this
     }
 
     suspend fun newTemplate(
         operationType: Int,
         parentId: Long?,
-    ): Template? = withContext(coroutineContext()) {
+        defaultAction: Template.Action
+    ): TransactionEditData? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
-            Template.getTypedNewInstance(
-                repository,
-                operationType,
-                it.first,
-                it.second,
-                true,
-                parentId
-            )?.apply {
-                applyDefaultTransferCategory()
-            }
+            TransactionEditData(
+                amount = Money(it.second, 0L),
+                accountId = it.first,
+                transferEditData = if (operationType == TYPE_TRANSFER) TransferEditData() else null,
+                categoryId = if (operationType == TYPE_SPLIT) DatabaseConstants.SPLIT_CATID else null,
+                templateEditData = TemplateEditData(
+                    defaultAction = defaultAction
+                ),
+                parentId = parentId,
+            ).applyDefaultTransferCategory()
         }
     }
 
@@ -374,24 +385,31 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         parentId: Long?,
-    ): Transaction? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        Transaction.getNewInstance(accountId, currencyUnit, parentId)
+    ): TransactionEditData? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+        TransactionEditData(
+            amount = Money(currencyUnit, 0L),
+            accountId = accountId,
+            parentId = parentId
+        )
     }
 
     suspend fun newTransfer(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
-        transferAccountId: Long?,
+        transferAccountId: Long,
         parentId: Long?,
-    ): Transfer? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        Transfer.getNewInstance(accountId, currencyUnit, transferAccountId, parentId).apply {
-            applyDefaultTransferCategory()
-        }
+    ): TransactionEditData? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+        TransactionEditData(
+            amount = Money(currencyUnit, 0L),
+            accountId = accountId,
+            parentId = parentId,
+            transferEditData = TransferEditData(transferAccountId = transferAccountId)
+        ).applyDefaultTransferCategory()
     }
 
-    suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): SplitTransaction? =
+    suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): TransactionEditData? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-            SplitTransaction.getNewInstance(repository, accountId, currencyUnit, true)
+          TODO()
         }
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
@@ -454,42 +472,30 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         clone: Boolean,
         forEdit: Boolean,
         extras: Bundle?,
-    ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+    ): LiveData<TransactionEditData?> = liveData(context = coroutineContext()) {
         when (task) {
-            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(
-                repository,
-                transactionId
-            )
-
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
-                Transaction.getInstanceFromTemplateWithTags(repository, transactionId)?.let {
-                    it.first to it.second
-                }
-
-            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
-                repository,
-                transactionId,
-                currencyContext.homeCurrencyUnit
-            )
-
-            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(
-                ProviderUtils.buildFromExtras(
-                    repository,
-                    extras!!
-                )!!, emptyList()
-            )
-
-            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
-                Transaction.getInstanceFromDb(
-                    contentResolver, transactionId, currencyContext.homeCurrencyUnit
-                )
-            ) {
-                Pair(
-                    Template(repository, this, party?.name ?: categoryPath),
-                    this.loadTags(repository)
-                )
+            InstantiationTask.TEMPLATE -> repository.loadTemplate(transactionId)?.let {
+                TransactionMapper.map(it, currencyContext)
             }
-        }?.also { pair ->
+
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)?.instantiate()?.let {
+                TransactionMapper.map(it, currencyContext)
+            }
+
+            InstantiationTask.TRANSACTION -> repository.loadTransaction(transactionId, true).let {
+                TransactionMapper.map(it, currencyContext)
+            }
+
+            InstantiationTask.FROM_INTENT_EXTRAS -> TODO()
+
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
+                repository.loadTransaction(transactionId, true)
+            ).let {
+                TransactionMapper.map(it, currencyContext)
+            }
+        }?.also {
+            emit(it)
+/*            pair ->
             if (forEdit) {
                 pair.first.prepareForEdit(
                     repository,
@@ -507,7 +513,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 } else {
                     originalUris = ArrayList(uriList)
                 }
-            }
+            }*/
         } ?: run {
             emit(null)
         }

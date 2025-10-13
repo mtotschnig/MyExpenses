@@ -346,7 +346,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             val helper = Transaction(account.id, Money(currencyContext[account.currency], sum))
             helper.comment = helperComment
             helper.status = STATUS_HELPER
-            handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
+            handleDeleteOperation = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
                 .withValues(helper.buildInitialValues()).build()
         }
         val rowSelect = buildTransactionRowSelect(filter)
@@ -357,7 +357,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
         ops.add(
             ContentProviderOperation.newDelete(
-                Transaction.CONTENT_URI
+                TRANSACTIONS_URI
             )
                 .withSelection(
                     "$KEY_ROWID IN ($rowSelect)",

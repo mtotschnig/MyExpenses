@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
@@ -95,7 +96,13 @@ data class Transaction(
     /**
      * Read-only property holding the UUID of the transaction.
      */
-    val uuid: String? = null
+    val uuid: String? = null,
+
+    /**
+     * Read-only property holding the currency of the transaction.
+     */
+    val currency: String? = null
+
 ) {
 
     fun asContentValues() = ContentValues().apply {
@@ -147,7 +154,8 @@ data class Transaction(
             KEY_PATH,
             KEY_TAGLIST,
             KEY_UUID,
-            KEY_EQUIVALENT_AMOUNT
+            KEY_EQUIVALENT_AMOUNT,
+            KEY_CURRENCY
         )
 
         /**
@@ -177,6 +185,7 @@ data class Transaction(
                 tagList = splitStringList(KEY_TAGLIST).map { it.toLong() },
                 uuid = getStringOrNull(KEY_UUID),
                 equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
+                currency = getStringOrNull(KEY_CURRENCY)
             )
         }
     }

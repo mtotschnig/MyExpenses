@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model.generateUuid
-import org.totschnig.myexpenses.model.Transaction.CONTENT_URI
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -80,6 +79,7 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) =
 }
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
+    require(transaction.id == 0L) { "Use updateTemplate for existing templates" }
     require(transaction.transferAccountId == null) { "Use createTransfer instead" }
     require(transaction.categoryId != DatabaseConstants.SPLIT_CATID) { "Use createSplitTransaction instead" }
     require((transaction.originalAmount != null) == (transaction.originalCurrency != null)) {
@@ -463,7 +463,7 @@ private fun ContentResolver.findBySelection(
     column: String
 ) =
     query(
-        CONTENT_URI
+        TRANSACTIONS_URI
             .buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1")
             .build(),

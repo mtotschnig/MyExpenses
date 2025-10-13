@@ -19,16 +19,16 @@ import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.dialog.addAllAccounts
 import org.totschnig.myexpenses.model.AccountFlag
-import org.totschnig.myexpenses.model.ITransfer
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model.isNullOr0
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import java.math.BigDecimal
 
 class TransferDelegate(
@@ -37,7 +37,7 @@ class TransferDelegate(
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean
 ) :
-    TransactionDelegate<ITransfer>(
+    TransactionDelegate(
         viewBinding,
         dateEditBinding,
         methodRowBinding,
@@ -79,18 +79,18 @@ class TransferDelegate(
 
 
     override fun bind(
-        transaction: ITransfer?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean
     ) {
-        if (transaction != null) {
-            transferAccountId = transaction.transferAccountId
-            transferPeer = transaction.transferPeer
-            passedInTransferAmount = transaction.transferAmount?.amountMinor
-            passedInTransferAccountId = transaction.transferAccountId
-            transaction.transferAmount?.let {
+        if (transaction?.transferEditData != null) {
+            transferAccountId = transaction.transferEditData.transferAccountId
+            transferPeer = transaction.transferEditData.transferAccountId
+            passedInTransferAmount = transaction.transferEditData.transferAmount?.amountMinor
+            passedInTransferAccountId = transaction.transferEditData.transferAccountId
+            transaction.transferEditData.transferAmount?.let {
                 viewBinding.TransferAmount.setFractionDigits(it.currencyUnit.fractionDigits)
             }
         }
@@ -113,9 +113,9 @@ class TransferDelegate(
         configureCategoryVisibility()
     }
 
-    override fun populateFields(transaction: ITransfer, withAutoFill: Boolean) {
+    override fun populateFields(transaction: TransactionEditData, withAutoFill: Boolean) {
         super.populateFields(transaction, withAutoFill)
-        transaction.transferAmount?.let {
+        transaction.transferEditData?.transferAmount?.let {
             viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
             if (!isTemplate) {
                 isProcessingLinkedAmountInputs = true
@@ -257,7 +257,7 @@ class TransferDelegate(
     override fun buildTransaction(
         forSave: Boolean,
         account: Account
-    ): ITransfer? {
+    ): TransactionEditData? {
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
         val amount = validateAmountInput(forSave, currentAccount.currency).getOrNull()
@@ -275,24 +275,35 @@ class TransferDelegate(
         return if (isTemplate) {
             if (amount == null && transferAmount == null) {
                 null
-            } else buildTemplate(account).apply {
+            } else buildTemplate(account).let {
                 if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
-                    this.amount = amount ?: Money(currentAccount.currency, 0)
-                    setTransferAccountId(transferAccount.id)
+                    it.copy(
+                        amount = amount ?: Money(currentAccount.currency, 0),
+                        transferEditData = it.transferEditData!!.copy(
+                            transferAccountId = transferAccount.id
+                        )
+                    )
                 } else if (!isSame && transferAmount != null) {
-                    this.accountId = transferAccount.id
-                    setTransferAccountId(currentAccount.id)
-                    this.amount = transferAmount
-                    viewBinding.Amount.setError(null)
-                }
+                    it.copy(
+                        amount = transferAmount,
+                        transferEditData = TransferEditData(
+                            transferAccountId = transferAccount.id,
+                        )
+                    )
+                    //viewBinding.Amount.setError(null)
+                } else it
             }
         } else {
             if (amount == null || transferAmount == null) {
                 null
-            } else Transfer(account.id, transferAccount.id, parentId).apply {
-                transferPeer = this@TransferDelegate.transferPeer
-                setAmountAndTransferAmount(amount, transferAmount)
-            }
+            } else TransactionEditData(
+                accountId = currentAccount.id,
+                amount = amount,
+                transferEditData = TransferEditData(
+                    transferAccountId = transferAccount.id,
+                    transferAmount = transferAmount
+                )
+            )
         }
     }
 

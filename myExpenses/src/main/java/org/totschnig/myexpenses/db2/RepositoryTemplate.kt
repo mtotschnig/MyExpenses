@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
@@ -31,7 +32,6 @@ import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import java.time.LocalDate
 import kotlin.math.roundToLong
-
 
 data class RepositoryTemplate(
     val data: Template,
@@ -60,7 +60,7 @@ data class RepositoryTemplate(
     companion object {
         fun fromTransaction(
             t: RepositoryTransaction,
-            title: String
+            title: String = ""
         ) = RepositoryTemplate(
             data = Template.deriveFrom(t.data, title),
             splitParts = t.splitParts.map {
@@ -140,14 +140,24 @@ private fun Repository.loadSplitParts(templateId: Long) = contentResolver.query(
     Template.fromCursor(it)
 }
 
+fun Repository.updateTemplate(
+    template: Template
+) = contentResolver.update(
+    ContentUris.withAppendedId(TEMPLATES_URI, template.id),
+    template.asContentValues(),
+    null, null
+) == 1
+
 fun Repository.createTemplate(template: RepositoryTemplate) = createTemplate(template.data)
 
 fun Repository.createTemplate(template: Template): RepositoryTemplate {
+    require(template.id == 0L) { "Use updateTemplate for existing templates" }
     require(template.transferAccountId == null) { "Use createTransferTemplate for transfer transactions" }
     return createTemplateInternal(template)
 }
 
 fun Repository.createTransferTemplate(template: Template): RepositoryTemplate {
+    require(template.id == 0L) { "Use updateTemplate for existing templates" }
     require(template.transferAccountId != null) { "Use createTemplate for regular transactions" }
     return createTemplateInternal(template)
 }

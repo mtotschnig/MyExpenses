@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
@@ -41,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getBoolean
@@ -60,7 +60,7 @@ fun Repository.getLabelForAccount(accountId: Long) = getStringValue(accountId, K
 private fun Repository.getStringValue(accountId: Long, column: String): String? {
     require(accountId > 0L)
     return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         arrayOf(column), null, null, null
     )!!.use {
         if (it.moveToFirst()) it.getStringOrNull(0) else null
@@ -69,7 +69,7 @@ private fun Repository.getStringValue(accountId: Long, column: String): String? 
 
 fun Repository.getLastUsedOpenAccount() =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI.withLimit(1),
+        ACCOUNTS_URI.withLimit(1),
         arrayOf(KEY_ROWID, KEY_CURRENCY),
         "$KEY_SEALED = 0",
         null,
@@ -80,7 +80,7 @@ fun Repository.getLastUsedOpenAccount() =
 
 
 fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
-    TransactionProvider.ACCOUNTS_URI,
+    ACCOUNTS_URI,
     arrayOf(KEY_ROWID),
     "$KEY_UUID = ?",
     arrayOf(uuid),
@@ -91,7 +91,7 @@ fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
 
 fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: String) =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI,
+        ACCOUNTS_URI,
         arrayOf(KEY_ROWID, extraColumn),
         "$KEY_UUID = ?",
         arrayOf(uuid),
@@ -103,7 +103,7 @@ fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: Strin
 fun Repository.loadAccount(accountId: Long): Account? {
     require(accountId > 0L)
     return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         Account.PROJECTION,
         null, null, null
     )?.use {
@@ -116,7 +116,7 @@ fun Repository.loadAccount(accountId: Long): Account? {
 fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
     require(accountId > 0L)
     return contentResolver.observeQuery(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         Account.PROJECTION,
         null, null, null
     ).mapToOne {
@@ -169,7 +169,7 @@ fun Repository.createAccount(account: Account): Account {
     }
     val id = ContentUris.parseId(
         contentResolver.insert(
-            TransactionProvider.ACCOUNTS_URI,
+            ACCOUNTS_URI,
             initialValues
         )!!
     )
@@ -178,7 +178,7 @@ fun Repository.createAccount(account: Account): Account {
 
 fun Repository.updateAccount(accountId: Long, data: ContentValues) {
     contentResolver.update(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         data, null, null
     )
 }
@@ -229,7 +229,7 @@ fun Repository.deleteAccount(accountId: Long): String? {
     )
     ops.add(
         ContentProviderOperation.newDelete(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountIdString).build()
+            ACCOUNTS_URI.buildUpon().appendPath(accountIdString).build()
         ).build()
     )
     contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
@@ -252,7 +252,7 @@ fun Repository.markAsExported(accountId: Long, filter: Criterion?) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         add(
-            ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
                 .withValue(KEY_STATUS, STATUS_EXPORTED)
                 .withSelection(selection, selectionArgs)
                 .build()
@@ -286,7 +286,7 @@ fun Repository.findAnyOpenByCurrency(currency: String) =
     findAnyOpen(KEY_CURRENCY, currency)
 
 fun Repository.findAnyOpen(column: String? = null, search: String? = null) = contentResolver.query(
-    TransactionProvider.ACCOUNTS_URI,
+    ACCOUNTS_URI,
     arrayOf(KEY_ROWID),
     (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
     search?.let { arrayOf(it) },
@@ -299,7 +299,7 @@ fun updateTransferPeersForTransactionDelete(
     selectionArgs: Array<String>?
 ) {
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+        ContentProviderOperation.newUpdate(ACCOUNTS_URI)
             .withValue(KEY_SEALED, -1)
             .withSelection("$KEY_SEALED = 1", null).build()
     )
@@ -308,7 +308,7 @@ fun updateTransferPeersForTransactionDelete(
         putNull(KEY_TRANSFER_PEER)
     }
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
             .withValues(args)
             .withSelection(
                 "$KEY_TRANSFER_PEER IN ($rowSelect)",
@@ -317,7 +317,7 @@ fun updateTransferPeersForTransactionDelete(
             .build()
     )
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+        ContentProviderOperation.newUpdate(ACCOUNTS_URI)
             .withValue(KEY_SEALED, 1)
             .withSelection("$KEY_SEALED = -1", null).build()
     )
@@ -325,7 +325,7 @@ fun updateTransferPeersForTransactionDelete(
 
 fun Repository.countAccounts(selection: String? = null, selectionArgs: Array<String>? = null) =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI, arrayOf("count(*)"),
+        ACCOUNTS_URI, arrayOf("count(*)"),
         selection, selectionArgs, null
     )!!.use {
         it.moveToFirst()

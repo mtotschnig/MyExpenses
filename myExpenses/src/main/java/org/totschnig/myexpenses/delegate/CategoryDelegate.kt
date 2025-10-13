@@ -7,19 +7,20 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import java.time.LocalDateTime
 
 class CategoryDelegate(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean
-) : MainDelegate<ITransaction>(
+) : MainDelegate(
     viewBinding,
     dateEditBinding,
     methodRowBinding,
@@ -29,7 +30,7 @@ class CategoryDelegate(
     override val operationType = TYPE_TRANSACTION
 
     override fun bind(
-        transaction: ITransaction?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -56,15 +57,20 @@ class CategoryDelegate(
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
     }
 
-    override fun buildMainTransaction(account: Account): ITransaction =
-        (if (isTemplate) buildTemplate(account) else Transaction(account.id, parentId))
+    override fun buildMainTransaction(account: Account): TransactionEditData =
+        if (isTemplate) buildTemplate(account) else
+            TransactionEditData(
+                amount = Money(account.currency, 0L),
+                date = LocalDateTime.now(),
+                accountId = account.id
+            )
 
     override fun configureType() {
         super.configureType()
         setCategoryButton()
     }
 
-    override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
+    override fun populateFields(transaction: TransactionEditData, withAutoFill: Boolean) {
         super.populateFields(transaction, withAutoFill)
         if (withAutoFill && !isTemplate && !isSplitPart && shouldStartAutoFillWithFocus(prefHandler)) {
             viewBinding.Payee.requestFocus()

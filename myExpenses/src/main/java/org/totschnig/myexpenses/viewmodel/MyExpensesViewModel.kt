@@ -632,7 +632,7 @@ open class MyExpensesViewModel(
                 val args = ContentValues()
                 args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name)
                 contentResolver.update(
-                    Transaction.CONTENT_URI,
+                    TRANSACTIONS_URI,
                     args,
                     "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_CR_STATUS = '${CrStatus.CLEARED.name}'",
                     arrayOf(accountId.toString())
