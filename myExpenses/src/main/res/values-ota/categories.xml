@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="Sub_3_1">كار پایی</string>
+    <string name="Main_4">معاش</string>
+    <string name="Sub_4_1">فضلە مساعی</string>
+    <string name="Sub_5_1">هدیەلر</string>
+    <string name="Sub_5_2">اعادەلر</string>
+    <string name="Main_6">غدا</string>
+    <string name="Sub_6_2">اكمك</string>
+    <string name="Sub_6_4">طاتلیلر</string>
+    <string name="Sub_6_5">بقال</string>
+    <string name="Sub_6_6">لوقنطە</string>
 </resources>
