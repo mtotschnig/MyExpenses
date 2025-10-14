@@ -161,6 +161,7 @@ class Plan private constructor(
     }
 
     class CalendarIntegrationNotAvailableException : IllegalStateException()
+
     companion object {
         @JvmStatic
         fun getInstanceFromDb(contentResolver: ContentResolver, planId: Long): Plan? {

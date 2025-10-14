@@ -101,7 +101,7 @@ class SplitDelegate(
     }
 
     override fun buildMainTransaction(account: Account): TransactionEditData =
-        if (isTemplate) buildTemplate(account) else TODO()
+        if (isTemplate) buildTemplate(account, null) else TODO()
 
     override fun prepareForNew(): Boolean {
         super.prepareForNew()

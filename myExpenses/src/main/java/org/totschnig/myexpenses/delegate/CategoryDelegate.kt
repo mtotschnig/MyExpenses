@@ -58,7 +58,7 @@ class CategoryDelegate(
     }
 
     override fun buildMainTransaction(account: Account): TransactionEditData =
-        if (isTemplate) buildTemplate(account) else
+        if (isTemplate) buildTemplate(account, null) else
             TransactionEditData(
                 amount = Money(account.currency, 0L),
                 date = LocalDateTime.now(),

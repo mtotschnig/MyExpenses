@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.viewmodel.data.PlanEditData
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -651,7 +652,7 @@ abstract class TransactionDelegate(
             }
 
             accountSpinner.id -> {
-                mAccounts.firstOrNull() { it.id == id }?.let { newAccount ->
+                mAccounts.firstOrNull { it.id == id }?.let { newAccount ->
                     val oldAccount = mAccounts.first { it.id == accountId }
                     updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                     host.color = newAccount.color
@@ -754,7 +755,7 @@ abstract class TransactionDelegate(
         if (spinner.selectedItemPosition == AdapterView.INVALID_POSITION)
             null else mAccounts.find { it.id == spinner.selectedItemId }
 
-    protected fun buildTemplate(account: Account) = TransactionEditData(
+    protected fun buildTemplate(account: Account, transferAccount: Account?) = TransactionEditData(
         templateEditData = TemplateEditData(),
         amount = Money(homeCurrency, BigDecimal.ZERO),
         date = LocalDateTime.now(),
@@ -762,7 +763,12 @@ abstract class TransactionDelegate(
         party = null,
         categoryId = null,
         accountId = account.id,
-        parentId = parentId
+        parentId = parentId,
+        transferEditData = transferAccount?.let {
+            TransferEditData(
+                transferAccountId = it.id
+            )
+        }
     )
 
     abstract fun buildTransaction(
@@ -778,10 +784,10 @@ abstract class TransactionDelegate(
                 forSave && !isMainTemplate,
                 it
             )
-        }?.let {
+        }?.let { transaction ->
             val date =
-                if (isMainTransaction) readLocalDateTime(dateEditBinding.DateButton) else it.date
-            it.copy(
+                if (isMainTransaction) readLocalDateTime(dateEditBinding.DateButton) else transaction.date
+            transaction.copy(
                 categoryId = this@TransactionDelegate.catId,
                 categoryPath = this@TransactionDelegate.label,
                 originTemplateId = this@TransactionDelegate.originTemplateId,
@@ -791,10 +797,10 @@ abstract class TransactionDelegate(
                 date = date,
                 valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
                 crStatus = this@TransactionDelegate.crStatus
-            ).let {
+            ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {
-                    it.copy(
+                    transaction.copy(
                         templateEditData = TemplateEditData(
                             title = title,
                             defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
@@ -812,7 +818,23 @@ abstract class TransactionDelegate(
                                 )
                             } else null,
                         ),
-                    )
+                    ).let {
+                        if (it.amount.amountMinor == 0L &&
+                            (it.transferEditData?.transferAmount?.amountMinor ?: 0L) == 0L &&
+                            forSave
+                        ) {
+                            if (it.templateEditData?.planEditData?.plan == null && it.templateEditData?.defaultAction == Template.Action.SAVE) {
+                                host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
+                                return null
+                            }
+                            if (it.templateEditData?.planEditData?.plan != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
+                                host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
+                                return null
+                            }
+                        }
+                        it
+                    }
+
 
 /*                        if (this.amount.amountMinor == 0L &&
                             (this.transferAmount?.amountMinor ?: 0L) == 0L &&
@@ -829,11 +851,11 @@ abstract class TransactionDelegate(
                         }
                         prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)*/
                 } else {
-                    it.copy(
+                    transaction.copy(
                         referenceNumber = methodRowBinding.Number.text.toString(),
                         initialPlan = if (forSave && !isSplitPart && host.createTemplate)
                             Triple(
-                                title, selectedRecurrence, dateEditBinding.DateButton.date
+                                title.takeIf { it.isNotEmpty() }, selectedRecurrence, dateEditBinding.DateButton.date
                             ) else null
                     )
                 }

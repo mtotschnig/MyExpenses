@@ -19,13 +19,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -101,7 +104,17 @@ data class Transaction(
     /**
      * Read-only property holding the currency of the transaction.
      */
-    val currency: String? = null
+    val currency: String? = null,
+
+    /**
+     * Read-only property holding sealed state of account
+     */
+    val sealed: Boolean = false,
+
+    /**
+     * Read-only property holding the payee name.
+     */
+    val payeeName: String? = null
 
 ) {
 
@@ -155,7 +168,9 @@ data class Transaction(
             KEY_TAGLIST,
             KEY_UUID,
             KEY_EQUIVALENT_AMOUNT,
-            KEY_CURRENCY
+            KEY_CURRENCY,
+            KEY_SEALED,
+            KEY_PAYEE_NAME
         )
 
         /**
@@ -185,7 +200,9 @@ data class Transaction(
                 tagList = splitStringList(KEY_TAGLIST).map { it.toLong() },
                 uuid = getStringOrNull(KEY_UUID),
                 equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
-                currency = getStringOrNull(KEY_CURRENCY)
+                currency = getStringOrNull(KEY_CURRENCY),
+                sealed = getBoolean(KEY_SEALED),
+                payeeName = getStringOrNull(KEY_PAYEE_NAME)
             )
         }
     }

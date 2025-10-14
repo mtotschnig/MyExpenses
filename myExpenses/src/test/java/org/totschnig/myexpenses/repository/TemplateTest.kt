@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
-import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findPaymentMethod
@@ -132,7 +131,7 @@ class TemplateTest: BaseTestWithRepository() {
         )
     )
 
-    private fun buildTransferTemplate() = repository.createTransferTemplate(
+    private fun buildTransferTemplate() = repository.createTemplate(
         Template(
             accountId = mAccount1,
             transferAccountId = mAccount2,

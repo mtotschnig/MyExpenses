@@ -16,7 +16,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
@@ -117,7 +119,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             arrayOf(templateTitle),
             null
         )!!.use {
-            it.moveToFirst()
+            assertWithMessage("No template with title $templateTitle").that(it.moveToFirst()).isTrue()
             it.getLong(0)
         }
         val template = repository.loadTemplate(templateId)!!

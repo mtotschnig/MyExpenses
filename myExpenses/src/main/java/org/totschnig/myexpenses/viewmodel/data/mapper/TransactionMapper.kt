@@ -6,8 +6,10 @@ import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
+import org.totschnig.myexpenses.viewmodel.data.PlanEditData
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
@@ -23,7 +25,7 @@ object TransactionMapper {
             amount = money,
             date = epoch2LocalDateTime(transaction.date),
             valueDate = epoch2LocalDate(transaction.valueDate),
-            party = null, //TODO
+            party = transaction.payeeId?.let { DisplayParty(it, transaction.payeeName!!) },
             categoryId = transaction.categoryId,
             categoryPath =transaction.categoryPath,
             categoryIcon = null, //TODO
@@ -38,13 +40,11 @@ object TransactionMapper {
             parentId = transaction.parentId,
             crStatus = transaction.crStatus,
             //TODO originTemplateId = transaction.originTemplateId,
-            planId = null, //TODO where does this come from?
             uuid = transaction.uuid,
-            debtId = null, //TODO
+            debtId = transaction.debtId,
             templateEditData = null,
             comment = transaction.comment,
             referenceNumber = transaction.referenceNumber,
-            initialPlan = null,
             transferEditData = repositoryTransaction.transferPeer?.let {
                 TransferEditData(
                     transferAccountId = it.accountId,
@@ -52,19 +52,18 @@ object TransactionMapper {
                     transferAmount = Money(currencyUnit, it.amount)
                 )
             },
-            isSealed = false //TODO
+            isSealed = transaction.sealed
         )
     }
 
     fun map(repositoryTemplate: RepositoryTemplate, currencyContext: CurrencyContext): TransactionEditData {
         val template = repositoryTemplate.data
         val currencyUnit = currencyContext[template.currency!!]
-        //TODO we probably need to get currency from account
         val money = Money(currencyUnit, template.amount)
         return TransactionEditData(
-            id = 0,
+            id = template.id,
             amount = money,
-            party = null, //TODO
+            party = template.payeeId?.let { DisplayParty(it, template.payeeName!!) },
             categoryId = template.categoryId,
             categoryPath = template.categoryPath,
             categoryIcon = null, //TODO
@@ -85,12 +84,15 @@ object TransactionMapper {
                 templateId = template.id,
                 title = template.title,
                 defaultAction = template.defaultAction,
-                planEditData = null, //TODO
-                isPlanExecutionAutomatic = false, //TODO
-                planExecutionAdvance = 0 //TODO
+                planEditData = repositoryTemplate.plan?.let {
+                    PlanEditData(
+                        plan = it,
+                        isPlanExecutionAutomatic = template.planExecutionAutomatic,
+                        planExecutionAdvance = template.planExecutionAdvance,
+                    )
+                }
             ),
             comment = template.comment,
-            initialPlan = null,
             transferEditData = template.transferAccountId?.let {
                 TransferEditData(
                     transferAccountId = it,
@@ -98,7 +100,7 @@ object TransactionMapper {
                     transferAmount = null //TODO is this correct?
                 )
             },
-            isSealed = false
+            isSealed = template.sealed
         )
     }
 
@@ -119,7 +121,8 @@ object TransactionMapper {
             uuid = transactionEditData.uuid,
             comment = transactionEditData.comment,
             referenceNumber = transactionEditData.referenceNumber,
-            transferAccountId = transactionEditData.transferEditData?.transferAccountId
+            transferAccountId = transactionEditData.transferEditData?.transferAccountId,
+            payeeId = transactionEditData.party?.id
         )
         val transferPeer = if (transactionEditData.isTransfer) {
             val transferEditData = transactionEditData.transferEditData!!
@@ -144,7 +147,7 @@ object TransactionMapper {
     fun mapTemplate(transactionEditData: TransactionEditData): RepositoryTemplate {
         val templateEditData = transactionEditData.templateEditData!!
         val template = Template(
-            id = templateEditData.templateId,
+            id = transactionEditData.id,
             title = templateEditData.title,
             defaultAction = templateEditData.defaultAction,
             amount = transactionEditData.amount.amountMinor,
@@ -156,7 +159,8 @@ object TransactionMapper {
             parentId = transactionEditData.parentId,
             comment = transactionEditData.comment,
             planId = transactionEditData.planId,
-            transferAccountId = transactionEditData.transferEditData?.transferAccountId
+            transferAccountId = transactionEditData.transferEditData?.transferAccountId,
+            payeeId = transactionEditData.party?.id
         )
         return RepositoryTemplate(data = template)
     }

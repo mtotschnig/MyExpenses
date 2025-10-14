@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
@@ -35,7 +34,8 @@ import kotlin.math.roundToLong
 
 data class RepositoryTemplate(
     val data: Template,
-    val splitParts: List<RepositoryTemplate> = emptyList()
+    val splitParts: List<RepositoryTemplate> = emptyList(),
+    val plan: Plan? = null
 ) {
     val id = data.id
     val title = data.title
@@ -50,7 +50,8 @@ data class RepositoryTemplate(
                     amount = -data.amount, //TODO check if this is correct
                     categoryId = data.categoryId,
                     comment = data.comment,
-                    categoryPath = data.categoryPath
+                    categoryPath = data.categoryPath,
+                    currency = data.currency
                 )
             } else null,
             splitParts = splitParts.map { it.instantiate() }
@@ -124,9 +125,12 @@ fun Repository.loadTemplate(
     when {
         cursor.moveToFirst() -> Template.fromCursor(cursor).let { template ->
             RepositoryTemplate(
-                template, splitParts = if (template.isSplit)
+                data = template,
+                splitParts = if (template.isSplit)
                     loadSplitParts(template.id).map { RepositoryTemplate(it) }
-                else emptyList())
+                else emptyList(),
+                plan = template.planId?.let { Plan.getInstanceFromDb(contentResolver, it) }
+            )
         }
 
         require -> throw IllegalArgumentException("Transaction not found")
@@ -152,17 +156,6 @@ fun Repository.createTemplate(template: RepositoryTemplate) = createTemplate(tem
 
 fun Repository.createTemplate(template: Template): RepositoryTemplate {
     require(template.id == 0L) { "Use updateTemplate for existing templates" }
-    require(template.transferAccountId == null) { "Use createTransferTemplate for transfer transactions" }
-    return createTemplateInternal(template)
-}
-
-fun Repository.createTransferTemplate(template: Template): RepositoryTemplate {
-    require(template.id == 0L) { "Use updateTemplate for existing templates" }
-    require(template.transferAccountId != null) { "Use createTemplate for regular transactions" }
-    return createTemplateInternal(template)
-}
-
-private fun Repository.createTemplateInternal(template: Template): RepositoryTemplate {
     require((template.originalAmount != null) == (template.originalCurrency != null)) {
         "originalAmount and originalCurrency must be set together"
     }

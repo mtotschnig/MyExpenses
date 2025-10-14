@@ -275,23 +275,19 @@ class TransferDelegate(
         return if (isTemplate) {
             if (amount == null && transferAmount == null) {
                 null
-            } else buildTemplate(account).let {
-                if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
-                    it.copy(
-                        amount = amount ?: Money(currentAccount.currency, 0),
-                        transferEditData = it.transferEditData!!.copy(
-                            transferAccountId = transferAccount.id
+            } else {
+                buildTemplate(account, transferAccount).let {
+                    if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
+                        buildTemplate(account, transferAccount).copy(
+                            amount = amount ?: Money(currentAccount.currency, 0),
                         )
-                    )
-                } else if (!isSame && transferAmount != null) {
-                    it.copy(
-                        amount = transferAmount,
-                        transferEditData = TransferEditData(
-                            transferAccountId = transferAccount.id,
-                        )
-                    )
-                    //viewBinding.Amount.setError(null)
-                } else it
+                    } else if (!isSame && transferAmount != null) {
+                        buildTemplate(transferAccount, account).copy(
+                            amount = transferAmount
+                            )
+                        //viewBinding.Amount.setError(null)
+                    } else it
+                }
             }
         } else {
             if (amount == null || transferAmount == null) {

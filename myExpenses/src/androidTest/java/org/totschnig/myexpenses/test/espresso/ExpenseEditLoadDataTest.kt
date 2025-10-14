@@ -72,7 +72,6 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        //IdlingRegistry.getInstance().register(getIdlingResource());
         foreignCurrency = CurrencyUnit(Currency.getInstance("AUD"))
         check(foreignCurrency.code != homeCurrency.code)
         account1 = buildAccount("Test account 1")

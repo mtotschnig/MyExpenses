@@ -18,16 +18,14 @@ import java.time.LocalDateTime
 data class PlanEditData(
     val isPlanExecutionAutomatic: Boolean,
     val planExecutionAdvance: Int,
-    val plan: Plan
+    val plan: Plan?
 )
 
 data class TemplateEditData(
     val templateId: Long = 0,
     val title: String = "",
     val defaultAction: Template.Action = Template.Action.EDIT,
-    val planEditData: PlanEditData? = null,
-    val isPlanExecutionAutomatic: Boolean = false,
-    val planExecutionAdvance: Int = 0
+    val planEditData: PlanEditData? = null
 )
 
 data class TransferEditData(
@@ -62,7 +60,7 @@ data class TransactionEditData(
     val templateEditData: TemplateEditData? = null,
     val comment: String? = null,
     val referenceNumber: String? = null,
-    val initialPlan: Triple<String, Recurrence, LocalDate>? = null,
+    val initialPlan: Triple<String?, Recurrence, LocalDate>? = null,
     val transferEditData: TransferEditData? = null,
     val isSealed: Boolean = false
 ) {

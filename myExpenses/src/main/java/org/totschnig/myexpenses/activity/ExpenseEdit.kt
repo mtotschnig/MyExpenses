@@ -98,12 +98,10 @@ import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -125,7 +123,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.ui.DateButton
@@ -138,7 +135,6 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
@@ -160,6 +156,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Instantiation
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.PlanEditData
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
@@ -453,7 +450,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
             // fetch the transaction or create a new instance
             if (task != null) {
-                viewModel.transaction(mRowId, task, isClone, true, extras).observe(this) {
+                viewModel.read(mRowId, task, isClone, true, extras).observe(this) {
                     populateFromTask(it, task)
                 }
             } else {
@@ -928,8 +925,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 party = cached.party,
                 templateEditData = if (t.isTemplate && cached.cachedTemplate != null) t.templateEditData?.copy(
                     title = cached.cachedTemplate.title ?: "",
-                    isPlanExecutionAutomatic = cached.cachedTemplate.isPlanExecutionAutomatic,
-                    planExecutionAdvance = cached.cachedTemplate.planExecutionAdvance
+                    planEditData = PlanEditData(
+                        plan = null,
+                        isPlanExecutionAutomatic = cached.cachedTemplate.isPlanExecutionAutomatic,
+                        planExecutionAdvance = cached.cachedTemplate.planExecutionAdvance
+                    )
                 ) else null,
                 referenceNumber = cached.referenceNumber,
                 amount = cached.amount,
@@ -958,7 +958,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         operationType = transaction.operationType
         updateOnBackPressedCallbackEnabled()
         delegate = TransactionDelegate.create(
-            transaction,
+            t,
             rootBinding,
             dateEditBinding,
             methodRowBinding,
@@ -970,7 +970,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             delegate.setCreateTemplate(true)
         }
         delegate.bind(
-            transaction,
+            t,
             withTypeSpinner,
             null,
             cached?.recurrence,
@@ -1493,7 +1493,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         }
                     }?.takeIf { it.hasReached() },
                     transferAccount?.run {
-                        val transaction = transaction as Transfer
                         val delegate = delegate as TransferDelegate
                         val previousAmount = with(delegate) {
                             passedInAmount?.takeIf { passedInAccountId == id } ?: 0
@@ -1507,7 +1506,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
-                                transaction.transferAmount!!.amountMinor - previousAmount - previousTransferAmount,
+                                transaction.transferEditData!!.transferAmount!!.amountMinor - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
                                 label,
@@ -1731,7 +1730,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
+        viewModel.read(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
             .observe(this) { transaction ->
                 transaction?.let { delegate.originTemplateLoaded(it) }
             }
@@ -1775,8 +1774,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             templateEditData?.let {
                 CachedTemplate(
                     it.title,
-                    it.isPlanExecutionAutomatic,
-                    it.planExecutionAdvance,
+                    it.planEditData?.isPlanExecutionAutomatic ?: false,
+                    it.planEditData?.planExecutionAdvance ?: 0,
                     withPlanDate
                 )
             },

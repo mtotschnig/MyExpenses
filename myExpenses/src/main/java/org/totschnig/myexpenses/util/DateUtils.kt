@@ -21,25 +21,25 @@ import java.util.Calendar
 fun epoch2LocalDate(
     epochSecond: Long,
     zoneId: ZoneId? = ZoneId.systemDefault()
-) = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
+): LocalDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
     .toLocalDate()
 
 fun epoch2LocalDateTime(
     epochSecond: Long,
     zoneId: ZoneId? = ZoneId.systemDefault()
-) = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
+): LocalDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
     .toLocalDateTime()
 
 fun epochMillis2LocalDate(
     epochMillis: Long,
     zoneId: ZoneId? = ZoneId.systemDefault()
-) = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
+): LocalDate = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
         .toLocalDate()
 
 fun epoch2ZonedDateTime(
     epoch: Long,
     zoneId: ZoneId? = ZoneId.systemDefault()
-) = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epoch), zoneId)
+): ZonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epoch), zoneId)
 
 fun LocalDateTime.toEpoch() =
     ZonedDateTime.of(this, ZoneId.systemDefault()).toEpochSecond()

@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.Trans
 import org.totschnig.myexpenses.db2.countTransactionsPerAccount
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
-import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.Plan
@@ -74,7 +73,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             }
 
             TYPE_TRANSFER -> {
-                repository.createTransferTemplate(
+                repository.createTemplate(
                     Template(
                         accountId = account1.id,
                         transferAccountId = account2.id,

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.provider
 
 import android.os.Bundle
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -11,8 +10,8 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.model.Transfer
-import java.util.concurrent.TimeUnit
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 @RunWith(RobolectricTestRunner::class)
 class ProviderUtilsTest: BaseTestWithRepository() {
@@ -74,10 +73,10 @@ class ProviderUtilsTest: BaseTestWithRepository() {
     @Test
     fun shouldSetDate() {
         val extras = Bundle()
-        val date = (System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2)) / 1000
-        extras.putLong(Transactions.DATE, date)
+        val date = ZonedDateTime.now().plusDays(2)
+        extras.putLong(Transactions.DATE, date.toEpochSecond())
         val transaction = buildFromExtras(extras)
-        assertEquals(date, transaction.date)
+        assertEquals(date.toLocalDateTime().truncatedTo(ChronoUnit.SECONDS), transaction.date)
     }
 
     @Test
@@ -95,7 +94,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         val category = "A"
         extras.putString(Transactions.CATEGORY_LABEL, category)
         val transaction = buildFromExtras(extras)
-        assertEquals(repository.findCategory(category), transaction.catId)
+        assertEquals(repository.findCategory(category), transaction.categoryId)
         assertEquals(category, transaction.categoryPath)
     }
 
@@ -107,7 +106,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         val transaction = buildFromExtras(extras)
         assertEquals(
             repository.findCategory("C", repository.findCategory("B")),
-            transaction.catId
+            transaction.categoryId
         )
         assertEquals(category, transaction.categoryPath)
     }
@@ -146,7 +145,6 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         extras.putString(Transactions.ACCOUNT_LABEL, "EUR-Account")
         extras.putString(Transactions.TRANSFER_ACCOUNT_LABEL, "USD-Account")
         val transaction = buildFromExtras(extras)
-        Assert.assertTrue(transaction is Transfer)
-        assertEquals(dollarAccount, transaction.transferAccountId.toLong())
+        assertEquals(dollarAccount, transaction.transferEditData?.transferAccountId)
     }
 }

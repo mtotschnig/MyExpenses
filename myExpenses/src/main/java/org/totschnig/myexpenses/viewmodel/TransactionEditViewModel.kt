@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.RepositoryTemplate
@@ -36,6 +38,9 @@ import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.saveTagsForTemplate
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.updateTemplate
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -74,6 +79,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
@@ -88,6 +94,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.asExtension
@@ -103,6 +110,7 @@ import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import java.io.IOException
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -183,75 +191,127 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         )
     }
 
-    fun save(transaction: TransactionEditData, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
+    @SuppressLint("MissingPermission")
+    fun save(
+        transaction: TransactionEditData,
+        userSetExchangeRate: BigDecimal?
+    ): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            if (transaction.isTemplate) {
-                if (transaction.id == 0L) {
-                    repository.createTemplate(TransactionMapper.mapTemplate(transaction))
-                } else {
-                    repository.updateTemplate(TransactionMapper.mapTemplate(transaction).data)
-                }
-            } else {
-                if (transaction.id == 0L) {
-                    repository.createTransaction(TransactionMapper.mapTransaction(transaction))
-                } else {
-                    repository.updateTransaction(TransactionMapper.mapTransaction(transaction).data)
-                }
-            }
             emit(runCatching {
-/*                transaction.party?.let {
-                    if (it.id == null) {
-                        transaction.party = repository.requireParty(it.name)
+                val transaction = transaction.copy(
+                    party = transaction.party?.let {
+                        (it.id ?: repository.requireParty(it.name))
                             ?.let { id -> DisplayParty(id, it.name) }
                     }
-                }
+                )
+                if (transaction.isTemplate) {
+                    val plan = transaction.templateEditData?.planEditData?.plan?.apply {
+                        save(contentResolver, plannerUtils)
+                    }
+                    val template = TransactionMapper.mapTemplate(transaction).let {
+                        if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
+                            it
+                    }
+                    val id = if (transaction.id == 0L) {
+                        repository.createTemplate(template).id
+                    } else {
+                        repository.updateTemplate(template.data)
+                        transaction.id
+                    }
+                    tagsLiveData.value?.let { repository.saveTagsForTemplate(it, id) }
 
-                transaction.save(repository, plannerUtils, true)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
-                    if (
-                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
-                            .any {
-                                it.id == ShortcutHelper.idTemplate(transaction.id)
+                } else {
+                    val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
+                    transaction.initialPlan?.let { (title, recurrence, date) ->
+                        val title = title
+                            ?: transaction.party?.name
+                            ?: transaction.categoryPath?.takeIf { it.isNotEmpty() }
+                            ?: transaction.comment?.takeIf { it.isNotEmpty() }
+                            ?: localizedContext.getString(R.string.menu_create_template)
+                        val plan = if (recurrence !== Plan.Recurrence.NONE) {
+                            Plan(
+                                date,
+                                recurrence,
+                                title,
+                                "TODO compileDescription"
+                            ).apply {
+                                save(contentResolver, plannerUtils)
                             }
-                    ) {
-                        ShortcutManagerCompat.updateShortcuts(
-                            getApplication(),
-                            listOf(
-                                ShortcutHelper.buildTemplateShortcut(
-                                    getApplication(),
-                                    TODO() //TemplateInfo.fromTemplate(transaction)
-                                )
-                            )
+                        } else null
+                        //TODO withLinkedTransaction
+                        val template = repository.createTemplate(
+                            RepositoryTemplate.fromTransaction(
+                                repositoryTransaction,
+                                title
+                            ).let {
+                                if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
+                                    it
+                            }
                         )
+                        tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
                     }
+                    val id = if (transaction.id == 0L) {
+                        repository.createTransaction(repositoryTransaction).id
+                    } else {
+                        repository.updateTransaction(repositoryTransaction.data)
+                        transaction.id
+                    }
+                    tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
                 }
-                tagsLiveData.value?.let { transaction.saveTags(repository, it) }
-                (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
-                    repository.deleteAttachments(transaction.id, it)
-                }
+                Unit
+                /*                transaction.party?.let {
+                                    if (it.id == null) {
+                                        transaction.party = repository.requireParty(it.name)
+                                            ?.let { id -> DisplayParty(id, it.name) }
+                                    }
+                                }
 
-                val attachments =
-                    (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
-                repository.addAttachments(transaction.id, attachments)
-                (transaction as? Transfer)?.transferPeer?.let {
-                    repository.addAttachments(
-                        it,
-                        attachments
-                    )
-                }
-                val date = epoch2LocalDate(transaction.date)
-                if (date <= LocalDate.now()) {
-                    userSetExchangeRate?.let {
-                        repository.savePrice(
-                            currencyContext.homeCurrencyString,
-                            transaction.amount.currencyUnit.code,
-                            date,
-                            ExchangeRateSource.User,
-                            it.toDouble()
-                        )
-                    }
-                }*/
+                                transaction.save(repository, plannerUtils, true)
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
+                                    if (
+                                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
+                                            .any {
+                                                it.id == ShortcutHelper.idTemplate(transaction.id)
+                                            }
+                                    ) {
+                                        ShortcutManagerCompat.updateShortcuts(
+                                            getApplication(),
+                                            listOf(
+                                                ShortcutHelper.buildTemplateShortcut(
+                                                    getApplication(),
+                                                    TODO() //TemplateInfo.fromTemplate(transaction)
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+                                tagsLiveData.value?.let { transaction.saveTags(repository, it) }
+                                (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
+                                    repository.deleteAttachments(transaction.id, it)
+                                }
+
+                                val attachments =
+                                    (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
+                                repository.addAttachments(transaction.id, attachments)
+                                (transaction as? Transfer)?.transferPeer?.let {
+                                    repository.addAttachments(
+                                        it,
+                                        attachments
+                                    )
+                                }
+                                val date = epoch2LocalDate(transaction.date)
+                                if (date <= LocalDate.now()) {
+                                    userSetExchangeRate?.let {
+                                        repository.savePrice(
+                                            currencyContext.homeCurrencyString,
+                                            transaction.amount.currencyUnit.code,
+                                            date,
+                                            ExchangeRateSource.User,
+                                            it.toDouble()
+                                        )
+                                    }
+                                }*/
             })
         }
 
@@ -320,13 +380,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-/*    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
-        liveData(context = coroutineContext()) {
-            emit(
-                if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
-                    SplitTransaction.cleanupCanceledEdit(contentResolver, id)
-            )
-        }*/
+    /*    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
+            liveData(context = coroutineContext()) {
+                emit(
+                    if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
+                        SplitTransaction.cleanupCanceledEdit(contentResolver, id)
+                )
+            }*/
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
@@ -385,31 +445,37 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         parentId: Long?,
-    ): TransactionEditData? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        TransactionEditData(
-            amount = Money(currencyUnit, 0L),
-            accountId = accountId,
-            parentId = parentId
-        )
-    }
+    ): TransactionEditData? =
+        ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                parentId = parentId
+            )
+        }
 
     suspend fun newTransfer(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         transferAccountId: Long,
         parentId: Long?,
-    ): TransactionEditData? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        TransactionEditData(
-            amount = Money(currencyUnit, 0L),
-            accountId = accountId,
-            parentId = parentId,
-            transferEditData = TransferEditData(transferAccountId = transferAccountId)
-        ).applyDefaultTransferCategory()
-    }
+    ): TransactionEditData? =
+        ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                parentId = parentId,
+                transferEditData = TransferEditData(transferAccountId = transferAccountId)
+            ).applyDefaultTransferCategory()
+        }
 
     suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): TransactionEditData? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-          TODO()
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                categoryId = DatabaseConstants.SPLIT_CATID
+            )
         }
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
@@ -466,7 +532,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    fun transaction(
+    fun read(
         transactionId: Long,
         task: InstantiationTask,
         clone: Boolean,
@@ -478,15 +544,27 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 TransactionMapper.map(it, currencyContext)
             }
 
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)?.instantiate()?.let {
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)
+                ?.instantiate()?.let {
                 TransactionMapper.map(it, currencyContext)
             }
 
             InstantiationTask.TRANSACTION -> repository.loadTransaction(transactionId, true).let {
-                TransactionMapper.map(it, currencyContext)
+                val withCurrentDate = if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+                    ZonedDateTime.now().toEpochSecond() else null
+                TransactionMapper.map(if (clone) it.copy(
+                    data = it.data.copy(
+                        id = 0L,
+                        uuid = null,
+                        date = withCurrentDate ?: it.data.date,
+                        valueDate = withCurrentDate ?: it.data.valueDate
+                    )
+                ) else it, currencyContext)
             }
 
-            InstantiationTask.FROM_INTENT_EXTRAS -> TODO()
+            InstantiationTask.FROM_INTENT_EXTRAS ->
+                ProviderUtils.buildFromExtras(repository, extras!!)
+
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
                 repository.loadTransaction(transactionId, true)
@@ -495,25 +573,25 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             }
         }?.also {
             emit(it)
-/*            pair ->
-            if (forEdit) {
-                pair.first.prepareForEdit(
-                    repository,
-                    clone,
-                    clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
-                )
-            }
-            emit(pair.first)
-            pair.second?.takeIf { it.isNotEmpty() }?.let { updateTags(it, false) }
-            if (task == InstantiationTask.TRANSACTION) {
-                val uriList = repository.loadAttachments(transactionId)
-                //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
-                if (clone) {
-                    addAttachmentUris(*uriList.toTypedArray())
-                } else {
-                    originalUris = ArrayList(uriList)
-                }
-            }*/
+            /*            pair ->
+                        if (forEdit) {
+                            pair.first.prepareForEdit(
+                                repository,
+                                clone,
+                                clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
+                            )
+                        }
+                        emit(pair.first)
+                        pair.second?.takeIf { it.isNotEmpty() }?.let { updateTags(it, false) }
+                        if (task == InstantiationTask.TRANSACTION) {
+                            val uriList = repository.loadAttachments(transactionId)
+                            //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
+                            if (clone) {
+                                addAttachmentUris(*uriList.toTypedArray())
+                            } else {
+                                originalUris = ArrayList(uriList)
+                            }
+                        }*/
         } ?: run {
             emit(null)
         }

@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE
@@ -63,7 +64,8 @@ data class Template(
     /** Read-only property holding the full category path, populated from a provider query. */
     val categoryPath: String? = null,
     val sealed: Boolean = false,
-    val currency: String? = null
+    val currency: String? = null,
+    val payeeName: String? = null,
 )  {
 
     fun asContentValues(): ContentValues {
@@ -111,7 +113,8 @@ data class Template(
         debtId = debtId,
         comment = comment,
         payeeId = payeeId,
-        categoryPath = categoryPath
+        categoryPath = categoryPath,
+        currency = currency
     )
 
     companion object {
@@ -125,6 +128,7 @@ data class Template(
                 payeeId = payeeId,
                 methodId = methodId,
                 transferAccountId = transferAccountId,
+                currency = currency
             )
         }
         fun fromCursor(cursor: Cursor) = with(cursor) {
@@ -150,7 +154,8 @@ data class Template(
                 dynamic = getBoolean(KEY_DYNAMIC),
                 categoryPath = getStringOrNull(KEY_PATH),
                 sealed = getBoolean(KEY_SEALED),
-                currency = getStringOrNull(KEY_CURRENCY)
+                currency = getStringOrNull(KEY_CURRENCY),
+                payeeName = getStringOrNull(KEY_PAYEE_NAME)
             )
         }
     }
@@ -160,7 +165,7 @@ data class Template(
      * Based on the table's CHECK constraint.
      */
     enum class Action {
-        EDIT, SAVE;
+        SAVE, EDIT;
 
         companion object {
             @JvmField

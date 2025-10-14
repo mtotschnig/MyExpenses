@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createTemplate
-import org.totschnig.myexpenses.db2.createTransferTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
@@ -220,7 +219,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSaveTemplateWithAmount() {
-        val template = repository.createTransferTemplate(
+        val template = repository.createTemplate(
             Template(
                 accountId = account1.id,
                 amount = 0L,
