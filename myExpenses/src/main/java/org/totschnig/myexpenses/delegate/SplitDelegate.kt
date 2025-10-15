@@ -12,12 +12,14 @@ import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.SplitPart
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
 class SplitDelegate(
@@ -46,6 +48,9 @@ class SplitDelegate(
 
     @State
     var userSetAmount: Boolean = false
+
+    @State
+    var splitParts: ArrayList<TransactionEditData> = ArrayList()
 
     override fun bind(
         transaction: TransactionEditData?,
@@ -88,6 +93,20 @@ class SplitDelegate(
                 host.copyToClipboard(it)
             }
         }
+
+        transaction?.splitParts?.let { parts ->
+            splitParts.addAll(parts)
+        }
+    }
+
+    fun addSplitPart(part: TransactionEditData) {
+        val existingIndex = splitParts.indexOfFirst { it.uuid == part.uuid }
+        if (existingIndex != -1) {
+            splitParts[existingIndex] = part
+        } else {
+            splitParts.add(part)
+        }
+        showSplits(splitParts)
     }
 
     override fun onAmountChanged() {
@@ -101,20 +120,10 @@ class SplitDelegate(
     }
 
     override fun buildMainTransaction(account: Account): TransactionEditData =
-        if (isTemplate) buildTemplate(account, null) else TODO()
-
-    override fun prepareForNew(): Boolean {
-        super.prepareForNew()
-        val account = currentAccount()!!
-        rowId = SplitTransaction.getNewInstance(
-            repository,
-            account.id,
-            account.currency,
-            true
-        ).id
-        host.viewModel.loadSplitParts(rowId, isTemplate)
-        return true
-    }
+        super.buildMainTransaction(account).copy(
+            categoryId = DatabaseConstants.SPLIT_CATID,
+            splitParts = splitParts
+        )
 
     override fun configureType() {
         super.configureType()
@@ -162,6 +171,7 @@ class SplitDelegate(
             ) { view, _ -> host.openContextMenu(view) }
             viewBinding.list.adapter = adapter
         }
+        showSplits(splitParts)
     }
 
     override fun updateAccount(account: Account, isInitialSetup: Boolean) {
@@ -198,11 +208,24 @@ class SplitDelegate(
 
     override fun missingRecurrenceFeature() = missingRecurrenceFeature
 
-    fun showSplits(transactions: List<SplitPart>) {
-        adapter.submitList(transactions)
+    fun showSplits(transactions: MutableList<TransactionEditData>) {
+        adapter.submitList(transactions.map { part ->
+            SplitPartRVAdapter.SplitPart(
+                uuid = part.uuid!!,
+                amount = part.amount,
+                comment = part.comment,
+                categoryPath = part.categoryPath,
+                transferAccount = part.transferEditData?.transferAccountId?.let { transferAccountId ->
+                    mAccounts.find { it.id == transferAccountId }
+                }?.label,
+                debtLabel = "TODO",
+                tags = part.tags,
+                icon = part.categoryIcon,
+            )
+        })
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
-        transactionSum = transactions.sumOf { it.amountRaw }
+        transactionSum = transactions.sumOf { it.amount.amountMinor }
         updateBalance()
     }
 }

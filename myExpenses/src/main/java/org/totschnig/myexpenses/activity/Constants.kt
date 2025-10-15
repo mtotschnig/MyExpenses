@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 const val CALCULATOR_REQUEST = 0
 const val EDIT_REQUEST = 1
 const val EDIT_ACCOUNT_REQUEST = 2
-const val SELECT_CATEGORY_REQUEST = 7
 const val IMPORT_FILENAME_REQUEST_CODE = 9
 const val CONTRIB_REQUEST = 12
 const val PLAN_REQUEST = 13

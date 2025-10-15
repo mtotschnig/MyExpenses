@@ -56,11 +56,11 @@ import java.time.LocalDateTime
 data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,
-    val splitParts: List<RepositoryTransaction> = emptyList()
+    val splitParts: List<RepositoryTransaction>? = null
 ) {
     val id = data.id
     val isTransfer = transferPeer != null
-    val isSplit = splitParts.isNotEmpty()
+    val isSplit = splitParts != null
 }
 
 fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) = when {
@@ -72,10 +72,25 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) =
 
     repositoryTransaction.isSplit -> createSplitTransaction(
         repositoryTransaction.data,
-        repositoryTransaction.splitParts.map { it.data }
+        repositoryTransaction.splitParts!!.map { it.data }
     )
 
     else -> createTransaction(repositoryTransaction.data)
+}
+
+fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction) = when {
+
+    repositoryTransaction.isTransfer -> updateTransfer(
+        repositoryTransaction.data,
+        repositoryTransaction.transferPeer!!
+    )
+
+    repositoryTransaction.isSplit -> updateSplitTransaction(
+        repositoryTransaction.data,
+        repositoryTransaction.splitParts!!.map { it.data }
+    )
+
+    else -> updateTransaction(repositoryTransaction.data)
 }
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
@@ -177,7 +192,6 @@ fun Repository.updateTransfer(
     val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
     return results[0].count == 1 && results[1].count == 1
 }
-
 
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
@@ -283,6 +297,36 @@ fun Repository.createSplitTransaction(
         }
     }
     return RepositoryTransaction(finalParent, splitParts = enrichedSplitParts)
+}
+
+
+fun Repository.updateSplitTransaction(parentTransaction: Transaction, splitTransactions: List<Transaction>): Boolean {
+    val operations = ArrayList<ContentProviderOperation>()
+    //TODO handle deleted and added transactions
+    operations.add(
+        ContentProviderOperation.newUpdate(
+            ContentUris.withAppendedId(
+                TRANSACTIONS_URI,
+                parentTransaction.id
+            )
+        )
+            .withValues(parentTransaction.asContentValues())
+            .build()
+    )
+    for (transaction in splitTransactions) {
+        operations.add(
+            ContentProviderOperation.newUpdate(
+                ContentUris.withAppendedId(
+                    TRANSACTIONS_URI,
+                    transaction.id
+                )
+            )
+                .withValues(transaction.asContentValues())
+                .build()
+        )
+    }
+    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    return results.all { it.count == 1 }
 }
 
 suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): List<Transaction> {

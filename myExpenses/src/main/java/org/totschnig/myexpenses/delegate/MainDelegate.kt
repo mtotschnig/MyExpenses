@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import kotlin.math.sign
 
 //Transaction or Split
@@ -261,7 +262,13 @@ abstract class MainDelegate(
         super.onSaveInstanceState(outState)
     }
 
-    abstract fun buildMainTransaction(account: Account): TransactionEditData
+    open fun buildMainTransaction(account: Account): TransactionEditData =
+        if (isTemplate) buildTemplate(account, null) else
+            TransactionEditData(
+                amount = Money(account.currency, 0L),
+                date = LocalDateTime.now(),
+                accountId = account.id
+            )
 
     override fun onDestroy() {
         viewBinding.Payee.onDestroy()

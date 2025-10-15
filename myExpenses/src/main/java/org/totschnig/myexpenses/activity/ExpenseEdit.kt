@@ -18,7 +18,6 @@ import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ContentUris
-import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.database.ContentObserver
@@ -44,6 +43,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.content.IntentCompat
+import androidx.core.os.BundleCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -116,7 +116,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
@@ -271,9 +270,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private val parentHasDebt: Boolean
         get() = intent.getBooleanExtra(KEY_PARENT_HAS_DEBT, false)
 
-    val parentPayeeId: Long?
-        get() = intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it != 0L }
-
     @Suppress("UNCHECKED_CAST")
     val parentOriginalAmountExchangeRate: Pair<BigDecimal, Currency>?
         get() = (intent.getSerializableExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE) as? Pair<BigDecimal, Currency>)
@@ -330,6 +326,28 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
     }
+
+    val splitPartContract = object: EditSplitPartContract() {
+        override fun prepareIntent(intent: Intent) {
+            forwardDataEntryFromWidget(intent)
+            intent.putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
+            intent.putExtra(
+                KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE,
+                (delegate as? MainDelegate)?.originalAmountExchangeRate
+            )
+            intent.putExtra(KEY_INCOME, delegate.isIncome)
+            intent.putExtra(KEY_COLOR, color)
+        }
+    }
+
+
+    val splitPartLauncher = registerForActivityResult(splitPartContract) { resultData ->
+        resultData?.let {
+            (delegate as SplitDelegate).addSplitPart(it)
+            setDirty()
+        }
+    }
+
 
     private fun showCategoryWarning() {
         delegate.shouldShowCategoryWarning?.let { type ->
@@ -441,15 +459,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
-                (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(
+                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(
                     notificationId
                 )
             }
             if (Intent.ACTION_INSERT == intent.action && extras != null) {
                 task = FROM_INTENT_EXTRAS
             }
+            val splitPart = extras?.let {
+                BundleCompat.getParcelable(it, KEY_SPLIT_PART, TransactionEditData::class.java)
+            }
+            if (splitPart != null) {
+                populate(splitPart, false)
+            }
             // fetch the transaction or create a new instance
-            if (task != null) {
+            else if (task != null) {
                 viewModel.read(mRowId, task, isClone, true, extras).observe(this) {
                     populateFromTask(it, task)
                 }
@@ -668,10 +692,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             ?: return super.onContextItemSelected(item)
         return when (item.itemId) {
             R.id.EDIT_COMMAND -> {
-                startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
-                    putExtra(if (isTemplate) KEY_TEMPLATEID else KEY_ROWID, info.id)
-                    putExtra(KEY_COLOR, color)
-                }, EDIT_REQUEST)
+                splitPartLauncher.launch(
+                    (delegate as SplitDelegate).splitParts[info.position]
+                )
                 true
             }
 
@@ -707,19 +730,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                     .flowOn(Dispatchers.IO)
                     .collect { showAttachments(it) }
-            }
-        }
-    }
-
-    private fun collectSplitParts() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.splitParts.collect { transactions ->
-                    (delegate as? SplitDelegate)?.also {
-                        it.showSplits(transactions)
-                    }
-                        ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
-                }
             }
         }
     }
@@ -801,14 +811,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.accounts.collect {
-                    val firstLoad = !accountsLoaded
                     setAccounts(it, isInitialSetup)
-                    if (firstLoad) {
-                        collectSplitParts()
-                        if (isSplitParent) {
-                            viewModel.loadSplitParts(delegate.rowId, isTemplate)
-                        }
-                    }
                 }
             }
         }
@@ -936,15 +939,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 originalAmount = cached.originalAmount,
                 equivalentAmount = cached.equivalentAmount
             )
-/*            intent.clipData?.let {
-                viewModel.addAttachmentUris(
-                    *buildList {
-                        for (i in 0 until it.itemCount) {
-                            add(it.getItemAt(i).uri)
-                        }
-                    }.toTypedArray()
-                )
-            }*/
+            /*            intent.clipData?.let {
+                            viewModel.addAttachmentUris(
+                                *buildList {
+                                    for (i in 0 until it.itemCount) {
+                                        add(it.getItemAt(i).uri)
+                                    }
+                                }.toTypedArray()
+                            )
+                        }*/
         } else {
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
                 epoch2LocalDateTime(it).let {
@@ -1057,7 +1060,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 it.isChecked = createNew
                 checkMenuIcon(
                     it,
-                   R.drawable.ic_action_save_new
+                    R.drawable.ic_action_save_new
                 )
             }
             menu.findItem(R.id.CREATE_TEMPLATE_COMMAND)?.let {
@@ -1155,15 +1158,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun loadTemplate(id: Long) {
-        cleanup {
-            val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
-                action = ACTION_CREATE_FROM_TEMPLATE
-                putExtra(KEY_TEMPLATEID, id)
-                putExtra(KEY_INSTANCEID, -1L)
-            }
-            finish()
-            startActivity(restartIntent)
+        val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
+            action = ACTION_CREATE_FROM_TEMPLATE
+            putExtra(KEY_TEMPLATEID, id)
+            putExtra(KEY_INSTANCEID, -1L)
         }
+        finish()
+        startActivity(restartIntent)
     }
 
     override fun doSave(andNew: Boolean) {
@@ -1182,12 +1183,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     override fun doHome() {
-        cleanup {
-            backwardCanceledTagsIntent()?.let {
-                setResult(RESULT_CANCELED, it)
-            }
-            finish()
+        backwardCanceledTagsIntent()?.let {
+            setResult(RESULT_CANCELED, it)
         }
+        finish()
     }
 
     private fun backwardCanceledTagsIntent() =
@@ -1256,22 +1255,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             showSnackBar(R.string.account_list_not_yet_loaded)
             return
         }
-        startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
-            forwardDataEntryFromWidget(this)
-            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
-            putExtra(KEY_ACCOUNTID, account.id)
-            putExtra(KEY_PARENTID, delegate.rowId)
-            putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
-            putExtra(
-                KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE,
-                (delegate as? MainDelegate)?.originalAmountExchangeRate
-            )
-            putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
-            putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
-            putExtra(KEY_INCOME, delegate.isIncome)
-            putExtra(KEY_COLOR, color)
-            prefillAmount?.let { putExtra(KEY_AMOUNT, prefillAmount) }
-        }, EDIT_REQUEST)
+        splitPartLauncher.launch(TransactionEditData(
+            id = 0,
+            uuid = Model.generateUuid(),
+            //crStatus = CrStatus.UNRECONCILED //TODO
+            accountId = account.id,
+            amount = Money(account.currency, prefillAmount ?: BigDecimal.ZERO),
+            templateEditData = if (isMainTemplate) TemplateEditData() else null,
+            isSplitPart = true
+        ))
     }
 
     /**
@@ -1302,39 +1294,47 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override fun saveState() {
         if (::delegate.isInitialized) {
             delegate.syncStateAndValidate(true)?.let { transaction ->
-                isSaving = true
-                if (planInstanceId > 0L) {
-                //TODO
-                //transaction.originPlanInstanceId = planInstanceId
-                }
-                viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate)
-                    .observe(this) {
-                        onSaved(it, transaction)
-                    }
-                if (wasStartedFromWidget) {
-                    when (operationType) {
-                        TYPE_TRANSACTION -> prefHandler.putLong(
-                            PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,
-                            accountId
-                        )
+                if (transaction.isSplitPart) {
+                    setResult(RESULT_OK, Intent().apply {
+                        putExtra(KEY_SPLIT_PART, transaction)
+                    })
+                    finish()
+                } else {
 
-                        TYPE_TRANSFER -> {
-                            prefHandler.putLong(
-                                PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET,
+                    isSaving = true
+                    if (planInstanceId > 0L) {
+                        //TODO
+                        //transaction.originPlanInstanceId = planInstanceId
+                    }
+                    viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate)
+                        .observe(this) {
+                            onSaved(it, transaction)
+                        }
+                    if (wasStartedFromWidget) {
+                        when (operationType) {
+                            TYPE_TRANSACTION -> prefHandler.putLong(
+                                PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,
                                 accountId
                             )
-                            (delegate as? TransferDelegate)?.transferAccountId?.let {
-                                prefHandler.putLong(
-                                    PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,
-                                    it
-                                )
-                            }
-                        }
 
-                        TYPE_SPLIT -> prefHandler.putLong(
-                            PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET,
-                            accountId
-                        )
+                            TYPE_TRANSFER -> {
+                                prefHandler.putLong(
+                                    PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET,
+                                    accountId
+                                )
+                                (delegate as? TransferDelegate)?.transferAccountId?.let {
+                                    prefHandler.putLong(
+                                        PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,
+                                        it
+                                    )
+                                }
+                            }
+
+                            TYPE_SPLIT -> prefHandler.putLong(
+                                PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET,
+                                accountId
+                            )
+                        }
                     }
                 }
             }
@@ -1351,9 +1351,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             PLAN_REQUEST -> finish()
-            EDIT_REQUEST -> if (resultCode == RESULT_OK) {
-                setDirty()
-            }
         }
     }
 
@@ -1362,24 +1359,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun dispatchOnBackPressed() {
         hideKeyboard()
-        cleanup {
-            backwardCanceledTagsIntent()?.let {
-                setResult(RESULT_CANCELED, it)
-            }
-            doHome()
+        backwardCanceledTagsIntent()?.let {
+            setResult(RESULT_CANCELED, it)
         }
-    }
-
-    private fun cleanup(onComplete: () -> Unit) {
-        if (isSplitParent && ::delegate.isInitialized) {
-            delegate.rowId.let {
-/*                viewModel.cleanupSplit(it, isTemplate).observe(this) {
-                    onComplete()
-                }*/
-            }
-        } else {
-            onComplete()
-        }
+        doHome()
     }
 
     /**
@@ -1430,33 +1413,31 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val bundle = Bundle()
         bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
         logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
-        cleanup {
-            val restartIntent = intent.apply {
-                putExtra(Transactions.OPERATION_TYPE, newType)
-                delegate.syncStateAndValidate(false)?.let {
-                    putExtra(
-                        KEY_CACHED_DATA, it.toCached(
-                            delegate.recurrenceSpinner.selectedItem as? Recurrence,
-                            delegate.planButton.date
-                        )
+        val restartIntent = intent.apply {
+            putExtra(Transactions.OPERATION_TYPE, newType)
+            delegate.syncStateAndValidate(false)?.let {
+                putExtra(
+                    KEY_CACHED_DATA, it.toCached(
+                        delegate.recurrenceSpinner.selectedItem as? Recurrence,
+                        delegate.planButton.date
                     )
-                }
-                putExtra(KEY_CREATE_TEMPLATE, createTemplate)
-                val attachments = viewModel.attachmentUris.value
-                if (attachments.isNotEmpty()) {
-                    clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
-                        if (attachments.size > 1) {
-                            attachments.subList(1, attachments.size).forEach {
-                                addItem(ClipData.Item(it))
-                            }
+                )
+            }
+            putExtra(KEY_CREATE_TEMPLATE, createTemplate)
+            val attachments = viewModel.attachmentUris.value
+            if (attachments.isNotEmpty()) {
+                clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
+                    if (attachments.size > 1) {
+                        attachments.subList(1, attachments.size).forEach {
+                            addItem(ClipData.Item(it))
                         }
                     }
-                    flags = FLAG_GRANT_READ_URI_PERMISSION
                 }
+                flags = FLAG_GRANT_READ_URI_PERMISSION
             }
-            finish()
-            startActivity(restartIntent)
         }
+        finish()
+        startActivity(restartIntent)
     }
 
     private fun doFinish() {
@@ -1610,7 +1591,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
-        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+        when (args.getInt(KEY_COMMAND_POSITIVE)) {
             R.id.AUTO_FILL_COMMAND -> {
                 startAutoFill(args.getLong(KEY_ROWID), true)
                 enableAutoFill(prefHandler)
@@ -1883,6 +1864,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                     true
                 }
+
                 else -> false
             }
         } else false

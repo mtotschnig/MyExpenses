@@ -34,7 +34,7 @@ import kotlin.math.roundToLong
 
 data class RepositoryTemplate(
     val data: Template,
-    val splitParts: List<RepositoryTemplate> = emptyList(),
+    val splitParts: List<RepositoryTemplate>? = null,
     val plan: Plan? = null
 ) {
     val id = data.id
@@ -54,7 +54,7 @@ data class RepositoryTemplate(
                     currency = data.currency
                 )
             } else null,
-            splitParts = splitParts.map { it.instantiate() }
+            splitParts = splitParts?.map { it.instantiate() }
         )
     }
 
@@ -64,7 +64,7 @@ data class RepositoryTemplate(
             title: String = ""
         ) = RepositoryTemplate(
             data = Template.deriveFrom(t.data, title),
-            splitParts = t.splitParts.map {
+            splitParts = t.splitParts?.map {
                 RepositoryTemplate(Template.deriveFrom(it.data, ""))
             }
         )

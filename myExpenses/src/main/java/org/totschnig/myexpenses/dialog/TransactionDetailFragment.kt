@@ -473,7 +473,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 content = transaction.originTemplate
             )
         }
-        if (transaction.tagList.isNotEmpty()) {
+        if (transaction.tags.isNotEmpty()) {
             val interactionSource = remember { NoRippleInteractionSource() }
             TableRow(stringResource(R.string.tags)) {
                 CompositionLocalProvider(
@@ -484,7 +484,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        for (tag in transaction.tagList) {
+                        for (tag in transaction.tags) {
                             SuggestionChip(
                                 colors = SuggestionChipDefaults.suggestionChipColors(
                                     containerColor = tag.color?.let { Color(it) }
@@ -618,7 +618,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                     var isNotEmpty = false
                     when {
                         part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
-                            part.amountRaw
+                            part.amount.amountMinor
                         ) + part.transferAccount
                         part.isSplit -> getString(R.string.split_transaction)
                         else -> part.categoryPath
@@ -656,7 +656,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         }
                     }
 
-                    part.tagList.takeIf { it.isNotEmpty() }?.let {
+                    part.tags.takeIf { it.isNotEmpty() }?.let {
                         if (isNotEmpty) {
                             append(COMMENT_SEPARATOR)
                         }

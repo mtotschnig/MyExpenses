@@ -95,6 +95,9 @@ abstract class TransactionDelegate(
     @State
     var catType: Byte = FLAG_NEUTRAL
 
+    @State
+    var isSplitPart = false
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -175,8 +178,6 @@ abstract class TransactionDelegate(
     open val shouldAutoFill
         get() = !isTemplate
 
-    val isSplitPart
-        get() = parentId != null
     private val isMainTemplate
         get() = isTemplate && !isSplitPart
 
@@ -259,6 +260,7 @@ abstract class TransactionDelegate(
             //works around a bug in some legacy virtual keyboards where configuring the
             //editText too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
+            isSplitPart = transaction.isSplitPart
         } else {
             try {
                 StateSaver.restoreInstanceState(this, savedInstanceState)
@@ -788,6 +790,7 @@ abstract class TransactionDelegate(
             val date =
                 if (isMainTransaction) readLocalDateTime(dateEditBinding.DateButton) else transaction.date
             transaction.copy(
+                isSplitPart = isSplitPart,
                 categoryId = this@TransactionDelegate.catId,
                 categoryPath = this@TransactionDelegate.label,
                 originTemplateId = this@TransactionDelegate.originTemplateId,
@@ -796,7 +799,8 @@ abstract class TransactionDelegate(
                 comment = viewBinding.Comment.text.toString(),
                 date = date,
                 valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
-                crStatus = this@TransactionDelegate.crStatus
+                crStatus = this@TransactionDelegate.crStatus,
+                parentId = parentId
             ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {

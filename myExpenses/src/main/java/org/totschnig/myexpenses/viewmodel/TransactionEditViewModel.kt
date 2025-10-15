@@ -15,13 +15,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,7 +50,6 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
@@ -70,7 +66,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
@@ -80,7 +75,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
-import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNT_TYPE_LIST
@@ -103,7 +97,6 @@ import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.viewmodel.data.SplitPart
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
@@ -119,8 +112,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     @Inject
     lateinit var plannerUtils: PlannerUtils
-
-    private val splitPartLoader = MutableStateFlow<Pair<Long, Boolean>?>(null)
 
     private var loadMethodJob: Job? = null
 
@@ -253,7 +244,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     val id = if (transaction.id == 0L) {
                         repository.createTransaction(repositoryTransaction).id
                     } else {
-                        repository.updateTransaction(repositoryTransaction.data)
+                        repository.updateTransaction(repositoryTransaction)
                         transaction.id
                     }
                     tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
@@ -380,14 +371,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    /*    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
-            liveData(context = coroutineContext()) {
-                emit(
-                    if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
-                        SplitTransaction.cleanupCanceledEdit(contentResolver, id)
-                )
-            }*/
-
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
             updateTags(repository.loadActiveTagsForAccount(id), false)
@@ -477,30 +460,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 categoryId = DatabaseConstants.SPLIT_CATID
             )
         }
-
-    fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
-        splitPartLoader.tryEmit(parentId to parentIsTemplate)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val splitParts = splitPartLoader.filterNotNull().flatMapLatest { (parentId, parentIsTemplate) ->
-        contentResolver.observeQuery(
-            uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
-            else TransactionProvider.UNCOMMITTED_URI,
-            projection = listOfNotNull(
-                KEY_ROWID,
-                KEY_AMOUNT,
-                KEY_COMMENT,
-                KEY_PATH,
-                KEY_TRANSFER_ACCOUNT,
-                TRANSFER_ACCOUNT_LABEL,
-                if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                KEY_ICON
-            ).toTypedArray(),
-            selection = "$KEY_PARENTID = ?",
-            selectionArgs = arrayOf(parentId.toString())
-        ).mapToList { SplitPart.fromCursor(it, repository) }
-    }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
         _moveResult.update {

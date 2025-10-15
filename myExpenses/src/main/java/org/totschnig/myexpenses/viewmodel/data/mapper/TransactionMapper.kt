@@ -52,7 +52,12 @@ object TransactionMapper {
                     transferAmount = Money(currencyUnit, it.amount)
                 )
             },
-            isSealed = transaction.sealed
+            isSealed = transaction.sealed,
+            splitParts = repositoryTransaction.splitParts?.map {
+                map(it, currencyContext).copy(
+                    isSplitPart = true
+                )
+            }
         )
     }
 
@@ -100,15 +105,19 @@ object TransactionMapper {
                     transferAmount = null //TODO is this correct?
                 )
             },
-            isSealed = template.sealed
+            isSealed = template.sealed,
+            splitParts = repositoryTemplate.splitParts?.map { map(it, currencyContext) }
         )
     }
 
-    fun mapTransaction(transactionEditData: TransactionEditData): RepositoryTransaction {
+    fun mapTransaction(
+        transactionEditData: TransactionEditData,
+        date: Long = transactionEditData.date.atZone(ZoneId.systemDefault()).toInstant().epochSecond
+    ): RepositoryTransaction {
         val transaction = Transaction(
             id = transactionEditData.id,
             amount = transactionEditData.amount.amountMinor,
-            date = transactionEditData.date.atZone(ZoneId.systemDefault()).toInstant().epochSecond,
+            date = date,
             accountId = transactionEditData.accountId,
             categoryId = transactionEditData.categoryId,
             methodId = transactionEditData.methodId,
@@ -122,25 +131,29 @@ object TransactionMapper {
             comment = transactionEditData.comment,
             referenceNumber = transactionEditData.referenceNumber,
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
-            payeeId = transactionEditData.party?.id
+            payeeId = transactionEditData.party?.id,
+            transferPeerId = transactionEditData.transferEditData?.transferPeer
         )
-        val transferPeer = if (transactionEditData.isTransfer) {
-            val transferEditData = transactionEditData.transferEditData!!
+        val transferPeer = transactionEditData.transferEditData?.let { transferEditData ->
             Transaction(
                 id = transferEditData.transferPeer ?: 0,
-                amount = transactionEditData.transferEditData.transferAmount?.amountMinor
+                amount = transferEditData.transferAmount?.amountMinor
                     ?: -transactionEditData.amount.amountMinor,
-                date = transactionEditData.date.atZone(ZoneId.systemDefault()).toInstant().epochSecond,
+                date = date,
                 accountId = transferEditData.transferAccountId,
                 transferAccountId = transactionEditData.accountId,
                 categoryId = transactionEditData.categoryId,
-                comment = transactionEditData.comment
+                comment = transactionEditData.comment,
+                transferPeerId = transactionEditData.id,
+                uuid = transactionEditData.uuid
             )
-        } else null
+        }
         return RepositoryTransaction(
             data = transaction,
             transferPeer = transferPeer,
-            splitParts = emptyList() // TODO
+            splitParts = transactionEditData.splitParts?.map {
+                mapTransaction(it, date)
+            }
         )
     }
 
@@ -162,6 +175,9 @@ object TransactionMapper {
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
             payeeId = transactionEditData.party?.id
         )
-        return RepositoryTemplate(data = template)
+        return RepositoryTemplate(
+            data = template,
+            splitParts = transactionEditData.splitParts?.map { mapTemplate(it) }
+        )
     }
 }

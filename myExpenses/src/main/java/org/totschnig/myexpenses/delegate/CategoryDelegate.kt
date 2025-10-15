@@ -57,14 +57,6 @@ class CategoryDelegate(
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
     }
 
-    override fun buildMainTransaction(account: Account): TransactionEditData =
-        if (isTemplate) buildTemplate(account, null) else
-            TransactionEditData(
-                amount = Money(account.currency, 0L),
-                date = LocalDateTime.now(),
-                accountId = account.id
-            )
-
     override fun configureType() {
         super.configureType()
         setCategoryButton()

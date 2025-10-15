@@ -87,7 +87,7 @@ class TransferDelegate(
     ) {
         if (transaction?.transferEditData != null) {
             transferAccountId = transaction.transferEditData.transferAccountId
-            transferPeer = transaction.transferEditData.transferAccountId
+            transferPeer = transaction.transferEditData.transferPeer
             passedInTransferAmount = transaction.transferEditData.transferAmount?.amountMinor
             passedInTransferAccountId = transaction.transferEditData.transferAccountId
             transaction.transferEditData.transferAmount?.let {
@@ -296,6 +296,7 @@ class TransferDelegate(
                 accountId = currentAccount.id,
                 amount = amount,
                 transferEditData = TransferEditData(
+                    transferPeer = transferPeer,
                     transferAccountId = transferAccount.id,
                     transferAmount = transferAmount
                 )

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
@@ -76,18 +75,17 @@ import java.time.ZonedDateTime
 
 
 data class Transaction(
-    override val id: Long,
+    val id: Long,
     val accountId: Long,
-    override val amountRaw: Long,
     val amount: Money,
     val date: ZonedDateTime,
     val valueDate: Long,
-    override val comment: String?,
+    val comment: String?,
     val catId: Long?,
     val party: DisplayParty?,
     val methodLabel: String?,
-    override val categoryPath: String?,
-    override val transferAccount: String?,
+    val categoryPath: String?,
+    val transferAccount: String?,
     val transferPeer: Long?,
     val transferAmount: Money?,
     val transferPeerIsPart: Boolean,
@@ -100,19 +98,21 @@ data class Transaction(
     val isSealed: Boolean,
     val accountLabel: String,
     val accountType: AccountType?,
-    override val debtLabel: String?,
-    override val tagList: List<Tag>,
-    override val icon: String? = null,
+    val debtLabel: String?,
+    val tags: List<Tag>,
+    val icon: String? = null,
     val iban: String? = null,
     val status: Int = STATUS_NONE,
     val type: Byte = FLAG_NEUTRAL
-) : SplitPartRVAdapter.ITransaction {
+) {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } != false
     val isSplit
         get() = SPLIT_CATID == catId
     val isArchive
         get() = status == STATUS_ARCHIVE
+    val isTransfer
+        get() = transferAccount != null
 
     companion object {
         fun projection(
@@ -169,8 +169,6 @@ data class Transaction(
             accountType: AccountType? = null
         ): Transaction {
             val currencyUnit = currencyContext[getString(KEY_CURRENCY)]
-            val amountRaw = getLong(KEY_AMOUNT)
-            val money = Money(currencyUnit, amountRaw)
             val transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT)
             val date: Long = getLong(KEY_DATE)
             val transferPeer = getLongOrNull(KEY_TRANSFER_PEER)
@@ -179,8 +177,7 @@ data class Transaction(
             return Transaction(
                 id = id,
                 accountId = getLong(KEY_ACCOUNTID),
-                amountRaw = amountRaw,
-                amount = money,
+                amount = Money(currencyUnit, this.getLong(KEY_AMOUNT)),
                 date = epoch2ZonedDateTime(date),
                 valueDate = getLongOrNull(KEY_VALUE_DATE) ?: date,
                 comment = getStringOrNull(KEY_COMMENT),
@@ -218,7 +215,7 @@ data class Transaction(
                 transferPeerIsPart = getBoolean(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = getBoolean(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
-                tagList = repository.loadTagsForTransaction(id),
+                tags = repository.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),
                 iban = getStringOrNull(KEY_IBAN),
                 status = getInt(KEY_STATUS),

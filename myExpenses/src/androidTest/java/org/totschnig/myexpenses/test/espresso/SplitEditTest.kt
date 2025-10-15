@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
-import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -30,9 +29,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard5
@@ -61,19 +57,6 @@ class SplitEditTest : BaseExpenseEditTest() {
         get() = intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }
-
-    private fun assertUncommittedCount(uri: Uri, count: Int) {
-        assertThat(repository.count(uri, "$KEY_STATUS= $STATUS_UNCOMMITTED"))
-            .isEqualTo(count)
-    }
-
-    private fun assertUncommittedTransactions(count: Int) {
-        assertUncommittedCount(TransactionProvider.UNCOMMITTED_URI, count)
-    }
-
-    private fun assertUncommittedTemplates(count: Int) {
-        assertUncommittedCount(TransactionProvider.TEMPLATES_UNCOMMITTED_URI, count)
-    }
 
     private fun launchWithAccountSetup(
         excludeFromTotals: Boolean = false,
@@ -159,21 +142,17 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun canceledSplitCleanup() {
         launchWithAccountSetup()
-        assertUncommittedTransactions(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertCanceled()
-        assertUncommittedTransactions(0)
     }
 
     @Test
     fun canceledTemplateSplitCleanup() {
         launchWithAccountSetup { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
-        assertUncommittedTemplates(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertCanceled()
-        assertUncommittedTemplates(0)
     }
 
     /*
@@ -182,23 +161,18 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun loadCancelCleanup() {
         launchEdit()
-        assertUncommittedTransactions(2)
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertCanceled()
-        assertUncommittedTransactions(0)
     }
 
     @Test
     fun loadCancelRotateCleanup() {
         launchEdit()
-        assertUncommittedTransactions(2)
         doWithRotation {
-            assertUncommittedTransactions(2)
             closeSoftKeyboard()
             pressBackUnconditionally()
             assertCanceled()
-            assertUncommittedTransactions(0)
         }
     }
 
