@@ -99,13 +99,28 @@ class SplitDelegate(
         }
     }
 
-    fun addSplitPart(part: TransactionEditData) {
-        val existingIndex = splitParts.indexOfFirst { it.uuid == part.uuid }
-        if (existingIndex != -1) {
-            splitParts[existingIndex] = part
-        } else {
-            splitParts.add(part)
+    override fun prepareForNew(): Boolean {
+        super.prepareForNew()
+        splitParts.clear()
+        showSplits(splitParts)
+        return true
+    }
+
+    fun addSplitParts(parts: ArrayList<TransactionEditData>) {
+        parts.forEach { part ->
+            val existingIndex = splitParts.indexOfFirst { it.uuid == part.uuid }
+            if (existingIndex != -1) {
+                splitParts[existingIndex] = part
+            } else {
+                splitParts.add(part)
+            }
         }
+
+        showSplits(splitParts)
+    }
+
+    fun removeSplitPart(position: Int) {
+        splitParts.removeAt(position)
         showSplits(splitParts)
     }
 
@@ -176,26 +191,7 @@ class SplitDelegate(
 
     override fun updateAccount(account: Account, isInitialSetup: Boolean) {
         requireAdapter()
-        if (adapter.itemCount > 0) { //call background task for moving parts to new account
-            host.startMoveSplitParts(rowId, account.id)
-        } else {
-            updateAccountDo(account, isInitialSetup)
-        }
-    }
-
-    private fun updateAccountDo(account: Account, isInitialSetup: Boolean) {
-        super.updateAccount(account, isInitialSetup)
-        adapter.currencyUnit = account.currency
-        //noinspection NotifyDataSetChanged
-        adapter.notifyDataSetChanged()
-        updateBalance()
-    }
-
-    fun onUncommittedSplitPartsMoved(success: Boolean) {
-        val account = getAccountFromSpinner(accountSpinner)!!
-        if (success) {
-            super.updateAccount(account, false)
-        } else {
+        if (adapter.itemCount > 0 && splitParts.any { it.transferEditData?.transferAccountId == account.id }) {
             accountSpinner.setSelection(accountAdapter.getPosition(accountId!!))
             host.showSnackBar(
                 host.getString(
@@ -203,6 +199,12 @@ class SplitDelegate(
                     account.label
                 )
             )
+        } else {
+            super.updateAccount(account, isInitialSetup)
+            adapter.currencyUnit = account.currency
+            //noinspection NotifyDataSetChanged
+            adapter.notifyDataSetChanged()
+            updateBalance()
         }
     }
 

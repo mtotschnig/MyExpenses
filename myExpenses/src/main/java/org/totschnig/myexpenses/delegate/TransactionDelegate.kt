@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
+import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -42,6 +43,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
@@ -328,6 +330,10 @@ abstract class TransactionDelegate(
         }
         setCategoryButton()
         viewBinding.Amount.addTextChangedListener(amountChangeWatcher)
+
+        if (isSplitPart) {
+            disableAccountSpinner()
+        }
     }
 
     val amountChangeWatcher = object : MyTextWatcher() {
@@ -547,7 +553,7 @@ abstract class TransactionDelegate(
         val allowedOperationTypes: MutableList<Int> = ArrayList()
         allowedOperationTypes.add(TYPE_TRANSACTION)
         allowedOperationTypes.add(TYPE_TRANSFER)
-        if (parentId == null) {
+        if (!isSplitPart) {
             allowedOperationTypes.add(TYPE_SPLIT)
         }
         val objects = allowedOperationTypes.map {
@@ -674,7 +680,6 @@ abstract class TransactionDelegate(
                             resetOperationType()
                         }
                     } else if (newType == TYPE_SPLIT) {
-                        resetOperationType()
                         if (isTemplate) {
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
                                 host.restartWithType(newType)
@@ -1024,7 +1029,7 @@ abstract class TransactionDelegate(
 
     open fun prepareForNew() = if (resetAmounts()) {
         rowId = 0L
-        uuid = null
+        uuid = generateUuid()
         crStatus = CrStatus.UNRECONCILED
         resetRecurrence()
         populateStatusSpinner()
@@ -1082,7 +1087,7 @@ abstract class TransactionDelegate(
         setPlannerRowVisibility(createTemplate)
     }
 
-    data class OperationType(val type: Int) {
+    data class OperationType(@param:TransactionsContract.Transactions.TransactionType val type: Int) {
         var label: String = ""
 
         override fun toString(): String {

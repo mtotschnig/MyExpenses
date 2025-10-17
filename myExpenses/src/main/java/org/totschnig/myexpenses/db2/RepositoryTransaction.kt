@@ -53,6 +53,8 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+//TODO check if caller should pass in uuid
+
 data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,

@@ -91,7 +91,6 @@ abstract class MainDelegate(
         viewBinding.EquivalentAmount.addTextChangedListener(amountChangeWatcher)
 
         if (isSplitPart) {
-            disableAccountSpinner()
             host.parentOriginalAmountExchangeRate?.let {
                 originalAmountVisible = true
                 originalCurrencyCode = it.second.code

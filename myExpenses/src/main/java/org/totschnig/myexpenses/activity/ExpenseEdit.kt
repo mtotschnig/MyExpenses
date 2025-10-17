@@ -16,15 +16,12 @@ package org.totschnig.myexpenses.activity
 
 import android.app.NotificationManager
 import android.content.ActivityNotFoundException
-import android.content.ClipData
 import android.content.ContentUris
 import android.content.Intent
-import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.os.Parcelable
 import android.provider.CalendarContract
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -57,7 +54,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories.Companion.KEY_PROTECTION_INFO
@@ -155,15 +151,12 @@ import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Instantiation
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.viewmodel.data.PlanEditData
-import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -229,6 +222,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     @State
     var withTypeSpinner = false
 
+    @State
+    var isSplitPart: Boolean = false
+
+    @State
+    var splitPartsResultList: ArrayList<TransactionEditData> = arrayListOf()
+
     private var mIsResumed = false
     private var accountsLoaded = false
     private var pObserver: ContentObserver? = null
@@ -251,9 +250,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private val isSplitParent: Boolean
         get() = operationType == TYPE_SPLIT
-
-    private val isSplitPart: Boolean
-        get() = parentId != 0L
 
     private val isSplitPartOrTemplate: Boolean
         get() = isSplitPart || isTemplate
@@ -343,7 +339,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     val splitPartLauncher = registerForActivityResult(splitPartContract) { resultData ->
         resultData?.let {
-            (delegate as SplitDelegate).addSplitPart(it)
+            (delegate as SplitDelegate).addSplitParts(it)
             setDirty()
         }
     }
@@ -467,9 +463,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 task = FROM_INTENT_EXTRAS
             }
             val splitPart = extras?.let {
-                BundleCompat.getParcelable(it, KEY_SPLIT_PART, TransactionEditData::class.java)
+                BundleCompat.getParcelable(it, KEY_SPLIT_PART_LIST, TransactionEditData::class.java)
             }
             if (splitPart != null) {
+                isSplitPart = true
                 populate(splitPart, false)
             }
             // fetch the transaction or create a new instance
@@ -699,14 +696,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
 
             R.id.DELETE_COMMAND -> {
-                if (isTemplate) {
-                    viewModel.deleteTemplates(longArrayOf(info.id), false)
-                        .observe(this) {
-                            onDeleteResult(it)
-                        }
-                } else {
-                    viewModel.deleteTransactions(longArrayOf(info.id))
-                }
+                (delegate as SplitDelegate).removeSplitPart(info.position)
                 true
             }
 
@@ -720,7 +710,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
-        observeMoveResult()
         observeAutoFillData()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -895,12 +884,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         IntentCompat.getParcelableExtra(intent, KEY_URI, Uri::class.java)?.let {
             viewModel.addAttachmentUris(it)
         }
-        if (!intent.hasExtra(KEY_CACHED_DATA)) {
-            delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
-            IntentCompat.getSerializableExtra(intent, KEY_AMOUNT, BigDecimal::class.java)?.let {
-                delegate.fillAmount(it)
-                (delegate as? TransferDelegate)?.configureTransferDirection()
-            }
+        delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
+        IntentCompat.getSerializableExtra(intent, KEY_AMOUNT, BigDecimal::class.java)?.let {
+            delegate.fillAmount(it)
+            (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
 
@@ -914,50 +901,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 crStatus = CrStatus.UNRECONCILED
             )
         } else transaction
-        //processing data from user switching operation type
-        val cached = intent.getParcelableExtra(KEY_CACHED_DATA) as? CachedTransaction
-        t = if (cached != null) {
-            setDirty()
-            t.copy(
-                accountId = cached.accountId,
-                methodId = cached.methodId,
-                date = cached.date,
-                valueDate = cached.valueDate,
-                crStatus = cached.crStatus,
-                comment = cached.comment,
-                party = cached.party,
-                templateEditData = if (t.isTemplate && cached.cachedTemplate != null) t.templateEditData?.copy(
-                    title = cached.cachedTemplate.title ?: "",
-                    planEditData = PlanEditData(
-                        plan = null,
-                        isPlanExecutionAutomatic = cached.cachedTemplate.isPlanExecutionAutomatic,
-                        planExecutionAdvance = cached.cachedTemplate.planExecutionAdvance
-                    )
-                ) else null,
-                referenceNumber = cached.referenceNumber,
-                amount = cached.amount,
-                originalAmount = cached.originalAmount,
-                equivalentAmount = cached.equivalentAmount
-            )
-            /*            intent.clipData?.let {
-                            viewModel.addAttachmentUris(
-                                *buildList {
-                                    for (i in 0 until it.itemCount) {
-                                        add(it.getItemAt(i).uri)
-                                    }
-                                }.toTypedArray()
-                            )
-                        }*/
-        } else {
-            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
-                epoch2LocalDateTime(it).let {
-                    t.copy(
-                        date = it,
-                        valueDate = it.toLocalDate()
-                    )
-                }
-            } ?: t
-        }
+        t = intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
+            epoch2LocalDateTime(it).let {
+                t.copy(
+                    date = it,
+                    valueDate = it.toLocalDate()
+                )
+            }
+        } ?: t
         operationType = transaction.operationType
         updateOnBackPressedCallbackEnabled()
         delegate = TransactionDelegate.create(
@@ -976,12 +927,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             t,
             withTypeSpinner,
             null,
-            cached?.recurrence,
+            null,
             withAutoFill
         )
-        cached?.cachedTemplate?.date?.let {
-            delegate.planButton.setDate(it)
-        }
         if (accountsLoaded) {
             delegate.setAccount(newInstance)
         }
@@ -993,9 +941,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             configureFloatingActionButton()
         }
         invalidateOptionsMenu()
-        cached?.tags?.let {
-            viewModel.updateTags(it, true)
-        }
     }
 
     private val saveAndNewPrefKey: PrefKey
@@ -1295,10 +1240,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (::delegate.isInitialized) {
             delegate.syncStateAndValidate(true)?.let { transaction ->
                 if (transaction.isSplitPart) {
-                    setResult(RESULT_OK, Intent().apply {
-                        putExtra(KEY_SPLIT_PART, transaction)
-                    })
-                    finish()
+                    splitPartsResultList.add(transaction)
+                    if (createNew && delegate.prepareForNew()) {
+                        newInstance = true
+                        clearDirty()
+                        showSnackBar(
+                            getString(R.string.save_transaction_and_new_success),
+                            Snackbar.LENGTH_SHORT
+                        )
+                    } else {
+                        setResult(RESULT_OK, Intent().apply {
+                            putExtra(KEY_SPLIT_PART_LIST, splitPartsResultList)
+                        })
+                        finish()
+                    }
                 } else {
 
                     isSaving = true
@@ -1409,35 +1364,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    fun restartWithType(newType: Int) {
-        val bundle = Bundle()
-        bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
-        logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
-        val restartIntent = intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, newType)
-            delegate.syncStateAndValidate(false)?.let {
-                putExtra(
-                    KEY_CACHED_DATA, it.toCached(
-                        delegate.recurrenceSpinner.selectedItem as? Recurrence,
-                        delegate.planButton.date
-                    )
-                )
-            }
-            putExtra(KEY_CREATE_TEMPLATE, createTemplate)
-            val attachments = viewModel.attachmentUris.value
-            if (attachments.isNotEmpty()) {
-                clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
-                    if (attachments.size > 1) {
-                        attachments.subList(1, attachments.size).forEach {
-                            addItem(ClipData.Item(it))
-                        }
-                    }
-                }
-                flags = FLAG_GRANT_READ_URI_PERMISSION
-            }
-        }
-        finish()
-        startActivity(restartIntent)
+    fun restartWithType(@Transactions.TransactionType newType: Int) {
+        logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, Bundle().apply {
+            putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
+        })
+        operationType = newType
+        recreate()
     }
 
     private fun doFinish() {
@@ -1717,61 +1649,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
     }
 
-    @Parcelize
-    data class CachedTransaction(
-        val accountId: Long,
-        val methodId: Long?,
-        val date: LocalDateTime,
-        val valueDate: LocalDate,
-        val crStatus: CrStatus,
-        val comment: String?,
-        val party: DisplayParty?,
-        val cachedTemplate: CachedTemplate?,
-        val referenceNumber: String?,
-        val amount: Money,
-        val originalAmount: Money?,
-        val equivalentAmount: Money?,
-        val recurrence: Recurrence?,
-        val tags: List<Tag>?,
-    ) : Parcelable
-
-    @Parcelize
-    data class CachedTemplate(
-        val title: String?,
-        val isPlanExecutionAutomatic: Boolean,
-        val planExecutionAdvance: Int,
-        val date: LocalDate,
-    ) : Parcelable
-
-    private fun TransactionEditData.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
-        CachedTransaction(
-            accountId,
-            methodId,
-            templateEditData?.planEditData?.plan?.dtStart?.let { epoch2LocalDateTime(it) } ?: date,
-            valueDate,
-            crStatus,
-            comment,
-            party,
-            templateEditData?.let {
-                CachedTemplate(
-                    it.title,
-                    it.planEditData?.isPlanExecutionAutomatic ?: false,
-                    it.planEditData?.planExecutionAdvance ?: 0,
-                    withPlanDate
-                )
-            },
-            referenceNumber,
-            amount,
-            originalAmount,
-            equivalentAmount,
-            withRecurrence,
-            viewModel.tagsLiveData.value
-        )
-
     companion object {
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
-        private const val KEY_CACHED_DATA = "cachedData"
         const val KEY_CREATE_TEMPLATE = "createTemplate"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         const val KEY_OCR_RESULT = "ocrResult"
@@ -1790,25 +1670,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     fun loadActiveTags(id: Long) {
         if (withAutoFill) {
             viewModel.loadActiveTags(id)
-        }
-    }
-
-    fun startMoveSplitParts(rowId: Long, accountId: Long) {
-        showSnackBarIndefinite(R.string.progress_dialog_updating_split_parts)
-        viewModel.moveUnCommittedSplitParts(rowId, accountId, isTemplate)
-    }
-
-    private fun observeMoveResult() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.moveResult.collect { result ->
-                    result?.let {
-                        dismissSnackBar()
-                        (delegate as? SplitDelegate)?.onUncommittedSplitPartsMoved(it)
-                        viewModel.moveResultProcessed()
-                    }
-                }
-            }
         }
     }
 

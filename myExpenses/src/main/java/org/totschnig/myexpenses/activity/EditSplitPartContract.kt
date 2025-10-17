@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.os.BundleCompat
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
-const val KEY_SPLIT_PART = "splitPart"
+const val KEY_SPLIT_PART_LIST = "splitPartList"
 /**
  * An ActivityResultContract to edit a split transaction part.
  *
@@ -15,7 +15,7 @@ const val KEY_SPLIT_PART = "splitPart"
  *        or null to create a new part.
  * Output: The saved TransactionEditData object, or null if the user canceled.
  */
-abstract class EditSplitPartContract : ActivityResultContract<TransactionEditData?, TransactionEditData?>() {
+abstract class EditSplitPartContract : ActivityResultContract<TransactionEditData?, ArrayList<TransactionEditData>?>() {
 
     abstract fun prepareIntent(intent: Intent)
 
@@ -26,20 +26,20 @@ abstract class EditSplitPartContract : ActivityResultContract<TransactionEditDat
 
             // Pass the TransactionEditData object as a Parcelable extra.
             // This object contains all the details of the split part.
-            putExtra(KEY_SPLIT_PART, input)
+            putExtra(KEY_SPLIT_PART_LIST, input)
         }
         return intent.also { prepareIntent(it) }
     }
 
-    override fun parseResult(resultCode: Int, intent: Intent?): TransactionEditData? {
+    override fun parseResult(resultCode: Int, intent: Intent?): ArrayList<TransactionEditData>? {
         // If the activity did not return a successful result, return null.
         if (resultCode != Activity.RESULT_OK) {
             return null
         }
         // Extract the TransactionEditData object from the result intent's extras.
         return intent?.extras?.let {
-            BundleCompat.getParcelable(it,
-                KEY_SPLIT_PART, TransactionEditData::class.java)
+            BundleCompat.getParcelableArrayList(it,
+                KEY_SPLIT_PART_LIST, TransactionEditData::class.java)
         }
     }
 }

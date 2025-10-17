@@ -115,9 +115,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private var loadMethodJob: Job? = null
 
-    private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
-    val moveResult: StateFlow<Boolean?> = _moveResult
-
     private val _autoFillData: MutableStateFlow<AutoFillData?> = MutableStateFlow(null)
     val autoFillData: StateFlow<AutoFillData?> = _autoFillData
 
@@ -460,36 +457,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 categoryId = DatabaseConstants.SPLIT_CATID
             )
         }
-
-    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
-        _moveResult.update {
-            contentResolver.query(
-                if (isTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI else TransactionProvider.UNCOMMITTED_URI,
-                arrayOf("count(*)"),
-                "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
-                arrayOf(transactionId.toString(), accountId.toString()),
-                null
-            )?.use {
-                if (it.moveToFirst() && it.getInt(0) == 0) {
-                    val values = ContentValues()
-                    values.put(KEY_ACCOUNTID, accountId)
-                    contentResolver.update(
-                        if (isTemplate) TransactionProvider.TEMPLATES_URI else TransactionProvider.TRANSACTIONS_URI,
-                        values,
-                        "$KEY_PARENTID = ? AND $KEY_STATUS = $STATUS_UNCOMMITTED",
-                        arrayOf(transactionId.toString())
-                    )
-                    true
-                } else false
-            } == true
-        }
-    }
-
-    fun moveResultProcessed() {
-        _moveResult.update {
-            null
-        }
-    }
 
     fun read(
         transactionId: Long,

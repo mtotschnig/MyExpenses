@@ -12,12 +12,14 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Assume
 import org.junit.BeforeClass
@@ -87,13 +89,16 @@ class SplitEditTest : BaseExpenseEditTest() {
         launchWithAccountSetup()
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
         setAmount(50)
         setOperationType(Transactions.TYPE_TRANSFER)
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
         onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
         onData(
             withAccountGrouped(account2.label)
         ).perform(click())
         clickFab()//save part
+        checkPartCount(1)
         setAccount(account2.label)
         checkAccount(account1.label)
         cleanup {
