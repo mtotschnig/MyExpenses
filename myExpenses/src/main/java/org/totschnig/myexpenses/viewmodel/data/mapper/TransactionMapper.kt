@@ -106,7 +106,11 @@ object TransactionMapper {
                 )
             },
             isSealed = template.sealed,
-            splitParts = repositoryTemplate.splitParts?.map { map(it, currencyContext) }
+            splitParts = repositoryTemplate.splitParts?.map {
+                map(it, currencyContext).copy(
+                    isSplitPart = true
+                )
+            }
         )
     }
 

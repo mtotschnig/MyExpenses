@@ -36,6 +36,8 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
@@ -49,9 +51,7 @@ import java.util.Currency
 
 @TestShard4
 class OrientationChangeTest : BaseExpenseEditTest() {
-    private val accountLabel1 = "Test label 1"
     private lateinit var currency1: CurrencyUnit
-    private val accountLabel2 = "Test label 2"
     private lateinit var account2: Account
     private lateinit var currency2: CurrencyUnit
 
@@ -61,13 +61,13 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(
-            label = accountLabel1,
+            label = ACCOUNT_LABEL_1,
             currency = currency1.code,
             type = accountTypeBank,
             ).createIn(repository)
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         account2 = Account(
-            label = accountLabel2,
+            label = ACCOUNT_LABEL_2,
             currency = currency2.code,
             type = accountTypeCash
         ).createIn(repository)
@@ -90,11 +90,11 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
-        setAccount(accountLabel2)
-        checkAccount(accountLabel2)
+        setAccount(ACCOUNT_LABEL_2)
+        checkAccount(ACCOUNT_LABEL_2)
         doWithRotation {
             onIdle()
-            checkAccount(accountLabel2)
+            checkAccount(ACCOUNT_LABEL_2)
         }
     }
 

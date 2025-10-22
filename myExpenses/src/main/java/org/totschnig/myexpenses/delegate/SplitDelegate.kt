@@ -201,6 +201,9 @@ class SplitDelegate(
             )
         } else {
             super.updateAccount(account, isInitialSetup)
+            splitParts = splitParts.mapTo(ArrayList(splitParts.size)) {
+                it.copy(accountId = account.id)
+            }
             adapter.currencyUnit = account.currency
             //noinspection NotifyDataSetChanged
             adapter.notifyDataSetChanged()

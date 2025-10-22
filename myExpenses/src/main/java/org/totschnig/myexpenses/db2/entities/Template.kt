@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2.entities
 import android.content.ContentValues
 import android.database.Cursor
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -51,7 +52,7 @@ data class Template(
     val payeeId: Long? = null,
     val methodId: Long? = null,
     val transferAccountId: Long? = null, // For TRANSFER type
-    val uuid: String = UUID.randomUUID().toString(),
+    val uuid: String? = null,
     val parentId: Long? = null, // For SPLIT children
     val planId: Long? = null,
     val planExecutionAutomatic: Boolean = false,
@@ -114,7 +115,8 @@ data class Template(
         comment = comment,
         payeeId = payeeId,
         categoryPath = categoryPath,
-        currency = currency
+        currency = currency,
+        uuid = Model.generateUuid()
     )
 
     companion object {

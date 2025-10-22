@@ -186,7 +186,7 @@ class ExportTest : BaseTestWithRepository() {
                 )
             )
         )
-        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), split.splitParts[1].data.id)
+        repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), split.splitParts!![1].data.id)
 
         uuidList.add(split.splitParts[0].data.uuid!!)
         uuidList.add(split.splitParts[1].data.uuid!!)

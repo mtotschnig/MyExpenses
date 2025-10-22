@@ -16,17 +16,19 @@ import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -35,9 +37,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 
 const val TEMPLATE_TITLE = "Espresso template"
+const val ACCOUNT_LABEL_1 = "Test label 1"
+const val ACCOUNT_LABEL_2 = "Test label 2"
+
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
+
+    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent = intentForNewTransaction.apply {
+        putExtra(Transactions.OPERATION_TYPE, type)
+    }
 
     val intentForNewTransaction
         get() = intent.apply {
@@ -90,7 +99,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         onView(withId(R.id.auto_complete_textview)).check(matches(withText(payee)))
     }
 
-    fun setOperationType(@TransactionsContract.Transactions.TransactionType operationType: Int) {
+    fun setOperationType(@Transactions.TransactionType operationType: Int) {
         onView(withId(R.id.OperationType)).perform(click())
         onData(
             allOf(
@@ -110,7 +119,8 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         expectedAccount: Long,
         expectedAmount: Long,
         templateTitle: String = TEMPLATE_TITLE,
-        expectedTags: List<String> = emptyList()
+        expectedTags: List<String> = emptyList(),
+        expectedSplitParts: List<Long>? = null
     ) {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
@@ -119,7 +129,8 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             arrayOf(templateTitle),
             null
         )!!.use {
-            assertWithMessage("No template with title $templateTitle").that(it.moveToFirst()).isTrue()
+            assertWithMessage("No template with title $templateTitle").that(it.moveToFirst())
+                .isTrue()
             it.getLong(0)
         }
         val template = repository.loadTemplate(templateId)!!
@@ -130,6 +141,35 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             assertThat(accountId).isEqualTo(expectedAccount)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+        if (expectedSplitParts == null) {
+            assertThat(template.splitParts).isNull()
+        } else {
+            assertThat(template.splitParts!!.map { it.data.amount })
+                .containsExactlyElementsIn(expectedSplitParts)
+        }
+    }
+
+    protected fun assertTransaction(
+        id: Long,
+        expectedAccount: Long,
+        expectedAmount: Long,
+        expectedTags: List<String> = emptyList(),
+        expectedSplitParts: List<Long>? = null
+    ) {
+
+        val transaction = repository.loadTransaction(id)
+        val tags = repository.loadTagsForTransaction(id)
+        with(transaction.data) {
+            assertThat(amount).isEqualTo(expectedAmount)
+            assertThat(accountId).isEqualTo(expectedAccount)
+        }
+        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+        if (expectedSplitParts == null) {
+            assertThat(transaction.splitParts).isNull()
+        } else {
+            assertThat(transaction.splitParts!!.map { it.data.amount })
+                .containsExactlyElementsIn(expectedSplitParts)
+        }
     }
 
     protected fun launch(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
@@ -141,4 +181,17 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
             testScenario = it
         }
+
+    fun launchWithAccountSetup(
+        excludeFromTotals: Boolean = false,
+        type: Int = Transactions.TYPE_SPLIT,
+        configureIntent: Intent.() -> Unit = {},
+    ) {
+        account1 = buildAccount(ACCOUNT_LABEL_1, excludeFromTotals = excludeFromTotals)
+        launchForResult(getBaseIntent(type).apply(configureIntent))
+    }
+
+    fun launchNewTemplate(type: Int) {
+        launchWithAccountSetup(type = type) { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
+    }
 }

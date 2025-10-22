@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.Intent
+import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -25,23 +25,24 @@ import org.junit.Assume
 import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
+import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withAccountGrouped
 
 @TestShard5
 class SplitEditTest : BaseExpenseEditTest() {
-    private val accountLabel1 = "Test label 1"
-    private val accountLabel2 = "Test label 2"
 
     companion object {
         @BeforeClass
@@ -55,21 +56,22 @@ class SplitEditTest : BaseExpenseEditTest() {
         }
     }
 
-    private val baseIntent: Intent
-        get() = intentForNewTransaction.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
+    private fun launchEdit(excludeFromTotals: Boolean = false): Long {
+        var id: Long = 0
+        launchWithAccountSetup(excludeFromTotals) {
+            id = prepareSplit(account1.id)
+            putExtra(KEY_ROWID, id)
         }
-
-    private fun launchWithAccountSetup(
-        excludeFromTotals: Boolean = false,
-        configureIntent: Intent.() -> Unit = {},
-    ) {
-        account1 = buildAccount(accountLabel1, excludeFromTotals = excludeFromTotals)
-        launchForResult(baseIntent.apply(configureIntent))
+        return id
     }
 
-    private fun launchEdit(excludeFromTotals: Boolean = false) {
-        launchWithAccountSetup(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit(account1.id)) }
+    private fun launchEditTemplate(): Long {
+        var id: Long = 0
+        launchWithAccountSetup() {
+            id = prepareSplitTemplate(account1.id)
+            putExtra(KEY_TEMPLATEID, id)
+        }
+        return id
     }
 
     @After
@@ -128,7 +130,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun bug1783() {
-        val account2 = buildAccount("Test Account 2")
+        val account2 = buildAccount("Test Account 2", color = Color.RED)
         launchEdit()
         assertThat(repository.count(
             TRANSACTIONS_URI,
@@ -154,10 +156,32 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledTemplateSplitCleanup() {
-        launchWithAccountSetup { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
+        launchNewTemplate(Transactions.TYPE_SPLIT)
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertCanceled()
+    }
+
+    @Test
+    fun newTemplate() {
+        launchNewTemplate(Transactions.TYPE_SPLIT)
+        setOperationType(Transactions.TYPE_SPLIT)
+        newTemplateHelper()
+    }
+
+    @Test
+    fun newTemplateWithTypeSpinner() {
+        launchNewTemplate(Transactions.TYPE_TRANSACTION)
+        setOperationType(Transactions.TYPE_SPLIT)
+        newTemplateHelper()
+    }
+
+    private fun newTemplateHelper() {
+        createParts(2)
+        setTitle()
+        clickFab()
+        assertFinishing()
+        assertTemplate(account1.id, -10000, expectedSplitParts = listOf(-5000,-5000))
     }
 
     /*
@@ -238,7 +262,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun loadEditSaveSplit() {
-        launchEdit()
+        val id = launchEdit()
         checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
@@ -253,11 +277,48 @@ class SplitEditTest : BaseExpenseEditTest() {
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
+        toolbarTitle().check(matches(withText(R.string.menu_edit_split_part_category)))
         clickFab()//save part
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)
         clickFab()//save parent succeeds
         assertFinishing()
+        assertTransaction(
+            id = id,
+            expectedAccount = account1.id,
+            expectedAmount = 20000,
+            expectedSplitParts = listOf(15000, 5000)
+        )
+    }
+
+    @Test
+    fun loadEditSaveSplitTemplate() {
+        launchEditTemplate()
+        checkPartCount(2)
+        closeSoftKeyboard()
+        BaristaScrollInteractions.scrollTo(R.id.list)
+        onView(withId(R.id.list))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+        onView(withText(R.string.menu_edit)).perform(click())
+        setAmount(150)
+        onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
+        onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
+        toolbarTitle().check(matches(withText(getString(R.string.menu_edit_template) + " (" + getString(R.string.transaction) + ")")))
+        clickFab()//save part
+        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        setAmount(200)
+        clickFab()//save parent succeeds
+        assertFinishing()
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = 20000,
+            expectedSplitParts = listOf(15000, 5000)
+        )
     }
 
     @Test
@@ -287,13 +348,13 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun createPartsAndDelete() {
-        account1 = buildAccount(accountLabel1)
-        val account2 = buildAccount(accountLabel2)
-        launchForResult(baseIntent.apply {
+        account1 = buildAccount(ACCOUNT_LABEL_1)
+        val account2 = buildAccount(ACCOUNT_LABEL_2)
+        launchForResult(getBaseIntent().apply {
             putExtra(KEY_ACCOUNTID, account2.id)
         })
         createParts(2, 50)
-        checkAccount(accountLabel2)
+        checkAccount(ACCOUNT_LABEL_2)
         onView(withId(R.id.list)).perform(
             RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
                 0,
@@ -301,9 +362,9 @@ class SplitEditTest : BaseExpenseEditTest() {
             )
         )
         onData(menuIdMatcher(R.id.DELETE_COMMAND)).perform(click())
-        checkAccount(accountLabel2)
+        checkAccount(ACCOUNT_LABEL_2)
         createParts(2, 50, initialChildCount = 1)
-        checkAccount(accountLabel2)
+        checkAccount(ACCOUNT_LABEL_2)
         clickFab()
         cleanup {
             repository.deleteAccount(account2.id)

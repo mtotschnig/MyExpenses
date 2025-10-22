@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_FAVORITE
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -36,7 +37,7 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         val type = repository.findAccountType(PREDEFINED_NAME_BANK)!!
-        account1 = Account(label = "Test label 1", currency = currency1.code, type = type).createIn(repository)
+        account1 = Account(label = ACCOUNT_LABEL_1, currency = currency1.code, type = type).createIn(repository)
         favoriteAccount =
             Account(label = "ZZZ", currency = currency2.code, type = type)
                 .createIn(repository)

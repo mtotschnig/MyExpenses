@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.RepositoryTemplate
-import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteTemplate
@@ -57,7 +56,7 @@ class TemplateTest: BaseTestWithRepository() {
             comment = "test transaction"
         )
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + amount)
-        val t = repository.createTemplate(RepositoryTemplate.Companion.fromTransaction(op1, "Test Transaction"))
+        val t = repository.createTemplate(RepositoryTemplate.fromTransaction(op1, "Test Transaction"))
         repository.createTransaction(t.instantiate())
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
         repository.deleteTemplate(t.id)
@@ -74,8 +73,19 @@ class TemplateTest: BaseTestWithRepository() {
             assertThat(data.payeeId).isEqualTo(template.data.payeeId)
             assertThat(data.methodId).isEqualTo(template.data.methodId)
             assertThat(data.comment).isEqualTo(template.data.comment)
-            assertThat(splitParts).isEmpty()
+            assertThat(data.isSplit).isFalse()
             assertThat(data.isTransfer).isFalse()
+        }
+    }
+
+    @Test
+    fun testSplitTemplate() {
+        val template = buildSplitTemplate()
+        with(repository.loadTemplate(template.id)!!) {
+            assertThat(title).isEqualTo(template.title)
+            assertThat(data.comment).isEqualTo("Some comment parent")
+            assertThat(splitParts).hasSize(1)
+            assertThat(splitParts!!.first().data.comment).isEqualTo("Some comment part")
         }
     }
 
@@ -109,10 +119,10 @@ class TemplateTest: BaseTestWithRepository() {
             assertThat(accountId).isEqualTo(template.data.accountId)
             assertThat(comment).isEqualTo(template.data.comment)
         }
-        with(transaction.splitParts) {
+        with(transaction.splitParts!!) {
             assertThat(size).isEqualTo(1)
             with(first().data) {
-                assertThat(comment).isEqualTo(template.splitParts.first().data.comment)
+                assertThat(comment).isEqualTo(template.splitParts!!.first().data.comment)
                 assertThat(categoryId).isEqualTo(template.splitParts.first().data.categoryId)
             }
         }
@@ -140,18 +150,23 @@ class TemplateTest: BaseTestWithRepository() {
         )
     )
 
-    private fun buildSplitTemplate() = repository.createSplitTemplate(
-        Template(
-            accountId = mAccount1,
-            comment = "Some comment",
-            title = "Template",
-            categoryId = DatabaseConstants.SPLIT_CATID
-        ), listOf(
-            Template(
+    private fun buildSplitTemplate() = repository.createTemplate(
+        RepositoryTemplate(
+            data =  Template(
                 accountId = mAccount1,
-                comment = "Some comment",
-                title = "",
-                categoryId = categoryId
+                comment = "Some comment parent",
+                title = "Template",
+                categoryId = DatabaseConstants.SPLIT_CATID
+            ),
+            splitParts = listOf(
+                RepositoryTemplate(
+                    data = Template(
+                        accountId = mAccount1,
+                        comment = "Some comment part",
+                        title = "",
+                        categoryId = categoryId
+                    )
+                )
             )
         )
     )

@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -31,14 +33,12 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     fun fixture() {
         val currency1 = CurrencyUnit(Currency.getInstance("USD"))
         val currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        val accountLabel1 = "Test label 1"
         account1 = buildAccount(
-            accountLabel1,
+            ACCOUNT_LABEL_1,
             currency = currency1.code
         )
-        val accountLabel2 = "Test label 2"
         account2 = buildAccount(
-            accountLabel2,
+            ACCOUNT_LABEL_2,
             currency = currency2.code
         )
     }

@@ -295,6 +295,8 @@ class TransferDelegate(
             } else TransactionEditData(
                 accountId = currentAccount.id,
                 amount = amount,
+                categoryId = catId,
+                categoryPath = label,
                 transferEditData = TransferEditData(
                     transferPeer = transferPeer,
                     transferAccountId = transferAccount.id,

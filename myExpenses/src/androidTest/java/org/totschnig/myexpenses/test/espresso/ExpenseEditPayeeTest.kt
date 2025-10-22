@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -22,8 +23,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
     private lateinit var party: Party
 
     suspend fun fixture(withIban: String?) {
-        val accountLabel1 = "Test label 1"
-        account1 = buildAccount(accountLabel1)
+        account1 = buildAccount(ACCOUNT_LABEL_1)
         party = repository.createParty(Party.create(name = "John", iban = withIban)!!)!!
         launch()
         assertThat(load()).isEmpty()

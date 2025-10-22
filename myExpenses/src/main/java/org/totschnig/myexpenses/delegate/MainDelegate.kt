@@ -264,6 +264,8 @@ abstract class MainDelegate(
     open fun buildMainTransaction(account: Account): TransactionEditData =
         if (isTemplate) buildTemplate(account, null) else
             TransactionEditData(
+                categoryId = catId,
+                categoryPath = label,
                 amount = Money(account.currency, 0L),
                 date = LocalDateTime.now(),
                 accountId = account.id

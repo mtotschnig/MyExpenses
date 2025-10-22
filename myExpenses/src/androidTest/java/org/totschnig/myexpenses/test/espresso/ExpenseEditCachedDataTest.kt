@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -27,8 +28,7 @@ class ExpenseEditCachedDataTest: BaseExpenseEditTest() {
     //fails on Tablet portrait
     @Test
     fun shouldRestoreCachedData() {
-        val accountLabel1 = "Test label 1"
-        account1 = buildAccount(accountLabel1)
+        account1 = buildAccount(ACCOUNT_LABEL_1)
         party = repository.createParty(Party.create(name = "John")!!)!!
         launch()
         unlock()

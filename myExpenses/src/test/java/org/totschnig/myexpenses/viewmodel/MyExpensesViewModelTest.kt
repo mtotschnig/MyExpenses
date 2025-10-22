@@ -233,7 +233,7 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         val splitRestored = repository.loadTransaction(split.data.id)
         assertThat(splitRestored.data.equivalentAmount).isEqualTo(5000)
         assertThat(viewModel.revokeSplit(split.data.id).getOrAwaitValue().isSuccess).isTrue()
-        val part1Restored = repository.loadTransaction(split.splitParts[0].data.id)
+        val part1Restored = repository.loadTransaction(split.splitParts!![0].data.id)
         assertThat(part1Restored.data.equivalentAmount).isEqualTo(3000)
         val part2Restored = repository.loadTransaction(split.splitParts[1].data.id)
         assertThat(part2Restored.data.equivalentAmount).isEqualTo(2000)

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
-import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -19,7 +18,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
@@ -69,10 +67,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -203,7 +198,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     val id = if (transaction.id == 0L) {
                         repository.createTemplate(template).id
                     } else {
-                        repository.updateTemplate(template.data)
+                        repository.updateTemplate(template)
                         transaction.id
                     }
                     tagsLiveData.value?.let { repository.saveTagsForTemplate(it, id) }

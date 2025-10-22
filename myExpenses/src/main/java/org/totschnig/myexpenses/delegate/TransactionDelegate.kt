@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
@@ -674,7 +676,7 @@ abstract class TransactionDelegate(
                 if (host.isValidType(newType)) {
                     if (newType == TYPE_TRANSFER) {
                         if (checkTransferEnabled()) {
-                            host.restartWithType(newType)
+                            restartWithType(newType)
                         } else {
                             host.showTransferAccountMissingMessage()
                             resetOperationType()
@@ -682,7 +684,7 @@ abstract class TransactionDelegate(
                     } else if (newType == TYPE_SPLIT) {
                         if (isTemplate) {
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
-                                host.restartWithType(newType)
+                                restartWithType(newType)
                             } else {
                                 host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE)
                             }
@@ -690,7 +692,7 @@ abstract class TransactionDelegate(
                             host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
                         }
                     } else {
-                        host.restartWithType(newType)
+                        restartWithType(newType)
                     }
                 }
             }
@@ -702,6 +704,26 @@ abstract class TransactionDelegate(
                 }
             }
         }
+    }
+
+    private fun restartWithType(@Transactions.TransactionType newType: Int) {
+        //sanitize instance state
+        when(newType) {
+
+            TYPE_SPLIT -> {
+                catId = DatabaseConstants.SPLIT_CATID
+            }
+
+            TYPE_TRANSACTION -> {
+                catId = null
+            }
+
+            TYPE_TRANSFER -> {
+                catId = null
+                methodId = null
+            }
+        }
+        host.restartWithType(newType)
     }
 
     private fun checkTransferEnabled() = when {
@@ -809,7 +831,10 @@ abstract class TransactionDelegate(
             ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {
-                    transaction.copy(
+                    if(forSave && title.isEmpty()) {
+                        viewBinding.Title.error = context.getString(R.string.required)
+                        null
+                    } else transaction.copy(
                         templateEditData = TemplateEditData(
                             title = title,
                             defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],

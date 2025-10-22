@@ -45,8 +45,10 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -56,6 +58,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -102,6 +105,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         excludeFromTotals: Boolean = false,
         dynamicExchangeRates: Boolean = false,
         type: AccountType = AccountType.CASH,
+        color: Int = DEFAULT_COLOR,
     ) =
         Account(
             label = label,
@@ -109,7 +113,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             currency = currency,
             excludeFromTotals = excludeFromTotals,
             dynamicExchangeRates = dynamicExchangeRates,
-            type = repository.findAccountType(type.name)!!
+            type = repository.findAccountType(type.name)!!,
+            color = color
         ).createIn(repository)
 
     fun deleteAccount(label: String) {
@@ -311,6 +316,14 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         listOf(
             Transaction(accountId = accountId, amount = 5000),
             Transaction(accountId = accountId, amount = 5000)
+        )
+    ).id
+
+    protected fun prepareSplitTemplate(accountId: Long)  = repository.createSplitTemplate(
+        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID),
+        listOf(
+            Template(accountId = accountId, amount = 5000, title = ""),
+            Template(accountId = accountId, amount = 5000, title = "")
         )
     ).id
 

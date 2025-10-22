@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
+import androidx.annotation.VisibleForTesting
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.ContribFeature
@@ -39,6 +40,8 @@ data class RepositoryTemplate(
 ) {
     val id = data.id
     val title = data.title
+    val isTransfer = data.isTransfer
+    val isSplit = splitParts != null
 
     fun instantiate(): RepositoryTransaction {
         return RepositoryTransaction(
@@ -128,7 +131,7 @@ fun Repository.loadTemplate(
                 data = template,
                 splitParts = if (template.isSplit)
                     loadSplitParts(template.id).map { RepositoryTemplate(it) }
-                else emptyList(),
+                else null,
                 plan = template.planId?.let { Plan.getInstanceFromDb(contentResolver, it) }
             )
         }
@@ -139,9 +142,91 @@ fun Repository.loadTemplate(
 }
 
 private fun Repository.loadSplitParts(templateId: Long) = contentResolver.query(
-    TEMPLATES_URI, null, "$KEY_ROWID = ?", arrayOf(templateId.toString()), null
+    TEMPLATES_URI, null, "$KEY_PARENTID = ?", arrayOf(templateId.toString()), null
 )!!.useAndMapToList {
     Template.fromCursor(it)
+}
+
+fun Repository.updateTemplate(
+    repositoryTransaction: RepositoryTemplate
+) = when {
+    repositoryTransaction.isSplit -> updateSplitTemplate(
+        repositoryTransaction.data,
+        repositoryTransaction.splitParts!!.map { it.data }
+    )
+
+    else -> updateTemplate(repositoryTransaction.data)
+}
+
+fun Repository.updateSplitTemplate(
+    parentTemplate: Template, splitParts: List<Template>
+): Boolean {
+    // --- Validation ---
+    require(parentTemplate.isSplit) { "Parent transaction must be a split." }
+    require(splitParts.sumOf { it.amount } == parentTemplate.amount) { "Sum of splits must equal parent amount." }
+    require(splitParts.all { it.accountId == parentTemplate.accountId }) { "All splits must be in the same account." }
+
+    val operations = ArrayList<ContentProviderOperation>()
+
+    // --- 1. Handle Deletions ---
+    // Get IDs of parts that have a non-zero ID (i.e., they already exist in the DB).
+    val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
+
+    if (keepIds.isEmpty()) {
+        // If no existing parts are being kept, delete all children of the parent.
+        operations.add(
+            ContentProviderOperation.newDelete(TEMPLATES_URI)
+                .withSelection("$KEY_PARENTID = ?", arrayOf(parentTemplate.id.toString()))
+                .build()
+        )
+    } else {
+        // Otherwise, delete any children that are NOT in the list of IDs to keep.
+        val placeholders = List(keepIds.size) { "?" }.joinToString(",")
+        val selection = "$KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
+        val selectionArgs = arrayOf(parentTemplate.id.toString()) + keepIds.map { it.toString() }
+
+        operations.add(
+            ContentProviderOperation.newDelete(TEMPLATES_URI)
+                .withSelection(selection, selectionArgs)
+                .build()
+        )
+    }
+
+
+    // --- 2. Update Parent Transaction ---
+    operations.add(
+        ContentProviderOperation.newUpdate(
+            ContentUris.withAppendedId(TEMPLATES_URI, parentTemplate.id)
+        )
+            .withValues(parentTemplate.asContentValues())
+            .build()
+    )
+
+    // --- 3. Insert New Parts and Update Existing Parts ---
+    for (template in splitParts) {
+        val operation = if (template.id == 0L) {
+            // NEW: This is a new split part, so insert it.
+            ContentProviderOperation.newInsert(TEMPLATES_URI)
+                .withValues(
+                    template.copy(uuid = template.uuid ?: generateUuid()).asContentValues()
+                        .apply {
+                            put(KEY_PARENTID, parentTemplate.id)
+                        })
+        } else {
+            // EXISTING: This part already exists, so update it.
+            ContentProviderOperation.newUpdate(
+                ContentUris.withAppendedId(TEMPLATES_URI, template.id)
+            )
+                .withValues(template.asContentValues())
+        }
+        operations.add(operation.build())
+    }
+
+    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    return results.mapIndexed { index, result ->
+        //first result is delete, others either insert or update
+        if (index == 0) true else result.uri != null || result.count == 1
+    }.all { it }
 }
 
 fun Repository.updateTemplate(
@@ -152,8 +237,17 @@ fun Repository.updateTemplate(
     null, null
 ) == 1
 
-fun Repository.createTemplate(template: RepositoryTemplate) = createTemplate(template.data)
+fun Repository.createTemplate(template: RepositoryTemplate) =
+    when {
+        template.isSplit -> createSplitTemplate(
+            template.data,
+            template.splitParts!!.map { it.data })
 
+        else -> createTemplate(template.data)
+
+    }
+
+@VisibleForTesting
 fun Repository.createTemplate(template: Template): RepositoryTemplate {
     require(template.id == 0L) { "Use updateTemplate for existing templates" }
     require((template.originalAmount != null) == (template.originalCurrency != null)) {
@@ -169,6 +263,7 @@ fun Repository.createTemplate(template: Template): RepositoryTemplate {
     return RepositoryTemplate(template.copy(id = id, uuid = uuid))
 }
 
+@VisibleForTesting
 fun Repository.createSplitTemplate(
     parentTemplate: Template,
     splits: List<Template>

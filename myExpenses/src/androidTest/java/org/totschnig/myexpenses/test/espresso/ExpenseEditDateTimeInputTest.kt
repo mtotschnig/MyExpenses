@@ -5,6 +5,7 @@ import org.junit.runners.Parameterized
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
@@ -93,7 +94,7 @@ class ExpenseEditDateTimeInputTest(
     }
 
     private fun setUpAccount(accountType: AccountType) {
-        account1 = buildAccount("Test label 1", type = accountType)
+        account1 = buildAccount(ACCOUNT_LABEL_1, type = accountType)
     }
 
     private fun setPreferences(withTime: Boolean, withValueDate: Boolean) {

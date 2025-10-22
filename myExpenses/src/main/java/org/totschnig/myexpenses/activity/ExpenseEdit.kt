@@ -336,14 +336,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-
     val splitPartLauncher = registerForActivityResult(splitPartContract) { resultData ->
         resultData?.let {
             (delegate as SplitDelegate).addSplitParts(it)
             setDirty()
         }
     }
-
 
     private fun showCategoryWarning() {
         delegate.shouldShowCategoryWarning?.let { type ->
@@ -449,6 +447,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     TRANSACTION
                 }
             }
+            val splitPart = extras?.let { extras ->
+                BundleCompat.getParcelable(extras, KEY_SPLIT_PART, TransactionEditData::class.java)?.also {
+                    mRowId = it.id
+                }
+            }
             newInstance =
                 mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
             withTypeSpinner = mRowId == 0L
@@ -462,12 +465,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (Intent.ACTION_INSERT == intent.action && extras != null) {
                 task = FROM_INTENT_EXTRAS
             }
-            val splitPart = extras?.let {
-                BundleCompat.getParcelable(it, KEY_SPLIT_PART_LIST, TransactionEditData::class.java)
-            }
+
             if (splitPart != null) {
                 isSplitPart = true
                 populate(splitPart, false)
+                delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
             }
             // fetch the transaction or create a new instance
             else if (task != null) {

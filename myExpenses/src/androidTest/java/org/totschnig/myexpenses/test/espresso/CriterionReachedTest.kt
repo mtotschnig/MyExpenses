@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
@@ -28,7 +30,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
 
     fun fixture(criterion: Long, openingBalance: Long = 0) {
         account1 = Account(
-            label = "Test label 1",
+            label = ACCOUNT_LABEL_1,
             currency = currency.code,
             criterion = criterion,
             openingBalance = openingBalance,
@@ -244,7 +246,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
     ) {
         fixture(criterion)
         val account2 = Account(
-            label = "Test label 2",
+            label = ACCOUNT_LABEL_2,
             currency = currency.code,
             criterion = criterion,
             type = repository.findAccountType(PREDEFINED_NAME_CASH)!!

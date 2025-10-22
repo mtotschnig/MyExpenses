@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
+import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
@@ -179,7 +180,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         )
         val op1 = split.data.id
         assertThat(split.splitParts).hasSize(2)
-        split.splitParts.forEach {
+        split.splitParts!!.forEach {
             assertThat(it.data.parentId).isEqualTo(op1)
             assertThat(it.transferPeer).isNull()
         }
@@ -190,17 +191,64 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
             assertThat(this.date).isEqualTo(date)
         }
         assertThat(restored.splitParts).hasSize(2)
-        restored.splitParts.forEach { (transaction, _) ->
+        restored.splitParts!!.forEach { (transaction, _) ->
             assertThat(transaction.amount).isEqualTo(50L)
             assertThat(transaction.date).isEqualTo(date)
             assertThat(transaction.parentId).isEqualTo(op1)
         }
         repository.updateTransaction(
-            transaction = restored.data.copy(comment = "updated comment", crStatus = CrStatus.CLEARED)
+            transaction = restored.data.copy(
+                comment = "updated comment",
+                crStatus = CrStatus.CLEARED
+            )
         )
         restored.splitParts.forEach {
             assertThat(repository.loadTransaction(it.id)).isNotNull()
         }
+    }
+
+    @Test
+    fun testUpdateSplit() {
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account1,
+                amount = 100L,
+                comment = "test split",
+                categoryId = DatabaseConstants.SPLIT_CATID
+            ), listOf(
+                Transaction(
+                    accountId = account1,
+                    amount = 50L,
+                ),
+                Transaction(
+                    accountId = account1,
+                    amount = 50L,
+                )
+            )
+        )
+        val originalParts = split.splitParts!!.map { it.data.uuid }
+        // we update one part, remove one and add one
+        val updated = split.copy(
+            splitParts = listOf(
+                split.splitParts.first().let {
+                    it.copy(data = it.data.copy(amount = 60L))
+                },
+                RepositoryTransaction(
+                    data = Transaction(
+                        accountId = account1,
+                        amount = 40L,
+                    )
+                )
+            )
+        )
+        assertThat(repository.updateTransaction(updated)).isTrue()
+        val restored = repository.loadTransaction(updated.data.id)
+        assertThat(restored.splitParts).hasSize(2)
+        val originalPart = restored.splitParts!!.first { it.data.uuid == originalParts.first() }
+        assertThat(originalPart.data.amount).isEqualTo(60L)
+        assertThat(restored.splitParts.filter { it.data.uuid == originalParts[1] }).hasSize(0)
+        val newPart = restored.splitParts.first { it.data.uuid != originalParts.first() }
+        assertThat(newPart.data.amount).isEqualTo(40L)
     }
 
     @Test
@@ -218,16 +266,16 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                     amount = 100L,
                     transferAccountId = account2
                 ) to
-                Transaction(
-                    accountId = account2,
-                    amount = -100L,
-                    transferAccountId = account1
-                )
+                        Transaction(
+                            accountId = account2,
+                            amount = -100L,
+                            transferAccountId = account1
+                        )
             )
         )
         val op1 = split.data.id
         assertThat(split.splitParts).hasSize(1)
-        val (transfer, peer) = split.splitParts.first()
+        val (transfer, peer) = split.splitParts!!.first()
         assertThat(transfer.parentId).isEqualTo(op1)
         assertThat(transfer.transferPeerId).isNotNull()
         assertThat(transfer.id).isNotNull()
@@ -240,7 +288,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         }
         val splitParts = restored.splitParts
         assertThat(splitParts).hasSize(1)
-        with(splitParts.first().data) {
+        with(splitParts!!.first().data) {
             assertThat(amount).isEqualTo(100L)
             assertThat(parentId).isEqualTo(op1)
             assertThat(isTransfer).isTrue()

@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -20,6 +21,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
@@ -32,6 +34,8 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
@@ -54,9 +58,13 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        account1 = Account(label = "Test label 1", currency = currency1.code, type = accountTypeCash).createIn(repository)
+        account1 = Account(
+            label = ACCOUNT_LABEL_1,
+            currency = currency1.code,
+            type = accountTypeCash
+        ).createIn(repository)
         account2 =
-            Account(label = "Test label 2", currency = currency2.code, type = accountTypeBank)
+            Account(label = ACCOUNT_LABEL_2, currency = currency2.code, type = accountTypeBank)
                 .createIn(repository)
         yenAccount =
             Account(label = "Japan", currency = "JPY", type = accountTypeCash).createIn(repository)
@@ -215,6 +223,15 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 .that(repository.getTransactionSum(account2))
                 .isEqualTo(-amount * times * 100L)
         }
+    }
+
+    @Test
+    fun requireTemplateTitle() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setAmount(111)
+        clickFab()
+        onView(withId(R.id.Title))
+            .check(matches(hasErrorText(getString(R.string.required))))
     }
 
     @Test

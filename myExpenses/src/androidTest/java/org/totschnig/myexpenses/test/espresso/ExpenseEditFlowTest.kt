@@ -26,6 +26,8 @@ import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
@@ -38,7 +40,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     var methodId: Long = 0
     @Before
     fun fixture() {
-        account1 = buildAccount("Test label 1")
+        account1 = buildAccount(ACCOUNT_LABEL_1)
 
         val accountType = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         methodId = repository.createPaymentMethod(
@@ -107,15 +109,14 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     @Test
     fun categorySelectionMaintainsAccount() {
-        val accountLabel2 = "Test label 2"
-        val account2 = buildAccount(accountLabel2)
+        val account2 = buildAccount(ACCOUNT_LABEL_2)
         launchForResult(intent.apply {
             putExtra(KEY_ACCOUNTID, account2.id)
         })
-        checkAccount(accountLabel2)
+        checkAccount(ACCOUNT_LABEL_2)
         onView(withId(R.id.Category)).perform(click())
         pressBack()
-        checkAccount(accountLabel2)
+        checkAccount(ACCOUNT_LABEL_2)
         cleanup {
             repository.deleteAccount(account2.id)
         }

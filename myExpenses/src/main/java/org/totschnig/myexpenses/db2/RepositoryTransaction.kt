@@ -53,8 +53,6 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-//TODO check if caller should pass in uuid
-
 data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,
@@ -195,6 +193,7 @@ fun Repository.updateTransfer(
     return results[0].count == 1 && results[1].count == 1
 }
 
+@VisibleForTesting
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
     splitTransactions: List<Transaction>
@@ -203,17 +202,19 @@ fun Repository.createSplitTransaction(
     splitTransactions.map { it to null }
 )
 
+@VisibleForTesting
 @JvmName("createSplitTransactionWithTransfers")
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
-    splits: List<Pair<Transaction, Transaction?>>
+    splitParts: List<Pair<Transaction, Transaction?>>
 ): RepositoryTransaction {
     // --- Validation ---
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
-    require(splits.sumOf { it.first.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
-    require(splits.all { it.first.date == parentTransaction.date && (it.second == null || it.second!!.date == parentTransaction.date) }) {
+    require(splitParts.sumOf { it.first.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
+    require(splitParts.all { it.first.date == parentTransaction.date && (it.second == null || it.second!!.date == parentTransaction.date) }) {
         "Split transactions date must match parent date."
     }
+    require(splitParts.all { it.first.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
 
     val operations = ArrayList<ContentProviderOperation>()
     val parentUuid = generateUuid()
@@ -231,7 +232,7 @@ fun Repository.createSplitTransaction(
     var opIndex = 1 // Start counting operations after the parent
 
     // --- Process each split part ---
-    splits.forEach { (splitPart, peer) ->
+    splitParts.forEach { (splitPart, peer) ->
         if (peer == null) {
             // --- This is a REGULAR split part ---
             val newUuid = generateUuid()
@@ -302,33 +303,79 @@ fun Repository.createSplitTransaction(
 }
 
 
-fun Repository.updateSplitTransaction(parentTransaction: Transaction, splitTransactions: List<Transaction>): Boolean {
+fun Repository.updateSplitTransaction(
+    parentTransaction: Transaction,
+    splitParts: List<Transaction>
+): Boolean {
+    // --- Validation ---
+    require(parentTransaction.isSplit) { "Parent transaction must be a split." }
+    require(splitParts.sumOf { it.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
+    require(splitParts.all { it.date == parentTransaction.date }) {
+        "Split transactions date must match parent date."
+    }
+    require(splitParts.all { it.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
+
     val operations = ArrayList<ContentProviderOperation>()
-    //TODO handle deleted and added transactions
+
+    // --- 1. Handle Deletions ---
+    // Get IDs of parts that have a non-zero ID (i.e., they already exist in the DB).
+    val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
+
+    if (keepIds.isEmpty()) {
+        // If no existing parts are being kept, delete all children of the parent.
+        operations.add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+                .withSelection("$KEY_PARENTID = ?", arrayOf(parentTransaction.id.toString()))
+                .build()
+        )
+    } else {
+        // Otherwise, delete any children that are NOT in the list of IDs to keep.
+        val placeholders = List(keepIds.size) { "?" }.joinToString(",")
+        val selection = "$KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
+        val selectionArgs = arrayOf(parentTransaction.id.toString()) + keepIds.map { it.toString() }
+
+        operations.add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+                .withSelection(selection, selectionArgs)
+                .build()
+        )
+    }
+
+
+    // --- 2. Update Parent Transaction ---
     operations.add(
         ContentProviderOperation.newUpdate(
-            ContentUris.withAppendedId(
-                TRANSACTIONS_URI,
-                parentTransaction.id
-            )
+            ContentUris.withAppendedId(TRANSACTIONS_URI, parentTransaction.id)
         )
             .withValues(parentTransaction.asContentValues())
             .build()
     )
-    for (transaction in splitTransactions) {
-        operations.add(
+
+    // --- 3. Insert New Parts and Update Existing Parts ---
+    for (transaction in splitParts) {
+        val operation = if (transaction.id == 0L) {
+            // NEW: This is a new split part, so insert it.
+            ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                .withValues(
+                    transaction.copy(uuid = transaction.uuid ?: generateUuid()).asContentValues()
+                        .apply {
+                            put(KEY_PARENTID, parentTransaction.id)
+                        })
+        } else {
+            // EXISTING: This part already exists, so update it.
             ContentProviderOperation.newUpdate(
-                ContentUris.withAppendedId(
-                    TRANSACTIONS_URI,
-                    transaction.id
-                )
+                ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
             )
                 .withValues(transaction.asContentValues())
-                .build()
-        )
+        }
+        operations.add(operation.build())
     }
+
     val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
-    return results.all { it.count == 1 }
+    return results.mapIndexed { index, result ->
+        //first result is delete, others either insert or update
+        if (index == 0) true else result.uri != null || result.count == 1
+    }.all { it }
 }
 
 suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): List<Transaction> {
@@ -353,7 +400,10 @@ suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): Lis
     )!!.useAndMapToList { cursor -> Transaction.fromCursor(cursor) }
 }
 
-fun Repository.loadTransaction(transactionId: Long, withTransfer: Boolean = true): RepositoryTransaction = contentResolver.query(
+fun Repository.loadTransaction(
+    transactionId: Long,
+    withTransfer: Boolean = true
+): RepositoryTransaction = contentResolver.query(
     ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
     Transaction.projection,
     null,
@@ -363,11 +413,17 @@ fun Repository.loadTransaction(transactionId: Long, withTransfer: Boolean = true
     if (cursor.moveToFirst()) Transaction.fromCursor(cursor).let {
         RepositoryTransaction(
             data = it,
-            transferPeer = if (withTransfer && it.transferPeerId != null) loadTransaction(it.transferPeerId, false).data else null,
+            transferPeer = if (withTransfer && it.transferPeerId != null) loadTransaction(
+                it.transferPeerId,
+                false
+            ).data else null,
             splitParts = if (it.isSplit) loadSplitParts(it.id).map { split ->
                 RepositoryTransaction(
                     split,
-                    transferPeer = if (withTransfer && split.transferPeerId != null) loadTransaction(split.transferPeerId, false).data else null
+                    transferPeer = if (withTransfer && split.transferPeerId != null) loadTransaction(
+                        split.transferPeerId,
+                        false
+                    ).data else null
                 )
             } else emptyList()
         )

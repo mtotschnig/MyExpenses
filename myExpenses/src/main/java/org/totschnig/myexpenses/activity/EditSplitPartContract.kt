@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.os.BundleCompat
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
+const val KEY_SPLIT_PART = "splitPart"
 const val KEY_SPLIT_PART_LIST = "splitPartList"
 /**
  * An ActivityResultContract to edit a split transaction part.
@@ -26,7 +27,7 @@ abstract class EditSplitPartContract : ActivityResultContract<TransactionEditDat
 
             // Pass the TransactionEditData object as a Parcelable extra.
             // This object contains all the details of the split part.
-            putExtra(KEY_SPLIT_PART_LIST, input)
+            putExtra(KEY_SPLIT_PART, input)
         }
         return intent.also { prepareIntent(it) }
     }
