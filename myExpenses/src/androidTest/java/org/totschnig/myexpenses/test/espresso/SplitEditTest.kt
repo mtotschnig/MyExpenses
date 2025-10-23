@@ -291,6 +291,34 @@ class SplitEditTest : BaseExpenseEditTest() {
         )
     }
 
+    //delete one item, add another one
+    @Test
+    fun loadEditSaveSplit2() {
+        val id = launchEdit()
+        checkPartCount(2)
+        closeSoftKeyboard()
+        BaristaScrollInteractions.scrollTo(R.id.list)
+        onView(withId(R.id.list))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+        onView(withText(R.string.menu_delete)).perform(click())
+        createParts(1, 150, initialChildCount = 1)
+        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        setAmount(200)
+        clickFab()//save parent succeeds
+        assertFinishing()
+        assertTransaction(
+            id = id,
+            expectedAccount = account1.id,
+            expectedAmount = 20000,
+            expectedSplitParts = listOf(15000, 5000)
+        )
+    }
+
     @Test
     fun loadEditSaveSplitTemplate() {
         launchEditTemplate()
@@ -310,6 +338,33 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         toolbarTitle().check(matches(withText(getString(R.string.menu_edit_template) + " (" + getString(R.string.transaction) + ")")))
         clickFab()//save part
+        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        setAmount(200)
+        clickFab()//save parent succeeds
+        assertFinishing()
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = 20000,
+            expectedSplitParts = listOf(15000, 5000)
+        )
+    }
+
+    //delete one item, add another one
+    @Test
+    fun loadEditSaveSplitTemplate2() {
+        launchEditTemplate()
+        checkPartCount(2)
+        closeSoftKeyboard()
+        BaristaScrollInteractions.scrollTo(R.id.list)
+        onView(withId(R.id.list))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+        onView(withText(R.string.menu_delete)).perform(click())
+        createParts(1, 150, initialChildCount = 1)
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)
         clickFab()//save parent succeeds
