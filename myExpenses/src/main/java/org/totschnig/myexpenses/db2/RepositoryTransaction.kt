@@ -425,7 +425,7 @@ fun Repository.loadTransaction(
                         false
                     ).data else null
                 )
-            } else emptyList()
+            } else null
         )
     } else
         throw IllegalArgumentException("Transaction not found")
@@ -702,4 +702,11 @@ private fun getTransferOperations(
             .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
             .build()
     )
+}
+
+fun Repository.undeleteTransaction(id: Long): Int {
+    val uri = ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), id)
+        .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE)
+        .build()
+    return contentResolver.update(uri, null, null, null)
 }

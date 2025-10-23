@@ -79,6 +79,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         assertThat(op1).isGreaterThan(0)
         assertThat(repository.getSequenceCount()).isEqualTo(start + 1)
         val restored = repository.loadTransaction(op1)
+        assertThat(restored.isSplit).isFalse()
+        assertThat(restored.isTransfer).isFalse()
         with(restored.data) {
             assertThat(amount).isEqualTo(100L)
             assertThat(comment).isEqualTo("test transaction")

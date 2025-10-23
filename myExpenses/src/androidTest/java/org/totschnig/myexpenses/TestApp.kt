@@ -23,7 +23,6 @@ import java.time.ZoneId
 import java.time.temporal.TemporalAmount
 import java.util.Currency
 
-
 class TestApp : MyApplication() {
     lateinit var fixture: Fixture
 

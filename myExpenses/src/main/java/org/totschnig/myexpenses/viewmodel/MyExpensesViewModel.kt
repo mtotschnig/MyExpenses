@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.contentValuesOf
 import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -60,15 +59,18 @@ import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.calculateSplitSummary
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
+import org.totschnig.myexpenses.db2.undeleteTransaction
 import org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator
 import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -78,7 +80,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
@@ -653,7 +654,7 @@ open class MyExpensesViewModel(
         liveData(context = coroutineContext()) {
             emit(itemIds.count {
                 try {
-                    Transaction.undelete(contentResolver, it) > 0
+                    repository.undeleteTransaction(it) > 0
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(contentResolver, e)
                     false
@@ -670,50 +671,18 @@ open class MyExpensesViewModel(
             var successCount = 0
             var failureCount = 0
             for (id in transactionIds) {
-                val transaction = Transaction.getInstanceFromDb(
-                    contentResolver,
-                    id,
-                    currencyContext.homeCurrencyUnit
-                )
-                transaction.prepareForEdit(repository, true, false)
-                val ops = transaction.buildSaveOperations(contentResolver, true)
-                val newUpdate =
-                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                        .withValue(column, value.takeIf { it != NULL_ITEM_ID })
-                if (transaction.isSplit) {
-                    var selection = "$KEY_ROWID = ${transaction.id}"
-                    if (column == KEY_ACCOUNTID) {
-                        selection += " OR $KEY_PARENTID = ${transaction.id}"
-                    }
-                    newUpdate.withSelection(selection, null)
-                } else {
-                    var selection = "$KEY_ROWID = ?"
-                    val updateTransferPeer = column == KEY_CATID || column == KEY_DATE
-                    if (updateTransferPeer) {
-                        selection += " OR $KEY_TRANSFER_PEER = ?"
-                    }
-                    newUpdate.withSelection(
-                        selection,
-                        arrayOfNulls(if (updateTransferPeer) 2 else 1)
-                    )//replaced by back reference
-                        .withSelectionBackReference(0, 0)
-                    if (updateTransferPeer) {
-                        newUpdate.withSelectionBackReference(1, 0)
-                    }
+                val transaction = repository.loadTransaction(id).let {
+                    it.copy(data = it.data.copy(id = 0, uuid = null))
                 }
-                ops.add(newUpdate.build())
-                val results = contentResolver.applyBatch(
-                    AUTHORITY,
-                    ops
-                )
-                if (results.size == ops.size
-                ) {
-                    transaction.updateFromResult(results)
+                val clone = repository.createTransaction(transaction)
+                val update = remapDo(listOf(clone.id), column, value)
+
+                if (update > 0) {
                     repository.saveTagsForTransaction(
                         repository.loadTagsForTransaction(id).map { it.id }.toLongArray(),
-                        transaction.id
+                        clone.id
                     )
-                    repository.addAttachments(transaction.id, repository.loadAttachments(id))
+                    repository.addAttachments(clone.id, repository.loadAttachments(id))
                     successCount++
                 } else {
                     failureCount++
@@ -724,24 +693,28 @@ open class MyExpensesViewModel(
     }
 
     fun remap(transactionIds: List<Long>, column: String, value: Long): LiveData<Int> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        liveData(context = coroutineDispatcher) {
             emit(run {
-                val list = transactionIds.joinToString()
-                var selection = "$KEY_ROWID IN ($list)"
-                if (column == KEY_ACCOUNTID) {
-                    selection += " OR $KEY_PARENTID IN ($list)"
-                }
-                if (column == KEY_CATID || column == KEY_DATE) {
-                    selection += " OR $KEY_TRANSFER_PEER IN ($list)"
-                }
-                contentResolver.update(
-                    TRANSACTIONS_URI,
-                    ContentValues().apply { put(column, value.takeIf { it != NULL_ITEM_ID }) },
-                    selection,
-                    null
-                )
+                remapDo(transactionIds, column, value)
             })
         }
+
+    private fun remapDo(transactionIds: List<Long>, column: String, value: Long): Int {
+        val list = transactionIds.joinToString()
+        var selection = "$KEY_ROWID IN ($list)"
+        if (column == KEY_ACCOUNTID) {
+            selection += " OR $KEY_PARENTID IN ($list)"
+        }
+        if (column == KEY_CATID || column == KEY_DATE) {
+            selection += " OR $KEY_TRANSFER_PEER IN ($list)"
+        }
+        return contentResolver.update(
+            TRANSACTIONS_URI,
+            ContentValues().apply { put(column, value.takeIf { it != NULL_ITEM_ID }) },
+            selection,
+            null
+        )
+    }
 
     fun tag(transactionIds: List<Long>, tagList: ArrayList<Tag>, replace: Boolean) {
         val tagIds = tagList.map { tag -> tag.id }

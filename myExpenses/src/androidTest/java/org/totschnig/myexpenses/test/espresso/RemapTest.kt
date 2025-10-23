@@ -10,9 +10,11 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -21,6 +23,8 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -33,12 +37,80 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.util.epoch2LocalDate
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 @TestShard4
 class RemapTest : BaseMyExpensesTest() {
 
     private val amount = 2000L
+
+    @Test
+    fun remapDate() {
+        doRemapDate(false)
+    }
+
+    @Test
+    fun remapDateAndClone() {
+        doRemapDate(true)
+    }
+
+    private fun doRemapDate(clone: Boolean) {
+        val account1 = buildAccount("K1")
+        val sourceDate = LocalDate.now().withDayOfMonth(15)
+        val remapDate = LocalDate.now().withDayOfMonth(1)
+        val transaction = repository.insertTransaction(
+            accountId = account1.id,
+            amount = amount,
+            date = sourceDate.atTime(12, 0)
+        )
+        launch(account1.id)
+        openCab(R.id.REMAP_PARENT)
+        onView(withText(R.string.date)).perform(click())
+
+        // 1. Define the target date we want to click.
+        val targetDate = LocalDate.now().withDayOfMonth(1)
+
+        // 2. Create a formatter that matches the date picker's content description format.
+        // The format is "DayOfWeek, DayOfMonth. MonthName" (e.g., "Montag, 1. September").
+        // We get the locale from the test context to ensure it matches the device.
+        val locale = targetContext.resources.configuration.locales[0]
+        val formatter = DateTimeFormatter.ofPattern("EEEE, d. MMMM", locale)
+        val expectedContentDescription = targetDate.format(formatter)
+
+        // 3. Find the day using the generated string and click it.
+        onView(ViewMatchers.withContentDescription(expectedContentDescription))
+            .inRoot(isDialog())
+            .perform(click())
+
+
+        // 3. Click the "OK" button on the date picker dialog.
+        onView(ViewMatchers.withId(com.google.android.material.R.id.confirm_button))
+            .inRoot(isDialog())
+            .perform(click())
+
+        // 4. Finally, confirm the remap operation in your app's dialog.
+        confirmRemap(clone)
+        // 5. Assertions
+        if (clone) {
+            runBlocking {
+                val transactions = repository.loadTransactions(account1.id)
+                assertThat(transactions.size).isEqualTo(2)
+                val source = transactions.first {it.id == transaction.id }
+                assertThat(epoch2LocalDate(source.date)).isEqualTo(sourceDate)
+                val clone = transactions.first { it.id != transaction.id }
+                assertThat(epoch2LocalDate(clone.date)).isEqualTo(remapDate)
+            }
+        } else {
+            val restored = repository.loadTransaction(transaction.id)
+
+            assertThat(epoch2LocalDate(restored.data.date)).isEqualTo(remapDate)
+        }
+    }
+
 
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
