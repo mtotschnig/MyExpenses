@@ -111,20 +111,20 @@ data class ImportTransaction(
 
         fun build(): ImportTransaction? = amount?.let {
             ImportTransaction(
-                date,
-                valueDate,
-                it,
-                payee,
-                memo,
-                category,
-                categoryClass,
-                toAccount,
-                toAmount,
-                status,
-                number,
-                method,
-                if (tags.isEmpty()) null else tags.toImmutableList(),
-                if (splits.isEmpty()) null else splits.mapNotNull { split -> split.build() }
+                date = date,
+                valueDAte = valueDate,
+                amount = it,
+                payee = payee,
+                memo = memo,
+                category = category,
+                categoryClass = categoryClass,
+                toAccount = toAccount,
+                toAmount = toAmount,
+                status = status,
+                number = number,
+                method = method,
+                tags = if (tags.isEmpty()) null else tags.toImmutableList(),
+                splits = if (splits.isEmpty()) null else splits.mapNotNull { split -> split.build() }
             )
         }
     }
