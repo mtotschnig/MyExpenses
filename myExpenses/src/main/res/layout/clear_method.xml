@@ -9,5 +9,5 @@
     android:contentDescription="@string/content_description_clear_method"
     android:focusable="true"
     android:visibility="gone"
-    app:srcCompat="@drawable/ic_menu_delete"
+    app:srcCompat="@drawable/ic_menu_close_clear_cancel"
     tools:showIn="@layout/method_row" />
