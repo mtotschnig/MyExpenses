@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new_378">チャートは検索フィルターに従います。</string>
-    <string name="whats_new_374">タグのカスタム色</string>
+    <string name="whats_new_374">タグのカスタムカラー</string>
     <string name="whats_new_384">クラウドバックアップのセットアップを簡素化</string>
     <string name="whats_new_388">トランザクションはアーカイブできます。</string>
     <string name="whats_new_386">費用ごとの分布と収入ごとの分布をダブルリングドーナツグラフでまとめて表示することができます。</string>
@@ -14,4 +14,17 @@
     <string name="whats_new_401">トランザクション リストに、分割トランザクションの詳細が表示されるようになりました。</string>
     <string name="whats_new_402">アカウントの種類はカスタマイズできます</string>
     <string name="whats_new_403">アカウントフラグは、アカウントの可視性と優先度のカスタマイズを拡張します。</string>
+    <string name="whats_new_361_1">取引リストは金額で並べ替えることができます。</string>
+    <string name="whats_new_361_2">アプリケーションフォルダ内のファイル(バックアップとエクスポート)は、共有または削除できます。</string>
+    <string name="whats_new_364_1">1つのCSVファイルから複数のアカウントにインポートする</string>
+    <string name="whats_new_364_2">重複した支払者/受取人情報を管理するための新しい戦略</string>
+    <string name="whats_new_365">任意の数の画像とドキュメントを添付する(PDF)</string>
+    <string name="whats_new_366">現在の予算の状態を表示するホーム画面ウィジェット。</string>
+    <string name="whats_new_367">カテゴリを経費または収入のカテゴリとして構成できるようになり、経費と収入の合計の計算方法に影響します。</string>
+    <string name="whats_new_369_1">転送はカテゴリにマッピングできます。</string>
+    <string name="whats_new_369_2">画面ロックが有効になっている場合、スクリーンショットの無効化をオプトアウトできます。</string>
+    <string name="whats_new_370">メイン画面のメニューは完全にカスタマイズできます。</string>
+    <string name="whats_new_376_1">新しい日付で複数のトランザクションを複製します。</string>
+    <string name="whats_new_376_2">Webユーザーインターフェースはメイン画面から制御できます。</string>
+    <string name="whats_new_382">%1$s 機能は、ウィジェット %2$sから呼び出すことができます。</string>
 </resources>
