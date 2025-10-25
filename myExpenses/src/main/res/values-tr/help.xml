@@ -224,4 +224,7 @@
     <string name="account_flags_help_v2">Bayraklar, bir hesabın görünürlüğünü ve önceliğini yapılandırmanıza olanak tanır:\n• Nadiren kullanılan hesapları gizleyin, ancak görünmez hesapların toplu hesaplara ve bilançoya dahil edilip edilmeyeceğini seçin.\n• İşlem formundaki hesap seçiminde tercih ettiğiniz hesaplara öncelik verin.\nBayrakları, ev hesapları ve kişisel hesaplar gibi belirli bir amaca ait hesapları belirtmek için de kullanabilir ve ardından yalnızca birini veya diğerini gösterebilirsiniz.</string>
     <string name="menu_balance_sheet_help_text">Bilanço, tüm hesaplarınızın net değerini, Varlıklarınız (sahip olduğunuz şeyler) ile Yükümlülükleriniz (borçlarınız) arasındaki fark olarak gösterir. Geçmişte, şimdiki zamanda veya hatta gelecekte olsun, seçilen bir andaki finansal durumunuzu yansıtır. Bilanço sunumu, bayraklardan da etkilenir (bu bayraklar, toplamlara dahil edilen hesapları değiştirebilir).</string>
     <string name="cab_flag_help_text">Seçilen hesaba bir bayrak atayın, örneğin Tercih Edilen veya Etkin Değil.</string>
+    <string name="form_payer_or_payee_help_text"><![CDATA[Bu alan, Ödeyen/Alacaklı seçmenize veya oluşturmanıza olanak tanır. Adı yazmaya başladığınızda öneriler görünür. Hiçbir öneri seçilmezse, yeni bir taraf oluşturulur. Bir öneri seçilirse, bir fiş olarak görüntülenir..
+        <br><img src="ic_menu_edit"> Seçilen tarafın ayrıntılarını değiştirin.
+        <br><img src="ic_menu_close_clear_cancel"> Geçerli seçimi kaldırın. Metin alanı yeniden görünecektir.]]></string>
 </resources>
