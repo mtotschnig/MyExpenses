@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.ui
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
+import androidx.annotation.RequiresApi
 import java.util.Locale
 
 //https://stackoverflow.com/a/40849142/1199911
@@ -27,7 +27,7 @@ object ContextHelper {
         setLocale(newLocale)
     })
 
-    @TargetApi(Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun buildContext24(
         context: Context,
         newLocale: Locale,

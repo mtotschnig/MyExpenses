@@ -132,22 +132,38 @@ class ChangeLogGenerator {
         val versionDate = LocalDate.now().toString()
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
+            "ar",
             "bg",
+            "ca",
             "cs",
+            "da",
             "de",
             "el",
             "es",
+            "eu",
             "fr",
             "hr",
             "hu",
             "it",
             "iw",
+            "ja",
+            "km",
+            "kn",
+            "ko",
+            "ms",
             "nl",
             "pl",
             "pt",
             "ro",
+            "ru",
+            "si",
+            "ta",
+            "te",
             "tr",
+            "uk",
             "vi",
+            "zh-CN",
+            "zh-TW",
             "en"
         )
         val yaml = Yaml(
@@ -166,7 +182,7 @@ class ChangeLogGenerator {
                 allLanguages.forEach { language ->
                     put(
                         language,
-                        versionInfo.getChanges(wrap(context, Locale(language)))!!.joinToString(" ")
+                        versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!.joinToString(" ")
                     )
                 }
             },
