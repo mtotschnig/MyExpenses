@@ -350,10 +350,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:tooltipText="@string/content_description_clear_category"
                             android:contentDescription="@string/content_description_clear_category"
                             android:focusable="true"
                             android:visibility="gone"
-                            app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+                            app:srcCompat="@drawable/ic_menu_close_clear_cancel"
+                            tools:ignore="UnusedAttribute" />
                     </LinearLayout>
                 </TableRow>
 
@@ -503,6 +505,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:tooltipText="@string/content_description_edit_plan"
                             android:contentDescription="@string/content_description_edit_plan"
                             android:focusable="true"
                             android:visibility="gone"
@@ -510,7 +513,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/TB"
                             app:layout_constraintTop_toTopOf="@id/PB"
-                            app:srcCompat="@drawable/ic_menu_edit" />
+                            app:srcCompat="@drawable/ic_menu_edit"
+                            tools:ignore="UnusedAttribute" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
 

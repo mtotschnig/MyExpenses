@@ -41,8 +41,10 @@
             style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tooltipText="@string/content_description_clear_party"
             android:contentDescription="@string/content_description_clear_party"
-            app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@drawable/ic_menu_close_clear_cancel"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 

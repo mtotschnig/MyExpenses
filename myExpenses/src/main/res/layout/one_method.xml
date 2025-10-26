@@ -131,10 +131,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:tooltipText="@string/content_description_remove_icon"
                         android:contentDescription="@string/content_description_remove_icon"
                         android:focusable="true"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+                        app:srcCompat="@drawable/ic_menu_close_clear_cancel"
+                        tools:ignore="UnusedAttribute" />
                 </LinearLayout>
             </TableRow>
         </TableLayout>

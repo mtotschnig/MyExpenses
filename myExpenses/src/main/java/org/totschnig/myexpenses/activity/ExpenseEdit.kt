@@ -43,6 +43,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -1019,8 +1020,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun updateDateLink() {
         dateEditBinding.DateLink.setImageResource(if (areDatesLinked) R.drawable.ic_link else R.drawable.ic_link_off)
-        dateEditBinding.DateLink.contentDescription =
+        val help =
             getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)
+        dateEditBinding.DateLink.contentDescription = help
+        TooltipCompat.setTooltipText(dateEditBinding.DateLink, help)
     }
 
     override fun setupListeners() {

@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.TooltipCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -179,8 +180,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
         }
         with(binding.SyncHelp) {
-            contentDescription =
-                getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
+            val helpText = getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
+            contentDescription = helpText
+            TooltipCompat.setTooltipText(this, helpText)
             setOnClickListener {
                 showHelp(getString(R.string.form_synchronization_help_text_add))
             }

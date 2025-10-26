@@ -271,9 +271,14 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             binding.mergeAccounts.isChecked = mergeAccounts
         }
 
-        dialogView.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
-            infoText = buildDateFormatHelpText()
+        binding.DateFormatHelp.configurePopupAnchor(
+            infoText = this.buildDateFormatHelpText(dateFormat = true, timeFormat = !splitDateTimeConfigured)
         )
+        if (splitDateTimeConfigured) {
+            binding.TimeFormatHelp.configurePopupAnchor(
+                infoText = this.buildDateFormatHelpText(dateFormat = false, timeFormat = true)
+            )
+        }
 
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
@@ -281,25 +286,33 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         return builder.create()
     }
 
-    private val splitDateTime: Boolean
-        get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false) &&
-                binding.format.checkedButtonId == R.id.csv
+    private val splitDateTimeConfigured: Boolean
+        get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false)
+
+    private val splitDateTimeActive: Boolean
+        get() = splitDateTimeConfigured && binding.format.checkedButtonId == R.id.csv
 
     private fun configureDateTimeFormat() {
-        with(splitDateTime) {
-            binding.timeFormat.isVisible = this
-            binding.DateFormatLabel.text = getString(R.string.date_format) +
-                    if (this) " / " + getString(R.string.time_format) else ""
-        }
+        binding.TimeFormatRow.isVisible = splitDateTimeActive
     }
 
     private fun setFileNameLabel(oneFile: Boolean) {
         binding.fileNameLabel.setText(if (oneFile) R.string.file_name else R.string.folder_name)
     }
 
-    private fun buildDateFormatHelpText(): CharSequence {
-        val letters = resources.getStringArray(R.array.help_ExportDialog_date_format_letters)
-        val components = resources.getStringArray(R.array.help_ExportDialog_date_format_components)
+    private fun buildDateFormatHelpText(dateFormat: Boolean, timeFormat: Boolean): CharSequence {
+        val letters = buildList {
+            if (dateFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_date_format_letters))
+            if (timeFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_time_format_letters))
+        }
+        val components = buildList {
+            if (dateFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_date_format_components))
+            if (timeFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_time_format_components))
+        }
         val sb = StringBuilder()
         for (i in letters.indices) {
             sb.append(letters[i])
@@ -356,7 +369,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
-            if (splitDateTime) {
+            if (splitDateTimeActive) {
                 putString(PREF_KEY_EXPORT_TIME_FORMAT, timeFormat)
             }
             putString(PREF_KEY_EXPORT_ENCODING, encoding)
@@ -383,7 +396,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putBoolean(KEY_DELETE_P, binding.exportDelete.isChecked)
             putBoolean(KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
             putString(KEY_DATE_FORMAT, dateFormat)
-            if (splitDateTime) {
+            if (splitDateTimeActive) {
                 putString(KEY_TIME_FORMAT, timeFormat)
             }
             putChar(KEY_DECIMAL_SEPARATOR, decimalSeparator)

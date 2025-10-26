@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,58 +14,61 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
   Based on Financisto
 -->
-<merge xmlns:tools="http://schemas.android.com/tools"
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TableRow android:gravity="center_vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <TextView
             style="@style/FormLabel"
-            android:text="@string/import_source_file"
+            android:layout_height="wrap_content"
             android:labelFor="@id/Filename"
-            android:layout_height="wrap_content"/>
+            android:text="@string/import_source_file" />
 
         <LinearLayout
             style="@style/FormField"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
-                android:focusable="false"
                 android:id="@+id/Filename"
-                android:inputType="none"
-                android:enabled="false"
                 android:layout_width="0dip"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:focusable="false"
                 android:importantForAutofill="no"
+                android:inputType="none"
                 tools:targetApi="o">
 
             </EditText>
 
             <ImageView
-                style="?actionButtonStyle"
                 android:id="@+id/btn_browse"
+                style="?actionButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:tooltipText="@string/content_description_browse_device_files"
+                android:contentDescription="@string/content_description_browse_device_files"
                 app:srcCompat="@drawable/ic_folder"
-                android:contentDescription="@string/select"
-                tools:ignore="MissingPrefix"/>
+                tools:ignore="UnusedAttribute" />
 
             <ImageView
-                style="?actionButtonStyle"
                 android:id="@+id/btn_list"
+                style="?actionButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_list"
-                android:contentDescription="@string/select"
+                android:tooltipText="@string/content_description_select_recent_file"
+                android:contentDescription="@string/content_description_select_recent_file"
                 android:visibility="gone"
-                tools:ignore="MissingPrefix"/>
+                app:srcCompat="@drawable/ic_list"
+                tools:ignore="UnusedAttribute" />
         </LinearLayout>
     </TableRow>
 

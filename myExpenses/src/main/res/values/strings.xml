@@ -1119,4 +1119,6 @@
     <string name="show_zero">Zero balance accounts</string>
     <!-- Description for button that allows to clear the selected party (payer /payee) from the currently edited transaction -->
     <string name="content_description_clear_party">Clear selected party</string>
+    <string name="content_description_browse_device_files">Browse files on this device</string>
+    <string name="content_description_select_recent_file">Select from recent files</string>
 </resources>
