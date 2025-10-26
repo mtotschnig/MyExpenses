@@ -551,7 +551,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (newInstance) {
                 if (operationType != TYPE_TRANSFER) {
                     discoveryHelper.discover(
-                        this, amountInput.typeButton(), 1,
+                        this, amountInput.typeButton, 1,
                         DiscoveryHelper.Feature.ExpenseIncomeSwitch
                     )
                 }
