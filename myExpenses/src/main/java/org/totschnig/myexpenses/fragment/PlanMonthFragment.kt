@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
@@ -17,6 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -49,7 +49,7 @@ import kotlin.math.abs
 class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     private var mManager: LoaderManager? = null
     private var readOnly = false
-    var stateListDrawable: StateListDrawable? = null
+    lateinit var stateListDrawable: StateListDrawable
 
     @State
     var instance2TransactionMap = HashMap<Long, Long>()
@@ -82,38 +82,36 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             .mutate() as GradientDrawable
         todaySelected.setColor(accountColor)
         today.setColor(surfaceColor)
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(android.R.attr.state_activated),
-            ColorDrawable(ResourcesCompat.getColor(resources, R.color.appDefault, null))
+            ResourcesCompat.getColor(resources, R.color.appDefault, null).toDrawable()
         )
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(
                 com.caldroid.R.attr.state_date_selected,
                 com.caldroid.R.attr.state_date_today
             ),
             todaySelected
         )
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(com.caldroid.R.attr.state_date_selected),
-            ColorDrawable(accountColor)
+            accountColor.toDrawable()
         )
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(com.caldroid.R.attr.state_date_today),
             today
         )
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(com.caldroid.R.attr.state_date_prev_next_month),
-            ColorDrawable(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.caldroid_state_date_prev_next_month,
-                    null
-                )
-            )
+            ResourcesCompat.getColor(
+                resources,
+                R.color.caldroid_state_date_prev_next_month,
+                null
+            ).toDrawable()
         )
-        stateListDrawable!!.addState(
+        stateListDrawable.addState(
             intArrayOf(),
-            ColorDrawable(surfaceColor)
+            surfaceColor.toDrawable()
         )
     }
 
@@ -270,7 +268,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                     PlanInstanceState.OPEN -> {
                         state.setImageBitmap(
                             UiUtils.getTintedBitmapForTheme(
-                                getContext(),
+                                context,
                                 R.drawable.ic_stat_open,
                                 themeResId
                             )
@@ -282,7 +280,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                     PlanInstanceState.APPLIED -> {
                         state.setImageBitmap(
                             UiUtils.getTintedBitmapForTheme(
-                                getContext(),
+                                context,
                                 R.drawable.ic_stat_applied,
                                 themeResId
                             )
@@ -294,7 +292,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                     PlanInstanceState.CANCELLED -> {
                         state.setImageBitmap(
                             UiUtils.getTintedBitmapForTheme(
-                                getContext(),
+                                context,
                                 R.drawable.ic_stat_cancelled,
                                 themeResId
                             )
@@ -305,7 +303,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                 }
                 text.setTextColor(
                     ResourcesCompat.getColor(
-                        getResources(),
+                        resources,
                         if (brightColor) com.caldroid.R.color.cell_text_color else com.caldroid.R.color.cell_text_color_dark,
                         null
                     )
@@ -358,7 +356,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         }
 
         override fun resetCustomResources(cellView: View, tv: TextView) {
-            cellView.background = stateListDrawable!!.mutate().constantState!!.newDrawable()
+            cellView.background = stateListDrawable.mutate().constantState!!.newDrawable()
             tv.setTextColor(defaultTextColorRes)
         }
 

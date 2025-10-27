@@ -496,7 +496,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         }
                         templatesCursor.moveToNext()
                     }
-                    if (missingUuids.size > 0) {
+                    if (missingUuids.isNotEmpty()) {
                         RepairHandler(this).obtainMessage(
                             0, missingUuids.toTypedArray()
                         )

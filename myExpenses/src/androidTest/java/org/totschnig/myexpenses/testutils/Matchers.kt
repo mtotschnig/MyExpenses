@@ -213,3 +213,20 @@ fun dateButtonHasDate(expectedDate: LocalDate): Matcher<View> {
         }
     }
 }
+
+fun withDrawableState(state: Int): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("with drawable state: $state")
+        }
+
+        override fun matchesSafely(view: View): Boolean {
+            // getDrawableState() returns the array of all active states on the view.
+            return view.drawableState.contains(state).also {
+                if (it) {
+                    println("View has drawable state: $view")
+                }
+            }
+        }
+    }
+}

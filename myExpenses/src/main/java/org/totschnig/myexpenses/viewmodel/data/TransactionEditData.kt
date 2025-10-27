@@ -71,7 +71,8 @@ data class TransactionEditData(
     val transferEditData: TransferEditData? = null,
     val isSealed: Boolean = false,
     val isSplitPart: Boolean = false,
-    val splitParts: List<TransactionEditData>? = null
+    val splitParts: List<TransactionEditData>? = null,
+    val planInstanceId: Long? = null
 ): Parcelable {
     @IgnoredOnParcel
     val isSplit = categoryId == DatabaseConstants.SPLIT_CATID

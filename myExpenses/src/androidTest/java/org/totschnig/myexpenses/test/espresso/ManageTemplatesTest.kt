@@ -5,16 +5,23 @@ import android.content.ContentUris
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.CursorMatchers
+import androidx.test.espresso.matcher.CursorMatchers.withRowString
+import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
@@ -28,14 +35,20 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDate
+import org.totschnig.myexpenses.testutils.withDrawableState
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import java.time.ZonedDateTime
 
 //TODO test CAB actions
 @TestShard3
@@ -163,7 +176,16 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     }
 
     @Test
-    fun planIsDisplayed() {
+    fun savePlanInstance() {
+        doThePlanTest(Template.Action.SAVE)
+    }
+
+    @Test
+    fun editPlanInstance() {
+        doThePlanTest(Template.Action.EDIT)
+    }
+
+    private fun doThePlanTest(action: Template.Action) {
         buildAccount()
         assertWithMessage("Unable to create planner").that(
             plannerUtils.createPlanner(true)
@@ -174,8 +196,9 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             title = title,
             amount = -1200L,
         )
+        val now = ZonedDateTime.now()
         val event = Plan(
-            LocalDate.now(),
+            now.toLocalDate(),
             "FREQ=WEEKLY;COUNT=10;WKST=SU",
             title,
             template.compileDescription(app)
@@ -183,13 +206,49 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         val eventId = ContentUris.parseId(
             event.save(contentResolver, PlannerUtils(app, prefHandler))!!
         )
-        repository.createTemplate(
-            template.copy(planId = eventId)
-        )
-        launch()
-        onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
-            .perform(ViewActions.click())
-        Plan.delete(contentResolver, eventId)
+        try {
+            val id = repository.createTemplate(
+                template.copy(planId = eventId)
+            ).id
+            launch()
+            onData(withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
+                .perform(click())
+            onView(
+                allOf(
+                    withDrawableState(com.caldroid.R.attr.state_date_today),
+                    isDisplayed()
+                )
+            ).perform(click())
+            onView(
+                withText(
+                    when (action) {
+                        Template.Action.SAVE -> R.string.menu_create_instance_save
+
+                        Template.Action.EDIT -> R.string.menu_create_instance_edit
+                    }
+                )
+            )
+                .inRoot(RootMatchers.isPlatformPopup())
+                .perform(click())
+            if(action == Template.Action.EDIT) {
+                clickFab()
+            }
+            contentResolver.query(
+                TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+                null, null, null, null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(KEY_TEMPLATEID, id)
+                hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
+                hasLong(
+                    KEY_INSTANCEID,
+                    CalendarProviderProxy.calculateId(now.toEpochSecond() * 1000)
+                )
+            }
+        } finally {
+            Plan.delete(contentResolver, eventId)
+        }
     }
 
     private fun launch() {
@@ -202,7 +261,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             .isEqualTo(0)
         launch()
         val title = "Espresso $type Template $defaultAction"
-        onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, title))
+        onData(withRowString(DatabaseConstants.KEY_TITLE, title))
             .perform(ViewActions.click())
         when (defaultAction) {
             Template.Action.SAVE -> verifySaveAction()

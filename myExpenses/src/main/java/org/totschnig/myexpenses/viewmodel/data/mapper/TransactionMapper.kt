@@ -39,7 +39,6 @@ object TransactionMapper {
             exchangeRate = null, //TODO where does this come from?
             parentId = transaction.parentId,
             crStatus = transaction.crStatus,
-            //TODO originTemplateId = transaction.originTemplateId,
             uuid = transaction.uuid,
             debtId = transaction.debtId,
             templateEditData = null,

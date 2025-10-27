@@ -1262,11 +1262,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else {
 
                     isSaving = true
-                    if (planInstanceId > 0L) {
-                        //TODO
-                        //transaction.originPlanInstanceId = planInstanceId
-                    }
-                    viewModel.save(transaction, (delegate as? MainDelegate)?.userSetExchangeRate)
+                    viewModel.save(transaction.copy(planInstanceId = planInstanceId.takeIf { it > 0L }), (delegate as? MainDelegate)?.userSetExchangeRate)
                         .observe(this) {
                             onSaved(it, transaction)
                         }

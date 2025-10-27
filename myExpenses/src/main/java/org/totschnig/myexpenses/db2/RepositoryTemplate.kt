@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -109,20 +110,31 @@ fun Repository.planCount(): Int = contentResolver.query(
     if (it.moveToFirst()) it.getInt(0) else 0
 } ?: 0
 
-fun Repository.loadTemplateIfInstanceIsOpen(id: Long, instanceId: Long) =
+private const val IS_OPEN_CHECK = "NOT exists(SELECT 1 from $TABLE_PLAN_INSTANCE_STATUS WHERE $KEY_INSTANCEID = ? AND $KEY_TEMPLATEID = $KEY_ROWID)"
+
+fun Repository.loadTemplateIfInstanceIsOpen(templateId: Long, instanceId: Long) =
     loadTemplate(
-        id,
-        selection = "NOT exists(SELECT 1 from $TABLE_PLAN_INSTANCE_STATUS WHERE $KEY_INSTANCEID = ? AND $KEY_TEMPLATEID = $KEY_ROWID)",
-        selectionArgs = arrayOf(instanceId.toString())
+        templateId,
+        selection = "$KEY_ROWID = ? AND $IS_OPEN_CHECK",
+        selectionArgs = arrayOf(templateId.toString(), instanceId.toString()),
+        require = false
+    )
+
+fun Repository.getInstanceForPlanIfInstanceIsOpen(planId: Long, instanceId: Long) =
+    loadTemplate(
+        planId,
+        selection = "$KEY_PLANID = ? AND $IS_OPEN_CHECK",
+        selectionArgs = arrayOf(planId.toString(), instanceId.toString()),
+        require = false
     )
 
 fun Repository.loadTemplate(
     id: Long,
-    selection: String? = null,
-    selectionArgs: Array<String>? = null,
+    selection: String? =  "$KEY_ROWID = ?",
+    selectionArgs: Array<String>? = arrayOf(id.toString()),
     require: Boolean = true
 ) = contentResolver.query(
-    ContentUris.withAppendedId(TEMPLATES_URI, id),
+    TEMPLATES_URI,
     null,
     selection,
     selectionArgs,
@@ -361,6 +373,9 @@ suspend fun Repository.instantiateTemplate(
         }
     )
     saveTagsForTransaction(loadTagsForTemplate(planInstanceInfo.templateId), t.id)
+    if (planInstanceInfo.instanceId != null) {
+        linkTemplateWithTransaction(planInstanceInfo.templateId, t.id, planInstanceInfo.instanceId)
+    }
     return t
 }
 
@@ -448,12 +463,12 @@ fun Repository.getPlanInstance(
     )
 }
 
-fun Repository.linkTemplateWithTransaction(templateId: Long, transactionId: Long, planDtStart: Long) {
+fun Repository.linkTemplateWithTransaction(templateId: Long, transactionId: Long, instanceId: Long) {
     contentResolver.insert(
         PLAN_INSTANCE_STATUS_URI,
         contentValuesOf(
             KEY_TEMPLATEID to templateId,
-            KEY_INSTANCEID to CalendarProviderProxy.calculateId(planDtStart),
+            KEY_INSTANCEID to instanceId,
             KEY_TRANSACTIONID to transactionId
         )
     )

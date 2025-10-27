@@ -20,9 +20,10 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.getInstanceForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.getLabelForAccount
+import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
-import org.totschnig.myexpenses.db2.loadTemplateIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.planCount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.injector
@@ -205,7 +206,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     //3) execute the template
                     log("found instance %d of plan %d", instanceId, planId)
                     //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
-                    val template = repository.loadTemplateIfInstanceIsOpen(planId, instanceId)
+                    val template = repository.getInstanceForPlanIfInstanceIsOpen(planId, instanceId)
                     if (!(template == null || template.data.sealed)) {
                         if (template.data.planExecutionAdvance >= diff) {
                             val accountLabel = repository.getLabelForAccount(template.data.accountId)
@@ -233,7 +234,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                 builder.setContentText(content)
                                 if (template.data.planExecutionAutomatic) {
                                     val transaction = repository.createTransaction(template.instantiate())
-                                    //t.originPlanInstanceId = instanceId TODO
+                                    repository.linkTemplateWithTransaction(template.id, transaction.id, instanceId)
                                     repository.saveTagsForTransaction(repository.loadTagsForTemplate(template.id), transaction.id)
                                     val displayIntent: Intent =
                                         Intent(applicationContext, MyExpenses::class.java)

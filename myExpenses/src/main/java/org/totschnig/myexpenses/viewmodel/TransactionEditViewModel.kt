@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
@@ -229,7 +230,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                                 save(contentResolver, plannerUtils)
                             }
                         } else null
-                        //TODO withLinkedTransaction
                         val template = repository.createTemplate(
                             RepositoryTemplate.fromTransaction(
                                 repositoryTransaction,
@@ -241,8 +241,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         )
                         tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
                         if (plan != null) {
-                            repository.linkTemplateWithTransaction(template.id, id, plan.dtStart)
+                            repository.linkTemplateWithTransaction(template.id, id,CalendarProviderProxy.calculateId(plan.dtStart))
                         }
+                    }
+                    if (transaction.planInstanceId != null) {
+                        repository.linkTemplateWithTransaction(transaction.originTemplateId!!, id, transaction.planInstanceId)
                     }
                 }
                 Unit
@@ -471,7 +474,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)
                 ?.instantiate()?.let {
-                TransactionMapper.map(it, currencyContext)
+                TransactionMapper.map(it, currencyContext).copy(
+                    originTemplateId = transactionId
+                )
             }
 
             InstantiationTask.TRANSACTION -> repository.loadTransaction(transactionId, true).let {
