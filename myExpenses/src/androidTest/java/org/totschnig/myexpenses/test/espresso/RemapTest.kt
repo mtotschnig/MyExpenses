@@ -37,7 +37,9 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.getMonthDayOfWeekDay
 import org.totschnig.myexpenses.util.epoch2LocalDate
+import org.totschnig.myexpenses.util.toEpoch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -74,12 +76,8 @@ class RemapTest : BaseMyExpensesTest() {
         // 1. Define the target date we want to click.
         val targetDate = LocalDate.now().withDayOfMonth(1)
 
-        // 2. Create a formatter that matches the date picker's content description format.
-        // The format is "DayOfWeek, DayOfMonth. MonthName" (e.g., "Montag, 1. September").
-        // We get the locale from the test context to ensure it matches the device.
         val locale = targetContext.resources.configuration.locales[0]
-        val formatter = DateTimeFormatter.ofPattern("EEEE, d. MMMM", locale)
-        val expectedContentDescription = targetDate.format(formatter)
+        val expectedContentDescription = getMonthDayOfWeekDay(targetDate.toEpoch()*1000, locale)
 
         // 3. Find the day using the generated string and click it.
         onView(ViewMatchers.withContentDescription(expectedContentDescription))

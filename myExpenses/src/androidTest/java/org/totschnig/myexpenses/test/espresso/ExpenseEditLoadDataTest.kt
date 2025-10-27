@@ -31,17 +31,19 @@ import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
-import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -76,9 +78,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         check(foreignCurrency.code != homeCurrency.code)
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
-        transaction = repository.insertTransaction(
-            amount = 500L, accountId = account1.id
+        transaction = repository.createTransaction(
+            Transaction(
+                accountId = account1.id,
+                amount = 500L,
+                status = STATUS_EXPORTED
+            )
         )
+
         transfer = repository.insertTransfer(
             amount = -600L, accountId = account1.id, transferAccountId = account2.id
         )
@@ -156,13 +163,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepStatusAndUuidAfterSave() {
+        repository.markAsExported(account1.id, null)
         load(transaction.id).use {
             val uuid = transaction.data.uuid
-            //TODO check if this actually tests the problem
-            val status = CrStatus.UNRECONCILED
             closeKeyboardAndSave()
             val t = repository.loadTransaction(transaction.id).data
-            assertThat(t.crStatus).isEqualTo(status)
+            assertThat(t.status).isEqualTo(STATUS_EXPORTED)
             assertThat(t.uuid).isEqualTo(uuid)
         }
     }

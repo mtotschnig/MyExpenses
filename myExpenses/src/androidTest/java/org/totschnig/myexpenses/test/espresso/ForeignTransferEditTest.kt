@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
 @TestShard2
-//TODO add more useful assertions
 class ForeignTransferEditTest : BaseExpenseEditTest() {
     private var transfer: Long = 0
     lateinit var account2: Account
@@ -57,5 +56,6 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
         androidx.test.espresso.Espresso.onIdle()
         closeKeyboardAndSave()
         assertFinishing()
+        assertTransfer(transfer, account1.id , -2000L, account2.id, 3000L)
     }
 }

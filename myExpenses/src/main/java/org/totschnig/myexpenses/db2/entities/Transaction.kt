@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -40,7 +41,7 @@ data class Transaction(
     /** Corresponds to KEY_ROWID (integer primary key autoincrement) */
     val id: Long = 0,
 
-    /** Corresponds to KEY_STATUS (integer not null) */
+    /** Corresponds to KEY_STATUS (integer not null) read-only */
     val status: Int = DatabaseConstants.STATUS_NONE,
 
     /** Corresponds to KEY_COMMENT (text) */
@@ -140,7 +141,6 @@ data class Transaction(
         put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
         put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
         put(KEY_UUID, requireNotNull(uuid))
-        put(KEY_STATUS, status)
     }
 
     val isTransfer: Boolean = transferAccountId != null
@@ -175,7 +175,8 @@ data class Transaction(
             KEY_EQUIVALENT_AMOUNT,
             KEY_CURRENCY,
             KEY_SEALED,
-            KEY_PAYEE_NAME
+            KEY_PAYEE_NAME,
+            KEY_STATUS
         )
 
         /**
@@ -207,7 +208,8 @@ data class Transaction(
                 equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
                 currency = getStringOrNull(KEY_CURRENCY),
                 sealed = getBoolean(KEY_SEALED),
-                payeeName = getStringOrNull(KEY_PAYEE_NAME)
+                payeeName = getStringOrNull(KEY_PAYEE_NAME),
+                status = getInt(KEY_STATUS)
             )
         }
     }

@@ -202,6 +202,24 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         }
     }
 
+    protected fun assertTransfer(
+        id: Long,
+        expectedAccount: Long,
+        expectedAmount: Long,
+        expectedTransferAccount: Long,
+        expectedTransferAmount: Long
+    ) {
+        val transaction = repository.loadTransaction(id)
+        with(transaction.data) {
+            assertThat(amount).isEqualTo(expectedAmount)
+            assertThat(accountId).isEqualTo(expectedAccount)
+        }
+        with(transaction.transferPeer!!) {
+            assertThat(amount).isEqualTo(expectedTransferAmount)
+            assertThat(accountId).isEqualTo(expectedTransferAccount)
+        }
+    }
+
     protected fun launch(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launch<TestExpenseEdit>(i).also {
             testScenario = it
