@@ -207,14 +207,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
             packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
             packageLabel.setText(R.string.professional_key)
             packagePrice.text = licenceHandler.professionalPriceShortInfo
-            val proPackages = licenceHandler.proPackages
-            if (!contribVisible && !extendedVisible && proPackages.size == 1) {
-                professionalButton.isChecked = true
-                selectedPackage = proPackages[0]
-            } else {
-                root.setOnClickListener(this@ContribDialogFragment)
-                professionalButton.setOnClickListener(this@ContribDialogFragment)
-            }
+            root.setOnClickListener(this@ContribDialogFragment)
+            professionalButton.setOnClickListener(this@ContribDialogFragment)
         }
 
         //single FEATURE
