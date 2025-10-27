@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import androidx.annotation.VisibleForTesting
+import androidx.core.content.contentValuesOf
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.ContribFeature
@@ -19,8 +20,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.PLAN_INSTANCE_STATUS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
@@ -399,7 +402,7 @@ fun Repository.deleteTemplate(id: Long, deletePlan: Boolean = false) {
             Plan.delete(contentResolver, t.data.planId)
         }
         contentResolver.delete(
-            TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            PLAN_INSTANCE_STATUS_URI,
             "$KEY_TEMPLATEID = ?",
             arrayOf(id.toString())
         )
@@ -425,7 +428,7 @@ fun Repository.getPlanInstance(
     null
 )?.useAndMapToOne { c ->
     val instanceId = c.getLongOrNull(KEY_INSTANCEID)
-    val transactionId = c.getLongOrNull(DatabaseConstants.KEY_TRANSACTIONID)
+    val transactionId = c.getLongOrNull(KEY_TRANSACTIONID)
     val templateId = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID))
     val currency =
         currencyContext[c.getString(c.getColumnIndexOrThrow(DatabaseConstants.KEY_CURRENCY))]
@@ -442,5 +445,16 @@ fun Repository.getPlanInstance(
         c.getInt(c.getColumnIndexOrThrow(DatabaseConstants.KEY_COLOR)),
         amount,
         c.getInt(c.getColumnIndexOrThrow(DatabaseConstants.KEY_SEALED)) == 1
+    )
+}
+
+fun Repository.linkTemplateWithTransaction(templateId: Long, transactionId: Long, planDtStart: Long) {
+    contentResolver.insert(
+        PLAN_INSTANCE_STATUS_URI,
+        contentValuesOf(
+            KEY_TEMPLATEID to templateId,
+            KEY_INSTANCEID to CalendarProviderProxy.calculateId(planDtStart),
+            KEY_TRANSACTIONID to transactionId
+        )
     )
 }

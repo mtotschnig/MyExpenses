@@ -3,6 +3,7 @@ package org.totschnig.shared_test
 import android.database.Cursor
 import com.google.common.truth.FailureMetadata
 import com.google.common.truth.IntegerSubject
+import com.google.common.truth.LongSubject
 import com.google.common.truth.Subject
 import com.google.common.truth.Subject.Factory
 import com.google.common.truth.Truth.assertAbout
@@ -42,6 +43,12 @@ class CursorSubject private constructor(
     fun hasLong(columnName: String, expected: Long) {
         check("hasLong").that(actual.getLong(actual.getColumnIndexOrThrow(columnName)))
             .isEqualTo(expected)
+    }
+
+    fun hasLong(columnName: String, expectation: LongSubject.() -> Unit) {
+        check("hasLong").that(actual.getLong(actual.getColumnIndexOrThrow(columnName))).apply {
+            expectation(this)
+        }
     }
 
     fun hasLong(columnIndex: Int, expected: Long) {

@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
+import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -205,6 +206,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
                 } else {
                     val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
+                    val id = if (transaction.id == 0L) {
+                        repository.createTransaction(repositoryTransaction).id
+                    } else {
+                        repository.updateTransaction(repositoryTransaction)
+                        transaction.id
+                    }
+                    tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
                     transaction.initialPlan?.let { (title, recurrence, date) ->
                         val title = title
                             ?: transaction.party?.name
@@ -232,14 +240,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             }
                         )
                         tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
+                        if (plan != null) {
+                            repository.linkTemplateWithTransaction(template.id, id, plan.dtStart)
+                        }
                     }
-                    val id = if (transaction.id == 0L) {
-                        repository.createTransaction(repositoryTransaction).id
-                    } else {
-                        repository.updateTransaction(repositoryTransaction)
-                        transaction.id
-                    }
-                    tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
                 }
                 Unit
                 /*                transaction.party?.let {

@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteTemplate
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
@@ -41,8 +42,9 @@ import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -343,11 +345,15 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 .withValue(KEY_OPENING_BALANCE, currentBalance)
                 .build()
         } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-            val helper = Transaction(account.id, Money(currencyContext[account.currency], sum))
-            helper.comment = helperComment
-            helper.status = STATUS_HELPER
+            val helper = Transaction(
+                accountId = account.id,
+                amount =Money(currencyContext[account.currency], sum).amountMinor,
+                comment = helperComment,
+                status = STATUS_HELPER,
+                uuid = generateUuid()
+            )
             handleDeleteOperation = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(helper.buildInitialValues()).build()
+                .withValues(helper.asContentValues()).build()
         }
         val rowSelect = buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())

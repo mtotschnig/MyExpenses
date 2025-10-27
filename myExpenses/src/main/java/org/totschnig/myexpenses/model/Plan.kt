@@ -14,6 +14,7 @@ import androidx.annotation.RequiresPermission
 import org.totschnig.myexpenses.calendar.EventRecurrenceFormatter
 import org.totschnig.myexpenses.calendar.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
@@ -111,6 +112,16 @@ class Plan private constructor(
         private fun calendarDay2String(calendarDay: Int): String {
             return EventRecurrence.day2String(
                 EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)))
+        }
+
+        fun label(context: Context) = when (this) {
+            ONETIME -> context.getString(R.string.does_not_repeat)
+            DAILY -> context.getString(R.string.daily_plain)
+            WEEKLY -> context.getString(R.string.weekly_plain)
+            MONTHLY -> context.getString(R.string.monthly_plain)
+            YEARLY -> context.getString(R.string.yearly_plain)
+            CUSTOM -> context.getString(R.string.pref_sort_order_custom)
+            else -> "- - - -"
         }
     }
 

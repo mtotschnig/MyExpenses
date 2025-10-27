@@ -25,16 +25,24 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.RepositoryTemplate
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import java.time.LocalDate
 
 const val TEMPLATE_TITLE = "Espresso template"
 const val ACCOUNT_LABEL_1 = "Test label 1"
@@ -120,8 +128,9 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         expectedAmount: Long,
         templateTitle: String = TEMPLATE_TITLE,
         expectedTags: List<String> = emptyList(),
-        expectedSplitParts: List<Long>? = null
-    ) {
+        expectedSplitParts: List<Long>? = null,
+        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE
+    ): RepositoryTemplate {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
             arrayOf(KEY_ROWID),
@@ -141,12 +150,33 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             assertThat(accountId).isEqualTo(expectedAccount)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+
         if (expectedSplitParts == null) {
             assertThat(template.splitParts).isNull()
         } else {
             assertThat(template.splitParts!!.map { it.data.amount })
                 .containsExactlyElementsIn(expectedSplitParts)
         }
+
+        if (expectedPlanRecurrence != Plan.Recurrence.NONE) {
+            assertThat(template.plan!!.id).isGreaterThan(0)
+            val today = LocalDate.now()
+            assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
+            contentResolver.query(
+                TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                    template.id,
+                    CalendarProviderProxy.calculateId(template.plan.dtStart)
+                ),
+                null, null, null, null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
+            }
+        } else {
+            assertThat(template.plan).isNull()
+        }
+        return template
     }
 
     protected fun assertTransaction(

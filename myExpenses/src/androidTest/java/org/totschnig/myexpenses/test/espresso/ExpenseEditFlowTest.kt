@@ -1,14 +1,18 @@
 package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -22,6 +26,7 @@ import org.totschnig.myexpenses.db2.deleteMethod
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -32,6 +37,7 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
+import org.totschnig.myexpenses.testutils.withAdaptedData
 import org.totschnig.myexpenses.testutils.withIdAndParent
 
 @TestShard2
@@ -127,7 +133,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         launchForResult()
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
         onView(withText("Template")).perform(click())
-        toolbarTitle().check(ViewAssertions.matches(withText(R.string.menu_create_transaction)))
+        toolbarTitle().check(matches(withText(R.string.menu_create_transaction)))
         checkAmount(5)
     }
 
@@ -146,10 +152,35 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         }
     }
 
+    @Test
+    fun saveAsPlanCreatesPlanInstanceLink() {
+        launchForResult()
+        clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
+        setTitle()
+        selectRecurrenceFromSpinner(Plan.Recurrence.DAILY)
+        setAmount(5)
+        clickFab()
+        val template = assertTemplate(account1.id, -500, expectedPlanRecurrence = Plan.Recurrence.DAILY)
+        Plan.delete(contentResolver, template.plan!!.id)
+    }
+
+
     private fun linkWithTag() {
         onView(withId(R.id.TagSelection)).perform(click())
         onView(withId(R.id.tag_edit)).perform(replaceText("Tag"), pressImeActionButton())
         clickFab()
+    }
+
+    private fun selectRecurrenceFromSpinner(recurrence: Plan.Recurrence) {
+        onView(withId(R.id.Recurrence)).perform(click())
+
+        onData(
+            allOf(
+            instanceOf(Plan.Recurrence::class.java),
+            `is`(recurrence)
+        )).perform(click())
+
+        onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
     }
 
     //Bug https://github.com/mtotschnig/MyExpenses/issues/1426

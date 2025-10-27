@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -38,6 +39,9 @@ import org.totschnig.myexpenses.provider.splitStringList
 data class Transaction(
     /** Corresponds to KEY_ROWID (integer primary key autoincrement) */
     val id: Long = 0,
+
+    /** Corresponds to KEY_STATUS (integer not null) */
+    val status: Int = DatabaseConstants.STATUS_NONE,
 
     /** Corresponds to KEY_COMMENT (text) */
     val comment: String? = null,
@@ -136,6 +140,7 @@ data class Transaction(
         put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
         put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
         put(KEY_UUID, requireNotNull(uuid))
+        put(KEY_STATUS, status)
     }
 
     val isTransfer: Boolean = transferAccountId != null
