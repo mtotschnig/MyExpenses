@@ -154,6 +154,7 @@ import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
 import java.math.BigDecimal
@@ -305,7 +306,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private val createAccountForTransfer =
         registerForActivityResult(StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                restartWithType(TYPE_TRANSFER)
+                delegate.restartWithType(TYPE_TRANSFER)
             }
         }
 
@@ -324,7 +325,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    val splitPartContract = object: EditSplitPartContract() {
+    val splitPartContract = object : EditSplitPartContract() {
         override fun prepareIntent(intent: Intent) {
             forwardDataEntryFromWidget(intent)
             intent.putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
@@ -449,9 +450,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             }
             val splitPart = extras?.let { extras ->
-                BundleCompat.getParcelable(extras, KEY_SPLIT_PART, TransactionEditData::class.java)?.also {
-                    mRowId = it.id
-                }
+                BundleCompat.getParcelable(extras, KEY_SPLIT_PART, TransactionEditData::class.java)
+                    ?.also {
+                        mRowId = it.id
+                    }
             }
             newInstance =
                 mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
@@ -1205,15 +1207,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             showSnackBar(R.string.account_list_not_yet_loaded)
             return
         }
-        splitPartLauncher.launch(TransactionEditData(
-            id = 0,
-            uuid = Model.generateUuid(),
-            //crStatus = CrStatus.UNRECONCILED //TODO
-            accountId = account.id,
-            amount = Money(account.currency, prefillAmount ?: BigDecimal.ZERO),
-            templateEditData = if (isMainTemplate) TemplateEditData() else null,
-            isSplitPart = true
-        ))
+        splitPartLauncher.launch(
+            TransactionEditData(
+                id = 0,
+                uuid = Model.generateUuid(),
+                accountId = account.id,
+                amount = Money(account.currency, prefillAmount ?: BigDecimal.ZERO),
+                templateEditData = if (isMainTemplate) TemplateEditData() else null,
+                isSplitPart = true
+            )
+        )
     }
 
     /**
@@ -1262,10 +1265,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else {
 
                     isSaving = true
-                    viewModel.save(transaction.copy(planInstanceId = planInstanceId.takeIf { it > 0L }), (delegate as? MainDelegate)?.userSetExchangeRate)
-                        .observe(this) {
-                            onSaved(it, transaction)
-                        }
+                    lifecycleScope.launch {
+                        onSaved(viewModel.save(transaction.copy(planInstanceId = planInstanceId.takeIf { it > 0L }), (delegate as? MainDelegate)?.userSetExchangeRate))
+                    }
                     if (wasStartedFromWidget) {
                         when (operationType) {
                             TYPE_TRANSACTION -> prefHandler.putLong(
@@ -1378,8 +1380,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         finish()
     }
 
-    private fun onSaved(result: Result<Unit>, transaction: TransactionEditData) {
-        result.onSuccess {
+    private fun onSaved(result: Result<TransactionEditResult>) {
+        result.onSuccess { transaction ->
             if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }
@@ -1398,7 +1400,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
-                                transaction.amount.amountMinor - previousAmount - previousTransferAmount,
+                                transaction.amount - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
                                 label,
@@ -1420,7 +1422,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 currentBalance,
                                 criterion,
                                 //if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account
-                                transaction.transferEditData!!.transferAmount!!.amountMinor - previousAmount - previousTransferAmount,
+                                transaction.transferAmount!! - previousAmount - previousTransferAmount,
                                 color,
                                 currency,
                                 label,
@@ -1458,11 +1460,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else doFinish()
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    if (isTemplate) {
-                        transaction.templateEditData?.planEditData?.plan?.id
-                    } else {
-                        TODO() //transaction.originPlanId
-                    }?.let { launchPlanView(true, it) }
+                    launchPlanView(true, transaction.planId!!)
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     doFinish()
@@ -1512,7 +1510,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature === ContribFeature.SPLIT_TRANSACTION) {
-            restartWithType(TYPE_SPLIT)
+            delegate.restartWithType(TYPE_SPLIT)
         }
     }
 

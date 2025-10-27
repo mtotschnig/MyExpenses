@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.content.Intent
+import android.provider.CalendarContract
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -8,6 +10,10 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
@@ -37,6 +43,7 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
+import org.totschnig.myexpenses.testutils.uriStartsWith
 import org.totschnig.myexpenses.testutils.withAdaptedData
 import org.totschnig.myexpenses.testutils.withIdAndParent
 
@@ -44,6 +51,7 @@ import org.totschnig.myexpenses.testutils.withIdAndParent
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
     var templateId: Long = 0
     var methodId: Long = 0
+
     @Before
     fun fixture() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
@@ -160,10 +168,63 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         selectRecurrenceFromSpinner(Plan.Recurrence.DAILY)
         setAmount(5)
         clickFab()
-        val template = assertTemplate(account1.id, -500, expectedPlanRecurrence = Plan.Recurrence.DAILY)
+        val template =
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = -500,
+                expectedPlanRecurrence = Plan.Recurrence.DAILY,
+                checkPlanInstance = true
+            )
         Plan.delete(contentResolver, template.plan!!.id)
     }
 
+    @Test
+    fun saveAsPlanCustomRecurrenceOpensCalendar() {
+        Intents.init()
+        launchForResult()
+        clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
+        setTitle()
+        selectRecurrenceFromSpinner(Plan.Recurrence.CUSTOM)
+        setAmount(5)
+        clickFab()
+        val template =
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = -500,
+                expectedPlanRecurrence = Plan.Recurrence.CUSTOM,
+                checkPlanInstance = true
+            )
+        intended(
+            allOf(
+                hasAction(Intent.ACTION_VIEW),
+                hasData(uriStartsWith(CalendarContract.Events.CONTENT_URI.toString()))
+            )
+        )
+        Plan.delete(contentResolver, template.plan!!.id)
+    }
+
+    @Test
+    fun templateWithCustomRecurrenceOpensCalendar() {
+        Intents.init()
+        launchNewTemplate()
+        setTitle()
+        selectRecurrenceFromSpinner(Plan.Recurrence.CUSTOM)
+        setAmount(5)
+        clickFab()
+        val template =
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = -500,
+                expectedPlanRecurrence = Plan.Recurrence.CUSTOM
+            )
+        intended(
+            allOf(
+                hasAction(Intent.ACTION_VIEW),
+                hasData(uriStartsWith(CalendarContract.Events.CONTENT_URI.toString()))
+            )
+        )
+        Plan.delete(contentResolver, template.plan!!.id)
+    }
 
     private fun linkWithTag() {
         onView(withId(R.id.TagSelection)).perform(click())
@@ -176,9 +237,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
         onData(
             allOf(
-            instanceOf(Plan.Recurrence::class.java),
-            `is`(recurrence)
-        )).perform(click())
+                instanceOf(Plan.Recurrence::class.java),
+                `is`(recurrence)
+            )
+        ).perform(click())
 
         onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
     }

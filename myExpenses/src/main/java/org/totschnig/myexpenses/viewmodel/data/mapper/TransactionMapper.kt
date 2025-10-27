@@ -129,7 +129,6 @@ object TransactionMapper {
             equivalentAmount = transactionEditData.equivalentAmount?.amountMinor,
             parentId = transactionEditData.parentId,
             crStatus = transactionEditData.crStatus,
-            //originTemplateId = transactionEditData.originTemplateId,
             uuid = transactionEditData.uuid,
             comment = transactionEditData.comment,
             referenceNumber = transactionEditData.referenceNumber,
@@ -155,7 +154,7 @@ object TransactionMapper {
             data = transaction,
             transferPeer = transferPeer,
             splitParts = transactionEditData.splitParts?.map {
-                mapTransaction(it, date)
+                mapTransaction(it.copy(crStatus = transactionEditData.crStatus), date)
             }
         )
     }

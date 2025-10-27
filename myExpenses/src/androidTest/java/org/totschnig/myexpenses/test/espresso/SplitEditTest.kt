@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -65,9 +66,18 @@ class SplitEditTest : BaseExpenseEditTest() {
         return id
     }
 
+    private fun launchWithAccountSetup(
+        excludeFromTotals: Boolean = false,
+        type: Int = Transactions.TYPE_SPLIT,
+        configureIntent: Intent.() -> Unit = {},
+    ) {
+        account1 = buildAccount(ACCOUNT_LABEL_1, excludeFromTotals = excludeFromTotals)
+        launchForResult(getBaseIntent(type).apply(configureIntent))
+    }
+
     private fun launchEditTemplate(): Long {
         var id: Long = 0
-        launchWithAccountSetup() {
+        launchWithAccountSetup {
             id = prepareSplitTemplate(account1.id)
             putExtra(KEY_TEMPLATEID, id)
         }
@@ -156,6 +166,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledTemplateSplitCleanup() {
+        account1 = buildAccount(ACCOUNT_LABEL_1)
         launchNewTemplate(Transactions.TYPE_SPLIT)
         closeSoftKeyboard()
         pressBackUnconditionally()
@@ -164,6 +175,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun newTemplate() {
+        account1 = buildAccount(ACCOUNT_LABEL_1)
         launchNewTemplate(Transactions.TYPE_SPLIT)
         setOperationType(Transactions.TYPE_SPLIT)
         newTemplateHelper()
@@ -171,9 +183,20 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun newTemplateWithTypeSpinner() {
+        account1 = buildAccount(ACCOUNT_LABEL_1)
         launchNewTemplate(Transactions.TYPE_TRANSACTION)
         setOperationType(Transactions.TYPE_SPLIT)
         newTemplateHelper()
+    }
+
+    @Test
+    fun newTransactionWithTypeSpinner() {
+        unlock()
+        launchWithAccountSetup(type = Transactions.TYPE_TRANSACTION)
+        setOperationType(Transactions.TYPE_SPLIT)
+        createParts(1)
+        clickFab()
+        assertFinishing()
     }
 
     private fun newTemplateHelper() {
@@ -377,7 +400,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     @Test
-    fun create_and_save() {
+    fun createSaveAndNew() {
         launchWithAccountSetup()
         createParts(1)
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new on

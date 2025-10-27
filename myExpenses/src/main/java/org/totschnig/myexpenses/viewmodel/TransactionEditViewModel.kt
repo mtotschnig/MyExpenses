@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveTagsForTemplate
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
+import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.db2.updateTemplate
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -96,6 +97,7 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import java.io.IOException
@@ -177,79 +179,101 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     }
 
     @SuppressLint("MissingPermission")
-    fun save(
+    suspend fun save(
         transaction: TransactionEditData,
         userSetExchangeRate: BigDecimal?
-    ): LiveData<Result<Unit>> =
-        liveData(context = coroutineContext()) {
-            emit(runCatching {
-                val transaction = transaction.copy(
-                    party = transaction.party?.let {
-                        (it.id ?: repository.requireParty(it.name))
-                            ?.let { id -> DisplayParty(id, it.name) }
-                    }
-                )
-                if (transaction.isTemplate) {
-                    val plan = transaction.templateEditData?.planEditData?.plan?.apply {
-                        save(contentResolver, plannerUtils)
-                    }
-                    val template = TransactionMapper.mapTemplate(transaction).let {
-                        if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
-                            it
-                    }
-                    val id = if (transaction.id == 0L) {
-                        repository.createTemplate(template).id
-                    } else {
-                        repository.updateTemplate(template)
-                        transaction.id
-                    }
-                    tagsLiveData.value?.let { repository.saveTagsForTemplate(it, id) }
-
-                } else {
-                    val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
-                    val id = if (transaction.id == 0L) {
-                        repository.createTransaction(repositoryTransaction).id
-                    } else {
-                        repository.updateTransaction(repositoryTransaction)
-                        transaction.id
-                    }
-                    tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
-                    transaction.initialPlan?.let { (title, recurrence, date) ->
-                        val title = title
-                            ?: transaction.party?.name
-                            ?: transaction.categoryPath?.takeIf { it.isNotEmpty() }
-                            ?: transaction.comment?.takeIf { it.isNotEmpty() }
-                            ?: localizedContext.getString(R.string.menu_create_template)
-                        val plan = if (recurrence !== Plan.Recurrence.NONE) {
-                            Plan(
-                                date,
-                                recurrence,
-                                title,
-                                "TODO compileDescription"
-                            ).apply {
-                                save(contentResolver, plannerUtils)
-                            }
-                        } else null
-                        val template = repository.createTemplate(
-                            RepositoryTemplate.fromTransaction(
-                                repositoryTransaction,
-                                title
-                            ).let {
-                                if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
-                                    it
-                            }
-                        )
-                        tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
-                        if (plan != null) {
-                            repository.linkTemplateWithTransaction(template.id, id,CalendarProviderProxy.calculateId(plan.dtStart))
-                        }
-                    }
-                    if (transaction.planInstanceId != null) {
-                        repository.linkTemplateWithTransaction(transaction.originTemplateId!!, id, transaction.planInstanceId)
-                    }
+    ): Result<TransactionEditResult> = withContext(coroutineContext()) {
+        runCatching {
+            val transaction = transaction.copy(
+                party = transaction.party?.let {
+                    (it.id ?: repository.requireParty(it.name))
+                        ?.let { id -> DisplayParty(id, it.name) }
                 }
-                Unit
-                /*                transaction.party?.let {
+            )
+            if (transaction.isTemplate) {
+                val plan = transaction.templateEditData?.planEditData?.plan?.apply {
+                    save(contentResolver, plannerUtils)
+                }
+                val template = TransactionMapper.mapTemplate(transaction).let {
+                    if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
+                        it
+                }
+                val id = if (transaction.id == 0L) {
+                    val id = repository.createTemplate(template).id
+                    repository.updateNewPlanEnabled(licenceHandler)
+                    id
+                } else {
+                    repository.updateTemplate(template)
+                    transaction.id
+                }
+                tagsLiveData.value?.let { repository.saveTagsForTemplate(it, id) }
+                TransactionEditResult(
+                    id = template.id,
+                    amount = template.data.amount,
+                    transferAmount = null,
+                    planId = plan?.id
+                )
+
+            } else {
+                val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
+                val id = if (transaction.id == 0L) {
+                    repository.createTransaction(repositoryTransaction).id
+                } else {
+                    repository.updateTransaction(repositoryTransaction)
+                    transaction.id
+                }
+                tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
+                val planId = transaction.initialPlan?.let { (title, recurrence, date) ->
+                    val title = title
+                        ?: transaction.party?.name
+                        ?: transaction.categoryPath?.takeIf { it.isNotEmpty() }
+                        ?: transaction.comment?.takeIf { it.isNotEmpty() }
+                        ?: localizedContext.getString(R.string.menu_create_template)
+                    val plan = if (recurrence !== Plan.Recurrence.NONE) {
+                        Plan(
+                            date,
+                            recurrence,
+                            title,
+                            "TODO compileDescription"
+                        ).apply {
+                            save(contentResolver, plannerUtils)
+                        }
+                    } else null
+                    val template = repository.createTemplate(
+                        RepositoryTemplate.fromTransaction(
+                            repositoryTransaction,
+                            title
+                        ).let {
+                            if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
+                                it
+                        }
+                    )
+                    repository.updateNewPlanEnabled(licenceHandler)
+                    tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
+                    if (plan != null) {
+                        repository.linkTemplateWithTransaction(
+                            template.id,
+                            id,
+                            CalendarProviderProxy.calculateId(plan.dtStart)
+                        )
+                    }
+                    plan?.id
+                }
+                if (transaction.planInstanceId != null) {
+                    repository.linkTemplateWithTransaction(
+                        transaction.originTemplateId!!,
+                        id,
+                        transaction.planInstanceId
+                    )
+                }
+                TransactionEditResult(
+                    id = repositoryTransaction.id,
+                    amount = repositoryTransaction.data.amount,
+                    transferAmount = repositoryTransaction.transferPeer?.amount,
+                    planId = planId
+                )
+            }
+            /*                transaction.party?.let {
                                     if (it.id == null) {
                                         transaction.party = repository.requireParty(it.name)
                                             ?.let { id -> DisplayParty(id, it.name) }
@@ -302,8 +326,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                                         )
                                     }
                                 }*/
-            })
         }
+    }
 
     private val shouldCopyExternalUris
         get() = prefHandler.getBoolean(PrefKey.COPY_ATTACHMENT, true)

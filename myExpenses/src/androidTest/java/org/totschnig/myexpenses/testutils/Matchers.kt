@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.testutils
 
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -227,6 +228,25 @@ fun withDrawableState(state: Int): Matcher<View> {
                     println("View has drawable state: $view")
                 }
             }
+        }
+    }
+}
+
+/**
+ * A custom Hamcrest matcher that checks if a Uri's string representation
+ * starts with a given prefix.
+ *
+ * @param uriPrefix The string prefix to match against the Uri.
+ * @return A Matcher<Uri> that can be used with IntentMatchers.hasData().
+</Uri> */
+fun uriStartsWith(uriPrefix: String?): Matcher<Uri> {
+    return object : TypeSafeMatcher<Uri>() {
+        override fun describeTo(description: Description) {
+            description.appendText("a Uri that starts with " + uriPrefix)
+        }
+
+        override fun matchesSafely(uri: Uri): Boolean {
+            return uri.toString().startsWith(uriPrefix!!)
         }
     }
 }

@@ -87,3 +87,10 @@ data class TransactionEditData(
         else -> TYPE_TRANSACTION
     }
 }
+
+data class TransactionEditResult(
+    val id: Long,
+    val amount: Long,
+    val transferAmount: Long?,
+    val planId: Long?
+)

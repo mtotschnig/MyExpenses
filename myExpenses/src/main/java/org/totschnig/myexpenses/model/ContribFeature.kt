@@ -126,7 +126,7 @@ enum class ContribFeature(
             }
 
             TrialMode.DURATION ->
-                if (licenceHandler.getEndOfTrial(this) < System.currentTimeMillis())
+                if (licenceHandler.usagesLeft(this))
                     getLimitReachedWarning(context) else HtmlCompat.fromHtml(
                     buildString {
                         append(context.getString(

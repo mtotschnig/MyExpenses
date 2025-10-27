@@ -706,7 +706,7 @@ abstract class TransactionDelegate(
         }
     }
 
-    private fun restartWithType(@Transactions.TransactionType newType: Int) {
+    fun restartWithType(@Transactions.TransactionType newType: Int) {
         //sanitize instance state
         when(newType) {
 

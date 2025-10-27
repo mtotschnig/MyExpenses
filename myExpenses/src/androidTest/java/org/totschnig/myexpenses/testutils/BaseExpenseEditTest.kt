@@ -129,7 +129,8 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         templateTitle: String = TEMPLATE_TITLE,
         expectedTags: List<String> = emptyList(),
         expectedSplitParts: List<Long>? = null,
-        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE
+        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE,
+        checkPlanInstance: Boolean = false
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
@@ -160,12 +161,18 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
 
         if (expectedPlanRecurrence != Plan.Recurrence.NONE) {
             assertThat(template.plan!!.id).isGreaterThan(0)
-            val today = LocalDate.now()
-            assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
+            if (expectedPlanRecurrence != Plan.Recurrence.CUSTOM) {
+                val today = LocalDate.now()
+                assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
+            }
+        } else {
+            assertThat(template.plan).isNull()
+        }
+        if (checkPlanInstance) {
             contentResolver.query(
                 TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
                     template.id,
-                    CalendarProviderProxy.calculateId(template.plan.dtStart)
+                    CalendarProviderProxy.calculateId(template.plan!!.dtStart)
                 ),
                 null, null, null, null
             ).useAndAssert {
@@ -173,8 +180,6 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                 movesToFirst()
                 hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
             }
-        } else {
-            assertThat(template.plan).isNull()
         }
         return template
     }
@@ -230,16 +235,9 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             testScenario = it
         }
 
-    fun launchWithAccountSetup(
-        excludeFromTotals: Boolean = false,
-        type: Int = Transactions.TYPE_SPLIT,
-        configureIntent: Intent.() -> Unit = {},
-    ) {
-        account1 = buildAccount(ACCOUNT_LABEL_1, excludeFromTotals = excludeFromTotals)
-        launchForResult(getBaseIntent(type).apply(configureIntent))
-    }
-
-    fun launchNewTemplate(type: Int) {
-        launchWithAccountSetup(type = type) { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) }
+    fun launchNewTemplate(type: Int = Transactions.TYPE_TRANSACTION) {
+        launchForResult(getBaseIntent(type).apply {
+            putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
+        })
     }
 }
