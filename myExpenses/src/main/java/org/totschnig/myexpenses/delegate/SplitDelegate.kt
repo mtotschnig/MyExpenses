@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.delegate
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
@@ -80,10 +81,12 @@ class SplitDelegate(
             )
         ) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
         with(viewBinding.CREATEPARTCOMMAND) {
-            contentDescription = concatResStrings(
+            val helpText = concatResStrings(
                 context, ". ",
                 R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
             )
+            TooltipCompat.setTooltipText(this, helpText)
+            contentDescription = helpText
             setOnClickListener {
                 host.createRow(unsplitAmount?.amountMajor)
             }

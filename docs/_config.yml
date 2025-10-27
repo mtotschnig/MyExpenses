@@ -136,30 +136,50 @@ amazon:
 versions:
   -   - 4.0.4
       - '2025-09-11'
-      - bg: 'Получател / платец: Подобрения в потребителския интерфейс'
+      - ar: 'المستفيد / الدافع: صقل واجهة المستخدم'
+        bg: 'Получател / платец: Подобрения в потребителския интерфейс'
+        ca: 'Beneficiari/Pagador: Interfície d''usuari millorada'
         cs: 'Příjemce/plátce: Zdokonalení uživatelského rozhraní'
+        da: 'Modtager/betaler: Forbedring af brugergrænsefladen'
         de: 'Empfänger/Zahler: Verfeinerung der Benutzeroberfläche'
         el: 'Δικαιούχος/Πληρωτής: Βελτίωση του περιβάλλοντος εργασίας χρήστη'
         es: 'Acreedor/Ordenante: Interfaz de usuario mejorada'
+        eu: 'Onuraduna/Ordaintzailea: Erabiltzaile-interfazea hobetzea'
         fr: 'Tiers: Raffinement de l''interface utilisateur'
         hr: 'Primalac/Platiša: Poboljšanje korisničkog sučelja'
         hu: 'Kedvezményezett/Fizető: A felhasználói felület finomítása'
         it: 'Beneficiario / Pagante: Miglioramento dell''interfaccia utente'
         iw: 'מקבל התשלום/המשלם: חידוד ממשק המשתמש'
+        ja: '受取人/支払人: ユーザーインターフェースの洗練'
+        km: 'អ្នក​ទទួល/អ្នក​បង់ប្រាក់: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ'
+        kn: 'ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ'
+        ko: '수취인/납부인: 사용자 인터페이스 개선'
+        ms: 'Penerima/Pembayar: Penghalusan antara muka pengguna'
         nl: 'Begunstigde/Betaler: Verfijning van de gebruikersinterface'
         pl: 'Odbiorca płatności/Płatnik: Udoskonalenie interfejsu użytkownika'
         pt: 'Beneficiário/pagador: Melhorias na interface do usuário'
         ro: 'Beneficiar/Plătitor: Perfecționarea interfeței cu utilizatorul'
+        ru: 'Получатель/Платильщик: Усовершенствование пользовательского интерфейса'
+        si: 'Payee/Payer: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම'
+        ta: 'பணம் பெறுபவர்/செலுத்துபவர்: பயனர் இடைமுகத்தை மெருகேற்றுதல்'
+        te: 'చెల్లింపుదారుడు / చెల్లించేవాడు: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ'
         tr: 'Alacaklı/Mükellef: Kullanıcı arayüzü iyileştirildi'
+        uk: 'Одержувач / Платник: Доопрацювання користувацького інтерфейсу'
         vi: 'Người nhận trả/Người trả: Cải tiến giao diện người dùng'
+        zh-CN: '收款人/付款人: 用户界面的改进'
+        zh-TW: '收款人/付款人: 完善用户界面'
         en: 'Payee/Payer: Refinement of the user interface'
       - github2: '168'
         mastodon: '115162955035521599'
   -   - 4.0.3
       - '2025-09-01'
-      - bg: Флагове на сметката разширяват персонализирането на нейната видимост и
+      - ar: تعمل علامات حساب على توسيع تخصيص رؤية حساب وأولويته.
+        bg: Флагове на сметката разширяват персонализирането на нейната видимост и
           приоритет.
+        ca: Els indicadors de compte amplien la personalització de la visibilitat
+          i la prioritat del compte.
         cs: Příznaky účtu rozšiřují přizpůsobení viditelnosti a priority účtu.
+        da: Kontoflag udvider tilpasning af kontosynlighed og prioritet.
         de: Markierungen für Konten erweitern die Anpassung der Sichtbarkeit und Priorität.
         el: λογαριασμός σημαίες επεκτείνουν την προσαρμογή της ορατότητας και της
           προτεραιότητας λογαριασμός.
@@ -172,48 +192,77 @@ versions:
         it: I indicatori degli conti estendono la personalizzazione della visibilità
           e della priorità degli conti.
         iw: דגלי חשבון מרחיבים את ההתאמה האישית של הנראות והעדיפות של חשבון.
-        nl: Rekeningvlaggen vergroten de aanpassing van de zichtbaarheid en prioriteit
-          van rekeningen.
+        ja: アカウントフラグは、アカウントの可視性と優先度のカスタマイズを拡張します。
+        ko: 계정 플래그는 계정 가시성 및 우선 순위의 사용자 지정을 확장합니다.
+        nl: Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account
+          aanpassen.
         pl: Flagi konta rozszerzają dostosowywanie widoczności i priorytetu konta.
         pt: Os sinalizadores de conta estendem a personalização da visibilidade e
           prioridade da conta.
         ro: Indicatoarele de cont extind personalizarea vizibilității și priorității
           contului.
+        ru: Флаги счётов расширяют возможности настройки их видимости и приоритета.
         tr: Hesap bayrakları, hesap görünürlüğünün ve önceliğinin özelleştirilmesini
           sağlar.
+        uk: Прапорці рахунку розширюють налаштування видимості та пріоритету рахунку.
         vi: Cờ tài khoản mở rộng tùy chỉnh khả năng hiển thị và mức độ ưu tiên của
           tài khoản.
+        zh-CN: 账户标志扩展了账户可见性和优先级的自定义。
+        zh-TW: 帳戶標誌擴展了帳戶可見性和優先級的自定義。
         en: Account flags extend customization of account visibility and priority.
       - github2: '166'
         mastodon: '115099447789262389'
   -   - 4.0.2
       - '2025-08-21'
-      - bg: Персонализация на типа на сметките
+      - ar: يمكن تخصيص أنواع الحسابات
+        bg: Персонализация на типа на сметките
+        ca: Els tipus de compte es poden personalitzar
         cs: Typy účtů lze přizpůsobit
+        da: Kontotyper kan tilpasses
         de: Kontotypen können angepasst werden
         el: Οι τύποι λογαριασμών μπορούν να προσαρμοστούν
         es: Los tipos de cuentas se pueden personalizar
+        eu: Kontu motak pertsonalizatu egin daitezke
         fr: Les types de comptes peuvent être personnalisés
-        hr: Vrste računa mogu se prilagoditi
+        hr: Vrste računa se mogu prilagoditi
         hu: A számlatípusok testreszabhatók
         it: I tipi di conto possono essere personalizzati
         iw: ניתן להתאים אישית סוגי חשבון
+        ja: アカウントの種類はカスタマイズできます
+        km: ប្រភេទគណនីអាចត្រូវបានប្ដូរតាមបំណង
+        kn: ಖಾತೆ ಪ್ರಕಾರಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಬಹುದು
+        ko: 계정 유형을 사용자 지정할 수 있습니다.
+        ms: Jenis akaun boleh disesuaikan
         nl: Accounttypes kunnen worden aangepast
         pl: Typy kont można dostosować
         pt: Os tipos de conta podem ser personalizados
         ro: Tipurile de conturi pot fi personalizate
+        ru: Типы счетов можно настраивать
+        si: ගිණුම් වර්ග අභිරුචිකරණය කළ හැකිය
+        ta: கணக்கு வகைகளைத் தனிப்பயனாக்கலாம்
+        te: ఖాతా రకాలను కస్టమైజ్ చేసుకోవచ్చు.
         tr: Hesap türleri özelleştirilebilir
+        uk: Типи рахунків можна налаштувати
         vi: Các loại tài khoản có thể được tùy chỉnh
+        zh-CN: 可以自定义账户类型
+        zh-TW: 帳戶類型可自訂
         en: Account types can be customized
       - github2: '165'
         mastodon: '115033555938780143'
   -   - 4.0.1
       - '2025-07-04'
-      - bg: 'Списъкът с транзакции вече показва повече подробности за разделени транзакции.
-          Печат : Баланс, Преглед на дълга. История на обменния курс : Внасяне на
-          данни / Експортиране.'
+      - ar: 'تظهر قائمة المعاملات الآن المزيد من التفاصيل حول المعاملات المقسمة. طباعة
+          : ورقة الميزانية, نظرة عامة على الديون. تاريخ الأسعار : استيراد / تصدير.'
+        bg: 'Списъкът с транзакции вече показва повече подробности за разпределени
+          транзакции. Печат : Баланс, Преглед на дълга. История на обменния курс :
+          Внасяне на данни / Експортиране.'
+        ca: 'La llista de transaccions ara mostra més detalls per a les transaccions
+          dividides. Imprimeix : Balanç, Resum del deute. Historial de preus : Importació
+          / Exportació.'
         cs: 'Seznam transakcí nyní zobrazuje více podrobností o rozdělených transakcích.
           Tisk : Rozvaha, Přehled dluhu. Historie cen : Importovat / Exportovat.'
+        da: 'Transaktion viser nu flere detaljer for Opdeling/Opdelt posteringer.
+          Udskriv : Statusopgørelse, Gældsoversigt. Prishistorik : Import / Eksport.'
         de: 'In der Buchungsliste werden jetzt mehr Details für mehrteilige Buchungen
           angezeigt. Drucken : Bilanz, Schuldenübersicht. Preisverlauf : Import /
           Export.'
@@ -221,21 +270,34 @@ versions:
           διαιρεμένες συναλλαγές. Εκτύπωση : Ισολογισμός, Επισκόπηση χρέους. Ιστορικό
           τιμών : Εισαγωγή / Εξαγωγή.'
         es: 'La lista de transacciones ahora muestra más detalles para las transacciones
-          divididas. Imprimir : Hoja de Balance, Vista general de la deuda. Historial
+          divididas. Imprimir : Balance General, Vista general de la deuda. Historial
           de precios : Importar / Exportar.'
+        eu: 'Transakzioen zerrendak orain xehetasun gehiago ematen ditu zatitutako
+          transakzioetarako. Inprimatu : Balantzea, Debt Overview. Prezioen historia
+          : Inportatu / Esportatu.'
         fr: 'La liste des transactions affiche désormais plus de détails pour les
           opérations ventilées. Imprimer : Bilan, Aperçu des dettes. Historique des
           prix : Import / Export.'
-        hr: 'Popis transakcija sada prikazuje više pojedinosti za podijeljene Transakcije.
-          Ispis : Bilanca, Pregled dugova. Povijest cijena : Uvezi / Izvezi.'
+        hr: 'Popis transakcija sada prikazuje više detalja za podijeljene transakcije.
+          Ispis : Bilanca, Pregled dugova. Povijest cijene : Uvezi / Izvezi.'
         hu: 'A tranzakciólista mostantól további részleteket jelenít meg a felosztási
           tranzakciókról. Nyomtatás : Mérleg, Adósság áttekintése. Ártörténet : Import
           / Export.'
         it: 'L''elenco delle transazioni ora mostra ulteriori dettagli per le transazioni
-          suddivise. Stampa : Bilancio, Panoramica dei Debiti. Cronologia dei prezzi
-          : Importa / Esporta.'
+          suddivise. Stampa : Stato patrimoniale, Panoramica dei Debiti. Cronologia
+          dei prezzi : Importa / Esporta.'
         iw: 'רשימת התנועות מציגה כעת פרטים נוספים עבור תנועות מפוצלות. הדפס : גיליון
           מאזן, סקירת חוב. היסטוריית מחירים : יבוא / יצוא.'
+        ja: 'トランザクション リストに、分割トランザクションの詳細が表示されるようになりました。 印刷 : 貸借対照表, Debt Overview.
+          価格履歴 : インポート / エクスポート.'
+        km: 'បញ្ជីប្រតិបត្តិការឥឡូវនេះបង្ហាញព័ត៌មានលម្អិតបន្ថែមសម្រាប់ប្រតិបត្តិការបំបែក។
+          បោះពុម្ព : តារាងតុល្យភាព, Debt Overview. ប្រវត្តិតម្លៃ : នាំចូល / នាំចេញ.'
+        kn: 'ವಹಿವಾಟು ಪಟ್ಟಿಯು ಈಗ ವಿಭಜಿತ ವಹಿವಾಟುಗಳಿಗೆ ಹೆಚ್ಚಿನ ವಿವರಗಳನ್ನು ತೋರಿಸುತ್ತದೆ.
+          ಮುದ್ರಿಸು : ಬ್ಯಾಲೆನ್ಸ್‌ ಹಾಳೆ, ಸಾಲದ ಅವಲೋಕನ. ಬೆಲೆ ಇತಿಹಾಸ : ಆಮದು / ರಫ್ತು ಮಾಡಿ.'
+        ko: '이제 거래 목록에서 분할 거래에 대한 세부 정보가 더 많이 표시됩니다. 인쇄 : 대차 대조표, Debt Overview. 가격
+          내역 : 가져오기 / 내보내기.'
+        ms: 'Senarai transaksi kini menunjukkan butiran lanjut untuk transaksi berpecah.
+          Cetak : Lembaran imbangan, Ringkasan Hutang. Sejarah harga : Import / Eksport.'
         nl: 'De transactielijst toont nu meer details voor gesplitste transacties.
           Afdrukken : Balans, Schuldenoverzicht. Prijs geschiedenis : Importeren /
           Exporteren.'
@@ -248,24 +310,47 @@ versions:
         ro: 'Lista de tranzacții afișează acum mai multe detalii pentru tranzacțiile
           împărțite. Printați : Bilanț, Prezentare generală a datoriilor. Istoricul
           prețurilor : Import / Export.'
+        ru: 'В списке транзакций теперь отображается более подробная информация о
+          разделенных транзакциях. Печать : Балансовый отчет, Обзор дебета. История
+          курсов : Импорт / Экспорт.'
+        si: 'ගනුදෙනු ලැයිස්තුව දැන් බෙදීම් ගනුදෙනු සඳහා වැඩි විස්තර පෙන්වයි. මුද්‍රණ
+          කරන්න : ශේෂ පත් රය, Debt Overview. මිල ඉතිහාසය : ආනයනය / අපනයනය.'
+        ta: 'பரிவர்த்தனை பட்டியல் இப்போது பிரிப்பு பரிவர்த்தனைகளுக்கான கூடுதல் விவரங்களைக்
+          காட்டுகிறது. அச்சிடு : ஐந்தொகை, இருப்புநிலைக் குறிப்பு, கடன் கண்ணோட்டம்.
+          விலை வரலாறு : இறக்குமதி / ஏற்றுமதி.'
+        te: 'లావాదేవీ జాబితా ఇప్పుడు స్ప్లిట్ లావాదేవీల కొరకు మరిన్ని వివరాలను చూపుతుంది.
+          ముద్రించు : నిల్వ పత్రం, రుణ స్థూలదృష్టి. ధర చరిత్ర : దిగుమతి / ఎగుమతి.'
         tr: 'İşlem listesi artık bölünmüş işlemler için daha fazla ayrıntı gösteriyor.
           Yazdır : Bilanço, Borç Genel Görünümü. Fiyat geçmişi : İçe aktar / Dışa
           aktar.'
+        uk: 'Transaction list now shows more details for split transactions. Друк
+          : Баланс, Огляд заборгованості. Історія цін : Імпорт / Експорт.'
         vi: 'Danh sách giao dịch hiện hiển thị nhiều chi tiết hơn cho các giao dịch
           chia nhỏ. In : Bảng tổng kết tài sản, Tổng quan về nợ. Lịch sử giá : Nhập
           dữ liệu / Xuất dữ liệu.'
+        zh-CN: '交易列表现在显示拆分交易的更多详细信息。 打印 : 资产负债表, 债务概览. 价格历史 : 导入 / 导出.'
+        zh-TW: '交易清單現在顯示拆分交易的更多詳細資訊。 列印 : 資產負債表, 債務概覽. 價格歷史 : 匯入 / 匯出.'
         en: 'Transaction list now shows more details for split transactions. Print
           : Balance Sheet, Debt Overview. Price history : Import / Export.'
       - github2: '164'
         mastodon: '114779558620418016'
   -   - 4.0.0
       - '2025-06-19'
-      - bg: 'Кръгова диаграма, показваща разпределението на парите по сметки. История
+      - ar: 'مخطط دائري يوضح توزيع الأموال بين الحسابات. سجل الأسعار: التنزيل المجمع
+          للإدخالات المفقودة. الترجمة : التايلاندية (تمت المساهمة بواسطة abotabl.).
+          الترجمة : البيلاروسية (تمت المساهمة بواسطة keefeer)'
+        bg: 'Кръгова диаграма, показваща разпределението на парите по сметки. История
           на цените: Групово зареждане на липсващи записи. Превод : тайски (Принос
           чрез abotabl.). Превод : беларуски (Принос чрез keefeer)'
+        ca: 'Gràfic circular que mostra la distribució de diners entre comptes. Historial
+          de preus: descàrrega massiva de les entrades que falten. Traducció : tai
+          (Contribució de abotabl.). Traducció : belarús (Contribució de keefeer)'
         cs: 'Výsečový graf znázorňující rozdělení peněz mezi účty. Cenová historie:
           Hromadné stahování chybějících položek. Překlad : thajština (Přispěno abotabl.).
           Překlad : běloruština (Přispěno keefeer)'
+        da: 'Cirkeldiagram, der viser fordelingen af penge mellem konti. Prishistorik:
+          Massedownload af manglende poster. Oversættelse : thai (Bidraget af abotabl.).
+          Oversættelse : belarusisk (Bidraget af keefeer)'
         de: 'Kreisdiagramm, das die Verteilung des Geldes zwischen den Konten zeigt.
           Preisverlauf: Massendownload von fehlenden Einträgen. Übersetzung : Thailändisch
           (Beigetragen von abotabl.). Übersetzung : Belarussisch (Beigetragen von
@@ -277,6 +362,9 @@ versions:
           Historial de precios: Descarga masiva de entradas faltantes. Traducción
           : tailandés (Contribución de abotabl.). Traducción : bielorruso (Contribución
           de keefeer)'
+        eu: 'Diruaren banaketa kontuen artean erakusten duen grafiko zirkularra. Price
+          History: Bulk download of missing entries. Itzulpena : thailandiera (abotabl.-(r)en
+          laguntzaz). Itzulpena : bielorrusiera (keefeer-(r)en laguntzaz)'
         fr: 'Graphique à secteurs montrant la répartition de l''argent entre les comptes.
           Historique des prix : téléchargement en masse des entrées manquantes. Traduction
           : thaï (Contribution de abotabl.). Traduction : biélorusse (Contribution
@@ -290,12 +378,26 @@ versions:
         it: 'Grafico a torta che mostra la distribuzione del denaro tra i conti. Storico
           dei prezzi: download in blocco delle voci mancanti. Traduzione : thailandese
           (Contribuito da abotabl.). Traduzione : bielorusso (Contribuito da keefeer)'
-        iw: 'תרשים עוגה המציג את חלוקת הכסף בין חשבונות. היסטוריית מחירים: הורדה בכמות
-          גדולה של ערכים חסרים. תרגום : תאית (נתרם על ידי abotabl.). תרגום : בלארוסית
+        iw: 'תרשים עוגה המציג את חלוקת הכסף בין חשבונות. היסטוריית מחירים: הורדה של
+          ערכים חסרים במרוכז. תרגום : תאית (נתרם על ידי abotabl.). תרגום : בלארוסית
           (נתרם על ידי keefeer)'
-        nl: 'Cirkeldiagram met de verdeling van geld over rekeningen. Prijsgeschiedenis:
-          Bulkdownload van ontbrekende items. Vertaling : Thai (Bijgedragen door abotabl.).
-          Vertaling : Belarussisch (Bijgedragen door keefeer)'
+        ja: '口座間のお金の分布を示す円グラフ. 価格履歴:不足しているエントリの一括ダウンロード. 翻訳 : タイ語 (貢献者 abotabl.).
+          翻訳 : ベラルーシ語 (貢献者 keefeer)'
+        km: 'Pie chart បង្ហាញការចែកចាយប្រាក់រវាងគណនី. ប្រវត្តិតម្លៃ៖ ការទាញយកច្រើននៃធាតុដែលបាត់.
+          ការបកប្រែ : ថៃ (Contributed by abotabl.). ការបកប្រែ : បេឡារុស (Contributed
+          by keefeer)'
+        kn: 'Pie chart showing distribution of money between accounts. Price History:
+          Bulk download of missing entries. ಅನುವಾದ : ಥಾಯ್ (abotabl. ಕೊಡುಗೆ ನೀಡಿದೆ).
+          ಅನುವಾದ : ಬೆಲರೂಸಿಯನ್ (keefeer ಕೊಡುಗೆ ನೀಡಿದೆ)'
+        ko: '계좌 간의 자금 분배를 보여주는 파이 차트. 가격 내역: 누락된 항목의 대량 다운로드. 번역 : 태국어 (Contributed
+          by abotabl.). 번역 : 벨라루스어 (Contributed by keefeer)'
+        ms: 'Carta pai menunjukkan pengagihan wang antara akaun. Sejarah Harga: Muat
+          turun pukal entri yang hilang. Terjemahan : Thai (abotabl.Disumbang oleh).
+          Terjemahan : Belarus (keefeerDisumbang oleh)'
+        nl: 'Cirkeldiagram dat de verdeling van geld tussen rekeningen weergeeft.
+          Prijsgeschiedenis: Bulkdownload van ontbrekende items. Vertaling : Thai
+          (Bijgedragen door abotabl.). Vertaling : Belarussisch (Bijgedragen door
+          keefeer)'
         pl: 'Wykres kołowy przedstawiający dystrybucję pieniędzy między kontami. Historia
           cen: Zbiorcze pobieranie brakujących wpisów. Tłumaczenie : tajski (Wniesione
           przez abotabl.). Tłumaczenie : białoruski (Wniesione przez keefeer)'
@@ -305,12 +407,22 @@ versions:
         ro: 'Diagramă circulară care arată distribuția banilor între conturi. Istoricul
           prețurilor: descărcarea în bloc a intrărilor lipsă. Traducere : thailandeză
           (A contribuit abotabl.). Traducere : belarusă (A contribuit keefeer)'
+        ru: 'Круговая диаграмма, показывающая распределение денег между счетами. История
+          цен: Массовая загрузка отсутствующих записей. Перевод : тайский (Вклад внесен
+          abotabl.). Перевод : белорусский (Вклад внесен keefeer)'
+        ta: 'கணக்குகளுக்கிடையே பணப் பகிர்வைக் காட்டும் பை விளக்கப்படம். விலை வரலாறு:
+          விடுபட்ட உள்ளீடுகளின் மொத்த பதிவிறக்கம். மொழிபெயர்ப்பு : தாய் (abotabl.-ஆல்
+          பங்களிக்கப்பட்டது). மொழிபெயர்ப்பு : பெலாருஷியன் (keefeer-ஆல் பங்களிக்கப்பட்டது)'
         tr: 'Hesaplar arasındaki para dağılımını gösteren pasta grafiği. Fiyat Geçmişi:
           Eksik girişlerin toplu olarak indirilmesi. Çeviri : Tayca (Katkıda bulunan:
           abotabl.). Çeviri : Belarusça (Katkıda bulunan: keefeer)'
-        vi: 'Pie chart showing distribution of money between accounts. Lịch sử giá:
-          Tải xuống hàng loạt các mục bị thiếu. Dịch thuật : Tiếng Thái (Đóng góp
-          bởi abotabl.). Dịch thuật : Tiếng Belarus (Đóng góp bởi keefeer)'
+        uk: 'Кругова діаграма, що показує розподіл грошей між рахунками. Історія цін:
+          Масове завантаження відсутніх записів. Переклад : тайська (Внесок зроблено
+          abotabl.). Переклад : білоруська (Внесок зроблено keefeer)'
+        zh-CN: '显示账户之间资金分配的饼图. 价格历史记录：批量下载缺失的条目. 翻译 : 泰语 (由abotabl.贡献). 翻译 : 白俄罗斯语
+          (由keefeer贡献)'
+        zh-TW: '顯示帳戶之間資金分配的餅圖. 價格歷史記錄：批次下載缺少的條目. 翻譯 : 泰文 (由abotabl.貢獻). 翻譯 : 白俄羅斯文
+          (由keefeer貢獻)'
         en: 'Pie chart showing distribution of money between accounts. Price History:
           Bulk download of missing entries. Translation : Thai (Contributed by abotabl.).
           Translation : Belarusian (Contributed by keefeer)'
@@ -318,16 +430,24 @@ versions:
         mastodon: '114706361015277339'
   -   - 3.9.9
       - '2025-05-28'
-      - bg: 'Подобрен изглед на PDF експорт - може да се преподрежда с drag-and-drop.
+      - ar: 'تخطيط تصدير PDF محسن قابل للتخصيص بالكامل مع السحب والإفلات. الترجمة
+          : البنغالية (تمت المساهمة بواسطة Istiaque)'
+        bg: 'Подобрен изглед на PDF експорт - може да се преподрежда с drag-and-drop.
           Превод : бенгалски (Принос чрез Istiaque)'
+        ca: 'Disseny d''exportació de PDF millorat, totalment personalitzable amb
+          arrossegar i deixar anar. Traducció : bengalí (Contribució de Istiaque)'
         cs: 'Vylepšené rozvržení exportu PDF, plně přizpůsobitelné přetažením. Překlad
           : bengálština (Přispěno Istiaque)'
+        da: 'Forbedret PDF-eksportlayout, fuldt tilpasseligt med træk-og-slip. Oversættelse
+          : bengali (Bidraget af Istiaque)'
         de: 'Verbessertes PDF-Export-Layout, vollständig anpassbar per Drag-and-Drop.
           Übersetzung : Bengalisch (Beigetragen von Istiaque)'
         el: 'Βελτιωμένη διάταξη εξαγωγής PDF, πλήρως προσαρμόσιμη με μεταφορά και
           απόθεση. Μετάφραση : Βεγγαλικά (Συνεισφορά από Istiaque)'
         es: 'Diseño de exportación de PDF mejorado, totalmente personalizable con
           arrastrar y soltar. Traducción : bengalí (Contribución de Istiaque)'
+        eu: 'PDF esportazio diseinu hobetua, arrastatu eta jaregin bidez guztiz pertsonalizagarria.
+          Itzulpena : bengalera (Istiaque-(r)en laguntzaz)'
         fr: 'Mise en page améliorée de l’exportation PDF, entièrement personnalisable
           par glisser-déposer. Traduction : bengali (Contribution de Istiaque)'
         hr: 'Poboljšani izgled izvoza PDF-a, potpuno prilagodljiv povlačenjem i ispuštanjem.
@@ -339,6 +459,15 @@ versions:
           Istiaque)'
         iw: 'פריסת ייצוא PDF משופרת, הניתנת להתאמה אישית מלאה באמצעות גרירה ושחרור.
           תרגום : בנגלית (נתרם על ידי Istiaque)'
+        ja: 'PDFエクスポートレイアウトが改善され、ドラッグアンドドロップで完全にカスタマイズできます。 翻訳 : ベンガル語 (貢献者 Istiaque)'
+        km: 'ប្លង់នាំចេញ PDF ប្រសើរឡើង ប្លង់ប្លែកណ៍ អាចប្ដូរតាមបំណងបានយ៉ាងពេញលេញជាមួយនឹងការអូស
+          និងទម្លាក់។ ការបកប្រែ : បង់ក្លាដែស (Contributed by Istiaque)'
+        kn: 'ಸುಧಾರಿತ ಪಿಡಿಎಫ್ ರಫ್ತು ವಿನ್ಯಾಸ, ಡ್ರ್ಯಾಗ್-ಅಂಡ್-ಡ್ರಾಪ್ ನೊಂದಿಗೆ ಸಂಪೂರ್ಣವಾಗಿ
+          ಕಸ್ಟಮೈಸ್ ಮಾಡಬಹುದು. ಅನುವಾದ : ಬಾಂಗ್ಲಾ (Istiaque ಕೊಡುಗೆ ನೀಡಿದೆ)'
+        ko: '향상된 PDF 내보내기 레이아웃, 드래그 앤 드롭으로 완전히 사용자 정의 할 수 있습니다. 번역 : 벵골어 (Contributed
+          by Istiaque)'
+        ms: 'Susun atur eksport PDF yang dipertingkatkan, boleh disesuaikan sepenuhnya
+          dengan seret dan lepas. Terjemahan : Benggali (IstiaqueDisumbang oleh)'
         nl: 'Verbeterde PDF-exportindeling, volledig aanpasbaar met slepen en neerzetten.
           Vertaling : Bengaals (Bijgedragen door Istiaque)'
         pl: 'Ulepszony układ eksportu PDF, w pełni konfigurowalny za pomocą funkcji
@@ -347,76 +476,133 @@ versions:
           arrastar e soltar. Tradução : bengali (Contribuído por Istiaque)'
         ro: 'Aspect îmbunătățit de export PDF, complet personalizabil cu drag-and-drop.
           Traducere : bengaleză (A contribuit Istiaque)'
+        ru: 'Улучшен макет экспорта в PDF, теперь его можно полностью настраивать
+          с помощью drag-and-drop. Перевод : бенгальский (Вклад внесен Istiaque)'
+        si: 'වැඩි දියුණු කරන ලද PDF අපනයන සැකැස්ම, ඇදගෙන යාම සහ අතහැර දැමීම සමඟ සම්පූර්ණයෙන්ම
+          අභිරුචිකරණය කළ හැකිය. පරිවර්තනය : බෙංගාලි (Contributed by Istiaque)'
+        ta: 'மேம்படுத்தப்பட்ட PDF ஏற்றுமதி தளவமைப்பு, இழுத்தல் மற்றும் சொட்டு மூலம்
+          முழுமையாக தனிப்பயனாக்கக்கூடியது. மொழிபெயர்ப்பு : வங்காளம் (Istiaque-ஆல்
+          பங்களிக்கப்பட்டது)'
+        te: 'మెరుగైన పిడిఎఫ్ ఎగుమతి లేఅవుట్, డ్రాగ్-అండ్-డ్రాప్ తో పూర్తిగా అనుకూలీకరించదగినది.
+          అనువాదం : బంగ్లా (Istiaque తోడ్పడింది)'
         tr: 'Geliştirilmiş PDF dışa aktarma düzeni, sürükle ve bırak ile tamamen özelleştirilebilir.
           Çeviri : Bengalce (Katkıda bulunan: Istiaque)'
+        uk: 'Покращений макет експорту PDF, який повністю налаштовується за допомогою
+          перетягування. Переклад : бенгальська (Внесок зроблено Istiaque)'
         vi: 'Bố cục xuất PDF được cải thiện, hoàn toàn có thể tùy chỉnh với tính năng
           kéo và thả. Dịch thuật : Tiếng Bangla (Đóng góp bởi Istiaque)'
-        en: 'Improved PDF export layout, fully customizable with drag-and-drop. Translation
-          : Bangla (Contributed by Istiaque)'
+        zh-CN: '改进的 PDF 导出布局，可通过拖放完全自定义。 翻译 : 孟加拉语 (由Istiaque贡献)'
+        zh-TW: '改進的 PDF 導出佈局，可通過拖放完全自定義。 翻譯 : 孟加拉文 (由Istiaque貢獻)'
       - github2: '162'
         mastodon: '114561804390868913'
   -   - 3.9.8
       - '2025-04-10'
-      - bg: 'Баланс : Вижте вашите активи, пасиви и нетна стойност — на едно място.'
+      - ar: 'ورقة الميزانية : شاهد أصولك، التزاماتك، وصافي قيمتك — في مكان واحد.'
+        bg: 'Баланс : Вижте вашите активи, пасиви и нетна стойност — на едно място.'
+        ca: 'Balanç : Vegeu els vostres actius, passius i patrimoni net — tot en un
+          sol lloc.'
         cs: 'Rozvaha : Podívejte se na své aktiva, pasiva a čisté jmění — vše na jednom
           místě.'
+        da: 'Statusopgørelse : Se dine aktiver, passiver og nettoformue — alt på ét
+          sted.'
         de: 'Bilanz : Sehen Sie Ihre Vermögenswerte, Verbindlichkeiten und Ihr Reinvermögen
           — alles an einem Ort.'
         el: 'Ισολογισμός : Δείτε τα περιουσιακά σας στοιχεία, τις υποχρεώσεις σας
           και την καθαρή σας αξία — όλα σε ένα μέρος.'
-        es: 'Hoja de Balance : Vea sus activos, pasivos y patrimonio neto — todo en
+        es: 'Balance General : Vea sus activos, pasivos y patrimonio neto — todo en
           un solo lugar.'
+        eu: 'Balantzea : Ikusi zure aktiboak, pasiboak eta ondare garbia — dena leku
+          bakarrean.'
         fr: 'Bilan : Voyez vos actifs, passifs et valeur nette — tout en un seul endroit.'
         hr: 'Bilanca : Pogledajte svoju imovinu, obveze i neto vrijednost — sve na
           jednom mjestu.'
         hu: 'Mérleg : Tekintse meg eszközeit, kötelezettségeit és nettó vagyonát —
           mindent egy helyen.'
-        it: 'Bilancio : Visualizza i tuoi attivi, passivi e patrimonio netto — tutto
-          in un unico posto.'
+        it: 'Stato patrimoniale : Visualizza i tuoi attivi, passivi e patrimonio netto
+          — tutto in un unico posto.'
         iw: 'גיליון מאזן : ראה את הנכסים, ההתחייבויות והשווי הנקי שלך — הכל במקום
           אחד.'
+        ja: '貸借対照表 : 資産、負債、純資産を一箇所で確認できます。'
+        km: 'តារាងតុល្យភាព : មើលទ្រព្យសកម្ម បំណុល និងទ្រព្យសម្បត្តិសុទ្ធរបស់អ្នក —
+          ទាំងអស់នៅកន្លែងតែមួយ។'
+        kn: 'ಬ್ಯಾಲೆನ್ಸ್‌ ಹಾಳೆ : ನಿಮ್ಮ ಆಸ್ತಿಗಳು, ಬಾಧ್ಯತೆಗಳು ಮತ್ತು ನಿವ್ವಳ ಮೌಲ್ಯವನ್ನು
+          ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ನೋಡಿ.'
+        ko: '대차 대조표 : 자산, 부채 및 순자산을 한 곳에서 확인하세요.'
+        ms: 'Lembaran imbangan : Lihat aset, liabiliti, dan nilai bersih anda — semuanya
+          di satu tempat.'
         nl: 'Balans : Bekijk uw activa, passiva en netto waarde — alles op één plek.'
         pl: 'Bilans : Zobacz swoje aktywa, pasywa i wartość netto — wszystko w jednym
           miejscu.'
-        pt: 'Folha de Balanço : Veja seus ativos, passivos e patrimônio líquido —
-          tudo em um só lugar.'
+        pt: 'Balanço Patrimonial : Veja seus ativos, passivos e patrimônio líquido
+          — tudo em um só lugar.'
         ro: 'Bilanț : Vedeți activele, pasivele și valoarea netă — toate într-un singur
           loc.'
+        ru: 'Балансовый отчет : Просмотрите свои активы, обязательства и чистую стоимость
+          — все в одном месте.'
+        si: 'ශේෂ පත් රය : ඔබගේ දේපළ, වගකීම් සහ ශුද්ධ වටිනාකම — සියල්ල එකම ස්ථානයක
+          බලන්න.'
+        ta: 'ஐந்தொகை, இருப்புநிலைக் குறிப்பு : உங்கள் சொத்துகள், கடன்கள் மற்றும்
+          நிகர மதிப்பை ஒரு இடத்தில் பார்க்கவும்.'
+        te: 'నిల్వ పత్రం : మీ ఆస్తులు, బాద్యతలు మరియు నికర విలువను ఒకే చోట చూడండి.'
         tr: 'Bilanço : Varlıklarınızı, yükümlülüklerinizi ve net değerinizi tek bir
           yerde görün.'
+        uk: 'Баланс : Переглядайте свої активи, зобов''язання та чисту вартість —
+          усе в одному місці.'
         vi: 'Bảng tổng kết tài sản : Xem tài sản, nợ phải trả và giá trị ròng của
           bạn — tất cả ở một nơi.'
+        zh-CN: '资产负债表 : 在一个地方查看您的资产、负债和净资产。'
+        zh-TW: '資產負債表 : 在一個地方查看您的資產、負債和淨資產。'
         en: 'Balance Sheet : See your assets, liabilities, and net worth — all in
           one place.'
       - github2: '161'
         mastodon: '114292736277188136'
   -   - 3.9.7
       - '2025-03-24'
-      - bg: Бързо търсене / Сложно търсене
+      - ar: البحث السريع / البحث المعقد
+        bg: Бързо търсене / Разширено търсене
+        ca: Cerca ràpida / Cerca complexa
         cs: Snadné hledání / Komplexní vyhledávání
+        da: Hurtig søgning / Kompleks søgning
         de: Schnellsuche / Komplexe Suche
         el: Γρήγορη αναζήτηση / Σύνθετη αναζήτηση
         es: Búsqueda rápida / Búsqueda compleja
+        eu: Bilaketa azkarra / Bilaketa konplexua
         fr: Recherche rapide / Recherche complexe
         hr: Brza pretraga / Složena pretraga
         hu: Gyors keresés / Komplex keresés
         it: Ricerca rapida / Ricerca complessa
         iw: חיפוש מהיר / חיפוש מורכב
+        ja: クイック検索 / 複雑な検索
+        km: ស្វែងរករហ័ស / ការស្វែងរកស្មុគស្មាញ
+        kn: ತ್ವರಿತ ಹುಡುಕಾಟ / ಸಂಕೀರ್ಣ ಹುಡುಕಾಟ
+        ko: 빠른 검색 / 복잡한 검색
+        ms: Carian pantas / Carian kompleks
         nl: Snel zoeken / Complexe zoekopdracht
         pl: Szybkie wyszukiwanie / Złożone wyszukiwanie
         pt: Pesquisa rápida / Pesquisa complexa
         ro: Căutare rapidă / Căutare complexă
+        ru: Быстрый поиск / Сложный поиск
+        si: ඉක්මන් සෙවීම / සංකීර්ණ සෙවීම
+        ta: விரைவான தேடல் / சிக்கலான தேடல்
+        te: శీఘ్ర శోధన / సంక్లిష్ట శోధన
         tr: Hızlı arama / Karmaşık arama
+        uk: Швидкий пошук / Комплексний пошук
         vi: Tìm kiếm nhanh / Tìm kiếm phức tạp
+        zh-CN: 快速搜索 / 复杂搜索
+        zh-TW: 快速搜尋 / 複雜搜索
         en: Quick search / Complex search
       - github2: '159'
         mastodon: '114200685512601412'
   -   - 3.9.6
       - '2025-03-15'
-      - bg: Подобрено управление на сметки в чуждестранна валута с автоматични актуализации
+      - ar: إدارة محسنة حساب العملات الأجنبية مع تحديثات سعر الصرف التلقائية وتتبع
+          القيمة في الوقت الفعلي.
+        bg: Подобрено управление на сметки в чуждестранна валута с автоматични актуализации
           на обменен курс и проследяване на стойността в реално време.
         cs: Vylepšená správa účtů v cizí měně s automatickou aktualizací směnného
           kurzu a sledováním hodnoty v reálném čase.
+        da: Forbedret administration af udenlandsk valuta-konti med automatiske valutakursopdateringer
+          og værdisporing i realtid.
         de: Verbesserte Verwaltung von Fremdwährungs-Konten mit automatischen Wechselkursaktualisierungen
           und Wertverfolgung in Echtzeit.
         el: Βελτιωμένη διαχείριση λογαριασμός ξένου νομίσματος με αυτόματες ενημερώσεις
@@ -425,35 +611,51 @@ versions:
           de tipos de cambio y seguimiento del valor en tiempo real.
         fr: Gestion améliorée des comptes en devises étrangères avec mises à jour
           automatiques des taux de change et suivi de la valeur en temps réel.
-        hr: Poboljšano upravljanje deviznim računom s automatskim ažuriranjem tečaj
-          i praćenjem vrijednosti u stvarnom vremenu.
+        hr: Poboljšano upravljanje deviznim računom s automatskim aktualiziranjima
+          tečaja i praćenjem vrijednosti u stvarnom vremenu.
         hu: Továbbfejlesztett devizaszámla-kezelés automatikus árfolyam-frissítésekkel
           és valós idejű értékkövetéssel.
         it: Gestione avanzata dei conti in valuta estera con aggiornamenti automatici
           del tasso di cambio e monitoraggio del valore in tempo reale.
         iw: ניהול חשבון מט״ח משופר עם עדכון שערי המרה אוטומטי ומעקב ערך בזמן אמת.
-        nl: Verbeterd beheer van rekeningen in vreemde valuta met automatische updates
-          van de wisselkoers en real-time waardetracking.
+        ja: 為替レートの自動更新とリアルタイムの値追跡により、外貨口座管理が強化されました。
+        ko: 자동 환율 업데이트 및 실시간 가치 추적을 통해 향상된 외환 계좌 관리.
+        ms: Pengurusan akaun mata wang asing yang dipertingkatkan dengan kemas kini
+          kadar pertukaran automatik dan penjejakan nilai masa nyata.
+        nl: Verbeterd beheer van rekeningen in vreemde valuta met automatische wisselkoersupdates
+          en realtime waardetracering.
         pl: Ulepszone zarządzanie kontami walutowymi z automatyczną aktualizacją kursu
           wymiany i śledzeniem wartości w czasie rzeczywistym.
         pt: Gerenciamento aprimorado de contas em moeda estrangeira com atualizações
           automáticas da taxa de câmbio e rastreamento de valor em tempo real.
         ro: Gestionarea îmbunătățită a conturilor în valută cu actualizări automate
           ale cursului de schimb și urmărirea valorii în timp real.
+        ru: Расширенная система управления счетами в иностранной валюте с автоматическими
+          обновлениями курсов и мониторингом текущей стоимости.
+        ta: தானியங்கி பரிமாற்ற வீதம் புதுப்பிப்புகள் மற்றும் நிகழ்நேர மதிப்பு கண்காணிப்புடன்
+          மேம்படுத்தப்பட்ட வெளிநாட்டு நாணய கணக்கு மேலாண்மை.
         tr: Otomatik döviz kuru güncellemeleri ve gerçek zamanlı değer takibi ile
           gelişmiş döviz hesabı yönetimi.
+        uk: Покращене управління рахунками в іноземній валюті з автоматичним оновленням
+          обмінного курсу та відстеженням вартості в режимі реального часу.
         vi: Quản lý tài khoản ngoại tệ nâng cao với cập nhật tỷ giá hối đoái tự động
           và theo dõi giá trị theo thời gian thực.
+        zh-CN: 通过自动汇率更新和实时价值跟踪，增强外币账户管理。
+        zh-TW: 通過自動更新 匯率 和實時價值跟蹤，增強外幣 帳戶 管理。
         en: Enhanced foreign currency account management with automatic exchange rate
           updates and real-time value tracking.
       - github2: '158'
         mastodon: '114116950272846756'
   -   - 3.9.5
       - '2025-02-06'
-      - bg: Експортираните файлове (PDF, архивиране, QIF, CSV, JSON) могат да бъдат
+      - ar: يمكن تنزيل الملفات المصدرة (PDF ، النسخ الاحتياطي ، QIF ، CSV ، JSON)
+          عبر واجهة مستخدم الويب. تحسينات علي الأداء
+        bg: Експортираните файлове (PDF, архивиране, QIF, CSV, JSON) могат да бъдат
           изтеглени чрез уеб потребителски интерфейс. Подобрено бързодействие
         cs: Exportované soubory (PDF, záloha, QIF, CSV, JSON) lze stáhnout prostřednictvím
           webového uživatelského rozhraní. Zlepšení výkonu
+        da: Eksporterede filer (PDF, sikkerhedskopi, QIF, CSV, JSON) kan hentes via
+          webbrugergrænsefladen. Forbedringer af ydeevnen
         de: Exportierte Dateien (PDF, Backup, QIF, CSV, JSON) können über die Web-Benutzeroberfläche
           heruntergeladen werden. Performance-Verbesserung
         el: Τα εξαγόμενα αρχεία (PDF, backup, QIF, CSV, JSON) μπορούν να μεταφορτωθούν
@@ -470,85 +672,145 @@ versions:
           tramite l'interfaccia utente Web. Miglioramento delle prestazioni
         iw: קבצים מיוצאים (PDF, גיבוי, QIF,‏ CSV,‏ JSON) ניתנים להורדה באמצעות ממשק
           משתמש באינטרנט. שיפור בעיצועים
+        ja: エクスポートされたファイル(PDF、バックアップ、QIF、CSV、JSON)は、Webユーザーインターフェースからダウンロードできます。 パフォーマンスの向上
+        ko: 내보낸 파일(PDF, 백업, QIF, CSV, JSON)은 웹 사용자 인터페이스를 통해 다운로드할 수 있습니다. Performance
+          enhancement
+        ms: Fail yang dieksport (PDF, sandaran, QIF, CSV, JSON) boleh dimuat turun
+          melalui Antara Muka Pengguna Web. Penambahbaikan prestasi
         nl: Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload
           via de webgebruikersinterface. Prestatieverbetering
         pl: Wyeksportowane pliki (PDF, kopia zapasowa, QIF, CSV, JSON) można pobrać
           za pośrednictwem internetowego interfejsu użytkownika. Zwiększenie wydajności
         pt: Os arquivos exportados (PDF, backup, QIF, CSV, JSON) podem ser baixados
-          via Web User Interface. Melhoria de performance
+          pela interface web do usuário. Melhoria de performance
         ro: Fișierele exportate (PDF, backup, QIF, CSV, JSON) pot fi descărcate prin
           intermediul interfeței web cu utilizatorul. Îmbunătățirea performanței
+        ru: Экспортированные файлы (PDF, резервные копии, QIF, CSV, JSON) можно загрузить
+          через веб-интерфейс пользователя. Улучшение производительности
+        ta: ஏற்றுமதி செய்யப்பட்ட கோப்புகளை (PDF, காப்புப்பிரதி, QIF, CSV, JSON) வழியாக
+          பதிவிறக்கம் செய்யலாம் Web பயனர் இடைமுகம். செயல்திறன் மேம்பாடு
         tr: Dışa aktarılan dosyalar (PDF, yedekleme, QIF, CSV, JSON) Web Kullanıcı
           Arayüzü aracılığıyla indirilebilir. Performans arttırıldı
+        uk: Експортовані файли (PDF, резервні копії, QIF, CSV, JSON) можна завантажити
+          через веб-інтерфейс користувача. Покращення швидкодії
         vi: Các tệp đã xuất (PDF, sao lưu, QIF, CSV, JSON) có thể được tải xuống thông
           qua Giao diện người dùng web. Nâng cao hiệu suất
+        zh-CN: 导出的文件（PDF、备份、QIF、CSV、JSON）可以通过 Web 用户界面下载。 性能增强
+        zh-TW: 導出的檔（PDF、備份、QIF、CSV、JSON）可以通過 Web 使用者介面下載。 效能提升
         en: Exported files (PDF, backup, QIF, CSV, JSON) can be downloaded via Web
           User Interface. Performance enhancement
       - github2: '15'
         mastodon: '113933510952312421'
   -   - 3.9.4
       - '2025-01-26'
-      - bg: 'Търсене 2.0. Разпределяне на транзакция: Подобрения в потребителския
-          интерфейс'
-        cs: 'Vyhledávání 2.0. Rozdělení transakce: Zdokonalení uživatelského rozhraní'
-        de: 'Suche 2.0. Mehrteilige Buchung: Verfeinerung der Benutzeroberfläche'
-        el: 'Αναζήτηση 2.0. Διαιρεμένη συναλλαγή: Βελτίωση του περιβάλλοντος εργασίας
+      - ar: 'بحث 2.0 تقسيم العمليات: صقل واجهة المستخدم'
+        bg: 'Търсене 2.0 Разпределяне на транзакция: Подобрения в потребителския интерфейс'
+        ca: 'Cerca 2.0 Operació repartida: Interfície d''usuari millorada'
+        cs: 'Vyhledávání 2.0 Rozdělení transakce: Zdokonalení uživatelského rozhraní'
+        da: 'Søg 2.0 Opdel transaktion: Forbedring af brugergrænsefladen'
+        de: 'Suche 2.0 Mehrteilige Buchung: Verfeinerung der Benutzeroberfläche'
+        el: 'Αναζήτηση 2.0 Διαιρεμένη συναλλαγή: Βελτίωση του περιβάλλοντος εργασίας
           χρήστη'
-        es: 'Búsqueda 2.0. Transacción dividida: Interfaz de usuario mejorada'
-        fr: 'Recherche 2.0. Opération ventilée: Raffinement de l''interface utilisateur'
-        hr: 'Pretraži 2.0. Višedjelna transakcija: Poboljšanje korisničkog sučelja'
-        hu: 'Keresés 2.0. Tranzakció felosztása: A felhasználói felület finomítása'
-        it: 'Ricerca 2.0. Operazione frazionata: Miglioramento dell''interfaccia utente'
-        iw: 'חיפוש 2.0. עסקה מפוצלת: חידוד ממשק המשתמש'
-        nl: 'Zoeken 2.0. Transactie splitsen: Verfijning van de gebruikersinterface'
-        pl: 'Wyszukiwanie 2.0. Podział transakcji: Udoskonalenie interfejsu użytkownika'
-        pt: 'Pesquisar 2.0. Transação dividida: Melhorias na interface do usuário'
-        ro: 'Căutați 2.0. Tranzacţie repartizată: Perfecționarea interfeței cu utilizatorul'
-        tr: 'Ara 2.0. Bölünmüş muamele: Kullanıcı arayüzü iyileştirildi'
-        vi: 'Tìm kiếm 2.0. GD phân tách: Cải tiến giao diện người dùng'
-        en: 'Search 2.0. Split transaction: Refinement of the user interface'
+        es: 'Búsqueda 2.0 Transacción dividida: Interfaz de usuario mejorada'
+        eu: 'Bilaketa 2.0 Banatu transakzioa: Erabiltzaile-interfazea hobetzea'
+        fr: 'Recherche 2.0 Opération ventilée: Raffinement de l''interface utilisateur'
+        hr: 'Pretraži 2.0 Višedjelna transakcija: Poboljšanje korisničkog sučelja'
+        hu: 'Keresés 2.0 Tranzakció felosztása: A felhasználói felület finomítása'
+        it: 'Ricerca 2.0 Operazione frazionata: Miglioramento dell''interfaccia utente'
+        iw: 'חיפוש 2.0 עסקה מפוצלת: חידוד ממשק המשתמש'
+        ja: '検索 2.0 取引を分割: ユーザーインターフェースの洗練'
+        km: 'ស្វែងរក 2.0 ញែក​​ប្រតិបត្តិការ: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ'
+        kn: 'ಹುಡುಕಿ 2.0 ವಿಭಜಿತ ವಹಿವಾಟು: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ'
+        ko: '검색 2.0 거래 내역을 분할하기: 사용자 인터페이스 개선'
+        ms: 'Carian 2.0 Transaksi pengasingan: Penghalusan antara muka pengguna'
+        nl: 'Zoeken 2.0 Transactie splitsen: Verfijning van de gebruikersinterface'
+        pl: 'Wyszukiwanie 2.0 Podział transakcji: Udoskonalenie interfejsu użytkownika'
+        pt: 'Pesquisar 2.0 Transação dividida: Melhorias na interface do usuário'
+        ro: 'Căutați 2.0 Tranzacţie repartizată: Perfecționarea interfeței cu utilizatorul'
+        ru: 'Поиск 2.0 Разделённая операция: Усовершенствование пользовательского
+          интерфейса'
+        si: 'සෙවීම 2.0 විභේදනය වූ ගනුදෙනු: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම'
+        ta: 'தேடு 2.0 பிரிவு பரிவர்த்தனை: பயனர் இடைமுகத்தை மெருகேற்றுதல்'
+        te: 'సెర్చ్ 2.0 స్ప్లిట్ లావాదేవీ: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ'
+        tr: 'Ara 2.0 Bölünmüş muamele: Kullanıcı arayüzü iyileştirildi'
+        uk: 'Пошук 2.0 Поділена транзакція: Доопрацювання користувацького інтерфейсу'
+        vi: 'Tìm kiếm 2.0 GD phân tách: Cải tiến giao diện người dùng'
+        zh-CN: '搜索 2.0 拆分交易款项: 用户界面的改进'
+        zh-TW: '搜尋 2.0 分割交易: 完善用户界面'
+        en: 'Search 2.0 Split transaction: Refinement of the user interface'
       - github2: '14'
         mastodon: '113874508405517227'
   -   - 3.9.3
       - '2025-01-01'
-      - bg: 'Доставчик на валутни курсове: Подобрения в потребителския интерфейс'
+      - ar: 'مزود سعر الصرف: صقل واجهة المستخدم'
+        bg: 'Доставчик на валутни курсове: Подобрения в потребителския интерфейс'
+        ca: 'Proveïdor de tipus de canvi: Interfície d''usuari millorada'
         cs: 'Poskytovatel směnného kurzu: Zdokonalení uživatelského rozhraní'
+        da: 'Valutakursudbyder: Forbedring af brugergrænsefladen'
         de: 'Anbieter für Wechselkurse: Verfeinerung der Benutzeroberfläche'
         el: 'Πάροχος συναλλαγματικής ισοτιμίας: Βελτίωση του περιβάλλοντος εργασίας
           χρήστη'
         es: 'Proveedor de tipo de cambio: Interfaz de usuario mejorada'
+        eu: 'Exchange Rate Provider: Erabiltzaile-interfazea hobetzea'
         fr: 'Fournisseur de taux de change: Raffinement de l''interface utilisateur'
-        hr: 'Usluga za preuzimanje tečajeva: Poboljšanje korisničkog sučelja'
+        hr: 'Pružatelj tečajeva: Poboljšanje korisničkog sučelja'
         hu: 'Árfolyamszolgáltató: A felhasználói felület finomítása'
         it: 'Fornitore dei Tassi di Cambio: Miglioramento dell''interfaccia utente'
         iw: 'בחר לספק להוריד שערי חליפין: חידוד ממשק המשתמש'
+        ja: '為替レートプロバイダー: ユーザーインターフェースの洗練'
+        km: 'Exchange Rate Provider: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ'
+        kn: 'ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ'
+        ko: 'Exchange Rate Provider: 사용자 인터페이스 개선'
+        ms: 'Penyedia Kadar Pertukaran: Penghalusan antara muka pengguna'
         nl: 'Wisselkoers Aanbieder: Verfijning van de gebruikersinterface'
         pl: 'Dostawca kursów wymiany walut: Udoskonalenie interfejsu użytkownika'
         pt: 'Provedor de taxa de câmbio: Melhorias na interface do usuário'
         ro: 'Furnizor de cursuri de schimb: Perfecționarea interfeței cu utilizatorul'
+        ru: 'Поставщик курсов валют: Усовершенствование пользовательского интерфейса'
+        ta: 'மாற்று விகித வழங்குநர்: பயனர் இடைமுகத்தை மெருகேற்றுதல்'
+        te: 'మార్పిడి రేటు ప్రొవైడర్: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ'
         tr: 'Döviz Kuru Sağlayıcısı: Kullanıcı arayüzü iyileştirildi'
+        uk: 'Постачальник курсів валют: Доопрацювання користувацького інтерфейсу'
         vi: 'Nhà cung cấp tỷ giá hối đoái: Cải tiến giao diện người dùng'
+        zh-CN: '汇率提供者: 用户界面的改进'
+        zh-TW: '匯率提供者: 完善用户界面'
         en: 'Exchange Rate Provider: Refinement of the user interface'
       - github2: '13'
         mastodon: '113743697744453315'
   -   - 3.9.2
       - '2024-12-14'
-      - bg: 'Бюджетиране: Синхронизиране'
+      - ar: 'وضع الميزانية: التزامن'
+        bg: 'Бюджетиране: Синхронизиране'
+        ca: 'Pressupostar: Sincronització'
         cs: 'Rozpočty: Synchronizace'
+        da: 'Budgettering: Synkronisering'
         de: 'Budgetierung: Synchronisierung'
         el: 'Προϋπολογισμός: Συγχρονισμός'
         es: 'Presupuestar: Sincronización'
+        eu: 'Aurrekontua: Sinkronizazioa'
         fr: 'Budgétisation: Synchronisation'
         hr: 'Izrada proračuna: Sinkronizacija'
         hu: 'Költségvetés: Szinkronizálás'
         it: 'Bilancio: Sincronizzazione'
         iw: 'תקצוב: סנכרון'
+        ja: '予算作成: 同期'
+        km: 'ថវិកា: ការធ្វើសមកាលកម្ម'
+        kn: 'ಬಜೆಟ್: ಸಿಂಕ್ರೊನೈಸೇಶನ್'
+        ko: '예산편성: 동기화'
+        ms: 'Pembelanjawan: Penyegerakan'
         nl: 'Budgettering: Synchronisatie'
         pl: 'Przydzielanie budżetu: Synchronizacja'
         pt: 'Orçamento: Sincronização'
         ro: 'Bugetare: Sincronizare'
+        ru: 'Бюджетирование: Синхронизация'
+        si: 'අයවැය සකස් කිරීම: සමමුහුර්තකරණය'
+        ta: 'வரவு செலவுத் திட்டம்: ஒத்திசைவு'
+        te: 'బడ్జెట్లో: సమకాలీకరణ'
         tr: 'Bütçeleme: Eşzamanla'
+        uk: 'Бюджетування: Синхронізація'
         vi: 'Ngân quỹ: Đồng bộ hóa'
+        zh-CN: '预算编制: 同步'
+        zh-TW: '預算編訂: 同步化'
         en: 'Budgeting: Synchronization'
       - github2: '11'
         mastodon: '113647103106538634'

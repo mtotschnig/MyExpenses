@@ -156,10 +156,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:tooltipText="@string/menu_sync_unlink"
                         android:contentDescription="@string/menu_sync_unlink"
                         android:focusable="true"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_action_sync_unlink" />
+                        app:srcCompat="@drawable/ic_action_sync_unlink"
+                        tools:ignore="UnusedAttribute" />
 
                     <ImageView
                         android:id="@+id/SyncHelp"

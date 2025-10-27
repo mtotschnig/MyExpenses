@@ -153,15 +153,21 @@
         <item>y</item>
         <item>M</item>
         <item>d</item>
-        <item>H</item>
-        <item>m</item>
-        <item>a</item>
     </string-array>
 
     <string-array name="help_ExportDialog_date_format_components">
         <item>@string/grouping_year</item>
         <item>@string/grouping_month</item>
         <item>@string/grouping_day</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_time_format_letters">
+        <item>H</item>
+        <item>m</item>
+        <item>a</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_time_format_components">
         <item>@string/date_format_hour</item>
         <item>@string/date_format_minute</item>
         <item>@string/date_format_a</item>

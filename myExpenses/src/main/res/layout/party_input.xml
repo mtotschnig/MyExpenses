@@ -41,11 +41,10 @@
             style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tooltipText="@string/content_description_clear_party"
             android:contentDescription="@string/content_description_clear_party"
-            android:padding="8dp"
-            app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@drawable/ic_menu_close_clear_cancel"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 

@@ -7,4 +7,5 @@
     <bool name="fints">false</bool>
     <bool name="allowFullScreen">false</bool>
     <bool name="isLarge">false</bool>
+    <bool name="isCompact">true</bool>
 </resources>

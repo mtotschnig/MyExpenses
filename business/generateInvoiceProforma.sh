@@ -15,31 +15,31 @@ while getopts "p:c:u:d:" opt; do
         p) case "$OPTARG" in
                Contrib)
                  export KEY="My Expenses Contrib Licence"
-                 export PRICE=${PRICE:=12.4}
+                 export PRICE=${PRICE:=14.4}
                  ;;
                History)
                  export KEY="History"
-                 export PRICE=${PRICE:=4.5}
+                 export PRICE=${PRICE:=4.9}
                  ;;
                Budget)
                  export KEY="Budgeting"
-                 export PRICE=${PRICE:=4.5}
+                 export PRICE=${PRICE:=4.9}
                  ;;
                Ocr)
                  export KEY="Scan receipt"
-                 export PRICE=${PRICE:=4.5}
+                 export PRICE=${PRICE:=4.9}
                  ;;
                Banking)
                  export KEY="Banking"
-                 export PRICE=${PRICE:=4.5}
+                 export PRICE=${PRICE:=4.9}
                  ;;
                CategoryTree)
                  export KEY="Category Tree"
-                 export PRICE=${PRICE:=4.5}
+                 export PRICE=${PRICE:=4.9}
                  ;;
                Extended)
                  export KEY="My Expenses Extended Licence"
-                 export PRICE=${PRICE:=15.5}
+                 export PRICE=${PRICE:=18.9}
                  ;;
                Professional)
                  isPro=true

@@ -58,6 +58,7 @@
                     android:id="@+id/file_name_label"
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@id/file_name"
                     android:text="@string/file_name" />
 
                 <LinearLayout
@@ -86,6 +87,7 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@+id/format"
                     android:text="@string/pref_export_format_title" />
 
                 <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
@@ -94,6 +96,7 @@
                         android:id="@+id/format"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/pref_export_format_title"
                         app:checkedButton="@+id/qif"
                         app:selectionRequired="true"
                         app:singleSelection="true">
@@ -128,6 +131,7 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@id/Delimiter"
                     android:text="@string/pref_csv_import_delimiter" />
 
                 <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
@@ -136,6 +140,7 @@
                         android:id="@+id/Delimiter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/pref_csv_import_delimiter"
                         app:checkedButton="@+id/delimiter_comma"
                         app:selectionRequired="true"
                         app:singleSelection="true">
@@ -167,6 +172,7 @@
                     android:id="@+id/DateFormatLabel"
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@id/date_format"
                     android:text="@string/date_format" />
 
                 <LinearLayout style="@style/FormField.Dialog">
@@ -176,25 +182,54 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="text"
-                        tools:ignore="TextFields" />
-
-                    <EditText
-                        android:id="@+id/time_format"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:contentDescription="@string/date_format"
                         android:inputType="text"
                         tools:ignore="TextFields" />
 
                     <ImageView
-                        android:id="@+id/date_format_help"
+                        android:id="@+id/DateFormatHelp"
                         style="?actionButtonStyle"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
                         android:scaleType="centerCrop"
+                        android:tooltipText="@string/menu_help"
+                        app:srcCompat="@drawable/ic_menu_help" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/TimeFormatRow"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/TimeFormatLabel"
+                    style="@style/FormLabel.Condensed"
+                    android:gravity="center_vertical"
+                    android:labelFor="@id/time_format"
+                    android:text="@string/time_format" />
+
+                <LinearLayout style="@style/FormField.Dialog">
+
+                    <EditText
+                        android:id="@+id/time_format"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/date_format"
+                        android:inputType="text"
+                        tools:ignore="TextFields" />
+
+                    <ImageView
+                        android:id="@+id/TimeFormatHelp"
+                        style="?actionButtonStyle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/menu_help"
+                        android:scaleType="centerCrop"
+                        android:tooltipText="@string/menu_help"
                         app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>
             </TableRow>
@@ -204,11 +239,13 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@id/separator"
                     android:text="@string/decimal_separator" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/separator"
                     style="@style/FormField.Dialog"
+                    android:contentDescription="@string/decimal_separator"
                     android:gravity="center_horizontal"
                     app:checkedButton="@+id/dot"
                     app:selectionRequired="true"
@@ -233,6 +270,7 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
+                    android:labelFor="@id/Encoding"
                     android:text="@string/pref_qif_export_file_encoding_title" />
 
                 <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
@@ -241,6 +279,7 @@
                         android:id="@+id/Encoding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/pref_qif_export_file_encoding_title"
                         app:singleSelection="true">
 
                         <Button
@@ -250,10 +289,10 @@
                             tools:ignore="HardcodedText" />
 
                         <Button
-                            android:visibility="gone"
                             android:id="@+id/utf8_bom"
                             style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                             android:text="UTF-8 (BOM, Windows, Excel)"
+                            android:visibility="gone"
                             tools:ignore="HardcodedText" />
 
                         <Button
@@ -276,10 +315,10 @@
 
         <TextView
             android:id="@+id/export_delete_disabled_text"
-            android:visibility="gone"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/handle_deleted"
@@ -320,6 +359,7 @@
             style="@style/dialog_text.bold.warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
             android:text="@string/warning_reset_account"
             android:visibility="gone"
             tools:visibility="visible" />
