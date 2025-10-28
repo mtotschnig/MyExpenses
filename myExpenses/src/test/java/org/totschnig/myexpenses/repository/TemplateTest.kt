@@ -57,7 +57,7 @@ class TemplateTest: BaseTestWithRepository() {
         )
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + amount)
         val t = repository.createTemplate(RepositoryTemplate.fromTransaction(op1, "Test Transaction"))
-        repository.createTransaction(t.instantiate())
+        repository.createTransaction(t.instantiate(currencyContext, exchangeRateHandler))
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
         repository.deleteTemplate(t.id)
         Truth.assertWithMessage("Template deleted, but can still be retrieved").that(repository.loadTemplate(t.id, require = false)).isNull()
@@ -92,7 +92,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testTransactionFromTemplate() {
         val template = buildTransactionTemplate()
-        val transaction = template.instantiate().data
+        val transaction = template.instantiate(exchangeRateHandler).data
         assertThat(transaction.categoryId).isEqualTo(template.data.categoryId)
         assertThat(transaction.accountId).isEqualTo(template.data.accountId)
         assertThat(transaction.payeeId).isEqualTo(template.data.payeeId)
@@ -103,7 +103,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testTransferFromTemplate() {
         val template = buildTransferTemplate()
-        val transaction = template.instantiate().data
+        val transaction = template.instantiate(exchangeRateHandler).data
         assertThat(transaction.isTransfer).isTrue()
         assertThat(transaction.accountId).isEqualTo(template.data.accountId)
         assertThat(transaction.comment).isEqualTo(template.data.comment)
@@ -113,7 +113,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testSplitFromTemplate() {
         val template = buildSplitTemplate()
-        val transaction = template.instantiate()
+        val transaction = template.instantiate(exchangeRateHandler)
         with(transaction.data) {
             assertThat(isSplit).isTrue()
             assertThat(accountId).isEqualTo(template.data.accountId)

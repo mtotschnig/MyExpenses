@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getEnum
@@ -67,6 +68,7 @@ data class Template(
     val sealed: Boolean = false,
     val currency: String? = null,
     val payeeName: String? = null,
+    val transferAccountCurrency: String? = null
 )  {
 
     fun asContentValues(): ContentValues {
@@ -157,7 +159,8 @@ data class Template(
                 categoryPath = getStringOrNull(KEY_PATH),
                 sealed = getBoolean(KEY_SEALED),
                 currency = getStringOrNull(KEY_CURRENCY),
-                payeeName = getStringOrNull(KEY_PAYEE_NAME)
+                payeeName = getStringOrNull(KEY_PAYEE_NAME),
+                transferAccountCurrency = getStringOrNull(KEY_TRANSFER_ACCOUNT_CURRENCY)
             )
         }
     }

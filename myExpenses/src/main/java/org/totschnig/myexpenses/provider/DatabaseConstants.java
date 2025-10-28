@@ -188,6 +188,7 @@ public class DatabaseConstants {
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
   public static final String KEY_TRANSFER_ACCOUNT_LABEL = "transfer_account_label";
+  public static final String KEY_TRANSFER_ACCOUNT_CURRENCY = "transfer_account_currency";
   public static final String KEY_STATUS = "status";
   public static final String KEY_PAYEE_NAME = "name";
   public static final String KEY_SHORT_NAME = "short_name";

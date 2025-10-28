@@ -2209,6 +2209,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         add(KEY_SHORT_NAME)
         add(KEY_TRANSFER_ACCOUNT)
         add(TRANSFER_ACCOUNT_LABEL)
+        add(TRANSFER_ACCOUNT_CURRENCY)
         add(KEY_ACCOUNTID)
         add(KEY_ACCOUNT_LABEL)
         add(KEY_METHODID)

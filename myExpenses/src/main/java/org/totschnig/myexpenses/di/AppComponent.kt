@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.service.PlanNotificationClickHandler
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.task.GrisbiImportTask
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ads.BaseAdHandler
 import org.totschnig.myexpenses.util.config.Configurator
@@ -171,6 +172,8 @@ interface AppComponent {
     fun preferencesDataStore(): DataStore<Preferences>
 
     fun configurator(): Configurator
+
+    fun exchangeRateHandler(): ExchangeRateHandler
 
     fun inject(application: MyApplication)
 

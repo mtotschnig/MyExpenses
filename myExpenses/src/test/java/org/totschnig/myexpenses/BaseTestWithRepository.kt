@@ -26,6 +26,8 @@ abstract class BaseTestWithRepository {
 
     val dataStore = application.appComponent.preferencesDataStore()
 
+    val exchangeRateHandler = application.appComponent.exchangeRateHandler()
+
     val repository: Repository = Repository(
         application,
         currencyContext,

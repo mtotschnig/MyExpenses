@@ -476,8 +476,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
             // fetch the transaction or create a new instance
             else if (task != null) {
-                viewModel.read(mRowId, task, isClone, true, extras).observe(this) {
-                    populateFromTask(it, task)
+                lifecycleScope.launch {
+                    populateFromTask( viewModel.read(mRowId, task, isClone, true, extras), task)
                 }
             } else {
                 operationType =
@@ -1642,10 +1642,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.read(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
-            .observe(this) { transaction ->
-                transaction?.let { delegate.originTemplateLoaded(it) }
+        lifecycleScope.launch {
+            viewModel.read(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)?.let {
+                delegate.originTemplateLoaded(it)
             }
+        }
     }
 
     companion object {

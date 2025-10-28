@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
-import org.totschnig.myexpenses.db2.getInstanceForPlanIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -64,6 +65,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     lateinit var plannerUtils: PlannerUtils
     @Inject
     lateinit var currencyContext: CurrencyContext
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     val contentResolver: ContentResolver
         get() = repository.contentResolver
@@ -206,7 +209,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     //3) execute the template
                     log("found instance %d of plan %d", instanceId, planId)
                     //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
-                    val template = repository.getInstanceForPlanIfInstanceIsOpen(planId, instanceId)
+                    val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
                     if (!(template == null || template.data.sealed)) {
                         if (template.data.planExecutionAdvance >= diff) {
                             val accountLabel = repository.getLabelForAccount(template.data.accountId)
@@ -233,7 +236,9 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                 )
                                 builder.setContentText(content)
                                 if (template.data.planExecutionAutomatic) {
-                                    val transaction = repository.createTransaction(template.instantiate())
+                                    val transaction = repository.createTransaction(template.instantiate(
+                                        currencyContext, exchangeRateHandler
+                                    ))
                                     repository.linkTemplateWithTransaction(template.id, transaction.id, instanceId)
                                     repository.saveTagsForTransaction(repository.loadTagsForTemplate(template.id), transaction.id)
                                     val displayIntent: Intent =

@@ -87,6 +87,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
 import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.asExtension
@@ -111,6 +112,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     @Inject
     lateinit var plannerUtils: PlannerUtils
+
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     private var loadMethodJob: Job? = null
 
@@ -484,20 +488,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         }
 
-    fun read(
+    suspend fun read(
         transactionId: Long,
         task: InstantiationTask,
         clone: Boolean,
         forEdit: Boolean,
         extras: Bundle?,
-    ): LiveData<TransactionEditData?> = liveData(context = coroutineContext()) {
+    ): TransactionEditData? = withContext(context = coroutineContext()) {
         when (task) {
             InstantiationTask.TEMPLATE -> repository.loadTemplate(transactionId)?.let {
                 TransactionMapper.map(it, currencyContext)
             }
 
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)
-                ?.instantiate()?.let {
+                ?.instantiate(currencyContext, exchangeRateHandler)?.let {
                 TransactionMapper.map(it, currencyContext).copy(
                     originTemplateId = transactionId
                 )
@@ -525,9 +529,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             ).let {
                 TransactionMapper.map(it, currencyContext)
             }
-        }?.also {
+        }/*?.also {
             emit(it)
-            /*            pair ->
+            *//*            pair ->
                         if (forEdit) {
                             pair.first.prepareForEdit(
                                 repository,
@@ -545,10 +549,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             } else {
                                 originalUris = ArrayList(uriList)
                             }
-                        }*/
+                        }*//*
         } ?: run {
             emit(null)
-        }
+        }*/
     }
 
     companion object {

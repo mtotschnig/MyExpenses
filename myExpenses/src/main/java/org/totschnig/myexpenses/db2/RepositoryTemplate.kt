@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.useAndMapToOne
 import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
@@ -47,21 +48,41 @@ data class RepositoryTemplate(
     val isTransfer = data.isTransfer
     val isSplit = splitParts != null
 
-    fun instantiate(): RepositoryTransaction {
+    suspend fun instantiate(
+        currencyContext: CurrencyContext,
+        exchangeRateHandler: ExchangeRateHandler
+    ): RepositoryTransaction {
         return RepositoryTransaction(
             data = data.instantiate(),
             transferPeer = if (data.isTransfer) {
                 Transaction(
                     accountId = data.transferAccountId!!,
                     transferAccountId = data.accountId,
-                    amount = -data.amount, //TODO check if this is correct
+                    amount = if (data.currency == data.transferAccountCurrency) -data.amount else {
+                        try {
+                            val currency = currencyContext[data.currency!!]
+                            val transferCurrency = currencyContext[data.transferAccountCurrency!!]
+                            val amount = Money(currency, data.amount)
+                            val rate = exchangeRateHandler.loadExchangeRate(
+                                currency,
+                                transferCurrency,
+                                LocalDate.now()
+                            )
+                            Money(transferCurrency, -amount.amountMajor.multiply(rate)).amountMinor
+                        } catch (e: Exception) {
+                            if (e !is  java.lang.UnsupportedOperationException) {
+                                CrashHandler.report(e)
+                            }
+                            0
+                        }
+                    },
                     categoryId = data.categoryId,
                     comment = data.comment,
                     categoryPath = data.categoryPath,
                     currency = data.currency
                 )
             } else null,
-            splitParts = splitParts?.map { it.instantiate() }
+            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler) }
         )
     }
 
@@ -103,7 +124,7 @@ private fun ContentResolver.findBySelection(
 fun Repository.planCount(): Int = contentResolver.query(
     TEMPLATES_URI,
     arrayOf("count(*)"),
-    "${DatabaseConstants.KEY_PLANID} is not null",
+    "$KEY_PLANID is not null",
     null,
     null
 )?.use {
@@ -120,7 +141,7 @@ fun Repository.loadTemplateIfInstanceIsOpen(templateId: Long, instanceId: Long) 
         require = false
     )
 
-fun Repository.getInstanceForPlanIfInstanceIsOpen(planId: Long, instanceId: Long) =
+fun Repository.loadTemplateForPlanIfInstanceIsOpen(planId: Long, instanceId: Long) =
     loadTemplate(
         planId,
         selection = "$KEY_PLANID = ? AND $IS_OPEN_CHECK",
@@ -346,7 +367,7 @@ suspend fun Repository.instantiateTemplate(
     ) else loadTemplate(planInstanceInfo.templateId)) ?: return null
 
     val t = createTransaction(
-        template.instantiate().let { transaction ->
+        template.instantiate(currencyContext, exchangeRateHandler).let { transaction ->
             if (template.data.dynamic) {
                 val homeCurrency = currencyContext.homeCurrencyUnit
                 val account = loadAccount(template.data.accountId)!!
@@ -365,7 +386,7 @@ suspend fun Repository.instantiateTemplate(
                             )
                             Money(homeCurrency, amount.amountMajor.multiply(rate)).amountMinor
                         } catch (_: Exception) {
-                            (amount.amountMinor * account.exchangeRate).roundToLong() //TODO verify if this is correct
+                            (amount.amountMinor * account.exchangeRate).roundToLong()
                         }
                     )
                 )
@@ -385,7 +406,7 @@ fun Repository.updateNewPlanEnabled(licenceHandler: LicenceHandler) {
     if (!licenceHandler.hasAccessTo(ContribFeature.PLANS_UNLIMITED)) {
         if (count(
                 TEMPLATES_URI,
-                DatabaseConstants.KEY_PLANID + " is not null",
+                "$KEY_PLANID is not null",
                 null
             ) >= ContribFeature.FREE_PLANS
         ) {
@@ -438,7 +459,7 @@ fun Repository.getPlanInstance(
         TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE,
         CalendarProviderProxy.calculateId(date).toString()
     ).build(),
-    null, DatabaseConstants.KEY_PLANID + "= ?",
+    null, "$KEY_PLANID= ?",
     arrayOf(planId.toString()),
     null
 )?.useAndMapToOne { c ->
