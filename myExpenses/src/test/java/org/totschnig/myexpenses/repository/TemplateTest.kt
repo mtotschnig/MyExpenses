@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.repository
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,10 +15,12 @@ import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
@@ -46,6 +49,11 @@ class TemplateTest: BaseTestWithRepository() {
         payeeId = repository.requireParty("N.N")!!
     }
 
+    private fun RepositoryTemplate.instantiate() = runBlocking {
+        instantiate(currencyContext, exchangeRateHandler)
+    }
+
+
     @Test
     fun testTemplateFromTransaction() {
         val start = repository.getTransactionSum(mAccount1)
@@ -57,7 +65,10 @@ class TemplateTest: BaseTestWithRepository() {
         )
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + amount)
         val t = repository.createTemplate(RepositoryTemplate.fromTransaction(op1, "Test Transaction"))
-        repository.createTransaction(t.instantiate(currencyContext, exchangeRateHandler))
+        runBlocking {
+
+        }
+        repository.createTransaction(t.instantiate())
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
         repository.deleteTemplate(t.id)
         Truth.assertWithMessage("Template deleted, but can still be retrieved").that(repository.loadTemplate(t.id, require = false)).isNull()
@@ -92,7 +103,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testTransactionFromTemplate() {
         val template = buildTransactionTemplate()
-        val transaction = template.instantiate(exchangeRateHandler).data
+        val transaction = template.instantiate().data
         assertThat(transaction.categoryId).isEqualTo(template.data.categoryId)
         assertThat(transaction.accountId).isEqualTo(template.data.accountId)
         assertThat(transaction.payeeId).isEqualTo(template.data.payeeId)
@@ -103,7 +114,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testTransferFromTemplate() {
         val template = buildTransferTemplate()
-        val transaction = template.instantiate(exchangeRateHandler).data
+        val transaction = template.instantiate().data
         assertThat(transaction.isTransfer).isTrue()
         assertThat(transaction.accountId).isEqualTo(template.data.accountId)
         assertThat(transaction.comment).isEqualTo(template.data.comment)
@@ -113,7 +124,7 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testSplitFromTemplate() {
         val template = buildSplitTemplate()
-        val transaction = template.instantiate(exchangeRateHandler)
+        val transaction = template.instantiate()
         with(transaction.data) {
             assertThat(isSplit).isTrue()
             assertThat(accountId).isEqualTo(template.data.accountId)
@@ -128,26 +139,22 @@ class TemplateTest: BaseTestWithRepository() {
         }
     }
 
-    private fun buildTransactionTemplate() = repository.createTemplate(
-        Template(
-            accountId = mAccount1,
-            categoryId = categoryId,
-            payeeId = payeeId,
-            comment = "Some comment",
-            methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).also {
-                assertThat(it).isGreaterThan(-1L)
-            },
-            title = "Template"
-        )
+    private fun buildTransactionTemplate() = repository.insertTemplate(
+        accountId = mAccount1,
+        categoryId = categoryId,
+        payeeId = payeeId,
+        comment = "Some comment",
+        methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).also {
+            assertThat(it).isGreaterThan(-1L)
+        },
+        title = "Template"
     )
 
-    private fun buildTransferTemplate() = repository.createTemplate(
-        Template(
-            accountId = mAccount1,
-            transferAccountId = mAccount2,
-            comment = "Some comment",
-            title = "Template"
-        )
+    private fun buildTransferTemplate() = repository.insertTemplate(
+        accountId = mAccount1,
+        transferAccountId = mAccount2,
+        comment = "Some comment",
+        title = "Template"
     )
 
     private fun buildSplitTemplate() = repository.createTemplate(
@@ -156,7 +163,8 @@ class TemplateTest: BaseTestWithRepository() {
                 accountId = mAccount1,
                 comment = "Some comment parent",
                 title = "Template",
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ),
             splitParts = listOf(
                 RepositoryTemplate(
@@ -164,7 +172,8 @@ class TemplateTest: BaseTestWithRepository() {
                         accountId = mAccount1,
                         comment = "Some comment part",
                         title = "",
-                        categoryId = categoryId
+                        categoryId = categoryId,
+                        uuid = generateUuid()
                     )
                 )
             )

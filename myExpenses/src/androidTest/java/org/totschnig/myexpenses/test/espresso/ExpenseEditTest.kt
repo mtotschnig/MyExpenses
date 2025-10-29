@@ -22,11 +22,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
-import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
@@ -236,13 +235,11 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSaveTemplateWithAmount() {
-        val template = repository.createTemplate(
-            Template(
-                accountId = account1.id,
-                amount = 0L,
-                title = "Test template",
-                transferAccountId = account2.id
-            )
+        val template = repository.insertTemplate(
+            accountId = account1.id,
+            amount = 0L,
+            title = "Test template",
+            transferAccountId = account2.id
         )
         launch(intent.apply {
             putExtra(KEY_TEMPLATEID, template.id)

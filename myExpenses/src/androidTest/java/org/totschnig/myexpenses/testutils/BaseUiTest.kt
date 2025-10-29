@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.model2.Category
@@ -312,18 +313,18 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     protected fun prepareSplit(accountId: Long) = repository.createSplitTransaction(
-        Transaction(accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID),
+        Transaction(accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID, uuid = generateUuid()),
         listOf(
-            Transaction(accountId = accountId, amount = 5000),
-            Transaction(accountId = accountId, amount = 5000)
+            Transaction(accountId = accountId, amount = 5000, uuid = generateUuid()),
+            Transaction(accountId = accountId, amount = 5000, uuid = generateUuid())
         )
     ).id
 
     protected fun prepareSplitTemplate(accountId: Long)  = repository.createSplitTemplate(
-        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID),
+        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID, uuid = generateUuid()),
         listOf(
-            Template(accountId = accountId, amount = 5000, title = ""),
-            Template(accountId = accountId, amount = 5000, title = "")
+            Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid()),
+            Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid())
         )
     ).id
 

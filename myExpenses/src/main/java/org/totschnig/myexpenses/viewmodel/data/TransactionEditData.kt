@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -15,6 +17,8 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.formatMoney
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -23,7 +27,7 @@ data class PlanEditData(
     val isPlanExecutionAutomatic: Boolean,
     val planExecutionAdvance: Int,
     val plan: Plan?
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class TemplateEditData(
@@ -31,7 +35,7 @@ data class TemplateEditData(
     val title: String = "",
     val defaultAction: Template.Action = Template.Action.EDIT,
     val planEditData: PlanEditData? = null
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class TransferEditData(
@@ -43,6 +47,7 @@ data class TransferEditData(
 @Parcelize
 data class TransactionEditData(
     val id: Long = 0,
+    val uuid: String,
     val amount: Money,
     val date: LocalDateTime = LocalDateTime.now(),
     val valueDate: LocalDate = date.toLocalDate(),
@@ -62,7 +67,6 @@ data class TransactionEditData(
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val originTemplateId: Long? = null,
     val planId: Long? = null,
-    val uuid: String? = null,
     val debtId: Long? = null,
     val templateEditData: TemplateEditData? = null,
     val comment: String? = null,
@@ -73,18 +77,74 @@ data class TransactionEditData(
     val isSplitPart: Boolean = false,
     val splitParts: List<TransactionEditData>? = null,
     val planInstanceId: Long? = null
-): Parcelable {
+) : Parcelable {
     @IgnoredOnParcel
     val isSplit = categoryId == DatabaseConstants.SPLIT_CATID
+
     @IgnoredOnParcel
     val isTransfer = transferEditData != null
+
     @IgnoredOnParcel
     val isTemplate = templateEditData != null
+
     @IgnoredOnParcel
-    @TransactionType val operationType: Int = when {
+    @TransactionType
+    val operationType: Int = when {
         isSplit -> TYPE_SPLIT
         isTransfer -> TYPE_TRANSFER
         else -> TYPE_TRANSACTION
+    }
+
+    fun compileDescription(
+        ctx: Context,
+        currencyFormatter: ICurrencyFormatter
+    ) = buildString {
+        append(ctx.getString(R.string.amount))
+        append(" : ")
+        append(currencyFormatter.formatMoney(amount))
+        append("\n")
+        if (categoryId != null && categoryId > 0) {
+            append(ctx.getString(R.string.category))
+            append(" : ")
+            append(categoryPath)
+            append("\n")
+        }
+        if (isTransfer) {
+            append(ctx.getString(R.string.account))
+            append(" : ")
+            append(categoryPath)
+            append("\n")
+        }
+
+        //comment
+        if (comment != "") {
+            append(ctx.getString(R.string.notes))
+            append(" : ")
+            append(comment)
+            append("\n")
+        }
+
+        //payee
+        if (party != null) {
+            append(
+                ctx.getString(
+                    if (amount.amountMajor.signum() == 1) R.string.payer else R.string.payee
+                )
+            )
+            append(" : ")
+            append(party.name)
+            append("\n")
+        }
+
+        //Method
+        if (methodId != null) {
+            append(ctx.getString(R.string.method))
+            append(" : ")
+            append(methodLabel)
+            append("\n")
+        }
+        append("UUID : ")
+        append(uuid)
     }
 }
 

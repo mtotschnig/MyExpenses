@@ -297,6 +297,7 @@ class TransferDelegate(
                 amount = amount,
                 categoryId = catId,
                 categoryPath = label,
+                uuid = uuid,
                 transferEditData = TransferEditData(
                     transferPeer = transferPeer,
                     transferAccountId = transferAccount.id,

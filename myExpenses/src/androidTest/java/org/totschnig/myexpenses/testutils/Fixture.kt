@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CCARD
@@ -282,15 +283,18 @@ class Fixture(inst: Instrumentation) {
             Transaction(
                 accountId = account1.id,
                 amount = -8967L,
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account1.id,
-                    amount = -4523L
+                    amount = -4523L,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account1.id,
-                    amount = -4444L
+                    amount = -4444L,
+                    uuid = generateUuid()
                 )
             )
         )
@@ -321,13 +325,14 @@ class Fixture(inst: Instrumentation) {
                     testContext.getString(RT.string.testData_templateMainCat),
                     null
                 )
-            )
+            ),
+            uuid = generateUuid()
         )
         val plan = Plan(
             LocalDate.now(),
             "FREQ=WEEKLY;COUNT=10;WKST=SU",
             template.title,
-            template.compileDescription(appContext)
+            "Description"
         )
         planId = ContentUris.parseId(
             plan.save(contentResolver, plannerUtils)!!

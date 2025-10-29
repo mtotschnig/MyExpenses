@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
@@ -151,6 +152,7 @@ abstract class ImportDataViewModel(application: Application) :
         val transferAccount = if (isTransfer) findToAccount() else null
         val payeeId = payee?.let { payeeToId[it] }
         val date = date.time / 1000
+        val uuid = generateUuid()
         return RepositoryTransaction(
             data = Transaction(
                 date = date,
@@ -163,7 +165,8 @@ abstract class ImportDataViewModel(application: Application) :
                     findCategory(payeeId, autofill),
                 payeeId = payeeId,
                 transferAccountId = transferAccount?.id,
-                methodId = findMethod()
+                methodId = findMethod(),
+                uuid = uuid
 
             ),
             transferPeer = if (transferAccount != null && toAmount != null) Transaction(
@@ -173,7 +176,8 @@ abstract class ImportDataViewModel(application: Application) :
                     toAmount
                 ).amountMinor,
                 accountId = transferAccount.id,
-                transferAccountId = a.id
+                transferAccountId = a.id,
+                uuid = uuid
             ) else null,
             splitParts = splits?.map {
                 it.toTransaction(a, currencyUnit, autofill)

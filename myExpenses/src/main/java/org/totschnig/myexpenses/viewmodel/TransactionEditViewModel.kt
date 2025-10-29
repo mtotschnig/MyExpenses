@@ -10,6 +10,7 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.application
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
@@ -45,6 +46,7 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
@@ -86,8 +88,10 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
+import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.asExtension
@@ -115,6 +119,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     @Inject
     lateinit var exchangeRateHandler: ExchangeRateHandler
+
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     private var loadMethodJob: Job? = null
 
@@ -205,6 +212,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val id = if (transaction.id == 0L) {
                     val id = repository.createTemplate(template).id
                     repository.updateNewPlanEnabled(licenceHandler)
+                    if (plan != null) {
+                        PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
+                    }
                     id
                 } else {
                     repository.updateTemplate(template)
@@ -238,7 +248,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             date,
                             recurrence,
                             title,
-                            "TODO compileDescription"
+                            transaction.compileDescription(localizedContext, currencyFormatter)
                         ).apply {
                             save(contentResolver, plannerUtils)
                         }
@@ -432,6 +442,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     defaultAction = defaultAction
                 ),
                 parentId = parentId,
+                uuid = generateUuid()
             ).applyDefaultTransferCategory()
         }
     }
@@ -460,7 +471,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             TransactionEditData(
                 amount = Money(currencyUnit, 0L),
                 accountId = accountId,
-                parentId = parentId
+                parentId = parentId,
+                uuid = generateUuid(),
             )
         }
 
@@ -475,6 +487,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 amount = Money(currencyUnit, 0L),
                 accountId = accountId,
                 parentId = parentId,
+                uuid = generateUuid(),
                 transferEditData = TransferEditData(transferAccountId = transferAccountId)
             ).applyDefaultTransferCategory()
         }
@@ -484,7 +497,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             TransactionEditData(
                 amount = Money(currencyUnit, 0L),
                 accountId = accountId,
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid(),
             )
         }
 
@@ -513,7 +527,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 TransactionMapper.map(if (clone) it.copy(
                     data = it.data.copy(
                         id = 0L,
-                        uuid = null,
+                        uuid = generateUuid(),
                         date = withCurrentDate ?: it.data.date,
                         valueDate = withCurrentDate ?: it.data.valueDate
                     )

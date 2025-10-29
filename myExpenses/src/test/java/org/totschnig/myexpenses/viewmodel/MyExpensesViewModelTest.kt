@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
@@ -217,15 +218,18 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
                 accountId = account.id,
                 amount = 10000,
                 categoryId = DatabaseConstants.SPLIT_CATID,
-                equivalentAmount = 5000
+                equivalentAmount = 5000,
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account.id,
-                    amount = 6000
+                    amount = 6000,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account.id,
-                    amount = 4000
+                    amount = 4000,
+                    uuid = generateUuid()
                 )
             )
         )

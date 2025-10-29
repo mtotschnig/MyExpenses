@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.writePaymentMethod
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Party
 import java.util.zip.CRC32
@@ -92,7 +93,8 @@ class HbciConverter(val repository: Repository) {
                     }.filterNotNull().joinToString("\n")
             },
             payeeId = payeeInfo?.first,
-            categoryId = payeeInfo?.second?.categoryId
+            categoryId = payeeInfo?.second?.categoryId,
+            uuid = generateUuid()
         ) to buildMap<FinTsAttribute, String> {
             extractAttribute(transfer, this, Tag.EREF, FinTsAttribute.EREF)
             extractAttribute(transfer, this, Tag.MREF, FinTsAttribute.MREF)

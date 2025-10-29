@@ -35,11 +35,13 @@ import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -82,7 +84,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             Transaction(
                 accountId = account1.id,
                 amount = 500L,
-                status = STATUS_EXPORTED
+                status = STATUS_EXPORTED,
+                uuid = generateUuid()
             )
         )
 
@@ -324,7 +327,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             Transaction(
                 amount = 0L,
                 accountId = account1.id,
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ), emptyList<Transaction>()
         )
         load(splitTransaction.id).use {
@@ -377,12 +381,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 amount = 0L,
                 accountId = account1.id,
                 categoryId = DatabaseConstants.SPLIT_CATID,
-                title = "Split"
+                title = "Split",
+                uuid = generateUuid()
             ), listOf(
                 Template(
                     amount = 0L,
                     accountId = account1.id,
-                    title = "Part"
+                    title = "Part",
+                    uuid = generateUuid()
                 )
             )
         )
@@ -394,13 +400,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val template = Template(
             accountId = account1.id,
             title = "Daily plan",
-            amount = 700L
+            amount = 700L,
+            uuid = generateUuid()
         )
         val event = Plan(
             LocalDate.now(),
             Plan.Recurrence.DAILY,
             "Daily plan",
-            template.compileDescription(app)
+             "Description"
         )
         val eventId = ContentUris.parseId(
             event.save(contentResolver, PlannerUtils(app, prefHandler))!!
@@ -430,12 +437,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldInstantiateFromTemplateAndPrepareForm() {
-        val template = repository.createTemplate(
-            Template(
-                accountId = account1.id,
-                title =  "Nothing but a plan",
-                amount = 800,
-            )
+        val template = repository.insertTemplate(
+            accountId = account1.id,
+            title =  "Nothing but a plan",
+            amount = 800,
         )
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE

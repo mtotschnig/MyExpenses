@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.db2.transactionExists
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.db2.updateTransfer
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -166,17 +167,20 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 amount = 100L,
                 comment = "test split",
                 date = date,
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account1,
                     amount = 50L,
-                    date = date
+                    date = date,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account1,
                     amount = 50L,
-                    date = date
+                    date = date,
+                    uuid = generateUuid()
                 )
             )
         )
@@ -216,15 +220,18 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split",
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account1,
                     amount = 50L,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account1,
                     amount = 50L,
+                    uuid = generateUuid()
                 )
             )
         )
@@ -239,6 +246,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                     data = Transaction(
                         accountId = account1,
                         amount = 40L,
+                        uuid = generateUuid()
                     )
                 )
             )
@@ -255,23 +263,27 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     @Test
     fun testSplitWithTransfer() {
+        val splitTransferUuid = generateUuid()
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = account1,
                 amount = 100L,
                 comment = "test split with transfer",
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ),
             listOf(
                 Transaction(
                     accountId = account1,
                     amount = 100L,
-                    transferAccountId = account2
+                    transferAccountId = account2,
+                    uuid = splitTransferUuid
                 ) to
                         Transaction(
                             accountId = account2,
                             amount = -100L,
-                            transferAccountId = account1
+                            transferAccountId = account1,
+                            uuid = splitTransferUuid
                         )
             )
         )
@@ -299,23 +311,27 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     @Test
     fun testDeleteSplitWithPartTransfer() {
+        val splitTransferUuid = generateUuid()
         val op1 = repository.createSplitTransaction(
             Transaction(
                 accountId = account1,
                 amount = 100L,
                 comment = "test split with transfer",
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ),
             listOf(
                 Transaction(
                     accountId = account1,
                     amount = 100L,
-                    transferAccountId = account2
+                    transferAccountId = account2,
+                    uuid = splitTransferUuid
                 ) to
                         Transaction(
                             accountId = account2,
                             amount = -100L,
-                            transferAccountId = account1
+                            transferAccountId = account1,
+                            uuid = splitTransferUuid
                         )
             )
         ).data.id
@@ -332,7 +348,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         val transaction1 = Transaction(
             accountId = account1,
             amount = 100L,
-            categoryId = catId1
+            categoryId = catId1,
+            uuid = generateUuid()
         )
         val op1 = repository.createTransaction(transaction1).data
         //saving a new transaction increases usage
@@ -349,6 +366,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         val transaction2 = Transaction(
             accountId = account1,
             amount = 100L,
+            uuid = generateUuid()
         )
         val op2 = repository.createTransaction(transaction2).data
         assertThat(getCatUsage(catId1)).isEqualTo(1)
@@ -364,7 +382,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         assertThat(getAccountUsage(account2)).isEqualTo(0)
         val transaction = Transaction(
             accountId = account1,
-            amount = 100L
+            amount = 100L,
+            uuid = generateUuid()
         )
         val op1 = repository.createTransaction(
             transaction
@@ -387,15 +406,18 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split",
-                categoryId = DatabaseConstants.SPLIT_CATID
+                categoryId = DatabaseConstants.SPLIT_CATID,
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account1,
                     amount = 50L,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account1,
                     amount = 50L,
+                    uuid = generateUuid()
                 )
             )
         )
@@ -407,8 +429,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         return getUsage(catId, TransactionProvider.CATEGORIES_URI)
     }
 
-    private fun getAccountUsage(acccountId: Long): Long {
-        return getUsage(acccountId, TransactionProvider.ACCOUNTS_URI)
+    private fun getAccountUsage(accountId: Long): Long {
+        return getUsage(accountId, TransactionProvider.ACCOUNTS_URI)
     }
 
     private fun getUsage(catId: Long, baseUri: Uri) = repository.contentResolver.query(

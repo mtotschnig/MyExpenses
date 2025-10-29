@@ -36,12 +36,11 @@ import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.deleteTemplate
-import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
@@ -96,13 +95,11 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private fun fixtureWithMappedTemplate(): Long {
         baseFixture()
-        return repository.createTemplate(
-            Template(
-                title = "Template",
-                accountId = account.id,
-                amount = -1200L,
-                categoryId = categoryId
-            )
+        return repository.insertTemplate(
+            title = "Template",
+            accountId = account.id,
+            amount = -1200L,
+            categoryId = categoryId
         ).id
     }
 

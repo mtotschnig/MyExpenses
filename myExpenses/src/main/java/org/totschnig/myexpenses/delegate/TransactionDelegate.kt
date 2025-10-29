@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
@@ -221,7 +220,7 @@ abstract class TransactionDelegate(
     var originTemplateId: Long? = null
 
     @State
-    var uuid: String? = null
+    lateinit var uuid: String
 
     @State
     var debtId: Long? = null
@@ -708,7 +707,7 @@ abstract class TransactionDelegate(
 
     fun restartWithType(@Transactions.TransactionType newType: Int) {
         //sanitize instance state
-        when(newType) {
+        when (newType) {
 
             TYPE_SPLIT -> {
                 catId = DatabaseConstants.SPLIT_CATID
@@ -793,6 +792,7 @@ abstract class TransactionDelegate(
         categoryId = null,
         accountId = account.id,
         parentId = parentId,
+        uuid = uuid,
         transferEditData = transferAccount?.let {
             TransferEditData(
                 transferAccountId = it.id
@@ -831,7 +831,7 @@ abstract class TransactionDelegate(
             ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {
-                    if(forSave && title.isEmpty()) {
+                    if (forSave && title.isEmpty()) {
                         viewBinding.Title.error = context.getString(R.string.required)
                         null
                     } else transaction.copy(
@@ -840,14 +840,14 @@ abstract class TransactionDelegate(
                             defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
                             planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                                 PlanEditData(
-                                    isPlanExecutionAutomatic =  planExecutionButton.isChecked,
+                                    isPlanExecutionAutomatic = planExecutionButton.isChecked,
                                     planExecutionAdvance = viewBinding.advanceExecutionSeek.progress,
                                     plan = Plan(
                                         this@TransactionDelegate.planId ?: 0L,
                                         planButton.date,
                                         selectedRecurrence,
                                         title,
-                                        "TODO compileDescription(context.myApplication)"
+                                        transaction.compileDescription(context, currencyFormatter)
                                     )
                                 )
                             } else null,
@@ -870,26 +870,28 @@ abstract class TransactionDelegate(
                     }
 
 
-/*                        if (this.amount.amountMinor == 0L &&
-                            (this.transferAmount?.amountMinor ?: 0L) == 0L &&
-                            forSave
-                        ) {
-                            if (plan == null && this.defaultAction == Template.Action.SAVE) {
-                                host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
-                                return null
-                            }
-                            if (plan != null && this.isPlanExecutionAutomatic) {
-                                host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
-                                return null
-                            }
-                        }
-                        prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)*/
+                    /*                        if (this.amount.amountMinor == 0L &&
+                                                (this.transferAmount?.amountMinor ?: 0L) == 0L &&
+                                                forSave
+                                            ) {
+                                                if (plan == null && this.defaultAction == Template.Action.SAVE) {
+                                                    host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
+                                                    return null
+                                                }
+                                                if (plan != null && this.isPlanExecutionAutomatic) {
+                                                    host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
+                                                    return null
+                                                }
+                                            }
+                                            prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)*/
                 } else {
                     transaction.copy(
                         referenceNumber = methodRowBinding.Number.text.toString(),
                         initialPlan = if (forSave && !isSplitPart && host.createTemplate)
                             Triple(
-                                title.takeIf { it.isNotEmpty() }, selectedRecurrence, dateEditBinding.DateButton.date
+                                title.takeIf { it.isNotEmpty() },
+                                selectedRecurrence,
+                                dateEditBinding.DateButton.date
                             ) else null
                     )
                 }
@@ -1112,7 +1114,7 @@ abstract class TransactionDelegate(
         setPlannerRowVisibility(createTemplate)
     }
 
-    data class OperationType(@param:TransactionsContract.Transactions.TransactionType val type: Int) {
+    data class OperationType(@param:Transactions.TransactionType val type: Int) {
         var label: String = ""
 
         override fun toString(): String {

@@ -1,6 +1,7 @@
 package org.totschnig.webui
 
 import androidx.annotation.Keep
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -37,7 +38,7 @@ data class TransactionDTO(
     val number: String,
     val transferPeer: Long? = null
 ) {
-    fun toEntity(currencyUnit: CurrencyUnit)  = org.totschnig.myexpenses.db2.entities.Transaction(
+    fun toEntity(currencyUnit: CurrencyUnit)  = Transaction(
         id = id ?: 0,
         comment = comment,
         date =  time?.let {
@@ -50,12 +51,13 @@ data class TransactionDTO(
         payeeId = party,
         methodId = method,
         crStatus = CrStatus.UNRECONCILED,
-        referenceNumber = number
+        referenceNumber = number,
+        uuid = ""
     )
 
     companion object {
         fun fromEntity(
-            entity: org.totschnig.myexpenses.db2.entities.Transaction,
+            entity: Transaction,
             currencyUnit: CurrencyUnit,
             currencyFormatter: ICurrencyFormatter,
             dateFormat: DateFormat,

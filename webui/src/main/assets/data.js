@@ -29,7 +29,7 @@ document.addEventListener('alpine:init', () => {
         resultCode: 0,
         data: ${data},
         transactions: [],
-        activeTransaction :null,
+        activeTransaction: null,
         async loadTransaction(transaction) {
             this.signum = transaction.amount > 0 ? true : false;
             this.amount = Math.abs(transaction.amount);

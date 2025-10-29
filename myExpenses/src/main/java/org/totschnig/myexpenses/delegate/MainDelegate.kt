@@ -268,7 +268,8 @@ abstract class MainDelegate(
                 categoryPath = label,
                 amount = Money(account.currency, 0L),
                 date = LocalDateTime.now(),
-                accountId = account.id
+                accountId = account.id,
+                uuid = uuid
             )
 
     override fun onDestroy() {

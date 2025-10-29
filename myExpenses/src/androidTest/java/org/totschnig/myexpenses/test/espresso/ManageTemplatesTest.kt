@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -33,6 +32,8 @@ import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.insertTemplate
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -75,25 +76,21 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         val title = "Espresso $type Template ${defaultAction.name}"
         when (type) {
             TYPE_TRANSACTION -> {
-                repository.createTemplate(
-                    Template(
-                        accountId = account1.id,
-                        defaultAction = defaultAction,
-                        title = title,
-                        amount = -1200L
-                    )
+                repository.insertTemplate(
+                    accountId = account1.id,
+                    defaultAction = defaultAction,
+                    title = title,
+                    amount = -1200L
                 )
             }
 
             TYPE_TRANSFER -> {
-                repository.createTemplate(
-                    Template(
-                        accountId = account1.id,
-                        transferAccountId = account2.id,
-                        defaultAction = defaultAction,
-                        title = title,
-                        amount = -1200L
-                    )
+                repository.insertTemplate(
+                    accountId = account1.id,
+                    transferAccountId = account2.id,
+                    defaultAction = defaultAction,
+                    title = title,
+                    amount = -1200L
                 )
             }
 
@@ -104,12 +101,14 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                         defaultAction = defaultAction,
                         title = title,
                         amount = -1200L,
-                        categoryId = DatabaseConstants.SPLIT_CATID
+                        categoryId = DatabaseConstants.SPLIT_CATID,
+                        uuid = generateUuid()
                     ), listOf(
                         Template(
                             accountId = account1.id,
                             amount = -1200L,
-                            title = ""
+                            title = "",
+                            uuid = generateUuid(),
                         )
                     )
                 )
@@ -195,13 +194,14 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             accountId = account1.id,
             title = title,
             amount = -1200L,
+            uuid = generateUuid(),
         )
         val now = ZonedDateTime.now()
         val event = Plan(
             now.toLocalDate(),
             "FREQ=WEEKLY;COUNT=10;WKST=SU",
             title,
-            template.compileDescription(app)
+            "Description"
         )
         val eventId = ContentUris.parseId(
             event.save(contentResolver, PlannerUtils(app, prefHandler))!!
@@ -262,7 +262,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         launch()
         val title = "Espresso $type Template $defaultAction"
         onData(withRowString(DatabaseConstants.KEY_TITLE, title))
-            .perform(ViewActions.click())
+            .perform(click())
         when (defaultAction) {
             Template.Action.SAVE -> verifySaveAction()
             Template.Action.EDIT -> verifyEditAction()

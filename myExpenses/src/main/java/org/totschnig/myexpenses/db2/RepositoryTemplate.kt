@@ -3,9 +3,11 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.contentValuesOf
 import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -15,13 +17,30 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PLAN_INSTANCE_STATUS_URI
@@ -37,6 +56,33 @@ import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import java.time.LocalDate
 import kotlin.math.roundToLong
+
+fun Template.asContentValues(forInsert: Boolean): ContentValues {
+    return ContentValues().apply {
+        put(KEY_TITLE, title)
+        put(KEY_AMOUNT, amount)
+        // Storing currency is not in TEMPLATE_CREATE, but it is in `fromCursor`.
+        // We assume currency comes from the account.
+        put(KEY_COMMENT, comment)
+        put(KEY_ACCOUNTID, accountId)
+        put(KEY_CATID, categoryId)
+        put(KEY_PAYEEID, payeeId)
+        put(KEY_METHODID, methodId)
+        put(KEY_TRANSFER_ACCOUNT, transferAccountId)
+        put(KEY_PARENTID, parentId)
+        put(KEY_PLANID, planId)
+        put(KEY_PLAN_EXECUTION, if (planExecutionAutomatic) 1 else 0)
+        put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance)
+        put(KEY_DEFAULT_ACTION, defaultAction.name)
+        put(KEY_ORIGINAL_AMOUNT, originalAmount)
+        put(KEY_ORIGINAL_CURRENCY, originalCurrency)
+        put(KEY_DEBT_ID, debtId)
+        if (forInsert) {
+            require(uuid.isNotBlank())
+            put(KEY_UUID, uuid)
+        }
+    }
+}
 
 data class RepositoryTemplate(
     val data: Template,
@@ -70,7 +116,7 @@ data class RepositoryTemplate(
                             )
                             Money(transferCurrency, -amount.amountMajor.multiply(rate)).amountMinor
                         } catch (e: Exception) {
-                            if (e !is  java.lang.UnsupportedOperationException) {
+                            if (e !is java.lang.UnsupportedOperationException) {
                                 CrashHandler.report(e)
                             }
                             0
@@ -79,7 +125,8 @@ data class RepositoryTemplate(
                     categoryId = data.categoryId,
                     comment = data.comment,
                     categoryPath = data.categoryPath,
-                    currency = data.currency
+                    currency = data.currency,
+                    uuid = generateUuid()
                 )
             } else null,
             splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler) }
@@ -131,7 +178,8 @@ fun Repository.planCount(): Int = contentResolver.query(
     if (it.moveToFirst()) it.getInt(0) else 0
 } ?: 0
 
-private const val IS_OPEN_CHECK = "NOT exists(SELECT 1 from $TABLE_PLAN_INSTANCE_STATUS WHERE $KEY_INSTANCEID = ? AND $KEY_TEMPLATEID = $KEY_ROWID)"
+private const val IS_OPEN_CHECK =
+    "NOT exists(SELECT 1 from $TABLE_PLAN_INSTANCE_STATUS WHERE $KEY_INSTANCEID = ? AND $KEY_TEMPLATEID = $KEY_ROWID)"
 
 fun Repository.loadTemplateIfInstanceIsOpen(templateId: Long, instanceId: Long) =
     loadTemplate(
@@ -151,7 +199,7 @@ fun Repository.loadTemplateForPlanIfInstanceIsOpen(planId: Long, instanceId: Lon
 
 fun Repository.loadTemplate(
     id: Long,
-    selection: String? =  "$KEY_ROWID = ?",
+    selection: String? = "$KEY_ROWID = ?",
     selectionArgs: Array<String>? = arrayOf(id.toString()),
     require: Boolean = true
 ) = contentResolver.query(
@@ -234,7 +282,7 @@ fun Repository.updateSplitTemplate(
         ContentProviderOperation.newUpdate(
             ContentUris.withAppendedId(TEMPLATES_URI, parentTemplate.id)
         )
-            .withValues(parentTemplate.asContentValues())
+            .withValues(parentTemplate.asContentValues(false))
             .build()
     )
 
@@ -244,7 +292,7 @@ fun Repository.updateSplitTemplate(
             // NEW: This is a new split part, so insert it.
             ContentProviderOperation.newInsert(TEMPLATES_URI)
                 .withValues(
-                    template.copy(uuid = template.uuid ?: generateUuid()).asContentValues()
+                    template.asContentValues(true)
                         .apply {
                             put(KEY_PARENTID, parentTemplate.id)
                         })
@@ -253,7 +301,7 @@ fun Repository.updateSplitTemplate(
             ContentProviderOperation.newUpdate(
                 ContentUris.withAppendedId(TEMPLATES_URI, template.id)
             )
-                .withValues(template.asContentValues())
+                .withValues(template.asContentValues(false))
         }
         operations.add(operation.build())
     }
@@ -269,7 +317,7 @@ fun Repository.updateTemplate(
     template: Template
 ) = contentResolver.update(
     ContentUris.withAppendedId(TEMPLATES_URI, template.id),
-    template.asContentValues(),
+    template.asContentValues(false),
     null, null
 ) == 1
 
@@ -289,14 +337,13 @@ fun Repository.createTemplate(template: Template): RepositoryTemplate {
     require((template.originalAmount != null) == (template.originalCurrency != null)) {
         "originalAmount and originalCurrency must be set together"
     }
-    val uuid = generateUuid()
     val id = ContentUris.parseId(
         contentResolver.insert(
             TEMPLATES_URI,
-            template.copy(uuid = uuid).asContentValues()
+            template.asContentValues(true)
         )!!
     )
-    return RepositoryTemplate(template.copy(id = id, uuid = uuid))
+    return RepositoryTemplate(template.copy(id = id))
 }
 
 @VisibleForTesting
@@ -309,12 +356,11 @@ fun Repository.createSplitTemplate(
     require(splits.sumOf { it.amount } == parentTemplate.amount) { "Sum of splits must equal parent amount." }
 
     val operations = ArrayList<ContentProviderOperation>()
-    val parentUuid = generateUuid()
 
     // --- Operation 0: Insert the Parent Transaction ---
     operations.add(
         ContentProviderOperation.newInsert(TEMPLATES_URI)
-            .withValues(parentTemplate.copy(uuid = parentUuid).asContentValues())
+            .withValues(parentTemplate.asContentValues(true))
             .build()
     )
     val parentBackRefIndex = 0
@@ -326,15 +372,14 @@ fun Repository.createSplitTemplate(
     // --- Process each split part ---
     splits.forEach { splitPart ->
         // --- This is a REGULAR split part ---
-        val newUuid = generateUuid()
         operations.add(
             ContentProviderOperation.newInsert(TEMPLATES_URI)
-                .withValues(splitPart.copy(uuid = newUuid).asContentValues())
+                .withValues(splitPart.asContentValues(true))
                 .withValueBackReference(KEY_PARENTID, parentBackRefIndex)
                 .build()
         )
         // Prepare the final object, ID will be filled in later
-        finalSplitParts.add(splitPart.copy(uuid = newUuid))
+        finalSplitParts.add(splitPart)
         opIndex++
     }
 
@@ -343,7 +388,7 @@ fun Repository.createSplitTemplate(
 
     // --- Construct the final return object ---
     val parentId = ContentUris.parseId(results[0].uri!!)
-    val finalParent = parentTemplate.copy(id = parentId, uuid = parentUuid)
+    val finalParent = parentTemplate.copy(id = parentId)
 
     var resultIndex = 1 // Start processing results after the parent
     val enrichedSplitParts = finalSplitParts.map { splitPart ->
@@ -418,7 +463,7 @@ fun Repository.updateNewPlanEnabled(licenceHandler: LicenceHandler) {
     if (!licenceHandler.hasAccessTo(ContribFeature.SPLIT_TEMPLATE)) {
         if (count(
                 TEMPLATES_URI,
-                DatabaseConstants.KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID,
+                KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID,
                 null
             ) >= ContribFeature.FREE_SPLIT_TEMPLATES
         ) {
@@ -467,24 +512,28 @@ fun Repository.getPlanInstance(
     val transactionId = c.getLongOrNull(KEY_TRANSACTIONID)
     val templateId = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID))
     val currency =
-        currencyContext[c.getString(c.getColumnIndexOrThrow(DatabaseConstants.KEY_CURRENCY))]
+        currencyContext[c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY))]
     val amount = Money(
         currency,
-        c.getLong(c.getColumnIndexOrThrow(DatabaseConstants.KEY_AMOUNT))
+        c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))
     )
     PlanInstance(
         templateId,
         instanceId,
         transactionId,
-        c.getString(c.getColumnIndexOrThrow(DatabaseConstants.KEY_TITLE)),
+        c.getString(c.getColumnIndexOrThrow(KEY_TITLE)),
         date,
-        c.getInt(c.getColumnIndexOrThrow(DatabaseConstants.KEY_COLOR)),
+        c.getInt(c.getColumnIndexOrThrow(KEY_COLOR)),
         amount,
-        c.getInt(c.getColumnIndexOrThrow(DatabaseConstants.KEY_SEALED)) == 1
+        c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) == 1
     )
 }
 
-fun Repository.linkTemplateWithTransaction(templateId: Long, transactionId: Long, instanceId: Long) {
+fun Repository.linkTemplateWithTransaction(
+    templateId: Long,
+    transactionId: Long,
+    instanceId: Long
+) {
     contentResolver.insert(
         PLAN_INSTANCE_STATUS_URI,
         contentValuesOf(
@@ -494,3 +543,28 @@ fun Repository.linkTemplateWithTransaction(templateId: Long, transactionId: Long
         )
     )
 }
+
+fun Repository.insertTemplate(
+    title: String,
+    accountId: Long,
+    amount: Long = 0L,
+    categoryId: Long? = null,
+    transferAccountId: Long? = null,
+    defaultAction: Action = Action.EDIT,
+    payeeId: Long? = null,
+    methodId: Long? = null,
+    comment: String? = null
+) = createTemplate(
+    Template(
+        title = title,
+        accountId = accountId,
+        amount = amount,
+        defaultAction = defaultAction,
+        categoryId = categoryId,
+        transferAccountId = transferAccountId,
+        uuid = generateUuid(),
+        payeeId = payeeId,
+        methodId = methodId,
+        comment = comment
+    )
+)

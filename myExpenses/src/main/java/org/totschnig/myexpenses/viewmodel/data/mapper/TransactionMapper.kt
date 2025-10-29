@@ -60,8 +60,7 @@ object TransactionMapper {
         )
     }
 
-    fun map(repositoryTemplate: RepositoryTemplate, currencyContext: CurrencyContext): TransactionEditData {
-        val template = repositoryTemplate.data
+    fun map(template: Template, currencyContext: CurrencyContext) : TransactionEditData {
         val currencyUnit = currencyContext[template.currency!!]
         val money = Money(currencyUnit, template.amount)
         return TransactionEditData(
@@ -83,7 +82,22 @@ object TransactionMapper {
             originTemplateId = null,
             planId = template.planId,
             uuid = template.uuid,
-            debtId = null,
+            debtId = null, //TODO check
+            comment = template.comment,
+            transferEditData = template.transferAccountId?.let {
+                TransferEditData(
+                    transferAccountId = it,
+                    transferPeer = null,
+                    transferAmount = null //TODO is this correct?
+                )
+            },
+            isSealed = template.sealed,
+        )
+    }
+
+    fun map(repositoryTemplate: RepositoryTemplate, currencyContext: CurrencyContext): TransactionEditData {
+        val template = repositoryTemplate.data
+        return map(template, currencyContext).copy(
             templateEditData = TemplateEditData(
                 templateId = template.id,
                 title = template.title,
@@ -175,7 +189,8 @@ object TransactionMapper {
             comment = transactionEditData.comment,
             planId = transactionEditData.planId,
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
-            payeeId = transactionEditData.party?.id
+            payeeId = transactionEditData.party?.id,
+            uuid = transactionEditData.uuid
         )
         return RepositoryTemplate(
             data = template,

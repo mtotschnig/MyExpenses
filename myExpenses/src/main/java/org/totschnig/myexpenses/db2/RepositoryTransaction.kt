@@ -16,19 +16,31 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderFor
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_SEALED_DEBT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
@@ -52,6 +64,30 @@ import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
+
+
+fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
+    put(KEY_COMMENT, comment)
+    put(KEY_DATE, date)
+    put(KEY_VALUE_DATE, valueDate)
+    put(KEY_AMOUNT, amount)
+    put(KEY_CATID, categoryId)
+    put(KEY_ACCOUNTID, accountId)
+    put(KEY_PAYEEID, payeeId?.takeIf { it > 0L })
+    put(KEY_TRANSFER_ACCOUNT, transferAccountId?.takeIf { it > 0L })
+    put(KEY_METHODID, methodId?.takeIf { it > 0L })
+    put(KEY_PARENTID, parentId?.takeIf { it > 0L })
+    put(KEY_CR_STATUS, crStatus.name)
+    put(KEY_REFERENCE_NUMBER, referenceNumber)
+    put(KEY_ORIGINAL_AMOUNT, originalAmount)
+    put(KEY_ORIGINAL_CURRENCY, originalCurrency)
+    put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+    put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
+    if (forInsert) {
+        require(uuid.isNotBlank())
+        put(KEY_UUID, uuid)
+    }
+}
 
 data class RepositoryTransaction(
     val data: Transaction,
@@ -100,15 +136,15 @@ fun Repository.createTransaction(transaction: Transaction): RepositoryTransactio
     require((transaction.originalAmount != null) == (transaction.originalCurrency != null)) {
         "originalAmount and originalCurrency must be set together"
     }
-    val uuid = generateUuid()
+    requireNotNull(transaction.uuid)
     val id = ContentUris.parseId(
         contentResolver.insert(
             TRANSACTIONS_URI,
-            transaction.copy(uuid = uuid).asContentValues()
+            transaction.asContentValues(true)
         )!!
     )
     return RepositoryTransaction(
-        transaction.copy(id = id, uuid = uuid)
+        transaction.copy(id = id)
     )
 }
 
@@ -116,7 +152,7 @@ fun Repository.updateTransaction(
     transaction: Transaction
 ) = contentResolver.update(
     ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id),
-    transaction.asContentValues(),
+    transaction.asContentValues(false),
     null, null
 ) == 1
 
@@ -125,14 +161,14 @@ fun Repository.createTransfer(
     destinationTransaction: Transaction
 ): RepositoryTransaction {
     require(sourceTransaction.date == destinationTransaction.date)
+    requireNotNull(sourceTransaction.uuid)
+    requireNotNull(sourceTransaction.uuid == destinationTransaction.uuid)
     val operations = ArrayList<ContentProviderOperation>()
-    val sharedUuid = generateUuid()
 
     operations.addAll(
         getTransferOperations(
             sourceTransaction,
             destinationTransaction,
-            sharedUuid,
             0
         )
     )
@@ -143,8 +179,8 @@ fun Repository.createTransfer(
     val second = ContentUris.parseId(results[1].uri!!)
 
     return RepositoryTransaction(
-        sourceTransaction.copy(id = first, uuid = sharedUuid, transferPeerId = second),
-        destinationTransaction.copy(id = second, uuid = sharedUuid, transferPeerId = first)
+        sourceTransaction.copy(id = first, transferPeerId = second),
+        destinationTransaction.copy(id = second, transferPeerId = first)
     )
 }
 
@@ -180,13 +216,13 @@ fun Repository.updateTransfer(
                 sourceTransaction.id
             )
         )
-            .withValues(sourceTransaction.asContentValues())
+            .withValues(sourceTransaction.asContentValues(false))
             .build()
     )
 
     operations.add(
         ContentProviderOperation.newUpdate(destinationUri)
-            .withValues(destinationTransaction.asContentValues())
+            .withValues(destinationTransaction.asContentValues(true)) // we need to set the uuid again
             .build()
     )
     val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
@@ -216,13 +252,15 @@ fun Repository.createSplitTransaction(
     }
     require(splitParts.all { it.first.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
 
+    requireNotNull(parentTransaction.uuid)
+    require(splitParts.all { it.second == null || it.second?.uuid == it.first.uuid })
+
     val operations = ArrayList<ContentProviderOperation>()
-    val parentUuid = generateUuid()
 
     // --- Operation 0: Insert the Parent Transaction ---
     operations.add(
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(parentTransaction.copy(uuid = parentUuid).asContentValues())
+            .withValues(parentTransaction.asContentValues(true))
             .build()
     )
     val parentBackRefIndex = 0
@@ -235,24 +273,21 @@ fun Repository.createSplitTransaction(
     splitParts.forEach { (splitPart, peer) ->
         if (peer == null) {
             // --- This is a REGULAR split part ---
-            val newUuid = generateUuid()
             operations.add(
                 ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                    .withValues(splitPart.copy(uuid = newUuid).asContentValues())
+                    .withValues(splitPart.asContentValues(true))
                     .withValueBackReference(KEY_PARENTID, parentBackRefIndex)
                     .build()
             )
             // Prepare the final object, ID will be filled in later
-            finalSplitParts.add(RepositoryTransaction(splitPart.copy(uuid = newUuid)))
+            finalSplitParts.add(RepositoryTransaction(splitPart))
             opIndex++
         } else {
             // --- This is a TRANSFER split part ---
-            val newUuid = generateUuid()
             operations.addAll(
                 getTransferOperations(
                     splitPart,
                     peer,
-                    newUuid,
                     offset = operations.size, // Pass the current absolute offset
                     parentBackRefIndex = parentBackRefIndex // Pass the parent's index
                 )
@@ -260,8 +295,8 @@ fun Repository.createSplitTransaction(
             // Prepare the final objects, IDs will be filled in later
             finalSplitParts.add(
                 RepositoryTransaction(
-                    splitPart.copy(uuid = newUuid),
-                    peer.copy(uuid = newUuid)
+                    splitPart,
+                    peer
                 )
             )
             opIndex += 3 // A transfer adds 3 operations
@@ -273,7 +308,7 @@ fun Repository.createSplitTransaction(
 
     // --- Construct the final return object ---
     val parentId = ContentUris.parseId(results[0].uri!!)
-    val finalParent = parentTransaction.copy(id = parentId, uuid = parentUuid)
+    val finalParent = parentTransaction.copy(id = parentId)
 
     var resultIndex = 1 // Start processing results after the parent
     val enrichedSplitParts = finalSplitParts.map { (splitPart, peer) ->
@@ -341,13 +376,12 @@ fun Repository.updateSplitTransaction(
         )
     }
 
-
     // --- 2. Update Parent Transaction ---
     operations.add(
         ContentProviderOperation.newUpdate(
             ContentUris.withAppendedId(TRANSACTIONS_URI, parentTransaction.id)
         )
-            .withValues(parentTransaction.asContentValues())
+            .withValues(parentTransaction.asContentValues(false))
             .build()
     )
 
@@ -357,7 +391,7 @@ fun Repository.updateSplitTransaction(
             // NEW: This is a new split part, so insert it.
             ContentProviderOperation.newInsert(TRANSACTIONS_URI)
                 .withValues(
-                    transaction.copy(uuid = transaction.uuid ?: generateUuid()).asContentValues()
+                    transaction.asContentValues(true)
                         .apply {
                             put(KEY_PARENTID, parentTransaction.id)
                         })
@@ -366,7 +400,7 @@ fun Repository.updateSplitTransaction(
             ContentProviderOperation.newUpdate(
                 ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
             )
-                .withValues(transaction.asContentValues())
+                .withValues(transaction.asContentValues(false))
         }
         operations.add(operation.build())
     }
@@ -601,7 +635,7 @@ fun Repository.insertTransaction(
     payeeId: Long? = null,
     comment: String? = null,
     methodId: Long? = null,
-    referenceNumber: String? = null,
+    referenceNumber: String? = null
 ): RepositoryTransaction = createTransaction(
     Transaction(
         accountId = accountId,
@@ -616,7 +650,8 @@ fun Repository.insertTransaction(
         originalCurrency = originalCurrency,
         comment = comment,
         methodId = methodId,
-        referenceNumber = referenceNumber
+        referenceNumber = referenceNumber,
+        uuid = generateUuid()
     )
 )
 
@@ -631,6 +666,7 @@ fun Repository.insertTransfer(
     date: LocalDateTime = LocalDateTime.now(),
     payeeId: Long? = null,
     comment: String? = null,
+    uuid: String = generateUuid()
 ): RepositoryTransaction = createTransfer(
     Transaction(
         accountId = accountId,
@@ -641,7 +677,8 @@ fun Repository.insertTransfer(
         parentId = parentId,
         date = date.toEpoch(),
         payeeId = payeeId,
-        comment = comment
+        comment = comment,
+        uuid = uuid
     ), Transaction(
         accountId = transferAccountId,
         transferAccountId = accountId,
@@ -651,7 +688,8 @@ fun Repository.insertTransfer(
         parentId = parentId,
         date = date.toEpoch(),
         payeeId = payeeId,
-        comment = comment
+        comment = comment,
+        uuid = uuid
     )
 )
 
@@ -660,7 +698,6 @@ fun Repository.insertTransfer(
  *
  * @param source The outgoing part of the transfer.
  * @param destination The incoming part of the transfer.
- * @param sharedUuid The UUID to be shared between the two transactions.
  * @param offset The starting index where these operations will be placed in the final batch list.
  * @param parentBackRefIndex If the transfer is part of a split, this is the back-reference index to the parent transaction.
  * @return A list of three operations for creating the transfer.
@@ -668,7 +705,6 @@ fun Repository.insertTransfer(
 private fun getTransferOperations(
     source: Transaction,
     destination: Transaction,
-    sharedUuid: String,
     offset: Int,
     parentBackRefIndex: Int? = null
 ): List<ContentProviderOperation> {
@@ -682,7 +718,7 @@ private fun getTransferOperations(
     return listOf(
         // Operation at index (offset + 0): Insert the source transaction.
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(source.copy(uuid = sharedUuid).asContentValues())
+            .withValues(source.asContentValues(true))
             .apply {
                 if (parentBackRefIndex != null) {
                     withValueBackReference(KEY_PARENTID, parentBackRefIndex)
@@ -691,7 +727,7 @@ private fun getTransferOperations(
 
         // Operation at index (offset + 1): Insert the destination, linking to the source.
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(destination.copy(uuid = sharedUuid).asContentValues())
+            .withValues(destination.asContentValues(true))
             .withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build(),
 

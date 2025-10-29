@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.db2.findAnyOpenByCurrency
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money.Companion.buildWithMicros
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
@@ -62,7 +63,8 @@ object ProviderUtils {
                         ?.takeIf { it.isNotEmpty() }
                         ?.let { repository.findPaymentMethod(it) },
                     referenceNumber = extras.getString(Transactions.REFERENCE_NUMBER)
-                        ?.takeIf { it.isNotEmpty() }
+                        ?.takeIf { it.isNotEmpty() },
+                    uuid = generateUuid()
                 )
             }
     }

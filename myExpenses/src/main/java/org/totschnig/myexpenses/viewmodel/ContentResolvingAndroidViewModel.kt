@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.asContentValues
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
@@ -58,6 +59,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
@@ -348,13 +350,14 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
             val helper = Transaction(
                 accountId = account.id,
-                amount =Money(currencyContext[account.currency], sum).amountMinor,
+                amount = Money(currencyContext[account.currency], sum).amountMinor,
                 comment = helperComment,
-                status = STATUS_HELPER,
                 uuid = generateUuid()
             )
             handleDeleteOperation = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(helper.asContentValues()).build()
+                .withValues(helper.asContentValues(true).apply {
+                    put(KEY_STATUS, STATUS_HELPER)
+                }).build()
         }
         val rowSelect = buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())

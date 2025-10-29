@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2.entities
 
-import android.content.ContentValues
 import android.database.Cursor
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -104,7 +103,7 @@ data class Transaction(
     /**
      * Read-only property holding the UUID of the transaction.
      */
-    val uuid: String? = null,
+    val uuid: String,
 
     /**
      * Read-only property holding the currency of the transaction.
@@ -122,26 +121,6 @@ data class Transaction(
     val payeeName: String? = null
 
 ) {
-
-    fun asContentValues() = ContentValues().apply {
-        put(KEY_COMMENT, comment)
-        put(KEY_DATE, date)
-        put(KEY_VALUE_DATE, valueDate)
-        put(KEY_AMOUNT, amount)
-        put(KEY_CATID, categoryId)
-        put(KEY_ACCOUNTID, accountId)
-        put(KEY_PAYEEID, payeeId?.takeIf { it > 0L })
-        put(KEY_TRANSFER_ACCOUNT, transferAccountId?.takeIf { it > 0L })
-        put(KEY_METHODID, methodId?.takeIf { it > 0L })
-        put(KEY_PARENTID, parentId?.takeIf { it > 0L })
-        put(KEY_CR_STATUS, crStatus.name)
-        put(KEY_REFERENCE_NUMBER, referenceNumber)
-        put(KEY_ORIGINAL_AMOUNT, originalAmount)
-        put(KEY_ORIGINAL_CURRENCY, originalCurrency)
-        put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
-        put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
-        put(KEY_UUID, requireNotNull(uuid))
-    }
 
     val isTransfer: Boolean = transferAccountId != null
 
@@ -204,7 +183,7 @@ data class Transaction(
                 debtId = getLongOrNull(KEY_DEBT_ID),
                 categoryPath = getStringOrNull(KEY_PATH),
                 tagList = splitStringList(KEY_TAGLIST).map { it.toLong() },
-                uuid = getStringOrNull(KEY_UUID),
+                uuid = getString(KEY_UUID),
                 equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
                 currency = getStringOrNull(KEY_CURRENCY),
                 sealed = getBoolean(KEY_SEALED),

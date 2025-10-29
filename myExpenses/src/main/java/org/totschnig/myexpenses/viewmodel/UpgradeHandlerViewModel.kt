@@ -78,10 +78,13 @@ import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
+import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import org.totschnig.myexpenses.widget.BudgetWidget
 import timber.log.Timber
 import java.io.File
@@ -100,6 +103,9 @@ class UpgradeHandlerViewModel(application: Application) :
 
     @Inject
     lateinit var tracker: Tracker
+
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     private var upgradeInfoShowIndex: Int = -1
     private val upgradeInfoList: MutableList<String> = mutableListOf()
@@ -275,10 +281,13 @@ class UpgradeHandlerViewModel(application: Application) :
                     try {
                         contentResolver.query(
                             TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
-                        )?.useAndMapToList { Template.fromCursor(it) }?.forEach {
+                        )?.useAndMapToList {
+                            Template.fromCursor(it)
+                        }?.forEach {
                             Plan.updateDescription(
                                 it.planId,
-                                it.compileDescription(getApplication()),
+                                TransactionMapper.map(it, currencyContext)
+                                    .compileDescription(localizedContext, currencyFormatter),
                                 contentResolver
                             )
                         }

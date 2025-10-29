@@ -57,9 +57,11 @@ import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
+import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.calculateSplitSummary
 import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
@@ -77,6 +79,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.SplitTransaction
@@ -666,14 +669,24 @@ open class MyExpensesViewModel(
     val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
         get() = cloneAndRemapProgressInternal
 
+    private fun RepositoryTransaction.clone(): RepositoryTransaction {
+        fun Transaction.clone(uuid: String) = copy(id = 0, uuid = uuid)
+        val uuid = generateUuid()
+        return copy(
+            data = data.clone(uuid),
+            transferPeer = transferPeer?.clone(uuid),
+            splitParts = splitParts?.map {
+                it.clone()
+            }
+        )
+    }
+
     fun cloneAndRemap(transactionIds: List<Long>, column: String, value: Long) {
         viewModelScope.launch(coroutineDispatcher) {
             var successCount = 0
             var failureCount = 0
             for (id in transactionIds) {
-                val transaction = repository.loadTransaction(id).let {
-                    it.copy(data = it.data.copy(id = 0, uuid = null))
-                }
+                val transaction = repository.loadTransaction(id).clone()
                 val clone = repository.createTransaction(transaction)
                 val update = remapDo(listOf(clone.id), column, value)
 

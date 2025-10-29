@@ -25,12 +25,12 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
 import org.totschnig.myexpenses.db2.createPaymentMethod
-import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.deleteMethod
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
@@ -70,13 +70,11 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             )
         ).id
 
-        templateId = repository.createTemplate(
-            Template(
-                accountId = account1.id,
-                title = "Template",
-                amount = 500L,
-                defaultAction = Template.Action.EDIT
-            )
+        templateId = repository.insertTemplate(
+            accountId = account1.id,
+            title = "Template",
+            amount = 500L,
+            defaultAction = Template.Action.EDIT
         ).id
     }
 

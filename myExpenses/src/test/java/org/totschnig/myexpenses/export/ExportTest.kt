@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.export.AbstractExporter.Companion.UTF_8_BOM
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -117,7 +118,7 @@ class ExportTest : BaseTestWithRepository() {
             referenceNumber = "1",
             date = base
         ).data
-        uuidList.add(op.uuid!!)
+        uuidList.add(op.uuid)
         repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
         op = repository.insertTransaction(
             accountId = account1.id,
@@ -129,14 +130,14 @@ class ExportTest : BaseTestWithRepository() {
             referenceNumber = "2",
             date = base.plusSeconds(1)
         ).data
-        uuidList.add(op.uuid!!)
+        uuidList.add(op.uuid)
         op = repository.insertTransaction(
             accountId = account1.id,
             amount = income1,
             categoryId = cat2Id,
             date = base.plusSeconds(2)
         ).data
-        uuidList.add(op.uuid!!)
+        uuidList.add(op.uuid)
         repository.addAttachments(op.id, listOf(Uri.parse("file:///sdcard/picture.png")))
         op = repository.insertTransaction(
             accountId = account1.id,
@@ -145,7 +146,7 @@ class ExportTest : BaseTestWithRepository() {
             comment = "Note for myself with \"quote\"",
             date = base.plusSeconds(3)
         ).data
-        uuidList.add(op.uuid!!)
+        uuidList.add(op.uuid)
         var transfer = repository.insertTransfer(
             accountId = account1.id,
             transferAccountId = account2.id,
@@ -154,7 +155,7 @@ class ExportTest : BaseTestWithRepository() {
             date = base.plusSeconds(4),
             crStatus = CrStatus.RECONCILED
         )
-        uuidList.add(transfer.data.uuid!!)
+        uuidList.add(transfer.data.uuid)
         transfer = repository.insertTransfer(
             accountId = account1.id,
             transferAccountId = account2.id,
@@ -162,7 +163,7 @@ class ExportTest : BaseTestWithRepository() {
             date = base.plusSeconds(5),
             categoryId = null
         )
-        uuidList.add(transfer.data.uuid!!)
+        uuidList.add(transfer.data.uuid)
         val splitDate = base.plusSeconds(6).toEpoch()
         val split = repository.createSplitTransaction(
             Transaction(
@@ -170,27 +171,30 @@ class ExportTest : BaseTestWithRepository() {
                 amount = split1,
                 categoryId = DatabaseConstants.SPLIT_CATID,
                 date = splitDate,
-                payeeId = repository.requireParty("N.N.")
+                payeeId = repository.requireParty("N.N."),
+                uuid = generateUuid()
             ), listOf(
                 Transaction(
                     accountId = account1.id,
                     amount = part1,
                     categoryId = cat3Id,
-                    date = splitDate
+                    date = splitDate,
+                    uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = account1.id,
                     amount = part2,
                     date = splitDate,
-                    categoryId = catForFilter
+                    categoryId = catForFilter,
+                    uuid = generateUuid()
                 )
             )
         )
         repository.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), split.splitParts!![1].data.id)
 
-        uuidList.add(split.splitParts[0].data.uuid!!)
-        uuidList.add(split.splitParts[1].data.uuid!!)
-        uuidList.add(split.data.uuid!!)
+        uuidList.add(split.splitParts[0].data.uuid)
+        uuidList.add(split.splitParts[1].data.uuid)
+        uuidList.add(split.data.uuid)
         return account1
     }
 
