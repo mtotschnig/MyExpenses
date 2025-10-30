@@ -173,4 +173,16 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             repository.deleteAllTags()
         }
     }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1793
+    @Test
+    fun calculatePriceWhenFractionDigitsAreDifferent() {
+        TODO("to be implemented after model refactoring is completed")
+    }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1793
+    @Test
+    fun doNotStorePriceWhenTransactionIsEditedButAmountIsUntouched() {
+        TODO("to be implemented after model refactoring is completed")
+    }
 }

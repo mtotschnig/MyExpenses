@@ -236,11 +236,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 if (date <= LocalDate.now()) {
                     userSetExchangeRate?.let {
                         repository.savePrice(
-                            currencyContext.homeCurrencyString,
-                            transaction.amount.currencyUnit.code,
+                            currencyContext.homeCurrencyUnit,
+                            transaction.amount.currencyUnit,
                             date,
                             ExchangeRateSource.User,
-                            it.toDouble()
+                            it
                         )
                     }
                 }

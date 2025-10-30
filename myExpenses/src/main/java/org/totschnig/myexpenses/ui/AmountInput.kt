@@ -82,6 +82,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     private var upStreamDependency: AmountInput? = null
     private var upStreamDependencyRef = -1
     private var blockWatcher = false
+    private var isUpdatingProgrammatically = false
 
     private val currencyContext
         get() = context.injector.currencyContext()
@@ -174,7 +175,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                     upStreamDependency?.let {
                         exchangeRateEdit.calculateAndSetRate(
                             it.getAmount(false),
-                            getAmount(false)
+                            getAmount(false),
+                            !isUpdatingProgrammatically
                         )
                     }
                 }
@@ -195,7 +197,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         downStreamDependency = context.getActivity()?.findViewById(downStreamDependencyRef)
         downStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
-                if (!blockWatcher) updateFromDownStream()
+                if (!blockWatcher) updateFromDownStream(true)
             }
         })
         upStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
@@ -203,7 +205,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                 updateFromUpStream()
             }
         })
-        updateFromDownStream()
+        updateFromDownStream(false)
     }
 
     override fun setContentDescription(contentDescription: CharSequence) {
@@ -283,12 +285,12 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         }
     }
 
-    private fun updateFromDownStream() {
+    private fun updateFromDownStream(fromUser: Boolean) {
         downStreamDependency?.let {
             val amount1 = getAmount(false)
             val amount2 = it.getAmount(false)
             Timber.i("self: %s, downStream: %s", amount1, amount2)
-            exchangeRateEdit.calculateAndSetRate(amount1, amount2)
+            exchangeRateEdit.calculateAndSetRate(amount1, amount2, fromUser)
         }
     }
 
@@ -318,11 +320,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         }
     }
 
-    fun setAmount(amount: BigDecimal) {
-        setAmount(amount, true)
-    }
-
-    fun setAmount(amount: BigDecimal, updateType: Boolean, blockWatcher: Boolean = false) {
+    fun setAmount(amount: BigDecimal, updateType: Boolean = true, blockWatcher: Boolean = false) {
+        isUpdatingProgrammatically = true
         if (blockWatcher) {
             this.blockWatcher = true
         }
@@ -334,6 +333,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             type = amount.signum() > -1
         }
         this.blockWatcher = false
+        isUpdatingProgrammatically = false
     }
 
     fun setRaw(text: String?) {

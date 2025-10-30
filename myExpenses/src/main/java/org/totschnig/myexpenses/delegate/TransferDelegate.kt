@@ -119,7 +119,7 @@ class TransferDelegate(
             viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
             if (!isTemplate) {
                 isProcessingLinkedAmountInputs = true
-                updateExchangeRates()
+                updateExchangeRates(false)
                 isProcessingLinkedAmountInputs = false
             }
         }
@@ -232,7 +232,7 @@ class TransferDelegate(
                         viewBinding.ERR.ExchangeRate.getRate(!isMain)
                     )
                 } else {
-                    updateExchangeRates()
+                    updateExchangeRates(true)
                 }
             }
             isProcessingLinkedAmountInputs = false
@@ -247,11 +247,11 @@ class TransferDelegate(
         )
     }
 
-    private fun updateExchangeRates() {
+    private fun updateExchangeRates(fromUser: Boolean) {
         val amount = viewBinding.Amount.getAmount(showToUser = false)
         val transferAmount =
             viewBinding.TransferAmount.getAmount(showToUser = false)
-        viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
+        viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount, fromUser)
     }
 
     override fun buildTransaction(
