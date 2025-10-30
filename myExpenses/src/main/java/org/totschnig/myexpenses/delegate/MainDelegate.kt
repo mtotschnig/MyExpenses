@@ -68,7 +68,11 @@ abstract class MainDelegate(
     val userSetExchangeRate: BigDecimal?
         get() = viewBinding.EquivalentAmount.userSetExchangeRate
 
-    private var debts: List<DisplayDebt> = emptyList()
+    var debts: List<DisplayDebt> = emptyList()
+        set(value) {
+            field = value
+            handleDebts()
+        }
 
     val payeeId
         get() = viewBinding.Payee.party?.id
@@ -274,11 +278,6 @@ abstract class MainDelegate(
 
     override fun onDestroy() {
         viewBinding.Payee.onDestroy()
-    }
-
-    fun setDebts(debts: List<DisplayDebt>) {
-        this.debts = debts
-        handleDebts()
     }
 
     fun updateUiWithDebt() {

@@ -56,7 +56,7 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
-    fun saveDebt(debt: Debt): LiveData<Unit> = liveData(context = coroutineContext()) {
+    fun saveDebt(debt: Debt): LiveData<Long> = liveData(context = coroutineContext()) {
         emit(repository.saveDebt(debt))
     }
 

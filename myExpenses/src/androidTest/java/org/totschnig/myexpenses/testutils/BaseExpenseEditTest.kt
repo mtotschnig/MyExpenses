@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
 import android.widget.Button
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -15,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
@@ -26,7 +29,6 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.RepositoryTemplate
-import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
@@ -47,6 +49,9 @@ import java.time.LocalDate
 const val TEMPLATE_TITLE = "Espresso template"
 const val ACCOUNT_LABEL_1 = "Test label 1"
 const val ACCOUNT_LABEL_2 = "Test label 2"
+const val PARTY_NAME = "John"
+const val DEBT_LABEL = "Schuld"
+const val CATEGORY_LABEL = "Grocery"
 
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
@@ -239,5 +244,16 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         launchForResult(getBaseIntent(type).apply {
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         })
+    }
+
+    fun setDebt() {
+        onView(withId(R.id.DebtCheckBox)).perform(click())
+        onView(withText(PARTY_NAME)).perform(click())
+        onView(withSubstring(DEBT_LABEL)).perform(click())
+    }
+
+    fun setCategory() {
+        onView(withId(R.id.Category)).perform(click())
+        composeTestRule.onNodeWithText(CATEGORY_LABEL).performClick()
     }
 }

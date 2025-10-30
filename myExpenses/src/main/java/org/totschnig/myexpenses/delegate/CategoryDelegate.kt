@@ -43,7 +43,7 @@ class CategoryDelegate(
             recurrence,
             withAutoFill
         )
-        if (parentId != null) {
+        if (isSplitPart) {
             hideRowsSpecificToMain()
         }
 

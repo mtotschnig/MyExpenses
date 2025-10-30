@@ -28,7 +28,10 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
@@ -36,14 +39,31 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
+import org.totschnig.myexpenses.testutils.DEBT_LABEL
+import org.totschnig.myexpenses.testutils.PARTY_NAME
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withAccountGrouped
+import org.totschnig.myexpenses.viewmodel.data.Debt
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
+import kotlinx.coroutines.test.runTest
+import org.hamcrest.Matchers.allOf
+import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.withViewCount
 
 @TestShard5
 class SplitEditTest : BaseExpenseEditTest() {
+
+    private var partyId: Long = 0
+
+    private var debtId: Long = 0
+
+    private var categoryId: Long = 0
 
     companion object {
         @BeforeClass
@@ -236,13 +256,24 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun createPartAndSave() {
-        launchWithAccountSetup()
-        verifyTypeToggle(false)
-        createParts(5)
-        verifyTypeToggle(true)
-        verifyTypeToggle(false)
-        clickFab()
-        assertFinishing()
+        runTest {
+            val partCount = 10
+            val partAmount = 50
+            launchWithAccountSetup()
+            verifyTypeToggle(false)
+            setupData()
+            createParts(partCount, amount = partAmount, withDebtAndCategory = true)
+            verifyTypeToggle(true)
+            verifyTypeToggle(false)
+            clickFab()
+            assertFinishing()
+            assertTransaction(
+                id = repository.loadTransactions(account1.id).first().id,
+                expectedAccount = account1.id,
+                expectedAmount = partCount * partAmount * 100L,
+                expectedSplitParts = buildList { repeat(partCount) { add(partAmount * 100L)} }
+            )
+        }
     }
 
     @Test
@@ -263,23 +294,55 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.list)).check(matches(hasChildCount(count)))
     }
 
+    private fun setupData() {
+        partyId = repository.createParty(Party.create(name = PARTY_NAME)!!)!!.id
+        debtId = repository.saveDebt(
+            Debt(
+                payeeId = partyId,
+                amount = 100,
+                id = 0L,
+                label = DEBT_LABEL,
+                description = "",
+                currency = homeCurrency,
+                date = System.currentTimeMillis() / 1000,
+            )
+        )
+        categoryId = writeCategory(CATEGORY_LABEL, type = FLAG_INCOME)
+    }
+
     private fun createParts(
         times: Int,
         amount: Int = 50,
         toggleType: Boolean = false,
         initialChildCount: Int = 0,
+        withDebtAndCategory: Boolean = false
     ) {
         repeat(times) {
             closeSoftKeyboard()
             onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
             onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
+            checkEffectiveGone(R.id.PayeeRow)
             if (toggleType) {
                 toggleType()
             }
             setAmount(amount)
+            if(withDebtAndCategory) {
+                setDebt()
+                setCategory()
+            }
             clickFab()//save part
             checkPartCount(initialChildCount + it + 1)
+            if (withDebtAndCategory) {
+                onView(isRoot()).check(
+                    withViewCount(
+                        allOf(
+                            withSubstring(DEBT_LABEL),
+                            withSubstring(CATEGORY_LABEL)
+
+                        ), it + 1)
+                )
+            }
         }
     }
 

@@ -148,7 +148,8 @@ object TransactionMapper {
             referenceNumber = transactionEditData.referenceNumber,
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
             payeeId = transactionEditData.party?.id,
-            transferPeerId = transactionEditData.transferEditData?.transferPeer
+            transferPeerId = transactionEditData.transferEditData?.transferPeer,
+            debtId = transactionEditData.debtId
         )
         val transferPeer = transactionEditData.transferEditData?.let { transferEditData ->
             Transaction(

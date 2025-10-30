@@ -219,14 +219,14 @@ class SplitDelegate(
     fun showSplits(transactions: MutableList<TransactionEditData>) {
         adapter.submitList(transactions.map { part ->
             SplitPartRVAdapter.SplitPart(
-                uuid = part.uuid!!,
+                uuid = part.uuid,
                 amount = part.amount,
                 comment = part.comment,
                 categoryPath = part.categoryPath,
                 transferAccount = part.transferEditData?.transferAccountId?.let { transferAccountId ->
                     mAccounts.find { it.id == transferAccountId }
                 }?.label,
-                debtLabel = "TODO",
+                debtLabel = debts.find { it.id == part.debtId }?.label,
                 tags = part.tags,
                 icon = part.categoryIcon,
             )
