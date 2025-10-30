@@ -54,12 +54,17 @@ class ExchangeRateHandler(
             .firstOrNull()
             ?: throw UnsupportedOperationException("No supported source for $currency")
 
-    fun relevantSources(commodity: String) = prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")
-        ?.takeIf { it != SERVICE_DEACTIVATED }
-        ?.let { listOf(ExchangeRateApi.getByName(it)) }
-        ?: ExchangeRateApi.configuredSources(prefHandler).filter {
-            it.isSupported(currencyContext.homeCurrencyString, commodity)
-        }
+    fun relevantSources(commodity: String): List<ExchangeRateApi> {
+        val configuredSources = ExchangeRateApi.configuredSources(prefHandler)
+        return prefHandler.getString("${AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX}${commodity}")
+            ?.takeIf { it != SERVICE_DEACTIVATED }
+            ?.let { ExchangeRateApi.getByName(it) }
+            ?.takeIf { configuredSources.contains(it) }
+            ?.let { listOf(it) }
+            ?: ExchangeRateApi.configuredSources(prefHandler).filter {
+                it.isSupported(currencyContext.homeCurrencyString, commodity)
+            }
+    }
 
     suspend fun loadFromNetwork(
         source: ExchangeRateApi,
