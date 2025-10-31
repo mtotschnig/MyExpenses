@@ -515,7 +515,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         rowId: Long,
         task: InstantiationTask,
         clone: Boolean,
-        forEdit: Boolean,
         extras: Bundle?,
     ): TransactionEditData? = withContext(context = coroutineContext()) {
 
@@ -576,22 +575,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             ).let {
                 TransactionMapper.map(it, currencyContext)
             }
-        }/*?.also {
-            emit(it)
-            *//*            pair ->
-                        if (forEdit) {
-                            pair.first.prepareForEdit(
-                                repository,
-                                clone,
-                                clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
-                            )
-                        }
-                        emit(pair.first)
-                        pair.second?.takeIf { it.isNotEmpty() }?.let { updateTags(it, false) }
-            *//*
-        } ?: run {
-            emit(null)
-        }*/
+        }
     }
 
     companion object {
