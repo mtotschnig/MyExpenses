@@ -607,7 +607,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK && result != null) {
                     baseViewModel.cleanupOrigFile(result)
                     onCropResultOK(result)
                 } else {

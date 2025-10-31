@@ -327,7 +327,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             }
             result
             /*
-                                tagsLiveData.value?.let { transaction.saveTags(repository, it) }
                                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                                     repository.deleteAttachments(transaction.id, it)
                                 }

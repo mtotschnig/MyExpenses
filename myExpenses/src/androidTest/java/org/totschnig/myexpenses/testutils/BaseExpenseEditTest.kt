@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
@@ -56,6 +57,9 @@ const val CATEGORY_LABEL = "Grocery"
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
+
+    suspend fun load() = repository.loadTransactions(account1.id)
+
 
     fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent = getIntentForNewTransaction().apply {
         putExtra(Transactions.OPERATION_TYPE, type)

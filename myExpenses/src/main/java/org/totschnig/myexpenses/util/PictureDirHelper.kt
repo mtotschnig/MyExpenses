@@ -71,7 +71,7 @@ object PictureDirHelper {
         return result
     }
 
-    val defaultFileName
+    val defaultFileName: String
         get() = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
 
 

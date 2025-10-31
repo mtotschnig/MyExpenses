@@ -53,8 +53,6 @@ class ExpenseEditPayeeTest : BaseExpenseEditTest() {
         assertThat(load()).isEmpty()
     }
 
-    private suspend fun load() = repository.loadTransactions(account1.id)
-
     @After
     fun clearDb() {
         cleanup {
