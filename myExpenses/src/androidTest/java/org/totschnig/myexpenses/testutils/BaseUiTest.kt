@@ -305,8 +305,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         }
     }
 
-    protected fun writeCategory(label: String, parentId: Long? = null, type: Byte = FLAG_EXPENSE) =
-        repository.saveCategory(Category(label = label, parentId = parentId, type = type))!!
+    protected fun writeCategory(label: String, parentId: Long? = null, type: Byte = FLAG_EXPENSE, icon: String? = null) =
+        repository.saveCategory(Category(label = label, parentId = parentId, type = type, icon = icon))!!
 
     fun unlock() {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)

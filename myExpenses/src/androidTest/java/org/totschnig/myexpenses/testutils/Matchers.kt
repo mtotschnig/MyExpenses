@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -12,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withParentIndex
+import com.kazy.fontdrawable.FontDrawable
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -27,6 +29,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.time.LocalDate
 
@@ -247,6 +250,55 @@ fun uriStartsWith(uriPrefix: String?): Matcher<Uri> {
 
         override fun matchesSafely(uri: Uri): Boolean {
             return uri.toString().startsWith(uriPrefix!!)
+        }
+    }
+}
+
+fun withCategoryIcon(icon: String): TypeSafeMatcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("has a start drawable")
+        }
+
+        override fun matchesSafely(item: View): Boolean {
+            val startIcon = when (item) {
+                is TextView -> {
+                    item.compoundDrawables[0]
+                }
+
+                is ImageView -> {
+                    item.drawable
+                }
+
+                else -> null
+            }
+
+            if (startIcon !is FontDrawable) {
+                return false
+            }
+
+            // --- 3. Use reflection to access the private 'fontCode' field ---
+            return try {
+                // Get the class of the drawable
+                val fontDrawableClass = startIcon.javaClass
+
+                // Get the private field named "fontCode"
+                val fontCodeField = fontDrawableClass.getDeclaredField("fontCode")
+
+                // Make the private field temporarily accessible
+                fontCodeField.isAccessible = true
+
+                // Get the actual font code value from the specific 'startIcon' instance
+                val actualFontCode = fontCodeField.get(startIcon) as? Char
+
+                // 4. Perform the comparison with the expected FontAwesome icon's unicode
+                actualFontCode == FontAwesomeIcons[icon]?.unicode
+            } catch (e: Exception) {
+                // If reflection fails for any reason (e.g., field name changes in a future library update),
+                // the match should fail gracefully.
+                e.printStackTrace()
+                false
+            }
         }
     }
 }

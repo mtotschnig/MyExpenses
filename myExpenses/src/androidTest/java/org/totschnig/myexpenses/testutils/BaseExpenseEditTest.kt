@@ -55,6 +55,7 @@ const val ACCOUNT_LABEL_2 = "Test label 2"
 const val PARTY_NAME = "John"
 const val DEBT_LABEL = "Schuld"
 const val CATEGORY_LABEL = "Grocery"
+const val CATEGORY_ICON = "apple-whole"
 
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
@@ -202,6 +203,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         id: Long,
         expectedAccount: Long,
         expectedAmount: Long,
+        expectedCategory: Long? = null,
         expectedTags: List<String> = emptyList(),
         expectedSplitParts: List<Long>? = null,
         expectedAttachments: List<Uri> = emptyList()
@@ -214,6 +216,9 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         with(transaction.data) {
             assertThat(amount).isEqualTo(expectedAmount)
             assertThat(accountId).isEqualTo(expectedAccount)
+            expectedCategory?.let {
+                assertThat(categoryId).isEqualTo(expectedCategory)
+            }
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
         assertThat(attachments).containsExactlyElementsIn(expectedAttachments)

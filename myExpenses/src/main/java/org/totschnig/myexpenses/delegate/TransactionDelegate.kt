@@ -820,6 +820,7 @@ abstract class TransactionDelegate(
                 isSplitPart = isSplitPart,
                 categoryId = this@TransactionDelegate.catId,
                 categoryPath = this@TransactionDelegate.label,
+                categoryIcon = this@TransactionDelegate.categoryIcon,
                 originTemplateId = this@TransactionDelegate.originTemplateId,
                 uuid = this@TransactionDelegate.uuid,
                 id = rowId,

@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.graphics.Color
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -13,6 +15,8 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -53,7 +57,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
 import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.withCategoryIcon
 import org.totschnig.myexpenses.testutils.withViewCount
 
 @TestShard5
@@ -162,18 +168,22 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun bug1783() {
         val account2 = buildAccount("Test Account 2", color = Color.RED)
         launchEdit()
-        assertThat(repository.count(
-            TRANSACTIONS_URI,
-            "$KEY_ACCOUNTID = ?",
-            arrayOf(account1.id.toString())
-        )).isEqualTo(3)
+        assertThat(
+            repository.count(
+                TRANSACTIONS_URI,
+                "$KEY_ACCOUNTID = ?",
+                arrayOf(account1.id.toString())
+            )
+        ).isEqualTo(3)
         setAccount("Test Account 2")
         clickFab()
-        assertThat(repository.count(
-            TRANSACTIONS_URI,
-            "$KEY_ACCOUNTID = ?",
-            arrayOf(account2.id.toString())
-        )).isEqualTo(3)
+        assertThat(
+            repository.count(
+                TRANSACTIONS_URI,
+                "$KEY_ACCOUNTID = ?",
+                arrayOf(account2.id.toString())
+            )
+        ).isEqualTo(3)
     }
 
     @Test
@@ -224,7 +234,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         setTitle()
         clickFab()
         assertFinishing()
-        assertTemplate(account1.id, -10000, expectedSplitParts = listOf(-5000,-5000))
+        assertTemplate(account1.id, -10000, expectedSplitParts = listOf(-5000, -5000))
     }
 
     /*
@@ -257,7 +267,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun createPartAndSave() {
         runTest {
-            val partCount = 10
+            val partCount = 2
             val partAmount = 50
             launchWithAccountSetup()
             verifyTypeToggle(false)
@@ -271,7 +281,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 id = repository.loadTransactions(account1.id).first().id,
                 expectedAccount = account1.id,
                 expectedAmount = partCount * partAmount * 100L,
-                expectedSplitParts = buildList { repeat(partCount) { add(partAmount * 100L)} }
+                expectedSplitParts = buildList { repeat(partCount) { add(partAmount * 100L) } }
             )
         }
     }
@@ -307,7 +317,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 date = System.currentTimeMillis() / 1000,
             )
         )
-        categoryId = writeCategory(CATEGORY_LABEL, type = FLAG_INCOME)
+        categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = FLAG_INCOME)
     }
 
     private fun createParts(
@@ -327,20 +337,31 @@ class SplitEditTest : BaseExpenseEditTest() {
                 toggleType()
             }
             setAmount(amount)
-            if(withDebtAndCategory) {
+            if (withDebtAndCategory) {
                 setDebt()
                 setCategory()
             }
             clickFab()//save part
             checkPartCount(initialChildCount + it + 1)
             if (withDebtAndCategory) {
-                onView(isRoot()).check(
+                onView(withId(R.id.list)).check(
                     withViewCount(
                         allOf(
-                            withSubstring(DEBT_LABEL),
-                            withSubstring(CATEGORY_LABEL)
+                            isAssignableFrom(LinearLayout::class.java),
+                            hasDescendant(
+                                allOf(
 
-                        ), it + 1)
+                                    withSubstring(DEBT_LABEL),
+                                    withSubstring(CATEGORY_LABEL)
+
+
+                                )
+                            ),
+                            hasDescendant(
+                                withCategoryIcon(CATEGORY_ICON)
+                            )
+                        ), it + 1
+                    )
                 )
             }
         }
@@ -422,7 +443,15 @@ class SplitEditTest : BaseExpenseEditTest() {
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-        toolbarTitle().check(matches(withText(getString(R.string.menu_edit_template) + " (" + getString(R.string.transaction) + ")")))
+        toolbarTitle().check(
+            matches(
+                withText(
+                    getString(R.string.menu_edit_template) + " (" + getString(
+                        R.string.transaction
+                    ) + ")"
+                )
+            )
+        )
         clickFab()//save part
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)

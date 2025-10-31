@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
@@ -118,7 +119,12 @@ data class Transaction(
     /**
      * Read-only property holding the payee name.
      */
-    val payeeName: String? = null
+    val payeeName: String? = null,
+
+    /**
+     * Read-only property holding the category icon.
+     */
+    val categoryIcon: String? = null
 
 ) {
 
@@ -155,7 +161,8 @@ data class Transaction(
             KEY_CURRENCY,
             KEY_SEALED,
             KEY_PAYEE_NAME,
-            KEY_STATUS
+            KEY_STATUS,
+            KEY_ICON
         )
 
         /**
@@ -188,7 +195,8 @@ data class Transaction(
                 currency = getStringOrNull(KEY_CURRENCY),
                 sealed = getBoolean(KEY_SEALED),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
-                status = getInt(KEY_STATUS)
+                status = getInt(KEY_STATUS),
+                categoryIcon = getStringOrNull(KEY_ICON)
             )
         }
     }

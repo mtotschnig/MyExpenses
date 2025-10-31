@@ -16,7 +16,10 @@ import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import java.time.ZoneId
 
 object TransactionMapper {
-    fun map(repositoryTransaction: RepositoryTransaction, currencyContext: CurrencyContext): TransactionEditData {
+    fun map(
+        repositoryTransaction: RepositoryTransaction,
+        currencyContext: CurrencyContext
+    ): TransactionEditData {
         val transaction = repositoryTransaction.data
         val currencyUnit = currencyContext[transaction.currency!!]
         val money = Money(currencyUnit, transaction.amount)
@@ -27,15 +30,25 @@ object TransactionMapper {
             valueDate = epoch2LocalDate(transaction.valueDate),
             party = transaction.payeeId?.let { DisplayParty(it, transaction.payeeName!!) },
             categoryId = transaction.categoryId,
-            categoryPath =transaction.categoryPath,
-            categoryIcon = null, //TODO
+            categoryPath = transaction.categoryPath,
+            categoryIcon = transaction.categoryIcon,
             accountId = transaction.accountId,
             tags = emptyList(), //TODO
             attachments = emptyList(), //TODO
             methodId = transaction.methodId,
             methodLabel = null, //TODO
-            originalAmount = transaction.originalAmount?.let { Money(currencyContext[transaction.originalCurrency!!], it) },
-            equivalentAmount = transaction.equivalentAmount?.let { Money(currencyContext.homeCurrencyUnit, it) },
+            originalAmount = transaction.originalAmount?.let {
+                Money(
+                    currencyContext[transaction.originalCurrency!!],
+                    it
+                )
+            },
+            equivalentAmount = transaction.equivalentAmount?.let {
+                Money(
+                    currencyContext.homeCurrencyUnit,
+                    it
+                )
+            },
             exchangeRate = null, //TODO where does this come from?
             parentId = transaction.parentId,
             crStatus = transaction.crStatus,
@@ -60,7 +73,7 @@ object TransactionMapper {
         )
     }
 
-    fun map(template: Template, currencyContext: CurrencyContext) : TransactionEditData {
+    fun map(template: Template, currencyContext: CurrencyContext): TransactionEditData {
         val currencyUnit = currencyContext[template.currency!!]
         val money = Money(currencyUnit, template.amount)
         return TransactionEditData(
@@ -75,7 +88,12 @@ object TransactionMapper {
             attachments = emptyList(), //TODO
             methodId = template.methodId,
             methodLabel = null, //TODO
-            originalAmount = template.originalAmount?.let { Money(currencyContext[template.originalCurrency!!], it) },
+            originalAmount = template.originalAmount?.let {
+                Money(
+                    currencyContext[template.originalCurrency!!],
+                    it
+                )
+            },
             equivalentAmount = null,
             exchangeRate = null,
             parentId = template.parentId,
@@ -95,7 +113,10 @@ object TransactionMapper {
         )
     }
 
-    fun map(repositoryTemplate: RepositoryTemplate, currencyContext: CurrencyContext): TransactionEditData {
+    fun map(
+        repositoryTemplate: RepositoryTemplate,
+        currencyContext: CurrencyContext
+    ): TransactionEditData {
         val template = repositoryTemplate.data
         return map(template, currencyContext).copy(
             templateEditData = TemplateEditData(

@@ -18,7 +18,7 @@ fun withViewCount(matcher: Matcher<View>, expectedCount: Int): ViewAssertion {
 
         // We find all matching views in the hierarchy starting from the root.
         val views = mutableListOf<View>()
-        for (child in TreeIterables.breadthFirstViewTraversal(view.rootView)) {
+        for (child in TreeIterables.breadthFirstViewTraversal(view)) {
             if (matcher.matches(child)) {
                 views.add(child)
             }
