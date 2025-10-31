@@ -36,6 +36,8 @@ import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
+import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
@@ -101,7 +103,6 @@ import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
-import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
@@ -502,26 +503,35 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         }
 
+    /**
+     * as a side effect reads tags and attachments
+     */
     suspend fun read(
-        transactionId: Long,
+        rowId: Long,
         task: InstantiationTask,
         clone: Boolean,
         forEdit: Boolean,
         extras: Bundle?,
     ): TransactionEditData? = withContext(context = coroutineContext()) {
         when (task) {
-            InstantiationTask.TEMPLATE -> repository.loadTemplate(transactionId)?.let {
+            InstantiationTask.TRANSACTION, InstantiationTask.TEMPLATE_FROM_TRANSACTION -> repository.loadTagsForTransaction(rowId)
+            InstantiationTask.TEMPLATE, InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTagsForTemplate(rowId)
+            else -> null
+        }?.let { tagsLiveData.postValue(it) }
+
+        when (task) {
+            InstantiationTask.TEMPLATE -> repository.loadTemplate(rowId)?.let {
                 TransactionMapper.map(it, currencyContext)
             }
 
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(transactionId)
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(rowId)
                 ?.instantiate(currencyContext, exchangeRateHandler)?.let {
                 TransactionMapper.map(it, currencyContext).copy(
-                    originTemplateId = transactionId
+                    originTemplateId = rowId
                 )
             }
 
-            InstantiationTask.TRANSACTION -> repository.loadTransaction(transactionId, true).let {
+            InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, true).let {
                 val withCurrentDate = if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
                     ZonedDateTime.now().toEpochSecond() else null
                 TransactionMapper.map(if (clone) it.copy(
@@ -539,7 +549,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
-                repository.loadTransaction(transactionId, true)
+                repository.loadTransaction(rowId, true)
             ).let {
                 TransactionMapper.map(it, currencyContext)
             }
