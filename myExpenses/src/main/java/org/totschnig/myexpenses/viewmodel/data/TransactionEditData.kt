@@ -151,6 +151,7 @@ data class TransactionEditData(
 data class TransactionEditResult(
     val id: Long,
     val amount: Long,
-    val transferAmount: Long?,
-    val planId: Long?
+    val planId: Long?,
+    val transferPeer: Long? = null,
+    val transferAmount: Long? = null,
 )

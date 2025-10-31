@@ -18,9 +18,9 @@ import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 
-private const val TAG_LABEL ="Wichtig"
+private const val TAG_LABEL = "Wichtig"
 
-class ExpenseEditTagsTest: BaseExpenseEditTest() {
+class ExpenseEditTagsTest : BaseExpenseEditTest() {
 
     var tagId: Long = 0
 
@@ -50,7 +50,7 @@ class ExpenseEditTagsTest: BaseExpenseEditTest() {
     }
 
     @Test
-    fun shouldReadTags() {
+    fun shouldLoadTags() {
         runTest {
             baseFixture()
             val transaction = repository.insertTransaction(
@@ -60,11 +60,12 @@ class ExpenseEditTagsTest: BaseExpenseEditTest() {
             )
             repository.saveTagsForTransaction(longArrayOf(tagId), transaction.id)
             launch(getIntentForEditTransaction(transaction.id))
-            onView(allOf(
-                isDescendantOfA(withId(R.id.TagGroup)),
-                withText(TAG_LABEL)
+            onView(
+                allOf(
+                    isDescendantOfA(withId(R.id.TagGroup)),
+                    withText(TAG_LABEL)
                 )
             ).check(matches(isDisplayed()))
+        }
     }
 }
-    }

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.net.Uri
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertTextContains
@@ -33,7 +32,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
-import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
@@ -45,6 +43,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
+import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import java.time.LocalDateTime
@@ -63,10 +62,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 amount = -100L * i,
                 date = LocalDateTime.now().minusMinutes(i.toLong())
             ).id
-            repository.addAttachments(
-                id,
-                listOf(Uri.parse("file:///android_asset/screenshot.jpg"))
-            )
+            repository.addDebugAttachment(id)
             id
         }.first()
         launch(account.id)

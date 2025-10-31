@@ -631,17 +631,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         rootBinding.AttachmentGroup.removeViews(0, rootBinding.AttachmentGroup.childCount - 1)
 
         uris.forEach { (uri, info) ->
-            AttachmentItemBinding.inflate(
+            val itemBinding = AttachmentItemBinding.inflate(
                 layoutInflater,
                 rootBinding.AttachmentGroup,
                 false
-            ).root.apply {
+            )
+            with(itemBinding.root) {
                 contentDescription = info.contentDescription
-                rootBinding.AttachmentGroup.addView(
-                    this,
-                    rootBinding.AttachmentGroup.childCount - 1
-                )
-
                 setAttachmentInfo(info)
 
                 setOnClickListener {
@@ -659,6 +655,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                 }
             }
+
+            rootBinding.AttachmentGroup.addView(
+                itemBinding.root,
+                rootBinding.AttachmentGroup.childCount - 1
+            )
         }
     }
 

@@ -53,6 +53,13 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.ThreadLocalRandom
 import org.totschnig.myexpenses.test.R as RT
 
+fun Repository.addDebugAttachment(transactionId: Long) {
+    addAttachments(
+        transactionId,
+        listOf(Uri.parse("file:///android_asset/screenshot.jpg"))
+    )
+}
+
 @SuppressLint("InlinedApi")
 class Fixture(inst: Instrumentation) {
     private val testContext: Context = inst.context
@@ -202,7 +209,7 @@ class Fixture(inst: Instrumentation) {
                 .date(offset)
             val transaction = builder.persist()
             if (withPicture) {
-                repository.addAttachments(transaction, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
+                repository.addDebugAttachment(transaction)
             }
 
             //Transaction 2

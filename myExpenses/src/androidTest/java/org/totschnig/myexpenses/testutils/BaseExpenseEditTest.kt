@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Button
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.RepositoryTemplate
+import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
@@ -201,16 +203,21 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         expectedAccount: Long,
         expectedAmount: Long,
         expectedTags: List<String> = emptyList(),
-        expectedSplitParts: List<Long>? = null
+        expectedSplitParts: List<Long>? = null,
+        expectedAttachments: List<Uri> = emptyList()
     ) {
 
         val transaction = repository.loadTransaction(id)
         val tags = repository.loadTagsForTransaction(id)
+        val attachments = repository.loadAttachments(id)
+
         with(transaction.data) {
             assertThat(amount).isEqualTo(expectedAmount)
             assertThat(accountId).isEqualTo(expectedAccount)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+        assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
+
         if (expectedSplitParts == null) {
             assertThat(transaction.splitParts).isNull()
         } else {
