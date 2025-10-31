@@ -92,7 +92,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     val plannerUtils: PlannerUtils
         get() = app.appComponent.plannerUtils()
 
-    private val currencyContext: CurrencyContext
+    val currencyContext: CurrencyContext
         get() = app.appComponent.currencyContext()
 
 

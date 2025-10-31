@@ -151,7 +151,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             transferAccountId = account2.id,
             amount = -4000
         ).data.id
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
@@ -178,7 +178,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             amount = 6000
         ).data.id
 
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {

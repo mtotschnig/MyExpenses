@@ -57,14 +57,17 @@ const val CATEGORY_LABEL = "Grocery"
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
 
-    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent = intentForNewTransaction.apply {
+    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent = getIntentForNewTransaction().apply {
         putExtra(Transactions.OPERATION_TYPE, type)
     }
 
-    val intentForNewTransaction
-        get() = intent.apply {
-            putExtra(KEY_ACCOUNTID, account1.id)
-        }
+    fun getIntentForNewTransaction(accountId: Long = account1.id) = intent.apply {
+        putExtra(KEY_ACCOUNTID, accountId)
+    }
+
+    fun getIntentForEditTransaction(rowId: Long) = intent.apply {
+        putExtra(KEY_ROWID, rowId)
+    }
 
     val intent get() = Intent(targetContext, TestExpenseEdit::class.java)
 
@@ -230,12 +233,12 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         }
     }
 
-    protected fun launch(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
+    protected fun launch(i: Intent = getIntentForNewTransaction()): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launch<TestExpenseEdit>(i).also {
             testScenario = it
         }
 
-    protected fun launchForResult(i: Intent = intentForNewTransaction): ActivityScenario<TestExpenseEdit> =
+    protected fun launchForResult(i: Intent = getIntentForNewTransaction()): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
             testScenario = it
         }

@@ -13,8 +13,8 @@ import org.totschnig.myexpenses.provider.getEnum
 
 data class TemplateInfo(val rowId: Long, val title: String, val defaultAction: Template.Action) {
     companion object {
-        fun fromTemplate(template: Template) =
-            TemplateInfo(template.id, template.title, template.defaultAction)
+        fun fromTemplate(id: Long, title: String, defaultAction: Template.Action) =
+            TemplateInfo(id, title, defaultAction)
     }
 }
 

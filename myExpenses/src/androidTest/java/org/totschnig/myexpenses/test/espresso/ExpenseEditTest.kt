@@ -80,7 +80,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransactionIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        launch(getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             checkEffectiveVisible(
@@ -139,7 +139,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransferIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        launch(getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSFER)
         }).use {
             checkEffectiveVisible(
@@ -156,7 +156,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForSplitIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        launch(getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }).use {
             checkEffectiveVisible(
@@ -255,7 +255,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldChangeDate() {
-        launch(intentForNewTransaction).use {
+        launch(getIntentForNewTransaction()).use {
             val today = LocalDate.now()
             onView(withId(R.id.DateButton))
                 .check(matches(dateButtonHasDate(today)))

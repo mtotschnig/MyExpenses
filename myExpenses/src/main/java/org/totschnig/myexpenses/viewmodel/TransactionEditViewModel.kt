@@ -6,7 +6,10 @@ import android.content.ContentUris
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -36,6 +39,7 @@ import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.saveTagsForTemplate
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
@@ -88,13 +92,16 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
@@ -107,6 +114,7 @@ import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import java.io.IOException
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -201,7 +209,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         ?.let { id -> DisplayParty(id, it.name) }
                 }
             )
-            if (transaction.isTemplate) {
+            val result = if (transaction.isTemplate) {
                 val plan = transaction.templateEditData?.planEditData?.plan?.apply {
                     save(contentResolver, plannerUtils)
                 }
@@ -287,33 +295,38 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     planId = planId
                 )
             }
-            /*                transaction.party?.let {
-                                    if (it.id == null) {
-                                        transaction.party = repository.requireParty(it.name)
-                                            ?.let { id -> DisplayParty(id, it.name) }
-                                    }
-                                }
-
-                                transaction.save(repository, plannerUtils, true)
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
-                                    if (
-                                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
-                                            .any {
-                                                it.id == ShortcutHelper.idTemplate(transaction.id)
-                                            }
-                                    ) {
-                                        ShortcutManagerCompat.updateShortcuts(
-                                            getApplication(),
-                                            listOf(
-                                                ShortcutHelper.buildTemplateShortcut(
-                                                    getApplication(),
-                                                    TODO() //TemplateInfo.fromTemplate(transaction)
-                                                )
-                                            )
-                                        )
-                                    }
-                                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction.templateEditData != null && transaction.id != 0L) {
+                if (
+                    ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
+                        .any {
+                            it.id == ShortcutHelper.idTemplate(transaction.id)
+                        }
+                ) {
+                    ShortcutManagerCompat.updateShortcuts(
+                        getApplication(),
+                        listOf(
+                            ShortcutHelper.buildTemplateShortcut(
+                                getApplication(),
+                                TemplateInfo.fromTemplate(transaction.id, transaction.templateEditData.title, transaction.templateEditData.defaultAction)
+                            )
+                        )
+                    )
+                }
+            }
+            val date = transaction.date.toLocalDate()
+            if (date <= LocalDate.now()) {
+                userSetExchangeRate?.let {
+                    repository.savePrice(
+                        currencyContext.homeCurrencyUnit,
+                        transaction.amount.currencyUnit,
+                        date,
+                        ExchangeRateSource.User,
+                        it
+                    )
+                }
+            }
+            result
+            /*
                                 tagsLiveData.value?.let { transaction.saveTags(repository, it) }
                                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                                     repository.deleteAttachments(transaction.id, it)
@@ -327,18 +340,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                                         it,
                                         attachments
                                     )
-                                }
-                                val date = epoch2LocalDate(transaction.date)
-                                if (date <= LocalDate.now()) {
-                                    userSetExchangeRate?.let {
-                                        repository.savePrice(
-                                            currencyContext.homeCurrencyUnit,
-                                            transaction.amount.currencyUnit,
-                                            date,
-                                            ExchangeRateSource.User,
-                                            it
-                                        )
-                                    }
                                 }*/
         }
     }

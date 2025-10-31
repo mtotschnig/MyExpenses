@@ -9,6 +9,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -16,10 +17,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
+import org.junit.Assume
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -31,21 +34,26 @@ import org.totschnig.myexpenses.db2.deleteMethod
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.insertTemplate
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.loadPrice
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.uriStartsWith
 import org.totschnig.myexpenses.testutils.withAdaptedData
 import org.totschnig.myexpenses.testutils.withIdAndParent
+import java.time.LocalDate
 
 @TestShard2
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
@@ -246,7 +254,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     //Bug https://github.com/mtotschnig/MyExpenses/issues/1426
     @Test
     fun instantiateTemplateForEditDoesNotAffectTemplate() {
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             action = ACTION_CREATE_FROM_TEMPLATE
             putExtra(KEY_TEMPLATEID, templateId)
         })
@@ -262,13 +270,48 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     //https://github.com/mtotschnig/MyExpenses/issues/1793
     @Test
-    fun calculatePriceWhenFractionDigitsAreDifferent() {
-        TODO("to be implemented after model refactoring is completed")
+    fun calculatePriceCorrectlyWhenFractionDigitsAreDifferent() {
+        val account2 = buildAccount(
+            ACCOUNT_LABEL_2,
+            currency = "PYG",
+            dynamicExchangeRates = true
+        )
+        launchForResult(getIntentForNewTransaction(account2.id))
+        setAmount(10000)
+        setAmount(1, R.id.EquivalentAmount)
+        clickFab()
+        val price = repository.loadPrice(homeCurrency, currencyContext["PYG"],
+            LocalDate.now(),
+            ExchangeRateSource.User
+        )
+        assertThat(price).isEqualToIgnoringScale("0.0001")
     }
 
     //https://github.com/mtotschnig/MyExpenses/issues/1793
     @Test
     fun doNotStorePriceWhenTransactionIsEditedButAmountIsUntouched() {
-        TODO("to be implemented after model refactoring is completed")
+        Assume.assumeFalse(homeCurrency.code == "DKK")
+        val account2 = buildAccount(
+            ACCOUNT_LABEL_2,
+            currency = "DKK",
+            dynamicExchangeRates = true
+        )
+        val transaction = repository.insertTransaction(
+            accountId = account2.id,
+            amount = 100,
+            equivalentAmount = 13
+        )
+        launch(getIntentForEditTransaction(transaction.id))
+        onView(withId(R.id.Comment))
+            .perform(
+                scrollTo(),
+                replaceText("New comment"))
+        closeSoftKeyboard()
+        clickFab()
+        val price = repository.loadPrice(homeCurrency, currencyContext["DKK"],
+            LocalDate.now(),
+            ExchangeRateSource.User
+        )
+        assertThat(price).isNull()
     }
 }

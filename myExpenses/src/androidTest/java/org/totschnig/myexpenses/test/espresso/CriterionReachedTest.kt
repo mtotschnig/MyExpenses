@@ -191,7 +191,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         repeat: Int = 1,
     ) {
         fixture(criterion, openingBalance)
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(ExpenseEdit.KEY_INCOME, amount > 0)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
@@ -221,7 +221,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             accountId = account1.id,
             amount = existingAmount
         ).id
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
@@ -255,7 +255,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             accountId = account1.id,
             amount = existingAmount
         ).id
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(DatabaseConstants.KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
