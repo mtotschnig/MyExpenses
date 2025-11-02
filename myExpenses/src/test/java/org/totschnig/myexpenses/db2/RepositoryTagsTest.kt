@@ -16,7 +16,7 @@ class RepositoryTagsTest : BaseTestWithRepository() {
         val transactionId = repository.insertTransaction(testAccountId, 100).id
         val tagId = repository.writeTag("Good Tag")
         val controlTag = Tag(tagId, "Good Tag")
-        repository.saveTagsForTransaction(listOf(controlTag), transactionId)
+        repository.saveTagsForTransaction(listOf(controlTag.id), transactionId)
         assertThat(repository.loadTagsForTransaction(transactionId))
             .containsExactly(controlTag)
         repository.saveTagsForTransaction(emptyList(), transactionId)

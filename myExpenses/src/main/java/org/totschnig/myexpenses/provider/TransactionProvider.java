@@ -898,15 +898,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (dateExpression != null) {
           additionalWhere.append(KEY_DATE).append(" <= ").append(dateExpression);
         }
+        String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (projection == null) {
-          projection = debtProjection(true);
+          projection = debtProjection(transactionId, true);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
         if (projection == null) {
-          projection = debtProjection(false);
+          projection = debtProjection(null,false);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));

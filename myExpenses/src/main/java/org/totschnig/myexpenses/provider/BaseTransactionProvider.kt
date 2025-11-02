@@ -365,7 +365,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     /**
      * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
      */
-    fun debtProjection(withSum: Boolean): Array<String> {
+    fun debtProjection(transactionId: String?, withSum: Boolean): Array<String> {
+        val exclusionClause = transactionId?.let {
+            "AND $KEY_ROWID != $it"
+        } ?: ""
 
         return listOfNotNull(
             "$TABLE_DEBTS.$KEY_ROWID",
@@ -378,8 +381,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_PAYEE_NAME,
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
-            if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
+            if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
@@ -2021,10 +2024,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @JvmOverloads
     fun SupportSQLiteDatabase.saveTransactionTags(
         transactionId: Long,
-        tagList: String,
+        tagList: String?,
         replace: Boolean,
         forTemplate: Boolean = false
     ) {
+        if (tagList == null) return
         saveTransactionTags(
             transactionId,
             if (tagList.isEmpty()) {

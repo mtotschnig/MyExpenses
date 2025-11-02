@@ -733,7 +733,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (shouldLoadDebts) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.loadDebts().collect { debts ->
+                    viewModel.loadDebts(delegate.rowId).collect { debts ->
                         (delegate as? MainDelegate)?.let {
                             it.debts = debts
                             it.setupDebtChangedListener()

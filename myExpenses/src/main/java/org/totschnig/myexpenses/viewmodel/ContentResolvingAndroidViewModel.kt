@@ -292,7 +292,12 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     val isTransferEnabled
         get() = repository.countAccounts() > 1
 
+    /**
+     * @param rowId For split transactions, we check if any of their children is linked to a debt,
+     * in which case the parent should not be linkable to a debt, and we return an empty list
+     */
     fun loadDebts(
+        rowId: Long? = null,
         date: LocalDate? = null,
         showSealed: Boolean = false,
         showZero: Boolean = true,
@@ -300,6 +305,9 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     ) =
         contentResolver.observeQuery(
             uri = with(DEBTS_URI.buildUpon()) {
+                rowId?.takeIf { it != 0L }?.let {
+                    appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
+                }
                 date?.let {
                     appendQueryParameter(KEY_DATE, date.toString())
                 }
