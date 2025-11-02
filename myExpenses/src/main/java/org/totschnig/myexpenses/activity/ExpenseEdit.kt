@@ -272,9 +272,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     val parentOriginalAmountExchangeRate: Pair<BigDecimal, Currency>?
         get() = (intent.getSerializableExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE) as? Pair<BigDecimal, Currency>)
 
-    private val isMainTransaction: Boolean
-        get() = operationType != TYPE_TRANSFER && !isSplitPartOrTemplate
-
     private val isClone: Boolean
         get() = intent.getBooleanExtra(KEY_CLONE, false)
 
@@ -289,6 +286,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private val planInstanceId: Long
         get() = intent.getLongExtra(KEY_INSTANCEID, 0L)
+
+    private val originTemplateId: Long
+        get() = intent.getLongExtra(KEY_TEMPLATEID, 0L)
 
     override fun injectDependencies() {
         injector.inject(this)
@@ -432,7 +432,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
             var task: InstantiationTask? = null
             if (mRowId == 0L) {
-                mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
+                mRowId = originTemplateId
                 if (mRowId != 0L) {
                     task = if (hasCreateFromTemplateAction) {
                         TRANSACTION_FROM_TEMPLATE
@@ -714,7 +714,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         loadAccounts(isInitialSetup)
         loadTemplates()
         linkInputsWithLabels()
-        loadTags()
+        observeTags()
         loadCurrencies()
         observeAutoFillData()
         lifecycleScope.launch {
@@ -733,7 +733,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (shouldLoadDebts) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.loadDebts(delegate.rowId).collect { debts ->
+                    viewModel.loadDebts().collect { debts ->
                         (delegate as? MainDelegate)?.let {
                             it.debts = debts
                             it.setupDebtChangedListener()
@@ -744,7 +744,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun loadTags() {
+    private fun observeTags() {
         viewModel.tagsLiveData.observe(this) { tags ->
             if (::delegate.isInitialized) {
                 delegate.showTags(tags) { tag ->
@@ -853,6 +853,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 abortWithMessage("This transaction refers to a closed account or debt and can no longer be edited")
             } else {
                 populate(it, withAutoFill && task != TRANSACTION_FROM_TEMPLATE)
+                it.originTemplate?.let {
+                    delegate.originTemplateLoaded(it)
+                }
             }
         } ?: run {
             abortWithMessage(
@@ -899,22 +902,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun populate(transaction: TransactionEditData, withAutoFill: Boolean) {
         parentId = transaction.parentId ?: 0L
-        var t = if (isClone) {
+        val t = (if (isClone) {
             newInstance = true
             transaction.copy(
                 id = 0,
                 uuid = Model.generateUuid(),
                 crStatus = CrStatus.UNRECONCILED
             )
-        } else transaction
-        t = intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
-            epoch2LocalDateTime(it).let {
-                t.copy(
-                    date = it,
-                    valueDate = it.toLocalDate()
-                )
-            }
-        } ?: t
+        } else transaction).let { t ->
+            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
+                epoch2LocalDateTime(it).let {
+                    t.copy(
+                        date = it,
+                        valueDate = it.toLocalDate()
+                    )
+                }
+            } ?: t
+        }
         operationType = transaction.operationType
         updateOnBackPressedCallbackEnabled()
         delegate = TransactionDelegate.create(
@@ -941,7 +945,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
         setHelpVariant(delegate.helpVariant)
         setTitle()
-        shouldShowCreateTemplate = transaction.originTemplateId == null
+        shouldShowCreateTemplate = transaction.originTemplate == null
         if (!isTemplate) {
             createNew = newInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
             configureFloatingActionButton()
@@ -1247,7 +1251,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun saveState() {
         if (::delegate.isInitialized) {
-            delegate.syncStateAndValidate(true)?.let { transaction ->
+            delegate.syncStateAndValidate(true)?.let { t ->
+                val transaction = t.copy(tags = viewModel.tagsLiveData.value ?: emptyList())
                 if (transaction.isSplitPart) {
                     splitPartsResultList.add(transaction)
                     if (createNew && delegate.prepareForNew()) {
@@ -1267,7 +1272,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                     isSaving = true
                     lifecycleScope.launch {
-                        onSaved(viewModel.save(transaction.copy(planInstanceId = planInstanceId.takeIf { it > 0L }), (delegate as? MainDelegate)?.userSetExchangeRate))
+                        onSaved(viewModel.save(
+                            transaction.copy(
+                                planInstanceId = planInstanceId.takeIf { it > 0L },
+                                originTemplate = originTemplateId.takeIf { it > 0L }?.let {
+                                    TemplateEditData(templateId = it)
+                                },
+                            ),
+                            userSetExchangeRate = (delegate as? MainDelegate)?.userSetExchangeRate
+                        ))
                     }
                     if (wasStartedFromWidget) {
                         when (operationType) {
@@ -1638,14 +1651,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId),
                     false, it
                 )
-            }
-        }
-    }
-
-    fun loadOriginTemplate(templateId: Long) {
-        lifecycleScope.launch {
-            viewModel.read(templateId, TEMPLATE, clone = false, extras = null)?.let {
-                delegate.originTemplateLoaded(it)
             }
         }
     }

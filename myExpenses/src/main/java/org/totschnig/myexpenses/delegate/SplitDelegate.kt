@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
 class SplitDelegate(
@@ -108,6 +109,16 @@ class SplitDelegate(
         showSplits(splitParts)
         return true
     }
+
+    override fun handleDebts() {
+        super.handleDebts()
+        if (::adapter.isInitialized) {
+            showSplits(splitParts)
+        }
+    }
+
+    override val applicableDebts: List<DisplayDebt>
+        get() = super.applicableDebts.filter { splitParts.none { part -> part.debtId == it.id  } }
 
     fun addSplitParts(parts: ArrayList<TransactionEditData>) {
         parts.forEach { part ->

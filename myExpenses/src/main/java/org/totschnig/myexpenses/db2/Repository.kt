@@ -54,6 +54,7 @@ open class Repository @Inject constructor(
 ) {
     companion object {
         const val UUID_SEPARATOR = ":"
+        const val RECORD_SEPARATOR = ''
     }
 
     val contentResolver: ContentResolver = context.contentResolver

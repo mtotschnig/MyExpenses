@@ -39,14 +39,10 @@ import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
-import org.totschnig.myexpenses.db2.loadTagsForTemplate
-import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.savePrice
-import org.totschnig.myexpenses.db2.saveTagsForTemplate
-import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.db2.updateTemplate
 import org.totschnig.myexpenses.db2.updateTransaction
@@ -232,7 +228,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     repository.updateTemplate(template)
                     transaction.id
                 }
-                tagsLiveData.value?.let { repository.saveTagsForTemplate(it, id) }
                 TransactionEditResult(
                     id = id,
                     amount = template.data.amount,
@@ -240,13 +235,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
             } else {
                 val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
-                val id = if (transaction.id == 0L) {
-                    repository.createTransaction(repositoryTransaction).id
+                val saved = if (transaction.id == 0L) {
+                    repository.createTransaction(repositoryTransaction)
                 } else {
                     repository.updateTransaction(repositoryTransaction)
-                    transaction.id
+                    repositoryTransaction
                 }
-                tagsLiveData.value?.let { repository.saveTagsForTransaction(it, id) }
                 val planId = transaction.initialPlan?.let { (title, recurrence, date) ->
                     val title = title
                         ?: transaction.party?.name
@@ -273,25 +267,24 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         }
                     )
                     repository.updateNewPlanEnabled(licenceHandler)
-                    tagsLiveData.value?.let { repository.saveTagsForTemplate(it, template.id) }
                     if (plan != null) {
                         repository.linkTemplateWithTransaction(
                             template.id,
-                            id,
+                            transaction.id,
                             CalendarProviderProxy.calculateId(plan.dtStart)
                         )
                     }
                     plan?.id
                 }
-                if (transaction.planInstanceId != null) {
+                if (transaction.planInstanceId != null && transaction.originTemplate != null) {
                     repository.linkTemplateWithTransaction(
-                        transaction.originTemplateId!!,
-                        id,
+                        transaction.originTemplate.templateId,
+                        saved.id,
                         transaction.planInstanceId
                     )
                 }
                 TransactionEditResult(
-                    id = id,
+                    id = saved.id,
                     amount = repositoryTransaction.data.amount,
                     transferPeer = repositoryTransaction.transferPeer?.id,
                     transferAmount = repositoryTransaction.transferPeer?.amount,
@@ -518,15 +511,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         extras: Bundle?,
     ): TransactionEditData? = withContext(context = coroutineContext()) {
 
-        when (task) {
+/*        when (task) {
             InstantiationTask.TRANSACTION, InstantiationTask.TEMPLATE_FROM_TRANSACTION ->
-                repository.loadTagsForTransaction(rowId)
+                //TODO check TEMPLATE_FROM_TRANSACTION case
+                //repository.loadTagsForTransaction(rowId)
 
             InstantiationTask.TEMPLATE, InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
                 repository.loadTagsForTemplate(rowId)
 
             else -> null
-        }?.let { tagsLiveData.postValue(it) }
+        }?.let { tagsLiveData.postValue(it) }*/
 
         if (task == InstantiationTask.TRANSACTION) {
             val uriList = repository.loadAttachments(rowId)
@@ -539,42 +533,47 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
 
         when (task) {
-            InstantiationTask.TEMPLATE -> repository.loadTemplate(rowId)?.let {
+            InstantiationTask.TEMPLATE -> repository.loadTemplate(rowId, withTags = true)?.let {
                 TransactionMapper.map(it, currencyContext)
             }
 
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> repository.loadTemplate(rowId)
-                ?.instantiate(currencyContext, exchangeRateHandler)?.let {
-                    TransactionMapper.map(it, currencyContext).copy(
-                        originTemplateId = rowId
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> {
+                val template = repository.loadTemplate(rowId, withTags = true)
+                template?.instantiate(currencyContext, exchangeRateHandler)?.let {
+                        TransactionMapper.map(it, currencyContext).copy(
+                            originTemplate = TransactionMapper.mapTemplateEditData(template)
+                        )
+                    }
+            }
+
+            InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, withTags = true)
+                .let {
+                    val withCurrentDate =
+                        if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+                            ZonedDateTime.now().toEpochSecond() else null
+                    TransactionMapper.map(
+                        if (clone) it.copy(
+                            data = it.data.copy(
+                                id = 0L,
+                                uuid = generateUuid(),
+                                date = withCurrentDate ?: it.data.date,
+                                valueDate = withCurrentDate ?: it.data.valueDate
+                            )
+                        ) else it, currencyContext
                     )
                 }
-
-            InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, true).let {
-                val withCurrentDate =
-                    if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
-                        ZonedDateTime.now().toEpochSecond() else null
-                TransactionMapper.map(
-                    if (clone) it.copy(
-                        data = it.data.copy(
-                            id = 0L,
-                            uuid = generateUuid(),
-                            date = withCurrentDate ?: it.data.date,
-                            valueDate = withCurrentDate ?: it.data.valueDate
-                        )
-                    ) else it, currencyContext
-                )
-            }
 
             InstantiationTask.FROM_INTENT_EXTRAS ->
                 ProviderUtils.buildFromExtras(repository, extras!!)
 
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
-                repository.loadTransaction(rowId, true)
+                repository.loadTransaction(rowId, withTransfer = true, withTags = true)
             ).let {
                 TransactionMapper.map(it, currencyContext)
             }
+        }.also {
+            tagsLiveData.postValue(it?.tags)
         }
     }
 

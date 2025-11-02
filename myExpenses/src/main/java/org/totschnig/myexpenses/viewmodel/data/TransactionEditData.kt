@@ -56,7 +56,7 @@ data class TransactionEditData(
     val categoryPath: String? = null,
     val categoryIcon: String? = null,
     val accountId: Long,
-    val tags: List<Tag> = emptyList(),
+    val tags: List<Tag> = emptyList(), //only used for split parts
     val attachments: List<Uri> = emptyList(),
     val methodId: Long? = null,
     val methodLabel: String? = null,
@@ -65,7 +65,7 @@ data class TransactionEditData(
     val exchangeRate: Long? = null,
     val parentId: Long? = null,
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
-    val originTemplateId: Long? = null,
+    val originTemplate: TemplateEditData? = null,
     val planId: Long? = null,
     val debtId: Long? = null,
     val templateEditData: TemplateEditData? = null,

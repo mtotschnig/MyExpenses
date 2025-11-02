@@ -425,10 +425,12 @@ abstract class MainDelegate(
         }
     }
 
-    private val applicableDebts: List<DisplayDebt>
-        get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == homeCurrency }
+    protected open val applicableDebts: List<DisplayDebt>
+        get() = debts.filter {
+            it.currency == currentAccount()?.currency || it.currency == homeCurrency
+        }
 
-    private fun handleDebts() {
+    protected open fun handleDebts() {
         applicableDebts.let { debts ->
             val hasDebts = debts.isNotEmpty()
             viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE

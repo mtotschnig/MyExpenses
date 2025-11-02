@@ -306,7 +306,7 @@ class Fixture(inst: Instrumentation) {
             )
         )
         val label = appContext.getString(R.string.testData_tag_project)
-        repository.saveTagsForTransaction(listOf(Tag(saveTag(label), label, 0)), split.id)
+        repository.saveTagsForTransaction(listOf(saveTag(label)), split.id)
 
         // Template
         Truth.assertWithMessage("Unable to create planner").that(

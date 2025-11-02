@@ -46,11 +46,11 @@ fun Repository.loadTagsForTransaction(transactionId: Long) =
 fun Repository.loadTagsForTemplate(templateId: Long) =
     contentResolver.loadTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
 
-fun Repository.saveActiveTagsForAccount(tags: List<Tag>?, accountId: Long) =
+fun Repository.saveActiveTagsForAccount(tags: List<Long>?, accountId: Long) =
     contentResolver.saveTags(ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
 
-fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
-    saveTagsForTransaction(tags.map { it.id }.toLongArray(), transactionId)
+fun Repository.saveTagsForTransaction(tags: List<Long>, transactionId: Long) {
+   saveTagsForTransaction(tags.toLongArray(), transactionId)
 }
 
 fun Repository.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
@@ -65,7 +65,7 @@ fun Repository.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
     )
 }
 
-fun Repository.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
+fun Repository.saveTagsForTemplate(tags: List<Long>?, templateId: Long) =
     contentResolver.saveTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
 
 private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
@@ -73,7 +73,7 @@ private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): Li
     query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!
         .useAndMapToList(Tag.Companion::fromCursor)
 
-private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long) {
+private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Long>?, id: Long) {
     val ops = ArrayList<ContentProviderOperation>()
     ops.add(
         ContentProviderOperation.newDelete(linkUri)
@@ -84,7 +84,7 @@ private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Ta
         ops.add(
             ContentProviderOperation.newInsert(linkUri)
                 .withValue(column, id)
-                .withValue(KEY_TAGID, it.id)
+                .withValue(KEY_TAGID, it)
                 .build()
         )
     }

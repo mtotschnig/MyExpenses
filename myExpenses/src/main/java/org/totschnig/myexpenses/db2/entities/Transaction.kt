@@ -95,10 +95,14 @@ data class Transaction(
     /** Corresponds to KEY_DEBT_ID (integer) - Foreign key to debts table */
     val debtId: Long? = null,
 
-    /** Read-only property holding the full category path, populated from a provider query. */
+    /**
+     * Read-only property holding the full category path, populated from a provider query.
+     */
     val categoryPath: String? = null,
 
-    /** Read-only property holding the list of linked category ids. */
+    /**
+     * the list of linked tag ids.
+     */
     val tagList: List<Long> = emptyList(),
 
     /**

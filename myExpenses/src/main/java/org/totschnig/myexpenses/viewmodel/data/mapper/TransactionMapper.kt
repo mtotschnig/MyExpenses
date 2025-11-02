@@ -33,7 +33,7 @@ object TransactionMapper {
             categoryPath = transaction.categoryPath,
             categoryIcon = transaction.categoryIcon,
             accountId = transaction.accountId,
-            tags = emptyList(), //TODO
+            tags = repositoryTransaction.tags ?: emptyList(),
             attachments = emptyList(), //TODO
             methodId = transaction.methodId,
             methodLabel = null, //TODO
@@ -84,7 +84,6 @@ object TransactionMapper {
             categoryPath = template.categoryPath,
             categoryIcon = null, //TODO
             accountId = template.accountId,
-            tags = emptyList(), //TODO
             attachments = emptyList(), //TODO
             methodId = template.methodId,
             methodLabel = null, //TODO
@@ -94,10 +93,7 @@ object TransactionMapper {
                     it
                 )
             },
-            equivalentAmount = null,
-            exchangeRate = null,
             parentId = template.parentId,
-            originTemplateId = null,
             planId = template.planId,
             uuid = template.uuid,
             debtId = null, //TODO check
@@ -113,25 +109,29 @@ object TransactionMapper {
         )
     }
 
+    fun mapTemplateEditData(repositoryTemplate: RepositoryTemplate): TemplateEditData {
+        val template = repositoryTemplate.data
+        return TemplateEditData(
+            templateId = template.id,
+            title = template.title,
+            defaultAction = template.defaultAction,
+            planEditData = repositoryTemplate.plan?.let {
+                PlanEditData(
+                    plan = it,
+                    isPlanExecutionAutomatic = template.planExecutionAutomatic,
+                    planExecutionAdvance = template.planExecutionAdvance,
+                )
+            }
+        )
+    }
+
     fun map(
         repositoryTemplate: RepositoryTemplate,
         currencyContext: CurrencyContext
     ): TransactionEditData {
         val template = repositoryTemplate.data
         return map(template, currencyContext).copy(
-            templateEditData = TemplateEditData(
-                templateId = template.id,
-                title = template.title,
-                defaultAction = template.defaultAction,
-                planEditData = repositoryTemplate.plan?.let {
-                    PlanEditData(
-                        plan = it,
-                        isPlanExecutionAutomatic = template.planExecutionAutomatic,
-                        planExecutionAdvance = template.planExecutionAdvance,
-                    )
-                }
-            ),
-            comment = template.comment,
+            templateEditData = mapTemplateEditData(repositoryTemplate),
             transferEditData = template.transferAccountId?.let {
                 TransferEditData(
                     transferAccountId = it,
@@ -139,12 +139,12 @@ object TransactionMapper {
                     transferAmount = null //TODO is this correct?
                 )
             },
-            isSealed = template.sealed,
             splitParts = repositoryTemplate.splitParts?.map {
                 map(it, currencyContext).copy(
                     isSplitPart = true
                 )
-            }
+            },
+            tags = repositoryTemplate.tags ?: emptyList()
         )
     }
 
@@ -170,7 +170,8 @@ object TransactionMapper {
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
             payeeId = transactionEditData.party?.id,
             transferPeerId = transactionEditData.transferEditData?.transferPeer,
-            debtId = transactionEditData.debtId
+            debtId = transactionEditData.debtId,
+            tagList = transactionEditData.tags.map { it.id }
         )
         val transferPeer = transactionEditData.transferEditData?.let { transferEditData ->
             Transaction(
@@ -212,7 +213,8 @@ object TransactionMapper {
             planId = transactionEditData.planId,
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
             payeeId = transactionEditData.party?.id,
-            uuid = transactionEditData.uuid
+            uuid = transactionEditData.uuid,
+            tagList = transactionEditData.tags.map { it.id }
         )
         return RepositoryTemplate(
             data = template,

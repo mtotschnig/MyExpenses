@@ -545,7 +545,7 @@ public class Transaction extends Model implements ITransaction {
   public void saveTags(@NonNull Repository repository, @NonNull  List<Tag> tags) {
     RepositoryTagsKt.saveTagsForTransaction(repository, tags.stream().mapToLong(Tag::getId).toArray(), getId());
     if (initialPlan != null) {
-      RepositoryTagsKt.saveTagsForTemplate(repository, tags, originTemplateId);
+      RepositoryTagsKt.saveTagsForTemplate(repository, tags.stream().mapToLong(Tag::getId).boxed().toList(), originTemplateId);
     }
   }
 

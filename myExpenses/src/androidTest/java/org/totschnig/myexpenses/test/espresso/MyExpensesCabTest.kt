@@ -32,16 +32,26 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
+import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.CATEGORY_ICON
+import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
+import org.totschnig.myexpenses.testutils.PARTY_NAME
+import org.totschnig.myexpenses.testutils.TAG_LABEL
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
@@ -53,15 +63,26 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     private lateinit var account: Account
     private var opId: Long = 0
+    private var partyId: Long = 0
+    private var tagId: Long = 0
+    private var categoryId: Long = 0
+
 
     private fun doLaunch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
         account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
+        partyId = repository.createParty(Party.create(name = PARTY_NAME)!!)!!.id
+        categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = FLAG_INCOME)
+        tagId = repository.writeTag(TAG_LABEL)
+
         opId = (1..initialOpCount).map { i ->
             val id = repository.insertTransaction(
                 accountId = account.id,
                 amount = -100L * i,
-                date = LocalDateTime.now().minusMinutes(i.toLong())
+                date = LocalDateTime.now().minusMinutes(i.toLong()),
+                payeeId = partyId,
+                categoryId =  categoryId,
             ).id
+            repository.saveTagsForTransaction(listOf(tagId), id)
             repository.addDebugAttachment(id)
             id
         }.first()
@@ -108,18 +129,21 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     @Test
     fun createTemplateCommandCreatesTemplate() {
         doLaunch()
-        val templateTitle = "Espresso Template Test"
         assertListSize(origListSize)
         clickContextItem(R.string.menu_create_template_from_transaction)
         onView(withId(R.id.Title)).perform(
             closeSoftKeyboard(),
-            typeText(templateTitle),
+            typeText(TEMPLATE_TITLE),
             closeSoftKeyboard()
         )
         closeKeyboardAndSave()
-        clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
-        onView(withText(Matchers.`is`(templateTitle)))
-            .check(matches(isDisplayed()))
+        assertTemplate(
+            expectedAccount = account.id,
+            expectedAmount = -100L,
+            expectedCategory = categoryId,
+            expectedParty = partyId,
+            expectedTags = listOf(TAG_LABEL),
+        )
     }
 
     @Test

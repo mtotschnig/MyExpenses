@@ -59,6 +59,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -167,7 +168,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
@@ -895,23 +895,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         String date = uri.getQueryParameter(KEY_DATE);
         String dateExpression = date != null ? "cast(strftime('%s', '" + date + "', 'localtime', 'start of day', '+1 day', '-1 second', 'utc') as integer)" : null;
         cte = amountCteForDebts(getHomeCurrency(), dateExpression);
-        //for the moment only one of queryParameters KEY_TRANSACTIONID, KEY_DATE can be used
-        String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
-        if (transactionId != null) {
-          additionalWhere.append("not exists(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_DEBT_ID + " IS NOT NULL AND " + KEY_PARENTID + " = ")
-                  .append(transactionId).append(")");
-        } else if (dateExpression != null) {
+        if (dateExpression != null) {
           additionalWhere.append(KEY_DATE).append(" <= ").append(dateExpression);
         }
         if (projection == null) {
-          projection = debtProjection(transactionId, true);
+          projection = debtProjection(true);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
         if (projection == null) {
-          projection = debtProjection(null, false);
+          projection = debtProjection(false);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
@@ -1020,14 +1015,25 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTIONS, UNCOMMITTED -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
+        String tagList = values.getAsString(KEY_TAGLIST);
+        values.remove(KEY_TAGLIST);
         if (!values.containsKey(KEY_UUID)) {
           throw new IllegalStateException("required value uuid is missing");
         }
-        id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
-        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
-        if (equivalentAmount != null) {
-          insertEquivalentAmount(db, id, equivalentAmount);
+        db.beginTransaction();
+        try {
+          id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
+          if (equivalentAmount != null) {
+            insertEquivalentAmount(db, id, equivalentAmount);
+          }
+          saveTransactionTags(db, id, tagList, true);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
         }
+
+        newUri = ContentUris.withAppendedId(TRANSACTIONS_URI, id);
+
       }
       case ACCOUNTS -> {
         Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
@@ -1044,7 +1050,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = ContentUris.withAppendedId(ACCOUNTTYPES_METHODS_URI, id);
       }
       case TEMPLATES -> {
-        id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
+        String tagList = values.getAsString(KEY_TAGLIST);
+        values.remove(KEY_TAGLIST);
+        db.beginTransaction();
+        try {
+          id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
+          saveTransactionTags(db, id, tagList, true, true);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
         newUri = ContentUris.withAppendedId(TEMPLATES_URI, id);
       }
       case PAYEES -> {
@@ -1411,11 +1426,21 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTION_ID, UNCOMMITTED_ID -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
-        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
-              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
-              whereArgs);
-        if (equivalentAmount != null) {
-          insertOrReplaceEquivalentAmount(db, Long.parseLong(lastPathSegment), equivalentAmount);
+        String tagList = values.getAsString(KEY_TAGLIST);
+        values.remove(KEY_TAGLIST);
+        db.beginTransaction();
+        try {
+          long id = Long.parseLong(lastPathSegment);
+          count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
+                  KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
+                  whereArgs);
+          if (equivalentAmount != null) {
+            insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
+          }
+          saveTransactionTags(db, id, tagList, true);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
         }
     }
       case TRANSACTION_UNDELETE -> {
@@ -1429,8 +1454,19 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TEMPLATES -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
-      case TEMPLATE_ID -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
-              KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
+      case TEMPLATE_ID -> {
+        String tagList = values.getAsString(KEY_TAGLIST);
+        values.remove(KEY_TAGLIST);
+        db.beginTransaction();
+        try {
+          count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
+                  KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
+          saveTransactionTags(db, Long.parseLong(lastPathSegment), tagList, true, true);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+      }
       case PAYEE_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_PAYEES, values,
                 KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);

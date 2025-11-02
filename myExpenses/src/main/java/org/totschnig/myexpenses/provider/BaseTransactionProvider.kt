@@ -164,6 +164,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -202,6 +203,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOU
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
@@ -363,10 +365,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     /**
      * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
      */
-    fun debtProjection(transactionId: String?, withSum: Boolean): Array<String> {
-        val exclusionClause = transactionId?.let {
-            "AND $KEY_ROWID != $it"
-        } ?: ""
+    fun debtProjection(withSum: Boolean): Array<String> {
 
         return listOfNotNull(
             "$TABLE_DEBTS.$KEY_ROWID",
@@ -379,8 +378,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_PAYEE_NAME,
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
-            if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID),0) AS $KEY_SUM" else null,
+            if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
@@ -1969,42 +1968,76 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun saveTransactionTags(db: SupportSQLiteDatabase, extras: Bundle) {
-        val transactionId = extras.getLong(KEY_TRANSACTIONID)
-        val tagIds = extras.getLongArray(KEY_TAGLIST)!!.toSet()
-        val selection = "$KEY_TRANSACTIONID = ?"
+    fun SupportSQLiteDatabase.saveTransactionTags(
+        transactionId: Long,
+        tagIds: Set<Long>,
+        replace: Boolean,
+        forTemplate: Boolean = false
+    ) {
+        val table = if (forTemplate) TABLE_TEMPLATES_TAGS else TABLE_TRANSACTIONS_TAGS
+        val column = if (forTemplate) KEY_TEMPLATEID else KEY_TRANSACTIONID
+        val selection = "$column = ?"
         val selectionArgs: Array<Any> = arrayOf(transactionId)
-        val currentTags = db.query(
-            TABLE_TRANSACTIONS_TAGS,
+        val currentTags = query(
+            table,
             arrayOf(KEY_TAGID),
             selection,
             selectionArgs
         ).useAndMapToSet { it.getLong(0) }
         val new = tagIds - currentTags
-        val deleted = if (extras.getBoolean(KEY_REPLACE, true)) currentTags - tagIds else emptySet()
+        val deleted = if (replace) currentTags - tagIds else emptySet()
         if (new.isNotEmpty() || deleted.isNotEmpty()) {
-            db.beginTransaction()
+            beginTransaction()
             try {
                 if (deleted.isNotEmpty()) {
-                    db.delete(
-                        TABLE_TRANSACTIONS_TAGS,
+                    delete(
+                        table,
                         "$selection AND $KEY_TAGID IN (${deleted.joinToString()})",
                         selectionArgs
                     )
                 }
                 if (new.isNotEmpty()) {
                     val values = ContentValues(2)
-                    values.put(KEY_TRANSACTIONID, transactionId)
+                    values.put(column, transactionId)
                     new.forEach {
                         values.put(KEY_TAGID, it)
-                        db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values)
+                        insert(table, CONFLICT_IGNORE, values)
                     }
                 }
-                db.setTransactionSuccessful()
+                setTransactionSuccessful()
             } finally {
-                db.endTransaction()
+                endTransaction()
             }
         }
+    }
+
+    fun SupportSQLiteDatabase.saveTransactionTags(extras: Bundle) {
+        saveTransactionTags(
+            extras.getLong(KEY_TRANSACTIONID),
+            extras.getLongArray(KEY_TAGLIST)!!.toSet(),
+            extras.getBoolean(KEY_REPLACE, true))
+    }
+
+    @JvmOverloads
+    fun SupportSQLiteDatabase.saveTransactionTags(
+        transactionId: Long,
+        tagList: String,
+        replace: Boolean,
+        forTemplate: Boolean = false
+    ) {
+        saveTransactionTags(
+            transactionId,
+            if (tagList.isEmpty()) {
+                emptySet()
+            } else {
+                tagList.split(Repository.RECORD_SEPARATOR)
+                    .filter { it.isNotEmpty() } // This prevents the crash
+                    .map { it.toLong() }
+                    .toSet()
+            },
+            replace,
+            forTemplate
+        )
     }
 
     fun mergeCategories(db: SupportSQLiteDatabase, extras: Bundle) {

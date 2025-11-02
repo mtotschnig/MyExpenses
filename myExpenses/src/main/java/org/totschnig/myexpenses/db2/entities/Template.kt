@@ -66,7 +66,9 @@ data class Template(
     val sealed: Boolean = false,
     val currency: String? = null,
     val payeeName: String? = null,
-    val transferAccountCurrency: String? = null
+    val transferAccountCurrency: String? = null,
+    /** the list of linked tag ids. not loaded from DB, but populated from TransactionEditData for storage*/
+    val tagList: List<Long> = emptyList(),
 )  {
 
     val isTransfer: Boolean = transferAccountId != null
@@ -88,6 +90,7 @@ data class Template(
         payeeId = payeeId,
         categoryPath = categoryPath,
         currency = currency,
+        payeeName = payeeName,
         uuid = generateUuid()
     )
 
@@ -100,9 +103,11 @@ data class Template(
                 comment = comment,
                 categoryId = categoryId,
                 payeeId = payeeId,
+                payeeName = payeeName,
                 methodId = methodId,
                 transferAccountId = transferAccountId,
                 currency = currency,
+                tagList = transaction.tagList,
                 uuid = generateUuid()
             )
         }

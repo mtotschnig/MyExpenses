@@ -217,9 +217,6 @@ abstract class TransactionDelegate(
     var planId: Long? = null
 
     @State
-    var originTemplateId: Long? = null
-
-    @State
     lateinit var uuid: String
 
     @State
@@ -256,7 +253,6 @@ abstract class TransactionDelegate(
             methodLabel = transaction.methodLabel
             planId = transaction.planId
             crStatus = transaction.crStatus
-            originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
             debtId = transaction.debtId
             //Setting this early instead of waiting for call to setAccounts
@@ -274,7 +270,6 @@ abstract class TransactionDelegate(
             }
         }
         viewBinding.toolbar.OperationType.isVisible = withTypeSpinner
-        originTemplateId?.let { host.loadOriginTemplate(it) }
 
         if (isMainTemplate) {
             viewBinding.TitleRow.visibility = View.VISIBLE
@@ -821,14 +816,13 @@ abstract class TransactionDelegate(
                 categoryId = this@TransactionDelegate.catId,
                 categoryPath = this@TransactionDelegate.label,
                 categoryIcon = this@TransactionDelegate.categoryIcon,
-                originTemplateId = this@TransactionDelegate.originTemplateId,
                 uuid = this@TransactionDelegate.uuid,
                 id = rowId,
                 comment = viewBinding.Comment.text.toString(),
                 date = date,
                 valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
                 crStatus = this@TransactionDelegate.crStatus,
-                parentId = parentId
+                parentId = parentId,
             ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {
@@ -1079,8 +1073,8 @@ abstract class TransactionDelegate(
         }
     }
 
-    fun originTemplateLoaded(template: TransactionEditData) {
-        template.templateEditData?.planEditData?.plan?.let { plan ->
+    fun originTemplateLoaded(template: TemplateEditData) {
+        template.planEditData?.plan?.let { plan ->
             setPlannerRowVisibility(true)
             recurrenceSpinner.spinner.visibility = View.GONE
             updatePlanButton(plan)
@@ -1088,7 +1082,7 @@ abstract class TransactionDelegate(
                 visibility = View.VISIBLE
                 setOnClickListener {
                     currentAccount()?.let {
-                        host.showPlanMonthFragment(template.templateEditData, it.color)
+                        host.showPlanMonthFragment(template, it.color)
                     }
                 }
             }

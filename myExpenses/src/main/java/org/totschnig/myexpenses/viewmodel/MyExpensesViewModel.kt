@@ -461,7 +461,6 @@ open class MyExpensesViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: Flow<Long> = balanceDate.flatMapLatest { date ->
         loadDebts(
-            null,
             date = date,
             showSealed = true,
             showZero = false,

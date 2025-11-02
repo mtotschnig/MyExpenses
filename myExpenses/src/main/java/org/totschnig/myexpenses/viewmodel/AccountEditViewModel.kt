@@ -32,7 +32,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
             }
             licenceHandler.updateNewAccountEnabled()
             updateTransferShortcut()
-            repository.saveActiveTagsForAccount(tagsLiveData.value, account.id)
+            repository.saveActiveTagsForAccount(tagsLiveData.value?.map { it.id }, account.id)
             val homeCurrency = currencyContext.homeCurrencyUnit
             if (account.currency != homeCurrency.code) {
                 repository.storeExchangeRate(

@@ -75,9 +75,11 @@ class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                expectedAccount = account1.id,
-                expectedAmount = -10100,
-                expectedAttachments = listOf(resultUri)
+                TransactionInfo(
+                accountId = account1.id,
+                amount = -10100,
+                attachments = listOf(resultUri)
+                )
             )
         }
     }

@@ -138,7 +138,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   @Override
   public void saveTags(@NonNull Repository repository, @NonNull List<Tag> tags) {
-    RepositoryTagsKt.saveTagsForTemplate(repository, tags, getId());
+    RepositoryTagsKt.saveTagsForTemplate(repository, tags.stream().mapToLong(Tag::getId).boxed().toList(), getId());
   }
 
   /**

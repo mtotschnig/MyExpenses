@@ -21,7 +21,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
-import com.google.common.truth.Truth.assertWithMessage
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
@@ -29,25 +28,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.loadAttachments
-import org.totschnig.myexpenses.db2.loadTagsForTemplate
-import org.totschnig.myexpenses.db2.loadTagsForTransaction
-import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
-import java.time.LocalDate
 
 const val TEMPLATE_TITLE = "Espresso template"
 const val ACCOUNT_LABEL_1 = "Test label 1"
@@ -56,7 +43,7 @@ const val PARTY_NAME = "John"
 const val DEBT_LABEL = "Schuld"
 const val CATEGORY_LABEL = "Grocery"
 const val CATEGORY_ICON = "apple-whole"
-
+const val TAG_LABEL = "Wichtig"
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
@@ -64,9 +51,10 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     suspend fun load() = repository.loadTransactions(account1.id)
 
 
-    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent = getIntentForNewTransaction().apply {
-        putExtra(Transactions.OPERATION_TYPE, type)
-    }
+    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent =
+        getIntentForNewTransaction().apply {
+            putExtra(Transactions.OPERATION_TYPE, type)
+        }
 
     fun getIntentForNewTransaction(accountId: Long = account1.id) = intent.apply {
         putExtra(KEY_ACCOUNTID, accountId)
@@ -138,79 +126,24 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         closeSoftKeyboard()
     }
 
-    protected fun assertTemplate(
-        expectedAccount: Long,
-        expectedAmount: Long,
-        templateTitle: String = TEMPLATE_TITLE,
-        expectedTags: List<String> = emptyList(),
-        expectedSplitParts: List<Long>? = null,
-        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE,
-        checkPlanInstance: Boolean = false
-    ): RepositoryTemplate {
-        val templateId = contentResolver.query(
-            TEMPLATES_URI,
-            arrayOf(KEY_ROWID),
-            "$KEY_TITLE = ?",
-            arrayOf(templateTitle),
-            null
-        )!!.use {
-            assertWithMessage("No template with title $templateTitle").that(it.moveToFirst())
-                .isTrue()
-            it.getLong(0)
-        }
-        val template = repository.loadTemplate(templateId)!!
-        val tags = repository.loadTagsForTemplate(templateId)
-        with(template.data) {
-            assertThat(amount).isEqualTo(expectedAmount)
-            assertThat(title).isEqualTo(templateTitle)
-            assertThat(accountId).isEqualTo(expectedAccount)
-        }
-        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
-
-        if (expectedSplitParts == null) {
-            assertThat(template.splitParts).isNull()
-        } else {
-            assertThat(template.splitParts!!.map { it.data.amount })
-                .containsExactlyElementsIn(expectedSplitParts)
-        }
-
-        if (expectedPlanRecurrence != Plan.Recurrence.NONE) {
-            assertThat(template.plan!!.id).isGreaterThan(0)
-            if (expectedPlanRecurrence != Plan.Recurrence.CUSTOM) {
-                val today = LocalDate.now()
-                assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
-            }
-        } else {
-            assertThat(template.plan).isNull()
-        }
-        if (checkPlanInstance) {
-            contentResolver.query(
-                TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
-                    template.id,
-                    CalendarProviderProxy.calculateId(template.plan!!.dtStart)
-                ),
-                null, null, null, null
-            ).useAndAssert {
-                hasCount(1)
-                movesToFirst()
-                hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
-            }
-        }
-        return template
-    }
+    data class TransactionInfo(
+        val accountId: Long,
+        val amount: Long,
+        val category: Long? = null,
+        val tags: List<Long> = emptyList(),
+        val splitParts: List<TransactionInfo>? = null,
+        val attachments: List<Uri> = emptyList(),
+        val debtId: Long? = null
+    )
 
     protected fun assertTransaction(
         id: Long,
-        expectedAccount: Long,
-        expectedAmount: Long,
-        expectedCategory: Long? = null,
-        expectedTags: List<String> = emptyList(),
-        expectedSplitParts: List<Long>? = null,
-        expectedAttachments: List<Uri> = emptyList()
+        expectedTransaction: TransactionInfo
     ) {
+        val (expectedAccount, expectedAmount, expectedCategory, expectedTags, expectedSplitParts, expectedAttachments) =
+            expectedTransaction
 
         val transaction = repository.loadTransaction(id)
-        val tags = repository.loadTagsForTransaction(id)
         val attachments = repository.loadAttachments(id)
 
         with(transaction.data) {
@@ -220,14 +153,25 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                 assertThat(categoryId).isEqualTo(expectedCategory)
             }
         }
-        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+        assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
         assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
 
         if (expectedSplitParts == null) {
             assertThat(transaction.splitParts).isNull()
         } else {
-            assertThat(transaction.splitParts!!.map { it.data.amount })
-                .containsExactlyElementsIn(expectedSplitParts)
+            assertThat(transaction.splitParts).isNotNull()
+            assertThat(transaction.splitParts!!.size).isEqualTo(expectedSplitParts.size)
+            // 2. Map the actual split parts into the same data structure as the expected parts.
+            val actualSplitPartsAsInfo = transaction.splitParts.map { actualPart ->
+                TransactionInfo(
+                    accountId = actualPart.data.accountId,
+                    amount = actualPart.data.amount,
+                    category = actualPart.data.categoryId,
+                    tags = actualPart.data.tagList,
+                    debtId = actualPart.data.debtId
+                )
+            }
+            assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
         }
     }
 

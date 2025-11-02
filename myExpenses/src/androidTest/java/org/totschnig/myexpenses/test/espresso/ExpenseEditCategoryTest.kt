@@ -42,9 +42,11 @@ class ExpenseEditCategoryTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                expectedAccount = account1.id,
-                expectedAmount = -10100,
-                expectedCategory = categoryId
+                TransactionInfo(
+                    accountId = account1.id,
+                    amount = -10100,
+                    category = categoryId
+                )
             )
         }
     }

@@ -5,6 +5,7 @@ import androidx.core.database.getDoubleOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import java.time.LocalDate
@@ -93,12 +94,12 @@ inline fun <reified T : Enum<T>> Cursor.getEnumOrNull(columnIndex: Int) =
 /**
  * Splits the value of column by ASCII UnitSeparator char
  */
-fun Cursor.splitStringList(colum: String) = getString(colum)
-    .takeIf { it.isNotEmpty() }
-    ?.split('')
+fun Cursor.splitStringList(colum: String) = getStringIfExists(colum)
+    ?.takeIf { it.isNotEmpty() }
+    ?.split(RECORD_SEPARATOR)
     ?: emptyList()
 
-fun Cursor.getLocalDate(columnIndex: Int) = LocalDate.parse(getString(columnIndex))
-fun Cursor.getLocalDate(column: String) = getLocalDate(getColumnIndexOrThrow(column))
+fun Cursor.getLocalDate(columnIndex: Int): LocalDate = LocalDate.parse(getString(columnIndex))
+fun Cursor.getLocalDate(column: String): LocalDate = getLocalDate(getColumnIndexOrThrow(column))
 fun Cursor.getLocalDateIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLocalDate(it) }

@@ -80,7 +80,6 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
             Triple(showAll, sortOrder, sortDirection)
         }.flatMapLatest { (showAll, sortOrder, sortDirection) ->
             loadDebts(
-                null,
                 showSealed = showAll,
                 showZero = showAll,
                 sortOrder = sortOrder.toOrderBy(collate, sortDirection == SortDirection.DESC)

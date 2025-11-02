@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.contentValuesOf
+import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.db2.entities.Transaction
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -54,6 +56,7 @@ import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.time.LocalDate
 import kotlin.math.roundToLong
 
@@ -81,13 +84,15 @@ fun Template.asContentValues(forInsert: Boolean): ContentValues {
             require(uuid.isNotBlank())
             put(KEY_UUID, uuid)
         }
+        put(KEY_TAGLIST, tagList.joinToString("$RECORD_SEPARATOR"))
     }
 }
 
 data class RepositoryTemplate(
     val data: Template,
     val splitParts: List<RepositoryTemplate>? = null,
-    val plan: Plan? = null
+    val plan: Plan? = null,
+    val tags: List<Tag>? = null
 ) {
     val id = data.id
     val title = data.title
@@ -129,7 +134,8 @@ data class RepositoryTemplate(
                     uuid = generateUuid()
                 )
             } else null,
-            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler) }
+            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler) },
+            tags = tags
         )
     }
 
@@ -141,7 +147,8 @@ data class RepositoryTemplate(
             data = Template.deriveFrom(t.data, title),
             splitParts = t.splitParts?.map {
                 RepositoryTemplate(Template.deriveFrom(it.data, ""))
-            }
+            },
+            tags = t.tags
         )
     }
 }
@@ -198,10 +205,11 @@ fun Repository.loadTemplateForPlanIfInstanceIsOpen(planId: Long, instanceId: Lon
     )
 
 fun Repository.loadTemplate(
-    id: Long,
+    templateId: Long,
     selection: String? = "$KEY_ROWID = ?",
-    selectionArgs: Array<String>? = arrayOf(id.toString()),
-    require: Boolean = true
+    selectionArgs: Array<String>? = arrayOf(templateId.toString()),
+    require: Boolean = true,
+    withTags: Boolean = false,
 ) = contentResolver.query(
     TEMPLATES_URI,
     null,
@@ -216,7 +224,8 @@ fun Repository.loadTemplate(
                 splitParts = if (template.isSplit)
                     loadSplitParts(template.id).map { RepositoryTemplate(it) }
                 else null,
-                plan = template.planId?.let { Plan.getInstanceFromDb(contentResolver, it) }
+                plan = template.planId?.let { Plan.getInstanceFromDb(contentResolver, it) },
+                tags = if (withTags) loadTagsForTemplate(templateId) else null
             )
         }
 
@@ -438,7 +447,7 @@ suspend fun Repository.instantiateTemplate(
             } else transaction
         }
     )
-    saveTagsForTransaction(loadTagsForTemplate(planInstanceInfo.templateId), t.id)
+    saveTagsForTransaction(loadTagsForTemplate(planInstanceInfo.templateId).map { it.id }, t.id)
     if (planInstanceInfo.instanceId != null) {
         linkTemplateWithTransaction(planInstanceInfo.templateId, t.id, planInstanceInfo.instanceId)
     }

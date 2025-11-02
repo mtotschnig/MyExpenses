@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.graphics.Color
-import android.widget.Button
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -52,13 +51,15 @@ import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withAccountGrouped
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
 import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.db2.writeTag
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.withCategoryIcon
 import org.totschnig.myexpenses.testutils.withViewCount
 
@@ -70,6 +71,8 @@ class SplitEditTest : BaseExpenseEditTest() {
     private var debtId: Long = 0
 
     private var categoryId: Long = 0
+
+    private var tagId: Long = 0
 
     companion object {
         @BeforeClass
@@ -234,7 +237,12 @@ class SplitEditTest : BaseExpenseEditTest() {
         setTitle()
         clickFab()
         assertFinishing()
-        assertTemplate(account1.id, -10000, expectedSplitParts = listOf(-5000, -5000))
+        assertTemplate(
+            account1.id,
+            -10000,
+            expectedSplitParts = listOf(-5000, -5000),
+            expectedCategory = DatabaseConstants.SPLIT_CATID
+        )
     }
 
     /*
@@ -272,16 +280,30 @@ class SplitEditTest : BaseExpenseEditTest() {
             launchWithAccountSetup()
             verifyTypeToggle(false)
             setupData()
-            createParts(partCount, amount = partAmount, withDebtAndCategory = true)
+            createParts(partCount, amount = partAmount, extended = true)
             verifyTypeToggle(true)
             verifyTypeToggle(false)
             clickFab()
             assertFinishing()
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                expectedAccount = account1.id,
-                expectedAmount = partCount * partAmount * 100L,
-                expectedSplitParts = buildList { repeat(partCount) { add(partAmount * 100L) } }
+                TransactionInfo(
+                    accountId = account1.id,
+                    amount = partCount * partAmount * 100L,
+                    splitParts = buildList {
+                        repeat(partCount) {
+                            add(
+                                TransactionInfo(
+                                    accountId = account1.id,
+                                    amount = partAmount * 100L,
+                                    tags = listOf(tagId),
+                                    category = categoryId,
+                                    debtId = debtId
+                                )
+                            )
+                        }
+                    }
+                )
             )
         }
     }
@@ -318,6 +340,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             )
         )
         categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = FLAG_INCOME)
+        tagId = repository.writeTag(TAG_LABEL)
     }
 
     private fun createParts(
@@ -325,7 +348,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         amount: Int = 50,
         toggleType: Boolean = false,
         initialChildCount: Int = 0,
-        withDebtAndCategory: Boolean = false
+        extended: Boolean = false
     ) {
         repeat(times) {
             closeSoftKeyboard()
@@ -337,24 +360,25 @@ class SplitEditTest : BaseExpenseEditTest() {
                 toggleType()
             }
             setAmount(amount)
-            if (withDebtAndCategory) {
+            if (extended) {
                 setDebt()
                 setCategory()
+                onView(withId(R.id.TagSelection)).perform(click())
+                onView(withText(TAG_LABEL)).perform(click()) //select
+                clickFab() //confirm tag selection
             }
             clickFab()//save part
             checkPartCount(initialChildCount + it + 1)
-            if (withDebtAndCategory) {
+            if (extended) {
                 onView(withId(R.id.list)).check(
                     withViewCount(
                         allOf(
                             isAssignableFrom(LinearLayout::class.java),
                             hasDescendant(
                                 allOf(
-
                                     withSubstring(DEBT_LABEL),
-                                    withSubstring(CATEGORY_LABEL)
-
-
+                                    withSubstring(CATEGORY_LABEL),
+                                    withSubstring(TAG_LABEL)
                                 )
                             ),
                             hasDescendant(
@@ -392,9 +416,20 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
         assertTransaction(
             id = id,
-            expectedAccount = account1.id,
-            expectedAmount = 20000,
-            expectedSplitParts = listOf(15000, 5000)
+            TransactionInfo(
+                accountId = account1.id,
+                amount = 20000,
+                splitParts = listOf(
+                    TransactionInfo(
+                        accountId = account1.id,
+                        amount = 15000
+                    ),
+                    TransactionInfo(
+                        accountId = account1.id,
+                        amount = 5000
+                    )
+                )
+            )
         )
     }
 
@@ -420,9 +455,20 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
         assertTransaction(
             id = id,
-            expectedAccount = account1.id,
-            expectedAmount = 20000,
-            expectedSplitParts = listOf(15000, 5000)
+            TransactionInfo(
+                accountId = account1.id,
+                amount = 20000,
+                splitParts = listOf(
+                    TransactionInfo(
+                        accountId = account1.id,
+                        amount = 15000
+                    ),
+                    TransactionInfo(
+                        accountId = account1.id,
+                        amount = 5000
+                    )
+                )
+            )
         )
     }
 
@@ -460,6 +506,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertTemplate(
             expectedAccount = account1.id,
             expectedAmount = 20000,
+            expectedCategory = DatabaseConstants.SPLIT_CATID,
             expectedSplitParts = listOf(15000, 5000)
         )
     }
@@ -487,7 +534,8 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertTemplate(
             expectedAccount = account1.id,
             expectedAmount = 20000,
-            expectedSplitParts = listOf(15000, 5000)
+            expectedSplitParts = listOf(15000, 5000),
+            expectedCategory = DatabaseConstants.SPLIT_CATID
         )
     }
 

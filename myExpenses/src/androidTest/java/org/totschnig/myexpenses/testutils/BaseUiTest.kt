@@ -35,6 +35,7 @@ import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers.not
 import org.junit.Assume
@@ -45,12 +46,15 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
@@ -58,16 +62,23 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import java.time.LocalDate
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
 
@@ -340,5 +351,70 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         onView(withId(R.id.Account)).perform(scrollTo(), click())
         onData(withAccountGrouped(label))
             .perform(click())
+    }
+
+    protected fun assertTemplate(
+        expectedAccount: Long,
+        expectedAmount: Long,
+        templateTitle: String = TEMPLATE_TITLE,
+        expectedTags: List<String> = emptyList(),
+        expectedSplitParts: List<Long>? = null,
+        expectedCategory: Long? = null,
+        expectedParty: Long? = null,
+        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE,
+        checkPlanInstance: Boolean = false
+    ): RepositoryTemplate {
+        val templateId = contentResolver.query(
+            TEMPLATES_URI,
+            arrayOf(KEY_ROWID),
+            "$KEY_TITLE = ?",
+            arrayOf(templateTitle),
+            null
+        )!!.use {
+            assertWithMessage("No template with title $templateTitle").that(it.moveToFirst())
+                .isTrue()
+            it.getLong(0)
+        }
+        val template = repository.loadTemplate(templateId)!!
+        val tags = repository.loadTagsForTemplate(templateId)
+        with(template.data) {
+            assertThat(amount).isEqualTo(expectedAmount)
+            assertThat(title).isEqualTo(templateTitle)
+            assertThat(accountId).isEqualTo(expectedAccount)
+            assertThat(categoryId).isEqualTo(expectedCategory)
+            assertThat(payeeId).isEqualTo(expectedParty)
+        }
+        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+
+        if (expectedSplitParts == null) {
+            assertThat(template.splitParts).isNull()
+        } else {
+            assertThat(template.splitParts!!.map { it.data.amount })
+                .containsExactlyElementsIn(expectedSplitParts)
+        }
+
+        if (expectedPlanRecurrence != Plan.Recurrence.NONE) {
+            assertThat(template.plan!!.id).isGreaterThan(0)
+            if (expectedPlanRecurrence != Plan.Recurrence.CUSTOM) {
+                val today = LocalDate.now()
+                assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
+            }
+        } else {
+            assertThat(template.plan).isNull()
+        }
+        if (checkPlanInstance) {
+            contentResolver.query(
+                TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                    template.id,
+                    CalendarProviderProxy.calculateId(template.plan!!.dtStart)
+                ),
+                null, null, null, null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
+            }
+        }
+        return template
     }
 }

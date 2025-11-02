@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CTE_TABLE_NAME_FULL_ACCOUNTS
@@ -707,7 +708,7 @@ with data as
        exists(select 1 from data where $KEY_TAGID is not null) AS $KEY_MAPPED_TAGS
 """.trimIndent()
 
-const val TAG_LIST_EXPRESSION = "group_concat($KEY_TAGID,'') AS $KEY_TAGLIST"
+const val TAG_LIST_EXPRESSION = "group_concat($KEY_TAGID,'$RECORD_SEPARATOR') AS $KEY_TAGLIST"
 
 fun tagJoin(mainTable: String): String {
     val (joinTable, referenceColumn) = when (mainTable) {

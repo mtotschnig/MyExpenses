@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.os.BundleCompat
+import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -62,9 +64,9 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.time.LocalDate
 import java.time.LocalDateTime
-
 
 fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
     put(KEY_COMMENT, comment)
@@ -87,12 +89,14 @@ fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
         require(uuid.isNotBlank())
         put(KEY_UUID, uuid)
     }
+    put(KEY_TAGLIST, tagList.joinToString("$RECORD_SEPARATOR"))
 }
 
 data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,
-    val splitParts: List<RepositoryTransaction>? = null
+    val splitParts: List<RepositoryTransaction>? = null,
+    val tags: List<Tag>? = null
 ) {
     val id = data.id
     val isTransfer = transferPeer != null
@@ -412,7 +416,11 @@ fun Repository.updateSplitTransaction(
     }.all { it }
 }
 
-suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): List<Transaction> {
+suspend fun Repository.loadTransactions(
+    accountId: Long,
+    limit: Int? = 200,
+    withTags: Boolean = false
+): List<Transaction> {
     val filter = FilterPersistence(
         dataStore = dataStore,
         prefKey = MyExpensesViewModel.prefNameForCriteria(accountId),
@@ -424,7 +432,7 @@ suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): Lis
         DataBaseAccount.uriForTransactionList(true).let {
             if (limit != null) it.withLimit(limit) else it
         },
-        Transaction.projection,
+        Transaction.projection.let { if (withTags) it + KEY_TAGLIST else it },
         "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
             filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
         }",
@@ -436,7 +444,8 @@ suspend fun Repository.loadTransactions(accountId: Long, limit: Int? = 200): Lis
 
 fun Repository.loadTransaction(
     transactionId: Long,
-    withTransfer: Boolean = true
+    withTransfer: Boolean = true,
+    withTags: Boolean = false,
 ): RepositoryTransaction = contentResolver.query(
     ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
     Transaction.projection,
@@ -457,9 +466,11 @@ fun Repository.loadTransaction(
                     transferPeer = if (withTransfer && split.transferPeerId != null) loadTransaction(
                         split.transferPeerId,
                         false
-                    ).data else null
+                    ).data else null,
+                    tags = if (withTags) loadTagsForTransaction(split.id) else null
                 )
-            } else null
+            } else null,
+            tags = if (withTags) loadTagsForTransaction(transactionId) else null
         )
     } else
         throw IllegalArgumentException("Transaction not found")
