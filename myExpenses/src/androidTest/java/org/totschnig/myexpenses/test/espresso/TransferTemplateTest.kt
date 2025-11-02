@@ -88,21 +88,21 @@ class TransferTemplateTest : BaseExpenseEditTest() {
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE, 3000) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(account1.id, -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT, 3000) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(account1.id, -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertTemplate(account1.id, 0)
+            assertTemplate(account1.id, 0, expectedCategory = transferCategoryId)
         }
     }
 

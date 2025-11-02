@@ -429,15 +429,12 @@ suspend fun Repository.loadTransactions(
     }
     //noinspection Recycle
     return contentResolver.query(
-        DataBaseAccount.uriForTransactionList(true).let {
-            if (limit != null) it.withLimit(limit) else it
-        },
+        uriBuilderForTransactionList(accountId = accountId, currency = null)
+            .build()
+            .let { if (limit != null) it.withLimit(limit) else it },
         Transaction.projection.let { if (withTags) it + KEY_TAGLIST else it },
-        "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
-            filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
-        }",
-        filter?.let { arrayOf(accountId.toString(), *it.second) }
-            ?: arrayOf(accountId.toString()),
+        "$KEY_PARENTID IS NULL" + (filter?.first?.takeIf { it != "" }?.let { " AND $it" } ?: ""),
+        filter?.second,
         null
     )!!.useAndMapToList { cursor -> Transaction.fromCursor(cursor) }
 }

@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
+import org.totschnig.myexpenses.testutils.TransactionInfo
 
 private const val TAG_LABEL_2 = "Unwichtig"
 

@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.TAG_LABEL
+import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.withCategoryIcon
 import org.totschnig.myexpenses.testutils.withViewCount
 
@@ -290,6 +291,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 TransactionInfo(
                     accountId = account1.id,
                     amount = partCount * partAmount * 100L,
+                    category = DatabaseConstants.SPLIT_CATID,
                     splitParts = buildList {
                         repeat(partCount) {
                             add(
@@ -419,6 +421,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             TransactionInfo(
                 accountId = account1.id,
                 amount = 20000,
+                category = DatabaseConstants.SPLIT_CATID,
                 splitParts = listOf(
                     TransactionInfo(
                         accountId = account1.id,
@@ -458,6 +461,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             TransactionInfo(
                 accountId = account1.id,
                 amount = 20000,
+                category = DatabaseConstants.SPLIT_CATID,
                 splitParts = listOf(
                     TransactionInfo(
                         accountId = account1.id,

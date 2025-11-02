@@ -270,7 +270,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     if (plan != null) {
                         repository.linkTemplateWithTransaction(
                             template.id,
-                            transaction.id,
+                            saved.id,
                             CalendarProviderProxy.calculateId(plan.dtStart)
                         )
                     }

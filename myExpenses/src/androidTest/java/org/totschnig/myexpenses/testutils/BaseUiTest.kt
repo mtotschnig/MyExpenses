@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
@@ -53,6 +54,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -81,6 +83,17 @@ import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDate
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
+
+data class TransactionInfo(
+    val accountId: Long,
+    val amount: Long,
+    val category: Long? = null,
+    val party: Long? = null,
+    val tags: List<Long> = emptyList(),
+    val splitParts: List<TransactionInfo>? = null,
+    val attachments: List<Uri> = emptyList(),
+    val debtId: Long? = null
+)
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
@@ -351,6 +364,44 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         onView(withId(R.id.Account)).perform(scrollTo(), click())
         onData(withAccountGrouped(label))
             .perform(click())
+    }
+
+    protected fun assertTransaction(
+        id: Long,
+        expectedTransaction: TransactionInfo
+    ) {
+        val (expectedAccount, expectedAmount, expectedCategory, expectedParty, expectedTags, expectedSplitParts, expectedAttachments) =
+            expectedTransaction
+
+        val transaction = repository.loadTransaction(id)
+        val attachments = repository.loadAttachments(id)
+
+        with(transaction.data) {
+            assertThat(amount).isEqualTo(expectedAmount)
+            assertThat(accountId).isEqualTo(expectedAccount)
+            assertThat(categoryId).isEqualTo(expectedCategory)
+            assertThat(payeeId).isEqualTo(expectedParty)
+        }
+        assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
+        assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
+
+        if (expectedSplitParts == null) {
+            assertThat(transaction.splitParts).isNull()
+        } else {
+            assertThat(transaction.splitParts).isNotNull()
+            assertThat(transaction.splitParts!!.size).isEqualTo(expectedSplitParts.size)
+            // 2. Map the actual split parts into the same data structure as the expected parts.
+            val actualSplitPartsAsInfo = transaction.splitParts.map { actualPart ->
+                TransactionInfo(
+                    accountId = actualPart.data.accountId,
+                    amount = actualPart.data.amount,
+                    category = actualPart.data.categoryId,
+                    tags = actualPart.data.tagList,
+                    debtId = actualPart.data.debtId
+                )
+            }
+            assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
+        }
     }
 
     protected fun assertTemplate(

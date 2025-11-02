@@ -102,7 +102,7 @@ open class TransactionPagingSource(
             //we must take care to load only the missing items before the offset
             val loadSize = if (position < 0) params.loadSize + position else params.loadSize
             Timber.i("Requesting data for account %d at position %d", account.id, position)
-            var selection = "$KEY_PARENTID is null"
+            var selection = "$KEY_PARENTID IS NULL"
             var selectionArgs: Array<String>? = null
             whereFilter.value?.let { filter ->
                 val selectionForParents = filter.getSelectionForParents()

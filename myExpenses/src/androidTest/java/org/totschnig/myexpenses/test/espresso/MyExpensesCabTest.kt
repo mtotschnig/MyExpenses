@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
@@ -23,7 +22,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
-import org.hamcrest.Matchers
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assume
 import org.junit.BeforeClass
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.ContribFeature
@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.testutils.PARTY_NAME
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard3
+import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
@@ -80,7 +81,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 amount = -100L * i,
                 date = LocalDateTime.now().minusMinutes(i.toLong()),
                 payeeId = partyId,
-                categoryId =  categoryId,
+                categoryId = categoryId,
             ).id
             repository.saveTagsForTransaction(listOf(tagId), id)
             repository.addDebugAttachment(id)
@@ -227,13 +228,34 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     }
 
     private fun doSplitCommandTest() {
-        openCab(R.id.SPLIT_TRANSACTION_COMMAND)
-        handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
-        onView(withText(R.string.menu_split_transaction))
-            .perform(click())
-        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
-            .assertTextContains(getString(R.string.split_transaction))
+        runTest {
+            openCab(R.id.SELECT_ALL_COMMAND)
+            clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true)
+            handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
+            onView(withText(R.string.menu_split_transaction))
+                .perform(click())
+            assertTransaction(
+                repository.loadTransactions(account.id).first().id,
+                TransactionInfo(
+                    accountId = account.id,
+                    amount = -2100L,
+                    category = DatabaseConstants.SPLIT_CATID,
+                    party = partyId,
+                    splitParts = buildList {
+                        repeat(6) {
+                            add(TransactionInfo(
+                                account.id,
+                                -100L*(it+1),
+                                categoryId,
+                                tags = listOf(tagId)
+                            ))
+                        }
+                    }
+                )
+            )
+        }
     }
+
 
     @Test
     fun cabIsRestoredAfterOrientationChange() {
@@ -252,8 +274,10 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         }
         openCab(null)
         onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(doesNotExist())
-        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(0).assert(hasText(getString(R.string.details)))
-        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(1).assert(hasText(getString(R.string.filter)))
+        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(0)
+            .assert(hasText(getString(R.string.details)))
+        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(1)
+            .assert(hasText(getString(R.string.filter)))
     }
 
     @Test

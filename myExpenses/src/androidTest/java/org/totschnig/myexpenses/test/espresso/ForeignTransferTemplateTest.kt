@@ -90,35 +90,35 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(expectedAccount = account1.id, expectedAmount = -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(expectedAccount = account1.id, expectedAmount = -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountSave() {
         runTheTest(Action.SAVE, R.id.TransferAmount) {
-            assertTemplate(account2.id, 300000)
+            assertTemplate(expectedAccount = account2.id, expectedAmount = 300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountEdit() {
         runTheTest(Action.EDIT, R.id.TransferAmount) {
-            assertTemplate(account2.id, 300000)
+            assertTemplate(expectedAccount = account2.id, expectedAmount = 300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertTemplate(account1.id, 0)
+            assertTemplate(expectedAccount = account1.id, expectedAmount = 0, expectedCategory = transferCategoryId)
         }
     }
 

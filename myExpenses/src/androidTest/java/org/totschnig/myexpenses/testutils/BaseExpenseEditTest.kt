@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
-import android.net.Uri
 import android.widget.Button
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -28,7 +27,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
@@ -47,6 +45,9 @@ const val TAG_LABEL = "Wichtig"
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
+
+    val transferCategoryId
+        get() = prefHandler.defaultTransferCategory
 
     suspend fun load() = repository.loadTransactions(account1.id)
 
@@ -124,55 +125,6 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         onView(withId(R.id.Title))
             .perform(replaceText(TEMPLATE_TITLE))
         closeSoftKeyboard()
-    }
-
-    data class TransactionInfo(
-        val accountId: Long,
-        val amount: Long,
-        val category: Long? = null,
-        val tags: List<Long> = emptyList(),
-        val splitParts: List<TransactionInfo>? = null,
-        val attachments: List<Uri> = emptyList(),
-        val debtId: Long? = null
-    )
-
-    protected fun assertTransaction(
-        id: Long,
-        expectedTransaction: TransactionInfo
-    ) {
-        val (expectedAccount, expectedAmount, expectedCategory, expectedTags, expectedSplitParts, expectedAttachments) =
-            expectedTransaction
-
-        val transaction = repository.loadTransaction(id)
-        val attachments = repository.loadAttachments(id)
-
-        with(transaction.data) {
-            assertThat(amount).isEqualTo(expectedAmount)
-            assertThat(accountId).isEqualTo(expectedAccount)
-            expectedCategory?.let {
-                assertThat(categoryId).isEqualTo(expectedCategory)
-            }
-        }
-        assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
-        assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
-
-        if (expectedSplitParts == null) {
-            assertThat(transaction.splitParts).isNull()
-        } else {
-            assertThat(transaction.splitParts).isNotNull()
-            assertThat(transaction.splitParts!!.size).isEqualTo(expectedSplitParts.size)
-            // 2. Map the actual split parts into the same data structure as the expected parts.
-            val actualSplitPartsAsInfo = transaction.splitParts.map { actualPart ->
-                TransactionInfo(
-                    accountId = actualPart.data.accountId,
-                    amount = actualPart.data.amount,
-                    category = actualPart.data.categoryId,
-                    tags = actualPart.data.tagList,
-                    debtId = actualPart.data.debtId
-                )
-            }
-            assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
-        }
     }
 
     protected fun assertTransfer(
