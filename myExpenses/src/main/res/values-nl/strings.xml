@@ -506,7 +506,7 @@
         <item quantity="one">Eén oud back-upbestand is schoongemaakt.</item>
         <item quantity="other">%d oude back-upbestanden werden schoongemaakt.</item>
     </plurals>
-    <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {rekening}.</string>
+    <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {account}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
     <string name="budget_table_header_rollover">Omrollen</string>
     <string name="redesign">Herontwerp</string>

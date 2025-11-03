@@ -859,7 +859,7 @@
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Afișați promptul de confirmare înainte ca fișierele să fie curățate</string>
     <string name="pref_csv_export_split_amount_summary">Utilizați coloane separate pentru venituri și cheltuieli</string>
-    <string name="webui_warning_move_transaction">Tranzacția va fi mutată în cont {cont}.</string>
+    <string name="webui_warning_move_transaction">Tranzacția va fi mutată în cont {account}.</string>
     <string name="pref_csv_export_split_date_time_summary">Utilizați coloane separate pentru dată și oră</string>
     <string name="budget_only_current_period">Set numai pentru %s</string>
     <string name="budget_table_header_rollover">Rollover</string>

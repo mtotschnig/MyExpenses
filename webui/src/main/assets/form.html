@@ -186,7 +186,7 @@
                                 </template>
                             </select>
                             <input class="h-8 border py-2 px-3  align-middle"
-                                   x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
+                                   x-show="method != null && data.methods.find(item => item.id == method).isNumbered"
                                    :placeholder="messages.reference_number"
                                    name="number" id="number" x-model="number">
                         </div>

@@ -52,7 +52,8 @@ data class TransactionDTO(
         methodId = method,
         crStatus = CrStatus.UNRECONCILED,
         referenceNumber = number,
-        uuid = ""
+        uuid = "",
+        tagList = tags
     )
 
     companion object {

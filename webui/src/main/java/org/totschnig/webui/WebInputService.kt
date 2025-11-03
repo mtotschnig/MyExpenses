@@ -61,7 +61,6 @@ import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.db2.observePayeeMap
 import org.totschnig.myexpenses.db2.observeTagMap
-import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.di.LocalDateAdapter
 import org.totschnig.myexpenses.di.LocalTimeAdapter
@@ -73,6 +72,7 @@ import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
@@ -532,7 +532,6 @@ class WebInputService : LifecycleService(), IWebInputService {
             val updated = repository.updateTransaction(
                 transaction.toEntity(repository.getCurrencyUnitForAccount(transaction.account)!!)
             )
-            repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
             if (updated) {
                 call.respond(
                     HttpStatusCode.OK,
@@ -551,9 +550,10 @@ class WebInputService : LifecycleService(), IWebInputService {
             val id = repository.createTransaction(
                 transaction.toEntity(
                     repository.getCurrencyUnitForAccount(transaction.account)!!
+                ).copy(
+                    uuid = Model.generateUuid()
                 )
             ).id
-            repository.saveTagsForTransaction(transaction.tags.toLongArray(), id)
             call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
             call.respond(
                 HttpStatusCode.Created,

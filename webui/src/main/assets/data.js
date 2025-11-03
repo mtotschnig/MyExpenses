@@ -17,13 +17,13 @@ document.addEventListener('alpine:init', () => {
         date: dateFormatted,
         valueDate: dateFormatted,
         time: formatTime(date),
-        party: 0,
+        party: null,
         account: 0,
         comment: '',
         categoryTreeDepth: categoryTreeDepth,
         categoryPath:  Array.from(Array(categoryTreeDepth), () => { return { id: 0 }; }),
         selectedTags: [],
-        method: 0,
+        method: null,
         number: '',
         resultText: '',
         resultCode: 0,
@@ -54,6 +54,7 @@ document.addEventListener('alpine:init', () => {
         },
         submitForm() {
             let data = {
+                id: this.id,
                 account: this.account,
                 amount: this.signum ? this.amount : -this.amount,
                 date: this.date,
@@ -107,11 +108,11 @@ document.addEventListener('alpine:init', () => {
                 this.date = dateFormatted;
                 this.valueDate = dateFormatted;
                 this.time = formatTime(now);
-                this.party = 0;
+                this.party = null;
                 this.comment = '';
                 this.resetCategory();
                 this.selectedTags = [];
-                this.method = 0;
+                this.method = null;
                 this.number = '';
                 this.resultText = '';
                 this.resultCode = 0;
@@ -238,6 +239,9 @@ document.addEventListener('alpine:init', () => {
              this.resultText = error.message
         },
         isEditable(transaction) {
+            if (!transaction) {
+                return false;
+            }
             return transaction.category != 0 && transaction.transferPeer == undefined
         },
         init() {
