@@ -56,7 +56,7 @@ data class Template(
     val planId: Long? = null,
     val planExecutionAutomatic: Boolean = false,
     val planExecutionAdvance: Int = 0,
-    val defaultAction: Action = Action.EDIT,
+    val defaultAction: Action = Action.SAVE,
     val originalAmount: Long? = null,
     val originalCurrency: String? = null,
     val debtId: Long? = null,

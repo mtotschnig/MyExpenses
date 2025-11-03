@@ -511,17 +511,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         extras: Bundle?,
     ): TransactionEditData? = withContext(context = coroutineContext()) {
 
-/*        when (task) {
-            InstantiationTask.TRANSACTION, InstantiationTask.TEMPLATE_FROM_TRANSACTION ->
-                //TODO check TEMPLATE_FROM_TRANSACTION case
-                //repository.loadTagsForTransaction(rowId)
-
-            InstantiationTask.TEMPLATE, InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
-                repository.loadTagsForTemplate(rowId)
-
-            else -> null
-        }?.let { tagsLiveData.postValue(it) }*/
-
         if (task == InstantiationTask.TRANSACTION) {
             val uriList = repository.loadAttachments(rowId)
             //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
