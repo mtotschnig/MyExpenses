@@ -168,7 +168,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         doWithRotation {
             onIdle()
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+            checkToolbarTitle(R.string.menu_edit_transaction)
         }
     }
 }

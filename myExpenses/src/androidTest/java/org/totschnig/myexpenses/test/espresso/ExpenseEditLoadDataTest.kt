@@ -113,7 +113,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateWithTransactionAndPrepareForm() {
         load(transaction.id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+            checkToolbarTitle(R.string.menu_edit_transaction)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
                 R.id.PayeeRow, R.id.AccountRow
@@ -227,7 +227,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     private fun testTransfer(loadFromPeer: Boolean) {
         load((if (loadFromPeer) transfer.transferPeer!! else transfer.data).id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
+            checkToolbarTitle(R.string.menu_edit_transfer)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
@@ -285,7 +285,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            toolbarTitle().check(matches(withText(R.string.menu_create_transfer)))
+            checkToolbarTitle(R.string.menu_create_transfer)
             checkAmount(6)
             checkTransferDirection(loadFromPeer)
         }
@@ -333,7 +333,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         load(splitTransaction.id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
+            checkToolbarTitle(R.string.menu_edit_split)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
@@ -350,7 +350,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isTrue()
             }
-            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
+            checkToolbarTitle(R.string.menu_edit_template)
             checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
             onView(withId(R.id.list))
@@ -367,7 +367,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isFalse()
             }
-            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_create_split))))
+            checkToolbarTitle(R.string.menu_create_split)
             checkEffectiveVisible(R.id.SplitRow)
             onView(withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))

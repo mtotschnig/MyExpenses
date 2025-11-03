@@ -421,6 +421,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedSplitParts: List<Long>? = null,
         expectedCategory: Long? = null,
         expectedParty: Long? = null,
+        expectedMethod: Long? = null,
         expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE,
         checkPlanInstance: Boolean = false
     ): RepositoryTemplate {
@@ -443,6 +444,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             assertThat(accountId).isEqualTo(expectedAccount)
             assertThat(categoryId).isEqualTo(expectedCategory)
             assertThat(payeeId).isEqualTo(expectedParty)
+            assertThat(methodId).isEqualTo(expectedMethod)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
 

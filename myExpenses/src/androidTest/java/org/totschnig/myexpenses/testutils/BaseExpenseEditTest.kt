@@ -28,8 +28,13 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
@@ -37,6 +42,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 const val TEMPLATE_TITLE = "Espresso template"
@@ -57,7 +63,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     suspend fun load() = repository.loadTransactions(account1.id)
 
 
-    fun getBaseIntent(type: Int = Transactions.TYPE_SPLIT): Intent =
+    fun getBaseIntent(type: Int = TYPE_SPLIT): Intent =
         getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, type)
         }
@@ -69,6 +75,19 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     fun getIntentForEditTransaction(rowId: Long) = intent.apply {
         putExtra(KEY_ROWID, rowId)
     }
+
+    fun getIntentForEditTemplate(rowId: Long) = intent.apply {
+        putExtra(KEY_TEMPLATEID, rowId)
+    }
+
+    fun getIntentForTransactionFromTemplate(rowId: Long) = getIntentForEditTemplate(rowId).apply {
+        action = ACTION_CREATE_FROM_TEMPLATE
+    }
+
+    fun getIntentForTemplateFromTransaction(rowId: Long) =
+        getIntentForEditTransaction(rowId).apply {
+            action = ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
+        }
 
     val intent get() = Intent(targetContext, TestExpenseEdit::class.java)
 
@@ -160,7 +179,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
             testScenario = it
         }
 
-    fun launchNewTemplate(type: Int = Transactions.TYPE_TRANSACTION) {
+    fun launchNewTemplate(type: Int = TYPE_TRANSACTION) {
         launchForResult(getBaseIntent(type).apply {
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         })
@@ -188,7 +207,42 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     }
 
     fun checkMethod(method: PreDefinedPaymentMethod) {
-        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(getString(method.resId)))))
+        onView(withId(R.id.MethodSpinner)).check(
+            matches(
+                withSpinnerText(
+                    containsString(
+                        getString(
+                            method.resId
+                        )
+                    )
+                )
+            )
+        )
+    }
 
+    fun checkToolbarTitle(expected: Int) {
+        toolbarTitle().check(matches(withText(expected)))
+    }
+
+    fun checkToolbarTitleForTemplate(
+        edit: Boolean = false,
+        @Transactions.TransactionType transactionType: Int = TYPE_TRANSACTION
+    ) {
+        toolbarTitle().check(
+            matches(
+                withText(
+                    getString(
+                        if (edit) R.string.menu_edit_template else R.string.menu_create_template
+                    ) + " (" + getString(
+                        when (transactionType) {
+                            TYPE_TRANSACTION -> R.string.transaction
+                            TYPE_SPLIT -> R.string.split_transaction
+                            TYPE_TRANSFER -> R.string.transfer
+                            else -> throw IllegalArgumentException()
+                        }
+                    ) + ")"
+                )
+            )
+        )
     }
 }

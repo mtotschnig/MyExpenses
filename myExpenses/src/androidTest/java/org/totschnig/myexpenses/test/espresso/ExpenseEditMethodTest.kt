@@ -13,12 +13,14 @@ import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TransactionInfo
 
 class ExpenseEditMethodTest : BaseExpenseEditTest() {
@@ -51,43 +53,126 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
         runTest {
 
             baseFixture()
-            val pm = PreDefinedPaymentMethod.CREDITCARD
+            val pm = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
             val transaction = repository.insertTransaction(
                 accountId = account1.id,
                 amount = -100,
-                methodId = repository.findPaymentMethod(pm.name)
+                methodId = pm
             )
             launch(getIntentForEditTransaction(transaction.id))
-            closeSoftKeyboard()
-            checkMethod(pm)
-            toggleType()
-            //for an income creditcard is an outlier
-            onView(withId(R.id.MethodSpinner)).check(
-                matches(
-                    withEffectiveVisibility(
-                        GONE
-                    )
-                )
-            )
-            onView(withId(R.id.MethodOutlier)).check(
-                matches(
-                    allOf(
-                        withEffectiveVisibility(
-                            ViewMatchers.Visibility.VISIBLE
-                        ),
-                        withText(getString(pm.resId))
-                    )
-                )
-            )
-            clickFab() // save transaction
+
+            runMethodCheck()
+
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
                 TransactionInfo(
                     accountId = account1.id,
                     amount = 100,
-                    methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
+                    methodId = pm
                 )
             )
         }
+    }
+
+    @Test
+    fun shouldLoadAndUpdateMethodWithOutlierTemplate() {
+        runTest {
+
+            baseFixture()
+            val pm = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
+            val template = repository.insertTemplate(
+                title = TEMPLATE_TITLE,
+                accountId = account1.id,
+                amount = -100,
+                methodId = pm
+            )
+            launch(getIntentForEditTemplate(template.id))
+
+            runMethodCheck()
+
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = 100,
+                expectedMethod = pm
+            )
+        }
+    }
+
+    @Test
+    fun shouldLoadAndUpdateMethodWithOutlierTransactionFromTemplate() {
+        runTest {
+
+            baseFixture()
+            val pm = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
+            val template = repository.insertTemplate(
+                title = TEMPLATE_TITLE,
+                accountId = account1.id,
+                amount = -100,
+                methodId = pm
+            )
+            launch(getIntentForTransactionFromTemplate(template.id))
+
+            runMethodCheck()
+
+            assertTransaction(
+                id = repository.loadTransactions(account1.id).first().id,
+                TransactionInfo(
+                    accountId = account1.id,
+                    amount = 100,
+                    methodId = pm
+                )
+            )
+        }
+    }
+
+    @Test
+    fun shouldLoadAndUpdateMethodWithOutlierTemplateFromTransaction() {
+        runTest {
+
+            baseFixture()
+            val pm = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
+            val transaction = repository.insertTransaction(
+                accountId = account1.id,
+                amount = -100,
+                methodId = pm
+            )
+            launch(getIntentForTemplateFromTransaction(transaction.id))
+            checkToolbarTitleForTemplate()
+
+            setTitle()
+            runMethodCheck()
+
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = 100,
+                expectedMethod = pm
+            )
+        }
+    }
+
+    private fun runMethodCheck() {
+        val pm = PreDefinedPaymentMethod.CREDITCARD
+        closeSoftKeyboard()
+        checkMethod(pm)
+        toggleType()
+        //for an income creditcard is an outlier
+        onView(withId(R.id.MethodSpinner)).check(
+            matches(
+                withEffectiveVisibility(
+                    GONE
+                )
+            )
+        )
+        onView(withId(R.id.MethodOutlier)).check(
+            matches(
+                allOf(
+                    withEffectiveVisibility(
+                        ViewMatchers.Visibility.VISIBLE
+                    ),
+                    withText(getString(pm.resId))
+                )
+            )
+        )
+        clickFab() // save transaction
     }
 }

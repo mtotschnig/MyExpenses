@@ -562,7 +562,8 @@ fun Repository.insertTemplate(
     defaultAction: Action = Action.EDIT,
     payeeId: Long? = null,
     methodId: Long? = null,
-    comment: String? = null
+    comment: String? = null,
+    debtId: Long? = null
 ) = createTemplate(
     Template(
         title = title,
@@ -574,6 +575,7 @@ fun Repository.insertTemplate(
         uuid = generateUuid(),
         payeeId = payeeId,
         methodId = methodId,
-        comment = comment
+        comment = comment,
+        debtId = debtId
     )
 )

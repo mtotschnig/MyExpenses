@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.db2.entities
 
-import android.content.ContentValues
 import android.database.Cursor
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_ICON
 import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -63,9 +64,11 @@ data class Template(
     val dynamic: Boolean = false,
     /** Read-only property holding the full category path, populated from a provider query. */
     val categoryPath: String? = null,
+    val categoryIcon: String? = null,
     val sealed: Boolean = false,
     val currency: String? = null,
     val payeeName: String? = null,
+    val methodLabel: String? = null,
     val transferAccountCurrency: String? = null,
     /** the list of linked tag ids. not loaded from DB, but populated from TransactionEditData for storage*/
     val tagList: List<Long> = emptyList(),
@@ -85,12 +88,14 @@ data class Template(
         originalCurrency = originalCurrency,
         methodId = methodId,
         categoryId = categoryId,
+        categoryIcon = categoryIcon,
         debtId = debtId,
         comment = comment,
         payeeId = payeeId,
         categoryPath = categoryPath,
         currency = currency,
         payeeName = payeeName,
+        methodLabel = methodLabel,
         uuid = generateUuid()
     )
 
@@ -102,12 +107,16 @@ data class Template(
                 accountId = accountId,
                 comment = comment,
                 categoryId = categoryId,
+                categoryIcon = categoryIcon,
+                categoryPath = categoryPath,
                 payeeId = payeeId,
                 payeeName = payeeName,
                 methodId = methodId,
+                methodLabel = methodLabel,
                 transferAccountId = transferAccountId,
                 currency = currency,
                 tagList = transaction.tagList,
+                debtId = debtId,
                 uuid = generateUuid()
             )
         }
@@ -121,6 +130,7 @@ data class Template(
                 categoryId = getLongOrNull(KEY_CATID),
                 payeeId = getLongOrNull(KEY_PAYEEID),
                 methodId = getLongOrNull(KEY_METHODID),
+                methodLabel = getStringOrNull(KEY_METHOD_LABEL),
                 transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT),
                 uuid = getString(KEY_UUID),
                 parentId = getLongOrNull(KEY_PARENTID),
@@ -133,6 +143,7 @@ data class Template(
                 debtId = getLongOrNull(KEY_DEBT_ID),
                 dynamic = getBoolean(KEY_DYNAMIC),
                 categoryPath = getStringOrNull(KEY_PATH),
+                categoryIcon = getStringOrNull(KEY_ICON),
                 sealed = getBoolean(KEY_SEALED),
                 currency = getStringOrNull(KEY_CURRENCY),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),

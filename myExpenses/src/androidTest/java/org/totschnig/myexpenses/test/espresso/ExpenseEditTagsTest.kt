@@ -122,9 +122,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
                 amount = 100,
             )
             repository.saveTagsForTemplate(listOf(tagId1), template.id)
-            launch(intent.apply {
-                putExtra(KEY_TEMPLATEID, template.id)
-            })
+            launch(getIntentForEditTemplate(template.id))
             onView(
                 allOf(
                     isDescendantOfA(withId(R.id.TagGroup)),

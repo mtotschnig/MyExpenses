@@ -409,7 +409,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-        toolbarTitle().check(matches(withText(R.string.menu_edit_split_part_category)))
+        checkToolbarTitle(R.string.menu_edit_split_part_category)
         clickFab()//save part
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)
@@ -490,15 +490,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-        toolbarTitle().check(
-            matches(
-                withText(
-                    getString(R.string.menu_edit_template) + " (" + getString(
-                        R.string.transaction
-                    ) + ")"
-                )
-            )
-        )
+        checkToolbarTitleForTemplate(edit = true)
         clickFab()//save part
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)

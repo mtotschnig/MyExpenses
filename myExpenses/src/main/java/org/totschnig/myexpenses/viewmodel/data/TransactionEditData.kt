@@ -61,7 +61,6 @@ data class TransactionEditData(
     val methodLabel: String? = null,
     val originalAmount: Money? = null,
     val equivalentAmount: Money? = null,
-    val exchangeRate: Long? = null,
     val parentId: Long? = null,
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val originTemplate: TemplateEditData? = null,

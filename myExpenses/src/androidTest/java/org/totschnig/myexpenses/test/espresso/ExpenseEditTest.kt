@@ -241,9 +241,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             title = "Test template",
             transferAccountId = account2.id
         )
-        launch(intent.apply {
-            putExtra(KEY_TEMPLATEID, template.id)
-        }).use {
+        launch(getIntentForEditTemplate(template.id)).use {
             val amount = 2
             setAmount(amount)
             clickFab()

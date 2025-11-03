@@ -11,12 +11,14 @@ import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.withCategoryIcon
 
@@ -73,6 +75,51 @@ class ExpenseEditCategoryTest : BaseExpenseEditTest() {
                 categoryId = categoryId,
             )
             launch(getIntentForEditTransaction(transaction.id))
+            verifyCategory()
+        }
+    }
+
+    @Test
+    fun shouldLoadCategoryForTemplate() {
+        runTest {
+            baseFixture()
+            val template = repository.insertTemplate(
+                title = TEMPLATE_TITLE,
+                accountId = account1.id,
+                amount = 100,
+                categoryId = categoryId,
+            )
+            launch(getIntentForEditTemplate(template.id))
+            verifyCategory()
+        }
+    }
+
+    @Test
+    fun shouldLoadCategoryForTransactionFromTemplate() {
+        runTest {
+            baseFixture()
+            val template = repository.insertTemplate(
+                title = TEMPLATE_TITLE,
+                accountId = account1.id,
+                amount = 100,
+                categoryId = categoryId,
+            )
+            launch(getIntentForTransactionFromTemplate(template.id))
+            verifyCategory()
+        }
+    }
+
+    @Test
+    fun shouldLoadCategoryForTemplateFromTransaction() {
+        runTest {
+            baseFixture()
+            val transaction = repository.insertTransaction(
+                accountId = account1.id,
+                amount = 100,
+                categoryId = categoryId,
+            )
+            launch(getIntentForTemplateFromTransaction(transaction.id))
+            checkToolbarTitleForTemplate()
             verifyCategory()
         }
     }

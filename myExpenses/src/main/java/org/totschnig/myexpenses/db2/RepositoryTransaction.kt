@@ -643,7 +643,8 @@ fun Repository.insertTransaction(
     payeeId: Long? = null,
     comment: String? = null,
     methodId: Long? = null,
-    referenceNumber: String? = null
+    referenceNumber: String? = null,
+    debtId: Long? = null
 ): RepositoryTransaction = createTransaction(
     Transaction(
         accountId = accountId,
@@ -659,6 +660,7 @@ fun Repository.insertTransaction(
         comment = comment,
         methodId = methodId,
         referenceNumber = referenceNumber,
+        debtId = debtId,
         uuid = generateUuid()
     )
 )

@@ -2241,6 +2241,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         add(KEY_COMMENT)
         add(KEY_CATID)
         add(KEY_PATH)
+        add(KEY_ICON)
         add(KEY_PAYEEID)
         add(KEY_PAYEE_NAME)
         add(KEY_SHORT_NAME)

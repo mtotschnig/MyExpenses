@@ -146,7 +146,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         launchForResult()
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
         onView(withText("Template")).perform(click())
-        toolbarTitle().check(matches(withText(R.string.menu_create_transaction)))
+        checkToolbarTitle(R.string.menu_create_transaction)
         checkAmount(5)
     }
 

@@ -48,7 +48,6 @@ object TransactionMapper {
                     it
                 )
             },
-            exchangeRate = null, //TODO where does this come from?
             parentId = transaction.parentId,
             crStatus = transaction.crStatus,
             uuid = transaction.uuid,
@@ -81,10 +80,10 @@ object TransactionMapper {
             party = template.payeeId?.let { DisplayParty(it, template.payeeName!!) },
             categoryId = template.categoryId,
             categoryPath = template.categoryPath,
-            categoryIcon = null, //TODO
+            categoryIcon = template.categoryIcon,
             accountId = template.accountId,
             methodId = template.methodId,
-            methodLabel = null, //TODO
+            methodLabel = template.methodLabel,
             originalAmount = template.originalAmount?.let {
                 Money(
                     currencyContext[template.originalCurrency!!],
@@ -94,7 +93,7 @@ object TransactionMapper {
             parentId = template.parentId,
             planId = template.planId,
             uuid = template.uuid,
-            debtId = null, //TODO check
+            debtId = template.debtId,
             comment = template.comment,
             transferEditData = template.transferAccountId?.let {
                 TransferEditData(
